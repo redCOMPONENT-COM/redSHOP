@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Class account_shiptoModelaccount_shipto
  *
@@ -98,23 +97,16 @@ class RedshopModelAccount_shipto extends RedshopModel
 		return true;
 	}
 
-	public function delete($cid = array())
+	public function delete($infoid = array())
 	{
-		if (count($cid))
+		$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id = ' . $infoid;
+		$this->_db->setQuery($query);
+
+		if (!$this->_db->execute())
 		{
-			// Sanitise ids
-			JArrayHelper::toInteger($cid);
+			$this->setError($this->_db->getErrorMsg());
 
-			$cids  = implode(',', $cid);
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
+			return false;
 		}
 
 		return true;

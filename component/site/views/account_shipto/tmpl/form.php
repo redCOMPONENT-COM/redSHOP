@@ -82,7 +82,7 @@ $post['state_code_ST']   = $post['state_code'];
 			</table>
 		</fieldset>
 	</div>
-	<input type="hidden" name="cid[]" value="<?php echo $this->shippingaddresses->users_info_id; ?>"/>
+	<input type="hidden" name="cid" value="<?php echo $this->shippingaddresses->users_info_id; ?>"/>
 	<input type="hidden" name="user_id" value="<?php echo $this->billingaddresses->user_id; ?>"/>
 	<input type="hidden" name="is_company" value="<?php echo $this->billingaddresses->is_company; ?>"/>
 	<input type="hidden" name="email" value="<?php echo $this->billingaddresses->user_email; ?>"/>
