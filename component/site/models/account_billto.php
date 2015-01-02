@@ -20,11 +20,6 @@ class RedshopModelAccount_billto extends RedshopModel
 {
 	public $_data = null;
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function _initData()
 	{
 		if (empty($GLOBALS['billingaddresses']))
