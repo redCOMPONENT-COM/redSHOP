@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminOrder');
 
-
 /**
  * Account Billing Address Controller.
  *
@@ -66,11 +65,9 @@ class RedshopControllerAccount_billto extends RedshopController
 		$user   = JFactory::getUser();
 		$post   = JRequest::get('post');
 		$return = JRequest::getVar('return');
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$Itemid = JRequest::getInt('Itemid');
 
-		$post['users_info_id'] = $cid[0];
+		$post['users_info_id'] = JRequest::getInt('cid');
 		$post['id']            = $post['user_id'];
 		$post['address_type']  = "BT";
 		$post['email']         = $post['email1'];
@@ -125,7 +122,6 @@ class RedshopControllerAccount_billto extends RedshopController
 	 */
 	function cancel()
 	{
-		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getVar('Itemid');
 		$msg     = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
 		$return  = JRequest::getVar('return');
