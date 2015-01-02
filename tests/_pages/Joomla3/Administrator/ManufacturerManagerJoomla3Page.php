@@ -15,33 +15,17 @@
  */
 class ManufacturerManagerJoomla3Page
 {
-	public static $mailName = "//input[@id='mail_name']";
+	public static $URL = '/administrator/index.php?option=com_redshop&view=manufacturer';
 
-	public static $mailSubject = "//input[@id='mail_subject']";
+	public static $detailsTab = "//a[contains(text(), 'Details')]";
 
-	public static $mailBcc = "//input[@id='mail_bcc']";
+	public static $manufacturerName = "//input[@id='manufacturer_name']";
 
-	public static $mailSectionDropDown = "//div[@id='mail_section_chzn']/a";
-
-	public static $mailSuccessMessage = 'Mail template saved';
+	public static $manufacturerSuccessMessage = 'Manufacturer Detail Saved';
 
 	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-	public static $mailTemplateStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[6]/a";
-
-	/**
-	 * Function to get the path for Section
-	 *
-	 * @param   String  $section  Section for the mail Template
-	 *
-	 * @return string
-	 */
-	public function mailSection($section)
-	{
-		$path = "//div[@id='mail_section_chzn']/div/ul/li[contains(text(), '" . $section . "')]";
-
-		return $path;
-	}
+	public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
 }
