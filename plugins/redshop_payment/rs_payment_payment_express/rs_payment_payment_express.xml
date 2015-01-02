@@ -103,7 +103,7 @@
                        label="Enter E-conomic Design and Layout ID"/>
                 <field name="accepted_credict_card" type="creditcards" default="0"
                        label="Select Credit Cards" description="Displays the selected category product"/>
-                <field name="shopper_group_id" type="plugins" default="0"
+                <field name="shopper_group_id" type="shoppergrouplist" default="0"
                        label="Select Shopper Group" description="Displays the shopper groups"/>
             </fieldset>
         </fields>
