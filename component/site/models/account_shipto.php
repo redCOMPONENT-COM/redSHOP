@@ -99,14 +99,23 @@ class RedshopModelAccount_shipto extends RedshopModel
 
 	public function delete($infoid = array())
 	{
-		$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id = ' . $infoid;
-		$this->_db->setQuery($query);
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->delete()
+					->from($db->qn('#__redshop_users_info'))
+					->where($db->qn('users_info_id') . ' = ' . (int) $infoid);
 
-		if (!$this->_db->execute())
+		// Set the query and execute the delete.
+		$db->setQuery($query);
+
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
 		return true;
