@@ -26,26 +26,26 @@ class leftmenu
 			$counter = $cnt;
 		}
 
-		$acocnt = 11;
+		$acocnt = 10;
 
 		if (ENABLE_BACKENDACCESS)
 		{
-			$acocnt = 12;
+			$acocnt = 11;
 		}
 
 		$ecoIsenable = JPluginHelper::isEnabled('economic');
-		$ecocnt      = 16;
+		$ecocnt      = 19;
 
 		if (ECONOMIC_INTEGRATION && $ecoIsenable)
 		{
-			$ecocnt = 17;
+			$ecocnt = 20;
 		}
 
 		if (JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_date')
 			|| JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_person')
 			|| JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_company'))
 		{
-			$ecocnt = 18;
+			$ecocnt = 21;
 		}
 
 		switch ($view)
@@ -93,65 +93,62 @@ class leftmenu
 				$selected = $cnt;
 				break;
 
-			case "delivery":
+			case "supplier":
+			case "supplier_detail":
 				$selected = $counter;
 				break;
 
-			case "supplier":
-			case "supplier_detail":
-				$selected = $counter + 1;
-				break;
-
 			case "discount":
-				$selected = $counter + 2;
+				$selected = $counter + 1;
 				break;
 
 			case "giftcard":
 			case "giftcard_detail":
-				$selected = $counter + 3;
+				$selected = $counter + 2;
 				break;
 
 			case "voucher":
-				$selected = $counter + 4;
+				$selected = $counter + 3;
 				break;
 
 			case "coupon":
 			case "coupon_detail":
-				$selected = $counter + 5;
+				$selected = $counter + 4;
 				break;
 
 			case "mail":
-				$selected = $counter + 6;
+				$selected = $counter + 5;
 				break;
 
 			case "newsletter":
 			case "newslettersubscr":
-				$selected = $counter + 7;
+				$selected = $counter + 6;
 				break;
 
 			case "shipping":
 			case "shipping_rate":
-				$selected = $counter + 8;
+				$selected = $counter + 7;
 				break;
 
 			case "shipping_box":
-				$selected = $counter + 9;
+				$selected = $counter + 8;
 				break;
 
 			case "shipping_detail":
-				$selected = $counter + 10;
+				$selected = $counter + 9;
 				break;
 
 			case "wrapper":
-				$selected = $counter + 11;
+				$selected = $counter + 10;
 				break;
 
 			case "user":
 			case "shopper_group":
-				$selected = $counter + 12;
+				$selected = $counter + 11;
 				break;
 
 			case "accessmanager":
+			case 'accessmanager_detail':
 				$selected = $counter + $acocnt + 1;
 				break;
 
@@ -247,16 +244,16 @@ class leftmenu
 				break;
 
 			case "statistic":
-				$selected = $counter + $acocnt + $ecocnt + 3;
+				$selected = $counter + $acocnt + $ecocnt;
 				break;
 
 			case "configuration":
 			case 'update':
-				$selected = $counter + $acocnt + $ecocnt + 4;
+				$selected = $counter + $acocnt + $ecocnt + 1;
 				break;
 
 			case "customprint":
-				$selected = $counter + $acocnt + $ecocnt + 5;
+				$selected = $counter + $acocnt + $ecocnt + 2;
 				break;
 
 			default:
@@ -349,11 +346,7 @@ class leftmenu
 			<?php
 		}
 
-		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_DELIVERY_LISTING'), 'COM_REDSHOP_DELIVERY_LISTING'); ?>
-		<table class="adminlist">
-			<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=delivery', 'COM_REDSHOP_DELIVERY_LISTING'); ?>
-		</table>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_SUPPLIER'), 'COM_REDSHOP_SUPPLIER'); ?>
+		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_SUPPLIER'), 'COM_REDSHOP_SUPPLIER'); ?>
 		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=supplier', 'COM_REDSHOP_SUPPLIER_LISTING');
