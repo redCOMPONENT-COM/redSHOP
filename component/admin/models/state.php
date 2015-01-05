@@ -47,7 +47,8 @@ class RedshopModelState extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$this->_data = $this->_buildQuery();
+			$query = $this->_buildQuery();
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_data;
@@ -57,13 +58,8 @@ class RedshopModelState extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			/*
-			 * @ToDo: _buildQuery method was expected to return a query and not the items. But is returning items.
-			 * so to quick fix this method getTotal() I have commented the following lines and added the third one
-			 */
-			// $query = $this->_buildQuery();
-			// $this->_data = $this->_getListCount($query);
-			$this->_total = count($this->_buildQuery());
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
 		}
 
 		return $this->_total;
@@ -84,8 +80,6 @@ class RedshopModelState extends RedshopModel
 		$orderby = $this->_buildContentOrderBy();
 		$country_id_filter = $this->getState('country_id_filter');
 		$country_main_filter = $this->getState('country_main_filter');
-		$limitstart = $this->getState('limitstart');
-		$limit = $this->getState('limit');
 		$andcondition = '1=1';
 		$country_main_filter = addslashes($country_main_filter);
 
@@ -107,19 +101,7 @@ class RedshopModelState extends RedshopModel
 		$query = 'SELECT distinct(s.state_id),s . * , c.country_name FROM `' . $this->_table_prefix . 'state` AS s '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON s.country_id = c.country_id WHERE ' . $andcondition . $orderby;
 
-		$this->_db->setQuery($query);
-		$rows = $this->_db->loadObjectlist();
-		$list = $rows;
-		$total = count($list);
-
-		jimport('joomla.html.pagination');
-		$this->_pagination = new JPagination($total, $limitstart, $limit);
-
-		// Slice out elements based on limits
-		$list = array_slice($list, $this->_pagination->limitstart, $this->_pagination->limit);
-		$items = $list;
-
-		return $items;
+		return $query;
 	}
 
 	public function _buildContentOrderBy()
