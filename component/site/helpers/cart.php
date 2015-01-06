@@ -577,17 +577,18 @@ class rsCarthelper
 
 				$billadd .= $this->_extra_field->list_all_field_display($extra_section, $billingaddresses->users_info_id, 1);
 
-				if (DEFAULT_QUOTATION_MODE)
+				if (strstr($data, '{quotation_custom_field_list}'))
 				{
-					if (strstr($data, "{quotation_custom_field_list}"))
+					$data = str_replace('{quotation_custom_field_list}', '', $data);
+
+					if (DEFAULT_QUOTATION_MODE)
 					{
-						$billing .= $this->_extra_field->list_all_field(16, $billingaddresses->users_info_id, "", "");
-						$data = str_replace("{quotation_custom_field_list}", "", $data);
+						$billadd .= $this->_extra_field->list_all_field(16, $billingaddresses->users_info_id, '', '');
 					}
-					else
-					{
-						$data = $this->_extra_field->list_all_field(16, $billingaddresses->users_info_id, "", "", $data);
-					}
+				}
+				elseif (DEFAULT_QUOTATION_MODE)
+				{
+					$data = $this->_extra_field->list_all_field(16, $billingaddresses->users_info_id, '', '', $data);
 				}
 			}
 
