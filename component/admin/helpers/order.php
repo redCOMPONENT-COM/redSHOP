@@ -172,6 +172,7 @@ class order_functions
 
 	public function generateParcel($order_id, $specifiedSendDate)
 	{
+		$db                        = JFactory::getDbo();
 		$order_details             = $this->getOrderDetails($order_id);
 		$producthelper             = new producthelper;
 		$orderproducts             = $this->getOrderItemDetail($order_id);
@@ -260,8 +261,17 @@ class order_functions
 
 		// Total quantity
 		$total_qty = $qty;
-		$firstname = mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8");
-		$lastname = mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8");
+		$filter    = JFilterInput::getInstance();
+
+		// Filter name to remove special characters
+		$firstname = $filter->clean(
+						mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8"),
+						'username'
+					);
+		$lastname = $filter->clean(
+						mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8"),
+						'username'
+					);
 		$full_name = $firstname . " " . $lastname;
 		$address = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
 		$city = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
@@ -299,9 +309,9 @@ class order_functions
 		}
 
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
-				<pacsoftonline>
+				<unifaunonline>
 				<meta>
-				<val n="printer">1</val>
+				<val n="doorcode">"' . date('Y-m-d H:i') . '"</val>
 				</meta>
 				<receiver rcvid="' . $shippingInfo->users_info_id . '">
 				<val n="name"><![CDATA[' . $full_name . ']]></val>
@@ -330,34 +340,54 @@ class order_functions
 				<val n="packagecode">PC</val>
 				</container>
 				</shipment>
-				</pacsoftonline>';
+				</unifaunonline>';
 
-		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK&user=" . POSTDK_CUSTOMER_NO . "&pin=" . POSTDK_CUSTOMER_PASSWORD . "&type=xml";
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $postURL);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_VERBOSE, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
-		$response = curl_exec($ch);
-		$error = curl_error($ch);
-		curl_close($ch);
-
-		$oXML = new SimpleXMLElement($response);
-
-		if ($oXML->val[1] == "201" && $oXML->val[2] == "Created")
+		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK"
+					. "&user=" . POSTDK_CUSTOMER_NO
+					. "&pin=" . POSTDK_CUSTOMER_PASSWORD
+					. "&developerid=000000075"
+					. "&type=xml";
+		try
 		{
-			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id = ' . (int) $order_id;
-			$this->_db->setQuery($query);
-			$this->_db->query();
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $postURL);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_VERBOSE, true);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
+			$response = curl_exec($ch);
+			$error = curl_error($ch);
+			curl_close($ch);
 
-			return "success";
+			$xmlResponse = JFactory::getXML($response, false)->val;
+
+			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
+			{
+				// Update current order success entry.
+				$query = $db->getQuery(true)
+							->update($db->qn('#__redshop_orders'))
+							->set($db->qn('order_label_create') . ' = 1')
+							->where($db->qn('order_id') . ' = ' . (int) $order_id);
+
+				// Set the query and execute the update.
+				$db->setQuery($query);
+				$db->execute();
+
+				return "success";
+			}
+			else
+			{
+				JError::raiseWarning(
+					21,
+					(string) $xmlResponse[1] . "-" . (string) $xmlResponse[2] . "-" . (string) $xmlResponse[0]
+				);
+			}
 		}
-		else
+		catch (Exception $e)
 		{
-			JError::raiseWarning(21, $oXML->val[1] . "-" . $oXML->val[2]);
+			JError::raiseWarning(21, $e->getMessage());
 		}
 	}
 
