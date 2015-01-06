@@ -90,11 +90,11 @@ if ($gid != 0)
 	}
 
 	$template = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail->giftcard_value), $template);
-	$template = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
+	$template = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
 
 	if ($detail->customer_amount != 1)
 	{
-		$template = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
+		$template = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
 	}
 	else
 	{
@@ -124,8 +124,8 @@ if ($gid != 0)
 
 	if ($detail->customer_amount != 1 || $detail->customer_amount == 1)
 	{
-		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
-		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
 	}
 	else
 	{
@@ -140,8 +140,8 @@ if ($gid != 0)
 
 	if ($detail->customer_amount == 1)
 	{
-		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
-		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
 		$template = str_replace("{customer_quantity_lbl}", JText::_('COM_REDSHOP_CUSTOMER_QUANTITY_LBL'), $template);
 		$template = str_replace("{customer_amount_lbl}", JText::_('COM_REDSHOP_CUSTOMER_AMOUNT_LBL'), $template);
 	}
@@ -294,10 +294,10 @@ else
 				$data_add = str_replace("{giftcard_validity}", '', $data_add);
 			}
 
-			$data_add = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
+			$data_add = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
 			$data_add = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_value), $data_add);
 
-			$data_add = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
+			$data_add = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
 			$data_add = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_price), $data_add);
 		}
 

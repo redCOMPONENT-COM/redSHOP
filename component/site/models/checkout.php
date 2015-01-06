@@ -1346,15 +1346,15 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmail_body = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmail_body);
 			$user_fields       = $this->_producthelper->GetProdcutUserfield($eachorders->order_item_id, 13);
 			$giftcardmail_body = str_replace("{product_userfields}", $user_fields, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $giftcardmail_body);
+			$giftcardmail_body = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_price}", $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $giftcardmail_body);
+			$giftcardmail_body = str_replace("{giftcard_reciver_name_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $giftcardmail_body);
+			$giftcardmail_body = str_replace("{giftcard_reciver_email_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_reciver_email}", $eachorders->giftcard_user_email, $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_reciver_name}", $eachorders->giftcard_user_name, $giftcardmail_body);
 			$giftcardmail_body = $this->_producthelper->getValidityDate($giftcardData->giftcard_validity, $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_value}", $giftcard_value, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $giftcardmail_body);
+			$giftcardmail_body = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_desc}", $giftcardData->giftcard_desc, $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_validity}", $giftcardData->giftcard_validity, $giftcardmail_body);
 			$giftcardmailsub   = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmailsub);
@@ -1386,7 +1386,7 @@ class RedshopModelCheckout extends RedshopModel
 				return false;
 			}
 
-			$giftcardmail_body = str_replace("{giftcard_code_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_CODE_LBL'), $giftcardmail_body);
+			$giftcardmail_body = str_replace("{giftcard_code_lbl}", JText::_('COM_REDSHOP_GIFTCARD_CODE_LBL'), $giftcardmail_body);
 			$giftcardmail_body = str_replace("{giftcard_code}", $gift_code, $giftcardmail_body);
 			ob_flush();
 			ob_clean();
