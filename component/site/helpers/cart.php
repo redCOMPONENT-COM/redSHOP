@@ -4901,7 +4901,6 @@ class rsCarthelper
 
 	public function checkQuantityInStock($data = array(), $newquantity = 1, $minQuantity = 0)
 	{
-		$main_quantity   = $newquantity;
 		$stockroomhelper = new rsstockroomhelper;
 
 		$productData      = $this->_producthelper->getProductById($data['product_id']);
@@ -4917,164 +4916,206 @@ class rsCarthelper
 
 		if (USE_STOCKROOM == 1)
 		{
+			$productStock = 0;
+
 			if (($product_preorder == "global" && !ALLOW_PRE_ORDER) || ($product_preorder == "no") || ($product_preorder == "" && !ALLOW_PRE_ORDER))
 			{
-				$currentStock = $stockroomhelper->getStockroomTotalAmount($data['product_id']);
+				$productStock = $stockroomhelper->getStockroomTotalAmount($data['product_id']);
 			}
 
 			if (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes") || ($product_preorder == "" && ALLOW_PRE_ORDER))
 			{
-				$regular_currentStock  = $stockroomhelper->getStockroomTotalAmount($data['product_id']);
-				$preorder_currentStock = $stockroomhelper->getPreorderStockroomTotalAmount($data['product_id']);
-				$currentStock          = $regular_currentStock + $preorder_currentStock;
+				$productStock  = $stockroomhelper->getStockroomTotalAmount($data['product_id']);
+				$productStock += $stockroomhelper->getPreorderStockroomTotalAmount($data['product_id']);
 			}
 
+			$ownProductReserveStock = $stockroomhelper->getCurrentUserReservedStock($data['product_id']);
 			$attArr = $data['cart_attribute'];
 
 			if (count($attArr) <= 0)
 			{
-				$ownreserveStock = $stockroomhelper->getCurrentUserReservedStock($data['product_id']);
-
-				if ($currentStock >= 0)
+				if ($productStock >= 0)
 				{
-					if ($newquantity > $ownreserveStock && $currentStock < ($newquantity - $ownreserveStock))
+					if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
 					{
-						$newquantity = $currentStock + $ownreserveStock;
+						$newquantity = $productStock + $ownProductReserveStock;
 					}
 				}
 				else
 				{
-					$newquantity = $currentStock + $ownreserveStock;
+					$newquantity = $productStock + $ownProductReserveStock;
 				}
-			}
 
-			if ($newquantity >= 0)
-			{
-				if ($newquantity == 0)
+				if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
 				{
-					$data['quantity'] = $main_quantity;
+					$msg = $productData->product_name . " " . JText::_('COM_REDSHOP_WARNING_MSG_MAXIMUM_QUANTITY');
+					$msg = sprintf($msg, $productData->max_order_product_quantity);
+					JError::raiseWarning('', $msg);
+					$newquantity = $productData->max_order_product_quantity;
+				}
+
+				if (array_key_exists('quantity', $data))
+				{
+					$productReservedQuantity = $ownProductReserveStock + $newquantity - $data['quantity'];
 				}
 				else
 				{
-					$data['quantity'] = $newquantity;
+					$productReservedQuantity = $newquantity;
 				}
 
-				$newquantity = $this->checkAttributeStockRoom($data, $productData);
+				$stockroomhelper->addReservedStock($data['product_id'], $productReservedQuantity, 'product');
 			}
-		}
-
-		if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
-		{
-			$msg = $productData->product_name . " " . JText::_('COM_REDSHOP_WARNING_MSG_MAXIMUM_QUANTITY');
-			$msg = sprintf($msg, $productData->max_order_product_quantity);
-			JError::raiseWarning('', $msg);
-			$newquantity = $productData->max_order_product_quantity;
-		}
-
-		$stockroomhelper->addReservedStock($data['product_id'], $newquantity);
-
-		return $newquantity;
-	}
-
-	public function checkAttributeStockRoom($data = array(), $productData = array())
-	{
-		$stockroomhelper  = new rsstockroomhelper;
-		$newquantity      = $data['quantity'];
-		$attArr           = $data['cart_attribute'];
-		$product_preorder = $productData->preorder;
-
-		for ($i = 0; $i < count($attArr); $i++)
-		{
-			$propArr = $attArr[$i]['attribute_childs'];
-
-			for ($k = 0; $k < count($propArr); $k++)
+			else
 			{
-				// Get subproperties from add to cart tray.
-				$subpropArr       = $propArr[$k]['property_childs'];
-				$totalSubProperty = count($subpropArr);
-
-				// Get Property stock only when SubProperty is not in cart
-				if (USE_STOCKROOM == 1 && $totalSubProperty <= 0)
+				for ($i = 0; $i < count($attArr); $i++)
 				{
-					if (($product_preorder == "global" && !ALLOW_PRE_ORDER) || ($product_preorder == "no") || ($product_preorder == "" && !ALLOW_PRE_ORDER))
-					{
-						$property_stock = $stockroomhelper->getStockroomTotalAmount($propArr[$k]['property_id'], "property");
-					}
+					$propArr = $attArr[$i]['attribute_childs'];
 
-					if (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes") || ($product_preorder == "" && ALLOW_PRE_ORDER))
+					for ($k = 0; $k < count($propArr); $k++)
 					{
-						$regular_property_stock  = $stockroomhelper->getStockroomTotalAmount($propArr[$k]['property_id'], "property");
-						$Preorder_property_stock = $stockroomhelper->getPreorderStockroomTotalAmount($propArr[$k]['property_id'], "property");
-						$property_stock          = $regular_property_stock + $Preorder_property_stock;
-					}
+						// Get subproperties from add to cart tray.
+						$subpropArr = $propArr[$k]['property_childs'];
+						$totalSubProperty = count($subpropArr);
+						$ownReservePropertyStock = $stockroomhelper->getCurrentUserReservedStock($propArr[$k]['property_id'], 'property');
+						$property_stock = 0;
 
-					$ownreserveStock = $stockroomhelper->getCurrentUserReservedStock($propArr[$k]['property_id'], "property");
-
-					if ($property_stock >= 0)
-					{
-						if ($newquantity > $ownreserveStock && $property_stock < ($newquantity - $ownreserveStock))
-						{
-							$newquantity = $property_stock + $ownreserveStock;
-						}
-					}
-					else
-					{
-						$newquantity = $property_stock + $ownreserveStock;
-					}
-				}
-
-				// Get SubProperty Stock here.
-				for ($l = 0; $l < $totalSubProperty; $l++)
-				{
-					if (USE_STOCKROOM == 1)
-					{
 						if (($product_preorder == "global" && !ALLOW_PRE_ORDER) || ($product_preorder == "no") || ($product_preorder == "" && !ALLOW_PRE_ORDER))
 						{
-							$subproperty_stock = $stockroomhelper->getStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
+							$property_stock = $stockroomhelper->getStockroomTotalAmount($propArr[$k]['property_id'], "property");
 						}
 
 						if (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes") || ($product_preorder == "" && ALLOW_PRE_ORDER))
 						{
-							$regular_subproperty_stock  = $stockroomhelper->getStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
-							$preorder_subproperty_stock = $stockroomhelper->getPreorderStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
-							$subproperty_stock          = $regular_subproperty_stock + $preorder_subproperty_stock;
+							$property_stock = $stockroomhelper->getStockroomTotalAmount($propArr[$k]['property_id'], "property");
+							$property_stock += $stockroomhelper->getPreorderStockroomTotalAmount($propArr[$k]['property_id'], "property");
 						}
 
-						$ownreserveStock = $stockroomhelper->getCurrentUserReservedStock($propArr[$k]['property_id'], "property");
-
-						if ($subproperty_stock >= 0)
+						// Get Property stock only when SubProperty is not in cart
+						if ($totalSubProperty <= 0)
 						{
-							if ($newquantity > $ownreserveStock && $subproperty_stock < ($newquantity - $ownreserveStock))
+							if ($property_stock >= 0)
 							{
-								$newquantity = $subproperty_stock + $ownreserveStock;
+								if ($newquantity > $ownReservePropertyStock && $property_stock < ($newquantity - $ownReservePropertyStock))
+								{
+									$newquantity = $property_stock + $ownReservePropertyStock;
+								}
 							}
+							else
+							{
+								$newquantity = $property_stock + $ownReservePropertyStock;
+							}
+
+							if ($productStock >= 0)
+							{
+								if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
+								{
+									$newquantity = $productStock + $ownProductReserveStock;
+								}
+							}
+							else
+							{
+								$newquantity = $productStock + $ownProductReserveStock;
+							}
+
+							if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
+							{
+								$newquantity = $productData->max_order_product_quantity;
+							}
+
+							if (array_key_exists('quantity', $data))
+							{
+								$propertyReservedQuantity = $ownReservePropertyStock + $newquantity - $data['quantity'];
+								$newProductQuantity = $ownProductReserveStock + $newquantity - $data['quantity'];
+							}
+							else
+							{
+								$propertyReservedQuantity = $newquantity;
+								$newProductQuantity = $ownProductReserveStock + $newquantity;
+							}
+
+							$stockroomhelper->addReservedStock($propArr[$k]['property_id'], $propertyReservedQuantity, "property");
+							$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity, 'product');
 						}
 						else
 						{
-							$newquantity = $subproperty_stock + $ownreserveStock;
+							// Get SubProperty Stock here.
+							for ($l = 0; $l < $totalSubProperty; $l++)
+							{
+								$subproperty_stock = 0;
+
+								if (($product_preorder == "global" && !ALLOW_PRE_ORDER) || ($product_preorder == "no") || ($product_preorder == "" && !ALLOW_PRE_ORDER))
+								{
+									$subproperty_stock = $stockroomhelper->getStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
+								}
+
+								if (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes") || ($product_preorder == "" && ALLOW_PRE_ORDER))
+								{
+									$subproperty_stock = $stockroomhelper->getStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
+									$subproperty_stock += $stockroomhelper->getPreorderStockroomTotalAmount($subpropArr[$l]['subproperty_id'], "subproperty");
+								}
+
+								$ownSubPropReserveStock = $stockroomhelper->getCurrentUserReservedStock($subpropArr[$l]['subproperty_id'], "subproperty");
+
+								if ($subproperty_stock >= 0)
+								{
+									if ($newquantity > $ownSubPropReserveStock && $subproperty_stock < ($newquantity - $ownSubPropReserveStock))
+									{
+										$newquantity = $subproperty_stock + $ownSubPropReserveStock;
+									}
+								}
+								else
+								{
+									$newquantity = $subproperty_stock + $ownSubPropReserveStock;
+								}
+
+								if ($property_stock >= 0)
+								{
+									if ($newquantity > $ownReservePropertyStock && $property_stock < ($newquantity - $ownReservePropertyStock))
+									{
+										$newquantity = $property_stock + $ownReservePropertyStock;
+									}
+								}
+								else
+								{
+									$newquantity = $property_stock + $ownReservePropertyStock;
+								}
+
+								if ($productStock >= 0)
+								{
+									if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
+									{
+										$newquantity = $productStock + $ownProductReserveStock;
+									}
+								}
+								else
+								{
+									$newquantity = $productStock + $ownProductReserveStock;
+								}
+
+								if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
+								{
+									$newquantity = $productData->max_order_product_quantity;
+								}
+
+								if (array_key_exists('quantity', $data))
+								{
+									$subPropertyReservedQuantity = $ownSubPropReserveStock + $newquantity - $data['quantity'];
+									$newPropertyQuantity = $ownReservePropertyStock + $newquantity - $data['quantity'];
+									$newProductQuantity = $ownProductReserveStock + $newquantity - $data['quantity'];
+								}
+								else
+								{
+									$subPropertyReservedQuantity = $newquantity;
+									$newPropertyQuantity = $ownReservePropertyStock + $newquantity;
+									$newProductQuantity = $ownProductReserveStock + $newquantity;
+								}
+
+								$stockroomhelper->addReservedStock($subpropArr[$l]['subproperty_id'], $subPropertyReservedQuantity, 'subproperty');
+								$stockroomhelper->addReservedStock($propArr[$k]['property_id'], $newPropertyQuantity, 'property');
+								$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity, 'product');
+							}
 						}
 					}
-				}
-			}
-		}
-
-		if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
-		{
-			$newquantity = $productData->max_order_product_quantity;
-		}
-
-		for ($i = 0; $i < count($attArr); $i++)
-		{
-			$propArr = $attArr[$i]['attribute_childs'];
-
-			for ($k = 0; $k < count($propArr); $k++)
-			{
-				$stockroomhelper->addReservedStock($propArr[$k]['property_id'], $newquantity, "property");
-				$subpropArr = $propArr[$k]['property_childs'];
-
-				for ($l = 0; $l < count($subpropArr); $l++)
-				{
-					$stockroomhelper->addReservedStock($subpropArr[$l]['subproperty_id'], $newquantity, "subproperty");
 				}
 			}
 		}
@@ -6144,6 +6185,7 @@ class rsCarthelper
 						$this->_session->set('cart', $cart);
 						$data['cart_index'] = $i;
 						$data['quantity']   = $newcartquantity;
+						$data['checkQuantity'] = $newcartquantity;
 
 						$cartModel = RedshopModel::getInstance('cart', 'RedshopModel');
 						$cartModel->update($data);

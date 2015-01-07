@@ -850,7 +850,7 @@ class rsstockroomhelper
 
 	public function deleteExpiredCartProduct()
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$time = time() - (CART_TIMEOUT * 60);
@@ -864,22 +864,44 @@ class rsstockroomhelper
 		return true;
 	}
 
-	public function deleteCartAfterEmpty($section_id = 0, $section = "product")
+	public function deleteCartAfterEmpty($section_id = 0, $section = "product", $quantity = 0)
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
-			$session_id = session_id();
-			$and = "";
+			$query = $db->getQuery(true)
+				->where('session_id = ' . $db->quote(session_id()));
 
 			if ($section_id != 0)
 			{
-				$and .= "AND product_id = " . (int) $section_id . " AND section = " . $db->quote($section) . " ";
+				$query->where('product_id = ' . (int) $section_id)
+					->where('section = ' . $db->quote($section));
 			}
 
-			$query = "DELETE FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id = " . $db->quote($session_id) . " "
-				. $and;
+			if ($quantity)
+			{
+				$query->select('qty')
+					->from($db->qn('#__redshop_cart'));
+				$db->setQuery($query);
+				$qty = (int) $db->loadResult();
+				$query->clear('select')
+					->clear('from');
+
+				if ($qty - (int) $quantity > 0)
+				{
+					$query->update($db->qn('#__redshop_cart'))
+						->set('qty = ' . ($qty - (int) $quantity));
+				}
+				else
+				{
+					$query->delete($db->qn('#__redshop_cart'));
+				}
+			}
+			else
+			{
+				$query->delete($db->qn('#__redshop_cart'));
+			}
+
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -889,35 +911,38 @@ class rsstockroomhelper
 
 	public function addReservedStock($section_id, $quantity = 0, $section = "product")
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$session_id = session_id();
-
 			$time = time();
-			$and = "AND session_id = " . $db->quote($session_id) . " "
-				. "AND product_id = " . (int) $section_id . " "
-				. "AND section = " . $db->quote($section) . " ";
+			$query = $db->getQuery(true);
 
-			$sql = "SELECT COUNT(*) FROM " . $this->_table_prefix . "cart "
-				. "WHERE 1=1 "
-				. $and;
-			$db->setQuery($sql);
-			$count = intval($db->loadResult());
+			$query->clear()
+			->select('qty')
+			->from($db->qn('#__redshop_cart'))
+			->where('session_id = ' . $db->quote($session_id))
+			->where('product_id = ' . (int) $section_id)
+			->where('section = ' . $db->quote($section));
+			$db->setQuery($query);
+			$qty = $db->loadResult();
 
-			if ($count)
+			if ($qty !== null)
 			{
-				$query = "UPDATE " . $this->_table_prefix . "cart "
-					. "SET qty = " . (int) $quantity . ", time = " . $db->quote($time) . " "
-					. "WHERE 1=1 "
-					. $and;
+				$query->clear()
+					->update($db->qn('#__redshop_cart'))
+					->set('qty = ' . (int) $quantity)
+					->set('time = ' . $db->quote($time))
+					->where('session_id = ' . $db->quote($session_id))
+					->where('product_id = ' . (int) $section_id)
+					->where('section = ' . $db->quote($section));
 			}
 			else
 			{
-				$query = "INSERT INTO " . $this->_table_prefix . "cart "
-					. "(session_id, product_id, qty, time, section) "
-					. "VALUES (" . $db->quote($session_id) . ", " . (int) $section_id . ", " . (int) $quantity . ", " . $db->quote($time)
-					. ", " . $db->quote($section) . ")";
+				$query->clear()
+					->insert($db->qn('#__redshop_cart'))
+					->columns('session_id, product_id, qty, time, section')
+					->values($db->quote($session_id) . ',' . (int) $section_id . ',' . (int) $quantity . ',' . $db->quote($time) . ',' . $db->quote($section));
 			}
 
 			$db->setQuery($query);

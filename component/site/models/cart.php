@@ -118,7 +118,7 @@ class RedshopModelCart extends RedshopModel
 
 	public function emptyExpiredCartProducts()
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$stockroomhelper = new rsstockroomhelper;
 			$session         = JFactory::getSession();
@@ -235,7 +235,14 @@ class RedshopModelCart extends RedshopModel
 
 		if ($newQuantity != $oldQuantity)
 		{
-			$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+			if (array_key_exists('checkQuantity', $data))
+			{
+				$cart[$cartElement]['quantity'] = $data['checkQuantity'];
+			}
+			else
+			{
+				$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+			}
 
 			if ($newQuantity > $cart[$cartElement]['quantity'])
 			{
@@ -283,12 +290,12 @@ class RedshopModelCart extends RedshopModel
 			if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
 			{
 				$subscription_vat    = 0;
-				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$cartElement]['subscription_id']);
+				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($cart[$cartElement]['product_id'], $cart[$cartElement]['subscription_id']);
 				$subscription_price  = $subscription_detail->subscription_price;
 
 				if ($subscription_price)
 				{
-					$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+					$subscription_vat = $this->_producthelper->getProductTax($cart[$cartElement]['product_id'], $subscription_price);
 				}
 
 				$product_vat_price += $subscription_vat;
@@ -431,7 +438,29 @@ class RedshopModelCart extends RedshopModel
 
 		if (array_key_exists($cartElement, $cart))
 		{
-			$stockroomhelper->deleteCartAfterEmpty($cart[$cartElement]['product_id']);
+			if (array_key_exists('cart_attribute', $cart[$cartElement]))
+			{
+				foreach ($cart[$cartElement]['cart_attribute'] as $cartAttribute)
+				{
+					if (array_key_exists('attribute_childs', $cartAttribute))
+					{
+						foreach ($cartAttribute['attribute_childs'] as $attributeChilds)
+						{
+							if (array_key_exists('property_childs', $attributeChilds))
+							{
+								foreach ($attributeChilds['property_childs'] as $propertyChilds)
+								{
+									$stockroomhelper->deleteCartAfterEmpty($propertyChilds['subproperty_id'], 'subproperty', $cart[$cartElement]['quantity']);
+								}
+							}
+
+							$stockroomhelper->deleteCartAfterEmpty($attributeChilds['property_id'], 'property', $cart[$cartElement]['quantity']);
+						}
+					}
+				}
+			}
+
+			$stockroomhelper->deleteCartAfterEmpty($cart[$cartElement]['product_id'], 'product', $cart[$cartElement]['quantity']);
 			unset($cart[$cartElement]);
 			$cart = array_merge(array(), $cart);
 
