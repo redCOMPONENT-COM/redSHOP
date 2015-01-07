@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,6 +36,8 @@ class CustomFieldManagerJoomla3Page
 	public static $selectFirst = "//input[@id='cb0']";
 
 	public static $fieldStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[8]/a";
+
+	public static $optionValueField = "//input[@id='extra_value[]']";
 
 	/**
 	 * Function to get the path for Field Type
