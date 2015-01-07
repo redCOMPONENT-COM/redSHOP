@@ -44,7 +44,7 @@ script:
   - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
   - "wget http://codeception.com/codecept.phar"
   - php vendor/bin/codecept build
-  - php codecept.phar run acceptance -g $GROUP --env $ENV
+  - php codecept.phar run acceptance -g $GROUP --env $ENV --steps
   #- php codecept.phar run acceptance -g Joomla3 --env joomla3
   - php .travis/codeceptionerror2slack.php # Send found errors into redSHOP slackchat
 
