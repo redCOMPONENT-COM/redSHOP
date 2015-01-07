@@ -1247,6 +1247,8 @@ class RedshopModelCheckout extends RedshopModel
 			}
 		}
 
+		$stockroomhelper->deleteCartAfterEmpty();
+
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
