@@ -24,12 +24,14 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string  $title    Title of the new Field
 	 * @param   string  $type     Type of the new Field
 	 * @param   string  $section  Section of the new Field
+	 * @param   String  $option   Optional Field Value
 	 *
 	 * @return void
 	 */
-	public function addField($name = 'SampleField', $title = 'Field Title', $type = 'Text area', $section = 'Category')
+	public function addField($name = 'SampleField', $title = 'Field Title', $type = 'Text area', $section = 'Category', $option = 'Testing Options')
 	{
 		$I = $this;
+		$fieldsForOptions = array("Check box", "Image", "Image with link", "Multiple select box", );
 		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
 		$customFieldsManagerPage = new \CustomFieldManagerJoomla3Page;
 		$I->verifyNotices(false, $this->checkForNotices(), 'Fields Manager Page');
@@ -45,6 +47,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearchField, $section);
 		$I->waitForElement($customFieldsManagerPage->fieldSection($section), 60);
 		$I->click($customFieldsManagerPage->fieldSection($section));
+		$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
 		$I->click('Save & Close');
 		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 60);
 		$I->see(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage);
