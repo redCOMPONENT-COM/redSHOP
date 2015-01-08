@@ -1,4 +1,11 @@
-var redSHOP = {};
+/**
+ * @copyright  Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
+ */
+
+// @test
+console.log(redSHOP.RSConfig._('MYVAR'));
+console.log(Joomla.JText._('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 
 // open modal box
 window.addEvent('domready', function () {

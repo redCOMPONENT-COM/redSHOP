@@ -216,3 +216,6 @@ $controller->execute($task);
 echo "</div>";
 
 $controller->redirect();
+
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();

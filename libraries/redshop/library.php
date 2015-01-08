@@ -34,4 +34,7 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 
 	// HTML helpers
 	JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');
+
+	// Load redshop script
+	JHtml::script('com_redshop/redshop.js', false, true);
 }
