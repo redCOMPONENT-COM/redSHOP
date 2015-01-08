@@ -3,6 +3,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+// Only define the redSHOP namespace if not defined.
+redSHOP = window.redSHOP || {};
+
 // open modal box
 window.addEvent('domready', function () {
 
