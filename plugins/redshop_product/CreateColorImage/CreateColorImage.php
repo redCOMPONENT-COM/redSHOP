@@ -30,15 +30,16 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 	/**
 	 * Trigger before image load
 	 *
-	 * @param   array  $productArr  Product Information array
+	 * @param   array  $productArr     Product Information array
+	 * @param   array  $pluginResults  Image Information array
 	 *
-	 * @return  array               Image Information array
+	 * @return  void
 	 */
-	public function onBeforeImageLoad($productArr)
+	public function onBeforeImageLoad($productArr, $pluginResults = array())
 	{
 		if (!extension_loaded('imagick'))
 		{
-			return false;
+			return;
 		}
 
 		$producthelper     = new producthelper;
@@ -97,13 +98,14 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 							. JPATH_COMPONENT . "/assets/images/product_attributes/" . $ImageName
 							. " -gravity center -composite -mosaic " . JPATH_COMPONENT
 							. "/assets/images/product_attributes/$ImageName";
-						exec($cmd);
 					}
 					else
 					{
-						$cmd = "convert $imagePath/product/$productImage +level-colors '" . $extra_field . "', " . JPATH_COMPONENT . "/assets/images/product_attributes/$ImageName";
-						exec($cmd);
+						$cmd = "convert $imagePath/product/$productImage +level-colors '"
+							. $extra_field . "', " . JPATH_COMPONENT . "/assets/images/product_attributes/$ImageName";
 					}
+
+					exec($cmd);
 
 					$property_id = $arrproperty_id[$i];
 					$fileName    = $property_id . '_' . str_replace('#', '', $extra_field);
@@ -118,14 +120,15 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 
 		if ($checkReverse)
 		{
-			$cmd = "convert " . JPATH_COMPONENT . "/assets/images/$section/" . $ImageName . " -flop " . JPATH_COMPONENT . "/assets/images/product_attributes/reverse$ImageName";
+			$cmd = "convert " . JPATH_COMPONENT . "/assets/images/$section/"
+				. $ImageName . " -flop " . JPATH_COMPONENT . "/assets/images/product_attributes/reverse$ImageName";
 			$this->ImageName = $ImageName = "reverse" . $ImageName;
 			exec($cmd);
 		}
 
 		if (!$checkflg && !$checkReverse)
 		{
-			return false;
+			return;
 		}
 
 		$aHrefImageResponse              = $imagePath . "/property/" . $ImageName;
@@ -146,6 +149,8 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 		$arrReturn['imageTitle']        = 'colorImage';
 		$arrReturn['attrbimg']          = $url . "components/com_redshop/assets/images/product_attributes/" . $ImageName;
 
-		return $arrReturn;
+		$pluginResults = $arrReturn;
+
+		return;
 	}
 }
