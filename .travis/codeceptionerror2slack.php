@@ -50,7 +50,7 @@ if ($handler = opendir($codeceptionOutputFolder))
         $command = 'curl -F file=@' . $codeceptionOutputFolder . '/' . $errorSnapshot . ' -F '
             . 'channels='. $slackChannel  . ' -F '
             . 'title=Codeception_error -F '
-            . 'initial_comment="error found by travis in redSHOP1 at test: ' . substr($errorSnapshot,0,-9) . ' on build: https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP/builds/"' . getenv('TRAVIS_JOB_ID') . ' -F'
+            . 'initial_comment="error found by travis in redSHOP1 at test: ' . substr($errorSnapshot,0,-9) . ' on build: https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP/builds/"' . getenv('TRAVIS_BUILD_ID') . ' ' . getenv('TRAVIS_BUILD_NUMBER') . ' ' . getenv('TRAVIS_JOB_ID') . ' ' . getenv('TRAVIS_JOB_NUMBER') . ' ' . getenv('TRAVIS_TAG') . ' -F'
             . 'token=' . $slackToken . ' '
             . 'https://slack.com/api/files.upload';
 
