@@ -261,8 +261,17 @@ class order_functions
 
 		// Total quantity
 		$total_qty = $qty;
-		$firstname = mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8");
-		$lastname = mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8");
+		$filter    = JFilterInput::getInstance();
+
+		// Filter name to remove special characters
+		$firstname = $filter->clean(
+						mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8"),
+						'username'
+					);
+		$lastname = $filter->clean(
+						mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8"),
+						'username'
+					);
 		$full_name = $firstname . " " . $lastname;
 		$address = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
 		$city = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");

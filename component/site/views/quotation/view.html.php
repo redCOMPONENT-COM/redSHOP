@@ -39,7 +39,8 @@ class RedshopViewQuotation extends RedshopView
 		$detail = $model->getData();
 
 		$this->detail = $detail;
-		$this->request_url = JFilterOutput::cleanText($uri->toString());
+		$this->request_url = $uri->toString();
+		JFilterOutput::cleanText($this->request_url);
 
 		parent::display($tpl);
 	}
