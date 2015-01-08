@@ -38,6 +38,10 @@ before_script:
 
 
 script:
+  - echo $TRAVIS_BUILD_ID
+  - echo $TRAVIS_BUILD_NUMBER
+  - echo $TRAVIS_BUILD_NUMBER
+  - echo $TRAVIS_BUILD_NUMBER
   - php .travis/traviswebserverckecker.php http://localhost/joomla-cms2/installation/index.php # Test apache
   - php .travis/traviswebserverckecker.php http://localhost/joomla-cms3/installation/index.php # Test apache
   #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
