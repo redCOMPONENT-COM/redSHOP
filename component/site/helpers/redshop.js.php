@@ -61,6 +61,10 @@ if ($session->get('product_currency'))
 	$currency_convert = round($convertPrice->convert(1), 2);
 }
 
+// @test
+RedshopConfig::script('MYVAR', 'Gunjan Patel');
+JText::script('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
+
 $script = "
 		window.site_url = '" . JURI::root() . "';
 		window.AJAX_CART_BOX = '" . AJAX_CART_BOX . "';
