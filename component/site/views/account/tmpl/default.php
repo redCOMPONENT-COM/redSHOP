@@ -313,9 +313,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 
 	if (count($orderslist) > 0)
 	{
-		$ordermoreurl_1 = JRoute::_('index.php?option=com_redshop&view=orders&Itemid=' . $Itemid);
-		$ordermoreurl   = strtolower($ordermoreurl_1);
-
+		$ordermoreurl = JRoute::_('index.php?option=com_redshop&view=orders&Itemid=' . $Itemid);
 		$template_desc = str_replace('{more_orders}', "<a href='" . $ordermoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $template_desc);
 	}
 	else
