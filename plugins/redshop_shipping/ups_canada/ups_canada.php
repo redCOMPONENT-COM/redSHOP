@@ -686,6 +686,12 @@ class plgredshop_shippingups_canada extends JPlugin
 			$ServiceName = $ship_postage[$i]['ServiceName'];
 			$fsc = $ship_postage[$i]['ServiceName'] . "_FSC";
 			$fsc = str_replace(" ", "_", str_replace(".", "", str_replace("/", "", $fsc)));
+
+			if (!defined($fsc))
+			{
+				continue;
+			}
+
 			$fsc = constant($fsc);
 
 			if ($fsc == 0)
