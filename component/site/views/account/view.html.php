@@ -65,7 +65,7 @@ class RedshopViewAccount extends RedshopView
 			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
 			$limitstart  = JRequest::getInt('limitstart', 0, '', 'int');
 			$total       = $this->get('total');
-			$pagination  = new redPagination($total, $limitstart, $limit);
+			$pagination  = new JPagination($total, $limitstart, $limit);
 			$this->pagination = $pagination;
 		}
 
@@ -97,7 +97,7 @@ class RedshopViewAccount extends RedshopView
 			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
 			$limitstart  = JRequest::getInt('limitstart', 0, '', 'int');
 			$total       = $this->get('total');
-			$pagination  = new redPagination($total, $limitstart, $limit);
+			$pagination  = new JPagination($total, $limitstart, $limit);
 			$this->pagination = $pagination;
 		}
 
