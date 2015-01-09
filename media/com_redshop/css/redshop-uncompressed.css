@@ -189,9 +189,6 @@ td.field_label {
     font-size: 11px;
     color: #CA2128;
 }
-.category_pagination, .kategori_navigering {
-    text-align: center;
-}
 .manufacturercategoryproducts {
     height: 30px;
     font-size: 13px;
@@ -848,17 +845,6 @@ div#ajax-cart div#ajax-cart-user {
     background: url(../images/checkout/three_on.jpg) no-repeat left center;
     padding-left: 40px;
     height: 25px;
-}
-.redpagination-enable-style {
-    border: 1px solid;
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: #CCCCCC;
-}
-.redpagination-style {
-    border: 1px solid;
-    padding-left: 5px;
-    padding-right: 5px;
 }
 a.imgtooltip:hover {
     background: #ffffff;

@@ -183,7 +183,7 @@ class RedshopModelManufacturers extends RedshopModel
 	{
 		if (empty($this->_pagination))
 		{
-			$this->_pagination = new redPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -294,7 +294,7 @@ class RedshopModelManufacturers extends RedshopModel
 	{
 		$limit             = $this->getProductLimit();
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$productpagination = new redPagination($this->getProductTotal(), $limitstart, $limit);
+		$productpagination = new JPagination($this->getProductTotal(), $limitstart, $limit);
 
 		return $productpagination;
 	}

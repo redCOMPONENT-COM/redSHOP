@@ -54,7 +54,7 @@ else
 	$template_desc .= "<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n";
 	$template_desc .= "<div>{product_rating_summary}</div>\r\n<div class=\"category_product_addtocart\">{form_addtocart:add_to_cart1}";
 	$template_desc .= "</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n";
-	$template_desc .= "</div>\r\n<div class=\"category_pagination\">{pagination}</div>";
+	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
 if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
@@ -1046,7 +1046,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	if (strstr($template_desc, "{pagination}"))
 	{
-		$pagination = new redPagination($model->_total, $start, $endlimit);
+		$pagination = new JPagination($model->_total, $start, $endlimit);
 		$slidertag  = $pagination->getPagesLinks();
 
 		if (strstr($template_desc, "{product_display_limit}"))

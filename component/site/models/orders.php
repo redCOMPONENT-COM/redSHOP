@@ -71,7 +71,7 @@ class RedshopModelOrders extends RedshopModel
 		if (empty($this->_pagination))
 		{
 			JLoader::import('joomla.html.pagination');
-			$this->_pagination = new redPagination($this->getTotal(), $this->_limitstart, $this->_limit);
+			$this->_pagination = new JPagination($this->getTotal(), $this->_limitstart, $this->_limit);
 		}
 
 		return $this->_pagination;

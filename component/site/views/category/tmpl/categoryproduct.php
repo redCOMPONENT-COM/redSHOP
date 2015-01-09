@@ -45,7 +45,7 @@ else
 	$template_desc .= "<tr><td><div class='category_product_readmore'>{read_more}</div></td></tr>";
 	$template_desc .= "<tr><td><div class='category_product_addtocart'>{attribute_template:attributes}</div></td></tr>";
 	$template_desc .= "<tr><td><div class='category_product_addtocart'>{form_addtocart:add_to_cart1}</div></td></tr></tbody></table></div></div>";
-	$template_desc .= "{product_loop_end}</div></div><p>{category_loop_end}</p><div class='category_pagination'>{pagination}</div></div>";
+	$template_desc .= "{product_loop_end}</div></div><p>{category_loop_end}</p><div class='pagination'>{pagination}</div></div>";
 }
 
 if (count($this->detail) <= 0)

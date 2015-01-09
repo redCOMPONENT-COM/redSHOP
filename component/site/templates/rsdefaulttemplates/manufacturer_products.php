@@ -37,4 +37,4 @@
 	</div>
 	{product_loop_end}
 </div>
-<div class="category_pagination">{pagination}</div>
+<div class="pagination">{pagination}</div>

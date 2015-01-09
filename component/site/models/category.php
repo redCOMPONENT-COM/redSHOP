@@ -544,7 +544,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$endlimit          = $this->getProductPerPage();
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->_pagination = new redPagination($this->getTotal(), $limitstart, $endlimit);
+		$this->_pagination = new JPagination($this->getTotal(), $limitstart, $endlimit);
 
 		return $this->_pagination;
 	}
@@ -557,7 +557,7 @@ class RedshopModelCategory extends RedshopModel
 		$endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
 
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->_pagination = new redPagination($this->getTotal(), $limitstart, $endlimit);
+		$this->_pagination = new JPagination($this->getTotal(), $limitstart, $endlimit);
 
 		return $this->_pagination;
 	}
@@ -713,7 +713,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$endlimit          = $this->getProductPerPage();
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->_pagination = new redPagination($this->getfletterTotal($letter, $fieldid), $limitstart, $endlimit);
+		$this->_pagination = new JPagination($this->getfletterTotal($letter, $fieldid), $limitstart, $endlimit);
 
 		return $this->_pagination;
 	}
