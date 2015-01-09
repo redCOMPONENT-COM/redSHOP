@@ -323,7 +323,6 @@ class RedshopViewConfiguration extends RedshopView
 		$lists['product_comparison_type'] = JHTML::_('select.genericlist', $product_comparison, 'product_comparison_type',
 			'class="inputbox" size="1"', 'value', 'text', PRODUCT_COMPARISON_TYPE
 		);
-		$lists['pagination']              = JHTML::_('select.genericlist', $pagination, 'pagination', 'class="inputbox" size="1" ', 'value', 'text', PAGINATION);
 		$lists['newsletter_enable']       = JHTML::_('select.booleanlist', 'newsletter_enable', 'class="inputbox" size="1"', NEWSLETTER_ENABLE);
 		$lists['newsletter_confirmation'] = JHTML::_('select.booleanlist', 'newsletter_confirmation', 'class="inputbox" size="1"', NEWSLETTER_CONFIRMATION);
 
