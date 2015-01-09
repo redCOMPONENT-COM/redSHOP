@@ -1,5 +1,7 @@
 /* General Classes */
-
+.redshop{
+    overflow: hidden;
+}
 .myupbutton {
     color: #ffffff;
     font-weight: bold;

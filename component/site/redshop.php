@@ -162,7 +162,7 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 		$redSHOPCSSContainerClass = ' isJ30';
 	}
 
-	echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst($vName) . $redSHOPCSSContainerClass . '">';
+	echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst($vName) . $redSHOPCSSContainerClass . ' clearfix">';
 
 	if ($layout != 'receipt')
 	{
