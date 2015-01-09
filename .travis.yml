@@ -32,9 +32,9 @@ before_script:
   - "fluxbox &"
 
   # Selenium server
-  - "wget http://selenium-release.storage.googleapis.com/2.43/selenium-server-standalone-2.43.1.jar"
-  - "java -jar selenium-server-standalone-2.43.1.jar > /dev/null 2>/dev/null &"
-  - sleep 30
+  - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar -O selenium-server-standalone.jar
+  - "java -jar selenium-server-standalone.jar > /dev/null 2>/dev/null &"
+  - .travis/wait4selenium.sh
 
 
 script:
