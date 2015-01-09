@@ -6361,7 +6361,7 @@ class producthelper
 		if (strstr($cartform, "{addtocart_button}"))
 		{
 			$cartTag  = "{addtocart_button}";
-			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '"><input type="button" ' .
+			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '" class="icon_cart"><input type="button" ' .
 				$onclick . $cartTitle . ' name="addtocart_button" value="' . $ADD_OR_LBL . '" /></span>';
 		}
 
@@ -6369,13 +6369,13 @@ class producthelper
 		{
 			$cartTag  = "{addtocart_link}";
 			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '" ' . $onclick . $cartTitle .
-				' style="cursor: pointer;">' . $ADD_OR_LBL . '</span>';
+				' style="cursor: pointer;" class="tag_cart">' . $ADD_OR_LBL . '</span>';
 		}
 
 		if (strstr($cartform, "{addtocart_image_aslink}"))
 		{
 			$cartTag  = "{addtocart_image_aslink}";
-			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '"><img ' . $onclick .
+			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '" class="img_linkcart"><img ' . $onclick .
 				$cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="' . REDSHOP_FRONT_IMAGES_ABSPATH .
 				$ADD_CART_IMAGE . '" /></span>';
 		}
@@ -6385,7 +6385,7 @@ class producthelper
 			$cartTag  = "{addtocart_image}";
 			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '><div ' . $onclick .
 				$cartTitle . ' align="center" style="cursor:pointer;background:url(' . REDSHOP_FRONT_IMAGES_ABSPATH .
-				$ADD_CART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat;">' . $ADD_OR_LBL .
+				$ADD_CART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat;" class="img_cart">' . $ADD_OR_LBL .
 				'</div></span>';
 		}
 
@@ -7154,14 +7154,14 @@ class producthelper
 				if (AJAX_CART_BOX != 1)
 				{
 					$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . ' ' . $cartstyle
-						. '><input type="button" ' . $onclick . $cartTitle . ' name="addtocart_button" value="'
+						. ' class="pdaddtocart"><input type="button" ' . $onclick . $cartTitle . ' name="addtocart_button" value="'
 						. $ADD_OR_LBL . '" /></span>';
 				}
 				else
 				{
 					$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 						. ' ><span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . ' ' . $cartstyle
-						. '><input type="button" ' . $cartTitle . ' name="addtocart_button" value="' . $ADD_OR_LBL
+						. ' class="pdaddtocart"><input type="button" ' . $cartTitle . ' name="addtocart_button" value="' . $ADD_OR_LBL
 						. '" /></span></a>';
 				}
 			}
@@ -7173,13 +7173,13 @@ class producthelper
 				if (AJAX_CART_BOX != 1)
 				{
 					$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span>';
+						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span>';
 				}
 				else
 				{
 					$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 						. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+						. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span></a>';
 				}
 			}
 
@@ -7191,10 +7191,10 @@ class producthelper
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_IMAGE))
 						$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '"><img ' . $onclick . $cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_CART_IMAGE . '" /></span>';
+							. '" class="pdaddtocart_img_link"><img ' . $onclick . $cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_CART_IMAGE . '" /></span>';
 					else
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
-							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId . '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId . '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_img_link">' . $ADD_OR_LBL . '</span></a>';
 
 				}
 				else
@@ -7202,12 +7202,12 @@ class producthelper
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_IMAGE))
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '"><img ' . $cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="'
+							. '" class="pdaddtocart_img_link"><img ' . $cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="'
 							. REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_CART_IMAGE . '" /></span></a>';
 					else
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+							. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_img_link">' . $ADD_OR_LBL . '</span></a>';
 
 				}
 
@@ -7221,14 +7221,14 @@ class producthelper
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_BACKGROUND))
 						$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '"><div ' . $onclick . $cartTitle
+							. '" class="pdaddtocart_imgage"><div ' . $onclick . $cartTitle
 							. ' align="center" style="cursor:pointer;background:url(' . REDSHOP_FRONT_IMAGES_ABSPATH
 							. $ADD_CART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat;">'
 							. $ADD_OR_LBL . '</div></span>';
 					else
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+							. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_imgage">' . $ADD_OR_LBL . '</span></a>';
 
 				}
 				else
@@ -7236,30 +7236,30 @@ class producthelper
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_BACKGROUND))
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '"><div ' . $cartTitle . ' align="center" style="cursor:pointer;background:url('
+							. '" class="pdaddtocart_imgage"><div ' . $cartTitle . ' align="center" style="cursor:pointer;background:url('
 							. REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_CART_BACKGROUND
 							. ');background-position:bottom;background-repeat:no-repeat;">' . $ADD_OR_LBL . '</div></span></a>';
 					else
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+							. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_imgage">' . $ADD_OR_LBL . '</span></a>';
 
 				}
 			}
 			// pre-Order
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_OR_PRE_BTN))
 			{
-				$cartIconPreorder = '<span id="preordercart' . $stockId . '" ' . $preorderstyle . '><img ' . $onclick
+				$cartIconPreorder = '<span class="preordercart_order" id="preordercart' . $stockId . '" ' . $preorderstyle . '><img ' . $onclick
 					. $cartTitle . ' alt="' . $ADD_OR_PRE_LBL . '" style="cursor: pointer;" src="'
 					. REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_OR_PRE_BTN . '" /></span>';
 			}
 			else
 			{
-				$cartIconPreorder = '<span id="preordercart' . $stockId . '" ' . $preorderstyle
+				$cartIconPreorder = '<span class="preordercart_order_m" id="preordercart' . $stockId . '" ' . $preorderstyle
 					. '><a href="javascript:;" ' . $onclick . '>' . JTEXT::_('COM_REDSHOP_PREORDER_BTN') . '</a></span>';
 			}
 
-			$cartform = str_replace($cartTag, '<span id="stockaddtocart' . $stockId . '" ' . $stockstyle
+			$cartform = str_replace($cartTag, '<span class="stockaddtocart" id="stockaddtocart' . $stockId . '" ' . $stockstyle
 				. ' class="stock_addtocart">' . $display_text . '</span>' . $cartIconPreorder . $cartIcon, $cartform);
 			$cartform .= "</form>";
 			$data_add = str_replace("{form_addtocart:$cart_template->template_name}", $cartform, $data_add);

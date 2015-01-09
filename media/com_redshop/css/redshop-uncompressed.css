@@ -415,13 +415,14 @@ div.product_writereview {
     width: 30px;
     max-width: 30px !important;
 }
-.product-cart-link span#pdaddtocartprd_1{
+.product-cart-link span#pdaddtocartprd_1, .cart-link span.pdaddtocart_link{
     background: #eee;
     line-height: 20px;
     height: 20px;
     padding: 5px 10px;
     border:1px solid #ccc;
-    border-radius:5px;}
+    border-radius:5px;
+}
 /* --- redSHOP Product Content View - Accesories --- */
 
 .accessory {
