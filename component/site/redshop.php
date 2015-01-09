@@ -60,6 +60,9 @@ else
 
 JHtml::stylesheet('com_redshop/style.css', array(), true);
 
+// Load redshop script
+JHtml::script('com_redshop/redshop.js', false, true);
+
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
 $task       = $app->input->getCmd('task', '');
@@ -216,3 +219,6 @@ $controller->execute($task);
 echo "</div>";
 
 $controller->redirect();
+
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();
