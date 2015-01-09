@@ -12,7 +12,7 @@ function GetXmlHttpObject() {
 
 function updateGLSLocation(zipcode) {
     xmlhttp1 = GetXmlHttpObject();
-    var url1 = site_url + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
+    var url1 = redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
     url1 = url1 + "&zipcode=" + zipcode;
     xmlhttp1.onreadystatechange = function () {
         if (xmlhttp1.readyState == 4) {
@@ -67,14 +67,14 @@ function number_format(number, decimals, dec_point, thousands_sep) {
     // setting final price with currency Symbol
     var display_price = "";
 
-    if (CURRENCY_SYMBOL_POSITION == 'front') {
-        display_price = REDCURRENCY_SYMBOL + "&nbsp;" + s;
-    } else if (CURRENCY_SYMBOL_POSITION == 'behind') {
-        display_price = s + "&nbsp;" + REDCURRENCY_SYMBOL;
-    } else if (CURRENCY_SYMBOL_POSITION == 'none') {
+    if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'front') {
+        display_price = redSHOP.RSConfig._('REDCURRENCY_SYMBOL') + "&nbsp;" + s;
+    } else if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'behind') {
+        display_price = s + "&nbsp;" + redSHOP.RSConfig._('REDCURRENCY_SYMBOL');
+    } else if (redSHOP.RSConfig._('CURRENCY_SYMBOL_POSITION') == 'none') {
         display_price = s;
     } else {
-        display_price = REDCURRENCY_SYMBOL + "&nbsp;" + s;
+        display_price = redSHOP.RSConfig._('REDCURRENCY_SYMBOL') + "&nbsp;" + s;
     }
 
     return display_price;
@@ -334,7 +334,7 @@ function calculateOfflineTotalPrice(unique_id) {
 //    alert("final_price_f = " + final_price_f);
 //    alert("excl_price = " + excl_price);
     if (document.getElementById('prdprice' + unique_id)) {
-        document.getElementById('prdprice' + unique_id).innerHTML = number_format(final_price_f, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+        document.getElementById('prdprice' + unique_id).innerHTML = number_format(final_price_f, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     }
     if (document.getElementById('productprice' + unique_id)) {
         document.getElementById('productprice' + unique_id).value = final_price_f;
@@ -349,7 +349,7 @@ function calculateOfflineTotalPrice(unique_id) {
     document.getElementById("quantity" + unique_id).value = quantity;
 
     if (document.getElementById("prdtax" + unique_id)) {
-        document.getElementById("prdtax" + unique_id).innerHTML = number_format(final_price_f - excl_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+        document.getElementById("prdtax" + unique_id).innerHTML = number_format(final_price_f - excl_price, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     }
     if (document.getElementById("taxprice" + unique_id)) {
         document.getElementById("taxprice" + unique_id).value = (final_price_f - excl_price) * quantity;
@@ -358,7 +358,7 @@ function calculateOfflineTotalPrice(unique_id) {
         document.getElementById('subprice' + unique_id).value = quantity * final_price_f;
     }
     if (document.getElementById('tdtotalprd' + unique_id)) {
-        document.getElementById('tdtotalprd' + unique_id).innerHTML = number_format(quantity * final_price_f, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+        document.getElementById('tdtotalprd' + unique_id).innerHTML = number_format(quantity * final_price_f, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     }
     calculateOfflineTotal();
 }
@@ -542,21 +542,21 @@ function displayProductDetailInfo(unique_id, newprice) {
                 document.getElementById("taxprice" + unique_id).value = document.getElementById("total_tax").innerHTML;
             }
             if (document.getElementById("prdtax" + unique_id)) {
-                document.getElementById("prdtax" + unique_id).innerHTML = number_format(document.getElementById("product_tax").innerHTML, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                document.getElementById("prdtax" + unique_id).innerHTML = number_format(document.getElementById("product_tax").innerHTML, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
             }
             if (document.getElementById("product_vatprice" + unique_id)) {
                 document.getElementById("product_vatprice" + unique_id).value = document.getElementById("product_tax").innerHTML;
             }
 
             if (document.getElementById("prdprice" + unique_id)) {
-                document.getElementById("prdprice" + unique_id).innerHTML = number_format(document.getElementById("product_price").innerHTML, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                document.getElementById("prdprice" + unique_id).innerHTML = number_format(document.getElementById("product_price").innerHTML, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
             }
             if (document.getElementById("productprice" + unique_id)) {
                 document.getElementById("productprice" + unique_id).value = document.getElementById("product_price").innerHTML;
             }
 
             document.getElementById("subprice" + unique_id).value = document.getElementById("total_price").innerHTML;
-            document.getElementById("tdtotalprd" + unique_id).innerHTML = number_format(document.getElementById("total_price").innerHTML, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+            document.getElementById("tdtotalprd" + unique_id).innerHTML = number_format(document.getElementById("total_price").innerHTML, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
 
             if (newprice == 0) {
                 document.getElementById("divAtt" + unique_id).innerHTML = document.getElementById("attblock").innerHTML;
@@ -758,13 +758,13 @@ function calculateOfflineTotal() {
     }
 
     if (document.getElementById("divSubTotal")) {
-        document.getElementById("divSubTotal").innerHTML = number_format(subtotal, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+        document.getElementById("divSubTotal").innerHTML = number_format(subtotal, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     }
     if (document.getElementById("order_subtotal")) {
         document.getElementById("order_subtotal").value = subtotal;
     }
     if (document.getElementById("divTax")) {
-        document.getElementById("divTax").innerHTML = number_format(totalTax, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+        document.getElementById("divTax").innerHTML = number_format(totalTax, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     }
     if (document.getElementById("order_tax")) {
         document.getElementById("order_tax").value = totalTax;
@@ -774,11 +774,11 @@ function calculateOfflineTotal() {
         order_shipping = parseFloat(document.getElementById("order_shipping").value);
     }
     if (document.getElementById("divShipping")) {
-        document.getElementById("divShipping").innerHTML = number_format(order_shipping, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+        document.getElementById("divShipping").innerHTML = number_format(order_shipping, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     }
     var displaytotal = parseFloat(subtotal) + parseFloat(order_shipping);
     if (document.getElementById("divFinalTotal")) {
-        document.getElementById("divFinalTotal").innerHTML = number_format(displaytotal, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+        document.getElementById("divFinalTotal").innerHTML = number_format(displaytotal, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     }
     if (document.getElementById("order_total")) {
         document.getElementById("order_total").value = subtotal;
@@ -816,10 +816,10 @@ function calculateOfflineShipping() {
                 }
                 if (document.getElementById("order_tax").value) {
                     var tax = parseFloat(document.getElementById("order_tax").value) + parseFloat(order_shipping_vat);
-                    document.getElementById("divTax").innerHTML = number_format(tax, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                    document.getElementById("divTax").innerHTML = number_format(tax, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
                 }
                 if (document.getElementById("divShipping")) {
-                    document.getElementById("divShipping").innerHTML = number_format(order_shipping, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                    document.getElementById("divShipping").innerHTML = number_format(order_shipping, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
                 }
                 if (document.getElementById("order_shipping")) {
                     document.getElementById("order_shipping").value = order_shipping;
@@ -831,7 +831,7 @@ function calculateOfflineShipping() {
                 }
                 var displaytotal = parseFloat(subtotal) + parseFloat(order_shipping);
                 if (document.getElementById("divFinalTotal")) {
-                    document.getElementById("divFinalTotal").innerHTML = number_format(displaytotal, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                    document.getElementById("divFinalTotal").innerHTML = number_format(displaytotal, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
                 }
             }
         }
@@ -933,7 +933,7 @@ function getQuotationDetail(unqid) {
             product_price = parseFloat(product_excl_price) + parseFloat(tax);
 
             if (document.getElementById("tdprdprice" + unqid)) {
-                document.getElementById("tdprdprice" + unqid).innerHTML = number_format(product_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                document.getElementById("tdprdprice" + unqid).innerHTML = number_format(product_price, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
             }
             if (document.getElementById("product_price" + unqid)) {
                 document.getElementById("product_price" + unqid).value = product_price;
@@ -945,7 +945,7 @@ function getQuotationDetail(unqid) {
                 totalprice = parseFloat(quantity) * parseFloat(product_price);
             }
             document.getElementById("totalprice" + unqid).value = totalprice;
-            document.getElementById("tdtotalprice" + unqid).innerHTML = number_format(totalprice, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+            document.getElementById("tdtotalprice" + unqid).innerHTML = number_format(totalprice, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
 
             calculateQuotationTotal();
         }
@@ -981,9 +981,9 @@ function calculateQuotationTotal() {
     {
         q_discount = parseFloat(document.getElementById("quotation_discount").value);
 
-        if(VAT_RATE_AFTER_DISCOUNT)
+        if(redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT'))
         {
-            vatondiscount = (parseFloat(q_discount) * VAT_RATE_AFTER_DISCOUNT)/(1+parseFloat(VAT_RATE_AFTER_DISCOUNT));
+            vatondiscount = (parseFloat(q_discount) * redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT'))/(1+parseFloat(redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')));
         }
         else
         {
@@ -1000,9 +1000,9 @@ function calculateQuotationTotal() {
     {
         q_p_discount = parseFloat(document.getElementById("quotation_special_discount").value);
         q_p_discount_total = (total*q_p_discount)/100;
-        if(VAT_RATE_AFTER_DISCOUNT)
+        if(redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT'))
         {
-            vatonspdiscount = (parseFloat(q_p_discount_total) * VAT_RATE_AFTER_DISCOUNT)/(1+parseFloat(VAT_RATE_AFTER_DISCOUNT));
+            vatonspdiscount = (parseFloat(q_p_discount_total) * redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT'))/(1+parseFloat(redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')));
         }
         else
         {
@@ -1014,17 +1014,17 @@ function calculateQuotationTotal() {
         subtot_with_discount =  subtot_with_discount - parseFloat(q_p_discount_total) + parseFloat(vatonspdiscount);
     }
 
-    document.getElementById("divMainSubTotalwithDiscount").innerHTML = number_format(subtot_with_discount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
-    document.getElementById("divMainSubTotal").innerHTML = number_format(subtotal,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+    document.getElementById("divMainSubTotalwithDiscount").innerHTML = number_format(subtot_with_discount,redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
+    document.getElementById("divMainSubTotal").innerHTML = number_format(subtotal,redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     document.getElementById("quotation_subtotal").value = subtotal;
 
-    document.getElementById("divMainFinalTotal").innerHTML = number_format(total,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+    document.getElementById("divMainFinalTotal").innerHTML = number_format(total,redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     document.getElementById("quotation_total").value = total;
 
-    document.getElementById("divMainTax").innerHTML = number_format(displaytax,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+    document.getElementById("divMainTax").innerHTML = number_format(displaytax,redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
     document.getElementById("quotation_tax").value = tax;
-    document.getElementById("divMainSpecialDiscount").innerHTML = number_format(displayspdiscount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
-    document.getElementById("divMainDiscount").innerHTML = number_format(displaydiscount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+    document.getElementById("divMainSpecialDiscount").innerHTML = number_format(displayspdiscount,redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
+    document.getElementById("divMainDiscount").innerHTML = number_format(displaydiscount,redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
 }
 
 function deleteOfflineProductRow(index) {
