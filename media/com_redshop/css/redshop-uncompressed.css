@@ -408,7 +408,7 @@ div.product_writereview {
     padding: 0;
     padding-left: 10px;
 }
-.cart-quantity input[type="text"]{
+.cart-quantity input.quantity{
     border: 1px solid #8e8d8d;
     text-align: center;
     height: 21px;
