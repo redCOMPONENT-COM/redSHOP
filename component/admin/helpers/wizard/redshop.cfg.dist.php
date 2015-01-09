@@ -300,7 +300,6 @@ define('SUPPLIER_MAIL_ENABLE', '0');
 define('PRODUCT_COMPARISON_TYPE', 'category');
 define('COMPARE_TEMPLATE_ID', '320');
 define('SSL_ENABLE_IN_CHECKOUT', '0');
-define('PAGINATION', '1');
 define('VAT_RATE_AFTER_DISCOUNT', '0.000');
 define('PRODUCT_DOWNLOAD_ROOT', '/var/www/redshop/components/com_redshop/assets/download/product');
 define('TWOWAY_RELATED_PRODUCT', '0');

@@ -18,14 +18,6 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PAGINATION_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PAGINATION'); ?>">
-		<label for="pagination"><?php echo JText::_('COM_REDSHOP_PAGINATION_LBL'); ?></label></span>
-		</td>
-		<td><?php echo $this->lists ['pagination']; ?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_PRODUCT_ORDERING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_PRODUCT_ORDERING_METHOD_LBL'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_PRODUCT_ORDERING_METHOD_LBL');?></label></span>
 		</td>

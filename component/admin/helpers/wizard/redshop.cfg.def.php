@@ -176,7 +176,6 @@ $defaultarray["category_default_image"] = CATEGORY_DEFAULT_IMAGE;
 $defaultarray["product_default_image"] = PRODUCT_DEFAULT_IMAGE;
 $defaultarray["watermark_image"] = WATERMARK_IMAGE;
 $defaultarray["product_outofstock_image"] = PRODUCT_OUTOFSTOCK_IMAGE;
-$defaultarray["pagination"] = PAGINATION;
 $defaultarray["default_product_ordering_method"] = DEFAULT_PRODUCT_ORDERING_METHOD;
 $defaultarray["default_manufacturer_ordering_method"] = DEFAULT_MANUFACTURER_ORDERING_METHOD;
 $defaultarray["default_manufacturer_product_ordering_method"] = DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD;
