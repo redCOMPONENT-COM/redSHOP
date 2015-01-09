@@ -1,4 +1,3 @@
-//
 if (typeof(bsn) == "undefined")
     _b = bsn = {};
 
@@ -8,7 +7,7 @@ if (typeof(_b.Autosuggest) == "undefined")
 else
     alert("Autosuggest is already set!");
 
-_b.AutoSuggest = function (id, param) {
+_b.AutoSuggest = function(id, param) {
 
     // no DOM - give up!
     //
@@ -36,12 +35,24 @@ _b.AutoSuggest = function (id, param) {
 
     // defaults
     //
-    var k, def = {minchars: 1, meth: "get", varname: "input", className: "autosuggest", timeout: 2500, delay: 500, offsety: -5, shownoresults: true, noresults: "No results!", maxheight: 250, cache: true, maxentries: 25};
+    var k, def = {
+        minchars: 1,
+        meth: "get",
+        varname: "input",
+        className: "autosuggest",
+        timeout: 2500,
+        delay: 500,
+        offsety: -5,
+        shownoresults: true,
+        noresults: "No results!",
+        maxheight: 250,
+        cache: true,
+        maxentries: 25
+    };
     for (k in def) {
         if (typeof(this.oP[k]) != typeof(def[k]))
             this.oP[k] = def[k];
     }
-
 
     // set keyup handler for field
     // and prevent autocomplete from client
@@ -51,18 +62,17 @@ _b.AutoSuggest = function (id, param) {
     // NOTE: not using addEventListener because UpArrow fired twice in Safari
     //_b.DOM.addEvent( this.fld, 'keyup', function(ev){ return pointer.onKeyPress(ev); } );
 
-    this.fld.onkeypress = function (ev) {
+    this.fld.onkeypress = function(ev) {
         return p.onKeyPress(ev);
     };
-    this.fld.onkeyup = function (ev) {
+    this.fld.onkeyup = function(ev) {
         return p.onKeyUp(ev);
     };
 
     this.fld.setAttribute("autocomplete", "off");
 };
 
-
-_b.AutoSuggest.prototype.onKeyPress = function (ev) {
+_b.AutoSuggest.prototype.onKeyPress = function(ev) {
 
     var key = (window.event) ? window.event.keyCode : ev.keyCode;
 
@@ -91,10 +101,8 @@ _b.AutoSuggest.prototype.onKeyPress = function (ev) {
     return bubble;
 };
 
-
-_b.AutoSuggest.prototype.onKeyUp = function (ev) {
+_b.AutoSuggest.prototype.onKeyUp = function(ev) {
     var key = (window.event) ? window.event.keyCode : ev.keyCode;
-
 
     // set responses to keydown events in the field
     // this allows the user to use the arrow keys to scroll through the results
@@ -131,7 +139,7 @@ _b.AutoSuggest.prototype.onKeyUp = function (ev) {
 
 };
 
-_b.AutoSuggest.prototype.getSuggestions = function (val) {
+_b.AutoSuggest.prototype.getSuggestions = function(val) {
 
     // if input stays the same, do nothing
     //
@@ -177,15 +185,14 @@ _b.AutoSuggest.prototype.getSuggestions = function (val) {
 
 
         return false;
-    }
-    else
+    } else
     // do new request
     //
     {
         var pointer = this;
         var input = this.sInp;
         clearTimeout(this.ajID);
-        this.ajID = setTimeout(function () {
+        this.ajID = setTimeout(function() {
             pointer.doAjaxRequest(input)
         }, this.oP.delay);
     }
@@ -193,7 +200,7 @@ _b.AutoSuggest.prototype.getSuggestions = function (val) {
     return false;
 };
 
-_b.AutoSuggest.prototype.doAjaxRequest = function (input) {
+_b.AutoSuggest.prototype.doAjaxRequest = function(input) {
     // check that saved input is still the value of the field
     //
 
@@ -217,10 +224,10 @@ _b.AutoSuggest.prototype.doAjaxRequest = function (input) {
     var meth = this.oP.meth;
     var input = this.sInp;
 
-    var onSuccessFunc = function (req) {
+    var onSuccessFunc = function(req) {
         pointer.setSuggestions(req, input)
     };
-    var onErrorFunc = function (status) {
+    var onErrorFunc = function(status) {
         //alert("AJAX error: "+status);
     };
 
@@ -228,7 +235,7 @@ _b.AutoSuggest.prototype.doAjaxRequest = function (input) {
     myAjax.makeRequest(url, meth, onSuccessFunc, onErrorFunc);
 };
 
-_b.AutoSuggest.prototype.setSuggestions = function (req, input) {
+_b.AutoSuggest.prototype.setSuggestions = function(req, input) {
     // if field input no longer matches what was passed to the request
     // don't show the suggestions
     //
@@ -249,20 +256,33 @@ _b.AutoSuggest.prototype.setSuggestions = function (req, input) {
                 var val = jsondata.results[i].value + '(' + jsondata.results[i].value_number + ')';
             }
             if (jsondata.results[i].volume) {
-                this.aSug.push({ 'id': jsondata.results[i].id, 'value': val, 'volume': jsondata.results[i].volume, 'value_number': jsondata.results[i].value_number });
-            }
-            else if (jsondata.results[i].price) {
-                this.aSug.push({ 'id': jsondata.results[i].id, 'value': val, 'price': jsondata.results[i].price, 'value_number': jsondata.results[i].value_number });
-            }
-            else if (jsondata.results[i].value_number) {
-                this.aSug.push({ 'id': jsondata.results[i].id, 'value': val, 'value_number': jsondata.results[i].value_number });
-            }
-            else {
-                this.aSug.push({ 'id': jsondata.results[i].id, 'value': val });
+                this.aSug.push({
+                    'id': jsondata.results[i].id,
+                    'value': val,
+                    'volume': jsondata.results[i].volume,
+                    'value_number': jsondata.results[i].value_number
+                });
+            } else if (jsondata.results[i].price) {
+                this.aSug.push({
+                    'id': jsondata.results[i].id,
+                    'value': val,
+                    'price': jsondata.results[i].price,
+                    'value_number': jsondata.results[i].value_number
+                });
+            } else if (jsondata.results[i].value_number) {
+                this.aSug.push({
+                    'id': jsondata.results[i].id,
+                    'value': val,
+                    'value_number': jsondata.results[i].value_number
+                });
+            } else {
+                this.aSug.push({
+                    'id': jsondata.results[i].id,
+                    'value': val
+                });
             }
         }
-    }
-    else {
+    } else {
 
         var xml = req.responseXML;
 
@@ -272,7 +292,10 @@ _b.AutoSuggest.prototype.setSuggestions = function (req, input) {
 
         for (var i = 0; i < results.length; i++) {
             if (results[i].hasChildNodes())
-                this.aSug.push({ 'id': results[i].getAttribute('id'), 'value': results[i].childNodes[0].nodeValue });
+                this.aSug.push({
+                    'id': results[i].getAttribute('id'),
+                    'value': results[i].childNodes[0].nodeValue
+                });
         }
 
     }
@@ -284,7 +307,7 @@ _b.AutoSuggest.prototype.setSuggestions = function (req, input) {
 
 };
 
-_b.AutoSuggest.prototype.createList = function (arr) {
+_b.AutoSuggest.prototype.createList = function(arr) {
     var pointer = this;
 
 
@@ -303,11 +326,20 @@ _b.AutoSuggest.prototype.createList = function (arr) {
 
     // create holding div
     //
-    var div = _b.DOM.cE("div", {id: this.idAs, className: this.oP.className});
+    var div = _b.DOM.cE("div", {
+        id: this.idAs,
+        className: this.oP.className
+    });
 
-    var hcorner = _b.DOM.cE("div", {className: "as_corner"});
-    var hbar = _b.DOM.cE("div", {className: "as_bar"});
-    var header = _b.DOM.cE("div", {className: "as_header"});
+    var hcorner = _b.DOM.cE("div", {
+        className: "as_corner"
+    });
+    var hbar = _b.DOM.cE("div", {
+        className: "as_bar"
+    });
+    var header = _b.DOM.cE("div", {
+        className: "as_header"
+    });
     header.appendChild(hcorner);
     header.appendChild(hbar);
     div.appendChild(header);
@@ -315,7 +347,9 @@ _b.AutoSuggest.prototype.createList = function (arr) {
 
     // create and populate ul
     //
-    var ul = _b.DOM.cE("ul", {id: "as_ul"});
+    var ul = _b.DOM.cE("ul", {
+        id: "as_ul"
+    });
 
 
     // loop throught arr of suggestions
@@ -338,21 +372,27 @@ _b.AutoSuggest.prototype.createList = function (arr) {
             span.appendChild(small);
         }
 
-        var a = _b.DOM.cE("a", { href: "#" });
+        var a = _b.DOM.cE("a", {
+            href: "#"
+        });
 
-        var tl = _b.DOM.cE("span", {className: "tl"}, " ");
-        var tr = _b.DOM.cE("span", {className: "tr"}, " ");
+        var tl = _b.DOM.cE("span", {
+            className: "tl"
+        }, " ");
+        var tr = _b.DOM.cE("span", {
+            className: "tr"
+        }, " ");
         a.appendChild(tl);
         a.appendChild(tr);
 
         a.appendChild(span);
 
         a.name = i + 1;
-        a.onclick = function () {
+        a.onclick = function() {
             pointer.setHighlightedValue();
             return false;
         };
-        a.onmouseover = function () {
+        a.onmouseover = function() {
             pointer.setHighlight(this.name);
         };
 
@@ -365,7 +405,9 @@ _b.AutoSuggest.prototype.createList = function (arr) {
     // no results
     //
     if (arr.length == 0 && this.oP.shownoresults) {
-        var li = _b.DOM.cE("li", {className: "as_warning"}, this.oP.noresults);
+        var li = _b.DOM.cE("li", {
+            className: "as_warning"
+        }, this.oP.noresults);
         ul.appendChild(li);
     }
 
@@ -373,9 +415,15 @@ _b.AutoSuggest.prototype.createList = function (arr) {
     div.appendChild(ul);
 
 
-    var fcorner = _b.DOM.cE("div", {className: "as_corner"});
-    var fbar = _b.DOM.cE("div", {className: "as_bar"});
-    var footer = _b.DOM.cE("div", {className: "as_footer"});
+    var fcorner = _b.DOM.cE("div", {
+        className: "as_corner"
+    });
+    var fbar = _b.DOM.cE("div", {
+        className: "as_bar"
+    });
+    var footer = _b.DOM.cE("div", {
+        className: "as_footer"
+    });
     footer.appendChild(fcorner);
     footer.appendChild(fbar);
     div.appendChild(footer);
@@ -388,7 +436,7 @@ _b.AutoSuggest.prototype.createList = function (arr) {
     var pos = _b.DOM.getPos(this.fld);
 
     div.style.left = pos.x + "px";
-    div.style.top = ( pos.y + this.fld.offsetHeight + this.oP.offsety ) + "px";
+    div.style.top = (pos.y + this.fld.offsetHeight + this.oP.offsety) + "px";
     div.style.width = this.fld.offsetWidth + "px";
 
 
@@ -396,10 +444,10 @@ _b.AutoSuggest.prototype.createList = function (arr) {
     // when mouse pointer leaves div, set a timeout to remove the list after an interval
     // when mouse enters div, kill the timeout so the list won't be removed
     //
-    div.onmouseover = function () {
+    div.onmouseover = function() {
         pointer.killTimeout()
     };
-    div.onmouseout = function () {
+    div.onmouseout = function() {
         pointer.resetTimeout()
     };
 
@@ -417,14 +465,14 @@ _b.AutoSuggest.prototype.createList = function (arr) {
     // remove list after an interval
     //
     var pointer = this;
-    this.toID = setTimeout(function () {
+    this.toID = setTimeout(function() {
         pointer.clearSuggestions()
     }, this.oP.timeout + 5000);
 
 };
 
 
-_b.AutoSuggest.prototype.changeHighlight = function (key) {
+_b.AutoSuggest.prototype.changeHighlight = function(key) {
     var list = _b.DOM.gE("as_ul");
     if (!list)
         return false;
@@ -447,7 +495,7 @@ _b.AutoSuggest.prototype.changeHighlight = function (key) {
 };
 
 
-_b.AutoSuggest.prototype.setHighlight = function (n) {
+_b.AutoSuggest.prototype.setHighlight = function(n) {
     var list = _b.DOM.gE("as_ul");
     if (!list)
         return false;
@@ -464,7 +512,7 @@ _b.AutoSuggest.prototype.setHighlight = function (n) {
 };
 
 
-_b.AutoSuggest.prototype.clearHighlight = function () {
+_b.AutoSuggest.prototype.clearHighlight = function() {
     var list = _b.DOM.gE("as_ul");
     if (!list)
         return false;
@@ -476,9 +524,9 @@ _b.AutoSuggest.prototype.clearHighlight = function () {
 };
 
 
-_b.AutoSuggest.prototype.setHighlightedValue = function () {
+_b.AutoSuggest.prototype.setHighlightedValue = function() {
     if (this.iHigh) {
-        this.sInp = this.fld.value = this.aSug[ this.iHigh - 1 ].value;
+        this.sInp = this.fld.value = this.aSug[this.iHigh - 1].value;
 
         // move cursor to end of input (safari)
         //
@@ -497,27 +545,27 @@ _b.AutoSuggest.prototype.setHighlightedValue = function () {
 };
 
 
-_b.AutoSuggest.prototype.killTimeout = function () {
+_b.AutoSuggest.prototype.killTimeout = function() {
     clearTimeout(this.toID);
 };
 
-_b.AutoSuggest.prototype.resetTimeout = function () {
+_b.AutoSuggest.prototype.resetTimeout = function() {
     clearTimeout(this.toID);
     var pointer = this;
-    this.toID = setTimeout(function () {
+    this.toID = setTimeout(function() {
         pointer.clearSuggestions()
     }, 1000);
 };
 
 
-_b.AutoSuggest.prototype.clearSuggestions = function () {
+_b.AutoSuggest.prototype.clearSuggestions = function() {
 
     this.killTimeout();
 
     var ele = _b.DOM.gE(this.idAs);
     var pointer = this;
     if (ele) {
-        var fade = new _b.Fader(ele, 1, 0, 250, function () {
+        var fade = new _b.Fader(ele, 1, 0, 250, function() {
             _b.DOM.remE(pointer.idAs)
         });
     }
@@ -531,13 +579,13 @@ if (typeof(_b.Ajax) == "undefined")
     _b.Ajax = {};
 
 
-_b.Ajax = function () {
+_b.Ajax = function() {
     this.req = {};
     this.isIE = false;
 };
 
 
-_b.Ajax.prototype.makeRequest = function (url, meth, onComp, onErr) {
+_b.Ajax.prototype.makeRequest = function(url, meth, onComp, onErr) {
 
     if (meth != "POST")
         meth = "GET";
@@ -550,17 +598,16 @@ _b.Ajax.prototype.makeRequest = function (url, meth, onComp, onErr) {
     // branch for native XMLHttpRequest object
     if (window.XMLHttpRequest) {
         this.req = new XMLHttpRequest();
-        this.req.onreadystatechange = function () {
+        this.req.onreadystatechange = function() {
             pointer.processReqChange()
         };
         this.req.open("GET", url, true); //
         this.req.send(null);
         // branch for IE/Windows ActiveX version
-    }
-    else if (window.ActiveXObject) {
+    } else if (window.ActiveXObject) {
         this.req = new ActiveXObject("Microsoft.XMLHTTP");
         if (this.req) {
-            this.req.onreadystatechange = function () {
+            this.req.onreadystatechange = function() {
                 pointer.processReqChange()
             };
             this.req.open(meth, url, true);
@@ -570,7 +617,7 @@ _b.Ajax.prototype.makeRequest = function (url, meth, onComp, onErr) {
 };
 
 
-_b.Ajax.prototype.processReqChange = function () {
+_b.Ajax.prototype.processReqChange = function() {
 
     // only if req shows "loaded"
     if (this.req.readyState == 4) {
@@ -591,7 +638,7 @@ if (typeof(_b.DOM) == "undefined")
 
 
 /* create element */
-_b.DOM.cE = function (type, attr, cont, html) {
+_b.DOM.cE = function(type, attr, cont, html) {
     var ne = document.createElement(type);
     if (!ne)
         return 0;
@@ -613,7 +660,7 @@ _b.DOM.cE = function (type, attr, cont, html) {
 
 
 /* get element */
-_b.DOM.gE = function (e) {
+_b.DOM.gE = function(e) {
     var t = typeof(e);
     if (t == "undefined")
         return 0;
@@ -625,8 +672,7 @@ _b.DOM.gE = function (e) {
             return re;
         else
             return 0;
-    }
-    else if (typeof(e.appendChild) != "undefined")
+    } else if (typeof(e.appendChild) != "undefined")
         return e;
     else
         return 0;
@@ -634,7 +680,7 @@ _b.DOM.gE = function (e) {
 
 
 /* remove element */
-_b.DOM.remE = function (ele) {
+_b.DOM.remE = function(ele) {
     var e = this.gE(ele);
 
     if (!e)
@@ -647,7 +693,7 @@ _b.DOM.remE = function (ele) {
 
 
 /* get position */
-_b.DOM.getPos = function (e) {
+_b.DOM.getPos = function(e) {
 
     var e = this.gE(e);
 
@@ -659,8 +705,7 @@ _b.DOM.getPos = function (e) {
             curleft += obj.offsetLeft;
             obj = obj.offsetParent;
         }
-    }
-    else if (obj.x)
+    } else if (obj.x)
         curleft += obj.x;
 
     var obj = e;
@@ -671,11 +716,13 @@ _b.DOM.getPos = function (e) {
             curtop += obj.offsetTop;
             obj = obj.offsetParent;
         }
-    }
-    else if (obj.y)
+    } else if (obj.y)
         curtop += obj.y;
 
-    return {x: curleft, y: curtop};
+    return {
+        x: curleft,
+        y: curtop
+    };
 };
 
 // FADER PROTOTYPE _____________________________________________
@@ -685,7 +732,7 @@ if (typeof(_b.Fader) == "undefined")
     _b.Fader = {};
 
 
-_b.Fader = function (ele, from, to, fadetime, callback) {
+_b.Fader = function(ele, from, to, fadetime, callback) {
     if (!ele)
         return 0;
 
@@ -702,13 +749,13 @@ _b.Fader = function (ele, from, to, fadetime, callback) {
     this.nTime = 0;
 
     var p = this;
-    this.nID = setInterval(function () {
+    this.nID = setInterval(function() {
         p._fade()
     }, this.nInt);
 };
 
 
-_b.Fader.prototype._fade = function () {
+_b.Fader.prototype._fade = function() {
     this.nTime += this.nInt;
 
     var ieop = Math.round(this._tween(this.nTime, this.from, this.to, this.nDur) * 100);
@@ -722,8 +769,7 @@ _b.Fader.prototype._fade = function () {
             // If it is not set initially, the browser will throw an error.  This will set it if it is not set yet.
             this.e.style.filter = 'progid:DXImageTransform.Microsoft.Alpha(opacity=' + ieop + ')';
         }
-    }
-    else // other browsers
+    } else // other browsers
     {
         this.e.style.opacity = op;
     }
@@ -737,6 +783,6 @@ _b.Fader.prototype._fade = function () {
 };
 
 
-_b.Fader.prototype._tween = function (t, b, c, d) {
-    return b + ( (c - b) * (t / d) );
+_b.Fader.prototype._tween = function(t, b, c, d) {
+    return b + ((c - b) * (t / d));
 };
