@@ -474,3 +474,6 @@ div.cpanel-right {
 	float: left;
 	margin-right: 8px;
 }
+.icon-preview:before{
+	content: "\3c";
+}
