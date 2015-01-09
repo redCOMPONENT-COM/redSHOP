@@ -9590,7 +9590,7 @@ class producthelper
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
 				. $product->product_name . "' title='" . $product->product_name . "'>";
 
-			if ((!PRODUCT_ADDIMG_IS_LIGHTBOX || !PRODUCT_DETAIL_IS_LIGHTBOX) && $redview != "category")
+			if ((!PRODUCT_ADDIMG_IS_LIGHTBOX || !PRODUCT_DETAIL_IS_LIGHTBOX) || $redview == "category")
 				$mainImageResponse = $productmainimg;
 		}
 
