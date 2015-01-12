@@ -1032,6 +1032,7 @@ a.rightButton, a.rightButton:hover {
 }
 .category_pagination ul > li {
 	display: inline;
+    float: left;
 }
 .category_pagination ul > li > a,
 .category_pagination ul > li > span {
