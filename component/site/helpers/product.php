@@ -6291,7 +6291,7 @@ class producthelper
 
 		if (strstr($cartform, "{addtocart_quantity}"))
 		{
-			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input type='text' name='quantity' id='quantity" .
+			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity' type='text' name='quantity' id='quantity" .
 				$product_id . "' value='" . $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY .
 				"' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 			$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
@@ -6299,7 +6299,7 @@ class producthelper
 		}
 		elseif (strstr($cartform, "{addtocart_quantity_selectbox}"))
 		{
-			$addtocart_quantity = "<input type='hidden' name='quantity' id='quantity" . $product_id . "' value='" .
+			$addtocart_quantity = "<input class='quantity' type='hidden' name='quantity' id='quantity" . $product_id . "' value='" .
 				$quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
 
 			if ((DEFAULT_QUANTITY_SELECTBOX_VALUE != ""
@@ -6332,7 +6332,7 @@ class producthelper
 		}
 		else
 		{
-			$cartform .= "<input type='hidden' name='quantity' id='quantity" . $product_id . "' value='" . $quan
+			$cartform .= "<input class='quantity' type='hidden' name='quantity' id='quantity" . $product_id . "' value='" . $quan
 				. "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
 		}
 
@@ -6991,7 +6991,7 @@ class producthelper
 			if (strstr($cartform, "{addtocart_quantity}"))
 			{
 				$addtocart_quantity = "<span id='stockQuantity" . $stockId
-					. "'><input type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
+					. "'><input class='quantity' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
 					. "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY
 					. "' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 				$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
@@ -6999,7 +6999,7 @@ class producthelper
 			}
 			elseif (strstr($cartform, "{addtocart_quantity_increase_decrease}"))
 			{
-				$addtocart_quantity .= '<input type="text"  id="quantity' . $product_id
+				$addtocart_quantity .= '<input class="quantity" type="text"  id="quantity' . $product_id
 					. '" name="quantity" size="1"  value="' . $quan . '" onkeypress="return event.keyCode!=13"/>';
 
 				$addtocart_quantity .= '<input type="button" class="myupbutton" onClick="quantity' . $product_id
@@ -7018,7 +7018,7 @@ class producthelper
 			}
 			elseif (strstr($cartform, "{addtocart_quantity_selectbox}"))
 			{
-				$addtocart_quantity = "<input type='hidden' name='quantity' id='quantity" . $product_id . "' value='"
+				$addtocart_quantity = "<input class='quantity_select' type='hidden' name='quantity' id='quantity" . $product_id . "' value='"
 					. $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
 
 				if ((DEFAULT_QUANTITY_SELECTBOX_VALUE != "" && $product->quantity_selectbox_value == '')
@@ -7050,7 +7050,7 @@ class producthelper
 			}
 			else
 			{
-				$cartform .= "<input type='hidden' name='quantity' id='quantity" . $product_id . "' value='"
+				$cartform .= "<input class='quantity_select' type='hidden' name='quantity' id='quantity" . $product_id . "' value='"
 					. $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
 			}
 
@@ -9590,7 +9590,7 @@ class producthelper
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
 				. $product->product_name . "' title='" . $product->product_name . "'>";
 
-			if ((!PRODUCT_ADDIMG_IS_LIGHTBOX || !PRODUCT_DETAIL_IS_LIGHTBOX) && $redview != "category")
+			if ((!PRODUCT_ADDIMG_IS_LIGHTBOX || !PRODUCT_DETAIL_IS_LIGHTBOX) || $redview == "category")
 				$mainImageResponse = $productmainimg;
 		}
 
