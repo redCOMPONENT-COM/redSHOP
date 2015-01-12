@@ -319,7 +319,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 			<input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>"/>
 			<input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
 			<input type="hidden" name="view" value="order_detail"/>
-			<input type="submit" name="submit" class="greenbutton"
+			<input type="submit" name="submit" class="greenbutton btn btn-success"
 			       value="<?php echo JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>"/>
 			<input type="hidden" name="ccinfo" value="1"/>
 			<input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
@@ -330,24 +330,32 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 }
 else
 {
-	$values = array();
-	JPluginHelper::importPlugin('redshop_payment');
-	$dispatcher = JDispatcher::getInstance();
-	$results = $dispatcher->trigger('onPrePayment', array($plugin, $values));
-	$paymentResponse = $results[0];
-	?>
-	<form>
-		<div style="text-align: right;">
+	if ($plugin == "rs_payment_banktransfer" || $plugin == "rs_payment_banktransfer2" || $plugin == "rs_payment_banktransfer3"
+		|| $plugin == "rs_payment_cashtransfer" || $plugin == "rs_payment_cashsale" || $plugin == "rs_payment_banktransfer_discount")
+	{
+		JFactory::getApplication()->redirect(
+			'index.php?option=com_redshop&view=order_detail&task=checkoutnext&payment_plugin=' . $plugin . '&order_id='
+			. $order_id . '&ccinfo=0&users_info_id=' . $order->user_info_id
+		);
+	}
+	else
+	{
+		JPluginHelper::importPlugin('redshop_payment');
+		$dispatcher = JDispatcher::getInstance();
+		$results = $dispatcher->trigger('onPrePayment', array($plugin, array()));
+		$paymentResponse = $results[0];
+		?>
+		<form>
 			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="task" value="checkoutnext"/>
 			<input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>"/>
 			<input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
 			<input type="hidden" name="view" value="order_detail"/>
-			<input type="submit" name="submit" class="greenbutton"
-			       value="<?php echo JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>"/>
+			<input type="submit" name="submit" class="greenbutton btn btn-success"
+				   value="<?php echo JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>"/>
 			<input type="hidden" name="ccinfo" value="0"/>
 			<input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
-		</div>
-	</form>
-<?php
+		</form>
+	<?php
+	}
 }
