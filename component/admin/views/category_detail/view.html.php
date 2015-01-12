@@ -30,27 +30,26 @@ class RedshopViewCategory_detail extends RedshopView
 		$product_category = new product_category;
 		$producthelper    = new producthelper;
 
-		$option = JRequest::getVar('option');
-		$this->setLayout('default');
-		$uri        = JFactory::getURI();
-		$model      = $this->getModel('category_detail');
-		$categories = $model->getcategories();
+		$option           = JRequest::getCmd('option');
+		$model            = $this->getModel('category_detail');
+		$categories       = $model->getcategories();
 
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/fields.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
-		$detail = $this->get('data');
-		$isNew  = ($detail->category_id < 1);
+
+		$this->detail = $this->get('data');
+		$isNew        = ($this->detail->category_id < 1);
 
 		// Assign default values for new categories
 		if ($isNew)
 		{
-			$detail->append_to_global_seo = 'append';
-			$detail->canonical_url        = '';
+			$this->detail->append_to_global_seo = 'append';
+			$this->detail->canonical_url        = '';
 		}
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->category_name . " - " . JText::_('COM_REDSHOP_EDIT');
+		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $this->detail->category_name . " - " . JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY') . ': <small><small>[ ' . $text . ' ]</small></small>', 'folder redshop_categories48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
@@ -63,9 +62,19 @@ class RedshopViewCategory_detail extends RedshopView
 		else
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+
+			$objhelper = new redhelper;
+			$itemId    = (int) $objhelper->getCategoryItemid($this->detail->category_id);
+
+			$link  = JURI::root() . 'index.php?option=com_redshop'
+					. '&view=&view=category&layout=detail'
+					. '&cid=' . $this->detail->category_id
+					. '&Itemid=' . $itemId;
+
+			JToolBarHelper::preview($link, true);
 		}
 
-		$lists = array();
+		$this->lists = array();
 
 		/*
 		 * get total Template from configuration helper
@@ -76,16 +85,16 @@ class RedshopViewCategory_detail extends RedshopView
 		 * multiple select box for
 		 * 	Front-End category Template Selector
 		 */
-		if (strstr($detail->category_more_template, ","))
+		if (strstr($this->detail->category_more_template, ","))
 		{
-			$category_more_template = explode(",", $detail->category_more_template);
+			$category_more_template = explode(",", $this->detail->category_more_template);
 		}
 		else
 		{
-			$category_more_template = $detail->category_more_template;
+			$category_more_template = $this->detail->category_more_template;
 		}
 
-		$lists['category_more_template'] = JHTML::_('select.genericlist', $templates,
+		$this->lists['category_more_template'] = JHTML::_('select.genericlist', $templates,
 			'category_more_template[]', 'class="inputbox" multiple="multiple" size="10" ',
 			'template_id', 'template_name', $category_more_template
 		);
@@ -95,9 +104,9 @@ class RedshopViewCategory_detail extends RedshopView
 		$append_to_global_seo[] = JHTML::_('select.option', 'prepend', JText::_('COM_REDSHOP_PREPEND_TO_GLOBAL_SEO'));
 		$append_to_global_seo[] = JHTML::_('select.option', 'replace', JText::_('COM_REDSHOP_REPLACE_TO_GLOBAL_SEO'));
 
-		$lists['append_to_global_seo'] = JHTML::_('select.genericlist', $append_to_global_seo,
+		$this->lists['append_to_global_seo'] = JHTML::_('select.genericlist', $append_to_global_seo,
 			'append_to_global_seo', 'class="inputbox" size="1" ', 'value',
-			'text', $detail->append_to_global_seo
+			'text', $this->detail->append_to_global_seo
 		);
 
 		// Merging select option in the select box
@@ -106,15 +115,15 @@ class RedshopViewCategory_detail extends RedshopView
 		$temps[0]->template_id      = 0;
 		$temps[0]->template_name    = JText::_('COM_REDSHOP_SELECT');
 		$templates                  = @array_merge($temps, $templates);
-		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'' . $detail->category_id . '\',\'2\');" ', 'template_id', 'template_name', $detail->category_template);
+		$this->lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'' . $this->detail->category_id . '\',\'2\');" ', 'template_id', 'template_name', $this->detail->category_template);
 
 		/*
 		 * class name product_category
 		 * from helper/category.php
 		 * get select box for select category parent Id
 		 */
-		$categories          = $product_category->list_all("category_parent_id", $detail->category_id, array(), 1, true);
-		$lists['categories'] = $categories;
+		$categories          = $product_category->list_all("category_parent_id", $this->detail->category_id, array(), 1, true);
+		$this->lists['categories'] = $categories;
 
 		// Select box for ProductCompareTemplate
 		$comparetemplate              = $redTemplate->getTemplate('compare_product');
@@ -123,26 +132,22 @@ class RedshopViewCategory_detail extends RedshopView
 		$temp[0]->template_id         = 0;
 		$temp[0]->template_name       = JText::_('COM_REDSHOP_SELECT');
 		$comparetemplate              = @array_merge($temp, $comparetemplate);
-		$lists['compare_template_id'] = JHTML::_('select.genericlist', $comparetemplate, 'compare_template_id',
+		$this->lists['compare_template_id'] = JHTML::_('select.genericlist', $comparetemplate, 'compare_template_id',
 			'class="inputbox" size="1" ', 'template_id',
-			'template_name', $detail->compare_template_id
+			'template_name', $this->detail->compare_template_id
 		);
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$this->lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->detail->published);
 
 		// Accessory of Category
 		$categroy_accessory_product = array();
 
-		if ($detail->category_id)
+		if ($this->detail->category_id)
 		{
-			$categroy_accessory_product = $producthelper->getProductAccessory(0, 0, 0, $detail->category_id);
+			$categroy_accessory_product = $producthelper->getProductAccessory(0, 0, 0, $this->detail->category_id);
 		}
 
-		$lists['categroy_accessory_product'] = $categroy_accessory_product;
-
-		$this->lists = $lists;
-		$this->detail = $detail;
-		$this->request_url = $uri->toString();
+		$this->lists['categroy_accessory_product'] = $categroy_accessory_product;
 
 		parent::display($tpl);
 	}
