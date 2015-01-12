@@ -395,11 +395,6 @@ class RedshopViewProduct_Detail extends RedshopView
 
 		$result = array();
 
-		$lists['product_all'] = JHtml::_('select.genericlist', $result, 'product_all[]',
-			'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ',
-			'value', 'text', 0
-		);
-
 		$lists['related_product'] = JHTML::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
 			array(
 				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
