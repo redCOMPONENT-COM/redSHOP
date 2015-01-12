@@ -160,6 +160,7 @@ class RedshopHelperCategory
 
 			foreach ($cats as $cat)
 			{
+				$cat->category_name = '- ' . $cat->category_name;
 				self::$categoryChildListReverse[$key][] = $cat;
 				self::getCategoryChildListRecursion($key, $cat->category_child_id);
 			}
@@ -171,26 +172,29 @@ class RedshopHelperCategory
 	/**
 	 * Get Category Child List Recursion
 	 *
-	 * @param   string  $key  Key in array Child List
-	 * @param   int     $cat  Category id
+	 * @param   string  $key    Key in array Child List
+	 * @param   int     $cid    Category id
+	 * @param   int     $level  Level current category
 	 *
 	 * @return  void
 	 */
-	protected static function getCategoryChildListRecursion($key, $cat)
+	protected static function getCategoryChildListRecursion($key, $cid, $level = 1)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('c.category_id, cx.category_child_id, cx.category_parent_id, c.category_name, c.category_description, c.published, c.ordering')
 			->from($db->qn('#__redshop_category', 'c'))
 			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON c.category_id = cx.category_child_id')
-			->where('cx.category_parent_id = ' . (int) $cat);
+			->where('cx.category_parent_id = ' . (int) $cid);
+		$level++;
 
 		if ($cats = $db->setQuery($query)->loadObjectList())
 		{
 			foreach ($cats as $cat)
 			{
+				$cat->category_name = str_repeat('- ', $level) . $cat->category_name;
 				self::$categoryChildListReverse[$key][] = $cat;
-				self::getCategoryChildListRecursion($key, $cat->category_child_id);
+				self::getCategoryChildListRecursion($key, $cat->category_child_id, $level);
 			}
 		}
 	}
