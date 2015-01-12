@@ -30,10 +30,6 @@ class RedshopViewCategory_detail extends RedshopView
 		$product_category = new product_category;
 		$producthelper    = new producthelper;
 
-		$option           = JRequest::getCmd('option');
-		$model            = $this->getModel('category_detail');
-		$categories       = $model->getcategories();
-
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/fields.js');
@@ -110,44 +106,66 @@ class RedshopViewCategory_detail extends RedshopView
 		);
 
 		// Merging select option in the select box
-		$temps                      = array();
-		$temps[0]                   = new stdClass;
-		$temps[0]->template_id      = 0;
-		$temps[0]->template_name    = JText::_('COM_REDSHOP_SELECT');
-		$templates                  = @array_merge($temps, $templates);
-		$this->lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'' . $this->detail->category_id . '\',\'2\');" ', 'template_id', 'template_name', $this->detail->category_template);
+		$temps                            = array();
+		$temps[0]                         = new stdClass;
+		$temps[0]->template_id            = 0;
+		$temps[0]->template_name          = JText::_('COM_REDSHOP_SELECT');
+		$templates                        = @array_merge($temps, $templates);
+		$this->lists['category_template'] = JHTML::_(
+												'select.genericlist',
+												$templates,
+												'category_template',
+												'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'' . $this->detail->category_id . '\',\'2\');" ',
+												'template_id',
+												'template_name',
+												$this->detail->category_template
+											);
 
 		/*
 		 * class name product_category
 		 * from helper/category.php
 		 * get select box for select category parent Id
 		 */
-		$categories          = $product_category->list_all("category_parent_id", $this->detail->category_id, array(), 1, true);
-		$this->lists['categories'] = $categories;
+		$this->lists['categories'] = $product_category->list_all(
+										'category_parent_id',
+										$this->detail->category_id,
+										array(),
+										1,
+										true
+									);
 
 		// Select box for ProductCompareTemplate
-		$comparetemplate              = $redTemplate->getTemplate('compare_product');
 		$temp                         = array();
 		$temp[0]                      = new stdClass;
 		$temp[0]->template_id         = 0;
 		$temp[0]->template_name       = JText::_('COM_REDSHOP_SELECT');
-		$comparetemplate              = @array_merge($temp, $comparetemplate);
-		$this->lists['compare_template_id'] = JHTML::_('select.genericlist', $comparetemplate, 'compare_template_id',
-			'class="inputbox" size="1" ', 'template_id',
-			'template_name', $this->detail->compare_template_id
-		);
+		$comparetemplate              = @array_merge($temp, $redTemplate->getTemplate('compare_product'));
+		$this->lists['compare_template_id'] = JHTML::_(
+												'select.genericlist',
+												$comparetemplate,
+												'compare_template_id',
+												'class="inputbox" size="1" ',
+												'template_id',
+												'template_name',
+												$this->detail->compare_template_id
+											);
 
-		$this->lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->detail->published);
+		$this->lists['published'] = JHTML::_(
+										'select.booleanlist',
+										'published',
+										'class="inputbox"',
+										$this->detail->published
+									);
 
 		// Accessory of Category
-		$categroy_accessory_product = array();
+		$categoryAccessoryProduct = array();
 
 		if ($this->detail->category_id)
 		{
-			$categroy_accessory_product = $producthelper->getProductAccessory(0, 0, 0, $this->detail->category_id);
+			$categoryAccessoryProduct = $producthelper->getProductAccessory(0, 0, 0, $this->detail->category_id);
 		}
 
-		$this->lists['categroy_accessory_product'] = $categroy_accessory_product;
+		$this->lists['categroy_accessory_product'] = $categoryAccessoryProduct;
 
 		parent::display($tpl);
 	}
