@@ -1039,7 +1039,7 @@ function extrafieldValidation(frm) {
                 fieldNamefrmId = reverseString(extrafields[ex].id);
                 fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_") + 1));
                 if (previousfieldName != "" && previousfieldName != fieldNamefrmId && chk_flag == false) {
-                    alert(extrafields[ex - 1].getAttribute('userfieldlbl') + ' ' + redSHOP.RSConfig._('Joomla.JText._('COM_REDSHOP_IS_REQUIRED')'));
+                    alert(extrafields[ex - 1].getAttribute('userfieldlbl') + ' ' + Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
                     return false;
                 }
                 if (previousfieldName != fieldNamefrmId) {
