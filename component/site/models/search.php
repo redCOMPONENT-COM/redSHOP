@@ -101,14 +101,12 @@ class RedshopModelSearch extends RedshopModel
 	public function getData()
 	{
 		$post = JRequest::get('POST');
-
+		$db = JFactory::getDbo();
 		$redTemplate = new Redtemplate;
 
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery($post);
-			$this->_db->setQuery($query);
-
 			$template = $this->getCategoryTemplet();
 
 			for ($i = 0; $i < count($template); $i++)
@@ -120,7 +118,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				if (strstr($template[0]->template_desc, "{show_all_products_in_category}"))
 				{
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 				}
 				elseif (strstr($template[0]->template_desc, "{pagination}"))
 				{
@@ -139,27 +137,45 @@ class RedshopModelSearch extends RedshopModel
 						$this->setState('limit', $limit);
 					}
 
-					$this->_db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
+					$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 				}
 				elseif ($this->getState('productlimit') > 0)
 				{
-					$this->_db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
+					$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 				}
 				else
 				{
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 				}
 			}
 			else
 			{
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 			}
 
-			if ($this->_data = $this->_db->loadObjectList('concat_id'))
+			if ($productIds = $db->loadColumn())
 			{
-				$productHelper = new producthelper;
-				$productHelper->setProduct($this->_data);
-				$this->_data = array_values($this->_data);
+				// Third steep get all product relate info
+				$query->clear()
+					->where('p.product_id IN (' . implode(',', $productIds) . ')')
+					->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
+
+				$user = JFactory::getUser();
+				$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+					->select(
+						array(
+							'pc.*', 'c.*', 'm.*',
+							'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
+						)
+					)
+					->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
+					->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
+
+				if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
+				{
+					RedshopHelperProduct::setProduct($products);
+					$this->_data = array_values($products);
+				}
 			}
 		}
 
@@ -288,7 +304,6 @@ class RedshopModelSearch extends RedshopModel
 		$app = JFactory::getApplication();
 		$context = 'search';
 		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
 		$productHelper   = new producthelper;
 		$redconfig  = $app->getParams();
 		$getorderby = urldecode($app->input->getString('order_by', ''));
@@ -310,55 +325,50 @@ class RedshopModelSearch extends RedshopModel
 		if ($getTotal)
 		{
 			$query = $db->getQuery(true)
-				->select('COUNT(DISTINCT(p.product_id))')
-				->from($db->qn('#__redshop_product', 'p'))
-				->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id');
+				->select('COUNT(DISTINCT(p.product_id))');
 		}
 		else
 		{
 			$query = $db->getQuery(true)
+				->select('p.product_id')
+				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.manufacturer_id = p.manufacturer_id')
 				->order($db->escape($order_by));
-			$query = $productHelper->getMainProductQuery($query, $user->id)
-				->select(
-					array(
-						'm.*',
-						'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
-					)
-				)
-				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.manufacturer_id = p.manufacturer_id');
 		}
 
-		$query->where('p.published = 1');
+		$query->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id')
+			->where('p.published = 1');
 
 		$layout = JRequest::getVar('layout', 'default');
 
 		$category_helper = new product_category;
-
 		$manufacture_id = JRequest::getInt('manufacture_id', 0);
-		$category_id    = JRequest::getInt('category_id', 0);
-
-		$cat       = $category_helper->getCategoryListArray(0, $category_id);
 		$cat_group = array();
 
-		for ($j = 0; $j < count($cat); $j++)
+		if ($category_id = $app->input->get('category_id', 0))
 		{
-			$cat_group[$j] = $cat[$j]->category_id;
+			$cat = RedshopHelperCategory::getCategoryListArray(0, $category_id);
 
-			if ($j == count($cat) - 1)
+			for ($j = 0; $j < count($cat); $j++)
 			{
-				$cat_group[$j + 1] = $category_id;
+				$cat_group[$j] = $cat[$j]->category_id;
+
+				if ($j == count($cat) - 1)
+				{
+					$cat_group[$j + 1] = $category_id;
+				}
 			}
-		}
 
-		JArrayHelper::toInteger($cat_group);
+			JArrayHelper::toInteger($cat_group);
 
-		if ($cat_group)
-		{
-			$cat_group = join(',', $cat_group);
-		}
-		else
-		{
-			$cat_group = $category_id;
+			if ($cat_group)
+			{
+				$cat_group = join(',', $cat_group);
+			}
+			else
+			{
+				$cat_group = $category_id;
+			}
 		}
 
 		$menu = $app->getMenu();
