@@ -26,6 +26,9 @@
             <schemapath type="mysql">sql/updates/mysql</schemapath>
         </schemas>
     </update>
+    <updateservers>
+        <server type="extension" name="redSHOP" priority="1" >http://redcomponent.com/update/redshop.xml</server>
+    </updateservers>
 
     <files folder="component/site">
         <folder>assets</folder>
