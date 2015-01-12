@@ -407,11 +407,6 @@ class RedshopViewProduct_Detail extends RedshopView
 			)
 		);
 
-		$lists['product_all_related'] = JHtml::_('select.genericlist', $result, 'product_all_related[]',
-			'class="inputbox" ondblclick="selectnone_related(this);" multiple="multiple"  size="15" style="width:200px;" ',
-			'value', 'text', 0
-		);
-
 		// For preselected.
 		if ($detail->product_template == "")
 		{
