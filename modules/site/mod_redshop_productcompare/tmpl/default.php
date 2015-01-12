@@ -150,7 +150,7 @@ else
 		xmlhttp = modGetXmlHttpObject();
 		var args = 'pid=' + pid + '&cmd=remove&cid=' + cid + '&sid=' + Math.random();
 		;
-		var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare&' + args;
+		var url = site_url + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare&' + args;
 
 		xmlhttp.onreadystatechange = function () {
 			if (xmlhttp.readyState == 4)

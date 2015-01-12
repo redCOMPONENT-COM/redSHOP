@@ -96,7 +96,7 @@ jQuery(document).ready(function() {
             jQuery(this).val('').attr('disabled', 'disabled');
 
             jQuery.post(
-                redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=checkout&task=getShippingInformation&tmpl=component&plugin=PostDanmark', {
+                window.site_url + 'index.php?option=com_redshop&view=checkout&task=getShippingInformation&tmpl=component&plugin=PostDanmark', {
                     'zipcode': postcode,
                     'countryCode': 'DK'
                 },
@@ -145,7 +145,7 @@ function refreshMap(service_points) {
 
 function getShippingZipcodeAjax() {
     jQuery.post(
-        redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&infoid=' + jQuery('input[name="users_info_id"]:checked').val() + '&Itemid=1',
+        window.site_url + 'index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&infoid=' + jQuery('input[name="users_info_id"]:checked').val() + '&Itemid=1',
         function(response) {
             var shipping_postcode = jQuery('#zipcode_ST', response).val();
             getZipcodeAjax(shipping_postcode);
@@ -154,7 +154,7 @@ function getShippingZipcodeAjax() {
 
 function getZipcodeAjax(postcode) {
     jQuery.post(
-        redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=checkout&task=getShippingInformation&tmpl=component&plugin=PostDanmark',
+        window.site_url + 'index.php?option=com_redshop&view=checkout&task=getShippingInformation&tmpl=component&plugin=PostDanmark',
         {
             zipcode: postcode,
             countryCode: 'DK'
@@ -181,11 +181,11 @@ function getZipcodeAjax(postcode) {
 
 function get_map_contents() {
     var map_contents = '<meta name="viewport" content="initial-scale=1.0, user-scalable=no">';
-    map_contents += '<link type="text/css" rel="stylesheet" href="' + redSHOP.RSConfig._('SITE_URL') + 'plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css">';
-    map_contents += '<script type="text/javascript" src="' + redSHOP.RSConfig._('SITE_URL') + 'plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js"></script>';
+    map_contents += '<link type="text/css" rel="stylesheet" href="' + window.site_url + 'plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css">';
+    map_contents += '<script type="text/javascript" src="' + window.site_url + 'plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js"></script>';
 
     map_contents += '<div id="showMap" class="white-popup mfp-hide">';
-    map_contents += '    <link rel="stylesheet" href="' + redSHOP.RSConfig._('SITE_URL') + 'plugins/redshop_shipping/postdanmark/includes/css/postdanmark_style.css" type="text/css" media="all">';
+    map_contents += '    <link rel="stylesheet" href="' + window.site_url + 'plugins/redshop_shipping/postdanmark/includes/css/postdanmark_style.css" type="text/css" media="all">';
     map_contents += '    <span id="mapMessage"></span>';
     map_contents += '    <input type="text" id="mapSeachBox" maxlength="4" placeholder="Indtast et andet postnummer:" />';
     map_contents += '    <div class="closest" style="display: none; position: relative; top: 8px; cursor: pointer; float: right; padding: 2px 5px; font-weight:bold; border: 1px solid #000; background:#ccc;">';
@@ -193,7 +193,7 @@ function get_map_contents() {
     map_contents += '            <span>Vis nærmeste</span>';
     map_contents += '        </span>';
     map_contents += '    </div>';
-    map_contents += '    <img src="' + redSHOP.RSConfig._('SITE_URL') + 'plugins/redshop_shipping/postdanmark/includes/images/postdanmark-logo.png" id="pd-logo"/>';
+    map_contents += '    <img src="' + window.site_url + 'plugins/redshop_shipping/postdanmark/includes/images/postdanmark-logo.png" id="pd-logo"/>';
     map_contents += '    <div id="map_canvas" style="height: 350px; width: 780px; position: relative; margin-top: 20px;"></div>';
     map_contents += '    <div id="pickupLocations" class="pickupLocation-container">';
     map_contents += '        <div class="map_buttons">';

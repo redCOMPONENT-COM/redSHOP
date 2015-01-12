@@ -20,7 +20,6 @@ JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperAdminTemplate');
 JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperRedshop.js');
 
 class plgContentredshop_product extends JPlugin
 {
@@ -58,12 +57,37 @@ class plgContentredshop_product extends JPlugin
 			JHtml::stylesheet('com_redshop/redshop.css', array(), true);
 			JHtml::stylesheet('com_redshop/style.css', array(), true);
 			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
-
-			$module_id     = "plg_";
+			$document->addScriptDeclaration("
+		                var site_url = '" . JURI::root() . "';
+		                var AJAX_CART_BOX = " . AJAX_CART_BOX . ";
+		                var REDCURRENCY_SYMBOL = '" . REDCURRENCY_SYMBOL . "';
+		                var CURRENCY_SYMBOL_CONVERT = '" . $currency_symbol . "';
+		                var CURRENCY_CONVERT = '" . $currency_convert . "';
+		                var PRICE_SEPERATOR = '" . PRICE_SEPERATOR . "';
+						var PRODUCT_OUTOFSTOCK_MESSAGE = '" . JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE') . "';
+						var CURRENCY_SYMBOL_POSITION = '" . CURRENCY_SYMBOL_POSITION . "';
+						var PRICE_DECIMAL = '" . PRICE_DECIMAL . "';
+						var AJAX_CART_DISPLAY_TIME = '" . AJAX_CART_DISPLAY_TIME . "';
+						var THOUSAND_SEPERATOR = '" . THOUSAND_SEPERATOR . "';
+		                var VIEW_CART = '" . JText::_('COM_REDSHOP_VIEW_CART') . "';
+		                var CONTINUE_SHOPPING = '" . JText::_('COM_REDSHOP_CONTINUE_SHOPPING') . "';
+		                var CART_SAVE = '" . JText::_('COM_REDSHOP_CART_SAVE') . "';
+		                var IS_REQUIRED = '" . JText::_('COM_REDSHOP_IS_REQUIRED') . "';
+		                var ENTER_NUMBER = '" . JText::_('COM_REDSHOP_ENTER_NUMBER') . "';
+		                var USE_STOCKROOM = '" . USE_STOCKROOM . "';
+		                var USE_AS_CATALOG = '" . USE_AS_CATALOG . "';
+		                var SHOW_PRICE = '" . SHOW_PRICE . "';
+						var DEFAULT_QUOTATION_MODE = '" . DEFAULT_QUOTATION_MODE . "';
+		                var PRICE_REPLACE = '" . PRICE_REPLACE . "';
+						var PRICE_REPLACE_URL = '" . PRICE_REPLACE_URL . "';
+						var ZERO_PRICE_REPLACE = '" . ZERO_PRICE_REPLACE . "';
+						var ZERO_PRICE_REPLACE_URL = '" . ZERO_PRICE_REPLACE_URL . "';
+				");
+			$module_id = "plg_";
 			$producthelper = new producthelper;
-			$extraField    = new extraField;
-			$objhelper     = new redhelper;
-			$lang          = JFactory::getLanguage();
+			$extraField = new extraField;
+			$objhelper = new redhelper;
+			$lang = JFactory::getLanguage();
 
 			// Or JPATH_ADMINISTRATOR if the template language file is only
 			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR);

@@ -31,8 +31,8 @@ defined('_JEXEC') or die;
 				values: [<?php echo (isset($_REQUEST["texpricemin"]) ? $_REQUEST["texpricemin"] : $minmax[0]);?>, <?php echo (isset($_REQUEST["texpricemax"]) ? $_REQUEST["texpricemax"] : $minmax[1]);?>], //initial range of slider
 				slide: function(event, ui) { // This event is triggered on every mouse move during slide.
 
-					var startrange = number_format(ui.values[0],redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
-					var endrange = number_format(ui.values[1],redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
+					var startrange = number_format(ui.values[0],PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+					var endrange = number_format(ui.values[1],PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
 
 					amount.html(startrange + ' - ' + endrange);//set value of  amount span to current slider values
 				},
@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 					products.find('ul').css({opacity:.2});
 					slider.css({overflow:'visible'});
 
-					var url = redSHOP.RSConfig._('SITE_URL')+"index.php?option=com_redshop&view=category";
+					var url = site_url+"index.php?option=com_redshop&view=category";
 					url = url + "&cid=<?php echo $this->catid;?>&layout=detail&Itemid=<?php echo $this->itemid;?>";
 					url = url + "&texpricemin=" + ui.values[0] + "&texpricemax=" + ui.values[1];
 					url = url + "&category_template=<?php echo $categoryTemplateId;?>&manufacturer_id=<?php echo $manufacturerId;?>&order_by=<?php echo urlencode($orderBySelect);?>";
@@ -56,8 +56,8 @@ defined('_JEXEC') or die;
 					// End Code for fixes IE9 issue
 				}
 			});
-			var startrange = number_format(slider.slider("values", 0),redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
-			var endrange = number_format(slider.slider("values", 1),redSHOP.RSConfig._('PRICE_DECIMAL'),redSHOP.RSConfig._('PRICE_SEPERATOR'),redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
+			var startrange = number_format(slider.slider("values", 0),PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+			var endrange = number_format(slider.slider("values", 1),PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
 
 			amount.html(startrange + ' - ' + endrange);
 		});

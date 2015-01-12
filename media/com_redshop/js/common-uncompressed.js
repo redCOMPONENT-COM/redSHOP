@@ -2,7 +2,7 @@ function validateInputNumber(objid)
 {
 	if(document.getElementById(objid) && (trim(document.getElementById(objid).value)=="" || isNaN(document.getElementById(objid).value) || document.getElementById(objid).value<=0))
 	{
-		alert(Joomla.JText._('COM_REDSHOP_ENTER_NUMBER'));
+		alert(COM_REDSHOP_ENTER_NUMBER);
 		document.getElementById(objid).value = 1;
 		return false;
 	}
@@ -55,7 +55,7 @@ function userfieldValidation(extrafieldname)
 					fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_")+1));
 					if(previousfieldName != "" && previousfieldName!=fieldNamefrmId && chk_flag==false)
 					{
-						alert(extrafields[ex-1].getAttribute('userfieldlbl')+' '+Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
+						alert(extrafields[ex-1].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 						return false;
 					}
 
@@ -70,7 +70,7 @@ function userfieldValidation(extrafieldname)
 					}
 					if((ex == (extrafields.length-1) && chk_flag==false) || (extrafields[ex+1].type!='checkbox') && chk_flag==false )
 					{
-						alert(extrafields[ex].getAttribute('userfieldlbl')+' '+Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
+						alert(extrafields[ex].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 						return false;
 					}
 				}
@@ -81,7 +81,7 @@ function userfieldValidation(extrafieldname)
 
 					if(rdo_previousfieldName != "" && rdo_previousfieldName!=rdo_fieldNamefrmId && rdo_flag==false)
 					{
-						alert(extrafields[ex-1].getAttribute('userfieldlbl')+' '+Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
+						alert(extrafields[ex-1].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 						return false;
 					}
 					if(rdo_previousfieldName != rdo_fieldNamefrmId)
@@ -104,7 +104,7 @@ function userfieldValidation(extrafieldname)
 						}
 						if((ex == (extrafields.length-1) && rdo_flag==false) || (extrafields[ex+1].type!='radio') && rdo_flag==false )
 						{
-							alert(extrafields[ex].getAttribute('userfieldlbl')+' '+Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
+							alert(extrafields[ex].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 							return false;
 						}
 					}
@@ -114,7 +114,7 @@ function userfieldValidation(extrafieldname)
 					extrafields_val = extrafields[ex].value;
 					if(!extrafields_val)
 					{
-						alert(extrafields[ex].getAttribute('userfieldlbl')+' '+Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
+						alert(extrafields[ex].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 						return false;
 					}
 				}
@@ -167,7 +167,7 @@ function getShippingrate()
 	var state_code = document.getElementById('state_code').value;
 	var zip_code = document.getElementById('zip_code').value;
 	var args = "country_code="+country_code+"&state_code="+state_code+"&zip_code="+zip_code;
-	var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=cart&task=getShippingrate&'+args;
+	var url= site_url+'index.php?tmpl=component&option=com_redshop&view=cart&task=getShippingrate&'+args;
 	var total;
 
 	xmlhttp.onreadystatechange=function(){
@@ -214,7 +214,7 @@ function add_to_compare(pid,cid,cmd)
 
 
 	var args = 'pid='+pid+'&cmd='+cmd+'&cid='+cid+'&sid='+Math.random();
-	var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare&'+args;
+	var url= site_url+'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare&'+args;
 
 	xmlhttp.onreadystatechange=function(){
 		if (xmlhttp.readyState==4)
@@ -538,65 +538,73 @@ function searchByPhone()
 		{
 			if (xmlhttp.readyState==4 && xmlhttp.status==200)
 			{
-			if(document.getElementById('divSearchPhonemsg'))
-			{
-				document.getElementById('divSearchPhonemsg').style.display=(xmlhttp.responseText!="") ? "none" : "";
-			}
-			var str=xmlhttp.responseText.split("`_`");
-
-				if(document.getElementById('address_ST'))
-				{
-					document.getElementById('address_ST').value=(str[1]) ? str[1] : "";
-				}
-				if(document.getElementById('zipcode_ST'))
-				{
-					document.getElementById('zipcode_ST').value=(str[2]) ? str[2] : "";
-				}
-				if(document.getElementById('city_ST'))
-				{
-					document.getElementById('city_ST').value=(str[3]) ? str[3] : "";
-				}
-				if(document.getElementById('phone_ST'))
-				{
-					document.getElementById('phone_ST').value=(str[5]) ? str[5] : "";
-				}
-				if(document.getElementById('firstname_ST'))
-				{
-					document.getElementById('firstname_ST').value=(str[6]) ? str[6] : "";
-				}
-				if(document.getElementById('lastname_ST'))
-				{
-					document.getElementById('lastname_ST').value=(str[7]) ? str[7] : "";
-				}
-
-				if(document.getElementById('company_name'))
-				{
-					document.getElementById('company_name').value=(str[0]) ? str[0] : "";
-				}
-				if(document.getElementById('address'))
-				{
-					document.getElementById('address').value=(str[1]) ? str[1] : "";
-				}
-				if(document.getElementById('zipcode'))
-				{
-					document.getElementById('zipcode').value=(str[2]) ? str[2] : "";
-				}
-				if(document.getElementById('city'))
-				{
-					document.getElementById('city').value=(str[3]) ? str[3] : "";
-				}
-				if(document.getElementById('phone'))
-				{
-					document.getElementById('phone').value=(str[5]) ? str[5] : "";
-				}
-				if(document.getElementById('firstname'))
-				{
-					document.getElementById('firstname').value=(str[6]) ? str[6] : "";
-				}
-				if(document.getElementById('lastname'))
-				{
-					document.getElementById('lastname').value=(str[7]) ? str[7] : "";
-				}
+//				if(xmlhttp.responseText!="")
+//				{
+					if(document.getElementById('divSearchPhonemsg'))
+					{
+						document.getElementById('divSearchPhonemsg').style.display=(xmlhttp.responseText!="") ? "none" : "";
+					}
+					var str=xmlhttp.responseText.split("`_`");
+//					alert(str);
+//					if(isShipping=="ST")
+//					{
+						if(document.getElementById('address_ST'))
+						{
+							document.getElementById('address_ST').value=(str[1]) ? str[1] : "";
+						}
+						if(document.getElementById('zipcode_ST'))
+						{
+							document.getElementById('zipcode_ST').value=(str[2]) ? str[2] : "";
+						}
+						if(document.getElementById('city_ST'))
+						{
+							document.getElementById('city_ST').value=(str[3]) ? str[3] : "";
+						}
+						if(document.getElementById('phone_ST'))
+						{
+							document.getElementById('phone_ST').value=(str[5]) ? str[5] : "";
+						}
+						if(document.getElementById('firstname_ST'))
+						{
+							document.getElementById('firstname_ST').value=(str[6]) ? str[6] : "";
+						}
+						if(document.getElementById('lastname_ST'))
+						{
+							document.getElementById('lastname_ST').value=(str[7]) ? str[7] : "";
+						}
+//					}
+//					else
+//					{
+						if(document.getElementById('company_name'))
+						{
+							document.getElementById('company_name').value=(str[0]) ? str[0] : "";
+						}
+						if(document.getElementById('address'))
+						{
+							document.getElementById('address').value=(str[1]) ? str[1] : "";
+						}
+						if(document.getElementById('zipcode'))
+						{
+							document.getElementById('zipcode').value=(str[2]) ? str[2] : "";
+						}
+						if(document.getElementById('city'))
+						{
+							document.getElementById('city').value=(str[3]) ? str[3] : "";
+						}
+						if(document.getElementById('phone'))
+						{
+							document.getElementById('phone').value=(str[5]) ? str[5] : "";
+						}
+						if(document.getElementById('firstname'))
+						{
+							document.getElementById('firstname').value=(str[6]) ? str[6] : "";
+						}
+						if(document.getElementById('lastname'))
+						{
+							document.getElementById('lastname').value=(str[7]) ? str[7] : "";
+						}
+//					}
+//				}
 			}
 		}
 		var linktocontroller = "index.php?option=com_redshop&view=registration&task=searchUserdetailByPhone&tmpl=component&phone="+value;
@@ -611,6 +619,87 @@ function showCompanyOrCustomer(obj)
 	{
 		if(obj.value==1)	// For Company
 		{
+			/*if(document.getElementById('trCompanyName'))
+			{
+				document.getElementById('trCompanyName').style.display='';
+			}
+			if(document.getElementById('lblCompanyName'))
+			{
+				document.getElementById('lblCompanyName').style.display='';
+			}
+			if(document.getElementById('trEANnumber'))
+			{
+				document.getElementById('trEANnumber').style.display='';
+			}
+			if(document.getElementById('lblEANnumber'))
+			{
+				document.getElementById('lblEANnumber').style.display='';
+			}
+			if(document.getElementById('trReqnumber'))
+			{
+				document.getElementById('trReqnumber').style.display='';
+			}
+			if(document.getElementById('trVatNumber'))
+			{
+				document.getElementById('trVatNumber').style.display='';
+			}
+			if(USE_TAX_EXEMPT==1)
+			{
+				if(document.getElementById('lblVatNumber'))
+				{
+					document.getElementById('lblVatNumber').style.display='';
+				}
+			}
+			else
+			{
+				if(document.getElementById('lblVatNumber'))
+				{
+					document.getElementById('lblVatNumber').style.display='none';
+				}
+			}
+			if(SHOW_EMAIL_VERIFICATION==0)
+			{
+				if(document.getElementById('lblretypeemail'))
+				{
+					document.getElementById('lblretypeemail').style.display='none';
+				}
+			}
+			if(document.getElementById('divContact'))
+			{
+				document.getElementById('divContact').style.display='';
+			}
+			if(document.getElementById('trTaxExempt'))
+			{
+				document.getElementById('trTaxExempt').style.display='';
+			}
+			if(document.getElementById('lblTaxExempt'))
+			{
+				document.getElementById('lblTaxExempt').style.display='';
+			}
+			if(document.getElementById('exCompanyField'))
+			{
+				document.getElementById('exCompanyField').style.display='';
+			}
+			if(document.getElementById('exCustomerField'))
+			{
+				document.getElementById('exCustomerField').style.display='none';
+			}
+			if(document.getElementById('exCompanyFieldST'))
+			{
+				document.getElementById('exCompanyFieldST').style.display='';
+			}
+			if(document.getElementById('exCustomerFieldST'))
+			{
+				document.getElementById('exCustomerFieldST').style.display='none';
+			}
+			if(document.getElementById('tblcompany_customer'))
+			{
+				document.getElementById('tblcompany_customer').style.display='';
+			}
+			if(document.getElementById('tblprivate_customer'))
+			{
+				document.getElementById('tblprivate_customer').style.display='none';
+			}*/
 			if(document.getElementById('divCompanyTemplateId'))
 			{
 				template_id = parseInt(document.getElementById('divCompanyTemplateId').innerHTML);
@@ -634,6 +723,77 @@ function showCompanyOrCustomer(obj)
 		}
 		else	// For Customer
 		{
+			/*if(document.getElementById('trCompanyName'))
+			{
+				document.getElementById('trCompanyName').style.display='none';
+			}
+			if(document.getElementById('lblCompanyName'))
+			{
+				document.getElementById('lblCompanyName').style.display='none';
+			}
+			if(document.getElementById('trEANnumber'))
+			{
+				document.getElementById('trEANnumber').style.display='none';
+			}
+			if(document.getElementById('lblEANnumber'))
+			{
+				document.getElementById('lblEANnumber').style.display='none';
+			}
+			if(document.getElementById('trReqnumber'))
+			{
+				document.getElementById('trReqnumber').style.display='none';
+			}
+			if(document.getElementById('trVatNumber'))
+			{
+				document.getElementById('trVatNumber').style.display='none';
+			}
+			if(document.getElementById('lblVatNumber'))
+			{
+				document.getElementById('lblVatNumber').style.display='none';
+			}
+			if(document.getElementById('divContact'))
+			{
+				document.getElementById('divContact').style.display='none';
+			}
+			if(document.getElementById('trTaxExempt'))
+			{
+				document.getElementById('trTaxExempt').style.display='none';
+			}
+			if(document.getElementById('lblTaxExempt'))
+			{
+				document.getElementById('lblTaxExempt').style.display='none';
+			}
+			if(document.getElementById('exCompanyField'))
+			{
+				document.getElementById('exCompanyField').style.display='none';
+			}
+			if(document.getElementById('exCustomerField'))
+			{
+				document.getElementById('exCustomerField').style.display='';
+			}
+			if(document.getElementById('exCompanyFieldST'))
+			{
+				document.getElementById('exCompanyFieldST').style.display='none';
+			}
+			if(document.getElementById('exCustomerFieldST'))
+			{
+				document.getElementById('exCustomerFieldST').style.display='';
+			}
+			if(SHOW_EMAIL_VERIFICATION==0)
+			{
+				if(document.getElementById('lblretypeemail'))
+				{
+					document.getElementById('lblretypeemail').style.display='none';
+				}
+			}
+			if(document.getElementById('tblcompany_customer'))
+			{
+				document.getElementById('tblcompany_customer').style.display='none';
+			}
+			if(document.getElementById('tblprivate_customer'))
+			{
+				document.getElementById('tblprivate_customer').style.display='';
+			}*/
 			if(document.getElementById('divPrivateTemplateId'))
 			{
 				template_id = parseInt(document.getElementById('divPrivateTemplateId').innerHTML);
@@ -709,7 +869,7 @@ function showCompanyOrCustomer(obj)
 function updateGLSLocation(zipcode)
 {
 	xmlhttp1=GetXmlHttpObject();
-	var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
+	var url1= site_url+'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
 	url1 = url1 + "&zipcode=" + zipcode;
 	xmlhttp1.onreadystatechange=function()
 	{
@@ -780,7 +940,7 @@ function onestepCheckoutProcess(objectname,classname)
 		if(objectname=="payment_method_id")
 		{
 			xmlhttp1=GetXmlHttpObject();
-			var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaycreditcard';
+			var url1= site_url+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaycreditcard';
 			url1 = url1 + newparam;
 
 			xmlhttp1.onreadystatechange=function()
@@ -798,7 +958,7 @@ function onestepCheckoutProcess(objectname,classname)
 				} else {
 					if(document.getElementById('divcardinfo_'+payment_method_id))
 					{
-						document.getElementById('divcardinfo_'+payment_method_id).innerHTML = "<br>Please wait while loading credit card information form<br><img src='"+redSHOP.RSConfig._('SITE_URL')+"/components/com_redshop/assets/images/preloader.jpeg' border='0'>";
+						document.getElementById('divcardinfo_'+payment_method_id).innerHTML = "<br>Please wait while loading credit card information form<br><img src='"+site_url+"/components/com_redshop/assets/images/preloader.jpeg' border='0'>";
 					}
 				}
 			};
@@ -891,17 +1051,17 @@ function onestepCheckoutProcess(objectname,classname)
 		params = params + "&Itemid=" + Itemid;
 		params = params + "&sid=" + Math.random();
 
-		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&';
+		var url= site_url+'index.php?tmpl=component&';
 		url = url + params;
 //		alert(url);
 
 		if(document.getElementById('divShippingRate') && (objectname=="users_info_id" || objectname=="shipping_box_id"))
 		{
-			document.getElementById('divShippingRate').innerHTML = "Loading...<img src='"+redSHOP.RSConfig._('SITE_URL')+"/components/com_redshop/assets/images/loading.gif' />";
+			document.getElementById('divShippingRate').innerHTML = "Loading...<img src='"+site_url+"/components/com_redshop/assets/images/loading.gif' />";
 		}
 		if(document.getElementById('divRedshopCart'))
 		{
-			document.getElementById('divRedshopCart').innerHTML = "Loading...<img src='"+redSHOP.RSConfig._('SITE_URL')+"/components/com_redshop/assets/images/loading.gif' />";
+			document.getElementById('divRedshopCart').innerHTML = "Loading...<img src='"+site_url+"/components/com_redshop/assets/images/loading.gif' />";
 		}
 		xmlhttp=GetXmlHttpObject();
 		xmlhttp.onreadystatechange=function()
@@ -963,7 +1123,7 @@ function onestepCheckoutProcess(objectname,classname)
 			}
 
 			xmlhttp1=GetXmlHttpObject();
-			var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaypaymentextrafield';
+			var url1= site_url+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaypaymentextrafield';
 			url1 = url1 + newparam;
 
 			xmlhttp1.onreadystatechange=function()
@@ -989,7 +1149,7 @@ function onestepCheckoutProcess(objectname,classname)
 			newparam = newparam + "&shipping_rate_id=" + classname;
 
 			xmlhttp1=GetXmlHttpObject();
-			var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displayshippingextrafield';
+			var url1= site_url+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displayshippingextrafield';
 			url1 = url1 + newparam;
 
 			xmlhttp1.onreadystatechange=function()
@@ -1031,6 +1191,7 @@ function autoFillCity(str,isShipping)
 						if(document.getElementById('city_ST'))
 						{
 							document.getElementById('city_ST').value=xmlhttp.responseText;
+//							document.getElementById('city_ST').readOnly = true;
 						}
 					}
 					else
@@ -1038,12 +1199,28 @@ function autoFillCity(str,isShipping)
 						if(document.getElementById('city'))
 						{
 							document.getElementById('city').value=xmlhttp.responseText;
+//							document.getElementById('city').readOnly = true;
 						}
 					}
+				} else {
+//					if(isShipping=="ST")
+//					{
+//						if(document.getElementById('city_ST'))
+//						{
+//							document.getElementById('city_ST').readOnly = false;
+//						}
+//					}
+//					else
+//					{
+//						if(document.getElementById('city'))
+//						{
+//							document.getElementById('city').readOnly = false;
+//						}
+//					}
 				}
 			}
 		}
-		var linktocontroller = redSHOP.RSConfig._('SITE_URL')+"index.php?option=com_redshop&view=category&task=autofillcityname&tmpl=component&q="+str;
+		var linktocontroller = site_url+"index.php?option=com_redshop&view=category&task=autofillcityname&tmpl=component&q="+str;
 		xmlhttp.open("GET",linktocontroller,true);
 		xmlhttp.send(null);
 	}

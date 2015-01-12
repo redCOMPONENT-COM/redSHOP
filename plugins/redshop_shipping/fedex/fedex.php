@@ -94,21 +94,15 @@ class plgredshop_shippingfedex extends JPlugin
 					           value="<?php echo FEDEX_SHIPPER_POSTAL_CODE ?>"/></td>
 					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_SHIPPER_POSTAL_CODE_LBL'), JText::_('COM_REDSHOP_FEDEX_SHIPPER_POSTAL_CODE_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_SHIPPER_COUNTRY_LBL') ?></strong></td>
-					<td><input type="text" name="FEDEX_SHIPPER_COUNTRY_CODE" class="inputbox"
-					           value="<?php echo FEDEX_SHIPPER_COUNTRY_CODE ?>"/></td>
-					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_SHIPPER_COUNTRY_LBL'), JText::_('COM_REDSHOP_FEDEX_SHIPPER_COUNTRY_LBL'), 'tooltip.png', '', '', false);?></td>
-				</tr>
 
-				<tr class="row0">
-					<td colspan="3"></td>
-				</tr>
 				<tr class="row1">
 					<td colspan="3"></td>
 				</tr>
-
 				<tr class="row0">
+					<td colspan="3"></td>
+				</tr>
+
+				<tr class="row1">
 					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_DISCOUNT_LBL') ?></strong></td>
 					<td>
 					<?php
@@ -117,7 +111,7 @@ class plgredshop_shippingfedex extends JPlugin
 					</td>
 					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_DISCOUNT_LBL'), JText::_('COM_REDSHOP_FEDEX_DISCOUNT_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
-				<tr class="row1">
+				<tr class="row0">
 					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_CARRIERCODE_LBL') ?></strong></td>
 					<td>
 						<?php
@@ -231,7 +225,6 @@ class plgredshop_shippingfedex extends JPlugin
 				"FEDEX_SHIPPER_CITY"        => $d['FEDEX_SHIPPER_CITY'],
 				"FEDEX_SHIPPER_STATE"       => $d['FEDEX_SHIPPER_STATE'],
 				"FEDEX_SHIPPER_POSTAL_CODE" => $d['FEDEX_SHIPPER_POSTAL_CODE'],
-				"FEDEX_SHIPPER_COUNTRY_CODE" => $d['FEDEX_SHIPPER_COUNTRY_CODE'],
 				"FEDEX_DISCOUNT"            => $d['FEDEX_DISCOUNT']
 				// END CUSTOM CODE
 			);
@@ -395,19 +388,19 @@ class plgredshop_shippingfedex extends JPlugin
 							"PostalCode"          => $shippinginfo->zipcode,
 							"CountryCode"         => $shippinginfo->country_2_code
 						);
-		$shipperarray = array(
+		$billingarray = array(
 							"StreetLines"         => array(FEDEX_SHIPPER_ADDRESS),
 							"City"                => FEDEX_SHIPPER_CITY,
 							"StateOrProvinceCode" => FEDEX_SHIPPER_STATE,
 							"PostalCode"          => FEDEX_SHIPPER_POSTAL_CODE,
-							"CountryCode"         => FEDEX_SHIPPER_COUNTRY_CODE
+							"CountryCode"         => $billing->country_2_code
 						);
 
 		if (in_array("GROUND_HOME_DELIVERY", $fedex_servicetype))
 		{
 			$residential = array("Residential" => 1);
 			$shippingarray = array_merge($shippingarray, $residential);
-			$shipperarray = array_merge($shipperarray, $residential);
+			$billingarray = array_merge($billingarray, $residential);
 			$residentialflag = 1;
 		}
 
@@ -428,7 +421,7 @@ class plgredshop_shippingfedex extends JPlugin
 
 		// Service Type and Packaging Type are not passed in the request
 
-		$request['RequestedShipment']['Shipper'] = array('Address' => $shipperarray);
+		$request['RequestedShipment']['Shipper'] = array('Address' => $billingarray);
 		$request['RequestedShipment']['Recipient'] = array('Address' => $shippingarray);
 		$request['RequestedShipment']['ShippingChargesPayment'] = array(
 																		'PaymentType'   => 'SENDER',

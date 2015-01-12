@@ -1,1 +1,0 @@
-redSHOP=window.redSHOP||{},redSHOP.RSConfig={configStrings:{},_:function(e,t){return typeof this.configStrings[e.toUpperCase()]!="undefined"?this.configStrings[e.toUpperCase()]:t},load:function(e){for(var t in e)this.configStrings[t.toUpperCase()]=e[t];return this}};
