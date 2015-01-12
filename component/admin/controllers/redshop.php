@@ -14,7 +14,7 @@ class RedshopControllerRedshop extends RedshopController
 {
 	public function demoContentInsert()
 	{
-		$model = $this->getModel();
+		$model = $this->getModel('redshop');
 
 		$model->demoContentInsert();
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED');
