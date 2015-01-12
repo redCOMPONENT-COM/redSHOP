@@ -134,7 +134,7 @@ class RedshopViewStatistic extends RedshopView
 
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'redshop_statistic48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'statistic redshop_statistic48');
 
 		$pagination = new JPagination($total, $limitstart, $limit);
 		$this->pagination = $pagination;
