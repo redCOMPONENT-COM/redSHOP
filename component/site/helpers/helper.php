@@ -371,29 +371,31 @@ class redhelper
 
 	/**
 	 * shopper Group category ACL
+	 *
+	 * @param   int  $cid  Category id
+	 *
+	 * @return  null|object
 	 */
 	public function getShopperGroupCategory($cid = 0)
 	{
 		$user = JFactory::getUser();
+		$userHelper = new rsUserhelper;
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
-		// If user is not logged in than take shoppergroup id from configuration
-		$where = "AND `shopper_group_id`='" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' ";
-
-		if ($user->id)
+		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
 		{
-			$userq = "SELECT shopper_group_id FROM " . $this->_table_prefix . "users_info WHERE user_id = " . (int) $user->id . " AND address_type = 'BT'";
-			$where = "AND `shopper_group_id`IN ($userq)";
+			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
+			{
+				$categories = explode(',', $shopperGroupData[0]->shopper_group_categories);
+
+				if (array_search((int) $cid, $categories) !== false)
+				{
+					return $shopperGroupData[0];
+				}
+			}
 		}
 
-		$query = "SELECT *, count(`shopper_group_id`) as total FROM `" . $this->_table_prefix . "shopper_group` "
-			. "WHERE 1=1 "
-			. $where
-			. "AND FIND_IN_SET(" . (int) $cid . ",shopper_group_categories) "
-			. "GROUP BY shopper_group_id ";
-		$this->_db->setQuery($query);
-		$shoppercatdata = $this->_db->loadObject();
-
-		return $shoppercatdata;
+		return null;
 	}
 
 	public function getShopperGroupProductCategory($pid = 0)
