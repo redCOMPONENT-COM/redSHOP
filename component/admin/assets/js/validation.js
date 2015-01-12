@@ -604,7 +604,7 @@ function validateExtrafield(form) {
         }
         var error = me[i].getAttribute('errormsg');
         if (error == null) {
-            error = IS_REQUIRED;
+            error = redSHOP.RSConfig._('IS_REQUIRED');
         }
         var val = me[i].value;
         if (req != null && req == 1 && lbl != null) {
