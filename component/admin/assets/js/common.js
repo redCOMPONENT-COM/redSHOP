@@ -1039,7 +1039,7 @@ function extrafieldValidation(frm) {
                 fieldNamefrmId = reverseString(extrafields[ex].id);
                 fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_") + 1));
                 if (previousfieldName != "" && previousfieldName != fieldNamefrmId && chk_flag == false) {
-                    alert(extrafields[ex - 1].getAttribute('userfieldlbl') + ' ' + redSHOP.RSConfig._('redSHOP.RSConfig._('IS_REQUIRED')'));
+                    alert(extrafields[ex - 1].getAttribute('userfieldlbl') + ' ' + redSHOP.RSConfig._('Joomla.JText._('COM_REDSHOP_IS_REQUIRED')'));
                     return false;
                 }
                 if (previousfieldName != fieldNamefrmId) {
@@ -1051,7 +1051,7 @@ function extrafieldValidation(frm) {
                     continue;
                 }
                 if ((ex == (extrafields.length - 1) && chk_flag == false) || (extrafields[ex + 1].type != 'checkbox') && chk_flag == false) {
-                    alert(extrafields[ex].getAttribute('userfieldlbl') + ' ' + redSHOP.RSConfig._('IS_REQUIRED'));
+                    alert(extrafields[ex].getAttribute('userfieldlbl') + ' ' + Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
                     return false;
                 }
             } else if (extrafields[ex].type == 'radio') {
@@ -1060,7 +1060,7 @@ function extrafieldValidation(frm) {
                 rdo_fieldNamefrmId = reverseString(rdo_fieldNamefrmId.substr(rdo_fieldNamefrmId.indexOf("_") + 1));
 
                 if (rdo_previousfieldName != "" && rdo_previousfieldName != rdo_fieldNamefrmId && rdo_flag == false) {
-                    alert(extrafields[ex - 1].getAttribute('userfieldlbl') + ' ' + redSHOP.RSConfig._('IS_REQUIRED'));
+                    alert(extrafields[ex - 1].getAttribute('userfieldlbl') + ' ' + Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
                     return false;
                 }
 
@@ -1078,14 +1078,14 @@ function extrafieldValidation(frm) {
                         continue;
                     }
                     if ((ex == (extrafields.length - 1) && rdo_flag == false) || (extrafields[ex + 1].type != 'radio') && rdo_flag == false) {
-                        alert(extrafields[ex].getAttribute('userfieldlbl') + ' ' + redSHOP.RSConfig._('IS_REQUIRED'));
+                        alert(extrafields[ex].getAttribute('userfieldlbl') + ' ' + Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
                         return false;
                     }
                 }
             } else {
                 extrafields_val = extrafields[ex].value;
                 if (!extrafields_val) {
-                    alert(extrafields[ex].getAttribute('userfieldlbl') + ' ' + redSHOP.RSConfig._('IS_REQUIRED'));
+                    alert(extrafields[ex].getAttribute('userfieldlbl') + ' ' + Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
                     return false;
                 }
             }
