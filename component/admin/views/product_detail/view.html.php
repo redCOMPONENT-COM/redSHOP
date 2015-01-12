@@ -395,13 +395,6 @@ class RedshopViewProduct_Detail extends RedshopView
 
 		$result = array();
 
-		$lists['related_product'] = JHTML::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
-			array(
-				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
-				'select2.options' => array('multiple' => 'true')
-			)
-		);
-
 		// For preselected.
 		if ($detail->product_template == "")
 		{
@@ -412,6 +405,13 @@ class RedshopViewProduct_Detail extends RedshopView
 		$lists['product_template'] = JHtml::_('select.genericlist', $templates, 'product_template',
 			'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"  ',
 			'template_id', 'template_name', $detail->product_template
+		);
+
+		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
+				'select2.options' => array('multiple' => 'true')
+			)
 		);
 
 		$product_tax = $model->gettax();
