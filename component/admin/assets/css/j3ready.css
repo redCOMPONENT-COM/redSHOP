@@ -477,3 +477,6 @@ div.cpanel-right {
 .icon-preview:before{
 	content: "\3c";
 }
+.icon-statistic:before {
+	content: "\0076";
+}
