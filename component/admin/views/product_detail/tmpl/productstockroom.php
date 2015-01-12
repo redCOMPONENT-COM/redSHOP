@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /*
  * ToDo: Check why we have default_productstockroom.php and productstockroom.php?
  */
-$model = $this->getModel();
+$model = $this->getModel('product_detail');
 
 $cid = $this->input->getInt('cid', 0);
 

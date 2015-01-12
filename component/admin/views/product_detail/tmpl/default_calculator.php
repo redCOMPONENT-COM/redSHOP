@@ -21,7 +21,7 @@ $lists['discount_calc_oprand'] = str_replace($remove_format['format.eol'], "", $
 
 unset($options);
 
-$model = $this->getModel();
+$model = $this->getModel('product_detail');
 $stockrooms = $model->StockRoomList();
 ?>
 

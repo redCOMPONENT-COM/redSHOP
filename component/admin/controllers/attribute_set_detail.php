@@ -376,7 +376,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$pid = $get['pid'];
 
-		$model = $this->getModel();
+		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->removepropertyImage($pid))
 		{
@@ -392,7 +392,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$pid = $get['pid'];
 
-		$model = $this->getModel();
+		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->removesubpropertyImage($pid))
 		{
@@ -406,7 +406,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 	{
 		$post = JRequest::get('post');
 
-		$model = $this->getModel();
+		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->SaveAttributeStockroom($post))
 		{
