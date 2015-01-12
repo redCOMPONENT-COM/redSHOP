@@ -156,7 +156,7 @@ RedshopConfig::script('CURRENCY_SYMBOL_POSITION', CURRENCY_SYMBOL_POSITION);
 RedshopConfig::script('PRICE_DECIMAL', PRICE_DECIMAL);
 RedshopConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
 RedshopConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
-RedshopConfig::script('IS_REQUIRED', IS_REQUIRED);
+JText::script('COM_REDSHOP_IS_REQUIRED');
 
 $document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
 $format = $app->input->get('format', 'html');
