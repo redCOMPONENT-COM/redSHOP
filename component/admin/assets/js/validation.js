@@ -49,16 +49,6 @@ function select_dynamic_field(tpl_id, pr_id, sec1tion) {
     request.send(null);
 }
 
-function ajax_delete_subproperty(sp_id, subattribute_id) {
-    if (confirm("Are you sure you want to delete")) {
-        request = getHTTPObject();
-        request.open("GET", "index.php?option=com_redshop&view=product_detail&task=delete_subprop&tmpl=component&sp_id=" + sp_id + "&subattribute_id=" + subattribute_id, true);
-        request.send(null);
-        return true;
-    }
-    return false;
-}
-
 function resetTermsCondition() {
     if (document.getElementById('show_terms_and_conditions1') && document.getElementById('show_terms_and_conditions1').checked == 1) {
         if (confirm("Are you sure you want to reset")) {
@@ -67,27 +57,6 @@ function resetTermsCondition() {
             request.send(null);
             return true;
         }
-    }
-    return false;
-}
-
-function ajax_delete_property(attribute_id, property_id) {
-    if (confirm("Are you sure you want to delete")) {
-        request = getHTTPObject();
-        request.open("GET", "index.php?option=com_redshop&view=product_detail&task=delete_prop&tmpl=component&attribute_id=" + attribute_id + "&property_id=" + property_id, true);
-        request.send(null);
-        return true;
-    }
-    return false;
-}
-
-function ajax_delete_attribute(product_id, attribute_id, attribute_set_id) {
-
-    if (confirm("Are you sure you want to delete")) {
-        request = getHTTPObject();
-        request.open("GET", "index.php?option=com_redshop&view=product_detail&task=delete_attibute&tmpl=component&attribute_id=" + attribute_id + "&product_id=" + product_id + "&attribute_set_id=" + attribute_set_id, true);
-        request.send(null);
-        return true;
     }
     return false;
 }
@@ -306,22 +275,21 @@ function mail_select(str) {
 
 function mail_order_status() {
 
+    if (request.readyState == 4) {
+        var JSONtext = request.responseText;
 
-        if (request.readyState == 4) {
-            var JSONtext = request.responseText;
+        var JSONobject = JSON.parse(JSONtext);
 
-            var JSONobject = JSON.parse(JSONtext);
-
-            document.getElementById('responce').innerHTML = JSONobject.order_statusHtml;
-            try {
-                document.getElementById("order_state").style.display = "table-row";
-                document.getElementById("order_state_edit").style.display = "none";
-            } catch (ex) {
-                document.getElementById("order_state").style.display = "block";
-                document.getElementById("order_state_edit").style.display = "none";
-            }
+        document.getElementById('responce').innerHTML = JSONobject.order_statusHtml;
+        try {
+            document.getElementById("order_state").style.display = "table-row";
+            document.getElementById("order_state_edit").style.display = "none";
+        } catch (ex) {
+            document.getElementById("order_state").style.display = "block";
+            document.getElementById("order_state_edit").style.display = "none";
         }
     }
+}
 
 var f = 0;
 
@@ -359,10 +327,8 @@ function addNewcolor(tableRef) {
 }
 
 function deletecolor(r) {
-
     var i = r.parentNode.parentNode.rowIndex;
     document.getElementById('extra_table').deleteRow(i);
-
 }
 
 function xml_object() {
@@ -385,42 +351,6 @@ function xml_object() {
         }
     }
     return xmlHttp;
-}
-
-function chk_preorder() {
-    if (document.getElementById("porder1").checked) {
-
-        xmlHttp = xml_object();
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4) {
-                //alert(xmlHttp.responseText);
-                document.getElementById("preorder_div").innerHTML = xmlHttp.responseText;
-
-            }
-
-        }
-        xmlHttp.open("GET", "index.php?tmpl=component&option=com_redshop&view=product_container&showbuttons=1&print_display=1&preorder=1", true);
-        xmlHttp.send(null);
-
-    } else {
-        document.getElementById("preorder_div").innerHTML = "";
-    }
-}
-
-function chk_manufacturer() {
-    mid = document.getElementById("supplier_id").value;
-}
-
-function change_input(ev, val1) {
-    if (document.getElementById("porder1").checked)
-        val2 = val1 + '`' + 1;
-    else
-        val2 = val1 + '`' + 0;
-
-    //document.getElementById("porder").value
-    document.getElementById("input").value = val2;
-    document.getElementById("input").onkeypress(ev);
-    document.getElementById("input").onkeyup(ev);
 }
 
 //remove Property image
@@ -449,77 +379,6 @@ function removeImageRes() {
 
         if (document.getElementById(ele) && responce != "")
             document.getElementById(ele).style.display = "none";
-    }
-}
-
-function checkDiscountEnable() {
-    if (document.getElementById('discount_enable1').checked) {
-        document.getElementById('vouchers_enable0').checked = true;
-        document.getElementById('coupons_enable0').checked = true;
-    } else {
-        document.getElementById('vouchers_enable1').checked = true;
-        document.getElementById('coupons_enable1').checked = true;
-    }
-    checkDiscountType();
-}
-
-function checkCouponEnable() {
-    if (document.getElementById('coupons_enable1').checked) {
-        document.getElementById('discount_enable0').checked = true;
-        document.getElementById('vouchers_enable0').checked = true;
-    } else {
-        document.getElementById('discount_enable1').checked = true;
-        document.getElementById('vouchers_enable1').checked = true;
-    }
-    checkDiscountType();
-}
-
-function checkVoucherEnable() {
-    if (document.getElementById('vouchers_enable1').checked) {
-        document.getElementById('discount_enable0').checked = true;
-        document.getElementById('coupons_enable0').checked = true;
-    } else {
-        document.getElementById('discount_enable1').checked = true;
-        document.getElementById('coupons_enable1').checked = true;
-    }
-    checkDiscountType();
-}
-
-function checkDiscountType() {
-    if (document.getElementById('discount_type')) {
-        discount_type = document.getElementById('discount_type').value;
-        if (discount_type == 0) {
-            document.getElementById('discount_enable1').checked = true;
-            document.getElementById('coupons_enable0').checked = true;
-            document.getElementById('vouchers_enable0').checked = true;
-        }
-        if (discount_type == 1) {
-            if (document.getElementById('discount_enable1').checked) {
-                document.getElementById('vouchers_enable0').checked = true;
-                document.getElementById('coupons_enable0').checked = true;
-            } else if (document.getElementById('coupons_enable1').checked) {
-                document.getElementById('discount_enable0').checked = true;
-                document.getElementById('vouchers_enable0').checked = true;
-            } else {
-                document.getElementById('vouchers_enable1').checked = true;
-                document.getElementById('discount_enable0').checked = true;
-                document.getElementById('coupons_enable0').checked = true;
-            }
-        }
-        if (discount_type == 2) {
-            document.getElementById('discount_enable1').checked = true;
-            if (document.getElementById('coupons_enable1').checked) {
-                document.getElementById('vouchers_enable0').checked = true;
-            } else {
-                document.getElementById('vouchers_enable1').checked = true;
-                document.getElementById('coupons_enable0').checked = true;
-            }
-        }
-        if (discount_type == 3 || discount_type == 4) {
-            document.getElementById('discount_enable1').checked = true;
-            document.getElementById('coupons_enable1').checked = true;
-            document.getElementById('vouchers_enable1').checked = true;
-        }
     }
 }
 
