@@ -20,10 +20,6 @@ class RedshopViewMail_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL_MANAGEMENT_DETAIL'), 'redshop_mailcenter48');
-
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
 		$document = JFactory::getDocument();
 
 		$document->addScript('components/com_redshop/assets/js/json.js');
@@ -41,7 +37,7 @@ class RedshopViewMail_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_mailcenter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'envelope-opened redshop_mailcenter48');
 
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
