@@ -1005,3 +1005,12 @@ a.rightButton, a.rightButton:hover {
 .improvedTable img {
 	margin: 0 5px 5px 0;
 }
+.breadcrumb{
+    clear:both;
+}
+.redshop{
+    overflow: hidden;
+}
+.clearfix{
+    clear: both;
+}
