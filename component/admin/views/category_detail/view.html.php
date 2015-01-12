@@ -110,7 +110,7 @@ class RedshopViewCategory_detail extends RedshopView
 		$temps[0]                         = new stdClass;
 		$temps[0]->template_id            = 0;
 		$temps[0]->template_name          = JText::_('COM_REDSHOP_SELECT');
-		$templates                        = @array_merge($temps, $templates);
+		$templates                        = array_merge($temps, $templates);
 		$this->lists['category_template'] = JHTML::_(
 												'select.genericlist',
 												$templates,
@@ -139,7 +139,7 @@ class RedshopViewCategory_detail extends RedshopView
 		$temp[0]                      = new stdClass;
 		$temp[0]->template_id         = 0;
 		$temp[0]->template_name       = JText::_('COM_REDSHOP_SELECT');
-		$comparetemplate              = @array_merge($temp, $redTemplate->getTemplate('compare_product'));
+		$comparetemplate              = array_merge($temp, $redTemplate->getTemplate('compare_product'));
 		$this->lists['compare_template_id'] = JHTML::_(
 												'select.genericlist',
 												$comparetemplate,
