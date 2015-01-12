@@ -23,8 +23,6 @@ class RedshopViewShopper_group_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT_DETAIL'), 'redshop_manufact48');
-
 		$shoppergroup = new shoppergroup;
 		$redhelper = new redhelper;
 
@@ -46,7 +44,7 @@ class RedshopViewShopper_group_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_manufact48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'users redshop_manufact48');
 
 		JToolBarHelper::apply();
 
