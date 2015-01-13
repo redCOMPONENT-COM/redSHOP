@@ -242,177 +242,239 @@ class RedshopModelOrder extends RedshopModel
 		return true;
 	}
 
+	/**
+	 * GLS Export
+	 *
+	 * @param   array  $cid  Order Ids
+	 *
+	 * @return  void
+	 */
 	public function gls_export($cid)
 	{
-		$app          = JFactory::getApplication();
-		$oids         = implode(',', $cid);
-		$where        = "";
-		$redhelper    = new redhelper;
-		$order_helper = new order_functions;
-		$shipping     = new shipping;
+		$db          = JFactory::getDbo();
+		$orderHelper = new order_functions;
+		$shipping    = new shipping;
 
 		ob_clean();
 
-		header('Content-Type: application/octet-stream');
-		header('Content-Encoding: UTF-8');
-		header('Expires: 0');
-		header('Content-Disposition: attachment; filename=redshop_gls_order_export.csv');
-		header('Pragma: no-cache');
+		// Start the ouput
+		$outputCsv = fopen('php://output', 'w');
 
-		if ($cid[0] != 0)
+		$ordersInfo = $this->getOrdersDetail($cid);
+
+		for ($i = 0; $i < count($ordersInfo); $i++)
 		{
-			$where = " WHERE order_id IN (" . $oids . ")";
-		}
+			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
-		$db = JFactory::getDbo();
-		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
-		$db->setQuery($q);
-		$gls_arr = $db->loadObjectList();
-
-		for ($i = 0; $i < count($gls_arr); $i++)
-		{
-			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $gls_arr[$i]->ship_method_id)));
-
-			if (($details[0] == 'plgredshop_shippingdefault_shipping_gls') && $gls_arr[$i]->shop_id != "")
+			if (($details[0] == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
-				$orderproducts = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
-				$shippingDetails = $order_helper->getOrderShippingUserInfo($gls_arr[$i]->order_id);
-				$billingDetails = $order_helper->getOrderBillingUserInfo($gls_arr[$i]->order_id);
+				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
+				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
+				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
-				$totalWeight = "";
-				$parceltype = "";
-				$qty = "";
+				$totalWeight = 0;
 
 				for ($c = 0; $c < count($orderproducts); $c++)
 				{
-					$product_id[] = $orderproducts [$c]->product_id;
-					$qty += $orderproducts [$c]->product_quantity;
-					$content_products[] = $orderproducts[$c]->order_item_name;
-
-					$sql = "SELECT weight FROM #__redshop_product WHERE product_id ='" . $orderproducts [$c]->product_id . "'";
-					$db->setQuery($sql);
-					$weight = $db->loadResult();
-					$totalWeight += ($weight * $orderproducts [$c]->product_quantity);
-				}
-
-				if (empty($totalWeight))
-				{
-					$totalWeight = 1;
+					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
 				}
 
 				$parceltype = 'A';
-				$shopDetails_arr = explode("|", $gls_arr[$i]->shop_id);
+				$shopDetails_arr = explode("|", $ordersInfo[$i]->shop_id);
 
-				$userphoneArr = explode("###", $gls_arr[$i]->shop_id);
+				$userphoneArr = explode("###", $ordersInfo[$i]->shop_id);
 
 				$shopDetails_temparr = explode("###", $shopDetails_arr[7]);
 				$shopDetails_arr[7] = $shopDetails_temparr[0];
 
 				$shopDetails_arr[2] = str_replace(',', '-', $shopDetails_arr[2]);
-				$userDetail = "";
 
-				if ($shopDetails_arr[4] != 'DK')
+				$row = array(
+					$ordersInfo[$i]->order_number,
+					$shopDetails_arr[1],
+					$shopDetails_arr[2],
+					'Pakkeshop: '	. $shopDetails_arr[0],
+					$shopDetails_arr[3],
+					$shopDetails_arr[7],
+					'008',
+					date("d-m-Y", $ordersInfo[$i]->cdate),
+					$totalWeight,
+					1,
+					'',
+					'',
+					$parceltype,
+					'Z'	// Shippment Type
+				);
+
+				$userDetail = array();
+
+				if ($ordersInfo[$i]->ship_method_id != '')
 				{
-					$shipmenttype = 'U';
-				}
-				elseif ($gls_arr[$i]->ship_method_id != "")
-				{
-					$shipmenttype = 'Z';
-
-					$userDetail = ',"' . $shippingDetails->firstname . ' ' . $shippingDetails->lastname . '","'
-						. $gls_arr[$i]->customer_note . '","36515","' . $billingDetails->user_email . '"';
-					$userDetail .= ',"' . $userphoneArr[1];
+					$userDetail = array(
+						$shippingDetails->firstname . ' ' . $shippingDetails->lastname,
+						substr($ordersInfo[$i]->customer_note, 0, 29),		// GLS only support max 29 characters
+						'36515',
+						$billingDetails->user_email,
+						$userphoneArr[1]
+					);
 				}
 
-				$shipmenttype = 'Z';
-				echo '"' . $gls_arr[$i]->order_number . '","' . $shopDetails_arr[1] . '","' . $shopDetails_arr[2] . '","Pakkeshop: '
-					. $shopDetails_arr[0] . '","' . $shopDetails_arr[3] . '","' . $shopDetails_arr[7] . '","008","'
-					. date("d-m-Y", $gls_arr[$i]->cdate) . '","' . $totalWeight . '","1"," "," ","' . $parceltype . '","'
-					. $shipmenttype . '"' . $userDetail . '"';
-				echo "\r\n";
+				$row = array_merge($row, $userDetail);
+
+				// Output CSV line
+				fputcsv($outputCsv, $row);
 			}
 		}
 
-		exit;
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=redshop_gls_order_export.csv');
+		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+
+		JFactory::getApplication()->close();
 	}
 
+	/**
+	 * Business GLS Export
+	 *
+	 * @param   array  $cid  Order Ids
+	 *
+	 * @return  void
+	 */
 	public function business_gls_export($cid)
 	{
-		$app          = JFactory::getApplication();
-		$oids         = implode(',', $cid);
-		$where        = "";
-		$redhelper    = new redhelper;
-		$order_helper = new order_functions;
-		$shipping     = new shipping;
-		$extraField   = new extraField;
+		$db          = JFactory::getDbo();
+		$orderHelper = new order_functions;
+		$shipping    = new shipping;
+		$extraField  = new extraField;
 
 		ob_clean();
 
-		header('Content-Type: application/octet-stream');
-		header('Content-Encoding: UTF-8');
-		header('Expires: 0');
-		header('Content-Disposition: attachment; filename=redshop_gls_order_export.csv');
-		header('Pragma: no-cache');
+		// Start the ouput
+		$outputCsv = fopen('php://output', 'w');
 
-		if ($cid[0] != 0)
+		$column = array(
+			'Order_number',
+			'Quantity',
+			'Create_date',
+			'total_weight',
+			'reciever_firstName',
+			'reciever_lastname',
+			'Customer_note'
+		);
+
+		fputcsv($outputCsv, $column);
+
+		$ordersInfo = $this->getOrdersDetail($cid);
+
+		for ($i = 0; $i < count($ordersInfo); $i++)
 		{
-			$where = " WHERE order_id IN (" . $oids . ")";
-		}
-
-		$db = JFactory::getDbo();
-		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
-		$db->setQuery($q);
-		$gls_arr = $db->loadObjectList();
-
-		echo "Order_number,Quantity,Create_date,total_weight,reciever_firstName,reciever_lastname,Customer_note";
-		echo "\r\n";
-
-		for ($i = 0; $i < count($gls_arr); $i++)
-		{
-			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $gls_arr[$i]->ship_method_id)));
+			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
 			if ($details[0] == 'plgredshop_shippingdefault_shipping_glsBusiness')
 			{
-				$orderproducts = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
-				$shippingDetails = $order_helper->getOrderShippingUserInfo($gls_arr[$i]->order_id);
-				$billingDetails = $order_helper->getOrderBillingUserInfo($gls_arr[$i]->order_id);
+				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
+				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
+				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
-				$row_data   = $extraField->getSectionFieldList(19, 1);
-				$resultArr  = array();
-
-				for ($j = 0; $j < count($row_data); $j++)
-				{
-					$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, 19, $gls_arr[$i]->order_id);
-
-					if ($main_result->data_txt != "" && $row_data[$j]->field_show_in_front == 1)
-					{
-						$resultArr[] = $main_result->data_txt;
-					}
-				}
-
-				$totalWeight = "";
+				$totalWeight = 0;
 
 				for ($c = 0; $c < count($orderproducts); $c++)
 				{
-					$product_id[] = $orderproducts [$c]->product_id;
-					$content_products[] = $orderproducts[$c]->order_item_name;
-
-					$sql = "SELECT weight FROM #__redshop_product WHERE product_id ='" . $orderproducts [$c]->product_id . "'";
-					$db->setQuery($sql);
-					$weight = $db->loadResult();
-					$totalWeight += ($weight * $orderproducts [$c]->product_quantity);
+					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
 				}
 
-				$att = $billingDetails->firstname . ' ' . $billingDetails->lastname;
-				$userDetail = ',' . implode(',', $resultArr) . ',' . '8' . ',' . date("d-m-Y", $gls_arr[$i]->cdate);
+				// Initialize row
+				$row = array(
+					$ordersInfo[$i]->order_number
+				);
 
-				echo $gls_arr[$i]->order_number . $userDetail . ',' . $totalWeight;
-				echo ',1,' . ',,' . 'A' . ',' . 'A' . ',"' . $att . '",' . $shippingDetails->customer_note;
-				echo ',,' . $gls_arr[$i]->phone;
-				echo "\r\n";
+				$extraFieldData = $extraField->getSectionFieldList(19, 1);
+				$extraInfo      = array();
+
+				for ($j = 0; $j < count($extraFieldData); $j++)
+				{
+					$extraFieldResult = $extraField->getSectionFieldDataList($extraFieldData[$j]->field_id, 19, $ordersInfo[$i]->order_id);
+
+					if ($extraFieldResult->data_txt != "" && $extraFieldData[$j]->field_show_in_front == 1)
+					{
+						$extraInfo[] = $extraFieldResult->data_txt;
+					}
+				}
+
+				$rowAppend = array(
+					'8',
+					date("d-m-Y", $ordersInfo[$i]->cdate),
+					$totalWeight,
+					1,
+					'',
+					'',
+					'A',
+					'A',
+					$billingDetails->firstname . ' ' . $billingDetails->lastname,
+					$shippingDetails->customer_note,
+					'',
+					$ordersInfo[$i]->phone
+				);
+
+				$row = array_merge($row, $extraInfo, $rowAppend);
+
+				// Output CSV line
+				fputcsv($outputCsv, $row);
 			}
 		}
 
-		exit;
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=redshop_gls_business_order_export.csv');
+		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+
+		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Get Order details of the ids
+	 *
+	 * @param   array  $orderIds  Order Information Ids
+	 *
+	 * @return  array             Information of the orders in array
+	 */
+	public function getOrdersDetail($orderIds)
+	{
+		JArrayHelper::toInteger($orderIds);
+
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_orders'));
+
+		if ($orderIds[0] != 0)
+		{
+			$query->where($db->qn('order_id') . ' IN(' . implode(',', $orderIds) . ')');
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Get Product weight
+	 *
+	 * @param   integer  $productId  Product Id
+	 *
+	 * @return  integer              Product Weight
+	 */
+	public function getProductWeight($productId)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_id') . ' = ' . (int) $productId);
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 }
