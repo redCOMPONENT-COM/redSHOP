@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$model = $this->getModel();
+$model = $this->getModel('product_detail');
 $stockrooms = $model->StockRoomList();
 ?>
 
