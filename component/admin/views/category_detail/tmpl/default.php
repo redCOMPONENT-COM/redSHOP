@@ -11,12 +11,10 @@ defined('_JEXEC') or die;
 JLoader::load('RedshopHelperAdminImages');
 
 JHTML::_('behavior.tooltip');
-$editor = JFactory::getEditor();
-JHTMLBehavior::modal();
-$uri = JURI::getInstance();
-$url = $uri->root();
+$editor        = JFactory::getEditor();
+$uri           = JURI::getInstance();
+$url           = $uri->root();
 JHTML::_('behavior.calendar');
-$objhelper = new redhelper;
 $producthelper = new producthelper;
 JText::script('COM_REDSHOP_DELETE');
 ?>
@@ -39,7 +37,7 @@ JText::script('COM_REDSHOP_DELETE');
 	}
 </script>
 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo JRoute::_($uri->toString()) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 <?php
 echo JHtml::_('tabs.start', 'pane', array('startOffset' => 0));
@@ -92,34 +90,6 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1'
 				</td>
 				<td><?php echo $this->lists['compare_template_id']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY_LABEL'), JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY'), 'tooltip.png', '', '', false); ?></td>
 			</tr>
-
-			<?php if ($this->detail->category_id > 0)
-			{
-				$catid = $this->detail->category_id;
-
-				$Itemid = $objhelper->getCategoryItemid($catid);
-
-				if ($Itemid != '')
-				{
-					$cItemid = $Itemid;
-				}
-				else
-				{
-					$cItemid = '';
-				}
-
-				//echo "<pre>";print_r($Itemid);exit;
-				?>
-				<tr>
-					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_FRONTEND_LINK'); ?>:
-					</td>
-					<td>
-						<a href="<?php echo JURI::root() . 'index.php?option=com_redshop&view=category&layout=detail&Itemid=' . $cItemid . '&cid=' . $this->detail->category_id; ?>"
-						   target="_black"><?php echo JURI::root() . 'index.php?option=com_redshop&view=category&layout=detail&Itemid=' . $cItemid . '&cid=' . $this->detail->category_id;?></a>
-					</td>
-				</tr>
-			<?php }?>
-
 		</table>
 	</fieldset>
 	<div class="col50">
@@ -390,7 +360,7 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 		</tr>
 		<tr>
 			<td colspan="2">
-				<table id="accessory_table" class="adminlist table table-striped"" border="0">
+				<table id="accessory_table" class="adminlist table table-striped" border="0">
 					<thead>
 					<tr>
 						<th width="400"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
@@ -398,12 +368,14 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 						<th width="50"><?php echo JText::_('COM_REDSHOP_OPRAND'); ?></th>
 						<th width="75"><?php echo JText::_('COM_REDSHOP_ADDED_VALUE'); ?></th>
 						<th width="15%"><?php echo JText::_('COM_REDSHOP_ORDERING'); ?></th>
-						<!-- <th width="15%" ><?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED' ); ?></th>-->
 						<th width="50"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></th>
 					</tr>
 					</thead>
 					<tbody>
-					<?php        $accessory_product = $this->lists['categroy_accessory_product'];
+					<?php
+
+					$accessory_product = $this->lists['categroy_accessory_product'];
+
 					for ($f = 0; $f < count($accessory_product); $f++)
 					{
 						$accessory_main_price = 0;
@@ -470,13 +442,10 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 </script>
 
 <?php
-if ($this->detail->category_template != '0')
-{
-	?>
+if ($this->detail->category_template != '0'):?>
 	<script language="javascript" type="text/javascript">
 
 		select_dynamic_field(<?php echo $this->detail->category_template;?>, <?php echo $this->detail->category_id;?>, '2');
 	</script>
 <?php
-}
-?>
+endif;

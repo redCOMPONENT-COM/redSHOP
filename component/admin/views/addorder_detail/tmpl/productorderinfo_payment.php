@@ -52,27 +52,33 @@ if (count($paymentmethod) == 1)
 				if ($is_company == 0 && $private_person == 1)
 				{
 					?>
-					<input type="radio" name="payment_method_class"
+					<label><input type="radio" name="payment_method_class"
 					       value="<?php echo $paymentmethod[$p]->element; ?>" <?php echo $checked; ?> />
-					<?php        echo JText::_($paymentmethod[$p]->name) . '<br><br>';
+					<?php        echo JText::_($paymentmethod[$p]->name); ?>
+					</label><br>
+					<?php
 				}
 				else
 				{
 					if ($is_company == 1 && $business == 1)
 					{
 						?>
-						<input type="radio" name="payment_method_class"
+						<label><input type="radio" name="payment_method_class"
 						       value="<?php echo $paymentmethod[$p]->element; ?>" <?php echo $checked; ?> />
-						<?php        echo JText::_($paymentmethod[$p]->name) . '<br><br>';
+						<?php        echo JText::_($paymentmethod[$p]->name) ; ?>
+						</label><br>
+					<?php
 					}
 				}
 			}
 			else
 			{
 				?>
-				<input type="radio" name="payment_method_class"
+				<label><input type="radio" name="payment_method_class"
 				       value="<?php echo $paymentmethod[$p]->element; ?>" <?php echo $checked; ?> />
-				<?php    echo JText::_($paymentmethod[$p]->name) . '<br><br>';
+				<?php    echo JText::_($paymentmethod[$p]->name); ?>
+				</label><br>
+					<?php
 			}
 			if ($is_creditcard == 1)
 			{

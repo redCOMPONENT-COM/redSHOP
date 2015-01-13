@@ -227,10 +227,7 @@ class RedshopModelCategory extends RedshopModel
 			$orderBy = "p.product_price ASC";
 		}
 
-		$query = $db->getQuery(true)
-			->order($orderBy);
-		$query = $this->producthelper->getMainProductQuery($query, $user->id);
-		$queryCount = $db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		$manufacturerId = $app->input->post->get("manufacturer_id", "");
 
@@ -264,7 +261,6 @@ class RedshopModelCategory extends RedshopModel
 			JArrayHelper::toInteger($shopperGroupManufactures);
 			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
 			$query->where('p.manufacturer_id IN (' . $shopperGroupManufactures . ')');
-			$queryCount->where('p.manufacturer_id IN (' . $shopperGroupManufactures . ')');
 		}
 
 		// Shopper group - choose from manufactures End
@@ -272,24 +268,19 @@ class RedshopModelCategory extends RedshopModel
 		if ($manufacturerId && $manufacturerId > 0)
 		{
 			$query->where('p.manufacturer_id = ' . (int) $manufacturerId);
-			$queryCount->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
-		$query->select(
-			array(
-				'pc.*', 'c.*', 'm.*',
-				'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
+		$query->select('p.product_id')
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
+			->where(
+				array(
+					'p.published = 1', 'p.expired = 0',
+					'pc.category_id = ' . (int) $this->_id,
+					'p.product_parent_id = 0'
+				)
 			)
-		);
-		$query->join("LEFT", "#__redshop_category AS c ON c.category_id=pc.category_id");
-		$query->join("LEFT", "#__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id");
-		$query->where(
-			array(
-				'p.published = 1', 'p.expired = 0',
-				'pc.category_id = ' . (int) $this->_id,
-				'p.product_parent_id = 0'
-			)
-		);
+			->order($orderBy);
 
 		$finder_condition = $this->getredproductfindertags();
 
@@ -297,21 +288,13 @@ class RedshopModelCategory extends RedshopModel
 		{
 			$finder_condition = str_replace("AND", "", $finder_condition);
 			$query->where($finder_condition);
-			$queryCount->where($finder_condition);
 		}
 
-		$queryCount->select('COUNT(DISTINCT(p.product_id))')
-			->from('#__redshop_product AS p')
-			->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
-			->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id')
-			->where(
-			array(
-				'p.published = 1', 'p.expired = 0',
-				'pc.category_id = ' . (int) $this->_id,
-				'p.product_parent_id = 0'
-			)
-		);
+		$queryCount = clone $query;
+		$queryCount->clear('select')
+			->select('COUNT(DISTINCT(p.product_id))');
 
+		// First steep get product ids
 		if ($minmax != 0 || $isSlider)
 		{
 			$db->setQuery($query);
@@ -321,14 +304,31 @@ class RedshopModelCategory extends RedshopModel
 			$db->setQuery($query, $limitstart, $endlimit);
 		}
 
-		if ($this->_product = $db->loadObjectList('concat_id'))
+		$this->_product = array();
+
+		if ($productIds = $db->loadColumn())
 		{
-			$this->producthelper->setProduct($this->_product);
-			$this->_product = array_values($this->_product);
-		}
-		else
-		{
-			$this->_product = array();
+			// Third steep get all product relate info
+			$query->clear()
+				->where('p.product_id IN (' . implode(',', $productIds) . ')')
+				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
+
+			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+				->select(
+					array(
+						'pc.*', 'c.*', 'm.*',
+						'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
+					)
+				)
+				->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
+				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id')
+				->where('pc.category_id = ' . (int) $this->_id);
+
+			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
+			{
+				RedshopHelperProduct::setProduct($products);
+				$this->_product = array_values($products);
+			}
 		}
 
 		$priceSort = false;

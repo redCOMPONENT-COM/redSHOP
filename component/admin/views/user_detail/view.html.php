@@ -39,13 +39,13 @@ class RedshopViewUser_detail extends RedshopView
 		{
 			JToolBarHelper::title(
 				JText::_('COM_REDSHOP_USER_SHIPPING_DETAIL') . ': <small><small>[ '
-				. $text . ' ]</small></small>', 'redshop_user48');
+				. $text . ' ]</small></small>', 'user redshop_user48');
 		}
 		else
 		{
 			JToolBarHelper::title(
 				JText::_('COM_REDSHOP_USER_MANAGEMENT_DETAIL') . ': <small><small>[ '
-				. $text . ' ]</small></small>', 'redshop_user48'
+				. $text . ' ]</small></small>', 'user redshop_user48'
 			);
 		}
 
