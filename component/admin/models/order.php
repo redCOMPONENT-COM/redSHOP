@@ -251,6 +251,8 @@ class RedshopModelOrder extends RedshopModel
 		$order_helper = new order_functions;
 		$shipping     = new shipping;
 
+		ob_clean();
+
 		header('Content-Type: application/octet-stream');
 		header('Content-Encoding: UTF-8');
 		header('Expires: 0');
@@ -343,6 +345,8 @@ class RedshopModelOrder extends RedshopModel
 		$order_helper = new order_functions;
 		$shipping     = new shipping;
 		$extraField   = new extraField;
+
+		ob_clean();
 
 		header('Content-Type: application/octet-stream');
 		header('Content-Encoding: UTF-8');
