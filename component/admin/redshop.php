@@ -105,7 +105,7 @@ $document = JFactory::getDocument();
 
 if (version_compare(JVERSION, '3.0', '>='))
 {
-	JHtml::_('formbehavior.chosen', 'select');
+	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")');
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
 }
 
