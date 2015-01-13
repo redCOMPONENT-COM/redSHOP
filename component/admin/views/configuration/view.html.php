@@ -68,7 +68,7 @@ class RedshopViewConfiguration extends RedshopView
 			JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'));
 		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'redshop_icon-48-settings');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
 
 		if (is_writable($configpath))
 		{

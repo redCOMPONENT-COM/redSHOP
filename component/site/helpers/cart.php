@@ -6345,7 +6345,12 @@ class rsCarthelper
 		if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 		{
 			$accessory_data    = explode("@@", $data['accessory_data']);
-			$acc_quantity_data = explode("@@", $data['acc_quantity_data']);
+			$acc_quantity_data = array();
+
+			if (isset($data['acc_quantity_data']))
+			{
+				$acc_quantity_data = explode("@@", $data['acc_quantity_data']);
+			}
 
 			for ($i = 0; $i < count($accessory_data); $i++)
 			{

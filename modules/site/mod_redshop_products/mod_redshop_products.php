@@ -44,7 +44,9 @@ JLoader::load('RedshopHelperAdminTemplate');
 JLoader::load('RedshopHelperAdminExtra_field');
 
 $query = $db->getQuery(true)
-	->select('CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id')
+	->select('p.product_id')
+	->from($db->qn('#__redshop_product', 'p'))
+	->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
 	->where($db->qn('p.published') . ' = 1');
 
 switch ((int) $type)
@@ -74,11 +76,12 @@ switch ((int) $type)
 	case 2:
 
 		$subQuery = $db->getQuery(true)
-			->select('SUM(' . $db->qn('oi.product_quantity') . ')')
+			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS qty, oi.product_id')
 			->from($db->qn('#__redshop_order_item', 'oi'))
-			->where($db->qn('oi.product_id') . ' = ' . $db->qn('p.product_id'));
-		$query->select('(' . $subQuery . ') AS qty')
-			->order($db->qn('qty') . ' DESC');
+			->group('oi.product_id');
+		$query->select('orderItems.qty')
+			->leftJoin('(' . $subQuery . ') orderItems ON orderItems.product_id = p.product_id')
+			->order($db->qn('orderItems.qty') . ' DESC');
 
 		break;
 
@@ -120,9 +123,6 @@ if ($showChildProducts != 1)
 	$query->where($db->qn('p.product_parent_id') . '=0');
 }
 
-$productHelper = new producthelper;
-$query = $productHelper->getMainProductQuery($query, $user->id);
-
 $category = trim($params->get('category', false));
 
 if ($isUrlCategoryId)
@@ -155,20 +155,23 @@ else
 		->where($db->qn('c.published') . ' = 1');
 }
 
-// Set the query and load the result.
-$db->setQuery($query, 0, $count);
+$rows = array();
 
-try
+if ($productIds = $db->setQuery($query, 0, $count)->loadColumn())
 {
-	if ($rows = $db->loadObjectList('concat_id'))
+	// Third steep get all product relate info
+	$query->clear()
+		->where('p.product_id IN (' . implode(',', $productIds) . ')')
+		->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
+
+	$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+		->select('CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id');
+
+	if ($rows = $db->setQuery($query)->loadObjectList('concat_id'))
 	{
-		$productHelper->setProduct($rows);
+		RedshopHelperProduct::setProduct($rows);
 		$rows = array_values($rows);
 	}
-}
-catch (RuntimeException $e)
-{
-	throw new RuntimeException($e->getMessage(), $e->getCode());
 }
 
 require JModuleHelper::getLayoutPath('mod_redshop_products');
