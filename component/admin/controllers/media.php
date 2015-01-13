@@ -24,7 +24,7 @@ class RedshopControllerMedia extends RedshopController
 		$post = JRequest::get('POST');
 		$file = JRequest::getVar('downloadfile', 'array', 'files', 'array');
 		$totalFile = count($file['name']);
-		$model = $this->getModel();
+		$model = $this->getModel('media');
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 
@@ -102,7 +102,7 @@ class RedshopControllerMedia extends RedshopController
 	{
 		$media_id = JRequest::getInt('media_id');
 		$fileId = JRequest::getInt('fileId');
-		$model = $this->getModel();
+		$model = $this->getModel('media');
 
 		if ($model->deleteAddtionalFiles($fileId))
 		{
