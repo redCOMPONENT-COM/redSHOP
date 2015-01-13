@@ -47,7 +47,7 @@ class RedshopViewOrder extends RedshopView
 				'COM_REDSHOP_MULTI_PRINT_ORDER_LBL',
 				true
 			);
-			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'redshop_order48');
+			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
 			JToolbarHelper::addNew();
 
 			JToolBarHelper::custom(

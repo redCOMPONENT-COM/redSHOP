@@ -244,57 +244,20 @@ class RedshopModelOrder extends RedshopModel
 
 	public function gls_export($cid)
 	{
-		$app = JFactory::getApplication();
-		$oids = implode(',', $cid);
-		$where = "";
-		$redhelper = new redhelper;
+		$app          = JFactory::getApplication();
+		$oids         = implode(',', $cid);
+		$where        = "";
+		$redhelper    = new redhelper;
 		$order_helper = new order_functions;
-		$shipping = new shipping;
-		$plugin = JPluginHelper::getPlugin('rs_labels_GLS');
-		$glsparams = new JRegistry($plugin[0]->params);
-		$normal_parcel_weight_start = $glsparams->get('normal_parcel_weight_start', '');
-		$normal_parcel_weight_end = $glsparams->get('normal_parcel_weight_end', '');
-		$small_parcel_weight_start = $glsparams->get('small_parcel_weight_start', '');
-		$small_parcel_weight_end = $glsparams->get('small_parcel_weight_end', '');
-		$pallet_parcel_weight_start = $glsparams->get('pallet_parcel_weight_start', '');
-		$pallet_parcel_weight_end = $glsparams->get('pallet_parcel_weight_end', '');
-		/* Set the export filename */
+		$shipping     = new shipping;
 
-		$exportfilename = 'redshop_gls_order_export.csv';
-		/* Start output to the browser */
-		if (preg_match('Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "Opera";
-		}
-		elseif (preg_match('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "IE";
-		}
-		else
-		{
-			$UserBrowser = '';
-		}
+		ob_clean();
 
-		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
-
-		/* Clean the buffer */
-		while (ob_end_clean());
-
-		header('Content-Type: ' . $mime_type);
+		header('Content-Type: application/octet-stream');
 		header('Content-Encoding: UTF-8');
-		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-
-		if ($UserBrowser == 'IE')
-		{
-			header('Content-Disposition: inline; filename="' . $exportfilename . '"');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
-		}
-		else
-		{
-			header('Content-Disposition: attachment; filename="' . $exportfilename . '"');
-			header('Pragma: no-cache');
-		}
+		header('Expires: 0');
+		header('Content-Disposition: attachment; filename=redshop_gls_order_export.csv');
+		header('Pragma: no-cache');
 
 		if ($cid[0] != 0)
 		{
@@ -375,50 +338,21 @@ class RedshopModelOrder extends RedshopModel
 
 	public function business_gls_export($cid)
 	{
-		$app = JFactory::getApplication();
-		$oids = implode(',', $cid);
-		$where = "";
-		$redhelper = new redhelper;
+		$app          = JFactory::getApplication();
+		$oids         = implode(',', $cid);
+		$where        = "";
+		$redhelper    = new redhelper;
 		$order_helper = new order_functions;
-		$shipping = new shipping;
-		$extraField = new extraField;
+		$shipping     = new shipping;
+		$extraField   = new extraField;
 
-		$exportfilename = 'redshop_gls_order_export.csv';
-		/* Start output to the browser */
+		ob_clean();
 
-		if (preg_match('/Opera(/| )([0-9].[0-9]{1,2})/', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "Opera";
-		}
-		elseif (preg_match('/MSIE ([0-9].[0-9]{1,2})/', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "IE";
-		}
-		else
-		{
-			$UserBrowser = '';
-		}
-
-		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
-
-		/* Clean the buffer */
-		while (@ob_end_clean());
-
-		header('Content-Type: ' . $mime_type);
+		header('Content-Type: application/octet-stream');
 		header('Content-Encoding: UTF-8');
-		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-
-		if ($UserBrowser == 'IE')
-		{
-			header('Content-Disposition: inline; filename="' . $exportfilename . '"');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
-		}
-		else
-		{
-			header('Content-Disposition: attachment; filename="' . $exportfilename . '"');
-			header('Pragma: no-cache');
-		}
+		header('Expires: 0');
+		header('Content-Disposition: attachment; filename=redshop_gls_order_export.csv');
+		header('Pragma: no-cache');
 
 		if ($cid[0] != 0)
 		{

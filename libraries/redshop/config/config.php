@@ -55,6 +55,9 @@ class RedshopConfig
 	 */
 	public static function scriptDeclaration()
 	{
+		// Load redshop script
+		JHtml::script('com_redshop/redshop.js', false, true);
+
 		JFactory::getDocument()->addScriptDeclaration('
 			(function() {
 				var RedshopStrings = ' . json_encode(self::script()) . ';
