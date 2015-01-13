@@ -480,3 +480,6 @@ div.cpanel-right {
 .icon-statistic:before {
 	content: "\0076";
 }
+.icon-print_f2:before{
+	content: "\E013";
+}

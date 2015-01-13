@@ -512,7 +512,7 @@ class RedshopControllerOrder extends RedshopController
 		$post = JRequest::get('post');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		$model = $this->getModel();
+		$model = $this->getModel('order');
 
 		$download_id_arr = $post ['download_id'];
 
@@ -556,14 +556,14 @@ class RedshopControllerOrder extends RedshopController
 	public function gls_export()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$model = $this->getModel();
+		$model = $this->getModel('order');
 		$model->gls_export($cid);
 	}
 
 	public function business_gls_export()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$model = $this->getModel();
+		$model = $this->getModel('order');
 		$model->business_gls_export($cid);
 	}
 }
