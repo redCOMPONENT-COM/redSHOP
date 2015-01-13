@@ -407,6 +407,9 @@ div.product_writereview {
     padding: 0;
     padding-left: 10px;
 }
+.product-cart-link{
+    clear: both;
+}
 .cart-quantity input.quantity {
     border: 1px solid #8e8d8d;
     text-align: center;
@@ -414,13 +417,15 @@ div.product_writereview {
     width: 30px;
     max-width: 30px !important;
 }
-.product-cart-link span#pdaddtocartprd_1{
+.product-cart-link span#pdaddtocartprd_1, .cart-link span.pdaddtocart_link{
     background: #eee;
     line-height: 20px;
     height: 20px;
     padding: 5px 10px;
     border:1px solid #ccc;
-    border-radius:5px;}
+    border-radius:5px;
+    display: inline-block !important;
+}
 /* --- redSHOP Product Content View - Accesories --- */
 
 .accessory {
