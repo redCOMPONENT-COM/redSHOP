@@ -23,7 +23,6 @@ $url = $uri->root();
 			form.task.value = pressbutton;
 		}
 		if (pressbutton == 'save' || pressbutton == 'apply') {
-			//checkDiscountType();
 			var obj = form.economic_integration;
 
 			var sel_discount_flag = false;
