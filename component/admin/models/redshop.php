@@ -27,9 +27,9 @@ class RedshopModelRedshop extends RedshopModel
 
 		$query = "INSERT IGNORE INTO `#__redshop_category` (`category_id`, `category_name`, `category_short_description`, `category_description`, `category_template`, `category_more_template`, `products_per_page`, `category_thumb_image`, `category_full_image`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `category_pdate`, `ordering`, `category_back_full_image`, `compare_template_id`, `append_to_global_seo`)
 						VALUES
-							(1, 'Events and Forms', '', '', 5, '5,8', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:06:45', 1, '', '', '0', 'append'),
-							(2, 'CCK and e-Commerce', '', '', 5, '0', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:16:31', 2, '', '', '0', 'append'),
-							(3, 'Templates', '', '', 8, '0', 6, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:17:08', 3, '', '', '0', 'append')";
+							(1, 'Events and Forms', '', '', 5, '5,8', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:06:45', 1, '', '0', 'append'),
+							(2, 'CCK and e-Commerce', '', '', 5, '0', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:16:31', 2, '', '0', 'append'),
+							(3, 'Templates', '', '', 8, '0', 6, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:17:08', 3, '', '0', 'append')";
 		$db->setQuery($query);
 		$db->execute();
 
@@ -63,38 +63,38 @@ class RedshopModelRedshop extends RedshopModel
 		$query = "INSERT IGNORE INTO `#__redshop_fields`
 					(`field_id`, `field_title`, `field_name`, `field_type`, `field_desc`, `field_class`, `field_section`, `field_maxlength`, `field_cols`, `field_rows`, `field_size`, `field_show_in_front`,`published`, `required`)
 					VALUES
-					(1, 'Userfield Test', 'userfield-test', '1', '', '', '12', 20, 0, 0, 20, 1, 0, 1, 0, 0, 0)";
+					(1, 'Userfield Test', 'userfield-test', '1', '', '', '12', '20', '0', '0', '20', '1', '0', '1')";
 		$db->setQuery($query);
 		$db->execute();
 
 
 		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`manufacturer_id`, `manufacturer_name`, `manufacturer_desc`, `manufacturer_email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
-						(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 1, '', ''),
-						(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 2, '', ''),
-						(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 3, '', '')";
+						(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 1, ''),
+						(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 2, ''),
+						(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 3, '')";
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_media`
 			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
-			VALUES (16, '1262876429_redEVENT-box.jpg', '', 'product', 1, 'images', 'image/jpeg', 1, 0),
-			(20, '1262876675_redVMPRODUCTFINDER-box.jpg', '', 'product', 5, 'images', 'image/jpeg', 1, 0),
-			(23, '1262876737_redVMMASSCART-box.jpg', '', 'product', 8, 'images', 'image/jpeg', 1, 0),
-			(33, '1274444752_redweb-logo.jpg', 'redweb.dk', 'manufacturer', 1, 'images', '', 1, 0),
-			(34, '1274444735_redhost-logo.jpg', 'redhost.dk', 'manufacturer', 2, 'images', '', 1, 0),
-			(35, '1274444723_redcomponent-logo.jpg', 'redcomponent.com', 'manufacturer', 3, 'images', '', 1, 0),
-			(45, '1421054444_bakery-demo-400-400.jpg', '', 'product', 10, 'images', 'image/jpeg', 1, 0),
-			(46, '1421054762_carpenter-demo-400-400.jpg', '', 'product', 11, 'images', 'image/jpeg', 1, 0),
-			(47, '1421055027_fashionstore-demo-400-400.jpg', '', 'product', 8, 'images', 'image/jpeg', 1, 0),
-			(48, '1421055222_gadgets-demo-400-400.jpg', '', 'product', 12, 'images', 'image/jpeg', 1, 0),
-			(49, '1421055392_kidswear-demo-400-400.jpg', '', 'product', 13, 'images', 'image/jpeg', 1, 0),
-			(50, '1421055573_shoemaniac-demo-400-400.jpg', '', 'product', 14, 'images', 'image/jpeg', 1, 0),
-			(51, '1421055894_valentine-demo-400-400.jpg', '', 'product', 9, 'images', 'image/jpeg', 1, 0),
-			(52, '1421064966_appearance-top.png', '', 'product', 3, 'images', 'image/png', 1, 0),
-			(53, 'redCOMPONENTS.jpg', '', 'product', 2, 'images', '', 1, 0),
-			(54, 'redCOMPONENTS.jpg', '', 'product', 4, 'images', '', 1, 0),
-			(55, 'redCOMPONENTS.jpg', '', 'product', 7, 'images', '', 1, 0),
-			(56, 'redCOMPONENTS.jpg', '', 'product', 6, 'images', '', 1, 0)
+			VALUES (16, '1262876429_redEVENT-box.jpg', 'product', 1, 'images', 'image/jpeg', 1, ''),
+			(20, '1262876675_redVMPRODUCTFINDER-box.jpg', 'product', 5, 'images', 'image/jpeg', 1, ''),
+			(23, '1262876737_redVMMASSCART-box.jpg', 'product', 8, 'images', 'image/jpeg', 1, ''),
+			(33, '1274444752_redweb-logo.jpg', 'manufacturer', 1, 'images', '', 1, 'redweb.dk'),
+			(34, '1274444735_redhost-logo.jpg', 'manufacturer', 2, 'images', '', 1, 'redhost.dk'),
+			(35, '1274444723_redcomponent-logo.jpg', 'manufacturer', 3, 'images', '', 1, 'redcomponent.com'),
+			(45, '1421054444_bakery-demo-400-400.jpg', 'product', 10, 'images', 'image/jpeg', 1, ''),
+			(46, '1421054762_carpenter-demo-400-400.jpg', 'product', 11, 'images', 'image/jpeg', 1, ''),
+			(47, '1421055027_fashionstore-demo-400-400.jpg', 'product', 8, 'images', 'image/jpeg', 1, ''),
+			(48, '1421055222_gadgets-demo-400-400.jpg', 'product', 12, 'images', 'image/jpeg', 1, ''),
+			(49, '1421055392_kidswear-demo-400-400.jpg', 'product', 13, 'images', 'image/jpeg', 1, ''),
+			(50, '1421055573_shoemaniac-demo-400-400.jpg', 'product', 14, 'images', 'image/jpeg', 1, ''),
+			(51, '1421055894_valentine-demo-400-400.jpg', 'product', 9, 'images', 'image/jpeg', 1, ''),
+			(52, '1421064966_appearance-top.png', 'product', 3, 'images', 'image/png', 1, ''),
+			(53, 'redCOMPONENTS.jpg', 'product', 2, 'images', '', 1, ''),
+			(54, 'redCOMPONENTS.jpg', 'product', 4, 'images', '', 1, ''),
+			(55, 'redCOMPONENTS.jpg', 'product', 7, 'images', '', 1, ''),
+			(56, 'redCOMPONENTS.jpg', 'product', 6, 'images', '', 1, '')
 			";
 		$db->setQuery($query);
 		$db->execute();
@@ -134,11 +134,11 @@ class RedshopModelRedshop extends RedshopModel
 		$db->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_attribute_property` (`property_id`, `attribute_id`, `property_name`, `property_price`, `oprand`, `property_image`, `property_main_image`, `ordering`, `setdefault_selected`, `setrequire_selected`, `setmulti_selected`, `setdisplay_type`, `property_number`) VALUES
-						(3, 3, '1 Year', 100, '+', '3_globus.gif', '', 0, 0, 0, 0, 'dropdown', '', 1, ''),
-						(4, 3, '2 Year', 100, '+', '', '', 0, 0, 0, 0, 'dropdown', '', 1, ''),
-						(5, 3, '3 Year', 100, '+', '', '', 0, 0, 0, 0, 'dropdown', '', 1, ''),
-						(6, 4, '1 Year', 125, '+', '6_11408.jpg', '', 0, 0, 0, 0, 'dropdown', '', 1, ''),
-						(8, 4, '2 Year', 175, '+', '', '', 1, 0, 0, 0, 'dropdown', '', 1, '')";
+						(3, 3, '1 Year', 100, '+', '3_globus.gif', '', 0, 0, 0, 0, 'dropdown', ''),
+						(4, 3, '2 Year', 100, '+', '', '', 0, 0, 0, 0, 'dropdown', ''),
+						(5, 3, '3 Year', 100, '+', '', '', 0, 0, 0, 0, 'dropdown', ''),
+						(6, 4, '1 Year', 125, '+', '6_11408.jpg', '', 0, 0, 0, 0, 'dropdown', ''),
+						(8, 4, '2 Year', 175, '+', '', '', 1, 0, 0, 0, 'dropdown', '')";
 		$db->setQuery($query);
 		$db->execute();
 
@@ -182,7 +182,7 @@ class RedshopModelRedshop extends RedshopModel
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_rating`
 					(`rating_id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
-					VALUES (1, 1, 'super', 'Flot flot flot...', 64, 1262695786, 4, 1, 1, '', '', '')";
+					VALUES (1, 1, 'super', 'Flot flot flot...', 64, 1262695786, 4, 1, 1)";
 		$db->setQuery($query);
 		$db->execute();
 
@@ -208,7 +208,7 @@ class RedshopModelRedshop extends RedshopModel
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_related`
 					(`related_id`, `product_id`) VALUES
-					(0, 3, 1),(0, 4, 1),(0, 5, 1),(0, 6, 1),(0, 7, 1),(0, 8, 1),(0, 9, 1),(0, 10, 1),(0, 11, 1),(0, 12, 1),(0, 13, 1),(0, 14, 1),(1, 2, 1),(2, 1, 1),(3, 1, 2),(3, 2, 2)";
+					(0, 3),(0, 4),(0, 5),(0, 6),(0, 7),(0, 8),(0, 9),(0, 10),(0, 11),(0, 12),(0, 13),(0, 14),(1, 2),(2, 1),(3, 1),(3, 2)";
 		$db->setQuery($query);
 		$db->execute();
 
@@ -233,7 +233,7 @@ class RedshopModelRedshop extends RedshopModel
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_stockroom_xref`
 					(`product_id`, `stockroom_id`, `quantity`) VALUES
-					(2, 1, 100, 0, 0)";
+					(2, 1, 100)";
 		$db->setQuery($query);
 		$db->execute();
 
