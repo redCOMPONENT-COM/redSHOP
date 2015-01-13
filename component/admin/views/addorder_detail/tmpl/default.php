@@ -563,7 +563,7 @@ function validateUserDetail() {
 					<th align="left"><?php echo JText::_('COM_REDSHOP_ORDER_DETAILS'); ?></th>
 				</tr>
 				<tr>
-					<td align="right"><a
+					<td align="right"><a class="btn btn-success"
 							href="javascript:addNewproductRow('tblproductRow');"><?php echo JText::_('COM_REDSHOP_NEW'); ?></a>
 					</td>
 				</tr>

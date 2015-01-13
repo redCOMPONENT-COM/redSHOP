@@ -20,6 +20,8 @@ class RedshopHelperCategory
 
 	protected static $categoryListReverse = array();
 
+	protected static $categoryChildListReverse = array();
+
 	/**
 	 * Get category data
 	 *
@@ -86,6 +88,109 @@ class RedshopHelperCategory
 			{
 				self::$categoryListReverse[] = $category;
 				self::getCategoryListRecursion($category->category_parent_id);
+			}
+		}
+	}
+
+	/**
+	 * Get Category List Array
+	 *
+	 * @param   int  $categoryId  First category level in filter
+	 * @param   int  $cid         Current category id
+	 *
+	 * @return   array|mixed
+	 */
+	public static function getCategoryListArray($categoryId = 0, $cid = 0)
+	{
+		global $context;
+		$app = JFactory::getApplication();
+		$db = JFactory::getDbo();
+		$view = $app->input->get('view', '');
+		$categoryMainFilter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', 0);
+
+		if ($categoryId)
+		{
+			$cid = $categoryId;
+		}
+
+		$key = $context . '_' . $view . '_' . $categoryMainFilter . '_' . $cid;
+
+		if (array_key_exists($key, self::$categoryChildListReverse))
+		{
+			return self::$categoryChildListReverse[$key];
+		}
+
+		$query = $db->getQuery(true)
+			->select('c.category_id, cx.category_child_id, cx.category_parent_id, c.category_name, c.category_description, c.published, c.ordering')
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON c.category_id = cx.category_child_id');
+
+		if ($view == 'category')
+		{
+			$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering'));
+			$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
+			$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
+		}
+		else
+		{
+			$query->order('c.category_name');
+		}
+
+		if ($categoryMainFilter)
+		{
+			$query->where('c.category_name LIKE ' . $db->quote('%' . $categoryMainFilter . '%'));
+		}
+		else
+		{
+			$query->where('cx.category_parent_id = ' . (int) $cid);
+		}
+
+		self::$categoryChildListReverse[$key] = null;
+
+		if ($cats = $db->setQuery($query)->loadObjectList())
+		{
+			if ($categoryMainFilter)
+			{
+				self::$categoryChildListReverse[$key] = $cats;
+
+				return $cats;
+			}
+
+			self::$categoryChildListReverse[$key] = array();
+
+			foreach ($cats as $cat)
+			{
+				self::$categoryChildListReverse[$key][] = $cat;
+				self::getCategoryChildListRecursion($key, $cat->category_child_id);
+			}
+		}
+
+		return self::$categoryChildListReverse[$key];
+	}
+
+	/**
+	 * Get Category Child List Recursion
+	 *
+	 * @param   string  $key  Key in array Child List
+	 * @param   int     $cat  Category id
+	 *
+	 * @return  void
+	 */
+	protected static function getCategoryChildListRecursion($key, $cat)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('c.category_id, cx.category_child_id, cx.category_parent_id, c.category_name, c.category_description, c.published, c.ordering')
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON c.category_id = cx.category_child_id')
+			->where('cx.category_parent_id = ' . (int) $cat);
+
+		if ($cats = $db->setQuery($query)->loadObjectList())
+		{
+			foreach ($cats as $cat)
+			{
+				self::$categoryChildListReverse[$key][] = $cat;
+				self::getCategoryChildListRecursion($key, $cat->category_child_id);
 			}
 		}
 	}

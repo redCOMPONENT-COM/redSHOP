@@ -1624,7 +1624,7 @@ class order_functions
 		 * Economic Order Number Only Support (int) value.
 		 * Invoice Number May be varchar or int.
 		 */
-		if (ECONOMIC_INTEGRATION)
+		if (ECONOMIC_INTEGRATION && JPluginHelper::isEnabled('economic'))
 		{
 			$query = "SELECT order_number FROM " . $this->_table_prefix . "orders "
 				. "WHERE order_id = " . (int) $maxId;

@@ -1,5 +1,4 @@
 /* General Classes */
-
 .myupbutton {
     color: #ffffff;
     font-weight: bold;
@@ -408,7 +407,7 @@ div.product_writereview {
     padding: 0;
     padding-left: 10px;
 }
-.cart-quantity input.quantity{
+.cart-quantity input.quantity {
     border: 1px solid #8e8d8d;
     text-align: center;
     height: 21px;
@@ -1007,4 +1006,19 @@ a.rightButton, a.rightButton:hover {
 }
 .improvedTable img {
 	margin: 0 5px 5px 0;
+}
+.breadcrumb{
+    clear:both;
+}
+.clearfix{
+    clear: both;
+}
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+.clearfix:after {
+    clear: both;
 }

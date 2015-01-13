@@ -14,9 +14,9 @@ $addlink = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&sh
 ?>
 <div id="editcell">
 
-	<div align="right"><a href="<?php echo $addlink; ?>"
+	<div align="right"><a href="<?php echo $addlink; ?>" class="btn btn-success"
 	                      style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_ADD');?></a></div>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
 			<th class="title"><?php echo JText::_('COM_REDSHOP_FIRST_NAME');?></th>
