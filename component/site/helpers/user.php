@@ -210,8 +210,6 @@ class rsUserhelper
 		}
 		else
 		{
-			unset($userArr);
-			$userArr                     = array();
 			$userArr['rs_is_user_login'] = 0;
 		}
 
