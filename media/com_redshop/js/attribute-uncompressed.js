@@ -815,16 +815,16 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
  */
 redSHOP.updateStockStatusMessage = function(stockStatus, commonstockid){
 
-	var showAddToCart     = 'block',
-		showOutOfStock    = 'block',
-		showPreOrder      = 'block',
-		showStockQuantity = 'block',
+	var showAddToCart     = 'inline-block',
+		showOutOfStock    = 'inline-block',
+		showPreOrder      = 'inline-block',
+		showStockQuantity = 'inline-block',
 		statusMessage     = '';
 
 	if ('instock' == stockStatus)
 	{
-		showAddToCart     = 'block';
-		showStockQuantity = 'block';
+		showAddToCart     = 'inline-block';
+		showStockQuantity = 'inline-block';
 		showOutOfStock    = 'none';
 		showPreOrder      = 'none';
 		statusMessage     = Joomla.JText._('COM_REDSHOP_AVAILABLE_STOCK');
@@ -838,13 +838,13 @@ redSHOP.updateStockStatusMessage = function(stockStatus, commonstockid){
 		if ('preorder' == stockStatus)
 		{
 			showOutOfStock = 'none';
-			showPreOrder   = 'block';
+			showPreOrder   = 'inline-block';
 			statusMessage  = Joomla.JText._('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE');
 		}
 		// When outofstock
 		else
 		{
-			showOutOfStock = 'block';
+			showOutOfStock = 'inline-block';
 			showPreOrder   = 'none';
 			statusMessage  = Joomla.JText._('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 		}
