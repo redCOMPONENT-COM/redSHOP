@@ -844,7 +844,7 @@ redSHOP.updateStockStatusMessage = function(stockStatus, commonstockid){
 		// When outofstock
 		else
 		{
-			showOutOfStock = 'block';
+			showOutOfStock = 'inline-block';
 			showPreOrder   = 'none';
 			statusMessage  = Joomla.JText._('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 		}
