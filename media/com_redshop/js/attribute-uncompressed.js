@@ -1333,11 +1333,11 @@ function getPriceReplacement(product_price) {
 		ret = "<a href='" + url + "'>" + redSHOP.RSConfig._('PRICE_REPLACE') + "</a>";
 	}
 	if (redSHOP.RSConfig._('SHOW_PRICE') == "1" && product_price == 0) {
-		url = ZERO_redSHOP.RSConfig._('PRICE_REPLACE_URL');
+		url = redSHOP.RSConfig._('ZERO_PRICE_REPLACE_URL');
 		if (url == "") {
 			url = "#";
 		}
-		ret = "<a href='" + url + "'>" + ZERO_redSHOP.RSConfig._('PRICE_REPLACE') + "</a>";
+		ret = "<a href='" + url + "'>" + redSHOP.RSConfig._('ZERO_PRICE_REPLACE') + "</a>";
 	}
 	return ret;
 }
