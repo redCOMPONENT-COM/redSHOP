@@ -14,11 +14,7 @@ class RedshopViewStockimage_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL'), 'redshop_stockroom48');
-
-		$document = JFactory::getDocument();
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
@@ -45,6 +41,7 @@ class RedshopViewStockimage_detail extends RedshopView
 		$stock_option = $model->getStockAmountOption();
 		$stockroom_name = $model->getStockRoomList();
 		$op = array();
+		$op[0] = new stdClass;
 		$op[0]->value = 0;
 		$op[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$stockroom_name = array_merge($op, $stockroom_name);
