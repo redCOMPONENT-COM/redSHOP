@@ -352,7 +352,7 @@ class RedshopViewProduct_Detail extends RedshopView
 			$link .= '&cid=' . $catidmain;
 			$link .= '&Itemid=' . $pItemid;
 
-			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
+			JToolBarHelper::preview($link, true);
 			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
 		}
 
