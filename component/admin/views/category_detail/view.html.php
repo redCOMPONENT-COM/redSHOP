@@ -67,7 +67,7 @@ class RedshopViewCategory_detail extends RedshopView
 					. '&cid=' . $this->detail->category_id
 					. '&Itemid=' . $itemId;
 
-			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
+			JToolBarHelper::preview($link, true);
 		}
 
 		$this->lists = array();
