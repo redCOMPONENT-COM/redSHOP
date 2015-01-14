@@ -16,12 +16,6 @@ class RedshopViewTax_detail extends RedshopView
 	{
 		$db = JFactory::getDbo();
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_MANAGEMENT_DETAIL'), 'redshop_vat48');
-
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
-		$document = JFactory::getDocument();
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
@@ -34,7 +28,7 @@ class RedshopViewTax_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vat48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX') . ': <small><small>[ ' . $text . ' ]</small></small>', 'tag redshop_vat48');
 
 		JToolBarHelper::save();
 
