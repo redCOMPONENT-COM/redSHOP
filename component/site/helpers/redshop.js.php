@@ -89,7 +89,10 @@ $dynamicVars = array(
 	'AJAX_DETAIL_BOX_WIDTH'             => AJAX_DETAIL_BOX_WIDTH,
 	'AJAX_DETAIL_BOX_HEIGHT'            => AJAX_DETAIL_BOX_HEIGHT,
 	'AJAX_BOX_WIDTH'                    => AJAX_BOX_WIDTH,
-	'AJAX_BOX_HEIGHT'                   => AJAX_BOX_HEIGHT
+	'AJAX_BOX_HEIGHT'                   => AJAX_BOX_HEIGHT,
+	'PRICE_REPLACE_URL'                 => PRICE_REPLACE_URL,
+	'ZERO_PRICE_REPLACE_URL'            => ZERO_PRICE_REPLACE_URL,
+	'ZERO_PRICE_REPLACE'                => ZERO_PRICE_REPLACE
 );
 
 // Now looping to add dynamic vars into javascript stack
