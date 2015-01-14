@@ -26,18 +26,15 @@
 }
 
 .page-title .icon-redshop_261-x-88{
-	background-image: url("../images/redshop_white_logo.png");
+	background: url("../images/redshop_white_logo.png") no-repeat;
+	height: 30px;
+	width: 132px;
 }
 
 .icon-48-redshop_261-x-88{
-	background-image: url("../images/redshop.png");
-}
-
-.icon-48-redshop_261-x-88,
-.page-title .icon-redshop_261-x-88 {
-	height: 30px;
-	width: 132px;
-	background-repeat: no-repeat;
+	background: url("../images/redshop.png") no-repeat;
+	height: 45px;
+	width: 196px;
 }
 
 /* catalog management */
