@@ -238,7 +238,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['template_id'] = 0;
-			$post['template_name'] = 'Copy Of ' . $cdata->template_name;
+			$post['template_name'] = $this->renameToUniqueValue('template_name', $cdata->template_name, 'dash');
 			$post['template_section'] = $cdata->template_section;
 			$post['template_desc'] = $cdata->template_desc;
 			$post['order_status'] = $cdata->order_status;

@@ -190,7 +190,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['manufacturer_id'] = 0;
-			$post['manufacturer_name'] = 'Copy Of ' . $cdata->manufacturer_name;
+			$post['manufacturer_name'] = $this->renameToUniqueValue('manufacturer_name', $cdata->manufacturer_name);
 			$post['manufacturer_desc'] = $cdata->manufacturer_desc;
 			$post['manufacturer_email'] = $cdata->manufacturer_email;
 			$post['product_per_page'] = $cdata->product_per_page;
