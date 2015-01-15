@@ -4045,9 +4045,9 @@ class rsCarthelper
 
 				$url            = JURI::base();
 				$article_link   = $url . "index.php?option=com_content&amp;view=article&amp;id=" . TERMS_ARTICLE_ID . "&Itemid=" . $Itemid . "&tmpl=component&for=true";
-				$termscondition = '<input type="checkbox" id="termscondition" name="termscondition" value="1" />';
+				$termscondition = '<label class="checkbox"><input type="checkbox" id="termscondition" name="termscondition" value="1" /> ';
 				$termscondition .= JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL');
-				$termscondition .= ' <a class="modal" href="' . $article_link . '" rel="{handler: \'iframe\', size: {x: ' . $finalwidth . ', y: ' . $finalheight . '}}">' . JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL') . '</a>';
+				$termscondition .= ' <a class="modal" href="' . $article_link . '" rel="{handler: \'iframe\', size: {x: ' . $finalwidth . ', y: ' . $finalheight . '}}">' . JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL') . '</a></label>';
 			}
 
 			$template_desc = str_replace($finaltag, $termscondition, $template_desc);

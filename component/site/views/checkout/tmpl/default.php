@@ -43,6 +43,7 @@ $post = $jinput->getArray($_POST);
 
 $login_template_desc = '<table border="0" cellspacing="3" cellpadding="3" width="100%"><tbody><tr><td><label>{rs_username_lbl}:</label></td><td>{rs_username}</td><td><label>{rs_password_lbl}:</label></td><td>{rs_password}</td><td>{rs_login_button}</td></tr><tr><td colspan="2">{forget_password_link}</td></tr></tbody></table>';
 
+if (!ONESTEP_CHECKOUT_ENABLE):
 ?>
 
 <hr/>
@@ -55,6 +56,7 @@ $login_template_desc = '<table border="0" cellspacing="3" cellpadding="3" width=
 </table>
 <hr/>
 <?php
+endif;
 $returnurl = JRoute::_($url . 'index.php?option=com_redshop&view=checkout', false);
 $returnurl = base64_encode($returnurl);
 

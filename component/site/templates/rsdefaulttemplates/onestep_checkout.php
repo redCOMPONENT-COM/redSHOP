@@ -18,7 +18,7 @@
 	</tr>
 	<tr>
 		<td>
-			<table border="0">
+			<table border="0" class="table">
 				<tbody>
 				<tr>
 					<td>{shippingbox_template:shipping_box}</td>
@@ -35,7 +35,7 @@
 	</tr>
 	<tr>
 		<td>
-			<table border="0">
+			<table border="0" class="table">
 				<tbody>
 				<tr>
 					<td>{checkout_template:checkout}</td>
