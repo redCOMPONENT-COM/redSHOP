@@ -167,7 +167,7 @@ if (strstr($cart_data, "{shop_more}"))
 	}
 	else
 	{
-		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $Itemid);
+		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $redhelper->getCategoryItemid());
 	}
 
 	$shop_more = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
