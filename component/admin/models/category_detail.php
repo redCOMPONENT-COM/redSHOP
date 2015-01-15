@@ -582,14 +582,14 @@ class RedshopModelCategory_detail extends RedshopModel
 				$newheight = THUMB_HEIGHT;
 
 				$post['category_id'] = 0;
-				$post['category_name'] = "copy" . $copydata[$i]->category_name;
+				$post['category_name'] = $this->renameToUniqueValue('category_name', $copydata[$i]->category_name);
 				$post['category_short_description'] = $copydata[$i]->category_short_description;
 				$post['category_description'] = $copydata[$i]->category_description;
 				$post['category_template'] = $copydata[$i]->category_template;
 				$post['category_more_template'] = $copydata[$i]->category_more_template;
 				$post['products_per_page'] = $copydata[$i]->products_per_page;
-				$post['category_full_image'] = "copy" . $copydata[$i]->category_full_image;
-				$post['category_thumb_image'] = "copy" . $copydata[$i]->category_thumb_image;
+				$post['category_full_image'] = $this->renameToUniqueValue('category_full_image', $copydata[$i]->category_full_image, 'dash');
+				$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copydata[$i]->category_thumb_image, 'dash');
 				$post['metakey'] = $copydata[$i]->metakey;
 				$post['metadesc'] = $copydata[$i]->metadesc;
 				$post['metalanguage_setting'] = $copydata[$i]->metalanguage_setting;

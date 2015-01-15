@@ -160,7 +160,7 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['textlibrary_id'] = 0;
-			$post['text_name'] = 'Copy Of ' . $cdata->text_name;
+			$post['text_name'] = $this->renameToUniqueValue('text_name', $cdata->text_name, 'dash');
 			$post['text_desc'] = $cdata->text_desc;
 			$post['text_field'] = $cdata->text_field;
 			$post['section'] = $cdata->section;
