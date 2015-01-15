@@ -26,7 +26,7 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function addWrapper($name = 'Sample Wrapper', $price = '100', $category = 'redCOMPONENT')
+	public function addWrapper($name = 'Sample Wrapper', $price = '100', $category = 'Events and Forms')
 	{
 		$I = $this;
 		$I->amOnPage(\WrapperManagerJoomla3Page::$URL);

@@ -16,7 +16,7 @@ $config = $I->getConfig();
 $className = 'AcceptanceTester\QuestionManager' . $config['env'] . 'Steps';
 $I = new $className($scenario);
 
-$product = 'redTWITTER';
+$product = 'redSHOEMANIAC';
 $question = 'I am facing this Issue ' . rand(10, 100);
 $userContactNumber = rand(10000, 1000000);
 $updatedQuestion = 'Updated ' . $question;

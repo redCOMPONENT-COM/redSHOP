@@ -21,8 +21,6 @@ class RedshopViewTax_group_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT_DETAIL'), 'redshop_vatgroup48');
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
@@ -40,7 +38,7 @@ class RedshopViewTax_group_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vatgroup48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'tags redshop_vatgroup48');
 
 		JToolBarHelper::save();
 
