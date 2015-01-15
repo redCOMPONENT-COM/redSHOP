@@ -161,7 +161,7 @@ class RedshopModelSupplier_detail extends RedshopModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['supplier_id'] = 0;
-			$post['supplier_name'] = 'Copy Of ' . $cdata->supplier_name;
+			$post['supplier_name'] = $this->renameToUniqueValue('supplier_name', $cdata->supplier_name);
 			$post['supplier_desc'] = $cdata->supplier_desc;
 			$post['supplier_email'] = $cdata->supplier_email;
 			$post['published'] = $cdata->published;

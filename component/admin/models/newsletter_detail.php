@@ -158,7 +158,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		for ($i = 0; $i < count($copydata); $i++)
 		{
 			$post['newsletter_id'] = 0;
-			$post['name'] = 'Copy Of ' . $copydata[$i]->name;
+			$post['name'] = $this->renameToUniqueValue('name', $copydata[$i]->name);
 			$post['subject'] = $copydata[$i]->subject;
 			$post['body'] = $copydata[$i]->body;
 			$post['template_id'] = $copydata[$i]->template_id;
