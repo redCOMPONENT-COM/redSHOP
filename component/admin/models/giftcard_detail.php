@@ -209,7 +209,7 @@ class RedshopModelGiftcard_detail extends RedshopModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['giftcard_id'] = 0;
-			$post['giftcard_name'] = JText::_('COM_REDSHOP_COPY_OF') . ' ' . $cdata->giftcard_name;
+			$post['giftcard_name'] = $this->renameToUniqueValue('giftcard_name', $cdata->giftcard_name);
 			$post['giftcard_validity'] = $cdata->giftcard_validity;
 			$post['giftcard_date'] = $cdata->giftcard_date;
 			$post['giftcard_bgimage'] = $cdata->giftcard_bgimage;
