@@ -2135,6 +2135,7 @@ class RedshopModelCheckout extends RedshopModel
 		$user_id  = $user->id;
 		$usersess = $session->get('rs_user');
 		$userArr  = $this->_producthelper->getVatUserinfo($user_id);
+		$redHelper = new redhelper;
 
 		$usersess['rs_user_info_id'] = $users_info_id;
 		unset($cart['shipping']);
@@ -2275,7 +2276,7 @@ class RedshopModelCheckout extends RedshopModel
 			}
 			else
 			{
-				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $Itemid);
+				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $redHelper->getCategoryItemid());
 			}
 
 			$shop_more     = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
