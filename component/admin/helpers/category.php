@@ -107,11 +107,10 @@ class product_category
 
 					for ($i = 0; $i < $level; $i++)
 					{
-						$html .= "&#151;";
+						$html .= "- ";
 					}
 
-					$html .= "|$level|";
-					$html .= "&nbsp;" . $cat->category_name . "</option>";
+					$html .= "|$level| " . $cat->category_name . "</option>";
 				}
 			}
 
