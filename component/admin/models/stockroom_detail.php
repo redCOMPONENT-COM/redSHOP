@@ -210,7 +210,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['stockroom_id'] = 0;
-			$post['stockroom_name'] = 'Copy Of ' . $cdata->stockroom_name;
+			$post['stockroom_name'] = $this->renameToUniqueValue('stockroom_name', $cdata->stockroom_name);
 			$post['stockroom_desc'] = $cdata->stockroom_desc;
 			$post['min_del_time'] = $cdata->min_del_time;
 			$post['max_del_time'] = $cdata->max_del_time;
