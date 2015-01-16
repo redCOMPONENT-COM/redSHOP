@@ -184,7 +184,7 @@ class RedshopModelAccount extends RedshopModel
 		{
 			JLoader::import('joomla.html.pagination');
 
-			$this->_pagination = new redPagination($this->getTotal(), $start, $limit);
+			$this->_pagination = new JPagination($this->getTotal(), $start, $limit);
 		}
 
 		return $this->_pagination;
