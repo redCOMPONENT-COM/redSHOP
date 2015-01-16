@@ -23,7 +23,7 @@ class RedshopViewTax_group extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_TAX'));
 		jimport('joomla.html.pagination');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT'), 'redshop_vatgroup48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT'), 'tags redshop_vatgroup48');
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();

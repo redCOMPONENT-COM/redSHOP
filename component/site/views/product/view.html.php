@@ -385,7 +385,7 @@ class RedshopViewProduct extends RedshopView
 				$pagedesctag = str_replace("{shopname}", SHOP_NAME, $pagedesctag);
 				$pagedesctag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagedesctag);
 				$pagedesctag = str_replace("{productdesc}", strip_tags($this->data->product_desc), $pagedesctag);
-				$pagedesctag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagedesctag);
+				$pagedesctag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagedesctag);
 				$pagedesctag = str_replace("{saving}", $prodhelperobj->getProductFormattedPrice($product_price_saving_main), $pagedesctag);
 				$pagedesctag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagedesctag);
 			}

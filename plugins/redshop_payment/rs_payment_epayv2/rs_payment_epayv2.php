@@ -331,7 +331,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select($db->qn('COUNT(*)'))
+		$query->select('count(*)')
 			->from($db->qn('#__redshop_order_payment'))
 			->where($db->qn('order_id') . ' = ' . (int) $orderId)
 			->where($db->qn('order_payment_trans_id') . ' = ' . $db->q($tid));

@@ -53,8 +53,6 @@ class producthelper
 
 	public $_attributewithcart_template = null;
 
-	protected static $products = array();
-
 	protected static $userShopperGroupData = array();
 
 	protected static $vatRate = array();
@@ -98,101 +96,13 @@ class producthelper
 	 * @param   bool|JDatabaseQuery  $query   Get query or false
 	 * @param   int                  $userId  User id
 	 *
+	 * @deprecated  1.5 Use RedshopHelperProduct::getMainProductQuery instead
+	 *
 	 * @return JDatabaseQuery
 	 */
 	public function getMainProductQuery($query = false, $userId = 0)
 	{
-		$shopperGroupId = $this->_userhelper->getShopperGroup($userId);
-		$db = JFactory::getDbo();
-
-		if (!$query)
-		{
-			$query = $db->getQuery(true);
-		}
-
-		$query->select(array('p.*', 'p.product_id'))
-			->from($db->qn('#__redshop_product', 'p'));
-
-		// Require condition
-		$query->group('p.product_id');
-
-		// Select price
-		$query->select(
-			array(
-				'pp.price_id', $db->qn('pp.product_price', 'price_product_price'),
-				$db->qn('pp.product_currency', 'price_product_currency'), $db->qn('pp.discount_price', 'price_discount_price'),
-				$db->qn('pp.discount_start_date', 'price_discount_start_date'), $db->qn('pp.discount_end_date', 'price_discount_end_date')
-			)
-		)
-			->leftJoin(
-				$db->qn('#__redshop_product_price', 'pp')
-				. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int) $shopperGroupId
-			)
-			->order('pp.price_quantity_start ASC');
-
-		// Select category
-		$query->select(array('pc.category_id'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id');
-
-		// Select media
-		$query->select(array('media.media_alternate_text', 'media.media_id'))
-			->leftJoin(
-				$db->qn('#__redshop_media', 'media')
-				. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
-				. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
-			);
-
-		// Select ratings
-		$subQuery = $db->getQuery(true)
-			->select('COUNT(pr1.rating_id)')
-			->from($db->qn('#__redshop_product_rating', 'pr1'))
-			->where('pr1.product_id = p.product_id')
-			->where('pr1.published = 1');
-
-		$query->select('(' . $subQuery . ') AS count_rating');
-
-		$subQuery = $db->getQuery(true)
-			->select('SUM(pr2.user_rating)')
-			->from($db->qn('#__redshop_product_rating', 'pr2'))
-			->where('pr2.product_id = p.product_id')
-			->where('pr2.published = 1');
-
-		$query->select('(' . $subQuery . ') AS sum_rating');
-
-		// Count Accessories
-		$subQuery = $db->getQuery(true)
-			->select('COUNT(pa.accessory_id)')
-			->from($db->qn('#__redshop_product_accessory', 'pa'))
-			->leftJoin($db->qn('#__redshop_product', 'parent_product') . ' ON parent_product.product_id = pa.child_product_id')
-			->where('pa.product_id = p.product_id')
-			->where('parent_product.published = 1');
-
-		$query->select('(' . $subQuery . ') AS total_accessories');
-
-		// Count child products
-		$subQuery = $db->getQuery(true)
-			->select('COUNT(child.product_id) AS count_child_products, child.product_parent_id')
-			->from($db->qn('#__redshop_product', 'child'))
-			->where('child.product_parent_id > 0')
-			->where('child.published = 1')
-			->group('child.product_parent_id');
-
-		$query->select('child_product_table.count_child_products')
-			->leftJoin('(' . $subQuery . ') AS child_product_table ON child_product_table.product_parent_id = p.product_id');
-
-		// Sum quantity
-		if (USE_STOCKROOM == 1)
-		{
-			$subQuery = $db->getQuery(true)
-				->select('SUM(psx.quantity)')
-				->from($db->qn('#__redshop_product_stockroom_xref', 'psx'))
-				->where('psx.product_id = p.product_id')
-				->where('psx.quantity >= 0');
-
-			$query->select('(' . $subQuery . ') AS sum_quanity');
-		}
-
-		return $query;
+		return RedshopHelperProduct::getMainProductQuery($query, $userId);
 	}
 
 	/**
@@ -201,33 +111,13 @@ class producthelper
 	 * @param   int  $productId  Product id
 	 * @param   int  $userId     User id
 	 *
+	 * @deprecated  1.5 Use RedshopHelperProduct::getProductById instead
+	 *
 	 * @return mixed
 	 */
 	public function getProductById($productId, $userId = 0)
 	{
-		if (!$userId)
-		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-
-		if (!array_key_exists($productId . '.' . $userId, self::$products))
-		{
-			$db = JFactory::getDbo();
-			$query = $this->getMainProductQuery(false, $userId);
-
-			// Select product
-			$query->where($db->qn('p.product_id') . ' = ' . (int) $productId);
-
-			$db->setQuery($query);
-
-			if (self::$products[$productId . '.' . $userId] = $db->loadObject())
-			{
-				$this->setProductRelates(array($productId . '.' . $userId => self::$products[$productId . '.' . $userId]), $userId);
-			}
-		}
-
-		return self::$products[$productId . '.' . $userId];
+		return RedshopHelperProduct::getProductById($productId, $userId);
 	}
 
 	/**
@@ -236,96 +126,12 @@ class producthelper
 	 * @param   array  $products  Array product/s values
 	 *
 	 * @return void
+	 *
+	 * @deprecated  1.5 Use RedshopHelperProduct::setProduct instead
 	 */
 	public function setProduct($products)
 	{
-		self::$products = $products + self::$products;
-		$this->setProductRelates($products);
-	}
-
-	/**
-	 * Set product relates
-	 *
-	 * @param   array  $products  Products
-	 * @param   int    $userId    User id
-	 *
-	 * @return  void
-	 */
-	public function setProductRelates($products, $userId = 0)
-	{
-		if (!$userId)
-		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-
-		$keys = array();
-
-		foreach ((array) $products  as $product)
-		{
-			$keys[] = $product->product_id;
-			self::$products[$product->product_id . '.' . $userId]->attributes = array();
-			self::$products[$product->product_id . '.' . $userId]->extraFields = array();
-		}
-
-		if (count($keys) > 0)
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('a.attribute_id AS value', 'a.attribute_name AS text', 'a.*', 'ast.attribute_set_name', 'ast.published AS attribute_set_published'))
-				->from($db->qn('#__redshop_product_attribute', 'a'))
-				->leftJoin($db->qn('#__redshop_attribute_set', 'ast') . ' ON ast.attribute_set_id = a.attribute_set_id')
-				->where('a.attribute_name != ' . $db->q(''))
-				->where('a.attribute_published = 1')
-				->where('a.product_id IN (' . implode(',', $keys) . ')')
-				->order('a.ordering ASC');
-			$db->setQuery($query);
-
-			if ($results = $db->loadObjectList())
-			{
-				foreach ($results as $result)
-				{
-					self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id] = $result;
-					self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties = array();
-				}
-
-				$query->clear()
-					->select(
-						array('ap.property_id AS value', 'ap.property_name AS text', 'ap.*', 'a.attribute_name', 'a.attribute_id', 'a.product_id', 'a.attribute_set_id')
-					)
-					->from($db->qn('#__redshop_product_attribute_property', 'ap'))
-					->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.attribute_id = ap.attribute_id')
-					->where('a.product_id IN (' . implode(',', $keys) . ')')
-					->where('ap.property_published = 1')
-					->where('a.attribute_published = 1')
-					->where('a.attribute_name != ' . $db->q(''))
-					->order('ap.ordering ASC');
-				$db->setQuery($query);
-
-				if ($results = $db->loadObjectList())
-				{
-					foreach ($results as $result)
-					{
-						self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties[$result->property_id] = $result;
-					}
-				}
-			}
-
-			$query = $db->getQuery(true)
-				->select('fd.*, f.field_title')
-				->from($db->qn('#__redshop_fields_data', 'fd'))
-				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
-				->where('fd.itemid IN (' . implode(',', $keys) . ')')
-				->where('fd.section = 1');
-
-			if ($results = $db->setQuery($query)->loadObjectList())
-			{
-				foreach ($results as $result)
-				{
-					self::$products[$result->itemid . '.' . $userId]->extraFields[$result->fieldid] = $result;
-				}
-			}
-		}
+		RedshopHelperProduct::setProduct($products);
 	}
 
 	public function country_in_eu_common_vat_zone($country)
@@ -6361,7 +6167,7 @@ class producthelper
 		if (strstr($cartform, "{addtocart_button}"))
 		{
 			$cartTag  = "{addtocart_button}";
-			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '"><input type="button" ' .
+			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '" class="icon_cart"><input type="button" ' .
 				$onclick . $cartTitle . ' name="addtocart_button" value="' . $ADD_OR_LBL . '" /></span>';
 		}
 
@@ -6369,13 +6175,13 @@ class producthelper
 		{
 			$cartTag  = "{addtocart_link}";
 			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '" ' . $onclick . $cartTitle .
-				' style="cursor: pointer;">' . $ADD_OR_LBL . '</span>';
+				' style="cursor: pointer;" class="tag_cart">' . $ADD_OR_LBL . '</span>';
 		}
 
 		if (strstr($cartform, "{addtocart_image_aslink}"))
 		{
 			$cartTag  = "{addtocart_image_aslink}";
-			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '"><img ' . $onclick .
+			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '" class="img_linkcart"><img ' . $onclick .
 				$cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="' . REDSHOP_FRONT_IMAGES_ABSPATH .
 				$ADD_CART_IMAGE . '" /></span>';
 		}
@@ -6385,7 +6191,7 @@ class producthelper
 			$cartTag  = "{addtocart_image}";
 			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '><div ' . $onclick .
 				$cartTitle . ' align="center" style="cursor:pointer;background:url(' . REDSHOP_FRONT_IMAGES_ABSPATH .
-				$ADD_CART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat;">' . $ADD_OR_LBL .
+				$ADD_CART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat;" class="img_cart">' . $ADD_OR_LBL .
 				'</div></span>';
 		}
 
@@ -7154,14 +6960,14 @@ class producthelper
 				if (AJAX_CART_BOX != 1)
 				{
 					$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . ' ' . $cartstyle
-						. '><input type="button" ' . $onclick . $cartTitle . ' name="addtocart_button" value="'
+						. ' class="pdaddtocart"><input type="button" ' . $onclick . $cartTitle . ' name="addtocart_button" value="'
 						. $ADD_OR_LBL . '" /></span>';
 				}
 				else
 				{
 					$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 						. ' ><span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . ' ' . $cartstyle
-						. '><input type="button" ' . $cartTitle . ' name="addtocart_button" value="' . $ADD_OR_LBL
+						. ' class="pdaddtocart"><input type="button" ' . $cartTitle . ' name="addtocart_button" value="' . $ADD_OR_LBL
 						. '" /></span></a>';
 				}
 			}
@@ -7173,13 +6979,13 @@ class producthelper
 				if (AJAX_CART_BOX != 1)
 				{
 					$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span>';
+						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span>';
 				}
 				else
 				{
 					$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 						. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+						. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span></a>';
 				}
 			}
 
@@ -7191,10 +6997,10 @@ class producthelper
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_IMAGE))
 						$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '"><img ' . $onclick . $cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_CART_IMAGE . '" /></span>';
+							. '" class="pdaddtocart_img_link"><img ' . $onclick . $cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_CART_IMAGE . '" /></span>';
 					else
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
-							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId . '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId . '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_img_link">' . $ADD_OR_LBL . '</span></a>';
 
 				}
 				else
@@ -7202,12 +7008,12 @@ class producthelper
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_IMAGE))
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '"><img ' . $cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="'
+							. '" class="pdaddtocart_img_link"><img ' . $cartTitle . ' alt="' . $ADD_OR_LBL . '" style="cursor: pointer;" src="'
 							. REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_CART_IMAGE . '" /></span></a>';
 					else
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+							. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_img_link">' . $ADD_OR_LBL . '</span></a>';
 
 				}
 
@@ -7221,14 +7027,14 @@ class producthelper
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_BACKGROUND))
 						$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '"><div ' . $onclick . $cartTitle
+							. '" class="pdaddtocart_imgage"><div ' . $onclick . $cartTitle
 							. ' align="center" style="cursor:pointer;background:url(' . REDSHOP_FRONT_IMAGES_ABSPATH
 							. $ADD_CART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat;">'
 							. $ADD_OR_LBL . '</div></span>';
 					else
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+							. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_imgage">' . $ADD_OR_LBL . '</span></a>';
 
 				}
 				else
@@ -7236,30 +7042,30 @@ class producthelper
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_BACKGROUND))
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '"><div ' . $cartTitle . ' align="center" style="cursor:pointer;background:url('
+							. '" class="pdaddtocart_imgage"><div ' . $cartTitle . ' align="center" style="cursor:pointer;background:url('
 							. REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_CART_BACKGROUND
 							. ');background-position:bottom;background-repeat:no-repeat;">' . $ADD_OR_LBL . '</div></span></a>';
 					else
 						$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 							. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-							. '" ' . $cartTitle . ' style="cursor: pointer;">' . $ADD_OR_LBL . '</span></a>';
+							. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_imgage">' . $ADD_OR_LBL . '</span></a>';
 
 				}
 			}
 			// pre-Order
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_OR_PRE_BTN))
 			{
-				$cartIconPreorder = '<span id="preordercart' . $stockId . '" ' . $preorderstyle . '><img ' . $onclick
+				$cartIconPreorder = '<span class="preordercart_order" id="preordercart' . $stockId . '" ' . $preorderstyle . '><img ' . $onclick
 					. $cartTitle . ' alt="' . $ADD_OR_PRE_LBL . '" style="cursor: pointer;" src="'
 					. REDSHOP_FRONT_IMAGES_ABSPATH . $ADD_OR_PRE_BTN . '" /></span>';
 			}
 			else
 			{
-				$cartIconPreorder = '<span id="preordercart' . $stockId . '" ' . $preorderstyle
+				$cartIconPreorder = '<span class="preordercart_order_m" id="preordercart' . $stockId . '" ' . $preorderstyle
 					. '><a href="javascript:;" ' . $onclick . '>' . JTEXT::_('COM_REDSHOP_PREORDER_BTN') . '</a></span>';
 			}
 
-			$cartform = str_replace($cartTag, '<span id="stockaddtocart' . $stockId . '" ' . $stockstyle
+			$cartform = str_replace($cartTag, '<span class="stockaddtocart" id="stockaddtocart' . $stockId . '" ' . $stockstyle
 				. ' class="stock_addtocart">' . $display_text . '</span>' . $cartIconPreorder . $cartIcon, $cartform);
 			$cartform .= "</form>";
 			$data_add = str_replace("{form_addtocart:$cart_template->template_name}", $cartform, $data_add);

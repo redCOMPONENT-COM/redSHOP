@@ -21,7 +21,6 @@ class RedshopViewNewsletter_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
 		$layout = JRequest::getVar('layout');
 
 		$model = $this->getModel('newsletter_detail');
@@ -33,8 +32,6 @@ class RedshopViewNewsletter_detail extends RedshopView
 		$temps[0]->value = 0;
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$templates = @array_merge($temps, $templates);
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT_DETAIL'), 'redshop_newsletter48');
 
 		$document = JFactory::getDocument();
 
@@ -58,7 +55,7 @@ class RedshopViewNewsletter_detail extends RedshopView
 			$this->setLayout('default');
 		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_newsletter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'envelope-opened redshop_newsletter48');
 
 		if ($layout != "statistics")
 		{

@@ -36,7 +36,7 @@ class RedshopViewNewsletter extends RedshopView
 
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'redshop_newsletter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'envelope redshop_newsletter48');
 		$layout = JRequest::getVar('layout');
 		$task = JRequest::getVar('task');
 

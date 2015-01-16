@@ -328,6 +328,7 @@ class adminproducthelper
 
 		if ($shipp_users_info_id > 0)
 		{
+			$language = JFactory::getLanguage();
 			$shippingmethod = $order_functions->getShippingMethodInfo();
 
 			JPluginHelper::importPlugin('redshop_shipping');
@@ -345,11 +346,12 @@ class adminproducthelper
 				}
 
 				$rate = $shippingrate[$s];
+				$extension = 'plg_redshop_shipping_' . strtolower($shippingmethod[$s]->element);
+				$language->load($extension, JPATH_ADMINISTRATOR);
+				$rs = $shippingmethod[$s];
 
 				if (count($rate) > 0)
 				{
-					$rs = $shippingmethod[$s];
-
 					for ($i = 0; $i < count($rate); $i++)
 					{
 						$displayrate = ($rate[$i]->rate > 0) ? " (" . $producthelper->getProductFormattedPrice($rate[$i]->rate) . " )" : "";

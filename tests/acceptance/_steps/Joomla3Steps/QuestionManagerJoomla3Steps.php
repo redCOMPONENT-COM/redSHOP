@@ -26,7 +26,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function addQuestion($productName = 'redTWITTER', $userPhoneNumber = '123456', $question = 'Why is this Happening')
+	public function addQuestion($productName = 'redSHOEMANIAC', $userPhoneNumber = '123456', $question = 'Why is this Happening')
 	{
 		$I = $this;
 		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);

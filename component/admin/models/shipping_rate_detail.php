@@ -243,7 +243,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 			$post = array();
 			$post['shipping_rate_id'] = 0;
-			$post['shipping_rate_name'] = JText::_('COM_REDSHOP_COPY_OF') . ' ' . $pdata->shipping_rate_name;
+			$post['shipping_rate_name'] = $this->renameToUniqueValue('shipping_rate_name', $pdata->shipping_rate_name);
 			$post['shipping_class'] = $pdata->shipping_class;
 			$post['shipping_rate_country'] = $pdata->shipping_rate_country;
 			$post['shipping_rate_state'] = $pdata->shipping_rate_state;

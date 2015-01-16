@@ -477,3 +477,12 @@ div.cpanel-right {
 .icon-preview:before{
 	content: "\3c";
 }
+.icon-statistic:before {
+	content: "\0076";
+}
+.icon-print_f2:before{
+	content: "\E013";
+}
+.icon-redshop_order32:before{
+	content: "\E01A";
+}
