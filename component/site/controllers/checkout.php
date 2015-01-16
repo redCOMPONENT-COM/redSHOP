@@ -424,7 +424,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
-				$msg = JText::_('COM_REDSHOP_SELECT_SHIP_METHOD');
+				$msg = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
 				$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg);
 			}
 		}

@@ -78,11 +78,6 @@ class RedshopViewVoucher_detail extends RedshopView
 		);
 
 		$result = array();
-
-		$lists['product_all'] = JHTML::_('select.genericlist', $result, 'product_all[]',
-			'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0
-		);
-
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->request_url = $uri->toString();

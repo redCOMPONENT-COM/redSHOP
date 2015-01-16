@@ -21,12 +21,6 @@ class RedshopViewNewslettersubscr_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
-
-		$userlist = JRequest::getVar('userlist');
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR__MANAGEMENT_DETAIL'), 'redshop_newsletter48');
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
@@ -39,7 +33,7 @@ class RedshopViewNewslettersubscr_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_newsletter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR') . ': <small><small>[ ' . $text . ' ]</small></small>', 'envelope-opened redshop_newsletter48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 

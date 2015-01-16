@@ -1356,7 +1356,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$post['product_special'] = $pdata->product_special;
 			$post['product_download'] = $pdata->product_download;
 			$post['product_template'] = $pdata->product_template;
-			$post['product_name'] = JText::_('COM_REDSHOP_COPY_OF') . ' ' . $pdata->product_name;
+			$post['product_name'] = $this->renameToUniqueValue('product_name', $pdata->product_name);
 			$post['product_price'] = $pdata->product_price;
 			$post['discount_price'] = $pdata->discount_price;
 			$post['discount_stratdate'] = $pdata->discount_stratdate;
@@ -1368,7 +1368,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$post['discount_calc_method'] = $pdata->discount_calc_method;
 			$post['use_discount_calc'] = $pdata->use_discount_calc;
 			$post['use_range'] = $pdata->use_range;
-			$post['product_number'] = trim(JText::_('COM_REDSHOP_COPY_OF') . ' ' . $pdata->product_number);
+			$post['product_number'] = $this->renameToUniqueValue('product_number', $pdata->product_number, 'dash');
 			$post['product_type'] = $pdata->product_type;
 			$post['product_s_desc'] = $pdata->product_s_desc;
 			$post['product_desc'] = $pdata->product_desc;

@@ -23,6 +23,8 @@
 						<td>
 							<div class="category_product_price">{product_price}</div>
 						</td>
+					</tr>
+					<tr>
 						<td>
 							<div id="add_to_cart_all">{form_addtocart:add_to_cart1}</div>
 						</td>

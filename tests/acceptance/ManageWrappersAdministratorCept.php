@@ -17,7 +17,7 @@ $className = 'AcceptanceTester\WrapperManager' . $config['env'] . 'Steps';
 $I = new $className($scenario);
 $name = 'Sample Wrapper ' . rand(10, 100);
 $price = rand(100, 1000);
-$category = 'redCOMPONENT';
+$category = 'Events and Forms';
 $newName = 'Updated ' . $name;
 $I->addWrapper($name, $price, $category);
 $I->searchWrapper($name);

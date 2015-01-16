@@ -74,7 +74,7 @@ class RedshopViewCheckout extends RedshopView
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
-				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_METHOD');
+				$msg  = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
 				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;

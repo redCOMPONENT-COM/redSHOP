@@ -30,6 +30,8 @@ class redshopMail
 
 	public $_redhelper = null;
 
+	protected static $mailTemplates = array();
+
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -44,36 +46,43 @@ class redshopMail
 	/**
 	 * Method to get mail section
 	 *
-	 * @access public
-	 * @return array
+	 * @param   int     $tid        Template id
+	 * @param   string  $section    Template section
+	 * @param   string  $extraCond  Extra condition for query
+	 *
+	 * @return  array
 	 */
-
-	public function getMailtemplate($tid = 0, $section = "", $extracond = "")
+	public function getMailtemplate($tid = 0, $section = '', $extraCond = '')
 	{
-		$str = '';
+		$key = $tid . '_' . $section . '_' . serialize($extraCond);
 
-		if ($tid != 0)
+		if (!array_key_exists($key, self::$mailTemplates))
 		{
-			$str .= ' AND mail_id = ' . (int) $tid;
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_mail'))
+				->where('published = 1');
+
+			if ($tid)
+			{
+				$query->where('mail_id = ' . (int) $tid);
+			}
+
+			if ($section)
+			{
+				$query->where('mail_section = ' . $db->q($section));
+			}
+
+			if ($extraCond)
+			{
+				$query->where($extraCond);
+			}
+
+			self::$mailTemplates[$key] = $db->setQuery($query)->loadObjectlist();
 		}
 
-		if ($section != "")
-		{
-			$str .= ' AND mail_section = ' . $this->_db->quote($section) . ' ';
-		}
-
-		if ($extracond != "")
-		{
-			$str .= 'AND ' . $extracond . ' ';
-		}
-
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'mail '
-			. 'WHERE published=1 '
-			. $str;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return self::$mailTemplates[$key];
 	}
 
 	/**

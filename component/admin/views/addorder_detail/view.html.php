@@ -116,7 +116,7 @@ class RedshopViewAddorder_detail extends RedshopView
 		);
 
 		$payment_detail = $this->get('payment');
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small></small>', 'redshop_order48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small></small>', 'pencil-2 redshop_order48');
 
 		if ($err == "" && array_key_exists("users_info_id", $billing) && $billing->users_info_id)
 		{

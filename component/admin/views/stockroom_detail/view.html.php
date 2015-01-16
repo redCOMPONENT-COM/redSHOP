@@ -63,11 +63,6 @@ class RedshopViewStockroom_detail extends RedshopView
 
 			$result = array();
 
-			// Get all product
-			$lists['product_all'] = JHTML::_('select.genericlist', $result, 'product_all[]',
-				'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0
-			);
-
 			$lists['show_in_front'] = JHTML::_('select.booleanlist', 'show_in_front', 'class="inputbox"', $detail->show_in_front);
 
 			$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);

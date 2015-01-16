@@ -37,7 +37,7 @@ class RedshopViewMail extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_MAIL'));
 		jimport('joomla.html.pagination');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL_MANAGEMENT'), 'redshop_mailcenter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL_MANAGEMENT'), 'envelope redshop_mailcenter48');
 
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
