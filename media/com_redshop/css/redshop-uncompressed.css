@@ -42,7 +42,6 @@ td.field_label {
     margin-right: 10px;
     margin-bottom: 10px;
     padding-bottom: 10px;
-    border: 1px solid #8e8d8d;
 }
 .category_product__front {
     margin: 0;
@@ -123,7 +122,6 @@ td.field_label {
     margin-bottom: 10px;
     padding-bottom: 10px;
     width: auto;
-    border: 1px solid #8e8d8d;
 }
 .category_product_box_outside {
     margin: 0;
@@ -136,7 +134,6 @@ td.field_label {
     display: block;
     margin: 0 8px 10px 8px;
     padding: 0 13px 0 45px;
-    border: 1px solid #8e8d8d;
 }
 .category_box_inside, .kategori_kasse_ydre {
     margin: 0;
@@ -225,7 +222,6 @@ td.field_label {
     margin-right: 10px;
     margin-bottom: 10px;
     padding-bottom: 10px;
-    border: 1px solid #8e8d8d;
 }
 .manufacturer_box_inside {
     margin: 0;
@@ -330,7 +326,6 @@ div.product_writereview {
 .product_image, .produkt_kasse_billed {
     margin: 0;
     padding: 0;
-    border: 1px solid #8e8d8d;
 }
 .product_image img, .produkt_kasse_billed img {
     margin: 0;
@@ -495,7 +490,6 @@ div.product_writereview {
 .related_product_inside, .related_produkt_indre {
     margin: 0;
     padding: 5px;
-    border: 1px solid #8e8d8d;
     margin-bottom: 10px;
     margin-left: 5px;
     margin-right: 5px;
