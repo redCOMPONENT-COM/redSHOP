@@ -516,15 +516,23 @@ class RedshopModelProduct extends RedshopModel
 		return true;
 	}
 
-	public function downloadProduct($tid)
+	/**
+	 * Get Download product info
+	 *
+	 * @param   string  $downloadId  Download id
+	 *
+	 * @return mixed
+	 */
+	public function downloadProduct($downloadId)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product_download AS pd "
-			. "LEFT JOIN " . $this->_table_prefix . "media AS m ON m.media_name = pd.file_name "
-			. "WHERE download_id = " . (int) $tid;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_download', 'pd'))
+			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON m.media_name = pd.file_name')
+			->where('pd.download_id = ' . $db->q($downloadId));
 
-		return $list;
+		return $db->setQuery($query)->loadObject();
 	}
 
 	public function AdditionaldownloadProduct($mid = 0, $id = 0, $media = 0)

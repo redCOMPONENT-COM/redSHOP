@@ -1058,7 +1058,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_download` (
 	`order_id`              INT(11)      NOT NULL DEFAULT '0',
 	`end_date`              INT(11)      NOT NULL DEFAULT '0',
 	`download_max`          INT(11)      NOT NULL DEFAULT '0',
-	`download_id`           VARCHAR(32)  NOT NULL DEFAULT '',
+	`download_id`           VARCHAR(255) NOT NULL DEFAULT '',
 	`file_name`             VARCHAR(255) NOT NULL DEFAULT '',
 	`product_serial_number` VARCHAR(255) NOT NULL DEFAULT '',
 	PRIMARY KEY (`download_id`),
