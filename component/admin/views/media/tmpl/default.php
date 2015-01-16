@@ -212,7 +212,7 @@ else
 
 						$filetype = strtolower(JFile::getExt(trim($row->media_name)));
 
-						if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
+						if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images')
 						{
 							$media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim($row->media_name);    ?>
 							<a class="modal" href="<?php echo $media_img; ?>"
