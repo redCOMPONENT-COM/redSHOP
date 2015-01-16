@@ -398,9 +398,11 @@ div.product_writereview {
 }
 .cart-link {
     float: right;
-    width: 150px;
     height: auto !important;
     text-align: left;
+}
+.category_product_container tr, .category_product_container td{
+    border: none;
 }
 .cart-link img {
     margin: 0;
@@ -425,6 +427,7 @@ div.product_writereview {
     padding: 5px 10px;
     border:1px solid #ccc;
     border-radius:5px;
+    display: inline-block;
 }
 /* --- redSHOP Product Content View - Accesories --- */
 
