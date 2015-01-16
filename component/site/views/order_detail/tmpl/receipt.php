@@ -42,6 +42,8 @@ if ($this->params->get('show_page_title', 1))
 	</div>
 <?php
 }
+
+if (!ONESTEP_CHECKOUT_ENABLE):
 ?>
 	<hr/>
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -52,6 +54,7 @@ if ($this->params->get('show_page_title', 1))
 		</tr>
 	</table>
 	<hr/>
+	<?php endif; ?>
 	<div>
 		<?php
 		echo $thankyou_text;
