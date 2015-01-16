@@ -60,5 +60,5 @@
 	</div>
 	<p>{category_loop_end}</p>
 
-	<div class="category_pagination">{pagination}</div>
+	<div class="pagination">{pagination}</div>
 </div>

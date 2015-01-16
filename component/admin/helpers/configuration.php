@@ -797,7 +797,6 @@ class Redconfiguration
 						'PRODUCT_COMPARISON_TYPE'                      => $d ["product_comparison_type"],
 						'COMPARE_TEMPLATE_ID'                          => $d ["compare_template_id"],
 						'SSL_ENABLE_IN_CHECKOUT'                       => $d ["ssl_enable_in_checkout"],
-						'PAGINATION'                                   => $d ["pagination"],
 						'VAT_RATE_AFTER_DISCOUNT'                      => $d ["vat_rate_after_discount"],
 						'PRODUCT_DOWNLOAD_ROOT'                        => $d ["product_download_root"],
 						'TWOWAY_RELATED_PRODUCT'                       => $d ["twoway_related_product"],
