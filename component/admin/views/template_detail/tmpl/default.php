@@ -10,8 +10,10 @@ defined('_JEXEC') or die;
 JLoader::load('RedshopHelperAdminExtra_field');
 $extra_field = new extra_field;
 JHTML::_('behavior.tooltip');
-$editor = JFactory::getEditor();
-$model = $this->getModel('template_detail');
+
+// We only support codemirror editor for template editing.
+$editor      = JFactory::getEditor('codemirror');
+$model       = $this->getModel('template_detail');
 $showbuttons = JRequest::getVar('showbuttons');
 ?>
 <script language="javascript" type="text/javascript">
