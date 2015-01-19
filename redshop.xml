@@ -31,6 +31,7 @@
         <folder>assets</folder>
         <folder>controllers</folder>
         <folder>helpers</folder>
+        <folder>layouts</folder>
         <folder>models</folder>
         <folder>templates</folder>
         <folder>views</folder>

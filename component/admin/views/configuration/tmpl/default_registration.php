@@ -36,8 +36,8 @@ defined('_JEXEC') or die;
 	<tr>
 		<td width="100" align="right" class="key">
 			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_SHOW_REGISTER_CHECKOUT_CAPTCHA'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_REGISTER_CHECKOUT_CAPTCHA'); ?>">
-			<label for="name"><?php echo JText::_('COM_REDSHOP_SHOW_REGISTER_CHECKOUT_CAPTCHA');?></label>
+			      title="<?php echo JText::_('COM_REDSHOP_SHOW_CAPTCHA'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_CAPTCHA'); ?>">
+			<label for="name"><?php echo JText::_('COM_REDSHOP_SHOW_CAPTCHA');?></label>
 		</td>
 		<td>
 			<?php echo $this->lists ['show_captcha']; ?>
