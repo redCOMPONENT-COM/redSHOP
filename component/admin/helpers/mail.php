@@ -524,6 +524,8 @@ class redshopMail
 
 			$message = $this->_carthelper->replaceOrderTemplate($OrdersDetail, $message);
 
+			$message = $this->imginmail($message);
+
 			$pdfObj->AddPage();
 			$pdfObj->WriteHTML($message, true, false, true, false, '');
 		}
