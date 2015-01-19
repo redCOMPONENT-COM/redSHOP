@@ -778,7 +778,7 @@ class producthelper
 
 		$str = array();
 
-		for ($i = 0; $i < count($filedname); $i++)
+		for ($i = 0, $countFiledName = count($filedname); $i < $countFiledName; $i++)
 		{
 			if ($categorypage == 1)
 			{
@@ -3166,7 +3166,7 @@ class producthelper
 		{
 			$tmpArr = explode('}', $template_middle);
 
-			for ($i = 0; $i < count($tmpArr); $i++)
+			for ($i = 0, $countTmpArr = count($tmpArr); $i < $countTmpArr; $i++)
 			{
 				$val   = strpbrk($tmpArr[$i], "{");
 				$value = str_replace("{", "", $val);
@@ -3189,7 +3189,7 @@ class producthelper
 
 		$tmp = array();
 
-		for ($i = 0; $i < count($userfields); $i++)
+		for ($i = 0, $countUserFields = count($userfields); $i < $countUserFields; $i++)
 		{
 			if (!in_array($userfields[$i], $userfields_lbl))
 			{
@@ -3706,7 +3706,7 @@ class producthelper
 
 		if ($data_add != "")
 		{
-			for ($i = 0; $i < count($attribute_template); $i++)
+			for ($i = 0, $countAttributeTemplate = count($attribute_template); $i < $countAttributeTemplate; $i++)
 			{
 				if (strstr($data_add, "{" . $displayname . ":" . $attribute_template[$i]->template_name . "}"))
 				{
@@ -4197,7 +4197,7 @@ class producthelper
 			$default_ajaxdetail_templatedata = array();
 			$ajaxdetail_template             = $redTemplate->getTemplate("ajax_cart_detail_box");
 
-			for ($i = 0; $i < count($ajaxdetail_template); $i++)
+			for ($i = 0, $countAjaxDetailTemplate = count($ajaxdetail_template); $i < $countAjaxDetailTemplate; $i++)
 			{
 				if (strstr($producttemplate[0]->template_desc, "{ajaxdetail_template:" . $ajaxdetail_template[$i]->template_name . "}"))
 				{
@@ -6590,7 +6590,7 @@ class producthelper
 					}
 				}
 
-				for ($ui = 0; $ui < count($userfieldArr); $ui++)
+				for ($ui = 0, $countUserfieldArr = count($userfieldArr); $ui < $countUserfieldArr; $ui++)
 				{
 					$result_arr = $extraField->list_all_user_fields(
 						$userfieldArr[$ui],
@@ -6837,7 +6837,7 @@ class producthelper
 					$qselect = "<select name='quantity' id='quantity" . $product_id
 						. "'  OnChange='calculateTotalPrice(" . $product_id . "," . $relproduct_id . ");'>";
 
-					for ($q = 0; $q < count($quaboxarr); $q++)
+					for ($q = 0, $countQuaBoxArr = count($quaboxarr); $q < $countQuaBoxArr; $q++)
 					{
 						if (intVal($quaboxarr[$q]) && intVal($quaboxarr[$q]) != 0)
 						{
@@ -10206,7 +10206,7 @@ class producthelper
 
 		if (count($fieldArray) > 0)
 		{
-			for ($i = 0; $i < count($fieldArray); $i++)
+			for ($i = 0, $countFieldArray = count($fieldArray); $i < $countFieldArray; $i++)
 			{
 				$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 17, $productid);
 
