@@ -3,41 +3,40 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_who_bought
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $Itemid = JRequest::getInt('Itemid');
 $user = JFactory::getUser();
 
 $document = JFactory::getDocument();
-include_once("modules/mod_redshop_who_bought/assets/css/skin.css.php");
-JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('query.jcarousel.min.js', 'modules/mod_redshop_who_bought/assets/js/', false);
+include_once "modules/mod_redshop_who_bought/assets/css/skin.css.php";
+JHtml::_('redshopjquery.framework');
+JHtml::script('modules/mod_redshop_who_bought/assets/js/query.jcarousel.min.js');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+JLoader::load('RedshopHelperAdminConfiguration');
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-$producthelper = new producthelper();
-$redhelper = new redhelper();
-$redTemplate = new Redtemplate();
-$extraField = new extraField();
+$producthelper = new producthelper;
+$redhelper = new redhelper;
+$redTemplate = new Redtemplate;
+$extraField = new extraField;
 $module_id = "mod_" . $module->id;
 
 // 	include redshop js file.
-require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-// lightbox Javascript
-JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+JHtml::script('com_redshop/common.js', false, true);
+JHtml::script('com_redshop/redbox.js', false, true);
 
 echo '<ul id="mycarousel" class="jcarousel-skin-tango">';
+
 if (count($productlists))
 {
 	foreach ($productlists as $product)
@@ -102,23 +101,41 @@ if (count($productlists))
 
 
 		echo " <li>";
+
 		if ($show_product_image)
 		{
 			echo "<div style='height:" . $thumbheight . ";  text-align:center;'><img  height='" . $thumbheight . " width='" . $thumbwidth . " src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image . "' /></div>";
 		}
+
 		if ($show_addtocart_button)
 		{
 			echo "<div>&nbsp;</div>";
 			$addtocart = $producthelper->replaceCartTemplate($product->product_id, $category_id, 0, 0, "", false, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id);
 			echo "<div class='mod_redshop_products_addtocart'>" . $addtocart . $hidden_userfield . "</div>";
-
 		}
 
 
 		if ($show_product_name)
 		{
+			$pItemid = $redhelper->getItemid($product->product_id);
+			$link = JRoute::_(
+					'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid
+			);
+
 			echo "<div>&nbsp;</div>";
-			echo "<div style='text-align:center;'>" . $product->product_name . "</div>";
+
+			if ($product_title_linkable)
+			{
+				echo "<div style='text-align:center;'>";
+					echo "<a href='" . $link . "'>";
+						echo $product->product_name;
+					echo "</a>";
+				echo "</div>";
+			}
+			else
+			{
+				echo "<div style='text-align:center;'>" . $product->product_name . "</div>";
+			}
 		}
 
 		if ($show_product_price)
@@ -126,8 +143,10 @@ if (count($productlists))
 			echo "<div style='text-align:center;'>" . $product->product_price . "&nbsp;" . CURRENCY_CODE . "</div>";
 		}
 	}
+
 	echo "</li>";
 }
+
 echo "</ul>"
 
 

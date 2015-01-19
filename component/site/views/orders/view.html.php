@@ -3,15 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class ordersVieworders extends JView
+class RedshopViewOrders extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -22,7 +21,7 @@ class ordersVieworders extends JView
 		// Preform security checks
 		if ($user->id == 0)
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 

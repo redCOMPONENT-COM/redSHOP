@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,6 @@ class JFormFieldshippingmethod extends JFormField
 
 	protected function getInput()
 	{
-
 		$db = JFactory::getDbo();
 
 		$query = 'SELECT s.* FROM #__extensions AS s '
@@ -38,14 +37,11 @@ class JFormFieldshippingmethod extends JFormField
 		$options = $db->loadObjectList();
 
 		$html = '';
-		$name = $this->name;
-		//$value	= $this->value;
+
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
-			$row = & $options[$i];
-
-
-			$html .= "&nbsp;<input type='hidden' id='" . $row->id . "' name='" . $name . "'  value='" . $row->element . "'   /><br/>";
+			$row = $options[$i];
+			$html .= "&nbsp;<input type='hidden' id='" . $row->type . '-' . $row->name . "' name='" . $this->name . "'  value='" . $row->element . "'   /><br/>";
 		}
 
 

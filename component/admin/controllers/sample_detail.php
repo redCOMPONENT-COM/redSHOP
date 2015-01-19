@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class sample_detailController extends JController
+class RedshopControllerSample_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -35,7 +34,7 @@ class sample_detailController extends JController
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post ['sample_id'] = $cid [0];
-		$link = 'index.php?option=' . $option . '&view=sample';
+		$link = 'index.php?option=com_redshop&view=sample';
 
 		$model = $this->getModel('sample_detail');
 
@@ -70,7 +69,7 @@ class sample_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_DELETED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
 	}
 
 	public function publish()
@@ -92,7 +91,7 @@ class sample_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_PUBLISHED_SUCCESFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
 	}
 
 	public function unpublish()
@@ -114,7 +113,7 @@ class sample_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
 	}
 
 	public function cancel()
@@ -122,6 +121,6 @@ class sample_detailController extends JController
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_EDITING_CANCELLED');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
 	}
 }

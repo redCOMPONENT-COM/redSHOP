@@ -3,17 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminImages');
 
-class fields_detailModelfields_detail extends JModel
+class RedshopModelFields_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -71,23 +71,25 @@ class fields_detailModelfields_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->field_id = 0;
-			$detail->field_title = null;
-			$detail->wysiwyg = null;
-			$detail->field_type = 0;
-			$detail->field_name = null;
-			$detail->field_desc = null;
-			$detail->field_class = null;
-			$detail->field_section = 0;
-			$detail->field_maxlength = 0;
-			$detail->field_cols = 0;
-			$detail->field_rows = 0;
-			$detail->field_size = 0;
+			$detail                      = new stdClass;
+			$detail->field_id            = 0;
+			$detail->field_title         = null;
+			$detail->wysiwyg             = null;
+			$detail->field_type          = 0;
+			$detail->field_name          = null;
+			$detail->field_desc          = null;
+			$detail->field_class         = null;
+			$detail->field_section       = 0;
+			$detail->field_maxlength     = 0;
+			$detail->field_cols          = 0;
+			$detail->field_rows          = 0;
+			$detail->field_size          = 0;
 			$detail->field_show_in_front = 0;
-			$detail->required = 0;
-			$detail->published = 1;
-			$detail->display_in_product = 0;
+			$detail->required            = 0;
+			$detail->published           = 1;
+			$detail->display_in_product  = 0;
+			$detail->display_in_checkout = 0;
+
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
@@ -98,7 +100,7 @@ class fields_detailModelfields_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$field_cid = $data['cid'][0];
 
 		if (!$field_cid)
@@ -174,7 +176,7 @@ class fields_detailModelfields_detail extends JModel
 			{
 				if ($extra_value[$j] != "" && $extra_name['name'][$j] != "")
 				{
-					$filename = time() . "_" . $extra_name['name'][$j];
+					$filename = RedShopHelperImages::cleanFileName($extra_name['name'][$j]);
 
 					$src = $extra_name['tmp_name'][$j];
 					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
@@ -205,7 +207,7 @@ class fields_detailModelfields_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -221,7 +223,7 @@ class fields_detailModelfields_detail extends JModel
 
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -238,7 +240,7 @@ class fields_detailModelfields_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'fields WHERE field_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -249,87 +251,10 @@ class fields_detailModelfields_detail extends JModel
 			$query_field_data = 'DELETE FROM ' . $this->_table_prefix . 'fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query_field_data);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 			}
-		}
-
-		return true;
-	}
-
-	public function publish($cid = array(), $publish = 1)
-	{
-		if (count($cid))
-		{
-			$cids = implode(',', $cid);
-
-			$query = 'UPDATE ' . $this->_table_prefix . 'fields'
-				. ' SET published = ' . intval($publish)
-				. ' WHERE field_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->query())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function saveorder($cid = array(), $order)
-	{
-		$row =& $this->getTable();
-		$groupings = array();
-		$conditions = array();
-
-		// Update ordering values
-		for ($i = 0; $i < count($cid); $i++)
-		{
-			$row->load((int) $cid[$i]);
-
-			// Track categories
-			$groupings[] = $row->field_id;
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-
-				// Remember to updateOrder this group
-				$condition = 'field_section = ' . (int) $row->field_section;
-				$found = false;
-
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-
-				if (!$found)
-				{
-					$conditions[] = array($row->field_id, $condition);
-				}
-			}
-		}
-
-		// Execute updateOrder for each group
-		foreach ($conditions as $cond)
-		{
-			$row->load($cond[0]);
-			$row->reorder($cond[1]);
 		}
 
 		return true;
@@ -341,34 +266,6 @@ class fields_detailModelfields_detail extends JModel
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
-	}
-
-	/**
-	 * Method to move
-	 *
-	 * @access  public
-	 * @return  boolean True on success
-	 * @since 0.9
-	 */
-	public function move($direction)
-	{
-		$row = JTable::getInstance('fields_detail', 'Table');
-
-		if (!$row->load($this->_id))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->move($direction))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

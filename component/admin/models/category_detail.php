@@ -3,22 +3,22 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminImages');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class category_detailModelcategory_detail extends JModel
+class RedshopModelCategory_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -30,7 +30,7 @@ class category_detailModelcategory_detail extends JModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -104,7 +104,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -124,8 +124,7 @@ class category_detailModelcategory_detail extends JModel
 		if (count($file) > 0)
 		{
 			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $file['name']);
-			$filename = str_replace(" ", "_", $filename);
+			$filename = RedShopHelperImages::cleanFileName($file['name']);
 		}
 
 		if (isset($data['image_delete']))
@@ -136,7 +135,7 @@ class category_detailModelcategory_detail extends JModel
 			$query = "UPDATE " . $this->_table_prefix . "category set category_thumb_image = '',category_full_image = ''  where category_id ="
 				. $row->category_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 
 		if (count($_FILES) > 0 && $_FILES['category_full_image']['name'] != "")
@@ -165,7 +164,7 @@ class category_detailModelcategory_detail extends JModel
 				$image_split = explode('/', $data['category_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
 				$row->category_full_image = $filename;
 				$row->category_thumb_image = $filename;
 
@@ -190,13 +189,13 @@ class category_detailModelcategory_detail extends JModel
 
 			$query = "UPDATE " . $this->_table_prefix . "category set category_back_full_image = ''  where category_id =" . $row->category_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 
 		if (count($backfile) > 0 && $backfile['name'] != "")
 		{
 			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $backfile['name']);
+			$filename = RedShopHelperImages::cleanFileName($backfile['name']);
 			$row->category_back_full_image = $filename;
 
 			// Get extension of the file
@@ -234,7 +233,7 @@ class category_detailModelcategory_detail extends JModel
 			$query = 'INSERT INTO ' . $this->_table_prefix . 'category_xref(category_parent_id,category_child_id) VALUES ("'
 				. $parentcat . '","' . $newcatid . '");';
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 		else
 		{
@@ -252,7 +251,7 @@ class category_detailModelcategory_detail extends JModel
 			$query = 'UPDATE ' . $this->_table_prefix . 'category_xref SET category_parent_id= "' . $parentcat
 				. '"  WHERE category_child_id = "' . $newcatid . '" ';
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			// Sheking for the image at the updation time
 			if ($_FILES['category_full_image']['name'] != "")
@@ -286,7 +285,7 @@ class category_detailModelcategory_detail extends JModel
 
 					if ($product_id != $acc['child_product_id'])
 					{
-						$accdetail =& $this->getTable('accessory_detail');
+						$accdetail = $this->getTable('accessory_detail');
 
 						$accdetail->accessory_id = $accessory_id;
 						$accdetail->category_id = $newcatid;
@@ -355,15 +354,15 @@ class category_detailModelcategory_detail extends JModel
 
 			$q_product = 'DELETE FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_product);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$q_child = 'DELETE FROM ' . $this->_table_prefix . 'category_xref WHERE category_child_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_child);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'category WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 		}
 
@@ -381,7 +380,7 @@ class category_detailModelcategory_detail extends JModel
 				. ' WHERE category_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -402,7 +401,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function move($direction)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->load($this->_id))
 		{
@@ -423,7 +422,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$groupings = array();
 
 		// Update ordering values
@@ -461,7 +460,7 @@ class category_detailModelcategory_detail extends JModel
 		}
 
 		$this->_db->setQuery($q);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	public function orderup()
@@ -493,13 +492,13 @@ class category_detailModelcategory_detail extends JModel
 			$q .= "SET ordering=ordering-1 ";
 			$q .= "WHERE category_id='" . $cid . "'";
 			$this->_db->setQuery($q);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$q = "UPDATE " . $this->_table_prefix . "category ";
 			$q .= "SET ordering=ordering+1 ";
 			$q .= "WHERE category_id='" . $pred . "' ";
 			$this->_db->setQuery($q);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 	}
 
@@ -533,13 +532,13 @@ class category_detailModelcategory_detail extends JModel
 			$q .= "SET ordering=ordering+1 ";
 			$q .= "WHERE category_id='" . $cid . "' ";
 			$this->_db->setQuery($q);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$q = "UPDATE " . $this->_table_prefix . "category ";
 			$q .= "SET ordering=ordering-1 ";
 			$q .= "WHERE category_id='" . $succ . "'";
 			$this->_db->setQuery($q);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 	}
 
@@ -583,14 +582,14 @@ class category_detailModelcategory_detail extends JModel
 				$newheight = THUMB_HEIGHT;
 
 				$post['category_id'] = 0;
-				$post['category_name'] = "copy" . $copydata[$i]->category_name;
+				$post['category_name'] = $this->renameToUniqueValue('category_name', $copydata[$i]->category_name);
 				$post['category_short_description'] = $copydata[$i]->category_short_description;
 				$post['category_description'] = $copydata[$i]->category_description;
 				$post['category_template'] = $copydata[$i]->category_template;
 				$post['category_more_template'] = $copydata[$i]->category_more_template;
 				$post['products_per_page'] = $copydata[$i]->products_per_page;
-				$post['category_full_image'] = "copy" . $copydata[$i]->category_full_image;
-				$post['category_thumb_image'] = "copy" . $copydata[$i]->category_thumb_image;
+				$post['category_full_image'] = $this->renameToUniqueValue('category_full_image', $copydata[$i]->category_full_image, 'dash');
+				$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copydata[$i]->category_thumb_image, 'dash');
 				$post['metakey'] = $copydata[$i]->metakey;
 				$post['metadesc'] = $copydata[$i]->metadesc;
 				$post['metalanguage_setting'] = $copydata[$i]->metalanguage_setting;

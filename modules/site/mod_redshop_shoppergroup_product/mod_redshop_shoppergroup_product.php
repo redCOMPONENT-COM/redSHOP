@@ -3,12 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_shoppergroup_product
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 $option = JRequest::getCmd('option');
 //$category = trim( $params->get( 'category', '' ) );
 $count                    = trim($params->get('count', 5));
@@ -25,18 +26,20 @@ $show_vat                 = trim($params->get('show_vat', 1));
 
 $user = JFactory::getUser();
 $db   = JFactory::getDbo();
+
 if ($option != 'com_redshop')
 {
 	// Getting the configuration
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-	$Redconfiguration = new Redconfiguration();
+	JLoader::load('RedshopHelperAdminConfiguration');
+	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/template.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperExtra_field');
 
 $and              = "";
 $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
@@ -55,7 +58,7 @@ if ($user->id)
 $query = "SELECT user_id FROM #__redshop_users_info AS ui "
 	. "WHERE ui.shopper_group_id='" . $shopper_group_id . "' ";
 $db->setQuery($query);
-$user_id_arr = $db->loadResultArray();
+$user_id_arr = $db->loadColumn();
 
 $user_id_str = '';
 if (count($user_id_arr) > 0)
@@ -65,7 +68,7 @@ if (count($user_id_arr) > 0)
 $query = "SELECT o.order_id FROM #__redshop_orders AS o "
 	. "WHERE o.user_id IN (" . $user_id_str . ") ";
 $db->setQuery($query);
-$order_id_arr = $db->loadResultArray();
+$order_id_arr = $db->loadColumn();
 $order_id_str = '';
 if (count($order_id_arr) > 0)
 {

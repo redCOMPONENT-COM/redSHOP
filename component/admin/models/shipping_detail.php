@@ -3,19 +3,18 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class shipping_detailModelshipping_detail extends JModel
+class RedshopModelShipping_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -65,9 +64,9 @@ class shipping_detailModelshipping_detail extends JModel
 			. ',enabled ="' . intval($data['published']) . '" '
 			. 'WHERE element="' . $data['element'] . '" ';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -91,7 +90,7 @@ class shipping_detailModelshipping_detail extends JModel
 				. ' WHERE  extension_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -107,7 +106,7 @@ class shipping_detailModelshipping_detail extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

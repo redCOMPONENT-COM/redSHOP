@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class statisticModelstatistic extends JModel
+class RedshopModelStatistic extends RedshopModel
 {
 	public $_table_prefix = null;
 
@@ -43,7 +42,7 @@ class statisticModelstatistic extends JModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$this->_startdate = strtotime(JRequest::getVar('startdate'));
 		$this->_enddate = strtotime(JRequest::getVar('enddate'));
@@ -71,7 +70,7 @@ class statisticModelstatistic extends JModel
 			. ', p.product_id, p.product_name, p.product_price, count(*) AS visited '
 			. 'FROM ' . $this->_table_prefix . 'pageviewer AS pv '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=pv.section_id '
-			. 'WHERE pv.section="product" AND pv.sectoon_id!=0 ';
+			. 'WHERE pv.section="product" AND pv.section_id!=0 ';
 		$query1 = ' GROUP BY pv.section_id '
 			. 'ORDER BY visited desc ';
 		$this->_mostpopular = $this->_getList($query . $query1);
@@ -327,30 +326,31 @@ class statisticModelstatistic extends JModel
 		$today = $this->getStartDate();
 		$formate = $this->getDateFormate();
 		$result = array();
-		$query = 'SELECT cdate '
-			. 'FROM ' . $this->_table_prefix . 'orders '
-			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
-			. 'ORDER BY cdate ASC ';
-		$this->_db->setQuery($query);
-		$mindate = $this->_db->loadResult();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('cdate')
+			->from($db->qn('#__redshop_orders'))
+			->where('order_status IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
+			->order('cdate ASC');
+		$mindate = $db->setQuery($query)->loadResult();
 
-		$query = 'SELECT FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate '
-			. ', (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
-			. 'FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-		$quesry1 = ' GROUP BY 1 ';
-		$this->_amountprice = $this->_getList($query . $quesry1);
+		$query->clear()
+			->select('FROM_UNIXTIME(o.cdate,' . $db->q($formate) . ') AS viewdate')
+			->select('(SUM(o.order_total)/COUNT(DISTINCT o.user_id)) AS avg_order')
+			->from($db->qn('#__redshop_orders', 'o'))
+			->where('o.order_status IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
+			->order('viewdate DESC')
+			->group('1');
 
-		if ($this->_filteroption && $mindate != "" && $mindate != 0)
+		if ($this->_filteroption && $mindate != '' && $mindate != 0)
 		{
 			while ($mindate < strtotime($today))
 			{
 				$list = $this->getNextInterval($today);
-				$q = $query . ' AND cdate > ' . strtotime($list->preday)
-					. ' AND cdate <= ' . strtotime($today)
-					. $quesry1;
-				$this->_db->setQuery($q);
-				$rs = $this->_db->loadObjectList();
+				$newQuery = clone $query;
+				$newQuery->where('o.cdate > ' . strtotime($list->preday))
+					->where('o.cdate <= ' . strtotime($today));
+				$rs = $db->setQuery($newQuery)->loadObjectList();
 
 				if (count($rs) > 0 && $rs[0]->avg_order > 0)
 				{
@@ -369,6 +369,11 @@ class statisticModelstatistic extends JModel
 			{
 				$this->_amountprice = $result;
 			}
+		}
+
+		if (empty($result))
+		{
+			$this->_amountprice = $db->setQuery($query)->loadObjectList();
 		}
 
 		return $this->_amountprice;

@@ -3,13 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
+
 /**
-/* Loads main class file
+ * Loads main class file
  */
 global $urlpath, $js_src;
 $live_module_dir     = $urlpath . 'modules/mod_redshop_categories';
@@ -21,7 +22,7 @@ $params->set('absPath', $absolute_module_dir . '/' . $params->get('module'));
 $params->set('LSPath', $live_module_dir . '/' . $params->get('module'));
 
 
-include_once($params->get('absPath') . '/Shop_Menu.php');
+include_once $params->get('absPath') . '/Shop_Menu.php';
 
 
 $db      = JFactory::getDbo();

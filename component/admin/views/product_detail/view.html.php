@@ -3,18 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
-require_once JPATH_COMPONENT . '/helpers/shopper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminShopper');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Product Detail View
@@ -24,7 +23,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  *
  * @since       1.0
  */
-class Product_DetailViewProduct_Detail extends JView
+class RedshopViewProduct_Detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -57,26 +56,26 @@ class Product_DetailViewProduct_Detail extends JView
 	{
 		JHtml::_('behavior.tooltip');
 
-		$app = JFactory::getApplication();
-		$this->input = $app->input;
-		$user = JFactory::getUser();
+		$app                 = JFactory::getApplication();
+		$this->input         = $app->input;
+		$user                = JFactory::getUser();
 
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher = JDispatcher::getInstance();
+		$this->dispatcher    = JDispatcher::getInstance();
 
-		$redTemplate = new Redtemplate;
-		$redhelper = new redhelper;
+		$redTemplate         = new Redtemplate;
+		$redhelper           = new redhelper;
 		$this->producthelper = new producthelper;
 
-		$this->option = $this->input->getString('option', 'com_redshop');
-		$db = JFactory::getDBO();
-		$dbPrefix = $app->getCfg('dbprefix');
-		$lists = array();
+		$this->option        = $this->input->getString('option', 'com_redshop');
+		$db                  = JFactory::getDBO();
+		$dbPrefix            = $app->getCfg('dbprefix');
+		$lists               = array();
 
-		$model = $this->getModel('product_detail');
-		$detail = $this->get('data');
+		$model               = $this->getModel('product_detail');
+		$detail              = $this->get('data');
 
-		$isNew = ($detail->product_id < 1);
+		$isNew               = ($detail->product_id < 1);
 
 		// Load new product default values
 		if ($isNew)
@@ -93,20 +92,14 @@ class Product_DetailViewProduct_Detail extends JView
 		}
 
 		// Check redproductfinder is installed
-		$CheckRedProductFinder = $model->CheckRedProductFinder();
+		$CheckRedProductFinder       = $model->CheckRedProductFinder();
 		$this->CheckRedProductFinder = $CheckRedProductFinder;
 
 		// Get association id
-		$getAssociation = $model->getAssociation();
-		$this->getassociation = $getAssociation;
+		$getAssociation              = $model->getAssociation();
+		$this->getassociation        = $getAssociation;
 
-		// ToDo: Move SQL from here. SQL shouldn't be in view files!
-		$sql = "SHOW TABLE STATUS LIKE '" . $dbPrefix . "redshop_product'";
-		$db->setQuery($sql);
-		$row = $db->loadObject();
-		$next_product = $row->Auto_increment;
-
-		/* Get the tag names */
+		// Get the tag names
 		$tags = $model->Tags();
 		$associationtags = array();
 
@@ -269,7 +262,7 @@ class Product_DetailViewProduct_Detail extends JView
 			$supplier = array_merge($supps, $supplier);
 		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'redshop_products48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'pencil-2 redshop_products48');
 
 		$document = JFactory::getDocument();
 
@@ -295,21 +288,23 @@ class Product_DetailViewProduct_Detail extends JView
 
 		if (!$loadedFromAPlugin)
 		{
-			$document->addScript('components/' . $this->option . '/assets/js/fields.js');
+			$document->addScript('components/com_redshop/assets/js/fields.js');
 		}
 
-		$document->addScript('components/' . $this->option . '/assets/js/select_sort.js');
-		$document->addScript('components/' . $this->option . '/assets/js/json.js');
-		$document->addScript('components/' . $this->option . '/assets/js/validation.js');
-		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addScript('components/com_redshop/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
+		}
+
+		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
 
 		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
 		{
 			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
 		}
-
-		$document->addScript('components/com_redshop/assets/js/search.js');
-		$document->addScript('components/com_redshop/assets/js/related.js');
 
 		$uri = JFactory::getURI();
 
@@ -334,10 +329,30 @@ class Product_DetailViewProduct_Detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_products48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_products48');
 
 		if ($detail->product_id > 0)
 		{
+			$ItemData = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
+			$catidmain = $detail->cat_in_sefurl;
+
+			if (count($ItemData) > 0)
+			{
+				$pItemid = $ItemData->id;
+			}
+			else
+			{
+				$objhelper = new redhelper;
+				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
+			}
+
+			$link  = JURI::root();
+			$link .= 'index.php?option=com_redshop';
+			$link .= '&view=product&pid=' . $detail->product_id;
+			$link .= '&cid=' . $catidmain;
+			$link .= '&Itemid=' . $pItemid;
+
+			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
 			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
 		}
 
@@ -380,22 +395,6 @@ class Product_DetailViewProduct_Detail extends JView
 
 		$result = array();
 
-		$lists['product_all'] = JHtml::_('select.genericlist', $result, 'product_all[]',
-			'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ',
-			'value', 'text', 0
-		);
-
-		$related_product_data = $model->related_product_data($detail->product_id);
-
-		$relatedProductCssClass   = 'class="inputbox" multiple="multiple"  size="15" style="width:200px;" ';
-		$relatedProductCssClass  .= ' onmousewheel="mousewheel_related(this);" ondblclick="selectnone_related(this);" ';
-		$lists['related_product'] = JHtml::_('select.genericlist', $related_product_data, 'related_product[]', $relatedProductCssClass, 'value', 'text', 0);
-
-		$lists['product_all_related'] = JHtml::_('select.genericlist', $result, 'product_all_related[]',
-			'class="inputbox" ondblclick="selectnone_related(this);" multiple="multiple"  size="15" style="width:200px;" ',
-			'value', 'text', 0
-		);
-
 		// For preselected.
 		if ($detail->product_template == "")
 		{
@@ -406,6 +405,13 @@ class Product_DetailViewProduct_Detail extends JView
 		$lists['product_template'] = JHtml::_('select.genericlist', $templates, 'product_template',
 			'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"  ',
 			'template_id', 'template_name', $detail->product_template
+		);
+
+		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
+				'select2.options' => array('multiple' => 'true')
+			)
 		);
 
 		$product_tax = $model->gettax();
@@ -423,7 +429,7 @@ class Product_DetailViewProduct_Detail extends JView
 			'class="inputbox" size="1"  ', 'value', 'text', $detail->product_tax_id
 		);
 
-		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, true, true);
+		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, false, true);
 		$lists['categories'] = $categories;
 		$detail->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
 
@@ -439,6 +445,7 @@ class Product_DetailViewProduct_Detail extends JView
 		$lists['product_download'] = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $detail->product_download);
 		$lists['not_for_sale'] = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $detail->not_for_sale);
 		$lists['expired'] = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
+		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $detail->allow_decimal_piece);
 
 		// For individual pre-order
 		$preorder_data = $redhelper->getPreOrderByList();
@@ -579,7 +586,6 @@ class Product_DetailViewProduct_Detail extends JView
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->productSerialDetail = $productSerialDetail;
-		$this->next_product = $next_product;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

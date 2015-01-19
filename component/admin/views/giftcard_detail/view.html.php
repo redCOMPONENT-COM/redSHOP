@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class giftcard_detailVIEWgiftcard_detail extends JView
+class RedshopViewGiftcard_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -25,10 +24,6 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
 
 		$uri = JFactory::getURI();
-
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
-		$this->pane = $pane;
 
 		$this->setLayout('default');
 

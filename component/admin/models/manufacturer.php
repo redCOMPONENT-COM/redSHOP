@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class manufacturerModelmanufacturer extends JModel
+class RedshopModelManufacturer extends RedshopModel
 {
 	public $_data = null;
 
@@ -120,7 +119,7 @@ class manufacturerModelmanufacturer extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable('manufacturer_detail');
+		$row = $this->getTable('manufacturer_detail');
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class tax_group_detailVIEWtax_group_detail extends JView
+class RedshopViewTax_group_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -22,8 +21,6 @@ class tax_group_detailVIEWtax_group_detail extends JView
 
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT_DETAIL'), 'redshop_vatgroup48');
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
@@ -41,7 +38,7 @@ class tax_group_detailVIEWtax_group_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vatgroup48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'tags redshop_vatgroup48');
 
 		JToolBarHelper::save();
 

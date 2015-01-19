@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
 
 $config = new Redconfiguration;
 $producthelper = new producthelper;
@@ -49,7 +49,7 @@ $auth = $session->get('auth');
 	if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 	{
 		$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
-		$app->Redirect($wishreturn);
+		$app->redirect($wishreturn);
 	}
 	else
 	{

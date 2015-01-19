@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class tax_detailController extends JController
+class RedshopControllerTax_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -58,7 +57,7 @@ class tax_detailController extends JController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=tax&tax_group_id=' . $tax_group_id, $msg);
 		}
 	}
 
@@ -83,7 +82,7 @@ class tax_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax&tax_group_id=' . $tax_group_id, $msg);
 	}
 
 	public function removefromwizrd()
@@ -105,7 +104,7 @@ class tax_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&step=4', $msg);
+		$this->setRedirect('index.php?option=com_redshop&step=4', $msg);
 	}
 
 	public function cancel()
@@ -113,6 +112,6 @@ class tax_detailController extends JController
 		$option = JRequest::getVar('option');
 		$tax_group_id = JRequest::getVar('tax_group_id');
 		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax&tax_group_id=' . $tax_group_id, $msg);
 	}
 }

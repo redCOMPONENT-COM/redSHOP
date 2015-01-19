@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,10 +22,11 @@ jimport('joomla.plugin.plugin');
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgredshop_shippingups extends JPlugin
 {
@@ -108,9 +109,9 @@ class plgredshop_shippingups extends JPlugin
 				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL') ?></strong></td>
 				<td><select class="inputbox" name="residential">
 						<option <?php if (UPS_RESIDENTIAL == "yes") echo "selected=\"selected\"" ?>
-							value="yes"><?php echo JText::_('COM_REDSHOP_UPS_RESIDENTIAL') ?></option>
+							value="yes"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_RESIDENTIAL') ?></option>
 						<option <?php if (UPS_RESIDENTIAL == "no") echo "selected=\"selected\"" ?>
-							value="no"><?php echo JText::_('COM_REDSHOP_UPS_COMMERCIAL') ?></option>
+							value="no"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_COMMERCIAL') ?></option>
 					</select></td>
 				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL'), 'tooltip.png', '', '', false);?></td>
 			</tr>
@@ -375,14 +376,13 @@ class plgredshop_shippingups extends JPlugin
 				"na"                                => $d['na']
 				// END CUSTOM CODE
 			);
-			$config = "<?php ";
+			$config = "<?php\n";
+			$config .= "defined('_JEXEC') or die;\n";
 
 			foreach ($my_config_array as $key => $value)
 			{
-				$config .= "define ('$key', '$value');\n";
+				$config .= "define('$key', '$value');\n";
 			}
-
-			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
 			{
@@ -408,7 +408,7 @@ class plgredshop_shippingups extends JPlugin
 
 		$itemparams = new JRegistry($shipping->params);
 		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once $shippingcfg;
 
 		$shippingrate = array();
 		$rate = 0;
@@ -572,8 +572,7 @@ class plgredshop_shippingups extends JPlugin
 		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, false);
 		$xmlResult = curl_exec($CR);
-
-		$xmlDoc = JFactory::getXMLParser('Simple');
+		$matchedchild = array();
 
 		if (!$xmlResult)
 		{
@@ -582,7 +581,8 @@ class plgredshop_shippingups extends JPlugin
 		else
 		{
 			/* XML Parsing */
-			$xmlDoc->loadString($xmlResult, false, true);
+			$xmlDoc = JFactory::getXML($xmlResult, false);
+			$matchedchild = $xmlDoc->RatedShipment;
 			/* Let's check wether the response from UPS is Success or Failure ! */
 			if (strstr($xmlResult, "Failure"))
 			{
@@ -604,7 +604,6 @@ class plgredshop_shippingups extends JPlugin
 		}
 		// retrieve the list of all "RatedShipment" Elements
 
-		$matchedchild = $xmlDoc->document->_children;
 		$allservicecodes = array(
 			"UPS_Next_Day_Air",
 			"UPS_2nd_Day_Air",
@@ -630,42 +629,34 @@ class plgredshop_shippingups extends JPlugin
 		}
 
 		$count = 0;
+		$ship_postage = array();
 
 		for ($t = 0; $t < count($matchedchild); $t++)
 		{
-			$totalmatchedchild = $matchedchild[$t]->_children;
 			$matched_childname = $matchedchild[$t]->name();
 			$currNode = $matchedchild[$t];
 
-			if ($matched_childname == "ratedshipment")
+			if (strtolower($matched_childname) == "ratedshipment")
 			{
-				$service = $currNode->getElementByPath("service");
-				$servicecode = $service->_children[0]->data();
+				$servicecode = (string) $matchedchild[$t]->Service->Code;
 
 				if (in_array($servicecode, $myservicecodes))
 				{
-					$ratedshipmentwarning = $currNode->getElementByPath("ratedshipmentwarning");
-					$ship_postage[$count]['Ratedshipmentwarning'] = $ratedshipmentwarning->data();
-					$ScheduledDeliveryTime = $currNode->getElementByPath("ScheduledDeliveryTime");
-					$ship_postage[$count]['ScheduledDeliveryTime'] = $ScheduledDeliveryTime->data();
-					$GuaranteedDaysToDelivery = $currNode->getElementByPath("GuaranteedDaysToDelivery");
-					$ship_postage[$count]['GuaranteedDaysToDelivery'] = $GuaranteedDaysToDelivery->data();
-
-					$transportationcharges = $currNode->getElementByPath("transportationcharges");
-					$childeArr = $transportationcharges->_children;
-
-					for ($i = 0; $i < count($childeArr); $i++)
+					if (isset($ship_postage[$count]['Ratedshipmentwarning']))
 					{
-						if ($childeArr[$i]->name() == "currencycode")
-						{
-							$ship_postage[$count]['Currency'] = $childeArr[$i]->data();
-						}
-
-						if ($childeArr[$i]->name() == "monetaryvalue")
-						{
-							$ship_postage[$count]['Rate'] = $childeArr[$i]->data();
-						}
+						$ship_postage[$count]['Ratedshipmentwarning'] = array();
 					}
+
+					foreach ($currNode->RatedShipmentWarning as $ratedShipmentWarning)
+					{
+						$ship_postage[$count]['Ratedshipmentwarning'][] = (string) $ratedShipmentWarning;
+					}
+
+					$ship_postage[$count]['ScheduledDeliveryTime'] = (string) $currNode->ScheduledDeliveryTime;
+					$ship_postage[$count]['GuaranteedDaysToDelivery'] = (string) $currNode->GuaranteedDaysToDelivery;
+					$ship_postage[$count]['Currency'] = (string) $currNode->TransportationCharges->CurrencyCode;
+					$ship_postage[$count]['Rate'] = (string) $currNode->TransportationCharges->MonetaryValue;
+
 					switch ($servicecode)
 					{
 						case "01":
@@ -798,6 +789,7 @@ class plgredshop_shippingups extends JPlugin
 			}
 
 			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $ServiceName . "|" . number_format($charge, 2, '.', '') . "|" . $ServiceName . "|single|0");
+			$shippingrate[$rate] = new stdClass;
 			$shippingrate[$rate]->text = $ServiceName . ' (' . $ratevalue . ') '; //." ".JText::_('COM_REDSHOP_DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate = $charge;
@@ -834,5 +826,3 @@ class plgredshop_shippingups extends JPlugin
 	}
 
 }
-
-?>

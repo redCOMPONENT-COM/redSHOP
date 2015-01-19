@@ -3,11 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
 
 global $Itemid, $urlpath, $sortparam;
 
@@ -34,14 +34,14 @@ if ($params->get('categorysorttype') == "catorder")
 	$sortparam = "ordering ASC";
 }
 // The tree generator
-$vmTigraTree = new redTigraTreeMenu();
+$vmTigraTree = new redTigraTreeMenu;
 
 // A unique name for our tree (to support multiple instances of the menu)
 $varname = uniqid("TigraTree_");
 
 $document = JFactory::getDocument();
-JHTML::Script('tree_tpl.js.php', $js_src . '/tigratree/', false);
-JHTML::Script('tree.js', $js_src . '/tigratree/', false);
+JHTML::script($js_src . '/tigratree/tree_tpl.js.php');
+JHTML::script($js_src . '/tigratree/tree.js');
 
 // Create the menu output
 $menu_htmlcode = "<div class=\"$class_mainlevel\" style=\"text-align:left;\">
@@ -83,7 +83,7 @@ class redTigraTreeMenu
 		$objhelper = new redhelper ();
 		$Itemid    = JRequest::getInt('Itemid');
 		$level++;
-		$redproduct_menu = new modProMenuHelper();
+		$redproduct_menu = new modProMenuHelper;
 		if ($shopper_group_id)
 		{
 			$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);

@@ -3,16 +3,15 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+JLoader::load('RedshopHelperAdminQuotation');
 
-class quotation_detailViewquotation_detail extends JView
+class RedshopViewQuotation_detail extends RedshopView
 {
 function display ($tpl = null)
 {
@@ -38,7 +37,7 @@ if ($print)
 
 	if (!$quoid)
 	{
-		$app->Redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
+		$app->redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
 	}
 
 	$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
@@ -68,7 +67,7 @@ if ($print)
 		}
 		else
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 			return;
 		}

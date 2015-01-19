@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class productController extends JController
+class RedshopControllerProduct extends RedshopController
 {
 	public function cancel()
 	{
@@ -223,7 +222,7 @@ class productController extends JController
 			$sql = "UPDATE #__redshop_product  SET product_price='" . $price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
 
 			$db->setQuery($sql);
-			$db->Query();
+			$db->execute();
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
@@ -240,7 +239,7 @@ class productController extends JController
 			$sql = "UPDATE #__redshop_product  SET discount_price='" . $discount_price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
 
 			$db->setQuery($sql);
-			$db->Query();
+			$db->execute();
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
@@ -289,23 +288,6 @@ class productController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
-	public function gbasefeed()
-	{
-		$post = JRequest::get('post');
-		$model = $this->getModel('product');
-
-		if ($model->gbasefeed($post))
-		{
-			$msg = JText::_('COM_REDSHOP_GBASE_XML_IS_GENERATED_SUCCESSFULLY');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_IN_GENERATING_GBASE_XML');
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
 	public function saveorder()
 	{
 		$option = JRequest::getVar('option');
@@ -319,6 +301,6 @@ class productController extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 }

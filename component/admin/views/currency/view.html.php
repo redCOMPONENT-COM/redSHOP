@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class currencyViewcurrency extends JView
+class RedshopViewCurrency extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -26,8 +25,8 @@ class currencyViewcurrency extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_CURRENCY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT'), 'redshop_currencies_48');
-		JToolbarHelper::addNewX();
-		JToolbarHelper::EditListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
 
 		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');

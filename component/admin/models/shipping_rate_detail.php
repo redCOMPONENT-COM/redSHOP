@@ -3,18 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class shipping_rate_detailModelShipping_rate_detail extends JModel
+class RedshopModelShipping_rate_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -102,6 +101,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 			$detail->shipping_rate_on_shopper_group = null;
 			$detail->economic_displaynumber = null;
 			$detail->deliver_type = null;
+			$detail->consignor_carrier_code = null;
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
@@ -118,7 +118,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		$data['shipping_rate_state'] = @ implode(',', $data['shipping_rate_state']);
 		$data['shipping_rate_on_shopper_group'] = @ implode(',', $data['shipping_rate_on_shopper_group']);
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -171,7 +171,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id  IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -237,13 +237,13 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 
 		for ($i = 0; $i < count($copydata); $i++)
 		{
-			$row =& $this->getTable();
+			$row = $this->getTable();
 
-			$pdata = & $copydata[$i];
+			$pdata = $copydata[$i];
 
 			$post = array();
 			$post['shipping_rate_id'] = 0;
-			$post['shipping_rate_name'] = JText::_('COM_REDSHOP_COPY_OF') . ' ' . $pdata->shipping_rate_name;
+			$post['shipping_rate_name'] = $this->renameToUniqueValue('shipping_rate_name', $pdata->shipping_rate_name);
 			$post['shipping_class'] = $pdata->shipping_class;
 			$post['shipping_rate_country'] = $pdata->shipping_rate_country;
 			$post['shipping_rate_state'] = $pdata->shipping_rate_state;
@@ -286,7 +286,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		$coutry_code = $data['country_codes'];
 		$shipping_rate_id = $data['shipping_rate_id'];
 
-		$shipping_rate =& $this->getTable('shipping_rate_detail');
+		$shipping_rate = $this->getTable('shipping_rate_detail');
 		$shipping_rate->load($shipping_rate_id);
 		$shipping_rate_state = $this->GetStateList($coutry_code);
 

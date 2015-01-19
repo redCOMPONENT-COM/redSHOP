@@ -3,21 +3,21 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
-class attribute_set_detailModelattribute_set_detail extends JModel
+class RedshopModelAttribute_set_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -92,7 +92,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -140,7 +140,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
 				$this->_db->setQuery($attr_delete);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 				}
@@ -148,7 +148,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$prop_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id =' . $imagename->attribute_id;
 				$this->_db->setQuery($prop_delete);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 				}
@@ -157,7 +157,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 			}
@@ -176,7 +176,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				. ' WHERE attribute_set_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -189,19 +189,32 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function getattributes()
 	{
-		$producthelper = new producthelper;
 		$attr = array();
 
 		if ($this->_id != 0)
 		{
-			$attr = $producthelper->getProductAttribute(0, $this->_id);
+			$query = $this->_db->getQuery(true)
+				->select('*')
+				->from($this->_db->qn('#__redshop_product_attribute'))
+				->where('attribute_set_id = ' . (int) $this->_id)
+				->order('ordering');
+			$this->_db->setQuery($query);
+			$attr = $this->_db->loadObjectlist();
 		}
 
 		$attribute_data = '';
 
 		for ($i = 0; $i < count($attr); $i++)
 		{
-			$prop = $producthelper->getAttibuteProperty(0, $attr[$i]->attribute_id);
+			$db = $this->_db;
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from($db->quoteName('#__redshop_product_attribute_property'))
+				->where($db->quoteName('attribute_id') . ' = ' . (int) $attr[$i]->attribute_id)
+				->order($db->quoteName('ordering') . ' ASC');
+
+			$db->setQuery($query);
+			$prop = $db->loadObjectlist();
 
 			$attribute_id = $attr[$i]->attribute_id;
 			$attribute_name = $attr[$i]->attribute_name;
@@ -214,7 +227,14 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 			for ($j = 0; $j < count($prop); $j++)
 			{
-				$subprop = $producthelper->getAttibuteSubProperty(0, $prop[$j]->property_id);
+				$query = $db->getQuery(true);
+				$query->select('*')
+					->from($db->quoteName('#__redshop_product_subattribute_color'))
+					->where($db->quoteName('subattribute_id') . ' = ' . (int) $prop[$j]->property_id)
+					->order($db->quoteName('ordering') . ' ASC');
+
+				$db->setQuery($query);
+				$subprop = $db->loadObjectlist();
 				$prop[$j]->subvalue = $subprop;
 			}
 
@@ -231,13 +251,21 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function getattributelist($data)
 	{
+		$db = $this->_db;
 		$attribute_data = '';
 		$producthelper = new producthelper;
 		$attr = $producthelper->getProductAttribute(0, $data);
 
 		for ($i = 0; $i < count($attr); $i++)
 		{
-			$prop = $producthelper->getAttibuteProperty(0, $attr[$i]->attribute_id);
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from($db->quoteName('#__redshop_product_attribute_property'))
+				->where($db->quoteName('attribute_id') . ' = ' . (int) $attr[$i]->attribute_id)
+				->order($db->quoteName('property_id') . ' ASC');
+
+			$db->setQuery($query);
+			$prop = $db->loadObjectlist();
 			$attribute_id = $attr[$i]->attribute_id;
 			$attribute_name = $attr[$i]->attribute_name;
 			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name, 'property' => $prop);
@@ -248,12 +276,19 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function getpropertylist($data)
 	{
+		$db = $this->_db;
 		$producthelper = new producthelper;
 
 		if (count($data))
 		{
 			$cids = implode(',', $data);
-			$prop = $producthelper->getAttibuteProperty($cids);
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from($db->quoteName('#__redshop_product_attribute_property'))
+				->where($db->quoteName('property_id') . ' IN ( ' . $cids . ' )');
+
+			$db->setQuery($query);
+			$prop = $db->loadObjectlist();
 		}
 
 		return $prop;
@@ -290,7 +325,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -301,7 +336,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -338,7 +373,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -349,7 +384,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -390,7 +425,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -413,7 +448,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store_attr($data)
 	{
-		$row =& $this->getTable('product_attribute');
+		$row = $this->getTable('product_attribute');
 
 		if (!$row->bind($data))
 		{
@@ -434,7 +469,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store_pro($data)
 	{
-		$row =& $this->getTable('attribute_property');
+		$row = $this->getTable('attribute_property');
 
 		if (!$row->bind($data))
 		{
@@ -458,7 +493,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	 */
 	public function store_sub($data)
 	{
-		$row =& $this->getTable('subattribute_property');
+		$row = $this->getTable('subattribute_property');
 
 		if (!$row->bind($data))
 		{
@@ -489,7 +524,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 			}
 			else
 			{
-				$main_name = time() . "_" . $main_img['name'];
+				$main_name = RedShopHelperImages::cleanFileName($main_img['name']);
 				$main_src = $main_img['tmp_name'];
 
 				// Specific path of the file
@@ -501,7 +536,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 					. $main_name . "' WHERE property_id ='" . $post['section_id'] . "' ";
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -524,7 +559,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				}
 				else
 				{
-					$sub_name = time() . "_" . $sub_img['name'][$i];
+					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
 
 					$sub_src = $sub_img['tmp_name'][$i];
 
@@ -540,7 +575,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								VALUES ('','" . $sub_name . "','property','" . $post['section_id'] . "','images','" . $sub_type . "','1') ";
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -575,7 +610,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -601,7 +636,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				}
 				else
 				{
-					$sub_name = time() . "_" . $sub_img['name'][$i];
+					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
 
 					$sub_src = $sub_img['tmp_name'][$i];
 
@@ -641,7 +676,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -660,7 +695,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -704,7 +739,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				. $diff->subattribute_color_id . '"';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -729,7 +764,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$query = "DELETE FROM `" . $this->_table_prefix . "product_attribute` WHERE `attribute_id` = " . $attributes[$i]->attribute_id;
 				$database->setQuery($query);
 
-				if ($database->query())
+				if ($database->execute())
 				{
 					$property = $producthelper->getAttibuteProperty(0, $attributes[$i]->attribute_id);
 
@@ -739,12 +774,12 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 							. $property[$j]->property_id;
 						$database->setQuery($query);
 
-						if ($database->query())
+						if ($database->execute())
 						{
 							$query = "DELETE FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE `subattribute_id` = "
 								. $property[$j]->property_id;
 							$database->setQuery($query);
-							$database->query();
+							$database->execute();
 						}
 					}
 				}
@@ -780,7 +815,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = " . $pid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}
@@ -812,7 +847,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		WHERE `subattribute_color_id` = " . $pid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}
@@ -835,7 +870,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 		$database->setQuery($query);
 
-		$database->query();
+		$database->execute();
 
 		for ($i = 0; $i < count($post['quantity']); $i++)
 		{
@@ -847,7 +882,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 				$database->setQuery($q);
 
-				if (!$database->query())
+				if (!$database->execute())
 				{
 					return false;
 				}
@@ -869,7 +904,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		$attribute['price_quantity_start'] = $product_attribute_price->price_quantity_start;
 		$attribute['price_quantity_end'] = $product_attribute_price->price_quantity_end;
 
-		$row =& $this->getTable('attributeprices_detail');
+		$row = $this->getTable('attributeprices_detail');
 
 		// Bind and save data into 'attributeprices_detail'
 		if (!$row->bind($attribute))
@@ -895,7 +930,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . $product_attribute_stocks->stockroom_id . "','"
 			. $product_attribute_stocks->quantity . "' )";
 		$db->setQuery($sql);
-		$db->Query();
+		$db->execute();
 	}
 
 	public function copy($cid = array())
@@ -917,7 +952,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$post['published'] = $copydata[$i]->published;
 				$row = $this->store($post);
 
-
 				// Fetch attributes from the attribute set ID
 				$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute  WHERE `attribute_set_id` = '
 					. $copydata[$i]->attribute_set_id . ' ';
@@ -930,7 +964,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				{
 					foreach ($product_attributes as $product_attribute)
 					{
-
 						// Create $attribute array of attributes
 						$attribute['attribute_name'] = $product_attribute->attribute_name;
 						$attribute['attribute_required'] = $product_attribute->attribute_required;
@@ -940,7 +973,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 						$attribute['ordering'] = $product_attribute->ordering;
 						$attribute['attribute_set_id'] = $attribute_set_id;
 
-						$row =& $this->getTable('product_attribute');
+						$row = $this->getTable('product_attribute');
 
 						// Bind and save data into 'product_attribute'
 						if (!$row->bind($attribute))
@@ -984,6 +1017,33 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 									$row->attribute_id = $loopattribute_id;
 								}
 
+								if ($product_attributes_property->property_image)
+								{
+									$image_split = $product_attributes_property->property_image;
+
+									// Make the filename unique.
+									$filename = RedShopHelperImages::cleanFileName($image_split);
+									$product_attributes_property->property_image = $filename;
+									$src = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $image_split;
+									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $filename;
+									copy($src, $dest);
+								}
+
+								if ($product_attributes_property->property_main_image)
+								{
+									$prop_main_img = $product_attributes_property->property_main_image;
+									$image_split = $prop_main_img;
+									$image_split = explode('_', $image_split);
+									$image_split = $image_split[1];
+
+									// Make the filename unique.
+									$filename = RedShopHelperImages::cleanFileName($image_split);
+									$product_attributes_property->property_main_image = $filename;
+									$src = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $prop_main_img;
+									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $filename;
+									copy($src, $dest);
+								}
+
 								// Create $attribute_properties array of attributes properties
 
 								$attribute_properties['attribute_id'] = $row->attribute_id;
@@ -996,8 +1056,9 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								$attribute_properties['ordering'] = $product_attributes_property->ordering;
 								$attribute_properties['setdefault_selected'] = $product_attributes_property->setdefault_selected;
 								$attribute_properties['property_number'] = $product_attributes_property->property_number;
+								$attribute_properties['extra_field'] = $product_attributes_property->extra_field;
 
-								$row =& $this->getTable('attribute_property');
+								$row = $this->getTable('attribute_property');
 
 								// Bind and save data into 'product_attribute_property'
 								if (!$row->bind($attribute_properties))
@@ -1080,6 +1141,34 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 											$row->property_id = $loopproperty_id;
 										}
 
+										if ($product_sub_attributes_property->subattribute_color_image)
+										{
+											$image_split = $product_sub_attributes_property->subattribute_color_image;
+
+											// Make the filename unique.
+											$filename = RedShopHelperImages::cleanFileName($image_split);
+											$product_sub_attributes_property->subattribute_color_image = $filename;
+											$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $image_split;
+											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $filename;
+											copy($src, $dest);
+										}
+
+										if ($product_sub_attributes_property->subattribute_color_main_image)
+										{
+											$sub_main_img = $product_sub_attributes_property->subattribute_color_main_image;
+											$image_split = $product_sub_attributes_property->subattribute_color_main_image;
+											$image_split = explode('_', $image_split);
+											$image_split = $image_split[1];
+
+											// Make the filename unique.
+											$filename = RedShopHelperImages::cleanFileName($image_split);
+
+											$product_sub_attributes_property->subattribute_color_main_image = $filename;
+											$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $sub_main_img;
+											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $filename;
+											copy($src, $dest);
+										}
+
 										// Create $sub_attribute_properties array of subattributes properties
 										$sub_attribute_properties['subattribute_id'] = $row->property_id;
 										$loopproperty_id = $row->property_id;
@@ -1091,8 +1180,9 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 										$sub_attribute_properties['setdefault_selected'] = $product_sub_attributes_property->setdefault_selected;
 										$sub_attribute_properties['subattribute_color_number'] = $product_sub_attributes_property->subattribute_color_number;
 										$sub_attribute_properties['subattribute_color_title'] = $product_sub_attributes_property->subattribute_color_title;
+										$sub_attribute_properties['extra_field'] = $product_sub_attributes_property->extra_field;
 										$sub_attribute_properties['subattribute_color_main_image'] = $product_sub_attributes_property->subattribute_color_main_image;
-										$row =& $this->getTable('subattribute_property');
+										$row = $this->getTable('subattribute_property');
 
 										// Bind and save data into 'subattribute_property'
 										if (!$row->bind($sub_attribute_properties))
@@ -1167,13 +1257,9 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	public function copy_image($imageArray, $section, $section_id)
 	{
 		$src = $imageArray['tmp_name'];
-
-		$imgname = basename($imageArray['name']);
-
+		$imgname = RedShopHelperImages::cleanFileName($imageArray['name']);
 		$property_image = $section_id . '_' . $imgname;
-
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
-
 		copy($src, $dest);
 
 		return $property_image;
@@ -1183,13 +1269,9 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	public function copy_image_from_path($imagePath, $section, $section_id)
 	{
 		$src = JPATH_ROOT . '/' . $imagePath;
-
-		$imgname = basename($imagePath);
-
-		$property_image = $section_id . '_' . $imgname;
-
+		$imgname = RedShopHelperImages::cleanFileName($imagePath);
+		$property_image = $section_id . '_' . JFile::getName($imgname);
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
-
 		copy($src, $dest);
 
 		return $property_image;
@@ -1197,7 +1279,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function copyadditionalImage($data)
 	{
-		$rowmedia =& $this->getTable('media_detail');
+		$rowmedia = $this->getTable('media_detail');
 
 		$data['media_id '] = 0;
 
@@ -1226,7 +1308,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 		$imgname = basename($imagePath);
 
-		$property_image = time() . '_' . $imgname;
+		$property_image = RedShopHelperImages::cleanFileName($imgname);
 
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 

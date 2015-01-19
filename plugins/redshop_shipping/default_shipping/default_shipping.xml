@@ -7,7 +7,6 @@
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>PLG_DEFAULT_SHIPPING_DESC</description>
-
     <files>
         <filename plugin="default_shipping">default_shipping.php</filename>
 

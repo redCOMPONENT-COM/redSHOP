@@ -3,14 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
 
 global $jscook_type, $jscookMenu_style, $jscookTree_style;
-
 
 if (!class_exists('redCategoryMenu'))
 {
@@ -25,7 +24,7 @@ if (!class_exists('redCategoryMenu'))
 			global $urlpath, $redproduct_menu;
 			$db = JFactory::getDbo();
 			$level++;
-			$redproduct_menu = new modProMenuHelper();
+			$redproduct_menu = new modProMenuHelper;
 
 			if ($params->get('categorysorttype') == "catnameasc")
 			{
@@ -93,17 +92,12 @@ if (!class_exists('redCategoryMenu'))
 	}
 }
 
-//require_once CATEGORY_MODULE_PATH. '/helper.php';
-//$redproduct_menu = new modProMenuHelper();
-
-
 $Itemid = JRequest::getInt('Itemid');
 $TreeId = JRequest::getInt('TreeId');
 $js_src = JURI::root() . 'modules/mod_redshop_categories';
 
 $document = JFactory::getDocument();
-//JHTML::Script('JSCookMenu.js', $urlpath.'includes/js/',false);
-JHTML::Script('JSCookMenu.js', $js_src . '/JSCook/', false);
+JHTML::script($js_src . '/JSCook/JSCookMenu.js');
 $document->addScriptDeclaration('var ctThemeXPBase = "' . $js_src . '/ThemeXP/"');
 $document->addScriptDeclaration('var cmThemeOfficeBase = "' . $js_src . '/ThemeOffice/"');
 
@@ -119,24 +113,17 @@ if ($jscook_type == "tree")
 		$jscook_tree = "ctThemeNavy";
 	}
 
-
-	JHTML::Script('JSCookTree.js', $js_src . '/', false);
-	JHTML::Script('theme.js', $js_src . '/' . $jscookTree_style . '/', false);
-	JHTML::Stylesheet('theme.css', $js_src . '/' . $jscookTree_style . '/');
-
-
-	$_jscook = new redCategoryMenu();
+	JHTML::script($js_src . '/JSCookTree.js');
+	JHTML::script($js_src . '/' . $jscookTree_style . '/theme.js');
+	JHTML::stylesheet($js_src . '/' . $jscookTree_style . '/theme.css');
+	$_jscook = new redCategoryMenu;
 }
 else
 {
-
-	//JHTML::Script('JSCookMenu.js', $urlpath.'includes/js/',false);
-	//JHTML::Script('theme.js', $urlpath.'includes/js/'.$jscookMenu_style.'/',false);
-	//JHTML::Stylesheet('theme.css', $urlpath.'includes/js/'.$jscookMenu_style.'/');
-	JHTML::Script('JSCookMenu.js', $js_src . '/JSCook/', false);
-	JHTML::Script('theme.js', $js_src . '/JSCook/', false);
-	JHTML::Stylesheet('theme.css', $js_src . '/JSCook/');
-	$_jscook = new redCategoryMenu();
+	JHTML::script($js_src . '/JSCook/JSCookMenu.js');
+	JHTML::script($js_src . '/JSCook/theme.js');
+	JHTML::stylesheet($js_src . '/JSCook/theme.css');
+	$_jscook = new redCategoryMenu;
 }
 
 // create a unique tree identifier, in case multiple trees are used

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,10 +18,6 @@ $url = $uri->root();
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 
 		var form = document.adminForm;
 		var field_type = document.getElementById('field_type').value;
@@ -52,6 +48,9 @@ $url = $uri->root();
 			return false;
 		} else if ((form.field_section.value == 13) && (form.field_type.value == 8 || form.field_type.value == 9 || form.field_type.value == 10)) {
 			alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD' , true);?>");
+			return false;
+		} else if (form.field_section.value == 0){
+			alert('<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_SECTION'); ?>');
 			return false;
 		}
 		if (field_type == 3 || field_type == 4 || field_type == 5 || field_type == 6 || field_type == 11 || field_type == 13) {
@@ -99,6 +98,70 @@ $url = $uri->root();
 		}
 	}
 
+	function removeMessage(){
+		var myNode = document.getElementById("system-message-container");
+		var fc = myNode.firstChild;
+
+		while( fc ) {
+		    myNode.removeChild( fc );
+		    fc = myNode.firstChild;
+		}
+	};
+
+	function hideButton( arrBtn )
+	{
+		for ( var i in arrBtn )
+		{
+			if ( isNaN( i ) ) continue;
+
+			document.getElementById(arrBtn[i]).style.display = "none";
+		};
+	};
+
+	function showButton( arrBtn )
+	{
+		for ( var i in arrBtn )
+		{
+			if ( isNaN( i ) ) continue;
+
+			document.getElementById(arrBtn[i]).style.display = "inline-block";
+		};
+	};
+
+	function showMessage( type )
+	{
+		// 9 is type of media
+		if ( type === "9" )
+		{
+			var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED"); ?>'];  // You can stack multiple messages of the same type
+			Joomla.renderMessages({'notice': jmsgs });
+
+			// Hide button
+			hideButton(["toolbar-apply", "toolbar-save"]);
+		}
+		else
+		{
+			removeMessage();
+
+			// Show button
+			showButton(["toolbar-apply", "toolbar-save"]);
+		}
+	};
+
+	window.onload = function (){
+		var fieldType = document.getElementById("field_type");
+
+		// Check onload
+		var fType = fieldType.selectedOptions[0].value;
+
+		showMessage( fType );
+
+		fieldType.onchange = function ( e )
+		{
+			var type = e.target.selectedOptions[0].value;
+			showMessage( type );
+		};
+	}
 
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"

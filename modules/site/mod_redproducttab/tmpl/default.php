@@ -3,11 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_producttab
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 jimport('joomla.html.pane');
@@ -21,22 +21,21 @@ $user   = JFactory::getUser();
 $option = 'com_redshop';
 
 $document = JFactory::getDocument();
-JHTML::Stylesheet('products.css', 'modules/mod_redshop_products/css/');
+JHTML::stylesheet('modules/mod_redshop_products/css/products.css');
 // 	include redshop js file.
 require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
 // lightbox Javascript
-JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+JHTML::script('com_redshop/redbox.js', false, true);
 $module_id = "mod_" . $module->id;
 
 // get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-$producthelper = new producthelper();
-$redhelper     = new redhelper();
-$extraField    = new extraField();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
+$redhelper     = new redhelper;
+$extraField    = new extraField;
 ?>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<style>
@@ -111,7 +110,7 @@ if ($newprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -260,7 +259,7 @@ if ($ltsprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -408,7 +407,7 @@ if ($soldprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -555,7 +554,7 @@ if ($splprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);

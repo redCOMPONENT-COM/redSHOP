@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class ordersModelorders
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class ordersModelorders extends JModel
+class RedshopModelOrders extends RedshopModel
 {
 	public $_id = null;
 
@@ -72,7 +71,7 @@ class ordersModelorders extends JModel
 		if (empty($this->_pagination))
 		{
 			JLoader::import('joomla.html.pagination');
-			$this->_pagination = new redPagination($this->getTotal(), $this->_limitstart, $this->_limit);
+			$this->_pagination = new JPagination($this->getTotal(), $this->_limitstart, $this->_limit);
 		}
 
 		return $this->_pagination;

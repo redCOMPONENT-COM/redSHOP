@@ -3,11 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_shoppergroup_product
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
@@ -21,20 +21,19 @@ $view      = JRequest::getCmd('view');
 $getoption = JRequest::getCmd('option');
 
 $document = JFactory::getDocument();
-JHTML::Stylesheet('products.css', 'modules/mod_redshop_shoppergroup_product/css/');
+JHTML::stylesheet('modules/mod_redshop_shoppergroup_product/css/products.css');
 // 	include redshop js file.
-require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
 // lightbox Javascript
-JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+JHTML::script('com_redshop/redbox.js', false, true);
 
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
-$producthelper = new producthelper();
-$redhelper     = new redhelper();
-$redTemplate   = new Redtemplate();
-$extraField    = new extraField();
+$producthelper = new producthelper;
+$redhelper     = new redhelper;
+$redTemplate   = new Redtemplate;
+$extraField    = new extraField;
 
 echo "<div class='mod_redshop_shoppergroup_product_wrapper'>";
 
@@ -115,7 +114,7 @@ for ($i = 0; $i < count($rows); $i++)
 		$Itemid = $redhelper->getItemid($row->product_id);
 	}
 
-	$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+	$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 	$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
 
 	echo "<div class='mod_redshop_shoppergroup_product'>";

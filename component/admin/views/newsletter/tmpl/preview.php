@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -144,8 +144,7 @@ else
 			<table cellpadding="0" cellspacing="0" border="0" class="adminList">
 				<tr>
 					<td align="left">
-						<input type="checkbox" name="toggle" value=""
-						       onclick="checkAll(<?php echo count($this->subscribers); ?>);"/><strong
+						<?php echo JHtml::_('redshopgrid.checkall'); ?><strong
 							style="vertical-align: baseline;"><?php echo JText::_('COM_REDSHOP_SELECT_ALL'); ?></strong>
 					</td>
 				</tr>
@@ -156,7 +155,7 @@ else
 				$k = 0;
 				for ($i = 0, $n = count($this->subscribers); $i < $n; $i++)
 				{
-					$row = & $this->subscribers[$i];
+					$row = $this->subscribers[$i];
 
 					$row->id = $row->subscription_id;
 

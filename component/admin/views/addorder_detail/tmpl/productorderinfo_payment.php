@@ -3,16 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-$order_functions = new order_functions();
+JLoader::load('RedshopHelperAdminOrder');
+$order_functions = new order_functions;
 
 $is_creditcard = 0;
 $paymentmethod = $order_functions->getPaymentMethodInfo();
@@ -52,27 +52,33 @@ if (count($paymentmethod) == 1)
 				if ($is_company == 0 && $private_person == 1)
 				{
 					?>
-					<input type="radio" name="payment_method_class"
+					<label><input type="radio" name="payment_method_class"
 					       value="<?php echo $paymentmethod[$p]->element; ?>" <?php echo $checked; ?> />
-					<?php        echo JText::_($paymentmethod[$p]->name) . '<br><br>';
+					<?php        echo JText::_($paymentmethod[$p]->name); ?>
+					</label><br>
+					<?php
 				}
 				else
 				{
 					if ($is_company == 1 && $business == 1)
 					{
 						?>
-						<input type="radio" name="payment_method_class"
+						<label><input type="radio" name="payment_method_class"
 						       value="<?php echo $paymentmethod[$p]->element; ?>" <?php echo $checked; ?> />
-						<?php        echo JText::_($paymentmethod[$p]->name) . '<br><br>';
+						<?php        echo JText::_($paymentmethod[$p]->name) ; ?>
+						</label><br>
+					<?php
 					}
 				}
 			}
 			else
 			{
 				?>
-				<input type="radio" name="payment_method_class"
+				<label><input type="radio" name="payment_method_class"
 				       value="<?php echo $paymentmethod[$p]->element; ?>" <?php echo $checked; ?> />
-				<?php    echo JText::_($paymentmethod[$p]->name) . '<br><br>';
+				<?php    echo JText::_($paymentmethod[$p]->name); ?>
+				</label><br>
+					<?php
 			}
 			if ($is_creditcard == 1)
 			{

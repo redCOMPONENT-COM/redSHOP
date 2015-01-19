@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,11 +14,13 @@ jimport('joomla.plugin.plugin');
 /**
  * Replaces textstring with link
  */
-require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperRedshop.js');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperRedshop.js');
 
 class plgContentredshop_product extends JPlugin
 {
@@ -47,51 +49,26 @@ class plgContentredshop_product extends JPlugin
 				$currency_convert = $CurrencyHelper->convert(1);
 			}
 
-					$document = JFactory::getDocument();
-			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
-			$document->addScriptDeclaration("
-		                var site_url = '" . JURI::root() . "';
-		                var AJAX_CART_BOX = " . AJAX_CART_BOX . ";
-		                var REDCURRENCY_SYMBOL = '" . REDCURRENCY_SYMBOL . "';
-		                var CURRENCY_SYMBOL_CONVERT = '" . $currency_symbol . "';
-		                var CURRENCY_CONVERT = '" . $currency_convert . "';
-		                var PRICE_SEPERATOR = '" . PRICE_SEPERATOR . "';
-						var PRODUCT_OUTOFSTOCK_MESSAGE = '" . JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE') . "';
-						var CURRENCY_SYMBOL_POSITION = '" . CURRENCY_SYMBOL_POSITION . "';
-						var PRICE_DECIMAL = '" . PRICE_DECIMAL . "';
-						var AJAX_CART_DISPLAY_TIME = '" . AJAX_CART_DISPLAY_TIME . "';
-						var THOUSAND_SEPERATOR = '" . THOUSAND_SEPERATOR . "';
-		                var VIEW_CART = '" . JText::_('COM_REDSHOP_VIEW_CART') . "';
-		                var CONTINUE_SHOPPING = '" . JText::_('COM_REDSHOP_CONTINUE_SHOPPING') . "';
-		                var CART_SAVE = '" . JText::_('COM_REDSHOP_CART_SAVE') . "';
-		                var IS_REQUIRED = '" . JText::_('COM_REDSHOP_IS_REQUIRED') . "';
-		                var ENTER_NUMBER = '" . JText::_('COM_REDSHOP_ENTER_NUMBER') . "';
-		                var USE_STOCKROOM = '" . USE_STOCKROOM . "';
-		                var USE_AS_CATALOG = '" . USE_AS_CATALOG . "';
-		                var SHOW_PRICE = '" . SHOW_PRICE . "';
-						var DEFAULT_QUOTATION_MODE = '" . DEFAULT_QUOTATION_MODE . "';
-		                var PRICE_REPLACE = '" . PRICE_REPLACE . "';
-						var PRICE_REPLACE_URL = '" . PRICE_REPLACE_URL . "';
-						var ZERO_PRICE_REPLACE = '" . ZERO_PRICE_REPLACE . "';
-						var ZERO_PRICE_REPLACE_URL = '" . ZERO_PRICE_REPLACE_URL . "';
-				");
-			$module_id = "plg_";
+			$document = JFactory::getDocument();
+
+			JHtml::_('redshopjquery.framework');
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
+			JHtml::script('com_redshop/common.js', false, true);
+			JHtml::stylesheet('com_redshop/redshop.css', array(), true);
+			JHtml::stylesheet('com_redshop/style.css', array(), true);
+			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
+
+			$module_id     = "plg_";
 			$producthelper = new producthelper;
-			$extraField = new extraField;
-			$objhelper = new redhelper;
-			$lang = JFactory::getLanguage();
+			$extraField    = new extraField;
+			$objhelper     = new redhelper;
+			$lang          = JFactory::getLanguage();
 
 			// Or JPATH_ADMINISTRATOR if the template language file is only
 			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR);
 
-			$plugin =& JPluginHelper::getPlugin('content', 'redshop_product');
+			$plugin = JPluginHelper::getPlugin('content', 'redshop_product');
 			$red_params = new JRegistry($plugin->params);
 
 			// Get show price yes/no option

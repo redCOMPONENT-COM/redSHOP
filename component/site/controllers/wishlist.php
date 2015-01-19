@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * wishlist Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class WishlistController extends JController
+class RedshopControllerWishlist extends RedshopController
 {
 	/**
 	 * createsave wishlist function
@@ -117,7 +116,7 @@ function savewishlist()
 		else
 		{
 			$msg  = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
-			$link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+			$link = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 		}
 
 		$app->redirect($link, $msg);
@@ -144,7 +143,7 @@ function savewishlist()
 				$msg = JText::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
 			}
 
-			$link = JRoute::_("index.php?mydel=1&option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+			$link = JRoute::_("index.php?mydel=1&option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 			$this->setRedirect($link, $msg);
 		}
 	}

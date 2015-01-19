@@ -3,19 +3,17 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/configuration.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminText_library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
 /**
  * Product Detail View
  *
@@ -24,7 +22,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
  *
  * @since       1.0
  */
-class ProductViewProduct extends JView
+class RedshopViewProduct extends RedshopView
 {
 	// JApplication object
 	public $app;
@@ -121,20 +119,16 @@ class ProductViewProduct extends JView
 			$stopJQuery = false;
 		}
 
-		if (!$stopJQuery)
-		{
-			JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		}
-
-		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-
-		JHtml::Script('json.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::_('redshopjquery.framework');
+		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::script('com_redshop/json.js', false, true);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		// Lightbox Javascript
-		JHtml::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-		JHtml::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
+		JHtml::stylesheet('com_redshop/style.css', array(), true);
+
+		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 
 		if ($layout == "downloadproduct")
 		{
@@ -172,35 +166,6 @@ class ProductViewProduct extends JView
 				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $this->data->product_name, $this->data->product_number));
 			}
 
-			if ($this->data->canonical_url != "")
-			{
-				$main_url  = JURI::root() . $this->data->canonical_url;
-				$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-				$this->document->addCustomTag($canonical);
-			}
-			elseif ($this->data->product_parent_id != 0 && $this->data->product_parent_id != "")
-			{
-				$product_parent_data = $prodhelperobj->getProductById($this->data->product_parent_id);
-
-				if ($product_parent_data->canonical_url != "")
-				{
-					$main_url  = JURI::root() . $product_parent_data->canonical_url;
-					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-					$this->document->addCustomTag($canonical);
-				}
-				else
-				{
-					$main_url  = substr_replace(JURI::root(), "", -1);
-					$main_url .= JRoute::_(
-											'index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $this->itemId .
-											'&pid=' . $this->data->product_parent_id,
-											false
-										);
-					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-					$this->document->addCustomTag($canonical);
-				}
-			}
-
 			$productTemplate = $this->model->getProductTemplate();
 
 			/*
@@ -222,7 +187,7 @@ class ProductViewProduct extends JView
 				$pagetitletag = str_replace("{productnumber}", $this->data->product_number, $pagetitletag);
 				$pagetitletag = str_replace("{shopname}", SHOP_NAME, $pagetitletag);
 				$pagetitletag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagetitletag);
-				$pagetitletag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagetitletag);
+				$pagetitletag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagetitletag);
 
 				$parentcat = "";
 				$parentid  = $prodhelperobj->getParentCategory($this->data->category_id);
@@ -296,11 +261,27 @@ class ProductViewProduct extends JView
 
 			if ($this->data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_thumb_image))
 			{
-				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_thumb_image);
+				$imageLink = $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_thumb_image;
+
+				list($width, $height, $type, $attr) = @getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_thumb_image);
+
+				$openGraphTag = '<meta property="og:image" content="' . $imageLink . '" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:type" content="image/jpeg" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:width" content="' . $width . '" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:height" content="' . $height . '" />' . "\n";
+				$this->document->addCustomTag($openGraphTag);
 			}
 			elseif ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 			{
-				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_full_image);
+				$imageLink = $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_full_image;
+
+				list($width, $height, $type, $attr) = @getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image);
+
+				$openGraphTag = '<meta name="og:image" property="og:image" content="' . $imageLink . '" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:type" property="og:image:type" content="image/jpeg" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:width" property="og:image:width" content="' . $width . '" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:height" property="og:image:height" content="' . $height . '" />' . "\n";
+				$this->document->addCustomTag($openGraphTag);
 			}
 
 			$pagekeywordstag = '';
@@ -315,7 +296,7 @@ class ProductViewProduct extends JView
 				$pagekeywordstag = str_replace("{productnumber}", $this->data->product_number, $pagekeywordstag);
 				$pagekeywordstag = str_replace("{shopname}", SHOP_NAME, $pagekeywordstag);
 				$pagekeywordstag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagekeywordstag);
-				$pagekeywordstag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagekeywordstag);
+				$pagekeywordstag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagekeywordstag);
 				$pagekeywordstag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagekeywordstag);
 
 				$this->document->setMetaData('keywords', $pagekeywordstag);
@@ -404,8 +385,8 @@ class ProductViewProduct extends JView
 				$pagedesctag = str_replace("{shopname}", SHOP_NAME, $pagedesctag);
 				$pagedesctag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagedesctag);
 				$pagedesctag = str_replace("{productdesc}", strip_tags($this->data->product_desc), $pagedesctag);
-				$pagedesctag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagedesctag);
-				$pagedesctag = str_replace("{saving}", $product_price_saving_main, $pagedesctag);
+				$pagedesctag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagedesctag);
+				$pagedesctag = str_replace("{saving}", $prodhelperobj->getProductFormattedPrice($product_price_saving_main), $pagedesctag);
 				$pagedesctag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagedesctag);
 			}
 
@@ -451,7 +432,7 @@ class ProductViewProduct extends JView
 
 					if ($prodhelperobj_array['product_price_saving'] != '')
 					{
-						$product_price_saving_main = $prodhelperobj_array['product_price_saving'];
+						$product_price_saving_main = $prodhelperobj->getProductFormattedPrice($prodhelperobj_array['product_price_saving']);
 					}
 					else
 					{
@@ -461,13 +442,13 @@ class ProductViewProduct extends JView
 					$this->document->setMetaData(
 											'description',
 											JText::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
-											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj_array['product_price'] . ' ' .
+											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj->getProductFormattedPrice($prodhelperobj_array['product_price']) . ' ' .
 											JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
 										);
 					$this->document->setMetaData(
 											'og:description',
 											JText::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
-											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj_array['product_price'] . ' ' .
+											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj->getProductFormattedPrice($prodhelperobj_array['product_price']) . ' ' .
 											JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
 										);
 				}

@@ -3,16 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 $producthelper = new producthelper;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminStockroom');
 
 global $context;
 
@@ -21,7 +21,7 @@ $app = JFactory::getApplication();
 $order_function = new order_functions;
 $config = new Redconfiguration;
 $option = JRequest::getVar('option');
-$filter = $app->getUserStateFromRequest($context . 'filter', 'filter', 0);
+$filter = $app->getUserStateFromRequest($context . 'filter', 'filter', '');
 $lists = $this->lists;
 $model = $this->getModel('order');
 $redhelper = new redhelper;
@@ -30,7 +30,11 @@ $stockroomhelper = new rsstockroomhelper;
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_product');
 ?>
-
+<style type="text/css">
+	div#toolbar-box div.m{
+		height: 70px;
+	}
+</style>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton)
 	{
@@ -47,7 +51,7 @@ JPluginHelper::importPlugin('redshop_product');
 
 		if (pressbutton == 'add')
 		{
-			<?php      $link = 'index.php?option=' . $option . '&view=addorder_detail';
+			<?php      $link = 'index.php?option=com_redshop&view=addorder_detail';
 				$link = $redhelper->sslLink($link);
 		?>
 			window.location = '<?php echo $link;?>';
@@ -84,41 +88,42 @@ JPluginHelper::importPlugin('redshop_product');
 	{
 		document.getElementById('filter').value='';
 		document.getElementById('filter_by').value='';
+		document.getElementById('filter_payment_status').value='';
+		document.getElementById('filter_status').value='0';
 		document.adminForm.submit();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
-<table class="adminlist" width="100%">
-	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
-			: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
-		</td>
-
-		<td>
-			<?php echo JText::_('COM_REDSHOP_FILTER'); ?>:
-			<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"/>
-			<?php echo $lists['filter_by'];?>
-			<button name="search" id="search" onclick="document.adminForm.submit();" style="font-size:0.909em">
-				<?php echo JText::_('COM_REDSHOP_GO');?>
-			</button>
-			<input type="button" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
-		</td>
-
-		<td valign="bottom" align="right" class="key">
-			<?php echo $lists['filter_payment_status'] . " " . $lists['filter_status']; ?>
-		</td>
-	</tr>
-</table>
-<table class="adminlist">
+<div class="filterItem">
+	<div class="btn-wrapper input-append">
+		<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
+			   placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
+		<input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO');?>"/>
+		<input type="button" class="btn" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+	</div>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_by'];?>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_payment_status'];?>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_status'];?>
+</div>
+<div class="filterItem"><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
+	: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
+</div>
+<table class="adminlist table table-striped">
 <thead>
 <tr>
 	<th width="5%">
 		<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 	</th>
 	<th width="5%" class="title">
-		<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->orders); ?>);"/>
+		<?php echo JHtml::_('redshopgrid.checkall'); ?>
 	</th>
 	<th class="title" width="5%">
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -175,14 +180,14 @@ $k = 0;
 
 for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 {
-	$row = & $this->orders[$i];
+	$row = $this->orders[$i];
 	$row->id = $row->order_id;
-	$link = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
+	$link = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
 	$link = $redhelper->sslLink($link);
 
 	/**
-	 * This is an event that is useing into back-end order listing page. In to grid column, below checkbox.
-	 * This event is called to add heightlighter from which order can be identified that plugin enhancment is included into this order.
+	 * This is an event that is using into back-end order listing page. In to grid column, below check-box.
+	 * This event is called to add highlighter from which order can be identified that plug-in enhancement is included into this order.
 	 */
 	$data = new stdClass;
 	$data->highlight = new stdClass;
@@ -199,15 +204,16 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 		</td>
 		<td align="center">
 			<a href="<?php echo $link; ?>"
-			   title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a>
+			   title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>">
+			   <?php echo $row->order_id; ?>
+			</a>
 		</td>
 		<td align="center"><?php echo $row->order_number; ?></td>
-		<?php
-		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2 && $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number)
-		{
-			?>
+
+		<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2 && $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number) : ?>
 			<td align="center"><?php echo $row->bookinvoice_number; ?></td>
-		<?php } ?>
+		<?php endif; ?>
+
 		<td><?php
 			echo $row->firstname . ' ' . $row->lastname;
 			echo ($row->is_company && $row->company_name != "") ? "<br />" . $row->company_name : ""; ?>
@@ -220,7 +226,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				<tr>
 					<td>
 						<?php
-						$linkupdate = JRoute::_('index.php?option=' . $option . '&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
+						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
 						echo $order_function->getstatuslist('order_status' . $row->order_id, $row->order_status, "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";
 						echo $order_function->getpaymentstatuslist('order_paymentstatus' . $row->order_id, $row->order_payment_status, "class=\"inputbox\" size=\"1\" ");
@@ -234,14 +240,17 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				</tr>
 				<tr>
 					<td>
+						<label class="checkbox inline">
 						<input type="checkbox" <?php echo $send_mail_to_customer;?>  value=""
 						       name="sendordermail<?php echo $row->order_id; ?>"
-						       id="sendordermail<?php echo $row->order_id; ?>"/><?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
+						       id="sendordermail<?php echo $row->order_id; ?>"/>
+						       <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
+						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<input class="button"
+						<input class="button btn"
 						       onclick="location.href = '<?php echo $linkupdate; ?>&status='+document.adminForm.order_status<?php echo $row->order_id; ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id; ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id; ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id; ?>.value  ; "
 						       name="order_status" value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>"
 						       type="button">
@@ -249,8 +258,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				</tr>
 			</table>
 		</td>
-		<?php if (USE_STOCKROOM == 1)
-		{ ?>
+		<?php if (USE_STOCKROOM == 1) : ?>
 			<td align="center">
 				<?php $order_items = $order_function->getOrderItemDetail($row->order_id);
 
@@ -280,7 +288,12 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				?>
 
 			</td>
-			<td align="center"> <?php
+			<td align="center">
+			<?php
+				$carthelper    = new rsCarthelper;
+				echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
+				echo "<br />";
+
 				if ($stockroom_id != "")
 				{
 					$max_delivery = $stockroomhelper->getStockroom_maxdelivery(substr_replace($stockroom_id, "", -1));
@@ -290,44 +303,63 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 					$delivery_date = date('d/m/Y', $stamp);
 					$current_date = date('d/m/Y');
 					$datediff = $stockroomhelper->getdateDiff($stamp, time());
+
 					if ($datediff < 0)
 					{
 						$datediff = 0;
 					}
 
 					echo $datediff . " " . $max_delivery[0]->delivery_time;
-				} ?> </td>
-		<?php } ?>
+				}
+				?>
+			</td>
+		<?php endif; ?>
 		<td align="center">
 			<?php echo $config->convertDateFormat($row->cdate); ?>
 		</td>
 		<td>
-			<?php echo $producthelper->getProductFormattedPrice($row->order_total);//,false,$row->order_item_currency);//CURRENCY_SYMBOL.number_format($row->order_total,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR); ?>
+			<?php echo $producthelper->getProductFormattedPrice($row->order_total); ?>
 		</td>
-		<td><?php if ($row->invoice_no != '' && $row->is_booked == 0)
+		<td>
+		<?php
+			if ($row->invoice_no != '')
 			{
-				if ($row->is_company == 1 && $row->ean_number != "")
+				if ($row->is_booked == 0 && $row->bookinvoice_date <= 0)
 				{
-					echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC');
-				}
-				else
-				{
-					$confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
-					if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C')
+					if ($row->is_company == 1 && $row->ean_number != "")
 					{
-						$confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
+						echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC');
 					}
-					echo JHTML::_('calendar', date('Y-m-d'), 'bookDate' . $i, 'bookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
-					<input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
-					       onclick="javascript:<?php echo $confirm; ?>"><br/>
-				<?php
+					else
+					{
+						$confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
+
+						if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C')
+						{
+							$confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
+						}
+
+						echo JHTML::_('calendar', date('Y-m-d'), 'bookDate' . $i, 'bookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
+						<br />
+						<input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
+						       onclick="javascript:<?php echo $confirm; ?>"><br/>
+					<?php
+					}
+				}
+				elseif($row->bookinvoice_date > 0)
+				{
+					echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . "<br />" . $config->convertDateFormat($row->bookinvoice_date);
 				}
 			}
-			echo "</td>";
+		?>
+		</td>
+		<?php
 			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
+
 			if ($details[0] === 'plgredshop_shippingdefault_shipping' && POSTDK_INTEGRATION)
 			{
 				echo "<td>";
+
 				if ($row->order_label_create)
 				{
 					echo JTEXT::_("COM_REDSHOP_XML_ALREADY_GENERATED");
@@ -335,7 +367,12 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				else
 				{
 					echo JHTML::_('calendar', date('Y-m-d'), 'specifiedDate' . $i, 'specifiedDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
-					<input type="button" class="button" value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>" onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;document.parcelFrm.submit();">
+					<input type="button" class="button"
+						value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
+						onclick="
+							javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';
+							document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;
+							document.parcelFrm.submit();">
 				<?php
 				}
 
@@ -353,6 +390,11 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 ?>
 <tfoot>
 <td colspan="13">
+	<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+		<div class="redShopLimitBox">
+			<?php echo $this->pagination->getLimitBox(); ?>
+		</div>
+	<?php endif; ?>
 	<?php  echo $this->pagination->getListFooter(); ?>
 </td>
 </tfoot>

@@ -3,60 +3,44 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperHelper');
 
-class orderController extends JController
+class RedshopControllerOrder extends RedshopController
 {
 	public function multiprint_order()
 	{
 		$mypost = JRequest::getVar('cid');
-
 		$order_function = new order_functions;
-
+		ob_start();
 		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
-		?>
-    <script type="text/javascript">
-			<?php if ($invoicePdf != "")
-		{
-			if (file_exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "invoice/" . $invoicePdf . ".pdf"))
-			{
-				?>
-            window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invoicePdf?>.pdf");
-
-				<?php
-			}
-		}
+		ob_end_clean();
+		$invoiceLink = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'invoice/' . $invoicePdf . '.pdf';
+		$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_INVOICE_LINK', $invoiceLink, $invoicePdf . '.pdf'));
 
 		for ($i = 0; $i < count($mypost); $i++)
 		{
 			if (file_exists(JPATH_COMPONENT_SITE . "/assets/labels/label_" . $mypost[$i] . ".pdf"))
 			{
-				?>
-            window.open("<?php echo JURI::root()?>/components/com_redshop/assets/labels/label_<?php echo $mypost[$i]?>.pdf");
+				$labelLink = JURI::root() . '/components/com_redshop/assets/labels/label_' . $mypost[$i] . '.pdf';
+				$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_LABEL', $labelLink, 'label_' . $mypost[$i] . '.pdf'));
+			}
+		}
 
-				<?php }
-		} ?>
-
-        window.parent.location = 'index.php?option=com_redshop&view=order';
-    </script>
-	<?php
+		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$this->setRedirect('index.php?option=' . $option . '&view=order');
+		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
 	public function update_status()
@@ -65,118 +49,126 @@ class orderController extends JController
 		$model->update_status();
 	}
 
-	public function allstatus()
+	/**
+	 * Update all Order Status using AJAX
+	 *
+	 * @param   boolean  $isPacsoft  If true then Pacsoft lable will be created else not
+	 *
+	 * @return  void
+	 */
+	public function allstatus($isPacsoft = true)
 	{
-		$session = JFactory::getSession();
-		$post = JRequest::get('post');
-		$option = $post['option'];
-		$merge_invoice_arr = array();
+		ob_end_clean();
 
-		$session->clear('updateOrderIdPost');
-		$session->set('updateOrderIdPost', $post);
-		$session->set('merge_invoice_arr', $merge_invoice_arr);
+		$app = JFactory::getApplication();
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order&layout=previewlog');
+		// @todo This needs to be fixed in better way
+		$postData              = $app->input->getArray($_POST);
+		$postData['isPacsoft'] = $isPacsoft;
+
+		$app->setUserState("com_redshop.order.batch.postdata", serialize($postData));
+
+		$this->setRedirect('index.php?option=com_redshop&view=order&layout=batch');
 
 		return;
 	}
 
+	/**
+	 * Update All Order status using AJAX without generating pacsoft label
+	 *
+	 * @return  void
+	 */
+	public function allStatusExceptPacsoft()
+	{
+		$this->allstatus(false);
+	}
+
+	/**
+	 * Update All Order status AJAX Task
+	 *
+	 * @return  html  Simply display HTML as AJAX Response
+	 */
 	public function updateOrderStatus()
 	{
-		$session = JFactory::getSession();
-		$post = $session->get('updateOrderIdPost');
-		$merge_invoice_arr = $session->get('merge_invoice_arr');
-		$rand_invoice_name = JRequest::getVar('rand_invoice_name', '');
+		$app             = JFactory::getApplication();
+		$serialized      = $app->getUserState("com_redshop.order.batch.postdata");
+		$post            = unserialize($serialized);
+		$orderId         = $app->input->getInt('oid', 0);
 		$order_functions = new order_functions;
-		$cnt = JRequest::getInt('cnt', 0);
-		$order_id = $post['cid'];
 
-		$responcemsg = "";
+		// Change Order Status
+		$order_functions->orderStatusUpdate($orderId, $post);
 
-		for ($i = $cnt, $j = 0; $j < 1; $j++)
+		// For shipped pdf generation
+		if ($post['order_status_all'] == "S" && $post['order_paymentstatus' . $orderId] == "Paid")
 		{
-			if (!isset($order_id[$i]))
-			{
-				$pdf = new PDFMerger;
-				$merge_invoice_arr = $session->get('merge_invoice_arr');
+			$pdfObj = RedshopHelperPdf::getInstance();
 
-				for ($m = 0; $m < count($merge_invoice_arr); $m++)
-				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
-					{
-						$pdf->addPDF(JPATH_SITE . '/components/com_redshop/assets/document'
-							. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
-						);
-					}
-				}
+			$pdfObj->SetTitle('Shipped');
+			$pdfObj->SetMargins(20, 85, 20);
 
-				$pdf->merge('file', JPATH_SITE . '/components/com_redshop/assets/document'
-					. '/invoice/shipped_' . $rand_invoice_name . '.pdf'
-				);
+			$font = 'times';
+			$pdfObj->setHeaderFont(array($font, '', 8));
+			$pdfObj->SetFont($font, "", 6);
 
-				for ($m = 0; $m < count($merge_invoice_arr); $m++)
-				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
-					{
-						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
-						);
-					}
-				}
+			$invoice = $order_functions->createShippedInvoicePdf($orderId);
 
-				$session->set('merge_invoice_arr', null);
+			// Writing Body area
+			$pdfObj->AddPage();
+			$pdfObj->WriteHTML($invoice, true, false, true, false, '');
 
-				break;
-			}
-
-			$returnmsg = $order_functions->orderStatusUpdate($order_id[$i], $post);
-
-			// For shipped pdf generation
-			if ($post['order_status_all'] == "S" && $post['order_paymentstatus' . $order_id[$i]] == "Paid")
-			{
-				$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
-				$pdfObj->SetTitle('Shipped');
-				$pdfObj->SetAuthor('redSHOP');
-				$pdfObj->SetCreator('redSHOP');
-				$pdfObj->SetMargins(8, 8, 8);
-				$font = 'times';
-				$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-				$pdfObj->setHeaderFont(array($font, '', 8));
-				$pdfObj->SetFont($font, "", 6);
-
-				$invoice = $order_functions->createShippedInvoicePdf($order_id[$i]);
-				$session->set('merge_invoice_arr', $order_id[$i]);
-				$pdfObj->AddPage();
-				$pdfObj->WriteHTML($invoice, true, false, true, false, '');
-
-				$invoice_pdfName = "shipped_" . $order_id[$i];
-				$merge_invoice_arr[] = $order_id[$i];
-				$session->set('merge_invoice_arr', $merge_invoice_arr);
-
-				$pdfObj->Output(
-					JPATH_SITE . '/components/com_redshop/assets/document'
-					. '/invoice/' . $invoice_pdfName . ".pdf", "F");
-			}
-
-			$responcemsg .= "<div>" . ($i + 1) . ": " . JText::_('COM_REDSHOP_ORDER_ID') . " " . $order_id[$i] . " -> ";
-			$errmsg = '';
-
-			if ($returnmsg)
-			{
-				$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_UPDATED') . $errmsg . "</span>";
-			}
-			else
-			{
-				$responcemsg .= "<span style='color: #ff0000'>" . JText::_('COM_REDSHOP_ORDER_STATUS_UPDATE_FAIL') . $errmsg . "</span>";
-			}
-
-			$responcemsg .= "</div>";
+			$invoice_pdfName = 'shipped_' . $orderId;
+			$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
+			ob_end_clean();
+			echo $orderId;
 		}
 
-		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
-		echo $responcemsg;
-		exit;
+		$app->close();
+	}
+
+	/**
+	 * Merge Shipping Information PDF
+	 *
+	 * @return  void  Set PDF path on the viewport
+	 */
+	public function mergeShippingPdf()
+	{
+		$app           = JFactory::getApplication();
+		$pdfLocation   = 'components/com_redshop/assets/document/invoice/';
+		$pdfRootPath   = JPATH_SITE . '/' . $pdfLocation;
+		$mergeOrderIds = $app->input->get('mergeOrderIds', array(), 'array');
+		JArrayHelper::toInteger($mergeOrderIds);
+
+		$pdf = RedshopHelperPdf::getPDFMerger();
+
+		for ($m = 0; $m < count($mergeOrderIds); $m++)
+		{
+			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
+
+			if (file_exists($pdfName))
+			{
+				$pdf->addPDF($pdfName, 'all');
+			}
+		}
+
+		$mergedPdfFile = 'shipped_' . rand() . '.pdf';
+
+		$pdf->merge('file', $pdfRootPath . $mergedPdfFile);
+
+		for ($m = 0; $m < count($mergeOrderIds); $m++)
+		{
+			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
+
+			if (file_exists($pdfName))
+			{
+				unlink($pdfName);
+			}
+		}
+
+		ob_end_clean();
+		echo JUri::root() . $pdfLocation . $mergedPdfFile;
+
+		$app->close();
 	}
 
 	public function bookInvoice()
@@ -298,9 +290,9 @@ class orderController extends JController
 		$shipping_helper = new shipping;
 		ob_clean();
 
-		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address, Shipping postalcode,
-		Shipping city, Shipping country, Company name, Email ,Billing address, Billing postalcode, Billing city, Billing country,
-		Billing User ,";
+		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
+		echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
+		echo "Billing postalcode, Billing city, Billing country,Billing User ,";
 
 		for ($i = 1; $i <= $no_products; $i++)
 		{
@@ -321,7 +313,15 @@ class orderController extends JController
 			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";
 			echo date('d-m-Y H:i', $data [$i]->cdate) . " ,";
 
-			echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+			if (empty($details))
+			{
+				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+			}
+			else
+			{
+				echo '';
+			}
+
 			$shipping_info = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
 
 			echo str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname) . " ,";
@@ -343,7 +343,7 @@ class orderController extends JController
 			for ($it = 0; $it < count($no_items); $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
-				echo "\"" . REDCURRENCY_SYMBOL . "\"" . $no_items [$it]->product_final_price;
+				echo REDCURRENCY_SYMBOL . " " . $no_items [$it]->product_final_price . ",";
 
 				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
 				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
@@ -358,7 +358,7 @@ class orderController extends JController
 				echo str_repeat(' ,', $temp * 3);
 			}
 
-			echo "\"" . REDCURRENCY_SYMBOL . "\"" . $data [$i]->order_total . "\n";
+			echo  REDCURRENCY_SYMBOL . " " . $data [$i]->order_total . "\n";
 		}
 
 		exit ();
@@ -415,8 +415,8 @@ class orderController extends JController
 
 		$no_products = max($product_count);
 
-		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,
-		Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
+		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,";
+		echo "Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
 
 		for ($i = 1; $i <= $no_products; $i++)
 		{
@@ -512,7 +512,7 @@ class orderController extends JController
 		$post = JRequest::get('post');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		$model = $this->getModel();
+		$model = $this->getModel('order');
 
 		$download_id_arr = $post ['download_id'];
 
@@ -556,14 +556,14 @@ class orderController extends JController
 	public function gls_export()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$model = $this->getModel();
+		$model = $this->getModel('order');
 		$model->gls_export($cid);
 	}
 
 	public function business_gls_export()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$model = $this->getModel();
+		$model = $this->getModel('order');
 		$model->business_gls_export($cid);
 	}
 }

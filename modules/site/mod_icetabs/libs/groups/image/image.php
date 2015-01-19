@@ -1,6 +1,6 @@
 <?php
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 /**
  * $ModDesc
  *
@@ -32,7 +32,7 @@ if (!class_exists('LofSliderGroupImage'))
 			{
 				return array();
 			}
-			$tmpPath = str_replace(DS, '/', $subpath) . '/';
+			$tmpPath = str_replace(DIRECTORY_SEPARATOR, '/', $subpath) . '/';
 			$path    = JPATH_SITE . '/' . $subpath;
 
 			$files = JFolder::files($path, '.jpg|.png|.gif');
@@ -58,7 +58,7 @@ if (!class_exists('LofSliderGroupImage'))
 				$data = array();
 				foreach ($tmp as $key => $file)
 				{
-					$item       = new stdClass();
+					$item       = new stdClass;
 					$item->link = '';
 					if (isset($content[preg_replace("/\.(\w{3})$/", '', strtolower(trim($file)))]))
 					{
@@ -144,7 +144,7 @@ if (!class_exists('LofSliderGroupImage'))
 			$model->setState('list.ordering', "a.ordering");
 			$model->setState('list.direction', "ASC");
 			//echo "<pre>";
-			//print_r($model);die();
+			//print_r($model);die;
 			$items  = $model->getItems();
 			$output = array();
 			foreach ($items as $key => &$item)

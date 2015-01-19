@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -14,14 +14,6 @@ $url = $uri->root();
 <table class="admintable" width="100%">
 	<tr>
 		<td class="config_param"><?php echo JText::_('COM_REDSHOP_GENERAL_LAYOUT_SETTING'); ?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PAGINATION_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PAGINATION'); ?>">
-		<label for="pagination"><?php echo JText::_('COM_REDSHOP_PAGINATION_LBL'); ?></label></span>
-		</td>
-		<td><?php echo $this->lists ['pagination']; ?></td>
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
@@ -72,6 +64,16 @@ $url = $uri->root();
 	<tr>
 		<td colspan="2">
 			<hr/>
+		</td>
+	</tr>
+	<tr>
+		<td width="100" align="right" class="key">
+		<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_TOOLTIP'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_LBL');?></label></span>
+		</td>
+		<td>
+			<textarea name="media_allowed_mime_type" cols="5" rows="5"><?php echo MEDIA_ALLOWED_MIME_TYPE; ?></textarea>
 		</td>
 	</tr>
 	<tr>

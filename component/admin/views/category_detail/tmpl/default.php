@@ -3,30 +3,23 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
+JLoader::load('RedshopHelperAdminImages');
 
 JHTML::_('behavior.tooltip');
-$editor = JFactory::getEditor();
-JHTMLBehavior::modal();
-$uri = JURI::getInstance();
-$url = $uri->root();
+$editor        = JFactory::getEditor();
+$uri           = JURI::getInstance();
+$url           = $uri->root();
 JHTML::_('behavior.calendar');
-jimport('joomla.html.pane');
-$objhelper = new redhelper();
-$producthelper = new producthelper();
-
+$producthelper = new producthelper;
+JText::script('COM_REDSHOP_DELETE');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -44,17 +37,14 @@ $producthelper = new producthelper();
 	}
 </script>
 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo JRoute::_($uri->toString()) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 <?php
-//Get JPaneTabs instance
-$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
+echo JHtml::_('tabs.start', 'pane', array('startOffset' => 0));
 $output = '';
 
-//Create Pane
-$output .= $myTabs->startPane('pane');
-//Create 1st Tab
-echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1');?>
+// Create 1st Tab
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1');?>
 <div class="col50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
@@ -100,34 +90,6 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 				</td>
 				<td><?php echo $this->lists['compare_template_id']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY_LABEL'), JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY'), 'tooltip.png', '', '', false); ?></td>
 			</tr>
-
-			<?php if ($this->detail->category_id > 0)
-			{
-				$catid = $this->detail->category_id;
-
-				$Itemid = $objhelper->getCategoryItemid($catid);
-
-				if ($Itemid != '')
-				{
-					$cItemid = $Itemid;
-				}
-				else
-				{
-					$cItemid = '';
-				}
-
-				//echo "<pre>";print_r($Itemid);exit;
-				?>
-				<tr>
-					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_FRONTEND_LINK'); ?>:
-					</td>
-					<td>
-						<a href="<?php echo JURI::root() . 'index.php?option=com_redshop&view=category&layout=detail&Itemid=' . $cItemid . '&cid=' . $this->detail->category_id; ?>"
-						   target="_black"><?php echo JURI::root() . 'index.php?option=com_redshop&view=category&layout=detail&Itemid=' . $cItemid . '&cid=' . $this->detail->category_id;?></a>
-					</td>
-				</tr>
-			<?php }?>
-
 		</table>
 	</fieldset>
 	<div class="col50">
@@ -152,9 +114,8 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 	</div>
 </div>
 <?php
-echo $myTabs->endPanel();
-//Create 2nd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
+// Create 2nd Tab
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 ?>
 <div class="col50"></div>
 <table class="adminform">
@@ -264,9 +225,8 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 	} ?>
 </table>
 <?php
-echo $myTabs->endPanel();
-//Create 3rd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
+// Create 3rd Tab
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 ?>
 <table>
 	<tr>
@@ -358,25 +318,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 	</tr>
 </table>
-<?php
-echo $myTabs->endPanel();
-/*
-if($this->lists['extra_field']!="")
-{
-	echo  $myTabs->startPanel(JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab4' );
-?>
-<div class="col50">
-<?php
-	echo $this->lists['extra_field'];
-?>
-</div>
-<?php
-}*/
-
-
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab4');
-
-?>
+<?php echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FIELDS'), 'tab4'); ?>
 <table class="admintable">
 	<tr>
 		<td colspan="2">
@@ -385,22 +327,40 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab4');
 	</tr>
 </table>
 <?php
-echo $myTabs->endPanel();
-//Create 6th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
+// Create 6th Tab
+echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 ?>
 <div class="col50">
 	<table class="admintable">
 		<tr>
 			<td VALIGN="TOP" class="key" align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?> <br/>
 				<br/>
-				<input style="width: 200px" type="text" id="input" value=""/>
+				<?php
+				echo JHtml::_('redshopselect.search', '',
+					'category_accessory_search',
+					array(
+						'select2.options' => array(
+							'events' => array(
+								'select2-selecting' => 'function(e) {create_table_accessory(e.object.text, e.object.id, e.object.price)}',
+								'select2-close' => 'function(e) {$(this).select2("val", "")}'
+							)
+						),
+						'select2.ajaxOptions' => array('typeField' => ', accessoryList: function(){
+							var listAcc = [];
+							jQuery(\'input.childProductAccessory\').each(function(){
+								listAcc[listAcc.length] = jQuery(this).val();
+							});
+							return listAcc.join(",");
+						}'),
+					)
+				);
+				?>
 			</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<table id="accessory_table" class="adminlist" border="0">
+				<table id="accessory_table" class="adminlist table table-striped" border="0">
 					<thead>
 					<tr>
 						<th width="400"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
@@ -408,12 +368,14 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 						<th width="50"><?php echo JText::_('COM_REDSHOP_OPRAND'); ?></th>
 						<th width="75"><?php echo JText::_('COM_REDSHOP_ADDED_VALUE'); ?></th>
 						<th width="15%"><?php echo JText::_('COM_REDSHOP_ORDERING'); ?></th>
-						<!-- <th width="15%" ><?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED' ); ?></th>-->
 						<th width="50"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></th>
 					</tr>
 					</thead>
 					<tbody>
-					<?php        $accessory_product = $this->lists['categroy_accessory_product'];
+					<?php
+
+					$accessory_product = $this->lists['categroy_accessory_product'];
+
 					for ($f = 0; $f < count($accessory_product); $f++)
 					{
 						$accessory_main_price = 0;
@@ -424,25 +386,25 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 						$checked = ($accessory_product[$f]->setdefault_selected) ? "checked" : "";    ?>
 						<tr>
 							<td><?php echo $accessory_product[$f]->product_name;?>
-								<input type="hidden" value="<?php echo $accessory_product[$f]->child_product_id; ?>"
+								<input type="hidden" value="<?php echo $accessory_product[$f]->child_product_id; ?>" class="childProductAccessory"
 								       name="product_accessory[<?php echo $f; ?>][child_product_id]">
 								<input type="hidden" value="<?php echo $accessory_product[$f]->accessory_id; ?>"
 								       name="product_accessory[<?php echo $f; ?>][accessory_id]"></td>
 							<td><?php echo $accessory_main_price[1];?></td>
-							<td><input size="1" maxlength="1" class="text_area" type="text"
+							<td><input size="1" maxlength="1" class="text_area input-small text-center" type="text"
 							           value="<?php echo $accessory_product[$f]->oprand; ?>"
 							           onchange="javascript:oprand_check(this);"
 							           name="product_accessory[<?php echo $f; ?>][oprand]"></td>
-							<td><input size="5" class="text_area" type="text"
+							<td><input size="5" class="text_area input-small text-center" type="text"
 							           value="<?php echo $accessory_product[$f]->accessory_price; ?>"
 							           name="product_accessory[<?php echo $f; ?>][accessory_price]"></td>
 							<td><input type="text" name="product_accessory[<?php echo $f; ?>][ordering]" size="5"
-							           value="<?php echo $accessory_product[$f]->ordering; ?>" class="text_area"
+							           value="<?php echo $accessory_product[$f]->ordering; ?>" class="text_area input-small text-center"
 							           style="text-align: center"/></td>
 							<!-- <td><input value="1" class="button" type="checkbox" name="product_accessory[<?php echo $f;?>][setdefault_selected]" <?php echo $checked;?>></td>-->
-							<td><input value="X"
+							<td><input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 							           onclick="deleteRow_accessory(this,<?php echo $accessory_product[$f]->accessory_id; ?>,<?php echo $accessory_product[$f]->category_id; ?>,<?php echo $accessory_product[$f]->child_product_id ?>);"
-							           class="button" type="button"></td>
+							           class="button btn btn-danger" type="button"></td>
 						</tr>
 					<?php }    ?>
 					</tbody>
@@ -451,10 +413,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 		</tr>
 	</table>
 </div>
-<?php
-
-echo $myTabs->endPanel();
-echo $myTabs->endPane(); ?>
+<?php JHtml::_('tabs.end'); ?>
 <div class="clr"></div>
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->category_id; ?>"/>
 <input type="hidden" name="old_image" id="old_image" value="<?php echo $this->detail->category_full_image ?>">
@@ -483,33 +442,10 @@ echo $myTabs->endPane(); ?>
 </script>
 
 <?php
-if ($this->detail->category_template != '0')
-{
-	?>
+if ($this->detail->category_template != '0'):?>
 	<script language="javascript" type="text/javascript">
 
 		select_dynamic_field(<?php echo $this->detail->category_template;?>, <?php echo $this->detail->category_id;?>, '2');
 	</script>
 <?php
-}
-?>
-
-
-<script language="javascript" type="text/javascript">
-	//------------------ Accessory Product ------------------------
-
-	var options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=0&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('input').value = "";
-			create_table_accessory(obj.value, obj.id, obj.price);
-		}
-	};
-
-	var as_json = new bsn.AutoSuggest('input', options);
-
-	//------------- End Of Accessory Product --------------------------
-</script>
+endif;

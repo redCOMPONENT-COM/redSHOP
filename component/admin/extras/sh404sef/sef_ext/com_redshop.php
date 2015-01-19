@@ -3,7 +3,7 @@
  * @package     RedSHOP.sh404sef
  * @subpackage  sef_ext sh404sef
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -33,7 +33,8 @@ if (!defined('TABLE_PREFIX'))
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 }
 
-include_once "administrator/components/com_redshop/helpers/category.php";
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminCategory');
 $product_category = new product_category;
 
 shRemoveFromGETVarsList('option');
@@ -709,12 +710,6 @@ switch ($view)
 
 		break;
 
-	case 'container':
-
-		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_CONTAINER'];
-		shRemoveFromGETVarsList('view');
-
-		break;
 	case 'order_listing':
 
 		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_ORDER_LISTING'];

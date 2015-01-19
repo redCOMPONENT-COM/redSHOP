@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/shopper.php';
+JLoader::load('RedshopHelperAdminShopper');
 
-class shopper_groupViewshopper_group extends JView
+class RedshopViewShopper_group extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -28,9 +27,9 @@ class shopper_groupViewshopper_group extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_SHOPPER_GROUP'));
 		jimport('joomla.html.pagination');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT'), 'redshop_manufact48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT'), 'users redshop_manufact48');
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

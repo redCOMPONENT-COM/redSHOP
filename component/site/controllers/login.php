@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * login Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class LoginController extends JController
+class RedshopControllerLogin extends RedshopController
 {
 	/**
 	 *  Setlogin function
@@ -36,7 +35,7 @@ class LoginController extends JController
 		$menu         = JFactory::getApplication()->getMenu();
 		$item         = $menu->getItem($returnitemid);
 
-		include_once JPATH_COMPONENT . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 
 		$redhelper = new redhelper;
 
@@ -49,7 +48,7 @@ class LoginController extends JController
 		if ($shoppergroupid != 0)
 		{
 			$check = $model->CheckShopperGroup($username, $shoppergroupid);
-			$link  = "index.php?option=" . $option . "&view=login&layout=portal&protalid=" . $shoppergroupid;
+			$link  = "index.php?option=com_redshop&view=login&layout=portal&protalid=" . $shoppergroupid;
 
 			if ($check > 0)
 			{
@@ -82,7 +81,7 @@ class LoginController extends JController
 			}
 			else
 			{
-				$link = 'index.php?option=' . $option . '&Itemid=' . $returnitemid;
+				$link = 'index.php?option=com_redshop&Itemid=' . $returnitemid;
 			}
 
 			if (!empty($return))

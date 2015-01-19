@@ -1,0 +1,12 @@
+I WANT TO WANT TO TEST CATEGORY MANAGER
+
+I do admin login ""Function to Login to Admin Panel""
+I add category "$randomCategoryName"
+I search category "$randomCategoryName"
+I update category "$randomCategoryName"," $updatedCategoryName"
+I search category "$updatedCategoryName"
+I change state "$updatedCategoryName"," 'unpublish'
+I get state "$updatedCategoryName"
+I verify state 'unpublished'," $currentState"
+I delete category "$updatedCategoryName"
+I search category "$updatedCategoryName"," 'Delete'

@@ -3,18 +3,17 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Class productModelproduct
@@ -23,7 +22,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  * @subpackage  Model
  * @since       1.0
  */
-class productModelproduct extends JModel
+class RedshopModelProduct extends RedshopModel
 {
 	public $_id = null;
 
@@ -105,8 +104,11 @@ class productModelproduct extends JModel
 			$this->_data = $this->_db->loadObject();
 		}
 
-		$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
-		$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
+		if (is_object($this->_data))
+		{
+			$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
+			$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
+		}
 
 		return $this->_data;
 	}
@@ -246,7 +248,7 @@ class productModelproduct extends JModel
 
 		$product = $producthelper->getProductById($product_id);
 
-		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
+		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
 		$data_add    = str_replace("{product_link}", $product_url, $data_add);
 		$data_add    = str_replace("{product_name}", $product->product_name, $data_add);
@@ -290,7 +292,7 @@ class productModelproduct extends JModel
 			. "SET visited=visited + 1 "
 			. "WHERE product_id = " . (int) $product_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function addProductTags($data)
@@ -371,7 +373,7 @@ class productModelproduct extends JModel
 		$query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
 			. "VALUES('" . (int) $tags->tags_id . "','" . (int) $post['product_id'] . "','" . (int) $user->id . "')";
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		return true;
 	}
@@ -407,7 +409,7 @@ class productModelproduct extends JModel
 		$session         = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
 		$cid             = JRequest::getInt('cid');
-		$catid           = $compare_product[0]['category_id'];
+		$catid           = isset($compare_product[0]['category_id']) ? $compare_product[0]['category_id'] : 0;
 
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
 		{
@@ -417,7 +419,7 @@ class productModelproduct extends JModel
 
 		if ($product_id != 0)
 		{
-			if (!$compare_product)
+			if (!isset($compare_product) || !$compare_product)
 			{
 				// Return true to store product in compare product cart.
 				return true;
@@ -459,7 +461,7 @@ class productModelproduct extends JModel
 
 		$idx = (int) ($compare_product['idx']);
 
-		if (PRODUCT_COMPARISON_TYPE == 'category' && $compare_product[0]["category_id"] != $data["cid"])
+		if (PRODUCT_COMPARISON_TYPE == 'category' && (!isset($compare_product[0]["category_id"]) || $compare_product[0]["category_id"] != $data["cid"]))
 		{
 			unset($compare_product);
 			$idx = 0;
@@ -514,15 +516,23 @@ class productModelproduct extends JModel
 		return true;
 	}
 
-	public function downloadProduct($tid)
+	/**
+	 * Get Download product info
+	 *
+	 * @param   string  $downloadId  Download id
+	 *
+	 * @return mixed
+	 */
+	public function downloadProduct($downloadId)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product_download AS pd "
-			. "LEFT JOIN " . $this->_table_prefix . "media AS m ON m.media_name = pd.file_name "
-			. "WHERE download_id = " . (int) $tid;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_download', 'pd'))
+			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON m.media_name = pd.file_name')
+			->where('pd.download_id = ' . $db->q($downloadId));
 
-		return $list;
+		return $db->setQuery($query)->loadObject();
 	}
 
 	public function AdditionaldownloadProduct($mid = 0, $id = 0, $media = 0)
@@ -562,7 +572,7 @@ class productModelproduct extends JModel
 			. "SET download_max=(download_max - 1) "
 			. "WHERE download_id = " . (int) $did;
 		$this->_db->setQuery($query);
-		$ret = $this->_db->Query();
+		$ret = $this->_db->execute();
 
 		if ($ret)
 		{

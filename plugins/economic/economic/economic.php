@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ class plgEconomicEconomic extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-		$isEnabled =& JPluginHelper::isEnabled('economic');
+		$isEnabled = JPluginHelper::isEnabled('economic');
 
 		if ($isEnabled)
 		{
@@ -63,14 +63,14 @@ class plgEconomicEconomic extends JPlugin
 	public function onEconomicConnection()
 	{
 		// Get plugin info
-		$plugin =& JPluginHelper::getPlugin('economic', 'economic');
+		$plugin = JPluginHelper::getPlugin('economic', 'economic');
 		$pluginParams = new JRegistry($plugin->params);
 		$this->ecoparams = $pluginParams;
 
 		// Check whether plugin has been unpublished
 		if (count($pluginParams) > 0)
 		{
-			$url = 'https://www.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
+			$url = 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
 
 			try
 			{
@@ -79,7 +79,7 @@ class plgEconomicEconomic extends JPlugin
 			catch (Exception $exception)
 			{
 				$this->error = 1;
-				echo $this->errorMsg = "Unable to connect soap client";
+				echo $this->errorMsg = "Unable to connect soap client - E-conomic Plugin Failure.";
 				JError::raiseWarning(21, $exception->getMessage());
 			}
 			try
@@ -582,6 +582,12 @@ class plgEconomicEconomic extends JPlugin
 				'LayoutHandle'          => $LayoutHandle
 			);
 
+			// Get Employee to set Our Reference Number
+			if ($employeeHandle = $this->employeeFindByNumber($d))
+			{
+				$userinfo['OurReferenceHandle']	= $employeeHandle;
+			}
+
 			if (isset($d['ean_number']) && $d['ean_number'] != "")
 			{
 				$userinfo = array_merge($userinfo, array('Ean' => $d['ean_number']));
@@ -616,6 +622,102 @@ class plgEconomicEconomic extends JPlugin
 				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
 		}
+	}
+
+	/**
+	 * Get Extra field value for Debtor Reference
+	 *
+	 * @param   array  $d  User information array
+	 *
+	 * @return  mixed  User input if found else false
+	 */
+	protected function getExtraFieldForDebtorRef($d)
+	{
+		// Get which fields are for employee reference from params
+		$extraFieldForDebtorRef = (int) trim($this->params->get('extraFieldForDebtorRef', 0));
+
+		$extraFieldForDebtorCompanyRef = (int) trim($this->params->get('extraFieldForDebtorCompanyRef', 0));
+
+		if ($extraFieldForDebtorRef || $extraFieldForDebtorCompanyRef)
+		{
+			$usersInfo = JTable::getInstance('user_detail', 'table');
+			$usersInfo->load($d['user_info_id']);
+
+			$section = 7;
+			$fieldId = $extraFieldForDebtorRef;
+
+			if ($usersInfo->is_company)
+			{
+				$section = 8;
+				$fieldId = $extraFieldForDebtorCompanyRef;
+			}
+
+			// Initialiase variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			// Create the base select statement.
+			$query->select('data_txt')
+				->from($db->qn('#__redshop_fields_data'))
+				->where($db->qn('fieldid') . ' = ' . $fieldId)
+				->where($db->qn('itemid') . ' = ' . (int) $d['user_info_id'])
+				->where($db->qn('section') . ' = ' . $db->q($section));
+
+			// Set the query and load the result.
+			$db->setQuery($query);
+
+			try
+			{
+				return (int) $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get Employee By Number
+	 *
+	 * @param   array  $d  User information array
+	 *
+	 * @return  boolean|object  StdClass Object on success, false on fail.
+	 */
+	protected function employeeFindByNumber($d)
+	{
+		$userInput = $this->getExtraFieldForDebtorRef($d);
+
+		// Return false if there is no reference is set
+		if (!$userInput)
+		{
+			return false;
+		}
+
+		try
+		{
+			$employee = $this->client
+							->Employee_FindByNumber(
+								array(
+									"number" => (int) $userInput
+								)
+							)->Employee_FindByNumberResult;
+		}
+		catch (Exception $exception)
+		{
+			if (DETAIL_ERROR_MESSAGE_ON)
+			{
+				JError::raiseWarning(21, __METHOD__ . $exception->getMessage());
+			}
+			else
+			{
+				JError::raiseWarning(21, JText::_('COM_REDSHOP_DETAIL_ERROR_MESSAGE_LBL'));
+			}
+		}
+
+		return $employee;
 	}
 
 	public function ProductGroup_FindByNumber($d)
@@ -1349,6 +1451,20 @@ class plgEconomicEconomic extends JPlugin
 
 			$this->client->CurrentInvoice_SetOtherReference(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['order_number']));
 
+			// Get Employee to set Our Reference Number
+			if ($employeeHandle = $this->employeeFindByNumber($d))
+			{
+				$valueHandle         = new stdclass;
+				$valueHandle->Number = $employeeHandle;
+
+				$this->client->CurrentInvoice_SetOurReference2(
+					array(
+						'currentInvoiceHandle' => $invoiceHandle,
+						'valueHandle'          => $valueHandle
+					)
+				);
+			}
+
 			$reference = '';
 
 			if (isset($d['order_number']) && $d['order_number'] != "")
@@ -1756,7 +1872,9 @@ class plgEconomicEconomic extends JPlugin
 			$pdf = $this->Invoice_GetPdf($bookHandle);
 
 			// Cashbook entry
-			if ($d['amount'] > 0)
+			$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+
+			if ($makeCashbook && $d['amount'] > 0)
 			{
 				$this->createCashbookEntry($d, $bookHandle);
 			}
@@ -1891,6 +2009,14 @@ class plgEconomicEconomic extends JPlugin
 	 */
 	public function createCashbookEntry($d, $bookHandle)
 	{
+		// Cashbook entry
+		$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+
+		if (!$makeCashbook)
+		{
+			return;
+		}
+
 		if ($this->error)
 		{
 			return $this->errorMsg;

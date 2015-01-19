@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Catalog Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class CatalogController extends JController
+class RedshopControllerCatalog extends RedshopController
 {
 	/**
 	 * Method to send catalog
@@ -46,7 +45,7 @@ class CatalogController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog&Itemid=' . $Itemid, $msg);
 	}
 
 	/**
@@ -82,6 +81,6 @@ class CatalogController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAMPLE_SEND_SUCCSEEFULLY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog&layout=sample&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog&layout=sample&Itemid=' . $Itemid, $msg);
 	}
 }

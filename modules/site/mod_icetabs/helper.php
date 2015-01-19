@@ -11,7 +11,6 @@
  *
  */
 
-
 // no direct access
 defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_content/helpers/route.php';
@@ -143,11 +142,11 @@ abstract class modIceTabsHelper
 
 		if (file_exists($tPath))
 		{
-			require($tPath);
+			require $tPath;
 		}
 		elseif (file_exists($bPath))
 		{
-			require($bPath);
+			require $bPath;
 		}
 	}
 

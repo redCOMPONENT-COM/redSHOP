@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class stockroom_listingController extends JController
+class RedshopControllerStockroom_listing extends RedshopController
 {
 	public function cancel()
 	{
@@ -102,18 +101,6 @@ class stockroom_listingController extends JController
 			{
 				$product_ids = implode(",", $product_list);
 			}
-		}
-
-		$data = $model->getcontainerproducts($product_ids);
-
-		for ($i = 0; $i < count($data); $i++)
-		{
-			echo $data[$i]->stockroom_id . ",";
-			echo $data[$i]->stockroom_name . ",";
-			echo $data[$i]->product_number . ",";
-			echo $data[$i]->product_name . ",";
-			echo $data[$i]->quantity . ",";
-			echo $data[$i]->quantity * $data[$i]->product_volume . "\n";
 		}
 
 		exit;

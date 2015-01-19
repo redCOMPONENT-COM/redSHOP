@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+JLoader::load('RedshopHelperAdminQuotation');
 
-class quotation_detailVIEWquotation_detail extends JView
+class RedshopViewQuotation_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -24,11 +23,9 @@ class quotation_detailVIEWquotation_detail extends JView
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
 
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/order.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/common.js');
-		$document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/json.js');
+		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/order.js');
+		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
+		$document->addScript('components/com_redshop/assets/js/json.js');
 
 		$uri = JFactory::getURI();
 		$lists = array();
@@ -38,6 +35,7 @@ class quotation_detailVIEWquotation_detail extends JView
 		{
 			$this->setLayout($layout);
 		}
+
 		$detail = $this->get('data');
 		$redconfig = new Redconfiguration;
 

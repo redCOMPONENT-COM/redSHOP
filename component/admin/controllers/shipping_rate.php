@@ -3,19 +3,18 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class shipping_ratecontroller extends JController
+class RedshopControllerShipping_rate extends RedshopController
 {
 	public function cancel()
 	{
-		$post = JRequest::get('post');
-		$this->setRedirect('index.php?option=' . $post['option'] . '&view=shipping_detail&task=edit&cid[]=' . $post['id']);
+		$input = JFactory::getApplication()->input;
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_detail&task=edit&cid[]=' . $input->getInt('id', 0));
 	}
 }

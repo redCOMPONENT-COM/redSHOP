@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,10 +22,11 @@ jimport('joomla.plugin.plugin');
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminShipping');
 
 class plgredshop_shippingups_canada extends JPlugin
 {
@@ -39,25 +40,25 @@ class plgredshop_shippingups_canada extends JPlugin
 			?>
 			<table class="adminform">
 			<tr class="row0">
-				<td><strong><?php echo JText::_('SHIPPING_METHOD_UPS_ACCESS_CODE') ?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_ACCESS_CODE') ?></strong></td>
 				<td><input type="text" name="UPS_Canada_ACCESS_CODE" class="inputbox"
 				           value="<?php echo UPS_Canada_ACCESS_CODE ?>"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHIPPING_METHOD_UPS_ACCESS_CODE'), JText::_('SHIPPING_METHOD_UPS_ACCESS_CODE'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_ACCESS_CODE'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_ACCESS_CODE'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('SHIPPING_METHOD_UPS_USER_ID') ?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_USER_ID') ?></strong></td>
 				<td><input type="text" name="UPS_Canada_USER_ID" class="inputbox"
 				           value="<?php echo UPS_Canada_USER_ID ?>"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHIPPING_METHOD_UPS_USER_ID'), JText::_('SHIPPING_METHOD_UPS_USER_ID'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_USER_ID'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_USER_ID'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row0">
-				<td><strong><?php echo JText::_('SHIPPING_METHOD_UPS_PASSWORD') ?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PASSWORD') ?></strong></td>
 				<td><input type="text" name="UPS_Canada_PASSWORD" class="inputbox"
 				           value="<?php echo UPS_Canada_PASSWORD ?>"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHIPPING_METHOD_UPS_PASSWORD'), JText::_('SHIPPING_METHOD_UPS_PASSWORD'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PASSWORD'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PASSWORD'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('SHIPPING_METHOD_UPS_PICKUP_METHOD') ?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PICKUP_METHOD') ?></strong></td>
 				<td><select class="inputbox" name="UPS_Canada_pickup_type">
 						<option <?php if (UPS_Canada_PICKUP_TYPE == "01") echo "selected=\"selected\"" ?> value="01">
 							Daily Pickup
@@ -78,10 +79,10 @@ class plgredshop_shippingups_canada extends JPlugin
 							Service Center
 						</option>
 					</select></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHIPPING_METHOD_UPS_PICKUP_METHOD'), JText::_('SHIPPING_METHOD_UPS_PICKUP_METHOD'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PICKUP_METHOD'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PICKUP_METHOD'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row0">
-				<td><strong><?php echo JText::_('SHIPPING_METHOD_UPS_PACKAGE_TYPE') ?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PACKAGE_TYPE') ?></strong></td>
 				<td><select class="inputbox" name="UPS_Canada_package_type">
 						<option <?php if (UPS_Canada_PACKAGE_TYPE == "00") echo "selected=\"selected\"" ?> value="00">
 							Unknown
@@ -107,69 +108,69 @@ class plgredshop_shippingups_canada extends JPlugin
 							UPS 10Kg Box
 						</option>
 					</select></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHIPPING_METHOD_UPS_PACKAGE_TYPE'), JText::_('SHIPPING_METHOD_UPS_PACKAGE_TYPE'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PACKAGE_TYPE'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PACKAGE_TYPE'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL') ?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL') ?></strong></td>
 				<td><select class="inputbox" name="UPS_Canada_residential">
 						<option <?php if (UPS_Canada_RESIDENTIAL == "yes") echo "selected=\"selected\"" ?>
-							value="yes"><?php echo JText::_('UPS_RESIDENTIAL') ?></option>
+							value="yes"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_RESIDENTIAL') ?></option>
 						<option <?php if (UPS_Canada_RESIDENTIAL == "no") echo "selected=\"selected\"" ?>
-							value="no"><?php echo JText::_('UPS_COMMERCIAL') ?></option>
+							value="no"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_COMMERCIAL') ?></option>
 					</select></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL'), JText::_('SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('SHIPPING_METHOD_UPS_HANDLING_FEE') ?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_HANDLING_FEE') ?></strong></td>
 				<td><input class="inputbox" type="text" name="UPS_Canada_handling_fee"
 				           value="<?php echo UPS_Canada_HANDLING_FEE ?>"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHIPPING_METHOD_UPS_HANDLING_FEE'), JText::_('SHIPPING_METHOD_UPS_HANDLING_FEE'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_HANDLING_FEE'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_HANDLING_FEE'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<?php // BEGIN CUSTOM CODE ?>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('SHIP_FROM_ZIPCODE');?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHIP_FROM_ZIPCODE');?></strong></td>
 				<td><input class="inputbox" type="text" name="UPS_Canada_Override_Source_Zip"
 				           value="<?php echo UPS_Canada_Override_Source_Zip ?>"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHIP_FROM_ZIPCODE'), JText::_('SHIP_FROM_ZIPCODE'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIP_FROM_ZIPCODE'), JText::_('COM_REDSHOP_SHIP_FROM_ZIPCODE'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row0">
-				<td><strong><?php echo JText::_('SHOW_DELIVERY_DAY_QUOTE');?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHOW_DELIVERY_DAY_QUOTE');?></strong></td>
 				<td><input class="inputbox" type="checkbox"
 				           name="UPS_Canada_Show_Delivery_Days_Quote" <?php if (UPS_Canada_Show_Delivery_Days_Quote == 1) echo "checked=\"checked\""; ?>
 				           value="1"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHOW_DELIVERY_DAY_QUOTE'), JText::_('SHOW_DELIVERY_DAY_QUOTE'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHOW_DELIVERY_DAY_QUOTE'), JText::_('COM_REDSHOP_SHOW_DELIVERY_DAY_QUOTE'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('SHOW_DELIVERY_ETA');?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHOW_DELIVERY_ETA');?></strong></td>
 				<td><input class="inputbox" type="checkbox"
 				           name="UPS_Canada_Show_Delivery_ETA_Quote" <?php if (UPS_Canada_Show_Delivery_ETA_Quote == 1) echo "checked=\"checked\""; ?>
 				           value="1"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHOW_DELIVERY_ETA'), JText::_('SHOW_DELIVERY_ETA'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHOW_DELIVERY_ETA'), JText::_('COM_REDSHOP_SHOW_DELIVERY_ETA'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row0">
-				<td><strong><?php echo JText::_('SHOW_DELIVERY_WARNING');?></strong></td>
+				<td><strong><?php echo JText::_('COM_REDSHOP_SHOW_DELIVERY_WARNING');?></strong></td>
 				<td><input class="inputbox" type="checkbox"
 				           name="UPS_Canada_Show_Delivery_Warning" <?php if (UPS_Canada_Show_Delivery_Warning == 1) echo "checked=\"checked\""; ?>
 				           value="1"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('SHOW_DELIVERY_WARNING'), JText::_('SHOW_DELIVERY_WARNING'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHOW_DELIVERY_WARNING'), JText::_('COM_REDSHOP_SHOW_DELIVERY_WARNING'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row1">
 			<td colspan="3">
 			<table>
 				<tr class="row0">
-					<td colspan="2"><strong><?php echo JText::_('AUTHORIZED_SHIPPING_METHOD');?></strong></td>
-					<td><?php echo JHTML::tooltip(JText::_('AUTHORIZED_SHIPPING_METHOD'), JText::_('AUTHORIZED_SHIPPING_METHOD'), 'tooltip.png', '', '', false);?></td>
+					<td colspan="2"><strong><?php echo JText::_('COM_REDSHOP_AUTHORIZED_SHIPPING_METHOD');?></strong></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_AUTHORIZED_SHIPPING_METHOD'), JText::_('COM_REDSHOP_AUTHORIZED_SHIPPING_METHOD'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row1">
 					<td>
-						<div align="left"><strong><?php echo JText::_('SHIPPING_METHOD_LBL');?></strong></div>
+						<div align="left"><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL');?></strong></div>
 					</td>
 					<td>
 						<div align="left"><strong>Enable?</strong></div>
 					</td>
 					<td>
 						<div align="left"><strong>Fuel SurCharge
-								Rate(%)</strong><?php echo JHTML::tooltip(JText::_('SHIPPING_METHOD_LBL'), JText::_('SHIPPING_METHOD_LBL_TOOLTIP'), 'tooltip.png', '', '', false);?>
+								Rate(%)</strong><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL'), JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL_TOOLTIP'), 'tooltip.png', '', '', false);?>
 						</div>
 					</td>
 				</tr>
@@ -340,14 +341,13 @@ class plgredshop_shippingups_canada extends JPlugin
 				"UPS_Canada_na"                         => $d['UPS_Canada_na']
 				// END CUSTOM CODE
 			);
-			$config = "<?php ";
+			$config = "<?php\n";
+			$config .= "defined('_JEXEC') or die;\n";
 
 			foreach ($my_config_array as $key => $value)
 			{
-				$config .= "define ('$key', '$value');\n";
+				$config .= "define('$key', '$value');\n";
 			}
-
-			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
 			{
@@ -373,7 +373,7 @@ class plgredshop_shippingups_canada extends JPlugin
 
 		$itemparams = new JRegistry($shipping->params);
 		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once $shippingcfg;
 
 		$shippingrate = array();
 		$rate = 0;
@@ -538,7 +538,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, false);
 		$xmlResult = curl_exec($CR);
 
-		$xmlDoc = JFactory::getXMLParser('Simple');
+		$matchedchild = array();
 
 		if (!$xmlResult)
 		{
@@ -547,7 +547,9 @@ class plgredshop_shippingups_canada extends JPlugin
 		else
 		{
 			/* XML Parsing */
-			$xmlDoc->loadString($xmlResult, false, true);
+			$xmlDoc = JFactory::getXML($xmlResult, false);
+			$matchedchild = $xmlDoc->RatedShipment;
+
 			/* Let's check wether the response from UPS is Success or Failure ! */
 			if (strstr($xmlResult, "Failure"))
 			{
@@ -569,7 +571,6 @@ class plgredshop_shippingups_canada extends JPlugin
 		}
 		// retrieve the list of all "RatedShipment" Elements
 
-		$matchedchild = $xmlDoc->document->_children;
 		$allservicecodes = array(
 			"UPS_Canada_Express",
 			"UPS_Canada_Expedited",
@@ -593,42 +594,34 @@ class plgredshop_shippingups_canada extends JPlugin
 		}
 
 		$count = 0;
+		$ship_postage = array();
 
 		for ($t = 0; $t < count($matchedchild); $t++)
 		{
-			$totalmatchedchild = $matchedchild[$t]->_children;
 			$matched_childname = $matchedchild[$t]->name();
 			$currNode = $matchedchild[$t];
 
-			if ($matched_childname == "ratedshipment")
+			if (strtolower($matched_childname) == "ratedshipment")
 			{
-				$service = $currNode->getElementByPath("service");
-				$servicecode = $service->_children[0]->data();
+				$servicecode = (string) $matchedchild[$t]->Service->Code;
 
 				if (in_array($servicecode, $myservicecodes))
 				{
-					$ratedshipmentwarning = $currNode->getElementByPath("ratedshipmentwarning");
-					$ship_postage[$count]['Ratedshipmentwarning'] = $ratedshipmentwarning->data();
-					$ScheduledDeliveryTime = $currNode->getElementByPath("ScheduledDeliveryTime");
-					$ship_postage[$count]['ScheduledDeliveryTime'] = $ScheduledDeliveryTime->data();
-					$GuaranteedDaysToDelivery = $currNode->getElementByPath("GuaranteedDaysToDelivery");
-					$ship_postage[$count]['GuaranteedDaysToDelivery'] = $GuaranteedDaysToDelivery->data();
-
-					$transportationcharges = $currNode->getElementByPath("transportationcharges");
-					$childeArr = $transportationcharges->_children;
-
-					for ($i = 0; $i < count($childeArr); $i++)
+					if (isset($ship_postage[$count]['Ratedshipmentwarning']))
 					{
-						if ($childeArr[$i]->name() == "currencycode")
-						{
-							$ship_postage[$count]['Currency'] = $childeArr[$i]->data();
-						}
-
-						if ($childeArr[$i]->name() == "monetaryvalue")
-						{
-							$ship_postage[$count]['Rate'] = $childeArr[$i]->data();
-						}
+						$ship_postage[$count]['Ratedshipmentwarning'] = array();
 					}
+
+					foreach ($currNode->RatedShipmentWarning as $ratedShipmentWarning)
+					{
+						$ship_postage[$count]['Ratedshipmentwarning'][] = (string) $ratedShipmentWarning;
+					}
+
+					$ship_postage[$count]['ScheduledDeliveryTime'] = (string) $currNode->ScheduledDeliveryTime;
+					$ship_postage[$count]['GuaranteedDaysToDelivery'] = (string) $currNode->GuaranteedDaysToDelivery;
+					$ship_postage[$count]['Currency'] = (string) $currNode->TransportationCharges->CurrencyCode;
+					$ship_postage[$count]['Rate'] = (string) $currNode->TransportationCharges->MonetaryValue;
+
 					switch ($servicecode)
 					{
 						case "01":
@@ -693,6 +686,12 @@ class plgredshop_shippingups_canada extends JPlugin
 			$ServiceName = $ship_postage[$i]['ServiceName'];
 			$fsc = $ship_postage[$i]['ServiceName'] . "_FSC";
 			$fsc = str_replace(" ", "_", str_replace(".", "", str_replace("/", "", $fsc)));
+
+			if (!defined($fsc))
+			{
+				continue;
+			}
+
 			$fsc = constant($fsc);
 
 			if ($fsc == 0)
@@ -708,14 +707,14 @@ class plgredshop_shippingups_canada extends JPlugin
 				{
 					$charge = $tmp;
 					$charge_fee = ($charge * $fsc) / 100;
-					$charge += (UPS_HANDLING_FEE + $charge_fee);
+					$charge += (UPS_Canada_HANDLING_FEE + $charge_fee);
 					$ratevalue = $producthelper->getProductFormattedPrice($charge, false);
 				}
 				else
 				{
 					$charge = $ratevalue;
 					$charge_fee = ($charge * $fsc) / 100;
-					$charge += (UPS_HANDLING_FEE + $charge_fee);
+					$charge += (UPS_Canada_HANDLING_FEE + $charge_fee);
 					$ratevalue = $ratevalue . " USD";
 				}
 			}
@@ -723,7 +722,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			{
 				$charge = $ratevalue;
 				$charge_fee = ($charge * $fsc) / 100;
-				$charge += (UPS_HANDLING_FEE + $charge_fee);
+				$charge += (UPS_Canada_HANDLING_FEE + $charge_fee);
 				$ratevalue = $producthelper->getProductFormattedPrice($charge, false);
 			}
 
@@ -735,6 +734,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			$vat = $rs->shipping_rate_value - $charge;
 
 			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $ServiceName . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $ServiceName . "|single|" . $vat);
+			$shippingrate[$rate] = new stdClass;
 			$shippingrate[$rate]->text = $ServiceName; //." ".JText::_('DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate = $rs->shipping_rate_value;
@@ -761,7 +761,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		}
 
 		/* require_once  JPATH_SITE."/includes/domit/xml_domit_lite_include.php" ;
-			$xmlDoc =& new DOMIT_Lite_Document;
+			$xmlDoc = new DOMIT_Lite_Document;
 			 if( !$xmlResult)
 			 {
 				$error = true;
@@ -795,7 +795,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				echo "Cart Contents: ".$order_weight. "<br><br>\n";
 			}
 			// retrieve the list of all "RatedShipment" Elements
-			$rate_list =& $xmlDoc->getElementsByTagName( "RatedShipment" );
+			$rate_list = $xmlDoc->getElementsByTagName( "RatedShipment" );
 			$allservicecodes = array(
 						"UPS_Canada_Express",
 						"UPS_Canada_Expedited",
@@ -822,7 +822,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			// Loop through the rate List
 			for ($i = 0; $i < $rate_list->getLength(); $i++)
 			{
-				$currNode =& $rate_list->item($i);
+				$currNode = $rate_list->item($i);
 
 				if ( in_array($currNode->childNodes[0]->getText(),$myservicecodes) )
 				{

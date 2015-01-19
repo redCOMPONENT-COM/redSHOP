@@ -3,14 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class media_detailModelmedia_detail extends JModel
+class RedshopModelMedia_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -88,7 +87,7 @@ class media_detailModelmedia_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -138,13 +137,13 @@ class media_detailModelmedia_detail extends JModel
 				{
 					$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
 					$this->_db->setQuery($query);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -167,7 +166,7 @@ class media_detailModelmedia_detail extends JModel
 				. ' WHERE media_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -180,18 +179,76 @@ class media_detailModelmedia_detail extends JModel
 
 	public function getSection($id, $type)
 	{
-		if ($type == 'product')
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$search = ' = ' . (int) $id;
+
+		switch ($type)
 		{
-			$query = 'SELECT product_name as name, product_id as id FROM ' . $this->_table_prefix . 'product  WHERE product_id = "' . $id . '" ';
-		}
-		else
-		{
-			$query = 'SELECT category_name as name,category_id as id FROM ' . $this->_table_prefix . 'category  WHERE category_id = "' . $id . '" ';
+			case 'category':
+				$query->select(
+					array(
+						$db->qn('category_id', 'id'),
+						$db->qn('category_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_category'))
+					->where($db->qn('category_id') . $search);
+				break;
+			case 'property':
+				$query->select(
+					array(
+						$db->qn('property_id', 'id'),
+						$db->qn('property_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_product_attribute_property'))
+					->where($db->qn('property_id') . $search);
+				break;
+			case 'subproperty':
+				$query->select(
+					array(
+						$db->qn('subattribute_color_id', 'id'),
+						$db->qn('subattribute_color_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_product_subattribute_color'))
+					->where($db->qn('subattribute_color_id') . $search);
+				break;
+			case 'manufacturer':
+				$query->select(
+					array(
+						$db->qn('manufacturer_id', 'id'),
+						$db->qn('manufacturer_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_manufacturer'))
+					->where($db->qn('manufacturer_id') . $search);
+				break;
+			case 'catalog':
+				$query->select(
+					array(
+						$db->qn('catalog_id', 'id'),
+						$db->qn('catalog_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_catalog'))
+					->where('catalog_id' . $search);
+				break;
+			case 'product':
+			default:
+				$query->select(
+					array(
+						$db->qn('product_id', 'id'),
+						$db->qn('product_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_product'))
+					->where($db->qn('product_id') . $search);
+				break;
 		}
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObject();
+		return $db->setQuery($query)->loadObject();
 	}
 
 	public function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")
@@ -201,54 +258,62 @@ class media_detailModelmedia_detail extends JModel
 			$query = "SELECT * FROM " . $this->_table_prefix . "media "
 				. "WHERE `section_id`='" . $section_id . "' "
 				. "AND `media_section` = '" . $media_section . "' "
-				. "AND `media_id` = '" . $media_id . "' "
-				. "AND `media_type` = 'images' ";
+				. "AND `media_id` = '" . $media_id . "'";
 			$this->_db->setQuery($query);
 			$rs = $this->_db->loadObject();
 
 			if (count($rs) > 0)
 			{
-				switch ($media_section)
+				if ($rs->media_type == "images")
 				{
-					case "product":
-						$query = "UPDATE `" . $this->_table_prefix . "product` "
-							. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
-							. "WHERE `product_id`='" . $section_id . "' ";
-						$this->_db->setQuery($query);
+					switch ($media_section)
+					{
+						case "product":
+							$query = "UPDATE `" . $this->_table_prefix . "product` "
+								. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
+								. "WHERE `product_id`='" . $section_id . "' ";
+							$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
-						{
-							$this->setError($this->_db->getErrorMsg());
+							if (!$this->_db->execute())
+							{
+								$this->setError($this->_db->getErrorMsg());
 
-							return false;
-						}
-						break;
-					case "property":
-						$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` "
-							. "SET `property_main_image` = '" . $rs->media_name . "' "
-							. "WHERE `property_id`='" . $section_id . "' ";
-						$this->_db->setQuery($query);
+								return false;
+							}
+							break;
+						case "property":
+							$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` "
+								. "SET `property_main_image` = '" . $rs->media_name . "' "
+								. "WHERE `property_id`='" . $section_id . "' ";
+							$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
-						{
-							$this->setError($this->_db->getErrorMsg());
+							if (!$this->_db->execute())
+							{
+								$this->setError($this->_db->getErrorMsg());
 
-							return false;
-						}
-						break;
-					case "subproperty":
-						$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` "
-							. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
-							. "WHERE `subattribute_color_id`='" . $section_id . "' ";
-						$this->_db->setQuery($query);
+								return false;
+							}
+							break;
+						case "subproperty":
+							$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` "
+								. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
+								. "WHERE `subattribute_color_id`='" . $section_id . "' ";
+							$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
-						{
-							$this->setError($this->_db->getErrorMsg());
+							if (!$this->_db->execute())
+							{
+								$this->setError($this->_db->getErrorMsg());
 
-							return false;
-						}
-						break;
+								return false;
+							}
+							break;
+					}
+				}
+				else
+				{
+					$this->setError(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type));
+
+					return false;
 				}
 			}
 		}
@@ -258,7 +323,7 @@ class media_detailModelmedia_detail extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
 
@@ -309,7 +374,7 @@ class media_detailModelmedia_detail extends JModel
 
 	public function orderup()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$row->load($this->_id);
 		$row->move(-1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();
@@ -319,7 +384,7 @@ class media_detailModelmedia_detail extends JModel
 
 	public function orderdown()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$row->load($this->_id);
 		$row->move(1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();

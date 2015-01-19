@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class textlibrary_detailModeltextlibrary_detail extends JModel
+class RedshopModelTextlibrary_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -86,7 +85,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -114,7 +113,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -136,7 +135,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 				. ' WHERE textlibrary_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -161,7 +160,7 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['textlibrary_id'] = 0;
-			$post['text_name'] = 'Copy Of ' . $cdata->text_name;
+			$post['text_name'] = $this->renameToUniqueValue('text_name', $cdata->text_name, 'dash');
 			$post['text_desc'] = $cdata->text_desc;
 			$post['text_field'] = $cdata->text_field;
 			$post['section'] = $cdata->section;

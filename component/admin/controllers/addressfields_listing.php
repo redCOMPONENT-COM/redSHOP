@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class addressfields_listingController extends JController
+class RedshopControllerAddressfields_listing extends RedshopController
 {
 	public function cancel()
 	{
@@ -33,7 +32,7 @@ class addressfields_listingController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
 		}
-		$this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=addressfields_listing', $msg);
 	}
 
 	/**
@@ -62,7 +61,7 @@ class addressfields_listingController extends JController
 		$model->move($up, $cid[0]);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=addressfields_listing', $msg);
 	}
 
 	/**
@@ -91,7 +90,7 @@ class addressfields_listingController extends JController
 		$model->move($down, $cid[0]);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=addressfields_listing', $msg);
 	}
 }
 

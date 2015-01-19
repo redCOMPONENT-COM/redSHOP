@@ -3,13 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_redshop_search
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getCmd('option');
+JLoader::import('redshop.library');
 
 $session = JFactory::getSession();
 $cart    = $session->get('cart');
@@ -20,8 +21,8 @@ if (isset($cart['idx']))
 }
 
 require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+JLoader::load('RedshopHelperAdminConfiguration');
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 $user = JFactory::getUser();
@@ -31,7 +32,7 @@ $document->addScriptDeclaration("
 		var base_url = '" . JURI::root() . "';
 	");
 
-JHTML::Script('search.js', 'modules/mod_redshop_search/js/', false);
+JHTML::script('modules/mod_redshop_search/js/search.js');
 
 $enableAjaxsearch = trim($params->get('enableAjaxsearch', '0'));
 
@@ -104,5 +105,5 @@ $searchType[]            = JHTML::_('select.option', 'name_desc', JText::_("COM_
 $searchType[]            = JHTML::_('select.option', 'name_number_desc', JTEXT::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION"));
 $lists['searchtypedata'] = JHTML::_('select.genericlist', $searchType, 'search_type', 'class="inputbox" style="width: 163px;" size="1" onchange="setSearchType();' . $javaFun . '" ', 'value', 'text', $search_type);
 
-require(JModuleHelper::getLayoutPath('mod_redshop_search'));
+require JModuleHelper::getLayoutPath('mod_redshop_search');
 

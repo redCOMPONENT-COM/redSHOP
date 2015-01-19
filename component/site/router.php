@@ -3,13 +3,15 @@
  * @package     RedSHOP.Frontend
  * @subpackage  redSHOP
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.html.parameter');
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperProduct');
 
 /**
  *    Build URL routes for redSHOP
@@ -32,17 +34,27 @@ function redshopBuildRoute(&$query)
 	$db       = JFactory::getDbo();
 	$app      = JFactory::getApplication();
 	$menu     = $app->getMenu();
-	$item     = $menu->getActive();
 
-	$Itemid = 101;
-
-	if (isset($item->id) === true)
+	if (empty($query['Itemid']))
 	{
-		$Itemid = $item->id;
+		$menuItem = $menu->getActive();
+	}
+	else
+	{
+		$menuItem = $menu->getItem($query['Itemid']);
+	}
+
+	if (is_object($menuItem))
+	{
+		$Itemid = $menuItem->id;
+	}
+	else
+	{
+		$Itemid = 101;
 	}
 
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+	JLoader::load('RedshopHelperAdminCategory');
 
 	$product_category = new product_category;
 	$infoid           = '';
@@ -213,13 +225,6 @@ function redshopBuildRoute(&$query)
 		unset($query['quoid']);
 	}
 
-	$Itemid = null;
-
-	if (isset($query['Itemid']))
-	{
-		$Itemid = $query['Itemid'];
-	}
-
 	// Tag id
 	$tagid = null;
 
@@ -254,19 +259,16 @@ function redshopBuildRoute(&$query)
 		unset($query['wishlist_id']);
 	}
 
-	$sql = "SELECT * FROM #__menu WHERE id = '$Itemid' "
-		. "AND link like '%option=com_redshop%' AND link like '%view=$view%' ";
-	$db->setQuery($sql);
-	$menu = $db->loadObject();
-
-	if (count($menu) == 0)
+	if (is_object($menuItem))
 	{
-		$menu         = new stdClass;
-		$menu->params = '';
-		$menu->title  = '';
+		$myparams = new JRegistry($menuItem->params);
 	}
-
-	$myparams = new JRegistry($menu->params);
+	else
+	{
+		$menuItem = new stdClass;
+		$menuItem->title = '';
+		$myparams = new JRegistry;
+	}
 
 	// Special char for replace
 	$special_char = array(".", " ");
@@ -352,12 +354,16 @@ function redshopBuildRoute(&$query)
 			if (isset($gid))
 			{
 				$segments[] = $gid;
-				$sql        = "SELECT giftcard_name  FROM #__redshop_giftcard WHERE giftcard_id = '$gid'";
-				$db->setQuery($sql);
-				$giftcardname = $db->loadResult();
-			}
+				$sqlQuery = $db->getQuery(true)
+					->select('giftcard_name')
+					->from($db->qn('#__redshop_giftcard'))
+					->where('giftcard_id = ' . $db->q($gid));
 
-			$segments[] = $giftcardname;
+				if ($giftCardName = $db->setQuery($sqlQuery)->loadResult())
+				{
+					$segments[] = JFilterOutput::stringURLSafe($giftCardName);
+				}
+			}
 
 			break;
 
@@ -425,16 +431,11 @@ function redshopBuildRoute(&$query)
 				$segments[] = $manufacturer_id;
 			}
 
-			if ($cid)
+			if ($cid && ($url = RedshopHelperCategory::getCategoryById($cid)))
 			{
-				$sql = "SELECT sef_url,category_name FROM #__redshop_category WHERE category_id = '$cid'";
-				$db->setQuery($sql);
-				$url = $db->loadObject();
-
 				if ($url->sef_url == "")
 				{
-					$GLOBALS['catlist_reverse'] = array();
-					$cats                       = $product_category->getCategoryListReverceArray($cid);
+					$cats = RedshopHelperCategory::getCategoryListReverseArray($cid);
 
 					if (count($cats) > 0)
 					{
@@ -470,9 +471,9 @@ function redshopBuildRoute(&$query)
 			}
 			else
 			{
-				if ($menu->title != '')
+				if ($menuItem->title != '')
 				{
-					$segments[] = JFilterOutput::stringURLSafe($menu->title);
+					$segments[] = JFilterOutput::stringURLSafe($menuItem->title);
 				}
 			}
 
@@ -507,53 +508,41 @@ function redshopBuildRoute(&$query)
 			}
 
 			$segments[] = $task;
+			$productHelper = new producthelper;
+			$product = $productHelper->getProductById($pid);
 
-			if ($pid)
+			if ($pid && $product)
 			{
-				$sql = "SELECT sef_url,product_name,cat_in_sefurl,product_number FROM #__redshop_product WHERE product_id = '$pid'";
-				$db->setQuery($sql);
-				$product = $db->loadObject();
-
 				$url           = $product->sef_url;
 				$cat_in_sefurl = $product->cat_in_sefurl;
 
 				if ($url == "")
 				{
-					$GLOBALS['catlist_reverse'] = array();
-					$where                      = '';
-
-					if ($cat_in_sefurl > 0)
-					{
-						$where = " AND c.category_id = '$cat_in_sefurl'";
-					}
-
 					// Get cid from request for consistency
 					$category_id = $cat_in_sefurl;
 
 					// If cid is not set than find cid
 					if (!$category_id)
 					{
-						$sql = "SELECT c.category_id FROM #__redshop_category c,#__redshop_product_category_xref pc WHERE pc.product_id = '$pid' AND pc.category_id = c.category_id $where";
-						$db->setQuery($sql);
-						$category_id = $db->loadResult();
+						$category_id = $product->category_id;
 					}
 
-					$cats = $product_category->getCategoryListReverceArray($category_id);
-
-					if (count($cats) > 0)
+					if ($cats = RedshopHelperCategory::getCategoryListReverseArray($category_id))
 					{
 						$cats = array_reverse($cats);
 
-						for ($x = 0; $x < count($cats); $x++)
+						foreach ($cats as $cat)
 						{
-							$cat        = $cats[$x];
 							$segments[] = JFilterOutput::stringURLSafe($cat->category_name);
 						}
 					}
 
-					$sql = "SELECT category_name FROM #__redshop_category WHERE category_id = '$category_id'";
-					$db->setQuery($sql);
-					$catname = $db->loadResult();
+					$catname = '';
+
+					if ($categoryData = RedshopHelperCategory::getCategoryById($category_id))
+					{
+						$catname = $categoryData->category_name;
+					}
 
 					// Attach category id with name for consistency
 					if (ENABLE_SEF_NUMBER_NAME)
@@ -628,9 +617,9 @@ function redshopBuildRoute(&$query)
 
 			if (!$mid)
 			{
-				if ($menu->title != '')
+				if ($menuItem->title != '')
 				{
-					$segments[] = str_replace($special_char, "-", $menu->title);
+					$segments[] = str_replace($special_char, "-", $menuItem->title);
 				}
 				else
 				{
@@ -1007,7 +996,7 @@ function redshopParseRoute($segments)
 						if (isset($segments[0]) && $segments[0] == 'compare')
 						{
 							$vars['layout'] = $segments[0];
-							$vars['task']   = $segments[2];
+							$vars['task']   = isset($segments[2]) ? $segments[2] : '';
 						}
 						else
 						{

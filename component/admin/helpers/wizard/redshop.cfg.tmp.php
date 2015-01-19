@@ -45,6 +45,7 @@ $temparray["terms_article"] = TERMS_ARTICLE_ID;
 $temparray["terms_article_id"] = TERMS_ARTICLE_ID;
 $temparray["allow_customer_register_type"] = ALLOW_CUSTOMER_REGISTER_TYPE;
 $temparray["default_customer_register_type"] = DEFAULT_CUSTOMER_REGISTER_TYPE;
+$temparray["checkout_login_register_switcher"] = CHECKOUT_LOGIN_REGISTER_SWITCHER;
 $temparray["welcomepage_introtext"] = WELCOMEPAGE_INTROTEXT;
 $temparray["registration_introtext"] = REGISTRATION_INTROTEXT;
 $temparray["registration_comp_introtext"] = REGISTRATION_COMPANY_INTROTEXT;

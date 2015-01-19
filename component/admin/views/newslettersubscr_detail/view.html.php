@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
+class RedshopViewNewslettersubscr_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -22,18 +21,6 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
-
-		$userlist = JRequest::getVar('userlist');
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR__MANAGEMENT_DETAIL'), 'redshop_newsletter48');
-
-		$document = JFactory::getDocument();
-
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
@@ -46,7 +33,7 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_newsletter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR') . ': <small><small>[ ' . $text . ' ]</small></small>', 'envelope-opened redshop_newsletter48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 

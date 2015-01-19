@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
+JLoader::load('RedshopHelperAdminTemplate');
 
-class shipping_box_detailController extends JController
+class RedshopControllerShipping_box_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -54,11 +53,11 @@ class shipping_box_detailController extends JController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=shipping_box', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=shipping_box', $msg);
 		}
 	}
 
@@ -80,7 +79,7 @@ class shipping_box_detailController extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 
 	public function publish()
@@ -101,7 +100,7 @@ class shipping_box_detailController extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 
 	public function unpublish()
@@ -122,13 +121,13 @@ class shipping_box_detailController extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 }

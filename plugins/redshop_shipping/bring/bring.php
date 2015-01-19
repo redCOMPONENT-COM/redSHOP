@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,10 +20,11 @@ jimport('joomla.plugin.plugin');
 
 define('BRING_RESPONSE_ERROR', 'test');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgredshop_shippingbring extends JPlugin
 {
@@ -67,13 +68,13 @@ class plgredshop_shippingbring extends JPlugin
 							       type="radio" <?php if (BRING_PRICE_SHOW_WITHVAT == 1) echo "checked=\"checked\""; ?>
 							       value="1"/>
 
-							<?php echo JText::_('YES') ?>
+							<?php echo JText::_('JYES') ?>
 						</label>
 						<label>
 							<input name="BRING_PRICE_SHOW_WITHVAT"
 							       type="radio" <?php if (BRING_PRICE_SHOW_WITHVAT == 0) echo "checked=\"checked\""; ?>
 							       value="0"/>
-							<?php echo JText::_('NO') ?>
+							<?php echo JText::_('JNO') ?>
 						</label>
 					</td>
 
@@ -86,13 +87,13 @@ class plgredshop_shippingbring extends JPlugin
 							       type="radio" <?php if (BRING_PRICE_SHOW_SHORT_DESC == 1) echo "checked=\"checked\""; ?>
 							       value="1"/>
 
-							<?php echo JText::_('YES') ?>
+							<?php echo JText::_('JYES') ?>
 						</label>
 						<label>
 							<input name="BRING_PRICE_SHOW_SHORT_DESC"
 							       type="radio" <?php if (BRING_PRICE_SHOW_SHORT_DESC == 0) echo "checked=\"checked\""; ?>
 							       value="0"/>
-							<?php echo JText::_('NO') ?>
+							<?php echo JText::_('JNO') ?>
 						</label>
 					</td>
 
@@ -105,13 +106,13 @@ class plgredshop_shippingbring extends JPlugin
 							       type="radio" <?php if (BRING_PRICE_SHOW_DESC == 1) echo "checked=\"checked\""; ?>
 							       value="1"/>
 
-							<?php echo JText::_('YES') ?>
+							<?php echo JText::_('JYES') ?>
 						</label>
 						<label>
 							<input name="BRING_PRICE_SHOW_DESC"
 							       type="radio" <?php if (BRING_PRICE_SHOW_DESC == 0) echo "checked=\"checked\""; ?>
 							       value="0"/>
-							<?php echo JText::_('NO') ?>
+							<?php echo JText::_('JNO') ?>
 						</label>
 					</td>
 
@@ -124,13 +125,13 @@ class plgredshop_shippingbring extends JPlugin
 							<input name="BRING_USE_SHIPPING_BOX"
 							       type="radio" <?php if (BRING_USE_SHIPPING_BOX == 1) echo "checked=\"checked\""; ?>
 							       value="1"/>
-							<?php echo JText::_('COM_REDSHOP_YES') ?>
+							<?php echo JText::_('JYES') ?>
 						</label>
 						<label>
 							<input name="BRING_USE_SHIPPING_BOX"
 							       type="radio" <?php if (BRING_USE_SHIPPING_BOX == 0) echo "checked=\"checked\""; ?>
 							       value="0"/>
-							<?php echo JText::_('COM_REDSHOP_NO') ?>
+							<?php echo JText::_('JNO') ?>
 						</label>
 					</td>
 					<td>
@@ -138,7 +139,7 @@ class plgredshop_shippingbring extends JPlugin
 				</tr>
 				<tr class="row1">
 					<td>
-						<strong><?php echo JTEXT::_('BRING_SERVICE_LBL') ?></strong></td>
+						<strong><?php echo JTEXT::_('COM_REDSHOP_BRING_SERVICE_LBL') ?></strong></td>
 					<td>
 						<?php $ArrExlode = explode(',', BRING_SERVICE);?>
 						<select id="BRING_SERVICE" name="BRING_SERVICE[]" multiple="multiple">
@@ -182,7 +183,7 @@ class plgredshop_shippingbring extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"BRING_USERCODE"              => $d['BRING_USERCODE'],
@@ -198,14 +199,13 @@ class plgredshop_shippingbring extends JPlugin
 				// END CUSTOM CODE
 			);
 
-			$config = "<?php ";
+			$config = "<?php\n";
+			$config .= "defined('_JEXEC') or die;\n";
 
 			foreach ($my_config_array as $key => $value)
 			{
-				$config .= "define ('$key', '$value');\n";
+				$config .= "define('$key', '$value');\n";
 			}
-
-			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
 			{
@@ -229,8 +229,7 @@ class plgredshop_shippingbring extends JPlugin
 		$redconfig = new Redconfiguration;
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '/' . $this->classname . '.cfg.php';
 
 		$shippingrate = array();
 		$rate = 0;
@@ -345,18 +344,16 @@ class plgredshop_shippingbring extends JPlugin
 			}
 			else
 			{
-				$xmlDoc = JFactory::getXMLParser('Simple');
-				$xmlDoc->loadString($xmlResult);
+				$xmlDoc = JFactory::getXML($xmlResult, false);
 			}
 			curl_close($CR);
 		}
 		//Get shipping options that are selected as available in VM from XML response
 		$bring_products = array();
-		$document = $xmlDoc->document;
 
-		if (!$document)
+		if (!$xmlDoc)
 			return $shippingrate;
-		$product = $document->children();
+		$product = $xmlDoc->children();
 		$shippingError = false;
 
 		for ($i = 0; $i < count($product); $i++)
@@ -381,11 +378,16 @@ class plgredshop_shippingbring extends JPlugin
 
 				for ($j = 0; $j < count($productchilds); $j++)
 				{
+					if (!isset($bring_products[$i]->product))
+					{
+						$bring_products[$i]->product = new stdClass;
+					}
+
 					if (strtolower($productchilds[$j]->name()) == "productid" || strtolower($productchilds[$j]->name()) == "guiinformation")
 					{
 						if (strtolower($productchilds[$j]->name()) == "productid")
 						{
-							$product_name = $productchilds[$j]->data();
+							$product_name = (string) $productchilds[$j];
 							$bring_products[$i]->product->product_id = $product_name;
 						}
 
@@ -393,7 +395,7 @@ class plgredshop_shippingbring extends JPlugin
 
 						if (isset($productchilds[$j]->ProductName[0]))
 						{
-							$productDisplayName = $productchilds[$j]->ProductName[0]->data();
+							$productDisplayName = (string) $productchilds[$j]->ProductName[0];
 							//$productdescriptiontext = $productchilds[$j]->ProductName[0]->descriptiontext
 						}
 
@@ -408,12 +410,12 @@ class plgredshop_shippingbring extends JPlugin
 
 						if (isset($productchilds[$j]->DescriptionText[0]))
 						{
-							$bring_products[$i]->product->product_desc = $productchilds[$j]->DescriptionText[0]->data();
+							$bring_products[$i]->product->product_desc = (string) $productchilds[$j]->DescriptionText[0];
 						}
 
 						if (isset($productchilds[$j]->HelpText[0]))
 						{
-							$bring_products[$i]->product->product_desc1 = $productchilds[$j]->HelpText[0]->data();
+							$bring_products[$i]->product->product_desc1 = (string) $productchilds[$j]->HelpText[0];
 						}
 					}
 
@@ -427,20 +429,20 @@ class plgredshop_shippingbring extends JPlugin
 						$priceChilds = $price->children();
 						$PackagePriceWithoutAdditionalServices = $priceChilds[0]->children();
 
-						$AmountWithoutVAT = $PackagePriceWithoutAdditionalServices[0]->data();
+						$AmountWithoutVAT = (string) $PackagePriceWithoutAdditionalServices[0];
 						$bring_products[$i]->product->AmountWithoutVAT = $AmountWithoutVAT;
 
-						$VAT = $PackagePriceWithoutAdditionalServices[1]->data();
+						$VAT = (string) $PackagePriceWithoutAdditionalServices[1];
 						$bring_products[$i]->product->VAT = $VAT;
 
-						$AmountWithVAT = $PackagePriceWithoutAdditionalServices[2]->data();
+						$AmountWithVAT = (string) $PackagePriceWithoutAdditionalServices[2];
 						$bring_products[$i]->product->AmountWithVAT = $AmountWithVAT;
 					}
 
 					if (strtolower($productchilds[$j]->name()) == 'expecteddelivery')
 					{
 						//WorkingDays
-						$WorkingDays = $productchilds[$j]->WorkingDays[0]->data();
+						$WorkingDays = (string) $productchilds[$j]->WorkingDays[0];
 						$bring_products[$i]->product->delivery = $WorkingDays;
 					}
 				}
@@ -449,11 +451,12 @@ class plgredshop_shippingbring extends JPlugin
 			if (strtolower($product[$i]->name()) == 'tracemessages')
 			{
 				$TraceMessageschilds = $product[$i]->children();
+				$bring_products[$i]->TraceMessages = new stdClass;
 				$bring_products[$i]->TraceMessages->Message = array();
 
 				for ($j = 0; $j < count($TraceMessageschilds); $j++)
 				{
-					$Message = $TraceMessageschilds[$j]->data();
+					$Message = (string) $TraceMessageschilds[$j];
 					$bring_products[$i]->TraceMessages->Message[$j] = $Message;
 				}
 			}
@@ -468,6 +471,11 @@ class plgredshop_shippingbring extends JPlugin
 
 			for ($i = 0; $i < count($bring_products); $i++)
 			{
+				if (!isset($bring_products[$i]->product))
+				{
+					continue;
+				}
+
 				$product_id = $bring_products[$i]->product->product_id;
 
 				if (($i != count($bring_products) - 1) && in_array($product_id, $ArrExlode))
@@ -484,11 +492,12 @@ class plgredshop_shippingbring extends JPlugin
 
 					if (BRING_PRICE_SHOW_WITHVAT)
 					{
-						$Displaycost = $currency->convert($Amountwithvat, '', $currencyidentificationcode);
+						$Displaycost = $currency->convert($bring_products[$i]->product->AmountWithVAT, '', $currencyidentificationcode);
 					}
 
 					$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $product_name . "|" . number_format($cost + $vat, 2, '.', '') . "|" . $product_name . "|single|0");
 
+					$shippingrate[$rate] = new stdClass;
 					$shippingrate[$rate]->text = $product_name; //." ".JText::_('COM_REDSHOP_DELIVERY')." ".$delivery;
 					$shippingrate[$rate]->value = $shipping_rate_id;
 					$shippingrate[$rate]->rate = $Displaycost;

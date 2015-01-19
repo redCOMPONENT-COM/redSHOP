@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class tax_group_detailController extends JController
+class RedshopControllerTax_group_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -44,7 +43,7 @@ class tax_group_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TAX_GROUP_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 
 	public function remove()
@@ -80,7 +79,7 @@ class tax_group_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_DELETED_SUCCESSFULLY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 
 	public function publish()
@@ -103,7 +102,7 @@ class tax_group_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_PUBLISHED_SUCCESFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 
 	public function unpublish()
@@ -126,13 +125,13 @@ class tax_group_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 }

@@ -3,14 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-JLoader::import('joomla.application.component.view');
 
-class manufacturersViewmanufacturers extends JView
+class RedshopViewManufacturers extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -44,10 +43,9 @@ class manufacturersViewmanufacturers extends JView
 			$disabled = "disabled";
 		}
 
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		if ($layout != 'default')
 		{

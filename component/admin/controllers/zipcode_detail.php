@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class zipcode_detailController extends JController
+class RedshopControllerZipcode_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -68,11 +67,11 @@ class zipcode_detailController extends JController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
 		}
 	}
 
@@ -80,7 +79,7 @@ class zipcode_detailController extends JController
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
 	}
 
 	public function remove()
@@ -102,6 +101,6 @@ class zipcode_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
 	}
 }

@@ -3,12 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_wishlist
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 $user           = JFactory::getUser();
 $count          = trim($params->get('count', 1));
 $image          = trim($params->get('image', 0));
@@ -23,13 +24,13 @@ $db = JFactory::getDbo();
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+JLoader::load('RedshopHelperAdminConfiguration');
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 
 $rows = array();
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 if (MY_WISHLIST)
 {
@@ -67,5 +68,5 @@ if (MY_WISHLIST)
 		$db->setQuery($sql);
 		$rows = $db->loadObjectList();
 	}
-	require(JModuleHelper::getLayoutPath('mod_redshop_wishlist'));
+	require JModuleHelper::getLayoutPath('mod_redshop_wishlist');
 }

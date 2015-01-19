@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -305,7 +305,7 @@ else
 	<script>
 
 		var useroptions = {
-			script: "index3.php?&option=com_redshop&view=search&plgcustomview=1&iscompany=0&json=true&",
+			script: "index.php?&option=com_redshop&view=search&tmpl=component&plgcustomview=1&iscompany=0&json=true&",
 			varname: "input",
 			json: true,
 			shownoresults: true,

@@ -3,14 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 
-JLoader::import('joomla.application.component.view');
+JLoader::load('RedshopHelperAdminText_library');
+
 
 /**
  * Category Detail View
@@ -20,7 +20,7 @@ JLoader::import('joomla.application.component.view');
  *
  * @since       1.0
  */
-class CategoryViewCategory extends JView
+class RedshopViewCategory extends RedshopView
 {
 	public $app;
 
@@ -75,17 +75,13 @@ class CategoryViewCategory extends JView
 		}
 
 		$document = JFactory::getDocument();
+		JHtml::_('redshopjquery.framework');
+		JHtml::script('com_redshop/redbox.js', false, true);
 
-		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
 
-		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
-
-		JHtml::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
-
-		// Add jQueryUI because of IE9 issue
-		$document->addStyleSheet('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css');
+		JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 
 		$lists   = array();
 		$minmax  = array(0, 0);
@@ -94,7 +90,7 @@ class CategoryViewCategory extends JView
 		$maincat = $model->_loadCategory();
 
 		$allCategoryTemplate  = $model->getCategoryTemplate();
-		$order_data           = $objhelper->getOrderByList();
+		$orderData           = $objhelper->getOrderByList();
 		$manufacturers        = $model->getManufacturer();
 		$loadCategorytemplate = $model->loadCategoryTemplate();
 		$detail               = $model->getdata();
@@ -365,9 +361,13 @@ class CategoryViewCategory extends JView
 			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
 
-		$category_template_id = $this->app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
-		$order_by_select      = $this->input->getString('order_by', '');
-		$manufacturer_id      = $this->input->getInt('manufacturer_id', 0);
+		$categoryTemplateId = $this->app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
+		$manufacturerId = JFactory::getApplication()->getUserState("manufacturer_id");
+
+		if ($manufacturerId === "")
+		{
+			$manufacturerId      = $this->input->get('manufacturer_id', 0);
+		}
 
 		$lists['category_template'] = "";
 		$lists['manufacturer']      = "";
@@ -388,7 +388,7 @@ class CategoryViewCategory extends JView
 												'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
 												'manufacturer_id',
 												'manufacturer_name',
-												$manufacturer_id
+												$manufacturerId
 											);
 		}
 
@@ -401,23 +401,26 @@ class CategoryViewCategory extends JView
 													'class="inputbox" size="1" onchange="javascript:setSliderMinMaxForTemplate();" ' . $disabled . ' ',
 													'template_id',
 													'template_name',
-													$category_template_id
+													$categoryTemplateId
 												);
 		}
 
-		if ($order_by_select == '')
+		// Save order_by on session
+
+		$orderBySelect = JFactory::getApplication()->getUserState("order_by");
+		if(empty($orderBySelect))
 		{
-			$order_by_select = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+			$orderBySelect      = $this->input->getString('order_by', '');
 		}
 
 		$lists['order_by'] = JHtml::_(
 										'select.genericlist',
-										$order_data,
+										$orderData,
 										'order_by',
 										'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ',
 										'value',
 										'text',
-										$order_by_select
+										$orderBySelect
 									);
 
 		// THIS FILE MUST LOAD AFTER MODEL CONSTUCTOR LOAD
@@ -443,12 +446,10 @@ class CategoryViewCategory extends JView
 					$GLOBALS['product_price_slider'] = 1;
 
 					// Start Code for fixes IE9 issue
-
-					$document->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js');
-					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js');
+					JHtml::_('redshopjquery.ui');
 
 					// End Code for fixes IE9 issue
-					require_once JPATH_COMPONENT_SITE . '/assets/js/catprice_filter.php';
+					require_once JPATH_ROOT . '/media/com_redshop/js/catprice_filter.php';
 				}
 				else
 				{
@@ -462,7 +463,7 @@ class CategoryViewCategory extends JView
 				$loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
 				$loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
 
-				if (!$manufacturer_id)
+				if (!$manufacturerId)
 				{
 					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
 					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
@@ -476,9 +477,9 @@ class CategoryViewCategory extends JView
 		$this->pageheadingtag = $pageheadingtag;
 		$this->params = $params;
 		$this->maincat = $maincat;
-		$this->category_template_id = $category_template_id;
-		$this->order_by_select = $order_by_select;
-		$this->manufacturer_id = $manufacturer_id;
+		$this->category_template_id = $categoryTemplateId;
+		$this->order_by_select = $orderBySelect;
+		$this->manufacturer_id = $manufacturerId;
 		$this->loadCategorytemplate = $loadCategorytemplate;
 
 		parent::display($tpl);

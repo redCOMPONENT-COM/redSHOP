@@ -3,17 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 jimport('joomla.filesystem.file');
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminStockroom');
 
 class economic
 {
@@ -34,7 +34,7 @@ class economic
 	public function economic()
 	{
 		$db                     = JFactory::getDbo();
-		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = $db;
 		$this->_producthelper   = new producthelper;
 		$this->_shippinghelper  = new shipping;
@@ -42,7 +42,7 @@ class economic
 		$this->_order_functions = new order_functions;
 		$this->_stockroomhelper = new rsstockroomhelper;
 
-		JPluginHelper::importPlugin('economic', 'economic');
+		JPluginHelper::importPlugin('economic');
 		$this->_dispatcher = JDispatcher::getInstance();
 	}
 
@@ -1074,7 +1074,7 @@ class economic
 			. 'WHERE order_id = ' . (int) $orderdetail->order_id;
 
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		$InvoiceNumber = $this->_dispatcher->trigger('updateInvoiceDate', array($eco));
 
@@ -1194,7 +1194,7 @@ class economic
 			. 'SET invoice_no = ' . $db->quote($invoice_no) . ' '
 			. 'WHERE order_id = ' . (int) $order_id ;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function updateBookInvoice($order_id = 0)
@@ -1203,7 +1203,7 @@ class economic
 			. 'SET is_booked="1" '
 			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
@@ -1212,7 +1212,7 @@ class economic
 			. 'SET bookinvoice_number = ' . (int) $bookinvoice_number . ' '
 			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function getProductByNumber($product_number = '')

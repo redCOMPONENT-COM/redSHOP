@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class newsletter_detailController extends JController
+class RedshopControllerNewsletter_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -58,11 +57,11 @@ class newsletter_detailController extends JController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=newsletter_detail&task=edit&cid[]=' . $row->newsletter_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=newsletter_detail&task=edit&cid[]=' . $row->newsletter_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=newsletter', $msg);
 		}
 	}
 
@@ -104,7 +103,7 @@ class newsletter_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_DELETED_SUCCESSFULLY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newsletter', $msg);
 	}
 
 	public function publish()
@@ -126,7 +125,7 @@ class newsletter_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newsletter', $msg);
 	}
 
 	public function unpublish()
@@ -148,14 +147,14 @@ class newsletter_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newsletter', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newsletter', $msg);
 	}
 
 	public function copy()
@@ -174,6 +173,6 @@ class newsletter_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_NEWSLETTER');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newsletter', $msg);
 	}
 }

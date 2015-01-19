@@ -3,14 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class voucherViewvoucher extends JView
+class RedshopViewVoucher extends RedshopView
 {
 	/**
 	 * The current user.
@@ -37,8 +36,8 @@ class voucherViewvoucher extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_VOUCHER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT'), 'redshop_voucher48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

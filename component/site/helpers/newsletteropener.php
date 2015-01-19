@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,10 +45,10 @@ $tracker_id = @basename(urldecode($_REQUEST['tracker_id']));
 $db         = JFactory::getDbo();
 $query      = "UPDATE `#__redshop_newsletter_tracker` SET `read` = '1' WHERE tracker_id = " . (int) $tracker_id;
 $db->setQuery($query);
-$db->query();
+$db->execute();
 
 $uri        = JURI::getInstance();
-$requesturl = $uri->toString();
+$requesturl = JFilterOutput::cleanText($uri->toString());
 $url        = parse_url($requesturl);
 
 $img = $url['scheme'] . "://" . $url['host'] . '/components/com_redshop/assets/images/spacer.gif';

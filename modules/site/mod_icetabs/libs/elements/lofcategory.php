@@ -8,7 +8,7 @@
  * @copyright      Copyright (C) JAN 2010 LandOfCoder.com <@emai:landofcoder@gmail.com>. All rights reserved.
  * @license        GNU General Public License version 2
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 /**
  * Get a collection of categories
  */
@@ -31,7 +31,7 @@ class JFormFieldLofCategory extends JFormField
 		$db                   = JFactory::getDbo();
 		$data                 = JHtml::_('category.options', 'com_content');
 		$categories           = array();
-		$categories[0]        = new stdClass();
+		$categories[0]        = new stdClass;
 		$categories[0]->value = '';
 		$categories[0]->text  = JText::_("---------- Select All ----------");
 		$data                 = array_merge($categories, $data);

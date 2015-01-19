@@ -3,13 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
 
-$config = new Redconfiguration();
+$producthelper = new producthelper;
+$config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');
@@ -20,9 +20,6 @@ $ordering = ($this->lists['order'] == 'ordering');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -62,8 +59,8 @@ $ordering = ($this->lists['order'] == 'ordering');
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%" class="title">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->question); ?>);"/></th>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+				</th>
 				<th class="title" width="50%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ANSWERS', 'question', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th class="title" width="10%">
@@ -86,9 +83,9 @@ $ordering = ($this->lists['order'] == 'ordering');
 			$k = 0;
 			for ($i = 0, $n = count($this->question); $i < $n; $i++)
 			{
-				$row = & $this->question[$i];
+				$row = $this->question[$i];
 				$row->id = $row->question_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=answer_detail&task=edit&cid[]=' . $row->id);
+				$link = JRoute::_('index.php?option=com_redshop&view=answer_detail&task=edit&cid[]=' . $row->id);
 
 				$product = $producthelper->getProductById($row->product_id);
 
@@ -120,7 +117,13 @@ $ordering = ($this->lists['order'] == 'ordering');
 				<?php    $k = 1 - $k;
 			}    ?>
 			<tr>
-				<td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="9">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+					<?php echo $this->pagination->getListFooter(); ?></td>
 		</table>
 	</div>
 

@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 global $sh_LANG, $sefConfig;
 
-$sefConfig = & shRouter::shGetConfig();
+$sefConfig = shRouter::shGetConfig();
 
 $db = JFactory::getDbo();
 $shLangName = '';
@@ -31,8 +31,9 @@ $dosef = shInitializePlugin( $lang='', $shLangName, $shLangIso, $option);
 
 if(!defined('TABLE_PREFIX'))
 {
-	require_once JPATH_ADMINISTRATOR. '/components/com_redshop/helpers/configuration.php';
-	$config = new Redconfiguration();
+	JLoader::import('redshop.library');
+	JLoader::load('RedshopHelperAdminConfiguration');
+	$config = new Redconfiguration;
 	$config->config();
 }
 

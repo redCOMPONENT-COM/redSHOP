@@ -1,4 +1,4 @@
-<table border="0">
+<table border="0" class="improvedTable">
 	<tbody>
 	<tr>
 		<td>{welcome_introtext}</td>

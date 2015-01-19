@@ -3,24 +3,25 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_redmanufacturer
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 // get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * This class sets all Parameters.
@@ -111,16 +112,15 @@ class redManufacturer
 	 */
 function displayredManufacturer($limit = 0)
 {
-	$uri        = JUri::getInstance();
+	$uri        = JURI::getInstance();
 	$url        = $uri->root();
 	$database   = JFactory::getDbo();
 	$Itemid     = JRequest::getInt('Itemid', 0);
-	$extra_data = new producthelper();
+	$extra_data = new producthelper;
 
-	$document = JFactory::getDocument();
-	JHTML::Script('jquery-1.js', 'modules/mod_redmanufacturer/js/', false);
-	JHTML::Script('jquery.js', 'modules/mod_redmanufacturer/js/', false);
-	JHTML::Stylesheet('jquery.css', 'modules/mod_redmanufacturer/css/');
+	JHtml::_('redshopjquery.framework');
+	JHtml::script('modules/mod_redmanufacturer/js/jquery.js');
+	JHtml::stylesheet('modules/mod_redmanufacturer/css/jquery.css');
 
 	echo $this->params->get('pretext', "");
 	$qlimit = "";

@@ -3,31 +3,29 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('rating');
-$config = new Redconfiguration();
-$url = JUri::base();
-$order_functions = new order_functions();
+$config = new Redconfiguration;
+$url = JURI::base();
+$order_functions = new order_functions;
 $comment = JRequest::getVar('comment_filter');
 ?>
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'fv_publish') || (pressbutton == 'fv_unpublish')) {
+		if ((pressbutton == 'add')
+			|| (pressbutton == 'edit')
+			|| (pressbutton == 'remove')) {
 			form.view.value = "rating_detail";
 		}
 		try {
@@ -56,15 +54,14 @@ $comment = JRequest::getVar('comment_filter');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th>
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th>
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->ratings); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -96,10 +93,10 @@ $comment = JRequest::getVar('comment_filter');
 			$k = 0;
 			for ($i = 0, $n = count($this->ratings); $i < $n; $i++)
 			{
-				$row = & $this->ratings[$i];
+				$row = $this->ratings[$i];
 				$row->id = $row->rating_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=rating_detail&task=edit&cid[]=' . $row->rating_id);
-				$prodlink = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=' . $row->rating_id);
+				$prodlink = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -153,6 +150,11 @@ $comment = JRequest::getVar('comment_filter');
 			?>
 			<tfoot>
 			<td colspan="10">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

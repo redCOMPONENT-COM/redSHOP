@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Account Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class AccountController extends JController
+class RedshopControllerAccount extends RedshopController
 {
 	/**
 	 * Method to edit created Tag
@@ -42,7 +41,7 @@ class AccountController extends JController
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
+		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
 	/**
@@ -104,7 +103,7 @@ class AccountController extends JController
 		$userhelper->newsletterSubscribe(0, array(), 1);
 
 		$msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
-		$this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
+		$this->setRedirect("index.php?option=com_redshop&view=account&Itemid=" . $Itemid, $msg);
 	}
 
 	/**
@@ -122,6 +121,6 @@ class AccountController extends JController
 		$userhelper->newsletterUnsubscribe($user->email);
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
-		$this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
+		$this->setRedirect("index.php?option=com_redshop&view=account&Itemid=" . $Itemid, $msg);
 	}
 }

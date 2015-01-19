@@ -3,19 +3,18 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperHelper');
 
-class configurationViewconfiguration extends JView
+class RedshopViewConfiguration extends RedshopView
 {
 	/**
 	 * The request url.
@@ -38,12 +37,10 @@ class configurationViewconfiguration extends JView
 		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
-		$currency_data = JRequest::getVar('currency_data');
+		$model = $this->getModel('configuration');
+		$currency_data = $model->getCurrency();
 
 		$redhelper   = new redhelper;
 		$config      = new Redconfiguration;
@@ -71,7 +68,7 @@ class configurationViewconfiguration extends JView
 			JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'));
 		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'redshop_icon-48-settings');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
 
 		if (is_writable($configpath))
 		{
@@ -81,14 +78,9 @@ class configurationViewconfiguration extends JView
 
 		JToolBarHelper::cancel();
 
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
-		$this->pane = $pane;
-
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
-		$model       = $this->getModel('configuration');
 		$newsletters = $model->getnewsletters();
 
 		$templatesel                   = array();
@@ -153,13 +145,15 @@ class configurationViewconfiguration extends JView
 		defined('AJAX_DETAIL_BOX_HEIGHT') ? AJAX_DETAIL_BOX_HEIGHT : define('AJAX_DETAIL_BOX_HEIGHT', '600');
 		defined('AJAX_BOX_WIDTH') ? AJAX_BOX_WIDTH : define('AJAX_BOX_WIDTH', '500');
 		defined('AJAX_BOX_HEIGHT') ? AJAX_BOX_HEIGHT : define('AJAX_BOX_HEIGHT', '150');
+		defined('GENERATE_LABEL_ON_STATUS') ? GENERATE_LABEL_ON_STATUS : define('GENERATE_LABEL_ON_STATUS', 'S');
+		defined('AUTO_GENERATE_LABEL') ? AUTO_GENERATE_LABEL : define('AUTO_GENERATE_LABEL', 1);
 
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
-		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__" . TABLE_PREFIX . "_stockroom ORDER BY stockroom_name ASC";
+		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__redshop_stockroom ORDER BY stockroom_name ASC";
 		$db->setQuery($q);
 		$stockroom = $db->loadObjectList();
 
@@ -240,7 +234,6 @@ class configurationViewconfiguration extends JView
 			'discoupon_percent_or_total', 'class="inputbox" size="1"',
 			'value', 'text', DISCOUPON_PERCENT_OR_TOTAL
 		);
-		$lists['use_container']              = JHTML::_('select.booleanlist', 'use_container', 'class="inputbox" size="1"', USE_CONTAINER);
 		$lists['use_stockroom']              = JHTML::_('select.booleanlist', 'use_stockroom', 'class="inputbox" size="1"', USE_STOCKROOM);
 		$lists['use_blank_as_infinite']      = JHTML::_('select.booleanlist', 'use_blank_as_infinite', 'class="inputbox" size="1"', USE_BLANK_AS_INFINITE);
 
@@ -272,7 +265,7 @@ class configurationViewconfiguration extends JView
 		$lists['my_tags']                       = JHTML::_('select.booleanlist', 'my_tags', 'class="inputbox" size="1"', MY_TAGS);
 		$lists['my_wishlist']                   = JHTML::_('select.booleanlist', 'my_wishlist', 'class="inputbox" size="1"', MY_WISHLIST);
 		$lists['compare_products']              = JHTML::_('select.booleanlist', 'compare_products', 'class="inputbox" size="1"', COMARE_PRODUCTS);
-		$lists['country_list']                  = JHTML::_('select.genericlist', $countries, 'country_list[]', 'class="inputbox" multiple="multiple"',
+		$lists['country_list']                  = JHTML::_('select.genericlist', $countries, 'country_list[]', 'class="inputbox disableBootstrapChosen" multiple="multiple" size="5"',
 			'value', 'text', $country_list
 		);
 		$lists['product_detail_is_lightbox']    = JHTML::_('select.booleanlist', 'product_detail_is_lightbox',
@@ -290,7 +283,16 @@ class configurationViewconfiguration extends JView
 			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_STOCKROOM
 		);
 		$lists['portalshop']                    = JHTML::_('select.booleanlist', 'portal_shop', 'class="inputbox" size="1"', PORTAL_SHOP);
-		$lists['use_image_size_swapping']       = JHTML::_('select.booleanlist', 'use_image_size_swapping', 'class="inputbox" size="1"', USE_IMAGE_SIZE_SWAPPING);
+
+		$imageSizeSwapping = array();
+		$imageSizeSwapping[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_CONFIG_NO_PROPORTIONAL_RESIZED'));
+		$imageSizeSwapping[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED'));
+		$imageSizeSwapping[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED_AND_CROP'));
+		$lists['use_image_size_swapping'] = JHTML::_('select.genericlist', $imageSizeSwapping,
+			'use_image_size_swapping', 'class="inputbox" size="1" ',
+			'value', 'text', USE_IMAGE_SIZE_SWAPPING
+		);
+
 		$lists['apply_vat_on_discount']         = JHTML::_('select.booleanlist', 'apply_vat_on_discount', 'class="inputbox" size="1"', APPLY_VAT_ON_DISCOUNT, $yes = JText::_('COM_REDSHOP_BEFORE_DISCOUNT'), $no = JText::_('COM_REDSHOP_AFTER_DISCOUNT'));
 		$lists['auto_scroll_wrapper']           = JHTML::_('select.booleanlist', 'auto_scroll_wrapper', 'class="inputbox" size="1"', AUTO_SCROLL_WRAPPER);
 		$lists['allow_multiple_discount']       = JHTML::_('select.booleanlist', 'allow_multiple_discount', 'class="inputbox" size="1"', ALLOW_MULTIPLE_DISCOUNT);
@@ -321,7 +323,6 @@ class configurationViewconfiguration extends JView
 		$lists['product_comparison_type'] = JHTML::_('select.genericlist', $product_comparison, 'product_comparison_type',
 			'class="inputbox" size="1"', 'value', 'text', PRODUCT_COMPARISON_TYPE
 		);
-		$lists['pagination']              = JHTML::_('select.genericlist', $pagination, 'pagination', 'class="inputbox" size="1" ', 'value', 'text', PAGINATION);
 		$lists['newsletter_enable']       = JHTML::_('select.booleanlist', 'newsletter_enable', 'class="inputbox" size="1"', NEWSLETTER_ENABLE);
 		$lists['newsletter_confirmation'] = JHTML::_('select.booleanlist', 'newsletter_confirmation', 'class="inputbox" size="1"', NEWSLETTER_CONFIRMATION);
 
@@ -384,7 +385,7 @@ class configurationViewconfiguration extends JView
 		$q                  = "SELECT m.id,m.title AS name,mt.title FROM #__menu AS m "
 			. "LEFT JOIN #__menu_types AS mt ON mt.menutype=m.menutype "
 			. "WHERE m.published=1 "
-			. "ORDER BY m.menutype,m.ordering";
+			. "ORDER BY m.menutype";
 		$db->setQuery($q);
 		$menuitemlist = $db->loadObjectList();
 
@@ -417,6 +418,13 @@ class configurationViewconfiguration extends JView
 		$default_customer_register_type[]        = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_COMPANY'));
 		$lists['default_customer_register_type'] = JHTML::_('select.genericlist', $default_customer_register_type,
 			'default_customer_register_type', 'class="inputbox" ', 'value', 'text', DEFAULT_CUSTOMER_REGISTER_TYPE
+		);
+
+		$checkoutLoginRegisterSwitcher          = array();
+		$checkoutLoginRegisterSwitcher[]        = JHTML::_('select.option', 'tabs', JText::_('COM_REDSHOP_CONFIG_TABS'));
+		$checkoutLoginRegisterSwitcher[]        = JHTML::_('select.option', 'sliders', JText::_('COM_REDSHOP_CONFIG_SLIDERS'));
+		$lists['checkout_login_register_switcher'] = JHTML::_('select.genericlist', $checkoutLoginRegisterSwitcher,
+			'checkout_login_register_switcher', 'class="inputbox" ', 'value', 'text', CHECKOUT_LOGIN_REGISTER_SWITCHER
 		);
 
 		$addtocart_behaviour          = array();
@@ -469,8 +477,8 @@ class configurationViewconfiguration extends JView
 		}
 
 		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
-						FROM #__" . TABLE_PREFIX . "_country c
-						LEFT JOIN #__" . TABLE_PREFIX . "_state s
+						FROM #__redshop_country c
+						LEFT JOIN #__redshop_state s
 						ON c.country_id=s.country_id OR s.country_id IS NULL
 						ORDER BY c.country_id, s.state_name");
 		$states = $db->loadObjectList();
@@ -747,7 +755,11 @@ class configurationViewconfiguration extends JView
 
 		$order_mail_after[1]        = new stdClass;
 		$order_mail_after[1]->value = 1;
-		$order_mail_after[1]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
+		$order_mail_after[1]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT_BUT_SEND_BEFORE_ADMINISTRATOR');
+
+		$order_mail_after[2]        = new stdClass;
+		$order_mail_after[2]->value = 2;
+		$order_mail_after[2]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
 
 		$lists['order_mail_after'] = JHTML::_('select.genericlist', $order_mail_after, 'order_mail_after',
 			'class="inputbox" ', 'value', 'text', ORDER_MAIL_AFTER
@@ -805,6 +817,14 @@ class configurationViewconfiguration extends JView
 		$option[5]        = new stdClass;
 		$option[5]->value = 'm';
 		$option[5]->text  = JText::_('COM_REDSHOP_METER');
+
+		$option[5]        = new stdClass;
+		$option[5]->value = 'l';
+		$option[5]->text  = JText::_('COM_REDSHOP_LITER');
+
+		$option[5]        = new stdClass;
+		$option[5]->value = 'ml';
+		$option[5]->text  = JText::_('COM_REDSHOP_MILLILITER');
 
 		$lists['default_volume_unit'] = JHTML::_('select.genericlist', $option, 'default_volume_unit',
 			'class="inputbox" ', 'value', 'text', DEFAULT_VOLUME_UNIT

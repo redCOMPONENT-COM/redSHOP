@@ -3,22 +3,21 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 require_once JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
-class zip_importModelzip_import extends JModel
+class RedshopModelZip_import extends RedshopModel
 {
 	public $_data = null;
 
@@ -159,7 +158,7 @@ class zip_importModelzip_import extends JModel
 		if (!is_file($package['packagefile']))
 		{
 			$config = JFactory::getConfig();
-			$package['packagefile'] = $config->getValue('config.tmp_path') . '/' . $package['packagefile'];
+			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -218,7 +217,7 @@ class zip_importModelzip_import extends JModel
 		}
 
 		$config = JFactory::getConfig();
-		$tmp_dest = $config->getValue('config.tmp_path');
+		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);

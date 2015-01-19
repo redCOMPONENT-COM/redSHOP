@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminImages');
 
 class extra_field
 {
@@ -74,22 +76,21 @@ class extra_field
 
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
+		$db     = JFactory::getDbo();
 		$option = JRequest::getVar('option');
-		$uri = JURI::getInstance();
-		$url = $uri->root();
-		$q = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
+		$uri    = JURI::getInstance();
+		$url    = $uri->root();
+		$q      = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
 
-		if ($field_name != "")
+		if ($field_name != '')
 		{
-			$field_name = explode(',', $field_name);
-			JArrayHelper::toInteger($field_name);
-			$field_name = implode(',', $field_name);
-			$q .= "AND field_name IN ($field_name) ";
+			$field_name = redhelper::quote(explode(',', $field_name));
+			$q .= 'AND field_name IN (' . implode(',', $field_name) . ') ';
 		}
 
 		$q .= " ORDER BY ordering";
-		$this->_db->setQuery($q);
-		$row_data = $this->_db->loadObjectlist();
+		$db->setQuery($q);
+		$row_data = $db->loadObjectlist();
 		$ex_field = '';
 
 		if (count($row_data) > 0 && $table == "")
@@ -122,7 +123,18 @@ class extra_field
 				case 1:
 					$text_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
-					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '" type="text" maxlength="' . $row_data[$i]->field_maxlength . '" ' . $required . $reqlbl . $errormsg . ' name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . htmlspecialchars($text_value) . '" size="' . $size . '" />';
+					$extra_field_value = '<input
+											class="' . $row_data[$i]->field_class . '"
+											type="text"
+											maxlength="' . $row_data[$i]->field_maxlength . '" '
+											. $required
+											. $reqlbl
+											. $errormsg
+											. ' name="' . $row_data[$i]->field_name . '"
+											id="' . $row_data[$i]->field_name . '"
+											value="' . htmlspecialchars($text_value) . '"
+											size="' . $size . '"
+										/>';
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
@@ -209,8 +221,8 @@ class extra_field
 				// 7 :-Select Country box
 				case 7:
 					$q = "SELECT * FROM " . $this->_table_prefix . "country";
-					$this->_db->setQuery($q);
-					$field_chk = $this->_db->loadObjectlist();
+					$db->setQuery($q);
+					$field_chk = $db->loadObjectlist();
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
@@ -229,60 +241,11 @@ class extra_field
 
 				// 8 :- Wysiwyg
 				case 8:
-					$editor =& JFactory::getEditor();
-					$document =& JFactory::getDocument();
+					$editor = JFactory::getEditor();
+					$document = JFactory::getDocument();
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$textarea_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
-					$extra_field_value = $editor->display($row_data[$i]->field_name, stripslashes($textarea_value), '200', '50', '100', '20');
-					$ex_field .= '<td>' . $extra_field_value;
-					break;
-
-				// 9 :- Media
-				case 9:
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
-					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name
-						. '" ' . $required . $reqlbl . $errormsg . ' id="' . $row_data[$i]->field_name . '" type="file" />';
-
-					$textarea_value = '';
-
-					if ($data_value && $data_value->data_txt)
-					{
-						$dest_prefix = REDSHOP_FRONT_IMAGES_ABSPATH . 'media/';
-						$dest_prefix_phy = REDSHOP_FRONT_IMAGES_RELPATH . 'media/';
-						$dest_prefix_del = '/components/' . $option . '/assets/images/media/';
-						$media_image = $dest_prefix_phy . $data_value->data_txt;
-
-						if (is_file($media_image))
-						{
-							$media_image = $dest_prefix . $data_value->data_txt;
-							$media_type = strtolower(JFile::getExt($data_value->data_txt));
-							$textarea_value = $data_value->data_txt;
-
-							if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
-							{
-								$extra_field_value .= '<div id ="mediadiv' . $i . '"><img width="100"  src="'
-									. $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\''
-									. $data_value->data_txt . '\', \'mediadiv' . $i . '\',\'' . $dest_prefix_del . '\', \''
-									. $data_value->data_id . '\');"> Remove Media</a><input class="' . $row_data[$i]->field_class
-									. '" name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="'
-									. $data_value->data_txt . '" type="hidden" /></div>';
-							}
-							else
-							{
-								$extra_field_value .= '<div id ="mediadiv' . $i . '"><a href="' . $media_image . '">'
-									. $data_value->data_txt . '</a>&nbsp;<a href="#123"   onclick="delimg(\'' . $data_value->data_txt
-									. '\', \'mediadiv' . $i . '\',\'' . $dest_prefix_del . '\', \'' . $data_value->data_id
-									. '\');"> Remove Media</a><input class="' . $row_data[$i]->field_class . '" name="'
-									. $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="'
-									. $data_value->data_txt . '" type="hidden" /></div>';
-							}
-						}
-						else
-						{
-							$extra_field_value .= JText::_('COM_REDSHOP_FILE_NOT_EXIST');
-						}
-					}
-
+					$extra_field_value = $editor->display($row_data[$i]->field_name, $textarea_value, '200', '50', '100', '20');
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
@@ -290,13 +253,12 @@ class extra_field
 				case 10:
 
 					$document = JFactory::getDocument();
-					$document->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
-					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js');
-					$document->addStyleSheet('//code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css');
+					JHtml::_('redshopjquery.ui');
 					$document->addScriptDeclaration('
-						$(function(){
+						jQuery(function($){
 							var remove_a = null;
-							$("a[id^=add_rs_]").click(function(){
+							$(\'a#add_' . $row_data[$i]->field_name . '\').on(\'click\', function(e){
+								e.preventDefault();
 								var extra_field_name = $(this).attr(\'title\'), extra_field_doc_html = "";
 								var html_acceptor = $(\'#html_\'+extra_field_name);
 								var total_elm = html_acceptor.children(\'div\').length;
@@ -304,16 +266,16 @@ class extra_field
 								extra_field_doc_html = \'<div id="div_\'+extra_field_name+total_elm+\'" class="ui-helper-clearfix">\';
 									extra_field_doc_html += \'<input type="text" value="" id="text_\'+extra_field_name+total_elm+\'" errormsg="" reqlbl="" name="text_\'+extra_field_name+\'[]">\';
 									extra_field_doc_html += \'<input type="file" id="file_\'+extra_field_name+total_elm+\'" name="\'+extra_field_name+\'[]" class="">\';
-									extra_field_doc_html += \'<a href="#" style="float:left;" title="\'+extra_field_name+\'" id="remove_\'+extra_field_name+total_elm+\'">Remove</a>\';
+									extra_field_doc_html += \'<a href="#" class="rsDocumentDelete" style="float:left;" title="\'+extra_field_name+\'" id="remove_\'+extra_field_name+total_elm+\'">' . JText::_('COM_REDSHOP_DELETE') . '</a>\';
 								extra_field_doc_html += \'</div>\';
 
 								html_acceptor.append(extra_field_doc_html);
 								$(\'#div_\'+extra_field_name+total_elm).effect( \'highlight\');
-
- 								$("a[id^=\'remove_rs_\']").click(function(){
-									$(this).parent(\'div\').effect(\'highlight\',{},500,function(){
-										$(this).remove();
-									});
+							});
+							$(\'#html_' . $row_data[$i]->field_name . '\').on(\'click\', \'a.rsDocumentDelete\', function(e){
+								e.preventDefault();
+								$(this).parent(\'div\').effect(\'highlight\',{},500,function(){
+									$(this).remove();
 								});
 							});
 						});
@@ -357,13 +319,11 @@ class extra_field
 
 								if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
 								{
-									$extra_field_value .= '<div id="docdiv' . $index . '"><img width="100"  src="' . $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /><div>';
-
+									$extra_field_value .= '<div id="docdiv' . $index . '"><img width="100"  src="' . $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /></div>';
 								}
 								else
 								{
 									$extra_field_value .= '<div id="docdiv' . $index . '"><a href="' . $media_image . '" target="_blank">' . $text_area_value . '</a>&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /></div>';
-
 								}
 							}
 							else
@@ -378,7 +338,7 @@ class extra_field
 					}
 
 					$ex_field .= '<td width="100" align="right" class="key">' . $extra_field_label . '</td>';
-					$ex_field .= '<td><a href="#" title="' . $row_data[$i]->field_name . '" id="add_' . $row_data[$i]->field_name . '">Add</a><div id="html_' . $row_data[$i]->field_name . '">' . $extra_field_value . '</div>';
+					$ex_field .= '<td><a href="#" title="' . $row_data[$i]->field_name . '" id="add_' . $row_data[$i]->field_name . '">' . JText::_('COM_REDSHOP_ADD') . '</a><div id="html_' . $row_data[$i]->field_name . '">' . $extra_field_value . '</div>';
 					break;
 
 				// 11 :- Image select
@@ -647,20 +607,6 @@ class extra_field
 				}
 			}
 
-			if ($row_data[$i]->field_type == 9)
-			{
-				$destination_prefix = REDSHOP_FRONT_IMAGES_RELPATH . 'media/';
-
-				if ($_FILES[$row_data[$i]->field_name]['name'] != "")
-				{
-					$data_txt = time() . $_FILES[$row_data[$i]->field_name]["name"];
-
-					$src = $_FILES[$row_data[$i]->field_name]['tmp_name'];
-					$destination = $destination_prefix . $data_txt;
-					JFile::upload($src, $destination);
-				}
-			}
-
 			// Save Document Extra Field
 			if ($row_data[$i]->field_type == 10)
 			{
@@ -687,18 +633,33 @@ class extra_field
 						// Editing uploaded file
 						if (isset($documents_value[$ij]) && $documents_value[$ij] != "")
 						{
-							$documents[trim($texts[$ij])] = $documents_value[$ij];
+							if (trim($texts[$ij]) != '')
+							{
+								$documents[trim($texts[$ij])] = $documents_value[$ij];
+							}
+							else
+							{
+								$documents[$ij] = $documents_value[$ij];
+							}
 						}
 
 						if ($file != "")
 						{
-							$name = time() . $file;
+							$name = RedShopHelperImages::cleanFileName($file);
 
 							$src = $_FILES[$row_data[$i]->field_name]['tmp_name'][$ij];
 							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
 
 							JFile::upload($src, $destination);
-							$documents[trim($texts[$ij])] = $name;
+
+							if (trim($texts[$ij]) != '')
+							{
+								$documents[trim($texts[$ij])] = $name;
+							}
+							else
+							{
+								$documents[$ij] = $name;
+							}
 						}
 					}
 
@@ -756,7 +717,7 @@ class extra_field
 						. "AND user_email = " . $this->_db->quote($user_email) . " "
 						. "AND fieldid = " . (int) $row_data[$i]->field_id . " ";
 					$this->_db->setQuery($sql);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 
 				if (count($list) > 0)
@@ -780,7 +741,7 @@ class extra_field
 				}
 
 				$this->_db->setQuery($sql);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 			else
 			{
@@ -793,7 +754,7 @@ class extra_field
 						if (count($list) > 0)
 						{
 							$sql = "UPDATE " . $this->_table_prefix . "fields_data "
-								. "SET data_txt = " . $this->_db->quote(addslashes($data_txt)) . " "
+								. "SET data_txt = " . $this->_db->quote($data_txt) . " "
 								. "WHERE itemid = " . (int) $section_id . " "
 								. "AND section = " . (int) $sect[$h] . " "
 								. "AND user_email = " . $this->_db->quote($user_email) . " "
@@ -804,12 +765,12 @@ class extra_field
 							$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 								. "(fieldid, data_txt, itemid, section, user_email) "
 								. "VALUE "
-								. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote(addslashes($data_txt))
+								. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote($data_txt)
 								. "," . (int) $section_id . "," . (int) $sect[$h] . ", " . $this->_db->quote($user_email) . ")";
 						}
 
 						$this->_db->setQuery($sql);
-						$this->_db->query();
+						$this->_db->execute();
 					}
 				}
 			}
@@ -1009,8 +970,8 @@ class extra_field
 	{
 		$url = JURI::base();
 
-		$document =& JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/attribute.js');
+		$document = JFactory::getDocument();
+		JHtml::script('com_redshop/attribute.js', false, true);
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
 			. "WHERE field_section = " . (int) $section_id . " "
@@ -1118,8 +1079,8 @@ class extra_field
 
 					// File Upload
 					case 10 :
-						$document->addScript('components/com_redshop/assets/js/jquery-1.js');
-						$document->addScript('components/com_redshop/assets/js/ajaxupload.js');
+						JHtml::_('redshopjquery.framework');
+						JHtml::script('com_redshop/ajaxupload.js', false, true);
 						$ajax = "";
 						$ex_field .= '<div class="userfield_input"><input class="' . $row_data[$i]->field_class . '" type="button" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" name="file' . $row_data[$i]->field_name . '_' . $unique_id . '"  id="file' . $row_data[$i]->field_name . '_' . $unique_id . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" size="' . $row_data[$i]->field_size . '" /><p>' . JText::_('COM_REDSHOP_UPLOADED_FILE') . ':<ol id="ol_' . $row_data[$i]->field_name . '"></ol></p></div>';
 						$ex_field .= '<input type="hidden" name="extrafieldname' . $unique_id . '[]" id="' . $row_data[$i]->field_name . '_' . $unique_id . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '"  />';
@@ -1245,7 +1206,7 @@ class extra_field
 				. "," . $this->_db->quote($list[$i]->image_link) . ", " . $this->_db->quote($list[$i]->user_email) . ")";
 
 			$this->_db->setQuery($sql);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 	}
 
@@ -1254,7 +1215,7 @@ class extra_field
 		$query = "DELETE FROM " . $this->_table_prefix . "fields_data "
 			. "WHERE data_id = " . (int) $data_id . " ";
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 }
 

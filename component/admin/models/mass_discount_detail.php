@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-jimport('joomla.application.component.model');
 
-class mass_discount_detailModelmass_discount_detail extends JModel
+class RedshopModelMass_discount_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -95,7 +94,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 	{
 		$producthelper = new producthelper;
 
-		$row =& $this->getTable('mass_discount_detail');
+		$row = $this->getTable('mass_discount_detail');
 
 		if (!$row->bind($data))
 		{
@@ -112,12 +111,11 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		$newchange_product = false;
 
 		$this->setId($row->mass_discount_id);
-		$dataDiscount =& $this->getData();
+		$dataDiscount = $this->getData();
 
 		$discount_product = explode(',', $dataDiscount->discount_product);
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $discount_product);
-
 
 		$newdiscount_product = explode(',', $row->discount_product);
 		$tmp = new stdClass;
@@ -141,7 +139,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -180,7 +178,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 					. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -219,7 +217,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -264,7 +262,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -306,7 +304,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 					$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -353,7 +351,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 							. $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 						$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
+						if (!$this->_db->execute())
 						{
 							$this->setError($this->_db->getErrorMsg());
 
@@ -421,7 +419,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -449,7 +447,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" where product_id in (' . $productId . ')';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

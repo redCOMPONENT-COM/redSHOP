@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,29 +11,12 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+
 class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 {
-	var $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_shippinglabel', 'redshop_shippinglabel_consignor');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
@@ -48,26 +31,26 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	// Generate Consignor Label
 	function generateConsignorParcel($order_id)
 	{
-		$order_functions = new order_functions;
-		$shippinghelper = new shipping;
-		$config = new Redconfiguration;
-		$db = JFactory::getDbo();
-		$order_details = $order_functions->getOrderDetails($order_id);
+		$order_functions      = new order_functions;
+		$shippinghelper       = new shipping;
+		$config               = new Redconfiguration;
+		$db                   = JFactory::getDbo();
+		$order_details        = $order_functions->getOrderDetails($order_id);
 		$consignor_parameters = $this->getparameters('rs_shippinglabel_consignor');
-		$labelinfo = $consignor_parameters[0];
-		$labelparams = new JRegistry($labelinfo->params);
+		$labelinfo            = $consignor_parameters[0];
+		$labelparams          = new JRegistry($labelinfo->params);
 
-		$ftp_host = $labelparams->get('ftp_host', '');
-		$ftp_username = $labelparams->get('ftp_username', '');
-		$ftp_password = $labelparams->get('ftp_password', '');
+		$ftp_host                = $labelparams->get('ftp_host', '');
+		$ftp_username            = $labelparams->get('ftp_username', '');
+		$ftp_password            = $labelparams->get('ftp_password', '');
 		$path_for_sharing_folder = $labelparams->get('path_for_sharing_folder', '');
-		$ref_code = 1;
+		$ref_code                = 1;
 
 		if ($order_details->ship_method_id != "")
 		{
 			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 
-			if ("plgredshop_shippingdefault_shipping_GLS" == $details[0])
+			if ("plgredshop_shippingdefault_shipping_gls" == $details[0])
 			{
 				$ref_code = 0;
 				$Gls_zipcode = $order_details->shop_id;
@@ -104,11 +87,14 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		}
 
 		if ($order_details->track_no != '')
+		{
 			return;
-		$orderproducts = $order_functions->getOrderItemDetail($order_id);
-		$billingInfo = $order_functions->getOrderBillingUserInfo($order_id);
+		}
 
-		$shippingInfo = $order_functions->getOrderShippingUserInfo($order_id);
+		$orderproducts = $order_functions->getOrderItemDetail($order_id);
+		$billingInfo   = $order_functions->getOrderBillingUserInfo($order_id);
+
+		$shippingInfo  = $order_functions->getOrderShippingUserInfo($order_id);
 
 		if ($billingInfo->is_company == 1)
 		{

@@ -3,24 +3,21 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-$order_function = new order_functions();
+JLoader::load('RedshopHelperAdminOrder');
+$order_function = new order_functions;
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 $model = $this->getModel('newslettersubscr');
 ?>
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 
 		var form = document.adminForm;
 
@@ -64,15 +61,14 @@ $model = $this->getModel('newslettersubscr');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th>
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th>
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->newslettersubscrs); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_NEWSLETTER_USERNAME', 'user_id', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -97,10 +93,10 @@ $model = $this->getModel('newslettersubscr');
 			$k = 0;
 			for ($i = 0, $n = count($this->newslettersubscrs); $i < $n; $i++)
 			{
-				$row = & $this->newslettersubscrs[$i];
+				$row = $this->newslettersubscrs[$i];
 				$row->id = $row->subscription_id;
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>
@@ -134,6 +130,11 @@ $model = $this->getModel('newslettersubscr');
 			?>
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

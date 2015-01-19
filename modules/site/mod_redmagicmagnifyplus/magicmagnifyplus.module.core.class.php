@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_magicmagnifyplus
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,7 @@ if (!in_array('MagicMagnifyPlusModuleCoreClass', get_declared_classes()))
 
 		function MagicMagnifyPlusModuleCoreClass()
 		{
-			$this->params = new MagicToolboxParams();
+			$this->params = new MagicToolboxParams;
 			$this->_paramDefaults();
 		}
 

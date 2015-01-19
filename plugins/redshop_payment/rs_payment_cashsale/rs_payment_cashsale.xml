@@ -53,7 +53,7 @@
                        key_field="st_value" value_field="st_title" default="C" label="Order Status transactions"
                        description="Select the order status to which the actual order is set.">
                 </field>
-                <field name="shopper_group_id" type="plugins" default="Your Company Name , 101 Company Street, city"
+                <field name="shopper_group_id" type="shoppergrouplist" default="Your Company Name , 101 Company Street, city"
                        label="Select Shopper Group" description="Displays the shopper groups"/>
                 <field name="txtextra_info" type="extrainfo" default="Please enter your Extra Info"
                        label="Enter Extra Info"

@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class rating_detailVIEWrating_detail extends JView
+class RedshopViewRating_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -19,12 +18,6 @@ class rating_detailVIEWrating_detail extends JView
 		$userslist = JRequest::getVar('userslist');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_RATING_MANAGEMENT_DETAIL'), 'redshop_rating48');
-
-		$document = JFactory::getDocument();
-
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-
-		$document->addScript('components/' . $option . '/assets/js/search.js');
 
 		$uri = JFactory::getURI();
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ class plghighrisehighrise extends JPlugin
 	 */
 	public function oncreateHighriseUser($data)
 	{
-		$plugin =& JPluginHelper::getPlugin('highrise', 'highrise');
+		$plugin = JPluginHelper::getPlugin('highrise', 'highrise');
 		$pluginParams = new JRegistry($plugin->params);
 		$this->highrise_url = $pluginParams->get('highrise_url', '');
 		$this->api_token = $pluginParams->get('api_token', '');

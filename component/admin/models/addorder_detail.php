@@ -3,24 +3,23 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/mail.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/shipping.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminProduct');
+JLoader::load('RedshopHelperAdminShipping');
 
-class addorder_detailModeladdorder_detail extends JModel
+class RedshopModelAddorder_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -284,7 +283,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			$postdata['debitor_id'] = $postdata['user_info_id'];
 			JTable::addIncludePath(REDCRM_ADMIN . '/tables');
 
-			$crmorder = & $this->getTable('crm_order');
+			$crmorder = $this->getTable('crm_order');
 
 			if (!$crmorder->bind($postdata))
 			{
@@ -317,7 +316,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
 
-		$rowOrderStatus = & $this->getTable('order_status_log');
+		$rowOrderStatus = $this->getTable('order_status_log');
 		$rowOrderStatus->order_id = $row->order_id;
 		$rowOrderStatus->order_status = $row->order_status;
 		$rowOrderStatus->date_changed = time();
@@ -395,7 +394,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 			$product = $producthelper->getProductById($product_id);
 
-			$rowitem = & $this->getTable('order_item_detail');
+			$rowitem = $this->getTable('order_item_detail');
 
 			if (!$rowitem->bind($postdata))
 			{
@@ -487,7 +486,7 @@ class addorder_detailModeladdorder_detail extends JModel
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem = & $this->getTable('order_attribute_item');
+						$rowattitem = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
 						$rowattitem->order_item_id = $rowitem->order_item_id;
 						$rowattitem->section_id = $attribute_id;
@@ -523,7 +522,7 @@ class addorder_detailModeladdorder_detail extends JModel
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							$rowattitem = & $this->getTable('order_attribute_item');
+							$rowattitem = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
 							$rowattitem->order_item_id = $rowitem->order_item_id;
 							$rowattitem->section_id = $property_id;
@@ -559,7 +558,7 @@ class addorder_detailModeladdorder_detail extends JModel
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-								$rowattitem = & $this->getTable('order_attribute_item');
+								$rowattitem = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
 								$rowattitem->order_item_id = $rowitem->order_item_id;
 								$rowattitem->section_id = $subproperty_id;
@@ -584,7 +583,7 @@ class addorder_detailModeladdorder_detail extends JModel
 						}
 					}
 
-					$accdata = & $this->getTable('accessory_detail');
+					$accdata = $this->getTable('accessory_detail');
 
 					if ($accessory_id > 0)
 					{
@@ -592,7 +591,7 @@ class addorder_detailModeladdorder_detail extends JModel
 					}
 
 					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
-					$rowaccitem = & $this->getTable('order_acc_item');
+					$rowaccitem = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id = 0;
 					$rowaccitem->order_item_id = $rowitem->order_item_id;
 					$rowaccitem->product_id = $accessory_id;
@@ -626,7 +625,7 @@ class addorder_detailModeladdorder_detail extends JModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem = & $this->getTable('order_attribute_item');
+					$rowattitem = $this->getTable('order_attribute_item');
 					$rowattitem->order_att_item_id = 0;
 					$rowattitem->order_item_id = $rowitem->order_item_id;
 					$rowattitem->section_id = $attribute_id;
@@ -660,7 +659,7 @@ class addorder_detailModeladdorder_detail extends JModel
 						/** product property STOCKROOM update start */
 						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
 
-						$rowattitem = & $this->getTable('order_attribute_item');
+						$rowattitem = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
 						$rowattitem->order_item_id = $rowitem->order_item_id;
 						$rowattitem->section_id = $property_id;
@@ -697,7 +696,7 @@ class addorder_detailModeladdorder_detail extends JModel
 							/** product subproperty STOCKROOM update start */
 							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
-							$rowattitem = & $this->getTable('order_attribute_item');
+							$rowattitem = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
 							$rowattitem->order_item_id = $rowitem->order_item_id;
 							$rowattitem->section_id = $subproperty_id;
@@ -723,20 +722,16 @@ class addorder_detailModeladdorder_detail extends JModel
 				}
 			}
 
-//			$producthelper->insertProdcutUserfield($i,$item,$rowitem->order_item_id,12);
-
-			if (USE_CONTAINER)
-			{
-				$producthelper->updateContainerStock($product_id, $quantity, $rowitem->container_id);
-			}
-
 			// Store userfields
-			$userfields = $item[$i]->extrafieldname;
-			$userfields_id = $item[$i]->extrafieldId;
-
-			for ($ui = 0; $ui < count($userfields); $ui++)
+			if (isset($item[$i]->extrafieldname) && isset($item[$i]->extrafieldId))
 			{
-				$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
+				$userfields = $item[$i]->extrafieldname;
+				$userfields_id = $item[$i]->extrafieldId;
+
+				for ($ui = 0; $ui < count($userfields); $ui++)
+				{
+					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
+				}
 			}
 
 			// redCRM RMA Transaction Entry
@@ -747,7 +742,7 @@ class addorder_detailModeladdorder_detail extends JModel
 					// RMA transation log
 					if (isset($item[$i]->reason))
 					{
-						$rmaTrans =& $this->getTable('rma_transaction');
+						$rmaTrans = $this->getTable('rma_transaction');
 						$rmaTrans->rma_transaction_id = 0;
 						$rmaTrans->rma_number = $postdata['rma_number'];
 						$rmaTrans->order_item_return_id = $rowitem->order_item_id;
@@ -781,7 +776,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			}
 		}
 
-		$rowpayment = & $this->getTable('order_payment');
+		$rowpayment = $this->getTable('order_payment');
 
 		if (!$rowpayment->bind($postdata))
 		{
@@ -804,9 +799,9 @@ class addorder_detailModeladdorder_detail extends JModel
 		}
 
 		// Add billing Info
-		$userrow = & $this->getTable('user_detail');
+		$userrow = $this->getTable('user_detail');
 		$userrow->load($billingaddresses->users_info_id);
-		$orderuserrow = & $this->getTable('order_user_detail');
+		$orderuserrow = $this->getTable('order_user_detail');
 
 		if (!$orderuserrow->bind($userrow))
 		{
@@ -826,14 +821,14 @@ class addorder_detailModeladdorder_detail extends JModel
 		}
 
 		// Add shipping Info
-		$userrow = & $this->getTable('user_detail');
+		$userrow = $this->getTable('user_detail');
 
 		if (isset($shippingaddresses->users_info_id))
 		{
 			$userrow->load($shippingaddresses->users_info_id);
 		}
 
-		$orderuserrow = & $this->getTable('order_user_detail');
+		$orderuserrow = $this->getTable('order_user_detail');
 
 		if (!$orderuserrow->bind($userrow))
 		{

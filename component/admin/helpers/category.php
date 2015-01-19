@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,7 @@ class product_category
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
+	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false, $multiple = false, $disabledFields = array(), $width = 250)
 	{
 		$db = JFactory::getDbo();
 		$html = '';
@@ -107,11 +107,10 @@ class product_category
 
 					for ($i = 0; $i < $level; $i++)
 					{
-						$html .= "&#151;";
+						$html .= "- ";
 					}
 
-					$html .= "|$level|";
-					$html .= "&nbsp;" . $cat->category_name . "</option>";
+					$html .= "|$level| " . $cat->category_name . "</option>";
 				}
 			}
 
@@ -121,102 +120,33 @@ class product_category
 		return $html;
 	}
 
-	public function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
+	/**
+	 * Get Category List Array
+	 *
+	 * @param   int  $category_id  First category level in filter
+	 * @param   int  $cid          Current category id
+	 *
+	 * @return array|mixed
+	 *
+	 * @deprecated  1.5 Use RedshopHelperCategory::getCategoryListArray instead
+	 */
+	public function getCategoryListArray($category_id = 0, $cid = 0)
 	{
-		global $context;
-
-		$app = JFactory::getApplication();
-
-		$GLOBALS['catlist'] = array();
-		$db = JFactory::getDbo();
-		$level++;
-		$view = JRequest::getVar('view');
-
-		$category_main_filter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', 0);
-
-		$orderby = 'ORDER BY c.category_name';
-
-		if ($level == 1 && $category_id)
-		{
-			$cid = $category_id;
-		}
-
-		if ($view == 'category')
-		{
-			$orderby = $this->_buildContentOrderBy();
-		}
-
-		if ($category_main_filter)
-		{
-			$and = " AND category_name LIKE " . $db->quote('%' . $category_main_filter . '%') . " ";
-		}
-		else
-		{
-			$and = " AND cx.category_parent_id = " . (int) $cid . " ";
-		}
-
-		$q = "SELECT c.category_id, cx.category_child_id, cx.category_parent_id "
-			. ",c.category_name,c.category_description,c.published,ordering "
-			. "FROM " . $this->_table_prefix . "category AS c "
-			. " ," . $this->_table_prefix . "category_xref AS cx "
-			. "WHERE c.category_id=cx.category_child_id "
-			. $and
-			. $orderby;
-		$db->setQuery($q);
-		$cats = $db->loadObjectList();
-
-		if ($category_main_filter)
-		{
-			return $cats;
-		}
-
-		for ($x = 0; $x < count($cats); $x++)
-		{
-			$html = '';
-			$cat = $cats[$x];
-			$child_id = $cat->category_child_id;
-
-			if ($child_id != $cid)
-			{
-				$catlist[] = $cat;
-
-				for ($i = 0; $i < $level; $i++)
-				{
-					$html .= "&nbsp;&nbsp;";
-				}
-
-				$html .= "&nbsp;" . $cat->category_name;
-			}
-
-			$cat->category_name = $html;
-			$this->_cats[] = $cat;
-
-			$this->getCategoryListArray($category_id, $child_id, $level);
-		}
-
-		return $this->_cats;
+		return RedshopHelperCategory::getCategoryListArray($category_id, $cid);
 	}
 
+	/**
+	 * Get Category List Reverse Array
+	 *
+	 * @param   string  $cid  Category id
+	 *
+	 * @return array
+	 *
+	 * @deprecated  1.5  Use RedshopHelperCategory::getCategoryListReverseArray instead
+	 */
 	public function getCategoryListReverceArray($cid = '0')
 	{
-		$db = JFactory::getDbo();
-		$q = "SELECT c.category_id,c.category_name "
-			. ",cx.category_child_id,cx.category_parent_id "
-			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
-			. "WHERE cx.category_child_id = " . (int) $cid . " "
-			. "AND c.category_id = cx.category_parent_id";
-		$db->setQuery($q);
-		$cats = $db->loadObjectList();
-
-		for ($x = 0; $x < count($cats); $x++)
-		{
-			$cat = $cats[$x];
-			$parent_id = $cat->category_parent_id;
-			$GLOBALS['catlist_reverse'][] = $cat;
-			$this->getCategoryListReverceArray($parent_id);
-		}
-
-		return $GLOBALS['catlist_reverse'];
+		return RedshopHelperCategory::getCategoryListReverseArray($cid);
 	}
 
 	public function _buildContentOrderBy()

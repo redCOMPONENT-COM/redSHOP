@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 JLoader::import('joomla.html.pagination');
 
 /**
@@ -19,7 +18,7 @@ JLoader::import('joomla.html.pagination');
  * @subpackage  Model
  * @since       1.0
  */
-class manufacturersModelmanufacturers extends JModel
+class RedshopModelManufacturers extends RedshopModel
 {
 	public $_id = null;
 
@@ -41,7 +40,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		$app = JFactory::getApplication();
 
-		// @ToDo In fearure, when class Manufacturers extends JModelList, replace filter_fields in constructor
+		// @ToDo In fearure, when class Manufacturers extends RedshopModelList, replace filter_fields in constructor
 		$this->filter_fields_products = array(
 			'p.product_name ASC', 'product_name ASC',
 			'p.product_price ASC', 'product_price ASC',
@@ -184,7 +183,7 @@ class manufacturersModelmanufacturers extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-			$this->_pagination = new redPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -295,7 +294,7 @@ class manufacturersModelmanufacturers extends JModel
 	{
 		$limit             = $this->getProductLimit();
 		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
-		$productpagination = new redPagination($this->getProductTotal(), $limitstart, $limit);
+		$productpagination = new JPagination($this->getProductTotal(), $limitstart, $limit);
 
 		return $productpagination;
 	}

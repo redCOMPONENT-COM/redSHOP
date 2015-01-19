@@ -33,8 +33,8 @@
                 <field name="PageLink" type="list" default="detail"
                        label="COM_REDSHOP_IMG_LINK"
                        description="COM_REDSHOP_IMG_LINK_DESC">
-                    <option value="detail">MANUFACTURER_DETAIL</option>
-                    <option value="products">MANUFACTURER_PRODUCT</option>
+                    <option value="detail">COM_REDSHOP_MANUFACTURER_DETAIL</option>
+                    <option value="products">COM_REDSHOP_MANUFACTURER_PRODUCT</option>
                 </field>
                 <field name="NumberOfProducts" type="text" default="2"
                        label="COM_REDSHOP_NUMBER_OF_MANUFACTURER"
@@ -67,42 +67,42 @@
                 <field name="ImageBorder" type="radio" default="yes"
                        label="COM_REDSHOP_MANUFACTURER_IMAGE_BORDER"
                        description="COM_REDSHOP_MANUFACTURER_IMAGE_BORDER_DESC">
-                    <option value="yes">YES</option>
-                    <option value="no">NO</option>
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="show_image" type="radio" default="1" label="COM_REDSHOP_SHOW_IMAGE"
                        description="COM_REDSHOP_SHOW_IMAGE_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_product_name" type="radio" default="0" label="COM_REDSHOP_SHOW_PRODUCT_NAME"
                        description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_link_on_product_name" type="radio" default="0"
                        label="COM_REDSHOP_SHOW_LINKON_PRODUCT_NAME"
                        description="COM_REDSHOP_SHOW_LINKON_PRODUCT_NAME_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="ScrollDirection" type="radio" default="no"
                        label="COM_REDSHOP_SCROLL_DIRECTION_VERTICAL"
                        description="COM_REDSHOP_SCROLL_DIRECTION_VERTICAL_DESC">
-                    <option value="yes">YES</option>
-                    <option value="no">NO</option>
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="ScrollDelay" type="list" default="false"
                        label="COM_REDSHOP_SCROLL_DELAY"
                        description="COM_REDSHOP_SCROLL_DELAY_DESC">
-                    <option value="fast">FAST</option>
-                    <option value="slow">SLOW</option>
+                    <option value="fast">COM_REDSHOP_FAST</option>
+                    <option value="slow">COM_REDSHOP_SLOW</option>
                 </field>
                 <field name="ScrollWrap" type="list" default="circular"
                        label="COM_REDSHOP_SCROLL_WRAP"
                        description="COM_REDSHOP_SCROLL_WRAP_DESC">
-                    <option value="circular">CIRCULAR</option>
-                    <option value="last">LAST</option>
+                    <option value="circular">COM_REDSHOP_CIRCULAR</option>
+                    <option value="last">COM_REDSHOP_LAST</option>
                 </field>
 
             </fieldset>

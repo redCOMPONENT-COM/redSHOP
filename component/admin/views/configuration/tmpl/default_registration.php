@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 ?>
 <table class="admintable" width="100%">
@@ -36,8 +36,8 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_SHOW_REGISTER_CHECKOUT_CAPTCHA'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_REGISTER_CHECKOUT_CAPTCHA'); ?>">
-			<label for="name"><?php echo JText::_('COM_REDSHOP_SHOW_REGISTER_CHECKOUT_CAPTCHA');?></label>
+			      title="<?php echo JText::_('COM_REDSHOP_SHOW_CAPTCHA'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_CAPTCHA'); ?>">
+			<label for="name"><?php echo JText::_('COM_REDSHOP_SHOW_CAPTCHA');?></label>
 		</td>
 		<td>
 			<?php echo $this->lists ['show_captcha']; ?>
@@ -135,6 +135,15 @@ defined('_JEXEC') or die ('Restricted access');
 			for="default_customer_register_type"><?php echo JText::_('COM_REDSHOP_DEFAULT_CUSTOMER_REGISTRATION_TYPE_LBL');?></label>
 		</td>
 		<td><?php echo $this->lists ['default_customer_register_type'];?></td>
+	</tr>
+	<tr>
+		<td width="100" align="right" class="key">
+		<span class="editlinktip hasTip"
+			  title="<?php echo JText::_('COM_REDSHOP_CONFIG_CHECKOUT_LOGIN_REGISTER_SWITCHER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_CONFIG_CHECKOUT_LOGIN_REGISTER_SWITCHER_DESC'); ?>">
+		<label
+			for="checkout_login_register_switcher"><?php echo JText::_('COM_REDSHOP_CONFIG_CHECKOUT_LOGIN_REGISTER_SWITCHER_LBL');?></label>
+		</td>
+		<td><?php echo $this->lists['checkout_login_register_switcher'];?></td>
 	</tr>
 	<tr>
 		<td colspan="2">

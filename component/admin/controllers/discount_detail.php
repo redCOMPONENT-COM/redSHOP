@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class discount_detailController extends JController
+class RedshopControllerDiscount_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -114,93 +113,6 @@ class discount_detailController extends JController
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
 			}
-		}
-	}
-
-	public function remove()
-	{
-		$layout = JRequest::getVar('layout');
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-		}
-
-		$model = $this->getModel('discount_detail');
-
-		if (!$model->delete($cid))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_DELETED_SUCCESSFULLY');
-
-		if (isset($layout) && $layout == 'product')
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
-		}
-	}
-
-	public function publish()
-	{
-		$layout = JRequest::getVar('layout');
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('discount_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY');
-
-		if (isset($layout) && $layout == 'product')
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
-		}
-	}
-
-	public function unpublish()
-	{
-		$layout = JRequest::getVar('layout');
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('discount_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-
-		if (isset($layout) && $layout == 'product')
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
 		}
 	}
 

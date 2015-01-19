@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
-class manufacturer_detailVIEWmanufacturer_detail extends JView
+class RedshopViewManufacturer_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -23,14 +22,12 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 
 	public function display($tpl = null)
 	{
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$uri = JFactory::getURI();
 		$document = JFactory::getDocument();
 		$option = JRequest::getVar('option');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$this->setLayout('default');
 
 		$lists = array();
@@ -45,7 +42,7 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_manufact48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'flag redshop_manufact48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 

@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class answerViewanswer extends JView
+class RedshopViewAnswer extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -27,8 +26,8 @@ class answerViewanswer extends JView
 		$parent_id = (int) $array[0];
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ANSWER_MANAGEMENT'), 'redshop_question48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

@@ -3,16 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-jimport('joomla.html.pane');
-
-class mail_detailVIEWmail_detail extends JView
+class RedshopViewMail_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -23,14 +20,10 @@ class mail_detailVIEWmail_detail extends JView
 
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL_MANAGEMENT_DETAIL'), 'redshop_mailcenter48');
-
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/' . $option . '/assets/js/json.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$uri = JFactory::getURI();
 
@@ -44,7 +37,7 @@ class mail_detailVIEWmail_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_mailcenter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'envelope-opened redshop_mailcenter48');
 
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
@@ -80,9 +73,6 @@ class mail_detailVIEWmail_detail extends JView
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$pane = JPane::getInstance('sliders');
-
-		$this->pane = $pane;
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->request_url = $uri->toString();

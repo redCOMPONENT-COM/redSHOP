@@ -3,18 +3,15 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 
 /**
  * Class cartModelcart.
@@ -23,7 +20,7 @@ include_once JPATH_COMPONENT . '/helpers/user.php';
  * @subpackage  Model
  * @since       1.0
  */
-class CartModelCart extends JModel
+class RedshopModelCart extends RedshopModel
 {
 	public $_id = null;
 
@@ -121,7 +118,7 @@ class CartModelCart extends JModel
 
 	public function emptyExpiredCartProducts()
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$stockroomhelper = new rsstockroomhelper;
 			$session         = JFactory::getSession();
@@ -136,19 +133,19 @@ class CartModelCart extends JModel
 				. "AND section='product' "
 				. "AND time < $time ";
 			$db->setQuery($sql);
-			$deletedrs = $db->loadResultArray();
+			$deletedrs = $db->loadColumn();
 
 			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
 				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. "AND section='product' ";
 			$db->setQuery($sql);
-			$includedrs = $db->loadResultArray();
+			$includedrs = $db->loadColumn();
 
 			$cart = $session->get('cart');
 
 			if ($cart)
 			{
-				$idx = (int) ($cart['idx']);
+				$idx = (int) ( isset($cart['idx']) ? $cart['idx'] : 0);
 
 				for ($j = 0; $j < $idx; $j++)
 				{
@@ -227,6 +224,10 @@ class CartModelCart extends JModel
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
 		$oldQuantity = intval($cart[$cartElement]['quantity']);
 
+		$calculator_price = 0;
+		$wrapper_price = 0;
+		$wrapper_vat = 0;
+
 		if ($newQuantity <= 0)
 		{
 			$newQuantity = 1;
@@ -234,7 +235,14 @@ class CartModelCart extends JModel
 
 		if ($newQuantity != $oldQuantity)
 		{
-			$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+			if (array_key_exists('checkQuantity', $data))
+			{
+				$cart[$cartElement]['quantity'] = $data['checkQuantity'];
+			}
+			else
+			{
+				$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+			}
 
 			if ($newQuantity > $cart[$cartElement]['quantity'])
 			{
@@ -282,12 +290,12 @@ class CartModelCart extends JModel
 			if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
 			{
 				$subscription_vat    = 0;
-				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$cartElement]['subscription_id']);
+				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($cart[$cartElement]['product_id'], $cart[$cartElement]['subscription_id']);
 				$subscription_price  = $subscription_detail->subscription_price;
 
 				if ($subscription_price)
 				{
-					$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+					$subscription_vat = $this->_producthelper->getProductTax($cart[$cartElement]['product_id'], $subscription_price);
 				}
 
 				$product_vat_price += $subscription_vat;
@@ -301,6 +309,9 @@ class CartModelCart extends JModel
 			$cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
 			$cart[$cartElement]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
 			$cart[$cartElement]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
+			JPluginHelper::importPlugin('redshop_product');
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 		}
 
 		$session->set('cart', $cart);
@@ -327,6 +338,9 @@ class CartModelCart extends JModel
 
 		$quantity_all = $data['quantity_all'];
 		$quantity     = explode(",", $quantity_all);
+
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
 
 		for ($i = 0; $i < $idx; $i++)
 		{
@@ -356,6 +370,8 @@ class CartModelCart extends JModel
 					$product_price_tax = $discount_cal['product_price_tax'];
 				}
 
+				$dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculator_price));
+
 				// Attribute price
 				$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$i]['cart_attribute'], $cart[$i]['product_id'], $user->id, $calculator_price, $cart[$i]['quantity']);
 				$product_price              = $retAttArr[1];
@@ -367,6 +383,9 @@ class CartModelCart extends JModel
 				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
 				$accessory_total_price = $retAccArr[1];
 				$accessory_vat_price   = $retAccArr[2];
+
+				$wrapper_price         = 0;
+				$wrapper_vat           = 0;
 
 				if ($cart[$i]['wrapper_id'])
 				{
@@ -402,6 +421,8 @@ class CartModelCart extends JModel
 				$cart[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
 				$cart[$i]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
 				$cart[$i]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
+
+				$dispatcher->trigger('onAfterCartItemUpdate', array(&$cart, $i, $data));
 			}
 		}
 
@@ -417,7 +438,29 @@ class CartModelCart extends JModel
 
 		if (array_key_exists($cartElement, $cart))
 		{
-			$stockroomhelper->deleteCartAfterEmpty($cart[$cartElement]['product_id']);
+			if (array_key_exists('cart_attribute', $cart[$cartElement]))
+			{
+				foreach ($cart[$cartElement]['cart_attribute'] as $cartAttribute)
+				{
+					if (array_key_exists('attribute_childs', $cartAttribute))
+					{
+						foreach ($cartAttribute['attribute_childs'] as $attributeChilds)
+						{
+							if (array_key_exists('property_childs', $attributeChilds))
+							{
+								foreach ($attributeChilds['property_childs'] as $propertyChilds)
+								{
+									$stockroomhelper->deleteCartAfterEmpty($propertyChilds['subproperty_id'], 'subproperty', $cart[$cartElement]['quantity']);
+								}
+							}
+
+							$stockroomhelper->deleteCartAfterEmpty($attributeChilds['property_id'], 'property', $cart[$cartElement]['quantity']);
+						}
+					}
+				}
+			}
+
+			$stockroomhelper->deleteCartAfterEmpty($cart[$cartElement]['product_id'], 'product', $cart[$cartElement]['quantity']);
 			unset($cart[$cartElement]);
 			$cart = array_merge(array(), $cart);
 
@@ -543,8 +586,7 @@ class CartModelCart extends JModel
 	 */
 	public function shippingrate_calc()
 	{
-		$document = JFactory::getDocument();
-		JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
+		JHTML::script('com_redshop/common.js', false, true);
 		$redConfig = new Redconfiguration;
 
 		$countryarray         = $redConfig->getCountryList();

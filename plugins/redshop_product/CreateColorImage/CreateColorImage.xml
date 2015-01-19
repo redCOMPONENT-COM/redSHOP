@@ -8,16 +8,28 @@
    <authorEmail>email@redweb.dk</authorEmail>
    <authorUrl>www.redweb.dk</authorUrl>
    <version>1.3.3</version>
-   <description>It will generate color image based on attribute color code using Imagemagick.</description>
+   <description>PLG_RS_PRODUCT_CREATECOLORIMAGE_DESC</description>
  	<files>
 		<filename plugin="CreateColorImage">CreateColorImage.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_banktransfer_discount.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_banktransfer_discount.sys.ini
-		</language>
-		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_banktransfer_discount.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_banktransfer_discount.sys.ini
-        </language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_CreateColorImage.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_CreateColorImage.sys.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_product_CreateColorImage.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_product_CreateColorImage.sys.ini</language>
     </languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="colorToBeReplaced"
+					   type="text" size="10" default=""
+					   label="PLG_RS_PRODUCT_CREATECOLORIMAGE_COLOR_CODE_LABEL"
+					   description="PLG_RS_PRODUCT_CREATECOLORIMAGE_COLOR_CODE_DESC"/>
+				<field name="bgImage"
+					   type="media" size="10" default=""
+					   label="PLG_RS_PRODUCT_CREATECOLORIMAGE_BG_IMAGE_LABEL"
+					   description="PLG_RS_PRODUCT_CREATECOLORIMAGE_BG_IMAGE_DESC"/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

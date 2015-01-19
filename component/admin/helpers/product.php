@@ -3,14 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperProduct');
 
 class adminproducthelper
 {
@@ -22,7 +22,7 @@ class adminproducthelper
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 	}
 
 	public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
@@ -328,6 +328,7 @@ class adminproducthelper
 
 		if ($shipp_users_info_id > 0)
 		{
+			$language = JFactory::getLanguage();
 			$shippingmethod = $order_functions->getShippingMethodInfo();
 
 			JPluginHelper::importPlugin('redshop_shipping');
@@ -345,16 +346,17 @@ class adminproducthelper
 				}
 
 				$rate = $shippingrate[$s];
+				$extension = 'plg_redshop_shipping_' . strtolower($shippingmethod[$s]->element);
+				$language->load($extension, JPATH_ADMINISTRATOR);
+				$rs = $shippingmethod[$s];
 
 				if (count($rate) > 0)
 				{
-					$rs = $shippingmethod[$s];
-
 					for ($i = 0; $i < count($rate); $i++)
 					{
 						$displayrate = ($rate[$i]->rate > 0) ? " (" . $producthelper->getProductFormattedPrice($rate[$i]->rate) . " )" : "";
 						$ratearr[$r] = new stdClass;
-						$ratearr[$r]->text = $rs->name . " - " . $rate[$i]->text . $displayrate;
+						$ratearr[$r]->text = JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate;
 						$ratearr[$r]->value = $rate[$i]->value;
 						$r++;
 					}
@@ -389,12 +391,19 @@ class adminproducthelper
 	public function redesignProductItem($post = array())
 	{
 		$orderItem = array();
-		$i = 0;
+		$i = -1;
 
 		foreach ($post as $key => $value)
 		{
 			if (!strcmp("product", substr($key, 0, 7)) && strlen($key) < 10)
 			{
+				$i++;
+
+				if (!isset($orderItem[$i]))
+				{
+					$orderItem[$i] = new stdClass;
+				}
+
 				$orderItem[$i]->product_id = $value;
 			}
 
@@ -471,7 +480,6 @@ class adminproducthelper
 			if (!strcmp("requiedAttributeproduct", substr($key, 0, 23)))
 			{
 				$orderItem[$i]->requiedAttributeproduct = $value;
-				$i++;
 			}
 		}
 
@@ -512,7 +520,7 @@ class adminproducthelper
 			. "(fieldid,data_txt,itemid,section) "
 			. "value ('" . $field_id . "','" . $value . "','" . $order_item_id . "','" . $section_id . "')";
 		$db->setQuery($sql);
-		$db->query();
+		$db->execute();
 	}
 
 	public function getProductrBySortedList()

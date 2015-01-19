@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-$app = JFactory::getApplication();
-$extra_field = new extra_field();
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminExtra_field');
+$app           = JFactory::getApplication();
+$extra_field   = new extra_field;
 JHTMLBehavior::modal();
-$producthelper = new producthelper();
-$option = JRequest::getVar('option', '', 'request', 'string');
+$producthelper = new producthelper;
 
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'x.ordering');
@@ -26,11 +25,7 @@ $userId = (int) $user->id;
 <script language="javascript" type="text/javascript">
 
 
-	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
+	Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton) {
@@ -43,18 +38,6 @@ $userId = (int) $user->id;
 		}
 		if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
 			form.view.value = "product_category";
-		}
-		if (pressbutton == 'gbasefeed') {
-			var x = confirm("Do you want to export unpublished products?");
-
-			if (x == true) {
-				document.adminForm.unpublished_data.value = 1;
-
-			} else {
-				document.adminForm.unpublished_data.value = 0;
-			}
-
-
 		}
 
 		try {
@@ -104,9 +87,10 @@ $userId = (int) $user->id;
 		<td>
 			<form action="<?php echo 'index.php?option=com_redshop&view=product'; ?>" method="post" name="adminForm2"
 			      id="adminForm2">
-
-				<input type="text" name="keyword" value="<?php echo $this->keyword; ?>"> <input type="submit"
-				                                                                                value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				</div>
 				<select name="search_field" onchange="javascript:document.adminForm2.submit();">
 					<option
 						value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
@@ -134,17 +118,17 @@ $userId = (int) $user->id;
 		</td>
 	</tr>
 </table>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
 <input type="hidden" name="unpublished_data" value="">
-<table class="adminlist">
+<table class="adminlist table table-striped">
 <thead>
 <tr>
 	<th width="5">
 		<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 	</th>
 	<th width="20">
-		<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->products); ?>);"/>
+		<?php echo JHtml::_('redshopgrid.checkall'); ?>
 	</th>
 	<th class="title">
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -209,10 +193,10 @@ $k = 0;
 
 for ($i = 0, $n = count($this->products); $i < $n; $i++)
 {
-	$row = & $this->products[$i];
+	$row = $this->products[$i];
 
 	$row->id = $row->product_id;
-	$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+	$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 	//	$published 	= JHtml::_('jgrid.published', $row->published, $i,'',1);
 
@@ -295,7 +279,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td>
 			<?php echo $row->product_number;?>
 		</td>
-		<td>
+		<td class="nowrap">
 			<?php echo $producthelper->getProductFormattedPrice($row->product_price);?>
 		</td>
 
@@ -314,7 +298,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td align="center">
 			<?php $mediadetail = $model->MediaDetail($row->product_id); ?>
 			<a class="modal"
-			   href="index.php?option=<?php echo $option; ?>&amp;view=media&amp;section_id=<?php echo $row->product_id; ?>&amp;showbuttons=1&amp;media_section=product&amp;section_name=<?php echo $row->product_name; ?>&amp;tmpl=component"
+			   href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
 					src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
 					alt="media">(<?php  echo count($mediadetail);?>)</a>
@@ -322,7 +306,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td align="center">
 			<?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
 			<a class="modal"
-			   href="index.php?option=<?php echo $option; ?>&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&amp;tmpl=component"
+			   href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 700, y: 450}}">
 				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
 				     alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"><?php echo "(" . count($wrapper) . ")";?></a>
@@ -362,7 +346,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 				<span><?php
 					echo $this->pagination->orderDownIcon($i, $n, ($row->category_id == @$this->products[$i + 1]->category_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 				<input type="text" name="order[]" size="5" <?php echo $disabled; ?>
-				       value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center"/>
+				       value="<?php echo $row->ordering; ?>" class="text_area input-small" style="text-align: center"/>
 				</td>
 		<?php } ?>
 	</tr>
@@ -373,6 +357,11 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 <tfoot>
 <td colspan="14">
+	<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+		<div class="redShopLimitBox">
+			<?php echo $this->pagination->getLimitBox(); ?>
+		</div>
+	<?php endif; ?>
 	<?php echo $this->pagination->getListFooter(); ?>
 </td>
 </tfoot>

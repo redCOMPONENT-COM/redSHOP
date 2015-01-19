@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -11,16 +11,11 @@ defined('_JEXEC') or die;
 $editor = JFactory::getEditor();
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
 JHTMLBehavior::modal();
 $model = $this->getModel('newslettersubscr_detail');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -28,7 +23,7 @@ $model = $this->getModel('newslettersubscr_detail');
 			return;
 		}
 
-		if (form.username.value == 0) {
+		if (form.user_id.value == 0) {
 			alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_SELECT_USER', true ); ?>");
 		} else {
 			submitform(pressbutton);
@@ -48,10 +43,20 @@ $model = $this->getModel('newslettersubscr_detail');
 						<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SELECT_USER'); ?>:
 					</td>
 					<td>
-						<input type="text" name="username" id="username"
-						       value="<?php $this->detail->user_id != 0 ? $uname = $model->getuserfullname2($this->detail->user_id) : $uname = $this->detail->name;        echo $uname; ?>"
-						       size="75"/><input type="hidden" name="user_id" id="userid"
-						                         value="<?php if ($this->detail->subscription_id != 0) echo $this->detail->user_id; ?>"/>
+						<?php
+						$userObject = new stdClass;
+						$userObject->text = ($this->detail->user_id != 0) ? $model->getuserfullname2($this->detail->user_id) : $this->detail->name;
+						$userObject->value = ($this->detail->subscription_id != 0) ? $this->detail->user_id : '';
+						echo JHTML::_('redshopselect.search', $userObject, 'user_id',
+							array(
+								'select2.ajaxOptions' => array('typeField' => ', user:1'),
+								'select2.options' => array(
+									'placeholder' => JText::_('COM_REDSHOP_NEWSLETTER_SELECT_USER'),
+									'events' => array('select2-selecting' => 'function(e) {document.getElementById(\'email\').value = e.object.volume;}')
+								)
+							)
+						);
+						?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_SELECT_USER'), JText::_('COM_REDSHOP_NEWSLETTER_SELECT_USER'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
@@ -110,18 +115,3 @@ $model = $this->getModel('newslettersubscr_detail');
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="newslettersubscr_detail"/>
 </form>
-<script type="text/javascript">
-
-	var options = {
-		script: "index.php?tmpl=component&&option=com_redshop&view=search&user=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: false,
-		callback: function (obj) {
-			document.getElementById('email').value = obj.volume;
-			document.getElementById('userid').value = obj.id;
-		}
-	};
-	var as_json = new bsn.AutoSuggest('username', options);
-
-</script>

@@ -3,17 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class giftcardViewgiftcard extends JView
+class RedshopViewGiftcard extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -21,11 +20,9 @@ class giftcardViewgiftcard extends JView
 
 		// Request variables
 		$params   = $app->getParams('com_redshop');
-		$document = JFactory::getDocument();
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/attribute.js', false, true);
 
 		$pageheadingtag = JText::_('COM_REDSHOP_REDSHOP');
 
@@ -34,7 +31,6 @@ class giftcardViewgiftcard extends JView
 		$detail            = $this->get('data');
 
 		$this->detail = $detail;
-		$this->lists = $lists;
 		$this->template = $giftcard_template;
 		$this->pageheadingtag = $pageheadingtag;
 		$this->params = $params;

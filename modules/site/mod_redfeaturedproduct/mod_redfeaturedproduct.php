@@ -3,33 +3,32 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redfeaturedproduct
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
+JLoader::import('redshop.library');
 
 // Getting the configuration in redshop.js.php
-require_once  JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
-
-require_once  JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 // Get product helper
-require_once  JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 // Get default helper
-require_once  JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
 * This class sets all Parameters.
@@ -65,12 +64,12 @@ if (!class_exists('redFeatureproduct'))
 			$this->params = $params;
 
 			// Standard mammeters
-			$this->show_product_name        = $params->get('show_product_name', "yes");
+			$this->show_product_name        = $params->get('show_product_name', 1);
 			$this->product_title_max_chars  = $params->get('product_title_max_chars', "10");
 			$this->product_title_end_suffix = $params->get('product_title_end_suffix', "....");
-			$this->show_addtocart           = $params->get('show_addtocart', "yes");
+			$this->show_addtocart           = $params->get('show_addtocart', 1);
 			$this->show_vatprice 			= $params->get('show_vatprice', "0");
-			$this->show_price               = $params->get('show_price', "yes");
+			$this->show_price               = $params->get('show_price', 1);
 			$this->thumbwidth               = $params->get('thumbwidth', "100");
 			$this->thumbheight              = $params->get('thumbheight', "100");
 			$this->scrollerheight			= $params->get('scrollerheight', "200");
@@ -89,7 +88,7 @@ if (!class_exists('redFeatureproduct'))
 		function displayredFeature (&$rows)
 		{
 			global $Redconfiguration;
-			$uri           = JUri::getInstance();
+			$uri           = JURI::getInstance();
 			$url           = $uri->root();
 			$user          = JFactory::getUser();
 			$producthelper = new producthelper;
@@ -98,26 +97,26 @@ if (!class_exists('redFeatureproduct'))
 			$view          = JRequest::getCmd('view', 'category');
 
 			$document = JFactory::getDocument();
-			JHTML::Stylesheet('jquery.css', 'modules/mod_redfeaturedproduct/css/');
-			JHTML::Stylesheet('skin_002.css', 'modules/mod_redfeaturedproduct/css/');
+			JHTML::stylesheet('modules/mod_redfeaturedproduct/css/jquery.css');
+			JHTML::stylesheet('modules/mod_redfeaturedproduct/css/skin_002.css');
+			JHtml::_('redshopjquery.framework');
 
 			if ($view == 'category')
 			{
 				if (!$GLOBALS['product_price_slider'])
 				{
-					JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+					JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 				}
 			}
 			else
 			{
-				JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-				JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-				JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-				JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+				JHTML::script('com_redshop/redbox.js', false, true);
+				JHtml::script('com_redshop/attribute.js', false, true);
+				JHtml::script('com_redshop/common.js', false, true);
+				JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 			}
 
-			JHTML::Script('jquery.js', 'modules/mod_redfeaturedproduct/js/', false);
-			JHTML::Script('recreativo.js', 'modules/mod_redfeaturedproduct/js/', false);
+			JHTML::script('modules/mod_redfeaturedproduct/js/recreativo.js');
 
 			echo $this->params->get('pretext', "");
 
@@ -191,18 +190,18 @@ if (!class_exists('redFeatureproduct'))
    						<div class='listing-item'>
    						<div class='product-shop'>
 				<?php
-						if ($this->show_product_name == 'yes')
+						if ($this->show_product_name)
 						{
 							$pname = $Redconfiguration->maxchar($row->product_name, $this->product_title_max_chars, $this->product_title_end_suffix);
 
 							echo "<a href='" . $link . "' title='" . $row->product_name . "'>" . $pname . "</a>";
 						}
 
-						if (!$row->not_for_sale && $this->show_price == 'yes')
+						if (!$row->not_for_sale && $this->show_price)
 						{
 							$productArr = $producthelper->getProductNetPrice($row->product_id);
 
-							if ($this->show_vatprice == '0' || $this->show_vatprice == 0)
+							if ($this->show_vatprice)
 							{
 								$product_price 			 = $productArr['product_main_price'];
 								$product_price_discount  = $productArr['productPrice'] + $productArr['productVat'];
@@ -255,7 +254,7 @@ if (!class_exists('redFeatureproduct'))
             		?>
             			</div></div><div class='product-image' style='width:<?php echo $this->thumbwidth;?>px;height:<?php echo $this->thumbheight;?>px;'><?php echo $thum_image;?></div>
      			<?php
-					if ($this->show_addtocart == 'yes')
+					if ($this->show_addtocart)
 					{
 						$addtocart_data = $producthelper->replaceCartTemplate($row->product_id, 0, 0, 0, "", false, array(), 0, 0, 0, $this->module_id);
 						echo "<div class='form-button'>" . $addtocart_data . "</div>";
@@ -330,6 +329,7 @@ $featured = new redFeatureproduct($params, $module_id);
 * Load Products
 **/
 $rows = $featured->getredFeaturedProduct($featured->NumberOfProducts, $featured->ScrollSortMethod);
+
 /**
 * Display Product Scroller
 **/

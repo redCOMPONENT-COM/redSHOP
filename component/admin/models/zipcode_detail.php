@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class zipcode_detailModelzipcode_detail extends JModel
+class RedshopModelZipcode_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -23,7 +22,7 @@ class zipcode_detailModelzipcode_detail extends JModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -84,7 +83,7 @@ class zipcode_detailModelzipcode_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -119,7 +118,7 @@ class zipcode_detailModelzipcode_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'zipcode WHERE zipcode_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -132,9 +131,9 @@ class zipcode_detailModelzipcode_detail extends JModel
 
 	public function getcountry()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 		$redhelper = new redhelper;
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$this->_db->setQuery($q);
 		$countries = $this->_db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);

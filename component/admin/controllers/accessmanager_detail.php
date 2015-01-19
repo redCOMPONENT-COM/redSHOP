@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class accessmanager_detailController extends JController
+class RedshopControllerAccessmanager_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -47,11 +46,11 @@ class accessmanager_detailController extends JController
 
 		if ($apply)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=accessmanager_detail&section=' . $section, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=accessmanager_detail&section=' . $section, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=accessmanager', $msg);
 		}
 	}
 
@@ -64,6 +63,6 @@ class accessmanager_detailController extends JController
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
-		$this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=accessmanager', $msg);
 	}
 }

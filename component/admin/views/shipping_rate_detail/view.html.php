@@ -3,18 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminCategory');
 
-class shipping_rate_detailViewshipping_rate_detail extends JView
+class RedshopViewShipping_rate_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -32,10 +31,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$option = JRequest::getVar('option');
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
-		$document->addScript('components/' . $option . '/assets/js/common.js');
+		$document->addScript('components/com_redshop/assets/js/common.js');
 
 		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.xml';
 		$myparams = new JRegistry($shipping->params, $shippingpath);
@@ -62,7 +58,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$q = "SELECT  country_3_code as value,country_name as text from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_COUNTRY') . ' -', 'value', 'text');
 		$countries = array_merge($countries, $db->loadObjectList());
@@ -106,7 +102,6 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 			$detail->deliver_type, 'COM_REDSHOP_HOME', 'COM_REDSHOP_POSTOFFICE'
 		);
 
-		$productData = array();
 		$result_container = array();
 
 		if ($detail->shipping_rate_on_product)
@@ -114,12 +109,11 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 			$result_container = $model->GetProductListshippingrate($detail->shipping_rate_on_product);
 		}
 
-		$lists['product_all'] = JHTML::_('select.genericlist', $productData, 'product_all[]',
-			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->shipping_rate_on_product
-		);
-		$lists['shipping_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
-			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" '
-			, 'value', 'text', 0
+		$lists['shipping_product'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', alert:"shipping"'),
+				'select2.options' => array('multiple' => true)
+			)
 		);
 
 		$field = new extra_field;

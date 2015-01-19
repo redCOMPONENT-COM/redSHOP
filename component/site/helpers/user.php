@@ -3,16 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperHelper');
 
 class rsUserhelper
 {
@@ -22,17 +22,15 @@ class rsUserhelper
 
 	public $_userId = null;
 
-	public $_shopperGroupData = null;
-
 	public $_db = null;
 
-	public $_shopper_group_id = null;
+	protected static $shopperGroupData = array();
 
-	public $_shopper_group_data = null;
+	protected static $userShopperGroupData = array();
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$this->_session      = JFactory::getSession();
 		$this->_db           = JFactory::getDbo();
 	}
@@ -40,26 +38,36 @@ class rsUserhelper
 	/**
 	 * Replace Conditional tag from Redshop tax
 	 *
-	 * @param   integer  $user_id  User identifier
+	 * @param   integer  $userId  User identifier
 	 *
 	 * @return  integer            User group
 	 */
-	public function getShopperGroup($user_id = 0)
+	public function getShopperGroup($userId = 0)
 	{
+		if (0 == $userId)
+		{
+			$auth = JFactory::getSession()->get('auth');
+
+			if (is_array($auth) && array_key_exists('users_info_id', $auth))
+			{
+				$userId -= $auth['users_info_id'];
+			}
+		}
+
 		// Get redCRM Contact person session array
 		$isredcrmuser = $this->_session->get('isredcrmuser', false);
 
 		if ($isredcrmuser)
 		{
-			$this->_db->setQuery("SELECT user_id FROM  " . $this->_table_prefix . "users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $user_id . ") and address_type='BT'");
-			$user_id = $this->_db->loadResult();
+			$this->_db->setQuery("SELECT user_id FROM  " . $this->_table_prefix . "users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $userId . ") and address_type='BT'");
+			$userId = $this->_db->loadResult();
 		}
 
 		$shopperGroupId = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 
-		if ($user_id)
+		if ($userId)
 		{
-			$shopperGroupData = $this->getShoppergroupData($user_id);
+			$shopperGroupData = $this->getShoppergroupData($userId);
 
 			if (count($shopperGroupData) > 0)
 			{
@@ -67,7 +75,7 @@ class rsUserhelper
 			}
 		}
 
-		$this->_userId = $user_id;
+		$this->_userId = $userId;
 
 		return $shopperGroupId;
 	}
@@ -85,7 +93,7 @@ class rsUserhelper
 			. 'LEFT JOIN #__user_usergroup_map as u on u.user_id = uf.user_id '
 			. 'WHERE users_info_id = ' . (int) $user_id;
 		$this->_db->setQuery($query);
-		$usergroups = $this->_db->loadResultArray();
+		$usergroups = $this->_db->loadColumn();
 
 		return $usergroups;
 	}
@@ -99,59 +107,79 @@ class rsUserhelper
 				. " SET accept_terms_conditions = " . (int) $isSet
 				. " WHERE users_info_id = " . (int) $users_info_id;
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 		}
 	}
 
-	public function getShoppergroupData($user_id = 0)
+	/**
+	 * Get Shopper Group Data
+	 *
+	 * @param   int  $userId  User id
+	 *
+	 * @return mixed
+	 */
+	public function getShoppergroupData($userId = 0)
 	{
-		$list = array();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
+		if ($userId == 0)
 		{
-			$user_id = $user->id;
+			$user = JFactory::getUser();
+			$userId = $user->id;
 		}
 
-		if ($user_id != 0)
+		if ($userId != 0)
 		{
-			if (!$this->_shopperGroupData && $this->_userId != $user_id)
+			if (!array_key_exists($userId, self::$userShopperGroupData))
 			{
-				$query = "SELECT sg.* FROM " . $this->_table_prefix . "shopper_group AS sg "
-					. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.shopper_group_id=sg.shopper_group_id "
-					. "WHERE ui.user_id = " . (int) $user_id . " AND ui.address_type='BT' ORDER BY shopper_group_id DESC  LIMIT 0,1";
-				$this->_db->setQuery($query);
-				$list = $this->_shopperGroupData = $this->_db->loadObject();
-			}
-			else
-			{
-				$list = $this->_shopperGroupData;
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('sg.*')
+					->from($db->qn('#__redshop_shopper_group', 'sg'))
+					->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
+					->where('ui.user_id = ' . (int) $userId)
+					->where('ui.address_type = ' . $db->q('BT'));
+				$db->setQuery($query);
+				self::$userShopperGroupData[$userId] = $db->loadObject();
+
+				if (!self::$userShopperGroupData[$userId])
+				{
+					self::$userShopperGroupData[$userId] = array();
+				}
 			}
 
-			$this->_userId = $user_id;
+			return self::$userShopperGroupData[$userId];
 		}
 
-		return $list;
+		return array();
 	}
 
-	public function getShopperGroupList($shopper_group_id = 0)
+	/**
+	 * Get Shopper Group List
+	 *
+	 * @param   int  $shopperGroupId  Shopper Group Id
+	 *
+	 * @return mixed
+	 */
+	public function getShopperGroupList($shopperGroupId = 0)
 	{
-		$and = '';
-
-		if ($shopper_group_id != 0)
+		if (!array_key_exists($shopperGroupId, self::$shopperGroupData))
 		{
-			$and .= 'AND shopper_group_id = ' . (int) $shopper_group_id . ' ';
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('sh.*', $db->qn('sh.shopper_group_id', 'value'), $db->qn('sh.shopper_group_name', 'text')))
+				->from($db->qn('#__redshop_shopper_group', 'sh'))
+				->where('sh.published = 1');
+
+			if ($shopperGroupId)
+			{
+				$query->where('sh.shopper_group_id = ' . (int) $shopperGroupId);
+			}
+
+			$db->setQuery($query);
+
+			self::$shopperGroupData[$shopperGroupId] = $db->loadObjectList();
 		}
 
-		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM ' . $this->_table_prefix . 'shopper_group AS sh '
-			. 'WHERE published=1 '
-			. $and;
-		$this->_db->setQuery($query);
-
-		$list                    = $this->_shopper_group_data = $this->_db->loadObjectList();
-		$this->_shopper_group_id = $shopper_group_id;
-
-		return $list;
+		return self::$shopperGroupData[$shopperGroupId];
 	}
 
 	public function createUserSession($user_id)
@@ -182,8 +210,6 @@ class rsUserhelper
 		}
 		else
 		{
-			unset($userArr);
-			$userArr                     = array();
 			$userArr['rs_is_user_login'] = 0;
 		}
 
@@ -446,14 +472,23 @@ class rsUserhelper
 
 			$date = JFactory::getDate();
 			$user->set('id', 0);
-			$user->set('registerDate', $date->toMySQL());
+			$user->set('registerDate', $date->toSql());
 
 			// If user activation is turned on, we need to set the activation information
 			$useractivation = $usersConfig->get('useractivation');
 
 			if ($useractivation == '1')
 			{
-				$user->set('activation', JUtility::getHash(JUserHelper::genRandomPassword()));
+				if (version_compare(JVERSION, '3.0', '<'))
+				{
+					$hash = JApplication::getHash(JUserHelper::genRandomPassword());
+				}
+				else
+				{
+					$hash = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
+				}
+
+				$user->set('activation', $hash);
 				$user->set('block', '0');
 			}
 
@@ -472,8 +507,11 @@ class rsUserhelper
 			$credentials['username'] = $data['username'];
 			$credentials['password'] = $data['password2'];
 
-			//preform the login action
-			$app->login($credentials);
+			// Perform the login action
+			if (!JFactory::getUser()->id)
+			{
+				$app->login($credentials);
+			}
 
 			return $user;
 		}
@@ -481,7 +519,7 @@ class rsUserhelper
 		return true;
 	}
 
-	public function checkCaptcha($data)
+	public function checkCaptcha($data, $displayWarning = true)
 	{
 		if (SHOW_CAPTCHA)
 		{
@@ -492,7 +530,10 @@ class rsUserhelper
 
 			if (empty($security_code) || $security_code != $data['security_code'])
 			{
-				JError::raiseWarning(21, JText::_('COM_REDSHOP_INVALID_SECURITY'));
+				if ($displayWarning)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
+				}
 
 				return false;
 			}
@@ -625,7 +666,7 @@ class rsUserhelper
 							. "SET users_info_id = " . (int) $nextId . " "
 							. "WHERE users_info_id = " . (int) $row->users_info_id;
 						$this->_db->setQuery($sql);
-						$this->_db->Query();
+						$this->_db->execute();
 						$row->users_info_id = $nextId;
 					}
 				}
@@ -656,7 +697,7 @@ class rsUserhelper
 			$u->set('email', $row->user_email);
 			$u->set('usertype', 'Registered');
 			$date = JFactory::getDate();
-			$u->set('registerDate', $date->toMySQL());
+			$u->set('registerDate', $date->toSql());
 			$data['user_id']  = $row->user_id;
 			$data['username'] = $row->user_email;
 			$data['email']    = $row->user_email;
@@ -665,6 +706,10 @@ class rsUserhelper
 		if (isset($data['newsletter_signup']) && $data['newsletter_signup'] == 1)
 		{
 			$this->newsletterSubscribe($row->user_id, $data);
+
+			JPluginHelper::importPlugin('redshop_user');
+			$dispatcher = JDispatcher::getInstance();
+			$hResponses = $dispatcher->trigger('addNewsLetterSubscription', array($isNew, $data));
 		}
 
 		$billisship = 1;
@@ -901,7 +946,7 @@ class rsUserhelper
 				. "WHERE email = " . $db->quote($email) . " "
 				. $and;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 			$redshopMail = new redshopMail;
 			$redshopMail->sendNewsletterCancellationMail($email);
 		}
@@ -1010,10 +1055,10 @@ class rsUserhelper
 			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
 			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
 			$template_middle   = "";
+			$checkbox_style  = '';
 
 			if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
 			{
-				$checkbox_style  = '';
 				$template_middle = $template_pd_edata[0];
 
 				if (REGISTER_METHOD == 2)
@@ -1293,19 +1338,6 @@ class rsUserhelper
 		return $html;
 	}
 
-	public function getAskQuestionCaptcha()
-	{
-		$html = '';
-		$html .= '<table cellspacing="0" cellpadding="0" border="0" width="100%">';
-		$html .= '<tr><td>&nbsp;</td>
-						<td align="left"><img src="' . JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" /></td></tr>';
-		$html .= '<tr><td width="100" align="right"><label for="security_code">' . JText::_('COM_REDSHOP_SECURITY_CODE') . '</label></td>
-						<td><input class="inputbox" id="security_code" name="security_code" type="text" /></td></tr>';
-		$html .= '</table>';
-
-		return $html;
-	}
-
 	/**
 	 * Function to store redCRM user
 	 *
@@ -1325,9 +1357,9 @@ class rsUserhelper
 
 		if (DEBITOR_NUMBER_AUTO_GENERATE == 1 && $row->users_info_id <= 0)
 		{
-			JModel::addIncludePath(REDCRM_ADMIN . '/models');
+			JModelLegacy::addIncludePath(REDCRM_ADMIN . '/models');
 
-			$crmmodel = JModel::getInstance('debitor', 'redCRMModel');
+			$crmmodel = JModelLegacy::getInstance('debitor', 'redCRMModel');
 
 			$maxdebtor_id = $crmmodel->getMaxdebtor();
 

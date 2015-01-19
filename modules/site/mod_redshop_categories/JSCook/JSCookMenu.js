@@ -1,5 +1,5 @@
 /*
- JSCookMenu v1.4.3.  (c) Copyright 2002-2005 by Heng Yuan
+ JSCookMenu v1.4.3.  (c) Copyright 2002-2008 by Heng Yuan
 
  Permission is hereby granted, free of charge, to any person obtaining a
  copy of this software and associated documentation files (the "Software"),

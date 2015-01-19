@@ -3,11 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
@@ -17,9 +17,6 @@ $model = $this->getModel('stockimage');
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -39,12 +36,11 @@ $model = $this->getModel('stockimage');
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th><input type="checkbox" name="toggle" value=""
-				           onclick="checkAll(<?php echo count($this->data); ?>);"/></th>
+				<th><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_IMAGE_TOOLTIP_LBL', 'stock_amount_image_tooltip', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_QUANTITY_LBL', 'stock_quantity', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_OPTION_LBL', 'stock_option', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
@@ -56,9 +52,9 @@ $model = $this->getModel('stockimage');
 			$k = 0;
 			for ($i = 0, $n = count($this->data); $i < $n; $i++)
 			{
-				$row = & $this->data[$i];
+				$row = $this->data[$i];
 				$row->id = $row->stock_amount_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=stockimage_detail&task=edit&cid[]=' . $row->id);    ?>
+				$link = JRoute::_('index.php?option=com_redshop&view=stockimage_detail&task=edit&cid[]=' . $row->id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->pagination->getRowOffset($i);?></td>
 					<td><?php echo JHTML::_('grid.id', $i, $row->id);?></td>
@@ -73,7 +69,13 @@ $model = $this->getModel('stockimage');
 				<?php    $k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="7"><?php echo $this->pagination->getListFooter();?></td>
+			<td colspan="7">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter();?></td>
 			</tfoot>
 		</table>
 	</div>

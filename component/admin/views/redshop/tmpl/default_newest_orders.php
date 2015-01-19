@@ -3,14 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
-$producthelper = new producthelper();
-$option = JRequest::getVar('option');
+defined('_JEXEC') or die;
+$producthelper = new producthelper;
 ?>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 
 		<table class="adminlist" width="100%">
@@ -26,7 +25,7 @@ $option = JRequest::getVar('option');
 			$k = 0;
 			for ($i = 0, $n = count($this->neworders); $i < $n; $i++)
 			{
-				$row = & $this->neworders[$i];
+				$row = $this->neworders[$i];
 				$row->id = $row->order_id;
 				$link = "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $row->id;        ?>
 				<tr class="<?php echo "row$k"; ?>" onclick="window.location.href='<?php echo $link; ?>'">

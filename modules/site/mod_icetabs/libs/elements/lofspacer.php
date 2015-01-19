@@ -33,7 +33,7 @@ class JFormFieldLofspacer extends JFormField
 		if (!defined('_LOFSPACER'))
 		{
 			define('_LOFSPACER', 1);
-			$uri = str_replace(DS, "/", str_replace(JPATH_SITE, JURI::base(), dirname(__FILE__)));
+			$uri = str_replace(DIRECTORY_SEPARATOR, "/", str_replace(JPATH_SITE, JURI::base(), dirname(__FILE__)));
 			$uri = str_replace("://", "_LOFHOLDER", $uri);
 			$uri = str_replace("//", "/", $uri);
 			$uri = str_replace("_LOFHOLDER", "://", $uri);

@@ -3,18 +3,18 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_category_scroller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminImages');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -23,17 +23,17 @@ $Itemid = JRequest::getInt('Itemid');
 $user   = JFactory::getUser();
 $option = 'com_redshop';
 
+JHtml::_('redshopjquery.framework');
 $document = JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'modules/mod_redshop_products/css/products.css');
 
 // 	include redshop js file.
-require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 // Light-box Java-script
-JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+JHtml::script('com_redshop/redbox.js', false, true);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
 
 $config = new Redconfiguration;
 $config->defineDynamicVars();
@@ -53,16 +53,16 @@ if ($view == 'category')
 {
 	if (!$GLOBALS['product_price_slider'])
 	{
-		JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 	}
 }
 else
 {
-	JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+	JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 }
 
-JHTML::Script('jquery.js', 'modules/mod_redshop_category_scroller/js/', false);
-JHTML::Script('rscategoryscroller.js', 'modules/mod_redshop_category_scroller/js/', false);
+JHTML::script('modules/mod_redshop_category_scroller/js/jquery.js');
+JHTML::script('modules/mod_redshop_category_scroller/js/rscategoryscroller.js');
 
 echo $pretext;
 echo "<div style='height:" . $scrollerheight . "px;'>";

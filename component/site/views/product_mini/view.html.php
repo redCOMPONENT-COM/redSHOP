@@ -3,16 +3,15 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
-class product_miniViewproduct_mini extends JView
+class RedshopViewProduct_mini extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -59,7 +58,7 @@ class product_miniViewproduct_mini extends JView
 		$this->lists = $lists;
 		$this->products = $products;
 		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->request_url = JFilterOutput::cleanText($uri->toString());
 		parent::display($tpl);
 	}
 }

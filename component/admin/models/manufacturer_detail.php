@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class manufacturer_detailModelmanufacturer_detail extends JModel
+class RedshopModelManufacturer_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -106,7 +105,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 			$data['excluding_category_list'] = @ implode(',', $data['excluding_category_list']);
 		}
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if ($data['manufacturer_id'] == 0)
 		{
@@ -146,7 +145,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -166,7 +165,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 				. ' WHERE manufacturer_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -191,7 +190,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['manufacturer_id'] = 0;
-			$post['manufacturer_name'] = 'Copy Of ' . $cdata->manufacturer_name;
+			$post['manufacturer_name'] = $this->renameToUniqueValue('manufacturer_name', $cdata->manufacturer_name);
 			$post['manufacturer_desc'] = $cdata->manufacturer_desc;
 			$post['manufacturer_email'] = $cdata->manufacturer_email;
 			$post['product_per_page'] = $cdata->product_per_page;
@@ -232,7 +231,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

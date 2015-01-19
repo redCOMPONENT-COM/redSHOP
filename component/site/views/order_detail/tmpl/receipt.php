@@ -3,16 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-include_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 $carthelper = new rsCarthelper;
 $redconfig = new Redconfiguration;
@@ -42,6 +42,8 @@ if ($this->params->get('show_page_title', 1))
 	</div>
 <?php
 }
+
+if (!ONESTEP_CHECKOUT_ENABLE):
 ?>
 	<hr/>
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -52,6 +54,7 @@ if ($this->params->get('show_page_title', 1))
 		</tr>
 	</table>
 	<hr/>
+	<?php endif; ?>
 	<div>
 		<?php
 		echo $thankyou_text;
@@ -81,6 +84,9 @@ else
 }
 
 $orderitem = $order_functions->getOrderItemDetail($order_id);
+
+// Replace Reorder Button
+$this->replaceReorderButton($ReceiptTemplate);
 
 $print = JRequest::getInt('print');
 
@@ -160,8 +166,8 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
-require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
-$googleanalytics = new googleanalytics;
+JLoader::load('RedshopHelperGoogle_analytics');
+$googleanalytics = new GoogleAnalytics;
 
 $analytics_status = $order->analytics_status;
 

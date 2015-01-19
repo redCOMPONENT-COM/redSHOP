@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ class Redaccesslevel
 		$query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
 			. " WHERE `view`=1 and `gid` = " . (int) $group_id;
 		$db->setQuery($query);
-		$access_section = $db->loadResultArray();
+		$access_section = $db->loadColumn();
 
 		return $access_section;
 	}

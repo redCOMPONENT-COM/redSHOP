@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class wrapper_detailVIEWwrapper_detail extends JView
+class RedshopViewWrapper_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -30,11 +29,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		$detail = $this->get('data');
 		$model = $this->getModel('wrapper_detail');
 		$option = JRequest::getVar('option');
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$isNew = ($detail->wrapper_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
@@ -90,12 +85,11 @@ class wrapper_detailVIEWwrapper_detail extends JView
 			$result_container = array();
 		}
 
-		$lists['product_all'] = JHTML::_('select.genericlist', $productData, 'product_all[]',
-			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->product_id
-		);
-		$lists['product_name'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
-			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ',
-			'value', 'text', 0
+		$lists['product_name'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', alert:"wrapper"'),
+				'select2.options' => array('multiple' => true)
+			)
 		);
 
 		$this->lists = $lists;

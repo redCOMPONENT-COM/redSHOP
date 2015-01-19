@@ -3,11 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_products3d
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -15,7 +15,7 @@ $Itemid = JRequest::getInt('Itemid');
 $option = 'com_redshop';
 
 $document = JFactory::getDocument();
-JHTML::Script('redproduct360.js', 'modules/mod_redproducts3d/js/', false);
+JHTML::script('modules/mod_redproducts3d/js/redproduct360.js');
 
 $enableImageReflection = 0;
 $enableimageStroke = 0;
@@ -48,7 +48,7 @@ for ($i = 0; $i < count($rows); $i++)
 	{
 		$path = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $row->product_full_image;
 	}
-	$link = $url . 'index.php?option=' . $option . '%26view=product%26pid=' . $row->product_id;
+	$link = $url . 'index.php?option=com_redshop%26view=product%26pid=' . $row->product_id;
 	$data .= "thumb=" . $path . " | description=" . $row->product_name . " | name=" . $link . " | param=_self ";
 }
 

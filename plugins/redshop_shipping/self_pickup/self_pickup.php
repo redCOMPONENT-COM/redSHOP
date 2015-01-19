@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,8 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-include_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php');
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminShipping');
 
 class plgredshop_shippingself_pickup extends JPlugin
 {
@@ -51,7 +52,7 @@ class plgredshop_shippingself_pickup extends JPlugin
 				$shipping_rate_id = $shippinghelper->encryptShipping(
 					__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|"
 						. number_format(0, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|0");
-				$shippingrate[$rate]->text = $rs->shipping_rate_name;
+				$shippingrate[$rate]->text = JText::_($rs->shipping_rate_name);
 				$shippingrate[$rate]->value = $shipping_rate_id;
 				$shippingrate[$rate]->rate = 0;
 				$shippingrate[$rate]->vat = 0;
@@ -65,7 +66,7 @@ class plgredshop_shippingself_pickup extends JPlugin
 				. number_format(0, 2, '.', '') . "|" . $shipping->name . "|single|0");
 
 			$shippingrate[$rate] = new stdClass;
-			$shippingrate[$rate]->text = $shipping->name;
+			$shippingrate[$rate]->text = JText::_($shipping->name);
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate = 0;
 			$shippingrate[$rate]->vat = 0;

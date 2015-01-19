@@ -3,21 +3,20 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminProduct');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
 
-class addorder_detailController extends JController
+class RedshopControllerAddorder_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -97,7 +96,7 @@ class addorder_detailController extends JController
 			if (count($orderItem) <= 0)
 			{
 				$msg = JText::_('PRODUCT_OUT_OF_STOCK');
-				$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $post['user_id']
+				$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
 						. '&shipping_users_info_id=' . $post['shipp_users_info_id'], $msg
 				);
 
@@ -221,7 +220,7 @@ class addorder_detailController extends JController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order', $msg . $stocknote);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote);
 		}
 	}
 
@@ -229,7 +228,7 @@ class addorder_detailController extends JController
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
 
 	public function guestuser()
@@ -249,7 +248,7 @@ class addorder_detailController extends JController
 			$ret = '';
 			$user_id = $row->user_id;
 			$shipping_users_info_id = $row->users_info_id;
-			$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id .
+			$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id .
 					'&shipping_users_info_id=' .
 					$shipping_users_info_id . $ret
 			);

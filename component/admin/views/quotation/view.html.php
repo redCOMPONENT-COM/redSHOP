@@ -3,17 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::load('RedshopHelperAdminQuotation');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-
-class quotationViewquotation extends JView
+class RedshopViewQuotation extends RedshopView
 {
 	/**
 	 * The request url.
@@ -33,11 +31,11 @@ class quotationViewquotation extends JView
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_quotation'));
-		$model = $this->getModel('quotation');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'), 'redshop_quotation48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		RedshopToolbarHelper::link('index.php?option=com_redshop&view=quotation&format=csv', 'save', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'));
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');

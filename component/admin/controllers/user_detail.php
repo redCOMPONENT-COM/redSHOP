@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class user_detailController extends JController
+class RedshopControllerUser_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -54,18 +53,18 @@ class user_detailController extends JController
 		if ($shipping)
 		{
 			$info_id = JRequest::getVar('info_id', '', 'request', 'string');
-			$link = 'index.php?option=' . $option . '&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
 		}
 		else
 		{
 			if ($apply == 1)
 			{
-				$link = 'index.php?option=' . $option . '&view=user_detail&task=edit&cid[]=' . $row->users_info_id;
+				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id;
 				$link = $this->redhelper->sslLink($link);
 			}
 			else
 			{
-				$link = 'index.php?option=' . $option . '&view=user';
+				$link = 'index.php?option=com_redshop&view=user';
 				$link = $this->redhelper->sslLink($link, 0);
 			}
 		}
@@ -96,11 +95,11 @@ class user_detailController extends JController
 		if ($shipping)
 		{
 			$info_id = JRequest::getVar('info_id', '', 'request', 'int');
-			$this->setRedirect('index.php?option=' . $option . '&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=user', $msg);
 		}
 	}
 
@@ -123,7 +122,7 @@ class user_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_USER_DETAIL_PUBLISHED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=user', $msg);
 	}
 
 	public function unpublish()
@@ -145,7 +144,7 @@ class user_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_USER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=user', $msg);
 	}
 
 	public function cancel()
@@ -158,11 +157,11 @@ class user_detailController extends JController
 
 		if ($shipping)
 		{
-			$link = 'index.php?option=' . $option . '&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
 		}
 		else
 		{
-			$link = 'index.php?option=' . $option . '&view=user';
+			$link = 'index.php?option=com_redshop&view=user';
 		}
 
 		// Not to apply ssl (passed Zero)
@@ -174,7 +173,7 @@ class user_detailController extends JController
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$user_id = JRequest::getVar('user_id', 0, 'request', 'string');
-		$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id);
+		$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id);
 	}
 
 	public function validation()

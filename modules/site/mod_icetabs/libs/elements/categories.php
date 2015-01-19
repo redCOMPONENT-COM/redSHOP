@@ -33,7 +33,7 @@ class JFormFieldCategories extends JFormField
 		$options    = $db->loadObjectList();
 		$categories = array();
 
-		$categories[0]        = new stdClass();
+		$categories[0]        = new stdClass;
 		$categories[0]->value = '';
 		$categories[0]->text  = JText::_("---------- Select All ----------");
 		$options              = array_merge($categories, $options);

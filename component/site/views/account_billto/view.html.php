@@ -3,17 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperExtra_field');
 
-class Account_billtoViewaccount_billto extends JView
+class RedshopViewAccount_billto extends RedshopView
 {
 	/**
 	 * Execute and display a template script.
@@ -49,16 +48,16 @@ class Account_billtoViewaccount_billto extends JView
 			$auth = $session->get('auth');
 		}
 
-		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
+		JHtml::_('redshopjquery.framework');
+		JHtml::script('com_redshop/jquery.validate.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/registration.js', false, true);
+		JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 
@@ -68,9 +67,11 @@ class Account_billtoViewaccount_billto extends JView
 		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id);
 		$lists['extra_field_company']   = $extra_field->list_all_field(8, @$billingaddresses->users_info_id);
 
+		$requestUrl = $uri->toString();
+
 		$this->lists            = $lists;
 		$this->billingaddresses = $billingaddresses;
-		$this->request_url      = $uri->toString();
+		$this->request_url      = JFilterOutput::cleanText($requestUrl);
 		$this->params           = $params;
 
 		parent::display($tpl);

@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class shipping_box_detailVIEWshipping_box_detail extends JView
+class RedshopViewShipping_box_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -25,10 +24,6 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_BOX'), 'redshop_templates48');
 
 		$uri = JFactory::getURI();
-
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
-		$this->pane = $pane;
 
 		$this->setLayout('default');
 

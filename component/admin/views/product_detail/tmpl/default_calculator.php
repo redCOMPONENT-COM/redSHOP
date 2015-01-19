@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 $remove_format = JHtml::$formatOptions;
 
@@ -21,7 +21,7 @@ $lists['discount_calc_oprand'] = str_replace($remove_format['format.eol'], "", $
 
 unset($options);
 
-$model = $this->getModel();
+$model = $this->getModel('product_detail');
 $stockrooms = $model->StockRoomList();
 ?>
 
@@ -131,7 +131,16 @@ $stockrooms = $model->StockRoomList();
 							<?php echo $this->lists['discount_calc_method'];?>
 						</td>
 					</tr>
-
+					<tr>
+						<td class="key">
+							<label for="allow_decimal_piece">
+								<?php echo JText::_('COM_REDSHOP_ALLOW_DECIMAL_PIECE');?>
+							</label>
+						</td>
+						<td>
+							<?php echo $this->lists['allow_decimal_piece'];?>
+						</td>
+					</tr>
 					<tr>
 						<td class="key">
 							<label for="use_range">

@@ -3,15 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class wishlistViewwishlist extends JView
+class RedshopViewWishlist extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -31,15 +30,11 @@ class wishlistViewwishlist extends JView
 		$pageheadingtag = '';
 
 		$params   = $app->getParams('com_redshop');
-		$document = JFactory::getDocument();
-		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 
-		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
-
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::_('redshopjquery.framework');
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/redbox.js', false, true);
 		$model = $this->getModel("wishlist");
 
 		$wishlist          = $model->getUserWishlist();

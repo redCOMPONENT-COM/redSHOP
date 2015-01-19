@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
-class categoryViewcategory extends JView
+class RedshopViewCategory extends RedshopView
 {
 	/**
 	 * The current user.
@@ -36,14 +35,11 @@ class categoryViewcategory extends JView
 		$context = 'category_id';
 
 		$redTemplate = new Redtemplate;
-		$product_category = new product_category;
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_REDSHOP_CATEGORY'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'redshop_categories48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'folder redshop_categories48');
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

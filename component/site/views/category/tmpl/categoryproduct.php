@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,7 +45,7 @@ else
 	$template_desc .= "<tr><td><div class='category_product_readmore'>{read_more}</div></td></tr>";
 	$template_desc .= "<tr><td><div class='category_product_addtocart'>{attribute_template:attributes}</div></td></tr>";
 	$template_desc .= "<tr><td><div class='category_product_addtocart'>{form_addtocart:add_to_cart1}</div></td></tr></tbody></table></div></div>";
-	$template_desc .= "{product_loop_end}</div></div><p>{category_loop_end}</p><div class='category_pagination'>{pagination}</div></div>";
+	$template_desc .= "{product_loop_end}</div></div><p>{category_loop_end}</p><div class='pagination'>{pagination}</div></div>";
 }
 
 if (count($this->detail) <= 0)
@@ -485,10 +485,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				// Replace compare product button.
 				$prddata_add = $producthelper->replaceCompareProductsButton($product->product_id, $this->catid, $prddata_add);
 
-				if (strstr($prddata_add, "{stockroom_detail}"))
-				{
-					$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
-				}
+				$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
 
 				// Checking for child products.
 				$childproduct = $producthelper->getChildProduct($product->product_id);

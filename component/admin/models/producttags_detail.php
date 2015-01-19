@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class producttags_detailModelproducttags_detail extends JModel
+class RedshopModelProducttags_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -83,7 +82,7 @@ class producttags_detailModelproducttags_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('product_tags');
+		$row = $this->getTable('product_tags');
 
 		if (!$row->bind($data))
 		{
@@ -111,7 +110,7 @@ class producttags_detailModelproducttags_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags WHERE tags_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -122,7 +121,7 @@ class producttags_detailModelproducttags_detail extends JModel
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags_xref WHERE tags_id IN ( ' . $cids . ' )';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -145,7 +144,7 @@ class producttags_detailModelproducttags_detail extends JModel
 				. ' WHERE tags_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

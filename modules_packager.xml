@@ -6,96 +6,171 @@
 <!--    Change the following variables in build.properties file          -->
 <!--            (copy variables from build.properties.dist )             -->
 <!--    - change the version in variable comp.version                    -->
-<!--    - change the source folder path in variable repo.dir             -->
 <!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->
 
-<project name="modules packager" basedir="." default="main">
+<project name="modules packager" basedir="." default="pack">
+    <!-- ============================================  -->
+    <!-- Create packages folder                        -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <if>
+            <not>
+                <isset property="package.dir" />
+            </not>
+            <then>
+                <fail msg="package.dir not specified, specify package.dir in build.properties file" />
+            </then>
+        </if>
 
-    <!-- Do initialization stuff -->
-    <property file="build.properties" override="true"/>
+        <!-- Folder where the redSHOP repository is located  -->
+        <property
+                name="extpath"
+                value="."
+                override="true"/>
 
-    <!-- Folder where the redSHOP repository modules are located  -->
-    <property
-            name="extpath"
-            value="${repo.dir}/modules/"
-            override="true" />
+        <xmlproperty file="${extpath}/${extension}.xml" prefix="extensionDetails" keepRoot="false" />
 
-    <!-- Target dir where module packages will be created  -->
-    <property
-            name="targetdir"
-            value="${package.dir}/redCOMPONENT-modules/"
-            override="true" />
+        <property
+                name="version"
+                value="${extensionDetails.version}"
+                override="true"/>
 
-    <!-- Version of the redSHOP for witch the module is intended to  -->
-    <property
-            name="version"
-            value="${comp.version}"
-            override="true" />
+        <!-- Temp dir to create packages -->
+        <property
+                name="tmpdir"
+                value=".tmp"
+                override="true"/>
 
-    <!-- Version of the redSHOP for witch the module is intended to  -->
-    <property
-            name="joomla_version"
-            value="25"
-            override="true" />
-
-    <!-- MAIN -->
-    <target name="main" description="Loops through folders creating module packages">
-
-        <!-- Cleanup build area -->
-        <delete dir="${targetdir}" />
-        <mkdir dir="${targetdir}" />
-
-        <!-- Generate site modules packages -->
-        <foreach param="dirname" absparam="absname" target="site_modules">
-            <fileset dir="${extpath}/site/">
-                <type type="dir" />
-                <depth max="0" min="0" />
-            </fileset>
-        </foreach>
-
-        <!-- Generate site modules packages -->
-        <foreach param="dirname" absparam="absname" target="admin_modules">
-            <fileset dir="${extpath}/admin/">
-                <type type="dir" />
-                <depth max="0" min="0" />
-            </fileset>
-        </foreach>
-
+        <!-- Check if the temp folder exists. If not, create it -->
+        <if>
+            <available file="${tmpdir}" type="dir"/>
+            <then>
+                <echo msg="Removing old ${tmpdir}"/>
+                <delete dir="${tmpdir}"/>
+            </then>
+        </if>
+        <echo msg="Making directory to store the temporary packages at ${tmpdir}"/>
+        <mkdir dir="${tmpdir}"/>
     </target>
 
-    <target name="subtask">
-        <echo msg="${dirname} ${absname}" />
-    </target>
+    <!-- ============================================  -->
+    <!-- Target: build                                 -->
+    <!-- ============================================  -->
+    <!-- Loops through folders creating module packages -->
 
+    <target name="build" depends="prepare">
+    	<mkdir dir="${tmpdir}/site" />
+    	<mkdir dir="${tmpdir}/admin" />
 
-    <target name="site_modules" description="Packages the extension for delivery">
+		<!-- Generate site modules packages -->
+		<foreach param="dirname" target="site_modules">
+			<fileset dir="${extpath}/modules/site/">
+				<type type="dir" />
+				<depth max="0" min="0" />
+			</fileset>
+		</foreach>
 
-        <mkdir dir="${targetdir}/site/${dirname}" />
+		<!-- Generate site modules packages -->
+		<foreach param="dirname" target="admin_modules">
+			<fileset dir="${extpath}/modules/admin/">
+				<type type="dir" />
+				<depth max="0" min="0" />
+			</fileset>
+		</foreach>
 
-        <zip
-                destfile="${targetdir}/site/${dirname}/${dirname}_${version}_${joomla_version}j.zip"
-                basedir="${extpath}/site/${dirname}">
-            <fileset dir="${extpath}/site/${dirname}">
-                <include name="**" />
-                <exclude name=".*" />
+		<if>
+			<available file="${package.dir}/${extension}-${version}-modules" type="dir" />
+			<then>
+		        <delete dir="${package.dir}/${extension}-${version}-modules"/>
+			</then>
+		</if>
+
+        <copy todir="${package.dir}/${extension}-${version}-modules/site">
+            <fileset dir="${tmpdir}/site">
+                <include name="*.zip" />
             </fileset>
-        </zip>
-    </target>
+        </copy>
 
-    <target name="admin_modules" description="Packages the extension for delivery">
-
-        <mkdir dir="${targetdir}/admin/${dirname}" />
-
-        <zip
-                destfile="${targetdir}/admin/${dirname}/${dirname}_${version}_${joomla_version}j.zip"
-                basedir="${extpath}/admin/${dirname}">
-            <fileset dir="${extpath}/admin/${dirname}">
-                <include name="**" />
-                <exclude name=".*" />
+        <copy todir="${package.dir}/${extension}-${version}-modules/admin">
+            <fileset dir="${tmpdir}/admin">
+                <include name="*.zip" />
             </fileset>
-        </zip>
+        </copy>
+	</target>
+
+	<target name="site_modules" description="Packages the extension for delivery">
+		<zip
+				destfile="${tmpdir}/site/${dirname}_${version}_${joomla.version}j.zip"
+				basedir="${extpath}/modules/site/${dirname}">
+			<fileset dir="${extpath}/modules/site/${dirname}">
+				<include name="**" />
+				<exclude name=".*" />
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="admin_modules" description="Packages the extension for delivery">
+		<zip
+				destfile="${tmpdir}/admin/${dirname}_${version}_${joomla.version}j.zip"
+				basedir="${extpath}/modules/admin/${dirname}">
+			<fileset dir="${extpath}/modules/admin/${dirname}">
+				<include name="**" />
+				<exclude name=".*" />
+			</fileset>
+		</zip>
+	</target>
+
+    <target name="clean-tmp">
+        <delete dir="${tmpdir}"/>
     </target>
 
+    <target name="compress-clean" depends="clean-tmp">
+        <!-- needed for external cleaning and compressing -->
+    </target>
+
+    <target name="dist" depends="build, compress-clean">
+        <echo msg="Modules build successful!"/>
+    </target>
+
+    <target name="pack">
+        <!-- Do initialization stuff -->
+        <if>
+            <not>
+                <available file="build.properties" type="file" />
+            </not>
+            <then>
+                <fail msg="File not found: build.properties" />
+            </then>
+        </if>
+
+        <property file="build.properties" override="true"/>
+
+        <property
+                name="extension"
+                value="${comp.name}"
+                override="true"/>
+
+        <phingcall target="dist" />
+    </target>
+
+    <target name="autopack">
+        <property
+                name="package.dir"
+                value=".dist"
+                override="true"/>
+
+        <property
+                name="extension"
+                value="redshop"
+                override="true"/>
+
+        <property
+                name="joomla.version"
+                value="3"
+                override="true"/>
+
+        <phingcall target="dist" />
+    </target>
 </project>

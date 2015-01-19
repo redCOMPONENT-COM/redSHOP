@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,21 +11,15 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-jimport('joomla.html.pane');
-
 JHTMLBehavior::modal();
 
 $editor = JFactory::getEditor();
-$order_functions = new order_functions();
+$order_functions = new order_functions;
 $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 ?>
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -48,16 +42,8 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <?php
-//Get JPaneTabs instance
-$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
-
-$output = '';
-
-//Create Pane
-$output .= $myTabs->startPane('pane');
-//Create 1st Tab
-echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1');
-
+echo JHtml::_('tabs.start', 'manufacturer-pane', array('startOffset' => 0));
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'detail-tab');
 ?>
 <div class="col50">
 	<fieldset class="adminform">
@@ -162,11 +148,10 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1');
 </div>
 <div class="clr"></div>
 <?php
-echo $myTabs->endPanel();
-//Create 2nd Tab
+
 if ($this->detail->manufacturer_id != 0)
 {
-	echo  $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_IMAGES'), 'tab2');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_IMAGES'), 'images-tab');
 	?>
 	<table>
 		<tr>
@@ -217,10 +202,9 @@ if ($this->detail->manufacturer_id != 0)
 		</tr>
 	</table>
 	<?php
-	echo  $myTabs->endPanel();
 }
-//Create 3nd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
+
+echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'meta-tag-tab');
 ?>
 <table>
 	<tr>
@@ -296,11 +280,10 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 	</tr>
 </table>
 <?php
-echo  $myTabs->endPanel();
 
 if ($this->lists['extra_field'] != "")
 {
-	echo  $myTabs->startPanel(JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab2');
+	echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_EXTRA_FIELD'), 'extra-field-tab');
 	?>
 	<div class="col50">
 	<?php
@@ -313,8 +296,7 @@ else
 	echo '<input type="hidden" name="noextra_field" value="1">';
 }
 
-//End Pane
-echo $myTabs->endPane();
+echo JHtml::_('tabs.end');
 ?>
 <div class="col50">
 
