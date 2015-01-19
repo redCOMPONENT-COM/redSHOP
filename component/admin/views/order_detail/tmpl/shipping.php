@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -19,7 +19,7 @@ if (!isset($shipping->order_info_id))
 	$shipping->order_info_id = 0;
 
 $Itemid = JRequest::getVar('Itemid');
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 ?>
 <script type="text/javascript">
 
@@ -132,7 +132,7 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 						<?php echo $this->lists['country_code'];?>
 					</td>
 				</tr>
-				<tr <?php if ($this->showcountry == 0) echo " style='display:none;'";?> >
+				<tr id="div_state_txt" <?php if ($this->showstate == 0) echo " style='display:none;'";?> >
 					<td width="100" align="right" class="key">
 						<label for="address">
 							<?php echo JText::_('COM_REDSHOP_STATE'); ?>:
@@ -155,7 +155,7 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 				</tr>
 				<tr>
 					<?php
-					$field = new extra_field();
+					$field = new extra_field;
 					if ($shipping->is_company == 1)
 					{
 						echo $extrafields = $field->list_all_field(15, $shipping->users_info_id);

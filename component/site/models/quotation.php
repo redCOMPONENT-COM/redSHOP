@@ -3,18 +3,17 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Class quotationModelquotation
@@ -23,7 +22,7 @@ include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  * @subpackage  Model
  * @since       1.0
  */
-class quotationModelquotation extends JModel
+class RedshopModelQuotation extends RedshopModel
 {
 	public $_id = null;
 
@@ -497,7 +496,7 @@ class quotationModelquotation extends JModel
 		$user->set('gid', $authorize->get_group_id('', $newUsertype, 'ARO'));
 
 		$date = JFactory::getDate();
-		$user->set('registerDate', $date->toMySQL());
+		$user->set('registerDate', $date->toSql());
 
 		$useractivation = $usersConfig->get('useractivation');
 

@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class attributepricesViewattributeprices extends JView
+class RedshopViewAttributeprices extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -28,8 +27,8 @@ class attributepricesViewattributeprices extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'), 'redshop_vatrates48');
 
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		$uri = JFactory::getURI();
 
@@ -41,7 +40,6 @@ class attributepricesViewattributeprices extends JView
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->user = JFactory::getUser();
-		$this->lists = $lists;
 		$this->data = $data;
 		$this->section_id = $section_id;
 		$this->section = $section;

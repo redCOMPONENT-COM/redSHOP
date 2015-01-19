@@ -3,19 +3,18 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
-class order_detailVIEWorder_detail extends JView
+class RedshopViewOrder_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -34,7 +33,7 @@ class order_detailVIEWorder_detail extends JView
 
 		$uri = JFactory::getURI();
 
-		// Load language file
+		// Load payment plugin language file
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 
 		$language = JFactory::getLanguage();
@@ -47,14 +46,20 @@ class order_detailVIEWorder_detail extends JView
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
 
+		// Load Shipping plugin language files
+		$shippingPlugins = JPluginHelper::getPlugin("redshop_shipping");
+
+		for ($l = 0; $l < count($shippingPlugins); $l++)
+		{
+			$extension = 'plg_redshop_shipping_' . strtolower($shippingPlugins[$l]->name);
+			$language->load($extension, $base_dir);
+		}
+
 		$layout = JRequest::getVar('layout');
-		$document->addScript('components/' . $option . '/assets/js/order.js');
-		$document->addScript('components/' . $option . '/assets/js/common.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/order.js');
+		$document->addScript('components/com_redshop/assets/js/common.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/json.js');
 
 		$lists = array();
 
@@ -95,6 +100,27 @@ class order_detailVIEWorder_detail extends JView
 			$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
 			$showstate = ($statearray['is_states'] <= 0) ? 0 : 1;
 
+			$isCompany = array();
+			$isCompany[0] = new stdClass;
+			$isCompany[0]->value = 0;
+			$isCompany[0]->text = JText::_('COM_REDSHOP_USER_CUSTOMER');
+			$isCompany[1] = new stdClass;
+			$isCompany[1]->value = 1;
+			$isCompany[1]->text = JText::_('COM_REDSHOP_USER_COMPANY');
+			$lists['is_company'] = JHTML::_(
+				'select.genericlist',
+				$isCompany,
+				'is_company',
+				'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
+				'value',
+				'text',
+				$billing->is_company
+			);
+
+			$lists['tax_exempt'] = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $billing->tax_exempt);
+			$lists['tax_exempt_approved']     = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $billing->tax_exempt_approved);
+			$lists['requesting_tax_exempt']   = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $billing->requesting_tax_exempt);
+
 			$this->showcountry = $showcountry;
 			$this->showstate = $showstate;
 		}
@@ -119,17 +145,8 @@ class order_detailVIEWorder_detail extends JView
 		$isNew = ($detail->order_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_order48');
-
-		$redhelper = new redhelper;
-		$backlink = 'index.php?option=com_redshop&view=order';
-		$backlink = $redhelper->sslLink($backlink, 0);
-		$new_link = 'index.php?option=com_redshop&view=order';
-		JToolBarHelper::back(JText::_('COM_REDSHOP_ORDERLIST'), 'javascript:location.href=\'' . $new_link . '\';');
-
-		// Section can be added from here
-		$option = array();
-		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_order48');
+		JToolBarHelper::cancel('cancel', JText::_('COM_REDSHOP_ORDERLIST'));
 
 		$this->lists = $lists;
 		$this->detail = $detail;

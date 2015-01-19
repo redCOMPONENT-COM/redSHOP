@@ -3,18 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/media.php';
+JLoader::load('RedshopHelperAdminMedia');
 
-class mediaModelmedia extends JModel
+class RedshopModelMedia extends RedshopModel
 {
 	public $_data = null;
 
@@ -210,7 +209,7 @@ class mediaModelmedia extends JModel
 				$basePath = REDSHOP_FRONT_IMAGES_RELPATH;
 			}
 
-			$mediaBase = str_replace(DS, '/', REDSHOP_FRONT_IMAGES_RELPATH);
+			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', REDSHOP_FRONT_IMAGES_RELPATH);
 		}
 		else
 		{
@@ -223,7 +222,7 @@ class mediaModelmedia extends JModel
 				$basePath = PRODUCT_DOWNLOAD_ROOT;
 			}
 
-			$mediaBase = str_replace(DS, '/', PRODUCT_DOWNLOAD_ROOT . '/');
+			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', PRODUCT_DOWNLOAD_ROOT . '/');
 		}
 
 		$images = array();
@@ -243,7 +242,7 @@ class mediaModelmedia extends JModel
 				{
 					$tmp = new JObject;
 					$tmp->name = $file;
-					$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $file));
+					$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
@@ -332,7 +331,7 @@ class mediaModelmedia extends JModel
 			{
 				$tmp = new JObject;
 				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $folder));
+				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 				$count = $mediaHelper->countFiles($tmp->path);
 				$tmp->files = $count[0];
@@ -349,7 +348,7 @@ class mediaModelmedia extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('media_download');
+		$row = $this->getTable('media_download');
 
 		if (!$row->bind($data))
 		{
@@ -392,7 +391,7 @@ class mediaModelmedia extends JModel
 		$query = "DELETE FROM `" . $this->_table_prefix . "media_download` WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -404,7 +403,7 @@ class mediaModelmedia extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('media_detail');
+		$row = $this->getTable('media_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
 

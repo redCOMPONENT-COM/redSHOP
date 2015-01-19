@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-require_once JPATH_BASE . '/components/com_redshop/helpers/configuration.php';
+JLoader::load('RedshopHelperAdminConfiguration');
 
-class wizardController extends JController
+class RedshopControllerWizard extends RedshopController
 {
 	public $_temp_file = null;
 

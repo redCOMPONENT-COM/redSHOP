@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/text_library.php';
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminText_library');
+JLoader::load('RedshopHelperAdminImages');
 
-class newsletterModelnewsletter extends JModel
+class RedshopModelNewsletter extends RedshopModel
 {
 	public $_data = null;
 
@@ -302,8 +301,9 @@ class newsletterModelnewsletter extends JModel
 
 	public function order_user($uid)
 	{
-		$number_order = JRequest::getVar('number_order');
-		$oprand = JRequest::getVar('oprand', 'select');
+		$jInput = JFactory::getApplication()->input;
+		$number_order = $jInput->getInt('number_order', 0);
+		$oprand = $jInput->getCmd('oprand', 'select');
 
 		$start = JRequest::getVar('total_start', '');
 		$end = JRequest::getVar('total_end', '');
@@ -313,14 +313,24 @@ class newsletterModelnewsletter extends JModel
 		{
 			$order_total = " or order_total between " . $start . " and " . $end;
 		}
-		if ($oprand != 'select')
+
+		switch ($oprand)
 		{
-			$cond = $oprand . $number_order;
+			case 'more':
+				$cond = '>=' . $number_order;
+				break;
+			case 'less':
+				$cond = '<=' . $number_order;
+				break;
+			case 'select':
+				$cond = "=" . $this->_db->quote('');
+				break;
+			case 'equally':
+			default:
+				$cond = '=' . $number_order;
+				break;
 		}
-		else
-		{
-			$cond = "=" . "''";
-		}
+
 		$query = "SELECT COUNT(*) AS total,order_total FROM " . $this->_table_prefix . "orders "
 			. "GROUP BY user_id "
 			. "HAVING total " . $cond . $order_total . " AND user_id =" . $uid;
@@ -531,7 +541,7 @@ class newsletterModelnewsletter extends JModel
 					. "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  "
 					. "VALUES ('', '" . $newsletter_id . "', '" . $cid[$j] . "', '" . $username[$j] . "', '" . $userid[$j] . "',0, '" . $today . "')";
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id='
 					. $db->insertid() . '" style="display:none;" />';
 
@@ -546,7 +556,7 @@ class newsletterModelnewsletter extends JModel
 
 				if ($subscribe_email != "")
 				{
-					if (JUtility::sendMail($mailfrom, $fromname, $subscribe_email, $subject, $message, 1))
+					if (JMail::getInstance()->sendMail($mailfrom, $fromname, $subscribe_email, $subject, $message, 1))
 					{
 						$retsubscriberid[$j] = 1;
 					}

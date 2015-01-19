@@ -3,17 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
-class searchViewsearch extends JView
+class RedshopViewSearch extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -36,21 +35,19 @@ class searchViewsearch extends JView
 			$document->setTitle($pagetitle);
 		}
 
-		$document = JFactory::getDocument();
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		if (AJAX_CART_BOX == 0)
 		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
 		}
 
 		// Ajax cart javascript
 		if (AJAX_CART_BOX == 1)
 		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
 		}
 
 		if ($layout == 'redfilter')
@@ -101,7 +98,7 @@ class searchViewsearch extends JView
 			{
 				$mypid = JRequest::getInt('pid', 0);
 
-				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
 			}
 		}
 
@@ -127,6 +124,7 @@ class searchViewsearch extends JView
 		$this->search = $search;
 		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
+		JFilterOutput::cleanText($this->request_url);
 		parent::display($tpl);
 	}
 
@@ -139,10 +137,10 @@ class searchViewsearch extends JView
 		{
 			$app = JFactory::getApplication();
 
-			require_once JPATH_COMPONENT . '/helpers/product.php';
-			require_once JPATH_COMPONENT . '/helpers/pagination.php';
-			require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+			JLoader::load('RedshopHelperProduct');
+			JLoader::load('RedshopHelperPagination');
+			JLoader::load('RedshopHelperExtra_field');
+			JLoader::load('RedshopHelperAdminText_library');
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;
@@ -152,16 +150,16 @@ class searchViewsearch extends JView
 			$texts            = new text_library;
 			$stockroomhelper  = new rsstockroomhelper;
 
-			$Itemid      = JRequest::getInt('Itemid');
-			$search_type = JRequest::getCmd('search_type');
-			$cid         = JRequest::getInt('category_id');
+			$Itemid         = JRequest::getInt('Itemid');
+			$search_type    = JRequest::getCmd('search_type');
+			$cid            = JRequest::getInt('category_id');
+			$manufacture_id = JRequest::getInt('manufacture_id');
 
 			$manisrch       = $this->search;
-			$manufacture_id = $manisrch[0]->manufacturer_id;
 			$templateid     = JRequest::getInt('templateid');
 
 			// Cmd removes space between to words
-			$keyword        = JRequest::getWord('keyword');
+			$keyword        = JRequest::getString('keyword');
 			$layout         = JRequest::getCmd('layout', 'default');
 
 			$db    = JFactory::getDbo();
@@ -211,7 +209,7 @@ class searchViewsearch extends JView
 			}
 			else
 			{
-				$template_desc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"category_main_description\">{category_main_description}</div>\r\n<p>{if subcats} {category_loop_start}</p>\r\n<div id=\"categories\">\r\n<div style=\"float: left; width: 200px;\">\r\n<div class=\"category_image\">{category_thumb_image}</div>\r\n<div class=\"category_description\">\r\n<h2 class=\"category_title\">{category_name}</h2>\r\n{category_description}</div>\r\n</div>\r\n</div>\r\n<p>{category_loop_end} {subcats end if}</p>\r\n<div style=\"clear: both;\"></div>\r\n<div id=\"category_header\">\r\n<div class=\"category_order_by\">{order_by}</div>\r\n</div>\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n<div>{product_rating_summary}</div>\r\n<div class=\"category_product_addtocart\">{form_addtocart:add_to_cart1}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n</div>\r\n<div class=\"category_pagination\">{pagination}</div>";
+				$template_desc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"category_main_description\">{category_main_description}</div>\r\n<p>{if subcats} {category_loop_start}</p>\r\n<div id=\"categories\">\r\n<div style=\"float: left; width: 200px;\">\r\n<div class=\"category_image\">{category_thumb_image}</div>\r\n<div class=\"category_description\">\r\n<h2 class=\"category_title\">{category_name}</h2>\r\n{category_description}</div>\r\n</div>\r\n</div>\r\n<p>{category_loop_end} {subcats end if}</p>\r\n<div style=\"clear: both;\"></div>\r\n<div id=\"category_header\">\r\n<div class=\"category_order_by\">{order_by}</div>\r\n</div>\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n<div>{product_rating_summary}</div>\r\n<div class=\"category_product_addtocart\">{form_addtocart:add_to_cart1}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n</div>\r\n<div class=\"pagination\">{pagination}</div>";
 			}
 
 			if (strstr($template_desc, "{product_display_limit}"))
@@ -250,6 +248,23 @@ class searchViewsearch extends JView
 				$print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
 			}
 
+			if (strstr($template_org, '{compare_product_div}'))
+			{
+				$compareProductDiv = '';
+
+				if (PRODUCT_COMPARISON_TYPE != '')
+				{
+					$compareDiv = $producthelper->makeCompareProductDiv();
+					$compareUrl = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid);
+					$compareProductDiv = '<form name="frmCompare" method="post" action="' . $compareUrl . '" >';
+					$compareProductDiv .= '<a href="javascript:compare();" >' . JText::_('COM_REDSHOP_COMPARE') . '</a>';
+					$compareProductDiv .= '<div id="divCompareProduct">' . $compareDiv . '</div>';
+					$compareProductDiv .= '</form>';
+				}
+
+				$template_org = str_replace('{compare_product_div}', $compareProductDiv, $template_org);
+			}
+
 			// Skip html if nosubcategory
 			if (strstr($template_org, "{if subcats}"))
 			{
@@ -280,6 +295,8 @@ class searchViewsearch extends JView
 			$template_org = str_replace("{redproductfinderfilter_formstart}", '', $template_org);
 			$template_org = str_replace("{redproductfinderfilter:rp_myfilter}", '', $template_org);
 			$template_org = str_replace("{redproductfinderfilter_formend}", '', $template_org);
+			$template_org = str_replace("{total_product}", $total, $template_org);
+			$template_org = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $template_org);
 
 			// Replace redproductfilder filter tag
 			if (strstr($template_org, "{redproductfinderfilter:"))
@@ -357,6 +374,7 @@ class searchViewsearch extends JView
 			$tagarray            = $texts->getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
+			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 
 			for ($i = 0; $i < count($this->search); $i++)
 			{
@@ -461,7 +479,7 @@ class searchViewsearch extends JView
 
 					if (count($related_product) > 0)
 					{
-						$linktortln = JUri::root() . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
+						$linktortln = JURI::root() . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
 						$rtlna      = '<a class="modal" href="' . $linktortln . '" rel="{handler:\'iframe\',size:{x:' . $rtlnfwidth . ',y:' . $rtlnfheight . '}}" >' . JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX') . '</a>';
 					}
 					else
@@ -530,7 +548,7 @@ class searchViewsearch extends JView
 
 						if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 						{
-							$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
+							$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 							$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 							$more_doc .= $alttext;
 							$more_doc .= "</a></div>";
@@ -625,7 +643,6 @@ class searchViewsearch extends JView
 
 				// ProductFinderDatepicker Extra Field Start
 
-				$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 				$data_add   = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
 
 				// ProductFinderDatepicker Extra Field End
@@ -637,15 +654,8 @@ class searchViewsearch extends JView
 
 				if ($manufacturer_id != 0)
 				{
-					$manufacturer_data      = $producthelper->getSection("manufacturer", $manufacturer_id);
 					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid);
-					$manufacturer_name      = "";
-
-					if (count($manufacturer_data) > 0)
-					{
-						$manufacturer_name = $manufacturer_data->manufacturer_name;
-					}
-
+					$manufacturer_name = $this->search[$i]->manufacturer_name;
 					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
 
 					if (strstr($data_add, "{manufacturer_link}"))
@@ -674,9 +684,7 @@ class searchViewsearch extends JView
 				$data_add = $producthelper->replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
 
 				// Checking for child products
-				$childproduct = $producthelper->getChildProduct($this->search[$i]->product_id);
-
-				if (count($childproduct) > 0)
+				if ($this->search[$i]->count_child_products > 0)
 				{
 					$isChilds   = true;
 					$attributes = array();
@@ -727,14 +735,15 @@ class searchViewsearch extends JView
 				'order_by'       => $getorderby,
 				'category_id'    => $cid,
 				'Itemid'         => $Itemid,
-				'limit'          => $limit
+				'limit'          => $limit,
+				'search_type'    => $search_type
 			);
 			$router->setVars($vars);
 			unset($vars);
 
 			if (strstr($template_org, "{pagination}"))
 			{
-				$pagination = new redPagination($total_product, $start, $endlimit);
+				$pagination = new JPagination($total_product, $start, $endlimit);
 				$slidertag  = $pagination->getPagesLinks();
 
 				if (strstr($template_org, "{product_display_limit}"))

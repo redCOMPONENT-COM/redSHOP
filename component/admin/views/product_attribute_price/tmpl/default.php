@@ -3,15 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 $option = JRequest::getVar('option', '', 'request', 'string');?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		{
 			var form = document.adminForm2;
 			if (pressbutton) {
@@ -23,21 +20,21 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm2" id="adminForm2">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_NAME'); ?></th>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_QUANTITY_END_LBL'); ?></th>
-				<th width="15%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>&nbsp;&nbsp;<img
-						style="cursor:pointer" src="images/filesave.png" onclick="Joomla.submitbutton('saveprice')">
+				<th width="15%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
+					<a class="saveorder" onclick="Joomla.submitbutton('saveprice')" href="#"></a>
 				</th>
 			</tr>
 			</thead>
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->prices); $i++)
 			{
-				$row = & $this->prices[$i];
+				$row = $this->prices[$i];
 				$row->id = $row->price_id;
 				//$product_id = $row->product_id;
 				?>

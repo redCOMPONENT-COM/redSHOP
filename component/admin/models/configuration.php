@@ -3,20 +3,19 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/text_library.php';
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminText_library');
+JLoader::load('RedshopHelperAdminImages');
 
-class configurationModelconfiguration extends JModel
+class RedshopModelConfiguration extends RedshopModel
 {
 	public $_id = null;
 
@@ -41,29 +40,6 @@ class configurationModelconfiguration extends JModel
 		$this->_configpath = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 	}
 
-	public function cleanFileName($name, $id = null)
-	{
-		$filetype = JFile::getExt($name);
-		$values = preg_replace("/[&'#]/", "", $name);
-
-
-		$valuess = str_replace('_', 'and', $values);
-
-		if (strlen($valuess) == 0)
-		{
-			$valuess = $id;
-			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $valuess) . "." . $filetype;
-		}
-		else
-		{
-			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $valuess);
-		}
-
-		return $filename;
-	}
-
 	public function store($data)
 	{
 		// Product Default Image upload
@@ -75,7 +51,7 @@ class configurationModelconfiguration extends JModel
 
 			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
 			{
-				$data["product_default_image"] = $this->cleanFileName($productImg['name'], 'productdefault');
+				$data["product_default_image"] = RedShopHelperImages::cleanFileName($productImg['name'], 'productdefault');
 
 				$src = $productImg['tmp_name'];
 
@@ -99,7 +75,7 @@ class configurationModelconfiguration extends JModel
 
 			if ($filetype == 'gif' || $filetype == 'png')
 			{
-				$data["watermark_image"] = $this->cleanFileName($watermarkImg['name'], 'watermark');
+				$data["watermark_image"] = RedShopHelperImages::cleanFileName($watermarkImg['name'], 'watermark');
 
 				$src = $watermarkImg['tmp_name'];
 
@@ -123,7 +99,7 @@ class configurationModelconfiguration extends JModel
 
 			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
 			{
-				$logoname = $this->cleanFileName($default_portalLogo['name']);
+				$logoname = RedShopHelperImages::cleanFileName($default_portalLogo['name']);
 				$data["default_portal_logo"] = $logoname;
 				$src = $default_portalLogo['tmp_name'];
 
@@ -606,7 +582,7 @@ class configurationModelconfiguration extends JModel
 
 		$sql = "delete from #__redirection where id in ('" . $redirect . "') ";
 		$this->_db->setQuery($sql);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return (count($result1));
 	}
@@ -793,13 +769,13 @@ class configurationModelconfiguration extends JModel
 			. "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  "
 			. "VALUES ('', '" . $newsletter_id . "', '0', '" . $name . "', '0',0, '" . $today . "')";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" />';
 		$content .= str_replace("{username}", $name[0], $data1);
 		$content = str_replace("{email}", $to, $content);
 
-		if (JUtility::sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
+		if (JMail::getInstance()->sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
 		{
 			return true;
 		}
@@ -918,7 +894,7 @@ class configurationModelconfiguration extends JModel
 
 		for ($i = 0; $i < count($list); $i++)
 		{
-			$data = & $list[$i];
+			$data = $list[$i];
 
 			$red_template = new Redtemplate;
 			$tname = $data->template_name;

@@ -3,18 +3,18 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-include_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperExtra_field');
 
 $producthelper   = new producthelper;
 $quotationHelper = new quotationHelper;
@@ -313,9 +313,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 
 	if (count($orderslist) > 0)
 	{
-		$ordermoreurl_1 = JRoute::_('index.php?option=com_redshop&view=orders&Itemid=' . $Itemid);
-		$ordermoreurl   = strtolower($ordermoreurl_1);
-
+		$ordermoreurl = JRoute::_('index.php?option=com_redshop&view=orders&Itemid=' . $Itemid);
 		$template_desc = str_replace('{more_orders}', "<a href='" . $ordermoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $template_desc);
 	}
 	else

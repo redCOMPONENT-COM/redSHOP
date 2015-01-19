@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,10 +17,14 @@ class statistic
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_db           = JFactory::getDbo();
-		statistic::reshop_visitors();
-		statistic::reshop_pageview();
+
+		// Add entry to statistics if Statistics is enabled in configuration
+		if (STATISTICS_ENABLE)
+		{
+			$this->reshop_visitors();
+			$this->reshop_pageview();
+		}
 	}
 
 	public function reshop_visitors()
@@ -30,7 +34,7 @@ class statistic
 		$sid  = session_id();
 		$user = JFactory::getUser();
 
-		$q = "SELECT * FROM " . $this->_table_prefix . "siteviewer "
+		$q = "SELECT * FROM #__redshop_siteviewer "
 			. "WHERE session_id = " . $db->quote($sid);
 		$this->_db->setQuery($q);
 		$data = $this->_db->loadObjectList();
@@ -38,12 +42,12 @@ class statistic
 
 		if (!count($data))
 		{
-			$query = "INSERT INTO " . $this->_table_prefix . "siteviewer "
+			$query = "INSERT INTO #__redshop_siteviewer "
 				. "(session_id, user_id, created_date) "
 				. "VALUES (" . $db->quote($sid) . ", " . (int) $user->id . "," . (int) $date . ")";
 			$this->_db->setQuery($query);
 
-			if ($this->_db->query())
+			if ($this->_db->execute())
 			{
 				return true;
 			}
@@ -76,7 +80,7 @@ class statistic
 
 		if ($section != "")
 		{
-			$q = "SELECT * FROM " . $this->_table_prefix . "pageviewer "
+			$q = "SELECT * FROM #__redshop_pageviewer "
 				. "WHERE session_id = " . $db->quote($sid) . " "
 				. "AND section = " . $db->quote($view) . " "
 				. "AND section_id = " . (int) $sectionid;
@@ -88,12 +92,12 @@ class statistic
 
 			if (!count($data))
 			{
-				$query = "INSERT INTO " . $this->_table_prefix . "pageviewer "
+				$query = "INSERT INTO #__redshop_pageviewer "
 					. "(session_id, user_id, section, section_id, created_date) "
 					. "VALUES (" . $db->quote($sid) . "," . (int) $user->id . "," . $db->quote($view) . "," . (int) $sectionid . "," . (int) $date . ")";
 				$this->_db->setQuery($query);
 
-				if ($this->_db->query())
+				if ($this->_db->execute())
 				{
 					return true;
 				}

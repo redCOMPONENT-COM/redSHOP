@@ -16,7 +16,7 @@
      class="ice-tabs-black<?php echo $params->get('moduleclass_sfx', ''); ?> <?php echo $class; ?>-sl-black clearfix"
      style="height:<?php echo $moduleHeight; ?>; width:<?php echo $moduleWidth; ?>">
 	<?php if ($class && $class != 'ice-bottom') : ?>
-		<?php require(dirname(__FILE__) . '/_navigator.php'); ?>
+		<?php require dirname(__FILE__) . '/_navigator.php'; ?>
 	<?php endif; ?>
 	<div class="ice-main-wapper"
 	     style="height:<?php echo (int) $params->get('main_height', 300); ?>px;width:<?php echo (int) $params->get('main_width', 650); ?>px;<?php echo $maincss; ?>">
@@ -33,6 +33,6 @@
 		<?php endif; ?>
 	</div>
 	<?php if ($class && $class == 'ice-bottom') : ?>
-		<?php require(dirname(__FILE__) . '/_navigator.php'); ?>
+		<?php require dirname(__FILE__) . '/_navigator.php'; ?>
 	<?php endif; ?>
 </div>

@@ -3,14 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 JHTMLBehavior::modal();
 $app = JFactory::getApplication();
-$productobj = new producthelper();
+$productobj = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
@@ -21,9 +21,6 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -44,7 +41,7 @@ $tmpCats = array();
 $n = count($this->products);
 for ($i = $this->pagination->limitstart, $j = 0; $i < ($this->pagination->limitstart + $this->pagination->limit); $i++, $j++)
 {
-	$row = & $this->products[$j];
+	$row = $this->products[$j];
 	if (!is_object($row))
 	{
 		break;
@@ -83,7 +80,7 @@ if ($this->pagination->limit > 0)
 	</tr>
 </table>
 <form
-	action="<?php echo 'index.php?option=' . $option . '&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
+	action="<?php echo 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
 	method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist">
@@ -93,8 +90,7 @@ if ($this->pagination->limit > 0)
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->products); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -122,9 +118,9 @@ if ($this->pagination->limit > 0)
 
 			for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			{
-				$row = & $this->products[$i];
+				$row = $this->products[$i];
 				$row->id = $row->product_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -170,6 +166,11 @@ if ($this->pagination->limit > 0)
 
 			<tfoot>
 			<td colspan="13">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

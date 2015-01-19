@@ -3,23 +3,18 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class stockimage_detailVIEWstockimage_detail extends JView
+class RedshopViewStockimage_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL'), 'redshop_stockroom48');
-
-		$document = JFactory::getDocument();
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
@@ -46,6 +41,7 @@ class stockimage_detailVIEWstockimage_detail extends JView
 		$stock_option = $model->getStockAmountOption();
 		$stockroom_name = $model->getStockRoomList();
 		$op = array();
+		$op[0] = new stdClass;
 		$op[0]->value = 0;
 		$op[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$stockroom_name = array_merge($op, $stockroom_name);

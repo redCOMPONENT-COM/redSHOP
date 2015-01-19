@@ -63,7 +63,7 @@ if (!class_exists('LofSliderGroupContent'))
 			$image_quanlity      = $params->get('image_quanlity', 100);
 			$isStripedTags       = $params->get('auto_strip_tags', 0);
 			$extraURL            = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
-			require(dirname(__FILE__) . '/model.php');
+			require dirname(__FILE__) . '/model.php';
 
 			// Get an instance of the generic articles model
 			$model = JModel::getInstance('Articles', 'LofContentModel', array('ignore_request' => true));
@@ -206,7 +206,7 @@ if (!class_exists('LofSliderGroupContent'))
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
 			$db             = JFactory::getDbo();
 			$date           = JFactory::getDate();
-			$now            = $date->toMySQL();
+			$now            = $date->toSql();
 			$cparam         = JComponentHelper::getParams('com_content');
 			// make sql query
 			$query = 'SELECT a.*,cc.description as catdesc, cc.title as category_title, cc.title as cattitle,s.description as secdesc, s.title as sectitle,'

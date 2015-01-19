@@ -3,24 +3,19 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 $editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
 JHTMLBehavior::modal();
 $model = $this->getModel('newsletter_detail');
 $option = JRequest::getVar('option');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -112,7 +107,7 @@ $option = JRequest::getVar('option');
 			<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_FIXED_TAGS'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo JText::_('COM_REDSHOP_NEWSLETTER_FIXED_TAGS_HINT'); ?></td>
+					<td><?php echo Redtemplate::getTemplateValues('newsletter', 'mail'); ?></td>
 				</tr>
 			</table>
 		</fieldset>

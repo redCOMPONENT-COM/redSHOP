@@ -3,19 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTML::_('behavior.tooltip');
 $showall = JRequest::getVar('showall', '0');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -75,29 +71,11 @@ $producthelper = new producthelper();
 						<td><?php echo $this->lists['category_name'];    ?></td>
 					</tr>
 				<?php }    ?>
-				<table class="admintable">
-					<tr width="100px">
-						<td VALIGN="TOP" class="key" align="center">
-							<?php echo JText::_('COM_REDSHOP_PRODUCT'); ?> <br/><br/>
-							<input style="width: 130px" type="text" id="input" value=""/>
-
-							<div style="display:none"><?php
-								echo $this->lists['product_all'];
-								?></div>
-						</td>
-						<TD align="center">
-							<input type="button" value="-&gt;" onClick="moveRight(10);" title="MoveRight">
-							<BR><BR>
-							<input type="button" value="&lt;-" onClick="moveLeft();" title="MoveLeft">
-						</TD>
-						<TD VALIGN="TOP" align="right" class="key" style="width: 200px">
-							<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?><br/><br/>
-							<?php
-							echo $this->lists['product_name'];?>
+					<tr>
+						<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME');?></td>
+						<td><?php echo $this->lists['product_name'];?>
 						</td>
 					</tr>
-				</table>
-				<table class="admintable">
 					<tr>
 						<td width="100" align="right" class="key"
 						    valign="top"><?php echo JText::_('COM_REDSHOP_WRAPPER_IMAGE');?></td>
@@ -131,30 +109,3 @@ $producthelper = new producthelper();
 	<input type="hidden" name="view" value="wrapper_detail"/>
 	<input type="hidden" name="showall" value="<?php echo $showall; ?>"/>
 </form>
-<script type="text/javascript">
-
-	var options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&alert=wrapper&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-
-		callback: function (obj) {
-			var selTo = document.adminForm.container_product;
-			var chk_add = 1;
-			for (var i = 0; i < selTo.options.length; i++) {
-				if (selTo.options[i].value == obj.id) {
-					chk_add = 0;
-				}
-			}
-			if (chk_add == 1) {
-				var newOption = new Option(obj.value, obj.id);
-				selTo.options[selTo.options.length] = newOption;
-			}
-			document.adminForm.input.value = "";
-		}
-	};
-
-	var as_json = new bsn.AutoSuggest('input', options);
-
-</script>

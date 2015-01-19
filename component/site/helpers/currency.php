@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.utilities.simplexml');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
+JLoader::load('RedshopHelperAdminConfiguration');
 
 /**
  * price converter
@@ -128,17 +128,16 @@ class CurrencyHelper
 				}
 
 				/* XML Parsing */
-				$xml = JFactory::getXMLParser('Simple');
-				@$xml->loadFile($archivefile_name);
+				$xml = JFactory::getXML($archivefile_name);
 
 				// Access a given node's CDATA
-				$currency_list = $xml->document->Cube[0]->_children;
+				$currencies = $xml->Cube->Cube->Cube;
 
 				// Loop through the Currency List
-				for ($i = 0; $i < count($currency_list); $i++)
+				for ($i = 0; $i < count($currencies); $i++)
 				{
-					$currNode                        = $currency_list[$i]->_attributes;
-					$currency[$currNode['currency']] = $currNode['rate'];
+					$currNode = $currencies[$i]->attributes();
+					$currency[(string) $currNode->currency] = (string) $currNode->rate;
 					unset($currNode);
 				}
 
@@ -168,7 +167,7 @@ class CurrencyHelper
 	{
 		$config = new Redconfiguration;
 
-		$session = JFactory::getSession('product_currency');
+		$session = JFactory::getSession();
 
 		// Global $vendor_currency is DEFAULT!
 		if (!$currA)

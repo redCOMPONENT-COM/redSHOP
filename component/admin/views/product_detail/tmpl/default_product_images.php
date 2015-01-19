@@ -3,59 +3,47 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 ?>
-
 <table class="admintable">
-
 	<tr>
 		<td class="key">
-			<label for="product_full_image">
-				<?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>
-			</label>
+			<span
+				class="editlinktip hasTip"
+				title="<?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_IMAGE'); ?>"
+			>
+				<label for="product_full_image">
+					<?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?>
+				</label>
+			</span>
 		</td>
 		<td>
-			<input type="file" name="product_full_image" id="product_full_image" size="25" />
-			<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_IMAGE'), JText::_('COM_REDSHOP_PRODUCT_IMAGE'), 'tooltip.png', '', '', false); ?>
-		</td>
-	</tr>
-
-	<tr>
-		<td class="key">&nbsp;</td>
-		<td>
-
-			<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
+			/<input type="file" name="product_full_image" id="product_full_image" size="25" />
 			<div class="button2-left">
 				<div class="image">
+					<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
 					<a class="modal" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_IMAGE'); ?>
 					</a>
 				</div>
 			</div>
+		</td>
+	</tr>
 
-			<?php
-			if ($this->detail->product_id > 0)
-			{
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+		<?php
+			if ($this->detail->product_id > 0) :
+
 				$ilink = JRoute::_(
 					'index.php?tmpl=component&option=com_redshop&view=media&section_id=' .
 					$this->detail->product_id .
 					'&showbuttons=1&media_section=product'
 				);
-			}
-			else
-			{
-				$ilink = JRoute::_(
-					'index.php?tmpl=component&option=com_redshop&view=media&section_id=' .
-					$this->next_product .
-					'&showbuttons=1&media_section=product'
-				);
-			}
-
-			$image_path = 'product/' . trim($this->detail->product_full_image);
 			?>
 			<div class="button2-left">
 				<div class="image">
@@ -64,15 +52,18 @@ defined('_JEXEC') or die;
 					</a>
 				</div>
 			</div>
-
+			<?php else:
+				$msgList = array('msgList' => array('message' => array(JText::_('COM_REDSHOP_ADDITIONAL_IMAGES_NOTICE'))));
+				echo RedshopLayoutHelper::render('system.message', $msgList);
+			endif; ?>
 		</td>
 	</tr>
-
 	<tr>
-		<td class="key">&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>
 			<?php
-			$style_img = 'style="display: none;"';
+			$style_img  = 'style="display: none;"';
+			$image_path = 'product/' . trim($this->detail->product_full_image);
 
 			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path) && trim($this->detail->product_full_image) != "")
 			{
@@ -88,9 +79,8 @@ defined('_JEXEC') or die;
 			</div>
 		</td>
 	</tr>
-
 	<tr>
-		<td class="key">&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>
 			<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path)) : ?>
 				<label for="image_delete">
@@ -100,13 +90,11 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 		</td>
 	</tr>
-
 	<tr>
 		<td colspan="2">
 			<hr/>
 		</td>
 	</tr>
-
 	<tr>
 		<td class="key">
 			<label for="product_thumb_image">
@@ -127,9 +115,8 @@ defined('_JEXEC') or die;
 			?>
 		</td>
 	</tr>
-
 	<tr>
-		<td class="key">&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>
 			<div id="dynamic_field1">
 			</div>
@@ -143,9 +130,8 @@ defined('_JEXEC') or die;
 
 		</td>
 	</tr>
-
 	<tr>
-		<td class="key">&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>
 			<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path)) : ?>
 				<label for="thumb_image_delete">
@@ -155,7 +141,6 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 		</td>
 	</tr>
-
 	<tr>
 		<td class="key">
 			<label for="product_back_full_image">
@@ -176,9 +161,8 @@ defined('_JEXEC') or die;
 			?>
 		</td>
 	</tr>
-
 	<tr>
-		<td class="key">&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>
 			<?php $back_image_path = 'product/' . trim($this->detail->product_back_full_image); ?>
 
@@ -190,10 +174,9 @@ defined('_JEXEC') or die;
 
 		</td>
 	</tr>
-
 	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $back_image_path)) : ?>
 		<tr>
-			<td class="key">&nbsp;</td>
+			<td>&nbsp;</td>
 			<td>
 				<input type="checkbox" id="back_image_delete" name="back_image_delete" />
 				<label for="back_image_delete">
@@ -202,7 +185,6 @@ defined('_JEXEC') or die;
 			</td>
 		</tr>
 	<?php endif; ?>
-
 	<tr>
 		<td class="key">
 			<label for="product_back_thumb_image">
@@ -223,9 +205,8 @@ defined('_JEXEC') or die;
 			?>
 		</td>
 	</tr>
-
 	<tr>
-		<td class="key">&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>
 			<?php $back_thumb_image_path = 'product/' . trim($this->detail->product_back_thumb_image); ?>
 
@@ -237,10 +218,9 @@ defined('_JEXEC') or die;
 
 		</td>
 	</tr>
-
 	<?php if(is_file(REDSHOP_FRONT_IMAGES_RELPATH . $back_thumb_image_path)) : ?>
 		<tr>
-			<td class="key">&nbsp;</td>
+			<td>&nbsp;</td>
 			<td>
 				<input type="checkbox" id="back_thumb_image_delete" name="back_thumb_image_delete" />
 				<label for="back_thumb_image_delete">
@@ -249,7 +229,6 @@ defined('_JEXEC') or die;
 			</td>
 		</tr>
 	<?php endif; ?>
-
 	<tr>
 		<td class="key">
 			<label for="product_preview_image">
@@ -270,9 +249,8 @@ defined('_JEXEC') or die;
 			?>
 		</td>
 	</tr>
-
 	<tr>
-		<td class="key">&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>
 			<?php $product_preview_image = 'product/' . trim($this->detail->product_preview_image); ?>
 
@@ -284,10 +262,9 @@ defined('_JEXEC') or die;
 
 		</td>
 	</tr>
-
 	<?php if(is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_preview_image)) : ?>
 		<tr>
-			<td class="key">&nbsp;</td>
+			<td>&nbsp;</td>
 			<td>
 				<input type="checkbox" id="preview_image_delete" name="preview_image_delete" />
 				<label for="preview_image_delete">
@@ -296,7 +273,6 @@ defined('_JEXEC') or die;
 			</td>
 		</tr>
 	<?php endif; ?>
-
 	<tr>
 		<td class="key">
 			<label for="product_preview_back_image">
@@ -317,9 +293,8 @@ defined('_JEXEC') or die;
 			?>
 		</td>
 	</tr>
-
 	<tr>
-		<td class="key">&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>
 			<?php $product_preview_back_image = 'product/' . trim($this->detail->product_preview_back_image); ?>
 
@@ -331,10 +306,9 @@ defined('_JEXEC') or die;
 
 		</td>
 	</tr>
-
 	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_preview_back_image)) : ?>
 		<tr>
-			<td class="key">&nbsp;</td>
+			<td>&nbsp;</td>
 			<td>
 				<input type="checkbox" id="preview_back_image_delete" name="preview_back_image_delete" />
 				<label for="preview_back_image_delete">

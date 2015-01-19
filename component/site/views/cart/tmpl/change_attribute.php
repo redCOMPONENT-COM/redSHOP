@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 /*
  * Include required files
  */
-include_once JPATH_COMPONENT . '/helpers/product.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
 
 $producthelper = new producthelper;
 $carthelper    = new rsCarthelper;
@@ -28,8 +28,8 @@ $model      = $this->getModel('cart');
 $session  = JFactory::getSession();
 $user     = JFactory::getUser();
 $document = JFactory::getDocument();
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
 ?>
 	<script type="text/javascript">
 		function cancelForm(frm) {

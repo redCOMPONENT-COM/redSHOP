@@ -1,6 +1,6 @@
 <?php
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 /**
  * $ModDesc
  *
@@ -18,7 +18,7 @@ if (!class_exists('LofSliderGroupK2'))
 		/**
 		 * @var string $__name
 		 *
-		 * @access private;
+		 * @access private
 		 */
 		var $__name = 'k2';
 		var $regex = "#<img.+src\s*=\s*\"([^\"]*)\"[^\>]*\>#iU";
@@ -78,7 +78,7 @@ if (!class_exists('LofSliderGroupK2'))
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
 			$db             = JFactory::getDbo();
 			$date           = JFactory::getDate();
-			$now            = $date->toMySQL();
+			$now            = $date->toSql();
 
 			require_once JPath::clean(JPATH_SITE . '/components/com_k2/helpers/route.php');
 			$query = "SELECT a.*, cr.rating_sum/cr.rating_count as rating, c.name as categoryname,
@@ -205,11 +205,11 @@ if (!class_exists('LofSliderGroupK2'))
 			if ($isThumb)
 			{
 				$path       = str_replace(JURI::base(), '', $path);
-				$imagSource = JPATH_SITE . '/' . str_replace('/', DS, $path);
+				$imagSource = JPATH_SITE . '/' . str_replace('/', DIRECTORY_SEPARATOR, $path);
 				if (file_exists($imagSource))
 				{
 					$path      = $width . "x" . $height . '/' . $path;
-					$thumbPath = JPATH_SITE . '/images/icethumbs/' . str_replace('/', DS, $path);
+					$thumbPath = JPATH_SITE . '/images/icethumbs/' . str_replace('/', DIRECTORY_SEPARATOR, $path);
 					if (!file_exists($thumbPath))
 					{
 						$thumb = PhpThumbFactory::create($imagSource);

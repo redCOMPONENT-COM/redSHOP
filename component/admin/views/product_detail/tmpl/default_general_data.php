@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -125,27 +125,16 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						/*
-						 * @ToDo Fix this mess below. Does the code below get product data again?
-						 * @ToDo Even if product should be loaded by the model? Is that done only to get product_name?
-						 */
-						$list = $this->producthelper->getProductByID($this->detail->product_parent_id);
-						$productname = "";
-
-						if (count($list) > 0)
-						{
-							$productname = $list->product_name;
-						}
+						echo JHtml::_('redshopselect.search', $this->producthelper->getProductByID($this->detail->product_parent_id),
+							'product_parent_id',
+							array(
+								'select2.options' => array('multiple' => 'false', 'placeholder' => JText::_('COM_REDSHOP_PARENT_PRODUCT')),
+								'option.key' => 'product_id',
+								'option.text' => 'product_name',
+								'select2.ajaxOptions' => array('typeField' => ', parent:1, product_id:' . $this->detail->product_id)
+							)
+						);
 						?>
-						<input class="text_area" type="text" name="parent" id="parent" size="32" maxlength="250" value="<?php echo $productname; ?>"/>
-						<input class="text_area"
-							   type="hidden"
-							   name="product_parent_id"
-							   id="product_parent_id"
-							   size="32"
-							   maxlength="250"
-							   value="<?php echo $this->detail->product_parent_id; ?>"
-							/>
 					</td>
 					<td>
 						<?php
@@ -255,53 +244,6 @@ $calendarFormat = '%d-%m-%Y';
 						<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20'); ?>
 					</td>
 				</tr>
-
-				<tr>
-					<td colspan="2">
-						<hr/>
-					</td>
-				</tr>
-
-				<?php if ($this->detail->product_id > 0) : ?>
-					<?php
-						/*
-						 * @ToDo Seams to be that this mess outputs product's frontend link.
-						 * @ToDo Examine if there is better, more optimized way to obtain this link.
-						 */
-						$ItemData = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->detail->product_id);
-						$catidmain = $this->detail->first_selected_category_id;
-
-						if (count($ItemData) > 0)
-						{
-							$pItemid = $ItemData->id;
-						}
-						else
-						{
-							$objhelper = new redhelper;
-							$pItemid = $objhelper->getItemid($this->detail->product_id, $catidmain);
-						}
-
-						$link  = JURI::root();
-						$link .= 'index.php?option=' . $this->option;
-						$link .= '&view=product&pid=' . $this->detail->product_id;
-						$link .= '&cid=' . $catidmain;
-						$link .= '&Itemid=' . $pItemid;
-					?>
-
-					<tr>
-						<td class="key">
-							<label>
-								<?php echo JText::_('COM_REDSHOP_FRONTEND_LINK'); ?>
-							</label>
-						</td>
-						<td>
-							<a href="<?php echo $link; ?>" target="_black">
-								<?php echo $link;?>
-							</a>
-						</td>
-					</tr>
-				<?php endif; ?>
-
 			</table>
 		</td>
 

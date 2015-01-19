@@ -3,17 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
-class wrapper_detailModelwrapper_detail extends JModel
+class RedshopModelWrapper_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -26,7 +26,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_sectionid = JRequest::getVar('product_id', 0, '', 'int');
@@ -189,7 +189,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -203,7 +203,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 		if ($wrapperfile['name'] != "")
 		{
-			$wrapperimg = JPath::clean(time() . '_' . $wrapperfile['name']);
+			$wrapperimg = RedShopHelperImages::cleanFileName($wrapperfile['name']);
 
 			$src = $wrapperfile['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper/' . $wrapperimg;
@@ -249,14 +249,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 		$row->category_id = $categoryid;
 
-		$productid = $data['product_id'];
-
-		if (count($productid) > 0)
-		{
-			$productid = implode(",", $productid);
-		}
-
-		$row->product_id = $productid;
+		$row->product_id = $data['container_product'];
 
 		if (!$row->store())
 		{
@@ -277,7 +270,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 				. 'WHERE wrapper_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -304,7 +297,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 				. ' WHERE wrapper_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -326,7 +319,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 				. ' WHERE wrapper_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

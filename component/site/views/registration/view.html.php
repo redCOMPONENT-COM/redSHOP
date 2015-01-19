@@ -3,15 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class registrationViewregistration extends JView
+class RedshopViewRegistration extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -25,17 +24,16 @@ class registrationViewregistration extends JView
 
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 		{
-			$app->Redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
+			$app->redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
 		}
 
 		$params = $app->getParams('com_redshop');
-		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
-		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('jquery.metadata.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
+		JHtml::_('redshopjquery.framework');
+		JHtml::script('com_redshop/jquery.validate.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/jquery.metadata.js', false, true);
+		JHtml::script('com_redshop/registration.js', false, true);
+		JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
 		$field                        = new extraField;
 

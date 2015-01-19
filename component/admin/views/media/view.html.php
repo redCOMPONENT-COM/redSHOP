@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class mediaViewmedia extends JView
+class RedshopViewMedia extends RedshopView
 {
 	public $images;
 
@@ -43,12 +42,11 @@ class mediaViewmedia extends JView
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$document->setTitle(JText::_('COM_REDSHOP_MEDIA'));
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'redshop_media48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
@@ -96,9 +94,14 @@ class mediaViewmedia extends JView
 		$this->request_url = $uri->toString();
 
 		$this->assign('baseURL', JURI::root());
-		$this->images = $this->get('images');
-		$this->documents = $this->get('documents');
-		$this->folders = $this->get('folders');
+
+		if (JFactory::getApplication()->input->get('layout') == 'thumbs')
+		{
+			$this->images = $this->get('images');
+			$this->documents = $this->get('documents');
+			$this->folders = $this->get('folders');
+		}
+
 		$this->state = $this->get('state');
 
 		parent::display($tpl);
@@ -108,7 +111,7 @@ class mediaViewmedia extends JView
 	{
 		if (isset($this->folders[$index]))
 		{
-			$this->_tmp_folder = & $this->folders[$index];
+			$this->_tmp_folder = $this->folders[$index];
 		}
 		else
 		{
@@ -120,7 +123,7 @@ class mediaViewmedia extends JView
 	{
 		if (isset($this->images[$index]))
 		{
-			$this->_tmp_img = & $this->images[$index];
+			$this->_tmp_img = $this->images[$index];
 		}
 		else
 		{
@@ -132,7 +135,7 @@ class mediaViewmedia extends JView
 	{
 		if (isset($this->documents[$index]))
 		{
-			$this->_tmp_doc = & $this->documents[$index];
+			$this->_tmp_doc = $this->documents[$index];
 		}
 		else
 		{

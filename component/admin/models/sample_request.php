@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class sample_requestModelsample_request extends JModel
+class RedshopModelSample_request extends RedshopModel
 {
 	public $_data = null;
 
@@ -112,7 +111,7 @@ class sample_requestModelsample_request extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'sample_request WHERE request_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -135,7 +134,7 @@ class sample_requestModelsample_request extends JModel
 				. ' WHERE request_id 	 IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

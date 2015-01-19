@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class sample_detailVIEWsample_detail extends JView
+class RedshopViewSample_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -21,14 +20,13 @@ class sample_detailVIEWsample_detail extends JView
 
 		$document = JFactory::getDocument();
 
-		$document->addStyleSheet('components/' . $option . '/assets/css/colorpicker.css');
-		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/jquery.js');
-		$document->addScript('components/' . $option . '/assets/js/colorpicker.js');
-		$document->addScript('components/' . $option . '/assets/js/eye.js');
-		$document->addScript('components/' . $option . '/assets/js/utils.js');
-		$document->addScript('components/' . $option . '/assets/js/layout.js?ver=1.0.2');
+		$document->addStyleSheet('components/com_redshop/assets/css/colorpicker.css');
+		$document->addStyleSheet('components/com_redshop/assets/css/layout.css');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/colorpicker.js');
+		$document->addScript('components/com_redshop/assets/js/eye.js');
+		$document->addScript('components/com_redshop/assets/js/utils.js');
+		$document->addScript('components/com_redshop/assets/js/layout.js?ver=1.0.2');
 
 		$uri = JFactory::getURI();
 
@@ -49,11 +47,7 @@ class sample_detailVIEWsample_detail extends JView
 			$isNew = ($detail->sample_id < 1);
 			$color_data = $model->color_Data($detail->sample_id);
 
-			if (count($color_data) > 0)
-			{
-				$color_data = $color_data;
-			}
-			else
+			if (!is_array($color_data))
 			{
 				$color_data = array();
 			}

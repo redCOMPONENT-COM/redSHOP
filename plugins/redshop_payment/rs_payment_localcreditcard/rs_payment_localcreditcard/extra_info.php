@@ -19,11 +19,10 @@ $o = new stdClass;
 $o->text = $txtextra_info;
 JPluginHelper::importPlugin('content');
 
-$dispatcher = & JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 
 $x = array();
 
 $results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 
 echo $o->text;
-?>

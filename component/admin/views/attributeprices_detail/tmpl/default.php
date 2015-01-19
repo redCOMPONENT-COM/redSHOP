@@ -3,21 +3,20 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTML::_('behavior.tooltip');
-//$uri =& JURI::getInstance();
-//$url= $uri->root();
+
 $section = JRequest::getVar('section');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 ?>
 <fieldset>
 	<div style="float: right">
-		<button type="button" onclick="submitbutton('save');">
+		<button type="button" class="btn btn-small" onclick="submitbutton('save');">
 			<?php echo JText::_('COM_REDSHOP_SAVE'); ?>
 		</button>
-		<button type="button" onclick="window.parent.location.reload();">
+		<button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
 			<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 		</button>
 	</div>
@@ -25,10 +24,6 @@ $producthelper = new producthelper();
 </fieldset>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -102,22 +97,28 @@ $producthelper = new producthelper();
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE'); ?>
 						:
 					</td>
-					<td><?php $sdate = "";
-						if ($this->detail->discount_start_date)
-						{
+					<td>
+						<?php
+						$sdate = "";
+
+						if ($this->detail->discount_start_date) :
 							$sdate = date("d-m-Y", $this->detail->discount_start_date);
-						}
+						endif;
+
 						echo JHTML::_('calendar', $sdate, 'discount_start_date', 'discount_start_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));?></td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE'); ?>
 						:
 					</td>
-					<td><?php $sdate = "";
-						if ($this->detail->discount_end_date)
-						{
+					<td>
+					<?php
+						$sdate = "";
+
+						if ($this->detail->discount_end_date) :
 							$sdate = date("d-m-Y", $this->detail->discount_end_date);
-						}
+						endif;
+
 						echo JHTML::_('calendar', $sdate, 'discount_end_date', 'discount_end_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));?></td>
 				</tr>
 			</table>

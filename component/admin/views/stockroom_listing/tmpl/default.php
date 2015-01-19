@@ -3,15 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 $model = $this->getmodel('stockroom_listing');
 $option = JRequest::getVar('option', '', 'request', 'string');
 $showbuttons = JRequest::getVar('showbuttons', '0');
-$print_link = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=stockroom_listing&id=0&showbuttons=1');
+$print_link = JRoute::_('index.php?tmpl=component&option=com_redshop&view=stockroom_listing&id=0&showbuttons=1');
 $stockroom_type = $this->stockroom_type;
 
 if ($showbuttons == 1)
@@ -27,9 +27,6 @@ if ($showbuttons == 1)
 		form.submit();
 	}
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 
 		if (pressbutton == "print_data") {
 			window.open("<?php echo $print_link;?>", "<?php echo JText::_('COM_REDSHOP_STOCKROOM_LISTING' );?>", "scrollbars=1", "location=1");
@@ -81,7 +78,7 @@ if ($showbuttons == 1)
 	</table>
 
 	<div id="editcell1">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -122,8 +119,8 @@ if ($showbuttons == 1)
 			{
 				$quntotal[$i] = array(0);
 				$preorder_stocktotal[$i] = array(0);
-				$row = & $this->resultlisting [$i];
-				$link1 = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);    ?>
+				$row = $this->resultlisting [$i];
+				$link1 = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td><a href="<?php echo $link1; ?>"><?php echo $row->product_number; ?></a></td>
@@ -180,11 +177,11 @@ if ($showbuttons == 1)
 						<td align="center">
 							<input type="hidden" name="sid[]" value="<?php echo $this->stockroom[$j]->stockroom_id; ?>">
 							<input type="hidden" name="pid[]" value="<?php echo $section_id; ?>">
-							<input type="text" value="<?php echo $quantity; ?>" name="quantity[]" size="4"></td>
+							<input type="text" value="<?php echo $quantity; ?>" name="quantity[]" class="input-small" size="4"></td>
 						<td align="center">
 
 
-							<input type="text" value="<?php echo $preorder_stock; ?>" name="preorder_stock[]" size="4">
+							<input type="text" value="<?php echo $preorder_stock; ?>" name="preorder_stock[]" class="input-small" size="4">
 							<input type="hidden" value="<?php echo $ordered_preorder; ?>" name="ordered_preorder[]"
 							       size="4">
 							<?php if ($ordered_preorder > 0)
@@ -236,6 +233,11 @@ if ($showbuttons == 1)
 				?>
 				<tfoot>
 				<td colspan="<?php echo $colspan + (2 * count($this->stockroom)); ?>">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 				</tfoot>

@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * search Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class SearchController extends JController
+class RedshopControllerSearch extends RedshopController
 {
 	/**
 	 * cancel function
@@ -42,7 +41,7 @@ class SearchController extends JController
 		$get = JRequest::get('get');
 		$taskid = $get['taskid'];
 
-		$model = $this->getModel();
+		$model = $this->getModel('search');
 
 		$brands = $model->loadCatProductsManufacturer($taskid);
 
@@ -80,7 +79,7 @@ class SearchController extends JController
 	 */
 	public function ajaxsearch()
 	{
-		$model  = $this->getModel();
+		$model  = $this->getModel('Search');
 		$detail = $model->getajaxData();
 
 		$encoded = json_encode($detail);

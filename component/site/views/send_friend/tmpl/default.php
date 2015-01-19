@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,8 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $pid = JRequest::getInt('pid');
 $document = JFactory::getDocument();
-JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+JHtml::_('redshopjquery.framework');
+JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 ?>
 <script type="text/javascript" language="javascript">var J = jQuery.noConflict();</script>
 <script type="text/javascript" language="javascript">

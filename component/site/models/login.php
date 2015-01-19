@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class LoginModelLogin
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class LoginModelLogin extends JModel
+class RedshopModelLogin extends RedshopModel
 {
 	public function __construct()
 	{
@@ -38,9 +37,7 @@ class LoginModelLogin extends JModel
 
 		if (isset($error->message))
 		{
-			$Itemid         = JRequest::getVar('Itemid');
-			$forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
-			$msg            = "<a href='" . JRoute::_($forgotpwd_link) . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
+			$msg = "<a href='" . JRoute::_('index.php?option=com_users&view=reset') . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
 			$app->enqueuemessage($msg);
 		}
 	}
@@ -51,12 +48,12 @@ class LoginModelLogin extends JModel
 
 		if ($sid == 0)
 		{
-			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__"
-			. TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . (int) $user->id;
+			$query = "SELECT sg.* FROM #__redshop_shopper_group as sg "
+			. " LEFT JOIN #__redshop_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . (int) $user->id;
 		}
 		else
 		{
-			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg WHERE sg.`shopper_group_id`= " . (int) $sid;
+			$query = "SELECT sg.* FROM #__redshop_shopper_group as sg WHERE sg.`shopper_group_id`= " . (int) $sid;
 		}
 		$this->_db->setQuery($query);
 
@@ -66,8 +63,8 @@ class LoginModelLogin extends JModel
 	public function CheckShopperGroup($username, $shoppergroupid)
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT sg.`shopper_group_id` FROM (`#__" . TABLE_PREFIX . "_shopper_group` as sg LEFT JOIN #__"
-			. TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = "
+		$query = "SELECT sg.`shopper_group_id` FROM (`#__redshop_shopper_group` as sg "
+			. " LEFT JOIN #__redshop_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = "
 			. $db->quote($username) . " AND ui.shopper_group_id =" . (int) $shoppergroupid . " AND sg.shopper_group_portal = 1";
 		$db->setQuery($query);
 

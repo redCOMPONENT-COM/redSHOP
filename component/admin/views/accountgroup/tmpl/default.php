@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -12,9 +12,6 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -32,12 +29,12 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 </script>
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
 			<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-			<th width="5%"><input type="checkbox" name="toggle" value=""
-			                      onclick="checkAll(<?php echo count($this->detail); ?>)"? />
+			<th width="5%">
+				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
 			<th width="20%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ACCOUNTGROUP_NAME', 'accountgroup_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
 			<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ECONOMIC_VAT_ACCOUNT_NUMBER', 'economic_vat_account', $this->lists['order_Dir'], $this->lists['order']);?></th>
@@ -57,7 +54,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 		{
 			$row = $this->detail[$i];
 			$row->id = $row->accountgroup_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
+			$link = JRoute::_('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
 			$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
@@ -79,7 +76,13 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 1 - $k;
 		}?>
 		<tfoot>
-		<td colspan="12"><?php echo $this->pagination->getListFooter(); ?></td>
+		<td colspan="12">
+			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
+			<?php endif; ?>
+			<?php echo $this->pagination->getListFooter(); ?></td>
 		</tfoot>
 	</table>
 	<input type="hidden" name="view" value="accountgroup"/>

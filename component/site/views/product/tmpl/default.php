@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -85,7 +85,6 @@ echo $this->data->event->beforeDisplayProduct;
 
 /*
  * Replace Discount Calculator Tag
- * update by Gunjan
  */
 $discount_calculator = "";
 
@@ -306,7 +305,7 @@ $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png'
 					title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
-// Associate_tag display update nayan panchal start
+// Associate_tag display update
 $ass_tag = '';
 
 if ($this->redHelper->isredProductfinder())
@@ -322,7 +321,6 @@ if ($this->redHelper->isredProductfinder())
 	}
 }
 
-// Associate_tag display update nayan panchal end
 $template_desc = $producthelper->replaceVatinfo($template_desc);
 $template_desc = str_replace("{associate_tag}", $ass_tag, $template_desc);
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
@@ -349,7 +347,7 @@ if (strstr($template_desc, "{zoom_image}"))
 if (strstr($template_desc, "{product_category_list}"))
 {
 	$pcats    = "";
-	$prodCats = $producthelper->getProductCaterories($this->data->product_id);
+	$prodCats = $producthelper->getProductCaterories($this->data->product_id, 1);
 
 	foreach ($prodCats as $prodCat)
 	{
@@ -471,14 +469,14 @@ if (strstr($template_desc, "{product_delivery_time}"))
 if (strstr($template_desc, "{facebook_like_button}"))
 {
 	$uri           = JFactory::getURI();
-	$facebook_link = urlencode($uri->toString());
+	$facebook_link = urlencode(JFilterOutput::cleanText($uri->toString()));
 	$facebook_like = '<iframe src="' . $Scheme . '://www.facebook.com/plugins/like.php?href=' . $facebook_link . '&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>';
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
 
 	$jconfig  = JFactory::getConfig();
-	$sitename = $jconfig->getValue('config.sitename');
+	$sitename = $jconfig->get('sitename');
 
-	$this->document->setMetaData("og:url", $uri->toString());
+	$this->document->setMetaData("og:url", JFilterOutput::cleanText($uri->toString()));
 	$this->document->setMetaData("og:type", "product");
 	$this->document->setMetaData("og:site_name", $sitename);
 }
@@ -486,7 +484,7 @@ if (strstr($template_desc, "{facebook_like_button}"))
 // Google I like Button
 if (strstr($template_desc, "{googleplus1}"))
 {
-	JHTML::Script('plusone.js', 'https://apis.google.com/js/', false);
+	JHTML::script('https://apis.google.com/js/plusone.js');
 	$uri           = JFactory::getURI();
 	$google_like   = '<g:plusone></g:plusone>';
 	$template_desc = str_replace("{googleplus1}", $google_like, $template_desc);
@@ -857,6 +855,8 @@ $template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0
 $pr_number                   = $this->data->product_number;
 $preselectedresult           = array();
 $moreimage_response          = '';
+$property_data               = '';
+$subproperty_data            = '';
 $attributeproductStockStatus = null;
 $selectedpropertyId          = 0;
 $selectedsubpropertyId       = 0;
@@ -875,6 +875,12 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 				if ($property[$i]->setdefault_selected)
 				{
 					$selectedId[] = $property[$i]->property_id;
+					$property_data .= $property[$i]->property_id;
+
+					if ($i != (count($property)-1))
+					{
+						$property_data .= '##';
+					}
 				}
 			}
 
@@ -888,28 +894,47 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 				{
 					if ($subproperty[$sp]->setdefault_selected)
 					{
-						$selectedId[] = $subproperty[$sp]->subattribute_color_id;
+						$selectedId[]     = $subproperty[$sp]->subattribute_color_id;
+						$subproperty_data .= $subproperty[$sp]->subattribute_color_id;
+
+						if ($sp != (count($subproperty)-1))
+						{
+							$subproperty_data .= '##';
+						}
 					}
 				}
 
 				if (count($selectedId) > 0)
 				{
+					$subproperty_data      = implode('##',$selectedId);
 					$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
 				}
 			}
 		}
 	}
 
+	$get['product_id']       = $this->data->product_id;
+	$get['main_imgwidth']    = $pw_thumb;
+	$get['main_imgheight']   = $ph_thumb;
+	$get['property_data']    = $property_data;
+	$get['subproperty_data'] = $subproperty_data;
+	$get['property_id']      = $selectedpropertyId;
+	$get['subproperty_id']   = $selectedsubpropertyId;
+	$pluginResults           = array();
+
+	// Trigger plugin to get merge images.
+	$this->dispatcher->trigger('onBeforeImageLoad', array ($get, &$pluginResults));
+
 	$preselectedresult = $producthelper->displayAdditionalImage(
-																	$this->data->product_id,
-																	0,
-																	0,
-																	$selectedpropertyId,
-																	$selectedsubpropertyId,
-																	$pw_thumb,
-																	$ph_thumb,
-																	$redview = 'product'
-						);
+		$this->data->product_id,
+		0,
+		0,
+		$selectedpropertyId,
+		$selectedsubpropertyId,
+		$pw_thumb,
+		$ph_thumb,
+		'product'
+	);
 
 	$productAvailabilityDate = strstr($template_desc, "{product_availability_date}");
 	$stockNotifyFlag         = strstr($template_desc, "{stock_notify_flag}");
@@ -918,11 +943,11 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
 	{
 		$attributeproductStockStatus = $producthelper->getproductStockStatus(
-																				$this->data->product_id,
-																				$totalatt,
-																				$selectedpropertyId,
-																				$selectedsubpropertyId
-										);
+			$this->data->product_id,
+			$totalatt,
+			$selectedpropertyId,
+			$selectedsubpropertyId
+		);
 	}
 
 	$moreimage_response  = $preselectedresult['response'];
@@ -1132,7 +1157,7 @@ if (strstr($template_desc, $mpimg_tag))
 		}
 	}
 
-	$insertStr     = "<span class='redhoverImagebox' id='additional_images" . $this->data->product_id . "'>" . $more_images . "</span>";
+	$insertStr     = "<div class='redhoverImagebox' id='additional_images" . $this->data->product_id . "'>" . $more_images . "</div><div class=\"clr\"></div>";
 	$template_desc = str_replace($mpimg_tag, $insertStr, $template_desc);
 }
 
@@ -1155,7 +1180,7 @@ if (strstr($template_desc, "{more_documents}"))
 
 		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
-			$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
+			$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
 										'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
 										'&Itemid=' . $this->itemId;
 			$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
@@ -1747,15 +1772,10 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 {
 	$asklink           = JURI::root() . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->data->product_id .
 										'&tmpl=component&Itemid=' . $this->itemId;
-	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:280}}" href="' . $asklink . '" >' .
+	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:500}}" href="' . $asklink . '" >' .
 							JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT') .
 						'</a>';
 	$template_desc     = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);
-}
-
-if (strstr($template_desc, "{ask_question_about_product_without_lightbox}"))
-{
-	$template_desc = str_replace("{ask_question_about_product_without_lightbox}", $this->loadTemplate('askquestion'), $template_desc);
 }
 
 // Product subscription type
@@ -1901,11 +1921,35 @@ $template_desc = str_replace("{without_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
 
+// Replace Minimum quantity per order
+$minOrderProductQuantity = '';
+
+if ((int) $this->data->min_order_product_quantity > 0)
+{
+	$minOrderProductQuantity = $this->data->min_order_product_quantity;
+}
+
+$template_desc = str_replace(
+	'{min_order_product_quantity}',
+	$minOrderProductQuantity,
+	$template_desc
+);
+
 $template_desc = $this->redTemplate->parseredSHOPplugin($template_desc);
 
 $template_desc = $this->textHelper->replace_texts($template_desc);
 
 $template_desc = $producthelper->getRelatedtemplateView($template_desc, $this->data->product_id);
+
+// Replacing ask_question_about_product_without_lightbox must be after parseredSHOPplugin for not replace in cloak plugin form emails
+if (strstr($template_desc, '{ask_question_about_product_without_lightbox}'))
+{
+	$displayData = array(
+		'form' => RedshopModelForm::getInstance('Ask_Question', 'RedshopModel')->getForm(),
+		'ask' => 1
+	);
+	$template_desc = str_replace('{ask_question_about_product_without_lightbox}', RedshopLayoutHelper::render('product.ask_question', $displayData), $template_desc);
+}
 
 /**
  * Trigger event onAfterDisplayProduct will display content after product display.

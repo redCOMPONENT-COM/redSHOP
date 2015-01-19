@@ -1,4 +1,4 @@
-<table border="0" cellspacing="5" cellpadding="5" width="100%">
+<table border="0" cellspacing="5" cellpadding="5" width="100%" class="improvedTable">
 	<tbody>
 	<tr>
 		<th>{order_id_lbl}</th>

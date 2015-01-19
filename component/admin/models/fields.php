@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class fieldsModelfields extends JModel
+class RedshopModelFields extends RedshopModel
 {
 	public $_data = null;
 
@@ -19,23 +18,20 @@ class fieldsModelfields extends JModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
-
 	public $_context = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
+		$app            = JFactory::getApplication();
 		$this->_context = 'field_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$filtertype = $app->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
-		$filtersection = $app->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit          = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart     = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter         = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filtertype     = $app->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
+		$filtersection  = $app->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
+		$limitstart     = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
@@ -90,15 +86,18 @@ class fieldsModelfields extends JModel
 		{
 			$where .= " AND f.field_title like '%" . $filter . "%' ";
 		}
+
 		if ($filtertype)
 		{
 			$where .= " AND f.field_type='" . $filtertype . "' ";
 		}
+
 		if ($filtersection)
 		{
 			$where .= " AND f.field_section='" . $filtersection . "' ";
 		}
-		$query = "SELECT * FROM " . $this->_table_prefix . "fields AS f "
+
+		$query = "SELECT * FROM #__redshop_fields AS f "
 			. "WHERE 1=1 "
 			. $where
 			. $orderby;
@@ -126,19 +125,23 @@ class fieldsModelfields extends JModel
 		return $orderby;
 	}
 
-	public function saveorder($cid = array(), $order)
+	/**
+	 * Save Custom Field order
+	 *
+	 * @param   array  $cid    List Index Id
+	 * @param   array  $order  Order Number
+	 *
+	 * @return  boolean
+	 */
+	public function saveorder($cid = array(), $order = array())
 	{
-		$row =& $this->getTable('fields_detail');
-		$groupings = array();
+		$row        = $this->getTable('fields_detail');
 		$conditions = array();
 
 		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-
-			// Track categories
-			$groupings[] = $row->field_id;
 
 			if ($row->ordering != $order[$i])
 			{
@@ -176,6 +179,105 @@ class fieldsModelfields extends JModel
 		{
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Move ordering up
+	 *
+	 * @return  boolean
+	 */
+	public function orderup()
+	{
+		$app = JFactory::getApplication();
+
+		$cid = $app->input->get('cid', array(), 'post', 'array');
+		$cid = $cid[0];
+
+		$row = $this->getTable('fields_detail');
+		$row->load($cid[0]);
+		$row->move(-1, 'field_section = ' . $row->field_section);
+
+		return true;
+	}
+
+	/**
+	 * Move Ordering down
+	 *
+	 * @return  boolean
+	 */
+	public function orderdown()
+	{
+		$app = JFactory::getApplication();
+
+		$cid = $app->input->get('cid', array(), 'post', 'array');
+		$cid = $cid[0];
+
+		$row = $this->getTable('fields_detail');
+		$row->load($cid[0]);
+		$row->move(1, 'field_section = ' . $row->field_section);
+
+		return true;
+	}
+
+	/**
+	 * Get Fields information from Sections Ids.
+	 * 		Note: This will return non-published fields also
+	 *
+	 * @param   array  $section  Sections Ids in index array
+	 *
+	 * @return  mixed  Object information array of Fields
+	 */
+	public function getFieldInfoBySection($section)
+	{
+		if (!is_array($section))
+		{
+			throw new InvalidArgumentException(__FUNCTION__ . 'only accepts Array. Input was ' . $section);
+		}
+
+		JArrayHelper::toInteger($section);
+		$sections = implode(',', $section);
+
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('field_name,field_type,field_section')
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('field_section') . ' IN(' . $sections . ')');
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$fields = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Published or unpublished
+	 *
+	 * @param   array    $cid      primary keys
+	 * @param   integer  $publish  State for publish is 1 and other is 0
+	 *
+	 * @return  boolean
+	 */
+	public function publish($cid = array(), $publish = 1)
+	{
+		if (count($cid))
+		{
+			$row = $this->getTable('fields_detail');
+			$row->publish($cid, $publish);
 		}
 
 		return true;

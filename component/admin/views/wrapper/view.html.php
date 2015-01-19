@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class wrapperViewwrapper extends JView
+class RedshopViewWrapper extends RedshopView
 {
 	/**
 	 * The current user.
@@ -20,6 +19,8 @@ class wrapperViewwrapper extends JView
 	 * @var  JUser
 	 */
 	public $user;
+
+	public $lists = array();
 
 	/**
 	 * The request url.
@@ -38,18 +39,21 @@ class wrapperViewwrapper extends JView
 
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 
-		$total      = $this->get('Total');
 		$data       = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER'), 'redshop_wrapper48');
-		JToolBarHelper::addNewX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
+		$context = 'wrapper_id';
+		$this->lists['order'] = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
+		$this->lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
 		$this->user = JFactory::getUser();
-		$this->lists = null;
 		$this->data = $data;
 		$this->product_id = $product_id;
 		$this->pagination = $pagination;

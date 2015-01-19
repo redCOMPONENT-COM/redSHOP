@@ -3,25 +3,18 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class tax_detailVIEWtax_detail extends JView
+class RedshopViewTax_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
 		$db = JFactory::getDbo();
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_MANAGEMENT_DETAIL'), 'redshop_vat48');
-
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
-		$document = JFactory::getDocument();
 
 		$uri = JFactory::getURI();
 
@@ -35,7 +28,7 @@ class tax_detailVIEWtax_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vat48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX') . ': <small><small>[ ' . $text . ' ]</small></small>', 'tag redshop_vat48');
 
 		JToolBarHelper::save();
 
@@ -50,7 +43,7 @@ class tax_detailVIEWtax_detail extends JView
 
 		$model = $this->getModel('tax_detail');
 
-		$q = "SELECT  country_3_code as value,country_name as text from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 
@@ -74,8 +67,8 @@ class tax_detailVIEWtax_detail extends JView
 		}
 
 		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
-						FROM #__" . TABLE_PREFIX . "_country c
-						LEFT JOIN #__" . TABLE_PREFIX . "_state s
+						FROM #__redshop_country c
+						LEFT JOIN #__redshop_state s
 						ON c.country_id=s.country_id OR s.country_id IS NULL
 						ORDER BY c.country_id, s.state_name");
 

@@ -76,7 +76,7 @@
                        description="You can get it from E-conomic Sales Tab, Other Setup->Terms of payment View"/>
                 <field name="economic_design_layout" type="text" default=""
                        label="Enter E-conomic Design and Layout ID"/>
-                <field name="shopper_group_id" type="plugins" default="0"
+                <field name="shopper_group_id" type="shoppergrouplist" default="0"
                        label="Shopper Group"
                        description="Allow Plugin only for selected shopper groups. Select none for all."/>
             </fieldset>

@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-class newslettersubscrController extends JController
+class RedshopControllerNewslettersubscr extends RedshopController
 {
 	public function cancel()
 	{
@@ -37,7 +36,7 @@ class newslettersubscrController extends JController
 		{
 			$src = $file['tmp_name'];
 
-			$dest = JPATH_ADMINISTRATOR . '/components/' . $option . '/assets/' . $file['name'];
+			$dest = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/' . $file['name'];
 
 			JFile::upload($src, $dest);
 
@@ -66,18 +65,18 @@ class newslettersubscrController extends JController
 			{
 				unlink($dest);
 				$msg = JText::_('COM_REDSHOP_DATA_IMPORT_SUCCESS');
-				$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 			}
 			else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_DATA_IMPORT');
-				$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data', $msg);
 			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_FILE_EXTENTION_WRONG');
-			$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data', $msg);
 		}
 	}
 }

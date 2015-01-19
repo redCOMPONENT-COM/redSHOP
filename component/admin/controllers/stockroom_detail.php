@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class stockroom_detailController extends JController
+class RedshopControllerStockroom_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -70,11 +69,11 @@ class stockroom_detailController extends JController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 		}
 	}
 
@@ -96,7 +95,7 @@ class stockroom_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function publish()
@@ -117,7 +116,7 @@ class stockroom_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function unpublish()
@@ -138,7 +137,7 @@ class stockroom_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function frontpublish()
@@ -159,7 +158,7 @@ class stockroom_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function frontunpublish()
@@ -180,14 +179,14 @@ class stockroom_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function copy()
@@ -205,47 +204,7 @@ class stockroom_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_STOCKROOM_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
-	}
-
-	public function export_data()
-	{
-		$model = $this->getModel('stockroom_detail');
-
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-type: text/x-csv");
-		header("Content-type: text/csv");
-		header("Content-type: application/csv");
-		header('Content-Disposition: attachment; filename=StockroomProduct.csv');
-
-		echo "Stockroom,Container,Product SKU,Product Name,Product Volume,Quantity\n\n";
-
-		$data = $model->stock_container(0);
-
-		for ($i = 0; $i < count($data); $i++)
-		{
-			$product = $model->stock_product($data[$i]->container_id);
-
-			echo $data[$i]->stockroom_name . ",";
-			echo $data[$i]->container_name . ",";
-
-			for ($p = 0; $p < count($product); $p++)
-			{
-				if ($p > 0)
-				{
-					echo ",,";
-				}
-
-				echo $product[$p]->product_number . ",";
-				echo $product[$p]->product_name . ",";
-				echo $product[$p]->product_volume . ",";
-				echo $product[$p]->quantity . "\n";
-			}
-
-			echo "\n";
-		}
-
-		exit;
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function importStockFromEconomic()
@@ -281,7 +240,7 @@ class stockroom_detailController extends JController
 						. "WHERE product_id='" . $prd[$i]->product_id . "' "
 						. "AND stockroom_id='" . $stockroom_id . "' ";
 					$db->setQuery($query);
-					$db->Query();
+					$db->execute();
 					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC_SUCCESS') . "</span>";
 				}
 				else

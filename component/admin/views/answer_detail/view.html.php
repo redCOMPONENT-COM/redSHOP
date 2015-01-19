@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,9 +11,9 @@ defined( '_JEXEC' ) or die;
 
 jimport( 'joomla.application.component.view' );
 
-require_once  JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class answer_detailVIEWanswer_detail extends JView
+class RedshopViewAnswer_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{

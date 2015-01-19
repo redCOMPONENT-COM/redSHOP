@@ -3,13 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+JLoader::load('RedshopHelperUser');
 
 class Redconfiguration
 {
@@ -181,7 +181,7 @@ class Redconfiguration
 			if (count($org) > 0)
 			{
 				/* Set last param as false to ensure the last line is empty and not containing '?>' at the end of the file*/
-				$this->defineCFGVars($org, false, false);
+				$this->defineCFGVars($org, false);
 				$this->updateCFGFile();
 			}
 		}
@@ -200,6 +200,13 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Write Definition File
+	 *
+	 * @param   array  $def  Array of configuration Definition
+	 *
+	 * @return  boolean  True when file successfully saved.
+	 */
 	public function WriteDefFile($def = array())
 	{
 		if (count($def) <= 0)
@@ -235,15 +242,17 @@ class Redconfiguration
 		}
 	}
 
-	public function defineCFGVars($data, $bypass = false, $openPhpTag = true)
+	/**
+	 * Define Configuration file. We are preparing define text on this function.
+	 *
+	 * @param   array    $data    Configuration Data associative array
+	 * @param   boolean  $bypass  Don't write anything and simply bypass if it is set to true.
+	 *
+	 * @return  void
+	 */
+	public function defineCFGVars($data, $bypass = false)
 	{
 		$this->_cfgdata = "";
-
-		/*To ensure the last line is empty and not containing '?>' at the end of the file*/
-		if ($openPhpTag)
-		{
-			$this->_cfgdata .= "<?php\n\n";
-		}
 
 		foreach ($data as $key => $value)
 		{
@@ -253,16 +262,25 @@ class Redconfiguration
 			}
 		}
 
-		$this->_cfgdata .= '';
-
 		return;
 	}
 
+	/**
+	 * Write prepared data into a file.
+	 *
+	 * @return  boolean  True when file successfully saved.
+	 */
 	public function writeCFGFile()
 	{
 		if ($fp = fopen($this->_configpath, "w"))
 		{
-			fputs($fp, $this->_cfgdata, strlen($this->_cfgdata));
+			// Cleaning <?php and ?\> tag from the code
+			$this->_cfgdata = str_replace(array('<?php', '?>', "\n"), '', $this->_cfgdata);
+
+			// Now, adding <?php tag at the top of the file.
+			$this->_cfgdata = "<?php \n" . $this->_cfgdata;
+
+			fwrite($fp, $this->_cfgdata, strlen($this->_cfgdata));
 			fclose($fp);
 
 			return true;
@@ -273,6 +291,12 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * Update Configuration file with new parameter.
+	 * This function is specially use during upgrading redSHOP and need to put new configuration params.
+	 *
+	 * @return  boolean  True when file successfully updated.
+	 */
 	public function updateCFGFile()
 	{
 		if ($fp = fopen($this->_configpath, "a"))
@@ -289,6 +313,11 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * Backup Configuration file before running wizard.
+	 *
+	 * @return  boolean  True on successfully backed up.
+	 */
 	public function backupCFGFile()
 	{
 		if ($this->isCFGFile())
@@ -310,6 +339,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Try to find if temp configuration file is available. This function is for wizard.
+	 *
+	 * @return  boolean  True when file is exist.
+	 */
 	public function isTmpFile()
 	{
 		if (file_exists($this->_config_tmp_path))
@@ -329,6 +363,11 @@ class Redconfiguration
 		return false;
 	}
 
+	/**
+	 * Check if temp file is writeable or not.
+	 *
+	 * @return  boolean  True if file is writeable.
+	 */
 	public function isTMPFileWritable()
 	{
 		if (!is_writable($this->_config_tmp_path))
@@ -341,6 +380,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Check if definition file is available or not.
+	 *
+	 * @return  boolean  True if file is exist.
+	 */
 	public function isDEFFile()
 	{
 		if (file_exists($this->_config_def_path))
@@ -360,6 +404,11 @@ class Redconfiguration
 		return false;
 	}
 
+	/**
+	 * Check for def file is writeable or not.
+	 *
+	 * @return  boolean  True if file is writeable.
+	 */
 	public function isDEFFileWritable()
 	{
 		if (!is_writable($this->_config_def_path))
@@ -372,6 +421,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Restore configuration file from temp file.
+	 *
+	 * @return  boolean  True if file is restored.
+	 */
 	public function storeFromTMPFile()
 	{
 		global $temparray;
@@ -393,6 +447,14 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * This function will define relation between keys and define variables.
+	 * This needs to be updated when you want new variable in configuration.
+	 *
+	 * @param   array  $d  Associative array of values. Typically a from $_POST.
+	 *
+	 * @return  array      Associative array of configuration variables which are ready to write.
+	 */
 	public function redshopCFGData($d)
 	{
 		$d['booking_order_status'] = (isset($d['booking_order_status'])) ? $d['booking_order_status'] : 0;
@@ -484,7 +546,6 @@ class Redconfiguration
 						"DISCOUPON_DURATION"                           => $d ["discoupon_duration"],
 						"DISCOUPON_PERCENT_OR_TOTAL"                   => $d ["discoupon_percent_or_total"],
 						"DISCOUPON_VALUE"                              => $d ["discoupon_value"],
-						"USE_CONTAINER"                                => $d ["use_container"],
 						"USE_STOCKROOM"                                => $d ["use_stockroom"],
 						"ALLOW_PRE_ORDER"                              => $d ["allow_pre_order"],
 						"ALLOW_PRE_ORDER_MESSAGE"                      => $d ["allow_pre_order_message"],
@@ -590,6 +651,7 @@ class Redconfiguration
 						"ENABLE_SEF_NUMBER_NAME"                       => $d ["enable_sef_number_name"],
 
 						"DEFAULT_CUSTOMER_REGISTER_TYPE"               => $d ["default_customer_register_type"],
+						"CHECKOUT_LOGIN_REGISTER_SWITCHER"             => $d ["checkout_login_register_switcher"],
 						"ADDTOCART_BEHAVIOUR"                          => $d ["addtocart_behaviour"],
 						"WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"          => $d ["wanttoshowattributeimage"],
 						"SHOW_PRODUCT_DETAIL"                          => $d ["show_product_detail"],
@@ -707,6 +769,7 @@ class Redconfiguration
 						"WEBPACK_ENABLE_SMS"                           => $d ["webpack_enable_sms"],
 						"WEBPACK_ENABLE_EMAIL_TRACK"                   => $d ["webpack_enable_email_track"],
 
+						"STATISTICS_ENABLE"                            => $d ["statistics_enable"],
 						"NEWSLETTER_ENABLE"                            => $d ["newsletter_enable"],
 						"NEWSLETTER_CONFIRMATION"                      => $d ["newsletter_confirmation"],
 						"WATERMARK_IMAGE"                              => $d ["watermark_image"],
@@ -734,7 +797,6 @@ class Redconfiguration
 						'PRODUCT_COMPARISON_TYPE'                      => $d ["product_comparison_type"],
 						'COMPARE_TEMPLATE_ID'                          => $d ["compare_template_id"],
 						'SSL_ENABLE_IN_CHECKOUT'                       => $d ["ssl_enable_in_checkout"],
-						'PAGINATION'                                   => $d ["pagination"],
 						'VAT_RATE_AFTER_DISCOUNT'                      => $d ["vat_rate_after_discount"],
 						'PRODUCT_DOWNLOAD_ROOT'                        => $d ["product_download_root"],
 						'TWOWAY_RELATED_PRODUCT'                       => $d ["twoway_related_product"],
@@ -769,6 +831,8 @@ class Redconfiguration
 						"POSTDK_INTEGRATION"                           => $d ["postdk_integration"],
 						"POSTDANMARK_ADDRESS"                          => $d ["postdk_address"],
 						"POSTDANMARK_POSTALCODE"                       => $d ["postdk_postalcode"],
+						"AUTO_GENERATE_LABEL"                          => $d ["auto_generate_label"],
+						"GENERATE_LABEL_ON_STATUS"                     => $d ["generate_label_on_status"],
 
 						"QUICKLINK_ICON"                               => $d ["quicklink_icon"],
 						"DISPLAY_NEW_ORDERS"                           => $d ["display_new_orders"],
@@ -776,6 +840,7 @@ class Redconfiguration
 						"DISPLAY_STATISTIC"                            => $d ['display_statistic'],
 						"EXPAND_ALL"                                   => $d ['expand_all'],
 						"AJAX_CART_DISPLAY_TIME"                       => $d ['ajax_cart_display_time'],
+						"MEDIA_ALLOWED_MIME_TYPE"                      => $d ['media_allowed_mime_type'],
 						"IMAGE_QUALITY_OUTPUT"                         => $d ['image_quality_output'],
 						"SEND_CATALOG_REMINDER_MAIL"                   => $d ['send_catalog_reminder_mail'],
 						"CATEGORY_IN_SEF_URL"                          => $d ['category_in_sef_url'],
@@ -882,27 +947,14 @@ class Redconfiguration
 	public function showPrice()
 	{
 		$user       = JFactory::getUser();
-		$userhelper = new rsUserhelper;
-
-		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-
-		if ($user->id)
-		{
-			$getShopperGroupID = $userhelper->getShopperGroup($user->id);
-
-			if ($getShopperGroupID)
-			{
-				$shopper_group_id = $getShopperGroupID;
-			}
-		}
-
-		$qurey = "SELECT show_price FROM " . $this->_table_prefix . "shopper_group "
-			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
-		$this->_db->setQuery($qurey);
-		$list = $this->_db->loadObject();
+		$userHelper = new rsUserhelper;
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
 		if ($list)
 		{
+			$list = $list[0];
+
 			if (($list->show_price == "yes") || ($list->show_price == "global" && SHOW_PRICE_PRE == 1)
 				|| ($list->show_price == "" && SHOW_PRICE_PRE == 1))
 			{
@@ -922,26 +974,14 @@ class Redconfiguration
 	public function getCatalog()
 	{
 		$user             = JFactory::getUser();
-		$userhelper       = new rsUserhelper;
-		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-
-		if ($user->id)
-		{
-			$getShopperGroupID = $userhelper->getShopperGroup($user->id);
-
-			if ($getShopperGroupID)
-			{
-				$shopper_group_id = $getShopperGroupID;
-			}
-		}
-
-		$qurey = "SELECT use_as_catalog FROM " . $this->_table_prefix . "shopper_group "
-			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
-		$this->_db->setQuery($qurey);
-		$list = $this->_db->loadObject();
+		$userHelper       = new rsUserhelper;
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
 		if ($list)
 		{
+			$list = $list[0];
+
 			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1)
 				|| ($list->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1))
 			{
@@ -1202,15 +1242,10 @@ class Redconfiguration
 	 */
 	public function convertDateFormat($date)
 	{
-		$JApp = JFactory::getApplication();
-
 		if ($date <= 0)
 		{
 			$date = time();
 		}
-
-		$dateobj = JFactory::getDate($date);
-		$dateobj->setOffset($JApp->getCfg('offset'));
 
 		if (DEFAULT_DATEFORMAT)
 		{
@@ -1311,6 +1346,11 @@ class Redconfiguration
 
 	public function getStateCode($conid, $tax_code)
 	{
+		if (empty($tax_code))
+		{
+			return null;
+		}
+
 		$db = JFactory::getDbo();
 		$query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state '
 		. 'WHERE state_2_code LIKE ' . $db->quote($tax_code)
@@ -1336,7 +1376,7 @@ class Redconfiguration
 
 		if (empty($this->_country_list))
 		{
-			require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+			JLoader::load('RedshopHelperHelper');
 			$redhelper = new redhelper;
 
 			$countries = array();
@@ -1410,12 +1450,43 @@ class Redconfiguration
 		return $return;
 	}
 
+	/**
+	 * This function will get state list from country code and return HTML of state (both billing and shipping)
+	 *
+	 * @param   array   $post              $post get from $_POST request
+	 * @param   string  $state_codename    State Code from billing or Shipping
+	 * @param   string  $country_codename  Country code from billing or shipping
+	 * @param   string  $address_type      Distinguish billing or shipping
+	 * @param   number  $isAdmin           It will determine is admin or site front end
+	 * @param   string  $state_class       Class of state of selected field
+	 *
+	 * @return array
+	 */
 	public function getStateList($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
 	{
 		$db = JFactory::getDbo();
 
-		$selected_country_code = ($address_type == "ST") ? @$post['country_code_ST'] : @$post['country_code'];
-		$selected_state_code   = ($address_type == "ST") ? @$post['state_code_ST'] : @$post['state_code'];
+		$selected_country_code = "";
+
+		if (isset($post['country_code']))
+		{
+			$selected_country_code = $post['country_code'];
+		}
+		else
+		{
+			$selected_country_code = $post['country_code_ST'];
+		}
+
+		$selected_state_code = "";
+
+		if (isset($post['state_code']))
+		{
+			$selected_state_code = $post['state_code'];
+		}
+		elseif (isset($post['state_code_ST']))
+		{
+			$selected_state_code = $post['state_code_ST'];
+		}
 
 		if (empty($selected_state_code))
 		{
@@ -1423,7 +1494,11 @@ class Redconfiguration
 		}
 		else
 		{
-			$selected_state_code = "'" . $selected_state_code . "'";
+			// If it is edit, don't quote variable
+			if (!$isAdmin)
+			{
+				$selected_state_code = "'" . $selected_state_code . "'";
+			}
 		}
 
 		$varState = array();

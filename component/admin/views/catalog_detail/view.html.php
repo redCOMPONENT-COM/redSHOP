@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class catalog_detailVIEWcatalog_detail extends JView
+class RedshopViewCatalog_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -25,19 +24,16 @@ class catalog_detailVIEWcatalog_detail extends JView
 		$option = JRequest::getVar('option');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATALOG_MANAGEMENT_DETAIL'), 'redshop_catalogmanagement48');
-
 		$document = JFactory::getDocument();
 
-		$document->addStyleSheet('components/' . $option . '/assets/css/colorpicker.css');
-		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		$document->addStyleSheet('components/com_redshop/assets/css/colorpicker.css');
+		$document->addStyleSheet('components/com_redshop/assets/css/layout.css');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/colorpicker.js');
 
-		$document->addScript('components/' . $option . '/assets/js/jquery.js');
-		$document->addScript('components/' . $option . '/assets/js/colorpicker.js');
-
-		$document->addScript('components/' . $option . '/assets/js/eye.js');
-		$document->addScript('components/' . $option . '/assets/js/utils.js');
-		$document->addScript('components/' . $option . '/assets/js/layout.js?ver=1.0.2');
+		$document->addScript('components/com_redshop/assets/js/eye.js');
+		$document->addScript('components/com_redshop/assets/js/utils.js');
+		$document->addScript('components/com_redshop/assets/js/layout.js?ver=1.0.2');
 
 		$uri = JFactory::getURI();
 

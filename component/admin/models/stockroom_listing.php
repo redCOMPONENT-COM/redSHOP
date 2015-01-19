@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class stockroom_listingModelstockroom_listing extends JModel
+class RedshopModelStockroom_listing extends RedshopModel
 {
 	public $_data = null;
 
@@ -96,16 +95,11 @@ class stockroom_listingModelstockroom_listing extends JModel
 		$keyword = $this->getState('keyword');
 		$category_id = $this->getState('category_id');
 
-		$container_id = JRequest::getVar('container_list', '0');
-
 		if (trim($keyword) != '')
 		{
 			$and .= " AND p." . $search_field . " LIKE '" . $keyword . "%' ";
 		}
-		if ($container_id != 0)
-		{
-			$where = " AND c.container_id=" . $container_id;
-		}
+
 		if ($category_id > 0)
 		{
 			$and .= " AND pcx.category_id='" . $category_id . "' ";
@@ -130,6 +124,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 		{
 			$table = "product AS p ";
 		}
+
 		$query = "SELECT distinct p.product_id, p . * " . $field
 			. "FROM " . $this->_table_prefix . $table
 			. $leftjoin
@@ -284,7 +279,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 		if ($query != "")
 		{
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 
 			// For stockroom Notify Email
 
@@ -304,36 +299,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 		$query = "SELECT product_id FROM " . $this->_table_prefix . "product_category_xref "
 			. "WHERE category_id= " . $cid;
 		$this->_db->setQuery($query);
-		$this->_data = $this->_db->loadResultArray();
-
-		return $this->_data;
-	}
-
-	public function getcontainerproducts($product_ids = 0)
-	{
-		$and = "";
-
-		if ($product_ids != 0)
-		{
-			$and = " and ps.product_id in (" . $product_ids . ")";
-		}
-		if (USE_CONTAINER)
-		{
-			$query = "SELECT DISTINCT p.product_id, p.product_name, p.product_number,p.product_volume,cp.quantity, c . * , sc . *
-				FROM " . $this->_table_prefix . "container AS c
-				LEFT JOIN " . $this->_table_prefix . "container_product_xref AS cp ON cp.container_id = c.container_id
-				LEFT JOIN " . $this->_table_prefix . "product AS p ON cp.product_id = p.product_id
-				LEFT JOIN " . $this->_table_prefix . "stockroom_container_xref AS sc ON sc.container_id = c.container_id where 1=1 ";
-		}
-		else
-		{
-			$query = "SELECT * FROM  " . $this->_table_prefix . "stockroom as s , "
-				. $this->_table_prefix . "product_stockroom_xref AS ps "
-				. "LEFT JOIN " . $this->_table_prefix . "product AS p ON ps.product_id = p.product_id "
-				. "WHERE ps.stockroom_id = s.stockroom_id " . $and;
-		}
-		$this->_db->setQuery($query);
-		$this->_data = $this->_db->loadObjectlist();
+		$this->_data = $this->_db->loadColumn();
 
 		return $this->_data;
 	}
@@ -360,7 +326,7 @@ class stockroom_listingModelstockroom_listing extends JModel
 		if ($query != "")
 		{
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 		}
 	}
 }

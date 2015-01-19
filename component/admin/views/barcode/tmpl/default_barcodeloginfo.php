@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
 $option = JRequest::getVar('option');
-$url = JUri::base();
+$url = JURI::base();
 $model = $this->getModel('barcode');
 
 //print_r($this->logData);
@@ -29,7 +29,7 @@ $model = $this->getModel('barcode');
 		$k = 0;
 		for ($i = 0, $n = count($this->logDetail); $i < $n; $i++)
 		{
-			$row = & $this->logDetail[$i];
+			$row = $this->logDetail[$i];
 			$row->id = $row->log_id;
 			$user_id = $row->user_id;
 

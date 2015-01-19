@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminProduct');
 
 /**
  * Product_Detail Controller.
@@ -23,7 +22,7 @@ require_once JPATH_COMPONENT . '/helpers/product.php';
  *
  * @since       1.0
  */
-class Product_DetailController extends JController
+class RedshopControllerProduct_Detail extends RedshopController
 {
 	public $app;
 
@@ -91,10 +90,12 @@ class Product_DetailController extends JController
 	public function save($apply = 0)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post                = $this->input->getArray($_POST);
-		$cid                 = $this->input->post->get('cid', array(), 'array');
-		$post ['product_id'] = $cid[0];
-		$stockroom_id        = '';
+		$post                 = $this->input->getArray($_POST);
+		$cid                  = $this->input->post->get('cid', array(), 'array');
+		$post ['product_id']  = $cid[0];
+		$stockroom_id         = '';
+
+		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
 		if (is_array($post['product_category']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
@@ -126,19 +127,7 @@ class Product_DetailController extends JController
 			$post['product_availability_date'] = strtotime($post['product_availability_date']);
 		}
 
-		if (trim($post["parent"]) == "")
-		{
-			$post["product_parent_id"] = 0;
-		}
-
-		$container_id = $this->input->getInt('container_id', null);
-
-		if (USE_CONTAINER == 1)
-		{
-			$stockroom_id = $this->input->getInt('stockroom_id', null);
-		}
-
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('product_detail');
 
@@ -171,40 +160,18 @@ class Product_DetailController extends JController
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 			$link = '';
 
-			if ($container_id != '' || $stockroom_id != '')
-			{
-				// ToDo: Fix this horror below!
-				?>
-            <script language="javascript" type="text/javascript">
-					<?php
-					if ($container_id)
-					{
-						$link = 'index.php?option=' . $this->option . '&view=container_detail&task=edit&cid[]=' . $container_id;
-					}
-
-					if ($stockroom_id && USE_CONTAINER == 1)
-					{
-						$link = 'index.php?option=' . $this->option . '&view=stockroom_detail&task=edit&cid[]=' . $stockroom_id;
-					}
-					?>
-                window.parent.document.location = '<?php echo $link; ?>';
-            </script>
-			<?php
-				exit;
-			}
-
 			if ($apply == 2)
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&task=add', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
 			elseif ($apply == 1)
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 			}
 		}
 		else
@@ -250,7 +217,7 @@ class Product_DetailController extends JController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -275,7 +242,7 @@ class Product_DetailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -300,7 +267,7 @@ class Product_DetailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -313,7 +280,7 @@ class Product_DetailController extends JController
 		$model = $this->getModel('product_detail');
 		$model->checkin();
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -336,7 +303,7 @@ class Product_DetailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
 		}
 
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -374,15 +341,20 @@ class Product_DetailController extends JController
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$tmpordering = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
 			$attribute_save['product_id'] = $row->product_id;
-			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']);
+			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
-			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
-			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
+
+			$attribute_save['attribute_required'] = isset($attribute[$a]['required'])
+				&& ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
+			$attribute_save['allow_multiple_selection'] = isset($attribute[$a]['allow_multiple_selection'])
+				&& ($attribute[$a]['allow_multiple_selection'] == 'on'
 				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
-			$attribute_save['hide_attribute_price'] = ($attribute[$a]['hide_attribute_price'] == 'on'
+			$attribute_save['hide_attribute_price'] = isset($attribute[$a]['hide_attribute_price'])
+				&& ($attribute[$a]['hide_attribute_price'] == 'on'
 				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
 			$attribute_save['display_type'] = $attribute[$a]['display_type'];
+
 			$attribute_array = $model->store_attr($attribute_save);
 			$property = array_merge(array(), $attribute[$a]['property']);
 
@@ -393,14 +365,16 @@ class Product_DetailController extends JController
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = urldecode($property[$p]['name']);
+				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
-				$property_save['property_number'] = $property[$p]['number'];
-				$property_save['property_image'] = $property[$p]['image'];
+				$property_save['property_number'] = isset($property[$p]['number']) ? $property[$p]['number'] : '';
+				$property_save['property_image'] = isset($property[$p]['property_image']) ? $property[$p]['property_image'] : '';
 				$property_save['ordering'] = $property[$p]['order'];
-				$property_save['setrequire_selected'] = ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
-				$property_save['setmulti_selected'] = ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
+				$property_save['setrequire_selected'] = isset($property[$p]['req_sub_att'])
+					&& ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
+				$property_save['setmulti_selected'] = isset($property[$p]['multi_sub_att'])
+					&& ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
 				$property_save['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
 				$property_save['setdisplay_type'] = $property[$p]['setdisplay_type'];
 				$property_save['property_published'] = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
@@ -422,7 +396,7 @@ class Product_DetailController extends JController
 
 				if (!empty($property[$p]['mainImage']))
 				{
-					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes');
+					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_id);
 					$property_save['property_id'] = $property_id;
 					$property_array = $model->store_pro($property_save);
 					$this->DeleteMergeImages();
@@ -503,7 +477,7 @@ class Product_DetailController extends JController
 
 					if (!empty($subproperty[$sp]['mainImage']))
 					{
-						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor');
+						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
 						$subproperty_save['subattribute_color_id'] = $subproperty_id;
 						$subproperty_array = $model->store_sub($subproperty_save);
 						$this->DeleteMergeImages();
@@ -572,191 +546,6 @@ class Product_DetailController extends JController
 		}
 
 		return array($width, $height);
-	}
-
-	/**
-	 * Function media_bank.
-	 *
-	 * @return void
-	 */
-	public function media_bank()
-	{
-		$uri = JURI::getInstance();
-		$url = $uri->root();
-
-		$folder_path = $this->input->getString('path', '');
-		$dirpath = $this->input->getString('dirpath', '');
-
-		if (!$folder_path)
-		{
-			$path = REDSHOP_FRONT_IMAGES_RELPATH;
-			$dir_path = "components/com_redshop/assets/images";
-		}
-		else
-		{
-			$path = $folder_path;
-			$dir_path = $dirpath;
-		}
-
-		$files = JFolder::listFolderTree($path, '.', 1);
-		$tbl = '';
-		$tbl .= "<table cellspacing='7' cellpdding='2' width='100%' border='0'>";
-		$tbl .= "<tr>";
-
-		if ($folder_path)
-		{
-			$t = preg_split('/', $folder_path);
-			$na = count($t) - 1;
-			$n = count($t) - 2;
-
-			if ($t[$n] != 'assets')
-			{
-				if ($t[$n] == 'images')
-				{
-					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH;
-					$dir_path = "components/com_redshop/assets/images/" . $t[$na];
-				}
-				else
-				{
-					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . $t[$n];
-					$dir_path = "components/com_redshop/assets/images/" . $t[$n] . "/" . $t[$na];
-				}
-
-				$folder_img_bk = "components/com_redshop/assets/images/folderup_32.png";
-
-				$width = 0;
-				$height = 0;
-				$info = getimagesize($folder_img_bk);
-
-				if ($info)
-				{
-					$width = $info[0];
-					$height = $info[1];
-				}
-
-				if (($info[0] > 50) || ($info[1] > 50))
-				{
-					$dimensions = $this->_imageResize($info[0], $info[1], 50);
-
-					$width_60 = $dimensions[0];
-					$height_60 = $dimensions[1];
-				}
-				else
-				{
-					$width_60 = $width;
-					$height_60 = $height;
-				}
-
-				$link_bk = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . $path_bk
-					. "&dirpath=" . $dir_path;
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1'
-				cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link_bk . "'>
-				<img src='" . $folder_img_bk . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></td></tr><
-				tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>Up</label></td></tr></table></td></tr><tr>";
-			}
-			else
-			{
-				$dir_path = "components/com_redshop/assets/images";
-			}
-		}
-
-		if ($handle = opendir($path))
-		{
-			$folder_img = "components/com_redshop/assets/images/folder.png";
-
-			$width = 0;
-			$height = 0;
-			$info = getimagesize($folder_img);
-
-			if ($info)
-			{
-				$width = $info[0];
-				$height = $info[1];
-			}
-
-			if (($info[0] > 50) || ($info[1] > 50))
-			{
-				$dimensions = $this->_imageResize($info[0], $info[1], 50);
-
-				$width_60 = $dimensions[0];
-				$height_60 = $dimensions[1];
-			}
-			else
-			{
-				$width_60 = $width;
-				$height_60 = $height;
-			}
-
-			$j = 1;
-
-			for ($f = 0; $f < count($files); $f++)
-			{
-				$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path="
-					. $files[$f]['fullname'] . "&dirpath=" . $files[$f]['relname'];
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr>
-				<td align='center' style='background-color:#FFFFFF;'><a href='" . $link . "'><img src='" . $folder_img . "' width='"
-					. $width_60 . "' height='" . $height_60 . "'></a></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'>
-					<label>" . $files[$f]['name'] . "</label></td></tr></table></td>";
-
-				if ($j % 4 == 0)
-				{
-					$tbl .= "</tr><tr>";
-				}
-
-				$j++;
-			}
-
-			$i = $j;
-
-			while (false !== ($filename = readdir($handle)))
-			{
-				if (preg_match("/.jpg/", $filename) || preg_match("/.gif/", $filename) || preg_match("/.png/", $filename))
-				{
-					$live_path = $url . $dir_path . '/' . $filename;
-
-					$width = 0;
-					$height = 0;
-					$info = getimagesize($live_path);
-
-					if ($info)
-					{
-						$width = $info[0];
-						$height = $info[1];
-					}
-
-					if (($info[0] > 50) || ($info[1] > 50))
-					{
-						$dimensions = $this->_imageResize($info[0], $info[1], 50);
-
-						$width_60 = $dimensions[0];
-						$height_60 = $dimensions[1];
-					}
-					else
-					{
-						$width_60 = $width;
-						$height_60 = $height;
-					}
-
-					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
-					<tr><td align='center' style='background-color:#FFFFFF;'>
-					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . '/' . $filename . "');window.parent.SqueezeBox.close();\">
-					<img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a></td>
-					</tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label>
-					</td></tr></table></td>";
-
-					if ($i % 4 == 0)
-					{
-						$tbl .= "</tr><tr>";
-					}
-
-					$i++;
-				}
-			}
-
-			$tbl .= '</tr></table>';
-			echo $tbl;
-			closedir($handle);
-		}
 	}
 
 	/**
@@ -865,7 +654,7 @@ class Product_DetailController extends JController
 	{
 		$pid = $this->input->get->getInt('pid', null);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->removepropertyImage($pid))
 		{
@@ -882,7 +671,7 @@ class Product_DetailController extends JController
 	{
 		$pid = $this->input->get->getInt('pid', null);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->removesubpropertyImage($pid))
 		{
@@ -900,7 +689,7 @@ class Product_DetailController extends JController
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post = $this->input->getArray($_POST);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->SaveAttributeStockroom($post))
 		{
@@ -928,7 +717,7 @@ class Product_DetailController extends JController
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -942,7 +731,7 @@ class Product_DetailController extends JController
 
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -961,7 +750,7 @@ class Product_DetailController extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -978,7 +767,7 @@ class Product_DetailController extends JController
 		$model->deleteProdcutSerialNumbers($serial_id);
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&cid=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product_detail&cid=' . $product_id, $msg);
 	}
 
 	/**

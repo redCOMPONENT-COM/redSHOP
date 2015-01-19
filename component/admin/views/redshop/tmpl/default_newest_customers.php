@@ -3,19 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
-$producthelper = new producthelper();
-$option = JRequest::getVar('option');
+defined('_JEXEC') or die;
+$producthelper = new producthelper;
 $model = $this->getModel('redshop');
 ?>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-
 		<table class="adminlist" width="100%">
-			<thead>
 			<thead>
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_FULLNAME'); ?></th>
@@ -29,7 +26,7 @@ $model = $this->getModel('redshop');
 			$k = 0;
 			for ($i = 0, $n = count($this->newcustomers); $i < $n; $i++)
 			{
-				$row = & $this->newcustomers[$i];
+				$row = $this->newcustomers[$i];
 				$row->id = $row->users_info_id;
 
 				$order = $model->gettotalOrder($row->id);
@@ -37,7 +34,7 @@ $model = $this->getModel('redshop');
 				$order->order_total = ($order->order_total) ? $order->order_total : 0;
 				$avg_amount = ($order->tot_order > 0) ? $order->order_total / $order->tot_order : 0;
 
-				$link = "index.php?option=" . $option . "&view=user_detail&task=edit&cid[]=" . $row->id;
+				$link = "index.php?option=com_redshop&view=user_detail&task=edit&cid[]=" . $row->id;
 				?>
 				<tr class="<?php echo "row$k"; ?>" onclick="window.location.href='<?php echo $link; ?>'">
 					<td align="center"><a href="<?php echo $link; ?>"

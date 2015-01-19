@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class newsletter_detailModelnewsletter_detail extends JModel
+class RedshopModelNewsletter_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -81,7 +80,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -109,7 +108,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -131,7 +130,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 				. ' WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -159,7 +158,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		for ($i = 0; $i < count($copydata); $i++)
 		{
 			$post['newsletter_id'] = 0;
-			$post['name'] = 'Copy Of ' . $copydata[$i]->name;
+			$post['name'] = $this->renameToUniqueValue('name', $copydata[$i]->name);
 			$post['subject'] = $copydata[$i]->subject;
 			$post['body'] = $copydata[$i]->body;
 			$post['template_id'] = $copydata[$i]->template_id;
@@ -175,7 +174,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
 			for ($j = 0; $j < count($subscriberdata); $j++)
 			{
-				$rowsubscr = & $this->getTable('newslettersubscr_detail');
+				$rowsubscr = $this->getTable('newslettersubscr_detail');
 				$rowsubscr->subscription_id = 0;
 				$rowsubscr->user_id = $subscriberdata[$j]->user_id;
 				$rowsubscr->date = time();

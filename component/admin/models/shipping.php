@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class shippingModelShipping extends JModel
+class RedshopModelShipping extends RedshopModel
 {
 	public $_data = null;
 
@@ -53,7 +52,7 @@ class shippingModelShipping extends JModel
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
-			$this->_data = $this->_getListCount($query);
+			$this->_total = $this->_getListCount($query);
 		}
 
 		return $this->_total;
@@ -98,7 +97,7 @@ class shippingModelShipping extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable('shipping_detail');
+		$row = $this->getTable('shipping_detail');
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

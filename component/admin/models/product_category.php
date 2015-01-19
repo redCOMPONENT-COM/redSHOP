@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 
-class product_categoryModelproduct_category extends JModel
+class RedshopModelProduct_category extends RedshopModel
 {
 	public function __construct()
 	{
@@ -46,7 +45,7 @@ class product_categoryModelproduct_category extends JModel
 						. "(`category_id`,`product_id`) VALUES ('" . $cat_id[$j] . "','" . $pid[$i] . "')";
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->Query())
+					if (!$this->_db->execute())
 					{
 						return false;
 					}
@@ -69,7 +68,7 @@ class product_categoryModelproduct_category extends JModel
 				. " WHERE product_id=" . $pid[$i] . " AND category_id IN (" . $cat_ids . ")";
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->Query())
+			if (!$this->_db->execute())
 			{
 				return false;
 			}

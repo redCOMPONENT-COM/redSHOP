@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class newsletter_detailVIEWnewsletter_detail extends JView
+class RedshopViewNewsletter_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -22,7 +21,6 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
 		$layout = JRequest::getVar('layout');
 
 		$model = $this->getModel('newsletter_detail');
@@ -35,11 +33,9 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$templates = @array_merge($temps, $templates);
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT_DETAIL'), 'redshop_newsletter48');
-
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
 
 		$uri = JFactory::getURI();
 		$lists = array();
@@ -59,7 +55,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 			$this->setLayout('default');
 		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_newsletter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'envelope-opened redshop_newsletter48');
 
 		if ($layout != "statistics")
 		{

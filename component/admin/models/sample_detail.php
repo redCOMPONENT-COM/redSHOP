@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class sample_detailModelsample_detail extends JModel
+class RedshopModelSample_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -80,7 +79,7 @@ class sample_detailModelsample_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -102,7 +101,7 @@ class sample_detailModelsample_detail extends JModel
 			$sql = "DELETE FROM " . $this->_table_prefix . "catalog_colour "
 				. "WHERE sample_id='" . $row->sample_id . "' ";
 			$this->_db->setQuery($sql);
-			$this->_db->query();
+			$this->_db->execute();
 
 			if ($total_loop > 0)
 			{
@@ -114,7 +113,7 @@ class sample_detailModelsample_detail extends JModel
 						. "(sample_id,code_image,is_image) "
 						. "VALUE ('" . $row->sample_id . "','" . $data["code_image"][$h] . "','" . $data["is_image"][$h] . "') ";
 					$this->_db->setQuery($sql);
-					$this->_db->query();
+					$this->_db->execute();
 					$h++;
 				}
 			}
@@ -131,7 +130,7 @@ class sample_detailModelsample_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_sample WHERE sample_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -152,7 +151,7 @@ class sample_detailModelsample_detail extends JModel
 				. ' WHERE sample_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

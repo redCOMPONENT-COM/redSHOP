@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+JLoader::load('RedshopHelperAdminXmlHelper');
 
-class xmlexport_detailVIEWxmlexport_detail extends JView
+class RedshopViewXmlexport_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -26,7 +25,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 		$childelement = $session->get('childelement');
 		$document     = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
-		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
+		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
 
 		$uri                  = JFactory::getURI();
 		$lists                = array();

@@ -3,17 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Class wishlistModelwishlist
@@ -22,7 +21,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php
  * @subpackage  Model
  * @since       1.0
  */
-class wishlistModelwishlist extends JModel
+class RedshopModelWishlist extends RedshopModel
 {
 	public $_id = null;
 
@@ -167,7 +166,7 @@ class wishlistModelwishlist extends JModel
 					. ", cdate = " . $db->quote(time());
 				$db->setQuery($ins_query);
 
-				if ($db->Query())
+				if ($db->execute())
 				{
 					return true;
 				}
@@ -198,7 +197,7 @@ class wishlistModelwishlist extends JModel
 								. ", userfielddata = " . $db->quote($myuserdata);
 
 							$db->setQuery($ins_query);
-							$db->Query();
+							$db->execute();
 						}
 					}
 
@@ -207,7 +206,7 @@ class wishlistModelwishlist extends JModel
 						. ", product_id = " . (int) $_SESSION['wish_' . $si]->product_id
 						. ", cdate = " . $db->quote($_SESSION['wish_' . $si]->cdate);
 					$db->setQuery($ins_query);
-					$db->Query();
+					$db->execute();
 					unset($_SESSION['wish_' . $si]);
 				}
 
@@ -241,7 +240,7 @@ class wishlistModelwishlist extends JModel
 				. ", cdate = " . $db->quote(time());
 			$db->setQuery($ins_query);
 
-			if ($db->query())
+			if ($db->execute())
 			{
 				continue;
 			}
@@ -280,18 +279,18 @@ class wishlistModelwishlist extends JModel
 			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
 
-		$db->Query();
+		$db->execute();
 		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_userfielddata "
 			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
 
-		if ($db->Query())
+		if ($db->execute())
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "wishlist "
 				. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
 			$db->setQuery($query);
 
-			if ($db->Query())
+			if ($db->execute())
 			{
 				return true;
 			}

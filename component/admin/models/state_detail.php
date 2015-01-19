@@ -3,14 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class state_detailModelstate_detail extends JModel
+class RedshopModelState_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -22,7 +21,7 @@ class state_detailModelstate_detail extends JModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -65,15 +64,17 @@ class state_detailModelstate_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
+			$detail                   = new stdClass;
 
-			$detail->state_id = 0;
-			$detail->state_name = null;
-			$detail->state_3_code = null;
-			$detail->country_id = null;
-			$detail->state_2_code = null;
-			$detail->show_state = 2;
-			$this->_data = $detail;
+			$detail->state_id         = 0;
+			$detail->state_name       = null;
+			$detail->state_3_code     = null;
+			$detail->country_id       = null;
+			$detail->state_2_code     = null;
+			$detail->show_state       = 2;
+			$detail->checked_out      = 0;
+			$detail->checked_out_time = null;
+			$this->_data              = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -84,7 +85,7 @@ class state_detailModelstate_detail extends JModel
 	public function store($data)
 	{
 
-		$row =& $this->getTable('state_detail');
+		$row = $this->getTable('state_detail');
 
 		if (!$row->bind($data))
 		{
@@ -119,7 +120,7 @@ class state_detailModelstate_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'state WHERE state_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -132,9 +133,9 @@ class state_detailModelstate_detail extends JModel
 
 	public function getcountry()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 		$redhelper = new redhelper;
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY 					    	country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY 					    	country_name ASC";
 		$this->_db->setQuery($q);
 		$countries = $this->_db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
@@ -180,14 +181,16 @@ class state_detailModelstate_detail extends JModel
 	 * Method to checkin/unlock the state_detail
 	 *
 	 * @access    public
+	 *
 	 * @return    boolean    True on success
+	 *
 	 * @since    1.5
 	 */
 	public function checkin()
 	{
 		if ($this->_id)
 		{
-			$state_detail = & $this->getTable('state_detail');
+			$state_detail = $this->getTable('state_detail');
 
 			if (!$state_detail->checkin($this->_id))
 			{

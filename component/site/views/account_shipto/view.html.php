@@ -3,17 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
-class account_shiptoViewaccount_shipto extends JView
+class RedshopViewAccount_shipto extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -45,17 +44,17 @@ class account_shiptoViewaccount_shipto extends JView
 		}
 		else
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 
 		if ($task == 'addshipping')
 		{
-			JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
+			JHtml::_('redshopjquery.framework');
+			JHtml::script('com_redshop/jquery.validate.js', false, true);
+			JHtml::script('com_redshop/common.js', false, true);
+			JHtml::script('com_redshop/registration.js', false, true);
+			JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
 			$shippingaddresses = $this->get('Data');
 
@@ -80,6 +79,7 @@ class account_shiptoViewaccount_shipto extends JView
 		$this->shippingaddresses = $shippingaddresses;
 		$this->billingaddresses = $billingaddresses;
 		$this->request_url = $uri->toString();
+		JFilterOutput::cleanText($this->request_url);
 		$this->params = $params;
 
 		parent::display($tpl);

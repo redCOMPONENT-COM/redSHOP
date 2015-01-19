@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 require_once 'components/com_redshop/models/configuration.php';
 
-class wizardModelwizard extends configurationModelconfiguration
+class RedshopModelWizard extends RedshopModelConfiguration
 {
 	public $_tax_rates = null;
 

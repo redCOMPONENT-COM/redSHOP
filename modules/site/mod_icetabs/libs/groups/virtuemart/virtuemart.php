@@ -100,7 +100,7 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 
 			require_once CLASSPATH . 'ps_product.php';
 			$ps_product = new ps_product;
-			$database   = new ps_DB();
+			$database   = new ps_DB;
 			$database->query($query);
 			$rows = $database->record;
 			if (!empty($rows))

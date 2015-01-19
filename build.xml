@@ -71,11 +71,11 @@
         </copy>
 
         <!-- Libraries -->
-        <!--<copy todir="${www.dir}/libraries" overwrite="true">
+        <copy todir="${www.dir}/libraries" overwrite="true">
             <fileset dir="${src}/libraries">
                 <include name="**" />
             </fileset>
-        </copy>-->
+        </copy>
 
         <!-- Media -->
         <copy todir="${www.dir}/media" overwrite="true">

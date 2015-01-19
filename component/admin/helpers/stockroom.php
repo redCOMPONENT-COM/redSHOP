@@ -3,13 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 class rsstockroomhelper
 {
@@ -19,7 +19,7 @@ class rsstockroomhelper
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 	}
 
 	public function getStockroomDetail($stockroom_id = 0)
@@ -205,51 +205,78 @@ class rsstockroomhelper
 		return $quantity;
 	}
 
-	public function getStockAmountwithReserve($section_id = 0, $section = "product", $stockroom_id = 0)
+	/**
+	 * Get Stock Amount with Reserve
+	 *
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
+	 *
+	 * @return int|mixed
+	 */
+	public function getStockAmountwithReserve($sectionId = 0, $section = 'product', $stockroomId = 0)
 	{
 		$quantity = 1;
+		$productHelper = new producthelper;
 
 		if (USE_STOCKROOM == 1)
 		{
-			$and = "";
-			$table = "product";
-			$db = JFactory::getDbo();
-
-			if ($section != "product")
+			if ($section == 'product' && $stockroomId == 0 && $sectionId)
 			{
-				$table = "product_attribute";
-			}
+				$sectionId = explode(',', $sectionId);
+				JArrayHelper::toInteger($sectionId);
+				$quantity = 0;
 
-			if ($section_id != 0)
-			{
-				// Sanitize ids
-				$section_id = explode(',', $section_id);
-				JArrayHelper::toInteger($section_id);
+				foreach ($sectionId as $item)
+				{
+					$productData = $productHelper->getProductById($item);
 
-				if ($section != "product")
-				{
-					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id IN (" . implode(',', $section_id) . ") ";
-				}
-				else
-				{
-					$and = "AND x.product_id IN (" . implode(',', $section_id) . ") ";
+					if (isset($productData->sum_quanity))
+					{
+						$quantity += $productData->sum_quanity;
+					}
 				}
 			}
-
-			if ($stockroom_id != 0)
+			else
 			{
-				$and .= "AND x.stockroom_id = " . (int) $stockroom_id . " ";
+				$table = 'product';
+				$db = JFactory::getDbo();
+
+				if ($section != 'product')
+				{
+					$table = 'product_attribute';
+				}
+
+				$query = $db->getQuery(true)
+					->select('SUM(x.quantity)')
+					->from($db->qn('#__redshop_' . $table . '_stockroom_xref', 'x'))
+					->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON s.stockroom_id = x.stockroom_id')
+					->where('x.quantity >= 0');
+
+				if ($sectionId != 0)
+				{
+					$sectionId = explode(',', $sectionId);
+					JArrayHelper::toInteger($sectionId);
+
+					if ($section != 'product')
+					{
+						$query->where('x.section = ' . $db->quote($section))
+							->where('x.section_id IN (' . implode(',', $sectionId) . ')');
+					}
+					else
+					{
+						$query->where('x.product_id IN (' . implode(',', $sectionId) . ')');
+					}
+				}
+
+				if ($stockroomId != 0)
+				{
+					$query->where('x.stockroom_id = ' . (int) $stockroomId);
+				}
+
+				$db->setQuery($query);
+				$quantity = $db->loadResult();
 			}
-
-			$query = "SELECT SUM(x.quantity)  FROM " . $this->_table_prefix . $table . "_stockroom_xref AS x "
-				. ", " . $this->_table_prefix . "stockroom AS s "
-				. "WHERE s.stockroom_id=x.stockroom_id "
-				. "AND x.quantity>=0 "
-				. $and
-				. "ORDER BY s.min_del_time ";
-
-			$db->setQuery($query);
-			$quantity = $db->loadResult();
 
 			if ($quantity < 0)
 			{
@@ -264,9 +291,6 @@ class rsstockroomhelper
 			{
 				if (ENABLE_ITEM_TRACKING_SYSTEM && !ENABLE_ONE_STOCKROOM_MANAGEMENT)
 				{
-					// Include redSHOP product helper
-					$producthelper = new producthelper;
-
 					// Supplier order helper object
 					$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
@@ -275,32 +299,32 @@ class rsstockroomhelper
 					$getstockdata->property_id = 0;
 					$getstockdata->subproperty_id = 0;
 
-					if ($section == "product")
+					if ($section == 'product')
 					{
-						$getstockdata->product_id = $section_id;
+						$getstockdata->product_id = $sectionId;
 					}
 					elseif ($section == "property")
 					{
-						$property = $producthelper->getAttibuteProperty($section_id);
+						$property = $productHelper->getAttibuteProperty($sectionId);
 						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
+						$attribute = $productHelper->getProductAttribute(0, 0, $attribute_id);
 						$product_id = $attribute[0]->product_id;
 
 						$getstockdata->product_id = $product_id;
-						$getstockdata->property_id = $section_id;
+						$getstockdata->property_id = $sectionId;
 					}
 					elseif ($section == "subproperty")
 					{
-						$subproperty = $producthelper->getAttibuteSubProperty($section_id);
+						$subproperty = $productHelper->getAttibuteSubProperty($sectionId);
 						$property_id = $subproperty[0]->subattribute_id;
-						$property = $producthelper->getAttibuteProperty($property_id);
+						$property = $productHelper->getAttibuteProperty($property_id);
 						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
+						$attribute = $productHelper->getProductAttribute(0, 0, $attribute_id);
 						$product_id = $attribute[0]->product_id;
 
 						$getstockdata->product_id = $product_id;
 						$getstockdata->property_id = $property_id;
-						$getstockdata->subproperty_id = $section_id;
+						$getstockdata->subproperty_id = $sectionId;
 					}
 
 					$quantity = $crmSupplierOrderHelper->getSupplierStock($getstockdata);
@@ -628,7 +652,7 @@ class rsstockroomhelper
 					. 'AND quantity > 0 '
 					. $and;
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -665,7 +689,7 @@ class rsstockroomhelper
 					. 'WHERE stockroom_id = ' . (int) $stockroom_id . ' '
 					. $and;
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -709,7 +733,7 @@ class rsstockroomhelper
 						. 'WHERE stockroom_id = ' . (int) $stockId[$i] . ' '
 						. $and;
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 					$affected_row = $db->getAffectedRows();
 
 					if ($affected_row > 0)
@@ -725,19 +749,22 @@ class rsstockroomhelper
 
 	public function replaceStockroomAmountDetail($template_desc = "", $section_id = 0, $section = "product")
 	{
-		$productinstock = "";
-
-		if (USE_STOCKROOM == 1)
+		if (strstr($template_desc, '{stockroom_detail}'))
 		{
-			$list = $this->getStockroomAmountDetailList($section_id, $section);
+			$productinstock = "";
 
-			for ($i = 0; $i < count($list); $i++)
+			if (USE_STOCKROOM == 1)
 			{
-				$productinstock .= "<div><span>" . $list[$i]->stockroom_name . "</span>:<span>" . $list[$i]->quantity . "</span></div>";
-			}
-		}
+				$list = $this->getStockroomAmountDetailList($section_id, $section);
 
-		$template_desc = str_replace('{stockroom_detail}', $productinstock, $template_desc);
+				for ($i = 0; $i < count($list); $i++)
+				{
+					$productinstock .= "<div><span>" . $list[$i]->stockroom_name . "</span>:<span>" . $list[$i]->quantity . "</span></div>";
+				}
+			}
+
+			$template_desc = str_replace('{stockroom_detail}', $productinstock, $template_desc);
+		}
 
 		return $template_desc;
 	}
@@ -823,7 +850,7 @@ class rsstockroomhelper
 
 	public function deleteExpiredCartProduct()
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$time = time() - (CART_TIMEOUT * 60);
@@ -831,30 +858,52 @@ class rsstockroomhelper
 			$query = "DELETE FROM " . $this->_table_prefix . "cart "
 				. "WHERE time < " . $db->quote($time);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		return true;
 	}
 
-	public function deleteCartAfterEmpty($section_id = 0, $section = "product")
+	public function deleteCartAfterEmpty($section_id = 0, $section = "product", $quantity = 0)
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
-			$session_id = session_id();
-			$and = "";
+			$query = $db->getQuery(true)
+				->where('session_id = ' . $db->quote(session_id()));
 
 			if ($section_id != 0)
 			{
-				$and .= "AND product_id = " . (int) $section_id . " AND section = " . $db->quote($section) . " ";
+				$query->where('product_id = ' . (int) $section_id)
+					->where('section = ' . $db->quote($section));
 			}
 
-			$query = "DELETE FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id = " . $db->quote($session_id) . " "
-				. $and;
+			if ($quantity)
+			{
+				$query->select('qty')
+					->from($db->qn('#__redshop_cart'));
+				$db->setQuery($query);
+				$qty = (int) $db->loadResult();
+				$query->clear('select')
+					->clear('from');
+
+				if ($qty - (int) $quantity > 0)
+				{
+					$query->update($db->qn('#__redshop_cart'))
+						->set('qty = ' . ($qty - (int) $quantity));
+				}
+				else
+				{
+					$query->delete($db->qn('#__redshop_cart'));
+				}
+			}
+			else
+			{
+				$query->delete($db->qn('#__redshop_cart'));
+			}
+
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		return true;
@@ -862,39 +911,42 @@ class rsstockroomhelper
 
 	public function addReservedStock($section_id, $quantity = 0, $section = "product")
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$session_id = session_id();
-
 			$time = time();
-			$and = "AND session_id = " . $db->quote($session_id) . " "
-				. "AND product_id = " . (int) $section_id . " "
-				. "AND section = " . $db->quote($section) . " ";
+			$query = $db->getQuery(true);
 
-			$sql = "SELECT COUNT(*) FROM " . $this->_table_prefix . "cart "
-				. "WHERE 1=1 "
-				. $and;
-			$db->setQuery($sql);
-			$count = intval($db->loadResult());
+			$query->clear()
+			->select('qty')
+			->from($db->qn('#__redshop_cart'))
+			->where('session_id = ' . $db->quote($session_id))
+			->where('product_id = ' . (int) $section_id)
+			->where('section = ' . $db->quote($section));
+			$db->setQuery($query);
+			$qty = $db->loadResult();
 
-			if ($count)
+			if ($qty !== null)
 			{
-				$query = "UPDATE " . $this->_table_prefix . "cart "
-					. "SET qty = " . (int) $quantity . ", time = " . $db->quote($time) . " "
-					. "WHERE 1=1 "
-					. $and;
+				$query->clear()
+					->update($db->qn('#__redshop_cart'))
+					->set('qty = ' . (int) $quantity)
+					->set('time = ' . $db->quote($time))
+					->where('session_id = ' . $db->quote($session_id))
+					->where('product_id = ' . (int) $section_id)
+					->where('section = ' . $db->quote($section));
 			}
 			else
 			{
-				$query = "INSERT INTO " . $this->_table_prefix . "cart "
-					. "(session_id, product_id, qty, time, section) "
-					. "VALUES (" . $db->quote($session_id) . ", " . (int) $section_id . ", " . (int) $quantity . ", " . $db->quote($time)
-					. ", " . $db->quote($section) . ")";
+				$query->clear()
+					->insert($db->qn('#__redshop_cart'))
+					->columns('session_id, product_id, qty, time, section')
+					->values($db->quote($session_id) . ',' . (int) $section_id . ',' . (int) $quantity . ',' . $db->quote($time) . ',' . $db->quote($section));
 			}
 
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		return true;

@@ -3,17 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperUser');
 
 /**
  * Class registrationModelregistration
@@ -22,7 +21,7 @@ include_once JPATH_COMPONENT . '/helpers/user.php';
  * @subpackage  Model
  * @since       1.0
  */
-class registrationModelregistration extends JModel
+class RedshopModelRegistration extends RedshopModel
 {
 	public $_id = null;
 

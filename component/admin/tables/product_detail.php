@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -143,6 +143,8 @@ class Tableproduct_detail extends JTable
 	 * @var time
 	 */
 	public $checked_out_time = 0;
+
+	public $allow_decimal_piece = 0;
 
 	public function __construct(&$db)
 	{

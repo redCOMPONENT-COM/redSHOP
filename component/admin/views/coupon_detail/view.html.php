@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class coupon_detailVIEWcoupon_detail extends JView
+class RedshopViewCoupon_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -26,10 +25,6 @@ class coupon_detailVIEWcoupon_detail extends JView
 		$userslist = JRequest::getVar('userslist', array());
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUPON_MANAGEMENT_DETAIL'), 'redshop_coupon48');
-
-		$document = JFactory::getDocument();
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
 
 		$uri = JFactory::getURI();
 

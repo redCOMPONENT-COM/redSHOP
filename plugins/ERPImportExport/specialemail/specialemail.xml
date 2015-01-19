@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="ERPImportExport" method="upgrade">
+	<name>PLG_ERPIMPORTEXPORT_SPECIALEMAIL</name>
+	<version>1.0</version>
+	<creationDate>April 2014</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_ERPIMPORTEXPORT_SPECIALEMAIL_DESC</description>
+	<files>
+		<filename plugin="specialemail">specialemail.php</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_ERPImportExport_specialemail.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_ERPImportExport_specialemail.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params" addfieldpath="/administrator/components/com_categories/models/fields">
+			<fieldset name="basic" >
+				<field
+					name="subject"
+					type="text"
+					default=""
+					label="Special Email Subject"
+					description="Special Email Subject"
+					size="50"
+				/>
+				<field
+					name="email"
+					type="text"
+					default=""
+					label="Special Email Address"
+					description="Special Email Address" size="50"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

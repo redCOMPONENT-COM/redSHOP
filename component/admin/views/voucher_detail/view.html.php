@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class voucher_detailVIEWvoucher_detail extends JView
+class RedshopViewVoucher_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -22,16 +21,7 @@ class voucher_detailVIEWvoucher_detail extends JView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT_DETAIL'), 'redshop_voucher48');
-		$document = JFactory::getDocument();
-
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-
-		$document->addScript('components/' . $option . '/assets/js/search.js');
 
 		$uri = JFactory::getURI();
 
@@ -80,17 +70,14 @@ class voucher_detailVIEWvoucher_detail extends JView
 			$result_container = array();
 		}
 
-		$lists['voucher_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
-			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ',
-			'value', 'text', 0
+		$lists['voucher_product'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', alert:"voucher", voucher_id:' . $detail->voucher_id),
+				'select2.options' => array('multiple' => true)
+			)
 		);
 
 		$result = array();
-
-		$lists['product_all'] = JHTML::_('select.genericlist', $result, 'product_all[]',
-			'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0
-		);
-
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->request_url = $uri->toString();

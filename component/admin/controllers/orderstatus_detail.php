@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class orderstatus_detailController extends JController
+class RedshopControllerOrderstatus_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -53,7 +52,7 @@ class orderstatus_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDERSTATUS_DETAIL');
 		}
 
-		$link = 'index.php?option=' . $option . '&view=orderstatus';
+		$link = 'index.php?option=com_redshop&view=orderstatus';
 		$link = $redhelper->sslLink($link, 0);
 		$this->setRedirect($link, $msg);
 	}
@@ -77,7 +76,7 @@ class orderstatus_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=orderstatus', $msg);
 	}
 
 	public function publish()
@@ -99,7 +98,7 @@ class orderstatus_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=orderstatus', $msg);
 	}
 
 	public function unpublish()
@@ -121,13 +120,13 @@ class orderstatus_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=orderstatus', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=orderstatus', $msg);
 	}
 }

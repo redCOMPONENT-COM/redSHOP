@@ -3,24 +3,25 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminProduct');
 
-class addquotation_detailController extends JController
+class RedshopControllerAddquotation_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
-	}
+        $this->_db = JFactory::getDbo();
+
+    }
 
 	public function save($send = 0)
 	{
@@ -39,23 +40,25 @@ class addquotation_detailController extends JController
 			$post['email'] = $post['user_email'];
 			$post['username'] = JRequest::getVar('username', '', 'post', 'username');
 			$post['name'] = $name;
-			JRequest::getVar('password1', $post['password']);
+			JRequest::setVar('password1', $post['password']);
 
 			$post['groups'] = array(0 => 2);
 
 			$date = JFactory::getDate();
-			$post['registerDate'] = $date->toMySQL();
+			$post['registerDate'] = $date->toSql();
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = JModel::getInstance('user_detail', 'user_detailModel');
+			$usermodel = RedshopModel::getInstance('User_detail', 'RedshopModel');
 
 			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);
 
 			if (!$user)
 			{
-				$this->setError($this->_db->getErrorMsg());
+                $errorMsg = $this->_db->getErrorMsg();
+                $link = JRoute::_('index.php?option=com_redshop&view=addquotation_detail', false);
+                $this->setRedirect($link, $errorMsg);
 
 				return false;
 			}
@@ -68,7 +71,7 @@ class addquotation_detailController extends JController
 
 			if (count($user) <= 0)
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=quotaion_detail&user_id=' . $user_id);
+				$this->setRedirect('index.php?option=com_redshop&view=quotaion_detail&user_id=' . $user_id);
 			}
 		}
 
@@ -96,7 +99,7 @@ class addquotation_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function send()
@@ -108,7 +111,7 @@ class addquotation_detailController extends JController
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function displayOfflineSubProperty()

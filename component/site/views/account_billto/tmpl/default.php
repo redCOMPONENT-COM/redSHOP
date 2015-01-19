@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,7 +57,7 @@ if ($this->params->get('show_page_heading', 1))
 			</tr>
 		</table>
 	</fieldset>
-	<input type="hidden" name="cid[]" value="<?php echo $this->billingaddresses->users_info_id; ?>"/>
+	<input type="hidden" name="cid" value="<?php echo $this->billingaddresses->users_info_id; ?>"/>
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $post["user_id"]; ?>"/>
 	<input type="hidden" name="task" value="save"/>
 	<input type="hidden" name="view" value="account_billto"/>

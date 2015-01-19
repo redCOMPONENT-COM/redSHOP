@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_magicmagnifyplus
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@
  * @copyright (C) 2009 Magic Toolbox
  * @license   http://www.magictoolbox.com/license/
  **/
-defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+defined('_JEXEC') or die;
 
 require_once dirname(__FILE__) . "/magicmagnifyplus.module.core.class.php";
 

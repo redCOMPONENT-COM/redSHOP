@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class catalog_requestController extends JController
+class RedshopControllerCatalog_request extends RedshopController
 {
 	public function cancel()
 	{
@@ -37,7 +36,7 @@ class catalog_requestController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog_request', $msg);
 	}
 
 	public function remove()
@@ -59,7 +58,7 @@ class catalog_requestController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog_request', $msg);
 	}
 
 	public function unpublish()
@@ -81,6 +80,6 @@ class catalog_requestController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CATALOG_REQUEST_BLOCK_UNBLOCK_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog_request', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog_request', $msg);
 	}
 }

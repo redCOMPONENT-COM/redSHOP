@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 $fid    = JRequest::getVar('fid', '');
 $fsec   = JRequest::getVar('fsec', '');
 $folder = JRequest::getVar('folder', '');
+
+$mediaHelper = new redMediahelper;
 
 if ($folder == '')
 {
@@ -38,7 +40,7 @@ else
 				<div class="image">
 					<img src="<?php echo $thumb_path; ?>" width="<?php echo $this->_tmp_img->width_60; ?>"
 					     height="<?php echo $this->_tmp_img->height_60; ?>"
-					     alt="<?php echo $this->_tmp_img->name; ?> - <?php echo redMediahelper::parseSize($this->_tmp_img->size); ?>"
+					     alt="<?php echo $this->_tmp_img->name; ?> - <?php echo $mediaHelper->parseSize($this->_tmp_img->size); ?>"
 					     border="0"/>
 				</div>
 			</a>

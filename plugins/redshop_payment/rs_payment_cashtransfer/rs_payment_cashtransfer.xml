@@ -57,7 +57,7 @@
                        label="Order Status transactions"
                        description="Select the order status to which the actual order is set.">
                 </field>
-                <field name="shopper_group_id" type="plugins" default="0"
+                <field name="shopper_group_id" type="shoppergrouplist" default="0"
                        label="Select Shopper Group" description="Displays the shopper groups"/>
                 <field type="spacer"/>
 

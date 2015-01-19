@@ -24,7 +24,7 @@
 
  */
 
-require ("php-barcode.php");
+require "php-barcode.php";
 
 function getvar($name) {
 	global $_GET, $_POST;

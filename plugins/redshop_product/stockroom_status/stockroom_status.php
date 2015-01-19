@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,9 @@ defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminOrder');
+
 class plgredshop_productstockroom_status extends JPlugin
 {
 	/**
@@ -105,7 +107,7 @@ class plgredshop_productstockroom_status extends JPlugin
 
 		if (ADMINISTRATOR_EMAIL != "" && $stock_flag == 1)
 		{
-			JUtility::sendMail(SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
+			JMail::getInstance()->sendMail(SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
 		}
 
 	}

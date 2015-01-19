@@ -3,18 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
-
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperExtra_field');
 
 /**
  * registration Controller.
@@ -23,7 +21,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class RegistrationController extends JController
+class RedshopControllerRegistration extends RedshopController
 {
 	/**
 	 * newregistration function
@@ -89,7 +87,7 @@ class RegistrationController extends JController
 	 */
 	public function captcha()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/captcha.php';
+		JLoader::load('RedshopHelperCaptcha');
 
 		$width       = JRequest::getInt('width', 120);
 		$height      = JRequest::getInt('height', 40);

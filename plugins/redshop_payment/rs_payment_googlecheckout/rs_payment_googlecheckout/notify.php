@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,8 @@ elseif (file_exists($my_path . "/configuration.php"))
 }
 else
 {
-	die ("Joomla Configuration File not found!");
+	echo "Joomla Configuration File not found!";
+	die;
 }
 
 $absolute_path = realpath($absolute_path);
@@ -62,8 +63,10 @@ $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLan
 // redshop language file
 JPlugin::loadLanguage('com_redshop');
 
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminOrder');
+
 $objOrder = new order_functions;
 
 $tid = $_REQUEST ["transact"];
@@ -167,9 +170,5 @@ foreach ($values as $key => $val)
 	$maildata .= "\n";
 }
 
-//mail("gunjan@redweb.dk","googlecheckout",$maildata);
-
 // change order status
 $objOrder->changeorderstatus($values);
-
-?>

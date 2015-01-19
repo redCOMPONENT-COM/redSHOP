@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+JLoader::load('RedshopHelperAdminXmlHelper');
 
-class xmlimport_detailVIEWxmlimport_detail extends JView
+class RedshopViewXmlimport_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -20,10 +19,12 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 		$xmlhelper = new xmlHelper;
 		$document  = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
-		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
+		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
 
 		$uri                   = JFactory::getURI();
+		$columns               = array();
 		$lists                 = array();
+		$updateshippingtag     = array();
 		$resultarray           = array();
 		$xmlfiletag            = array();
 		$xmlbillingtag         = array();
@@ -96,11 +97,13 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 			for ($i = 0; $i < count($columns); $i++)
 			{
+				$cols[$i] = new stdClass();
 				$cols[$i]->value = $columns[$i]->Field;
 				$cols[$i]->text  = $columns[$i]->Field;
 			}
 
 			$op           = array();
+			$op[0]        = new stdClass();
 			$op[0]->value = '';
 			$op[0]->text  = JText::_('COM_REDSHOP_SELECT');
 			$columns      = array_merge($op, $cols);
@@ -119,6 +122,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 				for ($i = 0; $i < count($columns); $i++)
 				{
+					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}
@@ -142,6 +146,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 				for ($i = 0; $i < count($columns); $i++)
 				{
+					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}
@@ -165,6 +170,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 				for ($i = 0; $i < count($columns); $i++)
 				{
+					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}

@@ -3,23 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
-//$editor =& JFactory::getEditor();
 ?>
-
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'shipping_rate') {
 			form.view.value = "shipping_rate";
@@ -38,11 +31,8 @@ jimport('joomla.html.pane');
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<?php
-	//Get JPaneTabs instance
-	$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
-	$output = $myTabs->startPane('pane');
-	//Create 1st Tab
-	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1');
+	echo JHtml::_('tabs.start', 'shipping-pane', array('startOffset' => 0));
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'tab1');
 	?>
 	<table class="admintable" width="100%">
 		<tr>
@@ -74,23 +64,14 @@ jimport('joomla.html.pane');
 			</td>
 		</tr>
 	</table>
-	<?php
-	echo $myTabs->endPanel();
-
-	//Create 2nd Tab
-	echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CONFIG'), 'tab2');
-	?>
+	<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CONFIG'), 'tab2'); ?>
 	<div align="left"><?php
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
 		$payment = $dispatcher->trigger('onShowconfig', array($this->detail));
 		?>
 	</div>
-	<?php
-	echo $myTabs->endPanel();
-
-	echo $myTabs->endPane();
-	?>
+	<?php echo JHtml::_('tabs.end'); ?>
 	<div class="clr"></div>
 
 	<input type="hidden" name="element" value="<?php echo $this->detail->element; ?>"/>

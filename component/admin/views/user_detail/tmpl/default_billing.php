@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -58,13 +58,13 @@ $statestyle = (isset($this->showstates) && $this->showstates == 0) ? ' style="di
 			</td>
 		</tr>
 		<tr <?php echo $countrystyle;?>>
-			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_Country'); ?>:</td>
+			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
 			<td><?php echo $this->lists['country_code'];?>
 				<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_COUNTRY'), JText::_('COM_REDSHOP_Country'), 'tooltip.png', '', '', false); ?></td>
 		</tr>
 		<tr <?php echo $countrystyle;?>>
 			<td valign="top" align="right" class="key">
-				<div id="div_state_lbl" <?php echo $statestyle;?>><?php echo JText::_('COM_REDSHOP_State'); ?>:</div>
+				<div id="div_state_lbl" <?php echo $statestyle;?>><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</div>
 			</td>
 			<td>
 				<div id="div_state_txt" <?php echo $statestyle;?>><?php echo $this->lists['state_code'];?>
@@ -88,8 +88,6 @@ $statestyle = (isset($this->showstates) && $this->showstates == 0) ? ' style="di
 			<td><input class="text_area" type="text" name="ean_number" value="<?php echo $this->detail->ean_number; ?>"
 			           size="20" maxlength="250"/></td>
 		</tr>
-		<!-- <tr id="trReqnumber" <?php echo $allowCompany;?>><td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER' ); ?>:</td>
-	<td><input class="text_area" type="text" name="requisition_number" value="<?php echo $this->detail->requisition_number; ?>" size="20" maxlength="250" /></td></tr>-->
 		<?php
 		if (USE_TAX_EXEMPT == 1)
 		{

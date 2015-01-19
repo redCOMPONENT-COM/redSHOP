@@ -3,13 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $section = JRequest::getVar('section');
@@ -18,10 +18,6 @@ $view = JRequest::getVar('view');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -35,7 +31,7 @@ $view = JRequest::getVar('view');
 	<input type="hidden" name="view" value="<?php echo $view ?>"/>
 	<input type="hidden" name="section" value="<?php echo $section ?>"/>
 	<input type="hidden" name="task" value=""/>
-	<table cellspacing="0" cellpadding="0" border="0" width="100%" class="adminlist">
+	<table cellspacing="0" cellpadding="0" border="0" width="100%" class="adminlist table table-striped table-hover">
 		<thead>
 		<tr>
 			<th><?php echo JText::_('COM_REDSHOP_SECTION_PERMISSION')?></th>

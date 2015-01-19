@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -59,11 +59,11 @@ class plgSystemRedlightbox_slideshow extends JPlugin
             $headerstuff['scripts'] = $scripts;
             $document->setHeadData($headerstuff);
 
-            $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/jquery/jquery.min.js');
+			JHtml::_('redshopjquery.framework');
             $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/phoswipe/klass.min.js');
             $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/phoswipe/photoswipe.js');
             $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/slimbox/slimbox2.js');
-            $document->addScript('components/com_redshop/assets/js/attribute.js');
+			JHtml::script('com_redshop/attribute.js', false, true);
             $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/redlightbox.js');
 
             $document->addStyleSheet('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/phoswipe/photoswipe.css');

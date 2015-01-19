@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
+	<name>PLG_REDSHOP_SHIPPING_POSTDANMARK</name>
+	<version>1.0</version>
+	<creationDate>September 2014</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_REDSHOP_SHIPPING_POSTDANMARK_DESC</description>
+	<files>
+		<filename plugin="postdanmark">postdanmark.php</filename>
+		<folder>includes</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_postdanmark.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_postdanmark.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="is_shipper" type="hidden" default="1" value="0" />
+				<field
+					name="consumerId"
+					type="text"
+					default=""
+					value=""
+					size="45"
+					label="PLG_REDSHOP_SHIPPING_POSTDANMARK_CONSUMERID"
+					desc="PLG_REDSHOP_SHIPPING_POSTDANMARK_CONSUMERID_DESC"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

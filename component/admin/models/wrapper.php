@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class wrapperModelwrapper extends JModel
+class RedshopModelWrapper extends RedshopModel
 {
 	public $_productid = 0;
 
@@ -32,7 +31,7 @@ class wrapperModelwrapper extends JModel
 
 		$this->_context = 'wrapper_id';
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -84,6 +83,8 @@ class wrapperModelwrapper extends JModel
 
 	public function _buildQuery()
 	{
+		$db  = JFactory::getDbo();
+		$app = JFactory::getApplication();
 		$showall = JRequest::getVar('showall', '0');
 		$and = '';
 
@@ -102,6 +103,11 @@ class wrapperModelwrapper extends JModel
 		}
 		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w '
 			. $and;
+
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'w.wrapper_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$query .= ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $query;
 	}

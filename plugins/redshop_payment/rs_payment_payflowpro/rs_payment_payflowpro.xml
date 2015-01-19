@@ -1,113 +1,209 @@
-<?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" client="site" type="plugin" group="redshop_payment"
-           method="upgrade">
-    <name>PLG_rs_payment_payflowpro</name>
-    <version>1.3.2</version>
-    <creationDate>April 2013</creationDate>
-    <author>redCOMPONENT.com</author>
-    <authorEmail>email@redcomponent.com</authorEmail>
-    <authorUrl>http://www.redcomponent.com</authorUrl>
-    <copyright>redCOMPONENT.com</copyright>
-    <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Paypal Pro payments
-    </description>
-
-    <files>
-        <filename plugin="rs_payment_payflowpro">rs_payment_payflowpro.php</filename>
-    </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payflowpro.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payflowpro.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_payflowpro.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_payflowpro.sys.ini</language>
-    </languages>
-    <config addfieldpath="/administrator/components/com_redshop/elements">
-        <fields name="params">
-            <fieldset name="basic">
-
-                <field name="payment_oprand" type="text" size="10" default="-"
-                       label="Payment operand" description="Payment Operand"/>
-                <field name="payment_price" type="text" size="30" default=""
-                       label="Payment price" description="Payment price"/>
-                <field name="payment_discount_is_percent" type="radio" default="1"
-                       label="Discount Type: " description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
-                </field>
-                <field name="is_test" type="list" default="1" label="Test mode?: "
-                       description="Use Test account?">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="refund" type="radio" default="1" label="Refund When Cancel or Return Order"
-                       description="Refund Payment When Cancel or Return Order">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="partner" type="text" default="PayPal"
-                       label="Payflow Partner:"
-                       description="Payflow Partner"/>
-                <field name="merchant_id" type="text" default=""
-                       label="Merchant Login:"
-                       description="This is merchant login from paypal"/>
-                <field name="merchant_password" type="text" default="" label="Password:"
-                       description="This is merchant login Password from paypal"/>
-                <field name="merchant_user" type="text" default="" label="User:"
-                       description="If you are using only one user in your Payflow account than keep user same as Merchant Name"/>
-                <field name="sales_auth_only" type="list" default="S"
-                       label="Sale or Authorize Only: "
-                       description="Do you want to send the final sales info to paypal or just authorize the card and return to the site to be processed later?">
-                    <option value="S">Sales</option>
-                    <option value="A">Authorize Only</option>
-                </field>
-                <field name="currency" type="list" default="0" label="Payflow Pro Currency"
-                       description="Payflow Pro Currency">
-                    <option value="EUR">Euro (EUR)</option>
-                    <option value="USD">US Dollar $ (USD)</option>
-                    <option value="GBP">English Pound £ (GBP)</option>
-                    <option value="AUD">Australian Dollar (AUD)</option>
-                    <option value="CAD">Canadian Dollar (CAD)</option>
-                    <option value="JPY">Japanese Yen (JPY)</option>
-                </field>
-                <field name="verify_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
-                </field>
-                <field name="invalid_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
-                </field>
-                <field name="capture_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="S"
-                       label="Capture Payment Status"
-                       description="Select an capture status for capturing payment."></field>
-            </fieldset>
-            <fieldset name="advanced">
-                <field name="private_person" type="radio" default="1"
-                       label="Show on Private Person" description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="business" type="radio" default="1" label="Show on Business"
-                       description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="is_creditcard" type="hidden" default="1" value="1"/>
-                <field name="accepted_credict_card" type="creditcards" default="0"
-                       label="Select Credit Cards" description="Displays the selected category product"/>
-                <field name="economic_payment_terms_id" type="text" default=""
-                       label="Enter E-conomic Payment Conditions ID"/>
-                <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
-                <field name="shopper_group_id" type="plugins" default="0"
-                       label="Select Shopper Group" description="Displays the shopper groups"/>
-            </fieldset>
-        </fields>
-    </config>
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
+  <name>PLG_RS_PAYMENT_PAYFLOWPRO</name>
+  <version>1.5</version>
+  <creationDate>April 2013</creationDate>
+  <author>redCOMPONENT.com</author>
+  <authorEmail>email@redcomponent.com</authorEmail>
+  <authorUrl>http://www.redcomponent.com</authorUrl>
+  <copyright>redCOMPONENT.com</copyright>
+  <license>GNU General Public License v2</license>
+  <description>PLG_RS_PAYMENT_PAYFLOWPRO_DESC</description>
+  <files>
+      <filename plugin="rs_payment_payflowpro">rs_payment_payflowpro.php</filename>
+  </files>
+  <languages>
+      <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payflowpro.ini</language>
+      <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payflowpro.sys.ini</language>
+      <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_payflowpro.ini</language>
+      <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_payflowpro.sys.ini</language>
+  </languages>
+  <config addfieldpath="/administrator/components/com_redshop/elements">
+    <fields name="params">
+      <fieldset name="basic">
+        <field
+          name="payment_oprand"
+          type="text"
+          size="10"
+          default="-"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_PAYMENT_OPERAND"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_PAYMENT_OPERAND_DESC"
+        />
+        <field
+          name="payment_price"
+          type="text"
+          size="30"
+          default=""
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_PAYMENT_OPERAND_PRICE"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_PAYMENT_OPERAND_PRICE_DESC"
+        />
+        <field
+          name="payment_discount_is_percent"
+          type="radio"
+          default="1"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_DISCOUNT_TYPE"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_DISCOUNT_TYPE_DESC"
+        >
+          <option value="1">Percentage</option>
+          <option value="0">Total</option>
+        </field>
+        <field
+          name="is_test"
+          type="list"
+          default="1"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_TEST_MODE"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_TEST_MODE_DESC"
+        >
+          <option value="1">JYES</option>
+          <option value="0">JNO</option>
+        </field>
+        <field
+          name="refund"
+          type="radio"
+          default="1"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_REFUNT_TYPE"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_REFUNT_TYPE_DESC"
+        >
+          <option value="1">PLG_RS_PAYMENT_PAYFLOWPRO_REFUNT_TYPE_CANCEL</option>
+          <option value="0">PLG_RS_PAYMENT_PAYFLOWPRO_REFUNT_TYPE_ORDER</option>
+        </field>
+        <field
+          name="partner"
+          type="text"
+          default="PayPal"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_PARTNER"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_PARTNER_DESC"
+        />
+        <field
+          name="merchant_id"
+          type="text"
+          default=""
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_MERCHANT_LOGIN"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_MERCHANT_LOGIN_DESC"
+        />
+        <field
+          name="merchant_password"
+          type="text"
+          default=""
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_PASSWORD"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_PASSWORD_DESC"
+        />
+        <field
+          name="merchant_user"
+          type="text"
+          default=""
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_USER"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_USER_DESC" />
+        <field
+          name="sales_auth_only"
+          type="list"
+          default="S"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_TYPE"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_TYPE_DESC"
+        >
+          <option value="S">PLG_RS_PAYMENT_PAYFLOWPRO_SALES</option>
+          <option value="A">PLG_RS_PAYMENT_PAYFLOWPRO_AUTHORIZE</option>
+        </field>
+        <field
+          name="currency"
+          type="list"
+          default="0"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY_DESC"
+        >
+          <option value="EUR">Euro (EUR)</option>
+          <option value="USD">US Dollar $ (USD)</option>
+          <option value="GBP">English Pound £ (GBP)</option>
+          <option value="AUD">Australian Dollar (AUD)</option>
+          <option value="CAD">Canadian Dollar (CAD)</option>
+          <option value="JPY">Japanese Yen (JPY)</option>
+        </field>
+        <field
+          name="verify_status"
+          type="sql"
+          query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status" key_field="st_value"
+          value_field="st_title"
+          default="C"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_ORDER_STATUS"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_ORDER_STATUS_DESC"
+        >
+        </field>
+        <field
+          name="invalid_status"
+          type="sql"
+          query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status" key_field="st_value"
+          value_field="st_title"
+          default="P"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_ORDER_FAILED_STATUS"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_ORDER_FAILED_STATUS_DESC"
+        >
+        </field>
+        <field
+          name="capture_status"
+          type="sql"
+          query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status" key_field="st_value"
+          value_field="st_title"
+          default="S"
+          label="PLG_RS_PAYMENT_PAYFLOWPRO_CAPTURE_PAYMENT"
+          description="PLG_RS_PAYMENT_PAYFLOWPRO_CAPTURE_PAYMENT_DESC"
+        />
+      </fieldset>
+      <fieldset
+        name="advanced">
+          <field
+            name="private_person"
+            type="radio"
+            default="1"
+            label="PLG_RS_PAYMENT_PAYFLOWPRO_SHOW_ON_PRIVATE"
+            description="PLG_RS_PAYMENT_PAYFLOWPRO_SHOW_ON_PRIVATE_DESC"
+          >
+              <option value="1">JYES</option>
+              <option value="0">JNO</option>
+          </field>
+          <field
+            name="business"
+            type="radio"
+            default="1"
+            label="PLG_RS_PAYMENT_PAYFLOWPRO_SHOW_ON_BUSINESS"
+            description="PLG_RS_PAYMENT_PAYFLOWPRO_SHOW_ON_BUSINESS_DESC"
+          >
+              <option value="1">JYES</option>
+              <option value="0">JNO</option>
+          </field>
+          <field
+            name="is_creditcard"
+            type="hidden"
+            default="1"
+            value="1"
+          />
+          <field
+            name="accepted_credict_card"
+            type="creditcards"
+            default="0"
+            label="PLG_RS_PAYMENT_PAYFLOWPRO_CREDIT_CARD"
+            description="PLG_RS_PAYMENT_PAYFLOWPRO_CREDIT_CARD_DESC"
+          />
+          <field
+            name="economic_payment_terms_id"
+            type="text"
+            default=""
+            label="PLG_RS_PAYMENT_PAYFLOWPRO_ECONOMIC_CONDITION_ID"
+          />
+          <field
+            name="economic_design_layout"
+            type="text"
+            default=""
+            label="PLG_RS_PAYMENT_PAYFLOWPRO_ECONOMIC_LAYOUT_ID"
+          />
+          <field
+            name="shopper_group_id"
+            type="shoppergrouplist"
+            multiple="multiple"
+            default="0"
+            label="PLG_RS_PAYMENT_PAYFLOWPRO_SHOPPER_GROUP"
+            description="PLG_RS_PAYMENT_PAYFLOWPRO_SHOPPER_GROUP_DESC"
+          />
+      </fieldset>
+    </fields>
+  </config>
 </extension>

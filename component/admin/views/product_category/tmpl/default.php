@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 JHTMLBehavior::modal();
 $product = $this->products;
 
@@ -15,9 +15,6 @@ $product = $this->products;
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 
 		var form = document.adminForm;
 
@@ -55,7 +52,7 @@ $product = $this->products;
 			<th><?php echo JText::_('COM_REDSHOP_CATEGORY_NAME');?></th>
 		</tr>
 		<?php
-		$row = & $product[0];
+		$row = $product[0];
 		echo "<tr>";
 		echo "<td>" . $row->product_name . "</td>";
 		echo "<td rowspan='" . count($product) . "'>" . $this->lists["category"] . "</td>";
@@ -64,7 +61,7 @@ $product = $this->products;
 
 		for ($i = 1; $i < count($product); $i++)
 		{
-			$row = & $product[$i];
+			$row = $product[$i];
 			echo "<tr>";
 			echo "<td>" . $row->product_name;
 			echo "<input type='hidden' name='cid[]' value='" . $row->product_id . "'>";

@@ -3,19 +3,17 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
 
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-
-class checkoutViewcheckout extends JView
+class RedshopViewCheckout extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -60,7 +58,7 @@ class checkoutViewcheckout extends JView
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
-			$app->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
+			$app->Redirect('index.php?option=com_redshop&Itemid=' . $Itemid, $msg);
 		}
 
 		if (SHIPPING_METHOD_ENABLE)
@@ -68,29 +66,29 @@ class checkoutViewcheckout extends JView
 			if ($users_info_id < 1)
 			{
 				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_ADDRESS');
-				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;
-				$app->Redirect($link, $msg);
+				$app->redirect($link, $msg);
 			}
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
-				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_METHOD');
-				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+				$msg  = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
+				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;
-				$app->Redirect($link, $msg);
+				$app->redirect($link, $msg);
 			}
 		}
 
 		if ($payment_method_id == '')
 		{
 			$msg  = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+			$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 				. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 				. $payment_method_id;
-			$app->Redirect($link, $msg);
+			$app->redirect($link, $msg);
 		}
 
 		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);
@@ -102,8 +100,7 @@ class checkoutViewcheckout extends JView
 
 		if (@$is_creditcard == 1)
 		{
-			$document = JFactory::getDocument();
-			JHTML::Script('credit_card.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/credit_card.js', false, true);
 		}
 
 		if ($is_subscription)

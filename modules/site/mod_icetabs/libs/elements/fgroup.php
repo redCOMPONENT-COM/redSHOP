@@ -8,7 +8,7 @@
  * @copyright      Copyright(C) JAN 2010 LandOfCoder.com <@emai:landofcoder@gmail.com>. All rights reserved.
  * @license        GNU General Public License version 2
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 /**
  * Get a collection of categories
  */
@@ -27,7 +27,7 @@ class JFormFieldFgroup extends JFormField
 	 */
 	function getInput()
 	{
-		$mediaPath = JURI::root() . str_replace(DS, '/', str_replace(JPATH_ROOT, '', dirname(dirname(dirname(__FILE__))))) . '/assets/';
+		$mediaPath = JURI::root() . str_replace(DIRECTORY_SEPARATOR, '/', str_replace(JPATH_ROOT, '', dirname(dirname(dirname(__FILE__))))) . '/assets/';
 		JHTML::stylesheet($mediaPath . 'form.css');
 		$attributes = $this->element;
 		$class      = isset($attributes['group']) && trim($attributes['group']) == 'end' ? 'lof-end-group' : 'lof-group';
@@ -44,11 +44,11 @@ class JFormFieldFgroup extends JFormField
 		if (!defined('ADD_MEDIA_CONTROL'))
 		{
 			define('ADD_MEDIA_CONTROL', 1);
-			$uri = str_replace(DS, "/", str_replace(JPATH_SITE, JURI::base(), dirname(__FILE__)));
+			$uri = str_replace(DIRECTORY_SEPARATOR, "/", str_replace(JPATH_SITE, JURI::base(), dirname(__FILE__)));
 			$uri = str_replace("/administrator/", "", $uri);
 
 			JHTML::stylesheet($uri . "/media/form.css");
-			JHTML::script($uri . "/media/form.js");
+			JHTML::script($uri . "/media/form.js", true);
 		}
 
 		return $string;

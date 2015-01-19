@@ -3,11 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 jimport('joomla.filesystem.file');
@@ -33,8 +33,8 @@ if ($showbuttons == 1)
 	{
 		case "product";
 			$sectionadata           = $producthelper->getProductById($section_id);
-			$section_name           = $sectionadata->product_name;
-			$sectiona_primary_image = $sectionadata->product_full_image;
+			$section_name           = isset($sectionadata->product_name) ? $sectionadata->product_name : '';
+			$sectiona_primary_image = isset($sectionadata->product_full_image) ? $sectionadata->product_full_image : '';
 			$directory              = $media_section;
 			break;
 		case "property";
@@ -57,29 +57,29 @@ if ($showbuttons == 1)
 ?>
 	<fieldset>
 	<div style="float: right">
-		<button type="button" onclick="Joomla.submitbutton('add');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('add');">
 			<?php echo JText::_('COM_REDSHOP_ADD'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('edit');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('edit');">
 			<?php echo JText::_('COM_REDSHOP_EDIT'); ?>
 		</button><?php
 		if ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')
 		{
 			?>
-			<button type="button" onclick="Joomla.submitbutton('defaultmedia');">
+			<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('defaultmedia');">
 			<?php echo JText::_('COM_REDSHOP_DEFAULT_MEDIA'); ?>
 			</button><?php
 		}    ?>
-		<button type="button" onclick="Joomla.submitbutton('remove');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('remove');">
 			<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('publish');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('publish');">
 			<?php echo JText::_('COM_REDSHOP_PUBLISH'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('unpublish');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('unpublish');">
 			<?php echo JText::_('COM_REDSHOP_UNPUBLISH'); ?>
 		</button>
-		<button type="button" onclick="window.parent.location.reload();">
+		<button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
 			<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 		</button>
 	</div>
@@ -108,19 +108,18 @@ else
 						<?php
 							echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ':' . $this->lists['type'] . "&nbsp;" . JText::_('COM_REDSHOP_MEDIA_SECTION') . ':' . $this->lists['section'] . "&nbsp;";
 						?>
-						<button onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+						<button class="btn btn-small" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
 					</td>
 				</tr>
 			</table>
 	<?php
 		}
 	?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="5%"><input type="checkbox" name="toggle" value=""
-				                      onclick="checkAll(<?php echo count($this->media); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th width="15%" class="title"><?php        if ($showbuttons == 1)
 						echo JTEXT::_('COM_REDSHOP_MEDIA_NAME');
 					else
@@ -201,7 +200,7 @@ else
 
 			for ($i = 0, $n = count($this->media); $i < $n; $i++)
 			{
-				$row       = & $this->media[$i];
+				$row       = $this->media[$i];
 				$row->id   = $row->media_id;
 				$published = JHTML::_('grid.published', $row, $i);    ?>
 
@@ -213,7 +212,7 @@ else
 
 						$filetype = strtolower(JFile::getExt(trim($row->media_name)));
 
-						if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
+						if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images')
 						{
 							$media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim($row->media_name);    ?>
 							<a class="modal" href="<?php echo $media_img; ?>"
@@ -238,7 +237,7 @@ else
 						{
 							$additionalfiles = $model->getAdditionalFiles($row->id);
 					?>
-							<a href="index3.php?option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id; ?>&showbuttons=1"
+							<a href="index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id; ?>&showbuttons=1"
 								   class="modal" rel="{handler: 'iframe', size: {x: 1000, y: 400}}"
 								   title="<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') . '&nbsp;(' . count($additionalfiles) . ')'; ?>">
 									<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') . '&nbsp;(' . count($additionalfiles) . ')'; ?>
@@ -265,7 +264,7 @@ else
 						<td align="center"><?php  echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $row->ordering);
 							echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $row->ordering);?>
 							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
-							       class="text_area" style="text-align: center"/></td>
+							       class="text_area input-small" style="text-align: center"/></td>
 					<?php
 					}
 					?>
@@ -283,9 +282,18 @@ else
 			<?php
 			if ($showbuttons != 1)
 			{
-				echo '<tfoot>'
-				. '<td colspan="9">' . $this->pagination->getListFooter() . '</td>'
-				. '</tfoot>';
+			?>
+			<tfoot>
+				<td colspan="9">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+				 <?php echo $this->pagination->getListFooter(); ?>
+				</td>
+			</tfoot>
+			<?php
 			}
 			?>
 		</table>

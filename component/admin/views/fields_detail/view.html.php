@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 
-class fields_detailVIEWfields_detail extends JView
+class RedshopViewFields_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -30,7 +29,7 @@ class fields_detailVIEWfields_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL'), 'redshop_fields48');
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/fields.js');
+		$document->addScript('components/com_redshop/assets/js/fields.js');
 
 		$uri = JFactory::getURI();
 		$this->setLayout('default');

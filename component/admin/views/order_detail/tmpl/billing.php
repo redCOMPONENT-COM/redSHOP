@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,13 +11,20 @@ defined('_JEXEC') or die;
 
 $billing = $this->billing;
 $is_company = $billing->is_company;
-$extra_field = new extra_field();
+$allowCompany = '';
+
+if ($is_company != 1)
+{
+	$allowCompany = 'style="display:none;"';
+}
+
+$extra_field = new extra_field;
 
 if (!isset($billing->order_info_id))
 	$billing->order_info_id = 0;
 
 $Itemid = JRequest::getVar('Itemid');
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 ?>
 <script type="text/javascript">
 
@@ -65,7 +72,10 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_BILLING_INFORMATION'); ?></legend>
 			<table class="admintable" border="0">
-
+				<tr>
+					<td width="100" align="right" class="key"><label><?php echo JText::_('COM_REDSHOP_REGISTER_AS');?>:</label></td>
+					<td><?php echo $this->lists['is_company']; ?></td>
+				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
 						<label>
@@ -88,7 +98,11 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 						       value="<?php echo $billing->lastname; ?>"/>
 					</td>
 				</tr>
-
+				<tr id="trCompanyName" <?php echo $allowCompany;?>>
+					<td width="100" align="right" class="key"><label><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</label></td>
+					<td><input class="inputbox" type="text" name="company_name"
+							   value="<?php echo $billing->company_name; ?>" size="32" maxlength="250"/></td>
+				</tr>
 
 				<tr>
 					<td width="100" align="right" class="key">
@@ -133,7 +147,7 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 						<?php echo $this->lists['country_code'];?>
 					</td>
 				</tr>
-				<tr <?php if ($this->showcountry == 0) echo " style='display:none;'";?> >
+				<tr id="div_state_txt" <?php if ($this->showstate == 0) echo " style='display:none;'";?> >
 					<td width="100" align="right" class="key">
 						<label for="address">
 							<?php echo JText::_('COM_REDSHOP_STATE'); ?>:
@@ -155,39 +169,54 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 					</td>
 				</tr>
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</td>
+					<td width="100" align="right" class="key"><label><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</label></td>
 					<td><input class="inputbox" type="text" name="user_email" size="32" maxlength="250"
 					           value="<?php echo @$billing->user_email; ?>"/></td>
 				</tr>
+				<tr id="trEANnumber" <?php echo $allowCompany;?>>
+					<td width="100" align="right" class="key"><label><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</label></td>
+					<td><input class="inputbox" type="text" name="ean_number" value="<?php echo $billing->ean_number; ?>"
+							   size="32" maxlength="250"/></td>
+				</tr>
 				<?php
-				if ($is_company)
+				if (USE_TAX_EXEMPT == 1)
 				{
 					?>
-					<tr>
-						<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>:
+					<tr id="trVatNumber" <?php echo $allowCompany;?>>
+						<td valign="top" align="right" class="key"><label><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>:</label></td>
+						<td><input class="text_area" type="text" name="vat_number" id="vat_number"
+								   value="<?php echo $billing->vat_number; ?>" size="20" maxlength="250"/>
+							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_VAT_NUMBER'), JText::_('COM_REDSHOP_VAT_NUMBER'), 'tooltip.png', '', '', false); ?>
 						</td>
-						<td><input class="inputbox" type="text" name="vat_number" size="32" maxlength="250"
-						           value="<?php echo $billing->vat_number; ?>"/></td>
 					</tr>
-					<tr>
-						<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:
-						</td>
-						<td><input class="inputbox" type="text" name="ean_number" size="32" maxlength="250"
-						           value="<?php echo $billing->ean_number; ?>"/></td>
+					<tr id="trTaxExempt" <?php echo $allowCompany;?>>
+						<td valign="top" align="right" class="key"><label><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</label></td>
+						<td><?php echo $this->lists['tax_exempt'];
+							echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_TAX_EXEMPT'), JText::_('COM_REDSHOP_TAX_EXEMPT'), 'tooltip.png', '', '', false); ?></td>
 					</tr>
-					<!-- <tr>
-									<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER' ); ?>:</td>
-									<td><?php echo ($billing->requisition_number!="") ? $billing->requisition_number : "N/A"; ?></td>
-								</tr>-->
-					<?php
-					$fields = $extra_field->list_all_field_display(8, $billing->users_info_id);
+					<tr id="trTaxExemptRequest" <?php echo $allowCompany;?>>
+						<td valign="top" class="key"><label><?php echo JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL'); ?>:</label></td>
+						<td><?php echo $this->lists['requesting_tax_exempt']; ?>
+							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_USER_REQUEST_TAX_EXEMPT'), JText::_('COM_REDSHOP_USER_REQUEST_TAX_EXEMPT_LBL'), 'tooltip.png', '', '', false); ?></td>
+					</tr>
+					<tr id="trTaxExemptApproved" <?php echo $allowCompany;?>>
+						<td valign="top" class="key"><label><?php echo JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED'); ?>:</label></td>
+						<td><?php echo $this->lists['tax_exempt_approved']; ?>
+							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_TEX_EXEMPT_APPROVED'), JText::_('COM_REDSHOP_TEX_EXEMPT_APPROVED'), 'tooltip.png', '', '', false); ?></td>
+					</tr>
+				<?php
+				}
+
+				if ($is_company)
+				{
+					echo $extra_field->list_all_field(8, $billing->users_info_id);
 				}
 				else
 				{
-					$fields = $extra_field->list_all_field_display(7, $billing->users_info_id);
+					echo $extra_field->list_all_field(7, $billing->users_info_id);
 				}
-				echo $fields; ?>
 
+				?>
 				<tr>
 					<td></td>
 					<td>
@@ -207,9 +236,7 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 	<input type="hidden" name="user_id" value="<?php echo $billing->user_id; ?>"/>
 	<input type="hidden" name="users_info_id" value="<?php echo $billing->users_info_id; ?>"/>
 	<input type="hidden" name="shopper_group_id" value="<?php echo $billing->shopper_group_id; ?>"/>
-	<input type="hidden" name="tax_exempt_approved" value="<?php echo $billing->tax_exempt_approved; ?>"/>
 	<input type="hidden" name="approved" value="<?php echo $billing->approved; ?>"/>
-	<input type="hidden" name="is_company" value="<?php echo $billing->is_company; ?>"/>
 	<input type="hidden" name="address_type" value="BT"/>
 
 

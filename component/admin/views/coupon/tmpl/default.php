@@ -3,26 +3,23 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-$order_functions = new order_functions();
+JLoader::load('RedshopHelperAdminOrder');
+$order_functions = new order_functions;
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('coupon');
-$url = JUri::base();
+$url = JURI::base();
 $comment = JRequest::getVar('filter');
 ?>
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -58,15 +55,14 @@ $comment = JRequest::getVar('filter');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->coupons); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_COUPON_CODE', 'coupon_code', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -98,9 +94,9 @@ $comment = JRequest::getVar('filter');
 			$k = 0;
 			for ($i = 0, $n = count($this->coupons); $i < $n; $i++)
 			{
-				$row = & $this->coupons[$i];
+				$row = $this->coupons[$i];
 				$row->id = $row->coupon_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid[]=' . $row->coupon_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=coupon_detail&task=edit&cid[]=' . $row->coupon_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -166,6 +162,11 @@ $comment = JRequest::getVar('filter');
 			?>
 			<tfoot>
 			<td colspan="10">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

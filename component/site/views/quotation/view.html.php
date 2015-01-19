@@ -3,15 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class quotationViewquotation extends JView
+class RedshopViewQuotation extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -29,11 +28,11 @@ class quotationViewquotation extends JView
 		{
 			if ($cart['idx'] < 1)
 			{
-				$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 			}
 		}
 
-		JHTML::Script('validation.js', 'administrator/components/com_redshop/assets/js/', false);
+		JHTML::script('administrator/components/com_redshop/assets/js/validation.js');
 
 		$model  = $this->getModel('quotation');
 
@@ -41,6 +40,7 @@ class quotationViewquotation extends JView
 
 		$this->detail = $detail;
 		$this->request_url = $uri->toString();
+		JFilterOutput::cleanText($this->request_url);
 
 		parent::display($tpl);
 	}

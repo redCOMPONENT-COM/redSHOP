@@ -12,5 +12,6 @@ define ('FEDEX_SHIPPER_ADDRESS', '');
 define ('FEDEX_SHIPPER_CITY', '');
 define ('FEDEX_SHIPPER_STATE', '');
 define ('FEDEX_SHIPPER_POSTAL_CODE', '');
+define ('FEDEX_SHIPPER_COUNTRY_CODE', '');
 define ('FEDEX_DISCOUNT', '0');
 ?>

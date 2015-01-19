@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class question_detailVIEWquestion_detail extends JView
+class RedshopViewQuestion_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -42,21 +41,7 @@ class question_detailVIEWquestion_detail extends JView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$option                         = $model->getProduct();
-		$optionsection                  = array();
-		$optionsection[0]               = new stdClass;
-		$optionsection[0]->product_id   = 0;
-		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
-
-		if (count($option) > 0)
-		{
-			$optionsection = @array_merge($optionsection, $option);
-		}
-
 		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$lists['product_id'] = JHTML::_('select.genericlist', $optionsection, 'product_id',
-		'class               ="inputbox" size="1" ', 'product_id', 'product_name', $detail->product_id
-		);
 
 		$this->lists         = $lists;
 		$this->detail        = $detail;

@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class newslettersubscrViewnewslettersubscr extends JView
+class RedshopViewNewslettersubscr extends RedshopView
 {
 	/**
 	 * The current user.
@@ -37,7 +36,7 @@ class newslettersubscrViewnewslettersubscr extends JView
 
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_MANAGEMENT'), 'redshop_newsletter48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_MANAGEMENT'), 'envelope redshop_newsletter48');
 		$task = JRequest::getVar('task');
 
 		if ($task != 'import_data')
@@ -45,8 +44,8 @@ class newslettersubscrViewnewslettersubscr extends JView
 			JToolBarHelper::custom('import_data', 'upload.png', 'upload_f2.png', 'COM_REDSHOP_IMPORT_DATA', false);
 			JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'COM_REDSHOP_EXPORT_DATA', false);
 			JToolBarHelper::custom('export_acy_data', 'save.png', 'save_f2.png', 'EXPORT_ACY_MAILING_DATA', false);
-			JToolBarHelper::addNewX();
-			JToolBarHelper::editListX();
+			JToolbarHelper::addNew();
+			JToolbarHelper::EditList();
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();

@@ -3,16 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
-
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Checkout Controller.
@@ -21,7 +19,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  * @subpackage  Controller
  * @since       1.0
  */
-class CheckoutController extends JController
+class RedshopControllerCheckout extends RedshopController
 {
 	public $_order_functions = null;
 
@@ -48,19 +46,20 @@ class CheckoutController extends JController
 	public function checkoutprocess()
 	{
 		$post   = JRequest::get('post');
-		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$model  = $this->getModel('checkout');
 
 		if ($model->store($post))
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, false);
-			$this->setRedirect($link, $msg);
+			$this->setRedirect(
+				JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false)
+			);
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, false);
-			$this->setRedirect($link);
+			JRequest::setVar('view', 'checkout');
+			JRequest::setVar('task', '');
+			parent::display('default');
 		}
 	}
 
@@ -107,7 +106,7 @@ class CheckoutController extends JController
 				$link = 'index.php?option=com_redshop&view=account_shipto&task=addshipping&setexit=0&return=checkout&infoid=' . $users_info_id . '&Itemid=' . $Itemid;
 			}
 
-			$app->Redirect($link);
+			$app->redirect($link);
 		}
 
 		if ($helper->isredCRM())
@@ -136,17 +135,15 @@ class CheckoutController extends JController
 
 					if ($max_credit <= ($unpaid + $total))
 					{
-						$option = JRequest::getVar('option');
 						$Itemid = JRequest::getVar('Itemid');
 						$msg    = JText::_('DEBITOR_CREDIT_LIMIT_EXCEED');
-						$link   = JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, false);
+						$link   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
 						$this->setRedirect($link, $msg);
 					}
 				}
 			}
 		}
 
-		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$ccinfo = JRequest::getVar('ccinfo');
 
@@ -160,7 +157,7 @@ class CheckoutController extends JController
 
 		if ($errormsg != "")
 		{
-			$app->Redirect('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, $errormsg);
+			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $errormsg);
 		}
 		else
 		{
@@ -177,7 +174,7 @@ class CheckoutController extends JController
 	public function updateGLSLocation()
 	{
 		$get = JRequest::get('get');
-		JPluginHelper::importPlugin('rs_labels_GLS');
+		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
 		$values = new stdClass;
 		$values->zipcode = $get['zipcode'];
@@ -194,6 +191,23 @@ class CheckoutController extends JController
 
 		echo $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $ShopRespons[0]->shop_id);
 		exit;
+	}
+
+	/**
+	 * Get Shipping Information
+	 *
+	 * @return  void
+	 */
+	public function getShippingInformation()
+	{
+		$app = JFactory::getApplication();
+		$jInput = $app->input;
+		$plugin = $jInput->getCmd('plugin', '');
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
+
+		$app->close();
 	}
 
 	/**
@@ -378,7 +392,6 @@ class CheckoutController extends JController
 		$app        = JFactory::getApplication();
 		$dispatcher = JDispatcher::getInstance();
 		$post       = JRequest::get('post');
-		$option     = JRequest::getVar('option');
 		$Itemid     = JRequest::getVar('Itemid');
 		$model      = $this->getModel('checkout');
 		$session    = JFactory::getSession();
@@ -411,8 +424,8 @@ class CheckoutController extends JController
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
-				$msg = JText::_('COM_REDSHOP_SELECT_SHIP_METHOD');
-				$app->Redirect('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, $msg);
+				$msg = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
+				$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg);
 			}
 		}
 
@@ -426,7 +439,7 @@ class CheckoutController extends JController
 				}
 				else
 				{
-					$app->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid);
+					$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 					exit;
 				}
 			}
@@ -447,7 +460,7 @@ class CheckoutController extends JController
 						$link = 'index.php?option=com_redshop&view=account_shipto&task=addshipping&setexit=0&return=checkout&infoid=' . $users_info_id . '&Itemid=' . $Itemid;
 					}
 
-					$app->Redirect($link);
+					$app->redirect($link);
 
 					return;
 				}
@@ -456,7 +469,7 @@ class CheckoutController extends JController
 
 				if ($errormsg != "")
 				{
-					$app->Redirect('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, $errormsg);
+					$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $errormsg);
 
 					return;
 				}
@@ -503,6 +516,8 @@ class CheckoutController extends JController
 				$is_creditcard = $params->get('is_creditcard', 0);
 				$is_redirected = $params->get('is_redirected', 0);
 
+				$session->clear('userDocument');
+
 				if ($is_creditcard && !$is_redirected)
 				{
 					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
@@ -519,13 +534,13 @@ class CheckoutController extends JController
 			{
 				$errorMsg = $model->getError();
 				JError::raiseWarning(21, $errorMsg);
-				$app->Redirect('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid);
 			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$app->Redirect('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, $msg);
+			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg);
 		}
 	}
 
@@ -654,7 +669,8 @@ class CheckoutController extends JController
 		}
 
 		$cart_total = $producthelper->getProductFormattedPrice($cart['mod_cart_total']);
-		echo "`_`" . $description . "`_`" . $cart_total;
+
+		echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "<?php ");
 		die();
 	}
 
@@ -688,7 +704,7 @@ class CheckoutController extends JController
 	 */
 	public function captcha()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/captcha.php';
+		JLoader::load('RedshopHelperCaptcha');
 
 		// Isset($_GET['width']) ? $_GET['width'] : '120';
 		$width = JRequest::getInt('width', 120);

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -13,7 +13,6 @@ jimport('joomla.html.html.tabs');
 JHTMLBehavior::modal();
 $url = JURI::getInstance()->root();
 
-$container_id = $this->input->getInt('container_id', null);
 $stockroom_id = $this->input->getInt('stockroom_id', null);
 $now = JFactory::getDate();
 $model = $this->getModel('product_detail');
@@ -138,7 +137,7 @@ $showbuttons = $this->input->getBool('showbuttons', false);
 <?php endif; ?>
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data" onSubmit="return selectAll_related(this.elements['related_product[]'],this);">
+      enctype="multipart/form-data">
 <?php
 
 // Tabs converted to JHtml Tabs instead of using deprecated JPane.
@@ -294,14 +293,8 @@ echo JHtml::_('tabs.end');
 
 <div class="clr"></div>
 
-<?php if ($stockroom_id && USE_CONTAINER == 1) : ?>
+<?php if ($stockroom_id) : ?>
 	<input type="hidden" name="stockroom_id" value="<?php echo $stockroom_id; ?>"/>
-<?php endif; ?>
-
-<?php if ($container_id) : ?>
-	<input type="hidden" name="container_id" value="<?php echo $container_id; ?>"/>
-<?php else : ?>
-	<input type="hidden" name="container_id" value="" />
 <?php endif; ?>
 
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->product_id; ?>"/>
@@ -413,63 +406,4 @@ echo JHtml::_('tabs.end');
 			}
 		}
 	}
-	// Parent Product Search
-
-	var options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=<?php echo $this->detail->product_id;?>&parent=1&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('product_parent_id').value = obj.id;
-		}
-	};
-
-	var as_json = new bsn.AutoSuggest('parent', options);
-
-	// End Of Parent Product Search
-
-
-	// ------------------ Accessory Product ------------------------
-
-	options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=<?php echo $this->detail->product_id;?>&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('input').value = "";
-			create_table_accessory(obj.value, obj.id, obj.price);
-		}
-	};
-
-	as_json = new bsn.AutoSuggest('input', options);
-
-	//------------- End Of Accessory Product --------------------------
-	//-------------- Related Product ----------------------------------
-
-	var related = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=<?php echo $this->detail->product_id;?>&related=1&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			var selTo = document.adminForm.related_product;
-			var chk_add = 1;
-			for (var i = 0; i < selTo.options.length; i++) {
-				if (selTo.options[i].value == obj.id) {
-					chk_add = 0;
-				}
-			}
-			if (chk_add == 1) {
-				var newOption = new Option(obj.value, obj.id);
-				selTo.options[selTo.options.length] = newOption;
-			}
-		}
-	};
-
-	as_json = new bsn.AutoSuggest('relat', related);
-
-	//-------------- End Related Product --------------------------
-
 </script>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperExtra_field');
 
 $producthelper = new producthelper;
 $objhelper     = new redhelper;
@@ -82,19 +82,19 @@ if ($gid != 0)
 	{
 		$product_img = $objhelper->watermark('giftcard', $detail->giftcard_image, GIFTCARD_THUMB_WIDTH, GIFTCARD_THUMB_HEIGHT, WATERMARK_GIFTCART_THUMB_IMAGE, '0');
 		$linkimage   = $objhelper->watermark('giftcard', $detail->giftcard_image, '', '', WATERMARK_GIFTCART_IMAGE, '0');
-
 		$thum_image = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
 		$thum_image .= "<img src='" . $product_img . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
 		$thum_image .= "</a>";
+
 		$template = str_replace("{giftcard_image}", $thum_image, $template);
 	}
 
 	$template = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail->giftcard_value), $template);
-	$template = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
+	$template = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
 
 	if ($detail->customer_amount != 1)
 	{
-		$template = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
+		$template = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
 	}
 	else
 	{
@@ -124,8 +124,8 @@ if ($gid != 0)
 
 	if ($detail->customer_amount != 1 || $detail->customer_amount == 1)
 	{
-		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
-		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
 	}
 	else
 	{
@@ -140,8 +140,8 @@ if ($gid != 0)
 
 	if ($detail->customer_amount == 1)
 	{
-		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
-		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('COM_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
 		$template = str_replace("{customer_quantity_lbl}", JText::_('COM_REDSHOP_CUSTOMER_QUANTITY_LBL'), $template);
 		$template = str_replace("{customer_amount_lbl}", JText::_('COM_REDSHOP_CUSTOMER_AMOUNT_LBL'), $template);
 	}
@@ -294,10 +294,10 @@ else
 				$data_add = str_replace("{giftcard_validity}", '', $data_add);
 			}
 
-			$data_add = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
+			$data_add = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
 			$data_add = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_value), $data_add);
 
-			$data_add = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
+			$data_add = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
 			$data_add = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_price), $data_add);
 		}
 

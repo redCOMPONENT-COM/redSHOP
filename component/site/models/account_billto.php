@@ -3,13 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class Account_billtoModelaccount_billto
@@ -18,20 +16,9 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class Account_billtoModelaccount_billto extends JModel
+class RedshopModelAccount_billto extends RedshopModel
 {
-	public $_id = null;
-
 	public $_data = null;
-
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
-	}
 
 	public function _initData()
 	{

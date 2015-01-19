@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,11 +15,11 @@ $app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/cart.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperHelper');
 
 $carthelper = new rsCarthelper;
 $producthelper = new producthelper;
@@ -35,14 +35,14 @@ $Itemid = $redhelper->getCheckoutItemid();
 $model = $this->getModel('checkout');
 $cart = $session->get('cart');
 
-JHTML::Script('credit_card.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/credit_card.js', false, true);
 
 $billingaddresses = $model->billingaddresses();
 
 if (!count($billingaddresses))
 {
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-	$app->Redirect("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
+	$app->redirect("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
 }
 
 $paymentmethod = $redhelper->getPlugins('redshop_payment');

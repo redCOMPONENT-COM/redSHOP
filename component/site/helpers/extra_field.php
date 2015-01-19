@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,6 +47,10 @@ class extraField
 
 	public $_db           = null;
 
+	protected static $userFields = array();
+
+	protected static $extraFieldDisplay = array();
+
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -67,7 +71,7 @@ class extraField
 
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
-			if (count($data_value) <= 0)
+			if (!empty($data_value) && count($data_value) <= 0)
 			{
 				$data_value->data_txt = '';
 			}
@@ -263,6 +267,50 @@ class extraField
 		return $ex_field;
 	}
 
+	/**
+	 * Display User Documents
+	 *
+	 * @param   int     $productId         Product id
+	 * @param   object  $extraFieldValues  Extra field name
+	 * @param   string  $ajaxFlag          Ajax flag
+	 *
+	 * @return  string
+	 */
+	public function displayUserDocuments($productId, $extraFieldValues, $ajaxFlag = '')
+	{
+		$session = JFactory::getSession();
+		$userDocuments = $session->get('userDocument', array());
+		$html = array('<ol id="ol_' . $extraFieldValues->field_name . '_' . $productId . '">');
+		$fileNames = array();
+
+		if (isset($userDocuments[$productId]))
+		{
+			foreach ($userDocuments[$productId] as $id => $userDocument)
+			{
+				$fileNames[] = $userDocument['fileName'];
+				$sendData = array(
+					'id' => $id,
+					'product_id' => $productId,
+					'uniqueOl' => $ajaxFlag . $extraFieldValues->field_name . '_' . $productId,
+					'fieldName' => $extraFieldValues->field_name,
+					'ajaxFlag' => $ajaxFlag,
+					'fileName' => $userDocument['fileName'],
+					'action' => JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload'
+				);
+
+				$html[] = '<li id="uploadNameSpan' . $id . '"><span>' . $userDocument['fileName'] . '</span>&nbsp;<a href="javascript:removeAjaxUpload('
+					. htmlspecialchars(json_encode($sendData)) . ');">' . JText::_('COM_REDSHOP_DELETE') . '</a></li>';
+			}
+		}
+
+		$html[] = '</ol>';
+		$html[] = '<input type="hidden" name="extrafields' . $productId . '[]" id="' . $ajaxFlag . $extraFieldValues->field_name . '_' . $productId . '" '
+			. ($extraFieldValues->required ? ' required="required"' : '') . ' userfieldlbl="' . $extraFieldValues->field_title
+			. '" value="' . implode(',', $fileNames) . '" />';
+
+		return implode('', $html);
+	}
+
 	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
 	{
 		$db      = JFactory::getDbo();
@@ -279,18 +327,23 @@ class extraField
 
 		$addtocartFormName = 'addtocart_' . $preprefix . 'prd_' . $product_id;
 
-		$document = JFactory::getDocument();
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/attribute.js', false, true);
 
-		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section = " . $db->quote($section_id) . " "
-			. "AND field_name = " . $db->quote($field_section) . " "
-			. "AND published = 1 "
-			. "AND field_show_in_front = 1 "
-			. "ORDER BY ordering ";
-		$this->_db->setQuery($q);
+		if (!array_key_exists($section_id . '_' . $field_section, self::$userFields))
+		{
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_fields'))
+				->where('field_section = ' . $db->quote($section_id))
+				->where('field_name = ' . $db->quote($field_section))
+				->where('published = 1')
+				->where('field_show_in_front = 1')
+				->order('ordering');
+			$db->setQuery($query);
+			self::$userFields[$section_id . '_' . $field_section] = $db->loadObjectlist();
+		}
 
-		$row_data       = $this->_db->loadObjectlist();
+		$row_data       = self::$userFields[$section_id . '_' . $field_section];
 		$ex_field       = '';
 		$ex_field_title = '';
 
@@ -303,8 +356,6 @@ class extraField
 			{
 				$ex_field_title .= '<div class="userfield_label">' . $asterisk . $row_data[$i]->field_title . '</div>';
 			}
-
-			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
 			$text_value = '';
 
@@ -327,7 +378,25 @@ class extraField
 
 			if ($field_type == 'hidden')
 			{
-				$ex_field .= '<input type="hidden" name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value=""/>';
+				$value = '';
+
+				if ($type == 10)
+				{
+					$userDocuments = $session->get('userDocument', array());
+					$fileNames = array();
+
+					if (isset($userDocuments[$product_id]))
+					{
+						foreach ($userDocuments[$product_id] as $id => $userDocument)
+						{
+							$fileNames[] = $userDocument['fileName'];
+						}
+
+						$value = implode(',', $fileNames);
+					}
+				}
+
+				$ex_field .= '<input type="hidden" name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . $value . '"/>';
 			}
 			else
 			{
@@ -450,37 +519,54 @@ class extraField
 
 					case 10 :
 						// File Upload
-						JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);
-						JHTML::Script('ajaxupload.js', 'components/com_redshop/assets/js/', false);
-						$ajax = "";
+						JHtml::_('redshopjquery.framework');
+						JHtml::script('com_redshop/ajaxupload.js', false, true);
 
-						if (AJAX_CART_BOX)
+						$ajax = '';
+						$unique = $row_data[$i]->field_name . '_' . $product_id;
+
+						if ($isatt > 0)
 						{
-							$ex_field .= '<script>jQuery.noConflict();</script>';
-
-							if ($isatt > 0)
-							{
-								$ajax = "ajax";
-								$ex_field .= '<div class="userfield_input"><input type="button" class="' . $row_data[$i]->field_class . '" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" id="file' . $ajax . $row_data[$i]->field_name . '" onClick=\'javascript:new AjaxUpload("file' . $ajax . $row_data[$i]->field_name . '",{action:"' . JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",data :{mname:"file' . $ajax . $row_data[$i]->field_name . '"}, name:"file' . $ajax . $row_data[$i]->field_name . '",onSubmit : function(file , ext){jQuery("file' . $ajax . $row_data[$i]->field_name . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);this.disable();}, onComplete :function(file,response){jQuery("<li></li>").appendTo(jQuery("#ol_' . $ajax . $row_data[$i]->field_name . '")).text(response);var uploadfiles = jQuery("#ol_' . $ajax . $row_data[$i]->field_name . ' li").map(function() {return jQuery(this).text();}).get().join(",");jQuery("#' . $ajax . $row_data[$i]->field_name . '_' . $product_id . '").val(uploadfiles);this.enable();jQuery("#' . $row_data[$i]->field_name . '").val(uploadfiles);}});\' />';
-							}
-							else
-							{
-								$ex_field .= '<div class="userfield_input"><input type="button" class="' . $row_data[$i]->field_class . '" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" id="file' . $ajax . $row_data[$i]->field_name . '" />';
-								$ex_field .= '<script>
-								new AjaxUpload("file' . $ajax . $row_data[$i]->field_name . '",{action:"' . JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",data :{mname:"file' . $ajax . $row_data[$i]->field_name . '"}, name:"file' . $ajax . $row_data[$i]->field_name . '",onSubmit : function(file , ext){jQuery("file' . $ajax . $row_data[$i]->field_name . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);this.disable();}, onComplete :function(file,response){jQuery("<li></li>").appendTo(jQuery("#ol_' . $ajax . $row_data[$i]->field_name . '")).text(response);var uploadfiles = jQuery("#ol_' . $ajax . $row_data[$i]->field_name . ' li").map(function() {return jQuery(this).text();}).get().join(",");jQuery("#' . $ajax . $row_data[$i]->field_name . '_' . $product_id . '").val(uploadfiles);this.enable();jQuery("#' . $row_data[$i]->field_name . '").val(uploadfiles);}});
-								</script>';
-							}
-
-							$ex_field .= '<p>' . JText::_('COM_REDSHOP_UPLOADED_FILE') . ':<ol id="ol_' . $ajax . $row_data[$i]->field_name . '"></ol></p></div>';
-							$ex_field .= '<input type="hidden" name="extrafields' . $product_id . '[]" id="' . $ajax . $row_data[$i]->field_name . '_' . $product_id . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" />';
+							$ajax = 'ajax';
+							$unique = $row_data[$i]->field_name;
 						}
-						else
-						{
-							$ex_field .= '<div class="userfield_input"><input class="' . $row_data[$i]->field_class . '" type="button" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" name="file' . $row_data[$i]->field_name . '_' . $product_id . '"  id="file' . $row_data[$i]->field_name . '_' . $product_id . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" size="' . $row_data[$i]->field_size . '" /><p>' . JText::_('COM_REDSHOP_UPLOADED_FILE') . ':<ol id="ol_' . $row_data[$i]->field_name . '"></ol></p></div>';
-							$ex_field .= '<input type="hidden" name="extrafields' . $product_id . '[]" id="' . $row_data[$i]->field_name . '_' . $product_id . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '"  />';
 
-							$ex_field .= '<script>jQuery.noConflict();new AjaxUpload("file' . $row_data[$i]->field_name . '_' . $product_id . '",{action:"' . JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",data :{mname:"file' . $row_data[$i]->field_name . '_' . $product_id . '"}, name:"file' . $row_data[$i]->field_name . '_' . $product_id . '",onSubmit : function(file , ext){jQuery("' . $row_data[$i]->field_name . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);this.disable();}, onComplete :function(file,response){jQuery("<li></li>").appendTo(jQuery("#ol_' . $row_data[$i]->field_name . '")).text(response);var uploadfiles = jQuery("#ol_' . $ajax . $row_data[$i]->field_name . ' li").map(function() {return jQuery(this).text();}).get().join(",");jQuery("#' . $row_data[$i]->field_name . '_' . $product_id . '").val(uploadfiles);jQuery("#' . $row_data[$i]->field_name . '").val(uploadfiles);this.enable();}});</script>';
-						}
+						$ex_field .= '<div class="userfield_input">'
+							. '<input type="button" class="' . $row_data[$i]->field_class . '" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" id="file'
+							. $ajax . $unique . '" />';
+						$ex_field .= '<script>
+							new AjaxUpload(
+								"file' . $ajax . $unique . '",
+								{
+									action:"' . JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",
+									data :{
+										mname:"file' . $ajax . $row_data[$i]->field_name . '",
+										product_id:"' . $product_id . '",
+										uniqueOl:"' . $unique . '",
+										fieldName: "' . $row_data[$i]->field_name . '",
+										ajaxFlag: "' . $ajax . '"
+									},
+									name:"file' . $ajax . $unique . '",
+									onSubmit : function(file , ext){
+										jQuery("file' . $ajax . $unique . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);
+										this.disable();
+									},
+									onComplete :function(file,response){
+										jQuery("#ol_' . $unique . '").append(response);
+										var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function() {
+											return jQuery(this).find("span").text();
+										}).get().join(",");
+										this.enable();
+										jQuery("#' . $ajax . $unique . '").val(uploadfiles);
+										jQuery("#' . $row_data[$i]->field_name . '").val(uploadfiles);
+									}
+								}
+							);
+						</script>';
+
+						$ex_field .= '<p>' . JText::_('COM_REDSHOP_UPLOADED_FILE') . ':</p>'
+							. $this->displayUserDocuments($product_id, $row_data[$i], $ajax) . '</div>';
+
 						break;
 
 					case 11:
@@ -574,17 +660,33 @@ class extraField
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
 		$db = JFactory::getDbo();
+
 		$redTemplate = new Redtemplate;
 		$url         = JURI::base();
-		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section=" . $db->quote($field_section) . " ";
 
-		if ($field_name != "")
+		if (!isset(self::$extraFieldDisplay[$field_section]) || !array_key_exists($field_name, self::$extraFieldDisplay[$field_section]))
 		{
-			$q .= "and field_name in ($field_name)";
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_fields'))
+				->where('field_section = ' . $db->quote($field_section));
+
+			if ($field_name != "")
+			{
+				$query->where('field_name IN (' . $field_name . ')');
+			}
+
+			$this->_db->setQuery($query);
+
+			if (!isset(self::$extraFieldDisplay[$field_section]))
+			{
+				self::$extraFieldDisplay[$field_section] = array();
+			}
+
+			self::$extraFieldDisplay[$field_section][$field_name] = $db->loadObjectlist();
 		}
 
-		$this->_db->setQuery($q);
-		$row_data = $this->_db->loadObjectlist();
+		$row_data = self::$extraFieldDisplay[$field_section][$field_name];
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
@@ -607,6 +709,8 @@ class extraField
 
 			if (count($data_value) != 0 && $published && $field_show_in_front)
 			{
+				$displayvalue = '';
+
 				switch ($type)
 				{
 					case 1:
@@ -618,7 +722,7 @@ class extraField
 					case 5:
 						// 5 :-Select Box (Single select)
 
-						$displayvalue = stripslashes($data_value->data_txt);
+						$displayvalue = $data_value->data_txt;
 						break;
 					case 2:
 						// 2 :- Text Area
@@ -657,19 +761,6 @@ class extraField
 							$this->_db->setQuery($q);
 							$field_chk    = $this->_db->loadObject();
 							$displayvalue = $field_chk->country_name;
-						}
-						break;
-					case 9 :
-						// Media
-						$ftype = explode(".", $data_value->data_txt);
-
-						$link         = REDSHOP_FRONT_IMAGES_ABSPATH . "media/" . $data_value->data_txt;
-						$link_phy     = REDSHOP_FRONT_IMAGES_RELPATH . "media/" . $data_value->data_txt;
-						$displayvalue = "";
-
-						if (is_file($link_phy))
-						{
-							$displayvalue = "{" . $ftype[count($ftype) - 1] . "remote}" . $link . "{/" . $ftype[count($ftype) - 1] . "remote}";
 						}
 						break;
 					case 10 :
@@ -747,13 +838,13 @@ class extraField
 								if ($str_image_link)
 								{
 									$displayvalue .= "<a href='" . $str_image_link
-										. "' class='imgtooltip' ><img src='" . $link . "' /><span><div class='spnheader'>"
+										. "' class='imgtooltip' ><img src='" . $link . "' title='" . $document_value[$c]->field_value . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
 										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
 										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}
 								else
 								{
-									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' /><span><div class='spnheader'>"
+									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' title='" . $document_value[$c]->field_value . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
 										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
 										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}
@@ -842,7 +933,7 @@ class extraField
 			. "WHERE field_section = " . $db->quote($section) . " "
 			. $and;
 		$this->_db->setQuery($query);
-		$list = $this->_db->loadResultArray();
+		$list = $this->_db->loadColumn();
 
 		return $list;
 	}
@@ -873,18 +964,42 @@ class extraField
 		return $list;
 	}
 
-	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
+	/**
+	 * Get Section Field Data List
+	 *
+	 * @param   int  $fieldId      Field id
+	 * @param   int  $section      Section
+	 * @param   int  $sectionItem  Section item
+	 *
+	 * @return mixed|null
+	 */
+	public function getSectionFieldDataList($fieldId, $section = 0, $sectionItem = 0)
 	{
-		$db = JFactory::getDbo();
+		$return = null;
 
-		$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
-			. "WHERE fd.itemid = " . (int) $orderitemid . " "
-			. "AND fd.fieldid=f.field_id "
-			. "AND fd.fieldid=" . (int) $fieldid . " "
-			. "AND fd.section=" . $db->quote($section) . " ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		if ($section == 1)
+		{
+			$productHelper = new producthelper;
+			$product = $productHelper->getProductById($sectionItem);
 
-		return $list;
+			if ($product && isset($product->extraFields[$fieldId]))
+			{
+				$return = $product->extraFields[$fieldId];
+			}
+		}
+		else
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('fd.*', 'f.field_title'))
+				->from($db->qn('#__redshop_fields_data', 'fd'))
+				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
+				->where('fd.itemid = ' . (int) $sectionItem)
+				->where('fd.fieldid = ' . (int) $fieldId)
+				->where('fd.section = ' . $db->quote($section));
+			$return = $db->setQuery($query)->loadObject();
+		}
+
+		return $return;
 	}
 }

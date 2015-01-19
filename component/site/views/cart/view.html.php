@@ -3,14 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class cartViewcart extends JView
+class RedshopViewCart extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -33,10 +32,10 @@ class cartViewcart extends JView
 
 		if (JRequest::getString('quotemsg') != "")
 		{
-			$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, JRequest::getString('quotemsg'));
+			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, JRequest::getString('quotemsg'));
 		}
 
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{

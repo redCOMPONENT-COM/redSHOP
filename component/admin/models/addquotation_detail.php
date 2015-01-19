@@ -3,23 +3,22 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminProduct');
+JLoader::load('RedshopHelperAdminQuotation');
 
-class addquotation_detailModeladdquotation_detail extends JModel
+class RedshopModelAddquotation_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -84,7 +83,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 
 		$data['address_type'] = 'ST';
 
-		$rowsh = & $this->getTable('user_detail');
+		$rowsh = $this->getTable('user_detail');
 
 		if (!$rowsh->bind($data))
 		{
@@ -121,7 +120,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 
 		$row = $this->getTable('quotation_detail');
 
-		if ($data['quotation_discount'] > 0)
+		if (isset($data['quotation_discount']) && $data['quotation_discount'] > 0)
 		{
 			$data['order_total'] = $data['order_total'] - $data['quotation_discount'] - (($data['order_total'] * $data['quotation_special_discount']) / 100);
 		}
@@ -187,10 +186,11 @@ class addquotation_detailModeladdquotation_detail extends JModel
 				$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 			}
 
-			$rowitem = & $this->getTable('quotation_item_detail');
+			$rowitem = $this->getTable('quotation_item_detail');
 
 			$product = $producthelper->getProductById($product_id);
 
+			$quotation_item[$i] = new stdClass;
 			$quotation_item[$i]->quotation_id = $row->quotation_id;
 			$quotation_item[$i]->product_id = $product_id;
 			$quotation_item[$i]->is_giftcard = 0;
@@ -254,7 +254,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem = & $this->getTable('quotation_attribute_item');
+						$rowattitem = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 						$rowattitem->section_id = $attribute_id;
@@ -290,7 +290,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							$rowattitem = & $this->getTable('quotation_attribute_item');
+							$rowattitem = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
 							$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 							$rowattitem->section_id = $property_id;
@@ -326,7 +326,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-								$rowattitem = & $this->getTable('quotation_attribute_item');
+								$rowattitem = $this->getTable('quotation_attribute_item');
 								$rowattitem->quotation_att_item_id = 0;
 								$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 								$rowattitem->section_id = $subproperty_id;
@@ -351,7 +351,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 						}
 					}
 
-					$accdata = & $this->getTable('accessory_detail');
+					$accdata = $this->getTable('accessory_detail');
 
 					if ($accessory_id > 0)
 					{
@@ -359,7 +359,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 					}
 
 					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
-					$rowaccitem = & $this->getTable('quotation_accessory_item');
+					$rowaccitem = $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
 					$rowaccitem->quotation_item_id = $rowitem->quotation_item_id;
 					$rowaccitem->accessory_id = $accessory_id;
@@ -393,7 +393,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem = & $this->getTable('quotation_attribute_item');
+					$rowattitem = $this->getTable('quotation_attribute_item');
 					$rowattitem->quotation_att_item_id = 0;
 					$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 					$rowattitem->section_id = $attribute_id;
@@ -428,7 +428,7 @@ class addquotation_detailModeladdquotation_detail extends JModel
 						/** product property STOCKROOM update start */
 						$stockroomhelper->updateStockroomQuantity($property_id, $rowitem->product_quantity, "property");
 
-						$rowattitem = & $this->getTable('quotation_attribute_item');
+						$rowattitem = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 						$rowattitem->section_id = $property_id;
@@ -589,17 +589,29 @@ class addquotation_detailModeladdquotation_detail extends JModel
 			}
 
 			$tmp_array = array();
+			$tmp_array[0] = new stdClass;
 			$tmp_array[0]->value = 0;
 			$tmp_array[0]->text = JText::_('COM_REDSHOP_SELECT') . "&nbsp;" . urldecode($subproperty[0]->property_name);
 
 			$new_subproperty = array_merge($tmp_array, $subproperty);
 			$chklist = "";
+			$display_type = 'radio';
 
-			if ($attributes->allow_multiple_selection)
+			if (isset($subproperty[0]->setdisplay_type))
+			{
+				$display_type = $subproperty[0]->setdisplay_type;
+			}
+
+			if ($subproperty[0]->setmulti_selected)
+			{
+				$display_type = 'checkbox';
+			}
+
+			if ($display_type == 'checkbox' || $display_type == 'radio')
 			{
 				for ($chk = 0; $chk < count($subproperty); $chk++)
 				{
-					$chklist .= "<br /><input type='checkbox' value='" . $subproperty[$chk]->value
+					$chklist .= "<br /><input type='" . $display_type . "' value='" . $subproperty[$chk]->value
 						. "' name='" . $subpropertyid . "[]'  id='" . $subpropertyid
 						. "' class='inputbox' onchange='javascript:calculateOfflineTotalPrice(\""
 						. $uniqueid . "\");' />&nbsp;" . $subproperty[$chk]->text;

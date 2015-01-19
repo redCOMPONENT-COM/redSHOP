@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class voucher_detailModelvoucher_detail extends JModel
+class RedshopModelVoucher_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -87,7 +86,7 @@ class voucher_detailModelvoucher_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -107,9 +106,9 @@ class voucher_detailModelvoucher_detail extends JModel
 
 		$sql = "delete from " . $this->_table_prefix . "product_voucher_xref where voucher_id='" . $voucher_id . "' ";
 		$this->_db->setQuery($sql);
-		$this->_db->query();
+		$this->_db->execute();
 
-		$products_list = $data["container_product"];
+		$products_list = explode(',', $data["container_product"]);
 
 		if (count($products_list) > 0)
 		{
@@ -117,7 +116,7 @@ class voucher_detailModelvoucher_detail extends JModel
 			{
 				$sql = "insert into " . $this->_table_prefix . "product_voucher_xref (voucher_id,product_id) value ('" . $voucher_id . "','" . $cp . "')";
 				$this->_db->setQuery($sql);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 		}
 
@@ -133,7 +132,7 @@ class voucher_detailModelvoucher_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_voucher WHERE voucher_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -155,7 +154,7 @@ class voucher_detailModelvoucher_detail extends JModel
 				. ' WHERE voucher_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

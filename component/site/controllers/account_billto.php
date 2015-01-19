@@ -3,15 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-
-JLoader::import('joomla.application.component.controller');
+JLoader::load('RedshopHelperAdminOrder');
 
 /**
  * Account Billing Address Controller.
@@ -20,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class Account_billtoController extends JController
+class RedshopControllerAccount_billto extends RedshopController
 {
 	/**
 	 * Constructor.
@@ -32,6 +30,7 @@ class Account_billtoController extends JController
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 		$this->registerTask('', 'edit');
+		$this->registerTask('display', 'edit');
 	}
 
 	/**
@@ -66,11 +65,9 @@ class Account_billtoController extends JController
 		$user   = JFactory::getUser();
 		$post   = JRequest::get('post');
 		$return = JRequest::getVar('return');
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$Itemid = JRequest::getInt('Itemid');
 
-		$post['users_info_id'] = $cid[0];
+		$post['users_info_id'] = JRequest::getInt('cid');
 		$post['id']            = $post['user_id'];
 		$post['address_type']  = "BT";
 		$post['email']         = $post['email1'];
@@ -98,7 +95,7 @@ class Account_billtoController extends JController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -112,7 +109,7 @@ class Account_billtoController extends JController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -125,7 +122,6 @@ class Account_billtoController extends JController
 	 */
 	function cancel()
 	{
-		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getVar('Itemid');
 		$msg     = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
 		$return  = JRequest::getVar('return');
@@ -134,7 +130,7 @@ class Account_billtoController extends JController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -148,7 +144,7 @@ class Account_billtoController extends JController
 		}
 		else
 		{
-			$link = 'index.php?option=' . $option . '&view=account&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=account&Itemid=' . $Itemid;
 		}
 
 		$this->setRedirect($link, $msg);

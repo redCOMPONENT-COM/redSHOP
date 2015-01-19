@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 ?>
 <table width="100%" cellpadding="0" cellspacing="0">
 	<tr valign="top" align="left">
@@ -19,10 +19,9 @@ defined('_JEXEC') or die ('Restricted access');
 	</tr>
 </table>
 <?php
-echo $this->pane->startPane('stat-pane');
-echo $this->pane->startPanel(JText::_('COM_REDSHOP_PRODUCT'), 'events');
+echo JHtml::_('sliders.start', 'product-pane', array('startOffset' => 0));
+echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_PRODUCT'), 'product');
 ?>
-
 <table class="adminlist" width="100%" cellpadding="0" cellspacing="0">
 	<tr valign="top">
 		<td>
@@ -48,11 +47,8 @@ echo $this->pane->startPanel(JText::_('COM_REDSHOP_PRODUCT'), 'events');
 	</tr>
 </table>
 <?php
-echo $this->pane->endPanel();
-echo $this->pane->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_TAB'), 'events');
+echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_TAB'), 'accessory');
 echo $this->loadTemplate('accessory_product');
-echo $this->pane->endPanel();
-echo $this->pane->startPanel(JText::_('COM_REDSHOP_RELATED_PRODUCTS'), 'events');
+echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_RELATED_PRODUCTS'), 'related');
 echo $this->loadTemplate('related_product');
-echo $this->pane->endPanel();
-echo $this->pane->endPane();?>
+echo JHtml::_('sliders.end');

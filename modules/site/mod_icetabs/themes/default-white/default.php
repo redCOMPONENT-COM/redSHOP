@@ -2,7 +2,7 @@
      class="ice-tabs-white<?php echo $params->get('moduleclass_sfx', ''); ?> <?php echo $class; ?>-sl-white"
      style="height:<?php echo $moduleHeight; ?>; width:<?php echo $moduleWidth; ?>">
 	<?php if ($class && $class != 'ice-bottom') : ?>
-		<?php require(dirname(__FILE__) . '/_navigator.php'); ?>
+		<?php require dirname(__FILE__) . '/_navigator.php'; ?>
 	<?php endif; ?>
 	<!-- MAIN CONTENT -->
 	<div class="ice-main-wapper"
@@ -21,6 +21,6 @@
 	</div>
 	<!-- END MAIN CONTENT -->
 	<?php if ($class && $class == 'ice-bottom') : ?>
-		<?php require(dirname(__FILE__) . '/_navigator.php'); ?>
+		<?php require dirname(__FILE__) . '/_navigator.php'; ?>
 	<?php endif; ?>
 </div>

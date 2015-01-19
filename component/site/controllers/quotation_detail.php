@@ -3,17 +3,16 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperHelper');
 
 /**
  * Quotation Detail Controller.
@@ -22,7 +21,7 @@ require_once JPATH_COMPONENT . '/helpers/helper.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class Quotation_detailController extends JController
+class RedshopControllerQuotation_detail extends RedshopController
 {
 	/**
 	 * update status function
@@ -36,16 +35,22 @@ class Quotation_detailController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$encr   = JRequest::getVar('encr');
+		$model = $this->getModel('quotation_detail');
 
 		$quotationHelper = new quotationHelper;
 		$redshopMail     = new redshopMail;
+
+		// Update Status
 		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
+
+		// Add Customer Note
+		$model->addQuotationCustomerNote($post);
 
 		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'], $post['quotation_status']);
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
 	}
 
 	/**
@@ -62,7 +67,7 @@ class Quotation_detailController extends JController
 		$encr   = JRequest::getVar('encr');
 
 		$quotationHelper = new quotationHelper;
-		$model           = $this->getmodel();
+		$model           = $this->getModel('quotation_detail');
 		$session         = JFactory::getSession();
 		$redhelper       = new redhelper;
 
@@ -88,6 +93,6 @@ class Quotation_detailController extends JController
 
 		$model->modifyQuotation($quotationDetail->user_id);
 		$Itemid = $redhelper->getCheckoutItemid();
-		$this->setRedirect('index.php?option=' . $option . '&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
+		$this->setRedirect('index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
 	}
 }

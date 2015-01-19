@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class supplier_detailModelsupplier_detail extends JModel
+class RedshopModelSupplier_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -87,7 +86,7 @@ class supplier_detailModelsupplier_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('supplier_detail');
+		$row = $this->getTable('supplier_detail');
 
 		if (!$row->bind($data))
 		{
@@ -115,7 +114,7 @@ class supplier_detailModelsupplier_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'supplier WHERE supplier_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -137,7 +136,7 @@ class supplier_detailModelsupplier_detail extends JModel
 				. ' WHERE supplier_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -162,7 +161,7 @@ class supplier_detailModelsupplier_detail extends JModel
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['supplier_id'] = 0;
-			$post['supplier_name'] = 'Copy Of ' . $cdata->supplier_name;
+			$post['supplier_name'] = $this->renameToUniqueValue('supplier_name', $cdata->supplier_name);
 			$post['supplier_desc'] = $cdata->supplier_desc;
 			$post['supplier_email'] = $cdata->supplier_email;
 			$post['published'] = $cdata->published;

@@ -3,20 +3,19 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Order Detail Controller.
@@ -25,7 +24,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class Order_detailController extends JController
+class RedshopControllerOrder_detail extends RedshopController
 {
 	/**
 	 * Constructor
@@ -79,7 +78,7 @@ class Order_detailController extends JController
 		$shippingaddresses    = $this->_order_functions->getOrderShippingUserInfo($order->order_id);
 		$d['shippingaddress'] = $shippingaddresses;
 
-		$Itemid               = JRequest::getVar('Itemid');
+		$Itemid               = JRequest::getInt('Itemid');
 
 		if (isset($billingaddresses))
 		{
@@ -170,12 +169,10 @@ class Order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-
 		$app     = JFactory::getApplication();
 		$db      = JFactory::getDbo();
 		$request = JRequest::get('request');
-		$Itemid  = JRequest::getVar('Itemid');
+		$Itemid  = JRequest::getInt('Itemid');
 		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');
@@ -218,24 +215,40 @@ class Order_detailController extends JController
 	}
 
 	/**
-	 * Copy order item to cart.
+	 * Copy Order Item to Cart
 	 *
-	 * @return  void
+	 * @param   array    $row       Order Item information if not empty
+	 * @param   boolean  $redirect  If true will redirect to cart else not.
+	 *
+	 * @return  mixed    void / boolean
 	 */
-	public function copyorderitemtocart()
+	public function copyOrderItemToCart($row = array(), $redirect = true)
 	{
-		$app           = JFactory::getApplication();
-		$order_item_id = JRequest::getInt('order_item_id');
+		// Import redSHOP Product Plugin
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
+		$app        = JFactory::getApplication();
 
-		$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
-		$row = (array) $orderItem[0];
+		// If empty then load order item detail from order table
+		if (empty($row))
+		{
+			$order_item_id = $app->input->getInt('order_item_id');
+
+			$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
+			$row = (array) $orderItem[0];
+		}
+
+		// Event Trigger on reordering cart item
+		$dispatcher->trigger('onReorderCartItem', array(&$row));
 
 		$subscription_id = 0;
 		$row['quantity'] = $row['product_quantity'];
 
 		if ($row['is_giftcard'] == 1)
 		{
-			$row['giftcard_id'] = $row['product_id'];
+			$row['giftcard_id']   = $row['product_id'];
+			$row['reciver_name']  = $row['giftcard_user_name'];
+			$row['reciver_email'] = $row['giftcard_user_email'];
 		}
 		else
 		{
@@ -259,16 +272,36 @@ class Order_detailController extends JController
 			$row['subscription_id'] = $subscription_id;
 			$row['sel_wrapper_id']  = $row['wrapper_id'];
 			$row['category_id']     = 0;
+
+			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
+			{
+				$newMedia = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $row['attribute_image'];
+				$oldMedia = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $row['attribute_image'];
+				copy($oldMedia, $newMedia);
+			}
+
+			$row['attributeImage'] = $row['attribute_image'];
+
+			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $row['attribute_image']))
+			{
+				$row['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $row['attribute_image'];
+			}
 		}
 
 		$result = $this->_carthelper->addProductToCart($row);
 
 		if (is_bool($result) && $result)
 		{
-			$Itemid = JRequest::getVar('Itemid');
-			$Itemid = $this->_redhelper->getCartItemid();
-			$this->_carthelper->cartFinalCalculation();
-			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+			// Set success message for product line
+			$app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART"));
+
+			if ($redirect)
+			{
+				// Do final cart calculations
+				$this->_carthelper->cartFinalCalculation();
+
+				$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid());
+			}
 		}
 		else
 		{
@@ -283,135 +316,50 @@ class Order_detailController extends JController
 				$Itemid = $this->_redhelper->getItemid($row['product_id']);
 			}
 
-			$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
 			if (JError::isError(JError::getError()))
 			{
-				$error  = JError::getError();
-				$errmsg = $error->message;
+				$errorMessage = JError::getError()->message;
 			}
 
-			$returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $Itemid;
-			$app->redirect($returnlink, $errmsg);
+			$app->redirect(
+				'index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid,
+				$errorMessage
+			);
 		}
 	}
 
 	/**
-	 * Reorder
+	 * On Reorder Order
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function reorder()
 	{
-		$app      = JFactory::getApplication();
-		$session  = JFactory::getSession();
-		$post     = JRequest::get('post');
-		$order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
-		$Itemid   = JRequest::getVar('Itemid');
-		$Itemid   = $this->_redhelper->getCartItemid();
+		$app     = JFactory::getApplication();
+		$orderId = $app->input->getInt('order_id');
 
-		$returnmsg = "";
-
-		if ($order_id)
+		if ($orderId)
 		{
 			// First Empty Cart and then oder it again
 			$cart['idx'] = 0;
-			$session->set('cart', $cart);
+			JFactory::getSession()->set('cart', $cart);
 
-			$orderItem = $this->_order_functions->getOrderItemDetail($order_id);
+			$orderItem = $this->_order_functions->getOrderItemDetail($orderId);
 
 			for ($i = 0; $i < count($orderItem); $i++)
 			{
 				$row = (array) $orderItem[$i];
-				$subscription_id = 0;
-				$row['quantity'] = $row['product_quantity'];
 
-				if ($row['is_giftcard'] == 1)
-				{
-					$row['giftcard_id']   = $row['product_id'];
-					$row['reciver_name']  = $row['giftcard_user_name'];
-					$row['reciver_email'] = $row['giftcard_user_email'];
-				}
-				else
-				{
-					$product_data = $this->_producthelper->getProductById($row['product_id']);
-
-					if ($product_data->product_type == 'subscription')
-					{
-						$productSubscription = $this->_producthelper->getUserProductSubscriptionDetail($row['order_item_id']);
-
-						if ($productSubscription->subscription_id != "")
-						{
-							$subscription_id = $productSubscription->subscription_id;
-						}
-					}
-
-					$generateAttributeCart = $this->_carthelper->generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
-					$generateAccessoryCart = $this->_carthelper->generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
-
-					$row['cart_attribute']  = $generateAttributeCart;
-					$row['cart_accessory']  = $generateAccessoryCart;
-					$row['subscription_id'] = $subscription_id;
-					$row['sel_wrapper_id']  = $row['wrapper_id'];
-					$row['category_id']     = 0;
-
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
-					{
-						$new_media = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $row['attribute_image'];
-						$old_media = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $row['attribute_image'];
-						copy($old_media, $new_media);
-					}
-
-					$row['attributeImage'] = $row['attribute_image'];
-
-					$row['reorder'] = 1;
-				}
-
-				$result = $this->_carthelper->addProductToCart($row);
-
-				if (is_bool($result) && $result)
-				{
-					$returnmsg .= $row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART") . "<br>";
-				}
-				else
-				{
-					$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
-
-					if (count($ItemData) > 0)
-					{
-						$Itemid = $ItemData->id;
-					}
-					else
-					{
-						$Itemid = $this->_redhelper->getItemid($row['product_id']);
-					}
-
-					$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
-
-					if (JError::isError(JError::getError()))
-					{
-						$error  = JError::getError();
-						$errmsg = $error->message;
-					}
-
-					$returnmsg .= $row['order_item_name'] . ": " . $errmsg . "<br>";
-					$returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $Itemid;
-				}
+				// Copy Order Item to cart
+				$this->copyOrderItemToCart($row, false);
 			}
 
 			$this->_carthelper->cartFinalCalculation();
 		}
 
-		$cart = $session->get('cart');
-
-		if (!$cart || !array_key_exists("idx", $cart) || ($cart && $cart['idx'] <= 0))
-		{
-			$app->redirect($returnlink);
-		}
-		else
-		{
-			$app->redirect("index.php?option=com_redshop&view=cart&Itemid=" . $Itemid, $returnmsg);
-		}
+		$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid());
 	}
 
 	/**
@@ -423,9 +371,8 @@ class Order_detailController extends JController
 	{
 		$app       = JFactory::getApplication();
 		$redconfig = new Redconfiguration;
-		$Itemid    = JRequest::getVar('Itemid');
+		$Itemid    = JRequest::getInt('Itemid');
 		$order_id  = JRequest::getInt('order_id');
-		$option    = JRequest::getVar('option');
 
 		$order       = $this->_order_functions->getOrderDetails($order_id);
 		$paymentInfo = $this->_order_functions->getOrderPaymentDetail($order_id);
@@ -441,7 +388,7 @@ class Order_detailController extends JController
 
 				if ($is_creditcard)
 				{
-					JHTML::Script('credit_card.js', 'components/com_redshop/assets/js/', false);    ?>
+					JHtml::script('com_redshop/credit_card.js', false, true);    ?>
 
 				<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout') ?>" method="post"
 				      name="adminForm" id="adminForm" enctype="multipart/form-data"

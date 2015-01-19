@@ -81,7 +81,7 @@ class PhpThumb
 	{
 		if (!(self::$_instance instanceof self))
 		{
-			self::$_instance = new self();
+			self::$_instance = new self;
 		}
 
 		return self::$_instance;
@@ -221,7 +221,7 @@ class PhpThumb
 					continue;
 				}
 
-				include_once($pluginPath . '/' . $file);
+				include_once $pluginPath . '/' . $file;
 			}
 		}
 	}

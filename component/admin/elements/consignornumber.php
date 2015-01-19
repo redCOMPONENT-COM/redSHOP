@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,12 +23,10 @@ class JFormFieldconsignornumber extends JFormField
 	 * @access    protected
 	 * @var        string
 	 */
-
 	public $type = 'consignornumber';
 
 	protected function getInput()
 	{
-
 		$db = JFactory::getDbo();
 
 		$query = 'SELECT s.* FROM #__extensions AS s '
@@ -38,18 +36,22 @@ class JFormFieldconsignornumber extends JFormField
 		$options = $db->loadObjectList();
 
 		$html = '<table border="0">';
-		$name = $this->name;
-		$value = $this->value;
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
-			$row = & $options[$i];
+			$row = $options[$i];
+			$value = 0;
 
+			if (isset($this->value[$i]))
+			{
+				$value = $this->value[$i];
+			}
 
-			$html .= "<tr><td>" . $row->name . "</td><td><input type='text' id='" . $row->id . "' name='" . $name . "[]'  value='" . $value[$i] . "'   /></td></tr>";
+			$html .= "<tr><td>" . $row->name . "</td><td><input type='text' id='" . $row->type . '-' . $row->name . "' name='" . $this->name . "[]'  value='" . $value . "'   /></td></tr>";
 		}
 
 		$html .= '</table>';
+
 		return $html;
 	}
 }

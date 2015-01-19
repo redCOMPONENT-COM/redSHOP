@@ -23,6 +23,8 @@
 						<td>
 							<div class="category_product_price">{product_price}</div>
 						</td>
+					</tr>
+					<tr>
 						<td>
 							<div id="add_to_cart_all">{form_addtocart:add_to_cart1}</div>
 						</td>
@@ -33,5 +35,5 @@
 		</div>
 		{product_loop_end}
 	</div>
-	<div class="category_pagination">{pagination}</div>
+	<div class="pagination">{pagination}</div>
 </div>

@@ -3,13 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class price_filterModelprice_filter
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class price_filterModelprice_filter extends JModel
+class RedshopModelPrice_filter extends RedshopModel
 {
 	public $_id = null;
 
@@ -55,7 +54,8 @@ class price_filterModelprice_filter extends JModel
 		if (empty($this->_data))
 		{
 			$query       = $this->_buildQuery();
-			$this->_data = $this->_getList($query);
+			$limit = JFactory::getApplication()->input->getInt('count');
+			$this->_data = $this->_getList($query, 0, $limit);
 		}
 
 		return $this->_data;

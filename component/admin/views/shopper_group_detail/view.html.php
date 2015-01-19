@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/shopper.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminShopper');
+JLoader::load('RedshopHelperAdminCategory');
 
-class shopper_group_detailVIEWshopper_group_detail extends JView
+class RedshopViewShopper_group_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -24,16 +23,14 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT_DETAIL'), 'redshop_manufact48');
-
 		$shoppergroup = new shoppergroup;
 		$redhelper = new redhelper;
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/json.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$uri = JFactory::getURI();
 
@@ -47,7 +44,7 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_manufact48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'users redshop_manufact48');
 
 		JToolBarHelper::apply();
 
@@ -118,6 +115,31 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 		$lists['tax_group_id'] = JHTML::_('select.genericlist', $vatgroup, 'tax_group_id',
 			'class="inputbox" size="1"', 'value', 'text', $detail->tax_group_id
 		);
+
+		if(!isset($lists['apply_vat']))
+		{
+			$lists['apply_vat'] = "";
+		}
+
+		if(!isset($lists['is_logged_in']))
+		{
+			$lists['is_logged_in'] = "";
+		}
+
+		if(!isset($lists['apply_product_price_vat']))
+		{
+			$lists['apply_product_price_vat'] = "";
+		}
+
+		if(!isset($lists['tax_exempt']))
+		{
+			$lists['tax_exempt'] = "";
+		}
+
+		if(!isset($lists['tax_exempt_on_shipping']))
+		{
+			$lists['tax_exempt_on_shipping'] = "";
+		}
 
 		$this->lists = $lists;
 		$this->detail = $detail;

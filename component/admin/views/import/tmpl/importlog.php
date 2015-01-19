@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -101,7 +101,7 @@ defined('_JEXEC') or die;
 		xmlhttp.send(null);
 	}
 </script>
-<form action="<?php echo $this->request_url; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop&view=import&layout=importlog" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<fieldset>
 			<legend><?php echo JText::_('COM_REDSHOP_IMPORT_UPDATE_LOG'); ?></legend>

@@ -3,15 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
-
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
 /**
  * Class split_paymentModelsplit_payment
@@ -20,7 +18,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
  * @subpackage  Model
  * @since       1.0
  */
-class split_paymentModelsplit_payment extends JModel
+class RedshopModelSplit_payment extends RedshopModel
 {
 	public $_id = null;
 
@@ -106,8 +104,8 @@ class split_paymentModelsplit_payment extends JModel
 				. "orders set order_payment_status = '" . $order_paymentstatus
 				. "', split_payment=0  where order_id = " . (int) $oid;
 			$this->_db->setQuery($query);
-			$this->_db->query();
-			$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
+			$this->_db->execute();
+			$return = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 		}
 
 		$data['amount'] = 0;
@@ -124,7 +122,7 @@ class split_paymentModelsplit_payment extends JModel
 					. '&ccinfo=' . $ccinfo
 					. '&payment_method_id=' . $payment_method_id
 					. '&oid=' . $oid;
-				$app->Redirect($link, $msg);
+				$app->redirect($link, $msg);
 			}
 
 
@@ -140,7 +138,7 @@ class split_paymentModelsplit_payment extends JModel
 			if (!$payment)
 			{
 				$msg  = "Payment Failure" . $d ["order_payment_log"];
-				$link = 'index.php?option=' . $option . '&view=split_payment&Itemid=' . $Itemid . '&ccinfo=' . $ccinfo . '&payment_method_id=' . $payment_method_id . '&oid=' . $oid;
+				$link = 'index.php?option=com_redshop&view=split_payment&Itemid=' . $Itemid . '&ccinfo=' . $ccinfo . '&payment_method_id=' . $payment_method_id . '&oid=' . $oid;
 				$app->Redirect($link, $msg);
 				JRequest::setVar('payment_status_log', '-' . $d ["order_payment_log"]);
 			}
@@ -187,23 +185,23 @@ class split_paymentModelsplit_payment extends JModel
 						. "orders set order_payment_status = " . $this->_db->quote($order_paymentstatus)
 						. ", split_payment = 0  where order_id = " . (int) $oid;
 					$this->_db->setQuery($query);
-					$this->_db->query();
+					$this->_db->execute();
 
 					$userinfo = $this->getuseraccountinfo($user->id);
 
 					// Add Economic integration
-					$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
+					$return = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 				}
 				else
 				{
 					$order_paymentstatus = JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
 					$msg                 = JText::_('COM_REDSHOP_PARTIAL_PAYMENT_FAILURE');
-					$return              = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
+					$return              = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 				}
 			}
 		}
 
-		$app->Redirect($return, $msg);
+		$app->redirect($return, $msg);
 	}
 
 	public function validatepaymentccinfo()
@@ -454,16 +452,16 @@ class split_paymentModelsplit_payment extends JModel
 
 
 		// Load an array with the valid prefixes for this card
-		$prefix = split(',', $cards [$cardType] ['prefixes']);
+		$prefix = explode(',', $cards [$cardType] ['prefixes']);
 
 		// Now see if any of them match what we have in the card number
 		$PrefixValid = false;
 
 		for ($i = 0; $i < sizeof($prefix); $i++)
 		{
-			$exp = '^' . $prefix [$i];
+			$exp = '/^' . $prefix [$i] . '/';
 
-			if (ereg($exp, $cardNo))
+			if (preg_match($exp, $cardNo))
 			{
 				$PrefixValid = true;
 				break;
@@ -481,7 +479,7 @@ class split_paymentModelsplit_payment extends JModel
 
 		// See if the length is valid for this card
 		$LengthValid = false;
-		$lengths     = split(',', $cards [$cardType] ['length']);
+		$lengths     = explode(',', $cards [$cardType] ['length']);
 
 		for ($j = 0; $j < sizeof($lengths); $j++)
 		{

@@ -3,12 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_cart
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 $option = JRequest::getCmd('option');
+JLoader::import('redshop.library');
 
 $show_with_vat = trim($params->get('show_with_vat', 0));
 $button_text = trim($params->get('button_text', ''));
@@ -16,17 +17,18 @@ $show_shipping_line = ($params->get('show_shipping_line', 0));
 
 $document = JFactory::getDocument();
 $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 
 if ($option != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+	JLoader::load('RedshopHelperAdminConfiguration');
 	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
+
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 $show_empty_btn = 0;
 
@@ -52,7 +54,7 @@ $idx = 0;
 
 if ((!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1)) && $params->get("use_cookies_value") == 1)
 {
-	if ($_COOKIE['redSHOPcart'] != "")
+	if (isset($_COOKIE['redSHOPcart']) && ($_COOKIE['redSHOPcart'] != ''))
 	{
 		$session->set('cart', unserialize(stripslashes($_COOKIE['redSHOPcart'])));
 		$cart = $session->get('cart');

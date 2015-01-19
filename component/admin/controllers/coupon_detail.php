@@ -3,15 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-
-class coupon_detailController extends JController
+class RedshopControllerCoupon_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -51,7 +49,7 @@ class coupon_detailController extends JController
 
 		if ($post ['end_date'])
 		{
-			$post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
+			$post ['end_date'] = strtotime($post ['end_date']) + (24 * 60 * 60) - 1;
 		}
 
 		$model = $this->getModel('coupon_detail');
@@ -61,7 +59,7 @@ class coupon_detailController extends JController
 			if ($model->checkduplicate($post['coupon_code']))
 			{
 				$msg = JText::_('COM_REDSHOP_CODE_IS_ALREADY_IN_USE');
-				$app->Redirect('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
+				$app->Redirect('index.php?option=com_redshop&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
 			}
 		}
 
@@ -74,7 +72,7 @@ class coupon_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_COUPON_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 
 	public function remove()
@@ -96,7 +94,7 @@ class coupon_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 
 	public function publish()
@@ -118,7 +116,7 @@ class coupon_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 
 	public function unpublish()
@@ -140,13 +138,13 @@ class coupon_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 }

@@ -3,16 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-//Import filesystem libraries. Perhaps not necessary, but does not hurt
 jimport('joomla.filesystem.file');
 
-class template_detailModeltemplate_detail extends JModel
+class RedshopModelTemplate_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -21,6 +19,8 @@ class template_detailModeltemplate_detail extends JModel
 	public $_table_prefix = null;
 
 	public $_copydata = null;
+
+	public $names = array();
 
 	public function __construct()
 	{
@@ -108,7 +108,7 @@ class template_detailModeltemplate_detail extends JModel
 	{
 		$red_template = new Redtemplate;
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (isset($data['payment_methods']) && count($data['payment_methods']) > 0)
 		{
@@ -187,7 +187,7 @@ class template_detailModeltemplate_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'template WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -208,7 +208,7 @@ class template_detailModeltemplate_detail extends JModel
 				. ' WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -230,10 +230,15 @@ class template_detailModeltemplate_detail extends JModel
 			$this->_copydata = $this->_db->loadObjectList();
 		}
 
+		if(is_null($this->_copydata))
+		{
+			return false;
+		}
+
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['template_id'] = 0;
-			$post['template_name'] = 'Copy Of ' . $cdata->template_name;
+			$post['template_name'] = $this->renameToUniqueValue('template_name', $cdata->template_name, 'dash');
 			$post['template_section'] = $cdata->template_section;
 			$post['template_desc'] = $cdata->template_desc;
 			$post['order_status'] = $cdata->order_status;
@@ -242,6 +247,7 @@ class template_detailModeltemplate_detail extends JModel
 			$post['shipping_methods'] = $cdata->shipping_methods;
 
 			$this->store($post);
+			$this->names[] = array($cdata->template_name,$post['template_name']);
 		}
 
 		return true;
@@ -286,8 +292,7 @@ class template_detailModeltemplate_detail extends JModel
 			}
 
 			// Lets get to it and checkout the thing...
-			$template_detail = & $this->getTable('template_detail');
-
+			$template_detail = $this->getTable('template_detail');
 
 			if (!$template_detail->checkout($uid, $this->_id))
 			{
@@ -313,7 +318,7 @@ class template_detailModeltemplate_detail extends JModel
 	{
 		if ($this->_id)
 		{
-			$template_detail = & $this->getTable('template_detail');
+			$template_detail = $this->getTable('template_detail');
 
 			if (!$template_detail->checkin($this->_id))
 			{

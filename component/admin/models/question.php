@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class questionModelquestion extends JModel
+class RedshopModelQuestion extends RedshopModel
 {
 	public $_data = null;
 
@@ -77,12 +76,22 @@ class questionModelquestion extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * Get product with questions
+	 *
+	 * @return mixed
+	 */
 	public function getProduct()
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
-		$list = $this->_data = $this->_getList($query);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('p.product_id, p.product_name')
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_customer_question', 'cq') . ' ON cq.product_id = p.product_id')
+			->where('cq.question_id > 0')
+			->group('p.product_id');
 
-		return $list;
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function _buildQuery()
@@ -127,7 +136,7 @@ class questionModelquestion extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('question_detail');
+		$row = $this->getTable('question_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 

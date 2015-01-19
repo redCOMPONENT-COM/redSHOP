@@ -3,13 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.model');
 
 /**
  * Barcode reder/generator Model
@@ -18,7 +17,7 @@ jimport('joomla.application.component.model');
  * @subpackage  Barcode
  * @since       1.2
  */
-class barcodeModelbarcode extends JModel
+class RedshopModelBarcode extends RedshopModel
 {
 	public $_id = null;
 
@@ -38,7 +37,7 @@ class barcodeModelbarcode extends JModel
 
 	public function save($data)
 	{
-		$row = & $this->getTable('barcode');
+		$row = $this->getTable('barcode');
 
 		if (!$row->bind($data))
 		{
@@ -100,6 +99,6 @@ class barcodeModelbarcode extends JModel
 		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
 			. $barcode . "' and order_id ='" . $order_id . "'";
 		$this->_db->setQuery($update_query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 }

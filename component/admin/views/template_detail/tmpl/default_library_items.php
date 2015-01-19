@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTML::_('behavior.tooltip');
 $model = $this->getModel('template_detail');
 
-$title = JText::_('COM_REDSHOP_CATEGORY_TEXTLIBRARY_ITEMS');
-echo $this->pane->startPane('stat-pane');
-echo $this->pane->startPanel($title, 'events');?>
+echo JHtml::_('sliders.start', 'template-library-items');
+echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATEGORY_TEXTLIBRARY_ITEMS'), 'category-items');?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -23,9 +22,7 @@ echo $this->pane->startPanel($title, 'events');?>
 			</td>
 		</tr>
 	</table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_NEWSLETTER_TEXTLIBRARY_ITEMS');
-echo $this->pane->startPanel($title, 'events');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_NEWSLETTER_TEXTLIBRARY_ITEMS'), 'newsletter-items'); ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -37,9 +34,7 @@ echo $this->pane->startPanel($title, 'events');    ?>
 			</td>
 		</tr>
 	</table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_PRODUCT_TEXTLIBRARY_ITEMS');
-echo $this->pane->startPanel($title, 'events');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_PRODUCT_TEXTLIBRARY_ITEMS'), 'product-items'); ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -51,5 +46,5 @@ echo $this->pane->startPanel($title, 'events');    ?>
 			</td>
 		</tr>
 	</table>
-<?php    echo $this->pane->endPanel();
-echo $this->pane->endPane();?>
+<?php
+echo JHtml::_('sliders.end');

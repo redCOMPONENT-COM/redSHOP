@@ -3,18 +3,18 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
 
 $producthelper = new producthelper;
 $carthelper = new rsCarthelper;
@@ -85,30 +85,57 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 				<tbody>
 				<tr>
 					<th align="right" colspan="2">
-						<?php if(isset($order_id)) {     ?>
-						<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id); ?>"><?php echo JText::_('COM_REDSHOP_CREATE_STOCKNOTE'); ?></a>
-						&nbsp;
-						<a href="javascript:openPrintOrder();" title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>">
-							<img src="<?php echo JSYSTEM_IMAGES_PATH . 'printButton.png'; ?>"
-							     alt="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
-							     title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"/></a>
+						<?php if(isset($order_id)) : ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id); ?>">
+								<?php echo JText::_('COM_REDSHOP_CREATE_STOCKNOTE'); ?>
+							</a>
+							&nbsp;|&nbsp;
+							<a
+								href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id); ?>">
+								<?php echo JText::_('COM_REDSHOP_CREATE_SHIPPING_LABEL'); ?>
+							</a>
+							&nbsp;|&nbsp;
 
-						<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=createpdf&cid[]=' . $order_id); ?>"><?php echo JText::_('COM_REDSHOP_CREATE_SHIPPING_LABEL'); ?></a>
-						&nbsp;<?php if($tmpl){ ?><a
-							href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=send_downloadmail&cid[]=' . $order_id); ?>&tmpl=<?php echo $tmpl; ?>"><?php } else { ?>
-							<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=send_downloadmail&cid[]=' . $order_id); ?>"><?php }  echo JText::_('COM_REDSHOP_SEND_DOWNLOEADMAIL'); ?></a>
-							&nbsp;<?php if($tmpl){ ?><a
-								href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=send_invoicemail&cid[]=' . $order_id); ?>&tmpl=<?php echo $tmpl; ?>"><?php } else { ?>
-								<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=send_invoicemail&cid[]=' . $order_id); ?>"><?php }  echo JText::_('COM_REDSHOP_SEND_INVOICEMAIL'); ?></a>
-								&nbsp;
-								<?php }    ?>
+							<?php
 
-								<?php if (!$tmpl)
-								{ ?>
+							$appendTmpl = '';
 
-									<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>"><?php echo JText::_('COM_REDSHOP_BACK'); ?></a>
-								<?php } ?>
+							if($tmpl)
+							{
+								$appendTmpl = '&tmpl=component';
+							}
 
+							?>
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl); ?>">
+								<?php echo JText::_('COM_REDSHOP_SEND_DOWNLOEADMAIL'); ?>
+							</a>
+
+							&nbsp;|&nbsp;
+
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl); ?>">
+								<?php echo JText::_('COM_REDSHOP_RESEND_ORDER_MAIL'); ?>
+							</a>
+
+							&nbsp;|&nbsp;
+
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl); ?>">
+								<?php echo JText::_('COM_REDSHOP_SEND_INVOICEMAIL'); ?>
+							</a>
+
+							<?php if($tmpl) : ?>
+							&nbsp;|&nbsp;
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order&tmpl=component'); ?>">
+								<?php echo JText::_('COM_REDSHOP_BACK'); ?>
+							</a>
+							<?php endif; ?>
+
+							<a href="javascript:openPrintOrder();" title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>">
+								<img src="<?php echo JSYSTEM_IMAGES_PATH . 'printButton.png'; ?>"
+								     alt="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
+								     title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
+								/>
+							</a>
+						<?php endif; ?>
 					</th>
 				</tr>
 				<tr>
@@ -142,7 +169,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<td><?php echo JText::_($this->payment_detail->order_payment_name); ?>
 						<?php if (count($model->getccdetail($order_id)) > 0)
 						{ ?>
-							<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
 							   class="modal"
 							   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL');?></a>
 						<?php } ?>
@@ -186,7 +213,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$send_mail_to_customer = "checked";
 						}
 
-						$linkupdate = JRoute::_('index.php?option=' . $option . '&view=order&task=update_status&return=order_detail&order_id[]=' . $order_id);
+						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order_detail&order_id[]=' . $order_id);
 
 						echo $order_functions->getstatuslist('status', $this->detail->order_status, "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";
@@ -278,7 +305,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
 							<td><?php echo $billing->lastname; ?></td>
 						</tr>
-						<?php if ($billing->company_name)
+						<?php if ($is_company)
 						{ ?>
 							<tr>
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY'); ?>:</td>
@@ -476,8 +503,8 @@ if (!$discount_type)
 							<td width="20%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
 							<td width="15%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></td>
 							<td width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></td>
-							<td width="5%" align="right"><?php echo JText::_('COM_REDSHOP_TAX'); ?></td>
-							<td width="10%" align="right"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></td>
+							<td width="5%"><?php echo JText::_('COM_REDSHOP_TAX'); ?></td>
+							<td width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></td>
 							<td width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></td>
 							<td width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></td>
 							<td width="20%"><?php echo JText::_('COM_REDSHOP_STATUS'); ?></td>
@@ -503,8 +530,12 @@ for ($i = 0; $i < count($products); $i++)
 	$cart[$i]['quantity'] = $products[$i]->product_quantity;
 	$quantity = $products[$i]->product_quantity;
 	$product_id = $products[$i]->product_id;
-	$productdetail = $producthelper->getProductById($product_id);
-	$ordervolume = $ordervolume + $productdetail->product_volume;
+
+	if ($productdetail = $producthelper->getProductById($product_id))
+	{
+		$ordervolume = $ordervolume + $productdetail->product_volume;
+	}
+
 	$order_item_id = $products[$i]->order_item_id;
 	$order_item_name = $products[$i]->order_item_name;
 	$order_item_sku = $products[$i]->order_item_sku;
@@ -514,13 +545,15 @@ for ($i = 0; $i < count($products); $i++)
 	$subscribe_detail = $model->getUserProductSubscriptionDetail($order_item_id);
 	$catId = $producthelper->getCategoryProduct($product_id);
 	$res = $producthelper->getSection("category", $catId);
+	$cname = '';
+
 	if (count($res) > 0)
 	{
 		$cname = $res->category_name;
 		$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
-
+		$cname = "<a href='" . $clink . "'>" . $cname . "</a>";
 	}
-	$cname = "<a href='" . $clink . "'>" . $cname . "</a>";
+
 	$Product_name = $order_item_name . '<br>' . $order_item_sku . '<br>' . $p_userfield . '<br>' . $cname;
 
 	$subtotal_excl_vat += $products[$i]->product_item_price_excl_vat * $quantity;
@@ -775,14 +808,18 @@ $session->set('cart', $cart); ?>
 				$special_discount_amount = $this->detail->special_discount_amount;
 				$vatOnDiscount           = false;
 
-				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT && (int) $this->detail->order_discount != 0 && $order_tax && !empty($this->detail->order_discount))
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT
+					&& (int) $this->detail->order_discount != 0 && (int) $order_tax
+					&& !empty($this->detail->order_discount))
 				{
 					$vatOnDiscount = true;
 					$Discountvat   = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 					$totaldiscount = $totaldiscount - $Discountvat;
 				}
 
-				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT && (int) $this->detail->special_discount_amount != 0 && $order_tax && !empty($this->detail->special_discount_amount))
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT
+					&& (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
+					&& !empty($this->detail->special_discount_amount))
 				{
 					$vatOnDiscount           = true;
 					$Discountvat             = (VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + VAT_RATE_AFTER_DISCOUNT);
@@ -908,7 +945,7 @@ $session->set('cart', $cart); ?>
 <tr>
 	<td>
 		<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminFormAdd" id="adminFormAdd">
-			<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+			<table border="0" cellspacing="0" cellpadding="0" class="adminlist table">
 				<tr>
 					<td width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
 					<td width="20%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></td>
@@ -920,9 +957,19 @@ $session->set('cart', $cart); ?>
 					<td width="5%"><?php echo JText::_('COM_REDSHOP_ACTION');?></td>
 				</tr>
 				<tr id="trPrd1">
-					<td><input type="text" name="searchproduct1" id="searchproduct1" size="30"/>
-						<input type="hidden" name="product1" id="product1" value="0"/>
-
+					<td><?php
+						echo JHTML::_('redshopselect.search', '', 'product1',
+							array(
+								'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+								'select2.options' => array(
+									'events' => array('select2-selecting' => 'function(e) {
+										document.getElementById(\'product1\').value = e.object.id;
+										displayProductDetailInfo(\'product1\', 0);
+										displayAddbutton(e.object.id, \'product1\');}')
+								)
+							)
+						);
+						?>
 						<div id="divAttproduct1"></div>
 						<div id="divAccproduct1"></div>
 						<div id="divUserFieldproduct1"></div>
@@ -1033,7 +1080,7 @@ $session->set('cart', $cart); ?>
 						$details = explode("|", $row->ship_method_id);
 					}
 					$disp_style = '';
-					if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+					if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
 					{
 						$disp_style = "style=display:none";
 					} ?>
@@ -1042,7 +1089,7 @@ $session->set('cart', $cart); ?>
 							<div
 								id="rs_glslocationId" <?php echo $disp_style?>><?php //echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>
 								<?php
-								echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_GLS', $this->detail->shop_id); ?>
+								echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
 							</div>
 						</td>
 					</tr>
@@ -1092,7 +1139,7 @@ $session->set('cart', $cart); ?>
 						</tr>
 						<?php
 						for ($log = 0; $log < count($log_rec); $log++):
-							$log_row = & $log_rec[$log];
+							$log_row = $log_rec[$log];
 							?>
 							<tr>
 								<td width="5%" align="center"><?php echo ($log + 1); ?></td>
@@ -1121,19 +1168,6 @@ $session->set('cart', $cart); ?>
 </table>
 <div id="divCalc"></div>
 <script type="text/javascript">
-	var productoptions = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&isproduct=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('product1').value = obj.id;
-			displayProductDetailInfo('product1', 0);
-			displayAddbutton(obj.id, 'product1');
-		}
-	};
-	var as_json = new bsn.AutoSuggest('searchproduct1', productoptions);
-
 	function hideDownloadLimit(val, tid) {
 
 		var downloadlimit = document.getElementById('limit_' + tid);

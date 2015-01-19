@@ -3,15 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
+$document = JFactory::getDocument();
 $producthelper = new producthelper;
 $editor        = JFactory::getEditor();
 
@@ -19,10 +20,6 @@ $editor        = JFactory::getEditor();
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -53,7 +50,36 @@ $editor        = JFactory::getEditor();
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>:</td>
-					<td><?php echo $this->lists['product_id']; ?></td>
+					<td>
+						<?php
+							$producthelper = new producthelper;
+							$product       = $producthelper->getProductByID($this->detail->product_id);
+
+							$productname   = "";
+
+							if (count($product) > 0)
+							{
+								$productname = $product->product_name;
+							}
+						?>
+						<?php
+						$productObject = new stdClass;
+
+						if ($this->detail->product_id && ($productData = $producthelper->getProductById($this->detail->product_id)))
+						{
+							$productObject->value = $this->detail->product_id;
+							$productObject->text = $productData->product_name;
+						}
+
+						echo JHTML::_('redshopselect.search', $productObject, 'product_id',
+							array(
+								'select2.options' => array(
+									'placeholder' => JText::_('COM_REDSHOP_PRODUCT_NAME')
+								)
+							)
+						);
+						?>
+					</td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?>:</td>
@@ -96,51 +122,49 @@ $editor        = JFactory::getEditor();
 			</table>
 		</fieldset>
 	</div>
-
+	<?php
+		$k = 0;
+		$i = 0;
+	?>
 	<div class="col50" id='answerlists'>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_PREVIOUS_ANSWERS'); ?></legend>
-			<table class="adminlist">
+			<table class="adminlist table table-striped">
 				<thead>
 				<tr class="row<?php echo $k; ?>">
 					<th class="title">#</th>
-					<th class="title"><input type="checkbox" name="toggle" value=""
-					                         onclick="checkAll(<?php echo count($this->answers); ?>);"/></th>
+					<th class="title"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 					<th class="title"><?php echo JText::_('COM_REDSHOP_ANSWERS'); ?></th>
 					<th class="title"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?></th>
 					<th class="title"><?php echo JText::_('COM_REDSHOP_USER_EMAIL'); ?></th>
 					<th class="title"><?php echo JText::_('COM_REDSHOP_TIME') ?></th>
 				</tr>
 				</thead>
-				<?php if (count($this->answers) > 0)
-{
-	$k = 0;
-	$i = 0;
+				<?php if (count($this->answers) > 0) : ?>
 
-	foreach ($this->answers as $answer)
-	{
-?>
-						<tr class="row<?php echo $k; ?>">
-							<td align="center"><?php echo $i + 1; ?></td>
-							<td class="order"
-							    width="5%"><?php echo JHTML::_('grid.id', $i, $answer->question_id, false, 'aid'); ?></td>
-							<td><?php echo $answer->question; ?></td>
-							<td><?php echo $answer->user_name; ?></td>
-							<td><?php echo $answer->user_email; ?></td>
-							<td align="center"><?php echo date("M d Y, h:i:s A", $answer->question_date); ?></td>
-						</tr>
-						<?php $i++;
-		$k = 1 - $k;
-	} ?>
-					<tr>
-						<td colspan="6">
-							<input type="button" name="btn_delete" id="btn_delete"
-							       value="<?php echo JText::_('COM_REDSHOP_DELETE') ?>" onclick="deleteanswer();"/>
-							<input type="button" name="btn_send" id="btn_send"
-							       value="<?php echo JText::_('COM_REDSHOP_SEND') ?>" onclick="sendanswer();"/></td>
-					</tr>
+			<?php foreach ($this->answers as $answer) : ?>
+				<tr class="row<?php echo $k; ?>">
+					<td align="center"><?php echo $i + 1; ?></td>
+					<td class="order"
+					    width="5%"><?php echo JHTML::_('grid.id', $i, $answer->question_id, false, 'aid'); ?></td>
+					<td><?php echo $answer->question; ?></td>
+					<td><?php echo $answer->user_name; ?></td>
+					<td><?php echo $answer->user_email; ?></td>
+					<td align="center"><?php echo date("M d Y, h:i:s A", $answer->question_date); ?></td>
+				</tr>
 				<?php
-} ?>
+					$i++;
+					$k = 1 - $k;
+				?>
+			<?php endforeach; ?>
+				<tr>
+					<td colspan="6">
+						<input type="button" name="btn_delete" id="btn_delete"
+						       value="<?php echo JText::_('COM_REDSHOP_DELETE') ?>" onclick="deleteanswer();"/>
+						<input type="button" name="btn_send" id="btn_send"
+						       value="<?php echo JText::_('COM_REDSHOP_SEND') ?>" onclick="sendanswer();"/></td>
+				</tr>
+			<?php endif; ?>
 			</table>
 		</fieldset>
 	</div>

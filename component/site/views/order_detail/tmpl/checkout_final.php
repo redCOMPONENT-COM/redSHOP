@@ -3,14 +3,14 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-include_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
 $configobj = new Redconfiguration;
 $order_functions = new order_functions;
@@ -130,29 +130,3 @@ else
 }
 ?>
 </div>
-<?php
-
-$preloader = $paymentparams->get('preloader', 1);
-
-if ($preloader)
-{
-	?>
-	<script type="text/javascript"
-	        src="<?php echo JUri::root(); ?>components/com_redshop/assets/js/mootools-core.js"></script>
-	<script type="text/javascript"
-	        src="<?php echo JUri::root(); ?>components/com_redshop/assets/js/muxloader.js"></script>
-	<script type="text/javascript">
-		window.addEvent('domready', function () {
-			document.getElement('.mux-loader-bar').grab($(new MUX.Loader.Bar()));
-			document.getElement('.mux-loader').start();
-		});
-	</script>
-	<div style="margin: 0 auto;width: 900px;">
-		<div style="margin:200px 0px 0px 250px;">
-			<div><?php echo JText::_('PROCESSING_PAYMENT');?></div>
-			<div>&nbsp;</div>
-			<div class="loader mux-loader-bar"></div>
-		</div>
-	</div>
-<?php
-}

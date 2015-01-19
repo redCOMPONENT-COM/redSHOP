@@ -3,36 +3,39 @@
  * @package     RedSHOP.Frontend
  * @subpackage  redSHOP
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-JLoader::import('joomla.html.parameter');
 
-$view   = JRequest::getCmd('view');
+// Load redSHOP Library
+JLoader::import('redshop.library');
+
+JLoader::import('joomla.html.parameter');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('economic', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminStockroom');
+JLoader::load('RedshopHelperAdminEconomic');
+JLoader::load('RedshopHelperAdminImages');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 JLoader::import('joomla.html.pagination');
 
-require_once JPATH_COMPONENT . '/helpers/cron.php';
-require_once JPATH_COMPONENT . '/helpers/statistic.php';
-require_once JPATH_COMPONENT . '/helpers/pagination.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/currency.php';
+JLoader::load('RedshopHelperCron');
+JLoader::load('RedshopHelperStatistic');
+JLoader::load('RedshopHelperPagination');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperRedshop.js');
 
 // Helper object
 $helper = new redhelper;
@@ -40,51 +43,128 @@ $helper = new redhelper;
 // Include redCRM if required
 $helper->isredCRM();
 
-$print = JRequest::getCmd('print');
+$print = $app->input->getCmd('print', '');
 
 // Adding Redshop CSS
 $doc = JFactory::getDocument();
 
 // Use diffrent CSS for print layout
 if (!$print)
-	JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
+{
+	JHtml::stylesheet('com_redshop/redshop.css', array(), true);
+}
 else
-	JHTML::Stylesheet('print.css', 'components/com_redshop/assets/css/');
+{
+	JHtml::stylesheet('com_redshop/print.css', array(), true);
+}
 
-JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-$Itemid = $helper->getCheckoutItemid();
-$Itemid = JRequest::getInt('Itemid', $Itemid);
-$Itemid = $helper->getCartItemid();
+JHtml::stylesheet('com_redshop/style.css', array(), true);
 
-// Include redshop js file.
-require_once JPATH_COMPONENT . '/helpers/redshop.js.php';
+// Load redshop script
+JHtml::script('com_redshop/redshop.js', false, true);
 
-$controller = JRequest::getCmd('view', 'category');
-
-$task   = JRequest::getCmd('task');
-$format = JRequest::getWord('format', '');
-$layout = JRequest::getWord('layout', '');
-
-$params = $app->getParams('com_redshop');
+// Set the default view name and format from the Request.
+$vName      = $app->input->getCmd('view', 'category');
+$task       = $app->input->getCmd('task', '');
+$format     = $app->input->getWord('format', 'html');
+$layout     = $app->input->getWord('layout', '');
+$params     = $app->getParams('com_redshop');
+$categoryid = $app->input->getInt('cid', $params->get('categoryid'));
+$productid  = $app->input->getInt('pid', 0);
+$sgportal   = $helper->getShopperGroupPortal();
+$user       = JFactory::getUser();
+$portal     = 0;
 
 // Add product in cart from db
 $helper->dbtocart();
 
-$categoryid = JRequest::getInt('cid', $params->get('categoryid'));
-$productid  = JRequest::getInt('pid', 0);
-
-$sgportal = $helper->getShopperGroupPortal();
-$portal   = 0;
 if (count($sgportal) > 0)
-	$portal = $sgportal->shopper_group_portal;
-
-$user = JFactory::getUser();
-
-if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountCalculator" && $task != "ajaxupload" && $task != 'getShippingrate' && $task != 'addtocompare' && $task != 'ajaxsearch' && $task != "Download" && $task != 'addtowishlist')
 {
-	echo "<div id='redshopcomponent' class='redshop'>";
+	$portal = $sgportal->shopper_group_portal;
+}
 
-	if ($format != 'final' && $layout != 'receipt')
+if (PORTAL_SHOP == 1)
+{
+	if ($vName == 'product' && $productid > 0 && $user->id > 0)
+	{
+		$checkcid = $helper->getShopperGroupProductCategory($productid);
+
+		if ($checkcid == true)
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+	elseif ($vName == 'category' && $categoryid > 0 && $user->id > 0)
+	{
+		$checkcid = $helper->getShopperGroupCategory($categoryid);
+
+		if ($checkcid == "")
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+}
+else
+{
+	if ($vName == 'product' && $productid > 0 && $portal == 1)
+	{
+		$checkcid = $helper->getShopperGroupProductCategory($productid);
+
+		if ($checkcid == true)
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+
+	if ($vName == 'category' && $categoryid > 0 && $portal == 1)
+	{
+		$checkcid = $helper->getShopperGroupCategory($categoryid);
+
+		if ($checkcid == "")
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+
+	if ($vName == 'redshop')
+	{
+		$vName = 'category';
+		JRequest::setVar('view', 'category');
+	}
+	else
+	{
+		JRequest::setVar('view', $vName);
+	}
+}
+
+// Don't create div for AJAX call and GA code.
+if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
+{
+	// Container CSS class definition
+	if (version_compare(JVERSION, '3.0', '<'))
+	{
+		$redSHOPCSSContainerClass = ' isJ25';
+	}
+	else
+	{
+		$redSHOPCSSContainerClass = ' isJ30';
+	}
+
+	echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst($vName) . $redSHOPCSSContainerClass . '">';
+
+	if ($layout != 'receipt')
 	{
 		/*
 		 * get redSHOP Google Analytics Plugin is Enable?
@@ -94,105 +174,51 @@ if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountC
 
 		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
 		{
-			require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
+			JLoader::load('RedshopHelperGoogle_analytics');
 
-			$google_ana = new googleanalytics;
-
-			$anacode = $google_ana->placeTrans();
+			$ga = new GoogleAnalytics;
+			$ga->placeTrans();
 		}
 	}
 }
 
-if (PORTAL_SHOP == 1)
+// Check for array format.
+$filter = JFilterInput::getInstance();
+$task   = $app->input->getCmd('task', 'display');
+
+if (is_array($task))
 {
-	if ($controller == 'product' && $productid > 0 && $user->id > 0)
-	{
-		$checkcid = $helper->getShopperGroupProductCategory($productid);
-
-		if ($checkcid == true)
-		{
-			$controller = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
-			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
-		}
-	}
-	elseif ($controller == 'category' && $categoryid > 0 && $user->id > 0)
-	{
-		$checkcid = $helper->getShopperGroupCategory($categoryid);
-
-		if ($checkcid == "")
-		{
-			$controller = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
-			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
-		}
-	}
-	else
-	{
-		$controller = 'login';
-		JRequest::setVar('view', 'login');
-		JRequest::setVar('layout', 'portal');
-	}
+	$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
 }
 else
 {
-	if ($controller == 'product' && $productid > 0 && $portal == 1)
-	{
-		$checkcid = $helper->getShopperGroupProductCategory($productid);
-
-		if ($checkcid == true)
-		{
-			$controller = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
-			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
-		}
-	}
-
-	if ($controller == 'category' && $categoryid > 0 && $portal == 1)
-	{
-		$checkcid = $helper->getShopperGroupCategory($categoryid);
-
-		if ($checkcid == "")
-		{
-			$controller = 'login';
-			JRequest::setVar('view', 'login');
-			JRequest::setVar('layout', 'portal');
-			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
-		}
-	}
-
-	if ($controller == 'redshop')
-	{
-		$controller = 'category';
-		JRequest::setVar('view', 'category');
-	}
+	$command = $filter->clean($task, 'cmd');
 }
 
-
-// Set the controller page
-if (!file_exists(JPATH_COMPONENT . '/controllers/' . $controller . '.php'))
+// Check for a not controller.task command.
+if (strpos($command, '.') === false)
 {
-	$controller = 'category';
-	JRequest::setVar('view', 'category');
+	JRequest::setVar('task', $vName . '.' . $command);
 }
-
-require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
-
-// Set the controller page
-
-$classname = $controller . 'controller';
-
-// Create a new class of classname and set the default task:display
-
-$controller = new $classname(array('default_task' => 'display'));
 
 // Perform the Request task
+$controller = JControllerLegacy::getInstance('Redshop');
 
-$controller->execute(JRequest::getCmd('task'));
+if (version_compare(JVERSION, '3.0', '<'))
+{
+	$task = JRequest::getCmd('task');
+}
+else
+{
+	$task = $app->input->get('task', '');
+}
 
-// Redirect if set by the controller
+$controller->execute($task);
+
+// End component DIV here
 echo "</div>";
+
 $controller->redirect();
+
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();

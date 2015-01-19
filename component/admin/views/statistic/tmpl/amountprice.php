@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+defined('_JEXEC') or die;
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 
 $user = JFactory::getUser();
 $option = JRequest::getVar('option');
@@ -27,8 +27,7 @@ $end = $this->pagination->limit;
 		<td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
 	<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo JText::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */?>
 		</table>
-		<table class="adminlist" width="100%">
-			<thead>
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_HASH'); ?></th>
@@ -39,7 +38,7 @@ $end = $this->pagination->limit;
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = & $this->amountprice[$i];
+				$row = $this->amountprice[$i];
 				if (!is_object($row))
 				{
 					break;
@@ -58,7 +57,13 @@ $end = $this->pagination->limit;
 				</tr>
 			<?php }    ?>
 			<tfoot>
-			<td colspan="3"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="3">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

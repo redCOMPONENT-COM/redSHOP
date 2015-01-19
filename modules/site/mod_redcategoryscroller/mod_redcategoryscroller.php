@@ -3,36 +3,35 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_main_categoryscroller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 global $my, $mosConfig_absolute_path;
-
+JLoader::import('redshop.library');
 
 // Getting the configuration in redshop.js.php
-
-require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
 $document = JFactory::getDocument();
-JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+JHTML::script('com_redshop/redbox.js', false, true);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
 /**
  * This class sets all Parameters.
  * Must first call the MOS function, something like:

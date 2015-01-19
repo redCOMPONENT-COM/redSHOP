@@ -3,17 +3,16 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
-class mass_discount_detailVIEWmass_discount_detail extends JView
+class RedshopViewMass_discount_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -32,12 +31,6 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 		$option = JRequest::getVar('option');
 
 		$isNew = ($detail->mass_discount_id < 1);
-
-		$document = JFactory::getDocument();
-
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -96,16 +89,10 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 			$result_container = array();
 		}
 
-		$detail->discount_product = explode(',', $detail->discount_product);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $detail->discount_product);
-
-		$lists['discount_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
-			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"
-			size="15" style="width:200px;" ', 'value', 'text', 0
-		);
-		$lists['product_all'] = JHTML::_('select.genericlist', array(), 'product_all[]',
-			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->discount_product
+		$lists['discount_product'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
+			array(
+				'select2.options' => array('multiple' => true)
+			)
 		);
 
 		$this->lists = $lists;

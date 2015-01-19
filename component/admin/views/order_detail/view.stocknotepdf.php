@@ -3,32 +3,30 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-//
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-class order_detailVIEWorder_detail extends JView
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminOrder');
+
+class RedshopViewOrder_detail extends RedshopView
 {
 	function display($tpl = null)
 	{
 
-		$config = new Redconfiguration();
-		$redTemplate = new Redtemplate();
-		$order_functions = new order_functions();
-		$producthelper = new producthelper();
+		$config = new Redconfiguration;
+		$redTemplate = new Redtemplate;
+		$order_functions = new order_functions;
+		$producthelper = new producthelper;
 		$model = $this->getModel();
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 		$detail = $this->get('data');
-		$carthelper = new rsCarthelper();
-		$shippinghelper = new shipping();
+		$carthelper = new rsCarthelper;
+		$shippinghelper = new shipping;
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
 		$template = $model->getStockNoteTemplate();
 		if (count($template) > 0 && $template->template_desc != "")
@@ -94,11 +92,9 @@ class order_detailVIEWorder_detail extends JView
 		$html_template = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $html_template);
 
 
-		// start pdf code
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+		// Start pdf code
+		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle("Order StockNote: " . $detail->order_id);
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(15, 15, 15);
 
 		$font = 'times';

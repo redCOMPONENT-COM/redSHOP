@@ -3,26 +3,24 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-//
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-class order_detailVIEWorder_detail extends JView
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminOrder');
+
+class RedshopViewOrder_detail extends RedshopView
 {
 	function display($tpl = null)
 	{
 
-		$config = new Redconfiguration();
-		$redTemplate = new Redtemplate();
+		$config = new Redconfiguration;
+		$redTemplate = new Redtemplate;
 
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$model = $this->getModel();
 
 		$detail = $this->get('data');
@@ -81,10 +79,8 @@ class order_detailVIEWorder_detail extends JView
 			$html_template = str_replace("{company_name_lbl}", "", $html_template);
 		}
 
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle("Order :" . $detail->order_id);
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(15, 15, 15);
 
 		$font = 'times';
@@ -92,7 +88,7 @@ class order_detailVIEWorder_detail extends JView
 		$pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
 		$pdfObj->setHeaderFont(array($font, '', 10));
 		//$pdfObj->setFooterFont(array($font, '', 8));
-		$pdfObj->SetFont($font, "", 12);
+		$pdfObj->SetFont($font, '', 12);
 
 
 		//$pdfObj->AliasNbPages();

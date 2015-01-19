@@ -3,18 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/category.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminProduct');
 
-class productViewproduct extends JView
+class RedshopViewProduct extends RedshopView
 {
 	/**
 	 * The pagination object.
@@ -37,8 +36,6 @@ class productViewproduct extends JView
 	 */
 	public $user;
 
-	public $_product = array();
-
 	public function display($tpl = null)
 	{
 		global $context;
@@ -54,20 +51,17 @@ class productViewproduct extends JView
 
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
 
-		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 		$layout = JRequest::getVar('layout');
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
-			JToolBarHelper::customX('gbasefeed', 'gbase.png', 'gbase.png', JText::_('COM_REDSHOP_GOOGLEBASE'), true);
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
-			JToolBarHelper::addNewX();
-			JToolBarHelper::editListX();
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+			JToolbarHelper::addNew();
+			JToolbarHelper::EditList();
+			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();

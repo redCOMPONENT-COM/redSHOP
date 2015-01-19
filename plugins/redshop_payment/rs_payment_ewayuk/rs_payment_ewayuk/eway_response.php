@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,8 @@ elseif (file_exists($my_path . "/configuration.php"))
 }
 else
 {
-	die ("Joomla Configuration File not found!");
+	echo "Joomla Configuration File not found!";
+	die;
 }
 
 $absolute_path = realpath($absolute_path);
@@ -64,7 +65,8 @@ JPlugin::loadLanguage('com_redshop');
 
 $request = JRequest::get('request');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminOrder');
 $objOrder = new order_functions;
 
 $app = JFactory::getApplication();

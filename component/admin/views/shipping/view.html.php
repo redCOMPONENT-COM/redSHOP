@@ -3,15 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class shippingViewshipping extends JView
+class RedshopViewShipping extends RedshopView
 {
 	/**
 	 * The request url.
@@ -27,6 +26,16 @@ class shippingViewshipping extends JView
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+		$language = JFactory::getLanguage();
+
+		// Load language files
+		$shippings  = $this->get('Data');
+
+		for ($l = 0; $l < count($shippings); $l++)
+		{
+			$extension = 'plg_redshop_shipping_' . strtolower($shippings[$l]->element);
+			$language->load($extension, JPATH_ADMINISTRATOR);
+		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_SHIPPING'));
 
@@ -38,13 +47,11 @@ class shippingViewshipping extends JView
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$shippings  = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$this->lists = $lists;
-		$this->shippings = $shippings;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->shippings   = $shippings;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

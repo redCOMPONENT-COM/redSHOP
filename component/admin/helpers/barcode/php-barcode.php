@@ -82,7 +82,7 @@ $barcode_path="/var/www/html/redshopnew/components/com_redshop/assets/images/bar
 
 /* CONFIGURATION ENDS HERE */
 
-require ("encode_bars.php"); /* build-in encoders */
+require "encode_bars.php"; /* build-in encoders */
 
 /*
  * barcode_outimage(text, bars [, scale [, mode [, total_y [, space ]]]] )

@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class statisticViewstatistic extends JView
+class RedshopViewStatistic extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -135,7 +134,7 @@ class statisticViewstatistic extends JView
 
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'redshop_statistic48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'statistic redshop_statistic48');
 
 		$pagination = new JPagination($total, $limitstart, $limit);
 		$this->pagination = $pagination;

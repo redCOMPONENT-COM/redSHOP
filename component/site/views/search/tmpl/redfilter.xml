@@ -8,7 +8,7 @@
 
     <fields addpath="/administrator/components/com_redshop/elements">
         <fieldset name="basic">
-            <field name="categorytemplate" type="category" default="0" label="COM_REDSHOP_Enter_Category_Id_For_Templet"
+            <field name="categorytemplate" type="redshopcategory" default="0" label="COM_REDSHOP_Enter_Category_Id_For_Templet"
                    description="COM_REDSHOP_Category_id_for_newest_product_search_Template"/>
             <field name="productlimit" type="text" size="4" default="" label="COM_REDSHOP_How_Many_products_To_Show"
                    description="COM_REDSHOP_Enter_No_of_Amount_How_Many_products_To_Show"/>

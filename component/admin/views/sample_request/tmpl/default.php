@@ -3,20 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 $option = JRequest::getVar('option');
 
 JHTMLBehavior::modal();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -42,15 +39,14 @@ JHTMLBehavior::modal();
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->catalog); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th width="20%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_NAME', 'name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -82,7 +78,7 @@ JHTMLBehavior::modal();
 			$k = 0;
 			for ($i = 0, $n = count($this->catalog); $i < $n; $i++)
 			{
-				$row = & $this->catalog[$i];
+				$row = $this->catalog[$i];
 				$row->id = $row->request_id;
 				$row->published = $row->block;
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
@@ -110,6 +106,11 @@ JHTMLBehavior::modal();
 			}    ?>
 			<tfoot>
 			<td colspan="10">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

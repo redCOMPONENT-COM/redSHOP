@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+JLoader::load('RedshopHelperAdminMail');
 
-class accessmanager_detailModelaccessmanager_detail extends JModel
+class RedshopModelAccessmanager_detail extends RedshopModel
 {
 	public $_table_prefix = null;
 
@@ -98,7 +97,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 					// Added for stock room
 					if ($row->section_name == 'stockroom')
 					{
-						$row1 =& $this->getTable('accessmanager_detail');
+						$row1 = $this->getTable('accessmanager_detail');
 						$row1->gid = $groupValue;
 						$row1->section_name = "stockroom_detail";
 						$row1->view = $data['groupaccess_' . $groupValue]['view'];
@@ -133,7 +132,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							}
 						}
 
-						$row_amt =& $this->getTable('accessmanager_detail');
+						$row_amt = $this->getTable('accessmanager_detail');
 						$row_amt->gid = $groupValue;
 						$row_amt->section_name = "stockroom_listing";
 						$row_amt->view = $data['groupaccess_' . $groupValue]['view'];
@@ -170,7 +169,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 						// Stockrrom image
 
-						$row_img =& $this->getTable('accessmanager_detail');
+						$row_img = $this->getTable('accessmanager_detail');
 						$row_img->gid = $groupValue;
 						$row_img->section_name = "stockimage";
 						$row_img->view = $data['groupaccess_' . $groupValue]['view'];
@@ -206,7 +205,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							}
 						}
 
-						$row_imgd =& $this->getTable('accessmanager_detail');
+						$row_imgd = $this->getTable('accessmanager_detail');
 						$row_imgd->gid = $groupValue;
 						$row_imgd->section_name = "stockimage_detail";
 						$row_imgd->view = $data['groupaccess_' . $groupValue]['view'];
@@ -249,6 +248,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 		{
 			foreach ($groups as $groupValue => $groupName)
 			{
+				$row = new stdClass();
 				$row->gid = $groupValue;
 				$row->section_name = $data['section'];
 				$row->view = $data['groupaccess_' . $groupValue]['view'];
@@ -262,7 +262,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 					if ($row->view == 1 && $row->add == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager".
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
 							. " SET `view` = " . (int) $row->view . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -271,7 +271,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 					else
 					{
@@ -285,7 +285,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 
 					$child_section1 = "stockroom_listing";
@@ -301,7 +301,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 					else
 					{
@@ -315,7 +315,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 
 					$child_section2 = "stockimage";
@@ -331,7 +331,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 					else
 					{
@@ -346,7 +346,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 
 					$child_section3 = "stockimage_detail";
@@ -362,7 +362,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 					else
 					{
@@ -376,7 +376,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 				}
 
@@ -389,7 +389,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 					. " AND `gid` = " . (int) $row->gid;
 
 				$this->_db->setQuery($query);
-				$this->_db->Query();
+				$this->_db->execute();
 			}
 		}
 

@@ -3,13 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
+JLoader::load('RedshopHelperAdminMail');
 
 /**
  *  cron class
@@ -33,22 +33,22 @@ class Cron
 			cron::after_purchased_order_mail();
 		}
 
-		// Move Container to Stockroom start
+		// Move to Stockroom start
 		$fdate = date('Y-m-d', $today);
 
 		$db = JFactory::getDbo();
 
-		// Calculation for move Container once in day
-		$query = "SELECT count(id) FROM #__" . TABLE_PREFIX . "_cron WHERE date = " . $db->quote($fdate);
+		// Calculation to run once in day
+		$query = "SELECT count(id) FROM #__redshop_cron WHERE date = " . $db->quote($fdate);
 		$db->setQuery($query);
 		$data = $db->loadResult();
 
 		if ($data != 1)
 		{
 			// Default $data != 1
-			$q_update = "UPDATE #__" . TABLE_PREFIX . "_cron SET date = " . $db->quote($fdate) . " WHERE id = 1";
+			$q_update = "UPDATE #__redshop_cron SET date = " . $db->quote($fdate) . " WHERE id = 1";
 			$db->setQuery($q_update);
-			$db->query();
+			$db->execute();
 
 			if (SEND_CATALOG_REMINDER_MAIL)
 			{
@@ -59,104 +59,7 @@ class Cron
 
 			// Send subscription renewal mail.
 			cron::subscription_renewal_mail();
-
-			// End mail center
-			if (USE_CONTAINER)
-			{
-				$query = "SELECT * FROM #__" . TABLE_PREFIX . "_container";
-				$db->setQuery($query);
-				$data = $db->loadObjectList();
-
-				foreach ($data as $cont_data)
-				{
-					$date_diff = $today - $cont_data->creation_date;
-
-					$diff_day = $date_diff / (60 * 60 * 24);
-
-					// Calculation of Days For moving
-					$remain_day = ($cont_data->max_del_time * 7) - floor($diff_day);
-
-					if ($remain_day >= 0 && $remain_day <= 7)
-					{
-						$container_id = $cont_data->container_id;
-						$stockroom_id = $cont_data->stockroom_id;
-
-						// Move Container into stockroom
-						$move         = cron::move($container_id, $stockroom_id);
-
-						if ($move)
-						{
-							// Call Order Status Change
-							cron::order_status($container_id);
-						}
-					}
-				}
-			}
 		}
-	}
-
-	/**
-	 * Move function
-	 *
-	 * @param   int  $container_id  container id
-	 * @param   int  $stockroom_id  stockroom id
-	 *
-	 * @return bool
-	 */
-	public function move($container_id, $stockroom_id)
-	{
-		// Move Container To Stockroom
-		$db = $db = JFactory::getDbo();
-
-		$q_insert = "INSERT INTO #__"
-			. TABLE_PREFIX
-			. "_stockroom_container_xref (stockroom_id ,container_id) VALUES ("
-			. (int) $stockroom_id . ", " . (int) $container_id . ")";
-		$db->setQuery($q_insert);
-
-		if ($db->query())
-		{
-			return true;
-		}
-	}
-
-	/**
-	 * Order_status function update status to Payment Recieve
-	 *
-	 * @param   int  $container_id  container id
-	 *
-	 * @return bool
-	 */
-	public function order_status($container_id)
-	{
-		// Change Order Status
-		$db = $db = JFactory::getDbo();
-
-		$select_order = "SELECT  order_item_id, order_id,order_status,delivery_time,container_id,product_id,is_split from #__"
-			. TABLE_PREFIX . "_order_item where container_id = " . (int) $container_id;
-		$db->setQuery($select_order);
-		$data = $db->loadObjectList();
-
-		foreach ($data as $newdata)
-		{
-			if ($newdata->order_status == 'PR')
-			{
-				// Payment Is recieved then Status will change
-				if ($newdata->is_split != 0)
-				{
-					$query = "update #__" . TABLE_PREFIX . "_order_item set order_status = 'RD' where order_item_id = " . (int) $newdata->order_item_id;
-				}
-				else
-				{
-					$query = "update #__" . TABLE_PREFIX . "_order_item set order_status = 'RD1' where order_item_id = " . (int) $newdata->order_item_id;
-				}
-
-				$db->setQuery($query);
-				$db->query();
-			}
-		}
-
-		return true;
 	}
 
 	/**
@@ -168,11 +71,11 @@ class Cron
 	{
 		$date        = JFactory::getDate();
 		$redshopMail = new redshopMail;
-		$fdate       = $date->toFormat('%Y-%m-%d');
+		$fdate       = $date->format('%Y-%m-%d');
 
 		$db = $db = JFactory::getDbo();
 
-		$query = "SELECT * FROM #__" . TABLE_PREFIX . "_catalog_request where block = 0 ";
+		$query = "SELECT * FROM #__redshop_catalog_request where block = 0 ";
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
@@ -202,20 +105,20 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $catalog_detail->email;
 
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX . "_catalog_request SET reminder_1 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
+						$q_update = "UPDATE #__redshop_catalog_request SET reminder_1 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -252,8 +155,8 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $catalog_detail->email;
 
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
@@ -261,26 +164,24 @@ class Cron
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
-					$sql = "INSERT INTO  #__" . TABLE_PREFIX
-						. "_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`) "
+					$sql = "INSERT INTO  #__redshop_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`) "
 						. "VALUES ('" . $token . "', '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date)
 						. ", " . $db->quote($end_date) . ", '1', " . (int) $uid . ", '1')";
 
 					$db->setQuery($sql);
-					$db->query();
+					$db->execute();
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX
-							. "_catalog_request SET reminder_2 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
+						$q_update = "UPDATE #__redshop_catalog_request SET reminder_2 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -295,7 +196,7 @@ class Cron
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
-					$sql = "select id FROM #__" . TABLE_PREFIX . "_coupons where userid = " . (int) $uid;
+					$sql = "select id FROM #__redshop_coupons where userid = " . (int) $uid;
 					$db->setQuery($sql);
 					$coupon_code = $db->loadResult();
 
@@ -319,21 +220,21 @@ class Cron
 						}
 
 						$config    = JFactory::getConfig();
-						$from      = $config->getValue('mailfrom');
-						$fromname  = $config->getValue('fromname');
+						$from      = $config->get('mailfrom');
+						$fromname  = $config->get('fromname');
 						$recipient = $catalog_detail->email;
 
 						$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 						$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 
-						$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+						$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 						if ($sent == 1)
 						{
-							$q_update = "UPDATE #__" . TABLE_PREFIX . "_catalog_request SET reminder_3 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
+							$q_update = "UPDATE #__redshop_catalog_request SET reminder_3 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 							$db->setQuery($q_update);
-							$db->query();
+							$db->execute();
 						}
 					}
 				}
@@ -353,7 +254,7 @@ class Cron
 		$stockroomhelper = new rsstockroomhelper;
 		$db              = JFactory::getDbo();
 		$date            = JFactory::getDate();
-		$fdate           = $date->toFormat('%Y-%m-%d');
+		$fdate           = $date->format('%Y-%m-%d');
 
 		$query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
 		$db->setQuery($query);
@@ -368,8 +269,8 @@ class Cron
 			$order_id        = $mail_detail->order_id;
 			$mailbcc         = null;
 			$config          = JFactory::getConfig();
-			$from            = $config->getValue('mailfrom');
-			$fromname        = $config->getValue('fromname');
+			$from            = $config->get('mailfrom');
+			$fromname        = $config->get('fromname');
 			$start_date      = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 			$end_date        = $start_date + (DISCOUPON_DURATION * 23 * 59 * 59);
 			$valid_end_date  = $redconfig->convertDateFormat($end_date);
@@ -388,14 +289,22 @@ class Cron
 			$db->setQuery($sql);
 			$couponeArr = $db->loadObject();
 
-			if (count($couponeArr) <= 0)
+			if (count($couponeArr) <= 0 && $mail_detail->mail1_status != 0)
 			{
 				continue;
 			}
 
-			$total       = $couponeArr->total;
-			$coupon_code = $couponeArr->coupon_code;
-			$cend_date   = $couponeArr->end_date;
+			$coupon_code = '';
+			$total       = 0;
+			$cend_date   = '';
+
+			if (count($couponeArr))
+			{
+				$total       = $couponeArr->total;
+				$coupon_code = $couponeArr->coupon_code;
+				$cend_date   = $couponeArr->end_date;
+			}
+
 			$name        = "";
 			$recipient   = "";
 
@@ -432,7 +341,7 @@ class Cron
 					$token        = substr($better_token, 0, 10);
 					$body         = str_replace("{coupon_code}", $token, $body);
 					$body         = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent         = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent         = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -451,7 +360,7 @@ class Cron
 
 						$q_update = "UPDATE #__redshop_orders SET mail1_status = 1 WHERE order_id = " . $order_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -482,10 +391,10 @@ class Cron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent           = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent           = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
-					$db->query();
+					$db->execute();
 				}
 			}
 			elseif ($mail_detail->mail3_status == 0 && (DAYS_MAIL3 != 0 || DAYS_MAIL3 != '') && $total != 0)
@@ -516,10 +425,10 @@ class Cron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent           = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent           = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
-					$db->query();
+					$db->execute();
 				}
 			}
 		}
@@ -536,11 +445,11 @@ class Cron
 		$redshopMail = new redshopMail;
 		$today       = time();
 
-		$fdate = $date->toFormat('%Y-%m-%d');
+		$fdate = $date->format('%Y-%m-%d');
 
 		$db = $db = JFactory::getDbo();
 
-		$query = "SELECT * FROM #__" . TABLE_PREFIX . "_sample_request where block = 0 ";
+		$query = "SELECT * FROM #__redshop_sample_request where block = 0 ";
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
@@ -570,19 +479,19 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_1 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
+						$q_update = "UPDATE #__redshop_sample_request SET reminder_1 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -611,19 +520,19 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_2 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
+						$q_update = "UPDATE #__redshop_sample_request SET reminder_2 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -660,8 +569,8 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
@@ -669,27 +578,25 @@ class Cron
 					$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
 
 					if ($uid = $db->loadResult())
 					{
-						$sql = "INSERT INTO  #__"
-							. TABLE_PREFIX
-							. "_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`)
+						$sql = "INSERT INTO  #__redshop_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`)
 										VALUES (" . $db->quote($token) . ", '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date) . ", " . $db->quote($end_date) . ", '1', '" . (int) $uid . "', '1')";
 
 						$db->setQuery($sql);
-						$db->query();
+						$db->execute();
 					}
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_3 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
+						$q_update = "UPDATE #__redshop_sample_request SET reminder_3 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -703,7 +610,7 @@ class Cron
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
-					$sql = "select id FROM #__" . TABLE_PREFIX . "_coupons where userid = " . (int) $uid;
+					$sql = "select id FROM #__redshop_coupons where userid = " . (int) $uid;
 					$db->setQuery($sql);
 					$coupon_code = $db->loadResult();
 
@@ -727,8 +634,8 @@ class Cron
 						}
 
 						$config    = JFactory::getConfig();
-						$from      = $config->getValue('mailfrom');
-						$fromname  = $config->getValue('fromname');
+						$from      = $config->get('mailfrom');
+						$fromname  = $config->get('fromname');
 						$recipient = $color_detail->email;
 
 						$body = str_replace("{name}", $color_detail->name, $bodytmp);
@@ -736,13 +643,13 @@ class Cron
 						$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 
-						$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+						$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 						if ($sent == 1)
 						{
-							$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_coupon = 1 WHERE request_id  = " . (int) $color_detail->request_id;
+							$q_update = "UPDATE #__redshop_sample_request SET reminder_coupon = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 							$db->setQuery($q_update);
-							$db->query();
+							$db->execute();
 						}
 					}
 				}
@@ -759,8 +666,8 @@ class Cron
 	{
 		$db          = $db = JFactory::getDbo();
 		$redshopMail = new redshopMail;
-		$query       = "SELECT ps.* FROM #__" . TABLE_PREFIX . "_product_subscribe_detail AS ps"
-			. " ,#__" . TABLE_PREFIX . "_subscription_renewal AS r"
+		$query       = "SELECT ps.* FROM #__redshop_product_subscribe_detail AS ps"
+			. " ,#__redshop_subscription_renewal AS r"
 			. " WHERE r.product_id = ps.product_id AND r.before_no_days >= DATEDIFF(FROM_UNIXTIME( ps.end_date ),curdate())"
 			. " AND ps.renewal_reminder = 1";
 		$db->setQuery($query);
@@ -772,11 +679,11 @@ class Cron
 			$redshopMail->sendSubscriptionRenewalMail($data[$i]);
 
 			// Update mail sent field to 0
-			$update_query = "UPDATE #__" . TABLE_PREFIX . "_product_subscribe_detail "
+			$update_query = "UPDATE #__redshop_product_subscribe_detail "
 				. "SET renewal_reminder = 0 "
 				. "WHERE product_subscribe_id=" . (int) $data[$i]->product_subscribe_id;
 			$db->setQuery($update_query);
-			$db->Query();
+			$db->execute();
 		}
 	}
 }
