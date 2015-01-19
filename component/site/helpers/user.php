@@ -519,7 +519,7 @@ class rsUserhelper
 		return true;
 	}
 
-	public function checkCaptcha($data)
+	public function checkCaptcha($data, $displayWarning = true)
 	{
 		if (SHOW_CAPTCHA)
 		{
@@ -530,7 +530,10 @@ class rsUserhelper
 
 			if (empty($security_code) || $security_code != $data['security_code'])
 			{
-				JError::raiseWarning(21, JText::_('COM_REDSHOP_INVALID_SECURITY'));
+				if ($displayWarning)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
+				}
 
 				return false;
 			}
@@ -1331,19 +1334,6 @@ class rsUserhelper
 						<td><input class="inputbox" id="security_code" name="security_code" type="text" /></td></tr>';
 			$html .= '</table>';
 		}
-
-		return $html;
-	}
-
-	public function getAskQuestionCaptcha()
-	{
-		$html = '';
-		$html .= '<table cellspacing="0" cellpadding="0" border="0" width="100%">';
-		$html .= '<tr><td>&nbsp;</td>
-						<td align="left"><img src="' . JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" /></td></tr>';
-		$html .= '<tr><td width="100" align="right"><label for="security_code">' . JText::_('COM_REDSHOP_SECURITY_CODE') . '</label></td>
-						<td><input class="inputbox" id="security_code" name="security_code" type="text" /></td></tr>';
-		$html .= '</table>';
 
 		return $html;
 	}

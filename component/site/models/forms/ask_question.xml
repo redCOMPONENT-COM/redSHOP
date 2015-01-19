@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+				name="your_name"
+				type="text"
+				class="inputbox"
+				label="COM_REDSHOP_YOUR_NAME"
+				required="true" />
+		<field
+				name="your_email"
+				type="text"
+				class="inputbox validate-email"
+				label="COM_REDSHOP_YOUR_EMAIL"
+				required="true" />
+		<field name="your_question"
+			   type="textarea"
+			   cols="40"
+			   rows="10"
+			   label="COM_REDSHOP_YOUR_QUESTION"
+			   filter="safehtml"
+			   required="true"
+				/>
+		<field name="telephone"
+			   type="text"
+			   class="inputbox"
+			   label="COM_REDSHOP_TELEPHONE" />
+		<field
+				name="address"
+				type="text"
+				class="inputbox"
+				label="COM_REDSHOP_ADDRESS" />
+	</fieldset>
+</form>

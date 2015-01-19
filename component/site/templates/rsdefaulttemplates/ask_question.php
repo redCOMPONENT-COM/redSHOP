@@ -1,4 +1,4 @@
-<table border="0">
+<table border="0" class="table">
 	<tbody>
 	<tr>
 		<td>{user_name_lbl}</td>

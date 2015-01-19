@@ -1772,7 +1772,7 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 {
 	$asklink           = JURI::root() . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->data->product_id .
 										'&tmpl=component&Itemid=' . $this->itemId;
-	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:280}}" href="' . $asklink . '" >' .
+	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:600,y:500}}" href="' . $asklink . '" >' .
 							JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT') .
 						'</a>';
 	$template_desc     = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);

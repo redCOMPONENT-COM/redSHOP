@@ -8,26 +8,29 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::_('behavior.tooltip');
-JHtmlBehavior::modal();
 
-$uname = '';
-$uemail = '';
-$address = '';
-$telephone = '';
+$app = JFactory::getApplication();
+JHTML::_('behavior.tooltip');
+JHtml::_('behavior.keepalive');
+JHtml::_('behavior.formvalidation');
+
+$redTemplate = new Redtemplate;
 $user = JFactory::getUser();
+
+$askQuestionModel = JModelForm::getInstance('Ask_Question', 'RedshopModel');
+$form = $askQuestionModel->getForm();
+$mail = $form->getValue('your_email', null, $user->email) . '{emailcloak=off}';
 
 if ($user->id)
 {
-	$uname  = $user->name;
-	$uemail = $user->email;
+	$form->setValue('your_name', null, $form->getValue('your_name', null, $user->name));
+	$form->setValue('your_email', null, $mail);
 }
 
-$category_id = $this->input->getInt('category_id', null);
-JHtml::_('redshopjquery.framework');
-JHtml::script('com_redshop/jquery.tools.min.js', false, true);
-
-$template = $this->redTemplate->getTemplate('ask_question_template');
+$Itemid = $app->input->getInt('Itemid', 0);
+$pid = $app->input->getInt('pid', 0);
+$category_id = $app->input->getInt('category_id', 0);
+$template = $redTemplate->getTemplate('ask_question_template');
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
@@ -39,57 +42,53 @@ else
 }
 
 ?>
-<script type="text/javascript" language="javascript">var J = jQuery.noConflict();</script>
 <script type="text/javascript" language="javascript">
-	function validateQuestion() {
-		var frm = document.frmaskquestion;
+	Joomla.submitbutton = function (task) {
+		var askQuestionForm = document.getElementById('askQuestionForm');
 
-		if (frm.your_name.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_NAME');?>");
-			return false;
-		} else if (frm.your_email.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_EMAIL_ADDRESS');?>");
-			return false;
-		} else if (frm.your_question.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_QUESTION_ABOUT_THIS_PRODUCT');?>");
-			return false;
-		} else {
-			return true;
+		if (document.formvalidator.isValid(askQuestionForm)) {
+			Joomla.submitform(task, askQuestionForm);
 		}
 	}
 </script>
-<div>
-	<form name="frmaskquestion" action="<?php echo JURI::root(); ?>" method="post">
-		<?php
-		$template_desc = str_replace("{user_name_lbl}", JText::_('COM_REDSHOP_YOUR_NAME'), $template_desc);
-		$template_desc = str_replace("{user_email_lbl}", JText::_('COM_REDSHOP_YOUR_EMAIL'), $template_desc);
-		$template_desc = str_replace("{user_question_lbl}", JText::_('COM_REDSHOP_YOUR_QUESTION'), $template_desc);
-		$template_desc = str_replace("{user_telephone_lbl}", JText::_('COM_REDSHOP_TELEPHONE'), $template_desc);
-		$template_desc = str_replace("{user_address_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $template_desc);
+<form name="askQuestionForm" action="<?php echo JRoute::_('index.php?option=com_redshop'); ?>" method="post"
+	  id="askQuestionForm" class="form-validate form-vertical">
+	<?php
+	$template_desc = str_replace('{user_name_lbl}', $form->getLabel('your_name'), $template_desc);
+	$template_desc = str_replace('{user_email_lbl}', $form->getLabel('your_email'), $template_desc);
+	$template_desc = str_replace('{user_question_lbl}', $form->getLabel('your_question'), $template_desc);
+	$template_desc = str_replace('{user_telephone_lbl}', $form->getLabel('telephone'), $template_desc);
+	$template_desc = str_replace('{user_address_lbl}', $form->getLabel('address'), $template_desc);
+	$template_desc = str_replace('{user_name}', $form->getInput('your_name'), $template_desc);
+	$template_desc = str_replace('{user_email}', $form->getInput('your_email'), $template_desc);
+	$template_desc = str_replace('{user_question}', $form->getInput('your_question'), $template_desc);
+	$template_desc = str_replace('{user_address}', $form->getInput('address'), $template_desc);
+	$template_desc = str_replace('{user_telephone}', $form->getInput('telephone'), $template_desc);
+	$template_desc = str_replace('{send_button}', '<input type="submit" class="btn" value="' . JText::_('COM_REDSHOP_SEND') . '" onclick="Joomla.submitbutton(\'ask_question.submit\')" />', $template_desc);
 
-		$username = '<input type="text" name="your_name" id="your_name" value="' . $uname . '" />';
-		$useremail = '<input type="text" name="your_email" id="your_email" value="' . $uemail . '" />';
-		$telephone = '<input type="text" name="telephone" id="telephone" value="' . $telephone . '" />';
-		$address = '<input type="text" name="address" id="address" value="' . $address . '" />';
-		$userquestion = '<textarea name="your_question" id="your_question" cols="40" rows="10"></textarea>';
-		$sendbutton = '<input type="submit" value="' . JText::_('COM_REDSHOP_SEND') . '" onclick="return validateQuestion();" />';
+	$captcha = '';
+	$captchaLbl = '';
 
-		$template_desc = str_replace("{user_name}", $username, $template_desc);
-		$template_desc = str_replace("{user_email}", $useremail, $template_desc);
-		$template_desc = str_replace("{user_address}", $address, $template_desc);
-		$template_desc = str_replace("{user_telephone}", $telephone, $template_desc);
-		$template_desc = str_replace("{user_question}", $userquestion, $template_desc);
-		$template_desc = str_replace("{send_button}", $sendbutton, $template_desc);
+	if (SHOW_CAPTCHA && $user->guest)
+	{
+		$captcha = '<div class="questionCaptcha">'
+			. '<div class="captchaImage"><img src="' . JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" /></div>'
+			. '<div class="captchaField"><input class="inputbox required" required="required" id="jform_security_code" name="jform[security_code]" type="text" /></div>'
+			. '</div>';
+		$captchaLbl = '<label for="jform_security_code" id="jform_security_code-lbl" class="required">' . JText::_('COM_REDSHOP_CAPTCHA') . '<span class="star">&nbsp;*</span></label>';
+	}
 
-		echo eval("?>" . $template_desc . "<?php ");
-		?>
-		<input type="hidden" name="pid" id="pid" value="<?php echo $this->pid; ?>"/>
-		<input type="hidden" name="view" id="view" value="ask_question"/>
-		<input type="hidden" name="task" id="task" value="sendaskquestionmail"/>
-		<input type="hidden" name="ask" id="ask" value="1"/>
-		<input type="hidden" name="question_date" id="question_date" value="<?php echo time(); ?>"/>
-		<input type="hidden" name="option" id="option" value="com_redshop"/>
-		<input type="hidden" name="category_id" id="category_id" value="<?php echo $category_id; ?>"/>
-		<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $this->itemId; ?>"/>
-	</form>
-</div>
+	$template_desc = str_replace('{captcha}', $captcha, $template_desc);
+	$template_desc = str_replace('{captcha_lbl}', $captchaLbl, $template_desc);
+
+	echo eval('?>' . $template_desc . '<?php ');
+	?>
+	<input type="hidden" name="pid" id="pid" value="<?php echo $pid; ?>"/>
+	<input type="hidden" name="task" id="task" value=""/>
+	<input type="hidden" name="ask" value="1"/>
+	<input type="hidden" name="category_id" id="category_id" value="<?php echo $category_id; ?>"/>
+	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
+	<?php echo JHtml::_('form.token'); ?>
+</form>
+
+
