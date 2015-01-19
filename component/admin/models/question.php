@@ -76,12 +76,22 @@ class RedshopModelQuestion extends RedshopModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * Get product with questions
+	 *
+	 * @return mixed
+	 */
 	public function getProduct()
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
-		$list = $this->_data = $this->_getList($query);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('p.product_id, p.product_name')
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_customer_question', 'cq') . ' ON cq.product_id = p.product_id')
+			->where('cq.question_id > 0')
+			->group('p.product_id');
 
-		return $list;
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function _buildQuery()

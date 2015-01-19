@@ -109,14 +109,6 @@ class RedshopModelQuestion_detail extends RedshopModel
 		return $this->_pagination;
 	}
 
-	public function getProduct()
-	{
-		$query = "SELECT * FROM #__redshop_product ";
-		$list = $this->_data = $this->_getList($query);
-
-		return $list;
-	}
-
 	public function _initData()
 	{
 		$user = JFactory::getUser();
