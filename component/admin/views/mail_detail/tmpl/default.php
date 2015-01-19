@@ -10,7 +10,9 @@ defined('_JEXEC') or die;
 
 
 JHTML::_('behavior.tooltip');
-$editor = JFactory::getEditor();
+
+// We only support codemirror editor
+$editor = JFactory::getEditor('codemirror');
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
