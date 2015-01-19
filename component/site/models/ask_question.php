@@ -18,9 +18,9 @@ JLoader::load('RedshopHelperAdminMail');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopModelAsk_Question extends JModelForm
+class RedshopModelAsk_Question extends RedshopModelForm
 {
-	protected $_context = 'com_reshop.ask_question';
+	protected $context = 'com_reshop.ask_question';
 
 	/**
 	 * Method to get the record form.
@@ -55,7 +55,6 @@ class RedshopModelAsk_Question extends JModelForm
 	protected function loadFormData()
 	{
 		$data = (array) JFactory::getApplication()->getUserState('com_redshop.ask_question.data', array());
-		$this->preprocessData('com_redshop.ask_question', $data);
 
 		return $data;
 	}

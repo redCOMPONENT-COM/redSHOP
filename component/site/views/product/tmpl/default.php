@@ -1778,11 +1778,6 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 	$template_desc     = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);
 }
 
-if (strstr($template_desc, "{ask_question_about_product_without_lightbox}"))
-{
-	$template_desc = str_replace("{ask_question_about_product_without_lightbox}", $this->loadTemplate('askquestion'), $template_desc);
-}
-
 // Product subscription type
 if (strstr($template_desc, "subscription"))
 {
@@ -1945,6 +1940,16 @@ $template_desc = $this->redTemplate->parseredSHOPplugin($template_desc);
 $template_desc = $this->textHelper->replace_texts($template_desc);
 
 $template_desc = $producthelper->getRelatedtemplateView($template_desc, $this->data->product_id);
+
+// Replacing ask_question_about_product_without_lightbox must be after parseredSHOPplugin for not replace in cloak plugin form emails
+if (strstr($template_desc, '{ask_question_about_product_without_lightbox}'))
+{
+	$displayData = array(
+		'form' => RedshopModelForm::getInstance('Ask_Question', 'RedshopModel')->getForm(),
+		'ask' => 1
+	);
+	$template_desc = str_replace('{ask_question_about_product_without_lightbox}', RedshopLayoutHelper::render('product.ask_question', $displayData), $template_desc);
+}
 
 /**
  * Trigger event onAfterDisplayProduct will display content after product display.

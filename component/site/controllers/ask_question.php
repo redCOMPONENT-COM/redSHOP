@@ -30,7 +30,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
-		$data = $this->input->post->get('jform', array(), 'array');
+		$data = $app->input->post->get('jform', array(), 'array');
 		$model = $this->getModel('ask_question');
 
 		$productId   = $app->input->getInt('pid', 0);
