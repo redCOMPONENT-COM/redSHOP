@@ -9,7 +9,28 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewAsk_question extends RedshopView
+/**
+ * Class RedshopViewAsk_Question
+ *
+ * @since  1.5
+ */
+class RedshopViewAsk_Question extends RedshopView
 {
+	protected $state;
+
+	protected $form;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
+	public function display($tpl = null)
+	{
+		$this->state = $this->get('State');
+		$this->form = $this->get('Form');
+		parent::display($tpl);
+	}
 }

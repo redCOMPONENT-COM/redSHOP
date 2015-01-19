@@ -9,33 +9,54 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperProduct');
 
 /**
- * Class ask_questionModelask_question
+ * Class ask question model
  *
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopModelAsk_question extends RedshopModel
+class RedshopModelAsk_Question extends RedshopModelForm
 {
-	public $_id = null;
+	protected $context = 'com_reshop.ask_question';
 
-	public $_table_prefix = null;
-
-	public function __construct()
+	/**
+	 * Method to get the record form.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   1.5
+	 */
+	public function getForm($data = array(), $loadData = true)
 	{
-		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
-		$this->setId((int) JRequest::getInt('pid', 0));
+		// Get the form.
+		$form = $this->loadForm('com_redshop.ask_question', 'ask_question', array('control' => 'jform', 'load_data' => $loadData));
+
+		if (empty($form))
+		{
+			return false;
+		}
+
+		return $form;
 	}
 
-	public function setId($id)
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array    The default data is an empty array.
+	 *
+	 * @since   1.5
+	 */
+	protected function loadFormData()
 	{
-		$this->_id = $id;
+		$data = (array) JFactory::getApplication()->getUserState('com_redshop.ask_question.data', array());
+
+		return $data;
 	}
 
 	/**
@@ -52,7 +73,6 @@ class RedshopModelAsk_question extends RedshopModel
 		$data['user_name']     = $data['your_name'];
 		$data['user_email']    = $data['your_email'];
 		$data['question']      = $data['your_question'];
-		$data['product_id']    = $data['pid'];
 		$data['published']     = 1;
 		$data['question_date'] = time();
 
@@ -85,77 +105,85 @@ class RedshopModelAsk_question extends RedshopModel
 	 */
 	public function MaxOrdering()
 	{
-		$query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question "
-			. "WHERE parent_id=0 ";
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('MAX(ordering)+1')
+			->from($db->qn('#__redshop_customer_question'))
+			->where('parent_id = 0');
 
-		return $this->_db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
+	/**
+	 * Send Mail For Ask Question
+	 *
+	 * @param   array  $data  Question data
+	 *
+	 * @return  bool
+	 */
 	public function sendMailForAskQuestion($data)
 	{
-		$this->store($data);
-		$producthelper = new producthelper;
-		$redshopMail   = new redshopMail;
+		if (!$this->store($data))
+		{
+			return false;
+		}
 
-		$url        = JURI::base();
-		$option     = JRequest::getVar('option');
-		$Itemid     = JRequest::getVar('Itemid');
+		$redshopMail = new redshopMail;
+		$Itemid     = $data['Itemid'];
 		$mailbcc    = null;
-		$fromname   = $data['your_name'];
-		$from       = $data['your_email'];
-		$subject    = "";
+		$subject    = '';
 		$message    = $data['your_question'];
-		$product_id = $data['pid'];
-
-		$mailbody = $redshopMail->getMailtemplate(0, "ask_question_mail");
-
-		$data_add = $message;
+		$productId  = $data['product_id'];
+		$mailbody   = $redshopMail->getMailtemplate(0, 'ask_question_mail');
+		$data_add   = $message;
 
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
 			$subject  = $mailbody[0]->mail_subject;
 
-			if (trim($mailbody[0]->mail_bcc) != "")
+			if (trim($mailbody[0]->mail_bcc) != '')
 			{
-				$mailbcc = explode(",", $mailbody[0]->mail_bcc);
+				$mailbcc = explode(',', $mailbody[0]->mail_bcc);
 			}
 		}
 
-		$product = $producthelper->getProductById($product_id);
-
-		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
-		$data_add = str_replace("{product_desc}", $product->product_desc, $data_add);
+		$product = RedshopHelperProduct::getProductById($productId);
+		$data_add = str_replace('{product_name}', $product->product_name, $data_add);
+		$data_add = str_replace('{product_desc}', $product->product_desc, $data_add);
 
 		// Init required properties
 		$data['address']   = isset($data['address']) ? $data['address'] : null;
 		$data['telephone'] = isset($data['telephone']) ? $data['telephone'] : null;
 
-		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
-		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
-		$data_add    = str_replace("{product_link}", $product_url, $data_add);
-		$data_add    = str_replace("{user_question}", $message, $data_add);
-		$data_add    = str_replace("{answer}", "", $data_add);
-		$subject     = str_replace("{user_question}", $message, $subject);
-		$subject     = str_replace("{shopname}", SHOP_NAME, $subject);
-		$data_add    = str_replace("{user_address}", $data['address'], $data_add);
-		$data_add    = str_replace("{user_telephone}", $data['telephone'], $data_add);
-		$data_add    = str_replace("{user_telephone_lbl}", JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
-		$data_add    = str_replace("{user_address_lbl}", JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
+		$link        = JRoute::_(JURI::base() . 'index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $Itemid);
+		$data_add    = str_replace('{product_link}', '<a href="' . $link . '">' . $product->product_name . '</a>', $data_add);
+		$data_add    = str_replace('{user_question}', $message, $data_add);
+		$data_add    = str_replace('{answer}', '', $data_add);
+		$subject     = str_replace('{user_question}', $message, $subject);
+		$subject     = str_replace('{shopname}', SHOP_NAME, $subject);
+		$data_add    = str_replace('{user_address}', $data['address'], $data_add);
+		$data_add    = str_replace('{user_telephone}', $data['telephone'], $data_add);
+		$data_add    = str_replace('{user_telephone_lbl}', JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
+		$data_add    = str_replace('{user_address_lbl}', JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
 
-		if (ADMINISTRATOR_EMAIL != "")
+		if (ADMINISTRATOR_EMAIL != '')
 		{
-			$sendto = explode(",", ADMINISTRATOR_EMAIL);
-
-			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
+			if (JFactory::getMailer()->sendMail(
+				$data['your_email'], $data['your_name'], explode(',', ADMINISTRATOR_EMAIL),
+				$subject, $data_add, $mode = 1, null, $mailbcc
+			))
 			{
 				return true;
 			}
 			else
 			{
+				$this->setError(JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY'));
+
 				return false;
 			}
 		}
+
+		return true;
 	}
 }

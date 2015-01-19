@@ -121,7 +121,7 @@ class Redtemplate
 	 * @param   integer  $tid      Template Id
 	 * @param   string   $name     Template Name
 	 *
-	 * @return  object             Template Array
+	 * @return  array              Template Array
 	 */
 	public function getTemplate($section = '', $tid = 0, $name = "")
 	{
