@@ -82,7 +82,6 @@ abstract class JModelForm extends LIB_JModelFormDefault
 
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
-
 		}
 		catch (Exception $e)
 		{
@@ -95,7 +94,6 @@ abstract class JModelForm extends LIB_JModelFormDefault
 		$this->_forms[$hash] = $form;
 
 		return $form;
-
 	}
 
 	/**

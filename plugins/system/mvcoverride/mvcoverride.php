@@ -56,8 +56,10 @@ class PlgSystemMVCOverride extends JPlugin
 	 */
 	public function onAfterRoute()
 	{
+		JPluginHelper::importPlugin('redcore');
 		MVCOverrideHelperCodepool::initialize();
 		$option = $this->getOption();
+		$app = JFactory::getApplication();
 
 		if ($option === false)
 		{
@@ -67,11 +69,8 @@ class PlgSystemMVCOverride extends JPlugin
 		// Get files that can be overrided
 		$componentOverrideFiles = $this->loadComponentFiles($option);
 
-		// Application name
-		$applicationName = JFactory::getApplication()->getName();
-
 		// Template name
-		$template = JFactory::getApplication()->getTemplate();
+		$template = $app->getTemplate();
 
 		// Code paths
 		$includePath = array();
@@ -81,6 +80,9 @@ class PlgSystemMVCOverride extends JPlugin
 
 		// Template code path
 		$includePath[] = JPATH_THEMES . '/' . $template . '/code';
+
+		// Register additional include paths for code replacements from plugins
+		$app->triggerEvent('onMVCOverrideIncludePaths', array(&$includePath));
 
 		MVCOverrideHelperCodepool::addCodePath($includePath);
 
@@ -114,14 +116,16 @@ class PlgSystemMVCOverride extends JPlugin
 		// Loading override files
 		if (!empty($componentOverrideFiles))
 		{
+			$includePaths = MVCOverrideHelperCodepool::addCodePath(null, true);
+
 			foreach ($componentOverrideFiles as $key => $componentFile)
 			{
-				if ($filePath = JPath::find(MVCOverrideHelperCodepool::addCodePath(null, true), $componentFile->newPath))
+				if ($filePath = JPath::find($includePaths, $componentFile->newPath))
 				{
 					// Include the original code and replace class name add a Default on
-					if ($this->params->get('extendDefault', 0))
+					if ($this->params->get('extendDefault', 1))
 					{
-						$bufferOverrideFile = JFile::read($filePath);
+						$bufferOverrideFile = file_get_contents($filePath);
 
 						// Detect if override file use some constants
 						preg_match_all('/JPATH_COMPONENT(_SITE|_ADMINISTRATOR)|JPATH_COMPONENT/i', $bufferOverrideFile, $definesSourceOverride);
@@ -148,14 +152,14 @@ class PlgSystemMVCOverride extends JPlugin
 								);
 							}
 
-							// Finally we can load the base class
-							MVCOverrideHelperOverride::load($bufferContent);
-
 							// Load helpers
 							if (!is_int($key))
 							{
 								JLoader::register($key, $filePath);
 							}
+
+							// Finally we can load the base class
+							MVCOverrideHelperOverride::load($bufferContent);
 
 							require_once $filePath;
 						}
@@ -233,17 +237,17 @@ class PlgSystemMVCOverride extends JPlugin
 		{
 			$menuDefault = JFactory::getApplication()->getMenu()->getDefault();
 
-			if ($menuDefault == 0)
+			if (!$menuDefault)
 			{
 				return false;
 			}
 
-			$componentID = $menuDefault->componentid;
+			$componentID = $menuDefault->component_id;
 			$db = JFactory::getDBO();
 			$query = $db->getQuery(true)
 				->select('element')
 				->from($db->qn('#__extensions'))
-				->where('id = ' . $db->quote($componentID));
+				->where('extension_id = ' . $db->quote($componentID));
 			$db->setQuery($query);
 			self::$option = $db->loadResult();
 		}
