@@ -1417,31 +1417,6 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('ajax_product'); ?></td>
-		</tr>
-		<tr>
-			<td>
-				<?php    //$availableAttTemp = $model->availableaddtocart('attribute_template');
-				/*if (count($availableAttTemp) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
-
-				for ($i = 0; $i < count($availableAttTemp); $i++)
-				{
-					echo '<div style="margin-left:10px;">{attribute_template:' . $availableAttTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE') . '</div>';
-				}*/    ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php    //$availableAttcartTemp = $model->availableaddtocart('attributewithcart_template');
-				/*if (count($availableAttcartTemp) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
-
-				for ($i = 0; $i < count($availableAttcartTemp); $i++)
-				{
-					echo '<div style="margin-left:10px;">{attributewithcart_template:' . $availableAttcartTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE') . '</div>';
-				}*/    ?>
-			</td>
-		</tr>
-		<tr>
 			<td>
 				<?php
 				$tags_front = $extra_field->getSectionFieldList(6, 1);
