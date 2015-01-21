@@ -80,10 +80,10 @@ class RedshopModelFields_detail extends RedshopModel
 			$detail->field_desc          = null;
 			$detail->field_class         = null;
 			$detail->field_section       = 0;
-			$detail->field_maxlength     = 0;
-			$detail->field_cols          = 0;
-			$detail->field_rows          = 0;
-			$detail->field_size          = 0;
+			$detail->field_maxlength     = 30;
+			$detail->field_cols          = 10;
+			$detail->field_rows          = 10;
+			$detail->field_size          = 20;
 			$detail->field_show_in_front = 0;
 			$detail->required            = 0;
 			$detail->published           = 1;
