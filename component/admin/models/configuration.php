@@ -556,37 +556,6 @@ class RedshopModelConfiguration extends RedshopModel
 		return $this->_db->loadObjectlist();
 	}
 
-	public function cleardata()
-	{
-		$redirect = "";
-
-		$query = "SELECT id  FROM `#__redirection` WHERE `newurl` LIKE '%com_redshop%'";
-		$this->_db->setQuery($query);
-		$result1 = $this->_db->loadObjectList();
-
-		for ($i = 0; $i < count($result1); $i++)
-		{
-			$redirect .= $result1[$i]->id;
-
-			if (count($result1) > 1)
-			{
-				$redirect .= "','";
-			}
-		}
-
-		// URL caching : we must clear URL cache as well
-		if (file_exists(JPATH_ROOT . '/components/com_sh404sef/cache/shCacheContent.php'))
-		{
-			unlink(JPATH_ROOT . '/components/com_sh404sef/cache/shCacheContent.php');
-		}
-
-		$sql = "delete from #__redirection where id in ('" . $redirect . "') ";
-		$this->_db->setQuery($sql);
-		$this->_db->execute();
-
-		return (count($result1));
-	}
-
 	public function getShopperGroupPrivate()
 	{
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
