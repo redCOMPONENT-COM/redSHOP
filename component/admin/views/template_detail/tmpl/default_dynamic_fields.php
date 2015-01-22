@@ -43,12 +43,12 @@ $newshippingtag = '{shipping_address_start}
 			<tr><td>{state_lbl}</td><td>{state}</td></tr>
 			<tr><td>{phone_lbl}</td><td>{phone}</td></tr>{shipping_extrafield}
 			</tbody></table> {shipping_address_end}';
-echo JHtml::_('sliders.start', 'template-dynamic-field');
-//Category Template Start
+echo JHtml::_('tabs.start', 'template-dynamic-field');
+// Category Template Start
 if ($this->detail->template_section == "category")
 {
 	$title = JText::_('COM_REDSHOP_CATEGORY_FIELDS');
-	echo JHtml::_('sliders.panel', $title, 'category-fields'); ?>
+	echo JHtml::_('tabs.panel', $title, 'category-fields'); ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -56,11 +56,10 @@ if ($this->detail->template_section == "category")
 				$tags_front = $extra_field->getSectionFieldList(2, 1);
 				$tags_admin = $extra_field->getSectionFieldList(2, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//	$tags=$extra_field->getSectionFieldList(2,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -70,11 +69,10 @@ if ($this->detail->template_section == "category")
 				$tags_front = $extra_field->getSectionFieldList(1, 1);
 				$tags_admin = $extra_field->getSectionFieldList(1, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//$tags=$extra_field->getSectionFieldList(1,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{producttag:' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{producttag:' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -87,7 +85,7 @@ if ($this->detail->template_section == "category")
 				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
 				for ($i = 0; $i < count($availableaddtocart); $i++)
 				{
-					echo '<span style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</span>';
+					echo '<div style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -99,12 +97,12 @@ if ($this->detail->template_section == "category")
 				else echo JText::_("COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT") . "<br />";
 				for ($i = 0; $i < count($related_product); $i++)
 				{
-					echo '<br /><span style="margin-left:10px;">{related_product_lightbox:' . $related_product[$i]->template_name . '[:lightboxwidth][:lightboxheight]}</span><br />';
+					echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[$i]->template_name . '[:lightboxwidth][:lightboxheight]}</div><br />';
 
 					if ($i == count($related_product) - 1)
 					{
 						echo JText::_("COM_REDSHOP_EXAMPLE_TEMPLATE");
-						echo '<br /><span style="margin-left:10px;">{related_product_lightbox:' . $related_product[0]->template_name . ':600:300}</span>';
+						echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[0]->template_name . ':600:300}</div>';
 					}
 				}
 				?>
@@ -117,7 +115,7 @@ if ($this->detail->template_section == "category")
 	if ($cat_desc != "")
 	{
 
-		echo JHtml::_('sliders.panel', $default_template, 'category-desc');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'category-desc');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -131,13 +129,13 @@ if ($this->detail->template_section == "category")
 
 
 }
-//Category Template End
 
-//Giftcard Template Start
+
+// Giftcard Template Start
 if ($this->detail->template_section == "giftcard")
 {
 	$title = JText::_('COM_REDSHOP_GIFTCARD_LIST_HINT');
-	echo JHtml::_('sliders.panel', $title, 'giftcard-fields');    ?>
+	echo JHtml::_('tabs.panel', $title, 'giftcard-fields');    ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -145,11 +143,10 @@ if ($this->detail->template_section == "giftcard")
 				$tags_front = $extra_field->getSectionFieldList(13, 1);
 				$tags_admin = $extra_field->getSectionFieldList(13, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//$tags=$extra_field->getSectionFieldList(13,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -163,7 +160,7 @@ if ($this->detail->template_section == "giftcard")
 	$gift_desc = $redtemplate->getInstallSectionTemplate("giftcard", $setflag = True);
 	if ($gift_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'giftcard-desc');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'giftcard-desc');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -175,13 +172,13 @@ if ($this->detail->template_section == "giftcard")
 
 	}
 }
-//Giftcard Template End
 
-//Product Template Start
+
+// Product Template Start
 if ($this->detail->template_section == "product")
 {
 	$title = JText::_('COM_REDSHOP_PRODUCT_FIELDS');
-	echo JHtml::_('sliders.panel', $title, 'events');    ?>
+	echo JHtml::_('tabs.panel', $title, 'events');    ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -190,11 +187,10 @@ if ($this->detail->template_section == "product")
 				$tags_admin = $extra_field->getSectionFieldList(1, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 
-				//$tags=$extra_field->getSectionFieldList(1,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -204,11 +200,10 @@ if ($this->detail->template_section == "product")
 				$tags_front = $extra_field->getSectionFieldList(12, 1);
 				$tags_admin = $extra_field->getSectionFieldList(12, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//$tags=$extra_field->getSectionFieldList(12,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -222,7 +217,7 @@ if ($this->detail->template_section == "product")
 
 				for ($i = 0; $i < count($availableaddtocart); $i++)
 				{
-					echo '<span style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</span>';
+					echo '<div style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -233,7 +228,7 @@ if ($this->detail->template_section == "product")
 
 				for ($i = 0; $i < count($availableAttTemp); $i++)
 				{
-					echo '<span style="margin-left:10px;">{attribute_template:' . $availableAttTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{attribute_template:' . $availableAttTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -244,7 +239,7 @@ if ($this->detail->template_section == "product")
 
 				for ($i = 0; $i < count($availableAttcartTemp); $i++)
 				{
-					echo '<span style="margin-left:10px;">{attributewithcart_template:' . $availableAttcartTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{attributewithcart_template:' . $availableAttcartTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -255,7 +250,7 @@ if ($this->detail->template_section == "product")
 
 				for ($i = 0; $i < count($availableaddtocart); $i++)
 				{
-					echo '<span style="margin-left:10px;">{related_product:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_RELATED_PRODUCT_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{related_product:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_RELATED_PRODUCT_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -265,7 +260,7 @@ if ($this->detail->template_section == "product")
 				if (count($wrappertemplate) == 0) echo JText::_("COM_REDSHOP_NO_WRAPPER_TEMPLATE_AVAILABLE");
 				for ($i = 0; $i < count($wrappertemplate); $i++)
 				{
-					echo '<span style="margin-left:10px;">{wrapper_template:' . $wrappertemplate[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_WRAPPER_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{wrapper_template:' . $wrappertemplate[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_WRAPPER_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -274,7 +269,7 @@ if ($this->detail->template_section == "product")
 	$prd_desc = $redtemplate->getInstallSectionTemplate("product", $setflag = True);
 	if ($prd_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -286,12 +281,12 @@ if ($this->detail->template_section == "product")
 
 	}
 }
-//Product Template End
-//Product Sample Field Template Start
+
+// Product Sample Field Template Start
 if ($this->detail->template_section == "product_sample")
 {
 	$title = JText::_('COM_REDSHOP_PRODUCT_SAMPLE_FIELDS');
-	echo JHtml::_('sliders.panel', $title, 'events');    ?>
+	echo JHtml::_('tabs.panel', $title, 'events');    ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -299,11 +294,11 @@ if ($this->detail->template_section == "product_sample")
 				$tags_front = $extra_field->getSectionFieldList(9, 1);
 				$tags_admin = $extra_field->getSectionFieldList(9, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//	$tags=$extra_field->getSectionFieldList(9,1);
+				// 	$tags=$extra_field->getSectionFieldList(9,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -315,7 +310,7 @@ if ($this->detail->template_section == "product_sample")
 	$prdsamp_desc = $redtemplate->getInstallSectionTemplate("catalog_sample", $setflag = True);
 	if ($prdsamp_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -327,13 +322,13 @@ if ($this->detail->template_section == "product_sample")
 
 	}
 }
-//Product Sample Field Template End
 
-//Manufacturer Template Start
+
+// Manufacturer Template Start
 if ($this->detail->template_section == "manufacturer")
 {
 	$title = JText::_('COM_REDSHOP_MANUFACTURER_FIELDS');
-	echo JHtml::_('sliders.panel', $title, 'events');    ?>
+	echo JHtml::_('tabs.panel', $title, 'events');    ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -341,11 +336,10 @@ if ($this->detail->template_section == "manufacturer")
 				$tags_front = $extra_field->getSectionFieldList(10, 1);
 				$tags_admin = $extra_field->getSectionFieldList(10, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//$tags=$extra_field->getSectionFieldList(10,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -357,7 +351,7 @@ if ($this->detail->template_section == "manufacturer")
 	$manu_desc = $redtemplate->getInstallSectionTemplate("manufacturer_listings", $setflag = True);
 	if ($manu_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -369,12 +363,12 @@ if ($this->detail->template_section == "manufacturer")
 
 	}
 }
-//Manufacturer Template End
-//Manufacturer Products Template Start
+
+// Manufacturer Products Template Start
 if ($this->detail->template_section == "manufacturer_products")
 {
 	$title = JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS_FIELDS');
-	echo JHtml::_('sliders.panel', $title, 'events');    ?>
+	echo JHtml::_('tabs.panel', $title, 'events');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('manufacturer_products'); ?></td>
@@ -384,7 +378,7 @@ if ($this->detail->template_section == "manufacturer_products")
 	$manuprd_desc = $redtemplate->getInstallSectionTemplate("manufacturer_products", $setflag = True);
 	if ($manuprd_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -398,7 +392,7 @@ if ($this->detail->template_section == "manufacturer_products")
 
 					for ($i = 0; $i < count($availableaddtocart); $i++)
 					{
-						echo '<span style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</span>';
+						echo '<div style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</div>';
 					}    ?>
 				</td>
 			</tr>
@@ -407,13 +401,13 @@ if ($this->detail->template_section == "manufacturer_products")
 
 	}
 }
-//Manufacturer Products Template End
 
-//Cart Template Start
+
+// Cart Template Start
 if ($this->detail->template_section == "cart")
 {
 	$title = JText::_('COM_REDSHOP_CART_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'cart');        ?>
+	echo JHtml::_('tabs.panel', $title, 'cart');        ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('cart'); ?></td>
@@ -423,7 +417,7 @@ if ($this->detail->template_section == "cart")
 	$cart_desc = $redtemplate->getInstallSectionTemplate("cart", $setflag = True);
 	if ($cart_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -435,12 +429,12 @@ if ($this->detail->template_section == "cart")
 
 	}
 }
-//Cart Template End
-//Checkout Template Start
+
+// Checkout Template Start
 if ($this->detail->template_section == "checkout")
 {
 	$title = JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'checkout');        ?>
+	echo JHtml::_('tabs.panel', $title, 'checkout');        ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('checkout'); ?></td>
@@ -450,7 +444,7 @@ if ($this->detail->template_section == "checkout")
 	$checkout_desc = $redtemplate->getInstallSectionTemplate("checkout", $setflag = True);
 	if ($checkout_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -462,13 +456,13 @@ if ($this->detail->template_section == "checkout")
 
 	}
 }
-//Checkout Template End
 
-//Catalog Cart Template Start
+
+// Catalog Cart Template Start
 if ($this->detail->template_section == "catalogue_cart")
 {
 	$title = JText::_('COM_REDSHOP_CATALOG_CART_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog_cart');        ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog_cart');        ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('catalogue_cart'); ?></td>
@@ -478,7 +472,7 @@ if ($this->detail->template_section == "catalogue_cart")
 	$catcart_desc = $redtemplate->getInstallSectionTemplate("catalogue_cart", $setflag = True);
 	if ($catcart_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -490,12 +484,12 @@ if ($this->detail->template_section == "catalogue_cart")
 
 	}
 }
-//Catalog Cart Template End
-//Catalog Order Detail Template Start
+
+// Catalog Order Detail Template Start
 if ($this->detail->template_section == "catalogue_order_detail")
 {
 	$title = JText::_('COM_REDSHOP_CATALOG_ORDER_DETAIL_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog_order_detail');        ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog_order_detail');        ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('catalogue_order_detail'); ?></td>
@@ -505,7 +499,7 @@ if ($this->detail->template_section == "catalogue_order_detail")
 	$catordetail_desc = $redtemplate->getInstallSectionTemplate("catalogue_order_detail", $setflag = True);
 	if ($catordetail_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -517,13 +511,13 @@ if ($this->detail->template_section == "catalogue_order_detail")
 
 	}
 }
-//Catalog Order Detail Template End
 
-//Catalog Order Receipt Template Start
+
+// Catalog Order Receipt Template Start
 if ($this->detail->template_section == "catalogue_order_receipt")
 {
 	$title = JText::_('COM_REDSHOP_CATALOG_ORDER_RECEIPT_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog_order_receipt');        ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog_order_receipt');        ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('catalogue_order_receipt'); ?></td>
@@ -533,7 +527,7 @@ if ($this->detail->template_section == "catalogue_order_receipt")
 	$catorrcp_desc = $redtemplate->getInstallSectionTemplate("catalogue_order_receipt", $setflag = True);
 	if ($catorrcp_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -545,12 +539,12 @@ if ($this->detail->template_section == "catalogue_order_receipt")
 
 	}
 }
-//Catalog Order Receipt Template End
-//Category Product Template Start
+
+// Category Product Template Start
 if ($this->detail->template_section == "categoryproduct")
 {
 	$title = JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'category_product_template');        ?>
+	echo JHtml::_('tabs.panel', $title, 'category_product_template');        ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('category_product'); ?></td>
@@ -560,7 +554,7 @@ if ($this->detail->template_section == "categoryproduct")
 	$catprd = $redtemplate->getInstallSectionTemplate("category_product_template", $setflag = True);
 	if ($catprd != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -572,14 +566,14 @@ if ($this->detail->template_section == "categoryproduct")
 
 	}
 }
-//Category Product Template End
 
 
-//Clicktell Message Template Start
+
+// Clicktell Message Template Start
 if ($this->detail->template_section == "clicktell_sms_message")
 {
 	$title = JText::_('COM_REDSHOP_CLICKTELL_SMS_MESSAGE_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'clicktell_sms_template');        ?>
+	echo JHtml::_('tabs.panel', $title, 'clicktell_sms_template');        ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('clicktell_sms_message'); ?></td>
@@ -589,7 +583,7 @@ if ($this->detail->template_section == "clicktell_sms_message")
 	$click_desc = $redtemplate->getInstallSectionTemplate("clicktell_sms_message", $setflag = True);
 	if ($click_desc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -601,14 +595,14 @@ if ($this->detail->template_section == "clicktell_sms_message")
 
 	}
 }
-//Clicktell Message Template End
-//Empty Cart Template Start
+
+// Empty Cart Template Start
 if ($this->detail->template_section == "empty_cart")
 {
 	$emp_cart = $redtemplate->getInstallSectionTemplate("empty_cart", $setflag = True);
 	if ($emp_cart != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -620,13 +614,13 @@ if ($this->detail->template_section == "empty_cart")
 
 	}
 }
-//Empty Cart Template End
 
-//Frontpage Category Template Start
+
+// Frontpage Category Template Start
 if ($this->detail->template_section == "frontpage_category")
 {
 	$title = JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'frontpage_category_detail');    ?>
+	echo JHtml::_('tabs.panel', $title, 'frontpage_category_detail');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('frontpage_category');?></td>
@@ -636,7 +630,7 @@ if ($this->detail->template_section == "frontpage_category")
 	$fr_cat = $redtemplate->getInstallSectionTemplate("frontpage_category", $setflag = True);
 	if ($fr_cat != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -648,12 +642,12 @@ if ($this->detail->template_section == "frontpage_category")
 
 	}
 }
-//Frontpage Category Template End
-//Giftcard List Template Start
+
+// Giftcard List Template Start
 if ($this->detail->template_section == "giftcard_list")
 {
 	$title = JText::_('COM_REDSHOP_GIFTCARD_LIST_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'manufacturer detail');    ?>
+	echo JHtml::_('tabs.panel', $title, 'manufacturer detail');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('giftcard_list'); ?></td>
@@ -663,7 +657,7 @@ if ($this->detail->template_section == "giftcard_list")
 	$gift_list = $redtemplate->getInstallSectionTemplate("giftcard_listing", $setflag = True);
 	if ($gift_list != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -675,13 +669,13 @@ if ($this->detail->template_section == "giftcard_list")
 
 	}
 }
-//Giftcard List Template End
 
-//Manufacturer Detail Template Start
+
+// Manufacturer Detail Template Start
 if ($this->detail->template_section == "manufacturer_detail")
 {
 	$title = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'manufacturer detail');    ?>
+	echo JHtml::_('tabs.panel', $title, 'manufacturer detail');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('manufacturer_detail'); ?></td>
@@ -691,7 +685,7 @@ if ($this->detail->template_section == "manufacturer_detail")
 	$manu_detail = $redtemplate->getInstallSectionTemplate($this->detail->template_name, $setflag = True);
 	if ($manu_detail != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 
 		<tr>
 			<td>
@@ -703,12 +697,12 @@ if ($this->detail->template_section == "manufacturer_detail")
 
 	}
 }
-//Manufacturer Detail Template End
-//Catalog Template Start
+
+// Catalog Template Start
 if ($this->detail->template_section == "catalog")
 {
 	$title = JText::_('COM_REDSHOP_CATALOG_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog');    ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('catalogue'); ?></td>
@@ -718,7 +712,7 @@ if ($this->detail->template_section == "catalog")
 	$catlog = $redtemplate->getInstallSectionTemplate("catalog", $setflag = True);
 	if ($catlog != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -730,13 +724,13 @@ if ($this->detail->template_section == "catalog")
 
 	}
 }
-//Catalog Template End
 
-//Order Detail Template Start
+
+// Order Detail Template Start
 if ($this->detail->template_section == "order_detail")
 {
 	$title = JText::_('COM_REDSHOP_ORDER_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'order_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'order_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('order_detail'); ?></td>
@@ -747,12 +741,12 @@ if ($this->detail->template_section == "order_detail")
 				$tags_front = $extra_field->getSectionFieldList(14, 1);
 				$tags_admin = $extra_field->getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//	$tags=$extra_field->getSectionFieldList(14,1);
+				// 	$tags=$extra_field->getSectionFieldList(14,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -762,12 +756,11 @@ if ($this->detail->template_section == "order_detail")
 				$tags_front = $extra_field->getSectionFieldList(15, 1);
 				$tags_admin = $extra_field->getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//$tags=$extra_field->getSectionFieldList(15,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -779,7 +772,7 @@ if ($this->detail->template_section == "order_detail")
 	$ord_detail = $redtemplate->getInstallSectionTemplate("order_detail", $setflag = True);
 	if ($ord_detail != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -791,12 +784,12 @@ if ($this->detail->template_section == "order_detail")
 
 	}
 }
-//Order Detail Template End
-//Order Receipt Template Start
+
+// Order Receipt Template Start
 if ($this->detail->template_section == "order_receipt")
 {
 	$title = JText::_('COM_REDSHOP_ORDER_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'order_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'order_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('order_receipt'); ?></td>
@@ -807,12 +800,12 @@ if ($this->detail->template_section == "order_receipt")
 				$tags_front = $extra_field->getSectionFieldList(14, 1);
 				$tags_admin = $extra_field->getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//	$tags=$extra_field->getSectionFieldList(14,1);
+				// 	$tags=$extra_field->getSectionFieldList(14,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -822,12 +815,12 @@ if ($this->detail->template_section == "order_receipt")
 				$tags_front = $extra_field->getSectionFieldList(15, 1);
 				$tags_admin = $extra_field->getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//	$tags=$extra_field->getSectionFieldList(15,1);
+				// 	$tags=$extra_field->getSectionFieldList(15,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -839,7 +832,7 @@ if ($this->detail->template_section == "order_receipt")
 	$ord_receipt = $redtemplate->getInstallSectionTemplate("order_receipt", $setflag = True);
 	if ($ord_receipt != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -851,13 +844,13 @@ if ($this->detail->template_section == "order_receipt")
 
 	}
 }
-//Order Receipt Template End
 
-//Quotation Detail Template Start
+
+// Quotation Detail Template Start
 if ($this->detail->template_section == "quotation_detail")
 {
 	$title = JText::_('COM_REDSHOP_QUOTATION_DETAIL_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'Quotation_detail_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'Quotation_detail_template');    ?>
 	<table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('quotation_detail'); ?></td>
@@ -867,7 +860,7 @@ if ($this->detail->template_section == "quotation_detail")
 	$quo_detail = $redtemplate->getInstallSectionTemplate("quotation_detail", $setflag = True);
 	if ($quo_detail != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -879,12 +872,12 @@ if ($this->detail->template_section == "quotation_detail")
 
 	}
 }
-//Quotation Detail Template End
-//Quotation Request Template Start
+
+// Quotation Request Template Start
 if ($this->detail->template_section == "quotation_request")
 {
 	$title = JText::_('COM_REDSHOP_QUOTATION_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'Quotation_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'Quotation_template');    ?>
 	<table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('quotation_request'); ?></td>
@@ -894,7 +887,7 @@ if ($this->detail->template_section == "quotation_request")
 	$quo_req = $redtemplate->getInstallSectionTemplate("quotation_request_template", $setflag = True);
 	if ($quo_req != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -906,14 +899,14 @@ if ($this->detail->template_section == "quotation_request")
 
 	}
 }
-//Quotation Request Template End
 
 
-//Order Print Template Start
+
+// Order Print Template Start
 if ($this->detail->template_section == "order_print")
 {
 	$title = JText::_('COM_REDSHOP_ORDER_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'order_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'order_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -921,12 +914,11 @@ if ($this->detail->template_section == "order_print")
 				$tags_front = $extra_field->getSectionFieldList(14, 1);
 				$tags_admin = $extra_field->getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//$tags=$extra_field->getSectionFieldList(14,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -937,12 +929,12 @@ if ($this->detail->template_section == "order_print")
 				$tags_admin = $extra_field->getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 
-				//	$tags=$extra_field->getSectionFieldList(15,1);
+				// 	$tags=$extra_field->getSectionFieldList(15,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -957,7 +949,7 @@ if ($this->detail->template_section == "order_print")
 	$ord_print = $redtemplate->getInstallSectionTemplate("order_print", $setflag = True);
 	if ($ord_print != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -969,12 +961,12 @@ if ($this->detail->template_section == "order_print")
 
 	}
 }
-//Order Print Template End
-//Order Template Start
+
+// Order Template Start
 if ($this->detail->template_section == "order_list")
 {
 	$title = JText::_('COM_REDSHOP_ORDERLIST_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'orderlist_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'orderlist_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('orderlist'); ?></td>
@@ -984,7 +976,7 @@ if ($this->detail->template_section == "order_list")
 	$ord_list = $redtemplate->getInstallSectionTemplate("order_list", $setflag = True);
 	if ($ord_list != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -996,12 +988,12 @@ if ($this->detail->template_section == "order_list")
 
 	}
 }
-//Order Template End
-//Newsletter Template Start
+
+// Newsletter Template Start
 if ($this->detail->template_section == "newsletter")
 {
 	$title = JText::_('COM_REDSHOP_NEWSLETTER_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog');    ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('newsletter'); ?></td>
@@ -1011,7 +1003,7 @@ if ($this->detail->template_section == "newsletter")
 	$newsletter = $redtemplate->getInstallSectionTemplate("newsletter1", $setflag = True);
 	if ($newsletter != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1023,13 +1015,13 @@ if ($this->detail->template_section == "newsletter")
 
 	}
 }
-//Newsletter Template End
 
-//Newsletter Product Template Start
+
+// Newsletter Product Template Start
 if ($this->detail->template_section == "newsletter_product")
 {
 	$title = JText::_('COM_REDSHOP_NEWSLETTER_PRODUCTS_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog');    ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('newsletter_product'); ?></td>
@@ -1039,7 +1031,7 @@ if ($this->detail->template_section == "newsletter_product")
 	$newsletter_prd = $redtemplate->getInstallSectionTemplate("newsletter_products", $setflag = True);
 	if ($newsletter_prd != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1051,13 +1043,13 @@ if ($this->detail->template_section == "newsletter_product")
 
 	}
 }
-//Newsletter Product Template End
 
-//Related Product Template Start
+
+// Related Product Template Start
 if ($this->detail->template_section == "related_product")
 {
 	$title = JText::_('COM_REDSHOP_RELATED_PRODUCT_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog');    ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('related_product'); ?></td>
@@ -1067,7 +1059,7 @@ if ($this->detail->template_section == "related_product")
 	$related_prd = $redtemplate->getInstallSectionTemplate("related_products", $setflag = True);
 	if ($related_prd != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1079,13 +1071,13 @@ if ($this->detail->template_section == "related_product")
 
 	}
 }
-//Related Product Template End
 
-//Add To  Cart Start
+
+// Add To  Cart Start
 if ($this->detail->template_section == "add_to_cart")
 {
 	$title = JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog');    ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('add_to_cart'); ?></td>
@@ -1095,7 +1087,7 @@ if ($this->detail->template_section == "add_to_cart")
 	$add_to_cart = $redtemplate->getInstallSectionTemplate("add_to_cart1", $setflag = True);
 	if ($add_to_cart != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1109,12 +1101,12 @@ if ($this->detail->template_section == "add_to_cart")
 
 
 }
-//Add To  Cart End
-//Review Template Start
+
+// Review Template Start
 if ($this->detail->template_section == "review")
 {
 	$title = JText::_('COM_REDSHOP_REVIEW_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'review');    ?>
+	echo JHtml::_('tabs.panel', $title, 'review');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('review'); ?></td>
@@ -1124,7 +1116,7 @@ if ($this->detail->template_section == "review")
 	$review = $redtemplate->getInstallSectionTemplate("review", $setflag = True);
 	if ($review != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1136,13 +1128,13 @@ if ($this->detail->template_section == "review")
 
 	}
 }
-//Review Template End
 
-//Attribute Template Start
+
+// Attribute Template Start
 if ($this->detail->template_section == "attribute_template")
 {
 	$title = JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog');    ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('attribute'); ?></td>
@@ -1152,7 +1144,7 @@ if ($this->detail->template_section == "attribute_template")
 	$attrib = $redtemplate->getInstallSectionTemplate("attributes", $setflag = True);
 	if ($attrib != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1164,13 +1156,13 @@ if ($this->detail->template_section == "attribute_template")
 
 	}
 }
-//Attribute Template End
 
-//Attribute With Cart Template Start
+
+// Attribute With Cart Template Start
 if ($this->detail->template_section == "attributewithcart_template")
 {
 	$title = JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'attributewithcart');    ?>
+	echo JHtml::_('tabs.panel', $title, 'attributewithcart');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('attribute_with_cart'); ?></td>
@@ -1181,7 +1173,7 @@ if ($this->detail->template_section == "attributewithcart_template")
 				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
 				for ($i = 0; $i < count($availableaddtocart); $i++)
 				{
-					echo '<span style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</span>';
+					echo '<div style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1190,7 +1182,7 @@ if ($this->detail->template_section == "attributewithcart_template")
 	$attrib_cart = $redtemplate->getInstallSectionTemplate("attributewithcart_template", $setflag = True);
 	if ($attrib_cart != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1202,12 +1194,12 @@ if ($this->detail->template_section == "attributewithcart_template")
 
 	}
 }
-//Attribute With Cart Template End
-//Accessory Template Start
+
+// Accessory Template Start
 if ($this->detail->template_section == "accessory_template")
 {
 	$title = JText::_('COM_REDSHOP_ACCESSORY_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'catalog');    ?>
+	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('accessory'); ?></td>
@@ -1217,7 +1209,7 @@ if ($this->detail->template_section == "accessory_template")
 	$acc = $redtemplate->getInstallSectionTemplate("accessory", $setflag = True);
 	if ($acc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1229,13 +1221,13 @@ if ($this->detail->template_section == "accessory_template")
 
 	}
 }
-//Accessory Template End
 
-//Wrapper Template Start
+
+// Wrapper Template Start
 if ($this->detail->template_section == "wrapper_template")
 {
 	$title = JText::_('COM_REDSHOP_WRAPPER_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'wrapper');    ?>
+	echo JHtml::_('tabs.panel', $title, 'wrapper');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('wrapper'); ?></td>
@@ -1245,7 +1237,7 @@ if ($this->detail->template_section == "wrapper_template")
 	$wrapper = $redtemplate->getInstallSectionTemplate("wrapper", $setflag = True);
 	if ($wrapper != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1257,12 +1249,12 @@ if ($this->detail->template_section == "wrapper_template")
 
 	}
 }
-//Wrapper Template End
-//Wishlist Template Start
+
+// Wishlist Template Start
 if ($this->detail->template_section == "wishlist_template")
 {
 	$title = JText::_('COM_REDSHOP_WISHLIST_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'wishlist');    ?>
+	echo JHtml::_('tabs.panel', $title, 'wishlist');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('wishlist'); ?></td>
@@ -1272,7 +1264,7 @@ if ($this->detail->template_section == "wishlist_template")
 	$wishlist = $redtemplate->getInstallSectionTemplate("wishlist_list", $setflag = True);
 	if ($wishlist != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1284,13 +1276,13 @@ if ($this->detail->template_section == "wishlist_template")
 
 	}
 }
-//Wishlist Template End
 
-//Wishlist Mail Template Start
+
+// Wishlist Mail Template Start
 if ($this->detail->template_section == "wishlist_mail_template")
 {
 	$title = JText::_('COM_REDSHOP_WISHLIST_MAIL_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'wishlist');    ?>
+	echo JHtml::_('tabs.panel', $title, 'wishlist');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('wishlist_mail'); ?></td>
@@ -1300,7 +1292,7 @@ if ($this->detail->template_section == "wishlist_mail_template")
 	$wishlist_mail = $redtemplate->getInstallSectionTemplate("wishlist_mail", $setflag = True);
 	if ($wishlist_mail != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1312,12 +1304,12 @@ if ($this->detail->template_section == "wishlist_mail_template")
 
 	}
 }
-//Wishlist Mail Template End
-//Shipping PDF Template Start
+
+// Shipping PDF Template Start
 if ($this->detail->template_section == "shipping_pdf")
 {
 	$title = JText::_('COM_REDSHOP_SHIPPING_PDF_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'shipping');?>
+	echo JHtml::_('tabs.panel', $title, 'shipping');?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('shipping_pdf'); ?></td>
@@ -1327,7 +1319,7 @@ if ($this->detail->template_section == "shipping_pdf")
 	$ship_pdf = $redtemplate->getInstallSectionTemplate("shipping_pdf", $setflag = True);
 	if ($ship_pdf != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1339,13 +1331,13 @@ if ($this->detail->template_section == "shipping_pdf")
 
 	}
 }
-//Shipping PDF Template End
 
-//Ask Question Template Start
+
+// Ask Question Template Start
 if ($this->detail->template_section == "ask_question_template")
 {
 	$title = JText::_('COM_REDSHOP_ASK_QUESTION_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'askquestion');    ?>
+	echo JHtml::_('tabs.panel', $title, 'askquestion');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('ask_question'); ?></td>
@@ -1355,7 +1347,7 @@ if ($this->detail->template_section == "ask_question_template")
 	$ask_ques = $redtemplate->getInstallSectionTemplate("ask_question", $setflag = True);
 	if ($ask_ques != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1367,13 +1359,13 @@ if ($this->detail->template_section == "ask_question_template")
 
 	}
 }
-//Ask Question Template End
 
-//Ajax Cart Box Template Start
+
+// Ajax Cart Box Template Start
 if ($this->detail->template_section == "ajax_cart_box")
 {
 	$title = JText::_('COM_REDSHOP_AJAX_CART_BOX_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'wrapper');    ?>
+	echo JHtml::_('tabs.panel', $title, 'wrapper');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('ajax_cart_box'); ?></td>
@@ -1383,7 +1375,7 @@ if ($this->detail->template_section == "ajax_cart_box")
 	$ajax_cart = $redtemplate->getInstallSectionTemplate("ajax_cart_box", $setflag = True);
 	if ($ajax_cart != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1395,12 +1387,12 @@ if ($this->detail->template_section == "ajax_cart_box")
 
 	}
 }
-//Ajax Cart Box Template End
-//Ajax Cart Box Detail Template Start
+
+// Ajax Cart Box Detail Template Start
 if ($this->detail->template_section == "ajax_cart_detail_box")
 {
 	$title = JText::_('COM_REDSHOP_AJAX_CART_BOX_DETAIL_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'wrapper');    ?>
+	echo JHtml::_('tabs.panel', $title, 'wrapper');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo JText::_('COM_REDSHOP_AJAX_CART_BOX_DETAIL_TEMPLATE_HINT'); ?></td>
@@ -1412,7 +1404,7 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 
 				for ($i = 0; $i < count($availableaddtocart); $i++)
 				{
-					echo '<span style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</span>';
+					echo '<div style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1421,38 +1413,15 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 		</tr>
 		<tr>
 			<td>
-				<?php    //$availableAttTemp = $model->availableaddtocart('attribute_template');
-				/*if (count($availableAttTemp) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
-
-				for ($i = 0; $i < count($availableAttTemp); $i++)
-				{
-					echo '<span style="margin-left:10px;">{attribute_template:' . $availableAttTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE') . '</span>';
-				}*/    ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php    //$availableAttcartTemp = $model->availableaddtocart('attributewithcart_template');
-				/*if (count($availableAttcartTemp) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
-
-				for ($i = 0; $i < count($availableAttcartTemp); $i++)
-				{
-					echo '<span style="margin-left:10px;">{attributewithcart_template:' . $availableAttcartTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE') . '</span>';
-				}*/    ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
 				<?php
 				$tags_front = $extra_field->getSectionFieldList(6, 1);
 				$tags_admin = $extra_field->getSectionFieldList(6, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				//$tags=$extra_field->getSectionFieldList(6,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_desc . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_desc . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1461,7 +1430,7 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 	$ajax_cart_box_detail = $redtemplate->getInstallSectionTemplate("ajax_cart_detail_box", $setflag = True);
 	if ($ajax_cart_box_detail != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1473,13 +1442,13 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 
 	}
 }
-//Ajax Cart Box Detail Template End
 
-//Redproductfinder Template Start
+
+// Redproductfinder Template Start
 if ($this->detail->template_section == "redproductfinder")
 {
 	$title = JText::_('COM_REDSHOP_REDPRODUCTFINDER_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'redPRODUCTFINDER');    ?>
+	echo JHtml::_('tabs.panel', $title, 'redPRODUCTFINDER');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('redproductfinder'); ?></td>
@@ -1491,7 +1460,7 @@ if ($this->detail->template_section == "redproductfinder")
 
 				for ($i = 0; $i < count($availableaddtocart); $i++)
 				{
-					echo '<span style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</span>';
+					echo '<div style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1500,7 +1469,7 @@ if ($this->detail->template_section == "redproductfinder")
 	$redprdfinder = $redtemplate->getInstallSectionTemplate("redproductfinder", $setflag = True);
 	if ($redprdfinder != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1512,12 +1481,12 @@ if ($this->detail->template_section == "redproductfinder")
 
 	}
 }
-//Redproductfinder Template End
-//Account Template Start
+
+// Account Template Start
 if ($this->detail->template_section == "account_template")
 {
 	$title = JText::_('COM_REDSHOP_ACCOUNT_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'account_detail');    ?>
+	echo JHtml::_('tabs.panel', $title, 'account_detail');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('account'); ?></td>
@@ -1527,7 +1496,7 @@ if ($this->detail->template_section == "account_template")
 	$acc = $redtemplate->getInstallSectionTemplate("my_account_template", $setflag = True);
 	if ($acc != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1540,12 +1509,12 @@ if ($this->detail->template_section == "account_template")
 	}
 
 }
-//Account Template End
-//Compare Product Template Start
+
+// Compare Product Template Start
 if ($this->detail->template_section == "compare_product")
 {
 	$title = JText::_('COM_REDSHOP_COMPARE_PRODUCT_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'compare_product');    ?>
+	echo JHtml::_('tabs.panel', $title, 'compare_product');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('compare_product'); ?></td>
@@ -1555,7 +1524,7 @@ if ($this->detail->template_section == "compare_product")
 	$cmp_prd = $redtemplate->getInstallSectionTemplate("compare_product", $setflag = True);
 	if ($cmp_prd != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1567,12 +1536,12 @@ if ($this->detail->template_section == "compare_product")
 
 	}
 }
-//Compare Product Template End
-//Payment Method Template Start
+
+// Payment Method Template Start
 if ($this->detail->template_section == "redshop_payment")
 {
 	$title = JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'redshop_payment');    ?>
+	echo JHtml::_('tabs.panel', $title, 'redshop_payment');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('redshop_payment'); ?></td>
@@ -1582,7 +1551,7 @@ if ($this->detail->template_section == "redshop_payment")
 	$payment = $redtemplate->getInstallSectionTemplate("payment_method", $setflag = True);
 	if ($payment != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1594,13 +1563,13 @@ if ($this->detail->template_section == "redshop_payment")
 
 	}
 }
-//Payment Method Template End
 
-//Shipping Method Template Start
+
+// Shipping Method Template Start
 if ($this->detail->template_section == "redshop_shipping")
 {
 	$title = JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'redshop_shipping');    ?>
+	echo JHtml::_('tabs.panel', $title, 'redshop_shipping');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('redshop_shipping'); ?></td>
@@ -1610,7 +1579,7 @@ if ($this->detail->template_section == "redshop_shipping")
 	$shipping = $redtemplate->getInstallSectionTemplate("shipping_method", $setflag = True);
 	if ($shipping != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1622,13 +1591,13 @@ if ($this->detail->template_section == "redshop_shipping")
 
 	}
 }
-//Shipping Method Template End
 
-//Shipping Box Template Start
+
+// Shipping Box Template Start
 if ($this->detail->template_section == "shippingbox")
 {
 	$title = JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'shippingbox');    ?>
+	echo JHtml::_('tabs.panel', $title, 'shippingbox');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('shipping_box'); ?></td>
@@ -1638,7 +1607,7 @@ if ($this->detail->template_section == "shippingbox")
 	$ship_box = $redtemplate->getInstallSectionTemplate("shipping_box", $setflag = True);
 	if ($ship_box != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1650,13 +1619,13 @@ if ($this->detail->template_section == "shippingbox")
 
 	}
 }
-//Shipping Box Template End
 
-//Onestep Checkout Template Start
+
+// Onestep Checkout Template Start
 if ($this->detail->template_section == "onestep_checkout")
 {
 	$title = JText::_('COM_REDSHOP_ONESTEP_CHECKOUT_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, '1stepcheckout');    ?>
+	echo JHtml::_('tabs.panel', $title, '1stepcheckout');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('onestep_checkout'); ?></td>
@@ -1670,7 +1639,7 @@ if ($this->detail->template_section == "onestep_checkout")
 				if (count($availablecheckout) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
 				for ($i = 0; $i < count($availablecheckout); $i++)
 				{
-					echo '<span style="margin-left:10px;">{checkout_template:' . $availablecheckout[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{checkout_template:' . $availablecheckout[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1680,7 +1649,7 @@ if ($this->detail->template_section == "onestep_checkout")
 				if (count($availableshippingbox) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
 				for ($i = 0; $i < count($availableshippingbox); $i++)
 				{
-					echo '<span style="margin-left:10px;">{shippingbox_template:' . $availableshippingbox[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{shippingbox_template:' . $availableshippingbox[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1690,7 +1659,7 @@ if ($this->detail->template_section == "onestep_checkout")
 				if (count($availableshipping) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
 				for ($i = 0; $i < count($availableshipping); $i++)
 				{
-					echo '<span style="margin-left:10px;">{shipping_template:' . $availableshipping[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{shipping_template:' . $availableshipping[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1700,7 +1669,7 @@ if ($this->detail->template_section == "onestep_checkout")
 				if (count($availablepayment) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
 				for ($i = 0; $i < count($availablepayment); $i++)
 				{
-					echo '<span style="margin-left:10px;">{payment_template:' . $availablepayment[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{payment_template:' . $availablepayment[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1709,7 +1678,7 @@ if ($this->detail->template_section == "onestep_checkout")
 	$one_step = $redtemplate->getInstallSectionTemplate("onestep_checkout", $setflag = True);
 	if ($one_step != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1721,12 +1690,12 @@ if ($this->detail->template_section == "onestep_checkout")
 
 	}
 }
-//One Step Checkout End
-//Change Cart Attribute Temlate Start
+
+// Change Cart Attribute Temlate Start
 if ($this->detail->template_section == "change_cart_attribute")
 {
 	$title = JText::_('COM_REDSHOP_CHANGE_CART_ATTRIBUTE_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'cartattribute');    ?>
+	echo JHtml::_('tabs.panel', $title, 'cartattribute');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('change_cart_attribute'); ?></td>
@@ -1737,7 +1706,7 @@ if ($this->detail->template_section == "change_cart_attribute")
 				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
 				for ($i = 0; $i < count($availableaddtocart); $i++)
 				{
-					echo '<span style="margin-left:10px;">{attribute_template:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{attribute_template:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1747,7 +1716,7 @@ if ($this->detail->template_section == "change_cart_attribute")
 				if (count($availableAttcartTemp) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
 				for ($i = 0; $i < count($availableAttcartTemp); $i++)
 				{
-					echo '<span style="margin-left:10px;">{attributewithcart_template:' . $availableAttcartTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{attributewithcart_template:' . $availableAttcartTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1756,7 +1725,7 @@ if ($this->detail->template_section == "change_cart_attribute")
 	$change_cart_attrib = $redtemplate->getInstallSectionTemplate("change_cart_attribute_template", $setflag = True);
 	if ($change_cart_attrib != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1768,13 +1737,13 @@ if ($this->detail->template_section == "change_cart_attribute")
 
 	}
 }
-//Change Cart Attribute Temlate End
 
-//Letter Search Template Start
+
+// Letter Search Template Start
 if ($this->detail->template_section == "searchletter")
 {
 	$title = JText::_('COM_REDSHOP_LETTER_SEARCH_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'searchletter');    ?>
+	echo JHtml::_('tabs.panel', $title, 'searchletter');    ?>
 	<table class="adminlist">
 		<tr>
 			<td>
@@ -1783,11 +1752,10 @@ if ($this->detail->template_section == "searchletter")
 				$tags_admin = $extra_field->getSectionFieldList(1, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 
-				//$tags=$extra_field->getSectionFieldList(1,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
-					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1799,7 +1767,7 @@ if ($this->detail->template_section == "searchletter")
 	$letter = $redtemplate->getInstallSectionTemplate("letter_search_product", $setflag = True);
 	if ($letter != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1811,13 +1779,13 @@ if ($this->detail->template_section == "searchletter")
 
 	}
 }
-//Letter Search Template End
+
 
 //Product Content Template Start
 if ($this->detail->template_section == "product_content_template")
 {
 	$title = JText::_('COM_REDSHOP_PRODUCT_CONTENT_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'product_content');    ?>
+	echo JHtml::_('tabs.panel', $title, 'product_content');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('product_content'); ?></td>
@@ -1827,7 +1795,7 @@ if ($this->detail->template_section == "product_content_template")
 	$product_content = $redtemplate->getInstallSectionTemplate("product_content", $setflag = True);
 	if ($product_content != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1839,13 +1807,13 @@ if ($this->detail->template_section == "product_content_template")
 
 	}
 }
-//Product Content Template End
+
 
 //Quotation Cart Template Start
 if ($this->detail->template_section == "quotation_cart")
 {
 	$title = JText::_('COM_REDSHOP_QUOTATION_CART_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'product_content');    ?>
+	echo JHtml::_('tabs.panel', $title, 'product_content');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('quotation_cart'); ?></td>
@@ -1855,7 +1823,7 @@ if ($this->detail->template_section == "quotation_cart")
 	$quotation_cart = $redtemplate->getInstallSectionTemplate("quotation_cart_template", $setflag = True);
 	if ($quotation_cart != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1867,13 +1835,13 @@ if ($this->detail->template_section == "quotation_cart")
 
 	}
 }
-//Quotation Cart Template End
+
 
 //Billing Template Start
 if ($this->detail->template_section == "billing_template")
 {
 	$title = JText::_('COM_REDSHOP_BILLING_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'billing_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'billing_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('billing') ?></td>
@@ -1884,7 +1852,7 @@ if ($this->detail->template_section == "billing_template")
 				if (count($available) == 0) echo JTEXT::_("COM_REDSHOP_PRIVATE_BILLING_TEMPLATE");
 				for ($i = 0; $i < count($available); $i++)
 				{
-					echo '<span style="margin-left:10px;">{private_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('PRIVATE_BILLING_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{private_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('PRIVATE_BILLING_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1894,7 +1862,7 @@ if ($this->detail->template_section == "billing_template")
 				if (count($available) == 0) echo JTEXT::_("COM_REDSHOP_COMPANY_BILLING_TEMPLATE");
 				for ($i = 0; $i < count($available); $i++)
 				{
-					echo '<span style="margin-left:10px;">{company_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('COMPANY_BILLING_TEMPLATE') . '</span>';
+					echo '<div style="margin-left:10px;">{company_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('COMPANY_BILLING_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1903,7 +1871,7 @@ if ($this->detail->template_section == "billing_template")
 	$billing_template = $redtemplate->getInstallSectionTemplate("billing_template", $setflag = True);
 	if ($billing_template != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1915,13 +1883,13 @@ if ($this->detail->template_section == "billing_template")
 
 	}
 }
-//Billing Template End
+
 
 //Private Billing Template Start
 if ($this->detail->template_section == "private_billing_template")
 {
 	$title = JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'private_billing_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'private_billing_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('private_billing'); ?></td>
@@ -1931,7 +1899,7 @@ if ($this->detail->template_section == "private_billing_template")
 	$billing_template = $redtemplate->getInstallSectionTemplate("private_billing_template", $setflag = True);
 	if ($billing_template != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td><?php echo $billing_template;?></td>
@@ -1940,13 +1908,13 @@ if ($this->detail->template_section == "private_billing_template")
 		<?php
 	}
 }
-//Billing Template End
+
 
 //Billing Template Start
 if ($this->detail->template_section == "company_billing_template")
 {
 	$title = JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'company_billing_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'company_billing_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('company_billing'); ?></td>
@@ -1956,7 +1924,7 @@ if ($this->detail->template_section == "company_billing_template")
 	$billing_template = $redtemplate->getInstallSectionTemplate("company_billing_template", $setflag = True);
 	if ($billing_template != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td><?php echo $billing_template;?></td>
@@ -1965,13 +1933,13 @@ if ($this->detail->template_section == "company_billing_template")
 		<?php
 	}
 }
-//Billing Template End
+
 
 //Shipping Template Start
 if ($this->detail->template_section == "shipping_template")
 {
 	$title = JText::_('COM_REDSHOP_SHIPPING_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'shipping_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'shipping_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('shipping') ?></td>
@@ -1981,7 +1949,7 @@ if ($this->detail->template_section == "shipping_template")
 	$shipping_template = $redtemplate->getInstallSectionTemplate("shipping_template", $setflag = True);
 	if ($shipping_template != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -1993,12 +1961,12 @@ if ($this->detail->template_section == "shipping_template")
 
 	}
 }
-//Shipping Template End
+
 //Stock Note Template Start
 if ($this->detail->template_section == "stock_note")
 {
 	$title = JText::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'stock_note');    ?>
+	echo JHtml::_('tabs.panel', $title, 'stock_note');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('stock_note'); ?></td>
@@ -2011,7 +1979,7 @@ if ($this->detail->template_section == "stock_note")
 	$stock_note = $redtemplate->getInstallSectionTemplate("stock_note", $setflag = True);
 	if ($stock_note != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -2023,12 +1991,12 @@ if ($this->detail->template_section == "stock_note")
 
 	}
 }
-//Stock Note Template End
+
 //Shipment invoice Template Start
 if ($this->detail->template_section == "shippment_invoice_template")
 {
 	$title = JText::_('COM_REDSHOP_SHIPMENT_INVOICE_TEMPLATE');
-	echo JHtml::_('sliders.panel', $title, 'shippment_invoice_template');    ?>
+	echo JHtml::_('tabs.panel', $title, 'shippment_invoice_template');    ?>
 	<table class="adminlist">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('shipment_invoice'); ?></td>
@@ -2038,7 +2006,7 @@ if ($this->detail->template_section == "shippment_invoice_template")
 	$shipment = $redtemplate->getInstallSectionTemplate("shippment_invoice_template", $setflag = True);
 	if ($shipment != "")
 	{
-		echo JHtml::_('sliders.panel', $default_template, 'events');    ?>
+		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
 		<table class="adminlist">
 			<tr>
 				<td>
@@ -2050,6 +2018,6 @@ if ($this->detail->template_section == "shippment_invoice_template")
 
 	}
 }
-//Shipment invoice Template End
 
-echo JHtml::_('sliders.end');?>
+
+echo JHtml::_('tabs.end');?>
