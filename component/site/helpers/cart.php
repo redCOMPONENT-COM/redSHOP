@@ -1010,6 +1010,16 @@ class rsCarthelper
 				{
 					$cart_mdata = str_replace("{remove_product}", $remove_product, $cart_mdata);
 				}
+
+				// Replace attribute tags to empty on giftcard
+				if (strstr($cart_mdata, "{product_attribute_loop_start}") && strstr($cart_mdata, "{product_attribute_loop_end}"))
+				{
+					$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cart_mdata);
+					$templateattibute_edata  = explode('{product_attribute_loop_end}', $templateattibute_sdata[1]);
+					$templateattibute_middle = $templateattibute_edata[0];
+
+					$cart_mdata = str_replace($templateattibute_middle, "", $cart_mdata);
+				}
 			}
 			else
 			{
