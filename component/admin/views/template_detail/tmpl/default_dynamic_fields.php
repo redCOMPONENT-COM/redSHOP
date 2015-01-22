@@ -1409,6 +1409,9 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 			</td>
 		</tr>
 		<tr>
+			<td><?php echo Redtemplate::getTemplateValues('ajax_product'); ?></td>
+		</tr>
+		<tr>
 			<td>
 				<?php
 				$tags_front = $extra_field->getSectionFieldList(6, 1);
