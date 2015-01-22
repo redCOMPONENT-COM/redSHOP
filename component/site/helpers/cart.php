@@ -944,6 +944,7 @@ class rsCarthelper
 				$cart_mdata = str_replace("{product_old_price}", '', $cart_mdata);
 				$cart_mdata = str_replace("{vat_info}", '', $cart_mdata);
 				$cart_mdata = str_replace("{update_cart}", '', $cart_mdata);
+				$cart_mdata = str_replace("{product_number_lbl}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_number}", '', $cart_mdata);
 				$cart_mdata = str_replace("{attribute_price_without_vat}", '', $cart_mdata);
 				$cart_mdata = str_replace("{attribute_price_with_vat}", '', $cart_mdata);
@@ -2424,8 +2425,6 @@ class rsCarthelper
 
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
-		$cart_data = $this->replaceLabel($cart_data);
-
 		if (strstr($cart_data, "{product_loop_start}") && strstr($cart_data, "{product_loop_end}"))
 		{
 			$template_sdata  = explode('{product_loop_start}', $cart_data);
@@ -2436,6 +2435,8 @@ class rsCarthelper
 			$template_middle = $this->replaceCartItem($template_middle, $cart, 1, DEFAULT_QUOTATION_MODE);
 			$cart_data       = $template_start . $template_middle . $template_end;
 		}
+
+		$cart_data = $this->replaceLabel($cart_data);
 
 		$total                     = $cart ['total'];
 		$subtotal_excl_vat         = $cart ['subtotal_excl_vat'];
