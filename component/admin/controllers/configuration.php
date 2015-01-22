@@ -340,15 +340,6 @@ class RedshopControllerConfiguration extends RedshopController
 		$this->setRedirect('index.php?option=' . $option);
 	}
 
-	public function clearsef()
-	{
-		$model = $this->getModel('configuration');
-		$cleardata = $model->cleardata();
-
-		echo $cleardata;
-		exit;
-	}
-
 	public function resetTemplate()
 	{
 		$model = $this->getModel('configuration');
