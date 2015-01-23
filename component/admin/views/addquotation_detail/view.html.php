@@ -39,7 +39,6 @@ class RedshopViewAddquotation_detail extends RedshopView
 
 		$lists = array();
 		$model = $this->getModel();
-		$detail = $this->get('Data');
 		$Redconfiguration = new Redconfiguration;
 
 		$user_id = JRequest::getVar('user_id', 0);
@@ -53,11 +52,7 @@ class RedshopViewAddquotation_detail extends RedshopView
 			$billing = $model->setBilling();
 		}
 
-		if (!is_object($detail))
-		{
-			$detail = new stdClass;
-		}
-
+		$detail = new stdClass;
 		$detail->user_id = $user_id;
 
 		$session->set('offlineuser_id', $user_id);

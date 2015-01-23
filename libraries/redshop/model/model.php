@@ -302,18 +302,25 @@ class RedshopModel extends JModelLegacy
 	/**
 	 * Set order by values
 	 *
+	 * @param   boolean  $JDatabaseQuery  False to return string for simple query, True to return a string for JDatabaseQuery order.
+	 *
 	 * @return string
 	 *
 	 * @since   1.5
 	 */
-	public function _buildContentOrderBy()
+	public function _buildContentOrderBy($JDatabaseQuery = false)
 	{
 		$db  = JFactory::getDbo();
 		$filter_order_Dir = $this->getState('list.direction');
 		$filter_order = $this->getState('list.ordering', 'x.ordering');
-		$orderby = " ORDER BY " . $db->escape($filter_order . ' ' . $filter_order_Dir);
+		$orderBy = $db->escape($filter_order . ' ' . $filter_order_Dir);
 
-		return $orderby;
+		if (!$JDatabaseQuery)
+		{
+			$orderBy = " ORDER BY " . $orderBy;
+		}
+
+		return $orderBy;
 	}
 
 	/**
