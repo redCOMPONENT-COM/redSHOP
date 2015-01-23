@@ -312,7 +312,7 @@ class RedshopModel extends JModelLegacy
 	{
 		$db  = JFactory::getDbo();
 		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order = $this->getState('list.ordering', 'x.ordering');
+		$filter_order = $this->getState('list.ordering');
 		$orderBy = $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		if (!$JDatabaseQuery)
