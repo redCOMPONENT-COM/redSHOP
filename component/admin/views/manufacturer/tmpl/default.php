@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option', '', 'request', 'string');
-$filter = JRequest::getVar('filter');
 $model = $this->getModel('manufacturer');
 $ordering = ($this->lists['order'] == 'm.ordering');
 ?>
@@ -47,7 +46,7 @@ echo 'index.php?option=' . $option;
 				<td valign="top" align="left" class="key">
 					<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
 					<div class="btn-wrapper input-append">
-					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
+					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
 					       onchange="document.adminForm.submit();">
 					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
 					<button class="btn"

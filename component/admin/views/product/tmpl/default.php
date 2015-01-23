@@ -82,16 +82,18 @@ $userId = (int) $user->id;
 	}
 
 </script>
+<form action="index.php?option=com_redshop&view=product" method="post" name="adminForm" id="adminForm">
 <table border="0" cellpadding="2" cellspacing="2" width="100%">
 	<tr>
 		<td>
-			<form action="<?php echo 'index.php?option=com_redshop&view=product'; ?>" method="post" name="adminForm2"
-			      id="adminForm2">
+			<div class="filterItem">
 				<div class="btn-wrapper input-append">
 					<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
 				</div>
-				<select name="search_field" onchange="javascript:document.adminForm2.submit();">
+			</div>
+			<div class="filterItem">
+				<select name="search_field" onchange="javascript:document.adminForm.submit();">
 					<option
 						value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
 						<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
@@ -108,17 +110,20 @@ $userId = (int) $user->id;
 						value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') echo "selected='selected'";?>>
 						<?php echo JText::_("COM_REDSHOP_ATTRIBUTE_SKU")?></option>
 				</select>
-				<?php echo $this->lists['category'];
-				echo $this->lists['product_sort'];
-				?>
-			</form>
+			</div>
+			<div class="filterItem">
+				<?php echo $this->lists['category']; ?>
+			</div>
+			<div class="filterItem">
+				<?php echo $this->lists['product_sort']; ?>
+			</div>
 		</td>
 		<td align="right">
 			<?php echo $this->lists['product_template'];?>
 		</td>
 	</tr>
 </table>
-<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
+
 <div id="editcell">
 <input type="hidden" name="unpublished_data" value="">
 <table class="adminlist table table-striped">

@@ -36,10 +36,7 @@ class RedshopViewMedia extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$context = 'media';
-
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
@@ -51,10 +48,10 @@ class RedshopViewMedia extends RedshopView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'media_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$media_type       = $app->getUserStateFromRequest($context . 'media_type', 'media_type', 0);
-		$media_section    = $app->getUserStateFromRequest($context . 'media_section', 'media_section', 0);
+		$this->state = $this->get('State');
+
+		$media_type       = $this->state->get('media_type', 0);
+		$media_section    = $this->state->get('media_section', 0);
 
 		$optiontype = array();
 		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -73,8 +70,8 @@ class RedshopViewMedia extends RedshopView
 		$optionsection[] = JHTML::_('select.option', 'subproperty', JText::_('COM_REDSHOP_SUBPROPERTY'));
 		$optionsection[] = JHTML::_('select.option', 'manufacturer', JText::_('COM_REDSHOP_MANUFACTURER'));
 
-		$lists ['order'] = $filter_order;
-		$lists ['order_Dir'] = $filter_order_Dir;
+		$lists ['order'] = $this->state->get('list.ordering', 'media_id');
+		$lists ['order_Dir'] = $this->state->get('list.direction', '');
 
 		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'media_type',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_type
@@ -85,7 +82,6 @@ class RedshopViewMedia extends RedshopView
 		);
 
 		$media = $this->get('Data');
-		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->lists = $lists;
@@ -101,8 +97,6 @@ class RedshopViewMedia extends RedshopView
 			$this->documents = $this->get('documents');
 			$this->folders = $this->get('folders');
 		}
-
-		$this->state = $this->get('state');
 
 		parent::display($tpl);
 	}

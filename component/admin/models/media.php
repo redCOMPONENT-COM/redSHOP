@@ -21,61 +21,68 @@ class RedshopModelMedia extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 */
+	public function __construct($config = array())
 	{
-		parent::__construct();
+		parent::__construct($config);
 
-		$app = JFactory::getApplication();
+		$this->context .= '.' . JFactory::$application->input->getWord('tmpl', '');
+	}
 
-		$this->_table_prefix = '#__redshop_';
-		$this->_context = 'media_id';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('media_section');
+		$id .= ':' . $this->getState('media_type');
 
-		$media_section = $app->getUserStateFromRequest($this->_context . 'media_section', 'media_section', 0);
-		$media_type = $app->getUserStateFromRequest($this->_context . 'media_type', 'media_type', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'ordering', $direction = 'desc')
+	{
+		$media_section = $this->getUserStateFromRequest($this->context . 'media_section', 'media_section', 0);
 		$this->setState('media_section', $media_section);
+
+		$media_type = $this->getUserStateFromRequest($this->context . 'media_type', 'media_type', '');
 		$this->setState('media_type', $media_type);
-	}
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
+		$folder = JRequest::getVar('folder', '', '', 'path');
+		$this->setState('folder', $folder);
 
-		return $this->_data;
-	}
+		$parent = str_replace("\\", "/", dirname($folder));
+		$parent = ($parent == '.') ? null : $parent;
+		$this->setState('parent', $parent);
 
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
@@ -99,51 +106,12 @@ class RedshopModelMedia extends RedshopModel
 		}
 		$orderby = $this->_buildContentOrderBy();
 
-		$query = 'SELECT distinct(m.media_id),m.* FROM ' . $this->_table_prefix . 'media AS m '
+		$query = 'SELECT distinct(m.media_id),m.* FROM #__redshop_media AS m '
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
 
 		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
-	}
-
-	/**
-	 * Method to get model state variables
-	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
-	 *
-	 * @return  object  The property where specified, the state object where omitted
-	 */
-	public function getState($property = null, $default = null)
-	{
-		static $set;
-
-		if (!$set)
-		{
-			$folder = JRequest::getVar('folder', '', '', 'path');
-			$this->setState('folder', $folder);
-
-			$parent = str_replace("\\", "/", dirname($folder));
-			$parent = ($parent == '.') ? null : $parent;
-			$this->setState('parent', $parent);
-			$set = true;
-		}
-
-		return parent::getState($property);
 	}
 
 	public function getImages()
@@ -369,7 +337,7 @@ class RedshopModelMedia extends RedshopModel
 
 	public function getAdditionalFiles($media_id)
 	{
-		$query = "SELECT * FROM `" . $this->_table_prefix . "media_download` "
+		$query = "SELECT * FROM `#__redshop_media_download` "
 			. "WHERE `media_id`='" . $media_id . "' ";
 
 		return $this->_getList($query);
@@ -377,7 +345,7 @@ class RedshopModelMedia extends RedshopModel
 
 	public function deleteAddtionalFiles($fileId)
 	{
-		$query = "SELECT name FROM `" . $this->_table_prefix . "media_download` "
+		$query = "SELECT name FROM `#__redshop_media_download` "
 			. "WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
 		$filename = $this->_db->loadResult();
@@ -388,7 +356,7 @@ class RedshopModelMedia extends RedshopModel
 			unlink($path);
 		}
 
-		$query = "DELETE FROM `" . $this->_table_prefix . "media_download` WHERE `id`='" . $fileId . "' ";
+		$query = "DELETE FROM `#__redshop_media_download` WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->execute())
