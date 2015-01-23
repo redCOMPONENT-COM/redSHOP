@@ -133,9 +133,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function _initData()
 	{
-		if (empty($this->data))
-		{
-			$detail = new stdClass;
+		$detail = new stdClass;
 
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$data                               = $this->input->getArray($_POST);
