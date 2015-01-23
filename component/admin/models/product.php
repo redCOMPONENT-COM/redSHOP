@@ -22,42 +22,64 @@ class RedshopModelProduct extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
-
 	public $_categorytreelist = null;
 
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
 	{
-		parent::__construct();
+		// Compile the store id.
+		$id .= ':' . $this->getState('product_sort');
+		$id .= ':' . $this->getState('search_field');
+		$id .= ':' . $this->getState('keyword');
+		$id .= ':' . $this->getState('category_id');
 
-		$app = JFactory::getApplication();
+		return parent::getStoreId($id);
+	}
 
-		$this->_context = 'product_id';
-		$this->_table_prefix = '#__redshop_';
-
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$search_field = $app->getUserStateFromRequest($this->_context . 'search_field', 'search_field', '');
-		$keyword = $app->getUserStateFromRequest($this->_context . 'keyword', 'keyword', '');
-		$category_id = $app->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
-		$product_sort = $app->getUserStateFromRequest($this->_context . 'product_sort', 'product_sort', 0);
-
-		$this->setState('product_sort', $product_sort);
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'p.product_id', $direction = 'desc')
+	{
+		$search_field = $this->getUserStateFromRequest($this->context . 'search_field', 'search_field', '');
 		$this->setState('search_field', $search_field);
+
+		$keyword = $this->getUserStateFromRequest($this->context . 'keyword', 'keyword', '');
 		$this->setState('keyword', $keyword);
+
+		$category_id = $this->getUserStateFromRequest($this->context . 'category_id', 'category_id', 0);
 		$this->setState('category_id', $category_id);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+
+		$product_sort = $this->getUserStateFromRequest($this->context . 'product_sort', 'product_sort', 0);
+		$this->setState('product_sort', $product_sort);
+
+		parent::populateState($ordering, $direction);
 	}
 
 	public function getData()
 	{
 		if (empty($this->_data))
 		{
-			$query       = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			$this->_data = parent::getData();
 
 			// Product parent - child - format generation
 			$products = $this->_data;
@@ -86,28 +108,6 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
 	}
 
 	public function _buildQuery()
@@ -164,7 +164,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 			elseif ($product_sort == 'p.sold_out')
 			{
-				$query_prd = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM " . $this->_table_prefix . "product AS p ";
+				$query_prd = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM #__redshop_product AS p ";
 				$tot_products = $this->_getList($query_prd);
 				$product_id_array = '';
 				$producthelper = new producthelper;
@@ -238,7 +238,7 @@ class RedshopModelProduct extends RedshopModel
 			AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
 				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
 				. ",p.product_template "
-				. " FROM " . $this->_table_prefix . "product AS p "
+				. " FROM #__redshop_product AS p "
 				. "WHERE 1=1 " . $and . $orderby;
 		}
 		else
@@ -247,14 +247,14 @@ class RedshopModelProduct extends RedshopModel
 			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
 			x.ordering , x.category_id "
-			. " FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref
-			AS x ON x.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id ";
+			. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
+			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.category_id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
-				$query .= "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.product_id = p.product_id "
-						. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
-						. "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
+				$query .= "LEFT JOIN #__redshop_product_attribute AS a ON a.product_id = p.product_id "
+						. "LEFT JOIN #__redshop_product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
+						. "LEFT JOIN #__redshop_product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
 			}
 
 			$query .= "WHERE 1=1 ";
@@ -283,7 +283,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 
 			$product_id = implode(',', $product);
-			$query_prd = "SELECT DISTINCT(p.product_id) FROM " . $this->_table_prefix . "product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
+			$query_prd = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
 			$this->_db->setQuery($query_prd);
 			$final_products = $this->_db->loadColumn();
 
@@ -291,21 +291,20 @@ class RedshopModelProduct extends RedshopModel
 		}
 	}
 
-	public function _buildContentOrderBy()
+	public function _buildContentOrderBy($JDatabaseQuery = false)
 	{
 		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
 
 		$category_id = $this->getState('category_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $this->getState('list.direction');
 
 		if ($category_id)
 		{
-			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'x.ordering');
+			$filter_order = $this->getState('list.ordering', 'x.ordering');
 		}
 		else
 		{
-			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
+			$filter_order = $this->getState('list.ordering', 'p.product_id');
 
 			if ($filter_order == 'x.ordering')
 			{
@@ -320,7 +319,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function MediaDetail($pid)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
+		$query = 'SELECT * FROM #__redshop_media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -328,8 +327,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function listedincats($pid)
 	{
-		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, '
-			. $this->_table_prefix . 'category as c WHERE product_id ="' . $pid
+		$query = 'SELECT c.category_name FROM #__redshop_product_category_xref as ref, #__redshop_category as c WHERE product_id ="' . $pid
 			. '" AND ref.category_id=c.category_id ORDER BY c.category_name';
 		$this->_db->setQuery($query);
 
@@ -364,7 +362,7 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$in = implode(',', $inArr);
-		$q = "SELECT field_name,field_type,field_section from " . $this->_table_prefix . "fields where field_section in (" . $in . ") ";
+		$q = "SELECT field_name,field_type,field_section from #__redshop_fields where field_section in (" . $in . ") ";
 		$this->_db->setQuery($q);
 		$fields = $this->_db->loadObjectlist();
 
@@ -412,7 +410,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getmanufacturername($mid)
 	{
-		$query = 'SELECT manufacturer_name FROM ' . $this->_table_prefix . 'manufacturer  WHERE manufacturer_id="' . $mid . '" ';
+		$query = 'SELECT manufacturer_name FROM #__redshop_manufacturer  WHERE manufacturer_id="' . $mid . '" ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -427,7 +425,7 @@ class RedshopModelProduct extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->_table_prefix . 'product' . ' SET `product_template` = "'
+			$query = 'UPDATE #__redshop_product' . ' SET `product_template` = "'
 				. intval($product_template) . '" ' . ' WHERE product_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -450,8 +448,8 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$this->_categorytreelist = array();
-		$q = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title " . "FROM "
-			. $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx "
+		$q = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title "
+			. "FROM #__redshop_category AS c, #__redshop_category_xref AS cx "
 			. "WHERE c.category_id=cx.category_child_id " . "ORDER BY ordering ";
 		$this->_db->setQuery($q);
 		$rows = $this->_db->loadObjectList();
@@ -517,9 +515,7 @@ class RedshopModelProduct extends RedshopModel
 	 */
 	public function saveorder($cid = array(), $order = 0)
 	{
-		$app = JFactory::getApplication();
-
-		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
+		$category_id_my = $this->getState('category_id');
 
 		$orderarray = array();
 
@@ -540,7 +536,7 @@ class RedshopModelProduct extends RedshopModel
 				if ($order >= 0)
 				{
 					// Update ordering
-					$query = 'UPDATE ' . $this->_table_prefix . 'product_category_xref' . ' SET ordering = ' . (int) $i
+					$query = 'UPDATE #__redshop_product_category_xref' . ' SET ordering = ' . (int) $i
 						. ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
 					$this->_db->setQuery($query);
 					$this->_db->execute();

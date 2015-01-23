@@ -18,9 +18,10 @@ $url = $uri->root();
 
 // For Add Media Detail
 $showbuttons = JRequest::getCmd('showbuttons');
-$media_section = JRequest::getCmd('media_section');
+$media_section = $this->state->get('media_section');
 $section_id = JRequest::getCmd('section_id');
 $model = $this->getModel('media');
+$countTd = 8;
 
 $sectionadata = array();
 $sectiona_primary_image = "";
@@ -102,16 +103,15 @@ else
 		if ($showbuttons != 1)
 		{
 			?>
-			<table class="adminlist">
-				<tr>
-					<td valign="top" align="right" class="key">
-						<?php
-							echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ':' . $this->lists['type'] . "&nbsp;" . JText::_('COM_REDSHOP_MEDIA_SECTION') . ':' . $this->lists['section'] . "&nbsp;";
-						?>
-						<button class="btn btn-small" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-					</td>
-				</tr>
-			</table>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ': ' . $this->lists['type']; ?>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_MEDIA_SECTION') . ': ' . $this->lists['section']; ?>
+		</div>
+		<div class="filterItem">
+			<button class="btn btn-small" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+		</div>
 	<?php
 		}
 	?>
@@ -131,6 +131,7 @@ else
 			<?php
 				if ($showbuttons == 1)
 				{
+					$countTd++;
 					echo '<th width="10%">' . JTEXT::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') . '</th>';
 				}
 
@@ -161,11 +162,13 @@ else
 
 					if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty'))
 					{
+						$countTd++;
 						echo '<th width="5%" class="title">' . JTEXT::_('COM_REDSHOP_PRIMARY_MEDIA') . '</th>';
 					}
 
 					if ($showbuttons == 1)
 					{
+						$countTd++;
 						echo '<th class="order" width="20%">' . JHTML::_('grid.order', $this->media) . '</th>';
 					}
 
@@ -277,25 +280,20 @@ else
 			?>
 			<input type="hidden" name="showbuttons" value="<?php echo $showbuttons; ?>"/>
 			<input type="hidden" name="section_id" value="<?php echo $section_id; ?>"/>
-			<input type="hidden" name="media_section" value="<?php echo $media_section; ?>"/>
 			<input type="hidden" name="section_name" value="<?php echo $section_name; ?>"/>
-			<?php
-			if ($showbuttons != 1)
-			{
-			?>
+			<?php if ($showbuttons == 1): ?>
+			<input type="hidden" name="media_section" value="<?php echo $media_section; ?>"/>
+			<?php endif; ?>
 			<tfoot>
-				<td colspan="9">
-					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-						<div class="redShopLimitBox">
-							<?php echo $this->pagination->getLimitBox(); ?>
-						</div>
-					<?php endif; ?>
-				 <?php echo $this->pagination->getListFooter(); ?>
-				</td>
+			<td colspan="<?php echo $countTd; ?>">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+			</td>
 			</tfoot>
-			<?php
-			}
-			?>
 		</table>
 	</div>
 	<input type="hidden" name="view" value="media"/>
