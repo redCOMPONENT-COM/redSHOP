@@ -12,70 +12,50 @@ defined('_JEXEC') or die;
 
 class RedshopModelOpsearch extends RedshopModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
 	{
-		parent::__construct();
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter_user');
+		$id .= ':' . $this->getState('filter_product');
+		$id .= ':' . $this->getState('filter_status');
 
-		$app = JFactory::getApplication();
+		return parent::getStoreId($id);
+	}
 
-		$this->_context = 'order_item_name';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$filter_user = $app->getUserStateFromRequest($this->_context . 'filter_user', 'filter_user', 0);
-		$filter_product = $app->getUserStateFromRequest($this->_context . 'filter_product', 'filter_product', 0);
-		$filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', 0);
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'order_item_name', $direction = '')
+	{
+		$filter_user = $this->getUserStateFromRequest($this->context . '.filter_user', 'filter_user', 0);
+		$filter_product = $this->getUserStateFromRequest($this->context . '.filter_product', 'filter_product', 0);
+		$filter_status = $this->getUserStateFromRequest($this->context . '.filter_status', 'filter_status', 0);
 
 		$this->setState('filter_user', $filter_user);
 		$this->setState('filter_product', $filter_product);
 		$this->setState('filter_status', $filter_status);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-	}
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		$query = $this->_buildQuery();
-
-		if (empty($this->_total))
-		{
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
@@ -102,8 +82,8 @@ class RedshopModelOpsearch extends RedshopModel
 			$where .= 'AND op.order_status="' . $filter_status . '" ';
 		}
 
-		$query = 'SELECT op.*, CONCAT(ouf.firstname," ",ouf.lastname) AS fullname, ouf.company_name FROM ' . $this->_table_prefix . 'order_item AS op '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'order_users_info as ouf ON ouf.order_id=op.order_id AND ouf.address_type="BT" '
+		$query = 'SELECT op.*, CONCAT(ouf.firstname," ",ouf.lastname) AS fullname, ouf.company_name FROM #__redshop_order_item AS op '
+			. 'LEFT JOIN #__redshop_order_users_info as ouf ON ouf.order_id=op.order_id AND ouf.address_type="BT" '
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
@@ -111,22 +91,9 @@ class RedshopModelOpsearch extends RedshopModel
 		return $query;
 	}
 
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'order_item_name');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
-	}
-
 	public function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		$query = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM " . $this->_table_prefix . "users_info AS uf "
+		$query = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM #__redshop_users_info AS uf "
 			. "WHERE uf.address_type='BT' "
 			. "ORDER BY text ";
 		$userlist = $this->_getList($query);
@@ -135,6 +102,5 @@ class RedshopModelOpsearch extends RedshopModel
 		$mylist['userlist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
 
 		return $mylist['userlist'];
-
 	}
 }
