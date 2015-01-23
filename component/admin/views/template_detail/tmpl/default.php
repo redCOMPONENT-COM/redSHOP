@@ -116,7 +116,7 @@ $style = $this->detail->template_section == 'clicktell_sms_message' ? "display: 
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo $editor->display("template_desc", $this->detail->template_desc, '$widthPx', '$heightPx', '100', '20'); ?></td>
+					<td><?php echo $editor->display("template_desc", $this->detail->template_desc, '800px', '500px', '100', '20'); ?></td>
 				</tr>
 			</table>
 		</fieldset>
