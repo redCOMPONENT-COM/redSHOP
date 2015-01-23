@@ -18,56 +18,52 @@ class RedshopModelCategory extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
 	{
-		parent::__construct();
-		$app = JFactory::getApplication();
+		// Compile the store id.
+		$id .= ':' . $this->getState('category_main_filter');
+		$id .= ':' . $this->getState('category_id');
 
-		$this->_context = 'category_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$category_main_filter = $app->getUserStateFromRequest($this->_context . 'category_main_filter', 'category_main_filter', 0);
-		$category_id = $app->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
+		return parent::getStoreId($id);
+	}
 
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'c.ordering', $direction = '')
+	{
+		$category_main_filter = $this->getUserStateFromRequest($this->context . 'category_main_filter', 'category_main_filter', '');
 		$this->setState('category_main_filter', $category_main_filter);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+
+		$category_id = $this->getUserStateFromRequest($this->context . 'category_id', 'category_id', 0);
 		$this->setState('category_id', $category_id);
-	}
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$this->_data = $this->_buildQuery();
-		}
-		return $this->_data;
-	}
-
-	public function getPagination()
-	{
-		if ($this->_pagination == null)
-		{
-			$this->_buildQuery();
-		}
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
 	{
-		$app = JFactory::getApplication();
-		$view = JRequest::getVar('view');
-		$db = JFactory::getDbo();
-
-		$category_id = $this->getState('category_id');
 		$category_main_filter = $this->getState('category_main_filter');
-		$limit = $this->getState('limit');
-		$limitstart = $this->getState('limitstart');
 
 		$orderby = $this->_buildContentOrderBy();
 		$and = "";
@@ -76,18 +72,42 @@ class RedshopModelCategory extends RedshopModel
 		{
 			$and .= " AND category_name like '%" . $category_main_filter . "%' ";
 		}
-		if ($category_id != 0)
-		{
-		}
+
 		$q = "SELECT c.category_id, cx.category_child_id, cx.category_child_id AS id, cx.category_parent_id,
 		cx.category_parent_id AS parent_id,c.category_name, c.category_name AS title,c.category_description,c.published,ordering "
-			. "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx "
+			. "FROM #__redshop_category AS c, #__redshop_category_xref AS cx "
 			. "WHERE c.category_id=cx.category_child_id "
 			. $and
 			. $orderby;
 
-		$db->setQuery($q);
-		$rows = $db->loadObjectList();
+		return $q;
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   1.5
+	 */
+	public function getData()
+	{
+		// Load the list items.
+		$query = $this->_getListQuery();
+
+		try
+		{
+			$rows = $this->_getList($query);
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		$category_main_filter = $this->getState('category_main_filter');
+		$category_id = $this->getState('category_id');
 
 		if (!$category_main_filter)
 		{
@@ -115,7 +135,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		jimport('joomla.html.pagination');
-		$this->_pagination = new JPagination($total, $limitstart, $limit);
+		$this->_pagination = new JPagination($total, (int) $this->getState('limitstart'), (int) $this->getState('limit'));
 
 		// Slice out elements based on limits
 		$items = array_slice($treelist, $this->_pagination->limitstart, $this->_pagination->limit);
@@ -123,22 +143,26 @@ class RedshopModelCategory extends RedshopModel
 		return $items;
 	}
 
-	public function _buildContentOrderBy()
+	/**
+	 * Method to get a JPagination object for the data set.
+	 *
+	 * @return  JPagination  A JPagination object for the data set.
+	 *
+	 * @since   1.5
+	 */
+	public function getPagination()
 	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
+		if ($this->_pagination == null)
+		{
+			$this->getData();
+		}
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'c.ordering');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
+		return $this->_pagination;
 	}
 
 	public function getProducts($cid)
 	{
-		$query = 'SELECT count(category_id) FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id="' . $cid . '" ';
+		$query = 'SELECT count(category_id) FROM #__redshop_product_category_xref WHERE category_id="' . $cid . '" ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -158,7 +182,7 @@ class RedshopModelCategory extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->_table_prefix . 'category'
+			$query = 'UPDATE #__redshop_category'
 				. ' SET `category_template` = "' . intval($category_template) . '" '
 				. ' WHERE category_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
