@@ -156,6 +156,10 @@ class RedshopModelOrder extends RedshopModel
 			->group($db->qn('o.order_id'))
 			->order($this->_buildContentOrderBy(true));
 
+		$filter_order_Dir = $this->getState('list.direction');
+		$filter_order = $this->getState('list.ordering');
+		$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
+
 		return $query;
 	}
 
