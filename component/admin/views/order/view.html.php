@@ -100,17 +100,16 @@ class RedshopViewOrder extends RedshopView
 			JToolBarHelper::deleteList();
 		}
 
-		$filter_order          = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' o.order_id ');
-		$filter_order_Dir      = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-		$filter_by             = $app->getUserStateFromRequest($context . 'filter_by', 'filter_by', '', '');
-		$filter_status         = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'string');
-		$filter_payment_status = $app->getUserStateFromRequest($context . 'filter_payment_status', 'filter_payment_status', '', '');
+		$state = $this->get('State');
+		$this->filter          = $state->get('filter');
+		$filter_by             = $state->get('filter_by');
+		$filter_status         = $state->get('filter_status');
+		$filter_payment_status = $state->get('filter_payment_status');
 
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['order']     = $state->get('list.ordering', 'o.order_id');
+		$lists['order_Dir'] = $state->get('list.direction', 'desc');
 
 		$orders     = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$lists['filter_by'] = $order_function->getFilterbyList('filter_by', $filter_by,
