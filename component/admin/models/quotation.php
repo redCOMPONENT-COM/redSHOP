@@ -11,34 +11,69 @@ defined('_JEXEC') or die;
 
 class RedshopModelQuotation extends RedshopModelList
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   1.6
+	 * @see     JController
+	 */
+	public function __construct($config = array())
 	{
-		parent::__construct();
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'q.quotation_cdate', 'quotation_cdate',
+				'quotation_id', 'quotation_number',
+				'quotation_status', 'quotation_total'
+			);
+		}
 
-		$app = JFactory::getApplication();
-		$this->_context = 'quotation_id';
+		parent::__construct($config);
+	}
 
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter');
+		$id .= ':' . $this->getState('filter_status');
 
-		$filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		return parent::getStoreId($id);
+	}
 
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'q.quotation_cdate', $direction = 'desc')
+	{
+		$filter_status = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', 0);
+		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
+
 		$this->setState('filter', $filter);
 		$this->setState('filter_status', $filter_status);
+
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -77,7 +112,6 @@ class RedshopModelQuotation extends RedshopModelList
 			return $this->cache[$store];
 		}
 
-		$app = JFactory::getApplication();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
@@ -100,8 +134,8 @@ class RedshopModelQuotation extends RedshopModelList
 			$query->where('q.quotation_status = ' . $db->q($filterStatus));
 		}
 
-		$filterOrder = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'quotation_cdate');
-		$filterOrderDir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		$filterOrder = $this->getState('list.ordering', 'q.quotation_cdate');
+		$filterOrderDir = $this->getState('list.direction', 'desc');
 
 		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
 
@@ -144,7 +178,33 @@ class RedshopModelQuotation extends RedshopModelList
 	 */
 	public function getListQuery()
 	{
-		return $this->_buildQuery();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('q.*')
+			->from($db->qn('#__redshop_quotation', 'q'))
+			->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON q.user_id = uf.user_id')
+			->where('(uf.address_type = ' . $db->q('BT') . ' OR q.user_id = 0)')
+			->group('q.quotation_id');
+
+		$filter = $this->getState('filter');
+		$filter_status = $this->getState('filter_status');
+
+		if ($filter)
+		{
+			$query->where('(uf.firstname LIKE ' . $db->q('%' . $filter . '%') . ' OR uf.lastname LIKE ' . $db->q('%' . $filter . '%') . ')');
+		}
+
+		if ($filter_status != 0)
+		{
+			$query->where('q.quotation_status = ' . $db->q($filter_status));
+		}
+
+		$filterOrder = $this->getState('list.ordering', 'q.quotation_cdate');
+		$filterOrderDir = $this->getState('list.direction', 'desc');
+
+		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
+
+		return $query;
 	}
 
 	/**
@@ -162,56 +222,5 @@ class RedshopModelQuotation extends RedshopModelList
 		{
 			return parent::getItems();
 		}
-	}
-
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_data;
-	}
-
-	public function _buildQuery()
-	{
-		$where = "";
-
-		$filter = $this->getState('filter');
-		$filter_status = $this->getState('filter_status');
-
-		if ($filter)
-		{
-			$where .= " AND (uf.firstname LIKE '%" . $filter . "%' OR uf.lastname LIKE '%" . $filter . "%')";
-		}
-		if ($filter_status != 0)
-		{
-			$where .= " AND q.quotation_status ='" . $filter_status . "' ";
-		}
-		$orderby = $this->_buildContentOrderBy();
-
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS uf ON q.user_id=uf.user_id "
-			. "WHERE uf.address_type Like 'BT' "
-			. $where
-			. "UNION SELECT q.* FROM " . $this->_table_prefix . "quotation AS q WHERE q.user_id=0 "
-			. $orderby;
-
-		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'quotation_cdate');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-
-		$orderby = " ORDER BY " . $db->escape($filter_order . " " . $filter_order_Dir);
-
-		return $orderby;
 	}
 }
