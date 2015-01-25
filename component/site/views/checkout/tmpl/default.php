@@ -188,7 +188,7 @@ else
 			}
 			?>
 		</table>
-		<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm"
+		<form action="<?php echo JRoute::_ ('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="adminForm"
 		      enctype="multipart/form-data">
 			<?php
 			if (REGISTER_METHOD == 2)
