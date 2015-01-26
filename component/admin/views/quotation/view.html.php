@@ -20,14 +20,13 @@ class RedshopViewQuotation extends RedshopView
 	 */
 	public $request_url;
 
+	public $state;
+
 	public function display($tpl = null)
 	{
-		$context = 'quotation_id';
-
 		$quotationHelper = new quotationHelper;
 
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_quotation'));
@@ -38,15 +37,13 @@ class RedshopViewQuotation extends RedshopView
 		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-		$filter_status    = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
+		$this->state = $this->get('State');
+		$filter_status    = $this->state->get('filter_status', 0);
 
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['order']     = $this->state->get('list.ordering', 'q.quotation_cdate');
+		$lists['order_Dir'] = $this->state->get('list.direction', 'desc');
 
-		$quotation  = $this->get('Data');
-		$total      = $this->get('Total');
+		$quotation  = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
 		$optionsection = $quotationHelper->getQuotationStatusList();

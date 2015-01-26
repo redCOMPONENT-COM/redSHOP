@@ -15,7 +15,6 @@ $quotationHelper = new quotationHelper;
 $config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
-$filter = JRequest::getVar('filter');
 $lists = $this->lists;
 $model = $this->getModel('quotation');
 ?>
@@ -45,19 +44,17 @@ $model = $this->getModel('quotation');
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>" method="post"
       name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
-			<tr>
-				<td valign="top" align="right" class="key">
-					<?php echo JText::_('COM_REDSHOP_FILTER'); ?>:
-					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
-					       onchange="document.adminForm.submit();">
-					<?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS') . ": " . $lists['filter_status']; ?>
-					<button
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>" type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>" />
+				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<button class="btn"
 						onclick="document.getElementById('filter').value='';document.getElementById('filter_status').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-
-				</td>
-			</tr>
-		</table>
+			</div>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS') . ": " . $lists['filter_status']; ?>
+		</div>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
