@@ -153,8 +153,11 @@ class RedshopModelOrder extends RedshopModel
 				. ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('uf.order_id')
 			)
 			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
-			->group($db->qn('o.order_id'))
-			->order($this->_buildContentOrderBy(true));
+			->group($db->qn('o.order_id'));
+
+		$filter_order_Dir = $this->getState('list.direction');
+		$filter_order = $this->getState('list.ordering');
+		$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
 
 		return $query;
 	}

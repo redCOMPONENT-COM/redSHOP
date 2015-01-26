@@ -291,7 +291,7 @@ class RedshopModelProduct extends RedshopModel
 		}
 	}
 
-	public function _buildContentOrderBy($JDatabaseQuery = false)
+	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
 
