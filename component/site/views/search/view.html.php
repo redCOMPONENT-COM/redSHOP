@@ -460,9 +460,7 @@ class RedshopViewSearch extends RedshopView
 				// Product category tags
 				if (strstr($data_add, "{category_main_name}") || strstr($data_add, "{returntocategory_name}"))
 				{
-					$currentCategoryId = $producthelper->getCategoryProduct($this->search[$i]->product_id);
-					$currentCategory = $producthelper->getCategoryNameByProductId($this->search[$i]->product_id);
-					$parentCategoryId = $producthelper->getParentCategory($currentCategoryId);
+					$parentCategoryId = $producthelper->getParentCategory($this->search[$i]->category_id);
 
 					if ($parentCategoryId != 0)
 					{
@@ -474,7 +472,7 @@ class RedshopViewSearch extends RedshopView
 						$data_add = str_replace("{returntocategory_name}", '', $data_add);
 					}
 
-					$data_add = str_replace("{category_main_name}", $currentCategory, $data_add);
+					$data_add = str_replace("{category_main_name}", $this->search[$i]->category_name, $data_add);
 				}
 
 				/**
