@@ -11,7 +11,6 @@ JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 $config        = new Redconfiguration;
 
-$filter        = JRequest::getVar('filter');
 $lists         = $this->lists;
 $ordering      = ($this->lists['order'] == 'ordering');
 
@@ -25,7 +24,6 @@ $ordering      = ($this->lists['order'] == 'ordering');
 		}
 
 		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove')
-			|| (pressbutton == 'publish') || (pressbutton == 'unpublish')
 			|| (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
 			form.view.value = "question_detail";
 		}
@@ -41,18 +39,18 @@ $ordering      = ($this->lists['order'] == 'ordering');
 
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
-			<tr>
-				<td valign="top" align="right" class="key">
-					<?php echo JText::_('COM_REDSHOP_FILTER'); ?>:
-					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
-					       onchange="document.adminForm.submit();">
-					<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME') . ": " . $this->lists['product_id']; ?>
-					<button
-						onclick="document.getElementById('filter').value='';document.getElementById('product_id').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-				</td>
-			</tr>
-		</table>
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
+					   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>">
+				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<button class="btn"
+					onclick="document.getElementById('filter').value='';document.getElementById('product_id').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+			</div>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME') . ": " . $this->lists['product_id']; ?>
+		</div>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
