@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$context = 'ddd';
-
 JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewStockroom_listing extends RedshopView
 {
+	public $state;
+
 	/**
 	 * The request url.
 	 *
@@ -24,10 +24,7 @@ class RedshopViewStockroom_listing extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$context2 = 'p.product_id';
-
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_STOCKROOM_LISTING'));
@@ -36,12 +33,9 @@ class RedshopViewStockroom_listing extends RedshopView
 		JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'Export Data', false);
 		JToolBarHelper::custom('print_data', 'save.png', 'save_f2.png', 'Print Data', false);
 
-		$stockroom_type   = $app->getUserStateFromRequest($context2 . 'stockroom_type', 'stockroom_type', 'product');
-		$filter_order     = $app->getUserStateFromRequest($context2 . 'filter_order', 'filter_order', 'p.product_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context2 . 'filter_order_Dir', 'filter_order_Dir', '');
-		$search_field     = $app->getUserStateFromRequest($context2 . 'search_field', 'search_field', '');
-		$keyword          = $app->getUserStateFromRequest($context2 . 'keyword', 'keyword', '');
-		$category_id      = $app->getUserStateFromRequest($context2 . 'category_id', 'category_id', '');
+		$this->state = $this->get('State');
+		$stockroom_type   = $this->state->get('stockroom_type');
+		$category_id      = $this->state->get('category_id');
 
 		// Stockroom type and attribute type
 		$optiontype = array();
@@ -67,16 +61,14 @@ class RedshopViewStockroom_listing extends RedshopView
 			'category_id', 'category_name', $category_id
 		);
 
-		$lists ['order']     = $filter_order;
-		$lists ['order_Dir'] = $filter_order_Dir;
+		$lists ['order']     = $this->state->get('list.ordering', 'p.product_id');
+		$lists ['order_Dir'] = $this->state->get('list.direction');
 
 		$resultlisting = $this->get('Data');
 		$stockroom     = $this->get('Stockroom');
 		$pagination    = $this->get('Pagination');
 
 		$this->lists = $lists;
-		$this->keyword = $keyword;
-		$this->search_field = $search_field;
 		$this->resultlisting = $resultlisting;
 		$this->stockroom = $stockroom;
 		$this->stockroom_type = $stockroom_type;
