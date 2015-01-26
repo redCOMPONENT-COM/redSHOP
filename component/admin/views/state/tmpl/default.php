@@ -33,7 +33,7 @@ $filter = JRequest::getVar('filter');
 	}
 </script>
 
-<form action="<?php echo 'index.php?option=com_redshop&view=state'; ?>" class="admin" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo 'index.php?option=com_redshop'; ?>" class="admin" method="post" name="adminForm" id="adminForm">
 	<div class="filterItem">
 		<div class="btn-wrapper input-append">
 			<input type="text" name="country_main_filter" id="country_main_filter" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER');  ?>"
@@ -104,6 +104,7 @@ $filter = JRequest::getVar('filter');
 		</td>
 		</tfoot>
 	</table>
+	<input type="hidden" name="view" value="state">
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
