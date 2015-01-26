@@ -213,7 +213,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			}
 
 			// If file selected from download folder...
-			if ($post['hdn_download_file'] != "")
+			if (isset($post['hdn_download_file']) && $post['hdn_download_file'] != "")
 			{
 				if ($post['media_type'] == 'download')
 				{
