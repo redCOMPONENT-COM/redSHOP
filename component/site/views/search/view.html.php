@@ -138,7 +138,6 @@ class RedshopViewSearch extends RedshopView
 			$app = JFactory::getApplication();
 
 			JLoader::load('RedshopHelperProduct');
-			JLoader::load('RedshopHelperPagination');
 			JLoader::load('RedshopHelperExtra_field');
 			JLoader::load('RedshopHelperAdminText_library');
 
