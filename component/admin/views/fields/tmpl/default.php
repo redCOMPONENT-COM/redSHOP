@@ -33,7 +33,7 @@ $redtemplate = new Redtemplate;
 		form.submit();
 	};
 </script>
-<form action="<?php echo 'index.php?option=com_redshop&view=fields'; ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<div class="filterItem">
 			<div class="btn-wrapper input-append">
@@ -151,7 +151,7 @@ $redtemplate = new Redtemplate;
 			</tfoot>
 		</table>
 	</div>
-
+	<input type="hidden" name="view" value="fields">
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
