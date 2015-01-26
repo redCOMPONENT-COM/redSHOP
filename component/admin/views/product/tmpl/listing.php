@@ -31,11 +31,14 @@ $model = $this->getModel('product');
 
 </script>
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo 'index.php?option=com_redshop&view=product&layout=listing'; ?>" method="post" name="adminForm" id="adminForm">
+	<div class="filterItem">
 	<div class="btn-wrapper input-append">
 		<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
 		<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
 	</div>
+	</div>
+	<div class="filterItem">
 	<select name="search_field" onchange="javascript:document.adminForm.submit();">
 		<option
 			value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
@@ -44,7 +47,7 @@ $model = $this->getModel('product');
 		<option
 			value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
 	</select>
-
+	</div>
 	<div id="editcell">
 		<table class="adminlist table table-striped">
 			<thead>
@@ -126,8 +129,7 @@ $model = $this->getModel('product');
 		</table>
 	</div>
 
-	<input type="hidden" name="view" value="product"/>
-	<input type="hidden" name="task" value="listing"/>
+	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>

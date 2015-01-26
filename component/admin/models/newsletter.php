@@ -14,63 +14,42 @@ JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelNewsletter extends RedshopModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
 	{
-		parent::__construct();
+		$id .= ':' . $this->getState('filter');
 
-		$app = JFactory::getApplication();
-		$this->_context = 'newsletter_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'newsletter_id', $direction = '')
+	{
+		$filter = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
 		$this->setState('filter', $filter);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-	}
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
@@ -81,10 +60,10 @@ class RedshopModelNewsletter extends RedshopModel
 
 		if ($filter)
 		{
-			$where = " WHERE n.name like '%" . $filter . "%' ";
+			$where = " AND n.name like '%" . $filter . "%' ";
 		}
 
-		$query = 'SELECT distinct(n.newsletter_id),n.* FROM ' . $this->_table_prefix . 'newsletter AS n '
+		$query = 'SELECT distinct(n.newsletter_id),n.* FROM #__redshop_newsletter AS n '
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
@@ -92,23 +71,10 @@ class RedshopModelNewsletter extends RedshopModel
 		return $query;
 	}
 
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'newsletter_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
-	}
-
 	public function getnewsletter_content($newsletter_id)
 	{
-		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM ' . $this->_table_prefix . 'newsletter AS n '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'template AS nt ON n.template_id=nt.template_id '
+		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM #__redshop_newsletter AS n '
+			. 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.template_id '
 			. 'WHERE n.published=1 '
 			. 'AND n.newsletter_id="' . $newsletter_id . '" ';
 		$this->_db->setQuery($query);
@@ -119,7 +85,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function getnewsletterproducts_content()
 	{
-		$query = 'SELECT nt.template_desc FROM ' . $this->_table_prefix . 'template as nt '
+		$query = 'SELECT nt.template_desc FROM #__redshop_template as nt '
 			. 'WHERE nt.template_section="newsletter_product" ';
 		$this->_db->setQuery($query);
 
@@ -128,7 +94,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function getProductIdList()
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product WHERE published=1';
+		$query = 'SELECT * FROM #__redshop_product WHERE published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -136,7 +102,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function noofsubscribers($nid)
 	{
-		$query = 'SELECT count(*) FROM ' . $this->_table_prefix . 'newsletter_subscription WHERE newsletter_id=' . $nid . ' AND published=1';
+		$query = 'SELECT count(*) FROM #__redshop_newsletter_subscription WHERE newsletter_id=' . (int) $nid . ' AND published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -175,7 +141,7 @@ class RedshopModelNewsletter extends RedshopModel
 		if ($cityfilter != "")
 		{
 			// City field filter
-			$query = "SELECT field_id FROM " . $this->_table_prefix . "fields WHERE field_name like 'field_city' ";
+			$query = "SELECT field_id FROM #__redshop_fields WHERE field_name like 'field_city' ";
 			$this->_db->setQuery($query);
 			$cityfieldid = $this->_db->loadResult();
 
@@ -210,10 +176,10 @@ class RedshopModelNewsletter extends RedshopModel
 
 		if ($cityfilter != "")
 		{
-			$query = 'SELECT uf.firstname,uf.lastname,u.username,ns.* FROM ' . $this->_table_prefix . 'newsletter_subscription AS ns '
-				. ', ' . $this->_table_prefix . 'users_info AS uf '
+			$query = 'SELECT uf.firstname,uf.lastname,u.username,ns.* FROM #__redshop_newsletter_subscription AS ns '
+				. ', #__redshop_users_info AS uf '
 				. ', #__users AS u '
-				. ', ' . $this->_table_prefix . 'fields_data AS f '
+				. ', #__redshop_fields_data AS f '
 				. 'WHERE ns.newsletter_id="' . $n . '" '
 				. 'AND ns.published=1 AND u.id=ns.user_id '
 				. 'AND ns.user_id=uf.user_id '
@@ -222,9 +188,9 @@ class RedshopModelNewsletter extends RedshopModel
 		}
 		else
 		{
-			$query = "SELECT ns.*,u.username,uf.address_type,uf.firstname,uf.lastname FROM " . $this->_table_prefix . "newsletter_subscription AS ns "
+			$query = "SELECT ns.*,u.username,uf.address_type,uf.firstname,uf.lastname FROM #__redshop_newsletter_subscription AS ns "
 				. "LEFT JOIN #__users AS u ON ns.user_id = u.id "
-				. "LEFT JOIN " . $this->_table_prefix . "users_info AS uf ON uf.user_id = ns.user_id "
+				. "LEFT JOIN #__redshop_users_info AS uf ON uf.user_id = ns.user_id "
 				. "WHERE (uf.address_type = 'BT' OR uf.address_type IS NULL) "
 				. "AND ns.newsletter_id='" . $n . "' "
 				. "AND published=1 "
@@ -238,8 +204,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function subscribersinfo($subscriberid)
 	{
-		$query = 'SELECT IFNULL(u.email,s.email) AS email,IFNULL(u.username,s.name) AS username FROM '
-			. $this->_table_prefix . 'newsletter_subscription AS s '
+		$query = 'SELECT IFNULL(u.email,s.email) AS email,IFNULL(u.username,s.name) AS username FROM #__redshop_newsletter_subscription AS s '
 			. 'LEFT JOIN #__users as u ON  u.id=s.user_id '
 			. 'WHERE s.subscription_id="' . $subscriberid . '" '
 			. 'AND published=1 ';
@@ -258,9 +223,9 @@ class RedshopModelNewsletter extends RedshopModel
 		if (count($categories) > 0)
 		{
 			$categories_ids = implode("','", $categories);
-			$query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref AS pcx "
-				. "LEFT JOIN " . $this->_table_prefix . "order_item AS oi ON pcx.product_id = oi.product_id "
-				. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oi.order_id "
+			$query = "SELECT * FROM #__redshop_product_category_xref AS pcx "
+				. "LEFT JOIN #__redshop_order_item AS oi ON pcx.product_id = oi.product_id "
+				. "LEFT JOIN #__redshop_orders AS o ON o.order_id = oi.order_id "
 				. "WHERE o.user_id='" . $uid . "' "
 				. "AND category_id IN ('" . $categories_ids . "') ";
 			$this->_db->setQuery($query);
@@ -283,8 +248,8 @@ class RedshopModelNewsletter extends RedshopModel
 		if (count($product) > 0)
 		{
 			$product_ids = implode("','", $product);
-			$query = "SELECT o.* FROM " . $this->_table_prefix . "orders AS o "
-				. "LEFT JOIN " . $this->_table_prefix . "order_item AS oi ON o.order_id=oi.order_id "
+			$query = "SELECT o.* FROM #__redshop_orders AS o "
+				. "LEFT JOIN #__redshop_order_item AS oi ON o.order_id=oi.order_id "
 				. "WHERE o.user_id='" . $user_id . "' "
 				. "AND product_id IN ('" . $product_ids . "') ";
 			$this->_db->setQuery($query);
@@ -331,7 +296,7 @@ class RedshopModelNewsletter extends RedshopModel
 				break;
 		}
 
-		$query = "SELECT COUNT(*) AS total,order_total FROM " . $this->_table_prefix . "orders "
+		$query = "SELECT COUNT(*) AS total,order_total FROM #__redshop_orders "
 			. "GROUP BY user_id "
 			. "HAVING total " . $cond . $order_total . " AND user_id =" . $uid;
 		$this->_db->setQuery($query);
@@ -349,7 +314,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function getContry()
 	{
-		$query = "SELECT country_3_code as value, country_name as text from " . $this->_table_prefix . "country";
+		$query = "SELECT country_3_code as value, country_name as text from #__redshop_country";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -357,7 +322,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function getProduct()
 	{
-		$query = "SELECT product_name as text, product_id as value from " . $this->_table_prefix . "product"
+		$query = "SELECT product_name as text, product_id as value from #__redshop_product"
 			. " ORDER BY product_id	";
 		$this->_db->setQuery($query);
 
@@ -366,7 +331,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function getShopperGroup()
 	{
-		$query = "SELECT shopper_group_id as value,shopper_group_name as text FROM `" . $this->_table_prefix . "shopper_group`	";
+		$query = "SELECT shopper_group_id as value,shopper_group_name as text FROM `#__redshop_shopper_group`	";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -374,7 +339,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function getShoppers($shopperid)
 	{
-		$query = "SELECT * FROM `" . $this->_table_prefix . "users_info` WHERE `shopper_group_id` IN (" . $shopperid . ")";
+		$query = "SELECT * FROM `#__redshop_users_info` WHERE `shopper_group_id` IN (" . $shopperid . ")";
 		$this->_db->setQuery($query);
 		$data = $this->_db->loadObjectlist();
 		$userid = array();
@@ -391,7 +356,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function getNewsletterSubscriber($newsletter_id, $subscription_id)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "newsletter_subscription "
+		$query = "SELECT * FROM #__redshop_newsletter_subscription "
 			. "where newsletter_id='" . $newsletter_id . "' "
 			. "AND subscription_id='" . $subscription_id . "' ";
 
@@ -537,7 +502,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 				$unsub_link = $url . 'index.php?option=com_redshop&view=newsletter&task=unsubscribe&email1=' . $subscribe_email;
 
-				$query = "INSERT INTO `" . $this->_table_prefix . "newsletter_tracker` "
+				$query = "INSERT INTO `#__redshop_newsletter_tracker` "
 					. "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  "
 					. "VALUES ('', '" . $newsletter_id . "', '" . $cid[$j] . "', '" . $username[$j] . "', '" . $userid[$j] . "',0, '" . $today . "')";
 				$db->setQuery($query);

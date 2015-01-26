@@ -38,21 +38,18 @@ $redtemplate = new Redtemplate;
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table width="100%">
-			<tr>
-				<td valign="top" align="left" class="key">
-					<?php echo JText::_('COM_REDSHOP_MAIL_SECTION') . ": " . $this->lists['mailsection']; ?>
-					<?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>:
-					<div class="btn-wrapper input-append">
-					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
-					       onchange="document.adminForm.submit();">
-					<button onclick="this.form.submit();" class="btn"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button class="btn"
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
+					   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>">
+				<button onclick="this.form.submit();" class="btn"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
+				<button class="btn"
 						onclick="document.getElementById('filter').value='';document.getElementById('filter_section').value=0;this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-					</div>
-				</td>
-			</tr>
-		</table>
+			</div>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_MAIL_SECTION') . ": " . $this->lists['mailsection']; ?>
+		</div>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
