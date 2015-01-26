@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 class RedshopViewTextlibrary extends RedshopView
 {
+	public $state;
+
 	public function display($tpl = null)
 	{
 		$context = 'textlibrary_id';
@@ -31,10 +33,7 @@ class RedshopViewTextlibrary extends RedshopView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'textlibrary_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$section = $app->getUserStateFromRequest($context . 'section', 'section', 0);
+		$this->state = $this->get('State');
 
 		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -43,14 +42,13 @@ class RedshopViewTextlibrary extends RedshopView
 		$optionsection[] = JHTML::_('select.option', 'newsletter', JText::_('COM_REDSHOP_Newsletter'));
 
 		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'section',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $section
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $this->state->get('section')
 		);
 
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['order']     = $this->state->get('list.ordering', 'textlibrary_id');
+		$lists['order_Dir'] = $this->state->get('list.direction');
 
 		$textlibrarys       = $this->get('Data');
-		$total              = $this->get('Total');
 		$pagination         = $this->get('Pagination');
 
 		$this->user         = JFactory::getUser();
