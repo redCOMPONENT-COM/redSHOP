@@ -27,7 +27,7 @@ class RedshopModelCatalog extends RedshopModel
 		parent::__construct();
 
 		$app = JFactory::getApplication();
-		$this->_context = 'sample_id';
+		$this->_context = 'catalog_id';
 		$this->_table_prefix = '#__redshop_';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
