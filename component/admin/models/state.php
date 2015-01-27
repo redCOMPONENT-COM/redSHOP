@@ -12,67 +12,46 @@ defined('_JEXEC') or die;
 
 class RedshopModelState extends RedshopModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
 	{
-		parent::__construct();
+		$id .= ':' . $this->getState('country_id_filter');
+		$id .= ':' . $this->getState('country_main_filter');
 
-		$app = JFactory::getApplication();
+		return parent::getStoreId($id);
+	}
 
-		$this->_context = 'state_id';
-
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$country_id_filter = $app->getUserStateFromRequest($this->_context . 'country_id_filter', 'country_id_filter', 0);
-		$country_main_filter = $app->getUserStateFromRequest($this->_context . 'country_main_filter', 'country_main_filter', '');
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'state_id', $direction = '')
+	{
+		$country_id_filter = $this->getUserStateFromRequest($this->context . '.country_id_filter', 'country_id_filter', 0);
+		$country_main_filter = $this->getUserStateFromRequest($this->context . '.country_main_filter', 'country_main_filter', '');
 
 		$this->setState('country_id_filter', $country_id_filter);
 		$this->setState('country_main_filter', $country_main_filter);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-	}
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
@@ -98,28 +77,15 @@ class RedshopModelState extends RedshopModel
 			$andcondition = "s.state_name like '" . $country_main_filter . "%' || s.state_3_code = '" . $country_main_filter
 				. "' || s.state_2_code='" . $country_main_filter . "'";
 		}
-		$query = 'SELECT distinct(s.state_id),s . * , c.country_name FROM `' . $this->_table_prefix . 'state` AS s '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON s.country_id = c.country_id WHERE ' . $andcondition . $orderby;
+		$query = 'SELECT distinct(s.state_id),s . * , c.country_name FROM `#__redshop_state` AS s '
+			. 'LEFT JOIN #__redshop_country AS c ON s.country_id = c.country_id WHERE ' . $andcondition . $orderby;
 
 		return $query;
 	}
 
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'state_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
-	}
-
 	public function getCountryName($country_id)
 	{
-		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
+		$query = "SELECT  c.country_name from #__redshop_country AS c where c.country_id=" . $country_id;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();

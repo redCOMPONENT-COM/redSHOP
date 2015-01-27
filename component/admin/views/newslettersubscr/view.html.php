@@ -26,12 +26,11 @@ class RedshopViewNewslettersubscr extends RedshopView
 	 */
 	public $request_url;
 
+	public $state;
+
 	public function display($tpl = null)
 	{
-		$context = 'subscription_id';
-
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR'));
@@ -66,14 +65,11 @@ class RedshopViewNewslettersubscr extends RedshopView
 			$lists['newsletters'] = JHTML::_('select.genericlist', $newsletters, 'newsletter_id', 'class="inputbox" size="1" ', 'value', 'text', '');
 		}
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'subscription_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$this->state = $this->get('State');
+		$lists['order']     = $this->state->get('list.ordering', 'subscription_id');
+		$lists['order_Dir'] = $this->state->get('list.direction');
 
 		$newslettersubscrs = $this->get('Data');
-		$total             = $this->get('Total');
 		$pagination        = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();
