@@ -51,7 +51,7 @@ $model         = $this->getModel('user');
 	}
 </script>
 
-<form action="index.php?option=com_redshop&view=user" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div class="filterItem">
 		<div class="btn-wrapper input-append">
 			<input
@@ -156,6 +156,7 @@ $model         = $this->getModel('user');
 			</tfoot>
 		</table>
 	</div>
+	<input type="hidden" name="view" value="user"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists ['order']; ?>"/>
