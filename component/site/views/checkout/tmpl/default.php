@@ -308,10 +308,7 @@ else
 			<input type="hidden" name="groups[]" value="2"/>
 			<input type="hidden" name="is_company" id="is_company" value="<?php echo $is_company; ?>"/>
 			<input type="hidden" name="shopper_group_id" value="1"/>
-			<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="task" value="checkoutprocess"/>
-			<input type="hidden" name="view" value="checkout"/>
 
 		</form>
 <?php
