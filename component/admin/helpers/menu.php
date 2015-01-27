@@ -267,7 +267,7 @@ class leftmenu
 		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=product', 'COM_REDSHOP_PRODUCT_LISTING');
-			echo $this->generateMenuItem('index.php?option=com_redshop&view=product&layout=listing', 'COM_REDSHOP_PRODUCT_PRICE_VIEW');
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=product&task=listing', 'COM_REDSHOP_PRODUCT_PRICE_VIEW');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=product_detail', 'COM_REDSHOP_ADD_PRODUCT');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=mass_discount_detail', 'COM_REDSHOP_ADD_MASS_DISCOUNT');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=mass_discount', 'COM_REDSHOP_MASS_DISCOUNT');

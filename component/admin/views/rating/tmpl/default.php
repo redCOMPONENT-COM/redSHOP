@@ -13,6 +13,7 @@ $model = $this->getModel('rating');
 $config = new Redconfiguration;
 $url = JURI::base();
 $order_functions = new order_functions;
+$comment = JRequest::getVar('comment_filter');
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -43,14 +44,16 @@ $order_functions = new order_functions;
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="comment_filter" id="comment_filter" value="<?php echo $this->state->get('comment_filter'); ?>">
-				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<input type="reset" class="btn" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-					   onclick="return clearreset();">
-			</div>
-		</div>
+		<table width="100%">
+			<tr>
+				<td valign="top" align="right" class="key">
+					<?php echo JText::_('COM_REDSHOP_RATING_FILTER'); ?>:
+					<input type="text" name="comment_filter" id="comment_filter" value="<?php echo $comment; ?>">
+					<input type="reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+					       onclick="return clearreset();">
+				</td>
+			</tr>
+		</table>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>

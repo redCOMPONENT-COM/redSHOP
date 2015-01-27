@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 
 class RedshopViewRating extends RedshopView
 {
-	public $state;
-
 	public function display($tpl = null)
 	{
+		$context = "rating";
+
 		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$user     = JFactory::getUser();
 
@@ -30,11 +31,14 @@ class RedshopViewRating extends RedshopView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$this->state = $this->get('State');
-		$lists['order']     = $this->state->get('list.ordering', 'rating_id');
-		$lists['order_Dir'] = $this->state->get('list.direction', 'desc');
+		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'rating_id');
+		$filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$lists['order']     = $filter_order;
+		$lists['order_Dir'] = $filter_order_Dir;
 
 		$ratings            = $this->get('Data');
+		$total              = $this->get('Total');
 		$pagination         = $this->get('Pagination');
 
 		$this->user         = $user;

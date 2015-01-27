@@ -12,49 +12,65 @@ defined('_JEXEC') or die;
 
 class RedshopModelFields extends RedshopModel
 {
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
-	 */
-	protected function getStoreId($id = '')
-	{
-		$id .= ':' . $this->getState('filter');
-		$id .= ':' . $this->getState('filtertype');
-		$id .= ':' . $this->getState('filtersection');
+	public $_data = null;
 
-		return parent::getStoreId($id);
-	}
+	public $_total = null;
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 */
-	protected function populateState($ordering = 'ordering', $direction = '')
+	public $_pagination = null;
+
+	public $_context = null;
+
+	public function __construct()
 	{
-		$filter         = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$filtertype     = $this->getUserStateFromRequest($this->context . '.filtertype', 'filtertype', 0);
-		$filtersection  = $this->getUserStateFromRequest($this->context . '.filtersection', 'filtersection', 0);
+		parent::__construct();
+
+		$app            = JFactory::getApplication();
+		$this->_context = 'field_id';
+		$limit          = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart     = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter         = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filtertype     = $app->getUserStateFromRequest($this->_context . 'filtertypes', 'filtertypes', 0);
+		$filtersection  = $app->getUserStateFromRequest($this->_context . 'filtersection', 'filtersection', 0);
+		$limitstart     = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('filter', $filter);
+		$this->setState('limit', $limit);
+		$this->setState('limitstart', $limitstart);
 		$this->setState('filtertype', $filtertype);
 		$this->setState('filtersection', $filtersection);
+	}
 
-		parent::populateState($ordering, $direction);
+	public function getData()
+	{
+		if (empty($this->_data))
+		{
+			$query = $this->_buildQuery();
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		}
+
+		return $this->_data;
+	}
+
+	public function getTotal()
+	{
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
+		}
+
+		return $this->_total;
+	}
+
+	public function getPagination()
+	{
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+		}
+
+		return $this->_pagination;
 	}
 
 	public function _buildQuery()
@@ -92,19 +108,21 @@ class RedshopModelFields extends RedshopModel
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
-		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order = $this->getState('list.ordering');
+		$app = JFactory::getApplication();
+
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		if ($filter_order == 'ordering')
 		{
-			$orderBy = ' ORDER BY field_section, ordering ' . $filter_order_Dir;
+			$orderby = ' ORDER BY field_section, ordering ' . $filter_order_Dir;
 		}
 		else
 		{
-			$orderBy = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir) . ', field_section, ordering';
+			$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir) . ', field_section, ordering';
 		}
 
-		return $orderBy;
+		return $orderby;
 	}
 
 	/**
