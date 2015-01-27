@@ -28,10 +28,7 @@ class RedshopViewSupplier extends RedshopView
 
 	public function display($tpl = null)
 	{
-		global $context;
-
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_SUPPLIER'));
@@ -44,14 +41,14 @@ class RedshopViewSupplier extends RedshopView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'supplier_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$state = $this->get('State');
+		$filter_order     = $state->get('list.ordering', 'supplier_id');
+		$filter_order_Dir = $state->get('list.direction');
 
 		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
 
 		$supplier   = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();

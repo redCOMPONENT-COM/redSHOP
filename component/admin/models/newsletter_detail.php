@@ -252,13 +252,16 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			if ($newsletter_id != 0)
 			{
 				$totalread = $this->getReadNewsletter($data[$d]->newsletter_id);
+				$qs[0] = new stdClass;
 				$qs[0]->xdata = JText::_('COM_REDSHOP_NO_OF_UNREAD_NEWSLETTER');
 				$qs[0]->ydata = $totalresult - $totalread;
+				$qs[1] = new stdClass;
 				$qs[1]->xdata = JText::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER');
 				$qs[1]->ydata = $totalread;
 			}
 			else
 			{
+				$qs[$d] = new stdClass;
 				$qs[$d]->xdata = $data[$d]->name;
 				$qs[$d]->ydata = $totalresult;
 			}
