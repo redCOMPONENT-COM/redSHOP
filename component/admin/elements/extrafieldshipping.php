@@ -29,7 +29,11 @@ class JFormFieldExtraFieldShipping extends JFormFieldList
 	 */
 	public $type = 'extrafieldshipping';
 
-
+	/**
+	 * Get Extra field info as an option
+	 *
+	 * @return  array  Extra Field list
+	 */
 	protected function getOptions()
 	{
 		// Initialiase variables.
