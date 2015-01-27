@@ -214,7 +214,7 @@ class RedshopControllerProduct extends RedshopController
 									$redview,
 									$redlayout
 								);
-			$mainImageResponse = $result['mainImageResponse'];
+			$mainImageResponse = $result['product_mainimg'];
 		}
 
 		$response                      = $result['response'];
