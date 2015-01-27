@@ -50,7 +50,12 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
 		$I->click('Save & Close');
 		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
-		$I->click('ID');
+
+		if ($type == "Check box")
+		{
+			$I->click('ID');
+		}
+
 		$I->click('ID');
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
