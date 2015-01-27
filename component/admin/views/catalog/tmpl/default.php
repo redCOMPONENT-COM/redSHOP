@@ -20,7 +20,7 @@ $model = $this->getModel('catalog');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+		if ((pressbutton == 'add') || (pressbutton == 'edit')
 			|| (pressbutton == 'remove')) {
 			form.view.value = "catalog_detail";
 		}

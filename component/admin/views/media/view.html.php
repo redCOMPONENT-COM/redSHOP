@@ -51,7 +51,7 @@ class RedshopViewMedia extends RedshopView
 		$this->state = $this->get('State');
 
 		$media_type       = $this->state->get('media_type', 0);
-		$media_section    = $this->state->get('media_section', 0);
+		$filter_media_section    = $this->state->get('filter_media_section', 0);
 
 		$optiontype = array();
 		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -77,8 +77,8 @@ class RedshopViewMedia extends RedshopView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_type
 		);
 
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_section
+		$lists['filter_media_section'] = JHTML::_('select.genericlist', $optionsection, 'filter_media_section',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $filter_media_section
 		);
 
 		$media = $this->get('Data');

@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$filter = JRequest::getVar('filter');
 $pagination = $this->pagination;
 $ordering = ($this->lists['order'] == 'ordering');
 $redtemplate = new Redtemplate;
@@ -36,21 +35,22 @@ $redtemplate = new Redtemplate;
 </script>
 <form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table width="100%">
-			<tr>
-				<td valign="top" align="left" class="key">
-					<?php echo JText::_('COM_REDSHOP_FIELD_TYPE'); ?>&nbsp;:&nbsp;<?php echo $this->lists['type'];?>
-					<?php echo JText::_('COM_REDSHOP_FIELD_SECTION'); ?>
-					&nbsp;:&nbsp;<?php echo $this->lists['section'];?>
-					<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
-					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
-					       onchange="document.adminForm.submit();">
-					<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button
-						onclick="document.getElementById('filter').value='';document.getElementById('filtertype').value='0';document.getElementById('filtersection').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-				</td>
-			</tr>
-		</table>
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
+					   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>">
+				<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
+				<button class="btn"
+					onclick="document.getElementById('filter').value='';document.getElementById('filtertype').value='0';document.getElementById('filtersection').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+			</div>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_FIELD_TYPE'); ?>&nbsp;:&nbsp;<?php echo $this->lists['type'];?>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_FIELD_SECTION'); ?>
+			&nbsp;:&nbsp;<?php echo $this->lists['section'];?>
+		</div>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
@@ -151,8 +151,7 @@ $redtemplate = new Redtemplate;
 			</tfoot>
 		</table>
 	</div>
-
-	<input type="hidden" name="view" value="fields"/>
+	<input type="hidden" name="view" value="fields">
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>

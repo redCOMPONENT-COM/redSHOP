@@ -45,34 +45,24 @@ $model         = $this->getModel('user');
 	resetfilter = function()
 	{
 		document.getElementById('filter').value = '';
-		document.getElementById('filter_by').value = '';
 		document.getElementById('tax_exempt_request_filter').value = 'select';
 		document.getElementById('spgrp_filter').value = '0';
-		document.getElementById('approved_filter').value = 'select';
-		this.form.submit();
+		document.adminForm.submit();
 	}
 </script>
 
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
-	<div class="form-inline navbar-form">
-		<label>
-			<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER');?>
-			<?php echo $this->lists ['shopper_group'];?>
-		</label>
-		<label>
-			<?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED');?>
-			<?php echo $this->lists ['tax_exempt_request'];?>
-		</label>
-		<div class="input-append">
+	<div class="filterItem">
+		<div class="btn-wrapper input-append">
 			<input
 				type="text"
 				class="input-medium"
 				name="filter"
 				id="filter"
-				value="<?php echo $filter; ?>"
+				value="<?php echo $this->state->get('filter'); ?>"
 				placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER');?>"
-			>
-			<button class="btn" type="button" onclick="this.form.submit();">
+				>
+			<button class="btn" type="submit">
 				<?php echo JText::_('COM_REDSHOP_GO');?>
 			</button>
 			<button class="btn" type="button" onclick="resetfilter();">
@@ -80,7 +70,14 @@ $model         = $this->getModel('user');
 			</button>
 		</div>
 	</div>
-
+	<div class="filterItem">
+		<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER');?>
+		<?php echo $this->lists ['shopper_group'];?>
+	</div>
+	<div class="filterItem">
+		<?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED');?>
+		<?php echo $this->lists ['tax_exempt_request'];?>
+	</div>
 	<div id="editcell">
 		<table class="adminlist table table-striped">
 			<thead>
