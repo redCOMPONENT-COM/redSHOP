@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+		if ((pressbutton == 'add') || (pressbutton == 'edit')
 			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
 			form.view.value = "shopper_group_detail";
 		}
