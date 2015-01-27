@@ -140,12 +140,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 					{
 						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name='
-							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg, 'warning'
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 					}
 				}
 			}
@@ -213,7 +213,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			}
 
 			// If file selected from download folder...
-			if ($post['hdn_download_file'] != "")
+			if (isset($post['hdn_download_file']) && $post['hdn_download_file'] != "")
 			{
 				if ($post['media_type'] == 'download')
 				{
@@ -272,12 +272,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 					{
 						$this->setRedirect('index.php?tmpl=component&option=' . $option
 							. '&view=media_detail&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
-							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg, 'warning'
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 					}
 				}
 			}
@@ -412,12 +412,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 										{
 											$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name']
-												. '&media_section=' . $post['media_section'], $msg
+												. '&media_section=' . $post['media_section'], $msg, 'warning'
 											);
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+											$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 										}
 									}
 								}
@@ -463,12 +463,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 										{
 											$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-												. $post['media_section'], $msg
+												. $post['media_section'], $msg, 'warning'
 											);
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+											$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 										}
 									}
 								}
@@ -520,12 +520,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 											. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-											. $post['media_section'], $msg
+											. $post['media_section'], $msg, 'warning'
 										);
 									}
 									else
 									{
-										$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+										$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 									}
 								}
 							}
@@ -585,12 +585,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 											. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-											. $post['media_section'], $msg
+											. $post['media_section'], $msg, 'warning'
 										);
 									}
 									else
 									{
-										$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+										$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 									}
 								}
 							}
@@ -607,28 +607,28 @@ class RedshopControllerMedia_Detail extends RedshopController
 					{
 						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-							. $post['media_section'], $msg
+							. $post['media_section'], $msg, 'warning'
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 					}
 				}
 				else
 				{
-					$msg = JText::_('COM_REDSHOP_FILE_EXTENSION_WRONG');
+					$msg = JText::_('COM_REDSHOP_MEDIA_FILE_EXTENSION_WRONG');
 
 					if (isset($post['set']))
 					{
 						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-							. $post['media_section'], $msg
+							. $post['media_section'], $msg, 'warning'
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 					}
 				}
 			}
@@ -646,18 +646,18 @@ class RedshopControllerMedia_Detail extends RedshopController
 						&& $filetype != 'swf' && $filetype != 'pdf' && $post['media_type'] != 'download'
 						&& $post['media_type'] != 'document')
 					{
-						$msg = JText::_('COM_REDSHOP_FILE_EXTENSION_WRONG');
+						$msg = JText::_('COM_REDSHOP_MEDIA_FILE_EXTENSION_WRONG');
 
 						if (isset($post['set']))
 						{
 							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-								. $post['media_section'], $msg
+								. $post['media_section'], $msg, 'warning'
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 						}
 					}
 					elseif ($post['media_section'] == '0')
@@ -668,12 +668,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 						{
 							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-								. $post['media_section'], $msg
+								. $post['media_section'], $msg, 'warning'
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 						}
 					}
 					elseif ($post['bulk'] != 'yes' && $post['bulk'] != 'no')
@@ -684,12 +684,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 						{
 							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-								. $post['media_section'], $msg
+								. $post['media_section'], $msg, 'warning'
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 						}
 					}
 
@@ -701,12 +701,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 						{
 							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-								. $post['media_section'], $msg
+								. $post['media_section'], $msg, 'warning'
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 						}
 					}
 					else
@@ -763,12 +763,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 							{
 								$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 									. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
-									. $post['media_section'], $msg
+									. $post['media_section'], $msg, 'warning'
 								);
 							}
 							else
 							{
-								$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
+								$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'warning');
 							}
 						}
 					}
