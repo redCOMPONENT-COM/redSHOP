@@ -15,6 +15,12 @@ JLoader::load('RedshopHelperAdminMedia');
 
 class RedshopModelMedia extends RedshopModel
 {
+	public $_data = null;
+
+	public $_total = null;
+
+	public $_pagination = null;
+
 	/**
 	 * Constructor.
 	 *
@@ -26,8 +32,7 @@ class RedshopModelMedia extends RedshopModel
 	{
 		parent::__construct($config);
 
-		$jInput = JFactory::getApplication()->input;
-		$this->context .= '.' . $jInput->getCmd('media_section', 'none') . '.' . $jInput->getInt('section_id', 0);
+		$this->context .= '.' . JFactory::$application->input->getWord('tmpl', '');
 	}
 
 	/**
@@ -46,7 +51,7 @@ class RedshopModelMedia extends RedshopModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . $this->getState('filter_media_section');
+		$id .= ':' . $this->getState('media_section');
 		$id .= ':' . $this->getState('media_type');
 
 		return parent::getStoreId($id);
@@ -62,12 +67,12 @@ class RedshopModelMedia extends RedshopModel
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
-	protected function populateState($ordering = 'media_id', $direction = 'desc')
+	protected function populateState($ordering = 'ordering', $direction = 'desc')
 	{
-		$filter_media_section = $this->getUserStateFromRequest($this->context . '.filter_media_section', 'filter_media_section', 0);
-		$this->setState('filter_media_section', $filter_media_section);
+		$media_section = $this->getUserStateFromRequest($this->context . 'media_section', 'media_section', 0);
+		$this->setState('media_section', $media_section);
 
-		$media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
+		$media_type = $this->getUserStateFromRequest($this->context . 'media_type', 'media_type', '');
 		$this->setState('media_type', $media_type);
 
 		$folder = JRequest::getVar('folder', '', '', 'path');
@@ -82,34 +87,29 @@ class RedshopModelMedia extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('m.*')
-			->from($db->qn('#__redshop_media', 'm'));
+		$where = "";
+		$media_section = $this->getState('media_section');
+		$media_type = $this->getState('media_type');
+		$section_id = JRequest::getVar('section_id');
 
-		if ($filterMediaSection = $this->getState('filter_media_section'))
+		if ($media_section)
 		{
-			$query->where('media_section = ' . $db->q($filterMediaSection));
+			$where .= "AND media_section = '" . $media_section . "' ";
 		}
-		elseif ($mediaSection = $app->input->getCmd('media_section', ''))
+		if ($section_id)
 		{
-			$query->where('media_section = ' . $db->q($mediaSection));
-
-			if ($section_id = $app->input->getInt('section_id', 0))
-			{
-				$query->where('section_id = ' . (int) $section_id);
-			}
+			$where .= "AND section_id = '" . $section_id . "' ";
 		}
-
-		if ($media_type = $this->getState('media_type'))
+		if ($media_type)
 		{
-			$query->where('media_type = ' . $db->q($media_type));
+			$where .= "AND media_type='" . $media_type . "' ";
 		}
+		$orderby = $this->_buildContentOrderBy();
 
-		$filterOrderDir = $this->getState('list.direction');
-		$filterOrder = $this->getState('list.ordering');
-		$query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
+		$query = 'SELECT distinct(m.media_id),m.* FROM #__redshop_media AS m '
+			. 'WHERE 1=1 '
+			. $where
+			. $orderby;
 
 		return $query;
 	}

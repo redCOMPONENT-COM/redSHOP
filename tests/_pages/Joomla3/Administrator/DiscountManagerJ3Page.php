@@ -27,11 +27,11 @@ class DiscountManagerJ3Page
 
 	public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/ul/li/input";
 
-	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-	public static $discountStatePath = "//div[@id='editcell']/table/tbody/tr/td[7]/a";
+	public static $discountStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
 
 	/**
 	 * Function to get the path for Discount Type

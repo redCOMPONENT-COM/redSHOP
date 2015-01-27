@@ -34,6 +34,13 @@ class RedshopControllerProduct extends RedshopController
 		parent::display();
 	}
 
+	public function listing()
+	{
+		JRequest::setVar('layout', 'listing');
+
+		parent::display();
+	}
+
 	public function importeconomic()
 	{
 		// Add product to economic
@@ -218,7 +225,7 @@ class RedshopControllerProduct extends RedshopController
 			$db->execute();
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
+		$this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
 	}
 
 	public function savediscountprice()
@@ -235,7 +242,7 @@ class RedshopControllerProduct extends RedshopController
 			$db->execute();
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
+		$this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
 	}
 
 	public function template()

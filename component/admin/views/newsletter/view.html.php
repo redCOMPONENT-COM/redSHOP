@@ -26,17 +26,19 @@ class RedshopViewNewsletter extends RedshopView
 	 */
 	public $request_url;
 
-	public $state;
-
 	public function display($tpl = null)
 	{
+		$context = 'newsletter_id';
+
 		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'envelope redshop_newsletter48');
 		$layout = JRequest::getVar('layout');
+		$task = JRequest::getVar('task');
 
 		if ($layout == 'previewlog')
 		{
@@ -53,11 +55,14 @@ class RedshopViewNewsletter extends RedshopView
 			JToolBarHelper::unpublishList();
 		}
 
-		$this->state = $this->get('State');
-		$lists['order']     = $this->state->get('list.ordering', 'newsletter_id');
-		$lists['order_Dir'] = $this->state->get('list.direction');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$lists['order']     = $filter_order;
+		$lists['order_Dir'] = $filter_order_Dir;
 
 		$newsletters = $this->get('Data');
+		$total       = $this->get('Total');
 		$pagination  = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();

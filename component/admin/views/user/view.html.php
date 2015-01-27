@@ -11,21 +11,25 @@ defined('_JEXEC') or die;
 
 class RedshopViewUser extends RedshopView
 {
-	public $state;
-
 	public function display($tpl = null)
 	{
+		$context = 'user_info_id';
+
 		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_USER'));
 
 		$userhelper = new rsUserhelper;
 
-		$this->state = $this->get('State');
 		$sync                      = JRequest::getVar('sync');
-		$spgrp_filter              = $this->state->get('spgrp_filter');
-		$tax_exempt_request_filter = $this->state->get('tax_exempt_request_filter');
+		$filter_by                 = JRequest::getVar('filter_by', '', 'request', 'string');
+		$spgrp_filter              = JRequest::getVar('spgrp_filter', '', 'request', 'string');
+		$approved_filter           = JRequest::getVar('approved_filter', '', 'request', 'string');
+		$tax_exempt_request_filter = JRequest::getVar('tax_exempt_request_filter', '', 'request', 'string');
+
+		$model = $this->getModel('user');
 
 		if ($sync)
 		{
@@ -42,10 +46,14 @@ class RedshopViewUser extends RedshopView
 			JToolBarHelper::deleteList();
 		}
 
-		$lists ['order']     = $this->state->get('list.ordering', 'users_info_id');
-		$lists ['order_Dir'] = $this->state->get('list.direction');
+		$filter_order        = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'users_info_id');
+		$filter_order_Dir    = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$lists ['order']     = $filter_order;
+		$lists ['order_Dir'] = $filter_order_Dir;
 
 		$user                = $this->get('Data');
+		$total               = $this->get('Total');
 		$pagination          = $this->get('Pagination');
 
 		$shopper_groups      = $userhelper->getShopperGroupList();
@@ -58,6 +66,14 @@ class RedshopViewUser extends RedshopView
 
 		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'spgrp_filter',
 			'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $spgrp_filter
+		);
+
+		$arr_filter_by      = array();
+		$arr_filter_by[]    = JHTML::_('select.option', '', 'All');
+		$arr_filter_by[]    = JHTML::_('select.option', 'fullname', JText::_('COM_REDSHOP_FULLNAME'));
+		$arr_filter_by[]    = JHTML::_('select.option', 'username', JText::_('COM_REDSHOP_USERNAME'));
+		$lists['filter_by'] = JHTML::_('select.genericlist', $arr_filter_by, 'filter_by',
+			'class="inputbox" size="1"', 'value', 'text', $filter_by
 		);
 
 		$optiontax_req               = array();

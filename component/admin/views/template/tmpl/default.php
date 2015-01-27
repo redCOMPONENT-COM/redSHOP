@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+$filter      = JRequest::getVar('filter');
 $redtemplate = new Redtemplate;
 ?>
 <script language="javascript" type="text/javascript">
@@ -35,7 +36,7 @@ $redtemplate = new Redtemplate;
 	<div id="editcell">
 		<div class="filterItem">
 			<div class="btn-wrapper input-append">
-				<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
+				<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
 				   placeholder="<?php echo JText::_('COM_REDSHOP_TEMPLATE_NAME'); ?>"   onchange="document.adminForm.submit();">
 				<input type="submit" class="btn" name="search" id="search" value="<?php echo JText::_('COM_REDSHOP_GO');?>"/>
 				<input type="button" class="btn" onclick="document.getElementById('filter').value='';document.getElementById('template_section').value=0;this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>

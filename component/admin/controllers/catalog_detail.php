@@ -74,6 +74,51 @@ class RedshopControllerCatalog_detail extends RedshopController
 
 	}
 
+	public function publish()
+	{
+		$option = JRequest::getVar('option');
+
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+		}
+
+		$model = $this->getModel('catalog_detail');
+
+		if (!$model->publish($cid, 1))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_PUBLISHED_SUCCESFULLY');
+		$this->setRedirect('index.php?option=com_redshop&view=catalog', $msg);
+	}
+
+	public function unpublish()
+	{
+		$option = JRequest::getVar('option');
+		$layout = JRequest::getVar('layout');
+
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+		}
+
+		$model = $this->getModel('catalog_detail');
+
+		if (!$model->publish($cid, 0))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_UNPUBLISHED_SUCCESFULLY');
+		$this->setRedirect('index.php?option=com_redshop&view=catalog', $msg);
+	}
+
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
