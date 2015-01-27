@@ -29,7 +29,7 @@ class QuestionManagerJoomla3Page
 
 	public static $questionSuccessMessage = 'Question Detail Saved';
 
-	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
+	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
 	public static $selectFirst = "//input[@id='cb0']";
 
