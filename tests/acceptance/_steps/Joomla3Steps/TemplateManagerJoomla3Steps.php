@@ -40,6 +40,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage, 60);
 		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage);
 		$I->click('ID');
+		$I->click('ID');
 		$I->see(strtolower($templateName), \TemplateManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}

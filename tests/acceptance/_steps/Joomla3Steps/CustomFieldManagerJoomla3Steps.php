@@ -49,8 +49,8 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($customFieldsManagerPage->fieldSection($section));
 		$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
 		$I->click('Save & Close');
-		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 60);
-		$I->see(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage);
+		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
+		$I->click('ID');
 		$I->click('ID');
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
@@ -75,8 +75,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $updatedTitle);
 		$I->click('Save & Close');
-		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage);
-		$I->see(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage);
+		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 		$I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}
