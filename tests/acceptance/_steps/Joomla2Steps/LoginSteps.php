@@ -32,6 +32,6 @@ class LoginSteps extends \AcceptanceTester
 		$I->fillField(\LoginManagerPage::$userName, $config['username']);
 		$I->fillField(\LoginManagerPage::$password, $config['password']);
 		$I->click('Log in');
-		$I->see('Category Manager', "//section[@id='content']/div/div/div[2]/div/div/div/div/ul/li[3]/a/span");
+		$I->see('Category Manager');
 	}
 }
