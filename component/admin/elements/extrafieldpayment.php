@@ -18,7 +18,6 @@ JFormHelper::loadFieldClass('list');
  * @subpackage     Banners
  * @since          1.5
  */
-
 class JFormFieldExtraFieldPayment extends JFormFieldList
 {
 	/**
