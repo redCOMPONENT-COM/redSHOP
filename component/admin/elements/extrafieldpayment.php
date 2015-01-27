@@ -29,6 +29,11 @@ class JFormFieldextrafieldpayment extends JFormFieldList
 	 */
 	public $type = 'extrafieldpayment';
 
+	/**
+	 * Get Extra field info as an option
+	 *
+	 * @return  array  Extra Field list
+	 */
 	protected function getOptions()
 	{
 		// Initialiase variables.
