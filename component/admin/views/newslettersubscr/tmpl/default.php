@@ -11,7 +11,6 @@ JLoader::load('RedshopHelperAdminOrder');
 $order_function = new order_functions;
 
 $option = JRequest::getVar('option');
-$filter = JRequest::getVar('filter');
 $config = new Redconfiguration;
 $model = $this->getModel('newslettersubscr');
 ?>
@@ -28,7 +27,7 @@ $model = $this->getModel('newslettersubscr');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+		if ((pressbutton == 'add') || (pressbutton == 'edit')
 			|| (pressbutton == 'remove') || (pressbutton == 'export_data') || (pressbutton == 'export_acy_data')) {
 			form.view.value = "newslettersubscr_detail";
 
@@ -51,16 +50,14 @@ $model = $this->getModel('newslettersubscr');
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table width="100%">
-			<tr>
-				<td valign="top" align="right" class="key">
-					<?php echo JText::_('COM_REDSHOP_NEWSLETTER_FILTER'); ?>:
-					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>">
-					<input type="reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-					       onclick="return clearreset();">
-				</td>
-			</tr>
-		</table>
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input placeholder="<?php echo JText::_('COM_REDSHOP_NEWSLETTER_FILTER'); ?>" type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>">
+				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<input type="reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+					   onclick="return clearreset();"  class="btn">
+			</div>
+		</div>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
