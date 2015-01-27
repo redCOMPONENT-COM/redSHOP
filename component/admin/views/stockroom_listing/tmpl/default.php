@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $model = $this->getmodel('stockroom_listing');
 $option = JRequest::getVar('option', '', 'request', 'string');
 $showbuttons = JRequest::getVar('showbuttons', '0');
-$print_link = JRoute::_('index.php?tmpl=component&option=com_redshop&view=stockroom_listing&id=0&showbuttons=1', false);
+$print_link = JRoute::_('index.php?tmpl=component&option=com_redshop&view=stockroom_listing&id=0&showbuttons=1');
 $stockroom_type = $this->stockroom_type;
 
 if ($showbuttons == 1)
@@ -24,9 +24,6 @@ if ($showbuttons == 1)
 	function clearForm() {
 		var form = document.adminForm;
 		form.keyword.value = '';
-		form.search_field.value = 'product_name';
-		form.category_id.value = '0';
-		form.stockroom_type.value = 'product';
 		form.submit();
 	}
 	Joomla.submitbutton = function (pressbutton) {
@@ -38,6 +35,16 @@ if ($showbuttons == 1)
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
+		}
+
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+			form.view.value = "stockroom_listing";
+		}
+		try {
+			form.onsubmit();
+		}
+		catch (e) {
 		}
 
 		form.submit();
@@ -52,27 +59,24 @@ if ($showbuttons == 1)
 
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
-	<div class="filterItem">
-		<div class="btn-wrapper input-append">
-			<input type="text" name="keyword" id="keyword" value="<?php echo $this->state->get('keyword'); ?>">
-			<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-			<input type="reset" class="btn" value="<?php echo JText::_("COM_REDSHOP_RESET") ?>" onclick="clearForm();">
-		</div>
-	</div>
-	<div class="filterItem">
-		<select name="search_field" id="search_field" onchange="document.adminForm.submit();">
-			<option
-				value="product_name" <?php if ($this->state->get('search_field') == 'product_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
-			<option
-				value="product_number" <?php if ($this->state->get('search_field') == 'product_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
-		</select>
-	</div>
-	<div class="filterItem">
-		<?php echo JText::_("COM_REDSHOP_CATEGORY") . ": " . $this->lists['category'];?>
-	</div>
-	<div class="filterItem">
-		<?php echo $this->lists['stockroom_type']; ?>
-	</div>
+	<table>
+		<tr>
+			<td>
+				<select name="search_field">
+					<option
+						value="product_name" <?php if ($this->search_field == 'product_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
+					<option
+						value="product_number" <?php if ($this->search_field == 'product_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
+				</select>
+				<input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword; ?>">
+				<input type="submit" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<input type="reset" value="<?php echo JText::_("COM_REDSHOP_RESET") ?>" onclick="clearForm();"></td>
+		</tr>
+		<tr>
+			<td><?php echo JText::_("COM_REDSHOP_CATEGORY") . ": " . $this->lists['category'];?><?php echo $this->lists['stockroom_type']; ?></td>
+		</tr>
+	</table>
+
 	<div id="editcell1">
 		<table class="adminlist table table-striped">
 			<thead>

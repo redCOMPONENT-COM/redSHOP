@@ -18,8 +18,12 @@ class RedshopViewState extends RedshopView
 
 		JLoader::load('RedshopHelperHelper');
 
+		$context = 'state_id';
+
 		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+		$user     = JFactory::getUser();
 
 		$document->setTitle(JText::_('COM_REDSHOP_STATE'));
 
@@ -28,9 +32,11 @@ class RedshopViewState extends RedshopView
 		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
 
-		$state = $this->get('State');
-		$lists['order']     = $state->get('list.ordering', 'state_id');
-		$lists['order_Dir'] = $state->get('list.direction');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'state_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$lists['order']     = $filter_order;
+		$lists['order_Dir'] = $filter_order_Dir;
 
 		$db = JFactory::getDbo();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
@@ -49,13 +55,13 @@ class RedshopViewState extends RedshopView
 		$temps           = array($defSelect);
 		$countries       = array_merge($temps, $countries);
 
-		$country_id_filter = $state->get('country_id_filter');
+		$country_id_filter = $app->getUserStateFromRequest($context . 'country_id_filter', 'country_id_filter', '');
 
 		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id_filter',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"    ', 'value', 'text', $country_id_filter
 		);
 
-		$country_main_filter = $state->get('country_main_filter');
+		$country_main_filter = $app->getUserStateFromRequest($context . 'country_main_filter', 'country_main_filter', '');
 
 		$fields                    = $this->get('Data');
 		$pagination                = $this->get('Pagination');

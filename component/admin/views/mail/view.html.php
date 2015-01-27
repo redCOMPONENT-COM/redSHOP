@@ -28,7 +28,10 @@ class RedshopViewMail extends RedshopView
 
 	public function display($tpl = null)
 	{
+		$context = 'mail_id';
+
 		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_MAIL'));
@@ -42,17 +45,21 @@ class RedshopViewMail extends RedshopView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$state = $this->get('State');
-		$lists['order'] = $state->get('list.ordering', 'm.mail_id');
-		$lists['order_Dir'] = $state->get('list.direction');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.mail_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_section   = $app->getUserStateFromRequest($context . 'filter_section', 'filter_section', 0);
+
+		$lists['order'] = $filter_order;
+		$lists['order_Dir'] = $filter_order_Dir;
 
 		$redtemplate = new Redtemplate;
 		$optionsection = $redtemplate->getMailSections();
 		$lists['mailsection'] = JHTML::_('select.genericlist', $optionsection, 'filter_section',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"',
-			'value', 'text', $state->get('filter_section')
+			'value', 'text', $filter_section
 		);
 
+		$total = $this->get('Total');
 		$media = $this->get('Data');
 
 		$pagination = $this->get('Pagination');
