@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('list');
  * @since          1.5
  */
 
-class JFormFieldextrafieldpayment extends JFormFieldList
+class JFormFieldExtraFieldPayment extends JFormFieldList
 {
 	/**
 	 * Element name
