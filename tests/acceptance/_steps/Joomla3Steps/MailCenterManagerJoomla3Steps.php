@@ -45,7 +45,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage);
 		$I->click('ID');
 		$I->click('ID');
-		$I->see($mailName);
+		$I->see($mailName, \MailCenterManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}
 
@@ -62,7 +62,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
 		$I->click('ID');
-		$I->see($mailName);
+		$I->see($mailName, \MailCenterManagerJoomla3Page::$firstResultRow);
 		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName, 30);
@@ -70,7 +70,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage);
 		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage);
-		$I->see($newMailName);
+		$I->see($newMailName, \MailCenterManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}
 
@@ -87,7 +87,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
 		$I->click('ID');
-		$I->see($name);
+		$I->see($name, \MailCenterManagerJoomla3Page::$firstResultRow);
 		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
 
 		if ($state == 'unpublish')
@@ -119,11 +119,11 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($functionName == 'Search')
 		{
-			$I->see($name);
+			$I->see($name, \MailCenterManagerJoomla3Page::$firstResultRow);
 		}
 		else
 		{
-			$I->dontSee($name);
+			$I->dontSee($name, \MailCenterManagerJoomla3Page::$firstResultRow);
 		}
 
 		$I->click('ID');
@@ -141,7 +141,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
 		$I->click('ID');
-		$I->see($name);
+		$I->see($name, \MailCenterManagerJoomla3Page::$firstResultRow);
 		$text = $I->grabAttributeFrom(\MailCenterManagerJoomla3Page::$mailTemplateStatePath, 'onclick');
 
 		if (strpos($text, 'unpublish') > 0)
@@ -171,10 +171,10 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
 		$I->click('ID');
-		$I->see($name);
+		$I->see($name, \MailCenterManagerJoomla3Page::$firstResultRow);
 		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
 		$I->click('Delete');
-		$I->dontSee($name);
+		$I->dontSee($name, \MailCenterManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}
 }

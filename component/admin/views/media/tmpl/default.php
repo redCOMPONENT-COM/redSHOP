@@ -17,10 +17,9 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 // For Add Media Detail
-$jInput = JFactory::getApplication()->input;
-$showbuttons = $jInput->getInt('showbuttons', 0);
-$media_section = $jInput->getCmd('media_section', $this->state->get('filter_media_section', 0));
-$section_id = $jInput->getInt('section_id', 0);
+$showbuttons = JRequest::getCmd('showbuttons');
+$media_section = $this->state->get('media_section');
+$section_id = JRequest::getCmd('section_id');
 $model = $this->getModel('media');
 $countTd = 8;
 
@@ -108,10 +107,10 @@ else
 			<?php echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ': ' . $this->lists['type']; ?>
 		</div>
 		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_MEDIA_SECTION') . ': ' . $this->lists['filter_media_section']; ?>
+			<?php echo JText::_('COM_REDSHOP_MEDIA_SECTION') . ': ' . $this->lists['section']; ?>
 		</div>
 		<div class="filterItem">
-			<button class="btn btn-small" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+			<button class="btn btn-small" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
 		</div>
 	<?php
 		}

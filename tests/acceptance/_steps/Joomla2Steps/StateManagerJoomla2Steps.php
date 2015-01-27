@@ -46,7 +46,7 @@ class StateManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->see('State detail saved');
 		$I->fillField(\StateManagerPage::$searchField, $stateName);
 		$I->click(\StateManagerPage::$searchButton);
-		$I->see($stateName);
+		$I->see($stateName, \StateManagerPage::$stateResultRow);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class StateManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		);
 		$I->fillField(\StateManagerPage::$searchField, $stateNewName);
 		$I->click(\StateManagerPage::$searchButton);
-		$I->see($stateNewName);
+		$I->see($stateNewName, \StateManagerPage::$stateResultRow);
 	}
 
 	/**
@@ -116,12 +116,12 @@ class StateManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		);
 		$I->fillField(\StateManagerPage::$searchField, $stateName);
 		$I->click(\StateManagerPage::$searchButton);
-		$I->see($stateName);
+		$I->see($stateName, \StateManagerPage::$stateResultRow);
 		$I->click(\StateManagerPage::$checkAll);
 		$I->click('Delete');
 		$I->see('State Detail Successfully Deleted');
 		$I->amOnPage(\StateManagerPage::$URL);
 		$I->click(\StateManagerPage::$searchButton);
-		$I->dontSee($stateName);
+		$I->dontSee($stateName, \StateManagerPage::$stateResultRow);
 	}
 }

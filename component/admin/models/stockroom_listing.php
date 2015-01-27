@@ -12,77 +12,85 @@ defined('_JEXEC') or die;
 
 class RedshopModelStockroom_listing extends RedshopModel
 {
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
-	 */
-	protected function getStoreId($id = '')
-	{
-		$id .= ':' . $this->getState('stockroom_type');
-		$id .= ':' . $this->getState('search_field');
-		$id .= ':' . $this->getState('keyword');
-		$id .= ':' . $this->getState('category_id');
+	public $_data = null;
 
-		return parent::getStoreId($id);
-	}
+	public $_total = null;
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 */
-	protected function populateState($ordering = 'p.product_id', $direction = '')
+	public $_pagination = null;
+
+	public $_table_prefix = null;
+
+	public $_context2 = null;
+
+	public function __construct()
 	{
-		$stockroom_type = $this->getUserStateFromRequest($this->context . '.stockroom_type', 'stockroom_type', 'product');
-		$search_field = $this->getUserStateFromRequest($this->context . '.search_field', 'search_field', 'product_name');
-		$keyword = $this->getUserStateFromRequest($this->context . '.keyword', 'keyword', '');
-		$category_id = $this->getUserStateFromRequest($this->context . '.category_id', 'category_id', 0);
+		parent::__construct();
+
+		$app = JFactory::getApplication();
+
+		$this->_context2 = 'p.product_id';
+
+		$this->_table_prefix = '#__redshop_';
+		$limit = $app->getUserStateFromRequest($this->_context2 . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context2 . 'limitstart', 'limitstart', 0);
+		$stockroom_type = $app->getUserStateFromRequest($this->_context2 . 'stockroom_type', 'stockroom_type', '');
+		$search_field = $app->getUserStateFromRequest($this->_context2 . 'search_field', 'search_field', '');
+		$keyword = $app->getUserStateFromRequest($this->_context2 . 'keyword', 'keyword', '');
+		$category_id = $app->getUserStateFromRequest($this->_context2 . 'category_id', 'category_id', '');
 
 		$this->setState('stockroom_type', $stockroom_type);
 		$this->setState('search_field', $search_field);
 		$this->setState('keyword', $keyword);
 		$this->setState('category_id', $category_id);
+		$this->setState('limit', $limit);
+		$this->setState('limitstart', $limitstart);
+	}
 
-		parent::populateState($ordering, $direction);
+	public function getData()
+	{
+		if (empty($this->_data))
+		{
+			$query = $this->_buildQuery();
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		}
+
+		return $this->_data;
+	}
+
+	public function getTotal()
+	{
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
+		}
+
+		return $this->_total;
+	}
+
+	public function getPagination()
+	{
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+		}
+
+		return $this->_pagination;
 	}
 
 	public function _buildQuery()
 	{
+		$app = JFactory::getApplication();
+
+		$where = "";
 		$field = "";
 		$and = "";
 		$leftjoin = " ";
 
-		$db = JFactory::getDbo();
-		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order = $this->getState('list.ordering');
+		$orderby = $this->_buildContentOrderBy();
+
 		$stockroom_type = $this->getState('stockroom_type');
-
-		if ($stockroom_type == 'subproperty')
-		{
-			$filter_order = 'p.product_id, a.attribute_id, ap.property_id, asp.ordering';
-		}
-
-		elseif ($stockroom_type == 'property')
-		{
-			$filter_order = 'p.product_id, a.attribute_id, ap.ordering';
-		}
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
 		$search_field = $this->getState('search_field');
 		$keyword = $this->getState('keyword');
 		$category_id = $this->getState('category_id');
@@ -101,37 +109,60 @@ class RedshopModelStockroom_listing extends RedshopModel
 		{
 			$field = ", asp.*, subattribute_color_id AS section_id ";
 			$table = "product_subattribute_color AS asp ";
-			$leftjoin = "LEFT JOIN #__redshop_product_attribute_property AS ap ON asp.subattribute_id = ap.property_id "
-				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id = ap.attribute_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id ";
+			$leftjoin = "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS ap ON asp.subattribute_id = ap.property_id "
+				. "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.attribute_id = ap.attribute_id "
+				. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.product_id ";
 		}
 		elseif ($stockroom_type == 'property')
 		{
 			$field = ", ap.*, property_id AS section_id ";
 			$table = "product_attribute_property AS ap ";
-			$leftjoin = "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id = ap.attribute_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id ";
+			$leftjoin = "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.attribute_id = ap.attribute_id "
+				. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.product_id ";
 		}
 		else
 		{
 			$table = "product AS p ";
 		}
 
-		$query = "SELECT p.* " . $field
-			. "FROM #__redshop_" . $table
+		$query = "SELECT distinct p.product_id, p . * " . $field
+			. "FROM " . $this->_table_prefix . $table
 			. $leftjoin
-			. "LEFT JOIN #__redshop_product_category_xref AS pcx ON pcx.product_id=p.product_id "
-			. "WHERE 1 = 1 "
+			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.product_id=p.product_id "
+			. "WHERE p.product_id is not NULL "
 			. $and
-			. ' GROUP BY p.product_id '
 			. $orderby;
 
 		return $query;
 	}
 
+	public function _buildContentOrderBy()
+	{
+		$db  = JFactory::getDbo();
+		$app = JFactory::getApplication();
+
+		$stockroom_type = $this->getState('stockroom_type');
+		$filter_order = $app->getUserStateFromRequest($this->_context2 . 'filter_order', 'filter_order', 'p.product_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context2 . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		if ($stockroom_type == 'subproperty')
+		{
+			$filter_order = 'p.product_id, a.attribute_id, ap.property_id, asp.ordering';
+		}
+
+		elseif ($stockroom_type == 'property')
+		{
+			$filter_order = 'p.product_id, a.attribute_id, ap.ordering';
+		}
+
+		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
+
+		return $orderby;
+	}
+
 	public function getStockroom()
 	{
-		$query = 'SELECT * FROM #__redshop_stockroom WHERE published=1';
+		$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -154,7 +185,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 		{
 			$stock = "AND stockroom_id='" . $sid . "' ";
 		}
-		$query = "SELECT * FROM #__redshop_" . $table . "_stockroom_xref "
+		$query = "SELECT * FROM " . $this->_table_prefix . $table . "_stockroom_xref "
 			. "WHERE 1=1 "
 			. $stock
 			. $product . $section;
@@ -184,7 +215,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 		{
 			if ($quantity == "" && USE_BLANK_AS_INFINITE)
 			{
-				$query = "DELETE FROM #__redshop_" . $table . "_stockroom_xref "
+				$query = "DELETE FROM " . $this->_table_prefix . $table . "_stockroom_xref "
 					. " WHERE stockroom_id='" . $sid . "' " . $product . $section;
 			}
 			else
@@ -198,7 +229,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 				}
 				else
 				{
-					$query = "UPDATE #__redshop_" . $table . "_stockroom_xref "
+					$query = "UPDATE " . $this->_table_prefix . $table . "_stockroom_xref "
 						. "SET quantity='" . $quantity . "' , preorder_stock= '" . $preorder_stock . "'"
 						. " WHERE stockroom_id='" . $sid . "'"
 						. $product . $section;
@@ -230,14 +261,14 @@ class RedshopModelStockroom_listing extends RedshopModel
 						}
 						if ($stockroom_type != 'product')
 						{
-							$query = "INSERT INTO #__redshop_" . $table . "_stockroom_xref "
+							$query = "INSERT INTO " . $this->_table_prefix . $table . "_stockroom_xref "
 								. "(section_id, stockroom_id, quantity, section , preorder_stock, ordered_preorder) "
 								. "VALUES ('" . $pid . "', '" . $sid . "', '" . $quantity . "', '" . $stockroom_type . "', '"
 								. $preorder_stock . "','0') ";
 						}
 						else
 						{
-							$query = "INSERT INTO #__redshop_" . $table . "_stockroom_xref "
+							$query = "INSERT INTO " . $this->_table_prefix . $table . "_stockroom_xref "
 								. "(product_id, stockroom_id, quantity, preorder_stock, ordered_preorder ) "
 								. "VALUES ('" . $pid . "', '" . $sid . "', '" . $quantity . "', '" . $preorder_stock . "','0' ) ";
 						}
@@ -265,7 +296,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 
 	public function getProductIdsfromCategoryid($cid)
 	{
-		$query = "SELECT product_id FROM #__redshop_product_category_xref "
+		$query = "SELECT product_id FROM " . $this->_table_prefix . "product_category_xref "
 			. "WHERE category_id= " . $cid;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadColumn();
@@ -287,7 +318,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 			$table = "product_attribute";
 		}
 
-		$query = "UPDATE #__redshop_" . $table . "_stockroom_xref "
+		$query = "UPDATE " . $this->_table_prefix . $table . "_stockroom_xref "
 			. "SET preorder_stock='0' , ordered_preorder= '0' "
 			. "WHERE stockroom_id='" . $sid . "'"
 			. $product . $section;

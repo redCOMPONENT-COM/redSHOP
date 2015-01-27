@@ -19,11 +19,12 @@ class RedshopViewStockroom extends RedshopView
 	 */
 	public $request_url;
 
-	public $state;
-
 	public function display($tpl = null)
 	{
+		$context = 'stockroom_id';
+
 		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_STOCKROOM'));
@@ -37,9 +38,11 @@ class RedshopViewStockroom extends RedshopView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$this->state = $this->get('State');
-		$lists ['order']     = $this->state->get('list.ordering', 'stockroom_id');
-		$lists ['order_Dir'] = $this->state->get('list.direction');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stockroom_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$lists ['order']     = $filter_order;
+		$lists ['order_Dir'] = $filter_order_Dir;
 
 		$stockroom  = $this->get('Data');
 		$pagination = $this->get('Pagination');

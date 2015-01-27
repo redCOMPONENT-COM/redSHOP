@@ -17,8 +17,8 @@ $filter = JRequest::getVar('filter');
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+			|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'frontpublish') || (pressbutton == 'frontunpublish')) {
 			form.view.value = "stockroom_detail";
 		}
 		try {
@@ -31,15 +31,18 @@ $filter = JRequest::getVar('filter');
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
-					   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>">
-				<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-				<button class="btn"
-					onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-			</div>
-		</div>
+		<table width="100%">
+			<tr>
+				<td valign="top" align="left" class="key">
+					<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
+					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
+					       onchange="document.adminForm.submit();">
+					<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
+					<button
+						onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+				</td>
+			</tr>
+		</table>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>

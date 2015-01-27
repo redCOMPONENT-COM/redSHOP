@@ -20,9 +20,8 @@ $I = new $className($scenario);
 
 foreach ($fieldType as $type)
 {
-	$I->wantTo("Test $type");
 	$name = 'Testing Field' . rand(100, 1000);
-	$title = 'Test Title ' . $type . ' ' . rand(10, 100);
+	$title = 'Test Title' . rand(10, 100);
 	$optionValue = 'Testing Options ' . rand(100, 1000);
 	$section = 'Category';
 	$newTitle = 'Updated ' . $title;

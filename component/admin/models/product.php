@@ -25,28 +25,6 @@ class RedshopModelProduct extends RedshopModel
 	public $_categorytreelist = null;
 
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @see     JModelLegacy
-	 */
-	public function __construct($config = array())
-	{
-		// Different context depending on the view
-		if (empty($this->context))
-		{
-			$input = JFactory::getApplication()->input;
-			$view = $input->getString('view', '');
-			$option = $input->getString('option', '');
-			$layout = $input->getString('layout', 'none');
-			$this->context = strtolower($option . '.' . $view . '.' . $this->getName() . '.' . $layout);
-		}
-
-		parent::__construct($config);
-	}
-
-	/**
 	 * Method to get a store id based on model configuration state.
 	 *
 	 * This is necessary because the model is used by the component and
@@ -82,16 +60,16 @@ class RedshopModelProduct extends RedshopModel
 	 */
 	protected function populateState($ordering = 'p.product_id', $direction = 'desc')
 	{
-		$search_field = $this->getUserStateFromRequest($this->context . '.search_field', 'search_field', 'p.product_name');
+		$search_field = $this->getUserStateFromRequest($this->context . 'search_field', 'search_field', '');
 		$this->setState('search_field', $search_field);
 
-		$keyword = $this->getUserStateFromRequest($this->context . '.keyword', 'keyword', '');
+		$keyword = $this->getUserStateFromRequest($this->context . 'keyword', 'keyword', '');
 		$this->setState('keyword', $keyword);
 
-		$category_id = $this->getUserStateFromRequest($this->context . '.category_id', 'category_id', 0);
+		$category_id = $this->getUserStateFromRequest($this->context . 'category_id', 'category_id', 0);
 		$this->setState('category_id', $category_id);
 
-		$product_sort = $this->getUserStateFromRequest($this->context . '.product_sort', 'product_sort', 0);
+		$product_sort = $this->getUserStateFromRequest($this->context . 'product_sort', 'product_sort', 0);
 		$this->setState('product_sort', $product_sort);
 
 		parent::populateState($ordering, $direction);
