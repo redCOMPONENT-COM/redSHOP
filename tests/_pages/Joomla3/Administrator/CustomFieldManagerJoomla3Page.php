@@ -31,11 +31,13 @@ class CustomFieldManagerJoomla3Page
 
 	public static $fieldSuccessMessage = 'Field details saved';
 
+	public static $fieldMessagesLocation = "//div[@id='system-message-container']/div/p";
+
 	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-	public static $fieldStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[8]/a";
+	public static $fieldStatePath = "//div[@id='editcell']/table/tbody/tr[1]/td[8]/a";
 
 	public static $optionValueField = "//input[@id='extra_value[]']";
 
