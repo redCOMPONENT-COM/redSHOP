@@ -34,12 +34,10 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table width="100%">
-			<tr>
-				<td valign="top" align="left" class="key"><?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
-					:<?php echo $this->lists ['shopper_group']; ?></td>
-			</tr>
-		</table>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
+			: <?php echo $this->lists ['shopper_group']; ?>
+		</div>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
