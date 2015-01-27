@@ -257,9 +257,11 @@ if ($showbuttons)
 						<tr>
 							<td><?php echo JText::_('COM_REDSHOP_UPLOAD_FILE_FROM_COMPUTER'); ?></td>
 							<td><input type="file" name="file[]" id="file" size="75">
-								<input type="button" name="addvalue" id="addvalue" class="button"
+								<?php if ($media_section != 'manufacturer'): ?>
+								<input type="button" name="addvalue" id="addvalue" class="button btn btn-small"
 								       Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
 								       onclick="addNewRow('extra_table');"/>
+								<?php endif; ?>
 							</td>
 
 						</tr>
@@ -360,10 +362,22 @@ if ($showbuttons)
 						$sectionValue = new stdClass;
 						$sectionIdName = 'section_id';
 						$listAttributes = array();
+						$model = $this->getModel('media_detail');
 
 						if ($showbuttons)
 						{
-							$sectionValue->text = $section_name;
+							if ($section_name)
+							{
+								$sectionValue->text = $section_name;
+							}
+							else
+							{
+								if ($data = $model->getSection($section_id, $media_section))
+								{
+									$sectionValue->text = $data->name;
+								}
+							}
+
 							$sectionValue->value = $section_id;
 							$sectionIdName = 'disabled_section_id';
 							$listAttributes = array('disabled' => 'disabled');
@@ -371,8 +385,6 @@ if ($showbuttons)
 						}
 						else
 						{
-							$model = $this->getModel('media_detail');
-
 							if ($data = $model->getSection($this->detail->section_id, $this->detail->media_section))
 							{
 								$sectionValue->text = $data->name;
