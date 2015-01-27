@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Renders a Productfinder Form
  *
@@ -17,7 +19,7 @@ defined('_JEXEC') or die;
  * @since          1.5
  */
 
-class JFormFieldextrafieldshipping extends JFormField
+class JFormFieldExtraFieldShipping extends JFormFieldList
 {
 	/**
 	 * Element name
@@ -28,21 +30,26 @@ class JFormFieldextrafieldshipping extends JFormField
 	public $type = 'extrafieldshipping';
 
 
-	protected function getInput()
+	protected function getOptions()
 	{
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
 
-		$db = JFactory::getDbo();
+		// Create the base select statement.
+		$query = $db->getQuery(true)
+			->select('field_name as value,field_title as text')
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('field_show_in_front') . ' = 1')
+			->where($db->qn('field_section') . ' = 19')
+			->order($db->qn('ordering') . ' ASC');
 
-		// This might get a conflict with the dynamic translation - TODO: search for better solution
-
-		$query = "SELECT field_name,field_title FROM #__redshop_fields "
-			. "WHERE published=1 "
-			. "AND field_show_in_front=1 "
-			. "AND field_section='19'  ORDER BY ordering";
+		// Set the query and load the result.
 		$db->setQuery($query);
-		$options = $db->loadObjectList();
-		array_unshift($options, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_EXTRA_FIELD') . ' -', 'field_name', 'field_title'));
-		return JHTML::_('select.genericlist', $options, '' . $this->name . '[]', 'multiple="multiple" size="5"', 'field_name', 'field_title', $this->value, $this->id);
 
+		return array_merge(
+			parent::getOptions(),
+			$db->loadObjectList()
+		);
 	}
 }
