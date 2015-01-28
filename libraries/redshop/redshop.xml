@@ -17,15 +17,14 @@
 	<files>
 		<folder>config</folder>
 		<folder>controller</folder>
-		<folder>html</folder>
 		<folder>form</folder>
 		<folder>helper</folder>
+		<folder>html</folder>
 		<folder>layout</folder>
 		<folder>layouts</folder>
 		<folder>model</folder>
 		<folder>toolbar</folder>
 		<folder>view</folder>
-		<folder>helper</folder>
 		<filename>index.html</filename>
 		<filename>library.php</filename>
 		<filename>redshop.xml</filename>
