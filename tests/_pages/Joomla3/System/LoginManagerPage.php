@@ -21,4 +21,6 @@ class LoginManagerPage
 	public static $userName = "username";
 
 	public static $password = "passwd";
+
+	public static $loginSuccessCheck = "//a//span[text() = 'Category Manager']";
 }
