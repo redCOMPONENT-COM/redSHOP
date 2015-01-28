@@ -1,4 +1,4 @@
-$scenario<?php
+<?php
 /**
  * @package     RedShop
  * @subpackage  Cept
