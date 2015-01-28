@@ -8,7 +8,7 @@
 
 namespace AcceptanceTester;
 /**
- * Class LoginSteps
+ * Class LoginJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -16,7 +16,7 @@ namespace AcceptanceTester;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
-class LoginSteps extends \AcceptanceTester
+class LoginJoomla2Steps extends \AcceptanceTester
 {
 	/**
 	 * Function to execute an Admin Login for Joomla2.5
