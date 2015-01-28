@@ -20,7 +20,11 @@ $I = new AcceptanceTester\InstallJoomla2DatabaseSteps($scenario);
 $I->setupDatabaseConnection();
 $I = new AcceptanceTester\InstallJoomla2SiteConfigurationSteps($scenario);
 $I->setupConfiguration();
-$I = new AcceptanceTester\LoginSteps($scenario);
+
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Login in Joomla Administrator');
 $I->doAdminLogin();
