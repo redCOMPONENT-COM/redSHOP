@@ -900,10 +900,7 @@ class Com_RedshopInstallerScript
 	 */
 	public function getInstaller()
 	{
-		if (is_null($this->installer))
-		{
-			$this->installer = new JInstaller;
-		}
+		$this->installer = new JInstaller;
 
 		return $this->installer;
 	}
@@ -918,7 +915,6 @@ class Com_RedshopInstallerScript
 	private function installLibraries($parent)
 	{
 		// Required objects
-		$installer = $this->getInstaller();
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
 
@@ -932,7 +928,7 @@ class Com_RedshopInstallerScript
 
 				if (is_dir($extPath))
 				{
-					$result = $installer->install($extPath);
+					$result = $this->getInstaller()->install($extPath);
 				}
 
 				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
@@ -950,7 +946,6 @@ class Com_RedshopInstallerScript
 	private function installModules($parent)
 	{
 		// Required objects
-		$installer = $this->getInstaller();
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
 
@@ -965,7 +960,7 @@ class Com_RedshopInstallerScript
 
 				if (is_dir($extPath))
 				{
-					$result = $installer->install($extPath);
+					$result = $this->getInstaller()->install($extPath);
 				}
 
 				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
@@ -983,7 +978,6 @@ class Com_RedshopInstallerScript
 	private function installPlugins($parent)
 	{
 		// Required objects
-		$installer = $this->getInstaller();
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
 
@@ -998,7 +992,7 @@ class Com_RedshopInstallerScript
 
 				if (is_dir($extPath))
 				{
-					$result = $installer->install($extPath);
+					$result = $this->getInstaller()->install($extPath);
 				}
 
 				// Store the result to show install summary later
@@ -1031,7 +1025,6 @@ class Com_RedshopInstallerScript
 	private function uninstallLibraries($parent)
 	{
 		// Required objects
-		$installer = $this->getInstaller();
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
 
@@ -1054,7 +1047,7 @@ class Com_RedshopInstallerScript
 
 				if ($extId = $db->loadResult())
 				{
-					$result = $installer->uninstall('library', $extId);
+					$result = $this->getInstaller()->uninstall('library', $extId);
 				}
 
 				// Store the result to show install summary later
@@ -1073,7 +1066,6 @@ class Com_RedshopInstallerScript
 	private function uninstallModules($parent)
 	{
 		// Required objects
-		$installer = $this->getInstaller();
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
 
@@ -1097,7 +1089,7 @@ class Com_RedshopInstallerScript
 
 				if ($extId = $db->loadResult())
 				{
-					$result = $installer->uninstall('module', $extId);
+					$result = $this->getInstaller()->uninstall('module', $extId);
 				}
 
 				// Store the result to show install summary later
@@ -1116,7 +1108,6 @@ class Com_RedshopInstallerScript
 	private function uninstallPlugins($parent)
 	{
 		// Required objects
-		$installer = $this->getInstaller();
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
 
@@ -1141,7 +1132,7 @@ class Com_RedshopInstallerScript
 
 				if ($extId = $db->loadResult())
 				{
-					$result = $installer->uninstall('plugin', $extId);
+					$result = $this->getInstaller()->uninstall('plugin', $extId);
 				}
 
 				// Store the result to show install summary later
