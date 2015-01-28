@@ -32,6 +32,6 @@ class LoginJoomla2Steps extends \AcceptanceTester
 		$I->fillField(\LoginManagerPage::$userName, $config['username']);
 		$I->fillField(\LoginManagerPage::$password, $config['password']);
 		$I->click('Log in');
-		$I->see('Category Manager');
+		$I->see('Category Manager', \LoginManagerPage::$loginSuccessCheck);
 	}
 }
