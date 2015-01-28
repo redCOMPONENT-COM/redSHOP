@@ -8,7 +8,11 @@
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
+
 $fieldType = array("Check box", "Country selection box", "Date picker", "Documents", "Image", "Image with link", "Multiple select box", "Radio buttons",
 	"Selection Based On Selected Conditions", "Single Select", "Text Tag Content", "Text area", "WYSIWYG");
 $I->wantTo('Test Custom Fields Manager in Administrator');
