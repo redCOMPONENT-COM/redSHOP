@@ -19,7 +19,7 @@ namespace AcceptanceTester;
 class LoginJoomla3Steps extends \AcceptanceTester
 {
 	/**
-	 * Function to execute an Admin Login for Joomla2.5
+	 * Function to execute an Admin Login for Joomla3
 	 *
 	 * @return void
 	 */
