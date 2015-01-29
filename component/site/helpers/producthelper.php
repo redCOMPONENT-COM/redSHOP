@@ -55,8 +55,6 @@ class producthelper
 
 	protected static $productDateRange = array();
 
-	protected static $extraSectionTags = array();
-
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
@@ -768,34 +766,31 @@ class producthelper
 	 */
 	public function getExtraSectionTag($filedname = array(), $product_id, $section, $template_data, $categorypage = 0)
 	{
-		$key = serialize($filedname) . '_' . $template_data . '_' . $categorypage;
+		$extraField = new extraField;
 
-		if (!array_key_exists($key, self::$extraSectionTags))
+		$str = array();
+
+		for ($i = 0, $countFieldName = count($filedname); $i < $countFieldName; $i++)
 		{
-			$str = array();
-			$prefix = '';
-
 			if ($categorypage == 1)
 			{
-				$prefix = 'producttag:';
-			}
-
-			for ($i = 0, $countFiledName = count($filedname); $i < $countFiledName; $i++)
-			{
-				if (strstr($template_data, '{' . $prefix . $filedname[$i] . '}'))
+				if (strstr($template_data, "{producttag:" . $filedname[$i] . "}"))
 				{
 					$str[] = $filedname[$i];
 				}
 			}
-
-			self::$extraSectionTags[$key] = implode(',', redhelper::quote($str));
+			else
+			{
+				if (strstr($template_data, "{" . $filedname[$i] . "}"))
+				{
+					$str[] = $filedname[$i];
+				}
+			}
 		}
 
-		$dbname = self::$extraSectionTags[$key];
-
-		if ($dbname !== '')
+		if (count($str) > 0)
 		{
-			$extraField = new extraField;
+			$dbname = implode(',', redhelper::quote($str));
 			$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 		}
 

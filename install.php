@@ -76,7 +76,39 @@ class Com_RedshopInstallerScript
 		$this->installPlugins($parent);
 
 		JLoader::import('redshop.library');
-				$this->com_install('update');
+		$this->com_install('update');
+
+		$xml = JFactory::getXML(JPATH_ADMINISTRATOR . '/components/com_redshop/redshop.xml');
+
+		if (version_compare ((string) $xml->version, '1.5', '<='))
+		{
+			// Delete old helper names
+			$helpersDelete = array(
+				JPATH_SITE . '/components/com_redshop/helpers/' => array(
+					'captcha', 'cart', 'currency', 'extra_field', 'google_analytics', 'helper', 'product', 'user',
+					'zip', 'cron', 'redshop.js', 'pagination'),
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/' => array(
+					'access_level', 'category', 'configuration', 'images', 'mail', 'media', 'menu', 'order', 'product',
+					'quotation', 'stockroom', 'template', 'update'
+				)
+			);
+
+			foreach ($helpersDelete as $path => $helpers)
+			{
+				foreach ($helpers as $helperDeleteInSite)
+				{
+					if (is_file ($path . $helperDeleteInSite . '.php'))
+					{
+						JFile::delete($path . $helperDeleteInSite . '.php');
+					}
+				}
+			}
+
+			if (JFolder::exists(JPATH_SITE . '/components/com_redshop/helpers/tcpdf'))
+			{
+				JFolder::delete(JPATH_SITE . '/components/com_redshop/helpers/tcpdf');
+			}
+		}
 	}
 
 	/**
@@ -409,26 +441,6 @@ class Com_RedshopInstallerScript
 			if (!JFile::copy($redadmin . '/sh404sef/language/com_redshop.php', $sh404sefadmin . '/language/plugins/com_redshop.php'))
 			{
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
-			}
-		}
-
-		// Delete old helper names
-		$helpersDelete = array(
-			JPATH_SITE . '/components/com_redshop/helpers/' => array(
-				'captcha', 'cart', 'currency', 'extra_field', 'google_analytics', 'helper', 'product', 'user', 'zip', 'cron', 'redshop.js'),
-			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/' => array(
-				'access_level', 'category', 'configuration', 'images', 'mail', 'media', 'menu', 'order', 'product', 'quotation', 'stockroom', 'template', 'update'
-			)
-		);
-
-		foreach ($helpersDelete as $path => $helpers)
-		{
-			foreach ($helpers as $helperDeleteInSite)
-			{
-				if (is_file($path . $helperDeleteInSite . '.php'))
-				{
-					JFile::delete($path . $helperDeleteInSite . '.php');
-				}
 			}
 		}
 	}
