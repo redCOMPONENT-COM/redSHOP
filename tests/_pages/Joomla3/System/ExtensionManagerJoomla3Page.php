@@ -7,7 +7,7 @@
  */
 
 /**
- * Class ExtensionManagerPage
+ * Class ExtensionManagerJoomla3Page
  *
  * @since  1.4
  *
