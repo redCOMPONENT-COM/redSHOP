@@ -110,10 +110,12 @@ else
 	if (count($this->wish_session) > 0)
 	{
 		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
+		$rows = $this->wish_session;
+		$myproductid = '';
+		$count_no_user_field = 0;
+		display_products($rows);
 
-		display_products($this->wish_session);
-
-		for ($p = 0; $p < count($mysesspro); $p++)
+		for ($p = 0; $p < count($rows); $p++)
 		{
 			for ($ui = 0; $ui < count($userfieldArr); $ui++)
 			{
@@ -127,7 +129,7 @@ else
 				}
 			}
 
-			$myproductid .= $mysesspro[$p]->product_id . ",";
+			$myproductid .= $rows[$p]->product_id . ",";
 		}
 
 		echo "<br />";
@@ -139,7 +141,7 @@ else
 		}
 		else
 		{
-			echo "<div style=\"clear:both;\" ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\"  ><input type='button'  value='" . JText::_('SAVE_WISHLIST') . "'></a></div><br /><br />";
+			echo "<div style=\"clear:both;\" ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\"  ><input type='button'  value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a></div><br /><br />";
 		}
 	}
 
