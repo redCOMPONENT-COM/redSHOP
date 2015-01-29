@@ -84,7 +84,7 @@ if ($flage) : ?>
 		<?php
 		}
 		?>
-		<form name="adminForm" method="post" action="">
+		<form name="adminForm" id="adminForm" method="post" action="">
 			<table class="adminlist">
 				<thead>
 				<tr>
@@ -92,8 +92,7 @@ if ($flage) : ?>
 						<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 					</th>
 					<th width="5%" class="title" align="center">
-						<input type="checkbox" name="toggle" value=""
-						       onclick="checkAll(<?php echo count($wishlist); ?>);"/>
+						<?php echo JHtml::_('redshopgrid.checkall'); ?>
 					</th>
 					<th class="title" width="30%">
 						<?php echo JText::_('COM_REDSHOP_WISHLIST_NAME'); ?>
@@ -113,7 +112,7 @@ if ($flage) : ?>
 							<?php echo ($i + 1); ?>
 						</td>
 						<td align="center">
-							<?php echo JHTML::_('grid.id', $i, $row->wishlist_id); ?>
+							<?php echo JHTML::_('grid.id', $i, $row->wishlist_id, false, 'wishlist_id'); ?>
 						</td>
 						<td>
 							<?php echo $row->wishlist_name; ?>
@@ -142,7 +141,7 @@ if ($flage) : ?>
 
 	<script language="javascript" type="text/javascript">
 		function submitform() {
-			if (!document.adminForm.boxchecked.value)
+			if (document.adminForm.boxchecked.value != '1')
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_WISHLIST')?>");
 			else
 				document.adminForm.submit();

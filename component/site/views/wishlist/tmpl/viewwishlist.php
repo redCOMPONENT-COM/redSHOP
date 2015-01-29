@@ -57,6 +57,8 @@ if (!$user->id)
 
 		display_products($rows);
 		$reglink = JRoute::_("index.php?wishlist=1&option=com_redshop&view=login&Itemid=" . $Itemid);
+		$myproductid = '';
+		$count_no_user_field = 0;
 
 		for ($p = 0; $p < count($rows); $p++)
 		{
@@ -249,13 +251,16 @@ function display_products($rows)
 		$pw_thumb       = CATEGORY_PRODUCT_THUMB_WIDTH;
 		$wishlist_data1 = $template[0]->template_desc;
 
-		$mlink          = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlist_id;
+		$mlink          = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
 		$mail_link      = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
 		$wishlist_data1 = str_replace('{mail_link}', $mail_link, $wishlist_data1);
 		$template_d1    = explode("{product_loop_start}", $wishlist_data1);
 		$template_d2    = explode("{product_loop_end}", $template_d1[1]);
 		$temp_template  = '';
 		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+		$mainid = '';
+		$totattid = '';
+		$totcount_no_user_field = '';
 
 		for ($i = 0; $i < count($rows); $i++)
 		{
