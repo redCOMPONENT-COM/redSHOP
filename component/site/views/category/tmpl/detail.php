@@ -318,7 +318,7 @@ if (!$slide)
 
 		$cat_detail = "";
 
-		for ($i = 0; $i < count($this->detail); $i++)
+		for ($i = 0, $countDetail = count($this->detail); $i < $countDetail; $i++)
 		{
 			$row = $this->detail[$i];
 
@@ -536,7 +536,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$media_documents = $producthelper->getAdditionMediaImage($product->product_id, "product", "document");
 			$more_doc        = '';
 
-			for ($m = 0; $m < count($media_documents); $m++)
+			for ($m = 0, $countMediaDocuments = count($media_documents); $m < $countMediaDocuments; $m++)
 			{
 				$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
 
@@ -573,7 +573,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$ufield = "";
 
-			for ($ui = 0; $ui < count($userfieldArr); $ui++)
+			for ($ui = 0, $countUserFieldArr = count($userfieldArr); $ui < $countUserFieldArr; $ui++)
 			{
 				$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 				$ufield .= $product_userfileds[1];
@@ -619,7 +619,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			{
 				$ufield = "";
 
-				for ($ui = 0; $ui < count($userfieldArr); $ui++)
+				for ($ui = 0, $countUserFieldArr = count($userfieldArr); $ui < $countUserFieldArr; $ui++)
 				{
 					$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 					$ufield .= $product_userfileds[1];

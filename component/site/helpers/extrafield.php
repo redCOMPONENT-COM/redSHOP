@@ -688,7 +688,7 @@ class extraField
 
 		$row_data = self::$extraFieldDisplay[$field_section][$field_name];
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $countRowData = count($row_data); $i < $countRowData; $i++)
 		{
 			$type                = $row_data[$i]->field_type;
 			$published           = $row_data[$i]->published;
@@ -739,7 +739,7 @@ class extraField
 						$chk_data  = @explode(",", $data_value->data_txt);
 						$tmparr    = array();
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $countFieldChk = count($field_chk); $c < $countFieldChk; $c++)
 						{
 							if (@in_array(urlencode($field_chk[$c]->field_value), $chk_data))
 							{
@@ -817,7 +817,7 @@ class extraField
 						$image_link  = array();
 						$image_hover = array();
 
-						for ($ch = 0; $ch < count($chk_data); $ch++)
+						for ($ch = 0, $countChkData = count($chk_data); $ch < $countChkData; $ch++)
 						{
 							$image_link[$chk_data[$ch]]  = isset($tmp_image_link[$ch]) ? $tmp_image_link[$ch] : '';
 							$image_hover[$chk_data[$ch]] = isset($tmp_image_hover[$ch]) ? $tmp_image_hover[$ch] : '';
@@ -825,7 +825,7 @@ class extraField
 
 						$displayvalue = '';
 
-						for ($c = 0; $c < count($document_value); $c++)
+						for ($c = 0, $countDocumentValue = count($document_value); $c < $countDocumentValue; $c++)
 						{
 							if (@in_array($document_value[$c]->value_id, $chk_data))
 							{

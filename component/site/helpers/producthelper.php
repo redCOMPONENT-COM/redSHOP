@@ -55,6 +55,8 @@ class producthelper
 
 	protected static $productDateRange = array();
 
+	protected static $extraSectionTags = array();
+
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
@@ -766,31 +768,34 @@ class producthelper
 	 */
 	public function getExtraSectionTag($filedname = array(), $product_id, $section, $template_data, $categorypage = 0)
 	{
-		$extraField = new extraField;
+		$key = serialize($filedname) . '_' . $template_data . '_' . $categorypage;
 
-		$str = array();
-
-		for ($i = 0; $i < count($filedname); $i++)
+		if (!array_key_exists($key, self::$extraSectionTags))
 		{
+			$str = array();
+			$prefix = '';
+
 			if ($categorypage == 1)
 			{
-				if (strstr($template_data, "{producttag:" . $filedname[$i] . "}"))
-				{
-					$str[] = $filedname[$i];
-				}
+				$prefix = 'producttag:';
 			}
-			else
+
+			for ($i = 0, $countFiledName = count($filedname); $i < $countFiledName; $i++)
 			{
-				if (strstr($template_data, "{" . $filedname[$i] . "}"))
+				if (strstr($template_data, '{' . $prefix . $filedname[$i] . '}'))
 				{
 					$str[] = $filedname[$i];
 				}
 			}
+
+			self::$extraSectionTags[$key] = implode(',', redhelper::quote($str));
 		}
 
-		if (count($str) > 0)
+		$dbname = self::$extraSectionTags[$key];
+
+		if ($dbname !== '')
 		{
-			$dbname = implode(',', redhelper::quote($str));
+			$extraField = new extraField;
 			$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 		}
 
@@ -3158,7 +3163,7 @@ class producthelper
 		{
 			$tmpArr = explode('}', $template_middle);
 
-			for ($i = 0; $i < count($tmpArr); $i++)
+			for ($i = 0, $countTmpArr = count($tmpArr); $i < $countTmpArr; $i++)
 			{
 				$val   = strpbrk($tmpArr[$i], "{");
 				$value = str_replace("{", "", $val);
@@ -3181,7 +3186,7 @@ class producthelper
 
 		$tmp = array();
 
-		for ($i = 0; $i < count($userfields); $i++)
+		for ($i = 0, $countUserFields = count($userfields); $i < $countUserFields; $i++)
 		{
 			if (!in_array($userfields[$i], $userfields_lbl))
 			{
@@ -3698,7 +3703,7 @@ class producthelper
 
 		if ($data_add != "")
 		{
-			for ($i = 0; $i < count($attribute_template); $i++)
+			for ($i = 0, $countAttributeTemplate = count($attribute_template); $i < $countAttributeTemplate; $i++)
 			{
 				if (strstr($data_add, "{" . $displayname . ":" . $attribute_template[$i]->template_name . "}"))
 				{
@@ -4189,7 +4194,7 @@ class producthelper
 			$default_ajaxdetail_templatedata = array();
 			$ajaxdetail_template             = $redTemplate->getTemplate("ajax_cart_detail_box");
 
-			for ($i = 0; $i < count($ajaxdetail_template); $i++)
+			for ($i = 0, $countAjaxDetailTemplate = count($ajaxdetail_template); $i < $countAjaxDetailTemplate; $i++)
 			{
 				if (strstr($producttemplate[0]->template_desc, "{ajaxdetail_template:" . $ajaxdetail_template[$i]->template_name . "}"))
 				{
@@ -6582,7 +6587,7 @@ class producthelper
 					}
 				}
 
-				for ($ui = 0; $ui < count($userfieldArr); $ui++)
+				for ($ui = 0, $countUserfieldArr = count($userfieldArr); $ui < $countUserfieldArr; $ui++)
 				{
 					$result_arr = $extraField->list_all_user_fields(
 						$userfieldArr[$ui],
@@ -6829,7 +6834,7 @@ class producthelper
 					$qselect = "<select name='quantity' id='quantity" . $product_id
 						. "'  OnChange='calculateTotalPrice(" . $product_id . "," . $relproduct_id . ");'>";
 
-					for ($q = 0; $q < count($quaboxarr); $q++)
+					for ($q = 0, $countQuaBoxArr = count($quaboxarr); $q < $countQuaBoxArr; $q++)
 					{
 						if (intVal($quaboxarr[$q]) && intVal($quaboxarr[$q]) != 0)
 						{
@@ -10198,7 +10203,7 @@ class producthelper
 
 		if (count($fieldArray) > 0)
 		{
-			for ($i = 0; $i < count($fieldArray); $i++)
+			for ($i = 0, $countFieldArray = count($fieldArray); $i < $countFieldArray; $i++)
 			{
 				$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 17, $productid);
 
