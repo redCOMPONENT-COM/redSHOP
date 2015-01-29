@@ -35,6 +35,13 @@ else
 // Loads Payers API.
 include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/payread_post_api.php';
 
+// Session variable
+$session = JFactory::getSession();
+$vatRate = $session->get('rs_user')['taxData']->tax_rate;
+
+// Convert rate into percentage
+$vatRate *= 100;
+
 // Creates an object from Payers API.
 $thePayreadApi = new payread_post_api;
 $thePayreadApi->add_valid_ip($_SERVER["REMOTE_ADDR"]);
@@ -68,13 +75,11 @@ for ($i = 0; $i < count($orderItemDetails); $i++)
 	$product_item_price = $currencyClass->convert($orderItemDetails[$i]->product_item_price, '', $currency_main);
 	$product_item_price_excl_vat = $currencyClass->convert($orderItemDetails[$i]->product_item_price_excl_vat, '', $currency_main);
 
-	$vat = $product_item_price - $product_item_price_excl_vat;
-	$vat = $currencyClass->convert($vat, '', $currency_main);
 	$thePayreadApi->add_freeform_purchase(
 		$i + 1,
 		$orderItemDetails[$i]->order_item_name,
 		$product_item_price,
-		$vat,
+		$vatRate,
 		$orderItemDetails[$i]->product_quantity
 	);
 }
@@ -82,13 +87,6 @@ for ($i = 0; $i < count($orderItemDetails); $i++)
 if ($order->order_shipping > 0)
 {
 	$i++;
-	$order_shipping_tax = 0;
-
-	if ($order->order_shipping_tax > 0 && $order->order_shipping_tax != null)
-	{
-		$order_shipping_tax = $order->order_shipping_tax;
-		$order_shipping_tax = $currencyClass->convert($order_shipping_tax, '', $currency_main);
-	}
 
 	$order_shipping = $currencyClass->convert($order->order_shipping, '', $currency_main);
 
@@ -96,7 +94,7 @@ if ($order->order_shipping > 0)
 		$i + 1,
 		"Order Shipping",
 		$order_shipping,
-		$order_shipping_tax,
+		$vatRate,
 		1
 	);
 }

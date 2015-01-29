@@ -424,7 +424,7 @@ class payread_post_api
 	 * @param string $theLineNumber  order of the output lines of the products buyed, starting at 1. (required)
 	 * @param string $theDescription decription of the product buyed. (required)
 	 * @param int    $thePrice       price of the product buyed. (required)
-	 * @param int    $theVat         vat of the product buyed. (required)
+	 * @param int    $theVat         vat percentage of the product buyed. (required)
 	 * @param int    $theQuantity    quantity of the product buyed. (required)
 	 *
 	 * @return  nothing
