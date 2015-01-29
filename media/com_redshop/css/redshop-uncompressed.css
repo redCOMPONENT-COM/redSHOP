@@ -107,6 +107,7 @@ td.field_label {
     min-height: 250px;
     width: 100%;
     display: block;
+    overflow: hidden;
 }
 .category_box_outside {
     margin: 0;
