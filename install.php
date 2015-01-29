@@ -89,7 +89,7 @@ class Com_RedshopInstallerScript
 					'zip', 'cron', 'redshop.js', 'pagination'),
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/' => array(
 					'access_level', 'category', 'configuration', 'images', 'mail', 'media', 'menu', 'order', 'product',
-					'quotation', 'stockroom', 'template', 'update'
+					'quotation', 'stockroom', 'template', 'update', 'shopper'
 				)
 			);
 
