@@ -16,11 +16,9 @@ $thumbheight = trim($params->get('thumbheight', 100));
 $db = JFactory::getDbo();
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-JLoader::load('RedshopHelperProduct');
 $user = JFactory::getUser();
 
 $sql = "SELECT s.*,u.user_id "

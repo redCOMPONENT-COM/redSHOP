@@ -16,7 +16,6 @@ class RedshopViewOrder extends RedshopView
 	{
 		$context = 'order_id';
 
-		JLoader::load('RedshopHelperAdminOrder');
 
 		$order_function = new order_functions;
 

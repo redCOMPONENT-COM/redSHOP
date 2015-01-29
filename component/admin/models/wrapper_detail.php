@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelWrapper_detail extends RedshopModel
 {

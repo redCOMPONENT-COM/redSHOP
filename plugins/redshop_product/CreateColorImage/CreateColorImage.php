@@ -8,8 +8,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Create Color image plugin

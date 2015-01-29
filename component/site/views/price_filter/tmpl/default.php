@@ -28,7 +28,6 @@ $k = 0;
 $configobj = new Redconfiguration;
 
 // Get product helper
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;?>
 <table border="0" cellpadding="2" cellspacing="2">
 	<?php

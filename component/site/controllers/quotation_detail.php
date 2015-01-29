@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperHelper');
 
 /**
  * Quotation Detail Controller.

@@ -34,7 +34,6 @@ if (!defined('TABLE_PREFIX'))
 }
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminCategory');
 $product_category = new product_category;
 
 shRemoveFromGETVarsList('option');

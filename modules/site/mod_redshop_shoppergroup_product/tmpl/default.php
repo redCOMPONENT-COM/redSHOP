@@ -23,7 +23,7 @@ $getoption = JRequest::getCmd('option');
 $document = JFactory::getDocument();
 JHTML::stylesheet('modules/mod_redshop_shoppergroup_product/css/products.css');
 // 	include redshop js file.
-JLoader::load('RedshopHelperRedshop.js');
+RedshopHelperJs::init();
 
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);

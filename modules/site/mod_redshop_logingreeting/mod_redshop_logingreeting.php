@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 $order_function = new order_functions;
 $user = JFactory::getUser();
 $mainparam = $params->def('logging_greeting', 1);

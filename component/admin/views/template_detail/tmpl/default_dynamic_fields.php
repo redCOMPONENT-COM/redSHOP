@@ -9,8 +9,6 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 $model = $this->getModel('template_detail');
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperAdminExtra_field');
 $redtemplate = new Redtemplate;
 $extra_field = new extra_field;
 $default_template = JText::_('COM_REDSHOP_DEFAULT_TEMPLATE_DETAIL');

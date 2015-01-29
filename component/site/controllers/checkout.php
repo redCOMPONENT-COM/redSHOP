@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Checkout Controller.
@@ -704,8 +702,6 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function captcha()
 	{
-		JLoader::load('RedshopHelperCaptcha');
-
 		// Isset($_GET['width']) ? $_GET['width'] : '120';
 		$width = JRequest::getInt('width', 120);
 

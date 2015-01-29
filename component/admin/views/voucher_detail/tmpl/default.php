@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
 $now = JFactory::getDate();

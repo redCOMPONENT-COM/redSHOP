@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewAddquotation_detail extends RedshopView
 {

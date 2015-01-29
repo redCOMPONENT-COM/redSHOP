@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewManufacturer_detail extends RedshopView
 {
@@ -22,7 +21,6 @@ class RedshopViewManufacturer_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$uri = JFactory::getURI();
 		$document = JFactory::getDocument();

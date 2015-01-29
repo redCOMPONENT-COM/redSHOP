@@ -32,7 +32,6 @@ JHTML::script('com_redshop/redbox.js', false, true);
 $module_id = "mod_" . $module->id;
 
 // get product helper
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 $redhelper     = new redhelper;
 $extraField    = new extraField;

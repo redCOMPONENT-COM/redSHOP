@@ -20,9 +20,6 @@ jimport('joomla.plugin.plugin');
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminShipping');
 
 class plgredshop_shippingaustraliapost extends JPlugin
 {

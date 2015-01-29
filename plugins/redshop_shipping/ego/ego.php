@@ -19,9 +19,6 @@ jimport('joomla.plugin.plugin');
  */
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgredshop_shippingego extends JPlugin
 {

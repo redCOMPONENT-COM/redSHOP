@@ -11,7 +11,6 @@ defined( '_JEXEC' ) or die;
 
 jimport( 'joomla.application.component.view' );
 
-JLoader::load('RedshopHelperProduct');
 
 class RedshopViewAnswer_detail extends RedshopView
 {

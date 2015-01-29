@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminProduct');
 
 class RedshopControllerOrder_detail extends RedshopController
 {
@@ -402,8 +399,6 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
-		JLoader::load('RedshopHelperAdminOrder');
-		JLoader::load('RedshopHelperAdminConfiguration');
 
 		$redconfig = new Redconfiguration;
 		$model = $this->getModel('order_detail');
@@ -512,7 +507,6 @@ class RedshopControllerOrder_detail extends RedshopController
 		$app = JFactory::getApplication();
 		$request = JRequest::get('request');
 
-		JLoader::load('RedshopHelperOrder');
 		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');

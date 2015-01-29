@@ -171,8 +171,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	public function onCapture_Paymentrs_payment_chase($element, $data)
 	{
 		$db = JFactory::getDbo();
-		JLoader::load('RedshopHelperAdminOrder');
-		$objOrder = new order_functions;
+				$objOrder = new order_functions;
 
 		$chase_terminal_id      = $this->params->get('chase_terminal_id', '');
 		$chase_merchant_id      = $this->params->get('chase_merchant_id', '');

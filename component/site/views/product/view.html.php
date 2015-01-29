@@ -9,11 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminCategory');
-JLoader::load('RedshopHelperAdminText_library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
 /**
  * Product Detail View
  *

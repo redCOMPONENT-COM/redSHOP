@@ -15,11 +15,6 @@ $app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperHelper');
 
 $carthelper = new rsCarthelper;
 $producthelper = new producthelper;

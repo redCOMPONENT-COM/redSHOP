@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperExtra_field');
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

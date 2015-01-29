@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelGiftcard_detail extends RedshopModel
 {

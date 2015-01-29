@@ -34,7 +34,6 @@ $app = JFactory::getApplication();
 $app->initialise();
 /*** END of Joomla config ***/
 
-JLoader::load('RedshopHelperAdminXmlHelper');
 
 class xmlcron
 {

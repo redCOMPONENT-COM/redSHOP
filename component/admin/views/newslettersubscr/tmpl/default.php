@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JLoader::load('RedshopHelperAdminOrder');
 $order_function = new order_functions;
 
 $option = JRequest::getVar('option');

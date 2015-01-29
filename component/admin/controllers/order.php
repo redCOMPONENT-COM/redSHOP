@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperHelper');
 
 class RedshopControllerOrder extends RedshopController
 {

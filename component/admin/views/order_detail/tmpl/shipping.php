@@ -19,7 +19,6 @@ if (!isset($shipping->order_info_id))
 	$shipping->order_info_id = 0;
 
 $Itemid = JRequest::getVar('Itemid');
-JLoader::load('RedshopHelperAdminExtra_field');
 ?>
 <script type="text/javascript">
 

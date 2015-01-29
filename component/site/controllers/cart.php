@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
 
 /**
  * Cart Controller.
@@ -521,8 +519,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function getShippingrate()
 	{
-		JLoader::load('RedshopHelperAdminShipping');
-		$shipping = new shipping;
+				$shipping = new shipping;
 		echo $shipping->getShippingrate_calc();
 		exit;
 	}

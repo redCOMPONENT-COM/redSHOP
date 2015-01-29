@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
-JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
 
 $url = JURI::base();

@@ -29,8 +29,7 @@ class plgRedshop_paymentrs_payment_eantransfer extends JPlugin
 		// Send the Order mail
 		if (ORDER_MAIL_AFTER)
 		{
-			JLoader::load('RedshopHelperAdminMail');
-			$redshopMail = new redshopMail;
+						$redshopMail = new redshopMail;
 			$redshopMail->sendOrderMail($data['order_id']);
 		}
 

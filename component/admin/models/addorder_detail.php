@@ -9,15 +9,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperUser');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminProduct');
-JLoader::load('RedshopHelperAdminShipping');
 
 class RedshopModelAddorder_detail extends RedshopModel
 {

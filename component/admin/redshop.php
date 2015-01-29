@@ -35,16 +35,6 @@ else
 	require_once $configpath;
 }
 
-JLoader::load('RedshopHelperAdminProduct');
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperAdminStockroom');
-JLoader::load('RedshopHelperAdminEconomic');
-JLoader::load('RedshopHelperAdminAccess_level');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminImages');
-JLoader::load('RedshopHelperAdminCategory');
-
 $redhelper = new redhelper;
 $redhelper->removeShippingRate();
 $Redconfiguration = new Redconfiguration;
@@ -200,7 +190,6 @@ if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task !
 		&& $view != 'orderstatus_detail')
 	{
 		echo '<div style="float:left;width:19%; margin-right:1%;">';
-		JLoader::load('RedshopHelperAdminMenu');
 		$menu = new leftmenu;
 		echo '</div>';
 

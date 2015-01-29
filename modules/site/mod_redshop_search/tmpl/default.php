@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::load('RedshopHelperHelper');
 
 $templateid = $params->get('templateid');
 $defaultSearchType = trim($params->get('defaultSearchType', 'product_name'));

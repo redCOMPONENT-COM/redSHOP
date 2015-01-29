@@ -60,7 +60,6 @@ JPlugin::loadLanguage('com_redshop');
 $request = JRequest::get('request');
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 $objOrder = new order_functions;
 
 $app = JFactory::getApplication();

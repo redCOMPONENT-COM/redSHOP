@@ -54,7 +54,6 @@ if (!class_exists('LofSliderGroupRedshop'))
 		{
 
 			global $mm_action_url;
-			JLoader::load('RedshopHelperProduct');
 
 			$db                  = JFactory::getDbo();
 			$producthelper       = new producthelper;

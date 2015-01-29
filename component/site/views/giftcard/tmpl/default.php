@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-JLoader::load('RedshopHelperExtra_field');
 
 $producthelper = new producthelper;
 $objhelper     = new redhelper;

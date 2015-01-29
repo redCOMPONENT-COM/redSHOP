@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminText_library');
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelNewsletter extends RedshopModel
 {

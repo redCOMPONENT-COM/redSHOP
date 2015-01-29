@@ -22,8 +22,7 @@ $document = JFactory::getDocument();
 $document->addStyleSheet('modules/mod_redshop_products/css/products.css');
 
 // Include redshop js file.
-JLoader::load('RedshopHelperRedshop.js');
-JLoader::load('RedshopHelperAdminImages');
+RedshopHelperJs::init();
 
 // Lightbox Javascript
 JHtml::script('com_redshop/attribute.js', false, true);

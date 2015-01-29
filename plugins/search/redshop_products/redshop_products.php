@@ -13,9 +13,6 @@ jimport('joomla.plugin.plugin');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperUser');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();

@@ -56,8 +56,6 @@ class PlgUserCart extends JPlugin
 	 */
 	protected function _removeRedshopCart()
 	{
-		JLoader::load('RedshopHelperAdminConfiguration');
-		JLoader::load('RedshopHelperCart');
 
 		$Redconfiguration = new Redconfiguration;
 		$Redconfiguration->defineDynamicVars();

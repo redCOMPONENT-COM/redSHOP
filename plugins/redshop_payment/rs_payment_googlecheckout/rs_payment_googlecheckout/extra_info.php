@@ -8,7 +8,6 @@
  */
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminShipping');
 
 $shippinghelper = new shipping;
 $currencyClass  = new CurrencyHelper;

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminQuotation');
 
 class RedshopViewQuotation_detail extends RedshopView
 {

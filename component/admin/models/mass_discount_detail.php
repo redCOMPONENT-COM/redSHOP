@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::load('RedshopHelperProduct');
 
 
 class RedshopModelMass_discount_detail extends RedshopModel

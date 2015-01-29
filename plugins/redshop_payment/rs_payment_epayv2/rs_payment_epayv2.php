@@ -47,8 +47,6 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$plugin = $element;
 		}
 
-		JLoader::load('RedshopHelperProduct');
-		JLoader::load('RedshopHelperCurrency');
 
 		$producthelper  = new producthelper;
 		$CurrencyHelper = new CurrencyHelper;

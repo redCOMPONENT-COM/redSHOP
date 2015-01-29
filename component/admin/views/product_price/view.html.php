@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
 
 class RedshopViewProduct_price extends RedshopView
 {

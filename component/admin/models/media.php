@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperAdminMedia');
-
 class RedshopModelMedia extends RedshopModel
 {
 	/**

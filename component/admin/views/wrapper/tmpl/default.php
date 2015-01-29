@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
 $showall = JRequest::getVar('showall', '0');

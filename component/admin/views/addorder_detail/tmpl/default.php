@@ -11,10 +11,7 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 JHTML::_('behavior.calendar');
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
-JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
 $redconfig = new Redconfiguration;
 

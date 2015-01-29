@@ -16,12 +16,10 @@ class plgAcymailingRedshop extends JPlugin
 	public function plgAcymailingRedshop(&$subject, $config)
 	{
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		JLoader::load('RedshopHelperAdminConfiguration');
 
 		$redConfiguration = new Redconfiguration;
 		$redConfiguration->defineDynamicVars();
 
-		JLoader::load('RedshopHelperProduct');
 
 		parent::__construct($subject, $config);
 	}
@@ -128,8 +126,7 @@ class plgAcymailingRedshop extends JPlugin
 	 */
 	public function getProduct($product_id, $tag)
 	{
-		JLoader::load('RedshopHelperAdminTemplate');
-		$redTemplate = new Redtemplate;
+				$redTemplate = new Redtemplate;
 
 		$prtemplate_id = trim($this->params->get('product_template', 1));
 		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);

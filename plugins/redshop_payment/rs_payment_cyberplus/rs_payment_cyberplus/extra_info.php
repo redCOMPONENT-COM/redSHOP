@@ -9,8 +9,6 @@
 
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCurrency');
 
 $objOrder         = new order_functions;
 $objconfiguration = new Redconfiguration;

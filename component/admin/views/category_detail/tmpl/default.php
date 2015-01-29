@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminImages');
 
 JHTML::_('behavior.tooltip');
 $editor        = JFactory::getEditor();

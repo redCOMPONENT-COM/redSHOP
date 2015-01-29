@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 /*
  * Include required files
  */
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCart');
 
 $producthelper = new producthelper;
 $carthelper    = new rsCarthelper;

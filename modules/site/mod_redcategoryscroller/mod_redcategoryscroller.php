@@ -13,20 +13,17 @@ global $my, $mosConfig_absolute_path;
 JLoader::import('redshop.library');
 
 // Getting the configuration in redshop.js.php
-JLoader::load('RedshopHelperRedshop.js');
+RedshopHelperJs::init();
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-JLoader::load('RedshopHelperAdminCategory');
 
 // Get product helper
-JLoader::load('RedshopHelperProduct');
 
 // Get product helper
-JLoader::load('RedshopHelperHelper');
 
 $document = JFactory::getDocument();
 JHTML::script('com_redshop/redbox.js', false, true);

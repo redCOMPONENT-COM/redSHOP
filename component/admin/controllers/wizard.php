@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminConfiguration');
 
 class RedshopControllerWizard extends RedshopController
 {

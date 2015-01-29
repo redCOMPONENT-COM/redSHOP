@@ -13,7 +13,6 @@ $user = JFactory::getUser();
 $db   = JFactory::getDbo();
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 $request = JRequest::get('REQUEST');
 $task = $request['task'];
 $Itemid = $_REQUEST['Itemid'];

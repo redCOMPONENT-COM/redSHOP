@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperHelper');
 
 $Itemid = $this->redHelper->getCartItemid();
 

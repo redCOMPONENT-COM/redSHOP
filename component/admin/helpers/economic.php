@@ -9,11 +9,6 @@
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperAdminStockroom');
 
 class economic
 {

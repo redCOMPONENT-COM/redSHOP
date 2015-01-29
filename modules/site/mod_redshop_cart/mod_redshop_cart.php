@@ -21,14 +21,10 @@ $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
 if ($option != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	JLoader::load('RedshopHelperAdminConfiguration');
-	$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
 
 $show_empty_btn = 0;
 

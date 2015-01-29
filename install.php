@@ -43,7 +43,6 @@ class Com_RedshopInstallerScript
 		// $parent is the class calling this method
 
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperAdminTemplate');
 
 		$this->com_install('install');
 	}
@@ -77,8 +76,7 @@ class Com_RedshopInstallerScript
 		$this->installPlugins($parent);
 
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperAdminTemplate');
-		$this->com_install('update');
+				$this->com_install('update');
 	}
 
 	/**
@@ -413,6 +411,26 @@ class Com_RedshopInstallerScript
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
 			}
 		}
+
+		// Delete old helper names
+		$helpersDelete = array(
+			JPATH_SITE . '/components/com_redshop/helpers/' => array(
+				'captcha', 'cart', 'currency', 'extra_field', 'google_analytics', 'helper', 'product', 'user', 'zip', 'cron', 'redshop.js'),
+			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/' => array(
+				'access_level', 'category', 'configuration', 'images', 'mail', 'media', 'menu', 'order', 'product', 'quotation', 'stockroom', 'template', 'update'
+			)
+		);
+
+		foreach ($helpersDelete as $path => $helpers)
+		{
+			foreach ($helpers as $helperDeleteInSite)
+			{
+				if (is_file($path . $helperDeleteInSite . '.php'))
+				{
+					JFile::delete($path . $helperDeleteInSite . '.php');
+				}
+			}
+		}
 	}
 
 	/**
@@ -424,7 +442,6 @@ class Com_RedshopInstallerScript
 	{
 		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperUser');
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
@@ -440,7 +457,6 @@ class Com_RedshopInstallerScript
 	private function redshopHandleCFGFile()
 	{
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperAdminConfiguration');
 
 		// Include redshop.cfg.php file for cfg variables
 		$cfgfile = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";

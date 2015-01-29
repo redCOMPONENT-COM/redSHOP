@@ -16,7 +16,6 @@ class RedshopViewState extends RedshopView
 	{
 		JLoader::import('joomla.html.pagination');
 
-		JLoader::load('RedshopHelperHelper');
 
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();

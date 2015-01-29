@@ -9,8 +9,6 @@ defined('_JEXEC') or die;
 
 // Load redSHOP Library
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Merge Products Images with Attribute Images

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewAccount_shipto extends RedshopView
 {

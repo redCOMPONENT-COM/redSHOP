@@ -9,13 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelAttribute_set_detail extends RedshopModel
 {

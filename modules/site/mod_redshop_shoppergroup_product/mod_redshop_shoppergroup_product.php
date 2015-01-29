@@ -31,15 +31,10 @@ if ($option != 'com_redshop')
 {
 	// Getting the configuration
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	JLoader::load('RedshopHelperAdminConfiguration');
-	$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperExtra_field');
 
 $and              = "";
 $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;

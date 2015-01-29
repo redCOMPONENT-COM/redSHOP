@@ -30,10 +30,8 @@ $db             = JFactory::getDbo();
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
-JLoader::load('RedshopHelperAdminCategory');
 
 $catfld = '';
 if ($adjcat == 0)

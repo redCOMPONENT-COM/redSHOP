@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Product Controller.

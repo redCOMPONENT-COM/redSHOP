@@ -8,7 +8,6 @@
  */
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperSiteHelper');
 
 $redhelper = new redhelper;
 $db        = JFactory::getDbo();

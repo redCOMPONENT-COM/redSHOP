@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminMail');
 
 class RedshopModelAnswer_detail extends RedshopModel
 {

@@ -18,7 +18,6 @@ JHtml::_('redshopjquery.framework');
 JHtml::script('modules/mod_redshop_who_bought/assets/js/query.jcarousel.min.js');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
@@ -29,7 +28,7 @@ $extraField = new extraField;
 $module_id = "mod_" . $module->id;
 
 // 	include redshop js file.
-JLoader::load('RedshopHelperRedshop.js');
+RedshopHelperJs::init();
 
 
 JHtml::script('com_redshop/common.js', false, true);

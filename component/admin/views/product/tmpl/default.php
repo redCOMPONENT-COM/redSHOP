@@ -6,8 +6,6 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminExtra_field');
 $app           = JFactory::getApplication();
 $extra_field   = new extra_field;
 JHTMLBehavior::modal();

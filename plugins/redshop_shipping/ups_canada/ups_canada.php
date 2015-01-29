@@ -23,10 +23,6 @@ if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . base
 JHTML::_('behavior.tooltip');
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCurrency');
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminShipping');
 
 class plgredshop_shippingups_canada extends JPlugin
 {

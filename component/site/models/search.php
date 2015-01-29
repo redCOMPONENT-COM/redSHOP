@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminCategory');
-JLoader::load('RedshopHelperProduct');
 
 /**
  * Class searchModelsearch

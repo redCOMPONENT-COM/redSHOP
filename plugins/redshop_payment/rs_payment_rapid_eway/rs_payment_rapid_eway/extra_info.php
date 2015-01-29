@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminOrder');
 
 $app = JFactory::getApplication();
 $Redconfiguration = new Redconfiguration;

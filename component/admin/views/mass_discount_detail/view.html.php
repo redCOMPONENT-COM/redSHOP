@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewMass_discount_detail extends RedshopView
 {

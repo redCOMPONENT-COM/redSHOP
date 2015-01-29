@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperCurrency');
-JLoader::load('RedshopHelperAdminExtra_field');
 
 class RedshopControllerConfiguration extends RedshopController
 {

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 $config        = new Redconfiguration;
 

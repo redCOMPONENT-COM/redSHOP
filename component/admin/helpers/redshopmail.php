@@ -9,17 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperExtra_field');
-
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminImages');
-
 class redshopMail
 {
 	public $_table_prefix = null;

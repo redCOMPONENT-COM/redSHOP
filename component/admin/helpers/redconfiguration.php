@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperUser');
 
 class Redconfiguration
 {
@@ -1376,8 +1375,7 @@ class Redconfiguration
 
 		if (empty($this->_country_list))
 		{
-			JLoader::load('RedshopHelperHelper');
-			$redhelper = new redhelper;
+						$redhelper = new redhelper;
 
 			$countries = array();
 

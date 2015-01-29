@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminImages');
 
 class xmlHelper
 {

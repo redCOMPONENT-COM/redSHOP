@@ -39,17 +39,12 @@ $db->setQuery($sql);
 $productlists = $db->loadObjectList();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-JLoader::load('RedshopHelperProduct');
 
-JLoader::load('RedshopHelperHelper');
 
-JLoader::load('RedshopHelperAdminTemplate');
 
-JLoader::load('RedshopHelperExtra_field');
 
 require JModuleHelper::getLayoutPath('mod_redshop_who_bought');

@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-JLoader::load('RedshopHelperAdminTemplate');
-
 class RedshopControllerShipping_box_detail extends RedshopController
 {
 	public function __construct($default = array())

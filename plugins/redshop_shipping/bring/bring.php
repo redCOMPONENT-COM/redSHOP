@@ -21,10 +21,6 @@ jimport('joomla.plugin.plugin');
 define('BRING_RESPONSE_ERROR', 'test');
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCurrency');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgredshop_shippingbring extends JPlugin
 {

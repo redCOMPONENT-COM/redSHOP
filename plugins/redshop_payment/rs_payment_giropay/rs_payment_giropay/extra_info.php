@@ -8,7 +8,6 @@
  */
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperCurrency');
 
 $uri           = JURI::getInstance();
 $url           = $uri->root();

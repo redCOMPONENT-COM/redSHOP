@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgRedshop_paymentrs_payment_braintree extends JPlugin
 {

@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminProduct');
 
 class RedshopControllerQuotation_detail extends RedshopController
 {

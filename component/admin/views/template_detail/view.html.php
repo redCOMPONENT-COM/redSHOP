@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewTemplate_detail extends RedshopView
 {

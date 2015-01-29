@@ -16,8 +16,6 @@ $editor = JFactory::getEditor('codemirror');
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminTemplate');
 $extra_field = new extra_field;
 
 ?>

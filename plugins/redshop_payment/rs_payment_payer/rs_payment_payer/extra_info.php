@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
 
 $producthelper = new producthelper;
 $order_functions = new order_functions;

@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminImages');
 
 class extra_field
 {

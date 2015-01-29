@@ -101,7 +101,6 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 			return;
 		}
 
-		JLoader::load('RedshopHelperAdminOrder');
 
 		$objOrder   = new order_functions;
 		$db         = JFactory::getDbo();

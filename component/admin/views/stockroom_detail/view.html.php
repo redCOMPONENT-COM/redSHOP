@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
 
 class RedshopViewStockroom_detail extends RedshopView
 {

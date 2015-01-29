@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 jimport('joomlplugin.plugin');
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
 
 
 class plgSearchRedshop_categories extends JPlugin

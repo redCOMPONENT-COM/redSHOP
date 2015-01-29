@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperHelper');
 
 class RedshopViewSearch extends RedshopView
 {
@@ -137,9 +136,6 @@ class RedshopViewSearch extends RedshopView
 		{
 			$app = JFactory::getApplication();
 
-			JLoader::load('RedshopHelperProduct');
-			JLoader::load('RedshopHelperExtra_field');
-			JLoader::load('RedshopHelperAdminText_library');
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;

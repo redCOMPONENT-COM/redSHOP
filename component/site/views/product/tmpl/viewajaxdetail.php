@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtmlBehavior::modal();
 
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
-JLoader::load('RedshopHelperExtra_field');
 $extraField = new extraField;
 
 $url = JURI::base();

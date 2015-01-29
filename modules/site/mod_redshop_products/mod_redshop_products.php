@@ -33,15 +33,10 @@ $isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
 $redConfiguration = new Redconfiguration;
 $redConfiguration->defineDynamicVars();
 $user = JFactory::getUser();
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperAdminExtra_field');
 
 $query = $db->getQuery(true)
 	->select('p.product_id')

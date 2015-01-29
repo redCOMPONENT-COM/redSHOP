@@ -10,13 +10,10 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-JLoader::load('RedshopHelperProduct');
 $producthelper   = new producthelper;
 
-JLoader::load('RedshopHelperAdminQuotation');
 $quotationHelper = new quotationHelper;
 
-JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
 
 $redconfig       = new Redconfiguration;

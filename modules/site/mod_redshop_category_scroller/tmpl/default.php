@@ -11,10 +11,6 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminImages');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -28,7 +24,7 @@ $document = JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'modules/mod_redshop_products/css/products.css');
 
 // 	include redshop js file.
-JLoader::load('RedshopHelperRedshop.js');
+RedshopHelperJs::init();
 
 // Light-box Java-script
 JHtml::script('com_redshop/redbox.js', false, true);

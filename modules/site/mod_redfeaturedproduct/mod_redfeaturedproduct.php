@@ -13,22 +13,18 @@ JHTMLBehavior::modal();
 JLoader::import('redshop.library');
 
 // Getting the configuration in redshop.js.php
-JLoader::load('RedshopHelperRedshop.js');
+RedshopHelperJs::init();
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-JLoader::load('RedshopHelperAdminCategory');
 
 // Get product helper
-JLoader::load('RedshopHelperProduct');
 
 // Get default helper
-JLoader::load('RedshopHelperHelper');
 
-JLoader::load('RedshopHelperAdminImages');
 
 /**
 * This class sets all Parameters.

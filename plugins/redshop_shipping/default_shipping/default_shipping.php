@@ -18,7 +18,6 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminShipping');
 
 class  plgredshop_shippingdefault_shipping extends JPlugin
 {

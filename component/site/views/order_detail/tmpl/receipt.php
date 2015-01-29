@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
 
 $carthelper = new rsCarthelper;
 $redconfig = new Redconfiguration;
@@ -166,7 +162,6 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
-JLoader::load('RedshopHelperGoogle_analytics');
 $googleanalytics = new GoogleAnalytics;
 
 $analytics_status = $order->analytics_status;

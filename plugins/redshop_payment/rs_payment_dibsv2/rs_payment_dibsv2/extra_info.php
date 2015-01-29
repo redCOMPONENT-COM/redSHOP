@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 
 $Itemid          = JRequest::getInt('Itemid');
 $order_functions = new order_functions;

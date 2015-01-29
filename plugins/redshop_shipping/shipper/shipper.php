@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Joomla! System Logging Plugin

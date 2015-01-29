@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JLoader::load('RedshopHelperAdminImages');
 ?>
 
 <script language="javascript" type="text/javascript">

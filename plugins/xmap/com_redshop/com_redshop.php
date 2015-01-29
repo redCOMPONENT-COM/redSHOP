@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperProduct');
 
 /**
  * Handles redSHOP product and categories links

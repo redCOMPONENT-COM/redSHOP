@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-JLoader::load('RedshopHelperProduct');
 
 $document = JFactory::getDocument();
 $producthelper = new producthelper;

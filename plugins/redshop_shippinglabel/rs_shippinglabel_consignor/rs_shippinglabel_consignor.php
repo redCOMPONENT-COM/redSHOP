@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
 
 class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 {

@@ -18,23 +18,14 @@ JLoader::import('joomla.html.parameter');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperAdminStockroom');
-JLoader::load('RedshopHelperAdminEconomic');
-JLoader::load('RedshopHelperAdminImages');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 JLoader::import('joomla.html.pagination');
 
-JLoader::load('RedshopHelperCron');
-JLoader::load('RedshopHelperStatistic');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCurrency');
-JLoader::load('RedshopHelperRedshop.js');
+RedshopHelperCron::init();
+RedshopHelperJs::init();
 
 // Helper object
 $helper = new redhelper;
@@ -173,7 +164,6 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 
 		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
 		{
-			JLoader::load('RedshopHelperGoogle_analytics');
 
 			$ga = new GoogleAnalytics;
 			$ga->placeTrans();

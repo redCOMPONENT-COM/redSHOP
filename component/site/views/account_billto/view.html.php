@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperExtra_field');
 
 class RedshopViewAccount_billto extends RedshopView
 {

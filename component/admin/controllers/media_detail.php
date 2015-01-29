@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
-JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Class to Manage PayPal Payment Subscription

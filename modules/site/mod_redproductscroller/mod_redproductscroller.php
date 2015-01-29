@@ -11,22 +11,18 @@ defined('_JEXEC') or die;
 
 // Getting the configuration in redshop.js.php
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperRedshop.js');
+RedshopHelperJs::init();
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-JLoader::load('RedshopHelperAdminCategory');
 
 // Get product helper
-JLoader::load('RedshopHelperProduct');
 
 // Get product helper
-JLoader::load('RedshopHelperHelper');
 
-JLoader::load('RedshopHelperAdminImages');
 
 $document = JFactory::getDocument();
 JHTML::script('com_redshop/redbox.js', false, true);

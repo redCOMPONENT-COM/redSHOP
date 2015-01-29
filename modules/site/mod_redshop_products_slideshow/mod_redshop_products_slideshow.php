@@ -377,7 +377,6 @@ if (!defined('CLASS_DG'))
 
 	function write_prodgallery_xml_data($cat_arr, $params)
 	{
-		JLoader::load('RedshopHelperAdminImages');
 
 		$catid_arr = array();
 
@@ -534,13 +533,10 @@ $id              = intval($params->get('category_id', 0));
 
 // Include redshop config file.
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
 
 create_smart_xml_files($params);
 

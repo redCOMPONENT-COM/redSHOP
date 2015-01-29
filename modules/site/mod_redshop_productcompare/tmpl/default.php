@@ -12,11 +12,9 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 // get product helper
-JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperRedshop.js');
+RedshopHelperJs::init();
 $redhelper = new redhelper;
 
 $option = JRequest::getCmd('option');
