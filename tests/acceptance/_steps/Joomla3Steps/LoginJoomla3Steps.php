@@ -27,11 +27,11 @@ class LoginJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
-		$I->amOnPage(\LoginManagerPage::$URL);
+		$I->amOnPage(\LoginManagerJoomla3Page::$URL);
 		$config = $I->getConfig();
-		$I->fillField(\LoginManagerPage::$userName, $config['username']);
-		$I->fillField(\LoginManagerPage::$password, $config['password']);
+		$I->fillField(\LoginManagerJoomla3Page::$userName, $config['username']);
+		$I->fillField(\LoginManagerJoomla3Page::$password, $config['password']);
 		$I->click('Log in');
-		$I->see('Category Manager', \LoginManagerPage::$loginSuccessCheck);
+		$I->see('Category Manager', \LoginManagerJoomla3Page::$loginSuccessCheck);
 	}
 }
