@@ -7,13 +7,13 @@
  */
 
 /**
- * Class ExtensionManagerPage
+ * Class ExtensionManagerJoomla2Page
  *
  * @since  1.4
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class ExtensionManagerPage
+class ExtensionManagerJoomla2Page
 {
 	// Include url of current page
 	public static $URL = '/administrator/index.php?option=com_installer';
