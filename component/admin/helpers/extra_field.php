@@ -192,7 +192,7 @@ class extra_field
 
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
-						$selected = ($field_chk[$c]->field_value == $data_value->data_txt) ? ' selected="selected" ' : '';
+						$selected = (isset($data_value->data_txt) && ($field_chk[$c]->field_value == $data_value->data_txt)) ? ' selected="selected" ' : '';
 						$extra_field_value .= '<option value="' . $field_chk[$c]->field_value . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_name . '</option>';
 					}
 
