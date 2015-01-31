@@ -57,12 +57,15 @@
     <target name="build" depends="prepare">
         <phing phingfile="${project.basedir}/component_packager.xml" target="autopack"
                haltonfailure="true">
+            <property name="package.delete" value="false" />
         </phing>
         <phing phingfile="${project.basedir}/modules_packager.xml" target="autopack"
                haltonfailure="true">
+            <property name="package.delete" value="false" />
         </phing>
         <phing phingfile="${project.basedir}/plugins_packager.xml" target="autopack"
                haltonfailure="true">
+            <property name="package.delete" value="false" />
         </phing>
 
         <echo msg="Creating full ZIP package..." />
@@ -117,6 +120,14 @@
                 name="joomla.version"
                 value="3"
                 override="true"/>
+
+        <if>
+            <available file="${package.dir}" type="dir"/>
+            <then>
+                <echo msg="Removing old autopack folder"/>
+                <delete dir="${package.dir}"/>
+            </then>
+        </if>
 
         <phingcall target="dist" />
     </target>
