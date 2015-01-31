@@ -155,6 +155,22 @@
                 value="3"
                 override="true"/>
 
+        <property
+                name="package.delete"
+                value="true"
+                override="false"/>
+
+        <if>
+            <and>
+                <available file="${package.dir}" type="dir"/>
+                <equals arg1="${package.delete}" arg2="1" />
+            </and>
+            <then>
+                <echo msg="Removing old autopack folder"/>
+                <delete dir="${package.dir}"/>
+            </then>
+        </if>
+
         <phingcall target="dist" />
     </target>
 </project>
