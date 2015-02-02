@@ -64,7 +64,7 @@
                        label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
                        description="COM_REDSHOP_IMAGE_HEIGHT_DESC">
                 </field>
-                <field name="ImageBorder" type="radio" default="yes"
+                <field name="ImageBorder" type="radio" default="no"
                        label="COM_REDSHOP_MANUFACTURER_IMAGE_BORDER"
                        description="COM_REDSHOP_MANUFACTURER_IMAGE_BORDER_DESC">
                     <option value="yes">JYES</option>
