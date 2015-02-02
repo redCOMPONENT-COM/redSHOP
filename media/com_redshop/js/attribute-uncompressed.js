@@ -335,7 +335,8 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 
 		if (request.readyState == 4)
 		{
-			var property_id = 0;
+			var property_id = (propArr.length > 0) ? propArr[0] : 0;
+
 			if (document.getElementById('property_responce' + commonid))
 			{
 				document.getElementById('property_responce' + commonid).innerHTML = request.responseText;
