@@ -101,8 +101,14 @@
 	</target>
 
 	<target name="site_modules" description="Packages the extension for delivery">
+        <xmlproperty file="${extpath}/modules/site/${dirname}/${dirname}.xml" prefix="modulemanifest" keepRoot="false" />
+        <property
+                name="module_version"
+                value="${modulemanifest.version}"
+                override="true"/>
+
 		<zip
-				destfile="${tmpdir}/site/${dirname}_${version}_${joomla.version}j.zip"
+				destfile="${tmpdir}/site/${dirname}_${module_version}.zip"
 				basedir="${extpath}/modules/site/${dirname}">
 			<fileset dir="${extpath}/modules/site/${dirname}">
 				<include name="**" />
