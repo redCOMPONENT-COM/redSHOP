@@ -73,7 +73,7 @@ $auth = $session->get('auth');
 					       onclick="window.parent.location.href='<?php echo JRoute::_('index.php?option=com_redshop&view=login&wishlist=1'); ?>'"/>&nbsp;
 					<input type="button" class="wishlist_prompt_button_create"
 					       value="<?php echo JText::_('COM_REDSHOP_CREATE_LOGINACCOUNT'); ?>"
-					       onclick="window.parent.location.href='index.php?option=com_redshop&view=registration&Itemid=<?php echo $Itemid ?>&wishlist=1'"/>
+					       onclick="window.parent.location.href='<?php echo JRoute::_('index.php?option=com_redshop&view=registration&Itemid=' . $Itemid . '&wishlist=1'); ?>'"/>
 				</td>
 			</tr>
 			</tbody>
