@@ -7068,89 +7068,63 @@ class producthelper
 
 	public function replaceWishlistButton($product_id = 0, $data_add = "")
 	{
-		$my_wishlist = '';
-		$wishtag     = '';
-		$wishlist    = '';
-
-		if (strstr($data_add, '{wishlist_button}'))
-		{
-			$wishtag = '{wishlist_button}';
-		}
-
-		if (strstr($data_add, '{wishlist_link}'))
-		{
-			$wishtag = '{wishlist_link}';
-		}
-
 		if (MY_WISHLIST != 0)
 		{
 			$u           = JFactory::getURI();
 			$user        = JFactory::getUser();
-			$my_wishlist = '';
 
 			// Product Wishlist - New Feature Like Magento Store
 			if ($user->id)
-			{ //allow user to send wishlist while user is not logged in
+			{
 				$mywishlist_link = JURI::root()
 					. 'index.php?tmpl=component&option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component&product_id='
 					. $product_id;
 
-				if ($wishtag == '{wishlist_button}')
-				{
-					$wishlist = "<input type='button' value='" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
-				}
+				$wishListButton = "<input type='button' value='" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
 
-				if ($wishtag == '{wishlist_link}')
-				{
-					$wishlist = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-				}
-
-				$my_wishlist = "<a class=\"modal\" href=\"" . $mywishlist_link
-					. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >" . $wishlist . "</a>";
+				$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
+				$wishPrefix = "<a class=\"modal\" href=\"" . $mywishlist_link
+					. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
+				$wishSuffix = '</a>';
 			}
 			else
 			{
-				$mywishlist_link = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewloginwishlist&tmpl=component');
-
-				if ($wishtag == '{wishlist_button}')
-				{
-					$wishlist = "<input type='submit' name='btnwishlist' id='btnwishlist' value='"
-						. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
-				}
-
-				if ($wishtag == '{wishlist_link}')
-				{
-					if (WISHLIST_LOGIN_REQUIRED != 0)
-					{
-						$wishlist = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-					}
-					else
-					{
-						$wishlist = "<a href='javascript:document.form_wishlist_" . $product_id
-							. ".submit();' class='wishlistlink'>" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "</a>";
-
-					}
-				}
+				$wishListButton = "<input type='submit' name='btnwishlist' id='btnwishlist' value='"
+					. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
 
 				if (WISHLIST_LOGIN_REQUIRED != 0)
 				{
-					$my_wishlist = "<a class=\"modal\" href=\"" . $mywishlist_link
-						. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >" . $wishlist . "</a>";
+					$mywishlist_link = (string) JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewloginwishlist&tmpl=component');
+					$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
+					$wishPrefix = "<a class=\"modal\" href=\"" . $mywishlist_link
+						. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
+					$wishSuffix = '</a>';
 				}
 				else
 				{
-					$my_wishlist = "<form method='post' action='' id='form_wishlist_" . $product_id
+					$wishListLink = "<a href=\"#\" onclick=\"document.getElementById('form_wishlist_" . $product_id
+						. "').submit();return false;\" class='wishlistlink'>" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "</a>";
+					$wishPrefix = "<form method='post' action='' id='form_wishlist_" . $product_id
 						. "' name='form_wishlist_" . $product_id . "'>
 								<input type='hidden' name='task' value='addtowishlist' />
 							    <input type='hidden' name='product_id' value='" . $product_id . "' />
 								<input type='hidden' name='view' value='product' />
-								<input type='hidden' name='rurl' value='" . base64_encode($u->toString()) . "' />"
-						. $wishlist . "</form>";
+								<input type='hidden' name='rurl' value='" . base64_encode($u->toString()) . "' />";
+					$wishSuffix = '</form>';
 				}
 			}
+
+			$wishListLink = $wishPrefix . $wishListLink . $wishSuffix;
+			$wishListButton = $wishPrefix . $wishListButton . $wishSuffix;
+		}
+		else
+		{
+			$wishListButton = '';
+			$wishListLink = '';
 		}
 
-		$data_add = str_replace($wishtag, $my_wishlist, $data_add);
+		$data_add = str_replace('{wishlist_button}', $wishListButton, $data_add);
+		$data_add = str_replace('{wishlist_link}', $wishListLink, $data_add);
 
 		return $data_add;
 	}

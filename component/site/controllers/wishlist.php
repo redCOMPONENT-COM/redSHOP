@@ -65,10 +65,7 @@ class RedshopControllerWishlist extends RedshopController
 	 */
 function savewishlist()
 {
-	$app    = JFactory::getApplication();
-	$cid    = JRequest::getInt('cid');
 	$model  = $this->getModel("wishlist");
-	$option = JRequest::getVar('option');
 
 	if ($model->savewishlist())
 	{
@@ -96,11 +93,10 @@ function savewishlist()
 	{
 		$app    = JFactory::getApplication();
 		$user   = JFactory::getUser();
-		$post   = JRequest::get('post');
 		$model  = $this->getModel("wishlist");
 		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar('option');
 		$post   = JRequest::get('request');
+		$link = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 
 		if ($model->check_user_wishlist_authority($user->id, $post["wishlist_id"]))
 		{
@@ -116,7 +112,6 @@ function savewishlist()
 		else
 		{
 			$msg  = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
-			$link = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 		}
 
 		$app->redirect($link, $msg);

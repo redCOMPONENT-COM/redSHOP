@@ -190,8 +190,8 @@ class extra_field
 
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
-						$selected = ($field_chk[$c]->field_value == $data_value->data_txt) ? ' selected="selected" ' : '';
-						$extra_field_value .= '<option value="' . $field_chk[$c]->field_value . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_value . '</option>';
+						$selected = (isset($data_value->data_txt) && ($field_chk[$c]->field_value == $data_value->data_txt)) ? ' selected="selected" ' : '';
+						$extra_field_value .= '<option value="' . $field_chk[$c]->field_value . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_name . '</option>';
 					}
 
 					$extra_field_value .= '</select>';
@@ -209,7 +209,7 @@ class extra_field
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						$selected = (@in_array(urlencode($field_chk[$c]->field_value), $chk_data)) ? ' selected="selected" ' : '';
-						$extra_field_value .= '<option value="' . urlencode($field_chk[$c]->field_value) . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_value . '</option>';
+						$extra_field_value .= '<option value="' . urlencode($field_chk[$c]->field_value) . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_name . '</option>';
 					}
 
 					$extra_field_value .= '</select>';

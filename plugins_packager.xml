@@ -96,8 +96,14 @@
 	</target>
 
 	<target name="plugin_packager" description="Packages the extension for delivery">
-		<zip
-				destfile="${tmpdir}/${group_name}/${plugin_name}_${version}_j${joomla.version}.zip"
+        <xmlproperty file="${extpath}/plugins/${group_name}/${plugin_name}/${plugin_name}.xml" prefix="pluginmanifest" keepRoot="false" />
+        <property
+                name="plugin_version"
+                value="${pluginmanifest.version}"
+                override="true"/>
+
+        <zip
+				destfile="${tmpdir}/${group_name}/${group_name}_${plugin_name}_${plugin_version}.zip"
 				basedir="${extpath}/plugins/${group_name}/${plugin_name}">
 			<fileset dir="${extpath}/plugins/${group_name}/${plugin_name}">
 				<include name="**" />
@@ -154,6 +160,22 @@
                 name="joomla.version"
                 value="3"
                 override="true"/>
+
+        <property
+                name="package.delete"
+                value="true"
+                override="false"/>
+
+        <if>
+            <and>
+                <available file="${package.dir}" type="dir"/>
+                <equals arg1="${package.delete}" arg2="1" />
+            </and>
+            <then>
+                <echo msg="Removing old autopack folder"/>
+                <delete dir="${package.dir}"/>
+            </then>
+        </if>
 
         <phingcall target="dist" />
     </target>

@@ -79,21 +79,25 @@ class RedshopModelWishlist extends RedshopModel
 
 			if (isset($_SESSION["no_of_prod"]))
 			{
-				for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
+				for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
 				{
-					$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
+					if (isset($_SESSION['wish_' . $add_i]->product_id))
+					{
+						$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
+					}
 				}
 
-				$productIds[] = $prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
+				if (count($productIds))
+				{
+					// Sanitize ids
+					JArrayHelper::toInteger($productIds);
 
-				// Sanitize ids
-				JArrayHelper::toInteger($productIds);
-
-				$sql = "SELECT DISTINCT p.* "
-					. "FROM #__redshop_product as p "
-					. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
-				$db->setQuery($sql);
-				$rows = $db->loadObjectList();
+					$sql = "SELECT DISTINCT p.* "
+						. "FROM #__redshop_product as p "
+						. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
+					$db->setQuery($sql);
+					$rows = $db->loadObjectList();
+				}
 			}
 
 			return $rows;
@@ -103,7 +107,6 @@ class RedshopModelWishlist extends RedshopModel
 	public function getWishlistProductFromSession()
 	{
 		$db      = JFactory::getDbo();
-		$prod_id = "";
 		$rows    = array();
 
 		$productIds = array();
@@ -111,23 +114,25 @@ class RedshopModelWishlist extends RedshopModel
 		if (isset($_SESSION["no_of_prod"]))
 		{
 			for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
-
-				if ($_SESSION['wish_' . $add_i]->product_id != '')
+			{
+				if (isset($_SESSION['wish_' . $add_i]->product_id))
 				{
 					$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
 				}
+			}
 
+			if (count($productIds))
+			{
+				// Sanitize ids
+				JArrayHelper::toInteger($productIds);
 
-			$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
-
-			// Sanitize ids
-			JArrayHelper::toInteger($productIds);
-
-			$sql = "SELECT DISTINCT p.* "
-				. "FROM #__redshop_product as p "
-				. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
-			$db->setQuery($sql);
-			$rows = $db->loadObjectList();
+				$sql = "SELECT DISTINCT p.*, pcx.category_id "
+					. "FROM #__redshop_product as p "
+					. 'LEFT JOIN #__redshop_product_category_xref AS pcx on pcx.product_id = p.product_id '
+					. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
+				$db->setQuery($sql);
+				$rows = $db->loadObjectList();
+			}
 		}
 
 		return $rows;
@@ -216,7 +221,7 @@ class RedshopModelWishlist extends RedshopModel
 
 	public function savewishlist()
 	{
-		$cid        = JRequest::getVar('cid', '', 'request', 'array');
+		$cid        = JRequest::getVar('wishlist_id', '', 'request', 'array');
 		$db         = JFactory::getDbo();
 		$product_id = JRequest::getInt('product_id');
 

@@ -372,6 +372,7 @@ if ($mail == 0)
 	else
 	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
+		$my = '';
 	}
 
 	$data = $template_d1[0] . $temp_template . $template_d2[1];
