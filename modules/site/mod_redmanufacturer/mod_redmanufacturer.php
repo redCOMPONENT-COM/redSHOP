@@ -116,7 +116,6 @@ function displayredManufacturer($limit = 0)
 	$url        = $uri->root();
 	$database   = JFactory::getDbo();
 	$Itemid     = JRequest::getInt('Itemid', 0);
-	$extra_data = new producthelper;
 
 	JHtml::_('redshopjquery.framework');
 	JHtml::script('modules/mod_redmanufacturer/js/jquery.js');
@@ -138,8 +137,6 @@ function displayredManufacturer($limit = 0)
 	$rows = $database->loadObjectList();    ?>
 
 	<script type="text/javascript">
-		var dom1 = {};
-		dom1.query = jQuery.noConflict(true);
 		var mycarousel_itemList = [
 			<?php	for($i=0;$i<count($rows);$i++)
 					{
@@ -210,13 +207,13 @@ function displayredManufacturer($limit = 0)
 		}
 		;
 
-		dom1.query(function () {
-			dom1.query('#mycarousel').jcarousel({
+		jQuery(document).ready(function() {
+			jQuery('#mycarousel').jcarousel({
 				wrap: '<?php echo $this->ScrollWrap;?>',
 				scroll:<?php echo $this->ScrollBehavior;?>,
 				auto:<?php echo $this->ScrollAuto;?>,
 				animation: '<?php echo $this->ScrollDelay;?>',
-				vertical:<?php echo $this->ScrollDirection;?>,
+				vertical: '<?php echo $this->ScrollDirection;?>',
 				itemVisibleInCallback: {onBeforeAnimation: mycarousel_itemVisibleInCallback},
 				itemVisibleOutCallback: {onAfterAnimation: mycarousel_itemVisibleOutCallback},
 				itemLastOutCallback: mycarousel_initCallback
