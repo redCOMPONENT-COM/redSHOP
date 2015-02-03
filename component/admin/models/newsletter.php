@@ -507,8 +507,7 @@ class RedshopModelNewsletter extends RedshopModel
 					. "VALUES ('', '" . $newsletter_id . "', '" . $cid[$j] . "', '" . $username[$j] . "', '" . $userid[$j] . "',0, '" . $today . "')";
 				$db->setQuery($query);
 				$db->execute();
-				$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id='
-					. $db->insertid() . '" style="display:none;" />';
+				$content = '<img  src="' . $url . 'index.php?option=com_redshop&view=newsletter&task=tracker&tmpl=component&tracker_id=' . $db->insertid() . '" style="display:none;" />';
 
 				// Replacing the tags with the values
 				$content .= str_replace("{username}", $subscriberinfo[0]->username, $data1);
