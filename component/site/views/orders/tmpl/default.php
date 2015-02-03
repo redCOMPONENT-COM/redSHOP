@@ -144,6 +144,8 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$cart_mdata = str_replace("{order_detail_link}", $order_detail_link, $cart_mdata);
 
 		$cart_mdata = str_replace("{reorder_link}", $reorder_link, $cart_mdata);
+
+		$cart_mdata = str_replace("{requisition_number}", $this->detail[$i]->requisition_number, $cart_mdata);
 	}
 
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
