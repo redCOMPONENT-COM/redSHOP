@@ -1117,6 +1117,9 @@ a.rightButton, a.rightButton:hover {
     text-decoration: none;
     background-color: #f5f5f5;
 }
+.jcarousel-skin-tango .jcarousel-item{
+    border: none !important;
+}
 .jcarousel-skin-tango .jcarousel-container-horizontal{
     height: auto !important;
 }
