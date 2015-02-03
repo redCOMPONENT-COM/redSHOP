@@ -486,3 +486,6 @@ div.cpanel-right {
 .icon-redshop_order32:before{
 	content: "\E01A";
 }
+.icon-back:before{
+	content: "\0028";
+}

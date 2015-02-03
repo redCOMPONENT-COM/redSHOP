@@ -44,6 +44,7 @@ class RedshopViewProduct_category extends RedshopView
 		$categories = $product_category->getCategoryListArray();
 
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->category_id = "0";
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
 		$categories = @array_merge($temps, $categories);
