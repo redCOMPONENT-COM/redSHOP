@@ -154,12 +154,22 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 					<td><?php    $shortdesc = substr(strip_tags($row->category_description), 0, 50);echo $shortdesc; ?></td>
 					<td align="center" width="5%"><?php echo $model->getProducts($row->category_id); ?></td>
 					<td class="order">
-						<span><?php echo $row->orderup = $this->pagination->orderUpIcon($i, ($row->category_parent_id == @$this->categories[$i - 1]->category_parent_id), 'orderup', JText::_('JLIB_HTML_MOVE_UP'), 1); ?></span>
-						<span><?php echo $row->orderdown = $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), 1); ?></span>
-						<?php $ordering ? $disable = '' : $disable = 'disabled="disabled"';    ?>
-						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>"  <?php echo $disable;?> class="text_area input-small"
-						       style="text-align: center"/>
+						<?php if ($ordering) :
+							$orderDir = strtoupper($this->lists['order_Dir']);
+							?>
+							<div class="input-prepend">
+								<?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($row->category_parent_id == @$this->categories[$i - 1]->category_parent_id), 'orderup'); ?></span>
+									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderdown'); ?></span>
+								<?php elseif ($orderDir == 'DESC') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($row->category_parent_id == @$this->categories[$i - 1]->category_parent_id), 'orderdown'); ?></span>
+									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderup'); ?></span>
+								<?php endif; ?>
+								<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
+							</div>
+						<?php else : ?>
+							<?php echo $row->ordering; ?>
+						<?php endif; ?>
 					</td>
 					<td align="center" width="8%"><?php echo $published;?></td>
 					<td align="center" width="5%"><?php echo $row->category_id; ?></td>

@@ -103,6 +103,10 @@ class RedshopModelMedia_detail extends RedshopModel
 			return false;
 		}
 
+		$db = JFactory::getDbo();
+		$condition = 'section_id = ' . $db->q($row->section_id) . ' AND media_section = ' . $db->q($row->media_section);
+		$row->reorder($condition);
+
 		return $row;
 	}
 
