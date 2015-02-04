@@ -1382,7 +1382,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post['product_back_thumb_image'] = $pdata->product_back_thumb_image;
 				$post['product_preview_image'] = $pdata->product_preview_image;
 				$post['product_preview_back_image'] = $pdata->product_preview_back_image;
-				$post['visited'] = $pdata->visited;
 				$post['metakey'] = $pdata->metakey;
 				$post['metadesc'] = $pdata->metadesc;
 				$post['metalanguage_setting'] = $pdata->metalanguage_setting;
@@ -1411,6 +1410,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$post['product_number'] = $this->renameToUniqueValue('product_number', $post['product_number'], 'dash');
 			$post['publish_date'] = date("Y-m-d H:i:s");
 			$post['update_date'] = date("Y-m-d H:i:s");
+			$post['visited'] = 0;
 
 			$new_product_thumb_image = $this->changeCopyImageName($post['product_thumb_image']);
 			$new_product_full_image = $this->changeCopyImageName($post['product_full_image']);
