@@ -36,6 +36,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.
 JLoader::load('RedshopHelperAdminConfiguration');
 $redConfiguration = new Redconfiguration;
 $redConfiguration->defineDynamicVars();
+
 $user = JFactory::getUser();
 
 JLoader::load('RedshopHelperProduct');
@@ -173,5 +174,8 @@ if ($productIds = $db->setQuery($query, 0, $count)->loadColumn())
 		$rows = array_values($rows);
 	}
 }
+
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();
 
 require JModuleHelper::getLayoutPath('mod_redshop_products');

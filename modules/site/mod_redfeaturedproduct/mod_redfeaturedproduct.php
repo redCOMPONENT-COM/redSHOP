@@ -30,6 +30,9 @@ JLoader::load('RedshopHelperHelper');
 
 JLoader::load('RedshopHelperAdminImages');
 
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();
+
 /**
 * This class sets all Parameters.
 * Must first call the MOS function, something like:

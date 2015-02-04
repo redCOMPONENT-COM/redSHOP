@@ -145,4 +145,7 @@ $sql = "SELECT DISTINCT(p.product_id), p.*, cx.category_id FROM #__redshop_produ
 $db->setQuery($sql);
 $splprdlist = $db->loadObjectList();
 
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();
+
 require JModuleHelper::getLayoutPath('mod_redproducttab');    ?>

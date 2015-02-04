@@ -542,6 +542,9 @@ $Redconfiguration->defineDynamicVars();
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperHelper');
 
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();
+
 create_smart_xml_files($params);
 
 ?>
