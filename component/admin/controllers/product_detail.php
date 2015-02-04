@@ -284,6 +284,26 @@ class RedshopControllerProduct_Detail extends RedshopController
 	}
 
 	/**
+	 * Save to Copy
+	 *
+	 * @return void
+	 */
+	public function save2copy()
+	{
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$model = $this->getModel('product_detail');
+
+		if ($row = $model->copy($cid, true))
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, JText::_('COM_REDSHOP_PRODUCT_COPIED'));
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0], JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED'));
+		}
+	}
+
+	/**
 	 * Copy task.
 	 *
 	 * @return void
