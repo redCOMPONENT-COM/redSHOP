@@ -17,4 +17,7 @@ JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();
+
 require JModuleHelper::getLayoutPath('mod_redshop_productcompare');

@@ -50,4 +50,7 @@ $sql = "SELECT * FROM #__redshop_product p "
 $db->setQuery($sql);
 $rows = $db->loadObjectList();
 
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();
+
 require JModuleHelper::getLayoutPath('mod_redproducts3d');

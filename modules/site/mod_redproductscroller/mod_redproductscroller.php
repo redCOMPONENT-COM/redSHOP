@@ -32,6 +32,10 @@ $document = JFactory::getDocument();
 JHTML::script('com_redshop/redbox.js', false, true);
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
+
+// Set redshop config javascript header
+RedshopConfig::scriptDeclaration();
+
 /**
  * This class sets all Parameters.
  * Must first call the MOS function, something like:
