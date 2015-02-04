@@ -656,3 +656,8 @@ div.current select, div.current input, div.current textarea, div.current select 
 .filterItem .input-append, .filterItem .input-prepend{
 	margin-bottom: 0;
 }
+.jgrid span.uparrow,  .jgrid span.downarrow{
+	height: 12px !important;
+	width: 12px !important;
+	background-repeat: no-repeat;
+}
