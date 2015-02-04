@@ -339,6 +339,7 @@ class RedshopViewSearch extends RedshopView
 			}
 
 			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
+			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
 			$total_product = $model->_total;
@@ -371,7 +372,7 @@ class RedshopViewSearch extends RedshopView
 			$count_no_user_field = 0;
 			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 
-			for ($i = 0; $i < count($this->search); $i++)
+			for ($i = 0, $countSearch = count($this->search); $i < $countSearch; $i++)
 			{
 				$data_add   = "";
 				$thum_image = "";
@@ -445,7 +446,11 @@ class RedshopViewSearch extends RedshopView
 				$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
 				$data_add = $producthelper->getJcommentEditor($this->search[$i], $data_add);
 
-				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add, 1);
+				if ($extraFieldsForCurrentTemplate)
+				{
+					$data_add = $extraField->extra_field_display(1, $this->search[$i]->product_id, $extraFieldsForCurrentTemplate, $data_add, 1);
+				}
+
 				$data_add = str_replace("{product_s_desc}", $pro_s_desc, $data_add);
 				$data_add = str_replace("{product_desc}", $pro_desc, $data_add);
 				$data_add = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);

@@ -759,6 +759,44 @@ class producthelper
 		return $protax;
 	}
 
+	/**
+	 * Get ExtraFields For Current Template
+	 *
+	 * @param   array   $filedNames      Field name list
+	 * @param   string  $templateData    Template data
+	 * @param   int     $isCategoryPage  Flag change extra fields in category page
+	 *
+	 * @return string
+	 */
+	public function getExtraFieldsForCurrentTemplate($filedNames = array(), $templateData = '', $isCategoryPage = 0)
+	{
+		$findFields = array();
+		$prefix = '{';
+
+		if ($isCategoryPage)
+		{
+			$prefix = '{producttag:';
+		}
+
+		if (count($filedNames) > 0)
+		{
+			foreach ($filedNames as $filedName)
+			{
+				if (strstr($templateData, $prefix . $filedName . "}"))
+				{
+					$findFields[] = $filedName;
+				}
+			}
+		}
+
+		if (count($findFields) > 0)
+		{
+			return implode(',', redhelper::quote($findFields));
+		}
+
+		return '';
+	}
+
 	/*
 	 * parse extra fields for tempplate for according to section.
 	 * $categorypage aregument for product section extra field for category page
@@ -766,31 +804,9 @@ class producthelper
 	 */
 	public function getExtraSectionTag($filedname = array(), $product_id, $section, $template_data, $categorypage = 0)
 	{
-		$extraField = new extraField;
-
-		$str = array();
-
-		for ($i = 0, $countFieldName = count($filedname); $i < $countFieldName; $i++)
+		if ($dbname = $this->getExtraFieldsForCurrentTemplate($filedname, $template_data, $categorypage))
 		{
-			if ($categorypage == 1)
-			{
-				if (strstr($template_data, "{producttag:" . $filedname[$i] . "}"))
-				{
-					$str[] = $filedname[$i];
-				}
-			}
-			else
-			{
-				if (strstr($template_data, "{" . $filedname[$i] . "}"))
-				{
-					$str[] = $filedname[$i];
-				}
-			}
-		}
-
-		if (count($str) > 0)
-		{
-			$dbname = implode(',', redhelper::quote($str));
+			$extraField = new extraField;
 			$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 		}
 
@@ -1566,7 +1582,6 @@ class producthelper
 		}
 
 		$ProductPriceArr = array();
-		$stockroomhelper = new rsstockroomhelper;
 
 		$row = $this->getProductById($product_id);
 
@@ -1623,18 +1638,6 @@ class producthelper
 				$newproductprice = 0;
 			}
 
-			$reg_price_tax = $this->getProductTax($row->product_id, $newproductprice, $user_id);
-
-			if ($applytax)
-			{
-				$reg_price = $row->product_price + $reg_price_tax;
-			}
-			else
-			{
-				$reg_price = $row->product_price;
-			}
-
-			$reg_price_tax   = $this->getProductTax($product_id, $row->product_price, $user_id);
 			$reg_price       = $row->product_price;
 			$formatted_price = $this->getProductFormattedPrice($reg_price);
 
@@ -8894,7 +8897,7 @@ class producthelper
 		for ($a = 0; $a < count($attributes); $a++)
 		{
 			$selectedId = array();
-			$property   = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+			$property   = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id, $product_id);
 
 			if ($attributes[$a]->text != "" && count($property) > 0)
 			{

@@ -317,6 +317,7 @@ if (!$slide)
 		}
 
 		$cat_detail = "";
+		$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $subcat_template);
 
 		for ($i = 0, $countDetail = count($this->detail); $i < $countDetail; $i++)
 		{
@@ -408,7 +409,10 @@ if (!$slide)
 			 * category template extra field
 			 * "2" argument is set for category
 			 */
-			$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
+			if ($extraFieldsForCurrentTemplate)
+			{
+				$data_add = $extraField->extra_field_display(2, $row->category_id, $extraFieldsForCurrentTemplate, $data_add);
+			}
 
 			// Shopper group category ACL
 			$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
@@ -491,7 +495,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$attribute_template = $producthelper->getAttributeTemplate($template_product);
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+	$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
 	$product_data   = '';
+	list($template_userfield, $userfieldArr) = $producthelper->getProductUserfieldFromTemplate($template_product);
+	$template_product = $producthelper->replaceVatinfo($template_product);
 
 	foreach ($this->product as $product)
 	{
@@ -565,9 +572,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		// Product User Field Start
 		$hidden_userfield   = "";
-		$returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
-		$template_userfield = $returnArr[0];
-		$userfieldArr       = $returnArr[1];
 
 		if ($template_userfield != "")
 		{
@@ -671,8 +675,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$data_add     = str_replace("{product_length}", $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit, $data_add);
 		$data_add     = str_replace("{product_width}", $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $data_add);
 		$data_add     = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $data_add);
-
-		$data_add   = $producthelper->replaceVatinfo($data_add);
 
 		$specificLink = $this->dispatcher->trigger('createProductLink', array($product));
 
@@ -834,7 +836,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'>
 								<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
-		$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 
 		// Product image flying addwishlist time start
 		$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" .
@@ -933,9 +934,9 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		 * last arg will parse {producttag:NAMEOFPRODUCTTAG} nameing tags.
 		 * "1" is for section as product
 		 */
-		if (count($loadCategorytemplate) > 0)
+		if ($extraFieldsForCurrentTemplate && count($loadCategorytemplate) > 0)
 		{
-			$data_add = $producthelper->getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add, 1);
+			$data_add = $extraField->extra_field_display(1, $product->product_id, $extraFieldsForCurrentTemplate, $data_add, 1);
 		}
 
 		/************************************
