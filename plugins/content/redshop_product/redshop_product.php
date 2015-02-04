@@ -31,7 +31,7 @@ class plgContentredshop_product extends JPlugin
 			JHTML::_('behavior.tooltip');
 			JHTML::_('behavior.modal');
 
-			$session = JFactory::getSession('product_currency');
+			$session = JFactory::getSession();
 			$post = JRequest::get('POST');
 
 			if (isset($post['product_currency']))
@@ -130,13 +130,13 @@ class plgContentredshop_product extends JPlugin
 					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_3;
 					$pw_thumb = PRODUCT_MAIN_IMAGE_3;
 				}
-				elseif (strstr($data_add, "{product_thumb_image_2}"))
+				elseif (strstr($prtemplate, "{product_thumb_image_2}"))
 				{
 					$pimg_tag = '{product_thumb_image_2}';
 					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_2;
 					$pw_thumb = PRODUCT_MAIN_IMAGE_2;
 				}
-				elseif (strstr($data_add, "{product_thumb_image_1}"))
+				elseif (strstr($prtemplate, "{product_thumb_image_1}"))
 				{
 					$pimg_tag = '{product_thumb_image_1}';
 					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
