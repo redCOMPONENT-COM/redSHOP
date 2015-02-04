@@ -55,25 +55,20 @@ class RedshopConfig
 	 */
 	public static function scriptDeclaration()
 	{
-		if (!defined('JPATH_REDSHOP_SCRIPT_DECLARATION'))
-		{
-			define('JPATH_REDSHOP_SCRIPT_DECLARATION', __DIR__);
+		// Load redshop script
+		JHtml::script('com_redshop/redshop.js', false, true);
 
-			// Load redshop script
-			JHtml::script('com_redshop/redshop.js', false, true);
-
-			JFactory::getDocument()->addScriptDeclaration('
-				(function() {
-					var RedshopStrings = ' . json_encode(self::script()) . ';
-					if (typeof redSHOP == "undefined") {
-						redSHOP = {};
-						redSHOP.RSConfig.strings = RedshopStrings;
-					}
-					else {
-						redSHOP.RSConfig.load(RedshopStrings);
-					}
-				})();
-			');
-		}
+		JFactory::getDocument()->addScriptDeclaration('
+			(function() {
+				var RedshopStrings = ' . json_encode(self::script()) . ';
+				if (typeof redSHOP == "undefined") {
+					redSHOP = {};
+					redSHOP.RSConfig.strings = RedshopStrings;
+				}
+				else {
+					redSHOP.RSConfig.load(RedshopStrings);
+				}
+			})();
+		');
 	}
 }
