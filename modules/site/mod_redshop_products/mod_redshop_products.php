@@ -42,7 +42,8 @@ $query = $db->getQuery(true)
 	->select('p.product_id')
 	->from($db->qn('#__redshop_product', 'p'))
 	->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
-	->where($db->qn('p.published') . ' = 1');
+	->where($db->qn('p.published') . ' = 1')
+	->group('p.product_id');
 
 switch ((int) $type)
 {

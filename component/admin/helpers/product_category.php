@@ -103,14 +103,7 @@ class product_category
 				}
 				else
 				{
-					$html .= "<option $selected $disabled value=\"$child_id\">\n";
-
-					for ($i = 0; $i < $level; $i++)
-					{
-						$html .= "- ";
-					}
-
-					$html .= "|$level| " . $cat->category_name . "</option>";
+					$html .= "<option $selected $disabled value=\"$child_id\">" . str_repeat('- ', $level) . $cat->category_name . "</option>";
 				}
 			}
 

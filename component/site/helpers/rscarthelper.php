@@ -1974,6 +1974,12 @@ class rsCarthelper
 			$replace[] = JText::_('COM_REDSHOP_ORDER_DATE_LBL');
 		}
 
+		if (strstr($data, '{requisition_number_lbl}'))
+		{
+			$search[]  = "{requisition_number_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
+		}
+
 		if (strstr($data, '{order_status_lbl}'))
 		{
 			$search[]  = "{order_status_lbl}";
