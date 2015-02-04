@@ -23,6 +23,7 @@ $media_section = $jInput->getCmd('media_section', $this->state->get('filter_medi
 $section_id = $jInput->getInt('section_id', 0);
 $model = $this->getModel('media');
 $countTd = 8;
+$ordering = ($this->lists['order'] == 'ordering');
 
 $sectionadata = array();
 $sectiona_primary_image = "";
@@ -68,7 +69,7 @@ if ($showbuttons == 1)
 		if ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')
 		{
 			?>
-			<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('defaultmedia');">
+			<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('setDefault');">
 			<?php echo JText::_('COM_REDSHOP_DEFAULT_MEDIA'); ?>
 			</button><?php
 		}    ?>
@@ -121,14 +122,8 @@ else
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
-				<th width="15%" class="title"><?php        if ($showbuttons == 1)
-						echo JTEXT::_('COM_REDSHOP_MEDIA_NAME');
-					else
-						echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'media_name', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
-				<th width="10%"><?php if ($showbuttons == 1)
-						echo JTEXT::_('COM_REDSHOP_MEDIA_TYPE');
-					else
-						echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'media_type', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
+				<th width="15%" class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'media_name', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
+				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'media_type', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
 			<?php
 				if ($showbuttons == 1)
 				{
@@ -137,29 +132,11 @@ else
 				}
 
 			echo '<th width="15%">';
-
-					if ($showbuttons == 1)
-					{
-						echo JTEXT::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT');
-					}
-					else
-					{
-						echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_ALTERNATE_TEXT', 'media_alternate_text', $this->lists ['order_Dir'], $this->lists ['order']);
-					}
-
-				echo '</th>'
+			echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_ALTERNATE_TEXT', 'media_alternate_text', $this->lists ['order_Dir'], $this->lists ['order']);
+			echo '</th>'
 				. '<th width="10%">';
-
-					if ($showbuttons == 1)
-					{
-						echo JTEXT::_('COM_REDSHOP_MEDIA_SECTION');
-					}
-					else
-					{
-						echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_SECTION', 'media_section', $this->lists ['order_Dir'], $this->lists ['order']);
-					}
-
-				echo '</th>';
+			echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_SECTION', 'media_section', $this->lists ['order_Dir'], $this->lists ['order']);
+			echo '</th>';
 
 					if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty'))
 					{
@@ -170,32 +147,22 @@ else
 					if ($showbuttons == 1)
 					{
 						$countTd++;
-						echo '<th class="order" width="20%">' . JHTML::_('grid.order', $this->media) . '</th>';
+						echo '<th class="order">';
+						echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'ordering', $this->lists['order_Dir'], $this->lists['order']);
+
+						if ($ordering)
+						{
+							echo JHTML::_('grid.order', $this->media);
+						}
+
+						echo '</th>';
 					}
 
 				echo '<th width="5%" nowrap="nowrap">';
-
-					if ($showbuttons == 1)
-					{
-						echo JTEXT::_('COM_REDSHOP_PUBLISHED');
-					}
-					else
-					{
-						echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists ['order_Dir'], $this->lists ['order']);
-					}
-
+				echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists ['order_Dir'], $this->lists ['order']);
 				echo '</th>';
 				echo '<th width="5%" nowrap="nowrap">';
-
-					if ($showbuttons == 1)
-					{
-						echo JTEXT::_('COM_REDSHOP_ID');
-					}
-					else
-					{
-						echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'media_id', $this->lists ['order_Dir'], $this->lists ['order']);
-					}
-
+				echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'media_id', $this->lists ['order_Dir'], $this->lists ['order']);
 				echo '</th>'
 				. '</tr>'
 			. '</thead>';
@@ -258,17 +225,31 @@ else
 					if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty'))
 					{
 						echo '<td align="center">';
-						echo JHtml::_('jgrid.isdefault', trim($sectiona_primary_image) == trim($row->media_name), 0, '', false);
+						$isDefault = trim($sectiona_primary_image) == trim($row->media_name);
+						echo JHtml::_('jgrid.isdefault', $isDefault, $i, '', !$isDefault);
 						echo '</td>';
 					}
 
 					if ($showbuttons == 1)
 					{
 						?>
-						<td align="center"><?php  echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $row->ordering);
-							echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $row->ordering);?>
-							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
-							       class="text_area input-small" style="text-align: center"/></td>
+						<td align="order">
+					<?php if ($ordering) :
+						$orderDir = strtoupper($this->lists['order_Dir']); ?>
+							<div class="input-prepend">
+								<?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderup'); ?></span>
+									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown'); ?></span>
+								<?php elseif ($orderDir == 'DESC') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderdown'); ?></span>
+									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderup'); ?></span>
+								<?php endif; ?>
+								<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
+							</div>
+					<?php else : ?>
+						<?php echo $row->ordering; ?>
+					<?php endif; ?>
+						</td>
 					<?php
 					}
 					?>
@@ -313,7 +294,7 @@ submitbutton = function (pressbutton) {
 		form.task.value = pressbutton;
 	}
 	if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-		|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'edit') || (pressbutton == 'defaultmedia') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
+		|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'edit') || (pressbutton == 'setDefault') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
 		form.view.value = "media_detail";
 	}
 	try {

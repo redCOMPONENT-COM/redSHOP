@@ -58,7 +58,7 @@
     <!-- ============================================  -->
     <!-- Target: build                                 -->
     <!-- ============================================  -->
-    <!-- Loops through folders creating module packages -->
+    <!-- Loops through folders creating plugins packages -->
 
     <target name="build" depends="prepare">
 		<!-- Loop through plugins groups -->
@@ -101,9 +101,30 @@
                 name="plugin_version"
                 value="${pluginmanifest.version}"
                 override="true"/>
+        <!-- Todo: the following code checks compatibility with redSHOP Core version. The code works, but it can be improved with some PHING knowledge -->
+        <property
+                name="redshop_compatibility"
+                value="${pluginmanifest.redshop}"
+                override="true"/>
+
+        <if>
+            <contains string="${redshop_compatibility}" substring="pluginmanifest.redshop" />
+            <then>
+                <property
+                        name="redshop_compatibility"
+                        value=""
+                        override="true"/>
+            </then>
+            <else>
+                <property
+                        name="redshop_compatibility"
+                        value="_for_redSHOP${redshop_compatibility}"
+                        override="true"/>
+            </else>
+        </if>
 
         <zip
-				destfile="${tmpdir}/${group_name}/${group_name}_${plugin_name}_${plugin_version}.zip"
+				destfile="${tmpdir}/${group_name}/${group_name}_${plugin_name}_${plugin_version}${redshop_compatibility}.zip"
 				basedir="${extpath}/plugins/${group_name}/${plugin_name}">
 			<fileset dir="${extpath}/plugins/${group_name}/${plugin_name}">
 				<include name="**" />
