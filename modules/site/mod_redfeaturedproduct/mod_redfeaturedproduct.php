@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 JLoader::import('redshop.library');
 
-// Getting the configuration in redshop.js.php
-JLoader::load('RedshopHelperRedshop.js');
-
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();

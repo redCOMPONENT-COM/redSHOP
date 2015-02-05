@@ -34,33 +34,12 @@ JLoader::load('RedshopHelperStatistic');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCurrency');
-JLoader::load('RedshopHelperRedshop.js');
 
 // Helper object
 $helper = new redhelper;
 
 // Include redCRM if required
 $helper->isredCRM();
-
-$print = $app->input->getCmd('print', '');
-
-// Adding Redshop CSS
-$doc = JFactory::getDocument();
-
-// Use diffrent CSS for print layout
-if (!$print)
-{
-	JHtml::stylesheet('com_redshop/redshop.css', array(), true);
-}
-else
-{
-	JHtml::stylesheet('com_redshop/print.css', array(), true);
-}
-
-JHtml::stylesheet('com_redshop/style.css', array(), true);
-
-// Load redshop script
-JHtml::script('com_redshop/redshop.js', false, true);
 
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
@@ -218,6 +197,3 @@ $controller->execute($task);
 echo "</div>";
 
 $controller->redirect();
-
-// Set redshop config javascript header
-RedshopConfig::scriptDeclaration();

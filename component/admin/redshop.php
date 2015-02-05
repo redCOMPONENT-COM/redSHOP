@@ -226,6 +226,3 @@ $controller->redirect();
 
 // End div here
 echo '</div></div>';
-
-// Set redshop config javascript header
-RedshopConfig::scriptDeclaration();

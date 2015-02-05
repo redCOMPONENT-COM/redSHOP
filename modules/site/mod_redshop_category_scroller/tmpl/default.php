@@ -27,9 +27,6 @@ JHtml::_('redshopjquery.framework');
 $document = JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'modules/mod_redshop_products/css/products.css');
 
-// 	include redshop js file.
-JLoader::load('RedshopHelperRedshop.js');
-
 // Light-box Java-script
 JHtml::script('com_redshop/redbox.js', false, true);
 JHtml::script('com_redshop/attribute.js', false, true);
