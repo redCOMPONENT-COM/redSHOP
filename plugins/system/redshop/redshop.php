@@ -56,6 +56,9 @@ class PlgSystemRedSHOP extends JPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
-		RedshopConfig::scriptDeclaration();
+		if (class_exists('RedshopConfig'))
+		{
+			RedshopConfig::scriptDeclaration();
+		}
 	}
 }
