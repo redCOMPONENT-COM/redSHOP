@@ -1411,6 +1411,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$post['publish_date'] = date("Y-m-d H:i:s");
 			$post['update_date'] = date("Y-m-d H:i:s");
 			$post['visited'] = 0;
+			$post['checked_out'] = 0;
+			$post['checked_out_time'] = '0000-00-00 00:00:00';
+			$post['sef_url'] = $this->renameToUniqueValue('sef_url', $post['sef_url'], 'dash');
+			$post['canonical_url'] = $this->renameToUniqueValue('canonical_url', $post['canonical_url'], 'dash');
 
 			$new_product_thumb_image = $this->changeCopyImageName($post['product_thumb_image']);
 			$new_product_full_image = $this->changeCopyImageName($post['product_full_image']);
