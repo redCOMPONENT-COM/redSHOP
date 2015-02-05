@@ -46,9 +46,6 @@ class PlgSystemRedSHOP extends JPlugin
 
 			JHtml::stylesheet('com_redshop/redshop.css', array(), true);
 			JHtml::stylesheet('com_redshop/style.css', array(), true);
-
-			// Load redshop script
-			JHtml::script('com_redshop/redshop.js', false, true);
 		}
 	}
 
