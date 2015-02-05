@@ -29,7 +29,7 @@
                 <field name="NumberOfProducts" type="text" default="5" label="COM_REDSHOP_NUMBER_OF_PRODUCT_LBL"
                        description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
                 <field name="ScrollSortMethod" type="radio" default="random" label="COM_REDSHOP_SCROLL_SORT_METHOD_LBL"
-                       description="COM_REDSHOP_SCROLL_SORT_METHOD_DESC">
+                       description="COM_REDSHOP_SCROLL_SORT_METHOD_DESC" class="btn-group">
                     <option value="newest">COM_REDSHOP_NEWEST</option>
                     <option value="oldest">COM_REDSHOP_OLDEST</option>
                     <option value="random">COM_REDSHOP_RANDOM</option>
@@ -37,27 +37,27 @@
                 </field>
                 <!-- <field name="defaultCategory" type="categoryscroller" label="DEFAULT_CATEGORY_LBL" description="DEFAULT_CATEGORY_DESC" /> -->
                 <field name="show_product_name" type="radio" default="1" label="COM_REDSHOP_SHOW_PRODUCT_NAME_LBL"
-                       description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC">
+                       description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC" class="btn-group btn-group-yesno">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
                 <field name="show_price" type="radio" default="1" label="COM_REDSHOP_SHOW_PRICE_LBL"
-                       description="COM_REDSHOP_SHOW_PRICE_DESC">
+                       description="COM_REDSHOP_SHOW_PRICE_DESC" class="btn-group btn-group-yesno">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
                 <field name="show_image" type="radio" default="1" label="COM_REDSHOP_SHOW_IMAGE_LBL"
-                       description="COM_REDSHOP_SHOW_IMAGE_DESC">
+                       description="COM_REDSHOP_SHOW_IMAGE_DESC" class="btn-group btn-group-yesno">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
                 <field name="show_readmore" type="radio" default="1" label="COM_REDSHOP_SHOW_READMORE_LBL"
-                       description="COM_REDSHOP_SHOW_READMORE_DESC">
+                       description="COM_REDSHOP_SHOW_READMORE_DESC" class="btn-group btn-group-yesno">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
                 <field name="show_addtocart" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART_LBL"
-                       description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
+                       description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC" class="btn-group btn-group-yesno">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
@@ -76,7 +76,7 @@
                        label="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX" description="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX"
                        default="..."/>
                 <field name="show_discountpricelayout" type="radio" default="1"
-                       label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT"
+                       label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT" class="btn-group btn-group-yesno"
                        description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>

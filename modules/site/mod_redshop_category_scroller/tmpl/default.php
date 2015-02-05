@@ -74,7 +74,7 @@ echo "<div>
 		<div class='red_product-clip red_product-clip-horizontal' style='width: " . $scrollerwidth . "px;'>
 		<ul id='rs_category_scroller' class='red_product-list red_product-list-horizontal'>";
 
-for ($i = 0; $i < count($rows); $i++)
+for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 {
 	$row = $rows[$i];
 
