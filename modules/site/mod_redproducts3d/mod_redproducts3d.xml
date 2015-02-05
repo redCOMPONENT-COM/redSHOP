@@ -20,12 +20,12 @@
         <language tag="da-DK">language/da-DK/da-DK.mod_redproducts3d.sys.ini</language>
     </languages>
     <config>
-        <fields name="params">
+        <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
             <fieldset name="basic">
                 <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX"
                        description="COM_REDSHOP_CLASS_SFX_DESC"/>
-                <field name="category" type="text" size="40" label="COM_REDSHOP_CATEGORY_LBL"
-                       description="COM_REDSHOP_ENTER_CATEGORY"/>
+                <field name="category" type="redshopcategory" size="10" label="COM_REDSHOP_CATEGORY_LBL"
+                       description="COM_REDSHOP_ENTER_CATEGORY" multiple="true"/>
                 <field name="count" type="text" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
                        description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
                 <field name="stageWidth" type="text" size="10" default="600" label="COM_REDSHOP_STAGE_WIDTH"
@@ -44,23 +44,23 @@
                        description="COM_REDSHOP_ELEVATION"/>
                 <field name="enableImageReflection" type="radio" size="10" label="COM_REDSHOP_IMAGE_REFLECTION"
                        default="yes" description="COM_REDSHOP_IMAGE_REFLECTION">
-                    <option value="yes">YES</option>
-                    <option value="no">NO</option>
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="enableimageStroke" type="radio" size="10" label="COM_REDSHOP_IMAGE_STROKE" default="yes"
                        description="COM_REDSHOP_IMAGE_STROKE">
-                    <option value="yes">YES</option>
-                    <option value="no">NO</option>
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="enableMouseOverToolTip" type="radio" size="10" label="COM_REDSHOP_MOUSE_OVER_TOOLTIP"
                        default="yes" description="COM_REDSHOP_MOUSE_OVER_TOOLTIP">
-                    <option value="yes">YES</option>
-                    <option value="no">NO</option>
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="enableMouseOverEffects" type="radio" size="10" label="COM_REDSHOP_MOUSE_OVER_EFFECTS"
                        default="yes" description="COM_REDSHOP_MOUSE_OVER_EFFECTS">
-                    <option value="yes">YES</option>
-                    <option value="no">NO</option>
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
             </fieldset>
         </fields>
