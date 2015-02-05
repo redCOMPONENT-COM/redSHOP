@@ -91,6 +91,7 @@
 
     <!-- Plugins to install with the component -->
     <plugins>
+        <plugin name="redshop" group="system" />
         <plugin name="rs_payment_banktransfer" group="redshop_payment" />
         <plugin name="rs_payment_paypal" group="redshop_payment" />
         <plugin name="default_shipping" group="redshop_shipping" />

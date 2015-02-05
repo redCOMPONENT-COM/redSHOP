@@ -26,6 +26,8 @@ class RedshopConfig
 	 */
 	protected static $jsStrings = array();
 
+	private static $isLoad = false;
+
 	/**
 	 * Stores redshop configuration strings in the JavaScript language store.
 	 *
@@ -55,6 +57,11 @@ class RedshopConfig
 	 */
 	public static function scriptDeclaration()
 	{
+		if (self::$isLoad)
+		{
+			return;
+		}
+
 		// Load redshop script
 		JHtml::script('com_redshop/redshop.js', false, true);
 
@@ -70,5 +77,6 @@ class RedshopConfig
 				}
 			})();
 		');
+		self::$isLoad = true;
 	}
 }
