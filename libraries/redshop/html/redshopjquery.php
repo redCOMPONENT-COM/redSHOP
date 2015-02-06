@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     RedSHOP.Library
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2008 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * jQuery HTML class.
  *
- * @package     RedSHOP.Platform
+ * @package     RedSHOP.Library
  * @subpackage  HTML
  * @since       1.5
  */
