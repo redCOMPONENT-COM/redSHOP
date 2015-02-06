@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     RedSHOP.Library
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2008 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2012 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @package     Joomla.Platform
+ * @package     RedSHOP.Library
  * @subpackage  HTML
  * @since       1.5
  */
