@@ -43,7 +43,9 @@ $newshippingtag = '{shipping_address_start}
 			<tr><td>{state_lbl}</td><td>{state}</td></tr>
 			<tr><td>{phone_lbl}</td><td>{phone}</td></tr>{shipping_extrafield}
 			</tbody></table> {shipping_address_end}';
+
 echo JHtml::_('tabs.start', 'template-dynamic-field');
+
 // Category Template Start
 if ($this->detail->template_section == "category")
 {
@@ -53,11 +55,17 @@ if ($this->detail->template_section == "category")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(2, 1);
-				$tags_admin = $extra_field->getSectionFieldList(2, 0);
-				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				for ($i = 0; $i < count($tags); $i++)
+				$tags_front   = $extra_field->getSectionFieldList(2, 1);
+				$tags_admin   = $extra_field->getSectionFieldList(2, 0);
+				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
+				$numberOfTags = count($tags);
+
+				if ($numberOfTags)
+				{
+					echo '<b>' . JText::_("COM_REDSHOP_FIELDS") . '</b>';
+				}
+
+				for ($i = 0; $i < $numberOfTags; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
@@ -66,11 +74,17 @@ if ($this->detail->template_section == "category")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin = $extra_field->getSectionFieldList(1, 0);
-				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				for ($i = 0; $i < count($tags); $i++)
+				$tags_front   = $extra_field->getSectionFieldList(1, 1);
+				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
+				$numberOfTags = count($tags);
+
+				if ($numberOfTags)
+				{
+					echo '<b>' . JText::_("COM_REDSHOP_TEMPLATE_PRODUCT_FIELDS_TITLE") . '</b>';
+				}
+
+				for ($i = 0; $i < $numberOfTags; $i++)
 				{
 					echo '<div style="margin-left:10px;">{producttag:' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
@@ -110,11 +124,10 @@ if ($this->detail->template_section == "category")
 		</tr>
 	</table>
 	<?php
-
 	$cat_desc = $redtemplate->getInstallSectionTemplate("category", $setflag = True);
+
 	if ($cat_desc != "")
 	{
-
 		echo JHtml::_('tabs.panel', $default_template, 'category-desc');    ?>
 		<table class="adminlist">
 			<tr>
@@ -124,12 +137,8 @@ if ($this->detail->template_section == "category")
 			</tr>
 		</table>
 		<?php
-
 	}
-
-
 }
-
 
 // Giftcard Template Start
 if ($this->detail->template_section == "giftcard")
@@ -173,7 +182,6 @@ if ($this->detail->template_section == "giftcard")
 	}
 }
 
-
 // Product Template Start
 if ($this->detail->template_section == "product")
 {
@@ -183,12 +191,17 @@ if ($this->detail->template_section == "product")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin = $extra_field->getSectionFieldList(1, 0);
-				$tags = array_merge((array) $tags_admin, (array) $tags_front);
+				$tags_front   = $extra_field->getSectionFieldList(1, 1);
+				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
+				$numberOfTags = count($tags);
 
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				for ($i = 0; $i < count($tags); $i++)
+				if ($numberOfTags)
+				{
+					echo '<b>' . JText::_("COM_REDSHOP_PRODUCT_FIELDS") . '</b>';
+				}
+
+				for ($i = 0; $i < $numberOfTags; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
@@ -197,11 +210,17 @@ if ($this->detail->template_section == "product")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(12, 1);
-				$tags_admin = $extra_field->getSectionFieldList(12, 0);
-				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				for ($i = 0; $i < count($tags); $i++)
+				$tags_front   = $extra_field->getSectionFieldList(12, 1);
+				$tags_admin   = $extra_field->getSectionFieldList(12, 0);
+				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
+				$numberOfTags = count($tags);
+
+				if ($numberOfTags)
+				{
+					echo '<b>' . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . '</b>';
+				}
+
+				for ($i = 0; $i < $numberOfTags; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
@@ -294,7 +313,6 @@ if ($this->detail->template_section == "product_sample")
 				$tags_front = $extra_field->getSectionFieldList(9, 1);
 				$tags_admin = $extra_field->getSectionFieldList(9, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				// 	$tags=$extra_field->getSectionFieldList(9,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
@@ -322,7 +340,6 @@ if ($this->detail->template_section == "product_sample")
 
 	}
 }
-
 
 // Manufacturer Template Start
 if ($this->detail->template_section == "manufacturer")
@@ -402,7 +419,6 @@ if ($this->detail->template_section == "manufacturer_products")
 	}
 }
 
-
 // Cart Template Start
 if ($this->detail->template_section == "cart")
 {
@@ -456,7 +472,6 @@ if ($this->detail->template_section == "checkout")
 
 	}
 }
-
 
 // Catalog Cart Template Start
 if ($this->detail->template_section == "catalogue_cart")
@@ -512,7 +527,6 @@ if ($this->detail->template_section == "catalogue_order_detail")
 	}
 }
 
-
 // Catalog Order Receipt Template Start
 if ($this->detail->template_section == "catalogue_order_receipt")
 {
@@ -567,8 +581,6 @@ if ($this->detail->template_section == "categoryproduct")
 	}
 }
 
-
-
 // Clicktell Message Template Start
 if ($this->detail->template_section == "clicktell_sms_message")
 {
@@ -614,7 +626,6 @@ if ($this->detail->template_section == "empty_cart")
 
 	}
 }
-
 
 // Frontpage Category Template Start
 if ($this->detail->template_section == "frontpage_category")
@@ -670,7 +681,6 @@ if ($this->detail->template_section == "giftcard_list")
 	}
 }
 
-
 // Manufacturer Detail Template Start
 if ($this->detail->template_section == "manufacturer_detail")
 {
@@ -725,7 +735,6 @@ if ($this->detail->template_section == "catalog")
 	}
 }
 
-
 // Order Detail Template Start
 if ($this->detail->template_section == "order_detail")
 {
@@ -741,7 +750,6 @@ if ($this->detail->template_section == "order_detail")
 				$tags_front = $extra_field->getSectionFieldList(14, 1);
 				$tags_admin = $extra_field->getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				// 	$tags=$extra_field->getSectionFieldList(14,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
@@ -800,7 +808,6 @@ if ($this->detail->template_section == "order_receipt")
 				$tags_front = $extra_field->getSectionFieldList(14, 1);
 				$tags_admin = $extra_field->getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				// 	$tags=$extra_field->getSectionFieldList(14,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
@@ -815,7 +822,6 @@ if ($this->detail->template_section == "order_receipt")
 				$tags_front = $extra_field->getSectionFieldList(15, 1);
 				$tags_admin = $extra_field->getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				// 	$tags=$extra_field->getSectionFieldList(15,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
@@ -844,7 +850,6 @@ if ($this->detail->template_section == "order_receipt")
 
 	}
 }
-
 
 // Quotation Detail Template Start
 if ($this->detail->template_section == "quotation_detail")
@@ -900,8 +905,6 @@ if ($this->detail->template_section == "quotation_request")
 	}
 }
 
-
-
 // Order Print Template Start
 if ($this->detail->template_section == "order_print")
 {
@@ -929,7 +932,6 @@ if ($this->detail->template_section == "order_print")
 				$tags_admin = $extra_field->getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 
-				// 	$tags=$extra_field->getSectionFieldList(15,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
@@ -1016,7 +1018,6 @@ if ($this->detail->template_section == "newsletter")
 	}
 }
 
-
 // Newsletter Product Template Start
 if ($this->detail->template_section == "newsletter_product")
 {
@@ -1044,7 +1045,6 @@ if ($this->detail->template_section == "newsletter_product")
 	}
 }
 
-
 // Related Product Template Start
 if ($this->detail->template_section == "related_product")
 {
@@ -1071,7 +1071,6 @@ if ($this->detail->template_section == "related_product")
 
 	}
 }
-
 
 // Add To  Cart Start
 if ($this->detail->template_section == "add_to_cart")
@@ -1129,7 +1128,6 @@ if ($this->detail->template_section == "review")
 	}
 }
 
-
 // Attribute Template Start
 if ($this->detail->template_section == "attribute_template")
 {
@@ -1156,7 +1154,6 @@ if ($this->detail->template_section == "attribute_template")
 
 	}
 }
-
 
 // Attribute With Cart Template Start
 if ($this->detail->template_section == "attributewithcart_template")
@@ -1222,7 +1219,6 @@ if ($this->detail->template_section == "accessory_template")
 	}
 }
 
-
 // Wrapper Template Start
 if ($this->detail->template_section == "wrapper_template")
 {
@@ -1276,7 +1272,6 @@ if ($this->detail->template_section == "wishlist_template")
 
 	}
 }
-
 
 // Wishlist Mail Template Start
 if ($this->detail->template_section == "wishlist_mail_template")
@@ -1332,7 +1327,6 @@ if ($this->detail->template_section == "shipping_pdf")
 	}
 }
 
-
 // Ask Question Template Start
 if ($this->detail->template_section == "ask_question_template")
 {
@@ -1359,7 +1353,6 @@ if ($this->detail->template_section == "ask_question_template")
 
 	}
 }
-
 
 // Ajax Cart Box Template Start
 if ($this->detail->template_section == "ajax_cart_box")
@@ -1442,7 +1435,6 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 
 	}
 }
-
 
 // Redproductfinder Template Start
 if ($this->detail->template_section == "redproductfinder")
@@ -1564,7 +1556,6 @@ if ($this->detail->template_section == "redshop_payment")
 	}
 }
 
-
 // Shipping Method Template Start
 if ($this->detail->template_section == "redshop_shipping")
 {
@@ -1592,7 +1583,6 @@ if ($this->detail->template_section == "redshop_shipping")
 	}
 }
 
-
 // Shipping Box Template Start
 if ($this->detail->template_section == "shippingbox")
 {
@@ -1619,7 +1609,6 @@ if ($this->detail->template_section == "shippingbox")
 
 	}
 }
-
 
 // Onestep Checkout Template Start
 if ($this->detail->template_section == "onestep_checkout")
@@ -1738,7 +1727,6 @@ if ($this->detail->template_section == "change_cart_attribute")
 	}
 }
 
-
 // Letter Search Template Start
 if ($this->detail->template_section == "searchletter")
 {
@@ -1780,8 +1768,7 @@ if ($this->detail->template_section == "searchletter")
 	}
 }
 
-
-//Product Content Template Start
+// Product Content Template Start
 if ($this->detail->template_section == "product_content_template")
 {
 	$title = JText::_('COM_REDSHOP_PRODUCT_CONTENT_TEMPLATE');
@@ -1808,8 +1795,7 @@ if ($this->detail->template_section == "product_content_template")
 	}
 }
 
-
-//Quotation Cart Template Start
+// Quotation Cart Template Start
 if ($this->detail->template_section == "quotation_cart")
 {
 	$title = JText::_('COM_REDSHOP_QUOTATION_CART_TEMPLATE');
@@ -1832,12 +1818,10 @@ if ($this->detail->template_section == "quotation_cart")
 			</tr>
 		</table>
 		<?php
-
 	}
 }
 
-
-//Billing Template Start
+// Billing Template Start
 if ($this->detail->template_section == "billing_template")
 {
 	$title = JText::_('COM_REDSHOP_BILLING_TEMPLATE');
@@ -1880,12 +1864,10 @@ if ($this->detail->template_section == "billing_template")
 			</tr>
 		</table>
 		<?php
-
 	}
 }
 
-
-//Private Billing Template Start
+// Private Billing Template Start
 if ($this->detail->template_section == "private_billing_template")
 {
 	$title = JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE');
@@ -1909,8 +1891,7 @@ if ($this->detail->template_section == "private_billing_template")
 	}
 }
 
-
-//Billing Template Start
+// Billing Template Start
 if ($this->detail->template_section == "company_billing_template")
 {
 	$title = JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE');
@@ -1934,8 +1915,7 @@ if ($this->detail->template_section == "company_billing_template")
 	}
 }
 
-
-//Shipping Template Start
+// Shipping Template Start
 if ($this->detail->template_section == "shipping_template")
 {
 	$title = JText::_('COM_REDSHOP_SHIPPING_TEMPLATE');
@@ -1958,11 +1938,10 @@ if ($this->detail->template_section == "shipping_template")
 			</tr>
 		</table>
 		<?php
-
 	}
 }
 
-//Stock Note Template Start
+// Stock Note Template Start
 if ($this->detail->template_section == "stock_note")
 {
 	$title = JText::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE');
@@ -1988,11 +1967,10 @@ if ($this->detail->template_section == "stock_note")
 			</tr>
 		</table>
 		<?php
-
 	}
 }
 
-//Shipment invoice Template Start
+// Shipment invoice Template Start
 if ($this->detail->template_section == "shippment_invoice_template")
 {
 	$title = JText::_('COM_REDSHOP_SHIPMENT_INVOICE_TEMPLATE');
@@ -2015,9 +1993,7 @@ if ($this->detail->template_section == "shippment_invoice_template")
 			</tr>
 		</table>
 		<?php
-
 	}
 }
-
 
 echo JHtml::_('tabs.end');?>
