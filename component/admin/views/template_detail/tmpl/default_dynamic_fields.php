@@ -313,7 +313,6 @@ if ($this->detail->template_section == "product_sample")
 				$tags_front = $extra_field->getSectionFieldList(9, 1);
 				$tags_admin = $extra_field->getSectionFieldList(9, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				// 	$tags=$extra_field->getSectionFieldList(9,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0; $i < count($tags); $i++)
 				{
@@ -751,7 +750,6 @@ if ($this->detail->template_section == "order_detail")
 				$tags_front = $extra_field->getSectionFieldList(14, 1);
 				$tags_admin = $extra_field->getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				// 	$tags=$extra_field->getSectionFieldList(14,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
@@ -810,7 +808,6 @@ if ($this->detail->template_section == "order_receipt")
 				$tags_front = $extra_field->getSectionFieldList(14, 1);
 				$tags_admin = $extra_field->getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				// 	$tags=$extra_field->getSectionFieldList(14,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
@@ -825,7 +822,6 @@ if ($this->detail->template_section == "order_receipt")
 				$tags_front = $extra_field->getSectionFieldList(15, 1);
 				$tags_admin = $extra_field->getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				// 	$tags=$extra_field->getSectionFieldList(15,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
@@ -936,7 +932,6 @@ if ($this->detail->template_section == "order_print")
 				$tags_admin = $extra_field->getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 
-				// 	$tags=$extra_field->getSectionFieldList(15,1);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
 				for ($i = 0; $i < count($tags); $i++)
@@ -1773,7 +1768,7 @@ if ($this->detail->template_section == "searchletter")
 	}
 }
 
-//Product Content Template Start
+// Product Content Template Start
 if ($this->detail->template_section == "product_content_template")
 {
 	$title = JText::_('COM_REDSHOP_PRODUCT_CONTENT_TEMPLATE');
@@ -1800,7 +1795,7 @@ if ($this->detail->template_section == "product_content_template")
 	}
 }
 
-//Quotation Cart Template Start
+// Quotation Cart Template Start
 if ($this->detail->template_section == "quotation_cart")
 {
 	$title = JText::_('COM_REDSHOP_QUOTATION_CART_TEMPLATE');
@@ -1826,7 +1821,7 @@ if ($this->detail->template_section == "quotation_cart")
 	}
 }
 
-//Billing Template Start
+// Billing Template Start
 if ($this->detail->template_section == "billing_template")
 {
 	$title = JText::_('COM_REDSHOP_BILLING_TEMPLATE');
@@ -1896,7 +1891,7 @@ if ($this->detail->template_section == "private_billing_template")
 	}
 }
 
-//Billing Template Start
+// Billing Template Start
 if ($this->detail->template_section == "company_billing_template")
 {
 	$title = JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE');
@@ -1920,7 +1915,7 @@ if ($this->detail->template_section == "company_billing_template")
 	}
 }
 
-//Shipping Template Start
+// Shipping Template Start
 if ($this->detail->template_section == "shipping_template")
 {
 	$title = JText::_('COM_REDSHOP_SHIPPING_TEMPLATE');
@@ -1975,7 +1970,7 @@ if ($this->detail->template_section == "stock_note")
 	}
 }
 
-//Shipment invoice Template Start
+// Shipment invoice Template Start
 if ($this->detail->template_section == "shippment_invoice_template")
 {
 	$title = JText::_('COM_REDSHOP_SHIPMENT_INVOICE_TEMPLATE');
