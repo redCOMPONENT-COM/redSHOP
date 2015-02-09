@@ -38,14 +38,14 @@ before_script:
 
 
 script:
-  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms2/installation/index.php # Test apache
-  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms3/installation/index.php # Test apache
-  #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
+  - php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
   - cd tests/
   - composer update
   - cd ..
   - php tests/getjoomla.php
+  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms2/installation/index.php # Test apache
+  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms3/installation/index.php # Test apache
   - php vendor/bin/codecept build
   - php vendor/bin/codecept run acceptance -g $GROUP --env $ENV --steps
   #- php vendor/bin/codecept run acceptance -g Joomla3 --env joomla3
