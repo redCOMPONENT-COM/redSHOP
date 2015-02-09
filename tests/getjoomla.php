@@ -52,11 +52,11 @@ class GetJoomlaCli extends AbstractCliApplication
 
 		if($this->getFromGithub($repository, $branch, $testingsite))
 		{
-			$this->out('Sadly we were not able to download Joomla 2.5.');
+			$this->out('Sadly we were not able to download Joomla 3.x');
 		}
 		else
 		{
-			$this->out('Joomla 2.5 Downloaded and ready for executing the tests.');
+			$this->out('Joomla 3 Downloaded and ready for executing the tests.');
 		}
 
 		$repository = 'https://github.com/joomla/joomla-cms.git';
