@@ -65,7 +65,7 @@ if ($this->detail->template_section == "category")
 					echo '<b>' . JText::_("COM_REDSHOP_FIELDS") . '</b>';
 				}
 
-				for ($i = 0; $i < count($tags); $i++)
+				for ($i = 0; $i < $numberOfTags; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
 				}    ?>
