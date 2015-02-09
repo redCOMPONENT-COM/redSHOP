@@ -36,7 +36,7 @@ class GetJoomlaCli extends AbstractCliApplication
 		Folder::create($toFolder);
 
 		$this->out('Downloading Joomla...');
-		$command = "git clone -b ${branch} --single-branch --depth 1 ${repository} ${testingsite}";
+		$command = "git clone -b ${branch} --single-branch --depth 1 ${repository} ${toFolder}";
 
 		exec($command, $output, $returnValue);
 
