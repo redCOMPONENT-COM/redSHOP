@@ -111,20 +111,7 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchWrapper($name, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\WrapperManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($name, \WrapperManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \WrapperManagerJoomla3Page, $name, \WrapperManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -166,13 +153,6 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteWrapper($name)
 	{
-		$I = $this;
-		$I->amOnPage(\WrapperManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
-		$I->click(\WrapperManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($name, \WrapperManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \WrapperManagerJoomla3Page, $name, \WrapperManagerJoomla3Page::$firstResultRow, \WrapperManagerJoomla3Page::$selectFirst);
 	}
 }
