@@ -7,3 +7,6 @@
 [submodule "tests/system/joomla-cms3"]
 	path = tests/system/joomla-cms3
 	url = https://github.com/joomla/joomla-cms.git
+[submodule "plugins/system/mvcoverride"]
+	path = plugins/system/mvcoverride
+	url = https://github.com/redCOMPONENT-COM/mvcOverride.git
