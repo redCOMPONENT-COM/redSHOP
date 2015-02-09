@@ -87,15 +87,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCoupon($couponCode = 'Test Coupon')
 	{
-		$I = $this;
-		$I->amOnPage(\CouponManagerJ3Page::$URL);
-		$I->click('ID');
-		$I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
-		$I->click(\CouponManagerJ3Page::$selectFirst);
-		$I->click('Delete');
-		$I->see('Coupon deleted successfully');
-		$I->dontSee($couponCode, \CouponManagerJ3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$firstResultRow, \CouponManagerJ3Page::$selectFirst);
 	}
 
 	/**
@@ -108,19 +100,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchCoupon($couponCode = 'Test Coupon', $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\CouponManagerJ3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($couponCode, \CouponManagerJ3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$firstResultRow, $functionName);
 	}
 }
