@@ -76,15 +76,7 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCurrency($currencyName = 'TestDeletingCurrency')
 	{
-		$I = $this;
-		$I->amOnPage(\CurrencyManagerPage::$URL);
-		$I->click('ID');
-		$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
-		$I->click(\CurrencyManagerPage::$firstResult);
-		$I->click('Delete');
-		$I->see('Currency Detail Deleted Successfully');
-		$I->dontSee($currencyName, \CurrencyManagerPage::$currencyResultRow);
-		$I->click('ID');
+		$this->delete(new \CurrencyManagerPage, $currencyName, \CurrencyManagerPage::$currencyResultRow, \CurrencyManagerPage::$firstResult);
 	}
 
 	/**
@@ -97,19 +89,6 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchCurrency($currencyName = 'TestCurrency', $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\CurrencyManagerPage::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
-		}
-		else
-		{
-			$I->dontSee($currencyName, \CurrencyManagerPage::$currencyResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \CurrencyManagerPage, $currencyName, \CurrencyManagerPage::$currencyResultRow, $functionName);
 	}
 }
