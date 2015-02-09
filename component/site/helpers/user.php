@@ -1219,7 +1219,7 @@ class rsUserhelper
 		{
 			$allowCompany  = '';
 
-			if (1 === $post['is_company'])
+			if (1 == (int) $post['is_company'])
 			{
 				$allowCustomer = 'style="display:none;"';
 			}
