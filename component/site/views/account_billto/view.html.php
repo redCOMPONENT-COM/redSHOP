@@ -63,9 +63,14 @@ class RedshopViewAccount_billto extends RedshopView
 
 		$lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', @$billingaddresses->requesting_tax_exempt);
 
-		// Field_section 7 :Customer Address
-		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id);
-		$lists['extra_field_company']   = $extra_field->list_all_field(8, @$billingaddresses->users_info_id);
+		if ($billingaddresses->is_company)
+		{
+			$lists['extra_field_company'] = $extra_field->list_all_field(8, $billingaddresses->users_info_id);
+		}
+		else
+		{
+			$lists['extra_field_user'] = $extra_field->list_all_field(7, $billingaddresses->users_info_id);
+		}
 
 		$requestUrl = $uri->toString();
 

@@ -677,7 +677,9 @@ function showCompanyOrCustomer(obj)
 					{
 						if(document.getElementById('tblcompany_customer'))
 						{
-							document.getElementById('tblcompany_customer').innerHTML=document.getElementById('ajaxRegistrationDiv').innerHTML;
+							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
+							document.getElementById('tblcompany_customer').innerHTML=textHtml;
+							initAjaxScripts(textHtml);
 						}
 						if(document.getElementById('tblprivate_customer'))
 						{
@@ -692,7 +694,9 @@ function showCompanyOrCustomer(obj)
 						}
 						if(document.getElementById('tblprivate_customer'))
 						{
-							document.getElementById('tblprivate_customer').innerHTML=document.getElementById('ajaxRegistrationDiv').innerHTML;
+							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
+							document.getElementById('tblprivate_customer').innerHTML=textHtml;
+							initAjaxScripts(textHtml);
 						}
 					}
 					document.getElementById('tmpRegistrationDiv').innerHTML='';
@@ -704,6 +708,12 @@ function showCompanyOrCustomer(obj)
 		xmlhttp.open("GET",linktocontroller,true);
 		xmlhttp.send(null);
 	}
+}
+
+function initAjaxScripts(textHtml){
+	jQuery(textHtml).find('script').each(function(){
+		eval(jQuery(this).text());
+	});
 }
 
 function updateGLSLocation(zipcode)

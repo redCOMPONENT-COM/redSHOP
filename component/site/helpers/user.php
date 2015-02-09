@@ -960,7 +960,7 @@ class rsUserhelper
 
 		$billingisshipping = "";
 
-		if (count($post) > 0)
+		if (count($_POST) > 0)
 		{
 			if (isset($post['billisship']) && $post['billisship'] == 1)
 			{
@@ -1218,8 +1218,8 @@ class rsUserhelper
 		if (USE_TAX_EXEMPT == 1 && SHOW_TAX_EXEMPT_INFRONT)
 		{
 			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', @$post["tax_exempt"], JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
-			$template_desc = str_replace("{tax_exempt_lbl}", '<div id="lblTaxExempt" ' . $allowCompany . '>' . JText::_('COM_REDSHOP_TAX_EXEMPT') . '</div>', $template_desc);
-			$template_desc = str_replace("{tax_exempt}", '<div id="trTaxExempt" ' . $allowCompany . '>' . $tax_exempt . '</div>', $template_desc);
+			$template_desc = str_replace("{tax_exempt_lbl}", '<div id="lblTaxExempt">' . JText::_('COM_REDSHOP_TAX_EXEMPT') . '</div>', $template_desc);
+			$template_desc = str_replace("{tax_exempt}", '<div id="trTaxExempt">' . $tax_exempt . '</div>', $template_desc);
 		}
 		else
 		{
