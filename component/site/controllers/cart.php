@@ -201,7 +201,7 @@ class RedshopControllerCart extends RedshopController
 		}
 
 		$link = JRoute::_(
-					'index.php?option=com_redshop&view=product&pid=' . $post['p_id'] . '&Itemid=' . $Itemid,
+					'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $Itemid,
 					false
 				);
 
