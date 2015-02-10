@@ -44,7 +44,7 @@ class modProMenuHelper
 		$key = array_keys($categoryArr);
 
 		// Category count
-		$nrows = $size = sizeOf($key);
+		$nrows = $size = count($key);
 
 		/** FIRST STEP
 		 * Order the Category Array and build a Tree of it
@@ -54,7 +54,6 @@ class modProMenuHelper
 		$row_list   = array();
 		$depth_list = array();
 
-		$children        = array();
 		$parent_ids      = array();
 		$parent_ids_hash = array();
 
@@ -102,7 +101,7 @@ class modProMenuHelper
 			$depth_temp = array();
 			$children   = array();
 
-			for ($i = 0; $i < count($id_list); $i++)
+			for ($i = 0, $countIdList = count($id_list); $i < $countIdList; $i++)
 			{
 				$id    = $id_list[$i];
 				$row   = $row_list[$i];
@@ -316,14 +315,13 @@ class modProMenuHelper
 		$row_list     = $result['row_list'];
 		$depth_list   = $result['depth_list'];
 		$category_tmp = $result['category_tmp'];
-		$nrows        = sizeof($category_tmp);
 
 		// Copy the Array into an Array with auto_incrementing Indexes
 		// Array of category table primary keys
 		$key = array_keys($categories);
 
 		// Category count
-		$nrows = $size = sizeOf($key);
+		$nrows = $size = count($key);
 
 		$html = "";
 
@@ -360,6 +358,7 @@ class modProMenuHelper
 		}
 
 		$depth = max($depth_list);
+		$sub    = 0;
 
 		// Now show the categories
 		for ($n = 0; $n < $nrows; $n++)
@@ -399,7 +398,7 @@ class modProMenuHelper
 
 			$append = "";
 			$class  = "";
-			$sub    = 0;
+
 
 			if ($allowed)
 			{
@@ -426,18 +425,16 @@ class modProMenuHelper
 					if ($depth_list[$n] > ($sub))
 					{
 						$html .= '<ul>';
-						$sub = $depth_list[$n];
 					}
-
-					if ($depth_list[$n] < ($sub))
+					elseif ($depth_list[$n] < ($sub))
 					{
 						for ($i = $depth_list[$n]; $i < $sub; $i++)
 						{
 							$html .= '</ul></li>';
 						}
-
-						$sub = $depth_list[$n];
 					}
+
+					$sub = $depth_list[$n];
 				}
 				else
 				{
