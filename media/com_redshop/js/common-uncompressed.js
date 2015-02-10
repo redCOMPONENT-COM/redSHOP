@@ -1048,3 +1048,40 @@ function autoFillCity(str,isShipping)
 		xmlhttp.send(null);
 	}
 }
+
+/**
+ * Function to validate GiftCard User input
+ *
+ * @return  {boolean}  True on success and set alert on fail
+ */
+redSHOP.validateGiftCardInput = function(){
+	var reciver_email = document.getElementById('reciver_email').value;
+
+	if (document.getElementById('reciver_name').value == '') {
+		alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_NAME'));
+		return false;
+	}
+
+	if (reciver_email == '') {
+		alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS'));
+		return false;
+	}
+	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+	if (reg.test(reciver_email) == false) {
+		alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'));
+		return false;
+	}
+
+	if (document.getElementById('customer_amount')) {
+		var customer_amount = document.getElementById('customer_amount').value;
+		if (customer_amount == '') {
+			alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_AMOUNT'));
+			return false;
+		} else if (isNaN(customer_amount)) {
+			alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_VALID_AMOUNT'));
+			return false;
+		}
+	}
+	return true;
+}
