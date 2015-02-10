@@ -113,20 +113,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchMail($name, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($name);
-		}
-		else
-		{
-			$I->dontSee($name);
-		}
-
-		$I->click('ID');
+		$this->search(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -168,13 +155,6 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteMailTemplate($name)
 	{
-		$I = $this;
-		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name);
-		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($name);
-		$I->click('ID');
+		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 }
