@@ -6922,7 +6922,7 @@ class producthelper
 			}
 
 			if ($giftcard_id)
-				$onclick = ' onclick="' . $addToCartClickJS . 'if(validateEmail()){if(displayAddtocartForm(\'' .
+				$onclick = ' onclick="' . $addToCartClickJS . 'if(redSHOP.validateGiftCardInput()){if(displayAddtocartForm(\'' .
 																	$addtocartFormName . '\',\'' .
 																	$product_id . '\',\'' .
 																	$relproduct_id . '\',\'' .
