@@ -77,15 +77,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteVoucher($voucherCode)
 	{
-		$I = $this;
-		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->click('ID');
-		$I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
-		$I->click(\VoucherManagerPage::$voucherCheck);
-		$I->click('Delete');
-		$I->see('Voucher detail deleted successfully');
-		$I->dontSee($voucherCode, \VoucherManagerPage::$voucherResultRow);
-		$I->click('ID');
+		$this->delete(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
 	}
 
 	/**
