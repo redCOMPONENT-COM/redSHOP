@@ -8,30 +8,27 @@
  */
 
 defined('_JEXEC') or die;
+
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
-$order_function = new order_functions;
-$user = JFactory::getUser();
-$mainparam = $params->def('logging_greeting', 1);
-$maintext = $params->def('greeting_text', 1);
-$document = JFactory::getDocument();
-$document->addStyleSheet("modules/mod_redshop_logingreeting/css/logingreeting.css");
+
+$orderHelper = new order_functions;
+$user        = JFactory::getUser();
+$maintext    = $params->def('greeting_text', 1);
+$classSuffix = htmlspecialchars($params->get('moduleclass_sfx'));
+
+JHtml::stylesheet('mod_redshop_logingreeting/logingreeting.css', array(), true);
 ?>
-<div id="mod_logingreeting">
-	<?php
-	if ($user->id != '')
-	{
-		if ($mainparam == 0)
-		{
-			?>
-			<div class="logingreeting"><?php echo $maintext;?> <?php echo $user->username;?></div>
-		<?php }
-		else
-		{ ?>
-			<div
-				class="loginname"><?php echo $maintext;?> <?php echo $order_function->getUserFullname($user->user_id);?></div>
-		<?php
-		}
-	}
-	?>
+<div id="mod_logingreeting" class="mod_logingreeting<?php echo $classSuffix;?>">
+<?php if ($user->id) : ?>
+	<?php if ($params->def('logging_greeting', 1) == 0) : ?>
+		<div class="logingreeting">
+			<?php echo $maintext . $user->username; ?>
+		</div>
+	<?php else : ?>
+		<div class="loginname">
+			<?php echo $maintext . $orderHelper->getUserFullname($user->id); ?>
+		</div>
+	<?php endif; ?>
+<?php endif; ?>
 </div>

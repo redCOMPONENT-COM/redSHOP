@@ -11,8 +11,15 @@
 	<description>MOD_REDSHOP_LOGINGREETING_DESC</description>
 	<files>
 		<filename module="mod_redshop_logingreeting">mod_redshop_logingreeting.php</filename>
-		<folder module="mod_redshop_logingreeting">css</folder>
+		<folder module="mod_redshop_logingreeting">media</folder>
 	</files>
+
+	<!-- Medias -->
+	<media destination="mod_redshop_logingreeting" folder="media">
+		<folder>css</folder>
+		<filename>index.html</filename>
+	</media>
+
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_logingreeting.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_logingreeting.sys.ini</language>
