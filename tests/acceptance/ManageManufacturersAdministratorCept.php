@@ -29,8 +29,8 @@ else
 	$I->searchManufacturer($manufacturerName);
 	$I->editManufacturer($manufacturerName, $updatedName);
 	$I->searchManufacturer($updatedName);
-	$I->changeState($updatedName);
-	$I->verifyState('unpublished', $I->getState($updatedName));
+	$I->changeManufacturerState($updatedName);
+	$I->verifyState('unpublished', $I->getManufacturerState($updatedName));
 	$I->deleteManufacturer($updatedName);
 	$I->searchManufacturer($updatedName, 'Delete');
 }
