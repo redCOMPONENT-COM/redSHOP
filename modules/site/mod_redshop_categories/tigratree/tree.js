@@ -97,7 +97,7 @@ function item_open(b_close) {
 
     this.b_opened = !b_close;
     var o_jicon = document.images['j_img' + this.o_root.n_id + '_' + this.n_id],
-        o_iicon_ = document.images['i_img' + this.o_root.n_id + '_' + this.n_id];
+        o_iicon = document.images['i_img' + this.o_root.n_id + '_' + this.n_id];
 
     if (o_jicon) o_jicon.src = this.get_icon(true);
     if (o_iicon) o_iicon.src = this.get_icon();

@@ -23,13 +23,13 @@ var cmThemeOffice =
     // sub menu display attributes
 
     // 0, HTML code to the left of the folder item
-    folderLeft: '<img alt="" src="' + cmThemeOfficeBase + 'spacer.png">',
+    folderLeft: '<img alt="" src="<?php echo $displayData['cmThemeOfficeBase']; ?>spacer.png">',
     // 1, HTML code to the right of the folder item
-    folderRight: '<img alt="" src="' + cmThemeOfficeBase + 'arrow.png">',
+    folderRight: '<img alt="" src="<?php echo $displayData['cmThemeOfficeBase']; ?>arrow.png">',
     // 2, HTML code to the left of the regular item
-    itemLeft: '<img alt="" src="' + cmThemeOfficeBase + 'spacer.png">',
+    itemLeft: '<img alt="" src="<?php echo $displayData['cmThemeOfficeBase']; ?>spacer.png">',
     // 3, HTML code to the right of the regular item
-    itemRight: '<img alt="" src="' + cmThemeOfficeBase + 'blank.png">',
+    itemRight: '<img alt="" src="<?php echo $displayData['cmThemeOfficeBase']; ?>blank.png">',
     // 4, cell spacing for main menu
     mainSpacing: 0,
     // 5, cell spacing for sub menus
