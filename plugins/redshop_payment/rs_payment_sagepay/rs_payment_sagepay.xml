@@ -9,7 +9,7 @@
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>PLG_RS_PAYMENT_SAGEPAY_DESK</description>
+    <description>PLG_RS_PAYMENT_SAGEPAY_DESC</description>
 
     <files>
         <filename plugin="rs_payment_sagepay">rs_payment_sagepay.php</filename>
