@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
-    <name>PLG_RS_PAYMENT_AMAZON</name>
-    <version>1.3.3</version>
+    <name>PLG_RS_PAYMENT_AMAZONCHECKOUT</name>
+    <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -29,14 +30,14 @@
                        description="Payment Operand"/>
                 <field name="payment_price" type="text" size="30" default="" label="Payment price"
                        description="Payment price"/>
-                <field name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: "
+                <field name="payment_discount_is_percent" type="radio" default="1" class="btn-group" label="Discount Type: "
                        description="Discount Type">
                     <option value="1">Percentage</option>
                     <option value="0">Total</option>
                 </field>
-                <field name="amazon_is_test" type="radio" default="1" label="Test mode: " description="Test Mode">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="amazon_is_test" type="radio" default="1" class="btn-group btn-group-yesno" label="Test mode: " description="Test Mode">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="amazon_payment_method" type="list" default="STANDARD" label="Payment Method: "
                        description="Using which payment method you want to use?">
@@ -82,14 +83,14 @@
                 <field type="spacer"/>
             </fieldset>
             <fieldset name="advanced">
-                <field name="private_person" type="radio" default="1" label="Show on Private Person"
+                <field name="private_person" type="radio" default="1" class="btn-group btn-group-yesno" label="Show on Private Person"
                        description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="business" type="radio" default="1" class="btn-group btn-group-yesno" label="Show on Business" description="Show on Business">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="is_creditcard" type="hidden" default="0" value="0"/>
                 <field name="economic_payment_terms_id" type="text" default=""
