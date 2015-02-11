@@ -23,8 +23,8 @@ $I->addWrapper($name, $price, $category);
 $I->searchWrapper($name);
 $I->editWrapper($name, $newName);
 $I->searchWrapper($newName);
-$I->changeState($newName);
-$I->verifyState('unpublished', $I->getState($newName));
+$I->changeWrapperState($newName);
+$I->verifyState('unpublished', $I->getWrapperState($newName));
 $I->deleteWrapper($newName);
 $I->searchWrapper($newName, 'Delete');
 

@@ -30,8 +30,8 @@ foreach ($fieldType as $type)
 	$I->searchField($title);
 	$I->editField($title, $newTitle);
 	$I->searchField($newTitle);
-	$I->changeState($newTitle);
-	$I->verifyState('unpublished', $I->getState($newTitle));
+	$I->changeFieldState($newTitle);
+	$I->verifyState('unpublished', $I->getFieldState($newTitle));
 	$I->deleteCustomField($newTitle);
 	$I->searchField($newTitle, 'Delete');
 }
