@@ -51,7 +51,7 @@ defined('_JEXEC') or die;
 			$icons        = RedShopHelperImages::geticonarray();
 			$sections = array(
 				'products'       => 'prod',
-				'orders' => 'order',
+				'orders'         => 'order',
 				'discounts'      => 'discount',
 				'communications' => 'comm',
 				'shippings'      => 'shipping',
