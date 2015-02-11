@@ -80,25 +80,9 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($name, $state = 'unpublish')
+	public function changeWrapperState($name, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\WrapperManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
-		$I->click(\WrapperManagerJoomla3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \WrapperManagerJoomla3Page, $name, $state, \WrapperManagerJoomla3Page::$firstResultRow, \WrapperManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -121,25 +105,9 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($name)
+	public function getWrapperState($name)
 	{
-		$I = $this;
-		$I->amOnPage(\WrapperManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
-		$text = $I->grabAttributeFrom(\WrapperManagerJoomla3Page::$wrapperStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \WrapperManagerJoomla3Page, $name, \WrapperManagerJoomla3Page::$firstResultRow, \WrapperManagerJoomla3Page::$wrapperStatePath);
 
 		return $result;
 	}
