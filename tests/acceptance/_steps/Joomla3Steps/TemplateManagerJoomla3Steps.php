@@ -78,25 +78,9 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($name, $state = 'unpublish')
+	public function changeTemplateState($name, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see(strtolower($name), \TemplateManagerJoomla3Page::$firstResultRow);
-		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \TemplateManagerJoomla3Page, $name, $state, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -119,25 +103,9 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($name)
+	public function getTemplateState($name)
 	{
-		$I = $this;
-		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see(strtolower($name), \TemplateManagerJoomla3Page::$firstResultRow);
-		$text = $I->grabAttributeFrom(\TemplateManagerJoomla3Page::$templateStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$templateStatePath);
 
 		return $result;
 	}
