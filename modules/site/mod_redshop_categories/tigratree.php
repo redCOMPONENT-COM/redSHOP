@@ -21,27 +21,57 @@ if ($params->get('categorysorttype') == "catnameasc")
 {
 	$sortparam = "category_name ASC";
 }
-if ($params->get('categorysorttype') == "catnamedesc")
+elseif ($params->get('categorysorttype') == "catnamedesc")
 {
 	$sortparam = "category_name DESC";
 }
-if ($params->get('categorysorttype') == "newest")
+elseif ($params->get('categorysorttype') == "newest")
 {
 	$sortparam = "category_id DESC";
 }
-if ($params->get('categorysorttype') == "catorder")
+elseif ($params->get('categorysorttype') == "catorder")
 {
 	$sortparam = "ordering ASC";
 }
+
 // The tree generator
 $vmTigraTree = new redTigraTreeMenu;
 
 // A unique name for our tree (to support multiple instances of the menu)
 $varname = uniqid("TigraTree_");
-
+$icon_path = JURI::root() . 'modules/mod_redshop_categories/tigratree/icons/';
 $document = JFactory::getDocument();
-JHTML::script($js_src . '/tigratree/tree_tpl.js.php');
-JHTML::script($js_src . '/tigratree/tree.js');
+JHTML::script(JURI::root() . 'modules/mod_redshop_categories/tigratree/tree.js');
+$document->addScriptDeclaration("var TREE_TPL = {
+'target'  : '_self',    // name of the frame links will be opened in
+// other possible values are: _blank, _parent, _search, _self and _top
+
+'icon_e'  : '" . $icon_path . "empty.gif', // empty image
+'icon_l'  : '" . $icon_path . "line.gif',  // vertical line
+
+'icon_32' : '" . $icon_path . "base.gif',   // root leaf icon normal
+'icon_36' : '" . $icon_path . "base.gif',   // root leaf icon selected
+
+'icon_48' : '" . $icon_path . "base.gif',   // root icon normal
+'icon_52' : '" . $icon_path . "base.gif',   // root icon selected
+'icon_56' : '" . $icon_path . "base.gif',   // root icon opened
+'icon_60' : '" . $icon_path . "base.gif',   // root icon selected
+
+'icon_16' : '" . $icon_path . "folder.gif', // node icon normal
+'icon_20' : '" . $icon_path . "folderopen.gif', // node icon selected
+'icon_24' : '" . $icon_path . "folderopen.gif', // node icon opened
+'icon_28' : '" . $icon_path . "folderopen.gif', // node icon selected opened
+
+'icon_0'  : '" . $icon_path . "page.gif', // leaf icon normal
+'icon_4'  : '" . $icon_path . "page.gif', // leaf icon selected
+
+'icon_2'  : '" . $icon_path . "joinbottom.gif', // junction for leaf
+'icon_3'  : '" . $icon_path . "join.gif',       // junction for last leaf
+'icon_18' : '" . $icon_path . "plusbottom.gif', // junction for closed node
+'icon_19' : '" . $icon_path . "plus.gif',       // junctioin for last closed node
+'icon_26' : '" . $icon_path . "minusbottom.gif',// junction for opened node
+'icon_27' : '" . $icon_path . "minus.gif'       // junctioin for last opended node
+};");
 
 // Create the menu output
 $menu_htmlcode = "<div class=\"$class_mainlevel\" style=\"text-align:left;\">
