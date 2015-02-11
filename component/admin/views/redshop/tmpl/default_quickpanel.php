@@ -51,9 +51,11 @@ defined('_JEXEC') or die;
 			$icons        = RedShopHelperImages::geticonarray();
 			$sections = array(
 				'products'       => 'prod',
+				'orders' => 'order',
 				'discounts'      => 'discount',
 				'communications' => 'comm',
 				'shippings'      => 'shipping',
+				'users'          => 'user',
 				'vats'           => 'vat',
 				'importexport'   => 'import',
 				'altration'      => 'altration',
@@ -62,97 +64,50 @@ defined('_JEXEC') or die;
 			);
 		?>
 		<div class="row-fluid">
-		<?php foreach ($sections as $sectionName => $sectionAssets) : ?>
-			<div id="cpanel">
-				<?php for ($i = 0, $n = count($icons[$sectionName]); $i < $n; $i++) : ?>
-					<?php
-						$isQuickLink = in_array($icons[$sectionName][$i], $quicklink_icon);
+			<?php foreach ($sections as $sectionName => $sectionAssets) : ?>
+				<div id="cpanel">
+					<?php for ($i = 0, $n = count($icons[$sectionName]); $i < $n; $i++) : ?>
 
-						$isBackendAccess = (
-											$user->gid != 8
-											&& ENABLE_BACKENDACCESS != 0
-											&& in_array($icons[$sectionName][$i], $this->access_rslt)
-											&& $isQuickLink
-										);
-						$defaultAccess = (ENABLE_BACKENDACCESS == 0 && $isQuickLink);
-					?>
-					<?php if ($defaultAccess || $isBackendAccess) : ?>
-						<!-- Default shipping link -->
-						<?php $link = 'index.php?option=com_redshop&amp;view=' . $icons[$sectionName][$i]; ?>
-
-						<?php if ($icons[$sectionName][$i] == 'shipping_detail') : ?>
-							<?php $link = 'index.php?option=com_installer'; ?>
-						<?php endif; ?>
-
-						<?php
-							redshopViewredshop::quickiconButton(
-								$link,
-								$icons[$sectionAssets . 'images'][$i],
-								JText::_("COM_REDSHOP_" . $icons[$sectionAssets . 'txt'][$i])
-							);
-						?>
-					<?php endif; ?>
-				<?php endfor; ?>
-			</div>
-		<?php endforeach; ?>
-
-			<!-- Orders -->
-			<div id="cpanel">
-				<?php for ($i = 0, $n = count($icons['orders']); $i < $n; $i++) : ?>
-					<?php if (('stockroom' == $icons['orders'][$i] && USE_STOCKROOM)
-									|| 'stockroom' != $icons['orders'][$i]) : ?>
-					<?php
-						$isQuickLink = in_array($icons['orders'][$i], $quicklink_icon);
-
-						$isBackendAccess = (
-											$user->gid != 8
-											&& ENABLE_BACKENDACCESS != 0
-											&& in_array($icons['orders'][$i], $this->access_rslt)
-											&& $isQuickLink
-										);
-						$defaultAccess = (ENABLE_BACKENDACCESS == 0 && $isQuickLink);
-					?>
-						<?php if ($defaultAccess || $isBackendAccess) : ?>
+						<!-- Don't show some icons based on conditions -->
+						<?php if ((ENABLE_BACKENDACCESS && 'accessmanager' == $icons[$sectionName][$i])
+									|| ('stockroom' == $icons[$sectionName][$i] && USE_STOCKROOM)
+									|| 'accessmanager' != $icons[$sectionName][$i]
+									|| 'stockroom' != $icons[$sectionName][$i]) : ?>
 							<?php
-								redshopViewredshop::quickiconButton(
-									'index.php?option=com_redshop&amp;view=' . $icons['orders'][$i],
-									$icons['orderimages'][$i],
-									JText::_("COM_REDSHOP_" . $icons['ordertxt'][$i])
-								);
-							?>
-						<?php endif; ?>
-					<?php endif; ?>
-				<?php endfor; ?>
-			</div>
+								$isQuickLink = in_array($icons[$sectionName][$i], $quicklink_icon);
 
-			<!-- users -->
-			<div id="cpanel">
-				<?php for ($i = 0, $n = count($icons['users']); $i < $n; $i++) : ?>
-					<?php if (('accessmanager' == $icons['users'][$i] && ENABLE_BACKENDACCESS)
-									|| 'accessmanager' != $icons['users'][$i]) : ?>
-					<?php
-						$isQuickLink = in_array($icons['users'][$i], $quicklink_icon);
-
-						$isBackendAccess = (
-											$user->gid != 8
-											&& ENABLE_BACKENDACCESS != 0
-											&& in_array($icons['users'][$i], $this->access_rslt)
-											&& $isQuickLink
-										);
-						$defaultAccess = (ENABLE_BACKENDACCESS == 0 && $isQuickLink);
-					?>
-						<?php if ($defaultAccess || $isBackendAccess) : ?>
-							<?php
-								redshopViewredshop::quickiconButton(
-									'index.php?option=com_redshop&amp;view=' . $icons['users'][$i],
-									$icons['userimages'][$i],
-									JText::_("COM_REDSHOP_" . $icons['usertxt'][$i])
-								);
+								$isBackendAccess = (
+													$user->gid != 8
+													&& ENABLE_BACKENDACCESS != 0
+													&& in_array($icons[$sectionName][$i], $this->access_rslt)
+													&& $isQuickLink
+												);
+								$defaultAccess = (ENABLE_BACKENDACCESS == 0 && $isQuickLink);
 							?>
+
+							<!-- Handles Backend Access in below conditions -->
+							<?php if ($defaultAccess || $isBackendAccess) : ?>
+								<!-- Default shipping link -->
+								<?php $link = 'index.php?option=com_redshop&amp;view=' . $icons[$sectionName][$i]; ?>
+
+								<?php if ($icons[$sectionName][$i] == 'shipping_detail') : ?>
+									<?php $link = 'index.php?option=com_installer'; ?>
+								<?php endif; ?>
+
+								<?php
+									redshopViewredshop::quickiconButton(
+										$link,
+										$icons[$sectionAssets . 'images'][$i],
+										JText::_("COM_REDSHOP_" . $icons[$sectionAssets . 'txt'][$i])
+									);
+								?>
+							<?php endif; ?>
+
 						<?php endif; ?>
-					<?php endif; ?>
-				<?php endfor; ?>
-			</div>
+
+					<?php endfor; ?>
+				</div>
+			<?php endforeach; ?>
 		</div>
 	</div>
 
