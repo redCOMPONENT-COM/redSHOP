@@ -73,19 +73,19 @@
                     <option value="_parent">_parent</option>
                     <option value="_top">_top</option>
                 </field>
-                <field name="disableAutoStart" type="radio" default="No" label="Disables magnify effect autostart">
+                <field name="disableAutoStart" type="radio" default="No" class="btn-group btn-group-yesno" label="Disables magnify effect autostart">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </field>
-                <field name="pauseOnClick" type="radio" default="No" label="Pause on click">
+                <field name="pauseOnClick" type="radio" default="No" class="btn-group btn-group-yesno" label="Pause on click">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </field>
-                <field name="thumb" type="radio" default="Yes" label="Enable thumb effect">
+                <field name="thumb" type="radio" default="Yes" class="btn-group btn-group-yesno" label="Enable thumb effect">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </field>
-                <field name="show_message" type="radio" default="Yes" label="Show message under image?">
+                <field name="show_message" type="radio" default="Yes" class="btn-group btn-group-yesno" label="Show message under image?">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </field>
@@ -103,15 +103,15 @@
                     <option value="center">center</option>
                     <option value="auto">auto</option>
                 </field>
-                <field name="keep_thumbnail" type="radio" default="Yes" label="Thumbnail visibility?">
+                <field name="keep_thumbnail" type="radio" default="Yes" class="btn-group btn-group-yesno" label="Thumbnail visibility?">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </field>
-                <field name="allow_keyboard" type="radio" default="Yes" label="Allow keyboard navigation?">
+                <field name="allow_keyboard" type="radio" default="Yes" class="btn-group btn-group-yesno" label="Allow keyboard navigation?">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </field>
-                <field name="use_ctrl_key" type="radio" default="No"
+                <field name="use_ctrl_key" type="radio" default="No" class="btn-group btn-group-yesno"
                        label="Require to use Ctrl key with keyboard shortcuts to navigate between images?">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -121,7 +121,7 @@
                 <field name="background_fading_color" type="text" default="#000000"
                        label="Fading background color (RGB)"/>
                 <field name="background_fading_duration" type="text" default="0.2" label="Fading background duration"/>
-                <field name="controlbar_enable" type="radio" default="Yes" label="Control bar enable?">
+                <field name="controlbar_enable" type="radio" default="Yes" class="btn-group btn-group-yesno" label="Control bar enable?">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </field>
