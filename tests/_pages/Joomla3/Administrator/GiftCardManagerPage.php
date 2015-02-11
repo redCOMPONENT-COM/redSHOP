@@ -15,7 +15,7 @@
  */
 class GiftCardManagerPage
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=giftcard';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=giftcards';
 
 	public static $giftCardName = "//input[@id='giftcard_name']";
 
