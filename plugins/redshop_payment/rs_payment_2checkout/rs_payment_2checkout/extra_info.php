@@ -50,11 +50,14 @@ for ($p = 0; $p < count($rs); $p++)
 	$formdata['c_description_' . ($p + 1)] = "";
 }
 
-if ($this->params->get("is_test") == "1")
-	$formdata['demo'] = "Y";
-
-$version = "2";
 $checkouturl = "https://www.2checkout.com/checkout/purchase";
+
+if ((bool) $this->params->get('is_test'))
+{
+	$formdata['demo'] = "Y";
+	$checkouturl = "https://sandbox.2checkout.com/checkout/purchase";
+}
+
 $formdata['total'] = number_format($data['carttotal'], 2, '.', '');
 
 // Build the post string
