@@ -1502,7 +1502,7 @@ class producthelper
 			{
 				$display_product_price_saving            = '<span id="display_product_saving_price' . $product_id . '">' . $product_price_saving . '</span>';
 				$display_product_price_saving_percentage = '<span id="display_product_saving_price_percentage' . $product_id . '">'
-														. JText::sprintf('COM_REDSHOP_PRODUCT_PRICE_SAVING_PERCENTAGE_LBL', $ProductPriceArr['product_price_saving_percentage'])
+														. JText::sprintf('COM_REDSHOP_PRODUCT_PRICE_SAVING_PERCENTAGE_LBL', ceil($ProductPriceArr['product_price_saving_percentage']))
 														. '%</span>';
 			}
 
