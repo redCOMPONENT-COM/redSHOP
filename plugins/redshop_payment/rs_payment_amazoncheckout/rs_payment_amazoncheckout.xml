@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
-    <name>PLG_RS_PAYMENT_AMAZON</name>
-    <version>1.3.3</version>
+    <name>PLG_RS_PAYMENT_AMAZONCHECKOUT</name>
+    <version>1.5</version>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Amazon Checkout payments</description>
+    <description>PLG_RS_PAYMENT_AMAZONCHECKOUT_DESC</description>
 
     <files>
         <filename plugin="rs_payment_amazoncheckout">rs_payment_amazoncheckout.php</filename>
@@ -25,79 +25,75 @@
         <fields name="params">
             <fieldset name="basic">
 
-                <field name="payment_oprand" type="text" size="10" default="-" label="Payment operand"
-                       description="Payment Operand"/>
-                <field name="payment_price" type="text" size="30" default="" label="Payment price"
-                       description="Payment price"/>
-                <field name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: "
-                       description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
+                <field name="payment_oprand" type="text" size="10" default="-" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_PAYMENT_OPRAND_LBL"/>
+                <field name="payment_price" type="text" size="30" default="" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_PAYMENT_PRICE_LBL"/>
+                <field name="payment_discount_is_percent" type="radio" default="1" class="btn-group" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_PAYMENT_DISCOUNT_IS_PERCENT_LBL">
+                    <option value="1">PLG_RS_PAYMENT_AMAZONCHECKOUT_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_AMAZONCHECKOUT_TOTAL</option>
                 </field>
-                <field name="amazon_is_test" type="radio" default="1" label="Test mode: " description="Test Mode">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="amazon_is_test" type="radio" default="1" class="btn-group btn-group-yesno" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_IS_TEST_LBL">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="amazon_payment_method" type="list" default="STANDARD" label="Payment Method: "
-                       description="Using which payment method you want to use?">
+                <field name="amazon_payment_method" type="list" default="STANDARD" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_PAYMENT_METHOD_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_PAYMENT_METHOD_DESC">
                     <option value="STANDARD">Standard</option>
                     <option value="MARKETPLACE">Marketplace</option>
                 </field>
                 <field name="amazon_signature" type="text" default="YLusoJaVzb4+Y2RyG7FfPdUJLPpL23nMLePgUtU4eKc="
-                       label="Amazon Signature" description=" Amazon Checkout Signature"/>
-                <field name="amazon_signature_method" type="text" default="HmacSHA256" label="Amazon Signature Method"
-                       description=" Amazon Checkout Signature Method"/>
+                       label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_SIGNATURE_LBL" description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_SIGNATURE_DESC"/>
+                <field name="amazon_signature_method" type="text" default="HmacSHA256" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_SIGNATURE_METHOD_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_SIGNATURE_METHOD_DESC"/>
                 <field name="amazonPaymentsAccountId" type="text" default="SHJYUFXKZTCI466UMU95SICXH5CLZLM3LMRG3Z"
-                       label="Amazon Payment Account Id" description="Put your   Amazon Payments Account Id here  "/>
-                <field name="amazon_accessKey" type="text" default="11SEM03K88SD016FS1G2" label="Access Key"
-                       description="Put your accessKey here  "/>
-                <field name="amazon_recipientEmail" type="text" default="" label="Recipient Email"
-                       description="This is the email Id associated with the Amazon payments account of the seller. Payment will be made to the seller who has registered this email Id with Amazon Payments. Note that the seller should have created an Amazon Payments Business account with this email Id for the payment to succeed."/>
+                       label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZONPAYMENTSACCOUNTID_LBL" description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZONPAYMENTSACCOUNTID_DESC"/>
+                <field name="amazon_accessKey" type="text" default="11SEM03K88SD016FS1G2" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_ACCESSKEY_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_ACCESSKEY_DESC"/>
+                <field name="amazon_recipientEmail" type="text" default="" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_RECIPIENTEMAIL_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_RECIPIENTEMAIL_DESC"/>
 
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+                       label="PLG_RS_PAYMENT_AMAZONCHECKOUT_VERIFY_STATUS_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_VERIFY_STATUS_DESC">
                 </field>
                 <field name="invalid_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
+                       label="PLG_RS_PAYMENT_AMAZONCHECKOUT_INVALID_STATUS_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_INVALID_STATUS_DESC">
                 </field>
                 <field name="capture_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="S" label="Capture Payment Status"
-                       description="Select an capture status for capturing payment."></field>
+                       key_field="st_value" value_field="st_title" default="S" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_CAPTURE_STATUS_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_CAPTURE_STATUS_DESC"></field>
                 <field type="spacer"/>
-                <field name="amazon_variable_marketplace_fee" type="text" default="" label="Variable Marketplace fee"
-                       description="Only for Marketplace Method.Marketplace Fee. This is the fee that you want to charge to the sellers for using your website / application. The fee can either be fixed (e.g. 0.20 USD), variable (e.g. 4%) or a combination (e.g.4% + 0.20 USD). You can charge a different fee for every payment as long as it is lesser than the maximum fee specified in the fee policy accepted by the seller. If the marketplace fee is more than the fee accepted by the seller, you have to get the seller accept the updated fee policy before the transaction can succeed."/>
-                <field name="amazon_fixed_marketplace_fee" type="text" default="" label="Fixed Marketplace fee"
-                       description="Only for Marketplace Method.Marketplace Fee. This is the fee that you want to charge to the sellers for using your website / application. The fee can either be fixed (e.g. 0.20 USD), variable (e.g. 4%) or a combination (e.g.4% + 0.20 USD). You can charge a different fee for every payment as long as it is lesser than the maximum fee specified in the fee policy accepted by the seller. If the marketplace fee is more than the fee accepted by the seller, you have to get the seller accept the updated fee policy before the transaction can succeed."/>
-                <field name="amazon_caller_reference" type="text" default="" label="Caller Reference"
-                       description="Only for Marketplace Method."/>
+                <field name="amazon_variable_marketplace_fee" type="text" default="" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_VARIABLE_MARKETPLACE_FEE_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_VARIABLE_MARKETPLACE_FEE_DESC"/>
+                <field name="amazon_fixed_marketplace_fee" type="text" default="" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_FIXED_MARKETPLACE_FEE_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_FIXED_MARKETPLACE_FEE_DESC"/>
+                <field name="amazon_caller_reference" type="text" default="" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_CALLER_REFERENCE_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_CALLER_REFERENCE_DESC"/>
                 <field type="spacer"/>
                 <field type="spacer"/>
                 <field type="spacer"/>
             </fieldset>
             <fieldset name="advanced">
-                <field name="private_person" type="radio" default="1" label="Show on Private Person"
-                       description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="private_person" type="radio" default="1" class="btn-group btn-group-yesno" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_PRIVATE_PERSON_LBL">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="business" type="radio" default="1" class="btn-group btn-group-yesno" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_BUSINESS_LBL">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="is_creditcard" type="hidden" default="0" value="0"/>
                 <field name="economic_payment_terms_id" type="text" default=""
-                       label="Enter E-conomic Payment Conditions ID"/>
+                       label="PLG_RS_PAYMENT_AMAZONCHECKOUT_ECONOMIC_PAYMENT_TERMS_ID_LBL"/>
                 <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
-                <field name="shopper_group_id" type="shoppergrouplist" default="0" label="Select Shopper Group"
-                       description="Displays the shopper groups"/>
+                       label="PLG_RS_PAYMENT_AMAZONCHECKOUT_ECONOMIC_DESIGN_LAYOUT_LBL"/>
+                <field name="shopper_group_id" type="shoppergrouplist" default="0" label="PLG_RS_PAYMENT_AMAZONCHECKOUT_SHOPPER_GROUP_ID_LBL"
+                       description="PLG_RS_PAYMENT_AMAZONCHECKOUT_SHOPPER_GROUP_ID_DESC"/>
             </fieldset>
         </fields>
     </config>
