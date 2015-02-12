@@ -117,20 +117,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchQuestion($question, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \QuestionManagerJoomla3Page, $question, \QuestionManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -172,13 +159,6 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteQuestion($question)
 	{
-		$I = $this;
-		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \QuestionManagerJoomla3Page, $question, \QuestionManagerJoomla3Page::$firstResultRow, \QuestionManagerJoomla3Page::$selectFirst);
 	}
 }

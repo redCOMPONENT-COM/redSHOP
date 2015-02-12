@@ -1,58 +1,57 @@
 <?php
 /**
- * $ModDesc
+ * @package     RedSHOP.Frontend
+ * @subpackage  mod_redshop_categories
  *
- * @version        $Id: helper.php $Revision
- * @package        modules
- * @subpackage     $Subpackage
- * @copyright      Copyright (C) May 2010 LandOfCoder.com <@emai:landofcoder@gmail.com>. All rights reserved.
- * @website    htt://landofcoder.com
- * @license        GNU General Public License version 2
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// no direct access
+
+// No direct access
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class JFormFieldRedshopcategoryremove extends JFormField
+/**
+ * Class JFormFieldRedshopCategoryRemove
+ *
+ * @since  1.5
+ */
+class JFormFieldRedshopCategoryRemove extends JFormField
 {
-
 	/**
 	 * @access private
 	 */
-	var $_name = 'redshopcategoryremove';
+	protected $name = 'redshopcategoryremove';
 
-	function getInput()
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 */
+	public function getInput()
 	{
-		$db = JFactory::getDbo();
-		if (!is_dir(JPATH_ADMINISTRATOR . '/components/com_redshop')) return JText::_('COM_REDSHOP_REDSHOP_IS_NOT_INSTALLED');
-		if (!is_array($this->value))
+		if (!is_dir(JPATH_ADMINISTRATOR . '/components/com_redshop'))
 		{
-			$this->value  = array('' => '1');
+			return JText::_('COM_REDSHOP_REDSHOP_IS_NOT_INSTALLED');
 		}
-		else
+
+		$values  = array();
+
+		if (is_array($this->value))
 		{
 			foreach ($this->value as $_k => $tmpV)
 			{
-				$this->value[$tmpV] = $tmpV;
+				$values[$tmpV] = $tmpV;
 			}
-		}
-		$option = JRequest::getInt('option');
-		if ($option != 'com_redshop')
-		{
-			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-			JLoader::load('RedshopHelperAdminConfiguration');
-			$Redconfiguration = new Redconfiguration;
-			$Redconfiguration->defineDynamicVars();
 		}
 
 		JLoader::load('RedshopHelperAdminCategory');
 		$product_category = new product_category;
 		ob_start();
-		$output = $product_category->list_all('' . $this->name . '[]', '', ($this->value), 10, true, true);
+		$output = $product_category->list_all('' . $this->name . '[]', '', $values, 10, false, true);
 		ob_end_clean();
 
 		return $output;
 	}
-
 }

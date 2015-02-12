@@ -96,20 +96,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchUser($name, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\UserManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($name, \UserManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \UserManagerJoomla3Page, $name, \UserManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -121,13 +108,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteUser($name)
 	{
-		$I = $this;
-		$I->amOnPage(\UserManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \UserManagerJoomla3Page::$firstResultRow);
-		$I->click(\UserManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \UserManagerJoomla3Page, $name, \UserManagerJoomla3Page::$firstResultRow, \UserManagerJoomla3Page::$selectFirst);
 	}
 }
