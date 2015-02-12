@@ -10,9 +10,9 @@
 	<description>Featured Product Module for redSHOP</description>
 	<files>
 		<filename module="mod_redfeaturedproduct">mod_redfeaturedproduct.php</filename>
+		<filename>index.html</filename>
 		<folder module="mod_redfeaturedproduct">images</folder>
 		<folder module="mod_redfeaturedproduct">css</folder>
-		<folder module="mod_redfeaturedproduct">js</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.ini</language>
