@@ -10,8 +10,7 @@
 
 $uri  = JURI::getInstance();
 $url  = $uri->root();
-$user = JFactory::getUser();
-$db   = JFactory::getDbo();
+$user = JFactory::getUser();$db   = JFactory::getDbo();
 $config = JFactory::getConfig();
 $Itemid = JFactory::getApplication()->input->getInt('Itemid');
 
@@ -129,9 +128,15 @@ if (in_array('MASTERCARDDEBETCARD', $cart_type) || $all)
 {
 	$oricart_type[] = 'mastercard-debet-dk';
 }
+
 if (in_array('PAII', $cart_type) || $all)
 {
 	$oricart_type[] = 'paii';
+}
+
+if (in_array('VIABILL', $cart_type) || in_array('ALL', $cart_type))
+{
+	$oricart_type[] = 'viabill';
 }
 
 if (count($oricart_type) > 0)
