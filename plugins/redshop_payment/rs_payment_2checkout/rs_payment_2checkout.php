@@ -44,7 +44,7 @@ class PlgRedshop_PaymentRs_Payment_2checkout extends JPlugin
 
 		$app         = JFactory::getApplication();
 		$orderHelper = new order_functions;
-		$rs          = $orderHelper->getOrderItemDetail($data['order_id']);
+		$orderItems  = $orderHelper->getOrderItemDetail($data['order_id']);
 		$Itemid      = $app->input->getInt('Itemid');
 
 		// Authnet vars to send
@@ -77,11 +77,11 @@ class PlgRedshop_PaymentRs_Payment_2checkout extends JPlugin
 			'total'              => number_format($data['carttotal'], 2, '.', '')
 		);
 
-		for ($p = 0, $nrs = count($rs); $p < $nrs; $p++)
+		for ($p = 0, $n = count($orderItems); $p < $n; $p++)
 		{
-			$formdata['c_prod_' . ($p + 1)]        = '1,' . $rs[$p]->product_quantity;
-			$formdata['c_name_' . ($p + 1)]        = $rs[$p]->order_item_name;
-			$formdata['c_price_' . ($p + 1)]       = $rs[$p]->product_item_price;
+			$formdata['c_prod_' . ($p + 1)]        = '1,' . $orderItems[$p]->product_quantity;
+			$formdata['c_name_' . ($p + 1)]        = $orderItems[$p]->order_item_name;
+			$formdata['c_price_' . ($p + 1)]       = $orderItems[$p]->product_item_price;
 			$formdata['c_description_' . ($p + 1)] = '';
 		}
 
