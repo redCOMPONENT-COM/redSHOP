@@ -1333,7 +1333,7 @@ class RedshopModelCheckout extends RedshopModel
 			$thum_image      = "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "giftcard/" . $giftcardData->giftcard_image . "'  title='" . $giftcardData->giftcard_name . "' alt='" . $giftcardData->giftcard_name . "'></a>";
 			$giftcard_value  = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
 			$giftcard_price  = $eachorders->product_final_price;
-			$giftcardmail_body .= $giftcardmail->mail_body;
+			$giftcardmail_body = $giftcardmail->mail_body;
 			$giftcard_name     = $giftcardData->giftcard_name;
 			$giftcardmail_body = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmail_body);
 			$user_fields       = $this->_producthelper->GetProdcutUserfield($eachorders->order_item_id, 13);

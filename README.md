@@ -31,6 +31,8 @@ _Or Compare across versions_
  - Update the release number in their manifest .xml file with the same release number as the component. For example if we are releasing redSHOP 1.3 and plugin plg_default_shipping has been updated during 1.2 - 1.3 period, then you should set the plugin version to 1.3 here: https://github.com/redCOMPONENT-COM/redSHOP-1.2/blob/master/plugins/redshop_shipping/default_shipping/default_shipping.xml#L4 or leave it as it is if it has not been touch.
  - execute the plugins_packager.xml PHING file and upload the new release to redCOMPONENT.com
 
+Note: to match the plugins with it's compatible core version see https://github.com/redCOMPONENT-COM/redSHOP/pull/1548
+
 #### Modules
 - Check if any module has been changed in this last release:
 

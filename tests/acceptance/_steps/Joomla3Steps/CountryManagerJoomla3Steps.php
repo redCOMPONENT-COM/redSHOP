@@ -85,20 +85,7 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchCountry($countryName, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\CountryManagerPage::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($countryName, \CountryManagerPage::$countryResultRow);
-		}
-		else
-		{
-			$I->dontSee($countryName, \CountryManagerPage::$countryResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \CountryManagerPage, $countryName, \CountryManagerPage::$countryResultRow, $functionName);
 	}
 
 	/**
@@ -110,14 +97,6 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCountry($countryName)
 	{
-		$I = $this;
-		$I->amOnPage(\CountryManagerPage::$URL);
-		$I->click('ID');
-		$I->see($countryName, \CountryManagerPage::$countryResultRow);
-		$I->click(\CountryManagerPage::$countryCheck);
-		$I->click('Delete');
-		$I->see('Country detail deleted successfully');
-		$I->dontSee($countryName, \CountryManagerPage::$countryResultRow);
-		$I->click('ID');
+		$this->delete(new \CountryManagerPage, $countryName, \CountryManagerPage::$countryResultRow, \CountryManagerPage::$countryCheck);
 	}
 }

@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-jimport('joomla.html.pane');
-$pane = JPane::getInstance('sliders');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -80,14 +78,15 @@ $extraField    = new extraField;
 		-->
 	</style>
 <?php
-//Get JPaneTabs instance
-$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
-//Create Pane
-echo $myTabs->startPane('pane');
-//Create 1st Tab
+
+// Create Pane
+echo JHtml::_('tabs.start', 'pane', array('startOffset' => 0));
+
+// Create 1st Tab
 if ($newprd)
 {
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_NEWEST_PRODUCTS'), 'tab1');?>
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_NEWEST_PRODUCTS'), 'tab1');
+?>
 	<table border="0" cellpadding="2" cellspacing="2">
 		<tr>
 			<?php
@@ -229,17 +228,15 @@ if ($newprd)
 				}
 			}    ?></tr>
 	</table>
-	<?php echo $myTabs->endPanel();
+	<?php
 }
-//Create 2nd Tab
+// Create 2nd Tab
 if ($ltsprd)
 {
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_LATEST_PRODUCTS'), 'tab2');?>
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_LATEST_PRODUCTS'), 'tab2');?>
 	<table border="0" cellpadding="2" cellspacing="2">
 		<tr>
 			<?php
-			//echo '<pre/>';
-
 			for ($i = 0; $i < count($ltsprdlist); $i++)
 			{
 				?>
@@ -380,12 +377,12 @@ if ($ltsprd)
 				}
 			}    ?></tr>
 	</table>
-	<?php echo $myTabs->endPanel();
+	<?php
 }
 //Create 2nd Tab
 if ($soldprd)
 {
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_MOST_SOLD_PRODUCTS'), 'tab3');?>
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_MOST_SOLD_PRODUCTS'), 'tab3');?>
 	<table border="0" cellpadding="2" cellspacing="2">
 		<tr>
 			<?php
@@ -526,13 +523,12 @@ if ($soldprd)
 				}
 			}    ?></tr>
 	</table>
-	<?php echo $myTabs->endPanel();
+	<?php
 }
 //Create 2nd Tab
 if ($splprd)
 {
-
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_SPECIAL_PRODUCTS'), 'tab4');    ?>
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_MOST_SOLD_PRODUCTS'), 'tab4');    ?>
 	<table border="0" cellpadding="2" cellspacing="2">
 		<tr>
 			<?php
@@ -675,8 +671,5 @@ if ($splprd)
 			}    ?></tr>
 	</table>
 	<?php
-
-	echo $myTabs->endPanel();
 }
-//End Pane
-echo $myTabs->endPane();
+echo JHtml::_('tabs.end');

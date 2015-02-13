@@ -874,11 +874,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 *
 	 * @return  [type]  [description]
 	 */
-	public function defaultmedia()
+	public function setDefault()
 	{
 		$app = JFactory::getApplication();
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');

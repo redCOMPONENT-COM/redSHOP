@@ -340,16 +340,24 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		</td>
 		<?php if ($category_id > 0)
 		{
-			$disabled = $ordering ? '' : 'disabled="disabled"';
-
 			?>
 			<td class="order">
-				<span><?php
-					echo    $this->pagination->orderUpIcon($i, ($row->category_id == @$this->products[$i - 1]->category_id), 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
-				<span><?php
-					echo $this->pagination->orderDownIcon($i, $n, ($row->category_id == @$this->products[$i + 1]->category_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
-				<input type="text" name="order[]" size="5" <?php echo $disabled; ?>
-				       value="<?php echo $row->ordering; ?>" class="text_area input-small" style="text-align: center"/>
+				<?php if ($ordering) :
+					$orderDir = strtoupper($this->lists['order_Dir']);
+					?>
+					<div class="input-prepend">
+						<?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
+							<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderup'); ?></span>
+							<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown'); ?></span>
+						<?php elseif ($orderDir == 'DESC') : ?>
+							<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderdown'); ?></span>
+							<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderup'); ?></span>
+						<?php endif; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
+					</div>
+				<?php else : ?>
+					<?php echo $row->ordering; ?>
+				<?php endif; ?>
 				</td>
 		<?php } ?>
 	</tr>

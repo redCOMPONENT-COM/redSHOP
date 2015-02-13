@@ -109,21 +109,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchTemplate($name, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			codecept_debug(\TemplateManagerJoomla3Page::$firstResultRow);
-			$I->see(strtolower($name), \TemplateManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee(strtolower($name), \TemplateManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -165,13 +151,6 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteTemplate($name)
 	{
-		$I = $this;
-		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see(strtolower($name), \TemplateManagerJoomla3Page::$firstResultRow);
-		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee(strtolower($name), \TemplateManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
 	}
 }

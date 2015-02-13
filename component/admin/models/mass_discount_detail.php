@@ -400,18 +400,24 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 				for ($c = 0; $c < count($categoryArr); $c++)
 				{
-					$product_Ids = $producthelper->getProductCategory($categoryArr[$c]);
-					$cproduct = $this->customImplode($product_Ids);
-					$this->updateProduct($cproduct);
+					if ((int) $categoryArr[$c])
+					{
+						$product_Ids = $producthelper->getProductCategory($categoryArr[$c]);
+						$cproduct = $this->customImplode($product_Ids);
+						$this->updateProduct($cproduct);
+					}
 				}
 
 				$manufacturerArr = explode(',', $massDList[$m]->manufacturer_id);
 
 				for ($mn = 0; $mn < count($manufacturerArr); $mn++)
 				{
-					$product_Ids = $this->GetProductmanufacturer($manufacturerArr[$mn]);
-					$mproduct = $this->customImplode($product_Ids);
-					$this->updateProduct($mproduct);
+					if ((int) $manufacturerArr[$mn])
+					{
+						$product_Ids = $this->GetProductmanufacturer($manufacturerArr[$mn]);
+						$mproduct = $this->customImplode($product_Ids);
+						$this->updateProduct($mproduct);
+					}
 				}
 			}
 
@@ -429,29 +435,57 @@ class RedshopModelMass_discount_detail extends RedshopModel
 		return true;
 	}
 
+	/**
+	 * Implode product ids
+	 *
+	 * @param   array  $productArr  Products data array
+	 *
+	 * @return string
+	 */
 	public function customImplode($productArr)
 	{
-		$pArr = array(0);
+		$pArr = array();
 
-		for ($i = 0; $i < count($productArr); $i++)
+		if (is_array($productArr) && count($productArr) > 0)
 		{
-			$pArr[] = $productArr[$i]->product_id;
+			foreach ($productArr as $oneProduct)
+			{
+				$pArr[] = $oneProduct->product_id;
+			}
 		}
 
 		return implode(',', $pArr);
 	}
 
+	/**
+	 * Update Product On Sale status
+	 *
+	 * @param   string  $productId  String product ids
+	 *
+	 * @return bool
+	 */
 	public function updateProduct($productId)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" where product_id in (' . $productId . ')';
-		$this->_db->setQuery($query);
+		$productId = explode(',', $productId);
 
-		if (!$this->_db->execute())
+		if (count($productId) > 0)
 		{
-			$this->setError($this->_db->getErrorMsg());
+			JArrayHelper::toInteger($productId);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->update('#__redshop_product')
+				->set('product_on_sale = 0')
+				->where('product_id IN (' . implode(',', $productId) . ')');
 
-			return false;
+			if (!$db->setQuery($query)->execute())
+			{
+				$this->setError($db->getErrorMsg());
+
+				return false;
+			}
 		}
+
+		return true;
 	}
 
 	public function getmanufacturers()

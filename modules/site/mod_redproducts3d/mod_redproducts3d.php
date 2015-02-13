@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$category = trim($params->get('category', 0));
+$category = $params->get('category', array());
 
 $count                  = trim($params->get('count', 2));
 $stageWidth             = trim($params->get('stageWidth', 600));
@@ -35,10 +35,11 @@ $Redconfiguration->defineDynamicVars();
 $leftjoin = "";
 $and      = "";
 
-if ($category != 0)
+if (is_array($category) && count($category) > 0)
 {
+	JArrayHelper::toInteger($category);
 	$leftjoin .= "LEFT JOIN #__redshop_product_category_xref cx ON cx.product_id = p.product_id ";
-	$and .= "AND cx.category_id IN (" . $category . ") ";
+	$and .= "AND cx.category_id IN (" . implode(',', $category) . ") ";
 }
 
 $sql = "SELECT * FROM #__redshop_product p "
