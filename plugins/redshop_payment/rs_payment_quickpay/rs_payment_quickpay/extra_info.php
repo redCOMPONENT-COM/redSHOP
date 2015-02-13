@@ -10,7 +10,8 @@
 
 $uri  = JURI::getInstance();
 $url  = $uri->root();
-$user = JFactory::getUser();$db   = JFactory::getDbo();
+$user = JFactory::getUser();
+$db   = JFactory::getDbo();
 $config = JFactory::getConfig();
 $Itemid = JFactory::getApplication()->input->getInt('Itemid');
 
