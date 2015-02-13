@@ -10,7 +10,7 @@
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->
 
-<project name="modules packager" basedir="." default="pack">
+<project name="plugins_packager" basedir="." default="pack">
     <!-- ============================================  -->
     <!-- Create packages folder                        -->
     <!-- ============================================  -->
