@@ -76,6 +76,9 @@ class Com_RedshopInstallerScript
 		$this->installModules($parent);
 		$this->installPlugins($parent);
 
+		// Remove unused files from older than 1.3.3.1 redshop
+		$this->cleanUpgradeFiles($parent);
+
 		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminTemplate');
 		$this->com_install('update');
@@ -1165,5 +1168,39 @@ class Com_RedshopInstallerScript
 
 		// Insert the status
 		array_push($this->status->{$type}, $status);
+	}
+
+	/**
+	 * Remove all unused files after upgrade from 1.3.3.1 and older redSHOP.
+	 *
+	 * @oa
+	 */
+	/**
+	 * Remove all unused files after upgrade from 1.3.3.1 and older redSHOP.
+	 *
+	 * @param   object  $parent  JInstallation object
+	 *
+	 * @return  void
+	 */
+	private function cleanUpgradeFiles($parent)
+	{
+		$manifest = $parent->get('manifest');
+		$version  = (string) $manifest->version;
+
+		if (version_compare($version, '1.5.0.1', '='))
+		{
+			$folders = array(
+				JPATH_SITE . '/components/com_redshop/assets/js',
+				JPATH_SITE . '/components/com_redshop/assets/css'
+			);
+
+			foreach ($folders as $path)
+			{
+				if (JFolder::exists($path))
+				{
+					JFolder::delete($path);
+				}
+			}
+		}
 	}
 }
