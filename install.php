@@ -1191,7 +1191,8 @@ class Com_RedshopInstallerScript
 		{
 			$folders = array(
 				JPATH_SITE . '/components/com_redshop/assets/js',
-				JPATH_SITE . '/components/com_redshop/assets/css'
+				JPATH_SITE . '/components/com_redshop/assets/css',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/adapters'
 			);
 
 			foreach ($folders as $path)
