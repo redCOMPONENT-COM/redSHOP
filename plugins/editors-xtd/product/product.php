@@ -12,22 +12,36 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
- * Editor Pagebreak buton
+ * Editor redSHOP product button
  *
- * @package Editors-xtd
- * @since   1.5
+ * @package  Editors-xtd
+ * @since    1.5
  */
-class plgButtonproduct extends JPlugin
+class PlgButtonProduct extends JPlugin
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
+	 *
+	 * @since   1.5
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
 	/**
 	 * Display the button
 	 *
-	 * @return array A two element array of ( imageName, textToInsert )
+	 * @param   string  $name  The name of the button to add
+	 *
+	 * @return array A two element array of (imageName, textToInsert)
 	 */
 	public function onDisplay($name)
 	{
-		$app = JFactory::getApplication();
-
 		$doc = JFactory::getDocument();
 
 		$js = "
@@ -38,24 +52,17 @@ class plgButtonproduct extends JPlugin
 		}";
 		$doc->addScriptDeclaration($js);
 
-		$template = $app->getTemplate();
-		$link = 'index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;
-
-		if ($app->isAdmin())
-		{
-			$link = '../index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;
-		}
-
 		$link = 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . $name;
 
 		JHTML::_('behavior.modal');
 
 		$button = new JObject;
 		$button->set('modal', true);
+		$button->set('class', 'btn');
 		$button->set('link', $link);
-		$button->set('text', JText::_('COM_REDSHOP_PRODUCT'));
-		$button->set('name', 'pagebreak');
-		$button->set('options', "{handler: 'iframe', size: {x: 600, y: 500}}");
+		$button->set('text', JText::_('PLG_EDITORS-XTD_PRODUCT_BUTTON_TEXT'));
+		$button->set('name', 'file-add article');
+		$button->set('options', "{handler: 'iframe', size: {x: 700, y: 550}}");
 
 		return $button;
 	}
