@@ -10,7 +10,18 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-$category               = trim($params->get('category', ''));
+
+$category = $params->get('category', '');
+
+if (is_array($category))
+{
+	$category = implode(',', $category);
+}
+else
+{
+	$category = trim($category);
+}
+
 $number_of_items        = trim($params->get('number_of_items', 5));
 $thumbwidth             = trim($params->get('thumbwidth', 100));
 $thumbheight            = trim($params->get('thumbheight', 100));
