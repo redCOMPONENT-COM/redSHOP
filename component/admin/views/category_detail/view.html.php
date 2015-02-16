@@ -35,8 +35,10 @@ class RedshopViewCategory_detail extends RedshopView
 		$document->addScript('components/com_redshop/assets/js/fields.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
 
+		$model = $this->getModel('category_detail');
 		$this->detail = $this->get('data');
 		$isNew        = ($this->detail->category_id < 1);
+		$this->detail->category_template = JFactory::getApplication()->input->post->getInt('category_template', (int) $this->detail->category_template);
 
 		// Assign default values for new categories
 		if ($isNew)
@@ -112,14 +114,14 @@ class RedshopViewCategory_detail extends RedshopView
 		$temps[0]->template_name          = JText::_('COM_REDSHOP_SELECT');
 		$templates                        = array_merge($temps, $templates);
 		$this->lists['category_template'] = JHTML::_(
-												'select.genericlist',
-												$templates,
-												'category_template',
-												'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'' . $this->detail->category_id . '\',\'2\');" ',
-												'template_id',
-												'template_name',
-												$this->detail->category_template
-											);
+			'select.genericlist',
+			$templates,
+			'category_template',
+			'class="inputbox" size="1"  onchange="Joomla.submitbutton(\'category_detail.edit\');" ',
+			'template_id',
+			'template_name',
+			$this->detail->category_template
+		);
 
 		/*
 		 * class name product_category
@@ -166,6 +168,7 @@ class RedshopViewCategory_detail extends RedshopView
 		}
 
 		$this->lists['categroy_accessory_product'] = $categoryAccessoryProduct;
+		$this->extraFields	= $model->getExtraFields($this->detail);
 
 		parent::display($tpl);
 	}
