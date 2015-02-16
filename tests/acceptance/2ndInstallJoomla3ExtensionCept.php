@@ -6,7 +6,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 $scenario->group('Joomla3');
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Install Extension');
 $I->doAdminLogin();
