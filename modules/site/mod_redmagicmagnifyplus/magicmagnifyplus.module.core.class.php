@@ -29,8 +29,7 @@ if (!in_array('MagicMagnifyPlusModuleCoreClass', get_declared_classes()))
 		{
 			if ($cssPath == null) $cssPath = $jsPath;
 			$headers   = array();
-			$headers[] = '<!-- Magic Magnify Plus Joomla 1.5 module module version 2.11.2.0 -->';
-			$headers[] = '<link type="text/css" href="' . $cssPath . '/magicthumb.css" rel="stylesheet" media="screen" />';
+			$headers[] = '<link type="text/css" href="' . $cssPath . '/magicmagnifyplus.css" rel="stylesheet" media="screen" />';
 			$headers[] = '<script type="text/javascript" src="' . $jsPath . '/magicmagnifyplus.js"></script>';
 
 			$conf = Array(
