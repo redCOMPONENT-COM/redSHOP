@@ -46,6 +46,10 @@ class RedshopModelCategory_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
+			if (!empty($_POST))
+			{
+				$this->_data = $this->setPostData($this->_data, array('category_full_image', 'category_thumb_image', 'category_back_full_image'));
+			}
 		}
 		else
 		{
@@ -128,6 +132,30 @@ class RedshopModelCategory_detail extends RedshopModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * Set POST data
+	 *
+	 * @param   object  $details   Init data object
+	 * @param   array   $excludes  Exclude array fields
+	 *
+	 * @return  object
+	 */
+	public function setPostData($details, $excludes = array())
+	{
+		$postData  = JFactory::getApplication()->input->getArray($_POST);
+		$details = (array) $details;
+
+		foreach ($details as $key => $detail)
+		{
+			if (isset($postData[$key]) && array_search($postData[$key], $excludes) === false)
+			{
+				$details[$key] = $postData[$key];
+			}
+		}
+
+		return (object) $details;
 	}
 
 	public function store($data)
