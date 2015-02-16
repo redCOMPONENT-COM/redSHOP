@@ -83,7 +83,7 @@ class RedshopViewCategory_detail extends RedshopView
 		 * multiple select box for
 		 * 	Front-End category Template Selector
 		 */
-		if (strstr($this->detail->category_more_template, ","))
+		if (!is_array($this->detail->category_more_template) && strstr($this->detail->category_more_template, ","))
 		{
 			$category_more_template = explode(",", $this->detail->category_more_template);
 		}
