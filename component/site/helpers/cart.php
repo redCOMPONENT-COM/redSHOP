@@ -4886,7 +4886,7 @@ class rsCarthelper
 
 			if ($use_cookies_value == 1)
 			{
-				setcookie("redSHOPcart", serialize(addslashes($cart)), time() + (60 * 60 * 24 * 365));
+				setcookie("redSHOPcart", base64_encode(serialize($cart)), time() + (60 * 60 * 24 * 365));
 			}
 		}
 
