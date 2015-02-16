@@ -139,6 +139,7 @@ class RedshopViewProduct extends RedshopView
 			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0
 		);
 
+		$this->state = $state;
 		$this->list_in_products = $list_in_products;
 		$this->keyword = $keyword;
 		$this->search_field = $search_field;

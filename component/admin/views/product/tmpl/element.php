@@ -11,12 +11,8 @@ JLoader::load('RedshopHelperProduct');
 JHTMLBehavior::modal();
 $app = JFactory::getApplication();
 $productobj = new producthelper;
-$option = JRequest::getVar('option', '', 'request', 'string');
-
 $model = $this->getModel('product');
-$ordering = ($this->lists['order'] == 'ordering');
-
-$category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
+$category_id = $this->state->get('category_id', 0);
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -34,56 +30,32 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 		form.submit();
 	}
 </script>
-<?php
-
-$kk = 0;
-$tmpCats = array();
-$n = count($this->products);
-for ($i = $this->pagination->limitstart, $j = 0; $i < ($this->pagination->limitstart + $this->pagination->limit); $i++, $j++)
-{
-	$row = $this->products[$j];
-	if (!is_object($row))
-	{
-		break;
-	}
-	// change ordering
-	$row->orderup = $this->pagination->orderUpIcon($j, ($row->product_parent_id == @$this->products[$j - 1]->product_parent_id), 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering);
-	$row->orderdown = $this->pagination->orderDownIcon($j, $n, ($row->product_parent_id == @$this->products[$j + 1]->product_parent_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering);
-	// end
-	$tmpCats[$kk] = $row;
-	$kk++;
-}
-if ($this->pagination->limit > 0)
-	$this->products = $tmpCats;
-
-?>
-<table border="0" cellpadding="2" cellspacing="2" width="100%">
-	<tr>
-		<td>
-			<form
-				action="<?php echo 'index.php?option=com_redshop&view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
-				method="post" name="adminForm2" id="adminForm2">
-
-				<input type="text" name="keyword" value="<?php echo $this->keyword; ?>"> <input type="submit"
-				                                                                                value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<select name="search_field" onchange="javascript:document.adminForm2.submit();">
-					<option
-						value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
-					<option
-						value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
-					<option
-						value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
-				</select>
-				<?php echo $this->lists['category'];?>
-			</form>
-		</td>
-	</tr>
-</table>
 <form
-	action="<?php echo 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
+	action="<?php echo 'index.php?option=com_redshop&view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
 	method="post" name="adminForm" id="adminForm">
+
+	<div class="filterItem">
+		<div class="btn-wrapper input-append">
+			<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
+			<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+		</div>
+	</div>
+	<div class="filterItem">
+		<select name="search_field" onchange="javascript:document.adminForm.submit();">
+			<option
+				value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
+			<option
+				value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
+			<option
+				value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
+		</select>
+	</div>
+	<div class="filterItem">
+		<?php echo $this->lists['category'];?>
+	</div>
+
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5">
@@ -111,6 +83,11 @@ if ($this->pagination->limit > 0)
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'product_id', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
+				<?php if ($category_id > 0): ?>
+				<th nowrap="nowrap">
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'x.ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
+				</td>
+				<?php endif; ?>
 			</tr>
 			</thead>
 			<?php
@@ -158,6 +135,11 @@ if ($this->pagination->limit > 0)
 					<td align="center" width="5%">
 						<?php echo $row->product_id; ?>
 					</td>
+					<?php if ($category_id > 0): ?>
+						<td class="order">
+							<?php echo $row->ordering; ?>
+						</td>
+					<?php endif; ?>
 				</tr>
 				<?php
 				$k = 1 - $k;
