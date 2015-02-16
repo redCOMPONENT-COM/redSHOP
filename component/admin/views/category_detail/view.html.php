@@ -38,14 +38,6 @@ class RedshopViewCategory_detail extends RedshopView
 		$model = $this->getModel('category_detail');
 		$this->detail = $this->get('data');
 		$isNew        = ($this->detail->category_id < 1);
-		$this->detail->category_template = JFactory::getApplication()->input->post->getInt('category_template', (int) $this->detail->category_template);
-
-		// Assign default values for new categories
-		if ($isNew)
-		{
-			$this->detail->append_to_global_seo = 'append';
-			$this->detail->canonical_url        = '';
-		}
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $this->detail->category_name . " - " . JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY') . ': <small><small>[ ' . $text . ' ]</small></small>', 'folder redshop_categories48');
