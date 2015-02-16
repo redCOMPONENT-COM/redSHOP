@@ -2274,9 +2274,13 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$shopmorelink = JRoute::_(CONTINUE_REDIRECT_LINK);
 			}
+			elseif ($catItemId = $redHelper->getCategoryItemid())
+			{
+				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
+			}
 			else
 			{
-				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $redHelper->getCategoryItemid());
+				$shopmorelink = JRoute::_('index.php');
 			}
 
 			$shop_more     = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
