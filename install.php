@@ -20,11 +20,23 @@ class Com_RedshopInstallerScript
 	/**
 	 * Status of the installation
 	 *
-	 * @var  [type]
+	 * @var  object
 	 */
 	public $status = null;
 
+	/**
+	 * The common JInstaller instance used to install all the extensions
+	 *
+	 * @var  object
+	 */
 	public $installer = null;
+
+	/**
+	 * Previous version of the redSHOP
+	 *
+	 * @var  string
+	 */
+	public $previousVersion = null;
 
 	/**
 	 * Method to install the component
@@ -97,6 +109,10 @@ class Com_RedshopInstallerScript
 		if ($type == "update")
 		{
 			$this->updateschema();
+
+			// Get the old version from manifest cache.
+			$manifestCache         = new JRegistry($parent->get('extension')->manifest_cache);
+			$this->previousVersion = $manifestCache->get('version', null);
 		}
 	}
 
@@ -1184,14 +1200,13 @@ class Com_RedshopInstallerScript
 	 */
 	private function cleanUpgradeFiles($parent)
 	{
-		$manifest = $parent->get('manifest');
-		$version  = (string) $manifest->version;
-
-		if (version_compare($version, '1.5.0.1', '='))
+		if (version_compare($this->previousVersion, '1.5', '<='))
 		{
 			$folders = array(
 				JPATH_SITE . '/components/com_redshop/assets/js',
 				JPATH_SITE . '/components/com_redshop/assets/css',
+				JPATH_SITE . '/components/com_redshop/helpers/fonts',
+				JPATH_SITE . '/components/com_redshop/helpers/tcpdf',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/adapters'
 			);
 
