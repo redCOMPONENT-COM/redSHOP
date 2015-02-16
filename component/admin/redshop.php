@@ -161,7 +161,7 @@ JText::script('COM_REDSHOP_IS_REQUIRED');
 $document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
 $format = $app->input->get('format', 'html');
 
-if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task != "getcurrencylist"
+if ($view != "search" && $view != "wizard" && $task != "getcurrencylist"
 	&& $layout != "thumbs" && $view != "catalog_detail" && $task != "clearsef" && $task != "removesubpropertyImage"
 	&& $task != "removepropertyImage" && $view != "product_price" && $task != "template" && $json_var == ''
 	&& $task != 'gbasedownload' && $task != "export_data" && $showbuttons != "1" && $showall != 1
@@ -197,7 +197,7 @@ if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task !
 		&& $view != 'xmlimport_detail' && $view != 'addquotation_detail'
 		&& $view != 'xmlexport_detail' && $task != 'element'  && $view != 'stockimage_detail'
 		&& $view != 'mass_discount_detail' && $view != 'supplier_detail'
-		&& $view != 'orderstatus_detail')
+		&& $view != 'orderstatus_detail' && $view != "order_detail" )
 	{
 		echo '<div style="float:left;width:19%; margin-right:1%;">';
 		JLoader::load('RedshopHelperAdminMenu');
