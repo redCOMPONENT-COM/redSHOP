@@ -44,16 +44,14 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-			if (!empty($_POST))
-			{
-				$this->_data = $this->setPostData($this->_data, array('category_full_image', 'category_thumb_image', 'category_back_full_image'));
-			}
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
+		}
+
+		if (!empty($_POST))
+		{
+			$this->_data = $this->setPostData($this->_data, array('category_full_image', 'category_thumb_image', 'category_back_full_image'));
 		}
 
 		return $this->_data;
@@ -126,6 +124,8 @@ class RedshopModelCategory_detail extends RedshopModel
 			$detail->sef_url = null;
 			$detail->published = 1;
 			$detail->compare_template_id = 0;
+			$detail->append_to_global_seo = 'append';
+			$detail->canonical_url = '';
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
