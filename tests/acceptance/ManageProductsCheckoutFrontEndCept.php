@@ -6,10 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 $scenario->group('Joomla3');
-
-// Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
-
+$I = new AcceptanceTester($scenario);
 $I->wantTo('Test Product Checkout on Front End with Bank Transfer');
 $I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 $customerInformation = array(
