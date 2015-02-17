@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperAdminShopper');
@@ -564,7 +563,7 @@ class RedshopViewProduct_Detail extends RedshopView
 									'select.genericlist',
 									$productTypeOptions,
 									'product_type',
-									'class="inputbox" size="1" ',
+									'onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"',
 									'value',
 									'text',
 									$detail->product_type

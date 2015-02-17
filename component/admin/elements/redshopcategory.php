@@ -10,15 +10,18 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
+JFormHelper::loadFieldClass('list');
+
+// Load library language
+$lang = JFactory::getLanguage();
+$lang->load('com_redshop', JPATH_ADMINISTRATOR);
 
 /**
  * element for default product layout
  *
- * @package        Joomla
- * @subpackage     redshop
- * @since          1.5
+ * @since  1.5.0.1
  */
-class JFormFieldRedshopcategory extends JFormField
+class JFormFieldRedshopCategory extends JFormFieldList
 {
 	/**
 	 * Element name
@@ -28,12 +31,55 @@ class JFormFieldRedshopcategory extends JFormField
 	 */
 	public $type = 'redshopcategory';
 
-	protected function getInput()
-	{
-		$name = $this->name;
-		$categories = RedshopHelperCategory::getCategoryListArray();
-		array_unshift($categories, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -', 'category_id', 'category_name'));
+	/**
+	 * A static cache.
+	 *
+	 * @var array|null
+	 */
+	protected static $cache = null;
 
-		return JHTML::_('select.genericlist', $categories, $name, 'class="inputbox"', 'category_id', 'category_name', $this->value, $name);
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$options = array();
+
+		if (!$this->multiple)
+		{
+			$options[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -', 'value', 'text');
+		}
+
+		if (!self::$cache)
+		{
+			// Get the categories.
+			self::$cache = RedshopHelperCategory::getCategoryListArray();
+		}
+
+		// Build the field options.
+		if (!empty(self::$cache))
+		{
+			if ($this->multiple)
+			{
+				$options[] = JHtml::_('select.optgroup', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -');
+			}
+
+			foreach (self::$cache as $item)
+			{
+				$options[] = JHtml::_('select.option', $item->category_id, $item->category_name, 'value', 'text');
+			}
+
+			if ($this->multiple)
+			{
+				$options[] = JHtml::_('select.optgroup', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -');
+			}
+		}
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
+
+		return $options;
 	}
 }

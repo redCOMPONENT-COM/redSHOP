@@ -556,37 +556,6 @@ class RedshopModelConfiguration extends RedshopModel
 		return $this->_db->loadObjectlist();
 	}
 
-	public function cleardata()
-	{
-		$redirect = "";
-
-		$query = "SELECT id  FROM `#__redirection` WHERE `newurl` LIKE '%com_redshop%'";
-		$this->_db->setQuery($query);
-		$result1 = $this->_db->loadObjectList();
-
-		for ($i = 0; $i < count($result1); $i++)
-		{
-			$redirect .= $result1[$i]->id;
-
-			if (count($result1) > 1)
-			{
-				$redirect .= "','";
-			}
-		}
-
-		// URL caching : we must clear URL cache as well
-		if (file_exists(JPATH_ROOT . '/components/com_sh404sef/cache/shCacheContent.php'))
-		{
-			unlink(JPATH_ROOT . '/components/com_sh404sef/cache/shCacheContent.php');
-		}
-
-		$sql = "delete from #__redirection where id in ('" . $redirect . "') ";
-		$this->_db->setQuery($sql);
-		$this->_db->execute();
-
-		return (count($result1));
-	}
-
 	public function getShopperGroupPrivate()
 	{
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
@@ -771,9 +740,12 @@ class RedshopModelConfiguration extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-		$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" />';
+		$content = '<img  src="' . $url . 'index.php?option=com_redshop&view=newsletter&task=tracker&tmpl=component&tracker_id=' . $db->insertid() . '" />';
 		$content .= str_replace("{username}", $name[0], $data1);
 		$content = str_replace("{email}", $to, $content);
+
+		// Replace tag {unsubscribe_link} for testing mail to empty link, because test mail not have subscribes
+		$content = str_replace("{unsubscribe_link}", "<a href=\"#\">" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>", $content);
 
 		if (JMail::getInstance()->sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
 		{

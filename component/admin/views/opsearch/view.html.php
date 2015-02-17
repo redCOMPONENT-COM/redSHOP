@@ -19,14 +19,13 @@ class RedshopViewOpsearch extends RedshopView
 	 */
 	public $request_url;
 
+	public $state;
+
 	public function display($tpl = null)
 	{
-		global $context;
-
 		$model = $this->getModel('opsearch');
 
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$order_function = new order_functions;
@@ -34,16 +33,16 @@ class RedshopViewOpsearch extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'));
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'), 'redshop_order48');
 
-		$lists['order']     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_item_name');
-		$lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$this->state = $this->get('State');
+		$lists['order']     = $this->state->get('list.ordering', 'order_item_name');
+		$lists['order_Dir'] = $this->state->get('list.direction', '');
 
-		$filter_user   = $app->getUserStateFromRequest($context . 'filter_user', 'filter_user', 0);
-		$filter_status = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
+		$filter_user   = $this->state->get('filter_user', 0);
+		$filter_status = $this->state->get('filter_status', 0);
 
 		$products   = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
+
 
 		$lists['filter_user'] = $model->getuserlist('filter_user', $filter_user, 'class="inputbox" size="1" onchange="document.adminForm.submit();"');
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,

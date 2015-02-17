@@ -31,7 +31,6 @@ JLoader::import('joomla.html.pagination');
 
 JLoader::load('RedshopHelperCron');
 JLoader::load('RedshopHelperStatistic');
-JLoader::load('RedshopHelperPagination');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCurrency');

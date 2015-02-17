@@ -12,12 +12,10 @@ defined('_JEXEC') or die;
 
 class RedshopViewFields extends RedshopView
 {
+	public $state;
+
 	public function display($tpl = null)
 	{
-		$context = 'field_id';
-
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
@@ -30,24 +28,22 @@ class RedshopViewFields extends RedshopView
 		JToolBarHelper::unpublishList();
 
 		$fields        = $this->get('Data');
-		$total         = $this->get('Total');
 		$pagination    = $this->get('Pagination');
 
 		$redtemplate = new Redtemplate;
 		$optiontype    = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
+		$this->state = $this->get('State');
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$filtertypes      = $app->getUserStateFromRequest($context . 'filtertypes', 'filtertypes', 0);
-		$filtersection    = $app->getUserStateFromRequest($context . 'filtertypes', 'filtersection', 0);
+		$filtertype      = $this->state->get('filtertype');
+		$filtersection    = $this->state->get('filtersection');
 
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['order'] = $this->state->get('list.ordering', 'ordering');
+		$lists['order_Dir'] = $this->state->get('list.direction');
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'filtertypes',
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'filtertype',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ',
-			'value', 'text', $filtertypes
+			'value', 'text', $filtertype
 		);
 		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'filtersection',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"',

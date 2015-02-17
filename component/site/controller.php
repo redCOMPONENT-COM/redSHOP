@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * RedSHOP master display controller.
  *
- * @package  RedSHOP.Administrator
+ * @package  RedSHOP.Backend
  * @since    1.3.3.1
  */
 class RedshopController extends RedshopControllerLegacy

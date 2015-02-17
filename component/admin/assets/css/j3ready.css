@@ -474,6 +474,9 @@ div.cpanel-right {
 	float: left;
 	margin-right: 8px;
 }
+.icon-send:before{
+	content: "\004D";
+}
 .icon-preview:before{
 	content: "\3c";
 }
@@ -485,4 +488,11 @@ div.cpanel-right {
 }
 .icon-redshop_order32:before{
 	content: "\E01A";
+}
+.icon-redshop_shipping_rates32:before,
+.icon-redshop_shipping_rates48::before{
+	content: "\0063";
+}
+.icon-redshop_shipping48:before{
+	content: "\E022";
 }

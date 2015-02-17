@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDCATEGORYSCROLLER</name>
-    <version>1.3.2</version>
+    <version>1.5</version>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -20,53 +20,53 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="pretext" type="text" default="" label="COM_REDSHOP_PRETEXT_LBL"
-                       description="COM_REDSHOP_PRETEXT"/>
+                <field name="pretext" type="text" default="" label="MOD_REDCATEGORYSCROLLER_PRETEXT_LBL"
+                       description="MOD_REDCATEGORYSCROLLER_PRETEXT"/>
                 <field name="NumberOfCategory" type="text" default="5"
-                       label="COM_REDSHOP_NUMBER_OF_CATEGORY_LBL"
-                       description="COM_REDSHOP_NUMBER_OF_CATEGORY_DESC"/>
-                <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
-                       description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100"/>
-                <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
-                       description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100"/>
-                <field name="boxwidth" type="text" size="10" label="COM_REDSHOP_BOX_WIDTH"
-                       description="COM_REDSHOP_BOX_WIDTH" default="100"/>
+                       label="MOD_REDCATEGORYSCROLLER_NUMBER_OF_CATEGORY_LBL"
+                       description="MOD_REDCATEGORYSCROLLER_NUMBER_OF_CATEGORY_DESC"/>
+                <field name="thumbwidth" type="text" size="10" label="MOD_REDCATEGORYSCROLLER_THUMB_IMAGE_WIDTH"
+                       description="MOD_REDCATEGORYSCROLLER_THUMB_IMAGE_WIDTH" default="100"/>
+                <field name="thumbheight" type="text" size="10" label="MOD_REDCATEGORYSCROLLER_THUMB_IMAGE_HEIGHT"
+                       description="MOD_REDCATEGORYSCROLLER_THUMB_IMAGE_HEIGHT" default="100"/>
+                <field name="boxwidth" type="text" size="10" label="MOD_REDCATEGORYSCROLLER_BOX_WIDTH"
+                       description="MOD_REDCATEGORYSCROLLER_BOX_WIDTH" default="100"/>
                 <field name="ScrollSortMethod" type="radio" default="random"
-                       label="COM_REDSHOP_SCROLL_SORT_METHOD_LBL"
-                       description="COM_REDSHOP_SCROLL_SORT_METHOD_DESC">
-                    <option value="newest">NEWEST</option>
-                    <option value="oldest">OLDEST</option>
-                    <option value="random">RANDOM</option>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_SORT_METHOD_LBL"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_SORT_METHOD_DESC">
+                    <option value="newest">MOD_REDCATEGORYSCROLLER_NEWEST</option>
+                    <option value="oldest">MOD_REDCATEGORYSCROLLER_OLDEST</option>
+                    <option value="random">MOD_REDCATEGORYSCROLLER_RANDOM</option>
                 </field>
                 <field name="show_category_name" type="radio" default="yes"
-                       label="COM_REDSHOP_SHOW_CATEGORY_NAME_LBL"
-                       description="COM_REDSHOP_SHOW_CATEGORY_NAME_DESC">
-                    <option value="yes">YES</option>
-                    <option value="no">NO</option>
+                       label="MOD_REDCATEGORYSCROLLER_SHOW_CATEGORY_NAME_LBL"
+                       description="MOD_REDCATEGORYSCROLLER_SHOW_CATEGORY_NAME_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
 
                 <field name="ScrollHeight" type="text" default="125"
-                       label="COM_REDSHOP_SCROLL_HEIGHT" description="COM_REDSHOP_SCROLL_HEIGHT_DESC"/>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_HEIGHT" description="MOD_REDCATEGORYSCROLLER_SCROLL_HEIGHT_DESC"/>
                 <field name="ScrollWidth" type="text" default="150"
-                       label="COM_REDSHOP_SCROLL_WIDTH" description="COM_REDSHOP_SCROLL_WIDTH_DESC"/>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_WIDTH" description="MOD_REDCATEGORYSCROLLER_SCROLL_WIDTH_DESC"/>
                 <field name="ScrollBehavior" type="list" default="scroll"
-                       label="COM_REDSHOP_SCROLL_BEHAVIOR"
-                       description="COM_REDSHOP_SCROLL_BEHAVIOR_DESC">
-                    <option value="scroll">SCROLL</option>
-                    <option value="slide">SLIDE</option>
-                    <option value="alternate">ALTERNATE</option>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_BEHAVIOR"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_BEHAVIOR_DESC">
+                    <option value="scroll">MOD_REDCATEGORYSCROLLER_SCROLL</option>
+                    <option value="slide">MOD_REDCATEGORYSCROLLER_SLIDE</option>
+                    <option value="alternate">MOD_REDCATEGORYSCROLLER_ALTERNATE</option>
                 </field>
                 <field name="ScrollDirection" type="list" default="up"
-                       label="COM_REDSHOP_SCROLL_DIRECTION"
-                       description="COM_REDSHOP_SCROLL_DIRECTION_DESC">
-                    <option value="up">SCROLL_UP</option>
-                    <option value="down">SCROLL_DOWN</option>
-                    <option value="left">SCROLL_LEFT</option>
-                    <option value="right">SCROLL_RIGHT</option>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_DIRECTION"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_DIRECTION_DESC">
+                    <option value="up">MOD_REDCATEGORYSCROLLER_SCROLL_UP</option>
+                    <option value="down">MOD_REDCATEGORYSCROLLER_SCROLL_DOWN</option>
+                    <option value="left">MOD_REDCATEGORYSCROLLER_SCROLL_LEFT</option>
+                    <option value="right">MOD_REDCATEGORYSCROLLER_SCROLL_RIGHT</option>
                 </field>
                 <field name="ScrollAmount" type="list" default="scroll"
-                       label="COM_REDSHOP_SCROLL_AMOUNT"
-                       description="COM_REDSHOP_SCROLL_AMOUNT_DESC">
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_AMOUNT"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_AMOUNT_DESC">
                     <option value="1">1 line</option>
                     <option value="2">2 lines</option>
                     <option value="3">3 lines</option>
@@ -74,22 +74,22 @@
                     <option value="5">5 lines</option>
                 </field>
                 <field name="ScrollDelay" type="text" default="80"
-                       label="COM_REDSHOP_SCROLL_DELAY"
-                       description="COM_REDSHOP_SCROLL_DELAY_DESC"/>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_DELAY"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_DELAY_DESC"/>
                 <field name="ScrollAlign" type="list" default="left"
-                       label="COM_REDSHOP_SCROLL_ALIGN"
-                       description="COM_REDSHOP_SCROLL_ALIGN_DESC">
-                    <option value="left">LEFT_ALIGN</option>
-                    <option value="right">RIGHT_ALIGN</option>
-                    <option value="center">CENTER_ALIGN</option>
-                    <option value="justify">JUSTIFY_ALIGN</option>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_ALIGN"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_ALIGN_DESC">
+                    <option value="left">MOD_REDCATEGORYSCROLLER_LEFT_ALIGN</option>
+                    <option value="right">MOD_REDCATEGORYSCROLLER_RIGHT_ALIGN</option>
+                    <option value="center">MOD_REDCATEGORYSCROLLER_CENTER_ALIGN</option>
+                    <option value="justify">MOD_REDCATEGORYSCROLLER_JUSTIFY_ALIGN</option>
                 </field>
                 <field name="ScrollSpaceChar" type="text" default="&amp;nbsp;"
-                       label="COM_REDSHOP_SCROLL_SPACECHAR"
-                       description="COM_REDSHOP_SCROLL_SPACECHAR_DESC"/>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_SPACECHAR"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_SPACECHAR_DESC"/>
                 <field name="ScrollSpaceCharTimes" type="list" default="5"
-                       label="COM_REDSHOP_SCROLL_SPACECHAR_TIMES"
-                       description="COM_REDSHOP_SCROLL_SPACECHAR_TIMES_DESC">
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_SPACECHAR_TIMES"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_SPACECHAR_TIMES_DESC">
                     <option value="1">1 time</option>
                     <option value="2">2 times</option>
                     <option value="3">3 times</option>
@@ -102,14 +102,14 @@
                     <option value="10">10 times</option>
                 </field>
                 <field name="ScrollLineChar" type="list" default="&lt;br /&gt;"
-                       label="COM_REDSHOP_SCROLL_LINECHAR"
-                       description="COM_REDSHOP_SCROLL_LINECHAR_DESC">
-                    <option value="&lt;br /&gt;">HTML_BREAK</option>
-                    <option value="&lt;hr /&gt;">HTML_HORIZONTAL_RULE</option>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_LINECHAR"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_LINECHAR_DESC">
+                    <option value="&lt;br /&gt;">MOD_REDCATEGORYSCROLLER_HTML_BREAK</option>
+                    <option value="&lt;hr /&gt;">MOD_REDCATEGORYSCROLLER_HTML_HORIZONTAL_RULE</option>
                 </field>
                 <field name="ScrollLineCharTimes" type="list" default="2"
-                       label="COM_REDSHOP_SCROLL_LINECHAR_TIMES"
-                       description="COM_REDSHOP_SCROLL_LINECHAR_TIMES_DESC">
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_LINECHAR_TIMES"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_LINECHAR_TIMES_DESC">
                     <option value="1">1 time</option>
                     <option value="2">2 times</option>
                     <option value="3">3 times</option>
@@ -122,29 +122,29 @@
                     <option value="10">10 times</option>
                 </field>
                 <field name="ScrollCSSOverride" type="list" default="no"
-                       label="COM_REDSHOP_OVERRIDE_CSS"
-                       description="COM_REDSHOP_OVERRIDE_CSS_DESC">
-                    <option value="yes">YES</option>
-                    <option value="no">NO</option>
+                       label="MOD_REDCATEGORYSCROLLER_OVERRIDE_CSS"
+                       description="MOD_REDCATEGORYSCROLLER_OVERRIDE_CSS_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="ScrollTextAlign" type="list" default="left"
-                       label="COM_REDSHOP_SCROLL_TEXT_ALIGN"
-                       description="COM_REDSHOP_SCROLL_TEXT_ALIGN_DESC">
-                    <option value="left">LEFT_ALIGN</option>
-                    <option value="right">RIGHT_ALIGN</option>
-                    <option value="center">CENTER_ALIGN</option>
-                    <option value="justify">JUSTIFY_ALIGN</option>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_ALIGN"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_ALIGN_DESC">
+                    <option value="left">MOD_REDCATEGORYSCROLLER_LEFT_ALIGN</option>
+                    <option value="right">MOD_REDCATEGORYSCROLLER_RIGHT_ALIGN</option>
+                    <option value="center">MOD_REDCATEGORYSCROLLER_CENTER_ALIGN</option>
+                    <option value="justify">MOD_REDCATEGORYSCROLLER_JUSTIFY_ALIGN</option>
                 </field>
                 <field name="ScrollTextWeight" type="list" default="normal"
-                       label="COM_REDSHOP_SCROLL_TEXT_WEIGHT" description="COM_REDSHOP_SCROLL_TEXT_WEIGHT_DESC">
-                    <option value="normal">NORMAL</option>
-                    <option value="bold">BOLD</option>
-                    <option value="bolder">BOLDER</option>
-                    <option value="lighter">LIGHTER</option>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_WEIGHT" description="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_WEIGHT_DESC">
+                    <option value="normal">MOD_REDCATEGORYSCROLLER_NORMAL</option>
+                    <option value="bold">MOD_REDCATEGORYSCROLLER_BOLD</option>
+                    <option value="bolder">MOD_REDCATEGORYSCROLLER_BOLDER</option>
+                    <option value="lighter">MOD_REDCATEGORYSCROLLER_LIGHTER</option>
                 </field>
                 <field name="ScrollTextSize" type="list" default="10"
-                       label="COM_REDSHOP_SCROLL_TEXT_SIZE"
-                       description="COM_REDSHOP_SCROLL_TEXT_SIZE_DESC">
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_SIZE"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_SIZE_DESC">
                     <option value="7">7 px</option>
                     <option value="8">8 px</option>
                     <option value="9">9 px</option>
@@ -160,17 +160,17 @@
                 </field>
 
                 <field name="ScrollTextColor" type="text" default="#000000"
-                       label="COM_REDSHOP_SCROLL_TEXT_COLOR"
-                       description="COM_REDSHOP_SCROLL_TEXT_COLOR_DESC"/>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_COLOR"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_COLOR_DESC"/>
                 <field name="ScrollBGColor" type="text" default="transparent"
-                       label="COM_REDSHOP_SCROLL_BACKGROUND_COLOR"
-                       description="COM_REDSHOP_SCROLL_BACKGROUND_COLOR_DESC"/>
+                       label="MOD_REDCATEGORYSCROLLER_SCROLL_BACKGROUND_COLOR"
+                       description="MOD_REDCATEGORYSCROLLER_SCROLL_BACKGROUND_COLOR_DESC"/>
                 <field name="moduleclass_sfx" type="text" default=""
-                       label="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
-                       description="COM_REDSHOP_PARAMMODULECLASSSUFFIX_DESC"/>
+                       label="MOD_REDCATEGORYSCROLLER_PARAMMODULECLASSSUFFIX"
+                       description="MOD_REDCATEGORYSCROLLER_PARAMMODULECLASSSUFFIX_DESC"/>
                 <field name="class_sfx" type="text" default=""
-                       label="COM_REDSHOP_MENU_CLASS"
-                       description="COM_REDSHOP_MENU_CLASS_DESC"/>
+                       label="MOD_REDCATEGORYSCROLLER_MENU_CLASS"
+                       description="MOD_REDCATEGORYSCROLLER_MENU_CLASS_DESC"/>
             </fieldset>
         </fields>
     </config>

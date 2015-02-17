@@ -12,71 +12,50 @@ defined('_JEXEC') or die;
 
 class RedshopModelTemplate extends RedshopModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
 	{
-		parent::__construct();
+		$id .= ':' . $this->getState('filter');
+		$id .= ':' . $this->getState('template_section');
 
-		$app = JFactory::getApplication();
+		return parent::getStoreId($id);
+	}
 
-		$this->_context = 'template_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$template_section = $app->getUserStateFromRequest($this->_context . 'template_section', 'template_section', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'template_id', $direction = 'desc')
+	{
+		$template_section = $this->getUserStateFromRequest($this->context . '.template_section', 'template_section', 0);
+		$filter = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
 
 		$this->setState('filter', $filter);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
 		$this->setState('template_section', $template_section);
-	}
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
 	{
-		$orderby          = $this->_buildContentOrderBy();
 		$filter           = $this->getState('filter');
 		$template_section = $this->getState('template_section');
 
@@ -87,12 +66,11 @@ class RedshopModelTemplate extends RedshopModel
 		// Create the base select statement.
 		$query->select('distinct(t.template_id)')
 			->select('t.*')
-			->from($db->qn('#__redshop_template', 't'))
-			->order($orderby);
+			->from($db->qn('#__redshop_template', 't'));
 
 		if (!empty($filter))
 		{
-			$query->where($db->qn('t.template_name') . 'LIKE ' . $db->q($filter . '%'));
+			$query->where($db->qn('t.template_name') . 'LIKE ' . $db->q('%' . $filter . '%'));
 		}
 
 		if ($template_section)
@@ -104,19 +82,10 @@ class RedshopModelTemplate extends RedshopModel
 		$query->select('uc.name AS editor');
 		$query->join('LEFT', '#__users AS uc ON uc.id=t.checked_out');
 
+		$filter_order_Dir = $this->getState('list.direction');
+		$filter_order = $this->getState('list.ordering');
+		$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
+
 		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'template_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
 	}
 }

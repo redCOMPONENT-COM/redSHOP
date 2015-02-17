@@ -170,6 +170,4 @@ $template_desc = str_replace("{manufacturer_allproductslink}", $manproducts, $te
 $template_desc = str_replace("{manufacturer_allproductslink_lbl}", JText::_('COM_REDSHOP_MANUFACTURER_ALLPRODUCTSLINK_LBL'), $template_desc);
 $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 
-echo "<div style='float:left;'>";
 echo eval("?>" . $template_desc . "<?php ");
-echo "</div>";

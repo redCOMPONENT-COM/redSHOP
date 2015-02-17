@@ -28,23 +28,9 @@ class RedshopViewDiscount extends RedshopView
 
 	public function display($tpl = null)
 	{
-		global $context;
-
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
-
-		$layout = JRequest::getVar('layout');
-
-		if (isset($layout) && $layout == 'product')
-		{
-			$context = 'discount_product_id';
-		}
-		else
-		{
-			$context = 'discount_id';
-		}
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT'), 'redshop_discountmanagmenet48');
 		JToolbarHelper::addNew();
@@ -54,27 +40,13 @@ class RedshopViewDiscount extends RedshopView
 		JToolBarHelper::unpublishList();
 
 		$uri = JFactory::getURI();
-
-		if (isset($layout) && $layout == 'product')
-		{
-			$this->setLayout('product');
-			$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_product_id');
-		}
-
-		else
-		{
-			$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_id');
-		}
-
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$state = $this->get('State');
+		$lists['order'] = $state->get('list.ordering');
+		$lists['order_Dir'] = $state->get('list.direction');
 		$discounts = $this->get('Data');
-		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$spgrpdis_filter = $app->getUserStateFromRequest($context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
+		$spgrpdis_filter = $state->get('spgrpdis_filter');
 		$userhelper = new rsUserhelper;
 		$shopper_groups = $userhelper->getShopperGroupList();
 

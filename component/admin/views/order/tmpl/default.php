@@ -21,7 +21,6 @@ $app = JFactory::getApplication();
 $order_function = new order_functions;
 $config = new Redconfiguration;
 $option = JRequest::getVar('option');
-$filter = $app->getUserStateFromRequest($context . 'filter', 'filter', '');
 $lists = $this->lists;
 $model = $this->getModel('order');
 $redhelper = new redhelper;
@@ -98,7 +97,7 @@ JPluginHelper::importPlugin('redshop_product');
 <div id="editcell">
 <div class="filterItem">
 	<div class="btn-wrapper input-append">
-		<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
+		<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
 			   placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
 		<input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO');?>"/>
 		<input type="button" class="btn" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>

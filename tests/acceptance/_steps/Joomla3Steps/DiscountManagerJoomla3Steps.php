@@ -118,21 +118,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchDiscount($amount, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$I->click('ID');
-		$verifyAmount = '$ ' . $amount . ',00';
-
-		if ($functionName == 'Search')
-		{
-			$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \DiscountManagerJ3Page, $amount, \DiscountManagerJ3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -175,14 +161,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteDiscount($amount)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$I->click('ID');
-		$verifyAmount = '$ ' . $amount . ',00';
-		$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		$I->click(\DiscountManagerJ3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \DiscountManagerJ3Page, $amount, \DiscountManagerJ3Page::$firstResultRow, \DiscountManagerJ3Page::$selectFirst);
 	}
 }

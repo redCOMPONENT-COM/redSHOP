@@ -24,12 +24,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		$app = JFactory::getApplication();
 		echo $this->show_mollie_ideal($data['order_id']);
 	}
 
@@ -40,19 +34,10 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			return;
 		}
 
-		$app                 = JFactory::getApplication();
-		$objOrder            = new order_functions;
-		$uri                 = JURI::getInstance();
 		$request             = JRequest::get('request');
-
-		$url                 = $uri->root();
-		$Itemid              = JRequest::getInt('Itemid');
-		$msg                 = JText::_('IDEAL_PAYMENT_SUCCESSFUL');
 		$tid                 = $request['transaction_id'];
-
 		$verify_status       = $this->params->get('verify_status', '');
 		$invalid_status      = $this->params->get('invalid_status', '');
-		$cancel_status       = $this->params->get('cancel_status', '');
 
 		// Check Payment True/False
 		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_mollieideal/'
@@ -62,13 +47,8 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$mideal   = new ideal;
 		$response = $mideal->checkPayment($this->params->get("mollieideal_partner_id"), $tid, $this->params->get("mollieideal_is_test"));
 
-		$user     = JFactory::getUser();
 		$order_id = $request['orderid'];
-
-		$uri      = JURI::getInstance();
-		$url      = JURI::base();
-		$uid      = $user->id;
-		$db       = JFactory::getDbo();
+		$values = new stdClass;
 
 		if ($response->payed == "false")
 		{
@@ -216,7 +196,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$mideal->setBankID($request['bankid']);
 		$mideal->setAmount($odata->order_total);
 		$mideal->setDescription('Order ' . sprintf('%08d', $order_id) . ' - ' . substr($this->params->get("mollieideal_company_name"), 0, 12));
-		$mideal->setReturnUrl(JURI::base() . "index.php?option=com_redshop&view=order_detail&Itemid=$Itemid&oid=" . $order_id);
+		$mideal->setReturnUrl(JURI::base() . "index.php?option=com_redshop&view=order_detail&Itemid=" . $request['Itemid'] . "&oid=" . $order_id);
 		$mideal->setReportUrl(JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_mollieideal&orderid=" . $order_id);
 
 		$mideal->setTestMode($this->params->get("mollieideal_is_test"));
