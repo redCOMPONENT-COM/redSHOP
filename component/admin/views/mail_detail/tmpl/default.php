@@ -101,7 +101,7 @@ $extra_field = new extra_field;
 		<table class="admintable">
 			<tr>
 				<td>
-					<?php echo $editor->display("mail_body", $this->detail->mail_body, '$widthPx', '$heightPx', '100', '20');    ?>
+					<?php echo $editor->display("mail_body", $this->detail->mail_body, '800px', '500px', '100', '20'); ?>
 				</td>
 			</tr>
 		</table>

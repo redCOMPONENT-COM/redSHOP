@@ -12,82 +12,81 @@ defined('_JEXEC') or die;
 
 class RedshopModelDiscount extends RedshopModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 */
+	public function __construct($config = array())
 	{
-		parent::__construct();
+		// Different context depending on the view
+		if (empty($this->context))
+		{
+			$input = JFactory::getApplication()->input;
+			$view = $input->getString('view', '');
+			$option = $input->getString('option', '');
+			$layout = $input->getString('layout', 'none');
+			$this->context = strtolower($option . '.' . $view . '.' . $this->getName() . '.' . $layout);
+		}
 
-		$app = JFactory::getApplication();
+		parent::__construct($config);
+	}
 
-		$layout = JRequest::getVar('layout');
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('spgrpdis_filter');
 
-		if (isset($layout) && $layout == 'product')
-			$this->_context = 'discount_product_id';
-		else
-			$this->_context = 'discount_id';
+		return parent::getStoreId($id);
+	}
 
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$spgrpdis_filter = $app->getUserStateFromRequest($this->_context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'discount_id', $direction = '')
+	{
+		$spgrpdis_filter = $this->getUserStateFromRequest($this->context . '.spgrpdis_filter', 'spgrpdis_filter', 0);
 		$this->setState('spgrpdis_filter', $spgrpdis_filter);
-	}
+		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
-	public function getData()
-	{
-		if (empty($this->_data))
+		if ($layout == 'product')
 		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			$ordering = 'discount_product_id';
 		}
 
-		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$where = '';
 		$layout = JRequest::getVar('layout');
 		$spgrpdis_filter = $this->getState('spgrpdis_filter');
 
 		if (isset($layout) && $layout == 'product')
 		{
-			$query = ' SELECT * FROM ' . $this->_table_prefix . 'discount_product ' . $orderby;
+			$query = ' SELECT * FROM #__redshop_discount_product ' . $orderby;
 		}
 		else
 		{
@@ -95,14 +94,13 @@ class RedshopModelDiscount extends RedshopModel
 			{
 				$where = " where ds.shopper_group_id = '" . $spgrpdis_filter . "' ";
 
-				$query = ' SELECT d.* FROM ' . $this->_table_prefix . 'discount d left outer join '
-					. $this->_table_prefix . 'discount_shoppers ds on d.discount_id=ds.discount_id '
+				$query = ' SELECT d.* FROM #__redshop_discount d left outer join #__redshop_discount_shoppers ds on d.discount_id=ds.discount_id '
 					. $where
 					. $orderby;
 			}
 			else
 			{
-				$query = ' SELECT * FROM ' . $this->_table_prefix . 'discount ' . $orderby;
+				$query = ' SELECT * FROM #__redshop_discount ' . $orderby;
 			}
 		}
 		return $query;
@@ -113,18 +111,18 @@ class RedshopModelDiscount extends RedshopModel
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$layout = JRequest::getVar('layout');
+		$layout = $app->input->getCmd('layout', '');
 
 		if (isset($layout) && $layout == 'product')
 		{
-			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'discount_product_id');
+			$filter_order = $this->getState('list.ordering', 'discount_product_id');
 		}
 		else
 		{
-			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'discount_id');
+			$filter_order = $this->getState('list.ordering', 'discount_id');
 		}
 
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $this->getState('list.direction');
 
 		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 

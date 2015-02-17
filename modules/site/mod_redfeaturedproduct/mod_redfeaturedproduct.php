@@ -85,7 +85,7 @@ if (!class_exists('redFeatureproduct'))
 		/**
 		* Display Product Data
 		*/
-		function displayredFeature (&$rows)
+		function displayredFeature (&$rows, $moduleId = 0)
 		{
 			global $Redconfiguration;
 			$uri           = JURI::getInstance();
@@ -116,7 +116,17 @@ if (!class_exists('redFeatureproduct'))
 				JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 			}
 
-			JHTML::script('modules/mod_redfeaturedproduct/js/recreativo.js');
+			JHTML::script('com_redshop/carousel.js', false, true);
+			$document->addScriptDeclaration("jQuery(document).ready(function() {
+				jQuery('#produkt_carousel_" . $moduleId . "').red_product({
+					wrap: 'last',
+					scroll: 1,
+					auto: 6,
+					animation: 'slow',
+					easing: 'swing',
+					itemLoadCallback: jQuery.noConflict()
+				});
+			});");
 
 			echo $this->params->get('pretext', "");
 
@@ -129,7 +139,7 @@ if (!class_exists('redFeatureproduct'))
 						<div style='display: block;' class='red_product-prev red_product-prev-horizontal'></div>
 						<div style='display: block;left:<?php echo $rightarrow;?>px;' class='red_product-next red_product-next-horizontal'></div>
 						<div style='width:<?php echo $this->scrollerwidth;?>px;' class='red_product-clip red_product-clip-horizontal'>
-							<ul id='produkt_carousel' class='red_product-list red_product-list-horizontal'>
+							<ul id='produkt_carousel_<?php echo $moduleId; ?>' class='red_product-list red_product-list-horizontal'>
 		<?php 	$i = 0;
 
 				foreach($rows as $row)
@@ -333,4 +343,4 @@ $rows = $featured->getredFeaturedProduct($featured->NumberOfProducts, $featured-
 /**
 * Display Product Scroller
 **/
-$featured->displayredFeature($rows);
+$featured->displayredFeature($rows, $module->id);

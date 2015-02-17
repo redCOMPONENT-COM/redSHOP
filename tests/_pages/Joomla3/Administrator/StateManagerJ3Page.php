@@ -27,7 +27,7 @@ class StateManagerJ3Page
 
 	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
 
-	public static $stateResultRow = "//form[@id='adminForm']/table[2]/tbody/tr[1]";
+	public static $stateResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
 
 	public static $searchField = "//input[@id='country_main_filter']";
 

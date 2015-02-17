@@ -35,15 +35,9 @@ class RedshopViewCategory_detail extends RedshopView
 		$document->addScript('components/com_redshop/assets/js/fields.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
 
+		$model = $this->getModel('category_detail');
 		$this->detail = $this->get('data');
 		$isNew        = ($this->detail->category_id < 1);
-
-		// Assign default values for new categories
-		if ($isNew)
-		{
-			$this->detail->append_to_global_seo = 'append';
-			$this->detail->canonical_url        = '';
-		}
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $this->detail->category_name . " - " . JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY') . ': <small><small>[ ' . $text . ' ]</small></small>', 'folder redshop_categories48');
@@ -81,7 +75,7 @@ class RedshopViewCategory_detail extends RedshopView
 		 * multiple select box for
 		 * 	Front-End category Template Selector
 		 */
-		if (strstr($this->detail->category_more_template, ","))
+		if (!is_array($this->detail->category_more_template) && strstr($this->detail->category_more_template, ","))
 		{
 			$category_more_template = explode(",", $this->detail->category_more_template);
 		}
@@ -112,14 +106,14 @@ class RedshopViewCategory_detail extends RedshopView
 		$temps[0]->template_name          = JText::_('COM_REDSHOP_SELECT');
 		$templates                        = array_merge($temps, $templates);
 		$this->lists['category_template'] = JHTML::_(
-												'select.genericlist',
-												$templates,
-												'category_template',
-												'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'' . $this->detail->category_id . '\',\'2\');" ',
-												'template_id',
-												'template_name',
-												$this->detail->category_template
-											);
+			'select.genericlist',
+			$templates,
+			'category_template',
+			'class="inputbox" size="1"  onchange="Joomla.submitbutton(\'category_detail.edit\');" ',
+			'template_id',
+			'template_name',
+			$this->detail->category_template
+		);
 
 		/*
 		 * class name product_category
@@ -166,6 +160,7 @@ class RedshopViewCategory_detail extends RedshopView
 		}
 
 		$this->lists['categroy_accessory_product'] = $categoryAccessoryProduct;
+		$this->extraFields	= $model->getExtraFields($this->detail);
 
 		parent::display($tpl);
 	}

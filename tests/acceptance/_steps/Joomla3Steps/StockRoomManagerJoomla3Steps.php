@@ -107,20 +107,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchStockRoom($name, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($name, \StockRoomManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($name, \StockRoomManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -162,13 +149,6 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteStockRoom($name)
 	{
-		$I = $this;
-		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \StockRoomManagerJoomla3Page::$firstResultRow);
-		$I->click(\StockRoomManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($name, \StockRoomManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst);
 	}
 }

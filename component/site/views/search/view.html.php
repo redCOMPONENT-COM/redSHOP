@@ -138,7 +138,6 @@ class RedshopViewSearch extends RedshopView
 			$app = JFactory::getApplication();
 
 			JLoader::load('RedshopHelperProduct');
-			JLoader::load('RedshopHelperPagination');
 			JLoader::load('RedshopHelperExtra_field');
 			JLoader::load('RedshopHelperAdminText_library');
 
@@ -279,8 +278,8 @@ class RedshopViewSearch extends RedshopView
 			$template_org = str_replace("{filter_by}", '', $template_org);
 			$template_org = str_replace("{template_selector_category_lbl}", '', $template_org);
 			$template_org = str_replace("{template_selector_category}", '', $template_org);
-			$template_org = str_replace("{category_main_description}", '', $template_org);
 			$template_org = str_replace("{category_main_name}", $cat_name, $template_org);
+			$template_org = str_replace("{category_main_description}", '', $template_org);
 			$template_org = str_replace("{category_description}", '', $template_org);
 			$template_org = str_replace("{category_short_desc}", '', $template_org);
 			$template_org = str_replace("{category_name}", '', $template_org);
@@ -457,6 +456,24 @@ class RedshopViewSearch extends RedshopView
 				$data_add = str_replace("{product_id}", $this->search[$i]->product_id, $data_add);
 				$data_add = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $data_add);
 				$data_add = str_replace("{product_number}", $product_number, $data_add);
+
+				// Product category tags
+				$data_add = str_replace("{returntocategory_name}", $this->search[$i]->category_name, $data_add);
+
+				if (strstr($data_add, "{returntoparent_category_name}"))
+				{
+					$parentCategoryId = $producthelper->getParentCategory($this->search[$i]->category_id);
+
+					if ($parentCategoryId != 0)
+					{
+						$parentCategory = $producthelper->getSection("category", $parentCategoryId);
+						$data_add = str_replace("{returntoparent_category_name}", $parentCategory->category_name, $data_add);
+					}
+					else
+					{
+						$data_add = str_replace("{returntoparent_category_name}", '', $data_add);
+					}
+				}
 
 				/**
 				 * related Product List in Lightbox

@@ -81,14 +81,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCard($cardName = 'Sample Card')
 	{
-		$I = $this;
-		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click('ID');
-		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click(\GiftCardManagerPage::$firstResult);
-		$I->click('Delete');
-		$I->dontSee($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click('ID');
+		$this->delete(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, \GiftCardManagerPage::$firstResult);
 	}
 
 	/**
@@ -101,20 +94,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchCard($cardName = 'Sample Card', $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		}
-		else
-		{
-			$I->dontSee($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, $functionName);
 	}
 
 	/**

@@ -322,7 +322,12 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 <table class="admintable">
 	<tr>
 		<td colspan="2">
-			<div id="dynamic_field"></div>
+			<?php
+			if ($this->extraFields)
+			{
+				echo $this->extraFields;
+			}
+			?>
 		</td>
 	</tr>
 </table>
@@ -440,12 +445,3 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 	}
 
 </script>
-
-<?php
-if ($this->detail->category_template != '0'):?>
-	<script language="javascript" type="text/javascript">
-
-		select_dynamic_field(<?php echo $this->detail->category_template;?>, <?php echo $this->detail->category_id;?>, '2');
-	</script>
-<?php
-endif;

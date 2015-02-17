@@ -27,7 +27,7 @@ $mod_dir = dirname(__FILE__);
 
 define('CATEGORY_MODULE_PATH', $mod_dir);
 
-$js_src = $urlpath . '/modules/mod_redshop_categories';
+$js_src = $urlpath . 'modules/mod_redshop_categories';
 
 require_once CATEGORY_MODULE_PATH . '/helper.php';
 $redproduct_menu = new modProMenuHelper;
@@ -45,15 +45,18 @@ $menu_orientation = $params->get('menu_orientation', 'hbr');
 $root_label = $params->get('root_label', 'Shop');
 $categorysorttype = $params->get('categorysorttype', 'catname');
 $use_shoppergroup = $params->get('use_shoppergroup', 'no');
+
 if ($use_shoppergroup == "yes")
 {
 	$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+
 	if ($user->id)
 	{
 		$query = "SELECT shopper_group_id FROM #__redshop_users_info AS ui "
 			. "WHERE ui.user_id=" . (int) $user->id;
 		$db->setQuery($query);
 		$getShopperGroupID = $db->loadResult();
+
 		if ($getShopperGroupID)
 		{
 			$shopper_group_id = $getShopperGroupID;
@@ -71,9 +74,7 @@ echo $pretext;
 
 if ($menutype == 'links')
 {
-
 	echo $redproduct_menu->get_category_tree($params, $category_id, $class_mainlevel, $list_css_class = "mm123", $highlighted_style = "font-style:italic;", $shopper_group_id);
-
 }
 elseif ($menutype == "transmenu")
 {
@@ -103,6 +104,5 @@ elseif ($menutype == "accordion")
 	/* accordion script to display structured categories */
 	include_once $mod_dir . '/accordion.php';
 }
-
 
 echo $posttext;

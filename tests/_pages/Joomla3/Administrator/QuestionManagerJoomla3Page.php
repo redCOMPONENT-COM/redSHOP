@@ -29,11 +29,11 @@ class QuestionManagerJoomla3Page
 
 	public static $questionSuccessMessage = 'Question Detail Saved';
 
-	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
+	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-	public static $questionStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[9]/a";
+	public static $questionStatePath = "//div[@id='editcell']//table//tbody/tr[1]/td[9]/a";
 
 	/**
 	 * Function to get the path for Product Name

@@ -135,23 +135,13 @@ $url = $uri->root();
 	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
 </form>
 <script type="text/javascript">
-	function clearsef() {
-
-		request = getHTTPObject();
-		request.onreadystatechange = cleardata;
-		var rand_no = Math.random();
-		request.open("GET", "index.php?tmpl=component&option=com_redshop&view=configuration&rand_no=" + rand_no + "&task=clearsef", true);
-		request.send(null);
-	}
 	function cleardata() {
 
 		if (request.readyState == 4) {
 			var output = request.responseText;
 			if (output == 0) {
 				document.getElementById('responce_clear').style.color = "red";
-				document.getElementById('responce_clear').innerHTML = "<?php
-echo JText::_('COM_REDSHOP_NO_DATA_DELETE' );
-?>";
+				document.getElementById('responce_clear').innerHTML = "<?php echo JText::_('COM_REDSHOP_NO_DATA_DELETE' ); ?>";
 			} else {
 				document.getElementById('responce_clear').style.color = "green";
 				document.getElementById('responce_clear').innerHTML = output + " <?php echo JText::_('COM_REDSHOP_RECORDS_DELETED');?>";

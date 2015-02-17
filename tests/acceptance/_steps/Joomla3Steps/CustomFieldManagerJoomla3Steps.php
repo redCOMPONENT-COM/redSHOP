@@ -49,8 +49,13 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($customFieldsManagerPage->fieldSection($section));
 		$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
 		$I->click('Save & Close');
-		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 60);
-		$I->see(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage);
+		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
+
+		if ($type == "Check box")
+		{
+			$I->click('ID');
+		}
+
 		$I->click('ID');
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
@@ -75,8 +80,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $updatedTitle);
 		$I->click('Save & Close');
-		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage);
-		$I->see(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage);
+		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 		$I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}
@@ -120,20 +124,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchField($title, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \CustomFieldManagerJoomla3Page, $title, \CustomFieldManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -175,13 +166,6 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCustomField($title)
 	{
-		$I = $this;
-		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		$I->click(\CustomFieldManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \CustomFieldManagerJoomla3Page, $title, \CustomFieldManagerJoomla3Page::$firstResultRow, \CustomFieldManagerJoomla3Page::$selectFirst);
 	}
 }

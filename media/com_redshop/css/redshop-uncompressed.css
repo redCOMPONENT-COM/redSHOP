@@ -107,6 +107,7 @@ td.field_label {
     min-height: 250px;
     width: 100%;
     display: block;
+    overflow: hidden;
 }
 .category_box_outside {
     margin: 0;
@@ -415,7 +416,7 @@ div.product_writereview {
     max-width: 30px !important;
 }
 
-.product-cart-link span#pdaddtocartprd_1, .cart-link span.pdaddtocart_link{
+.product-cart-link span.pdaddtocart_link, .cart-link span.pdaddtocart_link{
     background: #eee;
     line-height: 20px;
     height: 20px;

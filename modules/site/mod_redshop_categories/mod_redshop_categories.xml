@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>redSHOP Category Module</name>
-    <version>1.3.3</version>
+    <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -16,6 +17,7 @@
         <filename module="mod_redshop_categories">tigratree.php</filename>
         <filename module="mod_redshop_categories">transmenu.php</filename>
         <filename module="mod_redshop_categories">helper.php</filename>
+        <filename module="mod_redshop_categories">index.html</filename>
         <folder module="mod_redshop_categories">ThemeNavy</folder>
         <folder module="mod_redshop_categories">ThemeXP</folder>
         <folder module="mod_redshop_categories">dtree</folder>
@@ -23,6 +25,7 @@
         <folder module="mod_redshop_categories">transmenu</folder>
         <folder module="mod_redshop_categories">JSCook</folder>
         <folder module="mod_redshop_categories">elements</folder>
+        <folder module="mod_redshop_categories">ThemeOffice</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_categories.ini</language>
@@ -45,12 +48,14 @@
 
                 <field name="show_noofproducts" type="radio" default="yes"
                        label="COM_REDSHOP_SHOWNOOFPROD_LABEL"
+                       class="btn-group btn-group-yesno"
                        description="COM_REDSHOP_SHOWNOOFPROD_DESC">
                     <option value="yes">JYES</option>
                     <option value="no">JNO</option>
                 </field>
                 <field name="use_shoppergroup" type="radio" default="no"
                        label="COM_REDSHOP_USE_SHOPPERGROUP_LABEL"
+                       class="btn-group btn-group-yesno"
                        description="COM_REDSHOP_USE_SHOPPERGROUP_DESC">
                     <option value="yes">JYES</option>
                     <option value="no">JNO</option>

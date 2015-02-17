@@ -30,10 +30,6 @@ class RedshopViewCategory extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
-		$context = 'category_id';
-
 		$redTemplate = new Redtemplate;
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'folder redshop_categories48');
@@ -46,25 +42,21 @@ class RedshopViewCategory extends RedshopView
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$state = $this->get('State');
 
-		$lists['order'] = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
 		$GLOBALS['catlist'] = array();
-		$catid = JRequest::getVar('category_id', 0, '');
 		$categories = $this->get('Data');
 
 		$pagination = $this->get('Pagination');
-		$category_main_filter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', '');
+		$category_main_filter = $state->get('category_main_filter');
 		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$category_id = $app->getUserStateFromRequest($context . 'category_id', 'category_id', '');
-		$category_name = $app->getUserStateFromRequest($context . 'category_name', 'category_name', 0);
+		$category_id = $state->get('category_id', '');
 		$category = new product_category;
 		$categories_parent = $category->getParentCategories();
+
+		$lists['order'] = $state->get('list.ordering', 'c.ordering');
+		$lists['order_Dir'] = $state->get('list.direction', '');
 
 		$temps = array();
 		$temps[0] = new stdClass;

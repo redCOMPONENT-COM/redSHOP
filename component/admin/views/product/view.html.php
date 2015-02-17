@@ -72,21 +72,22 @@ class RedshopViewProduct extends RedshopView
 			JToolBarHelper::back();
 		}
 
-		$category_id = $app->getUserStateFromRequest($context . 'category_id', 'category_id', '');
+		$state = $this->get('State');
+		$category_id = $state->get('category_id');
 
 		if ($category_id)
 		{
-			$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'x.ordering');
+			$filter_order = $state->get('list.ordering', 'x.ordering');
 		}
 		else
 		{
-			$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'p.product_id');
+			$filter_order = $state->get('list.ordering', 'p.product_id');
 		}
 
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $state->get('list.direction');
 
-		$search_field = $app->getUserStateFromRequest($context . 'search_field', 'search_field', '');
-		$keyword      = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+		$search_field = $state->get('search_field');
+		$keyword      = $state->get('keyword');
 
 		$categories = $this->get('CategoryList');
 		$categories1 = array();
@@ -110,13 +111,12 @@ class RedshopViewProduct extends RedshopView
 		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT');
 		$categories1 = @array_merge($temps, $categories1);
 		$lists['category'] = JHTML::_('select.genericlist', $categories1, 'category_id',
-			'class="inputbox" onchange="document.adminForm2.submit();" ', 'id', 'treename', $category_id
+			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $category_id
 		);
 
 		$product_sort = $adminproducthelper->getProductrBySortedList();
-		$product_sort_select = JRequest::getVar('product_sort', 0);
 		$lists['product_sort'] = JHTML::_('select.genericlist', $product_sort, 'product_sort',
-			'class="inputbox"  onchange="document.adminForm2.submit();" ', 'value', 'text', $product_sort_select
+			'class="inputbox"  onchange="document.adminForm.submit();" ', 'value', 'text', $state->get('product_sort')
 		);
 
 		$lists['order'] = $filter_order;
@@ -139,6 +139,7 @@ class RedshopViewProduct extends RedshopView
 			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0
 		);
 
+		$this->state = $state;
 		$this->list_in_products = $list_in_products;
 		$this->keyword = $keyword;
 		$this->search_field = $search_field;

@@ -19,63 +19,52 @@ class RedshopModelOrder extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
 	{
-		parent::__construct();
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter');
+		$id .= ':' . $this->getState('filter_by');
+		$id .= ':' . $this->getState('filter_status');
+		$id .= ':' . $this->getState('filter_payment_status');
 
-		$app                   = JFactory::getApplication();
-		$this->_context        = 'order_id';
-		$this->_table_prefix   = '#__redshop_';
-		$limit                 = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart            = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter_status         = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'string');
-		$filter_payment_status = $app->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
-		$filter                = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$filter_by             = $app->getUserStateFromRequest($this->_context . 'filter_by', 'filter_by', '', '');
-		$limitstart            = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'o.order_id', $direction = 'desc')
+	{
+		$filter_status         = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', '', 'string');
+		$filter_payment_status = $this->getUserStateFromRequest($this->context . 'filter_payment_status', 'filter_payment_status', '', '');
+		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', 0);
+		$filter_by             = $this->getUserStateFromRequest($this->context . 'filter_by', 'filter_by', '', '');
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);
 		$this->setState('filter_status', $filter_status);
 		$this->setState('filter_payment_status', $filter_payment_status);
-	}
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
@@ -164,29 +153,13 @@ class RedshopModelOrder extends RedshopModel
 				. ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('uf.order_id')
 			)
 			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
-			->group($db->qn('o.order_id'))
-			->order($this->_buildContentOrderBy());
+			->group($db->qn('o.order_id'));
+
+		$filter_order_Dir = $this->getState('list.direction');
+		$filter_order = $this->getState('list.ordering');
+		$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
 
 		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db               = JFactory::getDbo();
-		$app              = JFactory::getApplication();
-
-		$filter_order     = $app->getUserStateFromRequest(
-								$this->_context . 'filter_order',
-								'filter_order',
-								'o.order_id'
-							);
-		$filter_order_Dir = $app->getUserStateFromRequest(
-								$this->_context . 'filter_order_Dir',
-								'filter_order_Dir',
-								'DESC'
-							);
-
-		return $db->qn($filter_order) . ' ' . strtoupper($filter_order_Dir);
 	}
 
 	public function update_status()
@@ -218,8 +191,8 @@ class RedshopModelOrder extends RedshopModel
 		$where = count($where) ? '  ' . implode(' AND ', $where) : '';
 		$orderby = " order by o.order_id DESC";
 
-		$query = 'SELECT distinct(o.cdate),o.*,ouf.* FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'order_users_info AS ouf ON o.order_id=ouf.order_id '
+		$query = 'SELECT distinct(o.cdate),o.*,ouf.* FROM #__redshop_orders AS o '
+			. 'LEFT JOIN #__redshop_order_users_info AS ouf ON o.order_id=ouf.order_id '
 			. 'WHERE ouf.address_type LIKE "BT" '
 			. 'AND ' . $where . ' '
 			. $orderby;
@@ -229,7 +202,7 @@ class RedshopModelOrder extends RedshopModel
 
 	public function updateDownloadSetting($did, $limit, $enddate)
 	{
-		$query = "UPDATE " . $this->_table_prefix . "product_download "
+		$query = "UPDATE #__redshop_product_download "
 			. " SET `download_max` = " . $limit . " , `end_date` = " . $enddate . " "
 			. " WHERE download_id = '" . $did . "'";
 		$this->_db->setQuery($query);

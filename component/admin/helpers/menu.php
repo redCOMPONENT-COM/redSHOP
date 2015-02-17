@@ -41,13 +41,6 @@ class leftmenu
 			$ecocnt = 20;
 		}
 
-		if (JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_date')
-			|| JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_person')
-			|| JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_company'))
-		{
-			$ecocnt = 21;
-		}
-
 		switch ($view)
 		{
 			case "product":
@@ -252,10 +245,6 @@ class leftmenu
 				$selected = $counter + $acocnt + $ecocnt + 1;
 				break;
 
-			case "customprint":
-				$selected = $counter + $acocnt + $ecocnt + 2;
-				break;
-
 			default:
 				$selected = 0;
 				break;
@@ -267,7 +256,7 @@ class leftmenu
 		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=product', 'COM_REDSHOP_PRODUCT_LISTING');
-			echo $this->generateMenuItem('index.php?option=com_redshop&view=product&task=listing', 'COM_REDSHOP_PRODUCT_PRICE_VIEW');
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=product&layout=listing', 'COM_REDSHOP_PRODUCT_PRICE_VIEW');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=product_detail', 'COM_REDSHOP_ADD_PRODUCT');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=mass_discount_detail', 'COM_REDSHOP_ADD_MASS_DISCOUNT');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=mass_discount', 'COM_REDSHOP_MASS_DISCOUNT');
@@ -614,38 +603,14 @@ class leftmenu
 		<?php echo $this->generateHeader('COM_REDSHOP_CONFIG');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CONFIG'), 'COM_REDSHOP_CONFIG'); ?>
 		<table class="adminlist">
-		<?php
-		echo $this->generateMenuItem('index.php?option=com_redshop&view=configuration', 'COM_REDSHOP_RESHOP_CONFIGURATION');
-		echo $this->generateMenuItem('index.php?option=com_redshop&wizard=1', 'COM_REDSHOP_START_CONFIGURATION_WIZARD');
-		echo $this->generateMenuItem('index.php?option=com_redshop&view=configuration&layout=resettemplate', 'COM_REDSHOP_RESET_TEMPLATE_LBL');
-		echo $this->generateMenuItem('index.php?option=com_redshop&view=update', 'COM_REDSHOP_UPDATE_TITLE');
-		?>
-		</table><?php
-
-		if (JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_date')
-			|| JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_person')
-			|| JPluginHelper::isEnabled('redshop_custom_views', 'rs_custom_views_company'))
-		{
-			echo $this->generateHeader('COM_REDSHOP_CUSTOM_VIEWS');
-			echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CUSTOM_VIEWS'), 'COM_REDSHOP_CUSTOM_VIEWS'); ?>
-			<table class="adminlist">
 			<?php
-
-			JPluginHelper::importPlugin('redshop_custom_views');
-			$dispatcher = JDispatcher::getInstance();
-			$data       = $dispatcher->trigger('getMenuLink');
-
-			for ($d = 0; $d < count($data); $d++)
-			{
-				echo $this->generateMenuItem(
-					JRoute::_('index.php?option=com_redshop&view=customprint&layout=customview&printoption=' . $data[$d]['name']),
-					$data[$d]['title']
-				);
-			}
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=configuration', 'COM_REDSHOP_RESHOP_CONFIGURATION');
+			echo $this->generateMenuItem('index.php?option=com_redshop&wizard=1', 'COM_REDSHOP_START_CONFIGURATION_WIZARD');
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=configuration&layout=resettemplate', 'COM_REDSHOP_RESET_TEMPLATE_LBL');
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=update', 'COM_REDSHOP_UPDATE_TITLE');
 			?>
-			</table>
-			<?php
-		}
+		</table>
+		<?php
 
 		echo JHtml::_('sliders.end');
 	}

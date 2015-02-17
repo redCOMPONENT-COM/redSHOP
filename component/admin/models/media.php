@@ -15,135 +15,103 @@ JLoader::load('RedshopHelperAdminMedia');
 
 class RedshopModelMedia extends RedshopModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 */
+	public function __construct($config = array())
 	{
-		parent::__construct();
+		parent::__construct($config);
 
-		$app = JFactory::getApplication();
+		$jInput = JFactory::getApplication()->input;
+		$this->context .= '.' . $jInput->getCmd('media_section', 'none') . '.' . $jInput->getInt('section_id', 0);
+	}
 
-		$this->_table_prefix = '#__redshop_';
-		$this->_context = 'media_id';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter_media_section');
+		$id .= ':' . $this->getState('media_type');
 
-		$media_section = $app->getUserStateFromRequest($this->_context . 'media_section', 'media_section', 0);
-		$media_type = $app->getUserStateFromRequest($this->_context . 'media_type', 'media_type', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-		$this->setState('media_section', $media_section);
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'media_id', $direction = 'desc')
+	{
+		$filter_media_section = $this->getUserStateFromRequest($this->context . '.filter_media_section', 'filter_media_section', 0);
+		$this->setState('filter_media_section', $filter_media_section);
+
+		$media_type = $this->getUserStateFromRequest($this->context . '.media_type', 'media_type', '');
 		$this->setState('media_type', $media_type);
-	}
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
+		$folder = JRequest::getVar('folder', '', '', 'path');
+		$this->setState('folder', $folder);
 
-		return $this->_data;
-	}
+		$parent = str_replace("\\", "/", dirname($folder));
+		$parent = ($parent == '.') ? null : $parent;
+		$this->setState('parent', $parent);
 
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
+		parent::populateState($ordering, $direction);
 	}
 
 	public function _buildQuery()
 	{
-		$where = "";
-		$media_section = $this->getState('media_section');
-		$media_type = $this->getState('media_type');
-		$section_id = JRequest::getVar('section_id');
+		$app = JFactory::getApplication();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('m.*')
+			->from($db->qn('#__redshop_media', 'm'));
 
-		if ($media_section)
+		if ($filterMediaSection = $this->getState('filter_media_section'))
 		{
-			$where .= "AND media_section = '" . $media_section . "' ";
+			$query->where('media_section = ' . $db->q($filterMediaSection));
 		}
-		if ($section_id)
+		elseif ($mediaSection = $app->input->getCmd('media_section', ''))
 		{
-			$where .= "AND section_id = '" . $section_id . "' ";
-		}
-		if ($media_type)
-		{
-			$where .= "AND media_type='" . $media_type . "' ";
-		}
-		$orderby = $this->_buildContentOrderBy();
+			$query->where('media_section = ' . $db->q($mediaSection));
 
-		$query = 'SELECT distinct(m.media_id),m.* FROM ' . $this->_table_prefix . 'media AS m '
-			. 'WHERE 1=1 '
-			. $where
-			. $orderby;
+			if ($section_id = $app->input->getInt('section_id', 0))
+			{
+				$query->where('section_id = ' . (int) $section_id);
+			}
+		}
+
+		if ($media_type = $this->getState('media_type'))
+		{
+			$query->where('media_type = ' . $db->q($media_type));
+		}
+
+		$filterOrderDir = $this->getState('list.direction');
+		$filterOrder = $this->getState('list.ordering');
+		$query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
 
 		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
-	}
-
-	/**
-	 * Method to get model state variables
-	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
-	 *
-	 * @return  object  The property where specified, the state object where omitted
-	 */
-	public function getState($property = null, $default = null)
-	{
-		static $set;
-
-		if (!$set)
-		{
-			$folder = JRequest::getVar('folder', '', '', 'path');
-			$this->setState('folder', $folder);
-
-			$parent = str_replace("\\", "/", dirname($folder));
-			$parent = ($parent == '.') ? null : $parent;
-			$this->setState('parent', $parent);
-			$set = true;
-		}
-
-		return parent::getState($property);
 	}
 
 	public function getImages()
@@ -369,7 +337,7 @@ class RedshopModelMedia extends RedshopModel
 
 	public function getAdditionalFiles($media_id)
 	{
-		$query = "SELECT * FROM `" . $this->_table_prefix . "media_download` "
+		$query = "SELECT * FROM `#__redshop_media_download` "
 			. "WHERE `media_id`='" . $media_id . "' ";
 
 		return $this->_getList($query);
@@ -377,7 +345,7 @@ class RedshopModelMedia extends RedshopModel
 
 	public function deleteAddtionalFiles($fileId)
 	{
-		$query = "SELECT name FROM `" . $this->_table_prefix . "media_download` "
+		$query = "SELECT name FROM `#__redshop_media_download` "
 			. "WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
 		$filename = $this->_db->loadResult();
@@ -388,7 +356,7 @@ class RedshopModelMedia extends RedshopModel
 			unlink($path);
 		}
 
-		$query = "DELETE FROM `" . $this->_table_prefix . "media_download` WHERE `id`='" . $fileId . "' ";
+		$query = "DELETE FROM `#__redshop_media_download` WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->execute())

@@ -13,27 +13,6 @@ defined('_JEXEC') or die;
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CLEAR_SEF_URLS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CLEAR_SEF_URLS'); ?>">
-		<label for="seo_page_robots">
-			<?php
-			echo JText::_('COM_REDSHOP_CLEAR_SEF_URLS_LBL');
-			?>
-		</label></span></td>
-		<td>
-			<div>
-				<div style="float: left;">
-					<button onclick="clearsef();return false;" name="cleansef"
-					        id="cleansef"><?php
-						echo JText::_('COM_REDSHOP_CLEAN_SEF_URLS');
-						?></button>
-				</div>
-				<div id="responce_clear" align="right"></div>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_ENABLE_SEF_PRODUCT_NUMBER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ENABLE_SEF_PRODUCT_NUMBER_LBL'); ?>">
 		<label
 			for="enable_sef_product_number"><?php

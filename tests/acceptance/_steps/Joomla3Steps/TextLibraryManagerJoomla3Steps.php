@@ -84,21 +84,8 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchText($textTagName, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\TextLibraryManagerJoomla3Page::$URL);
-		$I->click('ID');
 		$verifyName = '{' . $textTagName . '}';
-
-		if ($functionName == 'Search')
-		{
-			$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
-		}
-		else
-		{
-			$I->dontSee($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \TextLibraryManagerJoomla3Page, $verifyName, \TextLibraryManagerJoomla3Page::$textResultRow, $functionName);
 	}
 
 	/**
@@ -170,14 +157,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteText($textTagName)
 	{
-		$I = $this;
-		$I->amOnPage(\TextLibraryManagerJoomla3Page::$URL);
-		$I->click('ID');
 		$verifyName = '{' . $textTagName . '}';
-		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
-		$I->click(\TextLibraryManagerJoomla3Page::$firstResult);
-		$I->click('Delete');
-		$I->dontSee($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
-		$I->click('ID');
+		$this->delete(new \TextLibraryManagerJoomla3Page, $verifyName, \TextLibraryManagerJoomla3Page::$textResultRow, \TextLibraryManagerJoomla3Page::$firstResult);
 	}
 }

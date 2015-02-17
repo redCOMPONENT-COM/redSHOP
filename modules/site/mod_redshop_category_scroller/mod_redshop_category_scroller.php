@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-$cid = JRequest::getInt('cid', 0);
+$cid = JFactory::getApplication()->input->getInt('cid', 0);
 
 $NumberOfProducts  = trim($params->get('NumberOfProducts', 5));
 $ScrollSortMethod  = trim($params->get('ScrollSortMethod', 'random'));
@@ -29,94 +29,64 @@ $product_title_end_suffix = trim($params->get('product_title_end_suffix', '...')
 $product_title_max_chars  = trim($params->get('product_title_max_chars', 10));
 $show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
 $pretext                  = trim($params->get('pretext', ''));
+$user = JFactory::getUser();
 
+$db = JFactory::getDbo();
+$query = $db->getQuery(true)
+	->select('p.product_id')
+	->from($db->qn('#__redshop_product', 'p'))
+	->where('p.published = 1')
+	->group('p.product_id');
 
-$limit = "";
-if ($NumberOfProducts > 0)
-{
-	$limit = "LIMIT 0,$NumberOfProducts";
-}
-
-$db      = JFactory::getDbo();
-$orderby = "ORDER BY p.product_id ";
 switch ($ScrollSortMethod)
 {
 	case 'random':
-		$orderby = "ORDER BY RAND() ";
+		$orderBy = "RAND()";
 		break;
-
 	case 'newest':
-		$orderby = "ORDER BY p.publish_date DESC ";
+		$orderBy = "p.publish_date DESC";
 		break;
-
 	case 'oldest':
-		$orderby = "ORDER BY p.publish_date ASC ";
-
-	case 'mostsold':
-		$orderby = "ORDER BY qty DESC ";
-
+		$orderBy = "p.publish_date ASC";
 		break;
+	case 'mostsold':
+		$orderBy = "orderItems.qty DESC";
+		$subQuery = $db->getQuery(true)
+			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS qty, oi.product_id')
+			->from($db->qn('#__redshop_order_item', 'oi'))
+			->group('oi.product_id');
+		$query->select('orderItems.qty')
+			->leftJoin('(' . $subQuery . ') orderItems ON orderItems.product_id = p.product_id');
+		break;
+	default:
+		$orderBy = "p.product_id";
+}
 
-}
-$where = "";
-$query = "SELECT count(*) FROM #__redshop_product_category_xref WHERE category_id IN (" . $cid . ")";
-$db->setQuery($query);
-$product_count = $db->loadResult();
+$query->order($orderBy);
 
-$db->setQuery($query);
-$rows = $db->loadObjectList();
-if ($cid != 0 && $product_count != 0)
+if ($cid)
 {
-	$where = "AND c.category_id IN (" . $cid . ") ";
+	$query->leftJoin($db->qn('#__redshop_product_category_xref', 'cx') . ' ON cx.product_id = p.product_id')
+		->where('cx.category_id = ' . (int) $cid);
 }
-if ($ScrollSortMethod == 'mostsold')
-{
-	if ($cid != 0)
-	{
-		$query = "SELECT *,count(product_quantity) AS qty FROM #__redshop_product AS p "
-			. "LEFT JOIN #__redshop_product_category_xref AS cx ON cx.product_id = p.product_id "
-			. "LEFT JOIN #__redshop_order_item AS oi ON oi.product_id = p.product_id "
-			. "WHERE p.published=1 "
-			. "AND cx.category_id = $cid "
-			. "GROUP BY(oi.product_id) "
-			. $orderby
-			. $limit;
-	}
-	else
-	{
-		$query = "SELECT p.*,count(product_quantity) AS qty FROM #__redshop_product AS p "
-			. "LEFT JOIN #__redshop_order_item AS oi ON oi.product_id = p.product_id "
-			. "WHERE p.published=1 "
-			. "GROUP BY(oi.product_id) "
-			. $orderby
-			. $limit;
-	}
 
-}
-else
+$rows = array();
+
+if ($productIds = $db->setQuery($query, 0, (int) $NumberOfProducts)->loadColumn())
 {
-	if ($cid != 0)
+	// Third steep get all product relate info
+	$query->clear()
+		->where('p.product_id IN (' . implode(',', $productIds) . ')')
+		->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
+
+	$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+		->select('CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id');
+
+	if ($rows = $db->setQuery($query)->loadObjectList('concat_id'))
 	{
-		$query = "SELECT p.product_id,p.product_name,p.product_full_image,p.product_thumb_image,p.not_for_sale,p.attribute_set_id,p.cat_in_sefurl,c.category_id FROM #__redshop_product AS p "
-			. "LEFT JOIN #__redshop_product_category_xref AS x ON x.product_id=p.product_id "
-			. "LEFT JOIN #__redshop_category AS c ON x.category_id=c.category_id "
-			. "WHERE p.published=1 "
-			. $where
-			. "GROUP BY p.product_id "
-			. $orderby
-			. $limit;
-	}
-	else
-	{
-		$query = "SELECT p.product_id,p.product_name,p.product_full_image,p.product_thumb_image,p.not_for_sale,p.attribute_set_id,p.cat_in_sefurl FROM #__redshop_product AS p "
-			. "WHERE p.published=1 "
-			. "GROUP BY p.product_id "
-			. $orderby
-			. $limit;
+		RedshopHelperProduct::setProduct($rows);
+		$rows = array_values($rows);
 	}
 }
-$db->setQuery($query);
-$rows = $db->loadObjectList();
 
 require JModuleHelper::getLayoutPath('mod_redshop_category_scroller');
-
