@@ -56,7 +56,7 @@ if ((!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart
 {
 	if (isset($_COOKIE['redSHOPcart']) && ($_COOKIE['redSHOPcart'] != ''))
 	{
-		$session->set('cart', unserialize(stripslashes($_COOKIE['redSHOPcart'])));
+		$session->set('cart', unserialize(base64_decode($_COOKIE['redSHOPcart'])));
 		$cart = $session->get('cart');
 	}
 }
