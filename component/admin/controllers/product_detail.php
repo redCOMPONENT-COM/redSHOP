@@ -114,6 +114,15 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
 		}
 
+		// Setting default value
+		$post['product_on_sale'] = 0;
+
+		// Setting product on sale when discount dates are set
+		if ((bool) $post['discount_stratdate'] || (bool) $post['discount_enddate'])
+		{
+			$post['product_on_sale'] = 1;
+		}
+
 		$post["product_number"] = trim($this->input->getString('product_number', ''));
 
 		$product_s_desc         = $this->input->post->get('product_s_desc', array(), 'array');
