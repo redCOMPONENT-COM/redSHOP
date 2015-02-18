@@ -54,8 +54,7 @@ class RedshopModelPrice_filter extends RedshopModel
 		if (empty($this->_data))
 		{
 			$query       = $this->_buildQuery();
-			$limit = JFactory::getApplication()->input->getInt('count');
-			$this->_data = $this->_getList($query, 0, $limit);
+			$this->_data = $this->_getList($query);
 		}
 
 		return $this->_data;
