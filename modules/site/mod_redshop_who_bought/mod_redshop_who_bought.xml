@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_WHO_BOUGHT</name>
-    <version>1.3.2</version>
+    <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -21,13 +22,14 @@
         <language tag="da-DK">language/da-DK/da-DK.mod_redshop_who_bought.sys.ini</language>
     </languages>
     <config>
-        <fields name="params">
+        <fields name="params"  addfieldpath="/administrator/components/com_redshop/elements">
             <fieldset name="basic">
                 <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX"
                        description="COM_REDSHOP_CLASS_SUFFIX"/>
-                <field name="category" type="text" size="20" label="COM_REDSHOP_CATEGORY_LBL"
+                <field name="category" type="redshopcategory" size="20" label="COM_REDSHOP_CATEGORY_LBL"
+                       multiple="true"
                        description="COM_REDSHOP_ENTER_CATEGORY"/>
-                <field name="number_of_items" type="text" default="" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
+                <field name="number_of_items" type="text" default="5" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
                        description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
                 <field name="sliderwidth" type="text" size="10" label="COM_REDSHOP_SLIDER_IMAGE_WIDTH"
                        description="COM_REDSHOP_SLIDER_IMAGE_WIDTH_DESC" default="440"/>
@@ -40,30 +42,35 @@
                        description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100"/>
 
                 <field name="show_product_image" type="radio" default="1" label="COM_REDSHOP_SHOW_IMAGE"
+                       class="btn-group btn-group-yesno"
                        description="COM_REDSHOP_SHOW_IMAGE_DESC">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_addtocart_button" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART"
+                       class="btn-group btn-group-yesno"
                        description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_product_name" type="radio" default="1" label="COM_REDSHOP_SHOW_PRODUCT_NAME"
+                       class="btn-group btn-group-yesno"
                        description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="product_title_linkable" type="radio" default="1"
                        label="COM_REDSHOP_SHOW_PRODUCT_NAME_LINKABLE"
+                       class="btn-group btn-group-yesno"
                        description="COM_REDSHOP_SHOW_PRODUCT_NAME_LINKABLE_DESC">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_product_price" type="radio" default="1" label="COM_REDSHOP_SHOW_PRICE"
+                       class="btn-group btn-group-yesno"
                        description="COM_REDSHOP_SHOW_PRICE_DESC">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
             </fieldset>
         </fields>
