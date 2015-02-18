@@ -203,7 +203,7 @@
 
         <property
                 name="joomla.version"
-                value="j3_j25"
+                value="j3_and_j25"
                 override="true"/>
 
         <property
