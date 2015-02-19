@@ -8,7 +8,7 @@
 
 namespace AcceptanceTester;
 /**
- * Class LoginSteps
+ * Class LoginJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -16,7 +16,7 @@ namespace AcceptanceTester;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
-class LoginSteps extends \AcceptanceTester
+class LoginJoomla2Steps extends \AcceptanceTester
 {
 	/**
 	 * Function to execute an Admin Login for Joomla2.5
@@ -27,11 +27,11 @@ class LoginSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
-		$I->amOnPage(\LoginManagerPage::$URL);
+		$I->amOnPage(\LoginManagerJoomla2Page::$URL);
 		$config = $I->getConfig();
-		$I->fillField(\LoginManagerPage::$userName, $config['username']);
-		$I->fillField(\LoginManagerPage::$password, $config['password']);
+		$I->fillField(\LoginManagerJoomla2Page::$userName, $config['username']);
+		$I->fillField(\LoginManagerJoomla2Page::$password, $config['password']);
 		$I->click('Log in');
-		$I->see('Category Manager');
+		$I->see('Category Manager', \LoginManagerJoomla2Page::$loginSuccessCheck);
 	}
 }

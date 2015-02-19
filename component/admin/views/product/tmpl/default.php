@@ -16,7 +16,7 @@ $producthelper = new producthelper;
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'x.ordering');
 
-$category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
+$category_id = $this->state->get('category_id', 0);
 
 $user = JFactory::getUser();
 $userId = (int) $user->id;
