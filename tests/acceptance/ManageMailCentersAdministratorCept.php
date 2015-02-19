@@ -35,8 +35,8 @@ else
 	$I->searchMail($name);
 	$I->editMail($name, $newName);
 	$I->searchMail($newName);
-	$I->changeState($newName);
-	$I->verifyState('unpublished', $I->getState($newName));
+	$I->changeMailState($newName);
+	$I->verifyState('unpublished', $I->getMailState($newName));
 	$I->deleteMailTemplate($newName);
 	$I->searchMail($newName, 'Delete');
 }

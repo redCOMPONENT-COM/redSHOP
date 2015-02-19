@@ -33,8 +33,8 @@ else
 	$I->searchDiscount($amount);
 	$I->editDiscount($amount, $newAmount);
 	$I->searchDiscount($newAmount);
-	$I->changeState($newAmount);
-	$I->verifyState('unpublished', $I->getState($newAmount));
+	$I->changeDiscountState($newAmount);
+	$I->verifyState('unpublished', $I->getDiscountState($newAmount));
 	$I->deleteDiscount($newAmount);
 	$I->searchDiscount($newAmount, 'Delete');
 }
