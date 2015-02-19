@@ -86,26 +86,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($amount, $state = 'unpublish')
+	public function changeDiscountState($amount, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$I->click('ID');
 		$verifyAmount = '$ ' . $amount . ',00';
-		$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		$I->click(\DiscountManagerJ3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \DiscountManagerJ3Page, $verifyAmount, $state, \DiscountManagerJ3Page::$firstResultRow, \DiscountManagerJ3Page::$selectFirst);
 	}
 
 	/**
@@ -128,26 +112,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($amount)
+	public function getDiscountState($amount)
 	{
-		$I = $this;
-		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$I->click('ID');
 		$verifyAmount = '$ ' . $amount . ',00';
-		$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		$text = $I->grabAttributeFrom(\DiscountManagerJ3Page::$discountStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \DiscountManagerJ3Page, $verifyAmount, \DiscountManagerJ3Page::$firstResultRow, \DiscountManagerJ3Page::$discountStatePath);
 
 		return $result;
 	}

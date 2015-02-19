@@ -93,25 +93,9 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($title, $state = 'unpublish')
+	public function changeFieldState($title, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		$I->click(\CustomFieldManagerJoomla3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \CustomFieldManagerJoomla3Page, $title, $state, \CustomFieldManagerJoomla3Page::$firstResultRow, \CustomFieldManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -134,25 +118,9 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($title)
+	public function getFieldState($title)
 	{
-		$I = $this;
-		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		$text = $I->grabAttributeFrom(\CustomFieldManagerJoomla3Page::$fieldStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \CustomFieldManagerJoomla3Page, $title, \CustomFieldManagerJoomla3Page::$firstResultRow, \CustomFieldManagerJoomla3Page::$fieldStatePath);
 
 		return $result;
 	}
