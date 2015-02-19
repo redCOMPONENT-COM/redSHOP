@@ -46,10 +46,11 @@ class RedshopViewOrder_detail extends RedshopView
 		$layout = JRequest::getCmd('layout');
 
 		// Load payment language file
-		$language          = JFactory::getLanguage();
-		$base_dir          = JPATH_ADMINISTRATOR;
-		$language_tag      = $language->getTag();
-		$extension = 'plg_redshop_payment_' . $order_functions->getOrderPaymentDetail($order_id)[0]->payment_method_class;
+		$language      = JFactory::getLanguage();
+		$base_dir      = JPATH_ADMINISTRATOR;
+		$language_tag  = $language->getTag();
+		$order_payment = $order_functions->getOrderPaymentDetail($order_id);
+		$extension     = 'plg_redshop_payment_' . ($order_payment[0]->payment_method_class);
 		$language->load($extension, $base_dir, $language_tag, true);
 
 		$model = $this->getModel('order_detail');
