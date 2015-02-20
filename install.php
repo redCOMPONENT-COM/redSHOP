@@ -32,11 +32,11 @@ class Com_RedshopInstallerScript
 	public $installer = null;
 
 	/**
-	 * Previous version of the redSHOP
+	 * Old manifest data
 	 *
-	 * @var  string
+	 * @var  array
 	 */
-	public $previousVersion = null;
+	public static $oldManifest = null;
 
 	/**
 	 * Method to install the component
@@ -109,10 +109,36 @@ class Com_RedshopInstallerScript
 		if ($type == "update")
 		{
 			$this->updateschema();
+		}
+	}
 
-			// Get the old version from manifest cache.
-			$manifestCache         = new JRegistry($parent->get('extension')->manifest_cache);
-			$this->previousVersion = $manifestCache->get('version', null);
+	/**
+	 * Get old redSHOP param
+	 *
+	 * @param   string  $name  Name param
+	 *
+	 * @return  null|string
+	 */
+	public function getOldParam($name)
+	{
+		if (is_null(self::$oldManifest))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('manifest_cache')
+				->from($db->qn('#__extensions'))
+				->where('type = ' . $db->q('component'))
+				->where('element = ' . $db->q('com_redshop'));
+			self::$oldManifest = json_decode($db->setQuery($query)->loadResult(), true);
+		}
+
+		if (isset(self::$oldManifest[$name]))
+		{
+			return self::$oldManifest[$name];
+		}
+		else
+		{
+			return null;
 		}
 	}
 
@@ -1189,25 +1215,29 @@ class Com_RedshopInstallerScript
 	/**
 	 * Remove all unused files after upgrade from 1.3.3.1 and older redSHOP.
 	 *
-	 * @oa
-	 */
-	/**
-	 * Remove all unused files after upgrade from 1.3.3.1 and older redSHOP.
-	 *
 	 * @param   object  $parent  JInstallation object
 	 *
 	 * @return  void
 	 */
 	private function cleanUpgradeFiles($parent)
 	{
-		if (version_compare($this->previousVersion, '1.5', '<='))
+		if (version_compare($this->getOldParam('version'), '1.5.0.1', '<='))
 		{
 			$folders = array(
 				JPATH_SITE . '/components/com_redshop/assets/js',
 				JPATH_SITE . '/components/com_redshop/assets/css',
 				JPATH_SITE . '/components/com_redshop/helpers/fonts',
 				JPATH_SITE . '/components/com_redshop/helpers/tcpdf',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/models/adapters'
+				JPATH_SITE . '/components/com_redshop/views/epayrelay',
+				JPATH_SITE . '/components/com_redshop/views/password',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/adapters',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/container',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/container_detail',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/customprint',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/delivery',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/payment',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/payment_detail',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_container'
 			);
 
 			foreach ($folders as $path)
@@ -1215,6 +1245,49 @@ class Com_RedshopInstallerScript
 				if (JFolder::exists($path))
 				{
 					JFolder::delete($path);
+				}
+			}
+
+			$files = array(
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/container.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/container_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/customprint.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/delivery.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/order_container.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/product_container.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/category.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/plugins.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/subinstall.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/order_container.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/payment.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/payment_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/product_container.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/tables/container_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/tables/payment_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager/tmpl/noaccess.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/order/tmpl/multiprint_order.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/order/tmpl/previewlog.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/stockroom_detail/tmpl/default_product.php',
+				JPATH_SITE . '/components/com_redshop/controllers/password.php',
+				JPATH_SITE . '/components/com_redshop/controllers/price_filter.php',
+				JPATH_SITE . '/components/com_redshop/helpers/class.img2thumb.php',
+				JPATH_SITE . '/components/com_redshop/helpers/graph.php',
+				JPATH_SITE . '/components/com_redshop/helpers/pagination.php',
+				JPATH_SITE . '/components/com_redshop/helpers/thumb.php',
+				JPATH_SITE . '/components/com_redshop/models/password.php',
+				JPATH_SITE . '/components/com_redshop/views/price_filter/view.html.php',
+				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php',
+			);
+
+			foreach ($files as $path)
+			{
+				if (JFile::exists($path))
+				{
+					JFile::delete($path);
 				}
 			}
 		}
