@@ -20,11 +20,23 @@ class Com_RedshopInstallerScript
 	/**
 	 * Status of the installation
 	 *
-	 * @var  [type]
+	 * @var  object
 	 */
 	public $status = null;
 
+	/**
+	 * The common JInstaller instance used to install all the extensions
+	 *
+	 * @var  object
+	 */
 	public $installer = null;
+
+	/**
+	 * Previous version of the redSHOP
+	 *
+	 * @var  string
+	 */
+	public $previousVersion = null;
 
 	/**
 	 * Method to install the component
@@ -76,6 +88,9 @@ class Com_RedshopInstallerScript
 		$this->installModules($parent);
 		$this->installPlugins($parent);
 
+		// Remove unused files from older than 1.3.3.1 redshop
+		$this->cleanUpgradeFiles($parent);
+
 		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminTemplate');
 		$this->com_install('update');
@@ -94,6 +109,10 @@ class Com_RedshopInstallerScript
 		if ($type == "update")
 		{
 			$this->updateschema();
+
+			// Get the old version from manifest cache.
+			$manifestCache         = new JRegistry($parent->get('extension')->manifest_cache);
+			$this->previousVersion = $manifestCache->get('version', null);
 		}
 	}
 
@@ -1165,5 +1184,39 @@ class Com_RedshopInstallerScript
 
 		// Insert the status
 		array_push($this->status->{$type}, $status);
+	}
+
+	/**
+	 * Remove all unused files after upgrade from 1.3.3.1 and older redSHOP.
+	 *
+	 * @oa
+	 */
+	/**
+	 * Remove all unused files after upgrade from 1.3.3.1 and older redSHOP.
+	 *
+	 * @param   object  $parent  JInstallation object
+	 *
+	 * @return  void
+	 */
+	private function cleanUpgradeFiles($parent)
+	{
+		if (version_compare($this->previousVersion, '1.5', '<='))
+		{
+			$folders = array(
+				JPATH_SITE . '/components/com_redshop/assets/js',
+				JPATH_SITE . '/components/com_redshop/assets/css',
+				JPATH_SITE . '/components/com_redshop/helpers/fonts',
+				JPATH_SITE . '/components/com_redshop/helpers/tcpdf',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/adapters'
+			);
+
+			foreach ($folders as $path)
+			{
+				if (JFolder::exists($path))
+				{
+					JFolder::delete($path);
+				}
+			}
+		}
 	}
 }
