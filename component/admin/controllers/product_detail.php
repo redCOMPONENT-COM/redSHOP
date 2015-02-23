@@ -47,6 +47,24 @@ class RedshopControllerProduct_Detail extends RedshopController
 	}
 
 	/**
+	 * Method for redirect to edit an existing record.
+	 *
+	 * @return void
+	 *
+	 * @since   1.5
+	 */
+	public function editRedirect()
+	{
+		$cid   = $this->input->post->get('cid', array(), 'array');
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=com_redshop&view=product_detail'
+				. $this->getRedirectToItemAppend($cid[0], 'cid[]'), false
+			)
+		);
+	}
+
+	/**
 	 * Edit task.
 	 *
 	 * @return void

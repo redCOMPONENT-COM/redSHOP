@@ -60,7 +60,7 @@ class RedshopViewProduct extends RedshopView
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 			JToolbarHelper::addNew();
-			JToolbarHelper::EditList();
+			JToolbarHelper::editList('product_detail.editRedirect');
 			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
