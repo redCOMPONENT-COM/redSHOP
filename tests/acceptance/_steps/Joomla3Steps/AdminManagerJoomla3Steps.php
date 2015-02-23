@@ -57,6 +57,23 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	}
 
 	/**
+	 * Function to Check for Presence of Notices and Warnings on all the MenuType on the FrontEnd
+	 *
+	 * @return void
+	 */
+	public function CheckAllFrontEndLinks()
+	{
+		$I = $this;
+
+		foreach (\AdminManagerPage::$allFrontEndPages as $page => $url)
+		{
+			$I->amOnPage($url);
+			$I->verifyNotices(false, $this->checkForNotices(), $page);
+		}
+
+	}
+
+	/**
 	 * Function to Search for an Item
 	 *
 	 * @param   Object  $pageClass     Class Object for which Search is to be done
