@@ -7,7 +7,6 @@ div.mod_logingreeting div.logingreeting
     text-align: center;
     font-weight: bold;
     font-size: 12px;
-    text-transform: uppercase;
     letter-spacing: 1px;
 
 }
@@ -19,6 +18,5 @@ div.mod_logingreeting div.loginname
     text-align: center;
     font-weight: bold;
     font-size: 12px;
-    text-transform: uppercase;
     letter-spacing: 1px;
 }
