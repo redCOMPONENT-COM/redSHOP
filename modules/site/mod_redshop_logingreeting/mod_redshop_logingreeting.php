@@ -18,17 +18,8 @@ $maintext    = $params->def('greeting_text', 1);
 $classSuffix = htmlspecialchars($params->get('moduleclass_sfx'));
 
 JHtml::stylesheet('mod_redshop_logingreeting/logingreeting.css', array(), true);
+
+require JModuleHelper::getLayoutPath('mod_redshop_logingreeting');
+
 ?>
-<div id="mod_logingreeting" class="mod_logingreeting<?php echo $classSuffix;?>">
-<?php if ($user->id) : ?>
-	<?php if ($params->def('logging_greeting', 1) == 0) : ?>
-		<div class="logingreeting">
-			<?php echo $maintext . $user->username; ?>
-		</div>
-	<?php else : ?>
-		<div class="loginname">
-			<?php echo $maintext . $orderHelper->getUserFullname($user->id); ?>
-		</div>
-	<?php endif; ?>
-<?php endif; ?>
-</div>
+
