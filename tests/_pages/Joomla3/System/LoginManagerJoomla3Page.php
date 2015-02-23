@@ -35,4 +35,6 @@ class LoginManagerJoomla3Page
 	public static $frontEndHomeButton = "//a[text()='Home']";
 
 	public static $frontEndLogoutButton = "//input[@value='Log out']";
+
+	public static $frontEndLoginSuccess = "//legend[text()='Edit Your Profile']";
 }
