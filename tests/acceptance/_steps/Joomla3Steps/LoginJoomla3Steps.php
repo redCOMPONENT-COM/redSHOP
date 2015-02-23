@@ -50,7 +50,7 @@ class LoginJoomla3Steps extends \AcceptanceTester
 		$I->fillField(\LoginManagerJoomla3Page::$frontEndUserName, $config['username']);
 		$I->fillField(\LoginManagerJoomla3Page::$frontEndPassword, $config['password']);
 		$I->click(\LoginManagerJoomla3Page::$frontEndLoginButton);
-		$I->click(\LoginManagerJoomla3Page::$frontEndHomeButton);
-		$I->seeElement(\LoginManagerJoomla3Page::$frontEndLogoutButton);
+		$I->waitForElement(\LoginManagerJoomla3Page::$frontEndLoginSuccess, 30);
+		$I->seeElement(\LoginManagerJoomla3Page::$frontEndLoginSuccess);
 	}
 }
