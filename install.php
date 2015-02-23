@@ -1272,6 +1272,15 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/views/order/tmpl/multiprint_order.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/views/order/tmpl/previewlog.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/views/stockroom_detail/tmpl/default_product.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/js/select_sort.js',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/js/related.js',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/js/container_search.js',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/js/mootools.js',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/redshop_white.png',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/j_arrow.png',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/j_arrow_down.png',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/ui-icons_222222_256x240.png',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/ui-icons_228ef1_256x240.png',
 				JPATH_SITE . '/components/com_redshop/controllers/password.php',
 				JPATH_SITE . '/components/com_redshop/controllers/price_filter.php',
 				JPATH_SITE . '/components/com_redshop/helpers/class.img2thumb.php',
@@ -1280,7 +1289,7 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/helpers/thumb.php',
 				JPATH_SITE . '/components/com_redshop/models/password.php',
 				JPATH_SITE . '/components/com_redshop/views/price_filter/view.html.php',
-				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php',
+				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php'
 			);
 
 			foreach ($files as $path)
