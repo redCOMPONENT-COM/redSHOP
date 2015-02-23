@@ -50,6 +50,19 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		}
 
 		$document = JFactory::getDocument();
+
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			JHtml::_('redshopjquery.framework');
+			$document->addScript('https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js');
+			$document->addStyleSheet('https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css');
+		}
+		else
+		{
+			JHtml::_('bootstrap.framework');
+			JHtml::_('bootstrap.loadCss');
+		}
+
 		$document->addScript(JURI::base() . 'plugins/redshop_payment/rs_payment_paymill/rs_payment_paymill/js/paymill.js');
 		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/creditcardform.php';
 
@@ -62,19 +75,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$Itemid = $jInput->getInt('Itemid', 0);
 		$paymill_public_key = $this->params->get('paymill_public_key', '0');
 		$document = JFactory::getDocument();
-
-		if (version_compare(JVERSION, '3.0', '<'))
-		{
-			JHtml::_('redshopjquery.framework');
-			$document->addScript('https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js');
-			$document->addStyleSheet('https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap.no-responsive.no-icons.min.css');
-		}
-		else
-		{
-			JHtml::_('bootstrap.framework');
-			JHtml::_('bootstrap.loadCss');
-		}
-
 		$document->addScriptDeclaration('var PAYMILL_PUBLIC_KEY = "' . $paymill_public_key . '";');
 		$document->addScript('https://bridge.paymill.com/');
 		JText::script('PLG_RS_PAYMENT_PAYMILL_INVALID_CARD_NUMBER');
@@ -93,8 +93,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 					<div id="payment-form-cc">
 						<input class="card-amount" type="hidden" value="<?php echo $data['order']->order_total; ?>"/>
 						<input class="card-currency" type="hidden" value="<?php echo CURRENCY_CODE; ?>"/>
-
-						<div class="controls controls-row">
+						<div class="row-fluid">
 							<div class="span3"><label><?php echo JText::_('PLG_RS_PAYMENT_PAYMILL_CARD_NUMBER'); ?></label>
 								<input class="card-number span12" type="text" size="20" value=""/>
 							</div>
@@ -102,8 +101,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 								<input class="card-cvc span12" type="text" size="4" value=""/>
 							</div>
 						</div>
-
-						<div class="controls">
+						<div class="row-fluid">
 							<div class="span4">
 								<label><?php echo JText::_('PLG_RS_PAYMENT_PAYMILL_CARD_HOLDER'); ?></label>
 								<input class="card-holdername span12" type="text" size="20" value=""/>
@@ -116,10 +114,8 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 							</div>
 						</div>
 					</div>
-					<div class="controls">
-						<div class="span12">
-							<button class="submit-button btn btn-primary" type="submit"><?php echo JText::_('PLG_RS_PAYMENT_PAYMILL_BUY_NOW'); ?></button>
-						</div>
+					<div class="row-fluid">
+						<button class="submit-button btn btn-primary" type="submit"><?php echo JText::_('PLG_RS_PAYMENT_PAYMILL_BUY_NOW'); ?></button>
 					</div>
 					<input type="hidden" name="option" value="com_redshop" />
 					<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
@@ -130,7 +126,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 				</form>
 			</div>
 		</div>
-		<?php
+	<?php
 	}
 
 	/**
