@@ -34,4 +34,23 @@ class LoginJoomla3Steps extends \AcceptanceTester
 		$I->click('Log in');
 		$I->see('Category Manager', \LoginManagerJoomla3Page::$loginSuccessCheck);
 	}
+
+	/**
+	 * Function to execute an Frontend Login for Joomla3.x
+	 *
+	 * @return void
+	 */
+	public function doFrontEndLogin()
+	{
+		$I = $this;
+		$this->acceptanceTester = $I;
+		$I->amOnPage(\LoginManagerJoomla3Page::$frontEndLoginURL);
+		$config = $I->getConfig();
+		$I->waitForElement(\LoginManagerJoomla3Page::$frontEndUserName);
+		$I->fillField(\LoginManagerJoomla3Page::$frontEndUserName, $config['username']);
+		$I->fillField(\LoginManagerJoomla3Page::$frontEndPassword, $config['password']);
+		$I->click(\LoginManagerJoomla3Page::$frontEndLoginButton);
+		$I->click(\LoginManagerJoomla3Page::$frontEndHomeButton);
+		$I->seeElement(\LoginManagerJoomla3Page::$frontEndLogoutButton);
+	}
 }
