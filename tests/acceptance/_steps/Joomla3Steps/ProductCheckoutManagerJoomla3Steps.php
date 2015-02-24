@@ -54,8 +54,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForElement($productFrontEndManagerPage->finalCheckout($productName), 30);
-		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
+		$I->waitForText('Order Receipt', 10, \FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
+ 		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 	}
 
 	/**
