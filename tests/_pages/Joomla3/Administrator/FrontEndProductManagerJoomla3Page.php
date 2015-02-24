@@ -32,7 +32,7 @@ class FrontEndProductManagerJoomla3Page
 
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
-	public static $addressEmail = "//input[@id='email1']";
+	public static $addressEmail = "#email1";
 
 	public static $addressFirstName = "//input[@id='firstname']";
 
