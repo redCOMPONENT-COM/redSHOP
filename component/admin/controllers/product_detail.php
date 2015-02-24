@@ -55,11 +55,28 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function editRedirect()
 	{
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid  = $this->input->post->get('cid', array(), 'array');
 		$this->setRedirect(
 			JRoute::_(
 				'index.php?option=com_redshop&view=product_detail'
 				. $this->getRedirectToItemAppend($cid[0], 'cid[]'), false
+			)
+		);
+	}
+
+	/**
+	 * Method for redirect to add task.
+	 *
+	 * @return void
+	 *
+	 * @since   1.5
+	 */
+	public function addRedirect()
+	{
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=com_redshop&view=product_detail'
+				. $this->getRedirectToItemAppend(), false
 			)
 		);
 	}
