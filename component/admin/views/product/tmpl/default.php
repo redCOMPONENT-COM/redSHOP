@@ -32,7 +32,7 @@ $userId = (int) $user->id;
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+		if ((pressbutton == 'publish') || (pressbutton == 'unpublish')
 			|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
 			form.view.value = "product_detail";
 		}
