@@ -32,7 +32,7 @@ class FrontEndProductManagerJoomla3Page
 
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
-	public static $addressEmail = "//input[@id='email1']";
+	public static $addressEmail = "#email1";
 
 	public static $addressFirstName = "//input[@id='firstname']";
 
@@ -73,6 +73,8 @@ class FrontEndProductManagerJoomla3Page
 	public static $termAndConditions = "//input[@id='termscondition']";
 
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
+
+	public static $orderReceiptTitle = "//div[@id='redshopcomponent']/div";
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
