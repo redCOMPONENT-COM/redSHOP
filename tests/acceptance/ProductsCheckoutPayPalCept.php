@@ -24,6 +24,9 @@ $payPalInformation = array(
 $I = new AcceptanceTester\PayPalPluginManagerJoomla3Steps($scenario);
 $I->enablePlugin($pluginName);
 $I->updatePayPalPlugin($payPalInformation["email2"]);
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
+$I->doAdminLogout();
 $I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
 $customerInformation = array(
