@@ -68,7 +68,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addressInformation($addressDetail)
 	{
 		$I = $this;
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
