@@ -32,10 +32,7 @@
                 <field name="number_of_items" type="text" default="5" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
                        description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
                 <field name="sliderwidth" type="text" size="10" label="COM_REDSHOP_SLIDER_IMAGE_WIDTH"
-                       description="COM_REDSHOP_SLIDER_IMAGE_WIDTH_DESC" default="440"/>
-                <field name="sliderheight" type="text" size="10" label="COM_REDSHOP_SLIDER_IMAGE_HEIGHT"
-                       description="COM_REDSHOP_SLIDER_IMAGE_HEIGHT_DESC" default="220"/>
-
+                       default="440"/>
                 <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
                        description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100"/>
                 <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
