@@ -90,31 +90,9 @@ $formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
 
 if ($formdata['flexlang'] == "Auto")
 {
-	$dibs_lang_arr = array(
-		'Denmark'       => 'da',
-		'Sweden'        => 'sv',
-		'Norway'        => 'no',
-		'Finland'       => 'fi',
-		'Germany'       => 'de',
-		'Netherlands'   => 'nl',
-		'France'        => 'fr',
-		'Spain'         => 'es',
-		'Italy'         => 'it',
-		'Faroe Islands' => 'fo'
-	);
-
-	if ($lang != "")
-	{
-		$formdata["lang"] = $lang;
-	}
-	else
-	{
-		$lang = 'en';
-		$formdata["lang"] = $lang;
-	}
+	$formdata["lang"] = 'en';
 }
-
-if ($formdata['flexlang'] != "Auto")
+else
 {
 	$formdata["lang"] = $formdata['flexlang'];
 }

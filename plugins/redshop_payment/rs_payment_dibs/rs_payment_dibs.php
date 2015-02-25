@@ -28,8 +28,6 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
-
 		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
@@ -47,9 +45,8 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		$verify_status     = $this->params->get('verify_status', '');
 		$invalid_status    = $this->params->get('invalid_status', '');
 		$order_id          = $request['orderid'];
-		$status            = $request['status'];
-		$Itemid            = $request['Itemid'];
 		$values            = new stdClass;
+		$tid = '';
 
 		if ($request['status'] == 'ok' && isset($request['transact']))
 		{
@@ -57,7 +54,6 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 
 			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 			{
-				$transaction_id                    = $tid;
 				$values->order_status_code         = $verify_status;
 				$values->order_payment_status_code = 'Paid';
 				$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -103,14 +99,9 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 
 		JLoader::load('RedshopHelperAdminOrder');
 
-		$objOrder   = new order_functions;
-		$db         = JFactory::getDbo();
-
 		JPlugin::loadLanguage('com_redshop');
 
-		$order_id   = $data['order_id'];
 		$dibsurl    = "https://payment.architrade.com/cgi-bin/capture.cgi?";
-		$orderid    = $data['order_id'];
 		$key2       = $this->params->get("dibs_md5key2");
 		$key1       = $this->params->get("dibs_md5key1");
 		$merchantid = $this->params->get("seller_id");
@@ -126,6 +117,7 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 		$data           = curl_exec($ch);
 		$data           = explode('&', $data);
 		$capture_status = explode('=', $data[0]);
+		$values = new stdClass;
 
 		if ($capture_status[1] == 'ACCEPTED')
 		{

@@ -1,0 +1,22 @@
+/*  Style Sheet For logging greeting Module */
+
+div.mod_logingreeting div.logingreeting
+{
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 1px;
+
+}
+
+div.mod_logingreeting div.loginname
+{
+    text-decoration: none;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 1px;
+}

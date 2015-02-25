@@ -81,14 +81,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCard($cardName = 'Sample Card')
 	{
-		$I = $this;
-		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click('ID');
-		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click(\GiftCardManagerPage::$firstResult);
-		$I->click('Delete');
-		$I->dontSee($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click('ID');
+		$this->delete(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, \GiftCardManagerPage::$firstResult);
 	}
 
 	/**
@@ -101,20 +94,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchCard($cardName = 'Sample Card', $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		}
-		else
-		{
-			$I->dontSee($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, $functionName);
 	}
 
 	/**
@@ -125,24 +105,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($cardName = 'Sample Card', $state = 'unpublish')
+	public function changeCardState($cardName = 'Sample Card', $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click('ID');
-		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click(\GiftCardManagerPage::$firstResult);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
+		$this->changeState(new \GiftCardManagerPage, $cardName, $state, \GiftCardManagerPage::$giftCardResultRow, \GiftCardManagerPage::$firstResult);
 	}
 
 	/**
@@ -152,25 +117,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($cardName = 'Sample Card')
+	public function getCardState($cardName = 'Sample Card')
 	{
-		$I = $this;
-		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click('ID');
-		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$text = $I->grabAttributeFrom(\GiftCardManagerPage::$giftCardState, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, \GiftCardManagerPage::$giftCardState);
 
 		return $result;
 	}

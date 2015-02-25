@@ -8,7 +8,10 @@
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Test Text Library Manager in Administrator');
 $I->doAdminLogin();
@@ -23,7 +26,7 @@ $I->createText($name, $description, $section);
 $I->searchText($name);
 $I->editText($name, $newName);
 $I->searchText($newName);
-$I->changeState($newName);
-$I->verifyState('unpublished', $I->getState($newName));
+$I->changeTextLibraryState($newName);
+$I->verifyState('unpublished', $I->getTextLibraryState($newName));
 $I->deleteText($newName);
 $I->searchText($newName, 'Delete');

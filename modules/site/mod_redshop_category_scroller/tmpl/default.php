@@ -58,8 +58,17 @@ else
 	JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 }
 
-JHTML::script('modules/mod_redshop_category_scroller/js/jquery.js');
-JHTML::script('modules/mod_redshop_category_scroller/js/rscategoryscroller.js');
+JHTML::script('com_redshop/carousel.js', false, true);
+$document->addScriptDeclaration("jQuery(document).ready(function () {
+    jQuery('#rs_category_scroller_" . $module->id . "').red_product({
+        wrap: 'last',
+        scroll: 1,
+        auto: 6,
+        animation: 'slow',
+        easing: 'swing',
+        itemLoadCallback: jQuery.noConflict()
+    });
+});");
 
 echo $pretext;
 echo "<div style='height:" . $scrollerheight . "px;'>";
@@ -69,9 +78,9 @@ echo "<div>
 		<div style='display: block;' class='red_product-prev red_product-prev-horizontal'></div>
 		<div style='display: block;left: " . ($scrollerwidth + 20) . "px;' class='red_product-next red_product-next-horizontal'></div>
 		<div class='red_product-clip red_product-clip-horizontal' style='width: " . $scrollerwidth . "px;'>
-		<ul id='rs_category_scroller' class='red_product-list red_product-list-horizontal'>";
+		<ul id='rs_category_scroller_" . $module->id . "' class='red_product-list red_product-list-horizontal'>";
 
-for ($i = 0; $i < count($rows); $i++)
+for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 {
 	$row = $rows[$i];
 
