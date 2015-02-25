@@ -340,6 +340,18 @@ class RedshopModelImport extends RedshopModel
 								unset($rawdata['product_preview_back_image']);
 							}
 
+							$rawdata['discount_stratdate'] = strtotime($rawdata['discount_stratdate']);
+							$rawdata['discount_enddate']   = strtotime($rawdata['discount_enddate']);
+
+							// Setting default value
+							$rawdata['product_on_sale'] = 0;
+
+							// Setting product on sale when discount dates are set
+							if ((bool) $rawdata['discount_stratdate'] || (bool) $rawdata['discount_enddate'])
+							{
+								$rawdata['product_on_sale'] = 1;
+							}
+
 							$isInsert = $row->product_id == 0;
 
 							$row->bind($rawdata);
