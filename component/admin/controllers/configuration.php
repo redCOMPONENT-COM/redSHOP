@@ -197,7 +197,7 @@ class RedshopControllerConfiguration extends RedshopController
 			$post['administrator_email'] = implode(",", $post['administrator_email']);
 		}
 
-		$option = JRequest::getVar('option');
+		$msg = null;
 		$model = $this->getModel('configuration');
 		$country_list = JRequest::getVar('country_list', array(), 'array');
 		$newsletter_test_email = JRequest::getVar('newsletter_test_email');
@@ -249,7 +249,7 @@ class RedshopControllerConfiguration extends RedshopController
 					if ($newsletter_test_email)
 					{
 						$model->newsletterEntry($post);
-						echo $msg = JText::_('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL');
+						$msg = JText::sprintf('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL', $newsletter_test_email);
 					}
 
 					// Thumb folder deleted and created
@@ -272,7 +272,7 @@ class RedshopControllerConfiguration extends RedshopController
 
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option);
+			$this->setRedirect('index.php?option=com_redshop', $msg);
 		}
 	}
 

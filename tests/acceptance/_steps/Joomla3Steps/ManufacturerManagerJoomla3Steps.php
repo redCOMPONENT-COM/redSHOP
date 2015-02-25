@@ -77,25 +77,9 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($name, $state = 'unpublish')
+	public function changeManufacturerState($name, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \ManufacturerManagerJoomla3Page, $name, $state, \ManufacturerManagerJoomla3Page::$firstResultRow, \ManufacturerManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -108,20 +92,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchManufacturer($name, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \ManufacturerManagerJoomla3Page, $name, \ManufacturerManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -131,25 +102,9 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($name)
+	public function getManufacturerState($name)
 	{
-		$I = $this;
-		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		$text = $I->grabAttributeFrom(\ManufacturerManagerJoomla3Page::$manufacturerStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \ManufacturerManagerJoomla3Page, $name, \ManufacturerManagerJoomla3Page::$firstResultRow, \ManufacturerManagerJoomla3Page::$manufacturerStatePath);
 
 		return $result;
 	}
@@ -163,13 +118,6 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteManufacturer($name)
 	{
-		$I = $this;
-		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \ManufacturerManagerJoomla3Page, $name, \ManufacturerManagerJoomla3Page::$firstResultRow, \ManufacturerManagerJoomla3Page::$selectFirst);
 	}
 }

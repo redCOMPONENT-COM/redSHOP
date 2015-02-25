@@ -77,15 +77,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteVoucher($voucherCode)
 	{
-		$I = $this;
-		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->click('ID');
-		$I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
-		$I->click(\VoucherManagerPage::$voucherCheck);
-		$I->click('Delete');
-		$I->see('Voucher detail deleted successfully');
-		$I->dontSee($voucherCode, \VoucherManagerPage::$voucherResultRow);
-		$I->click('ID');
+		$this->delete(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
 	}
 
 	/**
@@ -98,24 +90,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeVoucherState($voucherCode, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->click("ID");
-		$I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
-		$I->click(\VoucherManagerPage::$voucherCheck);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-			$I->see("Voucher detail unpublished successfully");
-		}
-		else
-		{
-			$I->click("Publish");
-			$I->see("Voucher detail published successfully");
-		}
-
-		$I->click("ID");
+		$this->changeState(new \VoucherManagerPage, $voucherCode, $state, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
 	}
 
 	/**
@@ -127,23 +102,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function getVoucherState($voucherCode)
 	{
-		$I = $this;
-		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->click("ID");
-		$I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
-		$text = $I->grabAttributeFrom(\VoucherManagerPage::$voucherStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click("ID");
+		$result = $this->getState(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherStatePath);
 
 		return $result;
 	}

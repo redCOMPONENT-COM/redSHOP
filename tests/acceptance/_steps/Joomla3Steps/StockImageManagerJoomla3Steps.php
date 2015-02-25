@@ -84,20 +84,7 @@ class StockImageManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchStockImage($imageTip, $functionName = 'Search')
 	{
-		$I = $this;
-		$I->amOnPage(\StockImageManagerJoomla3Page::$URL);
-		$I->click('ID');
-
-		if ($functionName == 'Search')
-		{
-			$I->see($imageTip, \StockImageManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($imageTip, \StockImageManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->click('ID');
+		$this->search(new \StockImageManagerJoomla3Page, $imageTip, \StockImageManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -109,13 +96,6 @@ class StockImageManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteStockImage($imageTip)
 	{
-		$I = $this;
-		$I->amOnPage(\StockImageManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($imageTip, \StockImageManagerJoomla3Page::$firstResultRow);
-		$I->click(\StockImageManagerJoomla3Page::$selectFirst);
-		$I->click('Delete');
-		$I->dontSee($imageTip, \StockImageManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$this->delete(new \StockImageManagerJoomla3Page, $imageTip, \StockImageManagerJoomla3Page::$firstResultRow, \StockImageManagerJoomla3Page::$selectFirst);
 	}
 }

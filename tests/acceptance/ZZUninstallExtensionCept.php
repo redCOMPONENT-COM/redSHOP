@@ -11,7 +11,10 @@ $scenario->group('Joomla3');
    So that this tests is loaded at the last during the test execution */
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Uninstall Extension');
 $I->doAdminLogin("Function to Login to Admin Panel");

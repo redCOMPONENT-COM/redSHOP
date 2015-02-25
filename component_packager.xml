@@ -138,28 +138,28 @@
 
         <!-- Extension ZIP packaging -->
         <if>
-            <available file="${package.dir}/${extension}-v${version}_j${joomla.version}.zip" property="test_zip_exists" value="Yes"/>
+            <available file="${package.dir}/${extension}-v${version}_${joomla.version}.zip" property="test_zip_exists" value="Yes"/>
             <then>
                 <echo msg="Removing old ZIP"/>
-                <delete file="${package.dir}/${extension}-v${version}_j${joomla.version}.zip" />
+                <delete file="${package.dir}/${extension}-v${version}_${joomla.version}.zip" />
             </then>
         </if>
 
         <if>
-            <available file="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip" property="test_zip_exists" value="Yes"/>
+            <available file="${tmpdir}/${extension}-v${version}_${joomla.version}.zip" property="test_zip_exists" value="Yes"/>
             <then>
-                <delete file="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip" />
+                <delete file="${tmpdir}/${extension}-v${version}_${joomla.version}.zip" />
             </then>
         </if>
 
-        <zip destfile="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip">
+        <zip destfile="${tmpdir}/${extension}-v${version}_${joomla.version}.zip">
             <fileset dir="${tmpdir}/${extension}">
                 <include name="**"/>
                 <exclude name=".*"/>
             </fileset>
         </zip>
 
-        <copy file="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip" tofile="${package.dir}/${extension}-v${version}_j${joomla.version}.zip" />
+        <copy file="${tmpdir}/${extension}-v${version}_${joomla.version}.zip" tofile="${package.dir}/${extension}-v${version}_${joomla.version}.zip" />
 
         <echo msg="Files copied and compressed in build directory OK!"/>
     </target>
@@ -210,7 +210,7 @@
 
         <property
                 name="joomla.version"
-                value="3"
+                value="j3_and_j25"
                 override="true"/>
 
         <property

@@ -8,7 +8,10 @@
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Test Stock Rooms Manager in Administrator');
 $I->doAdminLogin();
@@ -22,7 +25,7 @@ $I->addStockRoom($name, $amount);
 $I->searchStockRoom($name);
 $I->editStockRoom($name, $newName);
 $I->searchStockRoom($newName);
-$I->changeState($newName);
-$I->verifyState('unpublished', $I->getState($newName));
+$I->changeStockRoomState($newName);
+$I->verifyState('unpublished', $I->getStockRoomState($newName));
 $I->deleteStockRoom($newName);
 $I->searchStockRoom($newName, 'Delete');
