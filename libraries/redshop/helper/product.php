@@ -178,9 +178,12 @@ class RedshopHelperProduct
 
 		foreach ((array) $products  as $product)
 		{
-			$keys[] = $product->product_id;
-			self::$products[$product->product_id . '.' . $userId]->attributes = array();
-			self::$products[$product->product_id . '.' . $userId]->extraFields = array();
+			if (isset($product->product_id))
+			{
+				$keys[] = $product->product_id;
+				self::$products[$product->product_id . '.' . $userId]->attributes = array();
+				self::$products[$product->product_id . '.' . $userId]->extraFields = array();
+			}
 		}
 
 		if (count($keys) > 0)
