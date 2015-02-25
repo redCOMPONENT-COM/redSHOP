@@ -340,14 +340,22 @@ class RedshopModelImport extends RedshopModel
 								unset($rawdata['product_preview_back_image']);
 							}
 
-							$rawdata['discount_stratdate'] = strtotime($rawdata['discount_stratdate']);
-							$rawdata['discount_enddate']   = strtotime($rawdata['discount_enddate']);
+							if (isset($rawdata['discount_stratdate']) && '' != trim($rawdata['discount_stratdate']))
+							{
+								$rawdata['discount_stratdate'] = strtotime($rawdata['discount_stratdate']);
+							}
+
+							if (isset($rawdata['discount_enddate']) && '' != trim($rawdata['discount_enddate']))
+							{
+								$rawdata['discount_enddate']   = strtotime($rawdata['discount_enddate']);
+							}
 
 							// Setting default value
 							$rawdata['product_on_sale'] = 0;
 
 							// Setting product on sale when discount dates are set
-							if ((bool) $rawdata['discount_stratdate'] || (bool) $rawdata['discount_enddate'])
+							if ((isset($rawdata['discount_stratdate']) && (bool) $rawdata['discount_stratdate'])
+								|| (isset($rawdata['discount_enddate']) && (bool) $rawdata['discount_enddate']))
 							{
 								$rawdata['product_on_sale'] = 1;
 							}
