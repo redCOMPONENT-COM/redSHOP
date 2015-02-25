@@ -34,4 +34,20 @@ class LoginJoomla3Steps extends \AcceptanceTester
 		$I->click('Log in');
 		$I->see('Category Manager', \LoginManagerJoomla3Page::$loginSuccessCheck);
 	}
+
+	/**
+	 * Function to do Admin Logout for Joomla3.x
+	 *
+	 * @return void
+	 */
+	public function doAdminLogout()
+	{
+		$I = $this;
+		$this->acceptanceTester = $I;
+		$I->click(\LoginManagerJoomla3Page::$logoutUserToggleButton);
+		$I->waitForElement(\LoginManagerJoomla3Page::$logoutLink, 30);
+		$I->click(\LoginManagerJoomla3Page::$logoutLink);
+		$I->waitForText('Log in', 20);
+		$I->see(\LoginManagerJoomla3Page::$userName);
+	}
 }
