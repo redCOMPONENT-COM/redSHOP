@@ -8,11 +8,6 @@
 	padding-right: 25px;
 }
 
-
-.red_product-skin-produkter .red_product-clip-horizontal {
-    height: 150px;
-}
-
 .red_product-skin-produkter .red_product-item {
     width: 195px;
     height: 132px;
@@ -36,6 +31,8 @@
 
 .red_product-skin-produkter .red_product-item .product-image{	
 	margin-right: 0px;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
 .red_product-skin-produkter .red_product-item .product-shop{
@@ -117,7 +114,9 @@
 }
 .mod_redoldprice{
 	font-size: 11px;
-	
+}
+.mod_redoldprice span{
+    text-decoration:line-through;
 }
 .mod_redmainprice{
 	font-size: 13px;
