@@ -151,6 +151,7 @@ class RedshopModelCategory extends RedshopModel
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
+		$limit = 0;
 
 		if (isset($this->_template[0]->template_desc) && !strstr($this->_template[0]->template_desc, "{show_all_products_in_category}") && strstr($this->_template[0]->template_desc, "{pagination}") && strstr($this->_template[0]->template_desc, "perpagelimit:"))
 		{
@@ -164,12 +165,13 @@ class RedshopModelCategory extends RedshopModel
 			{
 				$limit = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
 
-				if ($limit == 0)
+				if (!$limit)
 				{
 					$limit = $this->_maincat->products_per_page;
 				}
 			}
-			else
+
+			if (!$limit)
 			{
 				$limit = MAXCATEGORY;
 			}
