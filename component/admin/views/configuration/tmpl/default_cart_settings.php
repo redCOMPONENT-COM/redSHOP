@@ -118,9 +118,12 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_CART_CHECKOUT_ITEMID_LBL');?></label></span>
 						</td>
 						<td>
-							<input type="text" name="default_cart_checkout_itemid" id="default_cart_checkout_itemid"
-							       value="<?php if (DEFAULT_CART_CHECKOUT_ITEMID) echo DEFAULT_CART_CHECKOUT_ITEMID;
-							       else echo 1; ?>">
+							<input
+								type="text"
+								name="default_cart_checkout_itemid"
+								id="default_cart_checkout_itemid"
+							    value="<?php echo DEFAULT_CART_CHECKOUT_ITEMID; ?>"
+							>
 						</td>
 					</tr>
 					<tr>
