@@ -10,7 +10,7 @@ $I = new AcceptanceTester($scenario);
 $config = $I->getConfig();
 $className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
 $I = new $className($scenario);
-
+$sillyLogic = rand(99, 999);
 $I->wantTo('Test Product Checkout on Front End with PayPal Payment Plugin');
 $I->doAdminLogin();
 $config = $I->getConfig();
@@ -19,6 +19,12 @@ $payPalInformation = array(
 	"username" => "alexis@redcomponent.com",
 	"password" => "I10v3redK0mpont#",
 	"email" => "alexis-buyer@redcomponent.com",
+	"email2" => "alexis-facilitator@redcomponent.com"
+);
+$payPalInformation2 = array(
+	"username" => "alexis@redcomponent.com",
+	"password" => "reddieSTUFF11",
+	"email" => "jacobo@redcomponent.com",
 	"email2" => "alexis-facilitator@redcomponent.com"
 );
 $I = new AcceptanceTester\PayPalPluginManagerJoomla3Steps($scenario);
@@ -43,4 +49,11 @@ $customerInformation = array(
 $productName = 'redCOOKIE';
 $categoryName = 'Events and Forms';
 
-$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation, $productName, $categoryName);
+if ($sillyLogic % 2 == 0)
+{
+	$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation, $productName, $categoryName);
+}
+else
+{
+	$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation2, $productName, $categoryName);
+}
