@@ -474,6 +474,9 @@ div.cpanel-right {
 	float: left;
 	margin-right: 8px;
 }
+.icon-send:before{
+	content: "\004D";
+}
 .icon-preview:before{
 	content: "\3c";
 }
