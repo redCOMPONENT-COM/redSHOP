@@ -11,6 +11,7 @@ $uri                 = JURI::getInstance();
 $url                 = $uri->root();
 $user                = JFactory::getUser();
 $app                 = JFactory::getApplication();
+$Itemid              = $app->input->getInt('Itemid');
 
 $eWAYcustomer_id     = $this->params->get("customer_id");
 $eWAYusername        = $this->params->get("username");
@@ -25,52 +26,48 @@ $eWay_companyname    = $this->params->get("merchant_companyname");
 $currencyClass = new CurrencyHelper;
 $item_price = $currencyClass->convert($data['carttotal'], '', 'GBP');
 $item_price = round($item_price);
-$item_price = number_format($item_price, 2);
-$ewayurl .= "?CustomerID=" . $eWAYcustomer_id;
-$ewayurl .= "&UserName=" . $eWAYusername;
-$ewayurl .= "&Amount=" . $item_price;
-$ewayurl .= "&Currency=GBP";
-$ewayurl .= "&PageTitle=" . $eWAYpagetitle;
-$ewayurl .= "&PageDescription=" . $eWAYpagedescription;
-$ewayurl .= "&PageFooter=" . $eWAYpagefooter;
-$ewayurl .= "&Language=" . $eWAYlanguage;
-$ewayurl .= "&CompanyName=" . $eWay_companyname;
-$ewayurl .= "&CustomerFirstName=" . $data['billinginfo']->firstname;
-$ewayurl .= "&CustomerLastName=" . $data['billinginfo']->lastname;
-$ewayurl .= "&CustomerAddress=" . $data['billinginfo']->address;
-$ewayurl .= "&CustomerCity=" . $data['billinginfo']->city;
-$ewayurl .= "&CustomerState=" . $data['billinginfo']->state_code;
-$ewayurl .= "&CustomerPostCode=" . $data['billinginfo']->zipcode;
-$ewayurl .= "&CustomerCountry=" . $data['billinginfo']->country_code;
-$ewayurl .= "&CustomerEmail=" . $data['billinginfo']->user_email;
-$ewayurl .= "&CustomerPhone=" . $data['billinginfo']->phone;
-$ewayurl .= "&InvoiceDescription=Individual%20InvoiceDescription";
-$ewayurl .= "&CompanyLogo=" . $eWAYcompanylogo;
-$ewayurl .= "&PageBanner=" . $eWAYpagebanner;
-$ewayurl .= "&MerchantReference=" . $data['order_id'];
-$ewayurl .= "&MerchantReference=Inv" . $data['order_id'];
-$ewayurl .= "&MerchantOption1=" . $data['order_id'];
-$ewayurl .= "&MerchantOption2=Option2";
-$ewayurl .= "&MerchantOption3=Option2";
-$ewayurl .= "&ModifiableCustomerDetails=false";
-$ewayurl .= "&ReturnUrl=" . JURI::base() . "plugins/redshop_payment/rs_payment_ewayuk/rs_payment_ewayuk/eway_response.php";
-$ewayurl .= "&CancelURL=" . JURI::base() . "plugins/redshop_payment/rs_payment_ewayuk/rs_payment_ewayuk/eway_response.php";
-$spacereplace = str_replace(" ", "%20", $ewayurl);
-$posturl = "https://payment.ewaygateway.com/Request/$spacereplace";
+$item_price = number_format($item_price, 2, '.', '');
+$ewayurl = array();
+$ewayurl['CustomerID'] = $eWAYcustomer_id;
+$ewayurl['UserName'] = $eWAYusername;
+$ewayurl['Amount'] = $item_price;
+$ewayurl['Currency'] = "GBP";
+$ewayurl['PageTitle'] = $eWAYpagetitle;
+$ewayurl['PageDescription'] = $eWAYpagedescription;
+$ewayurl['PageFooter'] = $eWAYpagefooter;
+$ewayurl['Language'] = $eWAYlanguage;
+$ewayurl['CompanyName'] = $eWay_companyname;
+$ewayurl['CustomerFirstName'] = $data['billinginfo']->firstname;
+$ewayurl['CustomerLastName'] = $data['billinginfo']->lastname;
+$ewayurl['CustomerAddress'] = $data['billinginfo']->address;
+$ewayurl['CustomerCity'] = $data['billinginfo']->city;
+$ewayurl['CustomerState'] = $data['billinginfo']->state_code;
+$ewayurl['CustomerPostCode'] = $data['billinginfo']->zipcode;
+$ewayurl['CustomerCountry'] = $data['billinginfo']->country_code;
+$ewayurl['CustomerEmail'] = $data['billinginfo']->user_email;
+$ewayurl['CustomerPhone'] = $data['billinginfo']->phone;
+$ewayurl['InvoiceDescription'] = "Individual%20InvoiceDescription";
+$ewayurl['CompanyLogo'] = $eWAYcompanylogo;
+$ewayurl['PageBanner'] = $eWAYpagebanner;
+$ewayurl['MerchantReference'] = $data['order_id'];
+$ewayurl['MerchantReference'] = "Inv" . $data['order_id'];
+$ewayurl['MerchantOption1'] = $data['order_id'];
+$ewayurl['MerchantOption2'] = "Option2";
+$ewayurl['MerchantOption3'] = "Option2";
+$ewayurl['ModifiableCustomerDetails'] = "false";
+$ewayurl['ReturnUrl'] = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
+	. "task=notify_payment&payment_plugin=rs_payment_ewayuk&Itemid=$Itemid&orderid=" . $data['order_id'];
+$ewayurl['CancelURL'] = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
+	. "task=notify_payment&payment_plugin=rs_payment_ewayuk&Itemid=$Itemid&orderid=" . $data['order_id'];
+
+$ewayurl = http_build_query($ewayurl, '', '&', PHP_QUERY_RFC3986);
+$posturl = "https://payment.ewaygateway.com/Request/?" . $ewayurl;
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $posturl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HEADER, 1);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-if (CURL_PROXY_REQUIRED == 'True')
-{
-	$proxy_tunnel_flag = (defined('CURL_PROXY_TUNNEL_FLAG') && strtoupper(CURL_PROXY_TUNNEL_FLAG) == 'FALSE') ? false : true;
-	curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, $proxy_tunnel_flag);
-	curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
-	curl_setopt($ch, CURLOPT_PROXY, CURL_PROXY_SERVER_DETAILS);
-}
 
 $response = curl_exec($ch);
 $responsemode = $this->fetch_data($response, '<result>', '</result>');
