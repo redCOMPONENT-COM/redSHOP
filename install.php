@@ -1020,7 +1020,7 @@ class Com_RedshopInstallerScript
 				// Store the result to show install summary later
 				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 
-				// If plugin not exists before and successful installed - enable his
+				// If plugin is installed successfully and it didn't exist before we enable it.
 				if ($result && !$extensionId)
 				{
 					$query->clear()
