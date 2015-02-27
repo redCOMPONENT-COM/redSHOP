@@ -105,4 +105,69 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->dontSee($deleteItem, $resultRow);
 		$I->click('ID');
 	}
+
+	/**
+	 * Function to get State of an Item in the Administrator
+	 *
+	 * @param   Object  $pageClass      Page at which Operation is to be performed
+	 * @param   String  $item           Item for which the State is being fetched
+	 * @param   String  $resultRow      Result Row where we need to pick the item from
+	 * @param   String  $itemStatePath  Path to the State for the Item
+	 *
+	 * @return string  Result of state
+	 */
+	public function getState($pageClass, $item, $resultRow, $itemStatePath)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->click('ID');
+		$I->see($item, $resultRow);
+		$text = $I->grabAttributeFrom($itemStatePath, 'onclick');
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+
+		if (strpos($text, 'publish') > 0)
+		{
+			$result = 'unpublished';
+		}
+
+		$I->click('ID');
+
+		return $result;
+	}
+
+	/**
+	 * Function to change State of an Item in the Backend
+	 *
+	 * @param   Object  $pageClass  Page Class on which we are performing the Operation
+	 * @param   String  $item       Item which we are supposed to change
+	 * @param   String  $state      State for the Item
+	 * @param   String  $resultRow  Result row where we need to look for the item
+	 * @param   String  $check      Checkbox path for Selecting the Item
+	 *
+	 * @return void
+	 */
+	public function changeState($pageClass, $item, $state, $resultRow, $check)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->click('ID');
+		$I->see($item, $resultRow);
+		$I->click($check);
+
+		if ($state == 'unpublish')
+		{
+			$I->click("Unpublish");
+		}
+		else
+		{
+			$I->click("Publish");
+		}
+
+		$I->click('ID');
+
+	}
 }

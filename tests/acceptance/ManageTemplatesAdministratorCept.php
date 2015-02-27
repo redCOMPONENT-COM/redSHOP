@@ -26,8 +26,8 @@ $I->addTemplate($name, $section);
 $I->searchTemplate($name);
 $I->editTemplate($name, $newName);
 $I->searchTemplate($newName);
-$I->changeState($newName);
-$I->verifyState('unpublished', $I->getState($newName));
+$I->changeTemplateState($newName);
+$I->verifyState('unpublished', $I->getTemplateState($newName));
 $I->deleteTemplate($newName);
 $I->searchTemplate($newName, 'Delete');
 
