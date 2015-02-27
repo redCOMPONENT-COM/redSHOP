@@ -324,7 +324,16 @@ $calendarFormat = '%d-%m-%Y';
 						<hr/>
 					</td>
 				</tr>
-
+				<tr>
+					<td colspan="2" >
+						<div class="alert alert-info">
+							<?php
+								$isProductOnSale = ($this->detail->product_on_sale) ? JText::_('JYES') : JText::_('JNO');
+								echo JText::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
+							?>
+						</div>
+					</td>
+				</tr>
 				<tr>
 					<td class="key">
 						<label for="discount_price">
@@ -407,30 +416,6 @@ $calendarFormat = '%d-%m-%Y';
 						<hr/>
 					</td>
 				</tr>
-
-				<tr>
-					<td class="key">
-						<label for="product_on_sale0">
-							<?php echo JText::_('COM_REDSHOP_PRODUCT_ON_SALE'); ?>
-						</label>
-					</td>
-					<td>
-						<?php echo $this->lists['product_on_sale']; ?>
-					</td>
-					<td>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ON_SALE'),
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ON_SALE_LBL'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</td>
-				</tr>
-
 				<tr>
 					<td class="key">
 						<label for="product_special0">

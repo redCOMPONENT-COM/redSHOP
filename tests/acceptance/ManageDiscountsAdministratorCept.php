@@ -9,7 +9,10 @@ $scenario->group('Joomla2');
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Test Discount Manager in Administrator');
 $I->doAdminLogin();
@@ -30,8 +33,8 @@ else
 	$I->searchDiscount($amount);
 	$I->editDiscount($amount, $newAmount);
 	$I->searchDiscount($newAmount);
-	$I->changeState($newAmount);
-	$I->verifyState('unpublished', $I->getState($newAmount));
+	$I->changeDiscountState($newAmount);
+	$I->verifyState('unpublished', $I->getDiscountState($newAmount));
 	$I->deleteDiscount($newAmount);
 	$I->searchDiscount($newAmount, 'Delete');
 }

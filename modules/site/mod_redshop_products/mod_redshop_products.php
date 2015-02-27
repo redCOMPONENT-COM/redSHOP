@@ -47,7 +47,8 @@ $query = $db->getQuery(true)
 	->select('p.product_id')
 	->from($db->qn('#__redshop_product', 'p'))
 	->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
-	->where($db->qn('p.published') . ' = 1');
+	->where($db->qn('p.published') . ' = 1')
+	->group('p.product_id');
 
 switch ((int) $type)
 {
@@ -123,7 +124,16 @@ if ($showChildProducts != 1)
 	$query->where($db->qn('p.product_parent_id') . '=0');
 }
 
-$category = trim($params->get('category', false));
+$category = $params->get('category', '');
+
+if (is_array($category))
+{
+	$category = implode(',', $category);
+}
+else
+{
+	$category = trim($category);
+}
 
 if ($isUrlCategoryId)
 {

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDPRODUCTTAB</name>
-    <version>1.3.2</version>
+    <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Product Tab Module for redSHOP</description>
+    <description>MOD_REDPRODUCTTAB_DESC</description>
     <files>
         <filename module="mod_redproducttab">mod_redproducttab.php</filename>
+        <filename>index.html</filename>
         <folder>tmpl</folder>
     </files>
     <languages>
@@ -19,59 +21,63 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX"
-                       description="COM_REDSHOP_CLASS_SFX_DESC"/>
-                <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
-                       description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100"/>
-                <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
-                       description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100"/>
-                <field name="show_newprd" type="radio" default="1" label="COM_REDSHOP_SHOW_NEWPRD"
-                       description="COM_REDSHOP_SHOW_NEWPRD_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="moduleclass_sfx" type="text" default="" label="MOD_REDPRODUCTTAB_CLASS_SUFFIX"
+                       description="MOD_REDPRODUCTTAB_CLASS_SFX_DESC"/>
+                <field name="thumbwidth" type="text" size="10" label="MOD_REDPRODUCTTAB_THUMB_IMAGE_WIDTH"
+                       description="MOD_REDPRODUCTTAB_THUMB_IMAGE_WIDTH" default="100"/>
+                <field name="thumbheight" type="text" size="10" label="MOD_REDPRODUCTTAB_THUMB_IMAGE_HEIGHT"
+                       description="MOD_REDPRODUCTTAB_THUMB_IMAGE_HEIGHT" default="100"/>
+                <field name="show_newprd" type="radio" default="1" label="MOD_REDPRODUCTTAB_SHOW_NEWPRD"
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="show_ltsprd" type="radio" default="1" label="COM_REDSHOP_SHOW_LTSPRD"
-                       description="COM_REDSHOP_SHOW_LTSPRD_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="show_ltsprd" type="radio" default="1" label="MOD_REDPRODUCTTAB_SHOW_LTSPRD"
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="show_soldprd" type="radio" default="1" label="COM_REDSHOP_SHOW_SOLDPRD"
-                       description="COM_REDSHOP_SHOW_SOLDPRD_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="show_soldprd" type="radio" default="1" label="MOD_REDPRODUCTTAB_SHOW_SOLDPRD"
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="show_splprd" type="radio" default="1" label="COM_REDSHOP_SHOW_SPLPRD"
-                       description="COM_REDSHOP_SHOW_SPLPRD_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="show_splprd" type="radio" default="1" label="MOD_REDPRODUCTTAB_SHOW_SPLPRD"
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="adjust_category" type="radio" default="1" label="COM_REDSHOP_ADJUST_TO_CATEGORY"
-                       description="COM_REDSHOP_ADJUST_CATEGORY">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="adjust_category" type="radio" default="1" label="MOD_REDPRODUCTTAB_ADJUST_TO_CATEGORY"
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="category" type="text" size="40" label="Category" description="COM_REDSHOP_ENTER_CATEGORY"/>
-                <field name="count" type="text" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
-                       description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
-                <field name="image" type="radio" default="0" label="COM_REDSHOP_SHOW_IMAGE"
-                       description="COM_REDSHOP_SHOW_IMAGE_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="category" type="text" size="40" label="Category" description="MOD_REDPRODUCTTAB_ENTER_CATEGORY"/>
+                <field name="count" type="text" size="10" label="MOD_REDPRODUCTTAB_NUMBER_OF_PRODUCT"
+                       description="MOD_REDPRODUCTTAB_NUMBER_OF_PRODUCT_DESC"/>
+                <field name="image" type="radio" default="0" label="MOD_REDPRODUCTTAB_SHOW_IMAGE"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTTAB_SHOW_IMAGE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="show_price" type="radio" default="0" label="COM_REDSHOP_SHOW_PRICE"
-                       description="COM_REDSHOP_SHOW_PRICE_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="show_price" type="radio" default="0" label="MOD_REDPRODUCTTAB_SHOW_PRICE"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTTAB_SHOW_PRICE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="show_readmore" type="radio" default="1" label="COM_REDSHOP_SHOW_READ_MORE"
-                       description="COM_REDSHOP_SHOW_READ_MORE_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="show_readmore" type="radio" default="1" label="MOD_REDPRODUCTTAB_SHOW_READ_MORE"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTTAB_SHOW_READ_MORE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="show_addtocart" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART"
-                       description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                <field name="show_addtocart" type="radio" default="1" label="MOD_REDPRODUCTTAB_SHOW_ADD_TO_CART"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDPRODUCTTAB_SHOW_ADD_TO_CART_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
             </fieldset>
         </fields>
