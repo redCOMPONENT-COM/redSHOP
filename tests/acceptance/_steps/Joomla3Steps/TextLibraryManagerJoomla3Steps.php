@@ -96,25 +96,10 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($textTagName = 'Sample', $state = 'unpublish')
+	public function changeTextLibraryState($textTagName = 'Sample', $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\TextLibraryManagerJoomla3Page::$URL);
-		$I->click('ID');
 		$verifyName = '{' . $textTagName . '}';
-		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
-		$I->click(\TextLibraryManagerJoomla3Page::$firstResult);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
+		$this->changeState(new \TextLibraryManagerJoomla3Page, $verifyName, $state, \TextLibraryManagerJoomla3Page::$textResultRow, \TextLibraryManagerJoomla3Page::$firstResult);
 	}
 
 	/**
@@ -124,26 +109,10 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($textTagName)
+	public function getTextLibraryState($textTagName)
 	{
-		$I = $this;
-		$I->amOnPage(\TextLibraryManagerJoomla3Page::$URL);
-		$I->click('ID');
 		$verifyName = '{' . $textTagName . '}';
-		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
-		$text = $I->grabAttributeFrom(\TextLibraryManagerJoomla3Page::$textLibraryStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \TextLibraryManagerJoomla3Page, $verifyName, \TextLibraryManagerJoomla3Page::$textResultRow, \TextLibraryManagerJoomla3Page::$textLibraryStatePath);
 
 		return $result;
 	}

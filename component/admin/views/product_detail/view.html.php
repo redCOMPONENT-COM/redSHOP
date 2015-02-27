@@ -365,6 +365,7 @@ class RedshopViewProduct_Detail extends RedshopView
 		}
 		else
 		{
+			JToolbarHelper::save2copy();
 			$model->checkout($user->get('id'));
 
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));

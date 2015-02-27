@@ -47,6 +47,41 @@ class RedshopControllerProduct_Detail extends RedshopController
 	}
 
 	/**
+	 * Method for redirect to edit an existing record.
+	 *
+	 * @return void
+	 *
+	 * @since   1.5
+	 */
+	public function editRedirect()
+	{
+		$cid  = $this->input->post->get('cid', array(), 'array');
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=com_redshop&view=product_detail'
+				. $this->getRedirectToItemAppend($cid[0], 'cid[]'), false
+			)
+		);
+	}
+
+	/**
+	 * Method for redirect to add task.
+	 *
+	 * @return void
+	 *
+	 * @since   1.5
+	 */
+	public function addRedirect()
+	{
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=com_redshop&view=product_detail'
+				. $this->getRedirectToItemAppend(), false
+			)
+		);
+	}
+
+	/**
 	 * Edit task.
 	 *
 	 * @return void
@@ -112,6 +147,15 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if ($post ['discount_enddate'])
 		{
 			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
+		}
+
+		// Setting default value
+		$post['product_on_sale'] = 0;
+
+		// Setting product on sale when discount dates are set
+		if ((bool) $post['discount_stratdate'] || (bool) $post['discount_enddate'])
+		{
+			$post['product_on_sale'] = 1;
 		}
 
 		$post["product_number"] = trim($this->input->getString('product_number', ''));
@@ -281,6 +325,26 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model->checkin();
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	/**
+	 * Save to Copy
+	 *
+	 * @return void
+	 */
+	public function save2copy()
+	{
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$model = $this->getModel('product_detail');
+
+		if ($row = $model->copy($cid, true))
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, JText::_('COM_REDSHOP_PRODUCT_COPIED'));
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0], JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED'));
+		}
 	}
 
 	/**

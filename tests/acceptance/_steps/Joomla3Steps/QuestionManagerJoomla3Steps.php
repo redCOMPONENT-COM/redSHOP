@@ -86,25 +86,9 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($question, $state = 'unpublish')
+	public function changeQuestionState($question, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \QuestionManagerJoomla3Page, $question, $state, \QuestionManagerJoomla3Page::$firstResultRow, \QuestionManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -127,25 +111,9 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($question)
+	public function getQuestionState($question)
 	{
-		$I = $this;
-		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		$text = $I->grabAttributeFrom(\QuestionManagerJoomla3Page::$questionStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \QuestionManagerJoomla3Page, $question, \QuestionManagerJoomla3Page::$firstResultRow, \QuestionManagerJoomla3Page::$questionStatePath);
 
 		return $result;
 	}
