@@ -51,7 +51,7 @@
                        description="Select the order status to which the actual order is set.">
                 </field>
                 <field name="shopper_group_id" type="shoppergrouplist" default="Your Company Name , 101 Company Street, city"
-                       label="Select Shopper Group" description="Displays the shopper groups"/>
+                       label="Select Shopper Group" description="Displays the shopper groups" multiple="multiple"/>
                 <field name="txtextra_info" type="extrainfo" default="Please enter your Extra Info"
                        label="Enter Extra Info"
                        description="Enter description for your extra info. You also can use HTML tags." filter="raw"/>
