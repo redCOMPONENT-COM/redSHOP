@@ -48,9 +48,8 @@ class redMagicMagnifyPlus
 	function registerEvent($event, $handler)
 	{
 		/* can't use $app->registerEvent function when System.Cache plugin activated */
-		$dispatcher             = JDispatcher::getInstance();
-		$obs                    = Array("event" => $event, "handler" => $handler);
-		$dispatcher->_observers = array_merge(Array($obs), $dispatcher->_observers);
+		$dispatcher  = JDispatcher::getInstance();
+		$dispatcher->register($event, $handler);
 	}
 
 	function loadConf()

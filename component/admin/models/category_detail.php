@@ -14,6 +14,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminThumbnail');
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperAdminImages');
+JLoader::load('RedshopHelperAdminTemplate');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -43,15 +44,44 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
 
+		if (!empty($_POST))
+		{
+			$this->_data = $this->setPostData($this->_data, array('category_full_image', 'category_thumb_image', 'category_back_full_image'));
+		}
+
 		return $this->_data;
+	}
+
+	/**
+	 * Method to get extra fields to category.
+	 *
+	 * @param   integer  $item  The object category values.
+	 *
+	 * @return  mixed    Object on success, false on failure.
+	 */
+	public function getExtraFields($item)
+	{
+		$redshopTemplate = new Redtemplate;
+		$template_desc = $redshopTemplate->getTemplate('category', $item->category_template, '', true);
+		$template = $template_desc[0]->template_desc;
+		$regex = '/{rs_[\w]{1,}\}/';
+		preg_match_all($regex, $template, $matches);
+		$listField = array();
+
+		if (count($matches[0]) > 0)
+		{
+			$dbname = implode(',', $matches[0]);
+			$dbname = str_replace(array('{', '}'), '', $dbname);
+			$field = new extra_field;
+			$listField[] = $field->list_all_field(2, $item->category_id, $dbname);
+		}
+
+		return implode('', $listField);
 	}
 
 	public function _loadData()
@@ -94,12 +124,38 @@ class RedshopModelCategory_detail extends RedshopModel
 			$detail->sef_url = null;
 			$detail->published = 1;
 			$detail->compare_template_id = 0;
+			$detail->append_to_global_seo = 'append';
+			$detail->canonical_url = '';
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Set POST data
+	 *
+	 * @param   object  $details   Init data object
+	 * @param   array   $excludes  Exclude array fields
+	 *
+	 * @return  object
+	 */
+	public function setPostData($details, $excludes = array())
+	{
+		$postData  = JFactory::getApplication()->input->getArray($_POST);
+		$details = (array) $details;
+
+		foreach ($details as $key => $detail)
+		{
+			if (isset($postData[$key]) && array_search($postData[$key], $excludes) === false)
+			{
+				$details[$key] = $postData[$key];
+			}
+		}
+
+		return (object) $details;
 	}
 
 	public function store($data)

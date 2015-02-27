@@ -316,7 +316,7 @@ class RedshopModelCategory extends RedshopModel
 			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
 				->select(
 					array(
-						'pc.*', 'c.*', 'm.*',
+						'pc.ordering', 'c.*', 'm.*',
 						'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
 					)
 				)

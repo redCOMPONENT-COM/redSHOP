@@ -129,4 +129,37 @@ class RedshopControllerNewsletter extends RedshopController
 
 		$this->setRedirect($return, $msg);
 	}
+
+	/**
+	 * Newsletter tracker to confirm email is read
+	 *
+	 * @return  void
+	 */
+	public function tracker()
+	{
+		$db    = JFactory::getDbo();
+		$app   = JFactory::getApplication();
+
+		$trackerId = $app->input->getInt('tracker_id', 0);
+
+		if (!$trackerId)
+		{
+			JError::raiseError(500, 'No Tracking Id found.');
+		}
+
+		// Mark Newsletter as read
+		$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_newsletter_tracker'))
+					->set($db->qn('read') . ' = 1')
+					->where($db->qn('tracker_id') . ' = ' . (int) $trackerId);
+
+		// Set the query and execute the update.
+		$db->setQuery($query)->execute();
+
+		// Set image header
+		header("Content-type: image/gif");
+		readfile(JURI::root() . 'components/com_redshop/assets/images/spacer.gif');
+
+		$app->close();
+	}
 }

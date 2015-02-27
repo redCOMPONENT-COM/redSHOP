@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * RedSHOP master controller.
  *
- * @package  RedSHOP.Administrator
+ * @package  RedSHOP.Backend
  * @since    1.3.3.1
  */
 class RedshopController extends JControllerLegacy

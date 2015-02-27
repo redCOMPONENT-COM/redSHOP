@@ -9,7 +9,10 @@ $scenario->group('Joomla2');
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Test Gift Cards Manager in Administrator');
 $I->doAdminLogin();
@@ -21,12 +24,26 @@ $newRandomCardName = 'New Test Card' . $randomCardName;
 $cardPrice = rand(99, 999);
 $cardValue = rand(9, 99);
 $cardValidity = rand(1, 15);
-$I->addCard($randomCardName, $cardPrice, $cardValue, $cardValidity);
-$I->searchCard($randomCardName);
-$I->changeState($randomCardName);
-$I->verifyState('unpublished', $I->getState($randomCardName), 'State Must be Unpublished');
-$I->editCard($randomCardName, $newRandomCardName);
-$I->searchCard($newRandomCardName);
-$I->deleteCard($newRandomCardName);
-$I->searchCard($newRandomCardName, 'Delete');
 
+if ($config['env'] == 'Joomla2')
+{
+	$I->addCard($randomCardName, $cardPrice, $cardValue, $cardValidity);
+	$I->searchCard($randomCardName);
+	$I->changeState($randomCardName);
+	$I->verifyState('unpublished', $I->getState($randomCardName), 'State Must be Unpublished');
+	$I->editCard($randomCardName, $newRandomCardName);
+	$I->searchCard($newRandomCardName);
+	$I->deleteCard($newRandomCardName);
+	$I->searchCard($newRandomCardName, 'Delete');
+}
+else
+{
+	$I->addCard($randomCardName, $cardPrice, $cardValue, $cardValidity);
+	$I->searchCard($randomCardName);
+	$I->changeCardState($randomCardName);
+	$I->verifyState('unpublished', $I->getCardState($randomCardName), 'State Must be Unpublished');
+	$I->editCard($randomCardName, $newRandomCardName);
+	$I->searchCard($newRandomCardName);
+	$I->deleteCard($newRandomCardName);
+	$I->searchCard($newRandomCardName, 'Delete');
+}
