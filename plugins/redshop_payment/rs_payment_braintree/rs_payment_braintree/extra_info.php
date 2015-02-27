@@ -81,7 +81,5 @@ echo "</form>";
 
 ?>
 <script type='text/javascript'>
-	window.onload = function () {
-		document.braintreefrm.submit();
-	}
+	document.braintreefrm.submit();
 </script>
