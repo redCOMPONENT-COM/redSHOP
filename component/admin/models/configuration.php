@@ -741,6 +741,9 @@ class RedshopModelConfiguration extends RedshopModel
 		$content .= str_replace("{username}", $name[0], $data1);
 		$content = str_replace("{email}", $to, $content);
 
+		// Replace tag {unsubscribe_link} for testing mail to empty link, because test mail not have subscribes
+		$content = str_replace("{unsubscribe_link}", "<a href=\"#\">" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>", $content);
+
 		if (JMail::getInstance()->sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
 		{
 			return true;

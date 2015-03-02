@@ -406,7 +406,7 @@ class RedshopModelProduct extends RedshopModel
 
 		if (count($str) > 0)
 		{
-			$dbname = "'" . implode("','", $str) . "'";
+			$dbname = implode(",", $str);
 			$field = new extra_field;
 
 			for ($t = 0; $t < count($sec); $t++)

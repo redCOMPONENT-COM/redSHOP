@@ -31,7 +31,7 @@ $configobj = new Redconfiguration;
 $producthelper = new producthelper;?>
 <table border="0" cellpadding="2" cellspacing="2">
 	<?php
-	for ($i = 0; $i < count($this->prdlist); $i++)
+	for ($i = 0, $countPrdList = $this->prdlist; $i < $countPrdList; $i++)
 	{
 		$row = $this->prdlist[$i];
 
@@ -123,6 +123,10 @@ $producthelper = new producthelper;?>
 				</td>
 			</tr>
 		<?php
+		}
+		elseif (!$count)
+		{
+			break;
 		}
 	}
 

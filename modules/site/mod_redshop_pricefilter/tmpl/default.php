@@ -20,6 +20,7 @@ RedshopHelperJs::init();
 JHtml::_('redshopjquery.ui');
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
+$numberFormatParams = '\'' . PRICE_DECIMAL . '\',\'' . PRICE_SEPERATOR . '\',\'' . THOUSAND_SEPERATOR . '\'';
 ?>
 <script type="text/javascript">
 	jQuery(function($) {
@@ -39,14 +40,14 @@ JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 				values: [<?php echo $texpricemin;?>, <?php echo $texpricemax;?>], //initial range of slider
 				slide: function (event, ui) { // This event is triggered on every mouse move during slide.
 
-					var startrange = number_format(ui.values[0], PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-					var endrange = number_format(ui.values[1], PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+					var startrange = number_format(ui.values[0], <?php echo $numberFormatParams; ?>);
+					var endrange = number_format(ui.values[1], <?php echo $numberFormatParams; ?>);
 
 					$amount.html(startrange + ' - ' + endrange);//set value of  amount span to current slider values
 				},
 				stop: function (event, ui) {//This event is triggered when the user stops sliding.
 					$ajaxMessage.css({display: 'block'});
-					$products.find('ul').css({opacity: .2});
+					$products.css({opacity: .2});
 
 					var url = "<?php echo $url;?>index.php?format=raw&option=com_redshop&view=price_filter";
 					url = url + "&category=<?php echo $category;?>&count=<?php echo $count;?>&image=<?php echo $image;?>";
@@ -58,12 +59,13 @@ JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 
 					$products.load(url, '', function () {
 						$ajaxMessage.css({display: 'none'});
+						$(this).css({opacity: 1});
 					});
 				}
 			});
 
-			var startrange = number_format($slider.slider("values", 0), PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-			var endrange = number_format($slider.slider("values", 1), PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+			var startrange = number_format($slider.slider("values", 0), <?php echo $numberFormatParams; ?>);
+			var endrange = number_format($slider.slider("values", 1), <?php echo $numberFormatParams; ?>);
 
 			$amount.html(startrange + ' - ' + endrange);
 
@@ -91,7 +93,7 @@ JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 	</div>
 	<div class="clr"></div>
 	<div class="left" id="productsWrap">
-		<div style="display: none;" id="ajaxMessage"><?php echo JText::_('COM_REDSHOP_LOADING');?></div>
+		<div id="ajaxMessage"><?php echo JText::_('COM_REDSHOP_LOADING');?></div>
 		<div id="redproducts"><?php echo JText::_('COM_REDSHOP_NO_PRODUCT_FOUND');?></div>
 	</div>
 	<div class="clr"></div>

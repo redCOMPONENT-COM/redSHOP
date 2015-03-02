@@ -489,3 +489,13 @@ div.cpanel-right {
 .icon-redshop_order32:before{
 	content: "\E01A";
 }
+.icon-back:before{
+	content: "\0028";
+}
+.icon-redshop_shipping_rates32:before,
+.icon-redshop_shipping_rates48::before{
+	content: "\0063";
+}
+.icon-redshop_shipping48:before{
+	content: "\E022";
+}

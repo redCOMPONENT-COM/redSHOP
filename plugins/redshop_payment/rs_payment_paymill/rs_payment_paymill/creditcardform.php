@@ -24,6 +24,3 @@ else
 {
 	$this->getCredicardForm("rs_payment_paymill", $data);
 }
-?>
-<script type="text/javascript"
-    src="<?php echo JURI::base() ?>plugins/redshop_payment/rs_payment_paymill/rs_payment_paymill/js/paymill.js"></script>

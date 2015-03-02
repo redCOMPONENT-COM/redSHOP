@@ -957,7 +957,7 @@ class economic
 	{
 		$invoiceHandle = array();
 
-		if ($orderdata->is_booked == 0 && $orderdata->invoice_no)
+		if ($orderdata->is_booked == 0)
 		{
 			$data                  = array();
 			$data['split_payment'] = $orderdata->split_payment;
@@ -986,7 +986,12 @@ class economic
 				}
 			}
 
-			$this->deleteInvoiceInEconomic($orderdata);
+			// Delete existing draft invoice from e-conomic
+			if ($orderdata->invoice_no)
+			{
+				$this->deleteInvoiceInEconomic($orderdata);
+			}
+
 			$invoiceHandle = $this->createInvoiceInEconomic($orderdata->order_id, $data);
 		}
 

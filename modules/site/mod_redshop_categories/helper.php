@@ -98,7 +98,6 @@ class modProMenuHelper
 			$id_temp    = array();
 			$row_temp   = array();
 			$depth_temp = array();
-			$children   = array();
 
 			for ($i = 0, $countIdList = count($id_list); $i < $countIdList; $i++)
 			{
@@ -113,6 +112,10 @@ class modProMenuHelper
 				if (isset($parent_ids_hash[$id]))
 				{
 					$children = $parent_ids_hash[$id];
+				}
+				else
+				{
+					$children = null;
 				}
 
 				if (!empty($children))

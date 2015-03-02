@@ -18,25 +18,12 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	 */
 	public function onPrePayment_rs_payment_ceilo($element, $data)
 	{
-		$config        = new Redconfiguration;
-		$currencyClass = new CurrencyHelper;
-		$app           = JFactory::getApplication();
-		$objOrder      = new order_functions;
-		$uri           = JURI::getInstance();
-		$url           = $uri->root();
-		$user          = JFactory::getUser();
-		$sessionid     = session_id();
 		$session       = JFactory::getSession();
 		$ccdata        = $session->get('ccdata');
 
 		if ($element != 'rs_payment_ceilo')
 		{
 			return;
-		}
-
-		if (empty($plugin))
-		{
-			$plugin = $element;
 		}
 
 		// Store number
@@ -61,25 +48,15 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 			$capturarAutomaticamente = "false";
 		}
 
-		// Additional Customer Data
-		$user_id    = $data['billinginfo']->user_id;
-		$remote_add = $_SERVER["REMOTE_ADDR"];
-
-		// Email Settings
-		$user_email = $data['billinginfo']->user_email;
-
 		// Get Credit card Information
-		$order_payment_name         = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code            = strtolower($ccdata['creditcard_code']);
 		$order_payment_number       = substr($ccdata['order_payment_number'], 0, 20);
 		$credit_card_code           = substr($ccdata['credit_card_code'], 0, 4);
 		$order_payment_expire_month = substr($ccdata['order_payment_expire_month'], 0, 2);
 		$order_payment_expire_year  = $ccdata['order_payment_expire_year'];
 		$formaPagamento             = 1;
-		$order_number               = substr($data['order_number'], 0, 16);
-		$tax_exempt                 = false;
 
-		include JPATH_SITE . '/plugins/redshop_payment/rs_payment_ceilo/includes/include.php';
+		include JPATH_SITE . '/plugins/redshop_payment/rs_payment_ceilo/rs_payment_ceilo/includes/include.php';
 
 		$Pedido = new Pedido;
 
@@ -123,8 +100,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$Pedido->dadosPedidoNumero   = $data['order_number'];
 
 		// Assign Amount
-		$tot_amount = $order_total = $data['order_total'];
-		$amount     = number_format($tot_amount, 2, '.', '') * 100;
 		$Pedido->dadosPedidoValor = 1000;
 
 		if ($tentarAutenticar == "sim")
@@ -203,9 +178,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 
 	public function onCapture_Paymentrs_payment_ceilo($element, $data)
 	{
-		$db = JFactory::getDbo();
-				$objOrder = new order_functions;
-
 		// Store number
 		$ceilo_loja_id = $this->params->get('ceilo_loja_id', '');
 

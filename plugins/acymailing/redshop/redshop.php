@@ -21,13 +21,16 @@ class plgAcymailingRedshop extends JPlugin
 		$redConfiguration->defineDynamicVars();
 
 
+		$lang  = JFactory::getLanguage();
+		$lang->load('plg_acymailing_redshop', JPATH_ADMINISTRATOR);
+
 		parent::__construct($subject, $config);
 	}
 
 	public function acymailing_getPluginType()
 	{
 		$onePlugin           = new stdClass;
-		$onePlugin->name     = JText::_('COM_REDSHOP_redSHOP');
+		$onePlugin->name     = JText::_('PLG_ACYMAILING_REDSHOP_REDSHOP');
 		$onePlugin->function = 'acymailingredSHOP_show';
 		$onePlugin->help     = 'plugin-redSHOP';
 
@@ -36,29 +39,101 @@ class plgAcymailingRedshop extends JPlugin
 
 	public function acymailingredSHOP_show()
 	{
-		$db = JFactory::getDbo();
-		$query = "SELECT p.product_id,p.product_name,c.category_id,c.category_name FROM "
-			. " #__redshop_product AS p,#__redshop_category AS c,#__redshop_product_category_xref AS pc"
-			. " WHERE pc.category_id=c.category_id AND p.product_id=pc.product_id";
-		$db->setQuery($query);
+		$app = JFactory::getApplication();
+		$paramBase = ACYMAILING_COMPONENT . '.tagredshop';
+		$pageInfo = new stdClass;
+		$pageInfo->elements = new stdClass;
+		$pageInfo->limit = new stdClass;
+		$pageInfo->filter = new stdClass;
+		$pageInfo->filter->order = new stdClass;
+		$pageInfo->limit->value = $app->getUserStateFromRequest($paramBase . '.list_limit', 'limit', $app->get('list_limit'), 'int');
+		$pageInfo->limit->start = $app->getUserStateFromRequest($paramBase . '.limitstart', 'limitstart', 0, 'int');
+		$pageInfo->search = $app->getUserStateFromRequest($paramBase . '.search', 'search', '', 'string');
+		$pageInfo->search = JString::strtolower(trim($pageInfo->search));
+		$pageInfo->filter->order->value = $app->getUserStateFromRequest($paramBase . ".filter_order", 'filter_order', 'p.product_id', 'cmd');
+		$pageInfo->filter->order->dir = $app->getUserStateFromRequest($paramBase . ".filter_order_Dir", 'filter_order_Dir', 'desc', 'word');
 
-		$rs = $db->loadObjectlist();
-		$text = '<table class="adminlist" cellpadding="1">';
-		$text .= '<tr style="cursor:pointer" ><th>' . JText::_('COM_REDSHOP_PRODUCT_NAME') . '</th><th>'
-			. JText::_('COM_REDSHOP_CATEGORY_NAME') . '</th></tr>';
-		$k = 0;
-
-		for ($i = 0; $i < count($rs); $i++)
+		if (strtolower($pageInfo->filter->order->dir) !== 'desc')
 		{
-			$row = $rs[$i];
-			$text .= '<tr style="cursor:pointer" class="row' . $k . '" onclick="setTag(\'{product:'
-				. $row->product_id . '}\');insertTag();" ><td>' . $row->product_name . '</td><td>'
-				. $row->category_name . '</td></tr>';
-			$k = 1 - $k;
+			$pageInfo->filter->order->dir = 'asc';
 		}
 
-		$text .= '</table>';
-		echo $text;
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('p.product_id, p.product_name, p.product_number, c.category_id, c.category_name')
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON p.product_id = pc.product_id')
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON pc.category_id = c.category_id')
+			->group('p.product_id')
+			->order($pageInfo->filter->order->value . ' ' . $pageInfo->filter->order->dir);
+
+		if (!empty($pageInfo->search))
+		{
+			$searchFields = array('p.product_name', 'p.product_id', 'p.product_number');
+			$searchVal = '\'%' . acymailing_getEscaped($pageInfo->search, true) . '%\'';
+			$query->where(implode(" LIKE $searchVal OR ", $searchFields) . " LIKE $searchVal");
+		}
+
+		$rs = $db->setQuery($query, $pageInfo->limit->start, $pageInfo->limit->value)->loadObjectlist();
+
+		$query->clear('select')
+			->clear('limit')
+			->clear('group')
+			->select('COUNT(p.product_id)');
+		$pageInfo->elements->total = $db->setQuery($query)->loadResult();
+		$pageInfo->elements->page = count($rs);
+
+		jimport('joomla.html.pagination');
+		$pagination = new JPagination($pageInfo->elements->total, $pageInfo->limit->start, $pageInfo->limit->value);
+		?>
+		<?php acymailing_listingsearch($pageInfo->search); ?>
+		<table class="adminlist table table-striped table-hover" cellpadding="1">
+			<thead>
+			<tr>
+				<th class="title">
+					<?php echo JHTML::_('grid.sort', JText::_('PLG_ACYMAILING_REDSHOP_PRODUCT_NAME'), 'p.product_name', $pageInfo->filter->order->dir, $pageInfo->filter->order->value); ?>
+				</th>
+				<th class="title">
+					<?php echo JHTML::_('grid.sort', JText::_('PLG_ACYMAILING_REDSHOP_PRODUCT_NUMBER'), 'p.product_number', $pageInfo->filter->order->dir, $pageInfo->filter->order->value); ?>
+				</th>
+				<th class="title"><?php echo JText::_('PLG_ACYMAILING_REDSHOP_CATEGORY_NAME'); ?></th>
+				<th class="title">
+					<?php echo JHTML::_('grid.sort', JText::_('PLG_ACYMAILING_REDSHOP_PRODUCT_ID'), 'p.product_id', $pageInfo->filter->order->dir, $pageInfo->filter->order->value); ?>
+				</th>
+			</tr>
+			</thead>
+			<tfoot>
+			<tr style="cursor:pointer">
+				<td colspan="4">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div style="float: left; margin: 0 10px 0 0;">
+							<?php echo $pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+					<?php echo $pagination->getListFooter(); ?>
+				</td>
+			</tr>
+			</tfoot>
+		<?php
+		$k = 0;
+
+		for ($i = 0, $countProducts = count($rs); $i < $countProducts; $i++):
+			$row = $rs[$i];
+			?>
+			<tr style="cursor:pointer" class="row<?php echo $k; ?>" onclick="setTag('{product:<?php
+			echo $row->product_id; ?>}');insertTag();">
+				<td><?php echo $row->product_name; ?></td>
+				<td><?php echo $row->product_number; ?></td>
+				<td><?php echo $row->category_name; ?></td>
+				<td><?php echo $row->product_id; ?></td>
+			</tr>
+		<?php
+			$k = 1 - $k;
+		endfor; ?>
+		</table>
+		<input type="hidden" name="filter_order" value="<?php echo $pageInfo->filter->order->value; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $pageInfo->filter->order->dir; ?>" />
+		<?php
 	}
 
 	public function acymailing_replaceusertagspreview(&$email)

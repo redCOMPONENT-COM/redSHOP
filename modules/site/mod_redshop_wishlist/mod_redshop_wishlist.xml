@@ -2,6 +2,7 @@
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_WISHLIST</name>
     <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>

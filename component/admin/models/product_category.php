@@ -26,7 +26,44 @@ class RedshopModelProduct_category extends RedshopModel
 		$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product  WHERE product_id IN(' . $pids . ')';
 		$this->_db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		if ($products = $this->_db->loadObjectlist('product_id'))
+		{
+			$products = $this->getProductCategories($products);
+		}
+
+		return $products;
+	}
+
+	/**
+	 * Get Product Categories
+	 *
+	 * @param   array  $products  Data products
+	 *
+	 * @return  mixed
+	 */
+	public function getProductCategories($products)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('c.category_name, pcx.product_id')
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.category_id = c.category_id')
+			->where('pcx.product_id IN (' . implode(',', array_keys($products)) . ')');
+
+		if ($categories = $db->setQuery($query)->loadObjectList())
+		{
+			foreach ($categories as $category)
+			{
+				if (!isset($products[$category->product_id]->categories))
+				{
+					$products[$category->product_id]->categories = array();
+				}
+
+				$products[$category->product_id]->categories[] = $category->category_name;
+			}
+		}
+
+		return $products;
 	}
 
 	public function saveProduct_Category()

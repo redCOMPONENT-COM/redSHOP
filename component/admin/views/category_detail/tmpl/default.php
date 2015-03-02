@@ -128,16 +128,24 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 	</tr>
 	<tr>
 		<td></td>
-		<td><?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
+		<td><?php
+			$fileExists = false;
+
+			if ($this->detail->category_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
+			{
+				$fileExists = true;
+			}
+
+			$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
 			$image_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $this->detail->category_full_image;    ?>
 			<div class="button2-left">
 				<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
 				                      rel="{handler: 'iframe', size: {x: 490, y: 400}}">Image</a></div>
 			</div>
 			<div id="image_dis">
-				<img src="<?php echo $image_path; ?>"
-				     id="image_display" <?php if ($this->detail->category_full_image == "") echo "style='display:none;'" ?>
-				     border="0" width="200"/>
+				<?php if ($fileExists): ?>
+				<img src="<?php echo $image_path; ?>" id="image_display" width="200"/>
+				<?php endif; ?>
 				<input type="hidden" name="category_image" id="category_image"/>
 			</div>
 		</td>
@@ -151,7 +159,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 			<tr>
 				<td>&nbsp;</td>
 				<td>
-					<?php    echo '<input type="checkbox" name="image_delete" ><label>';
+					<?php    echo '<label class="checkbox inline"><input type="checkbox" name="image_delete" >';
 					echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');
 					echo '</label>';
 					?>
@@ -175,6 +183,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 					   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>category/<?php echo $this->detail->category_full_image ?>"
 					   title="" rel="{handler: 'image', size: {}}">
 					   <img src="<?php echo $thumbUrl ?>"></a>
+					<hr />
 				</td>
 			</tr>
 		<?php
@@ -192,24 +201,28 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 	<tr>
 		<td>&nbsp;</td>
 		<td><?php
-			$image_back_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $this->detail->category_back_full_image;    ?>
-			<div id="image_dis">
-				<img src="<?php echo $image_back_path; ?>" id="image_display" style="display:block;" border="0"
-				     width="200"/>
-			</div>
+			$fileExists = false;
+
+			if ($this->detail->category_back_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_back_full_image))
+			{
+				$fileExists = true;
+			}
+
+			$image_back_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $this->detail->category_back_full_image;
+			if ($fileExists): ?>
+			<img src="<?php echo $image_back_path; ?>" width="200"/>
+			<?php endif; ?>
 		</td>
 	</tr>
 
 	<?php
-	if ($this->detail->category_back_full_image != "")
-	{
-		if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_back_full_image))
+		if ($fileExists)
 		{
 			?>
 			<tr>
 				<td>&nbsp;</td>
 				<td>
-					<?php    echo '<input type="checkbox" name="image_back_delete" ><label>';
+					<?php echo '<label class="checkbox inline"><input type="checkbox" name="image_back_delete" >';
 					echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');
 					echo '</label>';
 					?>
@@ -221,7 +234,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 			</tr>
 		<?php
 		}
-	} ?>
+	?>
 </table>
 <?php
 // Create 3rd Tab
@@ -321,7 +334,12 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 <table class="admintable">
 	<tr>
 		<td colspan="2">
-			<div id="dynamic_field"></div>
+			<?php
+			if ($this->extraFields)
+			{
+				echo $this->extraFields;
+			}
+			?>
 		</td>
 	</tr>
 </table>
@@ -427,24 +445,14 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 	function jimage_insert(main_path) {
 		var path_url = "<?php echo $url;?>";
 		if (main_path) {
-			document.getElementById("image_display").style.display = "block";
+			if (!document.getElementById("image_display")) {
+				var img = new Image();
+				img.id = "image_display";
+				document.getElementById("image_dis").appendChild(img);
+			}
 			document.getElementById("category_image").value = main_path;
 			document.getElementById("image_display").src = path_url + main_path;
 		}
-		else {
-			document.getElementById("category_image").value = "";
-			document.getElementById("image_display").src = "";
-		}
-
 	}
 
 </script>
-
-<?php
-if ($this->detail->category_template != '0'):?>
-	<script language="javascript" type="text/javascript">
-
-		select_dynamic_field(<?php echo $this->detail->category_template;?>, <?php echo $this->detail->category_id;?>, '2');
-	</script>
-<?php
-endif;

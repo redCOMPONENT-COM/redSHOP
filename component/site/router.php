@@ -802,7 +802,11 @@ function redshopParseRoute($segments)
 		case 'order_detail':
 
 			$vars['view'] = 'order_detail';
-			$vars['oid']  = $segments[1];
+
+			if (isset($segments[1]))
+			{
+				$vars['oid'] = $segments[1];
+			}
 
 			if (isset($segments[2]) && $segments[2] == 'reorder')
 			{

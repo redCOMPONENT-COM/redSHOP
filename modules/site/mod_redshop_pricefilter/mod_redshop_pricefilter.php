@@ -15,7 +15,17 @@ $user = JFactory::getUser();
 
 $minslider                = trim($params->get('minslider', 0));
 $maxslider                = trim($params->get('maxslider', 5000));
-$category                 = trim($params->get('category', 0));
+$category                 = $params->get('category', 0);
+
+if (is_array($category))
+{
+	$category = implode(',', $category);
+}
+else
+{
+	$category = trim($category);
+}
+
 $count                    = trim($params->get('count', 5));
 $image                    = trim($params->get('image', 0));
 $thumbwidth               = trim($params->get('thumbwidth', 100));

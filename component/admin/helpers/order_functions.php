@@ -315,7 +315,7 @@ class order_functions
 				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
 				<val n="country">' . $shippingInfo->country_code . '</val>
-				<val n="contact">' . $firstname . '</val>
+				<val n="contact"><![CDATA[' . $firstname . ']]></val>
 				<val n="phone">' . $shippingInfo->phone . '</val>
 				<val n="doorcode"/>
 				<val n="email">' . $shippingInfo->user_email . '</val>
@@ -1885,7 +1885,7 @@ class order_functions
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-				$redconfig = new Redconfiguration;
+		$redconfig = new Redconfiguration;
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
 		$paymentinfo = $plugin_parameters[0];

@@ -52,12 +52,12 @@ if ((!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart
 {
 	if (isset($_COOKIE['redSHOPcart']) && ($_COOKIE['redSHOPcart'] != ''))
 	{
-		$session->set('cart', unserialize(stripslashes($_COOKIE['redSHOPcart'])));
+		$session->set('cart', unserialize(base64_decode($_COOKIE['redSHOPcart'])));
 		$cart = $session->get('cart');
 	}
 }
 
-if (!array_key_exists("quotation_id", $cart))
+if (is_array($cart) && !array_key_exists("quotation_id", $cart))
 {
 	if (isset($cart['idx']))
 	{
@@ -65,32 +65,11 @@ if (!array_key_exists("quotation_id", $cart))
 	}
 }
 
-$product_quntity = 0;
+$count = 0;
 
 for ($i = 0; $i < $idx; $i++)
 {
-	$product_quntity += $cart[$i]['quantity'];
-}
-
-$count = $product_quntity;
-$total = 0;
-$shipping = 0;
-
-if ($idx)
-{
-	$total    = $cart['mod_cart_total'];
-	$shipping = $cart['shipping'];
-
-	if ($show_with_vat == 0)
-	{
-		if (isset($cart['shipping_vat']) === false)
-		{
-			$cart['shipping_vat'] = 0;
-		}
-
-		$shippingVat = $cart['shipping_vat'];
-		$shipping    = $shipping - $shippingVat;
-	}
+	$count += $cart[$i]['quantity'];
 }
 
 $session->set('cart', $cart);

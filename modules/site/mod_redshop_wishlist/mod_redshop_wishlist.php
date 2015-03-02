@@ -11,15 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 $user           = JFactory::getUser();
-$count          = trim($params->get('count', 1));
-$image          = trim($params->get('image', 0));
-$show_price     = trim($params->get('show_price', 0));
-$show_readmore  = trim($params->get('show_readmore', 1));
-$show_addtocart = trim($params->get('show_addtocart', 1));
-$show_desc      = trim($params->get('show_desc', 1));
-$thumbwidth     = $params->get('thumbwidth', "100");
-$thumbheight    = $params->get('thumbheight', "100");
-
 $db = JFactory::getDbo();
 
 // Getting the configuration
@@ -48,23 +39,27 @@ if (MY_WISHLIST)
 			$wish_products[$wishlists[$i]->wishlist_id] = $db->loadObjectList();
 		}
 	}
-	else if (isset($_SESSION["no_of_prod"]))
+	elseif (isset($_SESSION["no_of_prod"]))
 	{
-		$prod_id = "";
+		$prod_id = array();
 
 		for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
-			if ($_SESSION['wish_' . $add_i]->product_id != '')
+		{
+			if (isset($_SESSION['wish_' . $add_i]->product_id))
 			{
-				$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
+				$prod_id[] = $_SESSION['wish_' . $add_i]->product_id . ",";
 			}
+		}
 
-		$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
-
-		$sql = "SELECT DISTINCT p.* "
-			. "FROM #__redshop_product as p "
-			. "WHERE p.product_id IN( " . substr_replace($prod_id, "", -1) . ")";
-		$db->setQuery($sql);
-		$rows = $db->loadObjectList();
+		if (count($prod_id))
+		{
+			$sql = "SELECT DISTINCT p.* "
+				. "FROM #__redshop_product as p "
+				. "WHERE p.product_id IN( " . implode(',', $prod_id) . ")";
+			$db->setQuery($sql);
+			$rows = $db->loadObjectList();
+		}
 	}
+
 	require JModuleHelper::getLayoutPath('mod_redshop_wishlist');
 }

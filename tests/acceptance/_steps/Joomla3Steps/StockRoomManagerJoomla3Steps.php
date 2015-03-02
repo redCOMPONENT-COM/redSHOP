@@ -76,25 +76,9 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($name, $state = 'unpublish')
+	public function changeStockRoomState($name, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \StockRoomManagerJoomla3Page::$firstResultRow);
-		$I->click(\StockRoomManagerJoomla3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \StockRoomManagerJoomla3Page, $name, $state, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -117,25 +101,9 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($name)
+	public function getStockRoomState($name)
 	{
-		$I = $this;
-		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \StockRoomManagerJoomla3Page::$firstResultRow);
-		$text = $I->grabAttributeFrom(\StockRoomManagerJoomla3Page::$stockRoomStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$stockRoomStatePath);
 
 		return $result;
 	}

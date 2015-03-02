@@ -208,7 +208,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function store.
 	 *
-	 * @param   object  $data  Product detail data.
+	 * @param   array  $data  Product detail data.
 	 *
 	 * @return bool
 	 */
@@ -1263,11 +1263,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function copy.
 	 *
-	 * @param   array  $cid  Array of IDs.
+	 * @param   array  $cid               Array of IDs.
+	 * @param   bool   $postMorePriority  Flag what data more priority for copy - POST or DB
 	 *
 	 * @return bool
 	 */
-	public function copy($cid = array())
+	public function copy($cid = array(), $postMorePriority = false)
 	{
 		$row = null;
 
@@ -1281,51 +1282,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		foreach ($this->copydata as $pdata)
 		{
-			$query = 'SELECT category_id FROM ' . $this->table_prefix . 'product_category_xref
-					  WHERE product_id IN ( ' . $pdata->product_id . ' )';
-			$this->_db->setQuery($query);
-			$categorydata = $this->_db->loadObjectList();
-			$copycategory = array();
-
-			for ($i = 0; $i < count($categorydata); $i++)
-			{
-				$copycategory[$i] = $categorydata[$i]->category_id;
-			}
-
-			$query = 'SELECT related_id FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $pdata->product_id . ' )';
-			$this->_db->setQuery($query);
-			$relatedproductdata = $this->_db->loadObjectList();
-			$copyrelatedproduct = '';
-
-			for ($i = 0; $i < count($relatedproductdata); $i++)
-			{
-				$copyrelatedproduct .= $relatedproductdata[$i]->related_id;
-			}
-
-			$query = 'SELECT stockroom_id,quantity FROM ' . $this->table_prefix . 'product_stockroom_xref
-					  WHERE product_id IN ( ' . $pdata->product_id . ' )';
-			$this->_db->setQuery($query);
-			$stockroomdata = $this->_db->loadObjectList();
-			$copystockroom = array();
-			$copyquantity = array();
-
-			for ($i = 0; $i < count($stockroomdata); $i++)
-			{
-				$copystockroom[$i] = $stockroomdata[$i]->stockroom_id;
-				$copyquantity[$i] = $stockroomdata[$i]->quantity;
-			}
-
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product_accessory WHERE product_id IN ( ' . $pdata->product_id . ' )';
-			$this->_db->setQuery($query);
-			$accessorydata = $this->_db->loadObjectList();
-			$copyaccessory = array();
-
-			// Accessory_product.
-			for ($i = 0; $i < count($accessorydata); $i++)
-			{
-				$copyaccessory[$i] = (array) $accessorydata[$i];
-			}
-
 			$query = 'SELECT * FROM ' . $this->table_prefix . 'product_price WHERE product_id IN ( ' . $pdata->product_id . ' )';
 			$this->_db->setQuery($query);
 			$productpricedata = $this->_db->loadObjectList();
@@ -1334,140 +1290,143 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$mediadata = $this->_db->loadObjectList();
 
+			if (!$postMorePriority)
+			{
+				$query = 'SELECT category_id FROM ' . $this->table_prefix . 'product_category_xref
+					  WHERE product_id IN ( ' . $pdata->product_id . ' )';
+				$this->_db->setQuery($query);
+				$categorydata = $this->_db->loadObjectList();
+				$copycategory = array();
+
+				for ($i = 0; $i < count($categorydata); $i++)
+				{
+					$copycategory[$i] = $categorydata[$i]->category_id;
+				}
+
+				$query = 'SELECT related_id FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $pdata->product_id . ' )';
+				$this->_db->setQuery($query);
+				$relatedproductdata = $this->_db->loadObjectList();
+				$copyrelatedproduct = '';
+
+				for ($i = 0; $i < count($relatedproductdata); $i++)
+				{
+					$copyrelatedproduct .= $relatedproductdata[$i]->related_id;
+				}
+
+				$query = 'SELECT stockroom_id,quantity FROM ' . $this->table_prefix . 'product_stockroom_xref
+					  WHERE product_id IN ( ' . $pdata->product_id . ' )';
+				$this->_db->setQuery($query);
+				$stockroomdata = $this->_db->loadObjectList();
+				$copystockroom = array();
+				$copyquantity = array();
+
+				for ($i = 0; $i < count($stockroomdata); $i++)
+				{
+					$copystockroom[$i] = $stockroomdata[$i]->stockroom_id;
+					$copyquantity[$i] = $stockroomdata[$i]->quantity;
+				}
+
+				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_accessory WHERE product_id IN ( ' . $pdata->product_id . ' )';
+				$this->_db->setQuery($query);
+				$accessorydata = $this->_db->loadObjectList();
+				$copyaccessory = array();
+
+				// Accessory_product.
+				for ($i = 0; $i < count($accessorydata); $i++)
+				{
+					$copyaccessory[$i] = (array) $accessorydata[$i];
+				}
+
+				$post['product_parent_id'] = $pdata->product_parent_id;
+				$post['manufacturer_id'] = $pdata->manufacturer_id;
+				$post['supplier_id'] = $pdata->supplier_id;
+				$post['product_on_sale'] = $pdata->product_on_sale;
+				$post['product_special'] = $pdata->product_special;
+				$post['product_download'] = $pdata->product_download;
+				$post['product_template'] = $pdata->product_template;
+				$post['product_name'] = $pdata->product_name;
+				$post['product_price'] = $pdata->product_price;
+				$post['discount_price'] = $pdata->discount_price;
+				$post['discount_stratdate'] = $pdata->discount_stratdate;
+				$post['discount_enddate'] = $pdata->discount_enddate;
+				$post['product_length'] = $pdata->product_length;
+				$post['product_height'] = $pdata->product_height;
+				$post['product_width'] = $pdata->product_width;
+				$post['product_diameter'] = $pdata->product_diameter;
+				$post['discount_calc_method'] = $pdata->discount_calc_method;
+				$post['use_discount_calc'] = $pdata->use_discount_calc;
+				$post['use_range'] = $pdata->use_range;
+				$post['product_number'] = $pdata->product_number;
+				$post['product_type'] = $pdata->product_type;
+				$post['product_s_desc'] = $pdata->product_s_desc;
+				$post['product_desc'] = $pdata->product_desc;
+				$post['product_volume'] = $pdata->product_volume;
+				$post['product_tax_id'] = $pdata->product_tax_id;
+				$post['attribute_set_id'] = $pdata->attribute_set_id;
+				$post['product_tax_group_id'] = $pdata->product_tax_group_id;
+				$post['min_order_product_quantity'] = $pdata->min_order_product_quantity;
+				$post['max_order_product_quantity'] = $pdata->max_order_product_quantity;
+				$post['accountgroup_id'] = $pdata->accountgroup_id;
+				$post['quantity_selectbox_value'] = $pdata->quantity_selectbox_value;
+				$post['not_for_sale'] = $pdata->not_for_sale;
+				$post['product_availability_date'] = $pdata->product_availability_date;
+				$post['published'] = 0;
+				$post['product_thumb_image'] = $pdata->product_thumb_image;
+				$post['product_full_image'] = $pdata->product_full_image;
+				$post['product_back_full_image'] = $pdata->product_back_full_image;
+				$post['product_back_thumb_image'] = $pdata->product_back_thumb_image;
+				$post['product_preview_image'] = $pdata->product_preview_image;
+				$post['product_preview_back_image'] = $pdata->product_preview_back_image;
+				$post['metakey'] = $pdata->metakey;
+				$post['metadesc'] = $pdata->metadesc;
+				$post['metalanguage_setting'] = $pdata->metalanguage_setting;
+				$post['metarobot_info'] = $pdata->metarobot_info;
+				$post['pagetitle'] = $pdata->pagetitle;
+				$post['pageheading'] = $pdata->pageheading;
+				$post['cat_in_sefurl'] = $pdata->cat_in_sefurl;
+				$post['weight'] = $pdata->weight;
+				$post['expired'] = $pdata->expired;
+				$post['product_category'] = $copycategory;
+				$post['related_product'] = $copyrelatedproduct;
+				$post['quantity'] = $copyquantity;
+				$post['stockroom_id'] = $copystockroom;
+				$post['product_accessory'] = $copyaccessory;
+			}
+			else
+			{
+				$post = $this->input->getArray($_POST);
+				$this->_initData();
+				$post = array_merge($post, (array) $this->data);
+			}
+
 			$post['copy_product'] = 1;
 			$post['product_id'] = 0;
-			$post['product_parent_id'] = $pdata->product_parent_id;
-			$post['manufacturer_id'] = $pdata->manufacturer_id;
-			$post['supplier_id'] = $pdata->supplier_id;
-			$post['product_on_sale'] = $pdata->product_on_sale;
-			$post['product_special'] = $pdata->product_special;
-			$post['product_download'] = $pdata->product_download;
-			$post['product_template'] = $pdata->product_template;
-			$post['product_name'] = $this->renameToUniqueValue('product_name', $pdata->product_name);
-			$post['product_price'] = $pdata->product_price;
-			$post['discount_price'] = $pdata->discount_price;
-			$post['discount_stratdate'] = $pdata->discount_stratdate;
-			$post['discount_enddate'] = $pdata->discount_enddate;
-			$post['product_length'] = $pdata->product_length;
-			$post['product_height'] = $pdata->product_height;
-			$post['product_width'] = $pdata->product_width;
-			$post['product_diameter'] = $pdata->product_diameter;
-			$post['discount_calc_method'] = $pdata->discount_calc_method;
-			$post['use_discount_calc'] = $pdata->use_discount_calc;
-			$post['use_range'] = $pdata->use_range;
-			$post['product_number'] = $this->renameToUniqueValue('product_number', $pdata->product_number, 'dash');
-			$post['product_type'] = $pdata->product_type;
-			$post['product_s_desc'] = $pdata->product_s_desc;
-			$post['product_desc'] = $pdata->product_desc;
-			$post['product_volume'] = $pdata->product_volume;
-			$post['product_tax_id'] = $pdata->product_tax_id;
-			$post['attribute_set_id'] = $pdata->attribute_set_id;
-			$post['product_tax_group_id'] = $pdata->product_tax_group_id;
-			$post['min_order_product_quantity'] = $pdata->min_order_product_quantity;
-			$post['max_order_product_quantity'] = $pdata->max_order_product_quantity;
-			$post['accountgroup_id'] = $pdata->accountgroup_id;
-			$post['quantity_selectbox_value'] = $pdata->quantity_selectbox_value;
-			$post['not_for_sale'] = $pdata->not_for_sale;
-			$post['product_availability_date'] = $pdata->product_availability_date;
-			$post['published'] = 0;
-			$post['product_thumb_image'] = '';
-			$post['product_full_image'] = '';
-
-			$new_product_thumb_image = null;
-			$new_product_full_image = null;
-			$new_product_back_full_image = null;
-			$new_product_back_thumb_image = null;
-			$new_product_preview_image = null;
-			$new_product_preview_back_image = null;
-
-			if (!empty($pdata->product_thumb_image))
-			{
-				$new_product_thumb_image = strstr($pdata->product_thumb_image, '_') ? strstr($pdata->product_thumb_image, '_') : $pdata->product_thumb_image;
-				$post['product_thumb_image'] = RedShopHelperImages::cleanFileName($new_product_thumb_image);
-			}
-
-			if (!empty($pdata->product_full_image))
-			{
-				$new_product_full_image = strstr($pdata->product_full_image, '_') ? strstr($pdata->product_full_image, '_') : $pdata->product_full_image;
-				$post['product_full_image'] = RedShopHelperImages::cleanFileName($new_product_full_image);
-			}
-
-			if (!empty($pdata->product_back_full_image))
-			{
-				$new_product_back_full_image = strstr($pdata->product_back_full_image, '_') ?
-												strstr($pdata->product_back_full_image, '_') :
-												$pdata->product_back_full_image;
-				$post['product_back_full_image'] = RedShopHelperImages::cleanFileName($new_product_back_full_image);
-			}
-
-			if (!empty($pdata->product_back_thumb_image))
-			{
-				$new_product_back_thumb_image = strstr($pdata->product_back_thumb_image, '_') ?
-												strstr($pdata->product_back_thumb_image, '_') :
-												$pdata->product_back_thumb_image;
-				$post['product_back_thumb_image'] = RedShopHelperImages::cleanFileName($new_product_back_thumb_image);
-			}
-
-			if (!empty($pdata->product_preview_image))
-			{
-				$new_product_preview_image = strstr($pdata->product_preview_image, '_') ?
-											strstr($pdata->product_preview_image, '_') :
-											$pdata->product_preview_image;
-				$post['product_preview_image'] = RedShopHelperImages::cleanFileName($new_product_preview_image);
-			}
-
-			if (!empty($pdata->product_preview_back_image))
-			{
-				$new_product_preview_back_image = strstr($pdata->product_preview_back_image, '_') ?
-												strstr($pdata->product_preview_back_image, '_') :
-												$pdata->product_preview_back_image;
-				$post['product_preview_back_image'] = RedShopHelperImages::cleanFileName($new_product_preview_back_image);
-			}
-
+			$post['product_name'] = $this->renameToUniqueValue('product_name', $post['product_name']);
+			$post['product_number'] = $this->renameToUniqueValue('product_number', $post['product_number'], 'dash');
 			$post['publish_date'] = date("Y-m-d H:i:s");
 			$post['update_date'] = date("Y-m-d H:i:s");
-			$post['visited'] = $pdata->visited;
-			$post['metakey'] = $pdata->metakey;
-			$post['metadesc'] = $pdata->metadesc;
-			$post['metalanguage_setting'] = $pdata->metalanguage_setting;
-			$post['metarobot_info'] = $pdata->metarobot_info;
-			$post['pagetitle'] = $pdata->pagetitle;
-			$post['pageheading'] = $pdata->pageheading;
-			$post['cat_in_sefurl'] = $pdata->cat_in_sefurl;
-			$post['weight'] = $pdata->weight;
-			$post['expired'] = $pdata->expired;
-			$post['product_category'] = $copycategory;
-			$post['related_product'] = $copyrelatedproduct;
-			$post['quantity'] = $copyquantity;
-			$post['stockroom_id'] = $copystockroom;
-			$post['product_accessory'] = $copyaccessory;
+			$post['visited'] = 0;
+			$post['checked_out'] = 0;
+			$post['checked_out_time'] = '0000-00-00 00:00:00';
+			$post['sef_url'] = $this->renameToUniqueValue('sef_url', $post['sef_url'], 'dash');
+			$post['canonical_url'] = $this->renameToUniqueValue('canonical_url', $post['canonical_url'], 'dash');
+
+			$new_product_thumb_image = $this->changeCopyImageName($post['product_thumb_image']);
+			$new_product_full_image = $this->changeCopyImageName($post['product_full_image']);
+			$new_product_back_full_image = $this->changeCopyImageName($post['product_back_full_image']);
+			$new_product_back_thumb_image = $this->changeCopyImageName($post['product_back_thumb_image']);
+			$new_product_preview_image = $this->changeCopyImageName($post['product_preview_image']);
+			$new_product_preview_back_image = $this->changeCopyImageName($post['product_preview_back_image']);
 
 			if ($row = $this->store($post))
 			{
-				// Image Copy Start
-				$old = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_full_image;
-				$new = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . RedShopHelperImages::cleanFileName($new_product_full_image);
-				copy($old, $new);
-
-				$old_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_thumb_image;
-				$new_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . RedShopHelperImages::cleanFileName($new_product_thumb_image);
-				copy($old_thumb, $new_thumb);
-
-				$old_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_preview_image;
-				$new_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . RedShopHelperImages::cleanFileName($new_product_preview_image);
-				copy($old_preview, $new_preview);
-
-				$old_back_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_preview_back_image;
-				$new_back_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . RedShopHelperImages::cleanFileName($new_product_preview_back_image);
-				copy($old_back_preview, $new_back_preview);
-
-				$old_prod_back_full = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_back_full_image;
-				$new_prod_back_full = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . RedShopHelperImages::cleanFileName($new_product_back_full_image);
-				copy($old_prod_back_full, $new_prod_back_full);
-
-				$old_prod_back_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_back_thumb_image;
-				$new_back_back_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . RedShopHelperImages::cleanFileName($new_product_back_thumb_image);
-				copy($old_prod_back_thumb, $new_back_back_thumb);
+				$path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/';
+				copy($path . $pdata->product_full_image, $path . $new_product_full_image);
+				copy($path . $pdata->product_thumb_image, $path . $new_product_thumb_image);
+				copy($path . $pdata->product_preview_image, $path . $new_product_preview_image);
+				copy($path . $pdata->product_preview_back_image, $path . $new_product_preview_back_image);
+				copy($path . $pdata->product_back_full_image, $path . $new_product_back_full_image);
+				copy($path . $pdata->product_back_thumb_image, $path . $new_product_back_thumb_image);
 
 				$field = new extra_field;
 
@@ -1542,6 +1501,29 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		return $row;
+	}
+
+	/**
+	 * Change Copy Image Name
+	 *
+	 * @param   string  &$imageName  Image name
+	 *
+	 * @return null|string
+	 */
+	public function changeCopyImageName(&$imageName)
+	{
+		if ($imageName && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $imageName))
+		{
+			$newImageName = strstr($imageName, '_') ? strstr($imageName, '_') : $imageName;
+			$imageName = RedShopHelperImages::cleanFileName($newImageName);
+		}
+		else
+		{
+			$imageName = '';
+			$newImageName = null;
+		}
+
+		return $newImageName;
 	}
 
 	/**

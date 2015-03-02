@@ -14,7 +14,7 @@ $producthelper = new producthelper;
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'x.ordering');
 
-$category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
+$category_id = $this->state->get('category_id', 0);
 
 $user = JFactory::getUser();
 $userId = (int) $user->id;
@@ -30,7 +30,7 @@ $userId = (int) $user->id;
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+		if ((pressbutton == 'publish') || (pressbutton == 'unpublish')
 			|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
 			form.view.value = "product_detail";
 		}

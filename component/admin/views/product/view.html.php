@@ -56,8 +56,8 @@ class RedshopViewProduct extends RedshopView
 		{
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
-			JToolbarHelper::addNew();
-			JToolbarHelper::EditList();
+			JToolbarHelper::addNew('product_detail.addRedirect');
+			JToolbarHelper::editList('product_detail.editRedirect');
 			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
@@ -136,6 +136,7 @@ class RedshopViewProduct extends RedshopView
 			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0
 		);
 
+		$this->state = $state;
 		$this->list_in_products = $list_in_products;
 		$this->keyword = $keyword;
 		$this->search_field = $search_field;

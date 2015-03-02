@@ -27,25 +27,13 @@ class plgContentredshop_product extends JPlugin
 			JHTML::_('behavior.tooltip');
 			JHTML::_('behavior.modal');
 
-			$session = JFactory::getSession('product_currency');
+			$session = JFactory::getSession();
 			$post = JRequest::get('POST');
 
 			if (isset($post['product_currency']))
 			{
 				$session->set('product_currency', $post['product_currency']);
 			}
-
-					$currency_symbol = REDCURRENCY_SYMBOL;
-			$currency_convert = 1;
-
-			if ($session->get('product_currency'))
-			{
-				$currency_symbol = $session->get('product_currency');
-				$CurrencyHelper = new CurrencyHelper;
-				$currency_convert = $CurrencyHelper->convert(1);
-			}
-
-			$document = JFactory::getDocument();
 
 			JHtml::_('redshopjquery.framework');
 			JHtml::script('com_redshop/redbox.js', false, true);
@@ -63,6 +51,7 @@ class plgContentredshop_product extends JPlugin
 
 			// Or JPATH_ADMINISTRATOR if the template language file is only
 			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR);
+			$lang->load('com_redshop', JPATH_SITE);
 
 			$plugin = JPluginHelper::getPlugin('content', 'redshop_product');
 			$red_params = new JRegistry($plugin->params);
@@ -81,20 +70,15 @@ class plgContentredshop_product extends JPlugin
 				$prtemplate_default = '<div class="mod_redshop_products"><table border="0"><tbody><tr><td><div class="mod_redshop_products_image">{product_thumb_image}</div></td></tr><tr><td><div class="mod_redshop_products_title">{product_name}</div></td></tr><tr><td><div class="mod_redshop_products_price">{product_price}</div></td></tr><tr><td><div class="mod_redshop_products_readmore">{read_more}</div></td></tr><tr><td><div>{attribute_template:attributes}</div></td></tr><tr><td><div class="mod_redshop_product_addtocart">{form_addtocart:add_to_cart1}</div></td></tr></tbody></table></div>';
 			}
 
-					$matches = $matches[0];
+			$matches = $matches[0];
 
-			for ($i = 0; $i < count($matches); $i++)
+			for ($i = 0, $countMatches = count($matches); $i < $countMatches; $i++)
 			{
-				$prtemplate = '';
 				$prtemplate = $prtemplate_default;
 				$match = explode(":", $matches[$i]);
 				$product_id = (int) (trim($match[1], '}'));
 				$product = $producthelper->getProductById($product_id);
 				$url = JURI::root();
-				$product_image = $product->product_full_image;
-				$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product_image;
-				$title = " title='" . $product->product_name . "' ";
-				$alt = " alt='" . $product->product_name . "' ";
 
 				if (!$product->product_id)
 				{
@@ -115,7 +99,7 @@ class plgContentredshop_product extends JPlugin
 					$pItemid = $objhelper->getItemid($product->product_id, $catid);
 				}
 
-					$defaultLink = 'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid;
+				$defaultLink = 'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid;
 				$link = ($page == 1) ? $url . $defaultLink : JRoute::_($defaultLink);
 
 				// End changes for sh404sef duplicating url
@@ -126,13 +110,13 @@ class plgContentredshop_product extends JPlugin
 					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_3;
 					$pw_thumb = PRODUCT_MAIN_IMAGE_3;
 				}
-				elseif (strstr($data_add, "{product_thumb_image_2}"))
+				elseif (strstr($prtemplate, "{product_thumb_image_2}"))
 				{
 					$pimg_tag = '{product_thumb_image_2}';
 					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_2;
 					$pw_thumb = PRODUCT_MAIN_IMAGE_2;
 				}
-				elseif (strstr($data_add, "{product_thumb_image_1}"))
+				elseif (strstr($prtemplate, "{product_thumb_image_1}"))
 				{
 					$pimg_tag = '{product_thumb_image_1}';
 					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
@@ -145,7 +129,7 @@ class plgContentredshop_product extends JPlugin
 					$pw_thumb = PRODUCT_MAIN_IMAGE;
 				}
 
-					$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='"
+				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='"
 						. $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='"
 						. $ph_thumb . "'>";
 				$thum_image = $producthelper->getProductImage($product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
@@ -160,11 +144,12 @@ class plgContentredshop_product extends JPlugin
 
 				if (strstr($prtemplate, "{product_price}"))
 				{
+					$pr_price = '';
+
 					if ($show_price && SHOW_PRICE)
 					{
 						$product_price = $producthelper->getProductPrice($product->product_id, $show_price_with_vat);
-
-						$productArr = $producthelper->getProductNetPrice($rows[$k]->product_id, 0, 1);
+						$productArr = $producthelper->getProductNetPrice($product->product_id, 0, 1);
 						$product_price_discount = $productArr['productPrice'];
 						$product_price_discountVat = $productArr['productVat'];
 
@@ -181,11 +166,6 @@ class plgContentredshop_product extends JPlugin
 
 								if ($show_discountpricelayout)
 								{
-									$pr_price = "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>"
-										. $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
-									$product_price = $product_price_discount;
-									$pr_price = "<div id='mod_redmainprice' class='mod_redmainprice'>"
-										. $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
 									$pr_price = "<div id='mod_redsavedprice' class='mod_redsavedprice'>"
 										. JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' '
 										. $producthelper->getProductFormattedPrice($s_price) . "</div>";
@@ -212,7 +192,7 @@ class plgContentredshop_product extends JPlugin
 
 				if (strstr($prtemplate, "{read_more}"))
 				{
-					$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_TXT_READ_MORE') . "</a>";
+					$read_more = "<a href='" . $link . "'>" . JText::_('PLG_CONTENT_REDSHOP_PRODUCT_TXT_READ_MORE') . "</a>";
 					$prtemplate = str_replace("{read_more}", $read_more, $prtemplate);
 				}
 
@@ -246,13 +226,13 @@ class plgContentredshop_product extends JPlugin
 				{
 					$ufield = "";
 					$cart = $session->get('cart');
+					$idx = 0;
 
 					if (isset($cart['idx']))
 					{
 						$idx = (int) ($cart['idx']);
 					}
 
-					$idx = 0;
 					$cart_id = '';
 
 					for ($j = 0; $j < $idx; $j++)

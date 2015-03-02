@@ -68,7 +68,7 @@ if ($modsearchitemid != "")
 					<?php echo JText::_('COM_REDSHOP_KEYWORD'); ?>
 				<?php endif; ?>
 				<br>
-					<input type="text" name="keyword" id="keyword" value="<?php echo $keyword; ?>" onclick="this.value=''"/>
+					<input type="text" class="span12" name="keyword" id="keyword" value="<?php echo $keyword; ?>" onclick="this.value=''"/>
 			<?php if ($showKeywordtitle == 'yes'): ?>
 				</div>
 			<?php endif; ?>
