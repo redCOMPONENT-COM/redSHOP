@@ -55,6 +55,9 @@ if (MY_WISHLIST)
 
 		if (count($prod_id))
 		{
+			// Sanitize ids
+			JArrayHelper::toInteger($prod_id);
+
 			$sql = "SELECT DISTINCT p.* "
 				. "FROM #__redshop_product as p "
 				. "WHERE p.product_id IN( " . implode(',', $prod_id) . ")";
