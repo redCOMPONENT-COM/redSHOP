@@ -305,7 +305,7 @@ abstract class JHtmlRedshopjquery
 			$options = new JRegistry($options);
 		}
 
-		if (!($options instanceof Jregistry))
+		if (!($options instanceof JRegistry))
 		{
 			$options = new JRegistry;
 		}
