@@ -2731,7 +2731,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 	}
 
 	request = getHTTPObject();
-	var params = "option=com_redshop&view=cart&task=add&tmpl=component&ajax_cart_box=1";
+	var params = "ajax_cart_box=1";
 
 	params = params + "&Itemid=" + frm.Itemid.value + id;
 	params = params + "&category_id=" + frm.category_id.value;
@@ -2796,13 +2796,8 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 		}
 	};
 
-	var url = redSHOP.RSConfig._('SITE_URL') + "index.php?" + params;
-
-	request.open("POST", url, false);
-
+	request.open("POST", redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=cart&task=add&tmpl=component", false);
 	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	request.setRequestHeader("Content-length", params.length);
-	request.setRequestHeader("Connection", "close");
 
 	var aj_flag = true;
 	request.onreadystatechange = function () {
@@ -2868,8 +2863,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 
 		}
 	};
-	request.send(url);
-	//request.send(params);
+	request.send(params);
 }
 
 function displayAddtocartProperty(frmCartName, product_id, attribute_id, property_id) {
