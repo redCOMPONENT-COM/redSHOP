@@ -77,7 +77,12 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$noOFGIFTCARD = 0;
-		$idx          = $cart['idx'];
+		$idx = 0;
+
+		if (isset($cart['idx']))
+		{
+			$idx = $cart['idx'];
+		}
 
 		for ($i = 0; $i < $idx; $i++)
 		{
