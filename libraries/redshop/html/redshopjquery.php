@@ -125,6 +125,41 @@ abstract class JHtmlRedshopjquery
 	}
 
 	/**
+	 * Load the flexslider library.
+	 *
+	 * @param   string  $selector  CSS Selector to initalise selects
+	 * @param   array   $options   Optional array with options
+	 *
+	 * @return void
+	 */
+	public static function flexslider($selector = '.flexslider', $options = null)
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		self::framework();
+
+		JHtml::script('com_redshop/flexslider/flexslider.js', false, true);
+		JHtml::stylesheet('com_redshop/flexslider/flexslider.css', array(), true);
+
+		$options = static::options2Jregistry($options);
+
+		JFactory::getDocument()->addScriptDeclaration("
+			(function($){
+				$(document).ready(function () {
+					$('" . $selector . "').flexslider(" . $options->toString() . ");
+				});
+			})(jQuery);
+		");
+		static::$loaded[__METHOD__][$selector] = true;
+
+		return;
+	}
+
+	/**
 	 * Load the select2 library
 	 * https://github.com/ivaynberg/select2
 	 *
@@ -219,16 +254,7 @@ abstract class JHtmlRedshopjquery
 	 */
 	private static function formatSelect2Options($options)
 	{
-		// Support options array
-		if (is_array($options))
-		{
-			$options = new JRegistry($options);
-		}
-
-		if (!($options instanceof JRegistry))
-		{
-			$options = new JRegistry;
-		}
+		$options = static::options2Jregistry($options);
 
 		$options->def('width', 'resolve');
 		$options->def('formatNoMatches', 'function () { return "' . JText::_("LIB_REDSHOP_SELECT2_NO_MATHES") . '"; }');
@@ -262,5 +288,28 @@ abstract class JHtmlRedshopjquery
 		}
 
 		return '{' . implode(', ', $return) . '}';
+	}
+
+	/**
+	 * Function to receive & pre-process javascript options
+	 *
+	 * @param   mixed  $options  Associative array/JRegistry object with options
+	 *
+	 * @return  JRegistry        Options converted to JRegistry object
+	 */
+	private static function options2Jregistry($options)
+	{
+		// Support options array
+		if (is_array($options))
+		{
+			$options = new JRegistry($options);
+		}
+
+		if (!($options instanceof Jregistry))
+		{
+			$options = new JRegistry;
+		}
+
+		return $options;
 	}
 }
