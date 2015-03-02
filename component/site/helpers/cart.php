@@ -3159,7 +3159,13 @@ class rsCarthelper
 	public function modifyCart($cartArr, $user_id)
 	{
 		$cartArr['user_id'] = $user_id;
-		$idx                = (int) ($cartArr['idx']);
+		$idx = 0;
+
+		if (isset($cartArr['idx']))
+		{
+			$idx = (int) $cartArr['idx'];
+		}
+
 		$getacctax          = 0;
 		$taxtotal           = 0;
 		$subtotal_excl_vat  = 0;
@@ -5134,7 +5140,13 @@ class rsCarthelper
 			$cart = $this->_session->get('cart');
 		}
 
-		$idx  = $cart['idx'];
+		$idx = 0;
+
+		if (isset($cart['idx']))
+		{
+			$idx  = $cart['idx'];
+		}
+
 		$user = JFactory::getUser();
 
 		$cart_accessory = array();
