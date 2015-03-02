@@ -8,7 +8,6 @@
  */
 
 JLoader::import('redshop.library');
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 
 $request = JRequest::get('request');
 

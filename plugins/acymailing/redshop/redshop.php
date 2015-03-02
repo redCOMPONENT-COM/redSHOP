@@ -15,12 +15,6 @@ class plgAcymailingRedshop extends JPlugin
 {
 	public function plgAcymailingRedshop(&$subject, $config)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-		$redConfiguration = new Redconfiguration;
-		$redConfiguration->defineDynamicVars();
-
-
 		$lang  = JFactory::getLanguage();
 		$lang->load('plg_acymailing_redshop', JPATH_ADMINISTRATOR);
 

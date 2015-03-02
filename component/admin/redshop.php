@@ -30,15 +30,9 @@ if (!file_exists($configpath))
 	JRequest::setVar('view', 'redshop');
 	JRequest::setVar('layout', 'noconfig');
 }
-else
-{
-	require_once $configpath;
-}
 
 $redhelper = new redhelper;
 $redhelper->removeShippingRate();
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
 $json_var = JRequest::getVar('json');
 
 $view = JRequest::getVar('view');

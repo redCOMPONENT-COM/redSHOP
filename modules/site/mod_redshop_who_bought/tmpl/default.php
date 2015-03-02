@@ -26,10 +26,6 @@ $document->addStyleDeclaration('
 JHtml::_('redshopjquery.framework');
 JHtml::script('modules/mod_redshop_who_bought/assets/js/jquery.jcarousel.min.js');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
 $producthelper = new producthelper;
 $redhelper = new redhelper;
 $redTemplate = new Redtemplate;

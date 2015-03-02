@@ -18,14 +18,6 @@ $show_shipping_line = ($params->get('show_shipping_line', 0));
 $document = JFactory::getDocument();
 $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
 
-if ($option != 'com_redshop')
-{
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		$Redconfiguration = new Redconfiguration;
-	$Redconfiguration->defineDynamicVars();
-}
-
-
 $show_empty_btn = 0;
 
 if ($params->get("checkout_empty") != 0)

@@ -34,12 +34,6 @@ class RedshopHelperJs
 			$doc->addStyleDeclaration('html { overflow:scroll; }');
 		}
 
-		// 	Getting the configuration
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-		$Redconfiguration = new Redconfiguration;
-		$Redconfiguration->defineDynamicVars();
-
 		$session = JFactory::getSession();
 
 		$post   = JRequest::get('POST');

@@ -531,13 +531,6 @@ $backgroundColor = trim($params->get('backgroundColor', '#FFFFFF'));
 $wmode           = trim($params->get('wmode', 'window'));
 $id              = intval($params->get('category_id', 0));
 
-// Include redshop config file.
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-
 create_smart_xml_files($params);
 
 ?>

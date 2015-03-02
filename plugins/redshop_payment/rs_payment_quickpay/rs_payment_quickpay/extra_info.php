@@ -15,7 +15,6 @@ $db   = JFactory::getDbo();
 $config = JFactory::getConfig();
 $Itemid = JFactory::getApplication()->input->getInt('Itemid');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
 
 $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping, o.order_number, o.order_id FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";

@@ -11,10 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
-
 jimport('joomla.filesystem.file');
-
-require_once JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
 class RedshopModelZip_import extends RedshopModel
 {

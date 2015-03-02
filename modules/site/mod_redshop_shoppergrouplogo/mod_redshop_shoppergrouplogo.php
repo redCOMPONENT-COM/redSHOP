@@ -14,11 +14,6 @@ $thumbwidth  = trim($params->get('thumbwidth', 100));
 $thumbheight = trim($params->get('thumbheight', 100));
 
 $db = JFactory::getDbo();
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
 $user = JFactory::getUser();
 
 $sql = "SELECT s.*,u.user_id "

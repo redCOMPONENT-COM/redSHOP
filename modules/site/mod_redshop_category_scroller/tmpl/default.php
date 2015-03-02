@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -32,8 +31,6 @@ JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 
 $config = new Redconfiguration;
-$config->defineDynamicVars();
-
 $producthelper = new producthelper;
 $redhelper     = new redhelper;
 

@@ -64,13 +64,4 @@ if ($productIds = $db->setQuery($query, 0, $number_of_items)->loadColumn())
 	}
 }
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-
-
-
-
 require JModuleHelper::getLayoutPath('mod_redshop_who_bought');

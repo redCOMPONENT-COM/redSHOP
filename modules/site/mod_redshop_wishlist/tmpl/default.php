@@ -18,11 +18,6 @@ $user      = JFactory::getUser();
 $redhelper = new redhelper;
 $Itemid    = $redhelper->getItemid();
 
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
 if (MY_WISHLIST)
 {
 	if (!$user->id)

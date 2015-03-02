@@ -8,11 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
 ?>
 <div class="mod_discount_main">
 	<div class="mod_discount_title"><?php echo JText::_("COM_REDSHOP_DISCOUNT_DETAIL");?></div>

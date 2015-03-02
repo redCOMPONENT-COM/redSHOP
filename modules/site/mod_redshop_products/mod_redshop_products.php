@@ -31,12 +31,7 @@ $showStockroomStatus     = trim($params->get('show_stockroom_status', 1));
 $showChildProducts       = trim($params->get('show_childproducts', 1));
 $isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
 
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-$redConfiguration = new Redconfiguration;
-$redConfiguration->defineDynamicVars();
 $user = JFactory::getUser();
-
 
 $query = $db->getQuery(true)
 	->select('p.product_id')

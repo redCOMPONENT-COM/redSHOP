@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
 
 $objOrder         = new order_functions;

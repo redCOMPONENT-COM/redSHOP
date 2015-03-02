@@ -52,8 +52,6 @@ function redshopBuildRoute(&$query)
 		$Itemid = 101;
 	}
 
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
 	$product_category = new product_category;
 	$infoid           = '';
 	$task             = '';
@@ -710,8 +708,6 @@ function redshopBuildRoute(&$query)
 function redshopParseRoute($segments)
 {
 	$vars = array();
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
 	$db           = JFactory::getDbo();
 	$firstSegment = $segments[0];
 

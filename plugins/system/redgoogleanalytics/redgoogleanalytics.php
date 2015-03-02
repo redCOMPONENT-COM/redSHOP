@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 /**
  * redSHOP google Analytics System Plugin
  *
@@ -32,7 +34,6 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 		if ($app->isSite() && file_exists($configFile))
 		{
 			$googleFile = JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php';
-			require_once $configFile;
 
 			if (file_exists($googleFile))
 			{

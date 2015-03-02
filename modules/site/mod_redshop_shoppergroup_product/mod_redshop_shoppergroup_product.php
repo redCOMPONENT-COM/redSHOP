@@ -27,15 +27,6 @@ $show_vat                 = trim($params->get('show_vat', 1));
 $user = JFactory::getUser();
 $db   = JFactory::getDbo();
 
-if ($option != 'com_redshop')
-{
-	// Getting the configuration
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		$Redconfiguration = new Redconfiguration;
-	$Redconfiguration->defineDynamicVars();
-}
-
-
 $and              = "";
 $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 if ($user->id)

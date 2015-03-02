@@ -20,10 +20,6 @@ if (isset($cart['idx']))
 	$count = $cart['idx'];
 }
 
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
 $user = JFactory::getUser();
 
 $document = JFactory::getDocument();

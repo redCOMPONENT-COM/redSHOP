@@ -13,15 +13,7 @@ $app = JFactory::getApplication();
 
 // Load redSHOP Library
 JLoader::import('redshop.library');
-
 JLoader::import('joomla.html.parameter');
-
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
 JLoader::import('joomla.html.pagination');
 
 RedshopHelperCron::init();

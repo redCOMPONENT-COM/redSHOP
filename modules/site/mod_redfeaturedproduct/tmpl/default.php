@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 $Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
 $uri = JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();

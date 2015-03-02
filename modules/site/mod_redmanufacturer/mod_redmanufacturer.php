@@ -9,15 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-// Getting the configuration
-
-// get product helper
 
 /**
  * This class sets all Parameters.

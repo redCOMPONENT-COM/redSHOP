@@ -12,13 +12,6 @@ defined('_JEXEC') or die;
 $option = JRequest::getCmd('option');
 JLoader::import('redshop.library');
 
-if ($option != 'com_redshop')
-{
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		$Redconfiguration = new Redconfiguration;
-	$Redconfiguration->defineDynamicVars();
-}
-
 $shippinghelper = new shipping;
 $shipping_rate_id = $params->get("shipping_rate_id");
 $text = $shippinghelper->getfreeshippingRate($shipping_rate_id);

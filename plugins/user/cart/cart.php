@@ -56,10 +56,6 @@ class PlgUserCart extends JPlugin
 	 */
 	protected function _removeRedshopCart()
 	{
-
-		$Redconfiguration = new Redconfiguration;
-		$Redconfiguration->defineDynamicVars();
-
 		$rsCarthelper = new rsCarthelper;
 
 		// Only unselected user can remove cart from DB

@@ -12,7 +12,6 @@ $url  = $uri->root();
 $user = JFactory::getUser();
 $db   = JFactory::getDbo();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
 
 $firstname    = $data['billinginfo']->firstname;

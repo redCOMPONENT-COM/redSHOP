@@ -8,7 +8,6 @@
  */
 
 JLoader::import('redshop.library');
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 $objOrder         = new order_functions;
 $objconfiguration = new Redconfiguration;
 $user             = JFactory::getUser();
