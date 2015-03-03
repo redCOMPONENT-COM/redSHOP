@@ -6093,7 +6093,14 @@ class producthelper
 			$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
 		}
 
-		$quan = 1;
+		if ($product->min_order_product_quantity > 0)
+		{
+			$quan = $product->min_order_product_quantity;
+		}
+		else
+		{
+			$quan = 1;
+		}
 
 		if (strstr($cartform, "{addtocart_quantity}"))
 		{
