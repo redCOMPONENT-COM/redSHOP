@@ -35,9 +35,14 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 	// HTML helpers
 	JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');
 
-	// Getting the configuration
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+	$cfgFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
-	$redConfiguration = new Redconfiguration;
-	$redConfiguration->defineDynamicVars();
+	if (file_exists($cfgFile))
+	{
+		// Getting the configuration
+		require_once $cfgFile;
+
+		$redConfiguration = new Redconfiguration;
+		$redConfiguration->defineDynamicVars();
+	}
 }
