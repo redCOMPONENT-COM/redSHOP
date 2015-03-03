@@ -220,10 +220,19 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			}
 			else
 			{
-				$cnt     = 0;
-				$count   = count($shops);
+				// Unique shop locations based on their servicePointId
+				$uniqueShops = array();
 
-				foreach ($shops as $key => $shop)
+				// Loop through shops to make it unique
+				foreach ($shops as $shop)
+				{
+					$uniqueShops[$shop->servicePointId] = $shop;
+				}
+
+				$cnt     = 0;
+				$count   = count($uniqueShops);
+
+				foreach ($uniqueShops as $shop)
 				{
 					$response .= $this->createShop($shop, $cnt, $count);
 					$cnt++;
