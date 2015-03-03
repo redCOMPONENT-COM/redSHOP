@@ -13,9 +13,19 @@
     <config addfieldpath="/administrator/components/com_redshop/elements">
         <fields name="params">
             <fieldset name="basic">
-                <field name="is_shipper" type="hidden" default="1" value="1"/>
-                <field name="extrafield_shipping" type="extrafieldshipping" label="Select Extra Field"
-                       description="Displays on checkout"/>
+                <field
+                    name="is_shipper"
+                    type="hidden"
+                    default="1"
+                    value="1"
+                />
+                <field
+                    name="extrafield_shipping"
+                    type="extrafieldshipping"
+                    multiple="multiple"
+                    label="Select Extra Field"
+                    description="Displays on checkout"
+                />
             </fieldset>
         </fields>
     </config>
