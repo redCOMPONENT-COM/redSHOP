@@ -23,4 +23,18 @@ class LoginManagerJoomla3Page
 	public static $password = "passwd";
 
 	public static $loginSuccessCheck = "//a//span[text() = 'Category Manager']";
+
+	public static $frontEndLoginURL = "/index.php?option=com_users&view=login";
+
+	public static $frontEndUserName = "//input[@id='username']";
+
+	public static $frontEndPassword = "//input[@id='password']";
+
+	public static $frontEndLoginButton = "//div[@class='login']/form/fieldset/div[4]/div/button";
+
+	public static $frontEndHomeButton = "//a[text()='Home']";
+
+	public static $frontEndLogoutButton = "//input[@value='Log out']";
+
+	public static $frontEndLoginSuccess = "//form[@id='member-profile']";
 }
