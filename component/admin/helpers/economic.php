@@ -912,7 +912,7 @@ class economic
 				}
 
 				$discount     = $orderdetail->order_discount + $orderdetail->special_discount_amount;
-				$product_name = JText::_("ORDER_DISCOUNT");
+				$product_name = JText::_('COM_REDSHOP_ORDER_DISCOUNT');
 
 				$product_number = $accountgroup[0]->economic_discount_product_number;
 
