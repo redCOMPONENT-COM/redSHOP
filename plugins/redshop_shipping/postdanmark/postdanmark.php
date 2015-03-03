@@ -111,23 +111,32 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 
 			if ($data)
 			{
-				$post_addresses['radio_html'] = $this->getPickupLocationsResult($data);
-				$points                       = $data->servicePointInformationResponse->servicePoints;
-				$addresses                    = array();
-				$name                         = array();
-				$number                       = array();
-				$generate                     = array();
-				$opening                      = array();
-				$close                        = array();
-				$opening_sat                  = array();
-				$close_sat                    = array();
-				$lat                          = array();
-				$lng                          = array();
-				$key                          = 1;
+				$points      = $data->servicePointInformationResponse->servicePoints;
+				$addresses   = array();
+				$name        = array();
+				$number      = array();
+				$generate    = array();
+				$opening     = array();
+				$close       = array();
+				$opening_sat = array();
+				$close_sat   = array();
+				$lat         = array();
+				$lng         = array();
+				$key         = 1;
 
 				if (!empty($points))
 				{
-					foreach ($points as $key => $point)
+					// Unique shops location based on their servicePointId
+					$uniqueShops = array();
+
+					// Loop through shops to make it unique
+					foreach ($points as $shop)
+					{
+						$uniqueShops[$shop->servicePointId] = $shop;
+					}
+
+					// Loop through to prepare for map markers
+					foreach ($uniqueShops as $point)
 					{
 						if ($point->visitingAddress->streetName)
 						{
@@ -157,35 +166,34 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 							$lng[]            = $point->coordinate->easting;
 							$number[]         = $point->deliveryAddress->postalCode . ' ' . $point->deliveryAddress->city;
 							$servicePointId[] = $point->servicePointId;
-
-							$key++;
 						}
 					}
 				}
 
-				$post_addresses['addresses']      = $addresses;
-				$post_addresses['name']           = $name;
-				$post_addresses['number']         = $number;
-				$post_addresses['generate']       = $generate;
-				$post_addresses['opening']        = $opening;
-				$post_addresses['close']          = $close;
-				$post_addresses['opening_sat']    = $opening_sat;
-				$post_addresses['close_sat']      = $close_sat;
-				$post_addresses['lat']            = $lat;
-				$post_addresses['lng']            = $lng;
+				$shopLocations['radio_html']  = $this->getPickupLocationsResult($uniqueShops);
+				$shopLocations['addresses']   = $addresses;
+				$shopLocations['name']        = $name;
+				$shopLocations['number']      = $number;
+				$shopLocations['generate']    = $generate;
+				$shopLocations['opening']     = $opening;
+				$shopLocations['close']       = $close;
+				$shopLocations['opening_sat'] = $opening_sat;
+				$shopLocations['close_sat']   = $close_sat;
+				$shopLocations['lat']         = $lat;
+				$shopLocations['lng']         = $lng;
 
 				if (isset($servicePointId))
 				{
-					$post_addresses['servicePointId'] = $servicePointId;
+					$shopLocations['servicePointId'] = $servicePointId;
 				}
 
-				echo json_encode($post_addresses);
+				echo json_encode($shopLocations);
 
 			}
 			else
 			{
-				$post_addresses['error'] = 'Der er desværre ingen Post Danmark udleveringssted i det ønskede postnummer.';
-				echo json_encode($post_addresses);
+				$shopLocations['error'] = 'Der er desværre ingen Post Danmark udleveringssted i det ønskede postnummer.';
+				echo json_encode($shopLocations);
 			}
 		}
 
@@ -195,14 +203,13 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	/**
 	 * Get shipping location restult based on give data
 	 *
-	 * @param   object  $data  JSON Object of curl data from postdanmark
+	 * @param   array  $shops  Shipping locations of shops
 	 *
 	 * @return  string
 	 */
-	protected function getPickupLocationsResult($data)
+	protected function getPickupLocationsResult($shops)
 	{
 		$response = '';
-		$shops    = $data->servicePointInformationResponse->servicePoints;
 
 		if (!isset($shops) || sizeof($shops) == 0)
 		{
@@ -220,19 +227,10 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			}
 			else
 			{
-				// Unique shop locations based on their servicePointId
-				$uniqueShops = array();
-
-				// Loop through shops to make it unique
-				foreach ($shops as $shop)
-				{
-					$uniqueShops[$shop->servicePointId] = $shop;
-				}
-
 				$cnt     = 0;
-				$count   = count($uniqueShops);
+				$count   = count($shops);
 
-				foreach ($uniqueShops as $shop)
+				foreach ($shops as $shop)
 				{
 					$response .= $this->createShop($shop, $cnt, $count);
 					$cnt++;
