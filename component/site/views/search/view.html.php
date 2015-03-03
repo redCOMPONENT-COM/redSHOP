@@ -123,8 +123,6 @@ class RedshopViewSearch extends RedshopView
 		$this->templatedata = $templatedata;
 		$this->search = $search;
 		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
-		JFilterOutput::cleanText($this->request_url);
 		parent::display($tpl);
 	}
 
