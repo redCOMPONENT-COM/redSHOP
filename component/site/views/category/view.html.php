@@ -26,6 +26,8 @@ class RedshopViewCategory extends RedshopView
 
 	public $input;
 
+	public $state = null;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -38,7 +40,6 @@ class RedshopViewCategory extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		global $context;
 		$this->app     = JFactory::getApplication();
 		$this->input   = $this->app->input;
 		$objhelper     = new redhelper;
@@ -51,14 +52,14 @@ class RedshopViewCategory extends RedshopView
 		$layout = $this->input->getString('layout', '');
 		$this->print = $this->input->getBool('print', false);
 
-		$params = $this->app->getParams($this->option);
+		$params = $this->app->getParams('com_redshop');
 		$model  = $this->getModel('category');
+		$this->state = $model->get('state');
 
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
 		$this->dispatcher = JDispatcher::getInstance();
 
-		$category_template     = (int) $params->get('category_template');
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_robots           = $params->get('robots');
 		$menu_meta_description = $params->get('menu-meta_description');
@@ -343,31 +344,8 @@ class RedshopViewCategory extends RedshopView
 			$disabled = "disabled";
 		}
 
-		$selected_template = 0;
-
-		if ($this->catid)
-		{
-			if (isset($category_template) && $category_template)
-			{
-				$selected_template = $category_template;
-			}
-			elseif (isset($maincat->category_template))
-			{
-				$selected_template = $maincat->category_template;
-			}
-		}
-		else
-		{
-			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
-		}
-
-		$categoryTemplateId = $this->app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
-		$manufacturerId = JFactory::getApplication()->getUserState("manufacturer_id");
-
-		if ($manufacturerId === "")
-		{
-			$manufacturerId      = $this->input->get('manufacturer_id', 0);
-		}
+		$categoryTemplateId = $this->state->get('category_template');
+		$manufacturerId = $this->state->get('manufacturer_id');
 
 		$lists['category_template'] = "";
 		$lists['manufacturer']      = "";
@@ -405,23 +383,16 @@ class RedshopViewCategory extends RedshopView
 												);
 		}
 
-		// Save order_by on session
-
-		$orderBySelect = JFactory::getApplication()->getUserState("order_by");
-		if(empty($orderBySelect))
-		{
-			$orderBySelect      = $this->input->getString('order_by', '');
-		}
-
+		$orderBySelect = $this->state->get('list.ordering') . ' ' . $this->state->get('list.direction');
 		$lists['order_by'] = JHtml::_(
-										'select.genericlist',
-										$orderData,
-										'order_by',
-										'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ',
-										'value',
-										'text',
-										$orderBySelect
-									);
+			'select.genericlist',
+			$orderData,
+			'order_by',
+			'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ',
+			'value',
+			'text',
+			$orderBySelect
+		);
 
 		// THIS FILE MUST LOAD AFTER MODEL CONSTUCTOR LOAD
 		$GLOBALS['product_price_slider'] = 0;
