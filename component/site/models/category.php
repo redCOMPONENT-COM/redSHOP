@@ -31,20 +31,20 @@ class RedshopModelCategory extends RedshopModel
 
 	public $_slidercount = 0;
 
+	public $_maincat = null;
+
 	public $count_no_user_field = 0;
 
 	public $minmaxArr = array(0, 0);
 
-	public $_context = null;
-
 	// @ToDo In feature, when class Category extends RedshopModelList, replace filter_fields in constructor
 	public $filter_fields = array(
-		'p.product_name ASC', 'product_name ASC',
-		'p.product_price ASC', 'product_price ASC',
-		'p.product_price DESC', 'product_price DESC',
-		'p.product_number ASC', 'product_number ASC',
-		'p.product_id DESC', 'product_id DESC',
-		'pc.ordering ASC', 'ordering ASC'
+		'p.product_name', 'product_name',
+		'p.product_price', 'product_price',
+		'p.product_price', 'product_price',
+		'p.product_number', 'product_number',
+		'p.product_id', 'product_id',
+		'pc.ordering', 'ordering'
 	);
 
 	/**
@@ -53,33 +53,162 @@ class RedshopModelCategory extends RedshopModel
 	public function __construct()
 	{
 		$app = JFactory::getApplication();
-		parent::__construct();
-
-		$this->producthelper = new producthelper;
-
+		$input = JFactory::getApplication()->input;
 		$params = $app->getParams('com_redshop');
-		$layout = JRequest::getVar('layout');
-		$print  = JRequest::getVar('print');
-		$Id     = JRequest::getInt('cid', 0);
+		$layout = $input->getCmd('layout', 'none');
+		$print  = $input->getCmd('print', '');
+		$Id     = $input->getInt('cid', 0);
 
 		if (!$print)
 		{
-			if (!$Id && $layout != '')
+			if (!$Id && $layout != 'none')
 			{
 				$Id = (int) $params->get('cid');
 			}
 		}
 
-		if (empty($this->_context))
+		// Different context depending on the view
+		if (empty($this->context))
 		{
-			$this->_context = strtolower('com_redshop.' . $this->getName() . '.' . $Id);
+			$view = $input->getCmd('view', '');
+			$option = $input->getCmd('option', '');
+			$this->context = strtolower($option . '.' . $view . '.' . $this->getName() . '.' . $layout . '.' . $Id);
 		}
 
-		$category_template = $app->getUserStateFromRequest($this->_context . 'category_template', 'category_template', 0);
-
-		$this->setState('category_template', $category_template);
+		parent::__construct();
+		$this->producthelper = new producthelper;
 
 		$this->setId((int) $Id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = '', $direction = '')
+	{
+		$app = JFactory::getApplication();
+		$params = $app->getParams('com_redshop');
+		$selectedTemplate = DEFAULT_CATEGORYLIST_TEMPLATE;
+		$limitStartBefore = $app->input->get->getInt('limitstart', 0);
+
+		if ($this->_id)
+		{
+			$selectedTemplate  = (int) $params->get('category_template', 0);
+			$mainCat = $this->_loadCategory();
+
+			if (!$selectedTemplate && isset($mainCat->category_template))
+			{
+				$selectedTemplate = $mainCat->category_template;
+			}
+		}
+
+		$categoryTemplate = $app->getUserStateFromRequest($this->context . '.category_template', 'category_template', $selectedTemplate, 'int');
+		$this->setState('category_template', $categoryTemplate);
+
+		$manufacturerId = $this->getUserStateFromRequest($this->context . '.manufacturer_id', 'manufacturer_id', 0, 'int', true);
+		$this->setState('manufacturer_id', $manufacturerId);
+
+		if ($limitStartBefore != $app->input->getInt('limitstart', 0))
+		{
+			$uri     = JFactory::getURI();
+			$requestQuery = $uri->getQuery(true);
+
+			if (isset($requestQuery['limitstart']))
+			{
+				unset($requestQuery['limitstart']);
+			}
+
+			if (count($requestQuery))
+			{
+				$requestQuery = '?' . urldecode(http_build_query($requestQuery, '', '&'));
+			}
+			else
+			{
+				$requestQuery = '';
+			}
+
+			$app->redirect(
+				JRoute::_(
+					$uri->getScheme() . '://' . $uri->getHost() . $uri->getPath() . $requestQuery,
+					false
+				)
+			);
+		}
+
+		// Get default ordering
+		$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		list($ordering, $direction) = explode(' ', $orderBySelect);
+
+		$value = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
+		$orderingParts = explode(' ', $value);
+
+		if (count($orderingParts) >= 2)
+		{
+			// Latest part will be considered the direction
+			$fullDirection = end($orderingParts);
+
+			if (in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
+			{
+				$this->setState('list.direction', $fullDirection);
+			}
+
+			unset($orderingParts[count($orderingParts) - 1]);
+
+			// The rest will be the ordering
+			$fullOrdering = implode(' ', $orderingParts);
+
+			if (in_array($fullOrdering, $this->filter_fields))
+			{
+				$this->setState('list.ordering', $fullOrdering);
+			}
+		}
+		else
+		{
+			$this->setState('list.ordering', $ordering);
+			$this->setState('list.direction', $direction);
+		}
+
+		$limit = 0;
+
+		if (isset($this->_template[0]->template_desc)
+			&& !strstr($this->_template[0]->template_desc, "{show_all_products_in_category}")
+			&& strstr($this->_template[0]->template_desc, "{pagination}")
+			&& strstr($this->_template[0]->template_desc, "perpagelimit:"))
+		{
+			$perpage = explode('{perpagelimit:', $this->_template[0]->template_desc);
+			$perpage = explode('}', $perpage[1]);
+			$limit   = intval($perpage[0]);
+		}
+		else
+		{
+			if ($this->_id)
+			{
+				$item = $app->getMenu()->getActive();
+				$limit = (int) $item->params->get('maxproduct', 0);
+
+				if (!$limit)
+				{
+					$limit = $this->_maincat->products_per_page;
+				}
+			}
+
+			if (!$limit)
+			{
+				$limit = MAXCATEGORY;
+			}
+		}
+
+		$this->setState('list.limit', $limit);
+		$value = $app->input->get('limitstart', 0, 'int');
+		$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
+		$this->setState('list.start', $limitstart);
 	}
 
 	public function setId($id)
@@ -123,10 +252,6 @@ class RedshopModelCategory extends RedshopModel
 
 	public function _buildContentOrderBy()
 	{
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getActive();
-
 		if (DEFAULT_CATEGORY_ORDERING_METHOD)
 		{
 			$orderby = " ORDER BY " . DEFAULT_CATEGORY_ORDERING_METHOD;
@@ -146,43 +271,6 @@ class RedshopModelCategory extends RedshopModel
 		return $this->_maincat;
 	}
 
-	public function getProductPerPage()
-	{
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getActive();
-
-		if (isset($this->_template[0]->template_desc) && !strstr($this->_template[0]->template_desc, "{show_all_products_in_category}") && strstr($this->_template[0]->template_desc, "{pagination}") && strstr($this->_template[0]->template_desc, "perpagelimit:"))
-		{
-			$perpage = explode('{perpagelimit:', $this->_template[0]->template_desc);
-			$perpage = explode('}', $perpage[1]);
-			$limit   = intval($perpage[0]);
-		}
-		else
-		{
-			if ($this->_id)
-			{
-				$limit = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
-
-				if ($limit == 0)
-				{
-					$limit = $this->_maincat->products_per_page;
-				}
-			}
-			else
-			{
-				$limit = MAXCATEGORY;
-			}
-		}
-
-		if (strstr($this->_template[0]->template_desc, "{product_display_limit}"))
-		{
-			$endlimit = JRequest::getInt('limit', 0, '', 'int');
-		}
-
-		return $limit;
-	}
-
 	public function getCategorylistProduct($category_id = 0)
 	{
 		$app   = JFactory::getApplication();
@@ -190,7 +278,6 @@ class RedshopModelCategory extends RedshopModel
 		$item  = $menu->getActive();
 		$limit = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
 
-		// $order_by = $this->_buildProductOrderBy();
 		$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
 
 		$query = "SELECT * FROM #__redshop_product AS p "
@@ -217,7 +304,6 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
-		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
 		$orderBy = $this->buildProductOrderBy();
@@ -229,26 +315,9 @@ class RedshopModelCategory extends RedshopModel
 
 		$query = $db->getQuery(true);
 
-		$manufacturerId = $app->input->post->get("manufacturer_id", "");
-
-		if ($manufacturerId === "")
-		{
-			$manufacturerId = JFactory::getApplication()->getUserState("manufacturer_id");
-
-			if ($manufacturerId === "")
-			{
-				// If session is null variable, get value in default request
-				$manufacturerId = $app->input->get('manufacturer_id', 0);
-			}
-		}
-		else
-		{
-			$manufacturerId = $app->input->post->get("manufacturer_id", 0);
-		}
-
-		$app->setUserState("manufacturer_id", $manufacturerId);
-		$endlimit = $this->getProductPerPage();
-		$limitstart = $app->input->get('limitstart', 0, 'int');
+		$manufacturerId = $this->getState('manufacturer_id');
+		$endlimit = $this->getState('list.limit');
+		$limitstart = $this->getState('list.start');
 		$sort = "";
 
 		// Shopper group - choose from manufactures Start
@@ -462,33 +531,16 @@ class RedshopModelCategory extends RedshopModel
 	/**
 	 * Method get string order by of product when choose category
 	 *
-	 * @return unknown
+	 * @return  string
 	 */
 	public function buildProductOrderBy()
 	{
 		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$input = $app->input;
-		$params = $app->getParams("com_redshop");
+		list($filterOrder, $filterOrderDir) = explode(' ', DEFAULT_PRODUCT_ORDERING_METHOD);
+		$filterOrder = $this->getState('list.ordering', $filterOrder);
+		$filterOrderDir = $this->getState('list.direction', $filterOrderDir);
 
-		if (!$input->getString("order_by", ""))
-		{
-			$orderBySelect = JFactory::getApplication()->getUserState("order_by");
-
-			if (!$orderBySelect)
-			{
-				$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
-			}
-		}
-		else
-		{
-			$orderBySelect = $input->getString("order_by", "");
-		}
-
-		JFactory::getApplication()->setUserState("order_by", $orderBySelect);
-
-		// Return only value of order by not " ORDER BY ". $orderBySelect
-		return $orderBySelect;
+		return $db->escape($filterOrder . ' ' . $filterOrderDir);
 	}
 
 	public function getData()
@@ -497,8 +549,8 @@ class RedshopModelCategory extends RedshopModel
 
 		global $context;
 
-		$endlimit   = $this->getProductPerPage();
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$endlimit   = $this->getState('list.limit');
+		$limitstart = $this->getState('list.start');
 		$layout     = JRequest::getVar('layout');
 		$query      = $this->_buildQuery();
 
@@ -508,7 +560,6 @@ class RedshopModelCategory extends RedshopModel
 			$item        = $menu->getActive();
 			$endlimit    = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
 			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $endlimit, 5);
-			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
 			$this->_data = $this->_getList($query, $limitstart, $endlimit);
 
 			return $this->_data;
@@ -542,8 +593,8 @@ class RedshopModelCategory extends RedshopModel
 
 	public function getCategoryPagination()
 	{
-		$endlimit          = $this->getProductPerPage();
-		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
+		$endlimit          = $this->getState('list.limit');
+		$limitstart        = $this->getState('list.start');
 		$this->_pagination = new JPagination($this->getTotal(), $limitstart, $endlimit);
 
 		return $this->_pagination;
@@ -556,7 +607,7 @@ class RedshopModelCategory extends RedshopModel
 		$item     = $menu->getActive();
 		$endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
 
-		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart        = $this->getState('list.start');
 		$this->_pagination = new JPagination($this->getTotal(), $limitstart, $endlimit);
 
 		return $this->_pagination;
@@ -572,9 +623,6 @@ class RedshopModelCategory extends RedshopModel
 
 	public function getCategoryTemplate()
 	{
-		$app = JFactory::getApplication();
-
-		$params            = $app->getParams('com_redshop');
 		$category_template = $this->getState('category_template');
 
 		$redTemplate = new Redtemplate;
@@ -605,13 +653,10 @@ class RedshopModelCategory extends RedshopModel
 
 	public function loadCategoryTemplate()
 	{
-		$app = JFactory::getApplication();
-
-		$params            = $app->getParams('com_redshop');
 		$category_template = (int) $this->getState('category_template');
 		$redTemplate       = new Redtemplate;
 
-		$selected_template = 0;
+		$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		$template_section  = "frontpage_category";
 
 		if ($this->_id)
@@ -626,10 +671,6 @@ class RedshopModelCategory extends RedshopModel
 			{
 				$selected_template = $this->_maincat->category_template;
 			}
-		}
-		else
-		{
-			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
 
 		$category_template_id = JRequest::getInt('category_template', $selected_template, '', 'int');
@@ -681,9 +722,9 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function getAllproductArrayListwithfirst($letter, $fieldid)
 	{
-		$endlimit = $this->getProductPerPage();
+		$endlimit = $this->getState('list.limit');
 
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = $this->getState('list.start');
 		$query      = $this->_buildfletterQuery($letter, $fieldid);
 
 		if (strstr($this->_template[0]->template_desc, "{pagination}"))
@@ -711,8 +752,8 @@ class RedshopModelCategory extends RedshopModel
 
 	public function getfletterPagination($letter, $fieldid)
 	{
-		$endlimit          = $this->getProductPerPage();
-		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
+		$endlimit          = $this->getState('list.limit');
+		$limitstart        = $this->getState('list.start');
 		$this->_pagination = new JPagination($this->getfletterTotal($letter, $fieldid), $limitstart, $endlimit);
 
 		return $this->_pagination;
