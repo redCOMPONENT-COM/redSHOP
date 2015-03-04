@@ -71,22 +71,6 @@ defined('_JEXEC') or die;
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_VAT_RATE_AFTER_DISCOUNT'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_VAT_RATE_AFTER_DISCOUNT_LBL'); ?>">
-		<label for="name">
-			<?php
-			echo JText::_('COM_REDSHOP_VAT_RATE_AFTER_DISCOUNT_LBL');
-			?></label></span></td>
-		<td><input type="text" name="vat_rate_after_discount"
-		           id="vat_rate_after_discount"
-		           value="<?php
-		           echo VAT_RATE_AFTER_DISCOUNT;
-		           ?>">
-		</td>
-	</tr>
-
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_COUPON_DURATION_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_COUPON_DURATION'); ?>">
 		<label for="name">
 			<?php
