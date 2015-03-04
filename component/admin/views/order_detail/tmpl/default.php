@@ -853,7 +853,7 @@ $session->set('cart', $cart); ?>
 			<tr align="left">
 				<td align="right" width="70%">
 					<strong>
-						<?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT'); ?>:
+						<?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT_LBL'); ?>:
 					</strong>
 				</td>
 				<td align="right" width="30%">
