@@ -82,7 +82,7 @@
                        key_field="st_value" value_field="st_title" default="S"
                        label="Capture Payment Status"
                        description="Select an capture status for capturing payment."></field>
-                <field name="extrafield_payment" type="extrafieldpayment" label="Select Extra Field"
+                <field name="extrafield_payment" type="extrafieldpayment" multiple="multiple" label="Select Extra Field"
                        description="Displays on checkout"/>
             </fieldset>
             <fieldset name="advanced">

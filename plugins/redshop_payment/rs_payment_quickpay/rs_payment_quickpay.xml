@@ -105,7 +105,7 @@
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </field>
-                <field name="extrafield_payment" type="extrafieldpayment" label="Select Extra Field"
+                <field name="extrafield_payment" type="extrafieldpayment" multiple="multiple" label="Select Extra Field"
                        description="Displays on checkout"/>
                 <field type="spacer"/>
             </fieldset>

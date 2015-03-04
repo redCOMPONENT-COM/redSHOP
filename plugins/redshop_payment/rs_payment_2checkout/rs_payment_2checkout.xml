@@ -101,6 +101,7 @@
 		<field
 		  name="extrafield_payment"
 		  type="extrafieldpayment"
+		  multiple="multiple"
 		  label="PLG_RS_PAYMENT_EXTRA_FIELD"
 		  description="PLG_RS_PAYMENT_EXTRA_FIELD_DESC"
 		/>
