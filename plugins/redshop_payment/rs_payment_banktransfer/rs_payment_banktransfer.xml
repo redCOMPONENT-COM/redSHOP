@@ -55,7 +55,7 @@
                 <field name="txtextra_info" type="extrainfo" default="Please enter your Extra Info"
                        label="Enter Extra Info"
                        description="Enter description for your extra info. You also can use HTML tags." filter="raw"/>
-                <field name="extrafield_payment" type="extrafieldpayment" label="Select Extra Field"
+                <field name="extrafield_payment" type="extrafieldpayment" multiple="multiple" label="Select Extra Field"
                        description="Displays on checkout"/>
             </fieldset>
         </fields>

@@ -78,7 +78,7 @@
                        label="PLG_RS_PAYMENT_SAGEPAY_CAPTURE_STATUS_LBL"
                        description="PLG_RS_PAYMENT_SAGEPAY_CAPTURE_STATUS_DESC">
                 </field>
-                <field name="extrafield_payment" type="extrafieldpayment" label="PLG_RS_PAYMENT_SAGEPAY_EXTRAFIELD_PAYMENT_LBL"
+                <field name="extrafield_payment" type="extrafieldpayment" multiple="multiple" label="PLG_RS_PAYMENT_SAGEPAY_EXTRAFIELD_PAYMENT_LBL"
                        description="PLG_RS_PAYMENT_SAGEPAY_EXTRAFIELD_PAYMENT_DESC"/>
                 <field type="spacer"/>
             </fieldset>
