@@ -78,10 +78,8 @@ class RedshopViewCategory extends RedshopView
 		$document = JFactory::getDocument();
 		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/redbox.js', false, true);
-
 		JHtml::script('com_redshop/attribute.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
-
 		JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 
 		$lists   = array();
@@ -360,27 +358,27 @@ class RedshopViewCategory extends RedshopView
 			);
 			$manufacturers = array_merge($temps, $manufacturers);
 			$lists['manufacturer'] = JHtml::_(
-												'select.genericlist',
-												$manufacturers,
-												'manufacturer_id',
-												'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
-												'manufacturer_id',
-												'manufacturer_name',
-												$manufacturerId
-											);
+				'select.genericlist',
+				$manufacturers,
+				'manufacturer_id',
+				'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
+				'manufacturer_id',
+				'manufacturer_name',
+				$manufacturerId
+			);
 		}
 
 		if (count($allCategoryTemplate) > 1)
 		{
 			$lists['category_template'] = JHtml::_(
-													'select.genericlist',
-													$allCategoryTemplate,
-													'category_template',
-													'class="inputbox" size="1" onchange="javascript:setSliderMinMaxForTemplate();" ' . $disabled . ' ',
-													'template_id',
-													'template_name',
-													$categoryTemplateId
-												);
+				'select.genericlist',
+				$allCategoryTemplate,
+				'category_template',
+				'class="inputbox" size="1" onchange="javascript:setSliderMinMaxForTemplate();" ' . $disabled . ' ',
+				'template_id',
+				'template_name',
+				$categoryTemplateId
+			);
 		}
 
 		$orderBySelect = $this->state->get('list.ordering') . ' ' . $this->state->get('list.direction');
