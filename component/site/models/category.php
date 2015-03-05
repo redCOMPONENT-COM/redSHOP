@@ -55,24 +55,19 @@ class RedshopModelCategory extends RedshopModel
 		$app = JFactory::getApplication();
 		$input = JFactory::getApplication()->input;
 		$params = $app->getParams('com_redshop');
-		$layout = $input->getCmd('layout', 'none');
+		$layout = $input->getCmd('layout', 'detail');
 		$print  = $input->getCmd('print', '');
 		$Id     = $input->getInt('cid', 0);
 
-		if (!$print)
+		if (!$print && !$Id)
 		{
-			if (!$Id && $layout != 'none')
-			{
-				$Id = (int) $params->get('cid');
-			}
+			$Id = (int) $params->get('cid');
 		}
 
 		// Different context depending on the view
 		if (empty($this->context))
 		{
-			$view = $input->getCmd('view', '');
-			$option = $input->getCmd('option', '');
-			$this->context = strtolower($option . '.' . $view . '.' . $this->getName() . '.' . $layout . '.' . $Id);
+			$this->context = strtolower('com_redshop.category.' . $this->getName() . '.' . $layout . '.' . $Id);
 		}
 
 		parent::__construct();
@@ -96,7 +91,7 @@ class RedshopModelCategory extends RedshopModel
 		$app = JFactory::getApplication();
 		$params = $app->getParams('com_redshop');
 		$selectedTemplate = DEFAULT_CATEGORYLIST_TEMPLATE;
-		$limitStartBefore = $app->input->get->getInt('limitstart', 0);
+		$layout = $app->input->getCmd('layout', 'detail');
 
 		if ($this->_id)
 		{
@@ -112,40 +107,41 @@ class RedshopModelCategory extends RedshopModel
 		$categoryTemplate = $app->getUserStateFromRequest($this->context . '.category_template', 'category_template', $selectedTemplate, 'int');
 		$this->setState('category_template', $categoryTemplate);
 
-		$manufacturerId = $this->getUserStateFromRequest($this->context . '.manufacturer_id', 'manufacturer_id', 0, 'int', true);
-		$this->setState('manufacturer_id', $manufacturerId);
-
-		if ($limitStartBefore != $app->input->getInt('limitstart', 0))
+		if ($_POST)
 		{
-			$uri     = JFactory::getURI();
-			$requestQuery = $uri->getQuery(true);
+			$manufacturerId = $app->input->post->getInt('manufacturer_id', 0);
 
-			if (isset($requestQuery['limitstart']))
+			if ($manufacturerId != $app->getUserState($this->context . '.manufacturer_id', $app->input->get->getInt('manufacturer_id', 0)))
 			{
-				unset($requestQuery['limitstart']);
+				$app->redirect(
+					JRoute::_(
+						'index.php?option=com_redshop&view=category&layout=' . $layout . '&cid=' . $this->_id . '&manufacturer_id=' . $manufacturerId
+						. '&Itemid=' . $app->input->getInt('Itemid', 0),
+						true
+					)
+				);
 			}
-
-			if (count($requestQuery))
-			{
-				$requestQuery = '?' . urldecode(http_build_query($requestQuery, '', '&'));
-			}
-			else
-			{
-				$requestQuery = '';
-			}
-
-			$app->redirect(
-				JRoute::_(
-					$uri->getScheme() . '://' . $uri->getHost() . $uri->getPath() . $requestQuery,
-					false
-				)
-			);
 		}
+		else
+		{
+			$manufacturerId = $app->input->getInt('manufacturer_id', 0);
+			$app->setUserState($this->context . '.manufacturer_id', $manufacturerId);
+		}
+
+		$this->setState('manufacturer_id', $manufacturerId);
 
 		// Get default ordering
 		$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		$editTimestamp = $params->get('editTimestamp', 0);
+		$userTimestamp = $app->getUserState($this->context . '.editTimestamp', 0);
 		list($ordering, $direction) = explode(' ', $orderBySelect);
 
+		if ($editTimestamp > $userTimestamp)
+		{
+			$app->setUserState($this->context . '.order_by', $orderBySelect);
+		}
+
+		$app->setUserState($this->context . '.editTimestamp', time());
 		$value = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
 		$orderingParts = explode(' ', $value);
 
@@ -190,8 +186,13 @@ class RedshopModelCategory extends RedshopModel
 		{
 			if ($this->_id)
 			{
+				$limit = 0;
 				$item = $app->getMenu()->getActive();
-				$limit = (int) $item->params->get('maxproduct', 0);
+
+				if ($item)
+				{
+					$limit = (int) $item->params->get('maxproduct', 0);
+				}
 
 				if (!$limit)
 				{
