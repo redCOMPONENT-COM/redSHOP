@@ -960,12 +960,9 @@ class rsUserhelper
 
 		$billingisshipping = "";
 
-		if (count($post) > 0)
+		if (isset($post['billisship']) && $post['billisship'] == 1)
 		{
-			if (isset($post['billisship']) && $post['billisship'] == 1)
-			{
-				$billingisshipping = "checked='checked'";
-			}
+			$billingisshipping = "checked='checked'";
 		}
 		elseif (OPTIONAL_SHIPPING_ADDRESS)
 		{
