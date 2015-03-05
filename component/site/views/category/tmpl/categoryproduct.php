@@ -523,17 +523,17 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				// Get cart tempalte.
 				$prddata_add = $producthelper->replaceCartTemplate(
-																	$product->product_id,
-																	$this->catid,
-																	0,
-																	0,
-																	$prddata_add,
-																	$isChilds,
-																	$userfieldArr,
-																	$totalatt,
-																	$totacc,
-																	$count_no_user_field
-																);
+					$product->product_id,
+					$this->catid,
+					0,
+					0,
+					$prddata_add,
+					$isChilds,
+					$userfieldArr,
+					$totalatt,
+					$totacc,
+					$count_no_user_field
+				);
 			}
 
 			$data_add = str_replace("{product_loop_start}", "", $data_add);
