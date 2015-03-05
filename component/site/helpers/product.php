@@ -10255,7 +10255,7 @@ class producthelper
 					}
 
 					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid='
-						. $related_product[$r]->product_id . '&Itemid=' . $pItemid);
+								. $related_product[$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);
 
 					if (strstr($related_template_data, "{relproduct_image_3}"))
 					{
@@ -10340,13 +10340,10 @@ class producthelper
 						}
 					}
 
-					$relmorelink           = JRoute::_('index.php?option=com_redshop&view=product&pid='
-						. $related_product [$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid='
-						. $pItemid);
-					$rmore                 = "<a href='" . $relmorelink . "' title='" . $related_product [$r]->product_name
+					$rmore                 = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name
 						. "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 					$related_template_data = str_replace("{read_more}", $rmore, $related_template_data);
-					$related_template_data = str_replace("{read_more_link}", $relmorelink, $related_template_data);
+					$related_template_data = str_replace("{read_more_link}", $rlink, $related_template_data);
 					/*
 					 *  related product Required Attribute start
 					 * 	this will parse only Required Attributes
