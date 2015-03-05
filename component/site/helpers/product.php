@@ -2817,12 +2817,13 @@ class producthelper
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
 		$helper = new redhelper;
+		$view = '';
 
 		if ($menuView != "")
 		{
 			if ($items = explode('&', $menuView))
 			{
-				$values['view'] = $items[0];
+				$view = $items[0];
 				unset($items[0]);
 
 				if (count($items) > 0)
@@ -2843,7 +2844,7 @@ class producthelper
 
 		if ($isRedshop)
 		{
-			$menuItems = $helper->getRedshopMenuItems();
+			$menuItems = $helper->getRedshopMenuItems($view);
 		}
 		else
 		{
@@ -2852,41 +2853,30 @@ class producthelper
 
 		foreach ($menuItems as $oneMenuItem)
 		{
-			$test = true;
-
-			foreach ($values as $key => $value)
+			if (!$helper->checkMenuQuery($oneMenuItem, $values))
 			{
-				if (!$helper->checkMenuQuery($oneMenuItem, array($key => $value)))
-				{
-					$test = false;
-					break;
-				}
+				continue;
 			}
 
-			if ($sectionName != '' && $test)
+			if ($sectionName != '')
 			{
 				if ($sectionId != 0)
 				{
 					if ($oneMenuItem->params->get($sectionName) != $sectionId)
 					{
-						$test = false;
-						break;
+						continue;
 					}
 				}
 				else
 				{
 					if ($oneMenuItem->params->get($sectionName, false) !== false)
 					{
-						$test = false;
-						break;
+						continue;
 					}
 				}
 			}
 
-			if ($test)
-			{
-				return $oneMenuItem;
-			}
+			return $oneMenuItem;
 		}
 
 		return null;

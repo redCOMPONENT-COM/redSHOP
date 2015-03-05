@@ -19,7 +19,7 @@ class redhelper
 
 	public $_isredCRM = null;
 
-	protected static $redshopMenuItems;
+	protected static $redshopMenuItems = array();
 
 	public function __construct()
 	{
@@ -80,16 +80,92 @@ class redhelper
 	/**
 	 * Get Redshop Menu Items
 	 *
+	 * @param   string  $view   View selection
+	 * @param   array   $query  Params for fileted more deeper
+	 *
 	 * @return array
 	 */
-	public function getRedshopMenuItems()
+	public function getRedshopMenuItems($view = '', $query = array())
 	{
-		if (!is_array(self::$redshopMenuItems))
+		if (!array_key_exists('all', self::$redshopMenuItems))
 		{
-			self::$redshopMenuItems = JFactory::getApplication()->getMenu()->getItems('component', 'com_redshop');
+			$allMenus = JFactory::getApplication()->getMenu()->getMenu();
+			self::$redshopMenuItems = array('all' => array(), 'view' => array(), 'query' => array());
+
+			foreach ($allMenus as $key => $oneItem)
+			{
+				if (!is_object($oneItem))
+				{
+					continue;
+				}
+
+				if ($oneItem->component == 'com_redshop')
+				{
+					self::$redshopMenuItems['all'][] = &$allMenus[$key];
+
+					if (isset($oneItem->query['view']))
+					{
+						$itemView = $oneItem->query['view'];
+
+						if (!isset(self::$redshopMenuItems['view'][$itemView]))
+						{
+							self::$redshopMenuItems['view'][$itemView] = array();
+							self::$redshopMenuItems['query'][$itemView] = array();
+						}
+
+						self::$redshopMenuItems['view'][$itemView][] = &$allMenus[$key];
+
+						switch ($itemView)
+						{
+							case 'category':
+								$index = array();
+
+								if (isset($oneItem->query['layout']))
+								{
+									$index[] = $oneItem->query['layout'];
+								}
+
+								if (isset($oneItem->query['cid']))
+								{
+									$index[] = $oneItem->query['cid'];
+								}
+
+								if (count($index) > 0)
+								{
+									$index = implode('.', $index);
+
+									if (!isset(self::$redshopMenuItems['query'][$itemView][$index]))
+									{
+										self::$redshopMenuItems['query'][$itemView][$index] = array();
+									}
+
+									self::$redshopMenuItems['query'][$itemView][$index][] = &$allMenus[$key];
+								}
+							break;
+						}
+					}
+				}
+			}
 		}
 
-		return self::$redshopMenuItems;
+		if ($view)
+		{
+			if (array_key_exists($view, self::$redshopMenuItems['view']))
+			{
+				$index = implode('.', $query);
+
+				if (count($query) > 0 && isset(self::$redshopMenuItems['query'][$view][$index]))
+				{
+					return self::$redshopMenuItems['query'][$view][$index];
+				}
+
+				return self::$redshopMenuItems['view'][$view];
+			}
+
+			return array();
+		}
+
+		return self::$redshopMenuItems['all'];
 	}
 
 	/**
@@ -196,7 +272,7 @@ class redhelper
 	 *
 	 * @return bool
 	 */
-	public function checkMenuQuery($oneMenuItem, $queryItems)
+	public function checkMenuQuery($oneMenuItem, $queryItems = array())
 	{
 		foreach ($queryItems as $key => $value)
 		{
@@ -223,12 +299,11 @@ class redhelper
 	{
 		if ($categoryId)
 		{
-			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+			$result = $this->getCategoryItemid($categoryId);
+
+			if ($result != null)
 			{
-				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId)))
-				{
-					return $oneMenuItem->id;
-				}
+				return $result;
 			}
 		}
 
@@ -241,13 +316,15 @@ class redhelper
 				->where('product_id = ' . (int) $productId);
 			$db->setQuery($query);
 
-			if ($categories = $db->loadColumn())
+			if ($productCategories = $db->loadColumn())
 			{
-				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+				foreach ($productCategories as $oneCategory)
 				{
-					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categories)))
+					$result = $this->getCategoryItemid($oneCategory);
+
+					if ($result != null)
 					{
-						return $oneMenuItem->id;
+						return $result;
 					}
 				}
 			}
@@ -258,25 +335,25 @@ class redhelper
 
 		if ($option != 'com_redshop')
 		{
-			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+			$result = $this->getCategoryItemid();
+
+			if ($result != null)
 			{
-				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category')))
-				{
-					return $oneMenuItem->id;
-				}
+				return $result;
 			}
 
-			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+			$menuItems = $this->getRedshopMenuItems();
+
+			foreach ($menuItems as $oneMenuItem)
 			{
-				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop')))
-				{
-					return $oneMenuItem->id;
-				}
+				return $oneMenuItem->id;
 			}
 		}
 
 		return $input->getInt('Itemid', 0);
 	}
+
+	private static $categoryItemIds = array();
 
 	/**
 	 * Get Category Itemid
@@ -287,26 +364,42 @@ class redhelper
 	 */
 	public function getCategoryItemid($categoryId = 0)
 	{
+		if (array_key_exists($categoryId, self::$categoryItemIds))
+		{
+			return self::$categoryItemIds[$categoryId];
+		}
+
 		if ($categoryId)
 		{
-			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			$categoryItems = $this->getRedshopMenuItems('category', array('layout' => 'detail', 'cid' => (int) $categoryId));
+
+			foreach ($categoryItems as $oneMenuItem)
 			{
-				if (self::checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $categoryId)))
-				{
-					return $oneMenuItem->id;
-				}
+				self::$categoryItemIds[$categoryId] = $oneMenuItem->id;
+
+				return $oneMenuItem->id;
+			}
+
+			if ($category = RedshopHelperCategory::getCategoryById($categoryId))
+			{
+				self::$categoryItemIds[$category->category_parent_id] = $this->getCategoryItemid($category->category_parent_id);
+
+				return self::$categoryItemIds[$category->category_parent_id];
 			}
 		}
 		else
 		{
-			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			$categoryItems = $this->getRedshopMenuItems('category');
+
+			foreach ($categoryItems as $oneMenuItem)
 			{
-				if (self::checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category')))
-				{
-					return $oneMenuItem->id;
-				}
+				self::$categoryItemIds[$categoryId] = $oneMenuItem->id;
+
+				return $oneMenuItem->id;
 			}
 		}
+
+		self::$categoryItemIds[$categoryId] = null;
 
 		return null;
 	}

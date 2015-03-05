@@ -13,6 +13,19 @@ JLoader::import('joomla.html.parameter');
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperProduct');
 
+function initValue (&$query, $value)
+{
+	$result = null;
+
+	if (isset($query[$value]))
+	{
+		$result = $query[$value];
+		unset($query[$value]);
+	}
+
+	return $result;
+}
+
 /**
  *    Build URL routes for redSHOP
  *
@@ -22,242 +35,98 @@ JLoader::load('RedshopHelperProduct');
  */
 function redshopBuildRoute(&$query)
 {
-	$view            = '';
-	$layout          = '';
-	$pid             = 0;
-	$cid             = 0;
-	$oid             = '';
-	$order_id        = '';
-	$manufacturer_id = '';
-
 	$segments = array();
 	$db       = JFactory::getDbo();
 	$app      = JFactory::getApplication();
 	$menu     = $app->getMenu();
+	$excludeQuery = array();
 
+	// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 	if (empty($query['Itemid']))
 	{
 		$menuItem = $menu->getActive();
+		$menuItemGiven = false;
 	}
 	else
 	{
 		$menuItem = $menu->getItem($query['Itemid']);
+		$menuItemGiven = true;
 	}
 
-	if (is_object($menuItem))
+	// Check again
+	if ($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_redshop')
 	{
-		$Itemid = $menuItem->id;
+		$menuItemGiven = false;
+		unset($query['Itemid']);
+	}
+
+	if (isset($query['view']))
+	{
+		$view = $query['view'];
 	}
 	else
 	{
-		$Itemid = 101;
+		// We need to have a view in the query or it is an invalid URL
+		return $segments;
+	}
+
+	if ($menuItem instanceof stdClass)
+	{
+		$countValues = count($query);
+
+		if (isset($query['Itemid']))
+		{
+			$countValues --;
+		}
+
+		foreach ($menuItem->query as $key => $value)
+		{
+			if ($key != 'option' && isset($query[$key]) && $query[$key] == $value)
+			{
+				$countValues --;
+				$excludeQuery[$key] = $query[$key];
+				unset($query[$key]);
+			}
+			elseif ($key == 'option')
+			{
+				$countValues --;
+			}
+		}
+
+		if (!$countValues)
+		{
+			return $segments;
+		}
 	}
 
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 	JLoader::load('RedshopHelperAdminCategory');
 
 	$product_category = new product_category;
-	$infoid           = '';
-	$task             = '';
-
-	$view = null;
-
-	if (isset($query['view']))
-	{
-		$view = $query['view'];
-		unset($query['view']);
-	}
-
-	$pid = null;
-
-	if (isset($query['pid']))
-	{
-		$pid = $query['pid'];
-		unset($query['pid']);
-	}
-
-	$cid = null;
-
-	if (isset($query['cid']))
-	{
-		$cid = $query['cid'];
-		unset($query['cid']);
-	}
-
-	$limit = null;
-
-	if (isset($query['limit']))
-	{
-		$limit = $query['limit'];
-	}
-
-	$limitstart = null;
-
-	if (isset($query['limitstart']))
-	{
-		$limitstart = $query['limitstart'];
-	}
-
-	$start = null;
-
-	if (isset($query['start']))
-	{
-		$start = $query['start'];
-	}
-
-	$order_by = null;
-
-	if (isset($query['order_by']))
-	{
-		$order_by = $query['order_by'];
-		unset($query['order_by']);
-	}
-
-	$texpricemin = null;
-
-	if (isset($query['texpricemin']))
-	{
-		$texpricemin = $query['texpricemin'];
-		unset($query['texpricemin']);
-	}
-
-	$texpricemax = null;
-
-	if (isset($query['texpricemax']))
-	{
-		$texpricemax = $query['texpricemax'];
-		unset($query['texpricemax']);
-	}
-
-	$manufacturer_id = null;
-
-	if (isset($query['manufacturer_id']))
-	{
-		$manufacturer_id = $query['manufacturer_id'];
-		unset($query['manufacturer_id']);
-	}
-
-	$manufacture_id = null;
-
-	if (isset($query['manufacture_id']))
-	{
-		$manufacture_id = $query['manufacture_id'];
-		unset($query['manufacture_id']);
-	}
-
-	$category_id = null;
-
-	if (isset($query['category_id']))
-	{
-		$category_id = $query['category_id'];
-		unset($query['category_id']);
-	}
-
-	$category_template = null;
-
-	if (isset($query['category_template']))
-	{
-		$category_template = $query['category_template'];
-		unset($query['category_template']);
-	}
-
-	$gid = null;
-
-	if (isset($query['gid']))
-	{
-		$gid = $query['gid'];
-		unset($query['gid']);
-	}
-
-	$layout = null;
-
-	if (isset($query['layout']))
-	{
-		$layout = $query['layout'];
-		unset($query['layout']);
-	}
-
-	$mid = null;
-
-	if (isset($query['mid']))
-	{
-		$mid = $query['mid'];
-		unset($query['mid']);
-	}
-
-	$task = null;
-
-	if (isset($query['task']))
-	{
-		$task = $query['task'];
-		unset($query['task']);
-	}
-
-	$infoid = null;
-
-	if (isset($query['infoid']))
-	{
-		$infoid = $query['infoid'];
-		unset($query['infoid']);
-	}
-
-	$oid = null;
-
-	if (isset($query['oid']))
-	{
-		$oid = $query['oid'];
-		unset($query['oid']);
-	}
-
-	$order_id = null;
-
-	if (isset($query['order_id']))
-	{
-		$order_id = $query['order_id'];
-		unset($query['order_id']);
-	}
-
-	$quoid = null;
-
-	if (isset($query['quoid']))
-	{
-		$quoid = $query['quoid'];
-		unset($query['quoid']);
-	}
-
-	// Tag id
-	$tagid = null;
-
-	if (isset($query['tagid']))
-	{
-		$tagid = $query['tagid'];
-		unset($query['tagid']);
-	}
-
-	$edit = null;
-
-	if (isset($query['edit']))
-	{
-		$edit = $query['edit'];
-		unset($query['edit']);
-	}
-
-	// Remove flag
-	$remove = null;
-
-	if (isset($query['remove']))
-	{
-		$remove = $query['remove'];
-		unset($query['remove']);
-	}
-
-	$wishlist_id = null;
-
-	if (isset($query['wishlist_id']))
-	{
-		$wishlist_id = $query['wishlist_id'];
-		unset($query['wishlist_id']);
-	}
+	$pid = initValue($query, 'pid');
+	$cid = initValue($query, 'cid');
+	$limit = initValue($query, 'limit');
+	$limitstart = initValue($query, 'pilimitstartd');
+	$start = initValue($query, 'pistartd');
+	$order_by = initValue($query, 'order_by');
+	$texpricemin = initValue($query, 'texpricemin');
+	$texpricemax = initValue($query, 'texpricemax');
+	$manufacturer_id = initValue($query, 'manufacturer_id');
+	$manufacture_id = initValue($query, 'manufacture_id');
+	$category_id = initValue($query, 'category_id');
+	$category_template = initValue($query, 'category_template');
+	$gid = initValue($query, 'gid');
+	$layout = initValue($query, 'layout');
+	$mid = initValue($query, 'mid');
+	$task = initValue($query, 'task');
+	$infoid = initValue($query, 'infoid');
+	$oid = initValue($query, 'oid');
+	$order_id = initValue($query, 'order_id');
+	$quoid = initValue($query, 'quoid');
+	$tagid = initValue($query, 'tagid');
+	$edit = initValue($query, 'edit');
+	$remove = initValue($query, 'remove');
+	$wishlist_id = initValue($query, 'wishlist_id');
 
 	if (is_object($menuItem))
 	{
@@ -275,7 +144,7 @@ function redshopBuildRoute(&$query)
 
 	switch ($view)
 	{
-		case 'wishlist':
+		/*case 'wishlist':
 			$segments[] = 'wishlist';
 
 			if ($task == 'viewwishlist')
@@ -417,18 +286,24 @@ function redshopBuildRoute(&$query)
 				$segments[] = $task;
 			}
 			break;
-
+*/
 		case 'category':
 
 			if (!ENABLE_SEF_NUMBER_NAME)
 			{
-				if ($cid > 0)
+				if ($cid != null)
 				{
 					$segments[] = $cid;
 				}
+				elseif ($manufacturer_id && array_key_exists('cid', $excludeQuery))
+				{
+					$segments[] = $excludeQuery['cid'];
+				}
 
-				$segments[] = $Itemid;
-				$segments[] = $manufacturer_id;
+				if ($manufacturer_id)
+				{
+					$segments[] = $manufacturer_id;
+				}
 			}
 
 			if ($cid && ($url = RedshopHelperCategory::getCategoryById($cid)))
@@ -469,18 +344,23 @@ function redshopBuildRoute(&$query)
 					}
 				}
 			}
-			else
+			/*elseif ($cid && ($url = RedshopHelperCategory::getCategoryById($cid)))
+			{
+				$segments[] = JFilterOutput::stringURLSafe($url->category_name);
+			}*/
+
+			/*else
 			{
 				if ($menuItem->title != '')
 				{
 					$segments[] = JFilterOutput::stringURLSafe($menuItem->title);
 				}
-			}
+			}*/
 
-			if ($layout != 'detail' && $layout != '')
+			/*if ($layout != 'detail' && $layout != '')
 			{
 				$segments[] = $layout;
-			}
+			}*/
 
 			break;
 
@@ -503,8 +383,6 @@ function redshopBuildRoute(&$query)
 				{
 					$segments[] = $pid;
 				}
-
-				$segments[] = $Itemid;
 			}
 
 			$segments[] = $task;
@@ -585,7 +463,7 @@ function redshopBuildRoute(&$query)
 			}
 
 			break;
-
+/*
 		case 'manufacturers':
 
 			if (!$mid)
@@ -696,7 +574,7 @@ function redshopBuildRoute(&$query)
 		case 'quotation_detail':
 			$segments[] = 'quotation_detail';
 			$segments[] = $quoid;
-			break;
+			break;*/
 	}
 
 	return $segments;
@@ -937,29 +815,27 @@ function redshopParseRoute($segments)
 					else
 					{
 						$vars['view'] = "category";
-
-						$menu           = JFactory::getApplication()->getMenu();
-						$item           = $menu->getActive();
+						$menu = JFactory::getApplication()->getMenu();
+						$item = $menu->getActive();
 
 						if (!empty($item))
 						{
 							$vars['Itemid'] = $item->id;
-							$item_id        = $item->id;
+							$vars = $vars + $item->query;
 						}
 						else
 						{
 							$vars['Itemid'] = "";
-							$item_id        = "";
 						}
 
-						if (isset($segments[0]) && $segments[0] != $item_id)
+						if (isset($segments[1]))
+						{
+							$vars['manufacturer_id'] = $segments[1];
+						}
+
+						if (isset($segments[0]))
 						{
 							$vars['cid'] = $segments[0];
-						}
-
-						if (isset($segments[2]))
-						{
-							$vars['manufacturer_id'] = $segments[2];
 						}
 					}
 				}
@@ -1009,7 +885,7 @@ function redshopParseRoute($segments)
 
 						if (isset($segments[1]))
 						{
-							$vars['Itemid'] = $segments[1];
+							//$vars['Itemid'] = $segments[1];
 						}
 
 						if (isset($segments[$second_last]))
