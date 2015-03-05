@@ -1461,7 +1461,7 @@ if (count($ajaxdetail_templatedata) > 0)
 // Checking if user logged in then only enabling review button
 $reviewform = "";
 
-if ($user->id)
+if (($user->id && RATING_REVIEW_LOGIN_REQUIRED) || !RATING_REVIEW_LOGIN_REQUIRED)
 {
 	// Write Review link with the products
 	if (strstr($template_desc, "{form_rating_without_lightbox}"))

@@ -11,19 +11,35 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperProduct');
 
-class RedshopViewProduct_rating extends RedshopView
+/**
+ * Class RedshopViewProduct_rating
+ *
+ * @since  1.5
+ */
+class RedshopViewProduct_Rating extends RedshopView
 {
-	function display ($tpl = null)
+	protected $state;
+
+	protected $form;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
+	public function display ($tpl = null)
 	{
+		$this->state = $this->get('State');
+		$this->form = $this->get('Form');
+
 		$app = JFactory::getApplication();
-		$producthelper = new producthelper;
-		$pathway       = $app->getPathway();
-		$document      = JFactory::getDocument();
 
 		$user = JFactory::getUser();
 
 		// Preform security checks
-		if ($user->id == 0)
+		if (!$user->id && RATING_REVIEW_LOGIN_REQUIRED)
 		{
 			echo JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW');
 
@@ -62,15 +78,10 @@ class RedshopViewProduct_rating extends RedshopView
 		}
 	}
 
-		$productinfo = $producthelper->getProductById($product_id);
 
-		$this->user = $user;
 		$this->userinfo = $userinfo;
-		$this->product_id = $product_id;
-		$this->rate = $rate;
-		$this->category_id = $category_id;
-		$this->productinfo = $productinfo;
 		$this->params = $params;
+		$this->rate = $rate;
 
 		parent::display($tpl);
 	}
