@@ -808,27 +808,27 @@ $session->set('cart', $cart); ?>
 				$special_discount_amount = $this->detail->special_discount_amount;
 				$vatOnDiscount           = false;
 
-				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && (float) VAT_RATE_AFTER_DISCOUNT
 					&& (int) $this->detail->order_discount != 0 && (int) $order_tax
 					&& !empty($this->detail->order_discount))
 				{
 					$vatOnDiscount = true;
-					$Discountvat   = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+					$Discountvat   = ((float) VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
 					$totaldiscount = $totaldiscount - $Discountvat;
 				}
 
-				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && (float) VAT_RATE_AFTER_DISCOUNT
 					&& (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
 					&& !empty($this->detail->special_discount_amount))
 				{
 					$vatOnDiscount           = true;
-					$Discountvat             = (VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+					$Discountvat             = ((float) VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
 					$special_discount_amount = $special_discount_amount - $Discountvat;
 				}
 
 				if ($vatOnDiscount)
 				{
-					$order_tax = VAT_RATE_AFTER_DISCOUNT * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
+					$order_tax = (float) VAT_RATE_AFTER_DISCOUNT * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
 				}
 				?>
 				<td align="right" width="30%">
@@ -853,7 +853,7 @@ $session->set('cart', $cart); ?>
 			<tr align="left">
 				<td align="right" width="70%">
 					<strong>
-						<?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT'); ?>:
+						<?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT_LBL'); ?>:
 					</strong>
 				</td>
 				<td align="right" width="30%">

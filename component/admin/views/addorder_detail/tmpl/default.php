@@ -674,21 +674,9 @@ function validateUserDetail() {
 									<div id="divTax"></div>
 									<input name="order_tax" id="order_tax" type="hidden" value="0"/></td>
 							</tr>
-							<?php /*?><tr align="left">
-								<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL' ); ?>:</strong></td>
-								<td align="right" width="30%"><?php echo $producthelper->getProductFormattedPrice($this->detail->payment_discount);//CURRENCY_SYMBOL."&nbsp;&nbsp;".$this->detail->payment_discount; ?></td>
-							</tr>
-							<tr align="left">
-								<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT' ); ?>:</strong></td>
-								<td align="right" width="30%"></td>
-							</tr>
-							<tr align="left">
-								<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_SPECIAL_DISCOUNT' ); ?>:</strong></td>
-								<td align="right" width="30%"></td>
-							</tr><?php */?>
 							<tr align="left">
 								<td align="right" width="70%">
-									<strong><?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT'); ?>:</strong></td>
+									<strong><?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT_LBL'); ?>:</strong></td>
 								<td align="right" width="30%">
 									<div id="divUpdateDiscount"></div>
 									<input name="update_discount" id="update_discount" size="5" type="text" value="0"/>
