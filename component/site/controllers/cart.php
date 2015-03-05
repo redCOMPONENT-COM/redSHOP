@@ -437,9 +437,8 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function empty_cart()
 	{
-		$Itemid    = JRequest::getInt('Itemid');
 		$redhelper = new redhelper;
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = JRequest::getInt('Itemid', $redhelper->getCartItemid());
 		$model     = $this->getModel('cart');
 
 		// Call empty_cart method of model to remove all products from cart
@@ -464,9 +463,8 @@ class RedshopControllerCart extends RedshopController
 	{
 		$post        = JRequest::get('post');
 		$cartElement = $post['cart_index'];
-		$Itemid      = JRequest::getInt('Itemid');
 		$redhelper   = new redhelper;
-		$Itemid      = $redhelper->getCartItemid();
+		$Itemid      = JRequest::getInt('Itemid', $redhelper->getCartItemid());
 		$model       = $this->getModel('cart');
 
 		$model->delete($cartElement);
