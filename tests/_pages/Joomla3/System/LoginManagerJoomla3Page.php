@@ -23,4 +23,8 @@ class LoginManagerJoomla3Page
 	public static $password = "passwd";
 
 	public static $loginSuccessCheck = "//a//span[text() = 'Category Manager']";
+
+	public static $logoutUserToggleButton = "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']";
+
+	public static $logoutLink = "//a[text() = 'Logout']";
 }
