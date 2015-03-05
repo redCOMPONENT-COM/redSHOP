@@ -8,12 +8,14 @@
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>Featured Product Module for redSHOP</description>
+	<description>MOD_REDFEATUREDPRODUCT_DESC</description>
 	<files>
 		<filename module="mod_redfeaturedproduct">mod_redfeaturedproduct.php</filename>
 		<filename>index.html</filename>
+		<filename>helper.php</filename>
 		<folder module="mod_redfeaturedproduct">images</folder>
 		<folder module="mod_redfeaturedproduct">css</folder>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.ini</language>
@@ -30,34 +32,34 @@
 					name="pretext"
 					type="textarea"
 					default=""
-					label="COM_REDSHOP_PRETEXT_LBL"
-					description="COM_REDSHOP_PRETEXT"
+					label="MOD_REDFEATUREDPRODUCT_PRETEXT_LBL"
+					description="MOD_REDFEATUREDPRODUCT_PRETEXT"
 				/>
 				<field
 					name="NumberOfProducts"
 					type="text"
 					default="5"
-					label="COM_REDSHOP_NUMBER_OF_PRODUCT_LBL"
-					description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"
+					label="MOD_REDFEATUREDPRODUCT_NUMBER_OF_PRODUCT_LBL"
+					description="MOD_REDFEATUREDPRODUCT_NUMBER_OF_PRODUCT_DESC"
 				/>
 				<field
 					name="ScrollSortMethod"
 					type="radio"
 					default="random"
 					class="btn-group"
-					label="COM_REDSHOP_SCROLL_SORT_METHOD_LBL"
-					description="COM_REDSHOP_SCROLL_SORT_METHOD_DESC"
+					label="MOD_REDFEATUREDPRODUCT_SCROLL_SORT_METHOD_LBL"
+					description="MOD_REDFEATUREDPRODUCT_SCROLL_SORT_METHOD_DESC"
 				>
-					<option value="newest">COM_REDSHOP_NEWEST</option>
-					<option value="oldest">COM_REDSHOP_OLDEST</option>
-					<option value="random">COM_REDSHOP_RANDOM</option>
+					<option value="newest">MOD_REDFEATUREDPRODUCT_NEWEST</option>
+					<option value="oldest">MOD_REDFEATUREDPRODUCT_OLDEST</option>
+					<option value="random">MOD_REDFEATUREDPRODUCT_RANDOM</option>
 				</field>
 				<field
 					name="show_product_name"
 					type="radio"
 					default="1"
-					label="COM_REDSHOP_SHOW_PRODUCT_NAME_LBL"
-					description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC"
+					label="MOD_REDFEATUREDPRODUCT_SHOW_PRODUCT_NAME_LBL"
+					description="MOD_REDFEATUREDPRODUCT_SHOW_PRODUCT_NAME_DESC"
 					class="btn-group btn-group-yesno"
 				>
 					<option value="1">JYES</option>
@@ -67,8 +69,8 @@
 					name="show_addtocart"
 					type="radio"
 					default="1"
-					label="COM_REDSHOP_SHOW_ADD_TO_CART_LBL"
-					description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC"
+					label="MOD_REDFEATUREDPRODUCT_SHOW_ADD_TO_CART_LBL"
+					description="MOD_REDFEATUREDPRODUCT_SHOW_ADD_TO_CART_DESC"
 					class="btn-group btn-group-yesno"
 				>
 					<option value="1">JYES</option>
@@ -78,8 +80,8 @@
 					name="show_price"
 					type="radio"
 					default="1"
-					label="COM_REDSHOP_SHOW_PRICE_LBL"
-					description="COM_REDSHOP_SHOW_PRICE_DESC"
+					label="MOD_REDFEATUREDPRODUCT_SHOW_PRICE_LBL"
+					description="MOD_REDFEATUREDPRODUCT_SHOW_PRICE_DESC"
 					class="btn-group btn-group-yesno"
 				>
 					<option value="1">JYES</option>
@@ -89,8 +91,8 @@
 					name="show_vatprice"
 					type="radio"
 					default="1"
-					label="COM_REDSHOP_SHOW_VATPRICE_LBL"
-					description="COM_REDSHOP_SHOW_VATPRICE_DESC"
+					label="MOD_REDFEATUREDPRODUCT_SHOW_VATPRICE_LBL"
+					description="MOD_REDFEATUREDPRODUCT_SHOW_VATPRICE_DESC"
 					class="btn-group btn-group-yesno"
 				>
 					<option value="1">JYES</option>
@@ -100,32 +102,32 @@
 					name="thumbwidth"
 					type="text"
 					size="10"
-					label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
-					description="COM_REDSHOP_THUMB_IMAGE_WIDTH"
+					label="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_WIDTH"
+					description="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_WIDTH"
 					default="100"
 				/>
 				<field
 					name="thumbheight"
 					type="text"
 					size="10"
-					label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
-					description="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
+					label="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_HEIGHT"
+					description="MOD_REDFEATUREDPRODUCT_THUMB_IMAGE_HEIGHT"
 					default="100"
 				/>
 				<field
 					name="scrollerheight"
 					type="text"
 					size="10"
-					label="COM_REDSHOP_SCROLLER_HEIGHT"
-					description="COM_REDSHOP_SCROLLER_HEIGHT"
+					label="MOD_REDFEATUREDPRODUCT_SCROLLER_HEIGHT"
+					description="MOD_REDFEATUREDPRODUCT_SCROLLER_HEIGHT"
 					default="200"
 				/>
 				<field
 					name="scrollerwidth"
 					type="text"
 					size="10"
-					label="COM_REDSHOP_SCROLLER_WIDTH"
-					description="COM_REDSHOP_SCROLLER_WIDTH"
+					label="MOD_REDFEATUREDPRODUCT_SCROLLER_WIDTH"
+					description="MOD_REDFEATUREDPRODUCT_SCROLLER_WIDTH"
 					default="700"
 				/>
 
@@ -133,16 +135,16 @@
 					name="product_title_max_chars"
 					type="text"
 					size="10"
-					label="COM_REDSHOP_PRODUCT_TITLE_MAX_CHARS"
-					description="COM_REDSHOP_PRODUCT_TITLE_MAX_CHARS"
+					label="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_MAX_CHARS"
+					description="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_MAX_CHARS"
 					default="20"
 				/>
 				<field
 					name="product_title_end_suffix"
 					type="text"
 					size="10"
-					label="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX"
-					description="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX"
+					label="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_END_SUFFIX"
+					description="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_END_SUFFIX"
 					default="...."
 				/>
 				<field
@@ -150,8 +152,8 @@
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT"
-					description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
+					label="MOD_REDFEATUREDPRODUCT_SHOW_DISCOUNT_PRICE_LAYOUT"
+					description="MOD_REDFEATUREDPRODUCT_SHOW_DISCOUNT_PRICE_LAYOUT">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -174,8 +176,8 @@
 					name="class_sfx"
 					type="text"
 					default=""
-					label="COM_REDSHOP_MENU_CLASS_SFX"
-					description="COM_REDSHOP_MENU_CLASS_SFX_DESC"
+					label="MOD_REDFEATUREDPRODUCT_MENU_CLASS_SFX"
+					description="MOD_REDFEATUREDPRODUCT_MENU_CLASS_SFX_DESC"
 				/>
 			</fieldset>
 		</fields>
