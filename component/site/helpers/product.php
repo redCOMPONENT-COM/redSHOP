@@ -1953,9 +1953,9 @@ class producthelper
 					$discount_amount = $discount->discount_amount;
 				}
 
-				if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+				if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 				{
-					$discountVAT = $discount_amount * VAT_RATE_AFTER_DISCOUNT;
+					$discountVAT = $discount_amount * (float) VAT_RATE_AFTER_DISCOUNT;
 				}
 
 				$cart['discount_tax'] = $discountVAT;
