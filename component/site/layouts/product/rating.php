@@ -9,18 +9,23 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * $displayData extract
+ *
+ * @param   object  $form  A JForm object
+ */
+extract($displayData);
+
 $app = JFactory::getApplication();
 $Itemid = $app->input->getInt('Itemid', 0);
 $product_id = $app->input->getInt('product_id', 0);
 $category_id = $app->input->getInt('category_id', 0);
-$rate = $app->input->getInt('rate', 0);
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 JHtml::_('redshopjquery.radiobutton');
 
 $user = JFactory::getUser();
-$form = $displayData['form'];
 
 if ($user->id)
 {
@@ -34,34 +39,6 @@ if ($user->id)
 	$form->setValue('username', null, $form->getValue('username', null, $user->name));
 }
 ?>
-<script type="text/javascript" language="javascript">
-	function validate() {
-		var form = document.adminForm;
-		var flag = 0;
-
-		var selection = document.adminForm.user_rating;
-
-		for (i = 0; i < selection.length; i++) {
-			if (selection[i].checked == true) {
-				flag = 1;
-			}
-		}
-
-		if (flag == 0) {
-			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT'); ?>');
-			return false;
-		}
-		else if (form.comment.value == "") {
-			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT'); ?>');
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
-	}
-</script>
 <script type="text/javascript" language="javascript">
 	Joomla.submitbutton = function (task) {
 		var productRatingForm = document.getElementById('productRatingForm');
@@ -97,15 +74,25 @@ if ($user->id)
 			<td valign="top" align="left">
 				<?php echo $form->getLabel('username'); ?>
 			</td>
-			<td colspan="8">
+			<td>
 				<?php echo $form->getInput('username'); ?>
 			</td>
 		</tr>
+		<?php if ($user->guest): ?>
+			<tr>
+				<td valign="top" align="left">
+					<?php echo $form->getLabel('email'); ?>
+				</td>
+				<td>
+					<?php echo $form->getInput('email'); ?>
+				</td>
+			</tr>
+		<?php endif; ?>
 		<tr>
 			<td valign="top" align="left">
 				<?php echo $form->getLabel('title'); ?>
 			</td>
-			<td colspan="8">
+			<td>
 				<?php echo $form->getInput('title'); ?>
 			</td>
 		</tr>
@@ -113,7 +100,7 @@ if ($user->id)
 			<td valign="top" align="left">
 				<?php echo $form->getLabel('comment'); ?>
 			</td>
-			<td colspan="8">
+			<td>
 				<?php echo $form->getInput('comment'); ?>
 			</td>
 		</tr>
@@ -121,7 +108,7 @@ if ($user->id)
 			<tr>
 				<td>
 					<label for="jform_security_code" id="jform_security_code-lbl" class="required">
-						<?php JText::_('COM_REDSHOP_CAPTCHA'); ?><span class="star">&nbsp;*</span>
+						<?php echo JText::_('COM_REDSHOP_CAPTCHA'); ?><span class="star">&nbsp;*</span>
 					</label>
 				</td>
 				<td>
@@ -138,10 +125,10 @@ if ($user->id)
 		<?php endif; ?>
 		<tr>
 			<td></td>
-			<td colspan="8">
+			<td>
 				<input type="submit" name="submit" class="btn validate"
 				   value="<?php echo JText::_('COM_REDSHOP_SEND_REVIEW'); ?>"
-				   onclick="Joomla.submitbutton('product_rating.save')">
+				   onclick="Joomla.submitbutton('product_rating.submit')">
 			</td>
 		</tr>
 		<tr>
@@ -151,10 +138,6 @@ if ($user->id)
 	<input type="hidden" name="task" id="task" value="save"/>
 	<input type="hidden" name="product_id" value="<?php echo $product_id ?>"/>
 	<input type="hidden" name="category_id" value="<?php echo $category_id ?>"/>
-	<input type="hidden" name="userid" value="<?php echo $user->id ?>"/>
-	<input type="hidden" name="published" value="0"/>
-	<input type="hidden" name="rate" value="<?php echo $rate ?>"/>
-	<input type="hidden" name="time" value="<?php echo time() ?>"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>

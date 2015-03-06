@@ -28,11 +28,44 @@ class rsUserhelper
 
 	protected static $userShopperGroupData = array();
 
+	protected static $userInfo = array();
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_session      = JFactory::getSession();
 		$this->_db           = JFactory::getDbo();
+	}
+
+	/**
+	 * Get RedSHOP User Info
+	 *
+	 * @param   int     $joomlaUserId  Joomla user id
+	 * @param   string  $addressType   Type user address BT or ST
+	 *
+	 * @return mixed
+	 */
+	public function getRedSHOPUserInfo($joomlaUserId = 0, $addressType = 'BT')
+	{
+		if (!$joomlaUserId)
+		{
+			$joomlaUserId = JFactory::getUser()->get('id');
+		}
+
+		$index = $joomlaUserId . '.' . $addressType;
+
+		if (!isset(self::$userInfo[$index]))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('firstname, lastname')
+				->from($db->qn('#__redshop_users_info', 'ui'))
+				->where('ui.user_id = ' . (int) $joomlaUserId)
+				->where('ui.address_type = ' . $db->q(strtoupper($addressType)));
+			self::$userInfo[$index] = $db->setQuery($query)->loadObject();
+		}
+
+		return self::$userInfo[$index];
 	}
 
 	/**

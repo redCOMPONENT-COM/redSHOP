@@ -33,19 +33,20 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		$data = $app->input->post->get('jform', array(), 'array');
 		$model = $this->getModel('product_rating');
 
-		$productId   = $app->input->getInt('pid', 0);
+		$productId   = $app->input->getInt('product_id', 0);
 		$Itemid      = $app->input->getInt('Itemid', 0);
-		$rate         = $app->input->getInt('rate', 0);
+		$tmpl        = $app->input->getInt('tmpl', '');
 		$category_id = $app->input->getInt('category_id', 0);
+		$rate        = $app->input->getInt('rate', 0);
 		$userHelper  = new rsUserhelper;
 
-		if ($rate)
+		if (!$tmpl != 'component')
 		{
 			$link = 'index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $category_id . '&Itemid=' . $Itemid;
 		}
 		else
 		{
-			$link = 'index.php?option=com_redshop&view=ask_question&pid=' . $productId . '&tmpl=component&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=product_rating&product_id=' . $productId . '&tmpl=component&Itemid=' . $Itemid;
 		}
 
 		// Validate the posted data.
@@ -54,7 +55,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());
-			$this->setRedirect($link);
+			$this->setRedirect(JRoute::_($link, false));
 
 			return false;
 		}
@@ -96,18 +97,48 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		}
 		else
 		{
+			$user = JFactory::getUser();
+
+			if ($user->guest)
+			{
+				$data['userid'] = 0;
+			}
+			else
+			{
+				$userHelper = new rsUserhelper;
+
+				if ($userInfo = $userHelper->getRedSHOPUserInfo($user->id))
+				{
+					$data['username'] = $userInfo->firstname . " " . $userInfo->lastname;
+					$data['email'] = $userInfo->user_email;
+
+					if ($userInfo->is_company)
+					{
+						$data['company_name'] = $userInfo->company_name;
+					}
+				}
+				else
+				{
+					$data['username'] = $user->name;
+					$data['email'] = $user->email;
+				}
+			}
+
+			$data['published'] = 0;
+			$data['favoured'] = 0;
+			$data['time'] = time();
 			$data['product_id'] = $productId;
 			$data['Itemid'] = $Itemid;
 
 			if ($model->sendMailForReview($data))
 			{
 				// Flush the data from the session
-				$app->setUserState('com_redshop.ask_question.data', null);
+				$app->setUserState('com_redshop.product_rating.data', null);
 				$app->enqueueMessage(JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY'));
 
-				if (!$rate)
+				if ($rate)
 				{
-					$link .= '&questionSend=1';
+					$link .= '&rate=1';
 				}
 			}
 			else
@@ -116,7 +147,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 			}
 		}
 
-		$this->setRedirect($link);
+		$this->setRedirect(JRoute::_($link, false));
 	}
 
 	/**

@@ -35,8 +35,10 @@ class RedshopViewProduct_Rating extends RedshopView
 		$this->form = $this->get('Form');
 
 		$app = JFactory::getApplication();
+		$input = $app->input;
 
 		$user = JFactory::getUser();
+		$userHelper = new rsUserhelper;
 
 		// Preform security checks
 		if (!$user->id && RATING_REVIEW_LOGIN_REQUIRED)
@@ -47,41 +49,47 @@ class RedshopViewProduct_Rating extends RedshopView
 		}
 
 		$model         = $this->getModel('product_rating');
-		$userinfo      = $model->getuserfullname($user->id);
+		$userinfo      = $userHelper->getRedSHOPUserInfo($user->id);
 		$params        = $app->getParams('com_redshop');
-		$Itemid        = JRequest::getInt('Itemid');
-		$product_id    = JRequest::getInt('product_id');
-		$category_id   = JRequest::getInt('category_id');
-		$user          = JFactory::getUser();
-		$model         = $this->getModel('product_rating');
-		$rate          = JRequest::getInt('rate');
-		$already_rated = $model->checkRatedProduct($product_id, $user->id);
+		$Itemid        = $input->getInt('Itemid', 0);
+		$product_id    = $input->getInt('product_id', 0);
+		$category_id   = $input->getInt('category_id', 0);
+		$tmpl          = $input->getCmd('tmpl', '');
 
-	if ($already_rated == 1)
-	{
-		if ($rate == 1)
+		if ($input->getInt('rate', 0))
+		{
+			if ($tmpl == 'component')
+			{
+				?>
+				<script>
+					setTimeout("window.parent.redBOX.close();", 5000);
+				</script>
+			<?php
+			}
+		}
+		elseif ($model->checkRatedProduct($product_id, $user->id))
 		{
 			$msg  = JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN');
-			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
-			$app->redirect($link, $msg);
-		}
-		else
-		{
-			echo  JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN');
-			?>
-			<span id="closewindow"><input type="button" value="Close Window" onclick="window.parent.redBOX.close();"/></span>
-			<script>
-				setTimeout("window.parent.redBOX.close();", 2000);
-			</script>
-			<?php
-			return;
-		}
-	}
 
+			if ($tmpl != 'component')
+			{
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&modal=0&Itemid=' . $Itemid);
+				$app->redirect($link, $msg);
+			}
+			else
+			{
+				echo $msg;
+				?>
+				<script>
+					setTimeout("window.parent.redBOX.close();", 5000);
+				</script>
+				<?php
+				return;
+			}
+		}
 
 		$this->userinfo = $userinfo;
 		$this->params = $params;
-		$this->rate = $rate;
 
 		parent::display($tpl);
 	}
