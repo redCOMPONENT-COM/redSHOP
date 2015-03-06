@@ -2,11 +2,12 @@
 <form>
 	<fieldset>
 		<field
-			name="user_rating"
-			label="COM_REDSHOP_RATING"
-			class="btn-group"
-			required="true"
-			type="radio">
+				name="user_rating"
+				label="COM_REDSHOP_RATING"
+				message="COM_REDSHOP_PLEASE_RATE_THE_PRODUCT"
+				class="btn-group"
+				required="true"
+				type="radio">
 			<option value="0">0</option>
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -19,18 +20,32 @@
 				type="text"
 				class="inputbox"
 				label="COM_REDSHOP_USER_FULLNAME"
-				required="true" />
+				required="true"/>
+		<field name="email" type="email"
+			   filter="string"
+			   label="COM_REDSHOP_EMAIL_LBL"
+			   required="true"
+			   size="30"
+			   validate="email"
+				/>
+		<field
+				name="username"
+				type="text"
+				class="inputbox"
+				label="COM_REDSHOP_USER_FULLNAME"
+				required="true"/>
 		<field
 				name="title"
 				type="text"
 				class="inputbox"
 				label="COM_REDSHOP_RATING_TITLE"
-				required="true" />
+				required="true"/>
 		<field name="comment"
 			   type="textarea"
 			   cols="40"
 			   rows="10"
 			   label="COM_REDSHOP_COMMENT"
+			   message="COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT"
 			   filter="safehtml"
 			   required="true"
 				/>

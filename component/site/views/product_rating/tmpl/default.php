@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+$app = JFactory::getApplication();
+
 if ($this->params->get('show_page_heading', 1))
 {
 	?>
@@ -18,8 +20,18 @@ if ($this->params->get('show_page_heading', 1))
 <?php
 }
 
-$displayData = array(
-	'form' => $this->form,
-	'rate' => $this->rate
-);
-echo RedshopLayoutHelper::render('product.rating', $displayData);
+if (!$app->input->getInt('rate', 0))
+{
+	$displayData = array(
+		'form' => $this->form
+	);
+	echo RedshopLayoutHelper::render('product.rating', $displayData);
+}
+elseif ($app->input->getCmd('tmpl') == 'component')
+{
+	?>
+	<script>
+		setTimeout("window.parent.redBOX.close();", 5000);
+	</script>
+<?php
+}

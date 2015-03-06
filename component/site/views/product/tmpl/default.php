@@ -1480,7 +1480,7 @@ if (($user->id && RATING_REVIEW_LOGIN_REQUIRED) || !RATING_REVIEW_LOGIN_REQUIRED
 		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->data->product_id .
 										'&category_id=' . $this->data->category_id .
 										'&Itemid=' . $this->itemId;
-		$reviewform    = '<a class="redbox" rel="{handler:\'iframe\',size:{x:620,y:420}}" href="' . $reviewlink . '">' .
+		$reviewform    = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:500}}" href="' . $reviewlink . '">' .
 							JText::_('COM_REDSHOP_WRITE_REVIEW') .
 						'</a>';
 		$template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
@@ -1499,144 +1499,6 @@ else
 	{
 		$template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 	}
-}
-
-if (strstr($template_desc, "{form_rating_without_link}"))
-{
-	$a = intval(mt_rand(1, 100) / 10);
-	$b = intval(mt_rand(1, 100) / 10);
-
-	$hash = uniqid();
-
-	$this->session->set('session.simplemath' . $hash, $a + $b);
-
-	$reviewform = "<form name='writereview' action='' method='post' onSubmit=\"return validateReview();\">";
-	$reviewform .= "<div style='clear:both;'>";
-	$reviewform .= "<table border=\"0\">";
-	$reviewform .= "<tr>";
-	$reviewform .= "<td colspan=\"2\">" . JText::_('COM_REDSHOP_WRITE_REVIEWFORM_HEADER_TEXT') . "</td>";
-	$reviewform .= "</tr>";
-	$reviewform .= "<tr>";
-	$reviewform .= "<td>";
-	$reviewform .= "<label for=\"rating\">";
-	$reviewform .= JText::_('COM_REDSHOP_RATING');
-	$reviewform .= "</label>";
-	$reviewform .= "</td>";
-	$reviewform .= "<td>";
-	$reviewform .= "<table border=\"0\">";
-	$reviewform .= "<tr>";
-	$reviewform .= "<td>" . JText::_('COM_REDSHOP_GOOD') . "</td>";
-	$reviewform .= "<td>";
-	$reviewform .= "<input type=\"radio\" name=\"user_rating\" id=\"user_rating0\" value=\"0\">";
-	$reviewform .= "</td>";
-	$reviewform .= "<td>";
-	$reviewform .= "<input type=\"radio\" name=\"user_rating\" id=\"user_rating1\" value=\"1\">";
-	$reviewform .= "</td>";
-	$reviewform .= "<td>";
-	$reviewform .= "<input type=\"radio\" name=\"user_rating\" id=\"user_rating2\" value=\"2\">";
-	$reviewform .= "</td>";
-	$reviewform .= "<td>";
-	$reviewform .= "<input type=\"radio\" name=\"user_rating\" id=\"user_rating3\" value=\"3\">";
-	$reviewform .= "</td>";
-	$reviewform .= "<td>";
-	$reviewform .= "<input type=\"radio\" name=\"user_rating\" id=\"user_rating4\" value=\"4\">";
-	$reviewform .= "</td>";
-	$reviewform .= "<td>";
-	$reviewform .= "<input type=\"radio\" name=\"user_rating\" id=\"user_rating5\" value=\"5\">";
-	$reviewform .= "</td>";
-	$reviewform .= "<td>" . JText::_('COM_REDSHOP_EXCELLENT') . "</td>";
-	$reviewform .= "</tr>";
-	$reviewform .= "</table>";
-	$reviewform .= "</td>";
-	$reviewform .= "</tr>";
-	$reviewform .= "<tr>";
-	$reviewform .= "<td>";
-	$reviewform .= "<label for=\"username\">";
-	$reviewform .= JText::_('COM_REDSHOP_USER_FULLNAME');
-	$reviewform .= "</label>";
-	$reviewform .= "</td>";
-	$reviewform .= "<td colspan=\"8\">";
-	$reviewform .= "<input type=\"text\" class=\"inputbox\" name=\"username\" id=\"username\" value=\"\" >";
-	$reviewform .= "</td>";
-	$reviewform .= "</tr>";
-
-	$reviewform .= "<tr>";
-	$reviewform .= "<td>";
-	$reviewform .= "<label for=\"username\">";
-	$reviewform .= JText::_('COM_REDSHOP_COMPANY_NAME');
-	$reviewform .= "</label>";
-	$reviewform .= "</td>";
-	$reviewform .= "<td colspan=\"8\">";
-	$reviewform .= "<input type=\"text\" class=\"inputbox\" name=\"company_name\" id=\"company_name\" value=\"\" >";
-	$reviewform .= "</td>";
-	$reviewform .= "</tr>";
-
-	$reviewform .= "<tr>";
-	$reviewform .= "<td>";
-	$reviewform .= "<label for=\"email\">";
-	$reviewform .= JText::_('COM_REDSHOP_USER_EMAIL');
-	$reviewform .= "</label>";
-	$reviewform .= "</td>";
-	$reviewform .= "<td colspan=\"8\">";
-	$reviewform .= "<input type=\"text\" class=\"inputbox\" name=\"email\" id=\"email\" value=\"\" >";
-	$reviewform .= "</td>";
-	$reviewform .= "</tr>";
-
-	$reviewform .= "<tr>";
-	$reviewform .= "<td>";
-	$reviewform .= "<label for=\"rating_title\">";
-	$reviewform .= JText::_('COM_REDSHOP_RATING_TITLE');
-	$reviewform .= "</label>";
-	$reviewform .= "</td>";
-	$reviewform .= "<td colspan=\"8\">";
-	$reviewform .= "<input type=\"text\" class=\"inputbox\" name=\"title\" id=\"title\" value=\"\" size=\"48\">";
-	$reviewform .= "</td>";
-	$reviewform .= "</tr>";
-	$reviewform .= "<tr>";
-	$reviewform .= "<td>";
-	$reviewform .= "<label for=\"comment\">";
-	$reviewform .= JText::_('COM_REDSHOP_COMMENT');
-	$reviewform .= "</label>";
-	$reviewform .= "</td>";
-	$reviewform .= "<td colspan=\"8\">";
-	$reviewform .= "<textarea class=\"text_area\" name=\"comment\" id=\"comment\" cols=\"60\" rows=\"7\" /></textarea>";
-	$reviewform .= "</td>";
-	$reviewform .= "</tr>";
-
-	$reviewform .= "<tr>";
-	$reviewform .= "<td>";
-	$reviewform .= "<label for=\"review_captcha\">";
-	$reviewform .= JText::_('COM_REDSHOP_REVIEW_CAPTCHA');
-	$reviewform .= "</label>";
-	$reviewform .= "</td>";
-	$reviewform .= "<td colspan=\"8\">";
-	$reviewform .= "<input type=\"text\" class=\"inputbox\" name=\"review_captcha\" id=\"review_captcha\" value=\"\" size=\"48\">";
-	$reviewform .= "<input type=\"hidden\" name=\"review_captcha_hash\" value='" . $hash . "' /><br>";
-	$reviewform .= JText::sprintf('COM_REDSHOP_REVIEW_CAPTCHA_INFO', $a, $b);
-	$reviewform .= "</td>";
-	$reviewform .= "</tr>";
-
-	$reviewform .= "<tr>";
-	$reviewform .= "<td></td>";
-	$reviewform .= "<td colspan=\"8\"><input type=\"submit\" name=\"btnsubmit\" value='" . JText::_('COM_REDSHOP_SEND_REVIEW') . "' ></td>";
-	$reviewform .= "</tr>";
-	$reviewform .= "<tr>";
-	$reviewform .= "<td colspan=\"2\">" . JText::_('COM_REDSHOP_WRITE_REVIEWFORM_FOOTER_TEXT') . "</td>";
-	$reviewform .= "</tr>";
-	$reviewform .= "</table>";
-	$reviewform .= "<input type='hidden' value='" . $this->data->product_id . "' name='product_id'>";
-	$reviewform .= "<input type='hidden' value='" . $this->data->category_id . "' name='category_id'>";
-	$reviewform .= "<input type='hidden' name='view' value='product'>";
-	$reviewform .= "<input type=\"hidden\" name=\"published\" value=\"0\" />";
-	$reviewform .= "<input type=\"hidden\" name=\"rate\" value='0' />";
-	$reviewform .= "<input type=\"hidden\" name=\"time\" value='" . time() . "' />";
-
-	$reviewform .= "<input type='hidden' name='task' value='writeReview'>";
-	$reviewform .= "<input type='hidden' name='Itemid' value='" . $this->itemId . "'>";
-	$reviewform .= "</div>";
-	$reviewform .= "</form>";
-
-	$template_desc = str_replace("{form_rating_without_link}", $reviewform, $template_desc);
 }
 
 $template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
@@ -1949,6 +1811,16 @@ if (strstr($template_desc, '{ask_question_about_product_without_lightbox}'))
 		'ask' => 1
 	);
 	$template_desc = str_replace('{ask_question_about_product_without_lightbox}', RedshopLayoutHelper::render('product.ask_question', $displayData), $template_desc);
+}
+
+// Replacing form_rating_without_link must be after parseredSHOPplugin for not replace in cloak plugin form emails
+if (strstr($template_desc, '{form_rating_without_link}'))
+{
+	$displayData = array(
+		'form' => RedshopModelForm::getInstance('Product_Rating', 'RedshopModel')->getForm(),
+		'ask' => 1
+	);
+	$template_desc = str_replace('{form_rating_without_link}', RedshopLayoutHelper::render('product.rating', $displayData), $template_desc);
 }
 
 /**

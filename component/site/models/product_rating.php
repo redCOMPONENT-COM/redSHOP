@@ -57,13 +57,15 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 		return $data;
 	}
 
+	/**
+	 * Method to store the records
+	 *
+	 * @param   array  $data  array of data
+	 *
+	 * @return bool
+	 */
 	public function store($data)
 	{
-		$user                = JFactory::getUser();
-		$data['userid']      = $user->id;
-		$data['email']       = $user->email;
-		$data['published']   = 0;
-
 		$row = $this->getTable('rating_detail');
 
 		if (!$row->bind($data))
@@ -83,32 +85,30 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 		return true;
 	}
 
+	/**
+	 * Send Mail For Ask Review
+	 *
+	 * @param   array  $data  Review data
+	 *
+	 * @return  bool
+	 */
 	public function sendMailForReview($data)
 	{
-		$this->store($data);
-		$producthelper = new producthelper;
-		$redshopMail   = new redshopMail;
-		$user          = JFactory::getUser();
+		if (!$this->store($data))
+		{
+			return false;
+		}
 
-		$url        = JURI::base();
-		$Itemid     = $data['Itemid'];
-		$mailbcc    = null;
-		$fromname   = $data['username'];
-		$from       = $user->email;
-		$subject    = "";
-		$message    = $data['title'];
-		$comment    = $data['comment'];
-		$username   = $data['username'];
-		$product_id = $data['product_id'];
-
+		$redshopMail = new redshopMail;
+		$mailbcc = null;
+		$subject = "";
 		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
-
-		$data_add = $message;
+		$data_add = $data['title'];
 
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
-			$subject  = $mailbody[0]->mail_subject;
+			$subject = $mailbody[0]->mail_subject;
 
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
@@ -116,21 +116,19 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 			}
 		}
 
-		$product = $producthelper->getProductById($product_id);
-
-		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
-		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
-		$data_add    = str_replace("{product_link}", $product_url, $data_add);
-		$data_add    = str_replace("{product_name}", $product->product_name, $data_add);
-		$data_add    = str_replace("{title}", $message, $data_add);
-		$data_add    = str_replace("{comment}", $comment, $data_add);
-		$data_add    = str_replace("{username}", $username, $data_add);
+		$product = RedshopHelperProduct::getProductById($data['product_id']);
+		$link = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=product&pid=" . $data['product_id'] . '&Itemid=' . $data['Itemid'], false);
+		$data_add = str_replace("{product_link}", "<a href=" . $link . ">" . $product->product_name . "</a>", $data_add);
+		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
+		$data_add = str_replace("{title}", $data['title'], $data_add);
+		$data_add = str_replace("{comment}", $data['comment'], $data_add);
+		$data_add = str_replace("{username}", $data['username'], $data_add);
 
 		if (ADMINISTRATOR_EMAIL != "")
 		{
 			$sendto = explode(",", ADMINISTRATOR_EMAIL);
 
-			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
+			if (JFactory::getMailer()->sendMail($data['email'], $data['username'], $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
 				return true;
 			}
@@ -145,24 +143,23 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 		return true;
 	}
 
-	public function getuserfullname($uid)
-	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT firstname,lastname from #__redshop_users_info WHERE user_id=" . (int) $uid . " AND address_type like 'BT'";
-		$db->setQuery($query);
-		$userfullname = $db->loadObject();
-
-		return $userfullname;
-	}
-
+	/**
+	 * Check Rated Product
+	 *
+	 * @param   int  $pid  Product id
+	 * @param   int  $uid  User id
+	 *
+	 * @return mixed
+	 */
 	public function checkRatedProduct($pid, $uid)
 	{
-		$db    = JFactory::getDbo();
-		$query = "SELECT count(*) as rec from #__redshop_product_rating WHERE product_id=" . (int) $pid . " AND userid=" . (int) $uid;
-		$db->setQuery($query);
-		$already_rated = $db->loadResult();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(rating_id)')
+			->from($db->qn('#__redshop_product_rating'))
+			->where('product_id = ' . (int) $pid)
+			->where('userid = ' . (int) $uid);
 
-		return $already_rated;
+		return $db->setQuery($query)->loadResult();
 	}
 }
