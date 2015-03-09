@@ -137,7 +137,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		}
 
 		if ((RATING_REVIEW_LOGIN_REQUIRED && $model->checkRatedProduct($productId, $user->id))
-			|| (!RATING_REVIEW_LOGIN_REQUIRED && $model->checkEmailForRatedProduct($productId, $data['email'])))
+			|| (!RATING_REVIEW_LOGIN_REQUIRED && $model->checkRatedProduct($productId, 0, $data['email'])))
 		{
 			if ($modal)
 			{

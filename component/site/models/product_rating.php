@@ -165,12 +165,13 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 	/**
 	 * Check Rated Product
 	 *
-	 * @param   int  $pid  Product id
-	 * @param   int  $uid  User id
+	 * @param   int     $pid    Product id
+	 * @param   int     $uid    User id
+	 * @param   string  $email  User mail
 	 *
 	 * @return mixed
 	 */
-	public function checkRatedProduct($pid, $uid)
+	public function checkRatedProduct($pid, $uid = 0, $email = '')
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -179,25 +180,10 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 			->where('product_id = ' . (int) $pid)
 			->where('userid = ' . (int) $uid);
 
-		return $db->setQuery($query)->loadResult();
-	}
-
-	/**
-	 * Check E-mail for Rated Product
-	 *
-	 * @param   int     $pid    Product id
-	 * @param   string  $email  User id
-	 *
-	 * @return mixed
-	 */
-	public function checkEmailForRatedProduct($pid, $email)
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(rating_id)')
-			->from($db->qn('#__redshop_product_rating'))
-			->where('product_id = ' . (int) $pid)
-			->where('email = ' . $db->q($email));
+		if ($email)
+		{
+			$query->where('email = ' . $db->q($email));
+		}
 
 		return $db->setQuery($query)->loadResult();
 	}
