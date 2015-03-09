@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="2.5" client="site" type="plugin" group="editors-xtd" method="upgrade">
-    <name>redSHOP Product editor insert button</name>
-    <version>1.2</version>
+    <name>PLG_EDITORS-XTD_PRODUCT</name>
+    <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Add Redshop product to cart from content</description>
+    <description>PLG_EDITORS-XTD_PRODUCT_DESC</description>
     <files>
         <filename plugin="product">product.php</filename>
+        <filename>index.html</filename>
     </files>
-
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_editors-xtd_product.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_editors-xtd_product.sys.ini</language>
+    </languages>
 </extension>

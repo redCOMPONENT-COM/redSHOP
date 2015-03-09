@@ -28,11 +28,11 @@ class InstallExtensionJoomla2Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
-		$I->amOnPage(\ExtensionManagerPage::$URL);
+		$I->amOnPage(\ExtensionManagerJoomla2Page::$URL);
 		$config = $I->getConfig();
-		$I->fillField(\ExtensionManagerPage::$extensionDirectoryPath, $config['folder']);
-		$I->click(\ExtensionManagerPage::$installButton);
-		$I->waitForText(\ExtensionManagerPage::$installSuccessMessage, 60);
+		$I->fillField(\ExtensionManagerJoomla2Page::$extensionDirectoryPath, $config['folder']);
+		$I->click(\ExtensionManagerJoomla2Page::$installButton);
+		$I->waitForText(\ExtensionManagerJoomla2Page::$installSuccessMessage, 60);
 	}
 
 	/**
@@ -47,8 +47,8 @@ class InstallExtensionJoomla2Steps extends \AcceptanceTester
 
 		if ($config['install_extension_demo_data'] == 'yes')
 		{
-			$I->click(\ExtensionManagerPage::$installDemoContent);
-			$I->waitForText(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
+			$I->click(\ExtensionManagerJoomla2Page::$installDemoContent);
+			$I->waitForText(\ExtensionManagerJoomla2Page::$demoDataInstallSuccessMessage, 30);
 		}
 	}
 }

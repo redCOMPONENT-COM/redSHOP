@@ -89,7 +89,7 @@ class rsCarthelper
 
 				if (strstr($data, '{tax_after_discount}'))
 				{
-					if (APPLY_VAT_ON_DISCOUNT && VAT_RATE_AFTER_DISCOUNT)
+					if (APPLY_VAT_ON_DISCOUNT && (float) VAT_RATE_AFTER_DISCOUNT)
 					{
 						if ($check)
 						{
@@ -140,11 +140,11 @@ class rsCarthelper
 		$tax_after_discount = 0;
 		$cart               = $this->_session->get('cart');
 
-		if (APPLY_VAT_ON_DISCOUNT && VAT_RATE_AFTER_DISCOUNT)
+		if (APPLY_VAT_ON_DISCOUNT && (float) VAT_RATE_AFTER_DISCOUNT)
 		{
 			if ($discount > 0)
 			{
-				$tmptax             = VAT_RATE_AFTER_DISCOUNT * $discount;
+				$tmptax             = (float) VAT_RATE_AFTER_DISCOUNT * $discount;
 				$tax_after_discount = $tax - $tmptax;
 			}
 		}
@@ -2307,7 +2307,7 @@ class rsCarthelper
 
 		$chktag = $this->_producthelper->taxexempt_addtocart();
 
-		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
+		if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{
@@ -3080,12 +3080,10 @@ class rsCarthelper
 	public function makeCart_output($cart)
 	{
 		$outputArr          = array();
-		$totalQuntity       = 0;
+		$totalQuantity       = 0;
 		$idx                = $cart['idx'];
-		$output             = '';
 		$show_with_vat      = 0;
 		$cart_output        = 'simple';
-		$cartParamArr       = array();
 		$show_shipping_line = 0;
 		$cartParamArr       = $this->GetCartParameters();
 
@@ -3101,69 +3099,31 @@ class rsCarthelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$totalQuntity += $cart [$i] ['quantity'];
-
-			if ($this->rs_multi_array_key_exists('giftcard_id', $cart [$i]) && $cart [$i] ['giftcard_id'])
-			{
-				$giftcardData = $this->_producthelper->getGiftcardData($cart [$i] ['giftcard_id']);
-				$name         = $giftcardData->giftcard_name;
-			}
-			else
-			{
-				$product_detail = $this->_producthelper->getProductById($cart [$i] ['product_id']);
-				$name           = $product_detail->product_name;
-			}
-
-			if ($i != 0)
-			{
-				$output .= '<br>';
-			}
-
-			$output .= $cart [$i] ['quantity'] . " x " . $name . "<br />";
+			$totalQuantity += $cart[$i]['quantity'];
 
 			if (array_key_exists('show_with_vat', $cartParamArr))
 			{
 				$show_with_vat = $cartParamArr['show_with_vat'];
 			}
-
-			if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
-			{
-				if ($show_with_vat)
-					$output .= JText::_('COM_REDSHOP_PRICE_CART_LBL') . " " . $this->_producthelper->getProductFormattedPrice($cart [$i] ['product_price'], true);
-				else
-					$output .= JText::_('COM_REDSHOP_PRICE_CART_LBL') . " " . $this->_producthelper->getProductFormattedPrice($cart [$i] ['product_price_excl_vat'], true);
-			}
 		}
 
-		$output = '<div class="mod_cart_products" id="mod_cart_products">' . $output . '</div>';
+		// Load cart module language
+		$lang = JFactory::getLanguage();
+		$lang->load('mod_redshop_cart', JPATH_SITE);
 
-		if ($cart_output == 'simple')
-		{
-			$output = '<div class="mod_cart_extend_total_pro_value" id="mod_cart_total_txt_product" >';
-			$output .= JText::_('COM_REDSHOP_TOTAL_PRODUCT') . ':' . ' ' . $totalQuntity . ' ' . JText::_('COM_REDSHOP_PRODUCTS_IN_CART');
-			$output .= '</div>';
-		}
-
-		if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
-		{
-			$output .= '<div class="mod_cart_total_txt" id="mod_cart_total_txt_ajax" >' . JText::_('COM_REDSHOP_TOTAL') . ':' . '</div>';
-			$output .= '<div class="mod_cart_total_value" id="mod_cart_total_value_ajax">' . $this->_producthelper->getProductFormattedPrice($cart['mod_cart_total']) . '</div>';
-			$shippingvalue = $cart['shipping'];
-
-			if (!$show_with_vat)
-			{
-				$shippingvalue = $cart['shipping'] - $cart['shipping_tax'];
-			}
-
-			if ($show_shipping_line)
-			{
-				$output .= '<div class="mod_cart_shipping_txt" id="mod_cart_shipping_txt_ajax" >' . JText::_('COM_REDSHOP_SHIPPING_LBL') . ':' . '</div>';
-				$output .= '<div class="mod_cart_shipping_value" id="mod_cart_shipping_value_ajax">' . $this->_producthelper->getProductFormattedPrice($shippingvalue) . '</div>';
-			}
-		}
+		$output = RedshopLayoutHelper::render(
+			'cart.cart',
+			array(
+				'cartOutput' => $cart_output,
+				'totalQuantity' => $totalQuantity,
+				'cart' => $cart,
+				'showWithVat' => $show_with_vat,
+				'showShippingLine' => $show_shipping_line
+			)
+		);
 
 		$outputArr[] = $output;
-		$outputArr[] = $totalQuntity;
+		$outputArr[] = $totalQuantity;
 
 		return $outputArr;
 	}
@@ -3199,7 +3159,13 @@ class rsCarthelper
 	public function modifyCart($cartArr, $user_id)
 	{
 		$cartArr['user_id'] = $user_id;
-		$idx                = (int) ($cartArr['idx']);
+		$idx = 0;
+
+		if (isset($cartArr['idx']))
+		{
+			$idx = (int) $cartArr['idx'];
+		}
+
 		$getacctax          = 0;
 		$taxtotal           = 0;
 		$subtotal_excl_vat  = 0;
@@ -4255,7 +4221,7 @@ class rsCarthelper
 				{
 					$avgVAT = 1;
 
-					if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+					if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 					{
 						$productVAT = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
 						$avgVAT = $cart['product_subtotal'] / $cart['product_subtotal_excl_vat'];
@@ -4827,7 +4793,7 @@ class rsCarthelper
 		$Discountvat = 0;
 		$chktag      = $this->_producthelper->taxexempt_addtocart();
 
-		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
+		if ((float) VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
 		{
 			$vatData = $this->_producthelper->getVatRates();
 
@@ -4886,7 +4852,7 @@ class rsCarthelper
 
 			if ($use_cookies_value == 1)
 			{
-				setcookie("redSHOPcart", serialize(addslashes($cart)), time() + (60 * 60 * 24 * 365));
+				setcookie("redSHOPcart", base64_encode(serialize($cart)), time() + (60 * 60 * 24 * 365));
 			}
 		}
 
@@ -5174,7 +5140,13 @@ class rsCarthelper
 			$cart = $this->_session->get('cart');
 		}
 
-		$idx  = $cart['idx'];
+		$idx = 0;
+
+		if (isset($cart['idx']))
+		{
+			$idx  = $cart['idx'];
+		}
+
 		$user = JFactory::getUser();
 
 		$cart_accessory = array();

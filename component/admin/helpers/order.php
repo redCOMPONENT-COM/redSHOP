@@ -320,7 +320,7 @@ class order_functions
 				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
 				<val n="country">' . $shippingInfo->country_code . '</val>
-				<val n="contact">' . $firstname . '</val>
+				<val n="contact"><![CDATA[' . $firstname . ']]></val>
 				<val n="phone">' . $shippingInfo->phone . '</val>
 				<val n="doorcode"/>
 				<val n="email">' . $shippingInfo->user_email . '</val>
@@ -442,6 +442,11 @@ class order_functions
 			$this->_db->SetQuery($query);
 			$this->_db->execute();
 
+			if (!isset($data->transfee))
+			{
+				$data->transfee = null;
+			}
+
 			$query = "UPDATE " . $this->_table_prefix . "order_payment SET order_transfee = " . $this->_db->quote($data->transfee)
 				. ", order_payment_trans_id = " . $this->_db->quote($data->transaction_id) . " where order_id = '" . (int) $order_id . "'";
 			$this->_db->SetQuery($query);
@@ -502,7 +507,7 @@ class order_functions
 			}
 
 			// For Webpack Postdk Label Generation
-			$this->createWebPacklabel($order_id, $specifiedSendDate, $data->order_status_code, $data->order_payment_status_code);
+			$this->createWebPacklabel($order_id, '', $data->order_status_code, $data->order_payment_status_code);
 			$this->createBookInvoice($order_id, $data->order_status_code);
 
 			/**
@@ -1776,27 +1781,25 @@ class order_functions
 		// Get Downloadable Product
 		$rows = $this->getDownloadProduct($order_id);
 
-		// Getting the order details
-		$orderdetail = $this->getOrderDetails($order_id);
+		if ($rows && count($rows) > 0)
+		{
+			// Getting the order details
+			$orderdetail = $this->getOrderDetails($order_id);
 
-		// Getting user details
-		$query = "SELECT uf.firstname, uf.lastname, IFNULL( u.email , uf.`user_email`) AS email
+			// Getting user details
+			$query = "SELECT uf.firstname, uf.lastname, IFNULL( u.email , uf.`user_email`) AS email
 				FROM " . $this->_table_prefix . "users_info AS uf
 				LEFT JOIN #__users AS u ON uf.user_id = u.id
 				WHERE uf.user_id = " . (int) $rows[0]->user_id . "
 				AND uf.`address_type` = 'BT'";
-		$this->_db->setQuery($query);
-		$userdetail = $this->_db->loadObject();
+			$this->_db->setQuery($query);
+			$userdetail = $this->_db->loadObject();
 
-		$userfullname = $userdetail->firstname . " " . $userdetail->lastname;
-		$useremail = $userdetail->email;
+			$userfullname = $userdetail->firstname . " " . $userdetail->lastname;
+			$useremail = $userdetail->email;
 
-		$mailbody = "";
+			$i = 0;
 
-		$i = 0;
-
-		if (count($rows) > 0)
-		{
 			$maildata = str_replace("{fullname}", $userfullname, $maildata);
 			$maildata = str_replace("{order_id}", $orderdetail->order_id, $maildata);
 			$maildata = str_replace("{order_number}", $orderdetail->order_number, $maildata);

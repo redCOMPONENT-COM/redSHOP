@@ -103,8 +103,8 @@ $ord_path = "/components/com_redshop/assets/images/";
 			echo JText::_('COM_REDSHOP_NEWSLETTER_TEST_LBL');
 			?>
 		</label></span></td>
-								<td><input type="button"
-								           onclick="document.adminForm.task.value='save';form.submit();"
+								<td><input type="button" class="btn"
+								           onclick="if(document.getElementById('newsletter_test_email').value != ''){document.adminForm.task.value='apply';form.submit();}else{alert('<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS'); ?>');}"
 								           value="<?php
 								           echo JText::_('COM_REDSHOP_SEND');
 								           ?>"/></td>

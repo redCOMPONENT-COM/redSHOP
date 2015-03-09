@@ -8,9 +8,12 @@
 <!--    - change the version in variable comp.version                    -->
 <!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
+<!--                                                                     -->
+<!-- Important note: remind first to update all the GIT submodules       -->
+<!-- otherwise plugins like the MVCoverride will not be packaged         -->
 <!-- ==================================================================  -->
 
-<project name="modules packager" basedir="." default="pack">
+<project name="plugins_packager" basedir="." default="pack">
     <!-- ============================================  -->
     <!-- Create packages folder                        -->
     <!-- ============================================  -->

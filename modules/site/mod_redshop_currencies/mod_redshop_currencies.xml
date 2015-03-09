@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>Redshop Multi Currencies</name>
+    <name>MOD_REDSHOP_CURRENCIES</name>
     <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Shows a list of currencies, so your customers can select a currency for the prices.</description>
+    <description>MOD_REDSHOP_CURRENCIES_DESC</description>
     <files>
         <filename module="mod_redshop_currencies">mod_redshop_currencies.php</filename>
+        <filename>index.html</filename>
     </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_currencies.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_currencies.sys.ini</language>
+    </languages>
 
     <config addfieldpath="/administrator/components/com_redshop/elements">
         <fields name="params">
             <fieldset name="basic">
                 <field name="text_before" type="textarea" cols="40" rows="3"
-                       default="" label="Pre-text"
-                       description="This is the Text or HTML that is displayed at the beginning of the Module"/>
+                       default="" label="MOD_REDSHOP_CURRENCIES_TEXT_BEFORE_LBL"
+                       description="MOD_REDSHOP_CURRENCIES_TEXT_BEFORE_DESC"/>
                 <field name="product_currency" type="currency" multiple="multiple" size="10"
-                       label="The currencies to display:"
-                       description="The selected currencies are shown in the module so the customer can select one of those currencies."/>
+                       label="MOD_REDSHOP_CURRENCIES_PRODUCT_CURRENCY_LBL"
+                       description="MOD_REDSHOP_CURRENCIES_PRODUCT_CURRENCY_DESC"/>
                 <field name="cache" type="radio" default="0"
-                       label="Enable Cache"
-                       description="Select whether to cache the content of this module">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                       label="MOD_REDSHOP_CURRENCIES_CACHE_LBL"
+                       class="btn-group btn-group-yesno"
+                       description="MOD_REDSHOP_CURRENCIES_CACHE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
                 <field name="moduleclass_sfx" type="text" default=""
-                       label="Module Class Suffix"
-                       description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling"/>
+                       label="MOD_REDSHOP_CURRENCIES_MODULECLASS_SFX_LBL"
+                       description="MOD_REDSHOP_CURRENCIES_MODULECLASS_SFX_DESC"/>
                 <field name="class_sfx" type="text" default=""
-                       label="Menu Class Suffix"
-                       description="A suffix to be applied to the css class of the menu items"/>
+                       label="MOD_REDSHOP_CURRENCIES_CLASS_SFX_LBL"
+                       description="MOD_REDSHOP_CURRENCIES_CLASS_SFX_DESC"/>
             </fieldset>
         </fields>
     </config>

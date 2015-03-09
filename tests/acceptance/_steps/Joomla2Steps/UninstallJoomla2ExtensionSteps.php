@@ -28,23 +28,23 @@ class UninstallJoomla2ExtensionSteps extends \AcceptanceTester
 	public function uninstallExtension($extensionName)
 	{
 		$I = $this;
-		$I->amOnPage(\ExtensionManagerPage::$URL);
+		$I->amOnPage(\ExtensionManagerJoomla2Page::$URL);
 		$I->click("Manage");
-		$I->fillField(\ExtensionManagerPage::$extensionSearchJ2, $extensionName);
-		$I->click(\ExtensionManagerPage::$searchButtonJ2);
-		$I->click(\ExtensionManagerPage::$extensionNameLink);
-		$name = $I->grabTextFrom(\ExtensionManagerPage::$extensionTableJ2);
+		$I->fillField(\ExtensionManagerJoomla2Page::$extensionSearchJ2, $extensionName);
+		$I->click(\ExtensionManagerJoomla2Page::$searchButtonJ2);
+		$I->click(\ExtensionManagerJoomla2Page::$extensionNameLink);
+		$name = $I->grabTextFrom(\ExtensionManagerJoomla2Page::$extensionTableJ2);
 
 		while (strtolower($name) != strtolower($extensionName))
 		{
-			$I->click(\ExtensionManagerPage::$firstCheck);
+			$I->click(\ExtensionManagerJoomla2Page::$firstCheck);
 			$I->click("Uninstall");
-			$I->seeElement(\ExtensionManagerPage::$uninstallSuccessMessageJ2);
-			$name = $I->grabTextFrom(\ExtensionManagerPage::$extensionTableJ2);
+			$I->seeElement(\ExtensionManagerJoomla2Page::$uninstallSuccessMessageJ2);
+			$name = $I->grabTextFrom(\ExtensionManagerJoomla2Page::$extensionTableJ2);
 		}
 
-		$I->click(\ExtensionManagerPage::$firstCheck);
+		$I->click(\ExtensionManagerJoomla2Page::$firstCheck);
 		$I->click("Uninstall");
-		$I->seeElement(\ExtensionManagerPage::$uninstallSuccessMessageJ2);
+		$I->seeElement(\ExtensionManagerJoomla2Page::$uninstallSuccessMessageJ2);
 	}
 }

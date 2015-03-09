@@ -8,7 +8,10 @@
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Test Wrapper Manager in Administrator');
 $I->doAdminLogin();
@@ -23,8 +26,8 @@ $I->addWrapper($name, $price, $category);
 $I->searchWrapper($name);
 $I->editWrapper($name, $newName);
 $I->searchWrapper($newName);
-$I->changeState($newName);
-$I->verifyState('unpublished', $I->getState($newName));
+$I->changeWrapperState($newName);
+$I->verifyState('unpublished', $I->getWrapperState($newName));
 $I->deleteWrapper($newName);
 $I->searchWrapper($newName, 'Delete');
 

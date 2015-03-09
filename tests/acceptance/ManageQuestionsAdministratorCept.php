@@ -8,7 +8,10 @@
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Test Questions Manager in Administrator');
 $I->doAdminLogin();
@@ -24,7 +27,7 @@ $I->addQuestion($product, $userContactNumber, $question);
 $I->searchQuestion($question);
 $I->editQuestion($question, $updatedQuestion);
 $I->searchQuestion($updatedQuestion);
-$I->changeState($updatedQuestion);
-$I->verifyState('unpublished', $I->getState($updatedQuestion));
+$I->changeQuestionState($updatedQuestion);
+$I->verifyState('unpublished', $I->getQuestionState($updatedQuestion));
 $I->deleteQuestion($updatedQuestion);
 $I->searchQuestion($updatedQuestion, 'Delete');

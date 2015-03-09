@@ -9,7 +9,10 @@ $scenario->group('Joomla2');
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Test Mail Centers Manager in Administrator');
 $I->doAdminLogin();
@@ -32,8 +35,8 @@ else
 	$I->searchMail($name);
 	$I->editMail($name, $newName);
 	$I->searchMail($newName);
-	$I->changeState($newName);
-	$I->verifyState('unpublished', $I->getState($newName));
+	$I->changeMailState($newName);
+	$I->verifyState('unpublished', $I->getMailState($newName));
 	$I->deleteMailTemplate($newName);
 	$I->searchMail($newName, 'Delete');
 }
