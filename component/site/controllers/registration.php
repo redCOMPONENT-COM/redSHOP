@@ -141,15 +141,11 @@ class RedshopControllerRegistration extends RedshopController
 		$get = JRequest::get('get');
 		$template_id = $get['template_id'];
 		$is_company  = $get['is_company'];
-
-		$lists['extra_field_user']        = $extraField->list_all_field(7);
-		$lists['extra_field_company']     = $extraField->list_all_field(8);
-		$lists['shipping_customer_field'] = $extraField->list_all_field(14, 0, 'billingRequired valid');
-		$lists['shipping_company_field']  = $extraField->list_all_field(15, 0, 'billingRequired valid');
 		$lists['isAjax']                  = 1;
 
 		if ($is_company == 1)
 		{
+			$lists['extra_field_company'] = $extraField->list_all_field(8);
 			$template = $redTemplate->getTemplate("company_billing_template", $template_id);
 
 			if (count($template) > 0 && $template[0]->template_desc != "")
@@ -165,6 +161,7 @@ class RedshopControllerRegistration extends RedshopController
 		}
 		else
 		{
+			$lists['extra_field_user'] = $extraField->list_all_field(7);
 			$template = $redTemplate->getTemplate("private_billing_template", $template_id);
 
 			if (count($template) > 0 && $template[0]->template_desc != "")
