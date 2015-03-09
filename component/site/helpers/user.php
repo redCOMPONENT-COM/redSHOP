@@ -32,7 +32,6 @@ class rsUserhelper
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__redshop_';
 		$this->_session      = JFactory::getSession();
 		$this->_db           = JFactory::getDbo();
 	}
@@ -92,7 +91,7 @@ class rsUserhelper
 
 		if ($isredcrmuser)
 		{
-			$this->_db->setQuery("SELECT user_id FROM  " . $this->_table_prefix . "users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $userId . ") and address_type='BT'");
+			$this->_db->setQuery("SELECT user_id FROM #__redshop_users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $userId . ") and address_type='BT'");
 			$userId = $this->_db->loadResult();
 		}
 
@@ -122,7 +121,7 @@ class rsUserhelper
 	 */
 	public function getUserGroupList($user_id = 0)
 	{
-		$query = 'SELECT group_id FROM ' . $this->_table_prefix . 'users_info AS uf '
+		$query = 'SELECT group_id FROM #__redshop_users_info AS uf '
 			. 'LEFT JOIN #__user_usergroup_map as u on u.user_id = uf.user_id '
 			. 'WHERE users_info_id = ' . (int) $user_id;
 		$this->_db->setQuery($query);
@@ -136,7 +135,7 @@ class rsUserhelper
 		// One id is mandatory ALWAYS
 		if ($users_info_id != 0)
 		{
-			$query = "UPDATE " . $this->_table_prefix . "users_info"
+			$query = "UPDATE #__redshop_users_info"
 				. " SET accept_terms_conditions = " . (int) $isSet
 				. " WHERE users_info_id = " . (int) $users_info_id;
 			$this->_db->setQuery($query);
@@ -695,7 +694,7 @@ class rsUserhelper
 					if ($row->users_info_id <= $maxDebtor)
 					{
 						$nextId = $maxDebtor + 1;
-						$sql    = "UPDATE " . $this->_table_prefix . "users_info "
+						$sql    = "UPDATE #__redshop_users_info "
 							. "SET users_info_id = " . (int) $nextId . " "
 							. "WHERE users_info_id = " . (int) $row->users_info_id;
 						$this->_db->setQuery($sql);
@@ -864,7 +863,7 @@ class rsUserhelper
 	public function userSynchronization()
 	{
 		$query = "SELECT u.* FROM #__users AS u "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ru ON ru.user_id = u.id "
+			. "LEFT JOIN #__redshop_users_info AS ru ON ru.user_id = u.id "
 			. "WHERE ru.user_id IS NULL ";
 		$this->_db->setQuery($query);
 		$jusers = $this->_db->loadObjectList();
@@ -975,7 +974,7 @@ class rsUserhelper
 
 		if ($and != "")
 		{
-			$query = "DELETE FROM " . $this->_table_prefix . "newsletter_subscription "
+			$query = "DELETE FROM #__redshop_newsletter_subscription "
 				. "WHERE email = " . $db->quote($email) . " "
 				. $and;
 			$this->_db->setQuery($query);
