@@ -18,7 +18,26 @@ defined('_JEXEC') or die;
  */
 class RedshopModelProduct_Rating extends RedshopModelForm
 {
-	protected $context = 'com_reshop.product_rating';
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  Configuration array
+	 *
+	 * @throws  RuntimeException
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		if (array_key_exists('context', $config))
+		{
+			$this->context = $config['context'];
+		}
+		else
+		{
+			$this->context = $this->context . '.' . JFactory::getApplication()->input->getInt('product_id', 0);
+		}
+	}
 
 	/**
 	 * Method to get the record form.
@@ -33,7 +52,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_redshop.product_rating', 'rating', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm($this->context . '.' . $this->formName, $this->formName, array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
@@ -52,7 +71,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 	 */
 	protected function loadFormData()
 	{
-		$data = (array) JFactory::getApplication()->getUserState('com_redshop.product_rating.data', array());
+		$data = (array) JFactory::getApplication()->getUserState($this->context . '.data', array());
 
 		return $data;
 	}
@@ -159,6 +178,26 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 			->from($db->qn('#__redshop_product_rating'))
 			->where('product_id = ' . (int) $pid)
 			->where('userid = ' . (int) $uid);
+
+		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Check E-mail for Rated Product
+	 *
+	 * @param   int     $pid    Product id
+	 * @param   string  $email  User id
+	 *
+	 * @return mixed
+	 */
+	public function checkEmailForRatedProduct($pid, $email)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(rating_id)')
+			->from($db->qn('#__redshop_product_rating'))
+			->where('product_id = ' . (int) $pid)
+			->where('email = ' . $db->q($email));
 
 		return $db->setQuery($query)->loadResult();
 	}

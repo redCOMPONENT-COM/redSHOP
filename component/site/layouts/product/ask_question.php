@@ -40,7 +40,7 @@ else
 
 ?>
 <script type="text/javascript" language="javascript">
-	Joomla.submitbutton = function (task) {
+	questionSubmitButton = function (task) {
 		var askQuestionForm = document.getElementById('askQuestionForm');
 
 		if (document.formvalidator.isValid(askQuestionForm)) {
@@ -61,7 +61,7 @@ else
 	$template_desc = str_replace('{user_question}', $form->getInput('your_question'), $template_desc);
 	$template_desc = str_replace('{user_address}', $form->getInput('address'), $template_desc);
 	$template_desc = str_replace('{user_telephone}', $form->getInput('telephone'), $template_desc);
-	$template_desc = str_replace('{send_button}', '<input type="submit" class="btn" value="' . JText::_('COM_REDSHOP_SEND') . '" onclick="Joomla.submitbutton(\'ask_question.submit\')" />', $template_desc);
+	$template_desc = str_replace('{send_button}', '<input type="submit" class="btn" value="' . JText::_('COM_REDSHOP_SEND') . '" onclick="questionSubmitButton(\'ask_question.submit\')" />', $template_desc);
 
 	$captcha = '';
 	$captchaLbl = '';

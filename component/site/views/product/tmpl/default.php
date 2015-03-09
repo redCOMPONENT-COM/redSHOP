@@ -1816,11 +1816,20 @@ if (strstr($template_desc, '{ask_question_about_product_without_lightbox}'))
 // Replacing form_rating_without_link must be after parseredSHOPplugin for not replace in cloak plugin form emails
 if (strstr($template_desc, '{form_rating_without_link}'))
 {
+	$form = RedshopModelForm::getInstance(
+			'Product_Rating',
+			'RedshopModel',
+			array(
+				'context' => 'com_redshop.edit.product_rating.' . $this->data->product_id
+			)
+		)
+		->getForm();
 	$displayData = array(
-		'form' => RedshopModelForm::getInstance('Product_Rating', 'RedshopModel')->getForm(),
-		'ask' => 1
+		'form' => $form,
+		'modal' => 0,
+		'product_id' => $this->data->product_id
 	);
-	$template_desc = str_replace('{form_rating_without_link}', RedshopLayoutHelper::render('product.rating', $displayData), $template_desc);
+	$template_desc = str_replace('{form_rating_without_link}', RedshopLayoutHelper::render('product.product_rating', $displayData), $template_desc);
 }
 
 /**
@@ -1863,43 +1872,6 @@ function setZoomImagepath(elm) {
 			imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
 			elm.href = imageurl;
 		}
-	}
-}
-
-function validateReview() {
-	var email = document.getElementById('email').value;
-	var form = document.writereview;
-	var flag = 0;
-	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-	var selection = document.writereview.user_rating;
-
-	for (i = 0; i < selection.length; i++) {
-		if (selection[i].checked == true) {
-			flag = 1;
-		}
-	}
-	if (flag == 0) {
-		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT'); ?>');
-		return false;
-	}
-	else if (email == '') {
-		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
-		return false;
-	}
-	else if (reg.test(email) == false) {
-		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
-		return false;
-	}
-	else if (form.comment.value == "") {
-		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT'); ?>');
-		return false;
-	}
-	else if (form.review_captcha.value == "") {
-		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_FILL_CAPTCHA'); ?>');
-		return false;
-	}
-	else {
-		return true;
 	}
 }
 </script>
