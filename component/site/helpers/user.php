@@ -16,8 +16,6 @@ JLoader::load('RedshopHelperHelper');
 
 class rsUserhelper
 {
-	public $_table_prefix = null;
-
 	public $_session = null;
 
 	public $_userId = null;
