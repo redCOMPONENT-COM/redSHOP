@@ -29,13 +29,13 @@ class InstallExtensionJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$this->acceptanceTester = $I;
 		$I->wantTo('install redCORE');
-		$I->amOnPage(\ExtensionManagerPage::$URL);
+		$I->amOnPage(\ExtensionManagerJoomla3Page::$URL);
 		$config = $I->getConfig();
 		$I->click('Install from Directory');
-		$I->fillField(\ExtensionManagerPage::$extensionDirectoryPath, $config['folder']);
-		$I->click(\ExtensionManagerPage::$installButton);
-		$I->waitForText(\ExtensionManagerPage::$installSuccessMessage, 60);
-		$I->see(\ExtensionManagerPage::$installSuccessMessage);
+		$I->fillField(\ExtensionManagerJoomla3Page::$extensionDirectoryPath, $config['folder']);
+		$I->click(\ExtensionManagerJoomla3Page::$installButton);
+		$I->waitForText(\ExtensionManagerJoomla3Page::$installSuccessMessage, 60);
+		$I->see(\ExtensionManagerJoomla3Page::$installSuccessMessage);
 	}
 
 	/**
@@ -50,8 +50,8 @@ class InstallExtensionJoomla3Steps extends \AcceptanceTester
 
 		if ($config['install_extension_demo_data'] == 'yes')
 		{
-			$I->click(\ExtensionManagerPage::$installDemoContent);
-			$I->waitForText(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
+			$I->click(\ExtensionManagerJoomla3Page::$installDemoContent);
+			$I->waitForText(\ExtensionManagerJoomla3Page::$demoDataInstallSuccessMessage, 30);
 		}
 	}
 }

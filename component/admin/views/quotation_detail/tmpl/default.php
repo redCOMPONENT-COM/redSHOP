@@ -377,17 +377,17 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 							$DiscountWithotVat = $quotation->quotation_discount;
 							$DiscountspWithotVat = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
 
-							if (VAT_RATE_AFTER_DISCOUNT)
+							if ((float) VAT_RATE_AFTER_DISCOUNT)
 							{
-								$Discountvat       = (VAT_RATE_AFTER_DISCOUNT * $quotation->quotation_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+								$Discountvat       = ((float) VAT_RATE_AFTER_DISCOUNT * $quotation->quotation_discount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
 								$DiscountWithotVat = $quotation->quotation_discount - $Discountvat;
 								$tax               = $tax - $Discountvat;
 							}
 
-							if (VAT_RATE_AFTER_DISCOUNT)
+							if ((float) VAT_RATE_AFTER_DISCOUNT)
 							{
 								$sp_discount         = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
-								$Discountspvat       = ($sp_discount * VAT_RATE_AFTER_DISCOUNT) / (1 + VAT_RATE_AFTER_DISCOUNT);
+								$Discountspvat       = ($sp_discount * (float) VAT_RATE_AFTER_DISCOUNT) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
 								$DiscountspWithotVat = $sp_discount - $Discountspvat;
 								$tax                 = $tax - $Discountspvat;
 							}

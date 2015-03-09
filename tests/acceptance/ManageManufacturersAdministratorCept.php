@@ -9,7 +9,10 @@ $scenario->group('Joomla2');
 $scenario->group('Joomla3');
 
 // Load the Step Object Page
-$I = new AcceptanceTester\LoginSteps($scenario);
+$I = new AcceptanceTester($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->wantTo('Test Manufacturer Manager in Administrator');
 $I->doAdminLogin();
@@ -29,8 +32,8 @@ else
 	$I->searchManufacturer($manufacturerName);
 	$I->editManufacturer($manufacturerName, $updatedName);
 	$I->searchManufacturer($updatedName);
-	$I->changeState($updatedName);
-	$I->verifyState('unpublished', $I->getState($updatedName));
+	$I->changeManufacturerState($updatedName);
+	$I->verifyState('unpublished', $I->getManufacturerState($updatedName));
 	$I->deleteManufacturer($updatedName);
 	$I->searchManufacturer($updatedName, 'Delete');
 }

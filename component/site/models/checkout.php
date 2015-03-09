@@ -77,7 +77,12 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$noOFGIFTCARD = 0;
-		$idx          = $cart['idx'];
+		$idx = 0;
+
+		if (isset($cart['idx']))
+		{
+			$idx = $cart['idx'];
+		}
 
 		for ($i = 0; $i < $idx; $i++)
 		{
@@ -1343,7 +1348,7 @@ class RedshopModelCheckout extends RedshopModel
 			$thum_image      = "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "giftcard/" . $giftcardData->giftcard_image . "'  title='" . $giftcardData->giftcard_name . "' alt='" . $giftcardData->giftcard_name . "'></a>";
 			$giftcard_value  = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
 			$giftcard_price  = $eachorders->product_final_price;
-			$giftcardmail_body .= $giftcardmail->mail_body;
+			$giftcardmail_body = $giftcardmail->mail_body;
 			$giftcard_name     = $giftcardData->giftcard_name;
 			$giftcardmail_body = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmail_body);
 			$user_fields       = $this->_producthelper->GetProdcutUserfield($eachorders->order_item_id, 13);
@@ -2274,9 +2279,13 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$shopmorelink = JRoute::_(CONTINUE_REDIRECT_LINK);
 			}
+			elseif ($catItemId = $redHelper->getCategoryItemid())
+			{
+				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
+			}
 			else
 			{
-				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $redHelper->getCategoryItemid());
+				$shopmorelink = JRoute::_('index.php');
 			}
 
 			$shop_more     = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';

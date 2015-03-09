@@ -484,7 +484,11 @@ function changeproductImage(product_id,imgPath,ahrefpath)
 	}
 }
 
-/********************NEW REGISTRATION FUNCTION*************************/
+// New registration functions
+
+window.onload = function(){
+	billingIsShipping(document.getElementById('billisship'));
+}
 
 function billingIsShipping(obj)
 {

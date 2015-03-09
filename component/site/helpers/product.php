@@ -1953,9 +1953,9 @@ class producthelper
 					$discount_amount = $discount->discount_amount;
 				}
 
-				if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+				if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 				{
-					$discountVAT = $discount_amount * VAT_RATE_AFTER_DISCOUNT;
+					$discountVAT = $discount_amount * (float) VAT_RATE_AFTER_DISCOUNT;
 				}
 
 				$cart['discount_tax'] = $discountVAT;
@@ -6093,7 +6093,14 @@ class producthelper
 			$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
 		}
 
-		$quan = 1;
+		if ($product->min_order_product_quantity > 0)
+		{
+			$quan = $product->min_order_product_quantity;
+		}
+		else
+		{
+			$quan = 1;
+		}
 
 		if (strstr($cartform, "{addtocart_quantity}"))
 		{

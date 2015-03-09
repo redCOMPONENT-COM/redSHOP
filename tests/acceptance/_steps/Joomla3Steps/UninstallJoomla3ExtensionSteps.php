@@ -28,23 +28,23 @@ class UninstallJoomla3ExtensionSteps extends \AcceptanceTester
 	public function uninstallExtension($extensionName)
 	{
 		$I = $this;
-		$I->amOnPage(\ExtensionManagerPage::$URL);
+		$I->amOnPage(\ExtensionManagerJoomla3Page::$URL);
 		$I->click("Manage");
-		$I->fillField(\ExtensionManagerPage::$extensionSearchJ3, $extensionName);
-		$I->click(\ExtensionManagerPage::$searchButtonJ3);
-		$I->click(\ExtensionManagerPage::$extensionNameLink);
-		$name = $I->grabTextFrom(\ExtensionManagerPage::$extensionTable);
+		$I->fillField(\ExtensionManagerJoomla3Page::$extensionSearchJ3, $extensionName);
+		$I->click(\ExtensionManagerJoomla3Page::$searchButtonJ3);
+		$I->click(\ExtensionManagerJoomla3Page::$extensionNameLink);
+		$name = $I->grabTextFrom(\ExtensionManagerJoomla3Page::$extensionTable);
 
 		while (strtolower($name) != strtolower($extensionName))
 		{
-			$I->click(\ExtensionManagerPage::$firstCheck);
+			$I->click(\ExtensionManagerJoomla3Page::$firstCheck);
 			$I->click("Uninstall");
-			$I->seeElement(\ExtensionManagerPage::$uninstallSuccessMessageJ3);
-			$name = $I->grabTextFrom(\ExtensionManagerPage::$extensionTable);
+			$I->seeElement(\ExtensionManagerJoomla3Page::$uninstallSuccessMessageJ3);
+			$name = $I->grabTextFrom(\ExtensionManagerJoomla3Page::$extensionTable);
 		}
 
-		$I->click(\ExtensionManagerPage::$firstCheck);
+		$I->click(\ExtensionManagerJoomla3Page::$firstCheck);
 		$I->click("Uninstall");
-		$I->seeElement(\ExtensionManagerPage::$uninstallSuccessMessageJ3);
+		$I->seeElement(\ExtensionManagerJoomla3Page::$uninstallSuccessMessageJ3);
 	}
 }
