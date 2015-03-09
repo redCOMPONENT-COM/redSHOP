@@ -37,11 +37,51 @@ class RedshopViewRegistration extends RedshopView
 
 		$field                        = new extraField;
 
-		// Field_section 7 : Customer Registration
-		$lists['extra_field_user']    = $field->list_all_field(7);
+		$jInput = JFactory::getApplication()->input;
+		$openToStretcher = 0;
+		$isCompany = $jInput->getInt('is_company', 0);
 
-		// Field_section 8 : Company Address
-		$lists['extra_field_company'] = $field->list_all_field(8);
+		if ($isCompany == 1 || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		{
+			$openToStretcher = 1;
+		}
+
+		// Allow registration type settings
+		$lists['allowCustomer'] = "";
+		$lists['allowCompany'] = "";
+		$lists['showCustomerdesc'] = "";
+		$lists['showCompanydesc'] = "style='display:none;'";
+
+		if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
+		{
+			$lists['allowCompany']      = "style='display:none;'";
+			$openToStretcher = 0;
+		}
+		elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+		{
+			$lists['allowCustomer']     = "style='display:none;'";
+			$lists['showCustomerdesc']  = "style='display:none;'";
+			$openToStretcher = 1;
+		}
+
+		if (DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		{
+			$lists['showCompanydesc']  = '';
+			$lists['showCustomerdesc'] = "style='display:none;'";
+		}
+
+		$lists['is_company'] = ($openToStretcher == 1 || ($isCompany == 1)) ? 1 : 0;
+
+		if ($lists['is_company'])
+		{
+			// Field_section 8 : Company Address
+			$lists['extra_field_company'] = $field->list_all_field(8);
+		}
+		else
+		{
+			// Field_section 7 : Customer Registration
+			$lists['extra_field_user']    = $field->list_all_field(7);
+		}
 
 		$this->lists = $lists;
 		$this->params = $params;
