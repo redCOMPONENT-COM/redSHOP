@@ -59,7 +59,7 @@ else
 
 if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
 {
-	$endlimit = $model->getProductPerPage();
+	$endlimit = $this->state->get('list.limit');
 
 	if (strstr($template_desc, "{product_display_limit}"))
 	{
@@ -68,7 +68,7 @@ if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($templa
 }
 else
 {
-	$endlimit = $model->getProductPerPage();
+	$endlimit = $this->state->get('list.limit');
 }
 
 $app = JFactory::getApplication();

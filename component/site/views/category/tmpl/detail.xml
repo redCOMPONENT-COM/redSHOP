@@ -21,6 +21,7 @@
                        description="Select Product Sorting"/>
             <field name="maxproduct" type="text" size="4" default="0" label="COM_RESHOP_HOW_MANY_PRODUCTS"
                        description="COM_RESHOP_HOW_MANY_PRODUCTS_DESCRIPTION"/>
+            <field name="editTimestamp" type="timestamp" default="0" />
         </fieldset>
     </fields>
 </metadata>
