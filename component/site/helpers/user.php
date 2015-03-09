@@ -58,7 +58,7 @@ class rsUserhelper
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('firstname, lastname')
+				->select('ui.*')
 				->from($db->qn('#__redshop_users_info', 'ui'))
 				->where('ui.user_id = ' . (int) $joomlaUserId)
 				->where('ui.address_type = ' . $db->q(strtoupper($addressType)));

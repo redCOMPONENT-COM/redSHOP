@@ -12,35 +12,43 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $form  A JForm object
+ * @param   object  $form        A JForm object
+ * @param   int     $product_id  Id current product
+ * @param   int     $modal       Flag use form in modal
  */
 extract($displayData);
 
 $app = JFactory::getApplication();
 $Itemid = $app->input->getInt('Itemid', 0);
-$product_id = $app->input->getInt('product_id', 0);
-$category_id = $app->input->getInt('category_id', 0);
+$category_id = $app->input->getInt('cid', 0);
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 JHtml::_('redshopjquery.radiobutton');
+JLoader::load('RedshopHelperUser');
 
 $user = JFactory::getUser();
+$userHelper = new rsUserhelper;
 
 if ($user->id)
 {
-	$fullname = '';
-
-	/*if (isset($this->userinfo) && $this->userinfo->firstname != "")
+	if ($userInfo = $userHelper->getRedSHOPUserInfo($user->id))
 	{
-		$fullname = $this->userinfo->firstname . " " . $this->userinfo->lastname;
-	}*/
+		$username = $userInfo->firstname . " " . $userInfo->lastname;
+	}
+	else
+	{
+		$username = $user->name;
+	}
 
-	$form->setValue('username', null, $form->getValue('username', null, $user->name));
+	$form->setValue('username', null, $form->getValue('username', null, $username));
+	$form->setFieldAttribute('username', 'disabled', 'true', null);
+	$form->setFieldAttribute('username', 'required', 'false', null);
+	$form->setFieldAttribute('email', 'required', 'false', null);
 }
 ?>
 <script type="text/javascript" language="javascript">
-	Joomla.submitbutton = function (task) {
+	ratingSubmitButton = function (task) {
 		var productRatingForm = document.getElementById('productRatingForm');
 
 		if (document.formvalidator.isValid(productRatingForm)) {
@@ -48,7 +56,7 @@ if ($user->id)
 		}
 	};
 </script>
-<form name="productRatingForm" action="<?php echo JRoute::_('index.php?option=com_redshop'); ?>" method="post"
+<form name="productRatingForm" action="<?php echo JRoute::_('index.php?option=com_redshop&view=product_rating', false); ?>" method="post"
 	  id="productRatingForm" class="form-validate form-vertical">
 	<table cellpadding="3" cellspacing="3" border="0" width="100%">
 		<tr>
@@ -126,16 +134,17 @@ if ($user->id)
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" name="submit" class="btn validate"
+				<input type="submit" class="btn"
 				   value="<?php echo JText::_('COM_REDSHOP_SEND_REVIEW'); ?>"
-				   onclick="Joomla.submitbutton('product_rating.submit')">
+				   onclick="ratingSubmitButton('product_rating.submit')">
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2"><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_FOOTER_TEXT'); ?></td>
 		</tr>
 	</table>
-	<input type="hidden" name="task" id="task" value="save"/>
+	<input type="hidden" name="task" id="task" value=""/>
+	<input type="hidden" name="modal" value="<?php echo $displayData['modal']; ?>"/>
 	<input type="hidden" name="product_id" value="<?php echo $product_id ?>"/>
 	<input type="hidden" name="category_id" value="<?php echo $category_id ?>"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid ?>"/>

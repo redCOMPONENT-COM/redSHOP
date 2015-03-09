@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::load('RedshopHelperUser');
 
 /**
  * Product rating Controller.
@@ -35,18 +36,27 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 
 		$productId   = $app->input->getInt('product_id', 0);
 		$Itemid      = $app->input->getInt('Itemid', 0);
-		$tmpl        = $app->input->getInt('tmpl', '');
+		$modal       = $app->input->getInt('modal', 0);
 		$category_id = $app->input->getInt('category_id', 0);
-		$rate        = $app->input->getInt('rate', 0);
 		$userHelper  = new rsUserhelper;
+		$user = JFactory::getUser();
 
-		if (!$tmpl != 'component')
+		if ($modal)
 		{
-			$link = 'index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=product_rating&product_id=' . $productId . '&tmpl=component&Itemid=' . $Itemid;
 		}
 		else
 		{
-			$link = 'index.php?option=com_redshop&view=product_rating&product_id=' . $productId . '&tmpl=component&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+		}
+
+		// Preform security checks
+		if (!$user->id && RATING_REVIEW_LOGIN_REQUIRED)
+		{
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
+			$this->setRedirect(JRoute::_($link, false));
+
+			return false;
 		}
 
 		// Validate the posted data.
@@ -61,7 +71,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		}
 
 		// Save the data in the session.
-		$app->setUserState('com_redshop.product_rating.data', $data);
+		$app->setUserState('com_redshop.edit.product_rating.' . $productId . '.data', $data);
 
 		// Check captcha only for guests
 		if (SHOW_CAPTCHA && JFactory::getUser()->guest)
@@ -72,6 +82,32 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 				$this->setRedirect($link);
 
 				return false;
+			}
+		}
+
+		if ($user->guest)
+		{
+			$data['userid'] = 0;
+		}
+		else
+		{
+			$userHelper = new rsUserhelper;
+			$data['userid'] = $user->id;
+
+			if ($userInfo = $userHelper->getRedSHOPUserInfo($user->id))
+			{
+				$data['username'] = $userInfo->firstname . " " . $userInfo->lastname;
+				$data['email'] = $userInfo->user_email;
+
+				if ($userInfo->is_company)
+				{
+					$data['company_name'] = $userInfo->company_name;
+				}
+			}
+			else
+			{
+				$data['username'] = $user->name;
+				$data['email'] = $user->email;
 			}
 		}
 
@@ -94,100 +130,58 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
+
+			$this->setRedirect($link);
+
+			return false;
+		}
+
+		if ((RATING_REVIEW_LOGIN_REQUIRED && $model->checkRatedProduct($productId, $user->id))
+			|| (!RATING_REVIEW_LOGIN_REQUIRED && $model->checkEmailForRatedProduct($productId, $data['email'])))
+		{
+			if ($modal)
+			{
+				$link .= '&rate=1';
+			}
+
+			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
+			$this->setRedirect($link);
+
+			return false;
+		}
+
+		$data['published'] = 0;
+		$data['favoured'] = 0;
+		$data['time'] = time();
+		$data['product_id'] = $productId;
+		$data['Itemid'] = $Itemid;
+
+		if ($model->sendMailForReview($data))
+		{
+			// Flush the data from the session
+			$app->setUserState('com_redshop.edit.product_rating.' . $productId . '.data', null);
+
+			if (RATING_MSG)
+			{
+				$msg = RATING_MSG;
+			}
+			else
+			{
+				$msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
+			}
+
+			$app->enqueueMessage($msg);
+
+			if ($modal)
+			{
+				$link .= '&rate=1';
+			}
 		}
 		else
 		{
-			$user = JFactory::getUser();
-
-			if ($user->guest)
-			{
-				$data['userid'] = 0;
-			}
-			else
-			{
-				$userHelper = new rsUserhelper;
-
-				if ($userInfo = $userHelper->getRedSHOPUserInfo($user->id))
-				{
-					$data['username'] = $userInfo->firstname . " " . $userInfo->lastname;
-					$data['email'] = $userInfo->user_email;
-
-					if ($userInfo->is_company)
-					{
-						$data['company_name'] = $userInfo->company_name;
-					}
-				}
-				else
-				{
-					$data['username'] = $user->name;
-					$data['email'] = $user->email;
-				}
-			}
-
-			$data['published'] = 0;
-			$data['favoured'] = 0;
-			$data['time'] = time();
-			$data['product_id'] = $productId;
-			$data['Itemid'] = $Itemid;
-
-			if ($model->sendMailForReview($data))
-			{
-				// Flush the data from the session
-				$app->setUserState('com_redshop.product_rating.data', null);
-				$app->enqueueMessage(JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY'));
-
-				if ($rate)
-				{
-					$link .= '&rate=1';
-				}
-			}
-			else
-			{
-				$app->enqueueMessage($model->getError(), 'warning');
-			}
+			$app->enqueueMessage($model->getError(), 'warning');
 		}
 
 		$this->setRedirect(JRoute::_($link, false));
-	}
-
-	/**
-	 * save function
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function saveOld()
-	{
-		$post        = JRequest::get('post');
-		$Itemid      = JRequest::getVar('Itemid');
-		$product_id  = JRequest::getInt('product_id');
-		$category_id = JRequest::getInt('category_id');
-		$model       = $this->getModel('product_rating');
-		$rate        = JRequest::getVar('rate');
-
-		if ($model->sendMailForReview($post))
-		{
-			$msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY');
-		}
-
-		if ($rate == 1)
-		{
-			$link = 'index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
-			$this->setRedirect($link, $msg);
-		}
-		else
-		{
-			echo $msg;?>
-			<span id="closewindow"><input type="button" value="Close Window" onclick="window.parent.redBOX.close();"/></span>
-			<script>
-				setTimeout("window.parent.redBOX.close();", 5000);
-			</script>
-			<?php
-			exit;
-		}
 	}
 }

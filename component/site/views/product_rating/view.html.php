@@ -35,61 +35,28 @@ class RedshopViewProduct_Rating extends RedshopView
 		$this->form = $this->get('Form');
 
 		$app = JFactory::getApplication();
-		$input = $app->input;
-
 		$user = JFactory::getUser();
-		$userHelper = new rsUserhelper;
 
 		// Preform security checks
 		if (!$user->id && RATING_REVIEW_LOGIN_REQUIRED)
 		{
-			echo JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW');
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
 
 			return;
 		}
 
-		$model         = $this->getModel('product_rating');
-		$userinfo      = $userHelper->getRedSHOPUserInfo($user->id);
 		$params        = $app->getParams('com_redshop');
-		$Itemid        = $input->getInt('Itemid', 0);
-		$product_id    = $input->getInt('product_id', 0);
-		$category_id   = $input->getInt('category_id', 0);
-		$tmpl          = $input->getCmd('tmpl', '');
-
-		if ($input->getInt('rate', 0))
-		{
-			if ($tmpl == 'component')
-			{
-				?>
-				<script>
-					setTimeout("window.parent.redBOX.close();", 5000);
-				</script>
-			<?php
-			}
-		}
-		elseif ($model->checkRatedProduct($product_id, $user->id))
-		{
-			$msg  = JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN');
-
-			if ($tmpl != 'component')
-			{
-				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&modal=0&Itemid=' . $Itemid);
-				$app->redirect($link, $msg);
-			}
-			else
-			{
-				echo $msg;
-				?>
-				<script>
-					setTimeout("window.parent.redBOX.close();", 5000);
-				</script>
-				<?php
-				return;
-			}
-		}
-
-		$this->userinfo = $userinfo;
+		$model = $this->getModel('product_rating');
+		$productId   = $app->input->getInt('product_id', 0);
 		$this->params = $params;
+		$this->productId = $productId;
+		$rate = $app->input->getInt('rate', 0);
+
+		if (!$rate && $user->id && $model->checkRatedProduct($productId, $user->id))
+		{
+			$app->input->set('rate', 1);
+			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
+		}
 
 		parent::display($tpl);
 	}

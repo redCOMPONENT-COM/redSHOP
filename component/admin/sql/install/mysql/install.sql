@@ -1130,7 +1130,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
 	`username`     VARCHAR(255) NOT NULL,
 	`company_name` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`rating_id`),
-	UNIQUE KEY `product_id` (`product_id`, `userid`),
+	UNIQUE KEY `product_id` (`product_id`, `userid`, `email`),
 	KEY `idx_published` (`published`),
 	KEY `idx_email` (`email`)
 )

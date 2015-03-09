@@ -23,11 +23,13 @@ if ($this->params->get('show_page_heading', 1))
 if (!$app->input->getInt('rate', 0))
 {
 	$displayData = array(
-		'form' => $this->form
+		'form' => $this->form,
+		'modal' => 1,
+		'product_id' => $this->productId
 	);
-	echo RedshopLayoutHelper::render('product.rating', $displayData);
+	echo RedshopLayoutHelper::render('product.product_rating', $displayData);
 }
-elseif ($app->input->getCmd('tmpl') == 'component')
+else
 {
 	?>
 	<script>
