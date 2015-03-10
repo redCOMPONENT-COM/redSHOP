@@ -703,6 +703,8 @@ class redshopMail
 		$replace_sub[]    = $row->order_number;
 		$search_sub[]     = "{shopname}";
 		$replace_sub[]    = SHOP_NAME;
+		$search_sub[]     = "{invoice_number}";
+		$replace_sub[]    = $row->invoice_no;
 
 		$message          = str_replace($search, $replace, $message);
 		$message          = $this->imginmail($message);
