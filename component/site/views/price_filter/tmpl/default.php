@@ -32,7 +32,7 @@ JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;?>
 <table border="0" cellpadding="2" cellspacing="2">
 	<?php
-	for ($i = 0, $countPrdList = $this->prdlist; $i < $countPrdList; $i++)
+	for ($i = 0, $countPrdList = count($this->prdlist); $i < $countPrdList; $i++)
 	{
 		$row = $this->prdlist[$i];
 
