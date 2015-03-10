@@ -22,7 +22,6 @@
     </languages>
     <config addfieldpath="/administrator/components/com_redshop/elements">
         <fields name="params">
-
             <fieldset name="basic">
                 <field name="payment_oprand" type="text" size="10" default="-"
                        label="Payment operand" description="Payment Operand"/>
@@ -96,8 +95,9 @@
                 <field name="economic_design_layout" type="text" default=""
                        label="Enter E-conomic Design and Layout ID"/>
                 <field name="is_creditcard" type="hidden" default="0" value="0"/>
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
+                       label="Select Shopper Group" description="Displays the shopper groups"/>
             </fieldset>
-
         </fields>
     </config>
 </extension>

@@ -99,7 +99,7 @@
                        label="PLG_RS_PAYMENT_EWAYUK_ECONOMIC_PAYMENT_TERMS_ID_LBL"/>
                 <field name="economic_design_layout" type="text" default=""
                        label="PLG_RS_PAYMENT_EWAYUK_ECONOMIC_DESIGN_LAYOUT_LBL"/>
-                <field name="shopper_group_id" type="shoppergrouplist" default="0"
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
                        label="PLG_RS_PAYMENT_EWAYUK_SHOPPER_GROUP_ID_LBL"
                        description="PLG_RS_PAYMENT_EWAYUK_SHOPPER_GROUP_ID_DESC"/>
             </fieldset>

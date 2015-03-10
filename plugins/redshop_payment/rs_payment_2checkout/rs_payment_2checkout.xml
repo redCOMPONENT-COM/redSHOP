@@ -130,6 +130,7 @@
 		<field
 		  name="shopper_group_id"
 		  type="shoppergrouplist"
+		  multiple="multiple"
 		  default="0"
 		  label="PLG_RS_PAYMENT_2CHECKOUT_SHOPPER_GROUP_ID"
 		  description="PLG_RS_PAYMENT_2CHECKOUT_SHOPPER_GROUP_ID_DESC"
