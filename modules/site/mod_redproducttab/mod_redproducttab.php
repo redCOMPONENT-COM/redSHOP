@@ -30,6 +30,6 @@ JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-JLoader::import('helper', __DIR__);
+require_once __DIR__ . '/helper.php';
 
 include JModuleHelper::getLayoutPath('mod_redproducttab', $layout);

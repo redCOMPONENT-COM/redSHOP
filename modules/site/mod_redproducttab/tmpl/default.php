@@ -33,7 +33,7 @@ if ($newprd)
 	{
 		echo JHtml::_('tabs.panel', JText::_('MOD_REDPRODUCTTAB_NEWEST_PRODUCTS'), 'tab1');
 
-		include $layout . '_tab.php';
+		include JModuleHelper::getLayoutPath('mod_redproducttab', $layout . '_tab');
 	}
 }
 
@@ -46,7 +46,7 @@ if ($ltsprd)
 	{
 		echo JHtml::_('tabs.panel', JText::_('MOD_REDPRODUCTTAB_LATEST_PRODUCTS'), 'tab2');
 
-		include $layout . '_tab.php';
+		include JModuleHelper::getLayoutPath('mod_redproducttab', $layout . '_tab');
 	}
 }
 
@@ -59,7 +59,7 @@ if ($soldprd)
 	{
 		echo JHtml::_('tabs.panel', JText::_('MOD_REDPRODUCTTAB_MOST_SOLD_PRODUCTS'), 'tab3');
 
-		include $layout . '_tab.php';
+		include JModuleHelper::getLayoutPath('mod_redproducttab', $layout . '_tab');
 	}
 }
 
@@ -72,7 +72,7 @@ if ($splprd)
 	{
 		echo JHtml::_('tabs.panel', JText::_('MOD_REDPRODUCTTAB_SPECIAL_PRODUCTS'), 'tab4');
 
-		include $layout . '_tab.php';
+		include JModuleHelper::getLayoutPath('mod_redproducttab', $layout . '_tab');
 	}
 }
 
