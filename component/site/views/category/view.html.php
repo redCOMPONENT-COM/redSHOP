@@ -112,7 +112,7 @@ class RedshopViewCategory extends RedshopView
 
 			$isSlider = false;
 
-			if (count($loadCategorytemplate) > 0 && strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
+			if (count($loadCategorytemplate) > 0 && strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
 			{
 				$limit_product = $model->getCategoryProduct(1);
 				$minmax[0]     = $limit_product[0]->minprice;
@@ -396,7 +396,7 @@ class RedshopViewCategory extends RedshopView
 
 		if ($this->catid && count($loadCategorytemplate) > 0)
 		{
-			if (strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
+			if (strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
 			{
 				$ajaxSlide = $this->input->getBool('ajaxslide', false);
 

@@ -748,7 +748,7 @@ class rsstockroomhelper
 
 	public function replaceStockroomAmountDetail($template_desc = "", $section_id = 0, $section = "product")
 	{
-		if (strstr($template_desc, '{stockroom_detail}'))
+		if (strpos($template_desc, '{stockroom_detail}') !== false)
 		{
 			$productinstock = "";
 
