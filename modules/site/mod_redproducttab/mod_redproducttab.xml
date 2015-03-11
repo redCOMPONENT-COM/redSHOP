@@ -12,6 +12,7 @@
     <files>
         <filename module="mod_redproducttab">mod_redproducttab.php</filename>
         <filename>index.html</filename>
+		<filename>helper.php</filename>
         <folder>tmpl</folder>
     </files>
     <languages>
