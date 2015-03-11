@@ -174,9 +174,9 @@ class RedshopModelCategory extends RedshopModel
 		$limit = 0;
 
 		if (isset($this->_template[0]->template_desc)
-			&& !strstr($this->_template[0]->template_desc, "{show_all_products_in_category}")
-			&& strstr($this->_template[0]->template_desc, "{pagination}")
-			&& strstr($this->_template[0]->template_desc, "perpagelimit:"))
+			&& strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false
+			&& strpos($this->_template[0]->template_desc, "{pagination}") !== false
+			&& strpos($this->_template[0]->template_desc, "perpagelimit:") !== false)
 		{
 			$perpage = explode('{perpagelimit:', $this->_template[0]->template_desc);
 			$perpage = explode('}', $perpage[1]);
@@ -309,7 +309,7 @@ class RedshopModelCategory extends RedshopModel
 		$user = JFactory::getUser();
 		$orderBy = $this->buildProductOrderBy();
 
-		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))
+		if ($minmax && !(strpos($orderBy, "p.product_price ASC") !== false || strpos($orderBy, "p.product_price DESC") !== false))
 		{
 			$orderBy = "p.product_price ASC";
 		}
@@ -403,7 +403,7 @@ class RedshopModelCategory extends RedshopModel
 
 		$priceSort = false;
 
-		if (strstr($orderBy, "p.product_price ASC"))
+		if (strpos($orderBy, "p.product_price ASC") !== false)
 		{
 			$priceSort = true;
 
@@ -415,7 +415,7 @@ class RedshopModelCategory extends RedshopModel
 
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'ASC');
 		}
-		elseif (strstr($orderBy, "p.product_price DESC"))
+		elseif (strpos($orderBy, "p.product_price DESC") !== false)
 		{
 			$priceSort = true;
 			$sort      = "DESC";
@@ -572,13 +572,13 @@ class RedshopModelCategory extends RedshopModel
 		}
 		else
 		{
-			if (!strstr($this->_template[0]->template_desc, "{show_all_products_in_category}") && strstr($this->_template[0]->template_desc, "{pagination}"))
+			if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false && strpos($this->_template[0]->template_desc, "{pagination}") !== false)
 			{
 				$this->_data = $this->_getList($query, $limitstart, $endlimit);
 			}
 			else
 			{
-				if (strstr($this->_template[0]->template_desc, "{show_all_products_in_category}"))
+				if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") !== false)
 				{
 					$this->_data = $this->_getList($query);
 				}
@@ -728,7 +728,7 @@ class RedshopModelCategory extends RedshopModel
 		$limitstart = $this->getState('list.start');
 		$query      = $this->_buildfletterQuery($letter, $fieldid);
 
-		if (strstr($this->_template[0]->template_desc, "{pagination}"))
+		if (strpos($this->_template[0]->template_desc, "{pagination}") !== false)
 		{
 			$product_lists = $this->_getList($query, $limitstart, $endlimit);
 		}

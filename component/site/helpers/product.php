@@ -477,7 +477,7 @@ class producthelper
 
 	public function replaceVatinfo($data_add)
 	{
-		if (strstr($data_add, "{vat_info}"))
+		if (strpos($data_add, "{vat_info}") !== false)
 		{
 			$strVat       = '';
 			$chktaxExempt = $this->getApplyVatOrNot($data_add);
@@ -782,14 +782,14 @@ class producthelper
 		{
 			if ($categorypage == 1)
 			{
-				if (strstr($template_data, "{producttag:" . $filedname[$i] . "}"))
+				if (strpos($template_data, "{producttag:" . $filedname[$i] . "}") !== false)
 				{
 					$str[] = $filedname[$i];
 				}
 			}
 			else
 			{
-				if (strstr($template_data, "{" . $filedname[$i] . "}"))
+				if (strpos($template_data, "{" . $filedname[$i] . "}") !== false)
 				{
 					$str[] = $filedname[$i];
 				}
@@ -1392,7 +1392,7 @@ class producthelper
 		$cartform      = (count($cart_template) > 0) ? $cart_template->template_desc : "";
 		$qunselect     = 1;
 
-		if (strstr($cartform, "{addtocart_quantity_selectbox}"))
+		if (strpos($cartform, "{addtocart_quantity_selectbox}") !== false)
 		{
 			$product = $this->getProductById($product_id);
 
@@ -1467,7 +1467,7 @@ class producthelper
 
 			$isStockExists = $stockroomhelper->isStockExists($product_id);
 
-			if ($isStockExists && strstr($data_add, "{" . $relPrefix . "product_price_table}"))
+			if ($isStockExists && strpos($data_add, "{" . $relPrefix . "product_price_table}") !== false)
 			{
 				$product_price_table = $this->getProductQuantityPrice($product_id, $user_id);
 				$data_add            = str_replace("{" . $relPrefix . "product_price_table}", $product_price_table, $data_add);
@@ -1513,7 +1513,7 @@ class producthelper
 			}
 		}
 
-		if (strstr($data_add, "{" . $relPrefix . "product_price_table}"))
+		if (strpos($data_add, "{" . $relPrefix . "product_price_table}") !== false)
 		{
 			$data_add = str_replace("{" . $relPrefix . "product_price_table}", '', $data_add);
 		}
@@ -2189,7 +2189,7 @@ class producthelper
 			}
 		}
 
-		if (strstr($data_add, "{without_vat}"))
+		if (strpos($data_add, "{without_vat}") !== false)
 		{
 			return false;
 		}
@@ -2229,11 +2229,11 @@ class producthelper
 			}
 		}
 
-		if (strstr($data_add, "{attribute_price_without_vat}"))
+		if (strpos($data_add, "{attribute_price_without_vat}") !== false)
 		{
 			return 0;
 		}
-		elseif (strstr($data_add, "{attribute_price_with_vat}"))
+		elseif (strpos($data_add, "{attribute_price_with_vat}") !== false)
 		{
 			return 1;
 		}
@@ -2502,7 +2502,7 @@ class producthelper
 			case "product":
 				$res = $this->getMenuInformation($Itemid);
 
-				if (count($res) > 0 && (strstr($res->params, "manufacturer") && !strstr($res->params, '"manufacturer_id":"0"')))
+				if (count($res) > 0 && (strpos($res->params, "manufacturer") !== false && strpos($res->params, '"manufacturer_id":"0"') === false))
 				{
 					$custompathway = array();
 					$res           = $this->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
@@ -3173,7 +3173,7 @@ class producthelper
 
 				if ($value != "")
 				{
-					if (strstr($template_middle, '{' . $value . '_lbl}'))
+					if (strpos($template_middle, '{' . $value . '_lbl}') !== false)
 					{
 						$userfields_lbl[] = $value . '_lbl';
 						$userfields[]     = $value;
@@ -3708,7 +3708,7 @@ class producthelper
 		{
 			for ($i = 0; $i < count($attribute_template); $i++)
 			{
-				if (strstr($data_add, "{" . $displayname . ":" . $attribute_template[$i]->template_name . "}"))
+				if (strpos($data_add, "{" . $displayname . ":" . $attribute_template[$i]->template_name . "}") !== false)
 				{
 					$attribute_template_data = $attribute_template[$i];
 				}
@@ -3839,7 +3839,7 @@ class producthelper
 		{
 			for ($i = 0; $i < count($cart_template); $i++)
 			{
-				if (strstr($data_add, "{form_addtocart:" . $cart_template[$i]->template_name . "}"))
+				if (strpos($data_add, "{form_addtocart:" . $cart_template[$i]->template_name . "}") !== false)
 				{
 					$cart_template_data = $cart_template[$i];
 
@@ -3875,7 +3875,7 @@ class producthelper
 		{
 			for ($i = 0; $i < count($acc_template); $i++)
 			{
-				if (strstr($data_add, "{accessory_template:" . $acc_template[$i]->template_name . "}"))
+				if (strpos($data_add, "{accessory_template:" . $acc_template[$i]->template_name . "}") !== false)
 				{
 					$acc_template_data = $acc_template[$i];
 
@@ -3900,7 +3900,7 @@ class producthelper
 
 		for ($i = 0; $i < count($template); $i++)
 		{
-			if (strstr($data_add, "{related_product:" . $template[$i]->template_name . "}"))
+			if (strpos($data_add, "{related_product:" . $template[$i]->template_name . "}") !== false)
 			{
 				$template_data = $template[$i];
 
@@ -4105,7 +4105,7 @@ class producthelper
 	{
 		$redconfig = new Redconfiguration;
 
-		if (strstr($data_add, "{if product_on_sale}") && strstr($data_add, "{product_on_sale end if}"))
+		if (strpos($data_add, "{if product_on_sale}") && strpos($data_add, "{product_on_sale end if}") !== false)
 		{
 			$template_pd_sdata = explode('{if product_on_sale}', $data_add);
 			$template_pd_edata = explode('{product_on_sale end if}', $template_pd_sdata [1]);
@@ -4165,7 +4165,7 @@ class producthelper
 
 	public function getSpecialProductComment($product = array(), $data_add = "")
 	{
-		if (strstr($data_add, "{if product_special}") && strstr($data_add, "{product_special end if}"))
+		if (strpos($data_add, "{if product_special}") !== false && strpos($data_add, "{product_special end if}") !== false)
 		{
 			if ($product->product_special == 0)
 			{
@@ -4199,7 +4199,7 @@ class producthelper
 
 			for ($i = 0; $i < count($ajaxdetail_template); $i++)
 			{
-				if (strstr($producttemplate[0]->template_desc, "{ajaxdetail_template:" . $ajaxdetail_template[$i]->template_name . "}"))
+				if (strpos($producttemplate[0]->template_desc, "{ajaxdetail_template:" . $ajaxdetail_template[$i]->template_name . "}") !== false)
 				{
 					$ajaxdetail_templatedata = $ajaxdetail_template[$i];
 					break;
@@ -4280,7 +4280,7 @@ class producthelper
 		{
 			$acctemplate_data = $accessory_template_data;
 
-			if (strstr($acctemplate_data, "{if accessory_main}") && strstr($acctemplate_data, "{accessory_main end if}"))
+			if (strpos($acctemplate_data, "{if accessory_main}") !== false && strpos($acctemplate_data, "{accessory_main end if}") !== false)
 			{
 				$acctemplate_data = explode('{if accessory_main}', $acctemplate_data);
 				$accessory_start  = $acctemplate_data[0];
@@ -4288,7 +4288,7 @@ class producthelper
 				$accessory_end    = $acctemplate_data[1];
 				$accessory_middle = $acctemplate_data[0];
 
-				if (strstr($accessory_middle, "{accessory_main_short_desc}"))
+				if (strpos($accessory_middle, "{accessory_main_short_desc}") !== false)
 				{
 					$accessory_main_short_description = $redconfig->maxchar(
 						$product->product_s_desc,
@@ -4300,7 +4300,7 @@ class producthelper
 						$accessory_middle);
 				}
 
-				if (strstr($accessory_middle, "{accessory_main_title}"))
+				if (strpos($accessory_middle, "{accessory_main_title}") !== false)
 				{
 					$accessory_main_product_name = $redconfig->maxchar(
 						$product->product_name,
@@ -4315,19 +4315,19 @@ class producthelper
 				$accessory_main_image    = $product->product_full_image;
 				$accessorymainimage      = '';
 
-				if (strstr($accessory_middle, "{accessory_main_image_3}"))
+				if (strpos($accessory_middle, "{accessory_main_image_3}") !== false)
 				{
 					$aimg_tag = '{accessory_main_image_3}';
 					$ah_thumb = ACCESSORY_THUMB_HEIGHT_3;
 					$aw_thumb = ACCESSORY_THUMB_WIDTH_3;
 				}
-				elseif (strstr($accessory_middle, "{accessory_main_image_2}"))
+				elseif (strpos($accessory_middle, "{accessory_main_image_2}") !== false)
 				{
 					$aimg_tag = '{accessory_main_image_2}';
 					$ah_thumb = ACCESSORY_THUMB_HEIGHT_2;
 					$aw_thumb = ACCESSORY_THUMB_WIDTH_2;
 				}
-				elseif (strstr($accessory_middle, "{accessory_main_image_1}"))
+				elseif (strpos($accessory_middle, "{accessory_main_image_1}") !== false)
 				{
 					$aimg_tag = '{accessory_main_image_1}';
 					$ah_thumb = ACCESSORY_THUMB_HEIGHT;
@@ -4369,12 +4369,12 @@ class producthelper
 				$accessory_middle = str_replace($aimg_tag, $accessorymainimage, $accessory_middle);
 				$ProductPriceArr  = array();
 
-				if (strstr($accessory_middle, "{accessory_mainproduct_price}") || strstr($data_add, "{selected_accessory_price}"))
+				if (strpos($accessory_middle, "{accessory_mainproduct_price}") !== false || strpos($data_add, "{selected_accessory_price}") !== false)
 				{
 					$ProductPriceArr = $this->getProductNetPrice($product_id, $user_id, 1, $data_add);
 				}
 
-				if (strstr($accessory_middle, "{accessory_mainproduct_price}"))
+				if (strpos($accessory_middle, "{accessory_mainproduct_price}") !== false)
 				{
 					$product_price = '';
 
@@ -4394,7 +4394,7 @@ class producthelper
 
 			$accessory_div = '';
 
-			if (strstr($acctemplate_data, "{accessory_product_start}") && strstr($acctemplate_data, "{accessory_product_end}"))
+			if (strpos($acctemplate_data, "{accessory_product_start}") !== false && strpos($acctemplate_data, "{accessory_product_end}") !== false)
 			{
 				$acctemplate_data    = explode('{accessory_product_start}', $acctemplate_data);
 				$accessory_div_start = $acctemplate_data [0];
@@ -4423,19 +4423,19 @@ class producthelper
 					$accessory_image = $accessory [$a]->product_full_image;
 					$accessoryimage  = '';
 
-					if (strstr($accessory_div, "{accessory_image_3}"))
+					if (strpos($accessory_div, "{accessory_image_3}") !== false)
 					{
 						$aimg_tag = '{accessory_image_3}';
 						$ah_thumb = ACCESSORY_THUMB_HEIGHT_3;
 						$aw_thumb = ACCESSORY_THUMB_WIDTH_3;
 					}
-					elseif (strstr($accessory_div, "{accessory_image_2}"))
+					elseif (strpos($accessory_div, "{accessory_image_2}") !== false)
 					{
 						$aimg_tag = '{accessory_image_2}';
 						$ah_thumb = ACCESSORY_THUMB_HEIGHT_2;
 						$aw_thumb = ACCESSORY_THUMB_WIDTH_2;
 					}
-					elseif (strstr($accessory_div, "{accessory_image_1}"))
+					elseif (strpos($accessory_div, "{accessory_image_1}") !== false)
 					{
 						$aimg_tag = '{accessory_image_1}';
 						$ah_thumb = ACCESSORY_THUMB_HEIGHT;
@@ -4527,7 +4527,7 @@ class producthelper
 					$accessory_div               = str_replace("{accessory_short_desc}", $accessory_short_description, $accessory_div);
 
 					// Add manufacturer
-					if (strstr($accessory_div, "{manufacturer_name}") || strstr($accessory_div, "{manufacturer_link}"))
+					if (strpos($accessory_div, "{manufacturer_name}") !== false || strpos($accessory_div, "{manufacturer_link}") !== false)
 					{
 						$manufacturer = $this->getSection("manufacturer", $accessory [$a]->manufacturer_id);
 
@@ -4555,7 +4555,7 @@ class producthelper
 						1
 					);
 
-					if (!strstr($accessory_div, "{without_vat}"))
+					if (strpos($accessory_div, "{without_vat}") === false)
 					{
 						$accessorypricelist = $this->getAccessoryPrice($product_id,
 							$accessory[$a]->newaccessory_price,
@@ -4648,7 +4648,7 @@ class producthelper
 						JText::_('COM_REDSHOP_ACCESSORY_ADD_CHKBOX_LBL') . '&nbsp;' . $accessory [$a]->product_name,
 						$accessory_div);
 
-					if (strstr($accessory_div, "{accessory_quantity}"))
+					if (strpos($accessory_div, "{accessory_quantity}") !== false)
 					{
 						if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
 						{
@@ -4685,7 +4685,7 @@ class producthelper
 				}
 			}
 
-			if (strstr($data_add, "{selected_accessory_price}") && $isAjax == 0)
+			if (strpos($data_add, "{selected_accessory_price}") !== false && $isAjax == 0)
 			{
 				$selected_accessory_price = $this->getPriceReplacement($ProductPriceArr['product_price']);
 				$data_add                 = str_replace(
@@ -4754,17 +4754,17 @@ class producthelper
 			$product         = $this->getProductById($product_id);
 			$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
 
-			if (strstr($producttemplate[0]->template_desc, "{more_images_3}"))
+			if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 			{
 				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
 				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
 			}
-			elseif (strstr($producttemplate[0]->template_desc, "{more_images_2}"))
+			elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 			{
 				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
 				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
 			}
-			elseif (strstr($producttemplate[0]->template_desc, "{more_images_1}"))
+			elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 			{
 				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
 				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
@@ -4794,8 +4794,8 @@ class producthelper
 				if (
 					$attributes[$a]->text != ""
 					&& count($property) > 0 &&
-					strstr($attribute_table, "{property_start}") &&
-					strstr($attribute_table, "{property_end}")
+					strpos($attribute_table, "{property_start}") !== false &&
+					strpos($attribute_table, "{property_end}") !== false
 				)
 				{
 					$start             = explode("{property_start}", $attribute_table);
@@ -4854,7 +4854,7 @@ class producthelper
 
 							$property_withoutvat = $property[$i]->property_price;
 
-							if (!strstr($data_add, "{without_vat}"))
+							if (strpos($data_add, "{without_vat}") === false)
 							{
 								$property_withvat = $this->getProducttax($product_id, $property[$i]->property_price, $user_id);
 							}
@@ -5064,17 +5064,17 @@ class producthelper
 		$product         = $this->getProductById($product_id);
 		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
 
-		if (strstr($producttemplate[0]->template_desc, "{more_images_3}"))
+		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
 		}
-		elseif (strstr($producttemplate[0]->template_desc, "{more_images_2}"))
+		elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
 		}
-		elseif (strstr($producttemplate[0]->template_desc, "{more_images_1}"))
+		elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
@@ -5118,7 +5118,7 @@ class producthelper
 					$selectedproperty       = 0;
 					$property_woscrollerdiv = "";
 
-					if (strstr($attribute_table, "{property_image_without_scroller}"))
+					if (strpos($attribute_table, "{property_image_without_scroller}") !== false)
 					{
 						$attribute_table        = str_replace("{property_image_scroller}", "", $attribute_table);
 						$property_woscrollerdiv = "<div class='property_main_outer'>";
@@ -5322,7 +5322,7 @@ class producthelper
 						. ".scrollForward();\"></a></td>";
 					$property_scrollerdiv .= "</tr></table>";
 
-					if (strstr($attribute_table, "{property_image_without_scroller}"))
+					if (strpos($attribute_table, "{property_image_without_scroller}") !== false)
 					{
 						$property_woscrollerdiv .= "</div>";
 
@@ -5369,7 +5369,7 @@ class producthelper
 
 							$scrollerFunction = "";
 
-							if ($imgAdded > 0 && strstr($attribute_table, "{property_image_scroller}"))
+							if ($imgAdded > 0 && strpos($attribute_table, "{property_image_scroller}") !== false)
 							{
 								$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
 							}
@@ -5384,7 +5384,7 @@ class producthelper
 					{
 						$scrollerFunction = "";
 
-						if ($imgAdded > 0 && strstr($attribute_table, "{property_image_scroller}"))
+						if ($imgAdded > 0 && strpos($attribute_table, "{property_image_scroller}") !== false)
 						{
 							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
 						}
@@ -5554,17 +5554,17 @@ class producthelper
 		$product         = $this->getProductById($product_id);
 		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
 
-		if (strstr($producttemplate[0]->template_desc, "{more_images_3}"))
+		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
 		}
-		elseif (strstr($producttemplate[0]->template_desc, "{more_images_2}"))
+		elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
 		}
-		elseif (strstr($producttemplate[0]->template_desc, "{more_images_1}"))
+		elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
@@ -5590,7 +5590,7 @@ class producthelper
 
 				$subproperty_woscrollerdiv = "";
 
-				if (strstr($subatthtml, "{subproperty_image_without_scroller}"))
+				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
 				{
 					$attribute_table = str_replace("{subproperty_image_scroller}", "", $attribute_table);
 					$subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
@@ -5747,7 +5747,7 @@ class producthelper
 					. ".scrollForward();\" ></a></td>";
 				$subproperty_scrollerdiv .= "</tr></table>";
 
-				if (strstr($subatthtml, "{subproperty_image_without_scroller}"))
+				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
 				{
 					$subproperty_woscrollerdiv .= "</div>";
 				}
@@ -5820,7 +5820,7 @@ class producthelper
 
 						$scrollerFunction = "";
 
-						if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
+						if ($imgAdded > 0 && strpos($attribute_table, "{subproperty_image_scroller}") !== false)
 						{
 							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
 						}
@@ -5838,7 +5838,7 @@ class producthelper
 				{
 					$scrollerFunction = "";
 
-					if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
+					if ($imgAdded > 0 && strpos($attribute_table, "{subproperty_image_scroller}") !== false)
 					{
 						$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
 					}
@@ -5865,12 +5865,12 @@ class producthelper
 				$attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
 				$attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
 
-				if (strstr($subatthtml, "{subproperty_image_without_scroller}"))
+				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
 				{
 					$attribute_table = str_replace("{subproperty_image_scroller}", "", $attribute_table);
 					$attribute_table = str_replace("{subproperty_image_without_scroller}", $subproperty_woscrollerdiv, $attribute_table);
 				}
-				elseif (strstr($subatthtml, "{subproperty_image_scroller}"))
+				elseif (strpos($subatthtml, "{subproperty_image_scroller}") !== false)
 				{
 					$attribute_table = str_replace("{subproperty_image_scroller}", $subproperty_scrollerdiv, $attribute_table);
 					$attribute_table = str_replace("{subproperty_image_without_scroller}", "", $attribute_table);
@@ -6102,7 +6102,7 @@ class producthelper
 			$quan = 1;
 		}
 
-		if (strstr($cartform, "{addtocart_quantity}"))
+		if (strpos($cartform, "{addtocart_quantity}") !== false)
 		{
 			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity' type='text' name='quantity' id='quantity" .
 				$product_id . "' value='" . $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY .
@@ -6110,7 +6110,7 @@ class producthelper
 			$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
 			$cartform           = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
 		}
-		elseif (strstr($cartform, "{addtocart_quantity_selectbox}"))
+		elseif (strpos($cartform, "{addtocart_quantity_selectbox}") !== false)
 		{
 			$addtocart_quantity = "<input class='quantity' type='hidden' name='quantity' id='quantity" . $product_id . "' value='" .
 				$quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
@@ -6164,28 +6164,28 @@ class producthelper
 		$class   = 'class=""';
 		$title   = 'title=""';
 
-		if (strstr($cartform, "{addtocart_tooltip}"))
+		if (strpos($cartform, "{addtocart_tooltip}") !== false)
 		{
 			$class    = 'class="editlinktip hasTip"';
 			$title    = ' title="' . $tooltip . '" ';
 			$cartform = str_replace("{addtocart_tooltip}", $cartform, "");
 		}
 
-		if (strstr($cartform, "{addtocart_button}"))
+		if (strpos($cartform, "{addtocart_button}") !== false)
 		{
 			$cartTag  = "{addtocart_button}";
 			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '" class="icon_cart"><input type="button" ' .
 				$onclick . $cartTitle . ' name="addtocart_button" value="' . $ADD_OR_LBL . '" /></span>';
 		}
 
-		if (strstr($cartform, "{addtocart_link}"))
+		if (strpos($cartform, "{addtocart_link}") !== false)
 		{
 			$cartTag  = "{addtocart_link}";
 			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '" ' . $onclick . $cartTitle .
 				' style="cursor: pointer;" class="tag_cart">' . $ADD_OR_LBL . '</span>';
 		}
 
-		if (strstr($cartform, "{addtocart_image_aslink}"))
+		if (strpos($cartform, "{addtocart_image_aslink}") !== false)
 		{
 			$cartTag  = "{addtocart_image_aslink}";
 			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '" class="img_linkcart"><img ' . $onclick .
@@ -6193,7 +6193,7 @@ class producthelper
 				$ADD_CART_IMAGE . '" /></span>';
 		}
 
-		if (strstr($cartform, "{addtocart_image}"))
+		if (strpos($cartform, "{addtocart_image}") !== false)
 		{
 			$cartTag  = "{addtocart_image}";
 			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '><div ' . $onclick .
@@ -6751,23 +6751,23 @@ class producthelper
 					 * attribute, accessory, userfield check for ajax detail template
 					 */
 					// 	make attribute count 0. if there is no tag in ajax detail template
-					if (!strstr($ajax_cart_detail_temp_desc, "{attribute_template:"))
+					if (strpos($ajax_cart_detail_temp_desc, "{attribute_template:") === false)
 					{
 						$totalatt = 0;
 					}
 					// 	make accessory count 0. if there is no tag in ajax detail template
-					if (!strstr($ajax_cart_detail_temp_desc, "{accessory_template:"))
+					if (strpos($ajax_cart_detail_temp_desc, "{accessory_template:") === false)
 					{
 						$totalAccessory = 0;
 					}
 					// make userfields 0.if there is no tag available in ajax detail template
-					if (strstr($ajax_cart_detail_temp_desc, "{if product_userfield}"))
+					if (strpos($ajax_cart_detail_temp_desc, "{if product_userfield}") !== false)
 					{
 						$ajax_extra_field1       = explode("{if product_userfield}", $ajax_cart_detail_temp_desc);
 						$ajax_extra_field2       = explode("{product_userfield end if}", $ajax_extra_field1 [1]);
 						$ajax_extra_field_center = $ajax_extra_field2 [0];
 
-						if (!strstr($ajax_extra_field_center, "{"))
+						if (strpos($ajax_extra_field_center, "{") === false)
 						{
 							$count_no_user_field = 0;
 						}
@@ -6801,7 +6801,7 @@ class producthelper
 
 			$addtocart_quantity = '';
 
-			if (strstr($cartform, "{addtocart_quantity}"))
+			if (strpos($cartform, "{addtocart_quantity}") !== false)
 			{
 				$addtocart_quantity = "<span id='stockQuantity" . $stockId
 					. "'><input class='quantity' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
@@ -6810,7 +6810,7 @@ class producthelper
 				$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
 				$cartform           = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
 			}
-			elseif (strstr($cartform, "{addtocart_quantity_increase_decrease}"))
+			elseif (strpos($cartform, "{addtocart_quantity_increase_decrease}") !== false)
 			{
 				$addtocart_quantity .= '<input class="quantity" type="text"  id="quantity' . $product_id
 					. '" name="quantity" size="1"  value="' . $quan . '" onkeypress="return event.keyCode!=13"/>';
@@ -6829,7 +6829,7 @@ class producthelper
 				$cartform = str_replace("{addtocart_quantity_increase_decrease}", $addtocart_quantity, $cartform);
 				$cartform = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
 			}
-			elseif (strstr($cartform, "{addtocart_quantity_selectbox}"))
+			elseif (strpos($cartform, "{addtocart_quantity_selectbox}") !== false)
 			{
 				$addtocart_quantity = "<input class='quantity_select' type='hidden' name='quantity' id='quantity" . $product_id . "' value='"
 					. $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
@@ -6953,14 +6953,14 @@ class producthelper
 			$class = '';
 			$title = '';
 
-			if (strstr($cartform, "{addtocart_tooltip}"))
+			if (strpos($cartform, "{addtocart_tooltip}") !== false)
 			{
 				$class    = 'class="editlinktip hasTip"';
 				$title    = ' title="' . $tooltip . '" ';
 				$cartform = str_replace("{addtocart_tooltip}", "", $cartform);
 			}
 
-			if (strstr($cartform, "{addtocart_button}"))
+			if (strpos($cartform, "{addtocart_button}") !== false)
 			{
 				$cartTag = "{addtocart_button}";
 
@@ -6979,7 +6979,7 @@ class producthelper
 				}
 			}
 
-			if (strstr($cartform, "{addtocart_link}"))
+			if (strpos($cartform, "{addtocart_link}") !== false)
 			{
 				$cartTag = "{addtocart_link}";
 
@@ -6996,7 +6996,7 @@ class producthelper
 				}
 			}
 
-			if (strstr($cartform, "{addtocart_image_aslink}"))
+			if (strpos($cartform, "{addtocart_image_aslink}") !== false)
 			{
 				$cartTag = "{addtocart_image_aslink}";
 
@@ -7026,7 +7026,7 @@ class producthelper
 
 			}
 
-			if (strstr($cartform, "{addtocart_image}"))
+			if (strpos($cartform, "{addtocart_image}") !== false)
 			{
 				$cartTag = "{addtocart_image}";
 
@@ -7151,7 +7151,7 @@ class producthelper
 		// for compare product div...
 		if (PRODUCT_COMPARISON_TYPE != "")
 		{
-			if (strstr($data_add, '{' . $prefix . 'compare_product_div}'))
+			if (strpos($data_add, '{' . $prefix . 'compare_product_div}') !== false)
 			{
 				$div                 = $this->makeCompareProductDiv();
 				$compare_product_div = "<form name='frmCompare' method='post' action='"
@@ -7163,7 +7163,7 @@ class producthelper
 				$data_add = str_replace("{compare_product_div}", $compare_product_div, $data_add);
 			}
 
-			if (strstr($data_add, '{' . $prefix . 'compare_products_button}'))
+			if (strpos($data_add, '{' . $prefix . 'compare_products_button}') !== false)
 			{
 				if ($category_id == 0)
 				{
@@ -7300,11 +7300,11 @@ class producthelper
 							$virtualNumber = "<div class='checkout_attribute_number'>" . $property[0]->property_number
 								. "</div>";
 						}
-//						if(!strstr($data,'{product_attribute_price}'))
+//						if(strpos($data,'{product_attribute_price}') === false)
 //						{
 //							$displayPrice = '';
 //						}
-//						if(!strstr($data,'{product_attribute_number}'))
+//						if(strpos($data,'{product_attribute_number}') === false)
 //						{
 //							$virtualNumber = '';
 //						}
@@ -7347,11 +7347,11 @@ class producthelper
 								$displayPrice = "";
 							}
 
-//							if(!strstr($data,'{product_attribute_price}'))
+//							if(strpos($data,'{product_attribute_price}') === false)
 //							{
 //								$displayPrice = '';
 //							}
-//							if(!strstr($data,'{product_attribute_number}'))
+//							if(strpos($data,'{product_attribute_number}') === false)
 //							{
 //								$virtualNumber = '';
 //							}
@@ -7540,12 +7540,12 @@ class producthelper
 				$isStock         = $stockroomhelper->isStockExists($propArr[$k]['property_id'], "property");
 				$isPreorderStock = $stockroomhelper->isPreorderStockExists($propArr[$k]['property_id'], "property");
 
-				if (!strstr($data, '{product_attribute_price}'))
+				if (strpos($data, '{product_attribute_price}') === false)
 				{
 					$displayPrice = '';
 				}
 
-				if (!strstr($data, '{product_attribute_number}'))
+				if (strpos($data, '{product_attribute_number}') === false)
 				{
 					$virtualNumber = '';
 				}
@@ -7613,12 +7613,12 @@ class producthelper
 						"subproperty"
 					);
 
-					if (!strstr($data, '{product_attribute_price}'))
+					if (strpos($data, '{product_attribute_price}') === false)
 					{
 						$displayPrice = '';
 					}
 
-					if (!strstr($data, '{product_attribute_number}'))
+					if (strpos($data, '{product_attribute_number}') === false)
 					{
 						$virtualNumber = '';
 					}
@@ -7775,7 +7775,7 @@ class producthelper
 					$hide_attribute_price = $attribute[0]->hide_attribute_price;
 				}
 
-				if (!strstr($data, '{remove_product_attribute_title}'))
+				if (strpos($data, '{remove_product_attribute_title}') === false)
 				{
 					$displayattribute .= "<div class='checkout_attribute_title'>" . urldecode($orderItemAttdata[$i]->section_name) . "</div>";
 				}
@@ -7835,12 +7835,12 @@ class producthelper
 							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 						}
 
-						if (!strstr($data, '{product_attribute_price}'))
+						if (strpos($data, '{product_attribute_price}') === false)
 						{
 							$disPrice = '';
 						}
 
-						if (!strstr($data, '{product_attribute_number}'))
+						if (strpos($data, '{product_attribute_number}') === false)
 						{
 							$virtualNumber = '';
 						}
@@ -7903,18 +7903,18 @@ class producthelper
 								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 							}
 
-							if (!strstr($data, '{product_attribute_price}'))
+							if (strpos($data, '{product_attribute_price}') === false)
 							{
 								$disPrice = '';
 							}
 
-							if (!strstr($data, '{product_attribute_number}'))
+							if (strpos($data, '{product_attribute_number}') === false)
 							{
 								$virtualNumber = '';
 							}
 						}
 
-						if (!strstr($data, '{remove_product_subattribute_title}'))
+						if (strpos($data, '{remove_product_subattribute_title}') === false)
 						{
 							$displayattribute .= "<div class='checkout_subattribute_title'>" . urldecode($subproperty[0]->subattribute_color_title) . " : </div>";
 						}
@@ -8744,7 +8744,7 @@ class producthelper
 		$product_reviews = "";
 		$product_id      = $product->product_id;
 
-		if ($product_id && !strstr($data_add, "{jcomments off}") && strstr($data_add, "{jcomments on}"))
+		if ($product_id && strpos($data_add, "{jcomments off}") === false && strpos($data_add, "{jcomments on}") !== false)
 		{
 			$comments = $app->getCfg('absolute_path') . '/components/com_jcomments/jcomments.php';
 
@@ -8985,13 +8985,13 @@ class producthelper
 			}
 		}
 
-		if (strstr($data_add, "{products_in_stock}"))
+		if (strpos($data_add, "{products_in_stock}") !== false)
 		{
 			$data_add = str_replace("{products_in_stock}", JText::_('COM_REDSHOP_PRODUCT_IN_STOCK_LBL')
 				. ' <span id="displayProductInStock' . $product_id . '">' . $productinstock . '</span>', $data_add);
 		}
 
-		if (strstr($data_add, "{product_stock_amount_image}"))
+		if (strpos($data_add, "{product_stock_amount_image}") !== false)
 		{
 			$stockamountList  = $stockroomhelper->getStockAmountImage($Id, $sec, $productinstock);
 			$stockamountImage = "";
@@ -9433,19 +9433,19 @@ class producthelper
 
 		if ($redlayout == 'categoryproduct' || $redlayout == 'detail')
 		{
-			if (strstr($producttemplate, "{product_thumb_image_3}"))
+			if (strpos($producttemplate, "{product_thumb_image_3}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_3}';
 				$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_3;
 				$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_3;
 			}
-			elseif (strstr($producttemplate, "{product_thumb_image_2}"))
+			elseif (strpos($producttemplate, "{product_thumb_image_2}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_2}';
 				$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_2;
 				$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_2;
 			}
-			elseif (strstr($producttemplate, "{product_thumb_image_1}"))
+			elseif (strpos($producttemplate, "{product_thumb_image_1}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_1}';
 				$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
@@ -9461,19 +9461,19 @@ class producthelper
 		}
 		else
 		{
-			if (strstr($producttemplate, "{product_thumb_image_3}"))
+			if (strpos($producttemplate, "{product_thumb_image_3}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_3}';
 				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_3;
 				$pw_thumb = PRODUCT_MAIN_IMAGE_3;
 			}
-			elseif (strstr($producttemplate, "{product_thumb_image_2}"))
+			elseif (strpos($producttemplate, "{product_thumb_image_2}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_2}';
 				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_2;
 				$pw_thumb = PRODUCT_MAIN_IMAGE_2;
 			}
-			elseif (strstr($producttemplate, "{product_thumb_image_1}"))
+			elseif (strpos($producttemplate, "{product_thumb_image_1}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_1}';
 				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
@@ -9487,17 +9487,17 @@ class producthelper
 			}
 		}
 
-		if (strstr($producttemplate, "{more_images_3}"))
+		if (strpos($producttemplate, "{more_images_3}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
 		}
-		elseif (strstr($producttemplate, "{more_images_2}"))
+		elseif (strpos($producttemplate, "{more_images_2}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
 		}
-		elseif (strstr($producttemplate, "{more_images_1}"))
+		elseif (strpos($producttemplate, "{more_images_1}") !== false)
 		{
 			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
@@ -9998,9 +9998,9 @@ class producthelper
 		}
 
 		// Stockroom status code
-		if (strstr($template_desc, "{stock_status")
-			|| strstr($template_desc, "{stock_notify_flag}")
-			|| strstr($template_desc, "{product_availability_date}"))
+		if (strpos($template_desc, "{stock_status") !== false
+			|| strpos($template_desc, "{stock_notify_flag}") !== false
+			|| strpos($template_desc, "{product_availability_date}") !== false)
 		{
 			// for cunt attributes
 			$attributes_set = array();
@@ -10015,7 +10015,7 @@ class producthelper
 			$totalatt           = count($attributes);
 			$productStockStatus = $this->getproductStockStatus($product->product_id, $totalatt, $property_id, $subproperty_id);
 
-			if (strstr($template_desc, "{stock_status"))
+			if (strpos($template_desc, "{stock_status") !== false)
 			{
 				$stocktag    = strstr($template_desc, "{stock_status:");
 				$newstocktag = explode("}", $stocktag);
@@ -10069,7 +10069,7 @@ class producthelper
 				}
 			}
 
-			if (strstr($template_desc, "{stock_notify_flag}"))
+			if (strpos($template_desc, "{stock_notify_flag}") !== false)
 			{
 				$userArr       = $this->_session->get('rs_user');
 				$user = JFactory::getUser();
@@ -10135,7 +10135,7 @@ class producthelper
 
 			}
 
-			if (strstr($template_desc, "{product_availability_date}"))
+			if (strpos($template_desc, "{product_availability_date}") !== false)
 			{
 				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $productStockStatus['preorder'])
 				{
@@ -10234,8 +10234,8 @@ class producthelper
 		if (count($related_template) > 0)
 		{
 			if (count($related_product) > 0
-				&& strstr($related_template->template_desc, "{related_product_start}")
-				&& strstr($related_template->template_desc, "{related_product_end}"))
+				&& strpos($related_template->template_desc, "{related_product_start}") !== false
+				&& strpos($related_template->template_desc, "{related_product_end}") !== false)
 			{
 				$related_template_data = '';
 				$product_start         = explode("{related_product_start}", $related_template->template_desc);
@@ -10264,19 +10264,19 @@ class producthelper
 
 					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);
 
-					if (strstr($related_template_data, "{relproduct_image_3}"))
+					if (strpos($related_template_data, "{relproduct_image_3}") !== false)
 					{
 						$rpimg_tag = '{relproduct_image_3}';
 						$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_3;
 						$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_3;
 					}
-					elseif (strstr($related_template_data, "{relproduct_image_2}"))
+					elseif (strpos($related_template_data, "{relproduct_image_2}") !== false)
 					{
 						$rpimg_tag = '{relproduct_image_2}';
 						$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_2;
 						$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_2;
 					}
-					elseif (strstr($related_template_data, "{relproduct_image_1}"))
+					elseif (strpos($related_template_data, "{relproduct_image_1}") !== false)
 					{
 						$rpimg_tag = '{relproduct_image_1}';
 						$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
@@ -10295,7 +10295,7 @@ class producthelper
 					$relimage              = $this->getProductImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
 					$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
 
-					if (strstr($related_template_data, "{relproduct_link}"))
+					if (strpos($related_template_data, "{relproduct_link}") !== false)
 					{
 						$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>"
 							. $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX)
@@ -10311,7 +10311,7 @@ class producthelper
 
 					$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
 
-					if (strstr($related_template_data, "{relproduct_link}"))
+					if (strpos($related_template_data, "{relproduct_link}") !== false)
 					{
 						$related_template_data = str_replace("{relproduct_name}", "", $related_template_data);
 					}
@@ -10328,7 +10328,7 @@ class producthelper
 					// ProductFinderDatepicker Extra Field Start
 					$related_template_data = $this->getProductFinderDatepickerValue($related_template_data, $related_product[$r]->product_id, $fieldArray);
 
-					if (strstr($related_template_data, "{manufacturer_name}") || strstr($related_template_data, "{manufacturer_link}"))
+					if (strpos($related_template_data, "{manufacturer_name}") !== false || strpos($related_template_data, "{manufacturer_link}") !== false)
 					{
 						$manufacturer = $this->getSection("manufacturer", $related_product [$r]->manufacturer_id);
 
@@ -10553,7 +10553,7 @@ class producthelper
 
 	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
 	{
-		if (strstr($data_add, "{stock_status"))
+		if (strpos($data_add, "{stock_status") !== false)
 		{
 			$stocktag     = strstr($data_add, "{stock_status");
 			$newstocktag  = explode("}", $stocktag);
@@ -10606,7 +10606,7 @@ class producthelper
 
 		}
 
-		if (strstr($data_add, "{stock_notify_flag}"))
+		if (strpos($data_add, "{stock_notify_flag}") !== false)
 		{
 			$userArr       = $this->_session->get('rs_user');
 			$user_id       = isset($userArr['rs_userid']) ? $userArr['rs_userid'] : '';
@@ -10647,7 +10647,7 @@ class producthelper
 
 		}
 
-		if (strstr($data_add, "{product_availability_date}"))
+		if (strpos($data_add, "{product_availability_date}") !== false)
 		{
 			$redshopconfig = new Redconfiguration ();
 			$product       = $this->getProductById($product_id);

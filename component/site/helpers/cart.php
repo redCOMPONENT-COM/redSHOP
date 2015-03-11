@@ -64,7 +64,7 @@ class rsCarthelper
 	 */
 	public function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotation_mode = 0)
 	{
-		if (strstr($data, '{if vat}') && strstr($data, '{vat end if}'))
+		if (strpos($data, '{if vat}') !== false && strpos($data, '{vat end if}') !== false)
 		{
 			$cart = $this->_session->get('cart');
 
@@ -87,7 +87,7 @@ class rsCarthelper
 					$data = str_replace("{order_tax}", $this->_producthelper->getProductFormattedPrice($amount, true), $data);
 				}
 
-				if (strstr($data, '{tax_after_discount}'))
+				if (strpos($data, '{tax_after_discount}') !== false)
 				{
 					if (APPLY_VAT_ON_DISCOUNT && (float) VAT_RATE_AFTER_DISCOUNT)
 					{
@@ -161,7 +161,7 @@ class rsCarthelper
 
 	public function replaceDiscount($data = '', $discount = 0, $subtotal = 0, $quotation_mode = 0)
 	{
-		if (strstr($data, '{if discount}') && strstr($data, '{discount end if}'))
+		if (strpos($data, '{if discount}') !== false && strpos($data, '{discount end if}') !== false)
 		{
 			$percentage = '';
 
@@ -214,7 +214,7 @@ class rsCarthelper
 	 */
 	public function replacePayment($data = '', $amount = 0, $cart = 0, $payment_oprand = '-')
 	{
-		if (strstr($data, '{if payment_discount}') && strstr($data, '{payment_discount end if}'))
+		if (strpos($data, '{if payment_discount}') !== false && strpos($data, '{payment_discount end if}') !== false)
 		{
 			if ($cart == 1 || $amount == 0)
 			{
@@ -308,7 +308,7 @@ class rsCarthelper
 	 */
 	public function replaceBillingAddress($data, $billingaddresses)
 	{
-		if (strstr($data, '{billing_address_start}') && strstr($data, '{billing_address_end}'))
+		if (strpos($data, '{billing_address_start}') !== false && strpos($data, '{billing_address_end}') !== false)
 		{
 			$user           = JFactory::getUser();
 			$template_sdata = explode('{billing_address_start}', $data);
@@ -467,7 +467,7 @@ class rsCarthelper
 
 			$data = $template_sdata[0] . $billingdata . $template_edata[1];
 		}
-		elseif (strstr($data, '{billing_address}'))
+		elseif (strpos($data, '{billing_address}') !== false)
 		{
 			$billadd = '';
 
@@ -577,7 +577,7 @@ class rsCarthelper
 
 				$billadd .= $this->_extra_field->list_all_field_display($extra_section, $billingaddresses->users_info_id, 1);
 
-				if (strstr($data, '{quotation_custom_field_list}'))
+				if (strpos($data, '{quotation_custom_field_list}') !== false)
 				{
 					$data = str_replace('{quotation_custom_field_list}', '', $data);
 
@@ -611,7 +611,7 @@ class rsCarthelper
 	 */
 	public function replaceShippingAddress($data, $shippingaddresses)
 	{
-		if (strstr($data, '{shipping_address_start}') && strstr($data, '{shipping_address_end}'))
+		if (strpos($data, '{shipping_address_start}') !== false && strpos($data, '{shipping_address_end}') !== false)
 		{
 			$template_sdata = explode('{shipping_address_start}', $data);
 			$template_edata = explode('{shipping_address_end}', $template_sdata[1]);
@@ -709,7 +709,7 @@ class rsCarthelper
 
 			$data = $template_sdata[0] . $shippingdata . $template_edata[1];
 		}
-		elseif (strstr($data, '{shipping_address}'))
+		elseif (strpos($data, '{shipping_address}') !== false)
 		{
 			$shipadd = '';
 
@@ -924,12 +924,12 @@ class rsCarthelper
 
 				$product_name = "<div  class='product_name'><a href='" . $link . "'>" . $giftcardData->giftcard_name . "</a></div>";
 
-				if (strstr($data, "{product_name_nolink}"))
+				if (strpos($data, "{product_name_nolink}") !== false)
 				{
 					$product_name_nolink = "<div  class='product_name'>$giftcardData->giftcard_name</a></div>";
 					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $data);
 
-					if (strstr($data, "{product_name}"))
+					if (strpos($data, "{product_name}") !== false)
 						$cart_mdata = str_replace("{product_name}", "", $cart_mdata);
 				}
 				else
@@ -1013,7 +1013,7 @@ class rsCarthelper
 				}
 
 				// Replace attribute tags to empty on giftcard
-				if (strstr($cart_mdata, "{product_attribute_loop_start}") && strstr($cart_mdata, "{product_attribute_loop_end}"))
+				if (strpos($cart_mdata, "{product_attribute_loop_start}") !== false && strpos($cart_mdata, "{product_attribute_loop_end}") !== false)
 				{
 					$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cart_mdata);
 					$templateattibute_edata  = explode('{product_attribute_loop_end}', $templateattibute_sdata[1]);
@@ -1189,13 +1189,13 @@ class rsCarthelper
 
 				$cart_mdata = '';
 
-				if (strstr($data, "{product_name_nolink}"))
+				if (strpos($data, "{product_name_nolink}") !== false)
 				{
 					$product_name_nolink = "";
 					$product_name_nolink = "<div  class='product_name'>$product->product_name</a></div>";
 					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $data);
 
-					if (strstr($data, "{product_name}"))
+					if (strpos($data, "{product_name}") !== false)
 						$cart_mdata = str_replace("{product_name}", "", $cart_mdata);
 				}
 				else
@@ -1206,7 +1206,7 @@ class rsCarthelper
 				$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
 
 				// Replace Attribute data
-				if (strstr($cart_mdata, "{product_attribute_loop_start}") && strstr($cart_mdata, "{product_attribute_loop_end}"))
+				if (strpos($cart_mdata, "{product_attribute_loop_start}") !== false && strpos($cart_mdata, "{product_attribute_loop_end}") !== false)
 				{
 					$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cart_mdata);
 					$templateattibute_start  = $templateattibute_sdata[0];
@@ -1433,7 +1433,7 @@ class rsCarthelper
 
 					if (QUANTITY_TEXT_DISPLAY)
 					{
-						if (strstr($cart_mdata, "{quantity_increase_decrease}") && $mainview == 'cart')
+						if (strpos($cart_mdata, "{quantity_increase_decrease}") !== false && $mainview == 'cart')
 						{
 							$cart_mdata = str_replace("{quantity_increase_decrease}", $update_cart_minus_plus, $cart_mdata);
 							$cart_mdata = str_replace("{update_cart}", '', $cart_mdata);
@@ -1683,17 +1683,17 @@ class rsCarthelper
 			// Assign template output into {attribute_middle_template} tag
 			$cart_mdata = str_replace($attribute_data->attribute_middle_template_core, $attribute_data->attribute_middle_template, $cart_mdata);
 
-			if (strstr($cart_mdata, '{remove_product_attribute_title}'))
+			if (strpos($cart_mdata, '{remove_product_attribute_title}') !== false)
 			{
 				$cart_mdata = str_replace("{remove_product_attribute_title}", "", $cart_mdata);
 			}
 
-			if (strstr($cart_mdata, '{remove_product_subattribute_title}'))
+			if (strpos($cart_mdata, '{remove_product_subattribute_title}') !== false)
 			{
 				$cart_mdata = str_replace("{remove_product_subattribute_title}", "", $cart_mdata);
 			}
 
-			if (strstr($cart_mdata, '{product_attribute_number}'))
+			if (strpos($cart_mdata, '{product_attribute_number}') !== false)
 			{
 				$cart_mdata = str_replace("{product_attribute_number}", "", $cart_mdata);
 			}
@@ -1908,97 +1908,97 @@ class rsCarthelper
 		$search  = array();
 		$replace = array();
 
-		if (strstr($data, '{cart_lbl}'))
+		if (strpos($data, '{cart_lbl}') !== false)
 		{
 			$search[]  = "{cart_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_CART_LBL');
 		}
 
-		if (strstr($data, '{copy_orderitem_lbl}'))
+		if (strpos($data, '{copy_orderitem_lbl}') !== false)
 		{
 			$search[]  = "{copy_orderitem_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_COPY_ORDERITEM_LBL');
 		}
 
-		if (strstr($data, '{totalpurchase_lbl}'))
+		if (strpos($data, '{totalpurchase_lbl}') !== false)
 		{
 			$search[]  = "{totalpurchase_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_CART_TOTAL_PURCHASE_TBL');
 		}
 
-		if (strstr($data, '{subtotal_excl_vat_lbl}'))
+		if (strpos($data, '{subtotal_excl_vat_lbl}') !== false)
 		{
 			$search[]  = "{subtotal_excl_vat_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_SUBTOTAL_EXCL_VAT_LBL');
 		}
 
-		if (strstr($data, '{product_name_lbl}'))
+		if (strpos($data, '{product_name_lbl}') !== false)
 		{
 			$search[]  = "{product_name_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PRODUCT_NAME_LBL');
 		}
 
-		if (strstr($data, '{price_lbl}'))
+		if (strpos($data, '{price_lbl}') !== false)
 		{
 			$search[]  = "{price_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PRICE_LBL');
 		}
 
-		if (strstr($data, '{quantity_lbl}'))
+		if (strpos($data, '{quantity_lbl}') !== false)
 		{
 			$search[]  = "{quantity_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_QUANTITY_LBL');
 		}
 
-		if (strstr($data, '{total_price_lbl}'))
+		if (strpos($data, '{total_price_lbl}') !== false)
 		{
 			$search[]  = "{total_price_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_TOTAL_PRICE_LBL');
 		}
 
-		if (strstr($data, '{total_price_exe_lbl}'))
+		if (strpos($data, '{total_price_exe_lbl}') !== false)
 		{
 			$search[]  = "{total_price_exe_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_TOTAL_PRICE_EXEL_LBL');
 		}
 
-		if (strstr($data, '{order_id_lbl}'))
+		if (strpos($data, '{order_id_lbl}') !== false)
 		{
 			$search[]  = "{order_id_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_ID_LBL');
 		}
 
-		if (strstr($data, '{order_number_lbl}'))
+		if (strpos($data, '{order_number_lbl}') !== false)
 		{
 			$search[]  = "{order_number_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_NUMBER_LBL');
 		}
 
-		if (strstr($data, '{order_date_lbl}'))
+		if (strpos($data, '{order_date_lbl}') !== false)
 		{
 			$search[]  = "{order_date_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_DATE_LBL');
 		}
 
-		if (strstr($data, '{requisition_number_lbl}'))
+		if (strpos($data, '{requisition_number_lbl}') !== false)
 		{
 			$search[]  = "{requisition_number_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 		}
 
-		if (strstr($data, '{order_status_lbl}'))
+		if (strpos($data, '{order_status_lbl}') !== false)
 		{
 			$search[]  = "{order_status_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_STAUS_LBL');
 		}
 
-		if (strstr($data, '{order_status_order_only_lbl}'))
+		if (strpos($data, '{order_status_order_only_lbl}') !== false)
 		{
 			$search[]  = "{order_status_order_only_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_STAUS_LBL');
 		}
 
-		if (strstr($data, '{order_status_payment_only_lbl}'))
+		if (strpos($data, '{order_status_payment_only_lbl}') !== false)
 		{
 			$search[]  = "{order_status_payment_only_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PAYMENT_STAUS_LBL');
@@ -2006,13 +2006,13 @@ class rsCarthelper
 
 		if (SHIPPING_METHOD_ENABLE)
 		{
-			if (strstr($data, '{shipping_lbl}'))
+			if (strpos($data, '{shipping_lbl}') !== false)
 			{
 				$search[]  = "{shipping_lbl}";
 				$replace[] = JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL');
 			}
 
-			if (strstr($data, '{tax_with_shipping_lbl}'))
+			if (strpos($data, '{tax_with_shipping_lbl}') !== false)
 			{
 				$search[]  = "{tax_with_shipping_lbl}";
 				$replace[] = JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL');
@@ -2020,86 +2020,86 @@ class rsCarthelper
 		}
 		else
 		{
-			if (strstr($data, '{shipping_lbl}'))
+			if (strpos($data, '{shipping_lbl}') !== false)
 			{
 				$search[]  = "{shipping_lbl}";
 				$replace[] = "";
 			}
 
-			if (strstr($data, '{tax_with_shipping_lbl}'))
+			if (strpos($data, '{tax_with_shipping_lbl}') !== false)
 			{
 				$search[]  = "{tax_with_shipping_lbl}";
 				$replace[] = "";
 			}
 		}
 
-		if (strstr($data, '{order_information_lbl}'))
+		if (strpos($data, '{order_information_lbl}') !== false)
 		{
 			$search[]  = "{order_information_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_INFORMATION_LBL');
 		}
 
-		if (strstr($data, '{order_detail_lbl}'))
+		if (strpos($data, '{order_detail_lbl}') !== false)
 		{
 			$search[]  = "{order_detail_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_DETAIL_LBL');
 		}
 
-		if (strstr($data, '{product_name_lbl}'))
+		if (strpos($data, '{product_name_lbl}') !== false)
 		{
 			$search[]  = "{product_name_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PRODUCT_NAME_LBL');
 		}
 
-		if (strstr($data, '{note_lbl}'))
+		if (strpos($data, '{note_lbl}') !== false)
 		{
 			$search[]  = "{note_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_NOTE_LBL');
 		}
 
-		if (strstr($data, '{price_lbl}'))
+		if (strpos($data, '{price_lbl}') !== false)
 		{
 			$search[]  = "{price_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PRICE_LBL');
 		}
 
-		if (strstr($data, '{quantity_lbl}'))
+		if (strpos($data, '{quantity_lbl}') !== false)
 		{
 			$search[]  = "{quantity_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_QUANTITY_LBL');
 		}
 
-		if (strstr($data, '{total_price_lbl}'))
+		if (strpos($data, '{total_price_lbl}') !== false)
 		{
 			$search[]  = "{total_price_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_TOTAL_PRICE_LBL');
 		}
 
-		if (strstr($data, '{order_subtotal_lbl}'))
+		if (strpos($data, '{order_subtotal_lbl}') !== false)
 		{
 			$search[]  = "{order_subtotal_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_SUBTOTAL_LBL');
 		}
 
-		if (strstr($data, '{total_lbl}'))
+		if (strpos($data, '{total_lbl}') !== false)
 		{
 			$search[]  = "{total_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_TOTAL_LBL');
 		}
 
-		if (strstr($data, '{discount_type_lbl}'))
+		if (strpos($data, '{discount_type_lbl}') !== false)
 		{
 			$search[]  = "{discount_type_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_CART_DISCOUNT_CODE_TBL');
 		}
 
-		if (strstr($data, '{payment_lbl}'))
+		if (strpos($data, '{payment_lbl}') !== false)
 		{
 			$search[]  = "{payment_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PAYMENT_METHOD');
 		}
 
-		if (strstr($data, '{customer_note_lbl}'))
+		if (strpos($data, '{customer_note_lbl}') !== false)
 		{
 			$search [] = "{customer_note_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL');
@@ -2107,7 +2107,7 @@ class rsCarthelper
 
 		if (SHIPPING_METHOD_ENABLE)
 		{
-			if (strstr($data, '{shipping_method_lbl}'))
+			if (strpos($data, '{shipping_method_lbl}') !== false)
 			{
 				$search[]  = "{shipping_method_lbl}";
 				$replace[] = JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL');
@@ -2115,86 +2115,86 @@ class rsCarthelper
 		}
 		else
 		{
-			if (strstr($data, '{shipping_method_lbl}'))
+			if (strpos($data, '{shipping_method_lbl}') !== false)
 			{
 				$search[]  = "{shipping_method_lbl}";
 				$replace[] = '';
 			}
 		}
 
-		if (strstr($data, '{product_number_lbl}'))
+		if (strpos($data, '{product_number_lbl}') !== false)
 		{
 			$search[]  = "{product_number_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
 		}
 
-		if (strstr($data, '{shopname}'))
+		if (strpos($data, '{shopname}') !== false)
 		{
 			$search []  = "{shopname}";
 			$replace [] = SHOP_NAME;
 		}
 
-		if (strstr($data, '{quotation_id_lbl}'))
+		if (strpos($data, '{quotation_id_lbl}') !== false)
 		{
 			$search []  = "{quotation_id_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_ID');
 		}
 
-		if (strstr($data, '{quotation_number_lbl}'))
+		if (strpos($data, '{quotation_number_lbl}') !== false)
 		{
 			$search []  = "{quotation_number_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_NUMBER');
 		}
 
-		if (strstr($data, '{quotation_date_lbl}'))
+		if (strpos($data, '{quotation_date_lbl}') !== false)
 		{
 			$search []  = "{quotation_date_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_DATE');
 		}
 
-		if (strstr($data, '{quotation_status_lbl}'))
+		if (strpos($data, '{quotation_status_lbl}') !== false)
 		{
 			$search []  = "{quotation_status_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_STATUS');
 		}
 
-		if (strstr($data, '{quotation_note_lbl}'))
+		if (strpos($data, '{quotation_note_lbl}') !== false)
 		{
 			$search []  = "{quotation_note_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_NOTE');
 		}
 
-		if (strstr($data, '{quotation_information_lbl}'))
+		if (strpos($data, '{quotation_information_lbl}') !== false)
 		{
 			$search []  = "{quotation_information_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_INFORMATION');
 		}
 
-		if (strstr($data, '{account_information_lbl}'))
+		if (strpos($data, '{account_information_lbl}') !== false)
 		{
 			$search []  = "{account_information_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_ACCOUNT_INFORMATION');
 		}
 
-		if (strstr($data, '{quotation_detail_lbl}'))
+		if (strpos($data, '{quotation_detail_lbl}') !== false)
 		{
 			$search []  = "{quotation_detail_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_DETAILS');
 		}
 
-		if (strstr($data, '{quotation_subtotal_lbl}'))
+		if (strpos($data, '{quotation_subtotal_lbl}') !== false)
 		{
 			$search []  = "{quotation_subtotal_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL');
 		}
 
-		if (strstr($data, '{quotation_discount_lbl}'))
+		if (strpos($data, '{quotation_discount_lbl}') !== false)
 		{
 			$search []  = "{quotation_discount_lbl}";
 			$replace [] = JText::_('COM_REDSHOP_QUOTATION_DISCOUNT_LBL');
 		}
 
-		if (strstr($data, '{thirdparty_email_lbl}'))
+		if (strpos($data, '{thirdparty_email_lbl}') !== false)
 		{
 			$search [] = "{thirdparty_email_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL');
@@ -2431,7 +2431,7 @@ class rsCarthelper
 
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
-		if (strstr($cart_data, "{product_loop_start}") && strstr($cart_data, "{product_loop_end}"))
+		if (strpos($cart_data, "{product_loop_start}") !== false && strpos($cart_data, "{product_loop_end}") !== false)
 		{
 			$template_sdata  = explode('{product_loop_start}', $cart_data);
 			$template_start  = $template_sdata[0];
@@ -2470,27 +2470,27 @@ class rsCarthelper
 
 		if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
 		{
-			if (strstr($cart_data, '{product_subtotal_lbl}'))
+			if (strpos($cart_data, '{product_subtotal_lbl}') !== false)
 			{
 				$cart_data = str_replace("{product_subtotal_lbl}", JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_LBL'), $cart_data);
 			}
 
-			if (strstr($cart_data, '{product_subtotal_excl_vat_lbl}'))
+			if (strpos($cart_data, '{product_subtotal_excl_vat_lbl}') !== false)
 			{
 				$cart_data = str_replace("{product_subtotal_excl_vat_lbl}", JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_EXCL_LBL'), $cart_data);
 			}
 
-			if (strstr($cart_data, '{shipping_with_vat_lbl}'))
+			if (strpos($cart_data, '{shipping_with_vat_lbl}') !== false)
 			{
 				$cart_data = str_replace("{shipping_with_vat_lbl}", JText::_('COM_REDSHOP_SHIPPING_WITH_VAT_LBL'), $cart_data);
 			}
 
-			if (strstr($cart_data, '{shipping_excl_vat_lbl}'))
+			if (strpos($cart_data, '{shipping_excl_vat_lbl}') !== false)
 			{
 				$cart_data = str_replace("{shipping_excl_vat_lbl}", JText::_('COM_REDSHOP_SHIPPING_EXCL_VAT_LBL'), $cart_data);
 			}
 
-			if (strstr($cart_data, '{product_price_excl_lbl}'))
+			if (strpos($cart_data, '{product_price_excl_lbl}') !== false)
 			{
 				$cart_data = str_replace("{product_price_excl_lbl}", JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL'), $cart_data);
 			}
@@ -2511,7 +2511,7 @@ class rsCarthelper
 				$cart_data = str_replace("{product_subtotal}", $this->_producthelper->getProductFormattedPrice($product_subtotal_excl_vat), $cart_data);
 			}
 
-			if ((strstr($cart_data, "{discount_denotation}") || strstr($cart_data, "{shipping_denotation}")) && ($discount_total != 0 || $shipping != 0))
+			if ((strpos($cart_data, "{discount_denotation}") !== false || strpos($cart_data, "{shipping_denotation}") !== false) && ($discount_total != 0 || $shipping != 0))
 			{
 				$cart_data = str_replace("{denotation_label}", JText::_('COM_REDSHOP_DENOTATION_TXT'), $cart_data);
 			}
@@ -2520,7 +2520,7 @@ class rsCarthelper
 				$cart_data = str_replace("{denotation_label}", "", $cart_data);
 			}
 
-			if (strstr($cart_data, "{discount_excl_vat}"))
+			if (strpos($cart_data, "{discount_excl_vat}") !== false)
 			{
 				$cart_data = str_replace("{discount_denotation}", "*", $cart_data);
 			}
@@ -2553,7 +2553,7 @@ class rsCarthelper
 
 			if (!empty($rep))
 			{
-				if (strstr($cart_data, "{shipping_excl_vat}"))
+				if (strpos($cart_data, "{shipping_excl_vat}") !== false)
 				{
 					$cart_data = str_replace("{shipping_denotation}", "*", $cart_data);
 				}
@@ -2639,7 +2639,7 @@ class rsCarthelper
 		$search    = array();
 		$replace   = array();
 
-		if (strstr($ReceiptTemplate, "{product_loop_start}") && strstr($ReceiptTemplate, "{product_loop_end}"))
+		if (strpos($ReceiptTemplate, "{product_loop_start}") !== false && strpos($ReceiptTemplate, "{product_loop_end}") !== false)
 		{
 			$template_sdata  = explode('{product_loop_start}', $ReceiptTemplate);
 			$template_start  = $template_sdata[0];
@@ -2692,7 +2692,7 @@ class rsCarthelper
 		$Total_discount = $row->coupon_discount + $row->order_discount + $row->special_discount + $row->tax_after_discount + $row->voucher_discount;
 
 		// For Payment and Shipping Extra Fields
-		if (strstr($ReceiptTemplate, '{payment_extrafields}'))
+		if (strpos($ReceiptTemplate, '{payment_extrafields}') !== false)
 		{
 			$PaymentExtrafields = $this->_producthelper->getPaymentandShippingExtrafields($row, 18);
 
@@ -2708,7 +2708,7 @@ class rsCarthelper
 			}
 		}
 
-		if (strstr($ReceiptTemplate, '{shipping_extrafields}'))
+		if (strpos($ReceiptTemplate, '{shipping_extrafields}') !== false)
 		{
 			$ShippingExtrafields = $this->_producthelper->getPaymentandShippingExtrafields($row, 19);
 
@@ -2830,7 +2830,7 @@ class rsCarthelper
 		$issplitdisplay  = "";
 		$issplitdisplay2 = "";
 
-		if ((strstr($ReceiptTemplate, "{discount_denotation}") || strstr($ReceiptTemplate, "{shipping_denotation}")) && ($Total_discount != 0 || $row->order_shipping != 0))
+		if ((strpos($ReceiptTemplate, "{discount_denotation}") !== false || strpos($ReceiptTemplate, "{shipping_denotation}") !== false) && ($Total_discount != 0 || $row->order_shipping != 0))
 		{
 			$search  [] = "{denotation_label}";
 			$replace [] = JText::_('COM_REDSHOP_DENOTATION_TXT');
@@ -2844,7 +2844,7 @@ class rsCarthelper
 
 		$search  [] = "{discount_denotation}";
 
-		if (strstr($ReceiptTemplate, "{discount_excl_vat}"))
+		if (strpos($ReceiptTemplate, "{discount_excl_vat}") !== false)
 		{
 			$replace [] = "*";
 		}
@@ -2855,7 +2855,7 @@ class rsCarthelper
 
 		$search  [] = "{shipping_denotation}";
 
-		if (strstr($ReceiptTemplate, "{shipping_excl_vat}"))
+		if (strpos($ReceiptTemplate, "{shipping_excl_vat}") !== false)
 		{
 			$replace [] = "*";
 		}
@@ -2993,37 +2993,37 @@ class rsCarthelper
 		$search  [] = "{with_vat}";
 		$replace [] = '';
 
-		if (strstr($ReceiptTemplate, '{order_detail_link_lbl}'))
+		if (strpos($ReceiptTemplate, '{order_detail_link_lbl}') !== false)
 		{
 			$search [] = "{order_detail_link_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_ORDER_DETAIL_LINK_LBL');
 		}
 
-		if (strstr($ReceiptTemplate, '{product_subtotal_lbl}'))
+		if (strpos($ReceiptTemplate, '{product_subtotal_lbl}') !== false)
 		{
 			$search [] = "{product_subtotal_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_LBL');
 		}
 
-		if (strstr($ReceiptTemplate, '{product_subtotal_excl_vat_lbl}'))
+		if (strpos($ReceiptTemplate, '{product_subtotal_excl_vat_lbl}') !== false)
 		{
 			$search [] = "{product_subtotal_excl_vat_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_EXCL_LBL');
 		}
 
-		if (strstr($ReceiptTemplate, '{shipping_with_vat_lbl}'))
+		if (strpos($ReceiptTemplate, '{shipping_with_vat_lbl}') !== false)
 		{
 			$search [] = "{shipping_with_vat_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_SHIPPING_WITH_VAT_LBL');
 		}
 
-		if (strstr($ReceiptTemplate, '{shipping_excl_vat_lbl}'))
+		if (strpos($ReceiptTemplate, '{shipping_excl_vat_lbl}') !== false)
 		{
 			$search [] = "{shipping_excl_vat_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_SHIPPING_EXCL_VAT_LBL');
 		}
 
-		if (strstr($ReceiptTemplate, '{product_price_excl_lbl}'))
+		if (strpos($ReceiptTemplate, '{product_price_excl_lbl}') !== false)
 		{
 			$search [] = "{product_price_excl_lbl}";
 			$replace[] = JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
@@ -3038,7 +3038,7 @@ class rsCarthelper
 		$search [] = "{requisition_number_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 
-		if (strstr($ReceiptTemplate, '{redcrm_debitornumber_lbl}'))
+		if (strpos($ReceiptTemplate, '{redcrm_debitornumber_lbl}') !== false)
 		{
 			if ($session->get('isredcrmuser_debitor'))
 			{
@@ -3052,7 +3052,7 @@ class rsCarthelper
 			}
 		}
 
-		if (strstr($ReceiptTemplate, '{redcrm_debitornumber}'))
+		if (strpos($ReceiptTemplate, '{redcrm_debitornumber}') !== false)
 		{
 			if ($session->get('isredcrmuser_debitor'))
 			{
@@ -3146,7 +3146,11 @@ class rsCarthelper
 
 			if (!empty($cart_param))
 			{
-				if (strstr($cart_param[0], 'cart_output') || strstr($cart_param[0], 'show_with_shipping') || strstr($cart_param[0], 'show_with_discount') || strstr($cart_param[0], 'show_with_vat') || strstr($cart_param[0], 'show_shipping_line'))
+				if (strpos($cart_param[0], 'cart_output') !== false
+					|| strpos($cart_param[0], 'show_with_shipping') !== false
+					|| strpos($cart_param[0], 'show_with_discount') !== false
+					|| strpos($cart_param[0], 'show_with_vat') !== false
+					|| strpos($cart_param[0], 'show_shipping_line') !== false)
 				{
 					$cartparamArr[trim($cart_param[0])] = trim($cart_param[1]);
 				}
@@ -3411,7 +3415,7 @@ class rsCarthelper
 		$template_desc        = str_replace("{shipping_heading}", JText::_('COM_REDSHOP_SHIPPING_METHOD'), $template_desc);
 		$extrafield_total     = "";
 
-		if (strstr($template_desc, "{shipping_method_loop_start}") && strstr($template_desc, "{shipping_method_loop_end}"))
+		if (strpos($template_desc, "{shipping_method_loop_start}") !== false && strpos($template_desc, "{shipping_method_loop_end}") !== false)
 		{
 			$template1       = explode("{shipping_method_loop_start}", $template_desc);
 			$template1       = explode("{shipping_method_loop_end}", $template1[1]);
@@ -3419,7 +3423,7 @@ class rsCarthelper
 
 			$template_rate_middle = "";
 
-			if (strstr($template_middle, "{shipping_rate_loop_start}") && strstr($template_middle, "{shipping_rate_loop_end}"))
+			if (strpos($template_middle, "{shipping_rate_loop_start}") !== false && strpos($template_middle, "{shipping_rate_loop_end}") !== false)
 			{
 				$template1            = explode("{shipping_rate_loop_start}", $template_middle);
 				$template1            = explode("{shipping_rate_loop_end}", $template1[1]);
@@ -3518,7 +3522,7 @@ class rsCarthelper
 								$data = str_replace("{shipping_rate_desc}", $shipping_rate_desc, $data);
 								$data = str_replace("{shipping_rate}", $displayrate, $data);
 
-								if (strstr($data, "{shipping_location}"))
+								if (strpos($data, "{shipping_location}") !== false)
 								{
 									$shippinglocation = $this->_order_functions->getshippinglocationinfo($rate[$i]->text);
 
@@ -3542,7 +3546,7 @@ class rsCarthelper
 						}
 					}
 
-					if (strstr($rate_data, "{shipping_extrafields}"))
+					if (strpos($rate_data, "{shipping_extrafields}") !== false)
 					{
 						$extraField         = new extraField;
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
@@ -3776,7 +3780,7 @@ class rsCarthelper
 
 		$template_desc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $template_desc);
 
-		if (strstr($template_desc, "{split_payment}"))
+		if (strpos($template_desc, "{split_payment}") !== false)
 		{
 			if (SPLITABLE_PAYMENT == 1)
 			{
@@ -3789,7 +3793,7 @@ class rsCarthelper
 			}
 		}
 
-		if (strstr($template_desc, "{payment_loop_start}") && strstr($template_desc, "{payment_loop_end}"))
+		if (strpos($template_desc, "{payment_loop_start}") !== false && strpos($template_desc, "{payment_loop_end}") !== false)
 		{
 			$template1       = explode("{payment_loop_start}", $template_desc);
 			$template1       = explode("{payment_loop_end}", $template1[1]);
@@ -3919,7 +3923,7 @@ class rsCarthelper
 
 		$extrafield_total   = '';
 
-		if (strstr($template_desc, "{payment_extrafields}"))
+		if (strpos($template_desc, "{payment_extrafields}") !== false)
 		{
 			$extraField         = new extraField;
 			$paymentparams_new  = new JRegistry($paymentmethod[0]->params);
@@ -3954,7 +3958,7 @@ class rsCarthelper
 
 	public function replaceTermsConditions($template_desc = "", $Itemid = 1)
 	{
-		if (strstr($template_desc, "{terms_and_conditions"))
+		if (strpos($template_desc, "{terms_and_conditions") !== false)
 		{
 			$user    = JFactory::getUser();
 			$session = JFactory::getSession();
@@ -3980,7 +3984,7 @@ class rsCarthelper
 
 			$terms_left_final = "";
 
-			if (strstr($template_desc, "{terms_and_conditions:") && strstr($template_desc, "}"))
+			if (strpos($template_desc, "{terms_and_conditions:") !== false && strpos($template_desc, "}") !== false)
 			{
 				$terms_left_one   = explode("{terms_and_conditions:", $template_desc);
 				$terms_left_two   = explode("}", $terms_left_one[1]);
@@ -4002,7 +4006,7 @@ class rsCarthelper
 
 					if (count($dimension) > 0)
 					{
-						if (strstr($dimension[0], "width"))
+						if (strpos($dimension[0], "width") !== false)
 						{
 							$width      = explode("width=", $dimension[0]);
 							$finalwidth = (isset($width[1])) ? $width[1] : "500";
@@ -4013,7 +4017,7 @@ class rsCarthelper
 							$finalheight = (isset($height[1])) ? $height[0] : "450";
 						}
 
-						if (strstr($dimension[1], "height"))
+						if (strpos($dimension[1], "height") !== false)
 						{
 							$height      = explode("height=", $dimension[1]);
 							$finalheight = (isset($height[1])) ? $height[1] : "450";
@@ -4043,7 +4047,7 @@ class rsCarthelper
 	{
 		$db = JFactory::getDbo();
 
-		if (strstr($template_desc, "{newsletter_signup_chk}"))
+		if (strpos($template_desc, "{newsletter_signup_chk}") !== false)
 		{
 			$Itemid               = JRequest::getVar('Itemid');
 			$newslettersignup     = "";
