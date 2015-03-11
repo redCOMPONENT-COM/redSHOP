@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class rsCarthelper
 {
 	public $_table_prefix = null;
@@ -83,7 +82,7 @@ class rsCarthelper
 
 				if (strstr($data, '{tax_after_discount}'))
 				{
-					if (APPLY_VAT_ON_DISCOUNT && VAT_RATE_AFTER_DISCOUNT)
+					if (APPLY_VAT_ON_DISCOUNT && (float) VAT_RATE_AFTER_DISCOUNT)
 					{
 						if ($check)
 						{
@@ -134,11 +133,11 @@ class rsCarthelper
 		$tax_after_discount = 0;
 		$cart               = $this->_session->get('cart');
 
-		if (APPLY_VAT_ON_DISCOUNT && VAT_RATE_AFTER_DISCOUNT)
+		if (APPLY_VAT_ON_DISCOUNT && (float) VAT_RATE_AFTER_DISCOUNT)
 		{
 			if ($discount > 0)
 			{
-				$tmptax             = VAT_RATE_AFTER_DISCOUNT * $discount;
+				$tmptax             = (float) VAT_RATE_AFTER_DISCOUNT * $discount;
 				$tax_after_discount = $tax - $tmptax;
 			}
 		}
@@ -2301,7 +2300,7 @@ class rsCarthelper
 
 		$chktag = $this->_producthelper->taxexempt_addtocart();
 
-		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
+		if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{
@@ -4215,7 +4214,7 @@ class rsCarthelper
 				{
 					$avgVAT = 1;
 
-					if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+					if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 					{
 						$productVAT = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
 						$avgVAT = $cart['product_subtotal'] / $cart['product_subtotal_excl_vat'];
@@ -4787,7 +4786,7 @@ class rsCarthelper
 		$Discountvat = 0;
 		$chktag      = $this->_producthelper->taxexempt_addtocart();
 
-		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
+		if ((float) VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
 		{
 			$vatData = $this->_producthelper->getVatRates();
 

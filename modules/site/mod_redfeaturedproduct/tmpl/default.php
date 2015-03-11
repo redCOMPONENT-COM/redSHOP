@@ -170,7 +170,7 @@ if (count($list) > 0)
 													{
 														echo "<div id=\"mod_redoldprice\" class=\"mod_redoldprice\"><span>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
 														echo "<div id=\"mod_redmainprice\" class=\"mod_redmainprice\">" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-														echo "<div id=\"mod_redsavedprice\" class=\"mod_redsavedprice\">" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
+														echo "<div id=\"mod_redsavedprice\" class=\"mod_redsavedprice\">" . JText::_('MOD_REDFEATUREDPRODUCT_PRODUCT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
 													}
 													else
 													{
@@ -208,5 +208,5 @@ if (count($list) > 0)
 }
 else
 {
-	echo "<div>" . JText::_("COM_REDSHOP_NO_FEATURED_PRODUCTS_TO_DISPLAY") . "</div>";
+	echo "<div>" . JText::_("MOD_REDFEATUREDPRODUCT_NO_FEATURED_PRODUCTS_TO_DISPLAY") . "</div>";
 }

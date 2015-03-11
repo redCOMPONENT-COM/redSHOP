@@ -37,6 +37,14 @@ class RedshopModel extends JModelLegacy
 	protected $query = array();
 
 	/**
+	 * Context string for the model type.  This is used to handle uniqueness
+	 * when dealing with the getStoreId() method and caching data structures.
+	 *
+	 * @var    string
+	 */
+	public $context = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.

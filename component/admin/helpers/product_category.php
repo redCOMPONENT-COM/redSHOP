@@ -179,6 +179,11 @@ class product_category
 
 	public function getCategoryTree($cid = '0')
 	{
+		if (!isset($GLOBALS['catlist']))
+		{
+			$GLOBALS['catlist'] = array();
+		}
+
 		$db = JFactory::getDbo();
 		$q = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "

@@ -49,6 +49,7 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 		// Get params from plugin parameters
 		$verify_status  = $this->params->get("verify_status");
 		$invalid_status = $this->params->get("invalid_status");
+		$values = new stdClass;
 
 		if ($transStatus == "Y")
 		{

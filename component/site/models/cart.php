@@ -545,6 +545,7 @@ class RedshopModelCart extends RedshopModel
 			}
 
 			$this->_carthelper->addProductToCart($data);
+			$this->_carthelper->cartFinalCalculation();
 		}
 	}
 

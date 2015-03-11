@@ -73,46 +73,6 @@ class RedshopControllerProduct extends RedshopController
 		exit;
 	}
 
-	public function writeReview()
-	{
-		$post           = JRequest::get('post');
-		$option         = JRequest::getVar('option');
-		$Itemid         = JRequest::getVar('Itemid');
-		$product_id     = JRequest::getInt('product_id');
-		$category_id    = JRequest::getInt('category_id');
-		$model          = $this->getModel('product');
-		$rate           = JRequest::getVar('rate');
-		$review_captcha = JRequest::getInt('review_captcha', -1, 'post');
-
-		$session = JFactory::getSession();
-		$hash    = JRequest::getCmd('review_captcha_hash', null, 'post');
-		$res     = $session->get('session.simplemath' . $hash);
-		$session->set('session.simplemath' . $hash, null);
-
-		if ($res == $review_captcha)
-		{
-			if ($model->checkReview($post['email'], $product_id))
-			{
-				$msg = JText::_('COM_REDSHOP_REVIEW_ALREADY_EXIST');
-			}
-			elseif ($model->sendMailForReview($post))
-			{
-				$msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
-			}
-			else
-			{
-				$msg = JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY');
-			}
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_IN_CORRECT_CAPTCHA');
-		}
-
-		$link = 'index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
-		$this->setRedirect($link, $msg);
-	}
-
 	/**
 	 * Display sub property
 	 *

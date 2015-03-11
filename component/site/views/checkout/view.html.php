@@ -78,6 +78,34 @@ class RedshopViewCheckout extends RedshopView
 
 		$lists = array();
 
+		$jInput = $app->input;
+		$isCompany = $jInput->getInt('is_company', 0);
+
+		// Toggler settings
+		$openToStretcher = 0;
+
+		if ($isCompany == 1 || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		{
+			$openToStretcher = 1;
+		}
+
+		// Allow registration type settings
+		$lists['allowCustomer'] = "";
+		$lists['allowCompany'] = "";
+
+		if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
+		{
+			$lists['allowCompany'] = "style='display:none;'";
+			$openToStretcher = 0;
+		}
+		elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+		{
+			$lists['allowCustomer'] = "style='display:none;'";
+			$openToStretcher = 1;
+		}
+
+		$lists['is_company'] = ($openToStretcher == 1 || ($isCompany == 1)) ? 1 : 0;
+
 		if ($user->id || $auth['users_info_id'] > 0)
 		{
 			$cart = $session->get('cart');
@@ -123,13 +151,19 @@ class RedshopViewCheckout extends RedshopView
 		}
 		else
 		{
-			// Field_section 6 : Customer Registration
-			$lists['extra_field_user']        = $field->list_all_field(7);
+			if ($lists['is_company'])
+			{
+				// Field_section Company
+				$lists['extra_field_company'] = $field->list_all_field(8);
+			}
+			else
+			{
+				// Field_section Customer
+				$lists['extra_field_user'] = $field->list_all_field(7);
+			}
 
-			// Field_section 6 : Company Address
-			$lists['extra_field_company']     = $field->list_all_field(8);
-			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 			$lists['shipping_company_field']  = $field->list_all_field(15, 0, 'billingRequired valid');
+			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 		}
 
 		if (($user->id || $auth['users_info_id'] > 0) && ONESTEP_CHECKOUT_ENABLE)

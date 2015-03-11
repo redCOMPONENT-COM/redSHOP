@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 class rsUserhelper
 {
-	public $_table_prefix = null;
-
 	public $_session = null;
 
 	public $_userId = null;
@@ -24,11 +22,43 @@ class rsUserhelper
 
 	protected static $userShopperGroupData = array();
 
+	protected static $userInfo = array();
+
 	public function __construct()
 	{
-		$this->_table_prefix = '#__redshop_';
 		$this->_session      = JFactory::getSession();
 		$this->_db           = JFactory::getDbo();
+	}
+
+	/**
+	 * Get RedSHOP User Info
+	 *
+	 * @param   int     $joomlaUserId  Joomla user id
+	 * @param   string  $addressType   Type user address BT or ST
+	 *
+	 * @return mixed
+	 */
+	public function getRedSHOPUserInfo($joomlaUserId = 0, $addressType = 'BT')
+	{
+		if (!$joomlaUserId)
+		{
+			$joomlaUserId = JFactory::getUser()->get('id');
+		}
+
+		$index = $joomlaUserId . '.' . $addressType;
+
+		if (!isset(self::$userInfo[$index]))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('ui.*')
+				->from($db->qn('#__redshop_users_info', 'ui'))
+				->where('ui.user_id = ' . (int) $joomlaUserId)
+				->where('ui.address_type = ' . $db->q(strtoupper($addressType)));
+			self::$userInfo[$index] = $db->setQuery($query)->loadObject();
+		}
+
+		return self::$userInfo[$index];
 	}
 
 	/**
@@ -55,7 +85,7 @@ class rsUserhelper
 
 		if ($isredcrmuser)
 		{
-			$this->_db->setQuery("SELECT user_id FROM  " . $this->_table_prefix . "users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $userId . ") and address_type='BT'");
+			$this->_db->setQuery("SELECT user_id FROM #__redshop_users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $userId . ") and address_type='BT'");
 			$userId = $this->_db->loadResult();
 		}
 
@@ -85,7 +115,7 @@ class rsUserhelper
 	 */
 	public function getUserGroupList($user_id = 0)
 	{
-		$query = 'SELECT group_id FROM ' . $this->_table_prefix . 'users_info AS uf '
+		$query = 'SELECT group_id FROM #__redshop_users_info AS uf '
 			. 'LEFT JOIN #__user_usergroup_map as u on u.user_id = uf.user_id '
 			. 'WHERE users_info_id = ' . (int) $user_id;
 		$this->_db->setQuery($query);
@@ -99,7 +129,7 @@ class rsUserhelper
 		// One id is mandatory ALWAYS
 		if ($users_info_id != 0)
 		{
-			$query = "UPDATE " . $this->_table_prefix . "users_info"
+			$query = "UPDATE #__redshop_users_info"
 				. " SET accept_terms_conditions = " . (int) $isSet
 				. " WHERE users_info_id = " . (int) $users_info_id;
 			$this->_db->setQuery($query);
@@ -658,7 +688,7 @@ class rsUserhelper
 					if ($row->users_info_id <= $maxDebtor)
 					{
 						$nextId = $maxDebtor + 1;
-						$sql    = "UPDATE " . $this->_table_prefix . "users_info "
+						$sql    = "UPDATE #__redshop_users_info "
 							. "SET users_info_id = " . (int) $nextId . " "
 							. "WHERE users_info_id = " . (int) $row->users_info_id;
 						$this->_db->setQuery($sql);
@@ -827,7 +857,7 @@ class rsUserhelper
 	public function userSynchronization()
 	{
 		$query = "SELECT u.* FROM #__users AS u "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ru ON ru.user_id = u.id "
+			. "LEFT JOIN #__redshop_users_info AS ru ON ru.user_id = u.id "
 			. "WHERE ru.user_id IS NULL ";
 		$this->_db->setQuery($query);
 		$jusers = $this->_db->loadObjectList();
@@ -938,7 +968,7 @@ class rsUserhelper
 
 		if ($and != "")
 		{
-			$query = "DELETE FROM " . $this->_table_prefix . "newsletter_subscription "
+			$query = "DELETE FROM #__redshop_newsletter_subscription "
 				. "WHERE email = " . $db->quote($email) . " "
 				. $and;
 			$this->_db->setQuery($query);
@@ -956,12 +986,9 @@ class rsUserhelper
 
 		$billingisshipping = "";
 
-		if (count($post) > 0)
+		if (isset($post['billisship']) && $post['billisship'] == 1)
 		{
-			if (isset($post['billisship']) && $post['billisship'] == 1)
-			{
-				$billingisshipping = "checked='checked'";
-			}
+			$billingisshipping = "checked='checked'";
 		}
 		elseif (OPTIONAL_SHIPPING_ADDRESS)
 		{
@@ -1213,7 +1240,18 @@ class rsUserhelper
 
 		if (USE_TAX_EXEMPT == 1 && SHOW_TAX_EXEMPT_INFRONT)
 		{
-			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', @$post["tax_exempt"], JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
+			$allowCompany  = '';
+
+			if (1 == (int) $post['is_company'])
+			{
+				$allowCustomer = 'style="display:none;"';
+			}
+			else
+			{
+				$allowCompany = 'style="display:none;"';
+			}
+
+			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', $post["tax_exempt"], JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
 			$template_desc = str_replace("{tax_exempt_lbl}", '<div id="lblTaxExempt" ' . $allowCompany . '>' . JText::_('COM_REDSHOP_TAX_EXEMPT') . '</div>', $template_desc);
 			$template_desc = str_replace("{tax_exempt}", '<div id="trTaxExempt" ' . $allowCompany . '>' . $tax_exempt . '</div>', $template_desc);
 		}

@@ -19,6 +19,8 @@ class redhelper
 
 	protected static $redshopMenuItems;
 
+	protected static $isRedProductFinder = null;
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -97,7 +99,7 @@ class redhelper
 	 */
 	public function dbtocart()
 	{
-				$session = JFactory::getSession();
+		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = JFactory::getUser();
 
@@ -650,7 +652,7 @@ class redhelper
 	 */
 	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = WATERMARK_PRODUCT_IMAGE)
 	{
-				$pathMainImage = $section . '/' . $ImageName;
+		$pathMainImage = $section . '/' . $ImageName;
 
 		try
 		{
@@ -988,22 +990,27 @@ class redhelper
 
 	public function isredProductfinder()
 	{
-		$user = JFactory::getUser();
-
-		// Get redshop from joomla component table
-		$query = "SELECT enabled FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
-		$this->_db->setQuery($query);
-		$redproductfinder      = $this->_db->loadobject();
-		$redproductfinder_path = JPATH_ADMINISTRATOR . '/components/com_redproductfinder';
-
-		if (!is_dir($redproductfinder_path) || $redproductfinder->enabled == 0)
+		if (self::$isRedProductFinder === null)
 		{
-			return false;
+			// Get redshop from joomla component table
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('enabled')
+				->from($db->qn('#__extensions'))
+				->where('element = ' . $db->q('com_redproductfinder'));
+			$redProductFinderPath = JPATH_ADMINISTRATOR . '/components/com_redproductfinder';
+
+			if (!is_dir($redProductFinderPath) || $db->setQuery($query)->loadResult() == 0)
+			{
+				self::$isRedProductFinder = false;
+			}
+			else
+			{
+				self::$isRedProductFinder = true;
+			}
 		}
-		else
-		{
-			return true;
-		}
+
+		return self::$isRedProductFinder;
 	}
 
 	/**

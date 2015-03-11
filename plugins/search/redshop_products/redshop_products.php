@@ -83,7 +83,8 @@ class plgSearchRedshop_products extends JPlugin
 						$db->qn('product_s_desc', 'text'),
 						'"' . $section . '" AS ' . $db->qn('section'),
 						'"" AS ' . $db->qn('created'),
-						'"2" AS ' . $db->qn('browsernav')
+						'"2" AS ' . $db->qn('browsernav'),
+						$db->qn('cat_in_sefurl')
 					)
 				)
 				->from($db->qn('#__redshop_product'));
@@ -195,7 +196,7 @@ class plgSearchRedshop_products extends JPlugin
 		foreach ($rows as $key => $row)
 		{
 			$Itemid    = $redhelper->getItemid($row->product_id);
-			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&Itemid=" . $Itemid;
+			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $Itemid;
 
 			$return[]  = $row;
 		}

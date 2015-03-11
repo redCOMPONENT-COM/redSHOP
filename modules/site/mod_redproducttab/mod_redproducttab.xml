@@ -19,7 +19,7 @@
         <language tag="en-GB">language/en-GB/en-GB.mod_redproducttab.sys.ini</language>
     </languages>
     <config>
-        <fields name="params">
+        <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
             <fieldset name="basic">
                 <field name="moduleclass_sfx" type="text" default="" label="MOD_REDPRODUCTTAB_CLASS_SUFFIX"
                        description="MOD_REDPRODUCTTAB_CLASS_SFX_DESC"/>
@@ -52,7 +52,7 @@
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="category" type="text" size="40" label="Category" description="MOD_REDPRODUCTTAB_ENTER_CATEGORY"/>
+                <field name="category" type="redshopcategory" multiple="true" size="40" label="MOD_REDPRODUCTTAB_ENTER_CATEGORY_LBL" description="MOD_REDPRODUCTTAB_ENTER_CATEGORY"/>
                 <field name="count" type="text" size="10" label="MOD_REDPRODUCTTAB_NUMBER_OF_PRODUCT"
                        description="MOD_REDPRODUCTTAB_NUMBER_OF_PRODUCT_DESC"/>
                 <field name="image" type="radio" default="0" label="MOD_REDPRODUCTTAB_SHOW_IMAGE"
@@ -81,5 +81,13 @@
                 </field>
             </fieldset>
         </fields>
+        <fieldset
+                name="advanced">
+            <field
+                    name="layout"
+                    type="modulelayout"
+                    label="JFIELD_ALT_LAYOUT_LABEL"
+                    description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+        </fieldset>
     </config>
 </extension>

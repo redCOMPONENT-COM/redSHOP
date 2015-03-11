@@ -1948,9 +1948,9 @@ class producthelper
 					$discount_amount = $discount->discount_amount;
 				}
 
-				if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+				if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 				{
-					$discountVAT = $discount_amount * VAT_RATE_AFTER_DISCOUNT;
+					$discountVAT = $discount_amount * (float) VAT_RATE_AFTER_DISCOUNT;
 				}
 
 				$cart['discount_tax'] = $discountVAT;
@@ -6088,7 +6088,14 @@ class producthelper
 			$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
 		}
 
-		$quan = 1;
+		if ($product->min_order_product_quantity > 0)
+		{
+			$quan = $product->min_order_product_quantity;
+		}
+		else
+		{
+			$quan = 1;
+		}
 
 		if (strstr($cartform, "{addtocart_quantity}"))
 		{
@@ -10198,8 +10205,16 @@ class producthelper
 		return $templatedata;
 	}
 
-// function for related product layout
-
+	/**
+	 * Parse related product template
+	 *
+	 * @param   string   $template_desc  Template Contents
+	 * @param   integer  $product_id     Product Id
+	 *
+	 * @todo    Move this functionality to library helper and convert this code into JLayout
+	 *
+	 * @return  string   Parsed Template HTML
+	 */
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
 		$extra_field      = new extraField;
@@ -10242,8 +10257,7 @@ class producthelper
 						$pItemid = $redhelper->getItemid($related_product[$r]->product_id);
 					}
 
-					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid='
-						. $related_product[$r]->product_id . '&Itemid=' . $pItemid);
+					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);
 
 					if (strstr($related_template_data, "{relproduct_image_3}"))
 					{
@@ -10308,7 +10322,6 @@ class producthelper
 
 					// ProductFinderDatepicker Extra Field Start
 					$related_template_data = $this->getProductFinderDatepickerValue($related_template_data, $related_product[$r]->product_id, $fieldArray);
-					// ProductFinderDatepicker Extra Field End
 
 					if (strstr($related_template_data, "{manufacturer_name}") || strstr($related_template_data, "{manufacturer_link}"))
 					{
@@ -10328,18 +10341,16 @@ class producthelper
 						}
 					}
 
-					$relmorelink           = JRoute::_('index.php?option=com_redshop&view=product&pid='
-						. $related_product [$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid='
-						. $pItemid);
-					$rmore                 = "<a href='" . $relmorelink . "' title='" . $related_product [$r]->product_name
-						. "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+					$rmore = '<a href="' . $rlink . '" title="' . $related_product [$r]->product_name . '">'
+								. JText::_('COM_REDSHOP_READ_MORE')
+							. '</a>';
 					$related_template_data = str_replace("{read_more}", $rmore, $related_template_data);
-					$related_template_data = str_replace("{read_more_link}", $relmorelink, $related_template_data);
+					$related_template_data = str_replace("{read_more_link}", $rlink, $related_template_data);
+
 					/*
 					 *  related product Required Attribute start
 					 * 	this will parse only Required Attributes
 					 */
-
 					$relid          = $related_product [$r]->product_id;
 					$attributes_set = array();
 
@@ -10363,7 +10374,7 @@ class producthelper
 					$related_template_data = $this->getProductOnSaleComment($related_product[$r], $related_template_data);
 					$related_template_data = $this->getSpecialProductComment($related_product[$r], $related_template_data);
 
-					// related product attribute price list
+					// Related product attribute price list
 					$related_template_data = $this->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
 				}
 

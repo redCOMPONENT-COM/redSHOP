@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 
 JHTML::_('behavior.tooltip');
+JHtml::_('behavior.calendar');
 JHTMLBehavior::modal();
 
 
@@ -121,30 +122,10 @@ else
 		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
 	}
 
-	// Toggler settings
-	$open_to_stretcher = 0;
-
-	if ((isset($post['is_company']) && $post['is_company'] == 1) || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
-	{
-		$open_to_stretcher = 1;
-	}
-
-	// Allow registration type settings
-	$allowCustomer = "";
-	$allowCompany  = "";
-
-	if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
-	{
-		$allowCompany      = "style='display:none;'";
-		$open_to_stretcher = 0;
-	}
-	elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
-	{
-		$allowCustomer     = "style='display:none;'";
-		$open_to_stretcher = 1;
-	}
-
-	$is_company = ($open_to_stretcher == 1 || (isset($post['is_company']) && $post['is_company'] == 1)) ? 1 : 0;            ?>
+	$allowCustomer = $this->lists['allowCustomer'];
+	$allowCompany = $this->lists['allowCompany'];
+	$is_company = $this->lists['is_company'];
+	?>
 		<table cellpadding="5" cellspacing="0" border="0">
 			<tr>
 				<td><span <?php echo $allowCustomer;?>><h4><label><input type="radio" name="togglerchecker" id="toggler1"
@@ -208,7 +189,7 @@ else
 				<?php
 				$billingisshipping = "";
 
-				if (count($post) > 0)
+				if (count($_POST) > 0)
 				{
 					if (isset($post['billisship']) && $post['billisship'] == 1)
 					{

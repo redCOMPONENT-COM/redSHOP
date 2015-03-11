@@ -10,66 +10,52 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewProduct_rating extends RedshopView
+/**
+ * Class RedshopViewProduct_rating
+ *
+ * @since  1.5
+ */
+class RedshopViewProduct_Rating extends RedshopView
 {
-	function display ($tpl = null)
-	{
-		$app = JFactory::getApplication();
-		$producthelper = new producthelper;
-		$pathway       = $app->getPathway();
-		$document      = JFactory::getDocument();
+	protected $state;
 
+	protected $form;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
+	public function display ($tpl = null)
+	{
+		$this->state = $this->get('State');
+		$this->form = $this->get('Form');
+
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 
 		// Preform security checks
-		if ($user->id == 0)
+		if (!$user->id && RATING_REVIEW_LOGIN_REQUIRED)
 		{
-			echo JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW');
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
 
 			return;
 		}
 
-		$model         = $this->getModel('product_rating');
-		$userinfo      = $model->getuserfullname($user->id);
 		$params        = $app->getParams('com_redshop');
-		$Itemid        = JRequest::getInt('Itemid');
-		$product_id    = JRequest::getInt('product_id');
-		$category_id   = JRequest::getInt('category_id');
-		$user          = JFactory::getUser();
-		$model         = $this->getModel('product_rating');
-		$rate          = JRequest::getInt('rate');
-		$already_rated = $model->checkRatedProduct($product_id, $user->id);
-
-	if ($already_rated == 1)
-	{
-		if ($rate == 1)
-		{
-			$msg  = JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN');
-			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
-			$app->redirect($link, $msg);
-		}
-		else
-		{
-			echo  JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN');
-			?>
-			<span id="closewindow"><input type="button" value="Close Window" onclick="window.parent.redBOX.close();"/></span>
-			<script>
-				setTimeout("window.parent.redBOX.close();", 2000);
-			</script>
-			<?php
-			return;
-		}
-	}
-
-		$productinfo = $producthelper->getProductById($product_id);
-
-		$this->user = $user;
-		$this->userinfo = $userinfo;
-		$this->product_id = $product_id;
-		$this->rate = $rate;
-		$this->category_id = $category_id;
-		$this->productinfo = $productinfo;
+		$model = $this->getModel('product_rating');
+		$productId   = $app->input->getInt('product_id', 0);
 		$this->params = $params;
+		$this->productId = $productId;
+		$rate = $app->input->getInt('rate', 0);
+
+		if (!$rate && $user->id && $model->checkRatedProduct($productId, $user->id))
+		{
+			$app->input->set('rate', 1);
+			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
+		}
 
 		parent::display($tpl);
 	}
