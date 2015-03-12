@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+// Load redSHOP Library
+JLoader::import('redshop.library');
+
 /**
  * Renders a Productfinder Form
  *
@@ -86,7 +89,7 @@ class JFormFieldTicket extends JFormField
 				<p>
 					<ol>
 						<li>Copy following URL which you need to add as a Subscription URL while you will create QBMS Application in next step.
-							<pre>' . JUri::root() . 'index.php?option=com_redshop&view=plugin&type=redshop_payment&tmpl=component&task=getconnectionticket</pre>
+							<pre>' . JUri::root() . 'index.php?option=com_redshop&view=plugin&type=redshop_payment&tmpl=component&task=setconnectionticket</pre>
 						</li>
 						<li>
 							<p>Follow the steps on the application registration page here: https://developer.intuit.com/Application/Create/QBMS</p>
@@ -110,6 +113,10 @@ class JFormFieldTicket extends JFormField
 		</div>';
 
 		JText::script('PLG_REDSHOP_PAYMENT_QUICKBOOK_APP_ID_REQUIRED');
+		RedshopConfig::script('SITE_URL', JUri::root());
+
+		// Set redshop config javascript header
+		RedshopConfig::scriptDeclaration();
 
 		JFactory::getDocument()->addScript(JUri::root(true) . '/plugins/redshop_payment/quickbook/media/js/quickbook.js');
 		JFactory::getDocument()->addStyleSheet(
