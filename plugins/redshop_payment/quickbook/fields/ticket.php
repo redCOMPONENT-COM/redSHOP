@@ -51,6 +51,15 @@ class JFormFieldTicket extends JFormField
 		else
 		{
 			$quickBookSystemParams = new JRegistry($quickBookSystem->params);
+			$secretWord = $quickBookSystemParams->get('secretWord', false);
+
+			if (!$secretWord)
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_SYSTEM_SECRET_WORD'),
+					'error'
+				);
+			}
 
 			RedshopConfig::script('SECRET_WORD', $quickBookSystemParams->get('secretWord'));
 		}
