@@ -25,5 +25,22 @@ var quickbook = {};
 				);
 			}
 		});
+
+		jQuery('#generate_conn_ticket').click(function(event) {
+
+			jQuery.ajax({
+				url: redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=plugin&type=redshop_payment&tmpl=component&task=getconnectionticket',
+				type: 'GET',
+				dataType: 'json',
+			})
+			.done(function(response) {
+				jQuery('#jform_params_connectionTicket').val(response.conntkt);
+				jQuery('#getTicketModal').modal('hide');
+			})
+			.fail(function(response) {
+				alert(responseText);
+			});
+
+		});
 	});
 })(jQuery);
