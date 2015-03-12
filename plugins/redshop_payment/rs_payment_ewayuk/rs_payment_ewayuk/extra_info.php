@@ -79,5 +79,7 @@ if ($responsemode == "True")
 }
 else
 {
+	$error = $this->fetch_data($response, '<error>', '</error>');
+	$app->enqueueMessage($error, 'error');
 	$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&oid=" . $data['order_id']);
 }
