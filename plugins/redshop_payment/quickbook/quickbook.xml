@@ -19,6 +19,8 @@
 
 	<files>
 		<filename plugin="quickbook">quickbook.php</filename>
+		<folder plugin="fields">fields</folder>
+		<folder plugin="media">media</folder>
 	</files>
 
 	<languages>
@@ -29,6 +31,24 @@
 	<config addfieldpath="/administrator/components/com_redshop/elements">
 		<fields name="params" addfieldpath="/plugins/redshop_payment/quickbook/fields">
 			<fieldset name="basic">
+				<field
+					name="appId"
+					type="text"
+					default=""
+					required="true"
+					hint="PLG_REDSHOP_PAYMENT_QUICKBOOK_APPID_HINT"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_APPID"
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_APPID_DESC"
+				/>
+				<field
+					name="connectionTicket"
+					type="ticket"
+					default=""
+					required="true"
+					hint="PLG_REDSHOP_PAYMENT_QUICKBOOK_CONNECTION_TICKET_HINT"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_CONNECTION_TICKET"
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_CONNECTION_TICKET_DESC"
+				/>
 				<field
 					name="accepted_credict_card"
 					type="creditcards"
