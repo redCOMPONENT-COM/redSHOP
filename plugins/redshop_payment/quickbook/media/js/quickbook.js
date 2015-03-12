@@ -27,9 +27,8 @@ var quickbook = {};
 		});
 
 		jQuery('#generate_conn_ticket').click(function(event) {
-
 			jQuery.ajax({
-				url: redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=plugin&type=redshop_payment&tmpl=component&task=getconnectionticket',
+				url: redSHOP.RSConfig._('CURRENT_URL') + 'index.php?option=com_redshop&view=plugin&type=redshop_payment&tmpl=component&task=getconnectionticket',
 				type: 'GET',
 				dataType: 'json',
 			})
@@ -40,7 +39,6 @@ var quickbook = {};
 			.fail(function(response) {
 				alert(responseText);
 			});
-
 		});
 	});
 })(jQuery);
