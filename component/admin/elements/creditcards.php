@@ -14,8 +14,8 @@ JFormHelper::loadFieldClass('checkboxes');
 /**
  * Renders a Productfinder Form
  *
- * @package        Joomla
- * @subpackage     Banners
+ * @package        RedSHOP.Backend
+ * @subpackage     Element
  * @since          1.5
  */
 class JFormFieldCreditCards extends JFormFieldCheckboxes
