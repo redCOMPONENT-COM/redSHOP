@@ -14,13 +14,20 @@ JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_PaymentQuickbook extends JPlugin
 {
+	public function getConnectionTicket()
+	{
+		jimport( 'joomla.filesystem.file' );
+
+		$buffer = json_encode($_REQUEST);
+
+		// Write connection ticket outside of site root
+		JFile::write(JPATH_SITE . '/../connectionticket.json', $buffer);
+
+		die;
+	}
+
 	/**
-	 * This method will be triggered on before placing order to authorize or charge credit card
-	 *
-	 * @param   string  $element  Name of the payment plugin
-	 * @param   array   $data     Cart Information
-	 *
-	 * @return  object  Authorize or Charge success or failed message and transaction id
+	 * Plugin method with the same name as the event will be called automatically.
 	 */
 	public function onPrePayment_Quickbook($element, $data)
 	{
@@ -34,19 +41,93 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 			$plugin = $element;
 		}
 
+		$app = JFactory::getApplication();
+		$objOrder = new order_functions;
+		$uri = JURI::getInstance();
+		$url = $uri->root();
+		$user = JFactory::getUser();
+		$sessionid = session_id();
+		$session = JFactory::getSession();
+		$ccdata = $session->get('ccdata');
+
+		// Set request-specific fields.
+		$paymentType      = urlencode($this->params->get("sales_auth_only"));
+
+		$debug_mode       = $this->params->get('debug_mode', 0);
+		$firstName        = urlencode($data['billinginfo']->firstname);
+		$lastName         = urlencode($data['billinginfo']->lastname);
+		$creditCardType   = urlencode($ccdata['creditcard_code']);
+		$creditCardNumber = urlencode($ccdata['order_payment_number']);
+		$expDateMonth     = $ccdata['order_payment_expire_month'];
+
+		// Month must be padded with leading zero
+		$padDateMonth     = urlencode(str_pad($expDateMonth, 2, '0', STR_PAD_LEFT));
+
+		$expDateYear      = urlencode($ccdata['order_payment_expire_year']);
+		$cvv2Number       = urlencode($creditCardType);
+		$address1         = urlencode($data['billinginfo']->address);
+		$address2         = urlencode('customer_address2');
+		$city             = urlencode($data['billinginfo']->city);
+		$state            = urlencode($data['billinginfo']->state_code);
+		$zip              = urlencode($data['billinginfo']->zipcode);
+
+		// US or other valid country code
+		$country = urlencode($data['billinginfo']->country_code);
+		$amount  = urlencode(number_format($data['order_total'], 2));
+
+		// Or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+		$currencyID = urlencode(CURRENCY_CODE);
+
+		if ($creditCardType == "MC")
+		{
+			$creditCardType = "MasterCard";
+		}
+
+		// Add request-specific fields to the request string.
+		$nvpStr = "&PAYMENTACTION=$paymentType&AMT=$amount&CREDITCARDTYPE=$creditCardType&ACCT=$creditCardNumber" .
+			"&EXPDATE=$padDateMonth$expDateYear&CVV2=$cvv2Number&FIRSTNAME=$firstName&LASTNAME=$lastName" .
+			"&STREET=$address1&CITY=$city&STATE=$state&ZIP=$zip&COUNTRYCODE=$country&CURRENCYCODE=$currencyID";
+
+		// Execute the API operation; see the PPHttpPost function above.
+		$httpParsedResponseAr = $this->PPHttpPost('DoDirectPayment', $nvpStr);
+
+		$transaction_id = $request['transaction_id'];
+
+		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
+		{
+			$values->responsestatus = 'Success';
+
+			if ($debug_mode == 1)
+			{
+				$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
+			}
+			else
+			{
+				$message = JText::_('COM_REDSHOP_ORDER_PLACED');
+			}
+		}
+		else
+		{
+			$values->responsestatus = 'Fail';
+
+			if ($debug_mode == 1)
+			{
+				$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
+			}
+			else
+			{
+				$message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			}
+		}
+
 		$values->transaction_id = $transaction_id;
 		$values->message = $message;
 
 		return $values;
 	}
 
-	/**
-	 * This method will be trigger to charge the credit card based on transaction id
-	 *
-	 * @param   string  $element  Name of plugin
-	 * @param   array   $request  Request data from payment
-	 *
-	 * @return  object  Success or failed message, transaction id and order id
+	/*
+	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
 	public function onNotifyPaymentQuickbook($element, $request)
 	{
@@ -55,22 +136,245 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 			return false;
 		}
 
+		$db             = JFactory::getDbo();
+		$request        = JRequest::get('request');
+		$accept         = $request["accept"];
+		$tid            = $request["tid"];
+		$order_id       = $request["orderid"];
+		$Itemid         = $request["Itemid"];
+		$order_amount   = $request["amount"];
+		$order_ekey     = $request["eKey"];
+		$error          = $request["error"];
+		$order_currency = $request["cur"];
+
+		JPlugin::loadLanguage('com_redshop');
+
+		$verify_status  = $this->params->get('verify_status', '');
+		$invalid_status = $this->params->get('invalid_status', '');
+		$auth_type      = $this->params->get('auth_type', '');
+		$values         = new stdClass;
+
+		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
+		//
+		if (($order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
+		{
+			// Find the corresponding order in the database
+
+			$db = JFactory::getDbo();
+			$qv = "SELECT order_id, order_number FROM #__redshop_orders WHERE order_id='" . $order_id . "'";
+			$db->setQuery($qv);
+			$orders = $db->LoadObjectList();
+
+			foreach ($orders as $order_detail)
+			{
+				$d['order_id'] = $order_detail->order_id;
+			}
+
+			// Switch on the order accept code
+			// accept = 1 (standard redirect) accept = 2 (callback)
+			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
+			{
+				// Only update the order information once
+				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
+				{
+					// UPDATE THE ORDER STATUS to 'VALID'
+					$transaction_id = $tid;
+					$values->order_status_code = $verify_status;
+					$values->order_payment_status_code = 'Paid';
+					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
+					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+
+					// Add history callback info
+					if ($accept == "2")
+					{
+						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CALLBACK');
+					}
+
+					// Payment fee
+					if ($request["transfee"])
+					{
+						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_FEE');
+					}
+
+					// Payment date
+					if ($request["date"])
+					{
+						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_DATE');
+					}
+
+					// Payment fraud control
+					if (@$request["fraud"])
+					{
+						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
+					}
+
+					// Card id
+					if ($request["cardid"])
+					{
+						$cardname = "Unknown";
+						$cardimage = "c" . $_REQUEST["cardid"] . ".gif";
+
+						switch ($_REQUEST["cardid"])
+						{
+							case 1:
+								$cardname = 'Dankort (DK)';
+								break;
+							case 2:
+								$cardname = 'Visa/Dankort (DK)';
+								break;
+							case 3:
+								$cardname = 'Visa Electron (Udenlandsk)';
+								break;
+							case 4:
+								$cardname = 'Mastercard (DK)';
+								break;
+							case 5:
+								$cardname = 'Mastercard (Udenlandsk)';
+								break;
+							case 6:
+								$cardname = 'Visa Electron (DK)';
+								break;
+							case 7:
+								$cardname = 'JCB (Udenlandsk)';
+								break;
+							case 8:
+								$cardname = 'Diners (DK)';
+								break;
+							case 9:
+								$cardname = 'Maestro (DK)';
+								break;
+							case 10:
+								$cardname = 'American Express (DK)';
+								break;
+							case 11:
+								$cardname = 'Ukendt';
+								break;
+							case 12:
+								$cardname = 'eDankort (DK)';
+								break;
+							case 13:
+								$cardname = 'Diners (Udenlandsk)';
+								break;
+							case 14:
+								$cardname = 'American Express (Udenlandsk)';
+								break;
+							case 15:
+								$cardname = 'Maestro (Udenlandsk)';
+								break;
+							case 16:
+								$cardname = 'Forbrugsforeningen (DK)';
+								break;
+							case 17:
+								$cardname = 'eWire';
+								break;
+							case 18:
+								$cardname = 'VISA';
+								break;
+							case 19:
+								$cardname = 'IKANO';
+								break;
+							case 20:
+								$cardname = 'Andre';
+								break;
+							case 21:
+								$cardname = 'Nordea';
+								break;
+							case 22:
+								$cardname = 'Danske Bank';
+								break;
+							case 23:
+								$cardname = 'Danske Bank';
+								break;
+						}
+
+						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
+					}
+
+					// Creation information
+					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
+					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
+				}
+			}
+			elseif ($accept == "0")
+			{
+				$values->order_status_code = $invalid_status;
+				$values->order_payment_status_code = 'Unpaid';
+				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
+				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_ERROR');
+			}
+			else
+			{
+				$values->order_status_code = $invalid_status;
+				$values->order_payment_status_code = 'Unpaid';
+				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
+				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
+			}
+		}
+		else
+		{
+			$values->order_status_code = $invalid_status;
+			$values->order_payment_status_code = 'Unpaid';
+			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
+			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
+		}
+
 		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 
 		return $values;
 	}
 
-	/**
-	 * This method will be trigger on order status change to capture order ammount.
-	 *
-	 * @param   string  $element  Name of plugin
-	 * @param   array   $data     Order Information array
-	 *
-	 * @return  object  Success or failed message
-	 */
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	{
+		$db    = JFactory::getDbo();
+		$res   = false;
+		$query = "SELECT COUNT(*) `qty` FROM #__redshop_order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$db->setQuery($query);
+		$order_payment = $db->loadResult();
+
+		if ($order_payment == 0)
+		{
+			$res = true;
+		}
+
+		return $res;
+	}
+
 	public function onCapture_PaymentQuickbook($element, $data)
 	{
+		$db = JFactory::getDbo();
+		$objOrder = new order_functions;
+
+		// Set request-specific fields.
+		$authorizationID = urlencode($this->params->get('api_username'));
+		$amount = urlencode($data['order_amount']);
+
+		// Or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+		$currency         = urlencode(CURRENCY_CODE);
+		$completeCodeType = urlencode('Complete');
+		$invoiceID        = urlencode($data['order_transaction_id']);
+		$note             = urlencode(JText::_('COM_REDSHOP_CAPTURED_PAYMENT'));
+
+		// Add request-specific fields to the request string.
+		$nvpStr = "&AUTHORIZATIONID=$authorizationID&AMT=$amount&COMPLETETYPE=$completeCodeType&CURRENCYCODE=$currency&NOTE=$note";
+
+		// Execute the API operation; see the PPHttpPost function above.
+		$httpParsedResponseAr = $this->PPHttpPost('DoCapture', $nvpStr);
+
+		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
+		{
+			$values->responsestatus = 'Success';
+			$message = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
+		}
+		else
+		{
+			$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
+			$values->responsestatus = 'Fail';
+		}
+
 		$values->message = $message;
 
 		return $values;
