@@ -45,29 +45,6 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 	}
 
 	/**
-	 * Read the JSON file and get connection ticket.
-	 *
-	 * @return  void
-	 */
-	public function getConnectionTicket()
-	{
-		jimport('joomla.filesystem.file');
-
-		$data = JFile::read(JPATH_SITE . self::CONNECTION_TICKET_PATH);
-
-		if ($data)
-		{
-			echo $data;
-		}
-		else
-		{
-			echo JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_GET_CONNECTION_TICKET_FAIL');
-		}
-
-		JFactory::getApplication()->close();
-	}
-
-	/**
 	 * This method will be triggered on before placing order to authorize or charge credit card
 	 *
 	 * @param   string  $element  Name of the payment plugin
