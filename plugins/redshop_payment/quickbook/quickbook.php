@@ -51,7 +51,7 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 	 */
 	public function getConnectionTicket()
 	{
-		jimport( 'joomla.filesystem.file' );
+		jimport('joomla.filesystem.file');
 
 		$data = JFile::read(JPATH_SITE . self::CONNECTION_TICKET_PATH);
 

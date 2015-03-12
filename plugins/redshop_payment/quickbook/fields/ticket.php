@@ -38,6 +38,17 @@ class JFormFieldTicket extends JFormField
 	 */
 	protected function getInput()
 	{
+		JText::script('PLG_REDSHOP_PAYMENT_QUICKBOOK_APP_ID_REQUIRED');
+		RedshopConfig::script('SITE_URL', JUri::root());
+
+		// Set redshop config javascript header
+		RedshopConfig::scriptDeclaration();
+
+		JFactory::getDocument()->addScript(JUri::root(true) . '/plugins/redshop_payment/quickbook/media/js/quickbook.js');
+		JFactory::getDocument()->addStyleSheet(
+			JUri::root(true) . '/plugins/redshop_payment/quickbook/media/css/quickbook.css'
+		);
+
 		// Translate placeholder text
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
@@ -88,7 +99,7 @@ class JFormFieldTicket extends JFormField
 			<div class="modal-body">
 				<p>
 					<ol>
-						<li>Copy following URL which you need to add as a Subscription URL while you will create QBMS Application in next step.
+						<li>Copy following URL which you need to add as a <b>Subscription URL<b> while you will create QBMS Application in next step.
 							<pre>' . JUri::root() . 'index.php?option=com_redshop&view=plugin&type=redshop_payment&tmpl=component&task=setconnectionticket</pre>
 						</li>
 						<li>
@@ -111,17 +122,6 @@ class JFormFieldTicket extends JFormField
 				<a href="#" class="btn btn-primary" id="generate_conn_ticket">Give me connection ticket</a>
 			</div>
 		</div>';
-
-		JText::script('PLG_REDSHOP_PAYMENT_QUICKBOOK_APP_ID_REQUIRED');
-		RedshopConfig::script('SITE_URL', JUri::root());
-
-		// Set redshop config javascript header
-		RedshopConfig::scriptDeclaration();
-
-		JFactory::getDocument()->addScript(JUri::root(true) . '/plugins/redshop_payment/quickbook/media/js/quickbook.js');
-		JFactory::getDocument()->addStyleSheet(
-			JUri::root(true) . '/plugins/redshop_payment/quickbook/media/css/quickbook.css'
-		);
 
 		return $html;
 	}
