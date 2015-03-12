@@ -41,6 +41,20 @@ class JFormFieldTicket extends JFormField
 		JText::script('PLG_REDSHOP_PAYMENT_QUICKBOOK_APP_ID_REQUIRED');
 		RedshopConfig::script('SITE_URL', JUri::root());
 
+		// Get system plugin params if available else return an error
+		$quickBookSystem = JPluginHelper::getPlugin('system', 'quickbook');
+
+		if (empty($quickBookSystem))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_SYSTEM'), 'error');
+		}
+		else
+		{
+			$quickBookSystemParams = new JRegistry($quickBookSystem->params);
+
+			RedshopConfig::script('SECRET_WORD', $quickBookSystemParams->get('secretWord'));
+		}
+
 		// Set redshop config javascript header
 		RedshopConfig::scriptDeclaration();
 
