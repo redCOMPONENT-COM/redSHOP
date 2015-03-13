@@ -15,34 +15,12 @@ JLoader::load('RedshopHelperAdminOrder');
 class plgRedshop_PaymentQuickbook extends JPlugin
 {
 	/**
-	 * Connection ticket JSON file default path from  site root - JPATH_SITE
-	 */
-	const CONNECTION_TICKET_PATH = '/../connectionticket.json';
-
-	/**
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
-
-	/**
-	 * Set connection ticket from Intuit Quickbook Subscription Url and write into JSON file
-	 *
-	 * @return  void
-	 */
-	public function setConnectionTicket()
-	{
-		jimport( 'joomla.filesystem.file' );
-
-		$buffer = json_encode($_REQUEST);
-
-		// Write connection ticket outside of site root
-		JFile::write(JPATH_SITE . self::CONNECTION_TICKET_PATH, $buffer);
-
-		JFactory::getApplication()->close();
-	}
 
 	/**
 	 * This method will be triggered on before placing order to authorize or charge credit card

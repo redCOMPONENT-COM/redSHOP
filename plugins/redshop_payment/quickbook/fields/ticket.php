@@ -29,6 +29,8 @@ class JFormFieldTicket extends JFormField
 	 */
 	protected $type = 'ticket';
 
+	protected $secretWord = null;
+
 	/**
 	 * Method to get the field input markup.
 	 *
@@ -51,9 +53,9 @@ class JFormFieldTicket extends JFormField
 		else
 		{
 			$quickBookSystemParams = new JRegistry($quickBookSystem->params);
-			$secretWord = $quickBookSystemParams->get('secretWord', false);
+			$this->secretWord      = $quickBookSystemParams->get('secretWord', false);
 
-			if (!$secretWord)
+			if (!$this->secretWord)
 			{
 				JFactory::getApplication()->enqueueMessage(
 					JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_SYSTEM_SECRET_WORD'),
@@ -61,7 +63,7 @@ class JFormFieldTicket extends JFormField
 				);
 			}
 
-			RedshopConfig::script('SECRET_WORD', $quickBookSystemParams->get('secretWord'));
+			RedshopConfig::script('SECRET_WORD', $this->secretWord);
 		}
 
 		// Set redshop config javascript header
@@ -123,7 +125,7 @@ class JFormFieldTicket extends JFormField
 				<p>
 					<ol>
 						<li>Copy following URL which you need to add as a <b>Subscription URL<b> while you will create QBMS Application in next step.
-							<pre>' . JUri::root() . 'index.php?option=com_redshop&view=plugin&type=redshop_payment&tmpl=component&task=setconnectionticket</pre>
+							<pre>' . JUri::root() . 'index.php?option=com_redshop&tmpl=component&secret=' . $this->secretWord . '&control=setConnectionTicket</pre>
 						</li>
 						<li>
 							<p>Follow the steps on the application registration page here: https://developer.intuit.com/Application/Create/QBMS</p>
