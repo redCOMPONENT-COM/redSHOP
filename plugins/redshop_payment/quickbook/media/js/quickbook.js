@@ -2,6 +2,7 @@ var quickbook = {};
 
 (function($){
 	jQuery(document).ready(function() {
+
 		jQuery('#getTicketModal').on('show', function () {
 
 			if ('' == jQuery.trim(jQuery('#jform_params_appId').val()))
@@ -28,7 +29,7 @@ var quickbook = {};
 
 		jQuery('#generate_conn_ticket').click(function(event) {
 			jQuery.ajax({
-				url: redSHOP.RSConfig._('SITE_URL') + 'administrator/index.php?option=com_redshop&view=redshop&secret=' + redSHOP.RSConfig._('SECRET_WORD') + '&control=getConnectionTicket',
+				url: redSHOP.RSConfig._('SITE_URL') + 'administrator/index.php?option=com_redshop&secret=' + redSHOP.RSConfig._('SECRET_WORD') + '&control=getConnectionTicket',
 				type: 'GET',
 				dataType: 'json',
 			})
@@ -36,6 +37,47 @@ var quickbook = {};
 
 				jQuery('#jform_params_connectionTicket').val(response.conntkt);
 				jQuery('#getTicketModal').modal('hide');
+			})
+			.fail(function(response) {
+				alert(response.responseText);
+			});
+		});
+
+		jQuery('#generatePrivateKey').click(function(event) {
+			jQuery.ajax({
+				url: redSHOP.RSConfig._('SITE_URL') + 'administrator/index.php?option=com_redshop&secret=' + redSHOP.RSConfig._('SECRET_WORD') + '&control=generatePrivateKey',
+				type: 'GET',
+				dataType: 'json'
+			})
+			.done(function(response) {
+				jQuery('#privateKeyTxt').val(response.key);
+			})
+			.fail(function(response) {
+				alert(response.responseText);
+			});
+		});
+
+		jQuery('#generatePem').click(function(event) {
+
+			if ('' == jQuery.trim(jQuery('#signedCertificateTxt').val())) {
+				alert(Joomla.JText._('PLG_REDSHOP_PAYMENT_QUICKBOOK_CERTIFICATE_TEXT_REQUIRED'));
+
+				return false;
+			}
+
+			jQuery.ajax({
+				url: redSHOP.RSConfig._('SITE_URL') + 'administrator/index.php?option=com_redshop&secret=' + redSHOP.RSConfig._('SECRET_WORD') + '&control=generatePem',
+				type: 'POST',
+				dataType: 'json',
+				data: {certData: jQuery('#signedCertificateTxt').val()},
+			})
+			.done(function(response) {
+
+				if (response.success)
+				{
+					jQuery('#jform_params_certifiedPemFile').val(response.path);
+					jQuery('#getCertificateModal').modal('hide');
+				}
 			})
 			.fail(function(response) {
 				alert(response.responseText);

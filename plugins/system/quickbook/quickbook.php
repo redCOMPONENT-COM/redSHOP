@@ -64,7 +64,7 @@ class plgSystemQuickbook extends JPlugin
 	 *
 	 * @return  void
 	 */
-	public function setConnectionTicketSite()
+	private function setConnectionTicketSite()
 	{
 		jimport( 'joomla.filesystem.file' );
 
@@ -81,7 +81,7 @@ class plgSystemQuickbook extends JPlugin
 	 *
 	 * @return  void
 	 */
-	public function getConnectionTicket()
+	private function getConnectionTicket()
 	{
 		jimport('joomla.filesystem.file');
 
@@ -98,5 +98,50 @@ class plgSystemQuickbook extends JPlugin
 		}
 
 		JFactory::getApplication()->close();
+	}
+
+	private function generatePrivateKey()
+	{
+		$basePath       = realpath(JPATH_SITE . '/../');
+		$privateKeyPath = $basePath . '/quickbook_private.key';
+
+		shell_exec('openssl genrsa -out ' . $privateKeyPath . ' 1024');
+
+		if (JFile::exists($privateKeyPath))
+		{
+			echo json_encode(
+					array(
+						'key' => JFile::read($privateKeyPath)
+					)
+				);
+			JFile::delete($privateKeyPath);
+		}
+		else
+		{
+			echo JText::_('PLG_SYS_QUICKBOOK_GET_PRIVATE_KEY_FAIL');
+		}
+
+		JFactory::getApplication()->close();
+	}
+
+	private function generatePem()
+	{
+		$app = JFactory::getApplication();
+
+		$certData = $app->input->getVar('certData');
+
+		$basePath        = realpath(JPATH_SITE . '/../');
+		$certificatePath = $basePath . '/quickbook_certificate.pem';
+
+		if (JFile::write($certificatePath, $certData))
+		{
+			echo json_encode(array('success' => true, 'path' => $certificatePath));
+		}
+		else
+		{
+			echo JText::_('PLG_SYS_QUICKBOOK_GET_CERTIFICATE_FAIL');
+		}
+
+		$app->close();
 	}
 }
