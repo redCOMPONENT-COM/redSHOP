@@ -20,7 +20,7 @@ $category_id = $this->state->get('category_id', 0);
 
 $user = JFactory::getUser();
 $userId = (int) $user->id;
-
+JHtml::_('redshopjquery.framework');
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -49,33 +49,17 @@ $userId = (int) $user->id;
 		form.submit();
 	}
 
-
 	function AssignTemplate() {
-
 		var form = document.adminForm;
-
-
-		var templatevalue = document.getElementById('product_template').value;
-
 		if (form.boxchecked.value == 0) {
-
-			document.getElementById('product_template').value = 0;
-			form.product_template.value = 0;
+			jQuery('#product_template').val(0).trigger("liszt:updated");
 			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT');?>');
-
 		} else {
-
 			form.task.value = 'assignTemplate';
-
 			if (confirm("<?php echo JText::_('COM_REDSHOP_SURE_WANT_TO_ASSIGN_TEMPLATE');?>")) {
-
-				form.product_template.value = templatevalue;
 				form.submit();
 			} else {
-
-				document.getElementById('product_template').value = 0;
-				form.product_template.value = 0;
-				return false;
+				jQuery('#product_template').val(0).trigger("liszt:updated");
 			}
 		}
 
@@ -384,7 +368,6 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 <input type="hidden" name="view" value="product"/>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="boxchecked" value="0"/>
-<input type="hidden" name="product_template" value=""/>
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
 </form>

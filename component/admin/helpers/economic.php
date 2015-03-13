@@ -586,10 +586,10 @@ class economic
 
 					$isVatDiscount = 0;
 
-					if (APPLY_VAT_ON_DISCOUNT == '0' && VAT_RATE_AFTER_DISCOUNT && $orderdetail->order_discount != "0.00" && $orderdetail->order_tax && !empty($orderdetail->order_discount))
+					if (APPLY_VAT_ON_DISCOUNT == '0' && (float) VAT_RATE_AFTER_DISCOUNT && $orderdetail->order_discount != "0.00" && $orderdetail->order_tax && !empty($orderdetail->order_discount))
 					{
 						$totaldiscount               = $orderdetail->order_discount;
-						$Discountvat                 = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+						$Discountvat                 = ((float) VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
 						$orderdetail->order_discount = $totaldiscount - $Discountvat;
 						$isVatDiscount               = 1;
 					}
@@ -912,7 +912,7 @@ class economic
 				}
 
 				$discount     = $orderdetail->order_discount + $orderdetail->special_discount_amount;
-				$product_name = JText::_("ORDER_DISCOUNT");
+				$product_name = JText::_('COM_REDSHOP_ORDER_DISCOUNT');
 
 				$product_number = $accountgroup[0]->economic_discount_product_number;
 

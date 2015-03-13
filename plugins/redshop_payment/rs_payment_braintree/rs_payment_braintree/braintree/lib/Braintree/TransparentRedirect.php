@@ -115,9 +115,8 @@ class Braintree_TransparentRedirect
 			Braintree_TransparentRedirect::UPDATE_PAYMENT_METHOD => 'Braintree_CreditCard'
 		);
 
-		return call_user_func(array($confirmationKlasses[$params["kind"]], '_doCreate'),
-			'/transparent_redirect_requests/' . $params['id'] . '/confirm',
-			array()
+		return call_user_func(
+			$confirmationKlasses[$params["kind"]] . '::_doCreate', '/transparent_redirect_requests/' . $params['id'] . '/confirm', array()
 		);
 	}
 

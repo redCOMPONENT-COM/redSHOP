@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.7.0"  client="site"  type="plugin" group="redshop_shipping" method="upgrade">
+	<name>PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLSBUSINESS</name>
+	<version>1.1</version>
+    <redshop>1.5</redshop>
+	<creationDate>11-03-2011</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLSBUSINESS_DESC</description>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_default_shipping_glsbusiness.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_default_shipping_glsbusiness.sys.ini</language>
+	</languages>
+	<files>
+		<filename plugin="default_shipping_glsbusiness">default_shipping_glsbusiness.php</filename>
+	</files>
+	<config addfieldpath="/administrator/components/com_redshop/elements">
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                	name="is_shipper"
+                	type="hidden"
+                	default="1"
+                	value="1"
+                />
+                <field
+                	name="extrafield_shipping"
+                	type="extrafieldshipping"
+                	multiple="true"
+                	label="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLSBUSINESS_EXTRAFIELD_LABEL"
+                	description="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLSBUSINESS_EXTRAFIELD_DESCRIPTION"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
