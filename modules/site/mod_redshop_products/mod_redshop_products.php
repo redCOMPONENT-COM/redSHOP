@@ -124,7 +124,16 @@ if ($showChildProducts != 1)
 	$query->where($db->qn('p.product_parent_id') . '=0');
 }
 
-$category = trim($params->get('category', false));
+$category = $params->get('category', '');
+
+if (is_array($category))
+{
+	$category = implode(',', $category);
+}
+else
+{
+	$category = trim($category);
+}
 
 if ($isUrlCategoryId)
 {

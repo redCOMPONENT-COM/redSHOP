@@ -82,25 +82,9 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($name, $state = 'unpublish')
+	public function changeMailState($name, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name);
-		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \MailCenterManagerJoomla3Page, $name, $state, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -123,25 +107,9 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($name)
+	public function getMailState($name)
 	{
-		$I = $this;
-		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name);
-		$text = $I->grabAttributeFrom(\MailCenterManagerJoomla3Page::$mailTemplateStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$mailTemplateStatePath);
 
 		return $result;
 	}

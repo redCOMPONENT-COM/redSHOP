@@ -77,25 +77,9 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($name, $state = 'unpublish')
+	public function changeManufacturerState($name, $state = 'unpublish')
 	{
-		$I = $this;
-		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
-
-		if ($state == 'unpublish')
-		{
-			$I->click("Unpublish");
-		}
-		else
-		{
-			$I->click("Publish");
-		}
-
-		$I->click('ID');
-
+		$this->changeState(new \ManufacturerManagerJoomla3Page, $name, $state, \ManufacturerManagerJoomla3Page::$firstResultRow, \ManufacturerManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -118,25 +102,9 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return string
 	 */
-	public function getState($name)
+	public function getManufacturerState($name)
 	{
-		$I = $this;
-		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->click('ID');
-		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		$text = $I->grabAttributeFrom(\ManufacturerManagerJoomla3Page::$manufacturerStatePath, 'onclick');
-
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
-
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
-
-		$I->click('ID');
+		$result = $this->getState(new \ManufacturerManagerJoomla3Page, $name, \ManufacturerManagerJoomla3Page::$firstResultRow, \ManufacturerManagerJoomla3Page::$manufacturerStatePath);
 
 		return $result;
 	}

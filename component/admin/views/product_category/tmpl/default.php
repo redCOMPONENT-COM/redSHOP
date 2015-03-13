@@ -8,9 +8,6 @@
  */
 JLoader::load('RedshopHelperProduct');
 JHTMLBehavior::modal();
-$product = $this->products;
-
-
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -46,29 +43,35 @@ $product = $this->products;
 	}
 </script>
 <form name="adminForm" id="adminForm" method="post">
-	<table class="adminlist">
+	<div class="filterItem">
+		<?php echo JText::_("COM_REDSHOP_SELECT_CATEGORY")?> <?php echo $this->lists["category"]; ?>
+	</div>
+	<table class="adminlist table table-striped">
+		<thead>
 		<tr>
 			<th><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME');?></th>
-			<th><?php echo JText::_('COM_REDSHOP_CATEGORY_NAME');?></th>
+			<th><?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY');?></th>
 		</tr>
-		<?php
-		$row = $product[0];
-		echo "<tr>";
-		echo "<td>" . $row->product_name . "</td>";
-		echo "<td rowspan='" . count($product) . "'>" . $this->lists["category"] . "</td>";
-		echo "<input type='hidden' name='cid[]' value='" . $row->product_id . "'>";
-		echo "</tr>";
-
-		for ($i = 1; $i < count($product); $i++)
-		{
-			$row = $product[$i];
-			echo "<tr>";
-			echo "<td>" . $row->product_name;
-			echo "<input type='hidden' name='cid[]' value='" . $row->product_id . "'>";
-			echo "</td>";
-			echo "</tr>";
-		}
-		?>
+		</thead>
+		<?php foreach ($this->products as $row): ?>
+			<tr>
+				<td>
+					<?php echo $row->product_name; ?>
+					<input type="hidden" name="cid[]" value="<?php echo $row->product_id; ?>">
+				</td>
+				<td>
+				<?php
+				if (isset($row->categories) && count($row->categories))
+				{
+					foreach ($row->categories as $category)
+					{
+						echo $category . '<br />';
+					}
+				}
+			?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
 	</table>
 	<input type="hidden" name="boxchecked" value=""/>
 	<input type="hidden" name="view" value="product_category"/>

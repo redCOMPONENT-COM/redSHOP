@@ -10,10 +10,10 @@
 require_once 'braintree/lib/Braintree.php';
 
 // get plugin params
-$environment = $this->_params->get("environment");
-$merchnat_id = $this->_params->get("merchant_id");
-$public_key = $this->_params->get("public_key");
-$private_key = $this->_params->get("private_key");
+$environment = $this->params->get("environment");
+$merchnat_id = $this->params->get("merchant_id");
+$public_key = $this->params->get("public_key");
+$private_key = $this->params->get("private_key");
 
 Braintree_Configuration::environment($environment);
 Braintree_Configuration::merchantId($merchnat_id);

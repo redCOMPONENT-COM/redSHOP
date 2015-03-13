@@ -17,47 +17,30 @@ defined('_JEXEC') or die;
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelPrice_filter extends RedshopModel
+class RedshopModelPrice_Filter extends RedshopModel
 {
-	public $_id = null;
-
-	public $_data = null;
-
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
-	}
-
-	public function _buildQuery()
-	{
-		$catfld   = '';
-
-		if ($category = JRequest::getInt('category', 0))
-		{
-			$catfld .= " AND cx.category_id = " . (int) $category . ' ';
-		}
-
-		$sql = "SELECT DISTINCT(p.product_id),p.* FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS cx ON cx.product_id = p.product_id "
-			. "WHERE p.published=1 "
-			. $catfld
-			. "ORDER BY p.product_price ";
-
-		return $sql;
-	}
-
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   1.5
+	 */
 	public function getData()
 	{
-		if (empty($this->_data))
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(p.product_id), p.*')
+			->from($db->qn('#__redshop_product', 'p'))
+			->where('p.published = 1')
+			->order('p.product_price');
+
+		if ($category = JFactory::getApplication()->input->getInt('category', 0))
 		{
-			$query       = $this->_buildQuery();
-			$limit = JFactory::getApplication()->input->getInt('count');
-			$this->_data = $this->_getList($query, 0, $limit);
+			$query->leftJoin($db->qn('#__redshop_product_category_xref', 'cx') . ' ON cx.product_id = p.product_id')
+				->where('cx.category_id = ' . (int) $category);
 		}
 
-		return $this->_data;
+		return $db->setQuery($query)->loadObjectList();
 	}
 }

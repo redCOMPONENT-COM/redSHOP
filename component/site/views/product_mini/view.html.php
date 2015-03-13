@@ -58,7 +58,8 @@ class RedshopViewProduct_mini extends RedshopView
 		$this->lists = $lists;
 		$this->products = $products;
 		$this->pagination = $pagination;
-		$this->request_url = JFilterOutput::cleanText($uri->toString());
+		$this->request_url = $uri->toString();
+		JFilterOutput::cleanText($this->request_url);
 		parent::display($tpl);
 	}
 }

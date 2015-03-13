@@ -1,3 +1,4 @@
+jQuery(function($) {
 $(document).ready(function () {
 
   function PaymillResponseHandler(error, result) {
@@ -22,7 +23,7 @@ $(document).ready(function () {
     $('.submit-button').attr("disabled", "disabled");
 
     if (!paymill.validateCardNumber($('.card-number').val())) {
-      $(".payment-errors").text("Invalid card number");
+      $(".payment-errors").text(Joomla.JText._('PLG_RS_PAYMENT_PAYMILL_INVALID_CARD_NUMBER'));
       $(".submit-button").removeAttr("disabled");
       return false;
     }
@@ -31,7 +32,7 @@ $(document).ready(function () {
 	  $('.card-expiry-month').val(), 
 	  $('.card-expiry-year').val())
       ) {
-      $(".payment-errors").text("Invalid expiration date");
+      $(".payment-errors").text(Joomla.JText._('PLG_RS_PAYMENT_PAYMILL_INVALID_EXPIRATION_DATE'));
       $(".submit-button").removeAttr("disabled");
       return false;
     }
@@ -49,4 +50,4 @@ $(document).ready(function () {
     return false;
   });
 });
-
+});
