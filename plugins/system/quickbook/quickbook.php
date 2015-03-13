@@ -114,6 +114,8 @@ class plgSystemQuickbook extends JPlugin
 						'key' => JFile::read($privateKeyPath)
 					)
 				);
+
+			// Remove file after fetching data for security
 			JFile::delete($privateKeyPath);
 		}
 		else

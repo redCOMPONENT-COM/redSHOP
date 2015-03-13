@@ -42,6 +42,15 @@
 					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_APPID_DESC"
 				/>
 				<field
+					name="appLogin"
+					type="text"
+					default=""
+					required="true"
+					hint="PLG_REDSHOP_PAYMENT_QUICKBOOK_APPLOGIN_HINT"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_APPLOGIN"
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_APPLOGIN_DESC"
+				/>
+				<field
 					name="connectionTicket"
 					type="ticket"
 					class="input-xlarge"
@@ -73,10 +82,32 @@
 					class="btn-group"
 					default="1"
 					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_TEST_MODE"
-					description="Use sandbox account? (For development) "
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_TEST_MODE_DESC"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+				</field>
+				<field
+					name="isDebug"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_DEBUG_MODE"
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_DEBUG_MODE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="directCapture"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_AUTHORIZE_MODE"
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_AUTHORIZE_MODE_DESC"
+				>
+					<option value="0">PLG_REDSHOP_PAYMENT_QUICKBOOK_AUTHORIZE</option>
+					<option value="1">PLG_REDSHOP_PAYMENT_QUICKBOOK_CAPTURE</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
