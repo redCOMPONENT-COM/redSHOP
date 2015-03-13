@@ -3316,8 +3316,8 @@ class rsCarthelper
 
 				if ($i == 0 || ($shipping_box_priority == $shipping_box_priority_pre))
 				{
-					$shipping_box_list .= "<input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "'>";
-					$shipping_box_list .= "<label for='shipping_box_id" . $shipping_box_id . "'>" . $shippingBoxes[$i]->shipping_box_name . "</label><br/>";
+					$shipping_box_list .= "<label class=\"radio\" for='shipping_box_id" . $shipping_box_id . "'><input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "'>";
+					$shipping_box_list .= "" . $shippingBoxes[$i]->shipping_box_name . "</label><br/>";
 				}
 			}
 		}
@@ -3492,11 +3492,12 @@ class rsCarthelper
 									}
 								}
 
-								$shipping_rate_name = '<input type="radio" id="shipping_rate_id_'.$shippingmethod[$s]->extension_id.'_'.$i.'" name="shipping_rate_id" value="'
+								$shipping_rate_name = '<label class="radio inline" for="shipping_rate_id_' . $shippingmethod[$s]->extension_id . '_' . $i . '"><input type="radio" id="shipping_rate_id_'
+									. $shippingmethod[$s]->extension_id . '_' . $i . '" name="shipping_rate_id" value="'
 									. $rate[$i]->value . '" '
 									. $checked
 									. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');">'
-									. '<label for="shipping_rate_id_'.$shippingmethod[$s]->extension_id.'_'.$i.'">' . html_entity_decode($rate[$i]->text) . '</label>';
+									. '' . html_entity_decode($rate[$i]->text) . '</label>';
 
 								$shipping_rate_short_desc = '';
 
@@ -3831,85 +3832,85 @@ class rsCarthelper
 				}
 			);
 
-			// Reset Index
-			sort($paymentmethod);
-
 			$totalPaymentMethod = count($paymentmethod);
 
-			for ($p = 0; $p < $totalPaymentMethod; $p++)
+			if ($totalPaymentMethod > 0)
 			{
-				$cardinfo        = "";
-				$display_payment = "";
-				$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod[$p]->name . '/' . $paymentmethod[$p]->name . '.php';
-
-				include_once $paymentpath;
-
-				$paymentparams  = new JRegistry($paymentmethod[$p]->params);
-				$private_person = $paymentparams->get('private_person', '');
-				$business       = $paymentparams->get('business', '');
-				$is_creditcard  = $paymentparams->get('is_creditcard', 0);
-
-				$checked = '';
-				$payment_chcked_class = '';
-
-				if ($payment_method_id === $paymentmethod[$p]->name || $totalPaymentMethod <= 1)
+				foreach ($paymentmethod as $p => $oneMethod)
 				{
-					$checked = "checked";
-					$payment_chcked_class = "paymentgtwchecked";
-				}
+					$cardinfo        = "";
+					$display_payment = "";
+					$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
 
-				$payment_radio_output = '<div id="' . $paymentmethod[$p]->name . '" class="' . $payment_chcked_class . '"><input  type="radio" name="payment_method_id" id="' . $paymentmethod[$p]->name . $p . '" value="' . $paymentmethod[$p]->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" /><label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_('PLG_' . strtoupper($paymentmethod[$p]->name)) . '</label></div>';
+					include_once $paymentpath;
 
-				$is_subscription = false;
+					$paymentparams  = new JRegistry($oneMethod->params);
+					$private_person = $paymentparams->get('private_person', '');
+					$business       = $paymentparams->get('business', '');
+					$is_creditcard  = $paymentparams->get('is_creditcard', 0);
 
-				if ($paymentmethod[$p]->name == 'rs_payment_eantransfer' || $paymentmethod[$p]->name == 'rs_payment_cashtransfer' || $paymentmethod[$p]->name == 'rs_payment_banktransfer' || $paymentmethod[$p]->name == "rs_payment_banktransfer2" || $paymentmethod[$p]->name == "rs_payment_banktransfer3" || $paymentmethod[$p]->name == "rs_payment_banktransfer4" || $paymentmethod[$p]->name == "rs_payment_banktransfer5")
-				{
-					if ($is_company == 0 && $private_person == 1)
+					$checked = '';
+					$payment_chcked_class = '';
+
+					if ($payment_method_id === $oneMethod->name || $totalPaymentMethod <= 1)
 					{
-						$display_payment = $payment_radio_output;
-						$flag = true;
+						$checked = "checked";
+						$payment_chcked_class = "paymentgtwchecked";
 					}
-					else
+
+					$payment_radio_output = '<div id="' . $oneMethod->name . '" class="' . $payment_chcked_class . '"><label class="radio" for="' . $oneMethod->name . $p . '"><input  type="radio" name="payment_method_id" id="' . $oneMethod->name . $p . '" value="' . $oneMethod->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" />' . JText::_('PLG_' . strtoupper($oneMethod->name)) . '</label></div>';
+
+					$is_subscription = false;
+
+					if ($oneMethod->name == 'rs_payment_eantransfer' || $oneMethod->name == 'rs_payment_cashtransfer' || $oneMethod->name == 'rs_payment_banktransfer' || $oneMethod->name == "rs_payment_banktransfer2" || $oneMethod->name == "rs_payment_banktransfer3" || $oneMethod->name == "rs_payment_banktransfer4" || $oneMethod->name == "rs_payment_banktransfer5")
 					{
-						if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
+						if ($is_company == 0 && $private_person == 1)
 						{
 							$display_payment = $payment_radio_output;
 							$flag = true;
 						}
+						else
+						{
+							if ($is_company == 1 && $business == 1 && ($oneMethod->name != 'rs_payment_eantransfer' || ($oneMethod->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
+							{
+								$display_payment = $payment_radio_output;
+								$flag = true;
+							}
+						}
 					}
-				}
-				elseif ($is_subscription)
-				{
-					$display_payment = '<input id="' . $paymentmethod[$p]->name . $p . '" type="radio" name="payment_method_id" value="'
-						. $paymentmethod[$p]->name . '" '
-						. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
-						. '<label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_($paymentmethod[$p]->name) . '</label><br>';
-					$display_payment .= '<table><tr><td>'
-						. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
-						. '</td><td>' . $this->getSubscriptionPlans()
-						. '<td></tr><table>';
-				}
-				else
-				{
-					$display_payment = $payment_radio_output;
-					$flag = true;
-				}
-
-				if ($is_creditcard)
-				{
-					$cardinfo = '<div id="divcardinfo_' . $paymentmethod[$p]->name . '">';
-
-					if ($checked != "" && ONESTEP_CHECKOUT_ENABLE)
+					elseif ($is_subscription)
 					{
-						$cardinfo .= $this->replaceCreditCardInformation($paymentmethod[$p]->name);
+						$display_payment = '<label class="radio" for="' . $oneMethod->name . $p . '"><input id="' . $oneMethod->name . $p . '" type="radio" name="payment_method_id" value="'
+							. $oneMethod->name . '" '
+							. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
+							. '' . JText::_($oneMethod->name) . '</label><br>';
+						$display_payment .= '<table><tr><td>'
+							. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
+							. '</td><td>' . $this->getSubscriptionPlans()
+							. '<td></tr><table>';
+					}
+					else
+					{
+						$display_payment = $payment_radio_output;
+						$flag = true;
 					}
 
-					$cardinfo .= '</div>';
-				}
+					if ($is_creditcard)
+					{
+						$cardinfo = '<div id="divcardinfo_' . $oneMethod->name . '">';
 
-				$payment_display .= $template_middle;
-				$payment_display = str_replace("{payment_method_name}", $display_payment, $payment_display);
-				$payment_display = str_replace("{creditcard_information}", $cardinfo, $payment_display);
+						if ($checked != "" && ONESTEP_CHECKOUT_ENABLE)
+						{
+							$cardinfo .= $this->replaceCreditCardInformation($oneMethod->name);
+						}
+
+						$cardinfo .= '</div>';
+					}
+
+					$payment_display .= $template_middle;
+					$payment_display = str_replace("{payment_method_name}", $display_payment, $payment_display);
+					$payment_display = str_replace("{creditcard_information}", $cardinfo, $payment_display);
+				}
 			}
 
 			$template_desc = str_replace("{payment_loop_start}", "", $template_desc);
