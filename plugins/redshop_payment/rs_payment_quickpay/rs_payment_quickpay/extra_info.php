@@ -134,7 +134,7 @@ if (in_array('PAII', $cart_type) || $all)
 	$oricart_type[] = 'paii';
 }
 
-if (in_array('VIABILL', $cart_type) || in_array('ALL', $cart_type))
+if (in_array('VIABILL', $cart_type) || $all)
 {
 	$oricart_type[] = 'viabill';
 }
