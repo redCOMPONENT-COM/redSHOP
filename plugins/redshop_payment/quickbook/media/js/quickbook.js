@@ -33,11 +33,12 @@ var quickbook = {};
 				dataType: 'json',
 			})
 			.done(function(response) {
+
 				jQuery('#jform_params_connectionTicket').val(response.conntkt);
 				jQuery('#getTicketModal').modal('hide');
 			})
 			.fail(function(response) {
-				alert(responseText);
+				alert(response.responseText);
 			});
 		});
 	});
