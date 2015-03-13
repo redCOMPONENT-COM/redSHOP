@@ -19,8 +19,9 @@
 
 	<files>
 		<filename plugin="quickbook">quickbook.php</filename>
-		<folder plugin="fields">fields</folder>
-		<folder plugin="media">media</folder>
+		<folder>fields</folder>
+		<folder>media</folder>
+		<folder>library</folder>
 	</files>
 
 	<languages>
@@ -43,12 +44,20 @@
 				<field
 					name="connectionTicket"
 					type="ticket"
-					default=""
 					class="input-xlarge"
 					required="true"
 					hint="PLG_REDSHOP_PAYMENT_QUICKBOOK_CONNECTION_TICKET_HINT"
 					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_CONNECTION_TICKET"
 					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_CONNECTION_TICKET_DESC"
+				/>
+				<field
+					name="certifiedPemFile"
+					type="certificate"
+					class="input-xlarge"
+					required="true"
+					hint="PLG_REDSHOP_PAYMENT_QUICKBOOK_CERTIFIED_FILE_HINT"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_CERTIFIED_FILE"
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_CERTIFIED_FILE_DESC"
 				/>
 				<field
 					name="accepted_credict_card"

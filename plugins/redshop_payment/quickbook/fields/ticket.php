@@ -19,7 +19,7 @@ JLoader::import('redshop.library');
  * @subpackage     Element
  * @since          1.5
  */
-class JFormFieldTicket extends JFormField
+class JFormFieldTicket extends JFormFieldText
 {
 	/**
 	 * Element name
@@ -66,35 +66,10 @@ class JFormFieldTicket extends JFormField
 			RedshopConfig::script('SECRET_WORD', $this->secretWord);
 		}
 
-		// Set redshop config javascript header
-		RedshopConfig::scriptDeclaration();
-
 		JFactory::getDocument()->addScript(JUri::root(true) . '/plugins/redshop_payment/quickbook/media/js/quickbook.js');
 		JFactory::getDocument()->addStyleSheet(
 			JUri::root(true) . '/plugins/redshop_payment/quickbook/media/css/quickbook.css'
 		);
-
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
-
-		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
-		$pattern      = !empty($this->pattern) ? ' pattern="' . $this->pattern . '"' : '';
-		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
-		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
-
-		// Initialize JavaScript field attributes.
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
 		$html[] = '<div class="input-append">';
 
@@ -102,8 +77,7 @@ class JFormFieldTicket extends JFormField
 					. JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_GET_CONNECTION_TICKET_BUTTON')
 				. '</a>';
 
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . $dirname . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . $pattern . ' />';
+		$html[] = parent::getInput();
 
 		$html[] = '</div>';
 
@@ -114,39 +88,43 @@ class JFormFieldTicket extends JFormField
 
 	private function getModalHtml()
 	{
-		$html = '
-		<div id="getTicketModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="getTicketModalLabel" aria-hidden="true">
+		$title = JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_GET_CONNECTION_TICKET_TITLE');
+		$userAgreementText   = JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_USER_AGREEMENT_TEXT');
+		$connectionTicketButtonTxt = JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_CONN_TICKET_BUTTON_TEXT');
 
-			<div class="modal-header">
-			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			  <h1 id="getTicketModalLabel">' . JText::_("PLG_REDSHOP_PAYMENT_QUICKBOOK_GET_CONNECTION_TICKET_TITLE") . '</h1>
-			</div>
-			<div class="modal-body">
+		$subscriptionUrl = JUri::root() . 'index.php?option=com_redshop&tmpl=component&secret=' . $this->secretWord . '&control=setConnectionTicket';
+
+		$html = <<<EOF
+<div id="getTicketModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="getTicketModalLabel" aria-hidden="true">
+	<div class="modal-header">
+	  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	  <h1 id="getTicketModalLabel">$title</h1>
+	</div>
+	<div class="modal-body">
+		<ol>
+			<li>Copy following URL which you need to add as a <b>Subscription URL</b> while you will create QBMS Application in next step.
+				<pre>$subscriptionUrl</pre>
+			</li>
+			<li>
+				<p>Follow the steps on the application registration page here: https://developer.intuit.com/Application/Create/QBMS</p>
+			</li>
+			<li>
+				<p>After you have developed your QBMS application, you need to attach your QBMS account to your application registration. You can do that by visiting the links below in a web browser.</p>
 				<p>
-					<ol>
-						<li>Copy following URL which you need to add as a <b>Subscription URL<b> while you will create QBMS Application in next step.
-							<pre>' . JUri::root() . 'index.php?option=com_redshop&tmpl=component&secret=' . $this->secretWord . '&control=setConnectionTicket</pre>
-						</li>
-						<li>
-							<p>Follow the steps on the application registration page here: https://developer.intuit.com/Application/Create/QBMS</p>
-						</li>
-						<li>
-							<p>After you have developed your QBMS application, you need to attach your QBMS account to your application registration. You can do that by visiting the links below in a web browser.</p>
-							<p>
-								For <span class="label label-success">Production</span> applications visit this page in a web browser: <a target="_blank" id="app_id_link_production" href="">Click me to get connection ticket for Production</a>
-							</p>
-							<p>
-								For <span class="label label-important">Development</span> applications, visit this page in a web browser: <a target="_blank" id="app_id_link_develop" href="">Click me to get connection ticket for Development</a>
-							</p>
-						</li>
-					</ol>
+					For <span class="label label-success">Production</span> applications visit this page in a web browser: <a target="_blank" id="app_id_link_production" href="">Click me to get connection ticket for Production</a>
 				</p>
-			</div>
-			<div class="modal-footer" style="text-align:left;">
-				<span>Yes, I have follow above steps!</span>
-				<a href="#" class="btn btn-primary" id="generate_conn_ticket">Give me connection ticket</a>
-			</div>
-		</div>';
+				<p>
+					For <span class="label label-important">Development</span> applications, visit this page in a web browser: <a target="_blank" id="app_id_link_develop" href="">Click me to get connection ticket for Development</a>
+				</p>
+			</li>
+		</ol>
+	</div>
+	<div class="modal-footer" style="text-align:left;">
+		<span>$userAgreementText</span>
+		<a href="#" class="btn btn-primary" id="generate_conn_ticket">$connectionTicketButtonTxt</a>
+	</div>
+</div>
+EOF;
 
 		return $html;
 	}

@@ -1,6 +1,12 @@
-#getTicketModal{
+#getTicketModal, #getCertificateModal{
 	width: 50%;
 	left: 60%;
+}
+
+#getCertificateModal{
+	height: 600px;
+	overflow-y: scroll;
+	position: absolute;
 }
 
 .modal-footer{
