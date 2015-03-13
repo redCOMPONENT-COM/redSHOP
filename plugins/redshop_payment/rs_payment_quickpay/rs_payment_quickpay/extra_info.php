@@ -7,10 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri    = JURI::getInstance();
-$url    = $uri->root();
-$user   = JFactory::getUser();
-$db     = JFactory::getDbo();
+
+$uri  = JURI::getInstance();
+$url  = $uri->root();
+$user = JFactory::getUser();
+$db   = JFactory::getDbo();
 $config = JFactory::getConfig();
 $Itemid = JFactory::getApplication()->input->getInt('Itemid');
 
