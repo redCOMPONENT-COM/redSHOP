@@ -248,7 +248,7 @@ class extraField
 						$size = $row_data[$i]->field_size;
 					}
 
-					$ex_field .= JHTML::_('calendar', $date, $row_data[$i]->field_name, $row_data[$i]->field_name, $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
+					$ex_field .= JHTML::_('redshopjquery.calendar', $date, $row_data[$i]->field_name, $row_data[$i]->field_name, $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
 					break;
 			}
 
