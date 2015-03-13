@@ -144,8 +144,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$detail->product_number             = (isset($data['product_number'])) ? $data['product_number'] : null;
 		$detail->product_price              = (isset($data['product_price'])) ? $data['product_price'] : 0;
 		$detail->discount_price             = (isset($data['discount_price'])) ? $data['discount_price'] : null;
-		$detail->discount_stratdate         = (isset($data['discount_stratdate'])) ? $data['discount_stratdate'] : time();
-		$detail->discount_enddate           = (isset($data['discount_enddate'])) ? $data['discount_enddate'] : time();
+		$detail->discount_stratdate         = (isset($data['discount_stratdate'])) ? $data['discount_stratdate'] : null;
+		$detail->discount_enddate           = (isset($data['discount_enddate'])) ? $data['discount_enddate'] : null;
 		$detail->product_volume             = (isset($data['product_volume'])) ? $data['product_volume'] : 0;
 		$detail->product_type               = (isset($data['product_type'])) ? $data['product_type'] : null;
 		$detail->product_name               = (isset($data['product_name'])) ? $data['product_name'] : null;
