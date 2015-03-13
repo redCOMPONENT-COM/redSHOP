@@ -148,6 +148,7 @@ define('SPLITABLE_PAYMENT', '');
 define('SHOW_CAPTCHA', '0');
 define('SHOW_EMAIL_VERIFICATION', '0');
 define('RATING_MSG', '');
+define('RATING_REVIEW_LOGIN_REQUIRED', '1');
 define('DISCOUNT_DURATION', '23');
 define('SPECIAL_DISCOUNT_MAIL_SEND', '1');
 define('DISCOUNT_PERCENTAGE', '10');
