@@ -4107,9 +4107,6 @@ class producthelper
 
 		if (strstr($data_add, "{if product_on_sale}") && strstr($data_add, "{product_on_sale end if}"))
 		{
-			$template_pd_sdata = explode('{if product_on_sale}', $data_add);
-			$template_pd_edata = explode('{product_on_sale end if}', $template_pd_sdata [1]);
-
 			if ($product->product_on_sale == 1 && (($product->discount_stratdate == 0 && $product->discount_enddate == 0) || ($product->discount_stratdate <= time() && $product->discount_enddate >= time())))
 			{
 				$data_add = str_replace("{discount_start_date}", $redconfig->convertDateFormat($product->discount_stratdate), $data_add);
@@ -4119,7 +4116,9 @@ class producthelper
 			}
 			else
 			{
-				$data_add = $template_pd_sdata[0] . $template_pd_edata[1];
+				$template_pd_sdata = strstr($data_add, '{if product_on_sale}', true);
+				$template_pd_edata = substr(strstr($data_add, '{product_on_sale end if}'), 24);
+				$data_add = $template_pd_sdata . $template_pd_edata;
 			}
 
 			$data_add = str_replace("{discount_start_date}", '', $data_add);
