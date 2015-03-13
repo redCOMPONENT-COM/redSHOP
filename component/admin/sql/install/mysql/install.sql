@@ -1716,6 +1716,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_usercart_item` (
 	`product_wrapper_id`      INT(11) NOT NULL,
 	`product_subscription_id` INT(11) NOT NULL,
 	`giftcard_id`             INT(11) NOT NULL,
+	`attribs`                 VARCHAR(5020) NOT NULL,
 	PRIMARY KEY (`cart_item_id`),
 	KEY `idx_cart_id` (`cart_id`)
 )

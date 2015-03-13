@@ -1,0 +1,1 @@
+ALTER TABLE `#__redshop_usercart_item` ADD `attribs` VARCHAR(5020) NOT NULL ;

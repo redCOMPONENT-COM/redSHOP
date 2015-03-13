@@ -69,23 +69,6 @@ $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JT
 $print_tag .= "</a>";
 
 $cart_data = str_replace("{print}", $print_tag, $cart_data);
-
-$q_id = '';
-$pr_id = '';
-
-for ($i = 0; $i < $idx; $i++)
-{
-	$product_id = $cart[$i]['product_id'];
-	$pr_id .= $product_id;
-	$q_id .= $cart[$i]['quantity'];
-
-	if ($i != $idx - 1)
-	{
-		$pr_id .= ",";
-		$q_id .= ",";
-	}
-}
-
 $cart_data = $carthelper->replaceTemplate($cart, $cart_data, 0);
 $session->set('cart', $cart);
 
@@ -178,14 +161,11 @@ if (strstr($cart_data, "{shop_more}"))
 	$cart_data = str_replace("{shop_more}", $shop_more, $cart_data);
 }
 
-$product_all = $pr_id;
-
 $update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="POST" >
-		<input class="inputbox" type="hidden" value="" name="quantity_all" id="quantity_all" size="3">
-		<input type="hidden" name="product_all" value="' . $product_all . '">
+		<input class="inputbox" type="hidden" value="" name="quantity_all" id="quantity_all">
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="Itemid" value="' . $Itemid . '">
-		<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $i . ');">
+		<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $idx . ');">
 		</form>';
 
 if (QUANTITY_TEXT_DISPLAY)
@@ -303,16 +283,11 @@ echo eval ("?>" . $cart_data . "<?php ");
 ?>
 <script type="text/javascript" language="javascript">
 	function all_update(u) {
-		q = "";
-
+		var q = [];
 		for (var i = 0; i < u; i++) {
-			qi = "quantitybox" + i;
-			r = parseInt(document.getElementById(qi).value);
-
-			q += r
-			if (i != u - 1)
-				q += ",";
+			q[q.length] = parseInt(document.getElementById("quantitybox" + i).value);
 		}
+		q = q.join();
 		document.update_cart.quantity_all.value = q;
 		document.update_cart.task.value = 'update_all';
 		document.update_cart.submit();
