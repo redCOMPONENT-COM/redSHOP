@@ -112,6 +112,8 @@ $cart      = $session->get('cart');
 					<tr>
 						<td>
 							<?php
+							echo '<label class="radio inline" for="users_info_id_' . $i . '">';
+
 							if (!$session->get('isredcrmuser'))
 							{
 								?>
@@ -137,7 +139,7 @@ $cart      = $session->get('cart');
 								echo $shippingaddresses [$i]->address . " ";
 							}
 
-							echo '<label for="users_info_id_' . $i . '">' . $shippingaddresses[$i]->text . '</label>';
+							echo $shippingaddresses[$i]->text . '</label>';
 
 							if (!$session->get('isredcrmuser'))
 							{
