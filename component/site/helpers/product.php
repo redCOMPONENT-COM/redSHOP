@@ -1420,19 +1420,20 @@ class producthelper
 
 	public function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
 	{
-		$product_price                  = '';
-		$price_excluding_vat            = '';
-		$display_product_discount_price = '';
-		$display_product_old_price      = '';
-		$display_product_price_saving   = '';
-		$display_product_price_novat    = '';
-		$display_product_price_incl_vat = '';
-		$product_price_saving_lbl       = '';
-		$product_old_price_lbl          = '';
-		$product_vat_lbl                = '';
-		$product_price_lbl              = '';
-		$seoProductPrice                = '';
-		$seoProductSavingPrice          = '';
+		$product_price                           = '';
+		$price_excluding_vat                     = '';
+		$display_product_discount_price          = '';
+		$display_product_old_price               = '';
+		$display_product_price_saving            = '';
+		$display_product_price_saving_percentage = '';
+		$display_product_price_novat             = '';
+		$display_product_price_incl_vat          = '';
+		$product_price_saving_lbl                = '';
+		$product_old_price_lbl                   = '';
+		$product_vat_lbl                         = '';
+		$product_price_lbl                       = '';
+		$seoProductPrice                         = '';
+		$seoProductSavingPrice                   = '';
 
 		$user = JFactory::getUser();
 
@@ -1499,7 +1500,10 @@ class producthelper
 
 			if ($ProductPriceArr['product_price_saving'])
 			{
-				$display_product_price_saving = '<span id="display_product_saving_price' . $product_id . '">' . $product_price_saving . '</span>';
+				$display_product_price_saving            = '<span id="display_product_saving_price' . $product_id . '">' . $product_price_saving . '</span>';
+				$display_product_price_saving_percentage = '<span id="display_product_saving_price_percentage' . $product_id . '">'
+														. JText::sprintf('COM_REDSHOP_PRODUCT_PRICE_SAVING_PERCENTAGE_LBL', round($ProductPriceArr['product_price_saving_percentage']))
+														. '%</span>';
 			}
 
 			if ($ProductPriceArr['product_price_novat'] != "")
@@ -1527,11 +1531,15 @@ class producthelper
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving}", $display_product_price_saving, $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving_excl_vat}", $display_product_price_saving, $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving_lbl}", $product_price_saving_lbl, $data_add);
+
+			$data_add = str_replace("{" . $relPrefix . "product_price_saving_percentage}", $display_product_price_saving_percentage, $data_add);
 		}
 		else
 		{
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving}", '', $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving_lbl}", '', $data_add);
+
+			$data_add = str_replace("{" . $relPrefix . "product_price_saving_percentage}", '', $data_add);
 		}
 
 		if ($ProductPriceArr['product_old_price'])
@@ -1698,19 +1706,23 @@ class producthelper
 
 				if ($product_price < $product_discount_price_tmp )
 				{
-					$product_price          = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
-					$product_main_price     = $product_price;
-					$product_discount_price = '';
-					$product_old_price      = '';
-					$product_price_saving   = '';
-					$product_price_novat    = $product_price_exluding_vat;
-					$seoProductSavingPrice  = '';
-					$seoProductPrice        = $product_price;
-					$tax_amount             = $this->getProductTax($product_id, $product_price_novat, $user_id);
+					$product_price                   = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
+					$product_main_price              = $product_price;
+					$product_discount_price          = '';
+					$product_old_price               = '';
+					$product_price_saving            = '';
+					$product_price_saving_percentage = '';
+					$product_price_novat             = $product_price_exluding_vat;
+					$seoProductSavingPrice           = '';
+					$seoProductPrice                 = $product_price;
+					$tax_amount                      = $this->getProductTax($product_id, $product_price_novat, $user_id);
 				}
 				else
 				{
 					$product_price_saving = $product_price_exluding_vat - $dicount_price_exluding_vat;
+
+					// Calculate total price saving in percentage
+					$product_price_saving_percentage = ($product_price_saving / $product_price_exluding_vat) * 100;
 
 					// Only apply VAT if set to apply in config or tag
 					if (intval($applytax) && $product_price_saving)
@@ -1731,20 +1743,21 @@ class producthelper
 					$seoProductPrice            = $product_discount_price_tmp;
 					$seoProductSavingPrice      = $product_price_saving;
 
-					$product_price_saving_lbl   = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVING_LBL');
-					$product_old_price_lbl      = JText::_('COM_REDSHOP_PRODUCT_OLD_PRICE_LBL');
+					$product_price_saving_lbl            = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVING_LBL');
+					$product_old_price_lbl               = JText::_('COM_REDSHOP_PRODUCT_OLD_PRICE_LBL');
 				}
 			}
 			else
 			{
-				$product_main_price     = $product_price;
-				$product_price          = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
-				$product_discount_price = '';
-				$product_price_saving   = '';
-				$product_old_price      = '';
-				$product_price_novat    = $product_price_exluding_vat;
-				$seoProductPrice        = $product_price;
-				$seoProductSavingPrice  = '';
+				$product_main_price                  = $product_price;
+				$product_price                       = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
+				$product_discount_price              = '';
+				$product_price_saving                = '';
+				$product_price_saving_percentage     = '';
+				$product_old_price                   = '';
+				$product_price_novat                 = $product_price_exluding_vat;
+				$seoProductPrice                     = $product_price;
+				$seoProductSavingPrice               = '';
 			}
 
 			if ($tax_amount && intval($applytax))
@@ -1760,34 +1773,38 @@ class producthelper
 		}
 		else
 		{
-			$seoProductPrice        = '';
-			$seoProductSavingPrice  = '';
-			$product_discount_price = '';
-			$product_old_price      = '';
-			$product_price_saving   = '';
-			$product_price_novat    = '';
-			$product_main_price     = '';
-			$product_price          = '';
-			$price_excluding_vat    = '';
+			$seoProductPrice                     = '';
+			$seoProductSavingPrice               = '';
+			$product_discount_price              = '';
+			$product_old_price                   = '';
+			$product_price_saving                = '';
+			$product_price_saving_percentage     = '';
+			$product_price_novat                 = '';
+			$product_main_price                  = '';
+			$product_price                       = '';
+			$price_excluding_vat                 = '';
 		}
 
-		$ProductPriceArr['productPrice']               = $product_price_novat;
-		$ProductPriceArr['product_price']              = $product_price;
-		$ProductPriceArr['price_excluding_vat']        = $price_excluding_vat;
-		$ProductPriceArr['product_main_price']         = $product_main_price;
-		$ProductPriceArr['product_price_novat']        = $product_price_novat;
-		$ProductPriceArr['product_price_saving']       = $product_price_saving;
-		$ProductPriceArr['product_old_price']          = $product_old_price;
-		$ProductPriceArr['product_discount_price']     = $product_discount_price;
-		$ProductPriceArr['seoProductSavingPrice']      = $seoProductSavingPrice;
-		$ProductPriceArr['seoProductPrice']            = $seoProductPrice;
-		$ProductPriceArr['product_old_price_lbl']      = $product_old_price_lbl;
-		$ProductPriceArr['product_price_saving_lbl']   = $product_price_saving_lbl;
-		$ProductPriceArr['product_price_lbl']          = $product_price_lbl;
-		$ProductPriceArr['product_vat_lbl']            = $product_vat_lbl;
-		$ProductPriceArr['productVat']                 = $tax_amount;
-		$ProductPriceArr['product_old_price_excl_vat'] = $product_old_price_excl_vat;
-		$ProductPriceArr['product_price_incl_vat']     = $product_price_incl_vat;
+		$ProductPriceArr['productPrice']                        = $product_price_novat;
+		$ProductPriceArr['product_price']                       = $product_price;
+		$ProductPriceArr['price_excluding_vat']                 = $price_excluding_vat;
+		$ProductPriceArr['product_main_price']                  = $product_main_price;
+		$ProductPriceArr['product_price_novat']                 = $product_price_novat;
+		$ProductPriceArr['product_price_saving']                = $product_price_saving;
+		$ProductPriceArr['product_price_saving_percentage']     = $product_price_saving_percentage;
+		$ProductPriceArr['product_price_saving_lbl']            = $product_price_saving_lbl;
+
+		$ProductPriceArr['product_old_price']                   = $product_old_price;
+		$ProductPriceArr['product_discount_price']              = $product_discount_price;
+		$ProductPriceArr['seoProductSavingPrice']               = $seoProductSavingPrice;
+		$ProductPriceArr['seoProductPrice']                     = $seoProductPrice;
+		$ProductPriceArr['product_old_price_lbl']               = $product_old_price_lbl;
+
+		$ProductPriceArr['product_price_lbl']                   = $product_price_lbl;
+		$ProductPriceArr['product_vat_lbl']                     = $product_vat_lbl;
+		$ProductPriceArr['productVat']                          = $tax_amount;
+		$ProductPriceArr['product_old_price_excl_vat']          = $product_old_price_excl_vat;
+		$ProductPriceArr['product_price_incl_vat']              = $product_price_incl_vat;
 
 		return $ProductPriceArr;
 	}

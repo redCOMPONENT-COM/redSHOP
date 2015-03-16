@@ -518,6 +518,7 @@ class RedshopModelAccount extends RedshopModel
 						$wishlist_data = str_replace("{product_price_table}", "", $wishlist_data);
 						$wishlist_data = str_replace("{product_old_price}", "", $wishlist_data);
 						$wishlist_data = str_replace("{product_price_saving}", "", $wishlist_data);
+						$wishlist_data = str_replace("{product_price_saving_percentage}", "", $wishlist_data);
 					}
 
 					$temp_template .= $wishlist_data;
