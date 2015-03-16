@@ -90,6 +90,8 @@ class order_functions
 		$db->setQuery($query);
 		$db->execute();
 
+		RedshopHelperOrder::generateInvoiceNumber($order_id);
+
 		$query = "SELECT p.element,op.order_transfee,op.order_payment_trans_id,op.order_payment_amount FROM #__extensions AS p " . "LEFT JOIN "
 			. "#__redshop_order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id = "
 			. (int) $order_id . " " . "AND p.folder='redshop_payment' ";
@@ -437,6 +439,13 @@ class order_functions
 				. ", order_payment_status = " . $db->quote($data->order_payment_status_code) . " where order_id = " . (int) $order_id;
 			$db->SetQuery($query);
 			$db->execute();
+
+			// Generate Invoice Number
+			if ("C" == $data->order_status_code
+				&& "Paid" == $data->order_payment_status_code)
+			{
+				RedshopHelperOrder::generateInvoiceNumber($order_id);
+			}
 
 			if (!isset($data->transfee))
 			{

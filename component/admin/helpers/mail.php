@@ -699,6 +699,8 @@ class redshopMail
 		$replace_sub[]    = $row->order_id;
 		$search_sub[]     = "{order_number}";
 		$replace_sub[]    = $row->order_number;
+		$search_sub[]     = "{invoice_number}";
+		$replace_sub[]    = RedshopHelperOrder::formatInvoiceNumber($row->invoice_number);
 		$search_sub[]     = "{shopname}";
 		$replace_sub[]    = SHOP_NAME;
 
