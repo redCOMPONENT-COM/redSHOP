@@ -1088,15 +1088,14 @@ if (QUICKBOOKS_FRAMEWORK_MERCHANTSERVICE & QUICKBOOKS_FRAMEWORKS)
 	QuickBooks_Loader::load('/QuickBooks/MerchantService.php');
 }
 
-/*if (QUICKBOOKS_FRAMEWORK_WEBCONNECTOR & QUICKBOOKS_FRAMEWORKS)
+if (QUICKBOOKS_FRAMEWORK_WEBCONNECTOR & QUICKBOOKS_FRAMEWORKS)
 {
 	// Other servers
 	QuickBooks_Loader::import('/QuickBooks/WebConnector/Server');
 }
 
-if (QUICKBOOKS_FRAMEWORK_QBXML & QUICKBOOKS_FRAMEWORKS)
+/*if (QUICKBOOKS_FRAMEWORK_QBXML & QUICKBOOKS_FRAMEWORKS)
 {
 	// Objects for the API
 	QuickBooks_Loader::import('/QuickBooks/QBXML/Object');
 }*/
-
