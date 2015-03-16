@@ -39,22 +39,32 @@ class plgSystemQuickbook extends JPlugin
 	{
 		$app        = JFactory::getApplication();
 		$option     = $app->input->getCmd('option', '');
-		$control    = $app->input->getCmd('control', '');
-		$secretWord = $app->input->getCmd('secret', '');
+		$control    = $app->input->getCmd('control', false);
+		$secretWord = $app->input->getCmd('secret', false);
 
 		if ($option == 'com_redshop'
-			&& $secretWord == $this->params->get('secretWord'))
+			&& $secretWord === $this->params->get('secretWord')
+			&& $control)
 		{
+			// Set redshop as a prefix to allow only specific methods
+			$method = 'Redshop' . $control;
+
 			if ($app->isAdmin())
 			{
-				$this->$control();
+				if (method_exists($this, $method))
+				{
+					$this->$method();
+				}
 			}
 			else
 			{
 				// Set 'Site' suffix for frontend functions
-				$siteMethod = $control . 'Site';
+				$siteMethod = $method . 'Site';
 
-				$this->$siteMethod();
+				if (method_exists($this, $siteMethod))
+				{
+					$this->$siteMethod();
+				}
 			}
 		}
 	}
@@ -64,7 +74,7 @@ class plgSystemQuickbook extends JPlugin
 	 *
 	 * @return  void
 	 */
-	private function setConnectionTicketSite()
+	private function RedshopSetConnectionTicketSite()
 	{
 		jimport( 'joomla.filesystem.file' );
 
@@ -81,7 +91,7 @@ class plgSystemQuickbook extends JPlugin
 	 *
 	 * @return  void
 	 */
-	private function getConnectionTicket()
+	private function RedshopGetConnectionTicket()
 	{
 		jimport('joomla.filesystem.file');
 
@@ -100,7 +110,7 @@ class plgSystemQuickbook extends JPlugin
 		JFactory::getApplication()->close();
 	}
 
-	private function generatePrivateKey()
+	private function RedshopGeneratePrivateKey()
 	{
 		$basePath       = realpath(JPATH_SITE . '/../');
 		$privateKeyPath = $basePath . '/quickbook_private.key';
@@ -126,7 +136,7 @@ class plgSystemQuickbook extends JPlugin
 		JFactory::getApplication()->close();
 	}
 
-	private function generatePem()
+	private function RedshopGeneratePem()
 	{
 		$app = JFactory::getApplication();
 
