@@ -531,7 +531,7 @@ class RedshopModelCheckout extends RedshopModel
 		// Generate Invoice Number for confirmed credit card payment
 		if ($is_creditcard
 			&& 'C' == $row->order_status
-			&& 'P' == $row->order_paymentstatus)
+			&& 'Paid' == $row->order_payment_status)
 		{
 			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
 		}

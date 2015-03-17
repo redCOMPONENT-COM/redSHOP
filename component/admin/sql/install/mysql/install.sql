@@ -578,6 +578,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
 	`order_id`                 INT(11)        NOT NULL AUTO_INCREMENT,
 	`user_id`                  INT(11)        NOT NULL DEFAULT '0',
 	`order_number`             VARCHAR(32)             DEFAULT NULL,
+	`invoice_number_chrono`    INT(11)        NOT NULL COMMENT 'Order invoice number in chronological order',
+  	`invoice_number` 		   VARCHAR(255)   NOT NULL COMMENT 'Formatted Order Invoice for final use',
 	`barcode`                  VARCHAR(13)    NOT NULL,
 	`user_info_id`             VARCHAR(32)             DEFAULT NULL,
 	`order_total`              DECIMAL(15, 2) NOT NULL DEFAULT '0.00',

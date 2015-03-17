@@ -21,7 +21,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $orderId  Order Id
 	 *
-	 * @return  object   Invoice number clean and formatted
+	 * @return  object   Invoice number clean and formatted value
 	 */
 	public static function generateInvoiceNumber($orderId)
 	{
@@ -30,23 +30,23 @@ class RedshopHelperOrder
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select('invoice_number, order_status, order_payment_status')
+		$query->select('invoice_number, invoice_number_chrono, order_status, order_payment_status')
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 		$db->setQuery($query);
 
-		$orderInfo = $db->loadObject();
-		$number    = $orderInfo->invoice_number;
+		$orderInfo       = $db->loadObject();
+		$number          = $orderInfo->invoice_number_chrono;
+		$formattedNumber = $orderInfo->invoice_number;
 
-		if ($number <= 0
-			&& 'C' == $orderInfo->order_status
-			&& 'Paid' == $orderInfo->order_payment_status)
+		// Check if number is not set and order status is confirm or number is set and order status is refund.
+		if (($number <= 0 && 'C' == $orderInfo->order_status && 'Paid' == $orderInfo->order_payment_status)
+			|| ($number > 0 && ('R' == $orderInfo->order_status || 'X' == $orderInfo->order_status)))
 		{
-
 			$query = $db->getQuery(true)
-					->select('MAX(invoice_number) as max_invoice_number')
-					->from($db->qn('#__redshop_orders'));
+				->select('MAX(invoice_number_chrono) as max_invoice_number')
+				->from($db->qn('#__redshop_orders'));
 
 			// Set the query and load the result.
 			$db->setQuery($query);
@@ -58,18 +58,13 @@ class RedshopHelperOrder
 			$number = $maxInvoiceNo + $firstInvoiceNo + 1;
 
 			self::updateInvoiceNumber($number, $orderId);
+
+			$formattedNumber = self::formatInvoiceNumber($number);
 		}
 
-		// Set invoice number negative for refunded / cancelled orders
-		if (('R' == $orderInfo->order_status || 'X' == $orderInfo->order_status)
-			&& $number > 0)
-		{
-			self::updateInvoiceNumber(($number * -1), $orderId);
-		}
-
-		$invoiceNo            = new stdClass;
-		$invoiceNo->value     = $number;
-		$invoiceNo->formatted = self::formatInvoiceNumber($number);
+		$invoiceNo        = new stdClass;
+		$invoiceNo->clean = $number;
+		$invoiceNo->value = $formattedNumber;
 
 		return $invoiceNo;
 	}
@@ -147,7 +142,8 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 				->update($db->qn('#__redshop_orders'))
-				->set($db->qn('invoice_number') . ' = ' . (int) $number)
+				->set($db->qn('invoice_number_chrono') . ' = ' . (int) $number)
+				->set($db->qn('invoice_number') . ' = ' . $db->q(self::formatInvoiceNumber($number)))
 				->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 		$db->setQuery($query);

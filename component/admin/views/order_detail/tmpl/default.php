@@ -162,7 +162,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER'); ?>:</td>
-					<td><?php echo RedshopHelperOrder::formatInvoiceNumber($this->detail->invoice_number); ?></td>
+					<td><?php echo $this->detail->invoice_number; ?></td>
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ORDER_DATE'); ?>:</td>
