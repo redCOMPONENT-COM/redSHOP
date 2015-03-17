@@ -691,21 +691,16 @@ class redshopMail
 			$discount_type = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
 		}
 
-		$search[]         = "{discount_type}";
-		$replace[]        = $discount_type;
-
-		// Set order paymethod name
+		// Prepare subject replacement
 		$search_sub[]     = "{order_id}";
 		$replace_sub[]    = $row->order_id;
 		$search_sub[]     = "{order_number}";
 		$replace_sub[]    = $row->order_number;
 		$search_sub[]     = "{invoice_number}";
-		$replace_sub[]    = RedshopHelperOrder::formatInvoiceNumber($row->invoice_number);
+		$replace_sub[]    = $row->invoice_number;
 		$search_sub[]     = "{shopname}";
 		$replace_sub[]    = SHOP_NAME;
 
-		$message          = str_replace($search, $replace, $message);
-		$message          = $this->imginmail($message);
 		$user             = JFactory::getUser();
 		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
 		$email            = $billingaddresses->user_email;
@@ -716,16 +711,23 @@ class redshopMail
 		$replace_sub[]    = $redconfig->convertDateFormat($row->cdate);
 		$subject          = str_replace($search_sub, $replace_sub, $subject);
 
-		// Set the e-mail parameters
-		$from             = $config->get('mailfrom');
-		$fromname         = $config->get('fromname');
-		$message          = $this->_carthelper->replaceOrderTemplate($row, $message);
-		$message          = str_replace("{firstname}", $billingaddresses->firstname, $message);
-		$message          = str_replace("{lastname}", $billingaddresses->lastname, $message);
-		$body             = $message;
-		$body1            = $message;
-		$img_url1         = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
-		$img_url          = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
+		// Prepare mail body
+		$search[]  = "{discount_type}";
+		$replace[] = $discount_type;
+
+		$search[]  = "{invoice_number}";
+		$replace[] = $row->invoice_number;
+
+		$message   = str_replace($search, $replace, $message);
+
+		$message   = $this->imginmail($message);
+		$message   = $this->_carthelper->replaceOrderTemplate($row, $message);
+		$message   = str_replace("{firstname}", $billingaddresses->firstname, $message);
+		$message   = str_replace("{lastname}", $billingaddresses->lastname, $message);
+		$body      = $message;
+		$body1     = $message;
+		$img_url1  = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
+		$img_url   = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
 
 		// For pdf
 		if (function_exists("curl_init"))
@@ -754,6 +756,10 @@ class redshopMail
 
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 		$invoice_attachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf";
+
+		// Set the e-mail parameters
+		$from     = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
 
 		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
 		{
