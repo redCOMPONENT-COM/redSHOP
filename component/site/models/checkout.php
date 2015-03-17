@@ -528,11 +528,18 @@ class RedshopModelCheckout extends RedshopModel
 		// Start code to track duplicate order number checking
 		$this->deleteOrdernumberTrack();
 
+		// Generate Invoice Number for confirmed credit card payment
+		if ($is_creditcard
+			&& 'C' == $row->order_status
+			&& 'P' == $row->order_paymentstatus)
+		{
+			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
+		}
+
 		$order_id = $row->order_id;
 
 		$this->coupon($cart, $order_id);
 		$this->voucher($cart, $order_id);
-
 
 		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $order_id;
 		$db->setQuery($query);
