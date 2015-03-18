@@ -377,6 +377,7 @@ class RedshopViewConfiguration extends RedshopView
 		}
 
 		$lists['category_tree_in_sef_url'] = JHtml::_('redshopselect.booleanlist', 'category_tree_in_sef_url', 'class="inputbox"', CATEGORY_TREE_IN_SEF_URL);
+		$lists['statistics_enable'] = JHTML::_('select.booleanlist', 'statistics_enable', 'class="inputbox" size="1"', STATISTICS_ENABLE);
 		$orderstatus                                  = $model->getOrderstatus();
 		$tmp                                          = array();
 		$tmp[]                                        = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
