@@ -14,10 +14,8 @@
 			<filename plugin="rs_payment_epayv2">rs_payment_epayv2.php</filename>
 	</files>
 	<languages>
-			<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_epayv2.ini</language>
-			<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_epayv2.sys.ini</language>
-			<language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_epayv2.ini</language>
-			<language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_epayv2.sys.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_epayv2.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_epayv2.sys.ini</language>
 	</languages>
 	<config addfieldpath="/administrator/components/com_redshop/elements">
 		<fields name="params">
@@ -44,6 +42,7 @@
 				<field
 					name="windowid"
 					type="text"
+					class="input-mini"
 					default="1"
 					label="PLG_RS_PAYMENT_EPAYV2_WINDOW_ID"
 					description="PLG_RS_PAYMENT_EPAYV2_WINDOW_ID_DESC"
@@ -55,13 +54,13 @@
 					label="PLG_RS_PAYMENT_EPAYV2_LANGUAGE"
 					description="PLG_RS_PAYMENT_EPAYV2_LANGUAGE_DESC"
 				>
-					<option value="1">Danish</option>
-					<option value="2">English</option>
-					<option value="3">Swedish</option>
-					<option value="4">Norwegian</option>
-					<option value="5">Greenland</option>
-					<option value="6">Icelandic</option>
-					<option value="7">German</option>
+					<option value="1">PLG_RS_PAYMENT_EPAYV2_DANISH</option>
+					<option value="2">PLG_RS_PAYMENT_EPAYV2_ENGLISH</option>
+					<option value="3">PLG_RS_PAYMENT_EPAYV2_SWEDISH</option>
+					<option value="4">PLG_RS_PAYMENT_EPAYV2_NORWEGIAN</option>
+					<option value="5">PLG_RS_PAYMENT_EPAYV2_GREENLAND</option>
+					<option value="6">PLG_RS_PAYMENT_EPAYV2_ICELANDIC</option>
+					<option value="7">PLG_RS_PAYMENT_EPAYV2_GERMAN</option>
 				</field>
 				<field
 					name="auth_type"
@@ -71,122 +70,131 @@
 					label="PLG_RS_PAYMENT_EPAYV2_INSTANT_CAPTURE"
 					description="PLG_RS_PAYMENT_EPAYV2_INSTANT_CAPTURE_DESC"
 				>
-					<option value="1">Enabled</option>
-					<option value="0">Disabled</option>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 				<field
 					name="payment_group"
 					type="text"
-					size="10"
+					class="input-large"
 					default=""
 					label="PLG_RS_PAYMENT_EPAYV2_GROUP"
 					description="PLG_RS_PAYMENT_EPAYV2_GROUP_DESC"
+				/>
+				<field
+					name="epay_paymentkey"
+					type="text"
+					class="input-large"
+					default=""
+					label="PLG_RS_PAYMENT_EPAYV2_MD5_KEY"
+					description="PLG_RS_PAYMENT_EPAYV2_MD5_KEY_DESC"
 				/>
 				<field
 					name="epay_md5"
 					type="radio"
 					class="btn-group"
 					default="0"
-					label="MD5"
-					description="The type of MD5 usage. 0 disables MD5. 1 uses MD5 on the accept page on this shop. 2 creates a MD5 stamp, which is send to ePay with transaction data. If this stamp does not match ePay will decline the payment."
+					label="PLG_RS_PAYMENT_EPAYV2_MD5"
+					description="PLG_RS_PAYMENT_EPAYV2_MD5_DESC"
 				>
-						<option value="0">DISABLED</option>
-						<option value="1">MD5 on accept page</option>
-						<option value="2">MD5 on both data transmitted to ePay and on accept page</option>
+					<option value="0">JDISABLED</option>
+					<option value="1">PLG_RS_PAYMENT_EPAYV2_MD5_ON_ACCEPT</option>
+					<option value="2">PLG_RS_PAYMENT_EPAYV2_MD5_ON_BOTH</option>
 				</field>
-				<field
-					name="epay_paymentkey"
-					type="text"
-					size="10"
-					default=""
-					label="MD5 key"
-					description="If MD5 is enabled above the secure key for MD5 stamping is defined here (same secret key must be defined in the ePay administration). If MD5 is disabled leave this field empty."
-				/>
 				<field
 					name="epay_authsms"
 					type="text"
-					size="10"
+					class="input-large"
 					default=""
-					label="Auth SMS"
-					description="Enter a mobile number here to receive a SMS message when the payment is verified by ePay."
+					label="PLG_RS_PAYMENT_EPAYV2_AUTH_SMS"
+					description="PLG_RS_PAYMENT_EPAYV2_AUTH_SMS_DESC"
 				/>
 				<field
 					name="epay_authemail"
 					type="text"
-					size="10"
+					class="input-large"
 					default=""
-					label="Auth EMAIL"
-					description="Enter one or more email addresses to receive an email when the payment is verified by ePay. For multiple receivers separate the email addresses by semicolon (;)."
+					label="PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL"
+					description="PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL_DESC"
 				/>
+				<field
+					name="epay_authemailcustomer"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL"
+					description="PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL_DESC"
+				>
+					<option value="0">PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL_DONT_SEND</option>
+					<option value="1">PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL_SEND</option>
+				</field>
 				<field
 					name="epay_window_state"
 					type="radio"
 					class="btn-group"
 					default="1"
-					label="Window State"
-					description=""
+					label="PLG_RS_PAYMENT_EPAYV2_WINDOW_STATE"
+					description="PLG_RS_PAYMENT_EPAYV2_WINDOW_STATE_DESC"
 				>
-					<option value="1">Overlay</option>
-					<option value="4">Integrated payment form</option>
-					<option value="2">Iframe (embedded in the side)</option>
-					<option value="3">Full screen</option>
+					<option value="1">PLG_RS_PAYMENT_EPAYV2_WINDOW_STATE_OVERLAY</option>
+					<option value="4">PLG_RS_PAYMENT_EPAYV2_WINDOW_STATE_INTEGRATED</option>
+					<option value="2">PLG_RS_PAYMENT_EPAYV2_WINDOW_STATE_IFRAME</option>
+					<option value="3">PLG_RS_PAYMENT_EPAYV2_WINDOW_STATE_FULL_SCREEN</option>
 				</field>
 				<field
 					name="ownreceipt"
 					type="radio"
 					class="btn-group"
 					default="1"
-					label="Epay ownreceipt"
-					description=""
+					label="PLG_RS_PAYMENT_EPAYV2_OWN_RECEIPT"
+					description="PLG_RS_PAYMENT_EPAYV2_OWN_RECEIPT_DESC"
 				>
-					<option value="0">Receipt in the standard pyment window</option>
-					<option value="1">Own receipt</option>
+					<option value="0">PLG_RS_PAYMENT_EPAYV2_OWN_RECEIPT_PAYMENT</option>
+					<option value="1">PLG_RS_PAYMENT_EPAYV2_OWN_RECEIPT_OWN</option>
 				</field>
-
 				<field
 					name="epay_3dsecure"
 					type="radio"
 					class="btn-group"
 					default="3"
-					label="3D Secure"
-					description=""
+					label="PLG_RS_PAYMENT_EPAYV2_3D_SECURE"
+					description="PLG_RS_PAYMENT_EPAYV2_3D_SECURE_DESC"
 				>
-					<option value="1">3D secure is enabled</option>
-					<option value="2">Only payments by use of 3D secure is allowed</option>
-					<option value="3">3D secure payments are disabled</option>
+					<option value="1">JENABLED</option>
+					<option value="2">PLG_RS_PAYMENT_EPAYV2_3D_SECURE_ALLOWED</option>
+					<option value="3">JDISABLED</option>
 				</field>
 				<field
 					name="activate_callback"
 					type="radio"
 					class="btn-group"
 					default="0"
-					label="Activate callback" description="Callback is used to avoid missing update of the shopping system if the user closes the browser before redirect to the shop from ePay is made.(It is recommended that callback is enabled to update the shop even if the customer during the payment process closes the browser)"
+					label="PLG_RS_PAYMENT_EPAYV2_ACTIVATE_CALLBACK"
+					description="PLG_RS_PAYMENT_EPAYV2_ACTIVATE_CALLBACK_DESC"
 				>
-					<option value="0">Callback is disabled</option>
-					<option value="1">Enable callback</option>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 				<field
 					name="epay_subscription"
 					type="radio"
 					class="btn-group"
 					default="0"
-					label="Subscription"
-					description="Subscriptions are used for creating payments that can be authorized more than once (recurrent payments)"
+					label="PLG_RS_PAYMENT_EPAYV2_SUBSCRIPTION"
+					description="PLG_RS_PAYMENT_EPAYV2_SUBSCRIPTION_DESC"
 				>
-					<option value="0">Disable subscription</option>
-					<option value="1">All payments are created as recurrent subscriptions</option>
+					<option value="0">PLG_RS_PAYMENT_EPAYV2_SUBSCRIPTION_DISABLE</option>
+					<option value="1">PLG_RS_PAYMENT_EPAYV2_SUBSCRIPTION_DISABLE_RECURRING</option>
 				</field>
 				<field
-					name="epay_authemailcustomer"
-					type="radio"
-					class="btn-group"
-					default="0"
-					label="Auth EMAIL Customer"
-					description="Enter one or more email addresses to receive an email when the payment is verified by ePay. For multiple receivers separate the email addresses by semicolon (;)"
-				>
-					<option value="0">Don\'t send authemail to customer</option>
-					<option value="1">Send authemail to customer</option>
-				</field>
+					name="cardtypes"
+					type="cardtypes"
+					class="span6"
+					default="MCDK,DANKORT,MC,MAESTRO,VISA,DB"
+					multiple="multiple"
+					label="CardTypes"
+					description="Select Cardtypes to show the customer"
+				/>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
@@ -234,7 +242,7 @@
 				<field
 					name="payment_oprand"
 					type="text"
-					size="10"
+					class="input-large"
 					default="-"
 					label="PLG_RS_PAYMENT_EPAYV2_PAYMENT_OPERAND"
 					description="PLG_RS_PAYMENT_EPAYV2_PAYMENT_OPERAND_DESC"
@@ -263,8 +271,8 @@
 					type="radio"
 					class="btn-group"
 					default="1"
-					label="Show on Private Person"
-					description="Show on Private Person"
+					label="PLG_RS_PAYMENT_EPAYV2_PRIVATE_PERSON"
+					description="PLG_RS_PAYMENT_EPAYV2_PRIVATE_PERSON_DESC"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -274,8 +282,8 @@
 					type="radio"
 					class="btn-group"
 					default="1"
-					label="Show on Business"
-					description="Show on Business"
+					label="PLG_RS_PAYMENT_EPAYV2_BUSINESS_PERSON"
+					description="PLG_RS_PAYMENT_EPAYV2_BUSINESS_PERSON_DESC"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -294,24 +302,27 @@
 				/>
 				<field
 					name="economic_payment_terms_id"
-					type="
-					text"
+					type="text"
+					class="input-mini"
 					default=""
-					label="Enter E-conomic Payment Conditions ID"
+					label="PLG_RS_PAYMENT_EPAYV2_ECONOMIC_CONDITION_ID"
+					description="PLG_RS_PAYMENT_EPAYV2_ECONOMIC_CONDITION_ID_DESC"
 				/>
 				<field
 					name="economic_design_layout"
-					type="
-					text"
+					type="text"
+					class="input-mini"
 					default=""
-					label="Enter E-conomic Design and Layout ID"
+					label="PLG_RS_PAYMENT_EPAYV2_ECONOMIC_LAYOUT_ID"
+					description="PLG_RS_PAYMENT_EPAYV2_ECONOMIC_LAYOUT_ID_DESC"
 				/>
 				<field
 					name="shopper_group_id"
 					type="shoppergrouplist"
 					default="0"
-					label="Select Shopper Group"
-					description="Displays the shopper groups"
+					multiple="multiple"
+					label="PLG_RS_PAYMENT_EPAYV2_SHOPPER_GROUP"
+					description="PLG_RS_PAYMENT_EPAYV2_SHOPPER_GROUP_DESC"
 				/>
 			</fieldset>
 		</fields>
