@@ -102,6 +102,7 @@ switch ($name)
 		break;
 	case 'catalogue':
 		?>
+		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CATALOGUE_HINT'); ?></b><br /><br />
 		{name_lbl} {name} {email_lbl} {email_address} {submit_button_catalog} {catalog_select}
 		<?php
 		break;
@@ -309,6 +310,7 @@ switch ($name)
 		break;
 	case 'orderlist':
 		?>
+		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ORDERLIST_HINT'); ?></b><br /><br />
 		{order_id_lbl} {product_name_lbl} {total_price_lbl} {order_date_lbl} {order_status_lbl} {order_detail_lbl} {product_loop_start} {order_id} {order_products} {order_total} {order_date} {order_status} {order_detail_link} {reorder_link} {product_loop_end} {pagination} {print} {order_number} {pagination_limit}
 		<?php
 		break;
@@ -477,6 +479,7 @@ switch ($name)
 		break;
 	case 'wishlist_mail':
 		?>
+		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_WISHLIST_MAIL_HINT'); ?></b><br /><br />
 		{email_to_friend} {emailto_lbl} {emailto} {sender_lbl} {sender} <br />
 		{mail_lbl} {mail} {subject_lbl} {subject} {cancel_button} {send_button}
 		<?php
