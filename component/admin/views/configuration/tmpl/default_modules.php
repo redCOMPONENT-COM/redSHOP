@@ -32,7 +32,7 @@ $url = $uri->root();
 			</span>
 		</td>
 		<td>
-			<?php echo JHTML::_('select.booleanlist', 'statistics_enable', 'class="inputbox" size="1"', STATISTICS_ENABLE); ?>
+			<?php echo $this->lists['statistics_enable'];?>
 		</td>
 	</tr>
 	<tr>
