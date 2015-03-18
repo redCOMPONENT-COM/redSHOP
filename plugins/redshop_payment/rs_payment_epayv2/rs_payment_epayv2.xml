@@ -189,11 +189,9 @@
 				<field
 					name="cardtypes"
 					type="cardtypes"
-					class="span6"
 					default="MCDK,DANKORT,MC,MAESTRO,VISA,DB"
-					multiple="multiple"
-					label="CardTypes"
-					description="Select Cardtypes to show the customer"
+					label="PLG_RS_PAYMENT_EPAYV2_CARDTYPES"
+					description="PLG_RS_PAYMENT_EPAYV2_CARDTYPES_DESC"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
