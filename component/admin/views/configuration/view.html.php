@@ -122,10 +122,10 @@ class RedshopViewConfiguration extends RedshopView
 		defined('MANUFACTURER_TITLE_MAX_CHARS') ? MANUFACTURER_TITLE_MAX_CHARS : define('MANUFACTURER_TITLE_MAX_CHARS', '');
 		defined('MANUFACTURER_TITLE_END_SUFFIX') ? MANUFACTURER_TITLE_END_SUFFIX : define('MANUFACTURER_TITLE_END_SUFFIX', '');
 		defined('WRITE_REVIEW_IS_LIGHTBOX') ? WRITE_REVIEW_IS_LIGHTBOX : define('WRITE_REVIEW_IS_LIGHTBOX', '0');
-		$lists['write_review_is_lightbox'] = JHTML::_('select.booleanlist', 'write_review_is_lightbox', 'class="inputbox" ', WRITE_REVIEW_IS_LIGHTBOX);
+		$lists['write_review_is_lightbox'] = JHTML::_('redshopselect.booleanlist', 'write_review_is_lightbox', 'class="inputbox" ', WRITE_REVIEW_IS_LIGHTBOX);
 		defined('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER') ? NOOF_SUBATTRIB_THUMB_FOR_SCROLLER : define('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER', '3');
 		defined('ACCESSORY_PRODUCT_IN_LIGHTBOX') ? ACCESSORY_PRODUCT_IN_LIGHTBOX : define('ACCESSORY_PRODUCT_IN_LIGHTBOX', '0');
-		$lists['accessory_product_in_lightbox'] = JHTML::_('select.booleanlist', 'accessory_product_in_lightbox',
+		$lists['accessory_product_in_lightbox'] = JHTML::_('redshopselect.booleanlist', 'accessory_product_in_lightbox',
 			'class="inputbox" ', ACCESSORY_PRODUCT_IN_LIGHTBOX
 		);
 		$show_price_user_group_list             = explode(',', SHOW_PRICE_USER_GROUP_LIST);
@@ -133,9 +133,9 @@ class RedshopViewConfiguration extends RedshopView
 		defined('REQUESTQUOTE_IMAGE') ? REQUESTQUOTE_IMAGE : define('REQUESTQUOTE_IMAGE', 'requestquote.gif');
 		defined('REQUESTQUOTE_BACKGROUND') ? REQUESTQUOTE_BACKGROUND : define('REQUESTQUOTE_BACKGROUND', 'requestquotebg.jpg');
 		defined('WEBPACK_ENABLE_SMS') ? WEBPACK_ENABLE_SMS : define('WEBPACK_ENABLE_SMS', '1');
-		$lists['webpack_enable_sms'] = JHTML::_('select.booleanlist', 'webpack_enable_sms', 'class="inputbox" size="1"', WEBPACK_ENABLE_SMS);
+		$lists['webpack_enable_sms'] = JHTML::_('redshopselect.booleanlist', 'webpack_enable_sms', 'class="inputbox" size="1"', WEBPACK_ENABLE_SMS);
 		defined('WEBPACK_ENABLE_EMAIL_TRACK') ? WEBPACK_ENABLE_EMAIL_TRACK : define('WEBPACK_ENABLE_EMAIL_TRACK', '1');
-		$lists['webpack_enable_email_track'] = JHTML::_('select.booleanlist', 'webpack_enable_email_track',
+		$lists['webpack_enable_email_track'] = JHTML::_('redshopselect.booleanlist', 'webpack_enable_email_track',
 			'class="inputbox" size="1"', WEBPACK_ENABLE_EMAIL_TRACK
 		);
 
@@ -178,7 +178,7 @@ class RedshopViewConfiguration extends RedshopView
 		);
 
 		defined('DETAIL_ERROR_MESSAGE_ON') ? DETAIL_ERROR_MESSAGE_ON : define('DETAIL_ERROR_MESSAGE_ON', '1');
-		$lists['detail_error_message_on'] = JHTML::_('select.booleanlist', 'detail_error_message_on', 'class="inputbox" ', DETAIL_ERROR_MESSAGE_ON);
+		$lists['detail_error_message_on'] = JHTML::_('redshopselect.booleanlist', 'detail_error_message_on', 'class="inputbox" ', DETAIL_ERROR_MESSAGE_ON);
 
 		defined('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE') ? PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE :
 			define('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE', '');
@@ -191,42 +191,42 @@ class RedshopViewConfiguration extends RedshopView
 		);
 
 		defined('USE_ENCODING') ? USE_ENCODING : define('USE_ENCODING', '0');
-		$lists['use_encoding'] = JHTML::_('select.booleanlist', 'use_encoding', 'class="inputbox" ', USE_ENCODING);
+		$lists['use_encoding'] = JHTML::_('redshopselect.booleanlist', 'use_encoding', 'class="inputbox" ', USE_ENCODING);
 		defined('REQUIRED_VAT_NUMBER') ? REQUIRED_VAT_NUMBER : define('REQUIRED_VAT_NUMBER', '1');
-		$lists['required_vat_number'] = JHTML::_('select.booleanlist', 'required_vat_number', 'class="inputbox" ', REQUIRED_VAT_NUMBER);
+		$lists['required_vat_number'] = JHTML::_('redshopselect.booleanlist', 'required_vat_number', 'class="inputbox" ', REQUIRED_VAT_NUMBER);
 
-		$lists['coupons_enable']           = JHTML::_('select.booleanlist', 'coupons_enable', 'class="inputbox" ', COUPONS_ENABLE);
-		$lists['vouchers_enable']          = JHTML::_('select.booleanlist', 'vouchers_enable', 'class="inputbox" ', VOUCHERS_ENABLE);
-		$lists['manufacturer_mail_enable'] = JHTML::_('select.booleanlist', 'manufacturer_mail_enable', 'class="inputbox" ', MANUFACTURER_MAIL_ENABLE);
+		$lists['coupons_enable']           = JHTML::_('redshopselect.booleanlist', 'coupons_enable', 'class="inputbox" ', COUPONS_ENABLE);
+		$lists['vouchers_enable']          = JHTML::_('redshopselect.booleanlist', 'vouchers_enable', 'class="inputbox" ', VOUCHERS_ENABLE);
+		$lists['manufacturer_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'manufacturer_mail_enable', 'class="inputbox" ', MANUFACTURER_MAIL_ENABLE);
 
 		defined('SUPPLIER_MAIL_ENABLE') ? SUPPLIER_MAIL_ENABLE : define('SUPPLIER_MAIL_ENABLE', '0');
 		defined('COMPARE_PRODUCT_THUMB_WIDTH') ? COMPARE_PRODUCT_THUMB_WIDTH : define('COMPARE_PRODUCT_THUMB_WIDTH', '70');
 		defined('COMPARE_PRODUCT_THUMB_HEIGHT') ? COMPARE_PRODUCT_THUMB_HEIGHT : define('COMPARE_PRODUCT_THUMB_HEIGHT', '70');
 
-		$lists['supplier_mail_enable'] = JHTML::_('select.booleanlist', 'supplier_mail_enable', 'class="inputbox" ', SUPPLIER_MAIL_ENABLE);
+		$lists['supplier_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'supplier_mail_enable', 'class="inputbox" ', SUPPLIER_MAIL_ENABLE);
 
-		$lists['splitable_payment']         = JHTML::_('select.booleanlist', 'splitable_payment', 'class="inputbox"', SPLITABLE_PAYMENT);
-		$lists['show_captcha']              = JHTML::_('select.booleanlist', 'show_captcha', 'class="inputbox"', SHOW_CAPTCHA);
-		$lists['create_account_checkbox']   = JHTML::_('select.booleanlist', 'create_account_checkbox', 'class="inputbox"', CREATE_ACCOUNT_CHECKBOX);
-		$lists['show_email_verification']   = JHTML::_('select.booleanlist', 'show_email_verification', 'class="inputbox"', SHOW_EMAIL_VERIFICATION);
-		$lists['quantity_text_display']     = JHTML::_('select.booleanlist', 'quantity_text_display', 'class="inputbox"', QUANTITY_TEXT_DISPLAY);
-		$lists['enable_sef_product_number'] = JHTML::_('select.booleanlist', 'enable_sef_product_number', 'class="inputbox"', ENABLE_SEF_PRODUCT_NUMBER);
+		$lists['splitable_payment']         = JHTML::_('redshopselect.booleanlist', 'splitable_payment', 'class="inputbox"', SPLITABLE_PAYMENT);
+		$lists['show_captcha']              = JHTML::_('redshopselect.booleanlist', 'show_captcha', 'class="inputbox"', SHOW_CAPTCHA);
+		$lists['create_account_checkbox']   = JHTML::_('redshopselect.booleanlist', 'create_account_checkbox', 'class="inputbox"', CREATE_ACCOUNT_CHECKBOX);
+		$lists['show_email_verification']   = JHTML::_('redshopselect.booleanlist', 'show_email_verification', 'class="inputbox"', SHOW_EMAIL_VERIFICATION);
+		$lists['quantity_text_display']     = JHTML::_('redshopselect.booleanlist', 'quantity_text_display', 'class="inputbox"', QUANTITY_TEXT_DISPLAY);
+		$lists['enable_sef_product_number'] = JHTML::_('redshopselect.booleanlist', 'enable_sef_product_number', 'class="inputbox"', ENABLE_SEF_PRODUCT_NUMBER);
 
-		$lists['enable_sef_number_name'] = JHTML::_('select.booleanlist', 'enable_sef_number_name', 'class="inputbox"', ENABLE_SEF_NUMBER_NAME, 'COM_REDSHOP_NAME', 'COM_REDSHOP_ID');
-		$lists['category_in_sef_url']    = JHTML::_('select.booleanlist', 'category_in_sef_url', 'class="inputbox"', CATEGORY_IN_SEF_URL);
+		$lists['enable_sef_number_name'] = JHTML::_('redshopselect.booleanlist', 'enable_sef_number_name', 'class="inputbox"', ENABLE_SEF_NUMBER_NAME, 'COM_REDSHOP_NAME', 'COM_REDSHOP_ID');
+		$lists['category_in_sef_url']    = JHTML::_('redshopselect.booleanlist', 'category_in_sef_url', 'class="inputbox"', CATEGORY_IN_SEF_URL);
 
-		$lists['autogenerated_seo']        = JHTML::_('select.booleanlist', 'autogenerated_seo', 'class="inputbox"', AUTOGENERATED_SEO);
+		$lists['autogenerated_seo']        = JHTML::_('redshopselect.booleanlist', 'autogenerated_seo', 'class="inputbox"', AUTOGENERATED_SEO);
 		$lists['shop_country']             = JHTML::_('select.genericlist', $countries, 'shop_country', 'class="inputbox" size="1" ', 'value', 'text', SHOP_COUNTRY);
 		$lists['default_shipping_country'] = JHTML::_('select.genericlist', $countries, 'default_shipping_country',
 			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_SHIPPING_COUNTRY
 		);
 
 		// Default_shipping_country
-		$lists['show_shipping_in_cart'] = JHTML::_('select.booleanlist', 'show_shipping_in_cart', 'class="inputbox"', SHOW_SHIPPING_IN_CART);
-		$lists['discount_mail_send']    = JHTML::_('select.booleanlist', 'discount_mail_send', 'class="inputbox"', DISCOUNT_MAIL_SEND);
+		$lists['show_shipping_in_cart'] = JHTML::_('redshopselect.booleanlist', 'show_shipping_in_cart', 'class="inputbox"', SHOW_SHIPPING_IN_CART);
+		$lists['discount_mail_send']    = JHTML::_('redshopselect.booleanlist', 'discount_mail_send', 'class="inputbox"', DISCOUNT_MAIL_SEND);
 		defined('SPECIAL_DISCOUNT_MAIL_SEND') ? SPECIAL_DISCOUNT_MAIL_SEND : define('SPECIAL_DISCOUNT_MAIL_SEND', '1');
-		$lists['special_discount_mail_send'] = JHTML::_('select.booleanlist', 'special_discount_mail_send', 'class="inputbox"', SPECIAL_DISCOUNT_MAIL_SEND);
-		$lists['economic_integration']       = JHTML::_('select.booleanlist', 'economic_integration', 'class="inputbox"', ECONOMIC_INTEGRATION);
+		$lists['special_discount_mail_send'] = JHTML::_('redshopselect.booleanlist', 'special_discount_mail_send', 'class="inputbox"', SPECIAL_DISCOUNT_MAIL_SEND);
+		$lists['economic_integration']       = JHTML::_('redshopselect.booleanlist', 'economic_integration', 'class="inputbox"', ECONOMIC_INTEGRATION);
 		$discoupon_percent_or_total          = array(JHTML::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')),
 			JHTML::_('select.option', 1, JText::_('COM_REDSHOP_PERCENTAGE'))
 		);
@@ -234,13 +234,13 @@ class RedshopViewConfiguration extends RedshopView
 			'discoupon_percent_or_total', 'class="inputbox" size="1"',
 			'value', 'text', DISCOUPON_PERCENT_OR_TOTAL
 		);
-		$lists['use_stockroom']              = JHTML::_('select.booleanlist', 'use_stockroom', 'class="inputbox" size="1"', USE_STOCKROOM);
-		$lists['use_blank_as_infinite']      = JHTML::_('select.booleanlist', 'use_blank_as_infinite', 'class="inputbox" size="1"', USE_BLANK_AS_INFINITE);
+		$lists['use_stockroom']              = JHTML::_('redshopselect.booleanlist', 'use_stockroom', 'class="inputbox" size="1"', USE_STOCKROOM);
+		$lists['use_blank_as_infinite']      = JHTML::_('redshopselect.booleanlist', 'use_blank_as_infinite', 'class="inputbox" size="1"', USE_BLANK_AS_INFINITE);
 
-		$lists['allow_pre_order']         = JHTML::_('select.booleanlist', 'allow_pre_order', 'class="inputbox" size="1"', ALLOW_PRE_ORDER);
-		$lists['onestep_checkout_enable'] = JHTML::_('select.booleanlist', 'onestep_checkout_enable', 'class="inputbox" size="1"', ONESTEP_CHECKOUT_ENABLE);
-		$lists['ssl_enable_in_checkout']  = JHTML::_('select.booleanlist', 'ssl_enable_in_checkout', 'class="inputbox" size="1"', SSL_ENABLE_IN_CHECKOUT);
-		$lists['twoway_related_product']  = JHTML::_('select.booleanlist', 'twoway_related_product', 'class="inputbox" size="1"', TWOWAY_RELATED_PRODUCT);
+		$lists['allow_pre_order']         = JHTML::_('redshopselect.booleanlist', 'allow_pre_order', 'class="inputbox" size="1"', ALLOW_PRE_ORDER);
+		$lists['onestep_checkout_enable'] = JHTML::_('redshopselect.booleanlist', 'onestep_checkout_enable', 'class="inputbox" size="1"', ONESTEP_CHECKOUT_ENABLE);
+		$lists['ssl_enable_in_checkout']  = JHTML::_('redshopselect.booleanlist', 'ssl_enable_in_checkout', 'class="inputbox" size="1"', SSL_ENABLE_IN_CHECKOUT);
+		$lists['twoway_related_product']  = JHTML::_('redshopselect.booleanlist', 'twoway_related_product', 'class="inputbox" size="1"', TWOWAY_RELATED_PRODUCT);
 
 		// For child product opttion
 		defined('CHILDPRODUCT_DROPDOWN') ? CHILDPRODUCT_DROPDOWN : define('CHILDPRODUCT_DROPDOWN', 'product_name');
@@ -249,40 +249,40 @@ class RedshopViewConfiguration extends RedshopView
 			'class="inputbox" size="1" ', 'value', 'text', CHILDPRODUCT_DROPDOWN
 		);
 		defined('PURCHASE_PARENT_WITH_CHILD') ? PURCHASE_PARENT_WITH_CHILD : define('PURCHASE_PARENT_WITH_CHILD', '0');
-		$lists['purchase_parent_with_child']    = JHTML::_('select.booleanlist', 'purchase_parent_with_child',
+		$lists['purchase_parent_with_child']    = JHTML::_('redshopselect.booleanlist', 'purchase_parent_with_child',
 			'class="inputbox" size="1"', PURCHASE_PARENT_WITH_CHILD
 		);
-		$lists['product_hover_image_enable']    = JHTML::_('select.booleanlist', 'product_hover_image_enable',
+		$lists['product_hover_image_enable']    = JHTML::_('redshopselect.booleanlist', 'product_hover_image_enable',
 			'class="inputbox" size="1"', PRODUCT_HOVER_IMAGE_ENABLE
 		);
-		$lists['additional_hover_image_enable'] = JHTML::_('select.booleanlist', 'additional_hover_image_enable',
+		$lists['additional_hover_image_enable'] = JHTML::_('redshopselect.booleanlist', 'additional_hover_image_enable',
 			'class="inputbox" size="1"', ADDITIONAL_HOVER_IMAGE_ENABLE
 		);
-		$lists['ssl_enable_in_backend']         = JHTML::_('select.booleanlist', 'ssl_enable_in_backend', 'class="inputbox" size="1"', SSL_ENABLE_IN_BACKEND);
-		$lists['use_tax_exempt']                = JHTML::_('select.booleanlist', 'use_tax_exempt', 'class="inputbox" size="1"', USE_TAX_EXEMPT);
-		$lists['tax_exempt_apply_vat']          = JHTML::_('select.booleanlist', 'tax_exempt_apply_vat', 'class="inputbox" size="1"', TAX_EXEMPT_APPLY_VAT);
-		$lists['couponinfo']                    = JHTML::_('select.booleanlist', 'couponinfo', 'class="inputbox" size="1"', COUPONINFO);
-		$lists['my_tags']                       = JHTML::_('select.booleanlist', 'my_tags', 'class="inputbox" size="1"', MY_TAGS);
-		$lists['my_wishlist']                   = JHTML::_('select.booleanlist', 'my_wishlist', 'class="inputbox" size="1"', MY_WISHLIST);
-		$lists['compare_products']              = JHTML::_('select.booleanlist', 'compare_products', 'class="inputbox" size="1"', COMARE_PRODUCTS);
+		$lists['ssl_enable_in_backend']         = JHTML::_('redshopselect.booleanlist', 'ssl_enable_in_backend', 'class="inputbox" size="1"', SSL_ENABLE_IN_BACKEND);
+		$lists['use_tax_exempt']                = JHTML::_('redshopselect.booleanlist', 'use_tax_exempt', 'class="inputbox" size="1"', USE_TAX_EXEMPT);
+		$lists['tax_exempt_apply_vat']          = JHTML::_('redshopselect.booleanlist', 'tax_exempt_apply_vat', 'class="inputbox" size="1"', TAX_EXEMPT_APPLY_VAT);
+		$lists['couponinfo']                    = JHTML::_('redshopselect.booleanlist', 'couponinfo', 'class="inputbox" size="1"', COUPONINFO);
+		$lists['my_tags']                       = JHTML::_('redshopselect.booleanlist', 'my_tags', 'class="inputbox" size="1"', MY_TAGS);
+		$lists['my_wishlist']                   = JHTML::_('redshopselect.booleanlist', 'my_wishlist', 'class="inputbox" size="1"', MY_WISHLIST);
+		$lists['compare_products']              = JHTML::_('redshopselect.booleanlist', 'compare_products', 'class="inputbox" size="1"', COMARE_PRODUCTS);
 		$lists['country_list']                  = JHTML::_('select.genericlist', $countries, 'country_list[]', 'class="inputbox disableBootstrapChosen" multiple="multiple" size="5"',
 			'value', 'text', $country_list
 		);
-		$lists['product_detail_is_lightbox']    = JHTML::_('select.booleanlist', 'product_detail_is_lightbox',
+		$lists['product_detail_is_lightbox']    = JHTML::_('redshopselect.booleanlist', 'product_detail_is_lightbox',
 			'class="inputbox" size="1"', PRODUCT_DETAIL_IS_LIGHTBOX
 		);
-		$lists['new_customer_selection']        = JHTML::_('select.booleanlist', 'new_customer_selection', 'class="inputbox" size="1"', NEW_CUSTOMER_SELECTION);
-		$lists['ajax_cart_box']                 = JHTML::_('select.booleanlist', 'ajax_cart_box', 'class="inputbox" size="1"', AJAX_CART_BOX);
-		$lists['is_product_reserve']            = JHTML::_('select.booleanlist', 'is_product_reserve', 'class="inputbox" size="1"', IS_PRODUCT_RESERVE);
-		$lists['product_is_lightbox']           = JHTML::_('select.booleanlist', 'product_is_lightbox', 'class="inputbox" size="1"', PRODUCT_IS_LIGHTBOX);
-		$lists['product_addimg_is_lightbox']    = JHTML::_('select.booleanlist', 'product_addimg_is_lightbox',
+		$lists['new_customer_selection']        = JHTML::_('redshopselect.booleanlist', 'new_customer_selection', 'class="inputbox" size="1"', NEW_CUSTOMER_SELECTION);
+		$lists['ajax_cart_box']                 = JHTML::_('redshopselect.booleanlist', 'ajax_cart_box', 'class="inputbox" size="1"', AJAX_CART_BOX);
+		$lists['is_product_reserve']            = JHTML::_('redshopselect.booleanlist', 'is_product_reserve', 'class="inputbox" size="1"', IS_PRODUCT_RESERVE);
+		$lists['product_is_lightbox']           = JHTML::_('redshopselect.booleanlist', 'product_is_lightbox', 'class="inputbox" size="1"', PRODUCT_IS_LIGHTBOX);
+		$lists['product_addimg_is_lightbox']    = JHTML::_('redshopselect.booleanlist', 'product_addimg_is_lightbox',
 			'class="inputbox" size="1"', PRODUCT_ADDIMG_IS_LIGHTBOX
 		);
-		$lists['cat_is_lightbox']               = JHTML::_('select.booleanlist', 'cat_is_lightbox', 'class="inputbox" size="1"', CAT_IS_LIGHTBOX);
+		$lists['cat_is_lightbox']               = JHTML::_('redshopselect.booleanlist', 'cat_is_lightbox', 'class="inputbox" size="1"', CAT_IS_LIGHTBOX);
 		$lists['default_stockroom']             = JHTML::_('select.genericlist', $stockroom, 'default_stockroom',
 			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_STOCKROOM
 		);
-		$lists['portalshop']                    = JHTML::_('select.booleanlist', 'portal_shop', 'class="inputbox" size="1"', PORTAL_SHOP);
+		$lists['portalshop']                    = JHTML::_('redshopselect.booleanlist', 'portal_shop', 'class="inputbox" size="1"', PORTAL_SHOP);
 
 		$imageSizeSwapping = array();
 		$imageSizeSwapping[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_CONFIG_NO_PROPORTIONAL_RESIZED'));
@@ -293,24 +293,24 @@ class RedshopViewConfiguration extends RedshopView
 			'value', 'text', USE_IMAGE_SIZE_SWAPPING
 		);
 
-		$lists['apply_vat_on_discount']         = JHTML::_('select.booleanlist', 'apply_vat_on_discount', 'class="inputbox" size="1"', APPLY_VAT_ON_DISCOUNT, $yes = JText::_('COM_REDSHOP_BEFORE_DISCOUNT'), $no = JText::_('COM_REDSHOP_AFTER_DISCOUNT'));
-		$lists['auto_scroll_wrapper']           = JHTML::_('select.booleanlist', 'auto_scroll_wrapper', 'class="inputbox" size="1"', AUTO_SCROLL_WRAPPER);
-		$lists['allow_multiple_discount']       = JHTML::_('select.booleanlist', 'allow_multiple_discount', 'class="inputbox" size="1"', ALLOW_MULTIPLE_DISCOUNT);
+		$lists['apply_vat_on_discount']         = JHTML::_('redshopselect.booleanlist', 'apply_vat_on_discount', 'class="inputbox" size="1"', APPLY_VAT_ON_DISCOUNT, $yes = JText::_('COM_REDSHOP_BEFORE_DISCOUNT'), $no = JText::_('COM_REDSHOP_AFTER_DISCOUNT'));
+		$lists['auto_scroll_wrapper']           = JHTML::_('redshopselect.booleanlist', 'auto_scroll_wrapper', 'class="inputbox" size="1"', AUTO_SCROLL_WRAPPER);
+		$lists['allow_multiple_discount']       = JHTML::_('redshopselect.booleanlist', 'allow_multiple_discount', 'class="inputbox" size="1"', ALLOW_MULTIPLE_DISCOUNT);
 		defined('SHOW_PRODUCT_DETAIL') ? SHOW_PRODUCT_DETAIL : define('SHOW_PRODUCT_DETAIL', '1');
-		$lists['show_product_detail'] = JHTML::_('select.booleanlist', 'show_product_detail', 'class="inputbox" size="1"', SHOW_PRODUCT_DETAIL);
+		$lists['show_product_detail'] = JHTML::_('redshopselect.booleanlist', 'show_product_detail', 'class="inputbox" size="1"', SHOW_PRODUCT_DETAIL);
 		$lists['compare_template_id'] = JHTML::_('select.genericlist', $compare_template, 'compare_template_id',
 			'class="inputbox" size="1" ', 'template_id', 'template_name', COMPARE_TEMPLATE_ID
 		);
 
 		defined('SHOW_TERMS_AND_CONDITIONS') ? SHOW_TERMS_AND_CONDITIONS : define('SHOW_TERMS_AND_CONDITIONS', '0');
-		$lists['show_terms_and_conditions']    = JHTML::_('select.booleanlist', 'show_terms_and_conditions',
+		$lists['show_terms_and_conditions']    = JHTML::_('redshopselect.booleanlist', 'show_terms_and_conditions',
 			'class="inputbox" size="1"', SHOW_TERMS_AND_CONDITIONS, $yes = JText::_('COM_REDSHOP_SHOW_PER_USER'),
 			$no = JText::_('COM_REDSHOP_SHOW_PER_ORDER')
 		);
 
 		defined('RATING_REVIEW_LOGIN_REQUIRED') ? RATING_REVIEW_LOGIN_REQUIRED : define('RATING_REVIEW_LOGIN_REQUIRED', '1');
 
-		$lists['rating_review_login_required'] = JHTML::_('select.booleanlist', 'rating_review_login_required',
+		$lists['rating_review_login_required'] = JHTML::_('redshopselect.booleanlist', 'rating_review_login_required',
 			'class="inputbox" size="1"', RATING_REVIEW_LOGIN_REQUIRED
 		);
 
@@ -323,53 +323,60 @@ class RedshopViewConfiguration extends RedshopView
 		$lists['product_comparison_type'] = JHTML::_('select.genericlist', $product_comparison, 'product_comparison_type',
 			'class="inputbox" size="1"', 'value', 'text', PRODUCT_COMPARISON_TYPE
 		);
-		$lists['newsletter_enable']       = JHTML::_('select.booleanlist', 'newsletter_enable', 'class="inputbox" size="1"', NEWSLETTER_ENABLE);
-		$lists['newsletter_confirmation'] = JHTML::_('select.booleanlist', 'newsletter_confirmation', 'class="inputbox" size="1"', NEWSLETTER_CONFIRMATION);
+		$lists['newsletter_enable']       = JHTML::_('redshopselect.booleanlist', 'newsletter_enable', 'class="inputbox" size="1"', NEWSLETTER_ENABLE);
+		$lists['newsletter_confirmation'] = JHTML::_('redshopselect.booleanlist', 'newsletter_confirmation', 'class="inputbox" size="1"', NEWSLETTER_CONFIRMATION);
 
-		$lists['watermark_category_image']       = JHTML::_('select.booleanlist', 'watermark_category_image',
+		$lists['watermark_category_image']       = JHTML::_('redshopselect.booleanlist', 'watermark_category_image',
 			'class="inputbox" size="1"', WATERMARK_CATEGORY_IMAGE
 		);
-		$lists['watermark_category_thumb_image'] = JHTML::_('select.booleanlist', 'watermark_category_thumb_image',
+		$lists['watermark_category_thumb_image'] = JHTML::_('redshopselect.booleanlist', 'watermark_category_thumb_image',
 			'class="inputbox" size="1"', WATERMARK_CATEGORY_THUMB_IMAGE
 		);
-		$lists['watermark_product_image']        = JHTML::_('select.booleanlist', 'watermark_product_image', 'class="inputbox" size="1"', WATERMARK_PRODUCT_IMAGE);
-		$lists['watermark_product_thumb_image']  = JHTML::_('select.booleanlist', 'watermark_product_thumb_image',
+		$lists['watermark_product_image']        = JHTML::_('redshopselect.booleanlist', 'watermark_product_image', 'class="inputbox" size="1"', WATERMARK_PRODUCT_IMAGE);
+		$lists['watermark_product_thumb_image']  = JHTML::_('redshopselect.booleanlist', 'watermark_product_thumb_image',
 			'class="inputbox" size="1"', WATERMARK_PRODUCT_THUMB_IMAGE
 		);
 		defined('WATERMARK_PRODUCT_ADDITIONAL_IMAGE') ? WATERMARK_PRODUCT_ADDITIONAL_IMAGE : define('WATERMARK_PRODUCT_ADDITIONAL_IMAGE', '0');
-		$lists['watermark_product_additional_image']  = JHTML::_('select.booleanlist', 'watermark_product_additional_image',
+		$lists['watermark_product_additional_image']  = JHTML::_('redshopselect.booleanlist', 'watermark_product_additional_image',
 			'class="inputbox" size="1"', WATERMARK_PRODUCT_ADDITIONAL_IMAGE
 		);
-		$lists['watermark_cart_thumb_image']          = JHTML::_('select.booleanlist', 'watermark_cart_thumb_image',
+		$lists['watermark_cart_thumb_image']          = JHTML::_('redshopselect.booleanlist', 'watermark_cart_thumb_image',
 			'class="inputbox" size="1"', WATERMARK_CART_THUMB_IMAGE
 		);
-		$lists['watermark_giftcart_image']            = JHTML::_('select.booleanlist', 'watermark_giftcart_image',
+		$lists['watermark_giftcart_image']            = JHTML::_('redshopselect.booleanlist', 'watermark_giftcart_image',
 			'class="inputbox" size="1"', WATERMARK_GIFTCART_IMAGE
 		);
-		$lists['watermark_giftcart_thumb_image']      = JHTML::_('select.booleanlist', 'watermark_giftcart_thumb_image',
+		$lists['watermark_giftcart_thumb_image']      = JHTML::_('redshopselect.booleanlist', 'watermark_giftcart_thumb_image',
 			'class="inputbox" size="1"', WATERMARK_GIFTCART_THUMB_IMAGE
 		);
-		$lists['watermark_manufacturer_thumb_image']  = JHTML::_('select.booleanlist', 'watermark_manufacturer_thumb_image',
+		$lists['watermark_manufacturer_thumb_image']  = JHTML::_('redshopselect.booleanlist', 'watermark_manufacturer_thumb_image',
 			'class="inputbox" size="1"', WATERMARK_MANUFACTURER_THUMB_IMAGE
 		);
-		$lists['watermark_manufacturer_image']        = JHTML::_('select.booleanlist', 'watermark_manufacturer_image',
+		$lists['watermark_manufacturer_image']        = JHTML::_('redshopselect.booleanlist', 'watermark_manufacturer_image',
 			'class="inputbox" size="1"', WATERMARK_MANUFACTURER_IMAGE
 		);
-		$lists['clickatell_enable']                   = JHTML::_('select.booleanlist', 'clickatell_enable', 'class="inputbox" size="1"', CLICKATELL_ENABLE);
-		$lists['quotation_mode']                      = JHTML::_('select.booleanlist', 'default_quotation_mode',
+		$lists['clickatell_enable']                   = JHTML::_('redshopselect.booleanlist', 'clickatell_enable', 'class="inputbox" size="1"', CLICKATELL_ENABLE);
+		$lists['quotation_mode']                      = JHTML::_('redshopselect.booleanlist', 'default_quotation_mode',
 			'onclick="return quote_price(this.value);" class="inputbox" size="1"',
 			DEFAULT_QUOTATION_MODE_PRE, $yes = JText::_('COM_REDSHOP_ON'),
 			$no = JText::_('COM_REDSHOP_OFF')
 		);
-		$lists['wanttoshowattributeimage']            = JHTML::_('select.booleanlist', 'wanttoshowattributeimage',
+		$lists['wanttoshowattributeimage']            = JHTML::_('redshopselect.booleanlist', 'wanttoshowattributeimage',
 			'class="inputbox" size="1"', WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART
 		);
-		$lists['show_quotation_price']                = JHTML::_('select.booleanlist', 'show_quotation_price',
+		$lists['show_quotation_price']                = JHTML::_('redshopselect.booleanlist', 'show_quotation_price',
 			'class="inputbox" size="1"', SHOW_QUOTATION_PRICE
 		);
-		$lists['display_out_of_stock_attribute_data'] = JHTML::_('select.booleanlist', 'display_out_of_stock_attribute_data',
+		$lists['display_out_of_stock_attribute_data'] = JHTML::_('redshopselect.booleanlist', 'display_out_of_stock_attribute_data',
 			'class="inputbox"', DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA
 		);
+
+		if (!defined('CATEGORY_TREE_IN_SEF_URL'))
+		{
+			define('CATEGORY_TREE_IN_SEF_URL', 0);
+		}
+
+		$lists['category_tree_in_sef_url'] = JHtml::_('redshopselect.booleanlist', 'category_tree_in_sef_url', 'class="inputbox"', CATEGORY_TREE_IN_SEF_URL);
 		$orderstatus                                  = $model->getOrderstatus();
 		$tmp                                          = array();
 		$tmp[]                                        = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
@@ -445,8 +452,8 @@ class RedshopViewConfiguration extends RedshopView
 		);
 
 		// Optional shipping address select box
-		$lists['optional_shipping_address'] = JHTML::_('select.booleanlist', 'optional_shipping_address', 'class="inputbox" ', OPTIONAL_SHIPPING_ADDRESS);
-		$lists['shipping_method_enable']    = JHTML::_('select.booleanlist', 'shipping_method_enable', 'class="inputbox" ', SHIPPING_METHOD_ENABLE);
+		$lists['optional_shipping_address'] = JHTML::_('redshopselect.booleanlist', 'optional_shipping_address', 'class="inputbox" ', OPTIONAL_SHIPPING_ADDRESS);
+		$lists['shipping_method_enable']    = JHTML::_('redshopselect.booleanlist', 'shipping_method_enable', 'class="inputbox" ', SHIPPING_METHOD_ENABLE);
 
 		$lists['default_vat_group'] = JHTML::_('select.genericlist', $default_vat_group, 'default_vat_group',
 			'class="inputbox" ', 'value', 'text', DEFAULT_VAT_GROUP
@@ -587,32 +594,32 @@ class RedshopViewConfiguration extends RedshopView
 		$lists['manufacturer_template']         = JHTML::_('select.genericlist', $manufacturer_template, 'default_manufacturer_template',
 			'class="inputbox" size="1" ', 'template_id', 'template_name', MANUFACTURER_TEMPLATE
 		);
-		$lists['show_price']                    = JHTML::_('select.booleanlist', 'show_price', 'class="inputbox" size="1"', SHOW_PRICE_PRE);
+		$lists['show_price']                    = JHTML::_('redshopselect.booleanlist', 'show_price', 'class="inputbox" size="1"', SHOW_PRICE_PRE);
 
 		$PRE_USE_AS_CATALOG                     = (defined('PRE_USE_AS_CATALOG')) ? PRE_USE_AS_CATALOG : 0;
-		$lists['use_as_catalog']                = JHTML::_('select.booleanlist', 'use_as_catalog', 'class="inputbox" size="1"', $PRE_USE_AS_CATALOG);
-		$lists['show_tax_exempt_infront']       = JHTML::_('select.booleanlist', 'show_tax_exempt_infront',
+		$lists['use_as_catalog']                = JHTML::_('redshopselect.booleanlist', 'use_as_catalog', 'class="inputbox" size="1"', $PRE_USE_AS_CATALOG);
+		$lists['show_tax_exempt_infront']       = JHTML::_('redshopselect.booleanlist', 'show_tax_exempt_infront',
 			'class="inputbox" size="1"', SHOW_TAX_EXEMPT_INFRONT
 		);
-		$lists['individual_add_to_cart_enable'] = JHTML::_('select.booleanlist', 'individual_add_to_cart_enable',
+		$lists['individual_add_to_cart_enable'] = JHTML::_('redshopselect.booleanlist', 'individual_add_to_cart_enable',
 			'class="inputbox" size="1"', INDIVIDUAL_ADD_TO_CART_ENABLE,
 			JText::_('COM_REDSHOP_INDIVIDUAL_ADD_TO_CART_PER_PROPERTY'),
 			JText::_('COM_REDSHOP_ADD_TO_CART_PER_PRODUCT')
 		);
 		defined('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE') ? ACCESSORY_AS_PRODUCT_IN_CART_ENABLE : define('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE', '0');
-		$lists['accessory_as_product_in_cart_enable'] = JHTML::_('select.booleanlist', 'accessory_as_product_in_cart_enable',
+		$lists['accessory_as_product_in_cart_enable'] = JHTML::_('redshopselect.booleanlist', 'accessory_as_product_in_cart_enable',
 			'class="inputbox" size="1"', ACCESSORY_AS_PRODUCT_IN_CART_ENABLE
 		);
-		$lists['use_product_outofstock_image']        = JHTML::_('select.booleanlist', 'use_product_outofstock_image',
+		$lists['use_product_outofstock_image']        = JHTML::_('redshopselect.booleanlist', 'use_product_outofstock_image',
 			'class="inputbox" size="1"', USE_PRODUCT_OUTOFSTOCK_IMAGE
 		);
 		defined('ENABLE_ADDRESS_DETAIL_IN_SHIPPING') ? ENABLE_ADDRESS_DETAIL_IN_SHIPPING : define('ENABLE_ADDRESS_DETAIL_IN_SHIPPING', '0');
-		$lists['enable_address_detail_in_shipping'] = JHTML::_('select.booleanlist', 'enable_address_detail_in_shipping',
+		$lists['enable_address_detail_in_shipping'] = JHTML::_('redshopselect.booleanlist', 'enable_address_detail_in_shipping',
 			'class="inputbox" size="1"', ENABLE_ADDRESS_DETAIL_IN_SHIPPING
 		);
 
 		defined('SEND_MAIL_TO_CUSTOMER') ? SEND_MAIL_TO_CUSTOMER : define('SEND_MAIL_TO_CUSTOMER', '1');
-		$lists['send_mail_to_customer'] = JHTML::_('select.booleanlist', 'send_mail_to_customer', 'class="inputbox" size="1"', SEND_MAIL_TO_CUSTOMER);
+		$lists['send_mail_to_customer'] = JHTML::_('redshopselect.booleanlist', 'send_mail_to_customer', 'class="inputbox" size="1"', SEND_MAIL_TO_CUSTOMER);
 
 		$bookinvoice                     = array();
 		$bookinvoice[]                   = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_DIRECTLY_BOOK'));
@@ -624,7 +631,7 @@ class RedshopViewConfiguration extends RedshopView
 		);
 
 		defined('ECONOMIC_BOOK_INVOICE_NUMBER') ? ECONOMIC_BOOK_INVOICE_NUMBER : define('ECONOMIC_BOOK_INVOICE_NUMBER', '0');
-		$lists['economic_book_invoice_number'] = JHTML::_('select.booleanlist', 'economic_book_invoice_number',
+		$lists['economic_book_invoice_number'] = JHTML::_('redshopselect.booleanlist', 'economic_book_invoice_number',
 			'class="inputbox" size="1"', ECONOMIC_BOOK_INVOICE_NUMBER,
 			JText::_('COM_REDSHOP_SEQUENTIALLY_IN_ECONOMIC_NO_MATCH_UP_WITH_ORDER_NUMBER'),
 			JText::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')
@@ -722,10 +729,10 @@ class RedshopViewConfiguration extends RedshopView
 			'class="inputbox" ', 'value', 'text', DEFAULT_DATEFORMAT
 		);
 
-		$lists['discount_enable']         = JHTML::_('select.booleanlist', 'discount_enable', 'class="inputbox" ', DISCOUNT_ENABLE);
-		$lists['invoice_mail_enable']     = JHTML::_('select.booleanlist', 'invoice_mail_enable', 'class="inputbox"', INVOICE_MAIL_ENABLE);
-		$lists['enable_backendaccess']    = JHTML::_('select.booleanlist', 'enable_backendaccess', 'class="inputbox"', ENABLE_BACKENDACCESS);
-		$lists['wishlist_login_required'] = JHTML::_('select.booleanlist', 'wishlist_login_required', 'class="inputbox"', WISHLIST_LOGIN_REQUIRED);
+		$lists['discount_enable']         = JHTML::_('redshopselect.booleanlist', 'discount_enable', 'class="inputbox" ', DISCOUNT_ENABLE);
+		$lists['invoice_mail_enable']     = JHTML::_('redshopselect.booleanlist', 'invoice_mail_enable', 'class="inputbox"', INVOICE_MAIL_ENABLE);
+		$lists['enable_backendaccess']    = JHTML::_('redshopselect.booleanlist', 'enable_backendaccess', 'class="inputbox"', ENABLE_BACKENDACCESS);
+		$lists['wishlist_login_required'] = JHTML::_('redshopselect.booleanlist', 'wishlist_login_required', 'class="inputbox"', WISHLIST_LOGIN_REQUIRED);
 
 		$invoice_mail_send_option           = array();
 		$invoice_mail_send_option[0]        = new stdClass;
@@ -853,12 +860,12 @@ class RedshopViewConfiguration extends RedshopView
 		);
 		unset($option);
 
-		$lists['postdk_integration']         = JHTML::_('select.booleanlist', 'postdk_integration', 'class="inputbox" size="1"', POSTDK_INTEGRATION);
-		$lists['display_new_orders']         = JHTML::_('select.booleanlist', 'display_new_orders', 'class="inputbox" size="1"', DISPLAY_NEW_ORDERS);
-		$lists['display_new_customers']      = JHTML::_('select.booleanlist', 'display_new_customers', 'class="inputbox" size="1"', DISPLAY_NEW_CUSTOMERS);
-		$lists['display_statistic']          = JHTML::_('select.booleanlist', 'display_statistic', 'class="inputbox" size="1"', DISPLAY_STATISTIC);
-		$lists['expand_all']                 = JHTML::_('select.booleanlist', 'expand_all', 'class="inputbox" size="1"', EXPAND_ALL);
-		$lists['send_catalog_reminder_mail'] = JHTML::_('select.booleanlist', 'send_catalog_reminder_mail', 'class="inputbox" size="1"', SEND_CATALOG_REMINDER_MAIL);
+		$lists['postdk_integration']         = JHTML::_('redshopselect.booleanlist', 'postdk_integration', 'class="inputbox" size="1"', POSTDK_INTEGRATION);
+		$lists['display_new_orders']         = JHTML::_('redshopselect.booleanlist', 'display_new_orders', 'class="inputbox" size="1"', DISPLAY_NEW_ORDERS);
+		$lists['display_new_customers']      = JHTML::_('redshopselect.booleanlist', 'display_new_customers', 'class="inputbox" size="1"', DISPLAY_NEW_CUSTOMERS);
+		$lists['display_statistic']          = JHTML::_('redshopselect.booleanlist', 'display_statistic', 'class="inputbox" size="1"', DISPLAY_STATISTIC);
+		$lists['expand_all']                 = JHTML::_('redshopselect.booleanlist', 'expand_all', 'class="inputbox" size="1"', EXPAND_ALL);
+		$lists['send_catalog_reminder_mail'] = JHTML::_('redshopselect.booleanlist', 'send_catalog_reminder_mail', 'class="inputbox" size="1"', SEND_CATALOG_REMINDER_MAIL);
 
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
