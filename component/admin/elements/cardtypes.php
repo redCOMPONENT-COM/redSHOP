@@ -9,15 +9,16 @@
 
 defined('_JEXEC') or die;
 
+JFormHelper::loadFieldClass('checkboxes');
 
 /**
- * Renders a Productfinder Form
+ * Prepare checkboxes for different card types
  *
- * @package        Joomla
- * @subpackage     Banners
- * @since          1.7
+ * @package        RedShop.Backend
+ * @subpackage     Element
+ * @since          1.1
  */
-class JFormFieldcardtypes extends JFormField
+class JFormFieldCardTypes extends JFormFieldCheckboxes
 {
 	/**
 	 * Element name
@@ -27,126 +28,72 @@ class JFormFieldcardtypes extends JFormField
 	 */
 	public $type = 'cardtypes';
 
-	protected function getInput()
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   11.1
+	 */
+	protected function getOptions()
 	{
-		?>
-    <script language="JavaScript">
-        function enableDisableAll() {
-            if (document.getElementById("ALL").checked == true) {
-                document.getElementById("DANKORT").checked = true;
-                document.getElementById("VD").checked = true;
-                document.getElementById("VE").checked = true;
-                document.getElementById("MCDK").checked = true;
-                document.getElementById("MC").checked = true;
-                document.getElementById("VEDK").checked = true;
-                document.getElementById("JCB").checked = true;
-                document.getElementById("DDK").checked = true;
-                document.getElementById("MDK").checked = true;
-                document.getElementById("AEDK").checked = true;
-                document.getElementById("DINERS").checked = true;
-                document.getElementById("JCBS").checked = true;
-                document.getElementById("AE").checked = true;
-                document.getElementById("MAESTRO").checked = true;
-                document.getElementById("FORBRUGSFORENINGEN").checked = true;
-                document.getElementById("EWIRE").checked = true;
-                document.getElementById("VISA").checked = true;
-                document.getElementById("IKANO").checked = true;
-                document.getElementById("NORDEA").checked = true;
-                document.getElementById("DB").checked = true;
-                document.getElementById("IKANO").checked = true;
-                document.getElementById("MASTERCARDDEBETCARD").checked = true;
-				document.getElementById("PAII").checked = true;
-            } else {
-                document.getElementById("DANKORT").checked = false;
-                document.getElementById("VD").checked = false;
-                document.getElementById("VE").checked = false;
-                document.getElementById("MCDK").checked = false;
-                document.getElementById("MC").checked = false;
-                document.getElementById("VEDK").checked = false;
-                document.getElementById("JCB").checked = false;
-                document.getElementById("DDK").checked = false;
-                document.getElementById("MDK").checked = false;
-                document.getElementById("AEDK").checked = false;
-                document.getElementById("DINERS").checked = false;
-                document.getElementById("JCBS").checked = false;
-                document.getElementById("AE").checked = false;
-                document.getElementById("MAESTRO").checked = false;
-                document.getElementById("FORBRUGSFORENINGEN").checked = false;
-                document.getElementById("EWIRE").checked = false;
-                document.getElementById("VISA").checked = false;
-                document.getElementById("IKANO").checked = false;
-                document.getElementById("NORDEA").checked = false;
-                document.getElementById("DB").checked = false;
-                document.getElementById("IKANO").checked = false;
-                document.getElementById("MASTERCARDDEBETCARD").checked = false;
-				document.getElementById("PAII").checked = false;
+		JFactory::getLanguage()->load('com_redshop');
 
-            }
+		$cardTypes                        = array();
+		$cardTypes['ALL']                 = 'COM_REDSHOP_CARD_TYPE_ALL';
+		$cardTypes['DANKORT']             = 'COM_REDSHOP_CARD_TYPE_DANKORT';
+		$cardTypes['VD']                  = 'COM_REDSHOP_CARD_TYPE_VD';
+		$cardTypes['VE']                  = 'COM_REDSHOP_CARD_TYPE_VE';
+		$cardTypes['MCDK']                = 'COM_REDSHOP_CARD_TYPE_MCDK';
+		$cardTypes['MC']                  = 'COM_REDSHOP_CARD_TYPE_MC';
+		$cardTypes['VEDK']                = 'COM_REDSHOP_CARD_TYPE_VEDK';
+		$cardTypes['JCB']                 = 'COM_REDSHOP_CARD_TYPE_JCB';
+		$cardTypes['DDK']                 = 'COM_REDSHOP_CARD_TYPE_DDK';
+		$cardTypes['MDK']                 = 'COM_REDSHOP_CARD_TYPE_MDK';
+		$cardTypes['AEDK']                = 'COM_REDSHOP_CARD_TYPE_AEDK';
+		$cardTypes['DINERS']              = 'COM_REDSHOP_CARD_TYPE_DINERS';
+		$cardTypes['JCBS']                = 'COM_REDSHOP_CARD_TYPE_JCBS';
+		$cardTypes['AE']                  = 'COM_REDSHOP_CARD_TYPE_AE';
+		$cardTypes['MAESTRO']             = 'COM_REDSHOP_CARD_TYPE_MAESTRO';
+		$cardTypes['FORBRUGSFORENINGEN']  = 'COM_REDSHOP_CARD_TYPE_FORBRUGSFORENINGEN';
+		$cardTypes['EWIRE']               = 'COM_REDSHOP_CARD_TYPE_EWIRE';
+		$cardTypes['VISA']                = 'COM_REDSHOP_CARD_TYPE_VISA';
+		$cardTypes['IKANO']               = 'COM_REDSHOP_CARD_TYPE_IKANO';
+		$cardTypes['NORDEA']              = 'COM_REDSHOP_CARD_TYPE_NORDEA';
+		$cardTypes['DB']                  = 'COM_REDSHOP_CARD_TYPE_DB';
+		$cardTypes['IKANO']               = 'COM_REDSHOP_CARD_TYPE_IKANO';
+		$cardTypes['MASTERCARDDEBETCARD'] = 'COM_REDSHOP_CARD_TYPE_MASTERCARDDEBETCARD';
+		$cardTypes['PAII']                = 'COM_REDSHOP_CARD_TYPE_PAII';
+		$cardTypes['VIABILL']             = 'COM_REDSHOP_CARD_TYPE_VIABILL';
 
-        }
-    </script>
-	<?php // This might get a conflict with the dynamic translation - TODO: search for better solution
+		// Allow parent options - This will extends the options added directly from XML
+		$options = parent::getOptions();
 
-
-		//$selected_cc = explode(",",$this->detail->accepted_credict_card);
-		$cc_list = array();
-
-		$cc_list['ALL'] = 'All cards';
-		$cc_list['DANKORT'] = 'DANKORT';
-		$cc_list['VD'] = 'VISA DANKORT';
-		$cc_list['VE'] = 'VISA ELECTRON';
-		$cc_list['MCDK'] = 'MASTERCARD (DK)';
-		$cc_list['MC'] = 'MASTERCARD';
-		$cc_list['VEDK'] = 'VISA ELECTRON (DK)';
-		$cc_list['JCB'] = 'JCB';
-		$cc_list['DDK'] = 'DINERS (DK)';
-		$cc_list['MDK'] = 'MAESTRO (DK)';
-		$cc_list['AEDK'] = 'AMERICAN EXPRESS (DK)';
-		$cc_list['DINERS'] = 'DINERS';
-		$cc_list['JCBS'] = 'JCB Secure (3D-Secure)';
-		$cc_list['AE'] = 'AMERICAN EXPRESS';
-		$cc_list['MAESTRO'] = 'MAESTRO';
-		$cc_list['FORBRUGSFORENINGEN'] = 'FORBRUGSFORENINGEN';
-		$cc_list['EWIRE'] = 'EWIRE';
-		$cc_list['VISA'] = 'VISA';
-		$cc_list['IKANO'] = 'IKANO';
-		$cc_list['NORDEA'] = 'NORDEA';
-		$cc_list['DB'] = 'DANSKE BANK';
-		$cc_list['IKANO'] = 'IKANO';
-		$cc_list['MASTERCARDDEBETCARD'] = 'MASTERCARD DEBET CARD';
-		$cc_list['PAII'] = "Mobilbetaling (PAII)";
-
-		$html = '';
-		foreach ($cc_list as $key => $valuechk)
+		foreach ($cardTypes as $value => $text)
 		{
+			$tmp = JHtml::_(
+				'select.option',
+				$value,
+				$text,
+				'value',
+				'text'
+			);
 
-			if (count($this->value) != 0 || $this->value != 0)
-			{
-				if (is_array($this->value))
-					$checked = in_array($key, $this->value) ? "checked" : "";
-				else
-					$checked = ($key == $this->value) ? "checked" : "";
-			}
-			else
-			{
-				$checked = '';
-			}
+			// Set some option attributes.
+			$tmp->checked = false;
 
-
-			if ($key == 'ALL')
-			{
-				if ($key == $this->value)
-				{
-					$checked = 'checked';
-				}
-				$html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' " . $checked . " onclick='javascript:enableDisableAll();'  />" . $valuechk . "&nbsp;<br /></label>";
-			}
-			else
-			{
-				$html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' " . $checked . "   />" . $valuechk . "&nbsp;<br /></label>";
-
-			}
+			// Add the option object to the result set.
+			$options[] = $tmp;
 		}
-		return $html;
+
+		JFactory::getDocument()->addScriptDeclaration('
+			jQuery(document).ready(function (){
+				jQuery("#jform_params_cardtypes0").click(function(event) {
+					jQuery("[id^=jform_params_cardtypes]").attr("checked", jQuery(this).get(0).checked);
+				});
+			});
+		');
+
+		return $options;
 	}
 }

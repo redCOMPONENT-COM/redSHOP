@@ -71,6 +71,14 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			'subscription'    => $this->params->get("epay_subscription")
 		);
 
+		if ($cardTypes = $this->params->get('cardtypes'))
+		{
+			// Remove ALL keyword
+			unset($cardTypes[array_search('ALL', $cardTypes)]);
+
+			$formdata['paymenttype'] = implode(',', $cardTypes);
+		}
+
 		if ((int) $this->params->get('activate_callback', 0) == 1)
 		{
 			$formdata['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0';
