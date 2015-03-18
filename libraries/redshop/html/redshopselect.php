@@ -30,6 +30,99 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
 
 	/**
+	 * Generates a yes/no radio list.
+	 *
+	 * @param   string  $name      The value of the HTML name attribute
+	 * @param   array   $attribs   Additional HTML attributes for the <select> tag
+	 * @param   string  $selected  The key that is selected
+	 * @param   string  $yes       Language key for Yes
+	 * @param   string  $no        Language key for no
+	 * @param   mixed   $id        The id for the field or false for no id
+	 *
+	 * @return  string  HTML for the radio list
+	 *
+	 * @since   1.5
+	 * @see     JFormFieldRadio
+	 */
+	public static function booleanlist($name, $attribs = array(), $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
+	{
+		$arr = array(JHtml::_('select.option', '0', JText::_($no)), JHtml::_('select.option', '1', JText::_($yes)));
+
+		return JHtml::_('redshopselect.radiolist', $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
+	}
+
+	/**
+	 * Generates an HTML radio list.
+	 *
+	 * @param   array    $data       An array of objects
+	 * @param   string   $name       The value of the HTML name attribute
+	 * @param   string   $attribs    Additional HTML attributes for the <select> tag
+	 * @param   mixed    $optKey     The key that is selected
+	 * @param   string   $optText    The name of the object variable for the option value
+	 * @param   string   $selected   The name of the object variable for the option text
+	 * @param   boolean  $idtag      Value of the field id or null by default
+	 * @param   boolean  $translate  True if options will be translated
+	 *
+	 * @return  string  HTML for the select list
+	 *
+	 * @since   1.5
+	 */
+	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
+		$translate = false)
+	{
+		JHtml::_('redshopjquery.radiobutton');
+
+		reset($data);
+
+		if (is_array($attribs))
+		{
+			$attribs = JArrayHelper::toString($attribs);
+		}
+
+		$id_text = $idtag ? $idtag : $name;
+
+		$html = '<fieldset class="radio btn-group redRadioGroup">';
+
+		foreach ($data as $i => $obj)
+		{
+			$k = $obj->$optKey;
+			$t = $translate ? JText::_($obj->$optText) : $obj->$optText;
+			$id = (isset($obj->id) ? $obj->id : null);
+
+			$extra = '';
+			$id = $id ? $obj->id : $id_text . $k;
+
+			if (is_array($selected))
+			{
+				foreach ($selected as $val)
+				{
+					$k2 = is_object($val) ? $val->$optKey : $val;
+
+					if ($k == $k2)
+					{
+						$extra .= ' selected="selected" ';
+						break;
+					}
+				}
+			}
+			else
+			{
+				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
+			}
+
+			$html .= '<input type="radio" id="' . $id . '" name="' . $name . '" value="'
+				. $k . '" ' . $extra . $attribs . ' />';
+
+			$html .= '<label class="radio" for="' . $id . '"' . ' id="' . $id . '-lbl" >'
+				. $t . '</label>';
+		}
+
+		$html .= '</fieldset>';
+
+		return $html;
+	}
+
+	/**
 	 * Generates an HTML selection list.
 	 *
 	 * @param   array   $data             An array of objects, arrays, or scalars.
