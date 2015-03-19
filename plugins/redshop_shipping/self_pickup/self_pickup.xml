@@ -20,6 +20,17 @@
         <fields name="params">
             <fieldset name="basic">
                 <field name="is_shipper" type="hidden" default="0" value="0"/>
+                <field
+                    name="allowPacsoftLabel"
+                    type="radio"
+                    class="btn-group"
+                    default="0"
+                    label="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL"
+                    description="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL_DESC"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
                 <field name="shipper_location" type="hidden" default="1" value="1"/>
             </fieldset>
         </fields>
