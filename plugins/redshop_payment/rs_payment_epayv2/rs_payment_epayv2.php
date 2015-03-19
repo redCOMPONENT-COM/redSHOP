@@ -71,7 +71,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			'subscription'    => $this->params->get("epay_subscription")
 		);
 
-		if ($cardTypes = $this->params->get('cardtypes'))
+		if ($cardTypes = $this->params->get('paymenttype'))
 		{
 			// Remove ALL keyword
 			unset($cardTypes[array_search('ALL', $cardTypes)]);
