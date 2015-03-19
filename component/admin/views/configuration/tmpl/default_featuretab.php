@@ -19,8 +19,8 @@ defined('_JEXEC') or die;
 	</tr>
 </table>
 <?php
-echo JHtml::_('sliders.start', 'feature-pane', array('startOffset' => 0));
-echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_RATING'), 'rating');
+echo JHtml::_('tabs.start', 'feature-pane', array('startOffset' => 0));
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_RATING'), 'rating');
 ?>
 <table class="adminlist" width="100%" cellpadding="0" cellspacing="0">
 	<tr valign="top">
@@ -29,7 +29,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_RATING'), 'rating');
 		</td>
 	</tr>
 </table>
-<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_COMPARISON_PRODUCT_TAB'), 'comparison'); ?>
+<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_COMPARISON_PRODUCT_TAB'), 'comparison'); ?>
 <table class="adminlist" width="100%" cellpadding="0" cellspacing="0">
 	<tr valign="top">
 		<td>
@@ -37,7 +37,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_RATING'), 'rating');
 		</td>
 	</tr>
 </table>
-<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_STOCKROOM_TAB'), 'stockroom'); ?>
+<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_STOCKROOM_TAB'), 'stockroom'); ?>
 <table class="adminlist" width="100%" cellpadding="0" cellspacing="0">
 	<tr valign="top">
 		<td width="50%">
@@ -45,4 +45,4 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_RATING'), 'rating');
 		</td>
 	</tr>
 </table>
-<?php  echo JHtml::_('sliders.end');
+<?php  echo JHtml::_('tabs.end');
