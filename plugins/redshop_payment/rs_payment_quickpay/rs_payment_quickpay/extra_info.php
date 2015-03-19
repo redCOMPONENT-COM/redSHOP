@@ -129,9 +129,15 @@ if (in_array('MASTERCARDDEBETCARD', $cart_type) || $all)
 {
 	$oricart_type[] = 'mastercard-debet-dk';
 }
+
 if (in_array('PAII', $cart_type) || $all)
 {
 	$oricart_type[] = 'paii';
+}
+
+if (in_array('VIABILL', $cart_type) || $all)
+{
+	$oricart_type[] = 'viabill';
 }
 
 if (count($oricart_type) > 0)
