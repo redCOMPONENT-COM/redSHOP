@@ -52,6 +52,14 @@
                 <field type="spacer"/>
             </fieldset>
             <fieldset name="advanced">
+                <field
+                    name="shopper_group_id"
+                    type="shoppergrouplist"
+                    multiple="multiple"
+                    default="0"
+                    label="PLG_RS_PAYMENT_PAYGATE_SHOPPER_GROUP_ID_LBL"
+                    description="PLG_RS_PAYMENT_PAYGATE_SHOPPER_GROUP_ID_DESC"
+                />
                 <field name="private_person" type="radio" default="1"
                        label="Show on Private Person" description="Show on Private Person">
                     <option value="1">Yes</option>
