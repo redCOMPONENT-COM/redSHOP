@@ -38,7 +38,7 @@ div.mod_redshop_products_wrapper div.mod_redshop_products_horizontal {
     height: 1%;
 }
 .modProductStockStatus{
-    text-align: center;
+    text-align: left;
     color: #666666;
     font-weight: normal;
 }
