@@ -42,12 +42,6 @@ $manufacturer_total = JRequest::getVar('manufacturer_total', 0);
 						echo $manufacturer_total . " " . JText::_('COM_REDSHOP_MANUFACTURER_SYNC') . "<br />";
 						echo '</font>';
 					}
-					else
-					{
-						echo '<font color=red>';
-						echo JText::_('COM_REDSHOP_NO_VM');
-						echo '</font>';
-					}
 					?>
 				</div>
 			</div>
