@@ -53,8 +53,6 @@ class producthelper
 
 	public $_attributewithcart_template = null;
 
-	protected static $userShopperGroupData = array();
-
 	protected static $vatRate = array();
 
 	protected static $productSpecialIds = array();
@@ -2135,47 +2133,13 @@ class producthelper
 	 * @param   string  $addressType  Type user BT or ST
 	 * @param   int     $userInfoId   Id redshop user
 	 *
+	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
+	 *
 	 * @return  object  Redshop user information
 	 */
 	public function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0)
 	{
-		if ($userId == 0)
-		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-
-		if (!$userId)
-		{
-			return array();
-		}
-
-		if ($addressType == '')
-		{
-			$addressType = 'BT';
-		}
-
-		if (!array_key_exists($userId . '.' . $addressType . '.' . $userInfoId, self::$userShopperGroupData))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('sh.*', 'u.*'))
-				->from($db->qn('#__redshop_users_info', 'u'))
-				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
-				->where('u.user_id = ' . (int) $userId)
-				->where('u.address_type = ' . $db->q($addressType));
-
-			if ($userInfoId && $addressType == 'ST')
-			{
-				$query->where('u.users_info_id = ' . (int) $userInfoId);
-			}
-
-			$db->setQuery($query);
-
-			self::$userShopperGroupData[$userId . '.' . $addressType . '.' . $userInfoId] = $db->loadObject();
-		}
-
-		return self::$userShopperGroupData[$userId . '.' . $addressType . '.' . $userInfoId];
+		return RedshopHelperUser::getUserInformation($userId, $addressType, $userInfoId);
 	}
 
 	public function getApplyVatOrNot($data_add = "", $user_id = 0)
@@ -2318,7 +2282,7 @@ class producthelper
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($user_id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -10085,71 +10049,12 @@ class producthelper
 				}
 			}
 
-			if (strstr($template_desc, "{stock_notify_flag}"))
-			{
-				$userArr       = $this->_session->get('rs_user');
-				$user = JFactory::getUser();
-
-				if (empty($userArr))
-				{
-					$userArr = $this->_userhelper->createUserSession($user->id);
-				}
-
-				if (!isset($userArr['rs_user_info_id']))
-				{
-					$UserInformation = $this->getUserInformation($user->id);
-					$userArr['rs_user_info_id'] = isset($UserInformation->users_info_id) ? $UserInformation->users_info_id : 0;
-
-					if (isset($UserInformation->users_info_id))
-					{
-						$userArr = $this->_session->set('rs_user', $userArr);
-					}
-				}
-
-				$is_login      = $userArr['rs_is_user_login'];
-				$users_info_id = $userArr['rs_user_info_id'];
-				$user_id       = $userArr['rs_userid'];
-
-				$is_notified   = $this->isAlreadyNotifiedUser(
-					$user_id,
-					$product->product_id,
-					$property_id,
-					$subproperty_id
-				);
-
-				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $is_login && $users_info_id)
-				{
-					if (($productStockStatus['preorder']
-						&& !$productStockStatus['preorder_stock'])
-						|| !$productStockStatus['preorder'])
-					{
-						if ($is_notified)
-						{
-							$notify_stock = "<span>" . JText::_('COM_REDSHOP_ALREADY_REQUESTED_FOR_NOTIFICATION')
-								. "</span>";
-
-						}
-						else
-						{
-							$notify_stock = '<span >' . JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL')
-								. '</span><input type="button" name="" value="' . JText::_('COM_REDSHOP_NOTIFY_STOCK')
-								. '" class="notifystockbtn" title="' . JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL')
-								. '" onclick="getStocknotify(\'' . $product->product_id . '\',\'' . $property_id . '\', \''
-								. $subproperty_id . '\');">';
-						}
-
-					}
-					else
-					{
-						$notify_stock = "";
-					}
-				}
-				else
-				{
-					$notify_stock = '';
-				}
-
-			}
+			RedshopLayoutHelper::renderTag(
+				'{stock_notify_flag}', $data_add, 'product', array(
+					'productId' => $product_id, 'propertyId' => $property_id, 'subPropertyId' => $subproperty_id,
+					'productStockStatus' => $productStockStatus, 'isAjax' => true
+				)
+			);
 
 			if (strstr($template_desc, "{product_availability_date}"))
 			{
@@ -10622,46 +10527,12 @@ class producthelper
 
 		}
 
-		if (strstr($data_add, "{stock_notify_flag}"))
-		{
-			$userArr       = $this->_session->get('rs_user');
-			$user_id       = isset($userArr['rs_userid']) ? $userArr['rs_userid'] : '';
-			$is_login      = isset($userArr['rs_is_user_login']) ? $userArr['rs_is_user_login'] : '';
-			$users_info_id = isset($userArr['rs_user_info_id']) ? $userArr['rs_user_info_id'] : 0;
-
-			$is_notified   = $this->isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id);
-
-			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $is_login && $users_info_id && $user_id)
-			{
-				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
-				{
-					if ($is_notified)
-					{
-						$data_add = str_replace("{stock_notify_flag}", "<div id='notify_stock" . $product_id . "'>"
-							. JText::_('COM_REDSHOP_ALREADY_REQUESTED_FOR_NOTIFICATION') . "</div>", $data_add);
-					}
-					else
-					{
-						$data_add = str_replace("{stock_notify_flag}", '<div id="notify_stock' . $product_id . '"><span >'
-							. JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL') . '</span><input type="button" name="" value="'
-							. JText::_('COM_REDSHOP_NOTIFY_STOCK') . '" class="notifystockbtn" title="'
-							. JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL') . '" onclick="getStocknotify(\'' . $product_id
-							. '\',\'' . $property_id . '\', \'' . $subproperty_id . '\');"></div>', $data_add);
-					}
-
-				}
-				else
-				{
-					$data_add = str_replace("{stock_notify_flag}", "<div id='notify_stock" . $product_id . "'></div>", $data_add);
-				}
-
-			}
-			else
-			{
-				$data_add = str_replace("{stock_notify_flag}", "<div id='notify_stock" . $product_id . "'></div>", $data_add);
-			}
-
-		}
+		RedshopLayoutHelper::renderTag(
+			'{stock_notify_flag}', $data_add, 'product', array(
+				'productId' => $product_id, 'propertyId' => $property_id, 'subPropertyId' => $subproperty_id,
+				'productStockStatus' => $stockStatusArray
+			)
+		);
 
 		if (strstr($data_add, "{product_availability_date}"))
 		{
@@ -10699,14 +10570,21 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * Check already notified user
+	 *
+	 * @param   int  $user_id         User id
+	 * @param   int  $product_id      Product id
+	 * @param   int  $property_id     Property id
+	 * @param   int  $subproperty_id  Sub property id
+	 *
+	 * @deprecated  1.5 Use RedshopHelperStockroom::isAlreadyNotifiedUser instead
+	 *
+	 * @return mixed
+	 */
 	public function isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'notifystock_users  WHERE product_id = ' . (int) $product_id
-			. ' and property_id = ' . (int) $property_id . ' and subproperty_id = ' . (int) $subproperty_id . ' AND user_id ='
-			. (int) $user_id . ' and notification_status=0';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return RedshopHelperStockroom::isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id);
 	}
 
 	public function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)
