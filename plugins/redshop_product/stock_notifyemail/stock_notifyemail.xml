@@ -3,6 +3,7 @@
     <name>PLG_REDSHOP_PRODUCT_STOCK_NOTIFYEMAIL</name>
     <author>redCOMPONENT.com</author>
     <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>January 2015</creationDate>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU/GPL</license>
