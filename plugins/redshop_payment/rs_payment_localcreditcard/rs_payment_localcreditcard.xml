@@ -45,6 +45,14 @@
                 <field name="txtextra_info" type="extrainfo" default="Please enter your Extra Info"
                        label="Enter Extra Info"
                        description="Enter description for your extra info. You also can use HTML tags."/>
+                <field
+                    name="shopper_group_id"
+                    type="shoppergrouplist"
+                    multiple="multiple"
+                    default="0"
+                    label="PLG_RS_PAYMENT_LOCALCREDITCARD_SHOPPER_GROUP_ID_LBL"
+                    description="PLG_RS_PAYMENT_LOCALCREDITCARD_SHOPPER_GROUP_ID_DESC"
+                />
             </fieldset>
         </fields>
     </config>
