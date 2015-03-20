@@ -137,8 +137,6 @@ class RedshopLayoutFile extends RedshopLayoutBase
 			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
 			$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-			$this->fullPath = JPath::find($this->includePaths, $rawPath);
-
 			if ($this->fullPath = JPath::find($this->includePaths, $rawPath))
 			{
 				$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
