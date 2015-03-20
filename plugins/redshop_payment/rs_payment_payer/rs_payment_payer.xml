@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_PAYER</name>
-    <version>1.5</version>
+    <version>1.5.1</version>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -96,7 +96,7 @@
                        label="Enter E-conomic Payment Conditions ID"/>
                 <field name="economic_design_layout" type="text" default=""
                        label="Enter E-conomic Design and Layout ID"/>
-                <field name="shopper_group_id" type="shoppergrouplist" default="0" label="Select Shopper Group"
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0" label="Select Shopper Group"
                        description="Displays the shopper groups"/>
             </fieldset>
         </fields>
