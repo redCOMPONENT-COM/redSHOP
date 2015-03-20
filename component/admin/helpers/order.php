@@ -349,20 +349,19 @@ class order_functions
 					. "&type=xml";
 		try
 		{
-			// Set up Curl Headers
-			$headers = array(
-				'Content-Type' => 'text/xml'
-			);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $postURL);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_VERBOSE, true);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
+			$response = curl_exec($ch);
+			$error = curl_error($ch);
+			curl_close($ch);
 
-			$curl     = new JHttpTransportCurl(new JRegistry);
-			$response = $curl->request(
-							'POST',
-							JUri::getInstance($postURL),
-							$xmlnew,
-							$headers
-						);
-
-			$xmlResponse = JFactory::getXML($response->body, false)->val;
+			$xmlResponse = JFactory::getXML($response, false)->val;
 
 			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
 			{

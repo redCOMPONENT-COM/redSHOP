@@ -1388,7 +1388,7 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 	echo JHtml::_('tabs.panel', $title, 'wrapper');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_AJAX_CART_BOX_DETAIL_TEMPLATE_HINT'); ?></td>
+			<td><b><?php echo JText::_('COM_REDSHOP_AJAX_CART_BOX_DETAIL_TEMPLATE_HINT'); ?></b></td>
 		</tr>
 		<tr>
 			<td>

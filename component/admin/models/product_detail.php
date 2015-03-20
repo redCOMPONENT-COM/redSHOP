@@ -89,6 +89,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_initData();
 		}
 
+		// Set discount Price null for '0' value
+		if (!$this->data->discount_price)
+		{
+			$this->data->discount_price = null;
+		}
+
 		return $this->data;
 	}
 

@@ -508,3 +508,13 @@ div.cpanel-right {
 .icon-redshop_import48:before{
 	content: "\E203";
 }
+fieldset.redRadioGroup{
+	padding-top: 5px;
+}
+fieldset.redRadioGroup > .btn {
+	min-width: 50px;
+	display: inline-block !important;
+}
+fieldset.redRadioGroup label.radio{
+	margin: 0 !important;
+}

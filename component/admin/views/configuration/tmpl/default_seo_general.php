@@ -65,14 +65,7 @@ defined('_JEXEC') or die;
 			?></label>
 		</td>
 		<td>
-			<?php
-			if (!defined('CATEGORY_TREE_IN_SEF_URL'))
-			{
-				define('CATEGORY_TREE_IN_SEF_URL', 0);
-			}
-
-			echo JHTML::_('select.booleanlist', 'category_tree_in_sef_url', 'class="inputbox"', CATEGORY_TREE_IN_SEF_URL);
-			?>
+			<?php echo $this->lists ['category_tree_in_sef_url']; ?>
 		</td>
 	</tr>
 	<tr>
