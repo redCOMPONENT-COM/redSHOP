@@ -902,6 +902,11 @@ class Com_RedshopInstallerScript
 			$cfgarr["CHECKOUT_LOGIN_REGISTER_SWITCHER"] = 'sliders';
 		}
 
+		if (!defined("RATING_REVIEW_LOGIN_REQUIRED"))
+		{
+			$cfgarr["RATING_REVIEW_LOGIN_REQUIRED"] = '1';
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 

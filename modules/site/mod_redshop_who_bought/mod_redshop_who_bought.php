@@ -11,6 +11,12 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
+// Getting the configuration
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::load('RedshopHelperAdminConfiguration');
+$redConfiguration = new Redconfiguration;
+$redConfiguration->defineDynamicVars();
+
 $category = $params->get('category', '');
 
 if (is_array($category))

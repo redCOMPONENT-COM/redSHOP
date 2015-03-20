@@ -78,6 +78,7 @@ $defaultarray["vat_introtext"] = VAT_INTROTEXT;
 $defaultarray["with_vat_text_info"] = WITH_VAT_TEXT_INFO;
 $defaultarray["without_vat_text_info"] = WITHOUT_VAT_TEXT_INFO;
 $defaultarray["rating_msg"] = RATING_MSG;
+$defaultarray['rating_review_login_required'] = RATING_REVIEW_LOGIN_REQUIRED;
 $defaultarray["favoured_reviews"] = FAVOURED_REVIEWS;
 $defaultarray["product_compare_limit"] = PRODUCT_COMPARE_LIMIT;
 $defaultarray["compare_template_id"] = COMPARE_TEMPLATE_ID;
