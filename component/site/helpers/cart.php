@@ -4991,18 +4991,6 @@ class rsCarthelper
 								$newquantity = $property_stock + $ownReservePropertyStock;
 							}
 
-							if ($productStock >= 0)
-							{
-								if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
-								{
-									$newquantity = $productStock + $ownProductReserveStock;
-								}
-							}
-							else
-							{
-								$newquantity = $productStock + $ownProductReserveStock;
-							}
-
 							if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
 							{
 								$newquantity = $productData->max_order_product_quantity;
@@ -5052,30 +5040,6 @@ class rsCarthelper
 								else
 								{
 									$newquantity = $subproperty_stock + $ownSubPropReserveStock;
-								}
-
-								if ($property_stock >= 0)
-								{
-									if ($newquantity > $ownReservePropertyStock && $property_stock < ($newquantity - $ownReservePropertyStock))
-									{
-										$newquantity = $property_stock + $ownReservePropertyStock;
-									}
-								}
-								else
-								{
-									$newquantity = $property_stock + $ownReservePropertyStock;
-								}
-
-								if ($productStock >= 0)
-								{
-									if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
-									{
-										$newquantity = $productStock + $ownProductReserveStock;
-									}
-								}
-								else
-								{
-									$newquantity = $productStock + $ownProductReserveStock;
 								}
 
 								if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
