@@ -12,8 +12,22 @@ defined('_JEXEC') or die;
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 
-class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
+class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_paypalpro');
+		parent::__construct($subject, $config);
+	}
+
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -24,17 +38,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		$app = JFactory::getApplication();
-		$objOrder = new order_functions;
-		$uri = JURI::getInstance();
-		$url = $uri->root();
-		$user = JFactory::getUser();
-		$sessionid = session_id();
+		JFactory::getApplication()->enqueueMessage('onPrePayment_rs_payment_paypalpro');
 		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
@@ -54,7 +58,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$expDateYear      = urlencode($ccdata['order_payment_expire_year']);
 		$cvv2Number       = urlencode($creditCardType);
 		$address1         = urlencode($data['billinginfo']->address);
-		$address2         = urlencode('customer_address2');
 		$city             = urlencode($data['billinginfo']->city);
 		$state            = urlencode($data['billinginfo']->state_code);
 		$zip              = urlencode($data['billinginfo']->zipcode);
@@ -80,6 +83,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$httpParsedResponseAr = $this->PPHttpPost('DoDirectPayment', $nvpStr);
 
 		$transaction_id = $request['transaction_id'];
+		$values = new stdClass;
 
 		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
@@ -87,11 +91,11 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 			if ($debug_mode == 1)
 			{
-				$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
+				$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
 			}
 			else
 			{
-				$message = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$message = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_PLACED');
 			}
 		}
 		else
@@ -100,11 +104,11 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 			if ($debug_mode == 1)
 			{
-				$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
+				$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
 			}
 			else
 			{
-				$message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$message = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
 			}
 		}
 
@@ -116,10 +120,10 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 	public function PPHttpPost($methodName_, $nvpStr_)
 	{
+		JFactory::getApplication()->enqueueMessage('PPHttpPost');
 		$api_username = $this->params->get('api_username', '');
 		$api_password = $this->params->get('api_password', '');
 		$api_signature = $this->params->get('api_signature', '');
-		$sales_auth_only = $this->params->get('sales_auth_only', '');
 
 		// Set up your API credentials, PayPal end point, and API version.
 		$API_UserName = urlencode($api_username);
@@ -150,7 +154,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		curl_setopt($ch, CURLOPT_POST, 1);
 
 		// Set the API operation, version, and API signature in the request.
-		$nvpreq = "METHOD=$API_method&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
+		$nvpreq = "METHOD=$API_method&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_" . '&BUTTONSOURCE=redCOMPONENT_SP';
 
 		// Set the request as a POST FIELD for curl.
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
@@ -160,7 +164,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 		if (!$httpResponse)
 		{
-			exit("$methodName_ failed: " . curl_error($ch) . '(' . curl_errno($ch) . ')');
+			exit(JText::sprintf('PLG_RS_PAYMENT_PAYPALPRO_METHOD_FAILED', $methodName_, $ch, $ch));
 		}
 
 		// Extract the response details.
@@ -172,15 +176,15 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		{
 			$tmpAr = explode("=", $value);
 
-			if (sizeof($tmpAr) > 1)
+			if (count($tmpAr) > 1)
 			{
 				$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
 			}
 		}
 
-		if ((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr))
+		if ((0 == count($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr))
 		{
-			exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+			exit(JText::sprintf('PLG_RS_PAYMENT_PAYPALPRO_METHOD_INVALID_RESPONSE', $nvpreq, $API_Endpoint));
 		}
 
 		return $httpParsedResponseAr;
@@ -196,6 +200,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			return false;
 		}
 
+		JFactory::getApplication()->enqueueMessage('onNotifyPaymentrs_payment_paypalpro');
 		$db             = JFactory::getDbo();
 		$request        = JRequest::get('request');
 		$accept         = $request["accept"];
@@ -241,8 +246,8 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 					$transaction_id = $tid;
 					$values->order_status_code = $verify_status;
 					$values->order_payment_status_code = 'Paid';
-					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+					$values->log = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_PLACED');
+					$values->msg = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_PLACED');
 
 					// Add history callback info
 					if ($accept == "2")
@@ -359,16 +364,16 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			{
 				$values->order_status_code = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->log = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
+				$values->msg = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
 				$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_ERROR');
 			}
 			else
 			{
 				$values->order_status_code = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->log = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
+				$values->msg = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
 				$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 			}
 		}
@@ -376,8 +381,8 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$values->log = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
+			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
 			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 		}
 
@@ -423,6 +428,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 		// Execute the API operation; see the PPHttpPost function above.
 		$httpParsedResponseAr = $this->PPHttpPost('DoCapture', $nvpStr);
+		$values = new stdClass;
 
 		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
