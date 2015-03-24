@@ -66,6 +66,6 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalBusinessAccountEmail, $businessUserEmail);
 		$I->click(\PayPalPluginManagerJoomla3Page::$payPalUseField);
 		$I->click("Save & Close");
-		$I->see(\PayPalPluginManagerJoomla3Page::$pluginSuccessSavedMessage);
+		$I->see(\PayPalPluginManagerJoomla3Page::$pluginSuccessSavedMessage, '.alert');
 	}
 }
