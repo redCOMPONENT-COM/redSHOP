@@ -76,6 +76,12 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$formdata['group'] = $this->params->get('payment_group');
 		}
 
+		// Epay will send email receipt to given email
+		if (trim($this->params->get('mailreceipt')))
+		{
+			$formdata['mailreceipt'] = $this->params->get('mailreceipt');
+		}
+
 		if ($cardTypes = $this->params->get('paymenttype'))
 		{
 			// Remove ALL keyword

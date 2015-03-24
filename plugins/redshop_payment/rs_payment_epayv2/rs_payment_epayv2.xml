@@ -106,32 +106,13 @@
 					<option value="2">PLG_RS_PAYMENT_EPAYV2_MD5_ON_BOTH</option>
 				</field>
 				<field
-					name="epay_authsms"
-					type="text"
-					class="input-large"
-					default=""
-					label="PLG_RS_PAYMENT_EPAYV2_AUTH_SMS"
-					description="PLG_RS_PAYMENT_EPAYV2_AUTH_SMS_DESC"
-				/>
-				<field
-					name="epay_authemail"
+					name="mailreceipt"
 					type="text"
 					class="input-large"
 					default=""
 					label="PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL"
 					description="PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL_DESC"
 				/>
-				<field
-					name="epay_authemailcustomer"
-					type="radio"
-					class="btn-group"
-					default="0"
-					label="PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL"
-					description="PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL_DESC"
-				>
-					<option value="0">PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL_DONT_SEND</option>
-					<option value="1">PLG_RS_PAYMENT_EPAYV2_AUTH_EMAIL_SEND</option>
-				</field>
 				<field
 					name="epay_window_state"
 					type="radio"
