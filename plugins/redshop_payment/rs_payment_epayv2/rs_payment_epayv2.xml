@@ -138,18 +138,6 @@
 					<option value="1">PLG_RS_PAYMENT_EPAYV2_OWN_RECEIPT_OWN</option>
 				</field>
 				<field
-					name="epay_3dsecure"
-					type="radio"
-					class="btn-group"
-					default="3"
-					label="PLG_RS_PAYMENT_EPAYV2_3D_SECURE"
-					description="PLG_RS_PAYMENT_EPAYV2_3D_SECURE_DESC"
-				>
-					<option value="1">JENABLED</option>
-					<option value="2">PLG_RS_PAYMENT_EPAYV2_3D_SECURE_ALLOWED</option>
-					<option value="3">JDISABLED</option>
-				</field>
-				<field
 					name="activate_callback"
 					type="radio"
 					class="btn-group"
@@ -159,17 +147,6 @@
 				>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
-				</field>
-				<field
-					name="epay_subscription"
-					type="radio"
-					class="btn-group"
-					default="0"
-					label="PLG_RS_PAYMENT_EPAYV2_SUBSCRIPTION"
-					description="PLG_RS_PAYMENT_EPAYV2_SUBSCRIPTION_DESC"
-				>
-					<option value="0">PLG_RS_PAYMENT_EPAYV2_SUBSCRIPTION_DISABLE</option>
-					<option value="1">PLG_RS_PAYMENT_EPAYV2_SUBSCRIPTION_DISABLE_RECURRING</option>
 				</field>
 				<field
 					name="paymenttype"
