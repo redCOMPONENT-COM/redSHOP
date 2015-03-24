@@ -110,24 +110,30 @@ class redTigraTreeMenu
 		global $Itemid, $urlpath, $sortparam;
 
 		$db        = JFactory::getDbo();
-		$objhelper = new redhelper ();
+		$objhelper = new redhelper;
 		$Itemid    = JRequest::getInt('Itemid');
 		$level++;
 		$redproduct_menu = new modProMenuHelper;
+
 		if ($shopper_group_id)
 		{
 			$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);
 		}
-
+		else
+		{
+			$shoppergroup_cat = 0;
+		}
 
 		$query = "SELECT category_name as cname, category_id as cid, category_child_id as ccid FROM #__redshop_category as a "
 			. "LEFT JOIN #__redshop_category_xref as b ON a.category_id=b.category_child_id "
 			. "WHERE a.published=1 "
 			. "AND b.category_parent_id=" . (int) $category_id;
-		if ($shopper_group_id && count($shoppergroup_cat) > 0)
+
+		if ($shopper_group_id && $shoppergroup_cat)
 		{
-			$query .= " and category_id in (" . $shoppergroup_cat[0] . ")";
+			$query .= " and category_id in (" . $shoppergroup_cat . ")";
 		}
+
 		$query .= " ORDER BY " . $sortparam . "";
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
