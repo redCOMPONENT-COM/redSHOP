@@ -62,69 +62,83 @@ class RedshopModelStockroom_listing extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$field = "";
-		$and = "";
-		$leftjoin = " ";
-
 		$db = JFactory::getDbo();
-		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order = $this->getState('list.ordering');
-		$stockroom_type = $this->getState('stockroom_type');
 
-		if ($stockroom_type == 'subproperty')
-		{
-			$filter_order = 'p.product_id, a.attribute_id, ap.property_id, asp.ordering';
-		}
+		// Initialize query
+		$query = $db->getQuery(true)->select('p.*');
 
-		elseif ($stockroom_type == 'property')
-		{
-			$filter_order = 'p.product_id, a.attribute_id, ap.ordering';
-		}
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		$search_field = $this->getState('search_field');
 		$keyword = $this->getState('keyword');
-		$category_id = $this->getState('category_id');
 
 		if (trim($keyword) != '')
 		{
-			$and .= " AND p." . $search_field . " LIKE '" . $keyword . "%' ";
+			$query->where($db->qn('p.' . $this->getState('search_field')) . ' LIKE ' . $db->q($keyword . '%'));
 		}
 
-		if ($category_id > 0)
+		$categoryId = $this->getState('category_id');
+
+		if ($categoryId > 0)
 		{
-			$and .= " AND pcx.category_id='" . $category_id . "' ";
+			$query->where($db->qn('pcx.category_id') . ' = ' . (int) $categoryId);
 		}
 
-		if ($stockroom_type == 'subproperty')
+		$stockroomType = $this->getState('stockroom_type');
+
+		if ($stockroomType == 'subproperty')
 		{
-			$field = ", asp.*, subattribute_color_id AS section_id ";
-			$table = "product_subattribute_color AS asp ";
-			$leftjoin = "LEFT JOIN #__redshop_product_attribute_property AS ap ON asp.subattribute_id = ap.property_id "
-				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id = ap.attribute_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id ";
+			$query->select('asp.*, subattribute_color_id AS section_id')
+				->from($db->qn('#__redshop_product_subattribute_color', 'asp'))
+				->leftjoin(
+					$db->qn('#__redshop_product_attribute_property', 'ap')
+					. ' ON ' . $db->qn('asp.subattribute_id') . ' = ' . $db->qn('ap.property_id')
+				)
+				->leftjoin(
+					$db->qn('#__redshop_product_attribute', 'a')
+					. ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
+				)
+				->leftjoin(
+					$db->qn('#__redshop_product', 'p')
+					. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id')
+				)
+				->group($db->qn('asp.subattribute_color_id'));
 		}
-		elseif ($stockroom_type == 'property')
+		elseif ($stockroomType == 'property')
 		{
-			$field = ", ap.*, property_id AS section_id ";
-			$table = "product_attribute_property AS ap ";
-			$leftjoin = "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id = ap.attribute_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id ";
+			$query->select('ap.*, property_id AS section_id')
+				->from($db->qn('#__redshop_product_attribute_property', 'ap'))
+				->leftjoin(
+					$db->qn('#__redshop_product_attribute', 'a')
+					. ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
+				)
+				->leftjoin(
+					$db->qn('#__redshop_product', 'p')
+					. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id')
+				)
+				->group($db->qn('ap.property_id'));
 		}
 		else
 		{
-			$table = "product AS p ";
+			$query->from($db->qn('#__redshop_product', 'p'))
+				->group($db->qn('p.product_id'));
 		}
 
-		$query = "SELECT p.* " . $field
-			. "FROM #__redshop_" . $table
-			. $leftjoin
-			. "LEFT JOIN #__redshop_product_category_xref AS pcx ON pcx.product_id=p.product_id "
-			. "WHERE 1 = 1 "
-			. $and
-			. ' GROUP BY p.product_id '
-			. $orderby;
+		$query->leftjoin(
+				$db->qn('#__redshop_product_category_xref', 'pcx')
+				. ' ON ' . $db->qn('pcx.product_id') . '=' . $db->qn('p.product_id')
+			);
+
+		// Build ordering query
+		$filterOrder = $this->getState('list.ordering');
+
+		if ($stockroomType == 'subproperty')
+		{
+			$filterOrder = 'p.product_id, a.attribute_id, ap.property_id, asp.ordering';
+		}
+		elseif ($stockroomType == 'property')
+		{
+			$filterOrder = 'p.product_id, a.attribute_id, ap.ordering';
+		}
+
+		$query->order($db->escape($filterOrder . ' ' . $this->getState('list.direction')));
 
 		return $query;
 	}

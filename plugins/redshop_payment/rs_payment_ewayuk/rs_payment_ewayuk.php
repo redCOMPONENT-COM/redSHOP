@@ -12,6 +12,24 @@ defined('_JEXEC') or die;
 class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 {
 	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_redshop_payment_rs_payment_ewayuk', JPATH_ADMINISTRATOR);
+
+		parent::__construct($subject, $config);
+	}
+
+	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
 	public function onPrePayment($element, $data)
@@ -26,8 +44,6 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
-
 		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
@@ -38,48 +54,67 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 			return;
 		}
 
-		$db                  = JFactory::getDbo();
-		$TransactionAccepted = $request["TransactionAccepted"];
-		$Reference           = $request["Reference"];
-		$RETC                = $request["RETC"];
-		$m_4                 = $request["m_4"];
-		$m_5                 = $request["m_5"];
-		$m_6                 = $request["m_6"];
-		$Reason              = $request["Reason"];
-		$Amount              = $request["Amount"];
+		$UserName = $this->params->get('username', '');
+		$CustomerID = $this->params->get('customer_id', '');
+		$querystring = "CustomerID=" . $CustomerID . "&UserName=" . $UserName . "&AccessPaymentCode=" . $request['AccessPaymentCode'];
+		$posturl = "https://payment.ewaygateway.com/Result/?" . $querystring;
 
-		JPlugin::loadLanguage('com_redshop');
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $posturl);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
+		$response = curl_exec($ch);
+
+		$responsecode = $this->fetch_data($response, '<responsecode>', '</responsecode>');
+		$auth_code = $this->fetch_data($response, '<authcode>', '</authcode>');
+		$order_id = $this->fetch_data($response, '<merchantoption1>', '</merchantoption1>');
+		$trxnresponsemessage = $this->fetch_data($response, '<trxnresponsemessage>', '</trxnresponsemessage>');
+		$values = new stdClass;
 		$verify_status  = $this->params->get('verify_status', '');
 		$invalid_status = $this->params->get('invalid_status', '');
-		$auth_type      = $this->params->get('auth_type', '');
-		$order_id       = $request['orderid'];
-		$status         = $request['status'];
-		$values         = new stdClass;
+		$debug_mode = $this->params->get('debug_mode', 0);
 
-		if ($TransactionAccepted == 'true')
+		// Response Success Message
+		if ($responsecode == "00" || $responsecode == "08" || $responsecode == "10" || $responsecode == "11" || $responsecode == "16")
 		{
-			$tid = $request['RETC'];
+			$values->order_status_code = $verify_status;
+			$values->order_payment_status_code = 'Paid';
 
-			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
+			if ($debug_mode == 1)
 			{
-				$transaction_id = $tid;
-				$values->order_status_code = $verify_status;
-				$values->order_payment_status_code = 'Paid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$values->log = JText::_('PLG_RS_PAYMENT_EWAYUK_ORDER_PLACED') . "  " . $trxnresponsemessage;
+				$values->msg = JText::_('PLG_RS_PAYMENT_EWAYUK_ORDER_PLACED') . "  " . $trxnresponsemessage;
 			}
+			else
+			{
+				$values->log = JText::_('PLG_RS_PAYMENT_EWAYUK_ORDER_PLACED');
+				$values->msg = JText::_('PLG_RS_PAYMENT_EWAYUK_ORDER_PLACED');
+			}
+
+			$values->order_id = $order_id;
+			$values->transaction_id = $auth_code;
 		}
 		else
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-		}
 
-		$values->transaction_id = $tid;
-		$values->order_id = $order_id;
+			if ($debug_mode == 1)
+			{
+				$values->log = JText::_('PLG_RS_PAYMENT_EWAYUK_ORDER_NOT_PLACED') . "  " . $trxnresponsemessage;
+				$values->msg = JText::_('PLG_RS_PAYMENT_EWAYUK_ORDER_NOT_PLACED') . "  " . $trxnresponsemessage;
+			}
+			else
+			{
+				$values->log = JText::_('PLG_RS_PAYMENT_EWAYUK_ORDER_NOT_PLACED');
+				$values->msg = JText::_('PLG_RS_PAYMENT_EWAYUK_ORDER_NOT_PLACED');
+			}
+
+			$values->order_id = $order_id;
+			$values->transaction_id = '';
+		}
 
 		return $values;
 	}

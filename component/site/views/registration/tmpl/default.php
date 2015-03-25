@@ -10,44 +10,15 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
+JHtml::_('behavior.calendar');
 $Itemid = JRequest::getInt('Itemid');
 $jinput = JFactory::getApplication()->input;
 $post   = $jinput->getArray($_POST);
 
 $userhelper = new rsUserhelper;
 $rsCarthelper = new rsCarthelper;
-$open_to_stretcher = 0;
 
-if ((isset($post['is_company']) && $post['is_company'] == 1) || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
-{
-	$open_to_stretcher = 1;
-}
-
-// Allow registration type settings
-$allowCustomer = "";
-$allowCompany = "";
-$showCustomerdesc = "";
-$showCompanydesc = "style='display:none;'";
-
-if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
-{
-	$allowCompany      = "style='display:none;'";
-	$open_to_stretcher = 0;
-}
-elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
-{
-	$allowCustomer     = "style='display:none;'";
-	$showCustomerdesc  = "style='display:none;'";
-	$open_to_stretcher = 1;
-}
-
-if (DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
-{
-	$showCompanydesc  = '';
-	$showCustomerdesc = "style='display:none;'";
-}
-
-$is_company = ($open_to_stretcher == 1 || (isset($post['is_company']) && $post['is_company'] == 1)) ? 1 : 0;
+$is_company = $this->lists['is_company'];
 
 if ($this->params->get('show_page_heading', 1))
 {
@@ -62,14 +33,16 @@ if ($this->params->get('show_page_heading', 1))
 }    ?>
 
 <div><span
-		id="customer_registrationintro" <?php echo $showCustomerdesc;
+		id="customer_registrationintro" <?php echo $this->lists['showCustomerdesc'];
 		?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_INTROTEXT'); ?></span><span
-		id="company_registrationintro" <?php echo $showCompanydesc;
+		id="company_registrationintro" <?php echo $this->lists['showCompanydesc'];
 		?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_COMPANY_INTROTEXT'); ?></span>
 </div>
 <table cellpadding="5" cellspacing="0" border="0">
 	<tr>
-		<td><span <?php echo $allowCustomer;?>><h4>
+		<td><span <?php echo $this->lists['allowCustomer'];?>>
+				<h4>
+					<label>
 					<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>account/personal-icon.jpg" align="absmiddle">
 					<input type="radio" onclick="showCompanyOrCustomer(this);" name="togglerchecker" id="toggler1"
 					       class="toggler" <?php
@@ -78,8 +51,11 @@ if ($this->params->get('show_page_heading', 1))
 							?>checked="checked" <?php
 							}
 							?> value="0"/>
-					<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?></h4></span></td>
-		<td><span <?php echo $allowCompany;?>><h4>
+					<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?>
+					</label>
+				</h4></span></td>
+		<td><span <?php echo $this->lists['allowCompany'];?>><h4>
+					<label>
 					<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>account/business-icon.jpg" align="absmiddle">
 					<input type="radio" onclick="showCompanyOrCustomer(this);" name="togglerchecker" id="toggler2"
 					       class="toggler" <?php
@@ -88,7 +64,9 @@ if ($this->params->get('show_page_heading', 1))
 							?>checked="checked" <?php
 							}
 							?> value="1"/>
-					<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?></h4></span></td>
+					<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
+					</label>
+				</h4></span></td>
 	</tr>
 </table>
 

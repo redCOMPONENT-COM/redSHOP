@@ -68,7 +68,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addressInformation($addressDetail)
 	{
 		$I = $this;
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
@@ -100,5 +100,56 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingState, 20);
 		$I->selectOption(\FrontEndProductManagerJoomla3Page::$shippingState, $shippingDetail['state']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
+	}
+
+	/**
+	 * Function to Test Checkout Process of a Product using the Paypal Payment Plugin
+	 *
+	 * @param   Array   $addressDetail        Address Detail
+	 * @param   Array   $shipmentDetail       Shipping Address Detail
+	 * @param   Array   $payPalAccountDetail  PayPal Account Detail
+	 * @param   string  $productName          Name of the Product
+	 * @param   string  $categoryName         Name of the Category
+	 *
+	 * @return void
+	 */
+	public function checkoutProductWithPayPalPayment($addressDetail, $shipmentDetail, $payPalAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	{
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage);
+		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+		$this->addressInformation($addressDetail);
+		$this->shippingInformation($shipmentDetail);
+		$I->click("Proceed");
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
+		$I->click(\PayPalPluginManagerJoomla3Page::$payPalPaymentOptionSelectOnCheckout);
+		$I->click("Checkout");
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->seeElement($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(\PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption);
+		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, 30);
+		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalLoginEmailField, $payPalAccountDetail["email"]);
+		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, $payPalAccountDetail["password"]);
+		$I->click(\PayPalPluginManagerJoomla3Page::$privateComputerField);
+		$I->click(\PayPalPluginManagerJoomla3Page::$submitLoginField);
+		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$payNowField, 30);
+		$I->seeElement(\PayPalPluginManagerJoomla3Page::$payNowField);
+		$I->click(\PayPalPluginManagerJoomla3Page::$payNowField);
+		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
+		$I->seeElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage);
 	}
 }

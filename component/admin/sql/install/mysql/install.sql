@@ -1130,7 +1130,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
 	`username`     VARCHAR(255) NOT NULL,
 	`company_name` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`rating_id`),
-	UNIQUE KEY `product_id` (`product_id`, `userid`),
+	UNIQUE KEY `product_id` (`product_id`, `userid`, `email`),
 	KEY `idx_published` (`published`),
 	KEY `idx_email` (`email`)
 )
@@ -1716,6 +1716,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_usercart_item` (
 	`product_wrapper_id`      INT(11) NOT NULL,
 	`product_subscription_id` INT(11) NOT NULL,
 	`giftcard_id`             INT(11) NOT NULL,
+	`attribs`                 VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item',
 	PRIMARY KEY (`cart_item_id`),
 	KEY `idx_cart_id` (`cart_id`)
 )
