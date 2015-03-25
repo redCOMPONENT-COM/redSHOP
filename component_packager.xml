@@ -103,6 +103,13 @@
         </copy>
 
         <echo msg="Copying main PLUGINS folder to build directory..." />
+        <echo msg="Copying system redshop plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/system/redshop">
+            <fileset dir="${extpath}/plugins/system/redshop">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
         <echo msg="Copying rs_payment_banktransfer plugin" />
         <copy todir="${tmpdir}/${extension}/plugins/redshop_payment/rs_payment_banktransfer">
             <fileset dir="${extpath}/plugins/redshop_payment/rs_payment_banktransfer">

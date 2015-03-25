@@ -16,7 +16,6 @@ JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
 JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperRedshop.js');
 $redhelper = new redhelper;
 
 $option = JRequest::getCmd('option');

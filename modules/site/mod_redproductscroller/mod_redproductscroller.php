@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Getting the configuration in redshop.js.php
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperRedshop.js');
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
