@@ -364,7 +364,15 @@ class modProMenuHelper
 			$nrows = count($row_list);
 		}
 
-		$depth = max($depth_list);
+		if (count($depth_list) > 0)
+		{
+			$depth = max($depth_list);
+		}
+		else
+		{
+			$depth = 0;
+		}
+
 		$sub    = 0;
 
 		// Now show the categories
