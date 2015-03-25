@@ -538,12 +538,14 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function removecompare()
 	{
-		$post = JRequest::get('REQUEST');
+		$input = JFactory::getApplication()->input;
 
 		// Initiallize variable
 		$model = $this->getModel('product');
-		$model->removeCompare($post['pid']);
-		parent::display();
+		$model->removeCompare($input->getInt('id', 0));
+		$Itemid = $input->getInt('Itemid', 0);
+		$msg = JText::_("COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY");
+		$this->setRedirect(JRoute::_("index.php?option=com_redshop&view=product&layout=compare&Itemid=" . $Itemid, false), $msg);
 	}
 
 	/**
