@@ -35,7 +35,9 @@ if (!defined('TABLE_PREFIX'))
 
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperProduct');
 $product_category = new product_category;
+$productHelper = new producthelper;
 
 shRemoveFromGETVarsList('option');
 
@@ -99,19 +101,17 @@ $texpricemin = isset($texpricemin) ? @$texpricemin : null;
 $payment_method_id = isset($payment_method_id) ? @$payment_method_id : null;
 $shipping_rate_id  = isset($shipping_rate_id) ? @$shipping_rate_id : null;
 
-$sql = "SELECT * FROM #__menu WHERE id = '$Itemid' AND link like '%option=com_redshop%' AND link like '%view=$view%'";
-$db->setQuery($sql);
-$menu = $db->loadObject();
-
-if (count($menu) == 0)
+if ($menu = $productHelper->getMenuInformation($Itemid, 0, '', $view))
 {
-	$menu         = new stdClass;
-	$menu->params = '';
-	$menu->title  = '';
+	$myparams = $menu->params;
 }
-
-$myparams = new JRegistry($menu->params);
-
+else
+{
+	$menu        = new stdClass;
+	$menu->title = '';
+	$menu->alias = '';
+	$myparams    = new JRegistry;
+}
 
 // Set redSHOP prefix
 $component_prefix = shGetComponentPrefix('com_redshop');
@@ -141,16 +141,14 @@ switch ($view)
 
 		if ($cid)
 		{
-			$sql = "SELECT sef_url,category_name FROM #__redshop_category WHERE category_id = '$cid'";
-			$db->setQuery($sql);
-			$url = $db->loadObject();
+			$url = RedshopHelperCategory::getCategoryById($cid);
 
 			if ($url->sef_url == "")
 			{
 				if (CATEGORY_TREE_IN_SEF_URL)
 				{
 					$GLOBALS['catlist_reverse'] = array();
-					$cats                       = $product_category->getCategoryListReverceArray($cid);
+					$cats                       = RedshopHelperCategory::getCategoryListReverseArray($cid);
 
 					if (count($cats) > 0)
 					{
@@ -223,9 +221,7 @@ switch ($view)
 	case 'product':
 		if ($pid)
 		{
-			$sql = "SELECT sef_url,product_name,cat_in_sefurl,product_number FROM #__redshop_product WHERE product_id = '$pid'";
-			$db->setQuery($sql);
-			$product = $db->loadObject();
+			$product = RedshopHelperProduct::getProductById($pid);
 
 			$url = trim($product->sef_url);
 
@@ -237,19 +233,25 @@ switch ($view)
 					$where                      = '';
 
 					$cat_in_sefurl = $product->cat_in_sefurl;
+					$category_id = 0;
 
 					if ($cat_in_sefurl > 0)
 					{
 						$where = " AND c.category_id = '$cat_in_sefurl'";
-					}
 
-					$sql = "SELECT c.category_id FROM #__redshop_category c,#__redshop_product_category_xref pc WHERE pc.product_id = '$pid' AND pc.category_id = c.category_id $where";
-					$db->setQuery($sql);
-					$category_id = $db->loadResult();
+						if ($categoryData = RedshopHelperCategory::getCategoryById($cat_in_sefurl))
+						{
+							$category_id = $categoryData->category_id;
+						}
+					}
+					else
+					{
+						$category_id = $product->category_id;
+					}
 
 					if (CATEGORY_TREE_IN_SEF_URL)
 					{
-						$cats = $product_category->getCategoryListReverceArray($category_id);
+						$cats = RedshopHelperCategory::getCategoryListReverseArray($category_id);
 
 						if (count($cats) > 0)
 						{
@@ -263,9 +265,13 @@ switch ($view)
 						}
 					}
 
-					$sql = "SELECT category_name FROM #__redshop_category WHERE category_id = '$category_id'";
-					$db->setQuery($sql);
-					$catname = $db->loadResult();
+					$catname = '';
+
+					if ($categoryData = RedshopHelperCategory::getCategoryById($category_id))
+					{
+						$catname = $categoryData->category_name;
+					}
+
 					$title[] = $catname;
 				}
 
@@ -454,12 +460,9 @@ switch ($view)
 			shRemoveFromGETVarsList('wishlist_id');
 		}
 
-		$sql = "SELECT * FROM `#__redshop_product` WHERE product_id = '$pid'";
-		$db->setQuery($sql);
-		$product = $db->loadObject();
-
 		if ($pid)
 		{
+			$product = RedshopHelperProduct::getProductById($pid);
 			$title[] = $product->product_name;
 			shRemoveFromGETVarsList('pid');
 		}
@@ -508,6 +511,7 @@ switch ($view)
 					$title[] = $infoid;
 					shRemoveFromGETVarsList('infoid');
 				}
+				break;
 
 			default:
 				$title[] = $sh_LANG[$shLangIso]['_REDSHOP_ACCOUNT_SHIPTO'];
