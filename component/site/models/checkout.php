@@ -449,7 +449,7 @@ class RedshopModelCheckout extends RedshopModel
 			$values['billinginfo']    = $d['billingaddress'];
 			$values['order_total']    = $order_total;
 			$values['order_subtotal'] = $order_subtotal;
-			$values["order_id"]       = $order_id;
+			$values["order_id"]       = $app->input->get('order_id', $row->order_id);
 			$values['payment_plugin'] = $paymentmethod->element;
 			$values['odiscount']      = $odiscount;
 			$paymentResponses         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
