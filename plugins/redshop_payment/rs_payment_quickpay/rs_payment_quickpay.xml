@@ -47,6 +47,16 @@
                     <option value="1">Percentage</option>
                     <option value="0">Total</option>
                 </field>
+                <field
+                  name="sendOrderId"
+                  type="radio"
+                  default="1"
+                  label="PLG_RS_PAYMENT_QUICKPAY_SEND_ORDER_ID"
+                  description="PLG_RS_PAYMENT_QUICKPAY_SEND_ORDER_ID_DESC"
+                >
+                    <option value="1">PLG_RS_PAYMENT_QUICKPAY_ORDER_ID</option>
+                    <option value="0">PLG_RS_PAYMENT_QUICKPAY_ORDER_NUMBER</option>
+                </field>
                 <field name="is_test" type="radio" default="1" label="Test Mode"
                        description="Set testmode to yes / no">
                     <option value="1">Yes</option>
