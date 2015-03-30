@@ -1397,6 +1397,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post['cat_in_sefurl'] = $pdata->cat_in_sefurl;
 				$post['weight'] = $pdata->weight;
 				$post['expired'] = $pdata->expired;
+				$post['sef_url'] = $pdata->sef_url;
+				$post['canonical_url'] = $pdata->canonical_url;
 				$post['product_category'] = $copycategory;
 				$post['related_product'] = $copyrelatedproduct;
 				$post['quantity'] = $copyquantity;
@@ -1419,8 +1421,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$post['visited'] = 0;
 			$post['checked_out'] = 0;
 			$post['checked_out_time'] = '0000-00-00 00:00:00';
-			$post['sef_url'] = $this->renameToUniqueValue('sef_url', $post['sef_url'], 'dash');
-			$post['canonical_url'] = $this->renameToUniqueValue('canonical_url', $post['canonical_url'], 'dash');
+
+			if (isset($post['sef_url']) && $post['sef_url'] != '')
+			{
+				$post['sef_url'] = $this->renameToUniqueValue('sef_url', $post['sef_url'], 'dash');
+			}
+
+			if (isset($post['canonical_url']) && $post['canonical_url'] != '')
+			{
+				$post['canonical_url'] = $this->renameToUniqueValue('canonical_url', $post['canonical_url'], 'dash');
+			}
 
 			$new_product_thumb_image = $this->changeCopyImageName($post['product_thumb_image']);
 			$new_product_full_image = $this->changeCopyImageName($post['product_full_image']);
