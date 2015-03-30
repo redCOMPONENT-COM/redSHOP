@@ -907,6 +907,11 @@ class Com_RedshopInstallerScript
 			$cfgarr["RATING_REVIEW_LOGIN_REQUIRED"] = '1';
 		}
 
+		if (!defined("CATEGORY_TREE_IN_SEF_URL"))
+		{
+			$cfgarr["CATEGORY_TREE_IN_SEF_URL"] = '0';
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 
