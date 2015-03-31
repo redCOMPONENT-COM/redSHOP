@@ -41,8 +41,8 @@ class StockImageManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($stockImageManagerPage->stockAmount($stockAmount), 30);
 		$I->click($stockImageManagerPage->stockAmount($stockAmount));
 		$I->click('Save & Close');
-		$I->waitForText(\StockImageManagerJoomla3Page::$stockImageSuccessMessage, 60);
-		$I->see(\StockImageManagerJoomla3Page::$stockImageSuccessMessage);
+		$I->waitForText(\StockImageManagerJoomla3Page::$stockImageSuccessMessage, 60, '.alert-success');
+		$I->see(\StockImageManagerJoomla3Page::$stockImageSuccessMessage, '.alert-success');
 		$I->click('ID');
 		$I->see($imageToolTip, \StockImageManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
@@ -68,8 +68,8 @@ class StockImageManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\StockImageManagerJoomla3Page::$stockImageToolTip, 30);
 		$I->fillField(\StockImageManagerJoomla3Page::$stockImageToolTip, $updateToolTip);
 		$I->click('Save & Close');
-		$I->waitForText(\StockImageManagerJoomla3Page::$stockImageSuccessMessage);
-		$I->see(\StockImageManagerJoomla3Page::$stockImageSuccessMessage);
+		$I->waitForText(\StockImageManagerJoomla3Page::$stockImageSuccessMessage, 60, '.alert-success');
+		$I->see(\StockImageManagerJoomla3Page::$stockImageSuccessMessage, '.alert-success');
 		$I->see($updateToolTip, \StockImageManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}
