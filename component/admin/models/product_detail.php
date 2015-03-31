@@ -1457,7 +1457,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 						if (!$db->setQuery($query)->execute())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
