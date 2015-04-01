@@ -5,8 +5,8 @@ namespace Joomla\Tests;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-use Codeception\Event\SuiteEvent;
 use Codeception\Events;
+use Codeception\Event\SuiteEvent;
 use Codeception\Event\TestEvent;
 
 class TestsPerformance extends \Codeception\Platform\Extension
@@ -37,7 +37,7 @@ class TestsPerformance extends \Codeception\Platform\Extension
 		// stack overflow: http://stackoverflow.com/questions/16825240/how-to-convert-microtime-to-hhmmssuu
 		$seconds_input = $e->getTime();
 		$seconds = (int)($milliseconds = (int)($seconds_input * 1000)) / 1000;
-		$time    = ($seconds % 60) . (($milliseconds === 0) ? '' : '.' . $milliseconds);
+		$time    = ($seconds % 60);
 
 		$test->time = $time;
 
@@ -47,12 +47,12 @@ class TestsPerformance extends \Codeception\Platform\Extension
 	public function afterSuite(SuiteEvent $e)
 	{
 		$this->writeln("");
-		$this->writeln("Tests Performance Times:");
-		$this->writeln("-----------------------");
+		$this->writeln("Tests Performance times");
+		$this->writeln("------------------------------------------");
 
 		foreach (self::$testTimes as $test)
 		{
-			$this->writeln($test->name . ' = ' . $test->time . ' s');
+			$this->writeln(str_pad($test->name, 35) . ' ' . $test->time . 's');
 		}
 	}
 }
