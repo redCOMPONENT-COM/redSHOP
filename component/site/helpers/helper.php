@@ -23,6 +23,8 @@ class redhelper
 
 	protected static $isRedProductFinder = null;
 
+	protected static $checkMenuQuery = array();
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -200,17 +202,34 @@ class redhelper
 	 */
 	public function checkMenuQuery($oneMenuItem, $queryItems)
 	{
+		$menuItem = serialize($oneMenuItem->query);
+		$queryItem = serialize($queryItems);
+
+		if (isset(self::$checkMenuQuery[$menuItem][$queryItem]))
+		{
+			return self::$checkMenuQuery[$menuItem][$queryItem];
+		}
+
+		if (!isset(self::$checkMenuQuery[$menuItem]))
+		{
+			self::$checkMenuQuery[$menuItem] = array();
+		}
+
+		self::$checkMenuQuery[$menuItem][$queryItem] = true;
+
 		foreach ($queryItems as $key => $value)
 		{
 			if (!isset($oneMenuItem->query[$key])
 				|| (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
 				|| $oneMenuItem->query[$key] != $value)
 			{
-				return false;
+				self::$checkMenuQuery[$menuItem][$queryItem] = false;
+
+				break;
 			}
 		}
 
-		return true;
+		return self::$checkMenuQuery[$menuItem][$queryItem];
 	}
 
 	/**
@@ -236,20 +255,18 @@ class redhelper
 
 		if ($productId)
 		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('category_id')
-				->from($db->qn('#__redshop_product_category_xref', 'cx'))
-				->where('product_id = ' . (int) $productId);
-			$db->setQuery($query);
+			$product = RedshopHelperProduct::getProductById($productId);
 
-			if ($categories = $db->loadColumn())
+			if ($product && is_array($product->categories))
 			{
-				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+				foreach ($product->categories as $oneCategory)
 				{
-					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categories)))
+					foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 					{
-						return $oneMenuItem->id;
+						if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $oneCategory)))
+						{
+							return $oneMenuItem->id;
+						}
 					}
 				}
 			}

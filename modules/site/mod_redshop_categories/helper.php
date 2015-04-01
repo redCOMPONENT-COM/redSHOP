@@ -274,14 +274,14 @@ class modProMenuHelper
 
 	function products_in_category($category_id, $params = '')
 	{
-		global $urlpath;
 		$db = JFactory::getDbo();
 
 		$show_noofproducts = $params->get('show_noofproducts', 'yes');
-		$num               = $this->product_count($category_id);
 
 		if ($show_noofproducts == 'yes')
 		{
+			$num = $this->product_count($category_id);
+
 			if (empty($num) || $this->has_childs($category_id))
 			{
 				$q = "SELECT category_child_id FROM #__redshop_category_xref ";

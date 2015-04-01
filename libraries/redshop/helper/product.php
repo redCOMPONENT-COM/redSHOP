@@ -97,6 +97,14 @@ class RedshopHelperProduct
 		$query->select(array('pc.category_id'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id');
 
+		// Select categories
+		$subQuery = $db->getQuery(true)
+			->select('GROUP_CONCAT(DISTINCT pc2.category_id SEPARATOR ' . $db->q(',') . ')')
+			->from($db->qn('#__redshop_product_category_xref', 'pc2'))
+			->where('pc2.product_id = p.product_id');
+
+		$query->select('(' . $subQuery . ') AS categories');
+
 		// Select media
 		$query->select(array('media.media_alternate_text', 'media.media_id'))
 			->leftJoin(
@@ -183,6 +191,7 @@ class RedshopHelperProduct
 				$keys[] = $product->product_id;
 				self::$products[$product->product_id . '.' . $userId]->attributes = array();
 				self::$products[$product->product_id . '.' . $userId]->extraFields = array();
+				self::$products[$product->product_id . '.' . $userId]->categories = explode(',', $product->categories);
 			}
 		}
 
