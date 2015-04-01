@@ -22,21 +22,6 @@
 	<config addfieldpath="/administrator/components/com_redshop/elements">
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="payment_oprand" type="text" size="10" default="-"
-					   label="PLG_RS_PAYMENT_INGENICO_PAYMENT_OPRAND_LBL"/>
-				<field name="payment_price" type="text" size="30" default=""
-					   label="PLG_RS_PAYMENT_INGENICO_PAYMENT_PRICE_LBL"/>
-				<field name="debug_mode" type="radio" default="1" label="PLG_RS_PAYMENT_INGENICO_DEBUG_MODE_LBL"
-					   class="btn-group btn-group-yesno">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field name="payment_discount_is_percent" type="radio" default="1"
-					   class="btn-group"
-					   label="PLG_RS_PAYMENT_INGENICO_PAYMENT_DISCOUNT_IS_PERCENT_LBL">
-					<option value="1">PLG_RS_PAYMENT_INGENICO_PERCENTAGE</option>
-					<option value="0">PLG_RS_PAYMENT_INGENICO_TOTAL</option>
-				</field>
 				<field name="is_test" type="list" default="1" label="PLG_RS_PAYMENT_INGENICO_IS_TEST_LBL"
 					   description="PLG_RS_PAYMENT_INGENICO_IS_TEST_DESC">
 					<option value="1">JYES</option>
@@ -50,8 +35,13 @@
 					   label="PLG_RS_PAYMENT_INGENICO_SHA_IN_PASS_PHRASE_LBL"/>
 				<field name="sha_out_pass_phrase" type="text" size="30" default=""
 					   label="PLG_RS_PAYMENT_INGENICO_SHA_OUT_PASS_PHRASE_LBL"/>
-				<field name="opreation_mode" type="list" default="SAL"
-					   label="PLG_RS_PAYMENT_INGENICO_OPREATION_MODE_LBL">
+				<field
+					name="opreation_mode"
+					type="radio"
+					class="btn-group"
+					default="SAL"
+					label="PLG_RS_PAYMENT_INGENICO_OPREATION_MODE_LBL"
+				>
 					<option value="RES">PLG_RS_PAYMENT_INGENICO_AUTHORIZE_ONLY</option>
 					<option value="SAL">PLG_RS_PAYMENT_INGENICO_SALE</option>
 				</field>
@@ -79,6 +69,8 @@
 					<option value="fr_CA">PLG_RS_PAYMENT_INGENICO_FRENCH_CANADA</option>
 					<option value="es_LA">PLG_RS_PAYMENT_INGENICO_SPANISH</option>
 				</field>
+			</fieldset>
+			<fieldset name="advanced">
 				<field name="verify_status" type="sql"
 					   query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
 					   key_field="st_value" value_field="st_title" default="C"
@@ -97,9 +89,16 @@
 					   label="PLG_RS_PAYMENT_INGENICO_CAPTURE_STATUS_LBL"
 					   description="PLG_RS_PAYMENT_INGENICO_CAPTURE_STATUS_DESC">
 				</field>
-				<field type="spacer"/>
-			</fieldset>
-			<fieldset name="advanced">
+				<field name="payment_oprand" type="text" size="10" default="-"
+					   label="PLG_RS_PAYMENT_INGENICO_PAYMENT_OPRAND_LBL"/>
+				<field name="payment_price" type="text" size="30" default=""
+					   label="PLG_RS_PAYMENT_INGENICO_PAYMENT_PRICE_LBL"/>
+				<field name="payment_discount_is_percent" type="radio" default="1"
+					   class="btn-group"
+					   label="PLG_RS_PAYMENT_INGENICO_PAYMENT_DISCOUNT_IS_PERCENT_LBL">
+					<option value="1">PLG_RS_PAYMENT_INGENICO_PERCENTAGE</option>
+					<option value="0">PLG_RS_PAYMENT_INGENICO_TOTAL</option>
+				</field>
 				<field name="private_person" type="radio" default="1"
 					   class="btn-group btn-group-yesno"
 					   label="PLG_RS_PAYMENT_INGENICO_PRIVATE_PERSON_LBL">
