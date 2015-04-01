@@ -101,6 +101,8 @@ class RedshopModelUpdate extends RedshopModel
 	{
 		if (array_key_exists('engine', $values))
 		{
+			$app = JFactory::getApplication();
+			$tableName = str_replace('#__', $app->get('dbprefix'), $tableName);
 			$db = JFactory::getDbo();
 			$db->setQuery('SHOW TABLE STATUS WHERE Name = ' . $db->q($tableName));
 			$result = $db->loadObject();
@@ -131,16 +133,21 @@ class RedshopModelUpdate extends RedshopModel
 
 		try
 		{
+			// Count all indexes needed
 			$count = count(RedshopUpdate::$tablesRelates);
 			$db->transactionStart();
 
 			// Check tables engines
 			foreach (RedshopUpdate::$tablesRelates as $tableName => $values)
 			{
-				$counter++;
-
 				if (!$this->checkEngine($tableName, $values))
 				{
+					if (microtime(1) - $start >= $maxTime)
+					{
+						$goToNextPart = true;
+						continue;
+					}
+
 					$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ENGINE = ' . $db->q($values['engine']));
 
 					if (!$db->execute())
@@ -148,13 +155,12 @@ class RedshopModelUpdate extends RedshopModel
 						throw new Exception($db->getErrorMsg());
 					}
 
+					$counter++;
 					$queryExecuted++;
-
-					if (microtime(1) - $start >= $maxTime)
-					{
-						$goToNextPart = true;
-						break;
-					}
+				}
+				else
+				{
+					$counter++;
 				}
 			}
 
@@ -164,28 +170,30 @@ class RedshopModelUpdate extends RedshopModel
 				{
 					$count += count($values['index']);
 
-					if (!$goToNextPart)
+					foreach ($values['index'] as $key => $oneIndex)
 					{
-						foreach ($values['index'] as $key => $oneIndex)
+						if (microtime(1) - $start >= $maxTime)
 						{
-							if (!$this->checkIndex($tableName, $key))
+							$goToNextPart = true;
+							continue;
+						}
+
+						if (!$this->checkIndex($tableName, $key))
+						{
+							$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
+							$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD INDEX ' . $db->qn($key) . ' (' . $indexFields . ')');
+
+							if (!$db->execute())
 							{
-								$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
-								$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD INDEX ' . $db->qn($key) . ' (' . $indexFields . ')');
-
-								if (!$db->execute())
-								{
-									throw new Exception($db->getErrorMsg());
-								}
-
-								$queryExecuted++;
+								throw new Exception($db->getErrorMsg());
 							}
 
-							if (microtime(1) - $start >= $maxTime)
-							{
-								$goToNextPart = true;
-								break;
-							}
+							$queryExecuted++;
+							$counter++;
+						}
+						else
+						{
+							$counter++;
 						}
 					}
 				}
@@ -194,28 +202,30 @@ class RedshopModelUpdate extends RedshopModel
 				{
 					$count += count($values['unique']);
 
-					if (!$goToNextPart)
+					foreach ($values['unique'] as $key => $oneIndex)
 					{
-						foreach ($values['unique'] as $key => $oneIndex)
+						if (!$this->checkIndex($tableName, $key))
 						{
-							if (!$this->checkIndex($tableName, $key))
-							{
-								$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
-								$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD UNIQUE ' . $db->qn($key) . ' (' . $indexFields . ')');
-
-								if (!$db->execute())
-								{
-									throw new Exception($db->getErrorMsg());
-								}
-
-								$queryExecuted++;
-							}
-
 							if (microtime(1) - $start >= $maxTime)
 							{
 								$goToNextPart = true;
-								break;
+								continue;
 							}
+
+							$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
+							$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD UNIQUE ' . $db->qn($key) . ' (' . $indexFields . ')');
+
+							if (!$db->execute())
+							{
+								throw new Exception($db->getErrorMsg());
+							}
+
+							$counter++;
+							$queryExecuted++;
+						}
+						else
+						{
+							$counter++;
 						}
 					}
 				}
