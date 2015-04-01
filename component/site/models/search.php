@@ -1105,7 +1105,7 @@ class RedshopModelSearch extends RedshopModel
 		$module      = JModuleHelper::getModule('redshop_search');
 		$params      = new JRegistry($module->params);
 		$limit       = $params->get('noofsearchresults');
-		$keyword     = JRequest::getCmd('input');
+		$keyword     = JRequest::getString('keyword');
 		$search_type = JRequest::getCmd('search_type');
 		$db = JFactory::getDbo();
 
