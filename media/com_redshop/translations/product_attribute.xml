@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contentelement type="contentelement">
+    <name>Redshop Product Attribute</name>
+    <author>redCOMPONENT</author>
+    <copyright>Copyright (C) 2008 - 2014 redCOMPONENT.com. All rights reserved.</copyright>
+    <version>1.1.0</version>
+    <description>Translation definition for Redshop Product Attribute</description>
+    <reference>
+        <table name="redshop_product_attribute">
+            <field type="referenceid" name="attribute_id" translate="0">ID</field>
+            <field type="titletext" name="attribute_name" translate="1" >Name</field>
+        </table>
+        <component>
+            <form>com_redshop#product_attribute_detail#cid#task#!edit</form>
+        </component>
+    </reference>
+</contentelement>
