@@ -55,7 +55,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForText('Order Receipt', 10, \FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
- 		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
+		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 	}
 
 	/**
@@ -125,8 +125,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage);
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
+		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
