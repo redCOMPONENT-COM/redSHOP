@@ -140,8 +140,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$portal = $sgportal->shopper_group_portal;
 		}
 
-		if ((PORTAL_SHOP == 1 && $checkcid == "")
-			|| ($portal == 1 && $checkcid == ""))
+		if ('' == $checkcid && (PORTAL_SHOP == 1 || $portal == 1))
 		{
 			continue;
 		}
