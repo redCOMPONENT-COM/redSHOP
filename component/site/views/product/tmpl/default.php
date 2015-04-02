@@ -1861,8 +1861,6 @@ function setZoomImagepath(elm) {
 	imageName = imageName[0].replace(/_w\d+_h\d+/, '');
 	var imageurl;
 
-	console.log(imageName);
-
 	if (/MSIE[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
 		elmfilenamepath = decodeURI(elmfilenamepath);
 		if (elmfilenamepath != imageName[0]) {
