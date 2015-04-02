@@ -1282,6 +1282,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function copy($cid = array(), $postMorePriority = false)
 	{
 		$row = null;
+		$db = JFactory::getDbo();
 
 		if (count($cid))
 		{
@@ -1312,16 +1313,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				for ($i = 0; $i < count($categorydata); $i++)
 				{
 					$copycategory[$i] = $categorydata[$i]->category_id;
-				}
-
-				$query = 'SELECT related_id FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $pdata->product_id . ' )';
-				$this->_db->setQuery($query);
-				$relatedproductdata = $this->_db->loadObjectList();
-				$copyrelatedproduct = '';
-
-				for ($i = 0; $i < count($relatedproductdata); $i++)
-				{
-					$copyrelatedproduct .= $relatedproductdata[$i]->related_id;
 				}
 
 				$query = 'SELECT stockroom_id,quantity FROM ' . $this->table_prefix . 'product_stockroom_xref
@@ -1397,8 +1388,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post['cat_in_sefurl'] = $pdata->cat_in_sefurl;
 				$post['weight'] = $pdata->weight;
 				$post['expired'] = $pdata->expired;
+				$post['sef_url'] = $pdata->sef_url;
+				$post['canonical_url'] = $pdata->canonical_url;
 				$post['product_category'] = $copycategory;
-				$post['related_product'] = $copyrelatedproduct;
 				$post['quantity'] = $copyquantity;
 				$post['stockroom_id'] = $copystockroom;
 				$post['product_accessory'] = $copyaccessory;
@@ -1419,8 +1411,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$post['visited'] = 0;
 			$post['checked_out'] = 0;
 			$post['checked_out_time'] = '0000-00-00 00:00:00';
-			$post['sef_url'] = $this->renameToUniqueValue('sef_url', $post['sef_url'], 'dash');
-			$post['canonical_url'] = $this->renameToUniqueValue('canonical_url', $post['canonical_url'], 'dash');
+
+			if (isset($post['sef_url']) && $post['sef_url'] != '')
+			{
+				$post['sef_url'] = $this->renameToUniqueValue('sef_url', $post['sef_url'], 'dash');
+			}
+
+			if (isset($post['canonical_url']) && $post['canonical_url'] != '')
+			{
+				$post['canonical_url'] = $this->renameToUniqueValue('canonical_url', $post['canonical_url'], 'dash');
+			}
 
 			$new_product_thumb_image = $this->changeCopyImageName($post['product_thumb_image']);
 			$new_product_full_image = $this->changeCopyImageName($post['product_full_image']);
@@ -1438,6 +1438,31 @@ class RedshopModelProduct_Detail extends RedshopModel
 				copy($path . $pdata->product_preview_back_image, $path . $new_product_preview_back_image);
 				copy($path . $pdata->product_back_full_image, $path . $new_product_back_full_image);
 				copy($path . $pdata->product_back_thumb_image, $path . $new_product_back_thumb_image);
+
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_product_related'))
+					->where('product_id = ' . (int) $pdata->product_id);
+				$relatedProductData = $db->setQuery($query)->loadObjectList();
+
+				if ($relatedProductData)
+				{
+					foreach ($relatedProductData as $relatedData)
+					{
+						$query = $db->getQuery(true)
+							->insert($db->qn('#__redshop_product_related'))
+							->set('related_id = ' . (int) $relatedData->related_id)
+							->set('product_id = ' . (int) $row->product_id)
+							->set('ordering = ' . (int) $relatedData->ordering);
+
+						if (!$db->setQuery($query)->execute())
+						{
+							$this->setError($db->getErrorMsg());
+
+							return false;
+						}
+					}
+				}
 
 				$field = new extra_field;
 

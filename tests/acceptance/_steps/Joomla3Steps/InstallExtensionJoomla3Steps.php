@@ -34,8 +34,8 @@ class InstallExtensionJoomla3Steps extends \AcceptanceTester
 		$I->click('Install from Directory');
 		$I->fillField(\ExtensionManagerJoomla3Page::$extensionDirectoryPath, $config['folder']);
 		$I->click(\ExtensionManagerJoomla3Page::$installButton);
-		$I->waitForText(\ExtensionManagerJoomla3Page::$installSuccessMessage, 60);
-		$I->see(\ExtensionManagerJoomla3Page::$installSuccessMessage);
+		$I->waitForText(\ExtensionManagerJoomla3Page::$installSuccessMessage, 60, '.alert-success');
+		$I->see(\ExtensionManagerJoomla3Page::$installSuccessMessage, '.alert-success');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class InstallExtensionJoomla3Steps extends \AcceptanceTester
 		if ($config['install_extension_demo_data'] == 'yes')
 		{
 			$I->click(\ExtensionManagerJoomla3Page::$installDemoContent);
-			$I->waitForText(\ExtensionManagerJoomla3Page::$demoDataInstallSuccessMessage, 30);
+			$I->waitForText(\ExtensionManagerJoomla3Page::$demoDataInstallSuccessMessage, 30, '.alert-success');
 		}
 	}
 }
