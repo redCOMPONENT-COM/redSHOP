@@ -98,7 +98,7 @@ class TestsPerformance extends \Codeception\Platform\Extension
 	{
 		$this->writeln("");
 		$this->writeln("Tests Performance times");
-		$this->writeln("------------------------------------------");
+		$this->writeln("-----------------------------------------------");
 
 		foreach (self::$testTimes as $test)
 		{
@@ -106,11 +106,13 @@ class TestsPerformance extends \Codeception\Platform\Extension
 		}
 
 		$this->writeln("");
-		$this->writeln("Not Performant Steps");
-		$this->writeln("------------------------------------------");
+		$this->writeln("");
+		$this->writeln("Non Performant Steps (Steps taking more than " . self::$maxStepPerformantTime . "s)");
+		$this->writeln("-----------------------------------------------");
 		foreach (self::$notPerformantStepsByTest as $testname => $steps)
 		{
-			$this->writeln("  Test: " . $testname);
+			$this->writeln("");
+			$this->writeln("  TEST: " . $testname);
 			$this->writeln("  ------------------------------------------");
 			foreach ($steps as $step)
 			{
