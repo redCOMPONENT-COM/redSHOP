@@ -1858,18 +1858,21 @@ function setZoomImagepath(elm) {
 	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;
 	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
 	var imageName = filenamepath.split('&');
+	imageName = imageName[0].replace(/_w\d+_h\d+/, '');
 	var imageurl;
+
+	console.log(imageName);
 
 	if (/MSIE[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
 		elmfilenamepath = decodeURI(elmfilenamepath);
 		if (elmfilenamepath != imageName[0]) {
-			imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
+			imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName;
 			elm.href = imageurl;
 		}
 	}
 	else {
 		if (elmfilenamepath != imageName[0]) {
-			imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
+			imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName;
 			elm.href = imageurl;
 		}
 	}
