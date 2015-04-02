@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contentelement type="contentelement">
+    <name>Productfinder Tags</name>
+    <author>redCOMPONENT</author>
+    <copyright>Copyright (C) 2008 - 2014 redCOMPONENT.com. All rights reserved.</copyright>
+    <version>1.1.0</version>
+    <description>Translation definition for Productfinder Tag</description>
+    <reference>
+        <table name="redproductfinder_tags">
+            <field type="referenceid" name="id" translate="0">ID</field>
+            <field type="titletext" name="tag_name" translate="1" >Tag Name</field>
+            <field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
+            <field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
+        </table>
+        <component>
+            <form>com_redproductfinder#tags#cid#task#!edit</form>
+        </component>
+    </reference>
+</contentelement>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" ?>
+<falang type="contentelement">
+  <name>redSHOP : Manufacturers</name>
+  <author>Stéphane Bouey</author>
+  <copyright>www.faboba.com</copyright>
+  <version>1.0</version>
+  <description>Definition for redSHOP component, "Manufacturer" section</description>
+  <reference>
+  	<table name="redshop_manufacturer">
+  		<field type="referenceid" name="manufacturer_id" translate="0">ID</field>
+  		<field type="titletext" name="manufacturer_name" translate="1">Manufacturer Name</field>
+  		<field type="htmltext" name="manufacturer_desc" translate="1">Manufacturer Description</field>
+  	</table>
+  
+    <component>
+        <form>com_redshop#redshop_manufacturer#cid#view#manufacturer#task#!edit</form>
+  	</component>
+    
+  </reference>
+
+</falang>

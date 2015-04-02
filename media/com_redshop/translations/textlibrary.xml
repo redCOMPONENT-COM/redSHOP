@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contentelement type="contentelement">
+    <name>Redshop Text Library</name>
+    <author>redCOMPONENT</author>
+    <copyright>Copyright (C) 2008 - 2014 redCOMPONENT.com. All rights reserved.</copyright>
+    <version>1.1.0</version>
+    <description>Translation definition for Redshop Text Library</description>
+    <reference>
+        <table name="redshop_textlibrary">
+            <field type="referenceid" name="textlibrary_id" translate="0">ID</field>
+            <field type="htmltext" name="text_field" translate="1" ebuttons="readmore,pagebreak" >Text Tag Content</field>
+        </table>
+        <component>
+            <form>com_redshop#textlibrary_detail#cid#task#!edit</form>
+        </component>
+    </reference>
+</contentelement>
