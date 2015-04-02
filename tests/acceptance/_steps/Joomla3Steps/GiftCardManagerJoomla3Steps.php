@@ -41,7 +41,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
 		$I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
 		$I->click('Save & Close');
-		$I->see('Gift Card Saved');
+		$I->see('Gift Card Saved', '.alert-success');
 		$I->click('ID');
 		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
 		$I->click('ID');
@@ -67,7 +67,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\GiftCardManagerPage::$giftCardName);
 		$I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
 		$I->click('Save & Close');
-		$I->see('Gift Card Saved');
+		$I->see('Gift Card Saved', '.alert-success');
 		$I->see($newCardName, \GiftCardManagerPage::$giftCardResultRow);
 		$I->click('ID');
 	}

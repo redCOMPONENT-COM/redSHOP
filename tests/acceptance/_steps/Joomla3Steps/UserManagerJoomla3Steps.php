@@ -52,8 +52,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
 		$I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
 		$I->click('Save & Close');
-		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60);
-		$I->see(\UserManagerJoomla3Page::$userSuccessMessage);
+		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, '.alert-success');
+		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, '.alert-success');
 		$I->click('ID');
 		$I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
@@ -80,8 +80,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\UserManagerJoomla3Page::$firstName, $updatedName);
 		$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 		$I->click('Save & Close');
-		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage);
-		$I->see(\UserManagerJoomla3Page::$userSuccessMessage);
+		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, '.alert-success');
+		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, '.alert-success');
 		$I->see($updatedName, \UserManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}
