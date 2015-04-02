@@ -34,8 +34,8 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
 		$I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $manufacturerName);
 		$I->click('Save & Close');
-		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, 60);
-		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage);
+		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, 60, '.alert-success');
+		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, '.alert-success');
 		$I->click('ID');
 		$I->click('ID');
 		$I->see($manufacturerName, \ManufacturerManagerJoomla3Page::$firstResultRow);
@@ -63,8 +63,8 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Edit Page');
 		$I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $updatedName);
 		$I->click('Save & Close');
-		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, 60);
-		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage);
+		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, 60, '.alert-success');
+		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, '.alert-success');
 		$I->see($updatedName, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		$I->click('ID');
 	}
