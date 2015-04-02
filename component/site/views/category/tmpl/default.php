@@ -147,9 +147,6 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		$data_add = $middletemplate_desc;
 
-		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
-		$data_add  = str_replace("{read_more}", $read_more, $data_add);
-
 		$cItemid = $objhelper->getCategoryItemid($row->category_id);
 
 		if ($cItemid != "")
@@ -229,6 +226,9 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		 * "2" argument is set for category
 		 */
 		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
+
+		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+		$data_add  = str_replace("{read_more}", $read_more, $data_add);
 
 		$cat_detail .= $data_add;
 	}
