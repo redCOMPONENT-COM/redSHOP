@@ -42,8 +42,8 @@ class CountryManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->fillField(\CountryManagerPage::$countryTwoCode, $twoCode);
 		$I->fillField(\CountryManagerPage::$country, $country);
 		$I->click('Save & Close');
-		$I->waitForText('Country Management');
-		$I->see('Country detail saved');
+		$I->waitForText('Country Management', 10, 'h2');
+		$I->see('Country detail saved', "//div[@id='system-message-container']//dl//dd[@class='message message']");
 		$I->click('ID');
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
 		$I->click('ID');
@@ -69,8 +69,8 @@ class CountryManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Edit View');
 		$I->fillField(\CountryManagerPage::$countryName, $newCountryName);
 		$I->click('Save & Close');
-		$I->waitForText('Country Management');
-		$I->see('Country detail saved');
+		$I->waitForText('Country Management', 10, 'h2');
+		$I->see('Country detail saved', "//div[@id='system-message-container']//dl//dd[@class='message message']");
 		$I->click('ID');
 	}
 
@@ -116,7 +116,7 @@ class CountryManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
 		$I->click(\CountryManagerPage::$countryCheck);
 		$I->click('Delete');
-		$I->see('Country detail deleted successfully');
+		$I->see('Country detail deleted successfully', "//div[@id='system-message-container']//dl//dd[@class='message message']");
 		$I->dontSee($countryName, \CountryManagerPage::$countryResultRow);
 		$I->click('ID');
 	}
