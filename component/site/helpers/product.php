@@ -1175,7 +1175,7 @@ class producthelper
 
 		$commonid = ($suffixid) ? $product_id . '_' . $suffixid : $product_id;
 
-		if ($Product_detail_is_light != 2 && $Product_detail_is_light != 1 && !MAGIC_MAGNIFYPLUS)
+		if ($Product_detail_is_light != 2 && $Product_detail_is_light != 1)
 		{
 			$thum_image = "<img id='main_image" . $commonid . "' src='" . $product_img . "' " . $title . $alt . " />";
 		}
@@ -1184,12 +1184,6 @@ class producthelper
 			if ($Product_detail_is_light == 1)
 			{
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' rel=\"myallimg\">";
-			}
-			elseif (MAGIC_MAGNIFYPLUS)
-			{
-				$cat_product_hover = false;
-				$thum_image        = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage
-					. "' class='MagicMagnifyPlus'>";
 			}
 			elseif (PRODUCT_IS_LIGHTBOX == 1)
 			{
