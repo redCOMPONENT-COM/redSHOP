@@ -1422,6 +1422,7 @@ class producthelper
 		$price_excluding_vat                     = '';
 		$display_product_discount_price          = '';
 		$display_product_old_price               = '';
+		$product_price_percent_discount          = '';
 		$display_product_price_saving            = '';
 		$display_product_price_saving_percentage = '';
 		$display_product_price_novat             = '';
@@ -1482,6 +1483,7 @@ class producthelper
 			$product_vat_lbl                = $ProductPriceArr['product_vat_lbl'];
 
 			$display_product_old_price      = $product_old_price;
+			$product_price_percent_discount = ($ProductPriceArr['product_discount_price'] / $ProductPriceArr['product_old_price']) * 100;
 			$display_product_discount_price = $product_discount_price;
 			$display_product_price_saving   = $product_price_saving;
 			$display_product_price_novat    = $product_price_novat;
@@ -1544,11 +1546,23 @@ class producthelper
 		{
 			$data_add = str_replace("{" . $relPrefix . "product_old_price}", $display_product_old_price, $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_old_price_lbl}", $product_old_price_lbl, $data_add);
+			$data_add = str_replace(
+				"{" . $relPrefix . "product_price_percent_discount}",
+				'<span id="display_product_saving_price_percentage' . $product_id . '">'
+				. JText::sprintf('COM_REDSHOP_PRODUCT_PRICE_PERCENT_DISCOUNT_LBL', round($product_price_percent_discount))
+				. '</span>',
+				$data_add
+			);
 		}
 		else
 		{
 			$data_add = str_replace("{" . $relPrefix . "product_old_price}", '', $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_old_price_lbl}", '', $data_add);
+			$data_add = str_replace(
+				"{" . $relPrefix . "product_price_percent_discount}",
+				'',
+				$data_add
+			);
 		}
 
 		$product_old_price_excl_vat = '<span id="display_product_old_price' . $product_id . '">' . $product_old_price_excl_vat . '</span>';
