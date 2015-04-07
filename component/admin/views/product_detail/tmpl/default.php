@@ -184,12 +184,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_INFORMATION'), 'produc
 echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FIELDS'), 'productTab3');
 ?>
 <?php if ($this->detail->product_template != 0) : ?>
-	<fieldset class="adminform">
-		<legend>
-			<?php echo JText::_('COM_REDSHOP_FIELDS'); ?>
-		</legend>
-		<?php echo $this->loadTemplate('extrafield'); ?>
-	</fieldset>
+	<?php echo $this->loadTemplate('extrafield'); ?>
 <?php endif; ?>
 
 <?php
