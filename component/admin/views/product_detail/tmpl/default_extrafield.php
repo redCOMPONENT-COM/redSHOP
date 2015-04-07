@@ -53,7 +53,7 @@ if (empty($html))
 			'system.message',
 			array(
 				'msgList' => array(
-								'success' => array(JText::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
+								'info' => array(JText::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
 							),
 				'showHeading' => false,
 				'allowClose' => false
