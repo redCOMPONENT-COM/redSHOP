@@ -59,7 +59,10 @@ class RedshopControllerTemplate_detail extends RedshopController
 		{
 			if ($apply == 1)
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=template_detail&task=edit&cid[]=' . $row->template_id, $msg);
+				$this->setRedirect(
+					'index.php?option=com_redshop&view=template_detail&task=edit&cid[]=' . $row->template_id . '&templateMode=' . $post['templateMode'],
+					$msg
+				);
 			}
 			else
 			{

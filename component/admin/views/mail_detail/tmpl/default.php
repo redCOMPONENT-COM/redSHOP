@@ -10,9 +10,6 @@ defined('_JEXEC') or die;
 
 
 JHTML::_('behavior.tooltip');
-
-// We only support codemirror editor
-$editor = JFactory::getEditor('codemirror');
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -36,6 +33,12 @@ $extra_field = new extra_field;
 			submitform(pressbutton);
 		}
 	}
+
+	jQuery(document).ready(function($) {
+		jQuery("input:radio[name='templateMode']").click(function(event) {
+			Joomla.submitbutton('apply');
+		});
+	});
 </script>
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
@@ -101,7 +104,44 @@ $extra_field = new extra_field;
 		<table class="admintable">
 			<tr>
 				<td>
-					<?php echo $editor->display("mail_body", $this->detail->mail_body, '800px', '500px', '100', '20'); ?>
+					<label class="text-info" for="templateMode">
+						<?php echo JText::_('COM_REDSHOP_TEMPLATE_SWITCH_METHOD'); ?>
+					</label>
+					<?php
+					$option = array();
+					$option[] = JHTML::_('select.option', 'codemirror', JText::_('COM_REDSHOP_TEMPLATE_CODE_MIRRONR'));
+					$option[] = JHTML::_('select.option', 'joomladefault', JText::_('COM_REDSHOP_TEMPLATE_JOOMLA_DEFAULT'));
+
+					$templateMode = JFactory::getApplication()->input->getCmd('templateMode', 'codemirror');
+
+					echo JHTML::_(
+						'redshopselect.radiolist',
+						$option,
+						'templateMode',
+						null,
+						'value',
+						'text',
+						$templateMode
+					);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php if ('codemirror' != $templateMode): ?>
+						<?php $templateMode = null; ?>
+					<?php endif; ?>
+					<?php
+						echo JFactory::getEditor($templateMode)
+								->display(
+									"mail_body",
+									$this->detail->mail_body,
+									'800px',
+									'500px',
+									'100',
+									'20'
+								);
+					?>
 				</td>
 			</tr>
 		</table>
