@@ -34,8 +34,8 @@ class CurrencyManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $currencyName);
 		$I->fillField(\CurrencyManagerPage::$currencyCodeField, $currencyCode);
 		$I->click('Save & Close');
-		$I->see('Currency Management');
-		$I->see('Currency detail saved');
+		$I->see('Currency Management', '//h2');
+		$I->see('Currency detail saved', "//div[@id='system-message-container']//dl//dd[@class='message message']");
 		$I->click('ID');
 		$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
 		$I->click('ID');
@@ -61,7 +61,7 @@ class CurrencyManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Currency Edit View');
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $newCurrencyName);
 		$I->click('Save & Close');
-		$I->see('Currency Management');
+		$I->see('Currency Management', '//h2');
 		$I->see($newCurrencyName, \CurrencyManagerPage::$currencyResultRow);
 		$I->click('ID');
 
@@ -82,7 +82,7 @@ class CurrencyManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
 		$I->click(\CurrencyManagerPage::$firstResult);
 		$I->click('Delete');
-		$I->see('Currency Detail Deleted Successfully');
+		$I->see('Currency Detail Deleted Successfully', "//div[@id='system-message-container']//dl//dd[@class='message message']");
 		$I->dontSee($currencyName, \CurrencyManagerPage::$currencyResultRow);
 		$I->click('ID');
 	}
