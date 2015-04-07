@@ -11,8 +11,6 @@ JLoader::load('RedshopHelperAdminExtra_field');
 $extra_field = new extra_field;
 JHTML::_('behavior.tooltip');
 
-// We only support codemirror editor for template editing.
-$editor      = JFactory::getEditor('codemirror');
 $model       = $this->getModel('template_detail');
 $showbuttons = JRequest::getVar('showbuttons');
 ?>
@@ -40,6 +38,12 @@ $showbuttons = JRequest::getVar('showbuttons');
 			submitform(pressbutton);
 		}
 	}
+
+	jQuery(document).ready(function($) {
+		jQuery("input:radio[name='templateMode']").click(function(event) {
+			Joomla.submitbutton('apply');
+		});
+	});
 </script>
 <?php
 if (isset($showbuttons))
@@ -116,7 +120,49 @@ $style = $this->detail->template_section == 'clicktell_sms_message' ? "display: 
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo $editor->display("template_desc", $this->detail->template_desc, '800px', '500px', '100', '20'); ?></td>
+					<td>
+						<label class="text-info" for="templateMode">
+							<?php echo JText::_('COM_REDSHOP_TEMPLATE_SWITCH_METHOD'); ?>
+						</label>
+						<?php
+						$option = array();
+						$option[] = JHTML::_('select.option', 'codemirror', JText::_('COM_REDSHOP_TEMPLATE_CODE_MIRRONR'));
+						$option[] = JHTML::_('select.option', 'joomladefault', JText::_('COM_REDSHOP_TEMPLATE_JOOMLA_DEFAULT'));
+
+						$templateMode = JFactory::getApplication()->input->getCmd('templateMode', 'codemirror');
+
+						echo JHTML::_(
+							'redshopselect.radiolist',
+							$option,
+							'templateMode',
+							null,
+							'value',
+							'text',
+							$templateMode
+						);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<?php if ('codemirror' != $templateMode): ?>
+						<?php $templateMode = null; ?>
+					<?php endif; ?>
+					<?php
+
+						echo JFactory::getEditor($templateMode)
+								->display(
+									"template_desc",
+									$this->detail->template_desc,
+									'800px',
+									'500px',
+									'100',
+									'20'
+								);
+
+
+						?>
+					</td>
 				</tr>
 			</table>
 		</fieldset>
