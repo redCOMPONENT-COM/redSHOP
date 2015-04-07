@@ -28,11 +28,11 @@ class GlobalConfigurationManagerJoomla2Steps extends AdminManagerJoomla2Steps
 	{
 		$I = $this;
 		$I->amOnPage(\GlobalConfigurationJ2ManagerPage::$URL);
-		$I->waitForText(\GlobalConfigurationJ2ManagerPage::$pageTitle);
+		$I->waitForText(\GlobalConfigurationJ2ManagerPage::$pageTitle, 10, 'h2');
 		$I->click('Server');
 		$I->waitForElement(\GlobalConfigurationJ2ManagerPage::$errorReporting);
 		$I->selectOption(\GlobalConfigurationJ2ManagerPage::$errorReporting, $level);
 		$I->click('Save & Close');
-		$I->waitForText(\GlobalConfigurationJ2ManagerPage::$successMessage);
+		$I->waitForText(\GlobalConfigurationJ2ManagerPage::$successMessage, 10, "//div[@id='system-message-container']//dl//dd[@class='message message']");
 	}
 }
