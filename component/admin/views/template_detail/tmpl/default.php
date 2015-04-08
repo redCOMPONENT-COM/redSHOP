@@ -124,7 +124,7 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 			</table>
 		</fieldset>
 	</div>
-	<div class="col50">
+	<div class="col50" id="editor">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 			<div class="span12">
@@ -167,9 +167,6 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 				?>
 				</div>
 				<div class="span5">
-					<h4 >
-						<?php echo JText::_('COM_REDSHOP_AVAILABLE_DYNAMIC_FIELDS'); ?>
-					</h4>
 					<?php echo $this->loadTemplate('dynamic_fields');?>
 				</div>
 			</div>
