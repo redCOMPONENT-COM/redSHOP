@@ -47,7 +47,7 @@ if (count($paymentmethod) == 1)
 			$private_person = $paymentparams->get('private_person', '');
 			$is_creditcard = $paymentparams->get('is_creditcard', '');
 			$business = $paymentparams->get('business', '');
-			if ($paymentmethod[$p]->element == 'rs_payment_eantransfer' || $paymentmethod[$p]->element == 'rs_payment_cashtransfer' || $paymentmethod[$p]->element == 'rs_payment_banktransfer' || $paymentmethod[$p]->element == "rs_payment_banktransfer2" || $paymentmethod[$p]->element == "rs_payment_banktransfer3" || $paymentmethod[$p]->element == "rs_payment_banktransfer4" || $paymentmethod[$p]->element == "rs_payment_banktransfer5")
+			if ($paymentmethod[$p]->element == 'rs_payment_eantransfer' || $paymentmethod[$p]->element == 'rs_payment_banktransfer' || $paymentmethod[$p]->element == "rs_payment_banktransfer2" || $paymentmethod[$p]->element == "rs_payment_banktransfer3" || $paymentmethod[$p]->element == "rs_payment_banktransfer4" || $paymentmethod[$p]->element == "rs_payment_banktransfer5")
 			{
 				if ($is_company == 0 && $private_person == 1)
 				{

@@ -3864,7 +3864,7 @@ class rsCarthelper
 
 					$is_subscription = false;
 
-					if ($oneMethod->name == 'rs_payment_eantransfer' || $oneMethod->name == 'rs_payment_cashtransfer' || $oneMethod->name == 'rs_payment_banktransfer' || $oneMethod->name == "rs_payment_banktransfer2" || $oneMethod->name == "rs_payment_banktransfer3" || $oneMethod->name == "rs_payment_banktransfer4" || $oneMethod->name == "rs_payment_banktransfer5")
+					if ($oneMethod->name == 'rs_payment_eantransfer' || $oneMethod->name == 'rs_payment_banktransfer' || $oneMethod->name == "rs_payment_banktransfer2" || $oneMethod->name == "rs_payment_banktransfer3" || $oneMethod->name == "rs_payment_banktransfer4" || $oneMethod->name == "rs_payment_banktransfer5")
 					{
 						if ($is_company == 0 && $private_person == 1)
 						{
