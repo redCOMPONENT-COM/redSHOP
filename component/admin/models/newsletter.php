@@ -520,7 +520,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 				if ($subscribe_email != "")
 				{
-					if (JMail::getInstance()->sendMail($mailfrom, $fromname, $subscribe_email, $subject, $message, 1))
+					if (JFactory::getMailer()->sendMail($mailfrom, $fromname, $subscribe_email, $subject, $message, 1))
 					{
 						$retsubscriberid[$j] = 1;
 					}

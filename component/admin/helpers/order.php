@@ -1846,7 +1846,7 @@ class order_functions
 
 			if ($mailbody && $useremail != "")
 			{
-				JMail::getInstance()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
+				JFactory::getMailer()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
 
@@ -2194,7 +2194,7 @@ class order_functions
 
 			if ('' != $userdetail->thirdparty_email && $mailbody)
 			{
-				JMail::getInstance()->sendMail(
+				JFactory::getMailer()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->thirdparty_email,
@@ -2207,7 +2207,7 @@ class order_functions
 
 			if ('' != $userdetail->user_email && $mailbody)
 			{
-				JMail::getInstance()->sendMail(
+				JFactory::getMailer()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->user_email,
