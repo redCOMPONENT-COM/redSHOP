@@ -331,7 +331,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 else
 {
 	if ($plugin == "rs_payment_banktransfer" || $plugin == "rs_payment_banktransfer2" || $plugin == "rs_payment_banktransfer3"
-		|| $plugin == "rs_payment_cashsale" || $plugin == "rs_payment_banktransfer_discount")
+		|| $plugin == "rs_payment_banktransfer_discount")
 	{
 		JFactory::getApplication()->redirect(
 			'index.php?option=com_redshop&view=order_detail&task=checkoutnext&payment_plugin=' . $plugin . '&order_id='

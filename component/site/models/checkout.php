@@ -320,7 +320,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentmethod = $paymentmethod[0];
 		$mainelement   = $paymentmethod->element;
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3" || $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5" || $paymentmethod->element == "rs_payment_cashsale" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3" || $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
 		{
 			$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod->element);
 			$paymentmethod = $paymentmethod[0];
@@ -331,7 +331,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_main_status = $paymentparams->get('verify_status', '');
 
 
-			if ($paymentmethod->element != "rs_payment_banktransfer" && $paymentmethod->element != "rs_payment_cashsale" && $paymentmethod->element != "rs_payment_banktransfer_discount" && $paymentmethod->element != "rs_payment_eantransfer")
+			if ($paymentmethod->element != "rs_payment_banktransfer" && $paymentmethod->element != "rs_payment_banktransfer_discount" && $paymentmethod->element != "rs_payment_eantransfer")
 			{
 				$paymentmethod->element = substr($paymentmethod->element, 0, -1);
 			}
@@ -339,7 +339,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_cashsale" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
 		{
 			$order_status = $order_main_status;
 
