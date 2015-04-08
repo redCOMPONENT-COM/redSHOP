@@ -60,12 +60,12 @@ class RedshopControllerTemplate_detail extends RedshopController
 
 			if ($app->input->getInt('tmodeClicked'))
 			{
-				$returnUrl .= '&templateMode=' . $post['templateMode'];
-
 				if ($showbuttons)
 				{
 					$returnUrl .= '&showbuttons=1&tmpl=component';
 				}
+
+				$returnUrl .= '&templateMode=' . $post['templateMode'] . '#editor';
 			}
 
 			$this->setRedirect($returnUrl, $msg);
