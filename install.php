@@ -1206,9 +1206,21 @@ class Com_RedshopInstallerScript
 	 */
 	private function cleanUpgradeFiles($parent)
 	{
+		$folders = array();
+		$files   = array();
+
+		if (version_compare($this->getOldParam('version'), '1.5.0.4.2', '<='))
+		{
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '1.5.0.1', '<='))
 		{
-			$folders = array(
+			array_push(
+				$folders,
 				JPATH_SITE . '/components/com_redshop/assets/js',
 				JPATH_SITE . '/components/com_redshop/assets/css',
 				JPATH_SITE . '/components/com_redshop/helpers/fonts',
@@ -1225,15 +1237,8 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_container'
 			);
 
-			foreach ($folders as $path)
-			{
-				if (JFolder::exists($path))
-				{
-					JFolder::delete($path);
-				}
-			}
-
-			$files = array(
+			array_push(
+				$files,
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/container_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/customprint.php',
@@ -1276,7 +1281,21 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/views/price_filter/view.html.php',
 				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php'
 			);
+		}
 
+		if (!empty($folders))
+		{
+			foreach ($folders as $path)
+			{
+				if (JFolder::exists($path))
+				{
+					JFolder::delete($path);
+				}
+			}
+		}
+
+		if (!empty($files))
+		{
 			foreach ($files as $path)
 			{
 				if (JFile::exists($path))
