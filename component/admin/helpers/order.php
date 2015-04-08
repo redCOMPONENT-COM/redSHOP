@@ -2309,7 +2309,21 @@ class order_functions
 			$order_details  = $this->getOrderDetails($order_id);
 			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 
-			if ($details[0] === 'plgredshop_shippingdefault_shipping' && !$order_details->order_label_create)
+			$shippingParams = new JRegistry(
+								JPluginHelper::getPlugin(
+									'redshop_shipping',
+									str_replace(
+										'plgredshop_shipping',
+										'',
+										strtolower($details[0])
+									)
+								)->params
+							);
+
+			// Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
+			$allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean) $shippingParams->get('allowPacsoftLabel'));
+
+			if ($allowPacsoftLabel && !$order_details->order_label_create)
 			{
 				$generate_label = $this->generateParcel($order_id, $specifiedSendDate);
 
