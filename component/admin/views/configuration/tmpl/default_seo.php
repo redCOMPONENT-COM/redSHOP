@@ -40,8 +40,8 @@ defined('_JEXEC') or die;
 			echo JText::_('COM_REDSHOP_AVAILABLE_SEO_TAGS');
 			?></legend>
 		<?php
-		echo JHtml::_('sliders.start', 'seo-pane', array('startOffset' => 0));
-		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_TITLE_AVAILABLE_SEO_TAGS'), 'seo-tags');
+		echo JHtml::_('tabs.start', 'seo-pane', array('startOffset' => 0));
+		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_TITLE_AVAILABLE_SEO_TAGS'), 'seo-tags');
 		?>
 		<table class="adminlist">
 			<tr>
@@ -61,7 +61,7 @@ defined('_JEXEC') or die;
 					?></td>
 			</tr>
 		</table>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_HEADING_AVAILABLE_SEO_TAGS'), 'heading-seo-tags'); ?>
+		<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_HEADING_AVAILABLE_SEO_TAGS'), 'heading-seo-tags'); ?>
 		<table class="adminlist">
 			<tr>
 				<td><?php
@@ -74,7 +74,7 @@ defined('_JEXEC') or die;
 					?></td>
 			</tr>
 		</table>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_DESC_AVAILABLE_SEO_TAGS'), 'desc-seo-tags'); ?>
+		<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DESC_AVAILABLE_SEO_TAGS'), 'desc-seo-tags'); ?>
 		<table class="adminlist">
 			<tr>
 				<td><?php
@@ -92,7 +92,7 @@ defined('_JEXEC') or die;
 					?></td>
 			</tr>
 		</table>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_KEYWORD_AVAILABLE_SEO_TAGS'), 'keyword-seo-tags'); ?>
+		<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_KEYWORD_AVAILABLE_SEO_TAGS'), 'keyword-seo-tags'); ?>
 		<table class="adminlist">
 			<tr>
 				<td><?php
@@ -109,6 +109,6 @@ defined('_JEXEC') or die;
 					?></td>
 			</tr>
 		</table>
-		<?php echo JHtml::_('sliders.end'); ?>
+		<?php echo JHtml::_('tabs.end'); ?>
 	</fieldset>
 </div>
