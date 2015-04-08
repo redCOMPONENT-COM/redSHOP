@@ -320,7 +320,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentmethod = $paymentmethod[0];
 		$mainelement   = $paymentmethod->element;
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3" || $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
 		{
 			$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod->element);
 			$paymentmethod = $paymentmethod[0];
@@ -1238,7 +1238,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$checkOrderStatus = 1;
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3" || $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount")
 		{
 			$checkOrderStatus = 0;
 		}

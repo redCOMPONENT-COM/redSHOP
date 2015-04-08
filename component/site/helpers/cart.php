@@ -2945,7 +2945,7 @@ class rsCarthelper
 
 		$txtextra_info = '';
 
-		if ($paymentmethod_detail->element == "rs_payment_banktransfer" || $paymentmethod_detail->element == "rs_payment_banktransfer_discount" || $paymentmethod_detail->element == "rs_payment_banktransfer2" || $paymentmethod_detail->element == "rs_payment_banktransfer3" || $paymentmethod_detail->element == "rs_payment_banktransfer4" || $paymentmethod_detail->element == "rs_payment_banktransfer5")
+		if ($paymentmethod_detail->element == "rs_payment_banktransfer" || $paymentmethod_detail->element == "rs_payment_banktransfer_discount")
 		{
 			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment/'
 				. $paymentmethod_detail->element . '/' . $paymentmethod_detail->element . '.xml';
@@ -3864,7 +3864,7 @@ class rsCarthelper
 
 					$is_subscription = false;
 
-					if ($oneMethod->name == 'rs_payment_eantransfer' || $oneMethod->name == 'rs_payment_banktransfer' || $oneMethod->name == "rs_payment_banktransfer2" || $oneMethod->name == "rs_payment_banktransfer3" || $oneMethod->name == "rs_payment_banktransfer4" || $oneMethod->name == "rs_payment_banktransfer5")
+					if ($oneMethod->name == 'rs_payment_eantransfer' || $oneMethod->name == 'rs_payment_banktransfer')
 					{
 						if ($is_company == 0 && $private_person == 1)
 						{
