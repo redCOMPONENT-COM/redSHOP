@@ -129,7 +129,7 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 			<div class="span12">
 				<div class="span7">
-					<p>
+					<div class="row-fluid">
 						<label class="text-info" for="templateMode">
 							<?php echo JText::_('COM_REDSHOP_TEMPLATE_SWITCH_METHOD'); ?>
 						</label>
@@ -150,30 +150,34 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 							$templateMode
 						);
 						?>
-					</p>
-					<?php if ('codemirror' != $templateMode): ?>
-						<?php $templateMode = null; ?>
-					<?php endif; ?>
-					<?php
-					echo JFactory::getEditor($templateMode)
-							->display(
-								"template_desc",
-								$this->detail->template_desc,
-								'800px',
-								'500px',
-								'100',
-								'20'
-							);
-				?>
+					</div>
+					<div class="row-fluid">
+						<?php if ('codemirror' != $templateMode): ?>
+							<?php $templateMode = null; ?>
+						<?php endif; ?>
+						<?php
+						echo JFactory::getEditor($templateMode)
+								->display(
+									"template_desc",
+									$this->detail->template_desc,
+									'800px',
+									'500px',
+									'100',
+									'20'
+								);
+						?>
+					</div>
+					<div class="row-fluid">
+						<fieldset class="adminform">
+							<legend><?php echo JText::_('COM_REDSHOP_AVAILABLE_TEXTLIBRARY_ITEMS'); ?></legend>
+							<?php echo $this->loadTemplate('library_items');?>
+						</fieldset>
+					</div>
 				</div>
 				<div class="span5">
 					<?php echo $this->loadTemplate('dynamic_fields');?>
 				</div>
 			</div>
-		</fieldset>
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_REDSHOP_AVAILABLE_TEXTLIBRARY_ITEMS'); ?></legend>
-			<?php echo $this->loadTemplate('library_items');?>
 		</fieldset>
 	</div>
 	<input type="hidden" name="template_id" value="<?php echo $this->detail->template_id; ?>"/>
