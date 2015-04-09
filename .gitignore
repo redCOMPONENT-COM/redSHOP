@@ -11,6 +11,9 @@ Desktop.ini
 # PHPStorm
 .idea/
 
+# Sublime Text
+*.sublime*
+
 # Eclipse
 .buildpath
 .project
