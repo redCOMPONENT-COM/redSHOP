@@ -31,17 +31,16 @@ class Xmap_Com_Redshop
 	 *
 	 * @return  void
 	 */
-	public static function prepareMenuItem(&$node, &$params)
+	static function prepareMenuItem(&$node, &$params)
 	{
 		$link_query = parse_url($node->link);
-		$app = JFactory::getApplication('site');
 
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
 
 		$catid  = self::getParam($link_vars, 'cid', 0);
 		$prodid = self::getParam($link_vars, 'pid', 0);
 
-		$menu       = $app->getMenu();
+		$menu       = JSite::getMenu();
 		$menuparams = $menu->getParams($node->id);
 		$manid      = $menuparams->get('manufacturerid');
 
@@ -76,11 +75,10 @@ class Xmap_Com_Redshop
 	 *
 	 * @return  boolean
 	 */
-	public static function getTree($xmap, $parent, &$params)
+	static function getTree($xmap, $parent, &$params)
 	{
 		$link_query = parse_url($parent->link);
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
-		$app = JFactory::getApplication('site');
 
 		$view = self::getParam($link_vars, 'view', '');
 
@@ -88,7 +86,7 @@ class Xmap_Com_Redshop
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
 		$catid = intval(self::getParam($link_vars, 'cid', 0));
 
-		$menu                       = $app->getMenu();
+		$menu                       = JSite::getMenu();
 		$menuparams                 = $menu->getParams($parent->id);
 		$manid                      = $menuparams->get('manufacturerid');
 		$params['Itemid']           = intval(self::getParam($link_vars, 'Itemid', $parent->id));
@@ -97,7 +95,6 @@ class Xmap_Com_Redshop
 		$params['include_products'] = $include_products;
 		$priority                   = self::getParam($params, 'cat_priority', $parent->priority);
 		$changefreq                 = self::getParam($params, 'cat_changefreq', $parent->changefreq);
-		$params['max_product']          = (int) self::getParam($params, 'max_product', 0);
 
 		if ($priority == '-1')
 		{
@@ -153,170 +150,73 @@ class Xmap_Com_Redshop
 	 */
 	static protected function getCategoryTree($xmap, $parent, &$params, $catid = 0)
 	{
-		$db      = JFactory::getDbo();
+		$database      = JFactory::getDbo();
 		$objhelper     = new redhelper;
 		$producthelper = new producthelper;
 
-		$query = $db->getQuery(true)
-			->select('a.category_id, a.category_name, a.category_pdate')
-			->from($db->qn('#__redshop_category', 'a'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'b') . ' ON a.category_id = b.category_child_id')
-			->where('a.published = 1')
-			->where('b.category_parent_id = ' . (int) $catid)
-			->order('a.ordering ASC, a.category_name ASC');
+		static $urlBase;
 
-		if ($rows = $db->setQuery($query)->loadObjectList())
+		if (!isset($urlBase))
 		{
-			$xmap->changeLevel(1);
+			$urlBase = JURI::base();
+		}
 
-			foreach ($rows as $row)
+		$query = "SELECT a.category_id, a.category_name, a.category_pdate "
+			. "\n FROM #__redshop_category AS a, #__redshop_category_xref AS b "
+			. "\n WHERE a.published ='1' "
+			. "\n AND b.category_parent_id = $catid "
+			. "\n AND a.category_id=b.category_child_id "
+			. "\n ORDER BY a.ordering ASC, a.category_name ASC";
+
+		$database->setQuery($query);
+		$rows = $database->loadObjectList();
+		$xmap->changeLevel(1);
+
+		foreach ($rows as $row)
+		{
+			// Get Category Menu Itemid
+			$cItemid = $objhelper->getCategoryItemid($row->category_id);
+
+			if ($cItemid != "")
 			{
-				// Get Category Menu Itemid
-				$cItemid = $objhelper->getCategoryItemid($row->category_id);
-
-				if ($cItemid != "")
-				{
-					$params['Itemid'] = $cItemid;
-				}
-
-				$node = new stdclass;
-				$node->id = $parent->id;
-				$node->uid = $parent->uid . 'c' . $row->category_id;
-				$node->browserNav = $parent->browserNav;
-				$node->name = stripslashes($row->category_name);
-				$node->modified = strtotime($row->category_pdate);
-				$node->priority = $params['cat_priority'];
-				$node->changefreq = $params['cat_changefreq'];
-				$node->expandible = false;
-				$node->link = "index.php?option=com_redshop&view=category&cid=$row->category_id&layout=detail&Itemid=" . $params['Itemid'];
-
-				if ($xmap->printNode($node) !== false)
-				{
-					self::getCategoryTree($xmap, $parent, $params, $row->category_id);
-				}
+				$params['Itemid'] = $cItemid;
 			}
 
-			$xmap->changeLevel(-1);
+			$node             = new stdclass;
+			$node->id         = $parent->id;
+			$node->uid        = $parent->uid . 'c' . $row->category_id;
+			$node->browserNav = $parent->browserNav;
+			$node->name       = stripslashes($row->category_name);
+			$node->modified   = strtotime($row->category_pdate);
+			$node->priority   = $params['cat_priority'];
+			$node->changefreq = $params['cat_changefreq'];
+			$node->expandible = false;
+			$node->link       = "index.php?option=com_redshop&view=category&cid=$row->category_id&layout=detail&Itemid=" . $params['Itemid'];
+
+			if ($xmap->printNode($node) !== false)
+			{
+				self::getCategoryTree($xmap, $parent, $params, $row->category_id);
+			}
 		}
+
+		$xmap->changeLevel(-1);
 
 		if ($params['include_products'])
 		{
-			$query->clear()
-				->select('a.product_id, a.update_date, a.product_name, a.publish_date, a.product_thumb_image, a.product_full_image, b.category_id, d.category_pdate')
-				->from($db->qn('#__redshop_product', 'a'))
-				->leftJoin($db->qn('#__redshop_product_category_xref', 'b') . ' ON a.product_id = b.product_id')
-				->leftJoin($db->qn('#__redshop_category', 'd') . ' ON b.category_id = d.category_id')
-				->where('a.published = 1')
-				->where('b.category_id = ' . (int) $catid)
-				->where('a.product_parent_id = 0')
-				->order('a.product_name');
+			$query = "SELECT a.product_id,a.update_date, a.product_name,a.publish_date, a.product_thumb_image, a.product_full_image, b.category_id, d.category_pdate "
+				. "\n FROM #__redshop_product AS a, #__redshop_product_category_xref AS b, #__redshop_category AS  d"
+				. "\n WHERE a.published='1'"
+				. "\n AND b.category_id=$catid "
+				. "\n AND a.product_parent_id=0 "
+				. "\n AND a.product_id=b.product_id "
+				. "\n AND b.category_id=d.category_id "
+				. "\n ORDER BY a.product_name";
 
-			if ($params['max_product'])
-			{
-				$limit = (int) $params['max_product'];
-			}
-			else
-			{
-				$limit = 0;
-			}
-
-			if ($rows = $db->setQuery($query, 0, $limit)->loadObjectList())
-			{
-				$xmap->changeLevel(1);
-
-				foreach ($rows as $row)
-				{
-					// Get Product Menu Itemid
-					$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
-
-					if (count($ItemData) > 0)
-					{
-						$params['Itemid'] = $ItemData->id;
-					}
-					else
-					{
-						$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
-					}
-
-					$node = new stdclass;
-					$node->id = $parent->id;
-					$node->uid = $parent->uid . 'c' . $row->category_id . 'p' . $row->product_id;
-					$node->browserNav = $parent->browserNav;
-					$node->priority = $params['prod_priority'];
-					$node->changefreq = $params['prod_changefreq'];
-					$node->name = $row->product_name;
-					$node->modified = strtotime($row->update_date);
-					$node->expandible = false;
-					$node->link = "index.php?option=com_redshop&view=product&pid=$row->product_id&cid=$row->category_id&Itemid=" . $params['Itemid'];
-
-					if ($xmap->printNode($node) !== false)
-					{
-						self::getProductTree($xmap, $parent, $params, $row->product_id, $row->category_id);
-					}
-				}
-
-				$xmap->changeLevel(-1);
-			}
-		}
-	}
-
-	/**
-	 * Get all redSHOP Products
-	 *
-	 * @param   object   $xmap      Xmap Data Object
-	 * @param   object   $parent    Parent data object array
-	 * @param   array    &$params   Xmap Parameter Array
-	 * @param   integer  $prod      redSHOP Product Id
-	 * @param   integer  $category  redSHOP Category Id
-	 * @param   integer  $manid     redSHOP Manufacture Id
-	 *
-	 * @return  void
-	 */
-	static protected function getProductTree($xmap, $parent, &$params, $prod = 0, $category = 0, $manid = 0)
-	{
-		if (!$params['include_products'])
-		{
-			return;
-		}
-
-		$db = JFactory::getDbo();
-		$objhelper     = new redhelper;
-		$producthelper = new producthelper;
-
-		$query = $db->getQuery(true)
-			->select('prod.*, cpx.category_id')
-			->from($db->qn('#__redshop_product', 'prod'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'cpx') . ' ON cpx.product_id = prod.product_id')
-			->where('prod.published = 1');
-
-		if ($manid > 0)
-		{
-			$query->where('prod.manufacturer_id = ' . (int) $manid);
-		}
-		else
-		{
-			$query->where('prod.product_parent_id = ' . (int) $prod);
-		}
-
-		if ($category)
-		{
-			$query->where('cpx.category_id = ' . (int) $category);
-		}
-
-		if ($params['max_product'])
-		{
-			$limit = (int) $params['max_product'];
-		}
-		else
-		{
-			$limit = 0;
-		}
-
-		if ($childproducts = $db->setQuery($query, 0, $limit)->loadObjectList())
-		{
+			$database->setQuery($query);
+			$rows = $database->loadObjectList();
 			$xmap->changeLevel(1);
 
-			foreach ($childproducts as $row)
+			foreach ($rows as $row)
 			{
 				// Get Product Menu Itemid
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
@@ -330,20 +230,20 @@ class Xmap_Com_Redshop
 					$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
 				}
 
-				$node = new stdclass;
-				$node->id = $parent->id;
-				$node->uid = ($manid > 0) ? $parent->uid . 'm' . $manid . 'p' . $row->product_id : $parent->uid . 'c' . $row->category_id . 'p' . $row->product_id;
+				$node             = new stdclass;
+				$node->id         = $parent->id;
+				$node->uid        = $parent->uid . 'c' . $row->category_id . 'p' . $row->product_id;
 				$node->browserNav = $parent->browserNav;
-				$node->priority = $params['prod_priority'];
+				$node->priority   = $params['prod_priority'];
 				$node->changefreq = $params['prod_changefreq'];
-				$node->name = $row->product_name;
-				$node->modified = strtotime($row->update_date);
+				$node->name       = $row->product_name;
+				$node->modified   = strtotime($row->update_date);
 				$node->expandible = false;
-				$node->link = "index.php?option=com_redshop&view=product&pid=$row->product_id&cid=$row->category_id&Itemid=" . $params['Itemid'];
+				$node->link       = "index.php?option=com_redshop&view=product&pid=$row->product_id&cid=$row->category_id&Itemid=" . $params['Itemid'];
 
 				if ($xmap->printNode($node) !== false)
 				{
-					self::getProductTree($xmap, $parent, $params, $row->product_id, $category);
+					self::getProductTree($xmap, $parent, $params, $row->product_id, $row->category_id);
 				}
 			}
 
@@ -352,29 +252,95 @@ class Xmap_Com_Redshop
 	}
 
 	/**
+	 * Get all redSHOP Products
+	 *
+	 * @param   object   $xmap       Xmap Data Object
+	 * @param   object   $parent     Parent data object array
+	 * @param   array    &$params    Xmap Parameter Array
+	 * @param   integer  $prod       redSHOP Product Id
+	 * @param   integer  $category   redSHOP Category Id
+	 * @param   integer  $manid      redSHOP Manufacture Id
+	 *
+	 * @return  void
+	 */
+	static protected function getProductTree($xmap, $parent, &$params, $prod = 0, $category = 0, $manid = 0)
+	{
+		$database      = JFactory::getDbo();
+		$objhelper     = new redhelper;
+		$producthelper = new producthelper;
+
+		if ($manid > 0)
+		{
+			$sql = "SELECT prod.* FROM #__redshop_product AS prod WHERE manufacturer_id = '" . $manid . "' AND published = 1";
+		}
+		else
+		{
+			$sql = "SELECT prod.*, cat.category_pdate, cat.category_name  FROM #__redshop_product AS prod, #__redshop_category AS cat WHERE prod.product_parent_id='" . $prod . "'";
+		}
+
+		$database->setQuery($sql);
+		$childproducts = $database->loadObjectList();
+
+		$xmap->changeLevel(1);
+
+		foreach ($childproducts as $row)
+		{
+			// Get Product Menu Itemid
+			$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
+
+			if (count($ItemData) > 0)
+			{
+				$params['Itemid'] = $ItemData->id;
+			}
+			else
+			{
+				$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
+			}
+
+			$node             = new stdclass;
+			$node->id         = $parent->id;
+			$node->uid        = ($manid > 0) ? $parent->uid . 'm' . $manid . 'p' . $row->product_id : $parent->uid . 'c' . $category . 'p' . $row->product_id;
+			$node->browserNav = $parent->browserNav;
+			$node->priority   = $params['prod_priority'];
+			$node->changefreq = $params['prod_changefreq'];
+			$node->name       = $row->product_name;
+			$node->modified   = strtotime($row->update_date);
+			$node->expandible = false;
+			$node->link       = "index.php?option=com_redshop&view=product&pid=$row->product_id&cid=$category&Itemid=" . $params['Itemid'];
+
+			if ($xmap->printNode($node) !== false)
+			{
+				self::getProductTree($xmap, $parent, $params, $row->product_id, $category);
+			}
+		}
+
+		$xmap->changeLevel(-1);
+	}
+
+	/**
 	 * Get All Manufacturers
 	 *
-	 * @param   object   $xmap    Xmap Data Object
-	 * @param   object   $parent  Parent data object array
-	 * @param   array    $params  Xmap Parameter Array
-	 * @param   integer  $manid   redSHOP Manufacture Id
+	 * @param   object   $xmap      Xmap Data Object
+	 * @param   object   $parent    Parent data object array
+	 * @param   array    $params    Xmap Parameter Array
+	 * @param   integer  $manid     redSHOP Manufacture Id
 	 *
 	 * @return  void
 	 */
 	static protected function getManufacturerTree($xmap, $parent, $params, $manid = 0)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('manufacturer_id, manufacturer_name')
-			->from($db->qn('#__redshop_manufacturer'))
-			->where('published = 1');
 
-		if ($manid)
-		{
-			$query->where('manufacturer_id = ' . (int) $manid);
-		}
+		$whereBy = ($manid > 0) ? " AND manufacturer_id = " . $manid : "";
 
-		if ($manufacturers = $db->setQuery($query)->loadObjectList())
+		$query = "SELECT manufacturer_id, manufacturer_name FROM #__redshop_manufacturer "
+			. " WHERE `published` = 1 "
+			. $whereBy
+			. " ORDER BY `ordering`";
+		$db->setQuery($query);
+		$manufacturers = $db->loadObjectList();
+
+		if (count($manufacturers) > 0)
 		{
 			$xmap->changeLevel(1);
 
