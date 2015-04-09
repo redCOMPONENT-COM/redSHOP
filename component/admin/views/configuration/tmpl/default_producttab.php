@@ -19,8 +19,8 @@ defined('_JEXEC') or die;
 	</tr>
 </table>
 <?php
-echo JHtml::_('sliders.start', 'product-pane', array('startOffset' => 0));
-echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_PRODUCT'), 'product');
+echo JHtml::_('tabs.start', 'product-pane', array('startOffset' => 0));
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT'), 'product');
 ?>
 <table class="adminlist" width="100%" cellpadding="0" cellspacing="0">
 	<tr valign="top">
@@ -47,8 +47,8 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_PRODUCT'), 'product');
 	</tr>
 </table>
 <?php
-echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_TAB'), 'accessory');
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_TAB'), 'accessory');
 echo $this->loadTemplate('accessory_product');
-echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_RELATED_PRODUCTS'), 'related');
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_RELATED_PRODUCTS'), 'related');
 echo $this->loadTemplate('related_product');
-echo JHtml::_('sliders.end');
+echo JHtml::_('tabs.end');
