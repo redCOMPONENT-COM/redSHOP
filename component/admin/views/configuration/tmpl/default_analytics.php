@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYATICS_TRACKER_KEY'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_GOOGLE_ANALYATICS_TRACKER_KEY'); ?>">
-		<label for="google_ana_tracking"><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYATICS_TRACKER_KEY'); ?></label>
+		      title="<?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS_TRACKER_KEY'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_GOOGLE_ANALYATICS_TRACKER_KEY'); ?>">
+		<label for="google_ana_tracking"><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS_TRACKER_KEY'); ?></label>
 		</td>
 		<td><input type="text" name="google_ana_tracker" id="google_ana_tracker"
 		           value="<?php echo GOOGLE_ANA_TRACKER_KEY; ?>"></td>
