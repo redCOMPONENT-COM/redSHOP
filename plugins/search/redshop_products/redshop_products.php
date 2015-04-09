@@ -37,6 +37,20 @@ class plgSearchRedshop_products extends JPlugin
 	}
 
 	/**
+	 * Determine areas searchable by this plugin.
+	 *
+	 * @return  array  An array of search areas.
+	 */
+	public function onContentSearchAreas()
+	{
+		$areas = array(
+			'redshop_products' => JText::_('PLG_SEARCH_REDSHOP_PRODUCTS_SECTION_NAME')
+		);
+
+		return $areas;
+	}
+
+	/**
 	 * Search content (redSHOP Products).
 	 *
 	 * The SQL must return the following fields that are used in a common display
@@ -53,6 +67,14 @@ class plgSearchRedshop_products extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
+				return array();
+			}
+		}
+
 		$db = JFactory::getDbo();
 
 		// Load plugin params info
@@ -96,17 +118,15 @@ class plgSearchRedshop_products extends JPlugin
 				)
 				->from($db->qn('#__redshop_product'));
 
-		$wheres = array();
-
 		// Building Where clause
 		switch ($phrase)
 		{
 			case 'exact':
-				$text = $db->Quote('%' . $db->getEscaped($text, true) . '%', false);
+				$text = $db->Quote('%' . $text . '%', false);
 
 				// Also search in Extra Field Data
 				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
-				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery->__toString() . ')';
+				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery . ')';
 
 				$wheres = array();
 				$wheres[] = $db->qn('product_name') . ' LIKE ' . $text;
@@ -130,7 +150,7 @@ class plgSearchRedshop_products extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->Quote('%' . $db->getEscaped($word, true) . '%', false);
+					$word = $db->Quote('%' . $word . '%', false);
 
 					$ors = array();
 					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;
@@ -161,7 +181,14 @@ class plgSearchRedshop_products extends JPlugin
 		{
 			case 'oldest':
 				$query->order($db->qn('product_id') . ' ASC');
+				break;
 
+			case 'popular':
+				$query->order($db->qn('visited') . ' ASC');
+				break;
+
+			case 'alpha':
+				$query->order($db->qn('product_name') . ' ASC');
 				break;
 
 			case 'newest':
@@ -202,7 +229,7 @@ class plgSearchRedshop_products extends JPlugin
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = $redhelper->getItemid($row->product_id);
+			$Itemid    = $redhelper->getItemid($row->product_id, $row->cat_in_sefurl);
 			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $Itemid;
 
 			$return[]  = $row;
