@@ -3343,7 +3343,7 @@ class rsCarthelper
 
 		for ($s = 0; $s < count($shippingmethod); $s++)
 		{
-			if ($shippingmethod[$s]->element == 'australiapost' || $shippingmethod[$s]->element == 'bring' || $shippingmethod[$s]->element == 'ups' || $shippingmethod[$s]->element == 'uspsv4')
+			if ($shippingmethod[$s]->element == 'bring' || $shippingmethod[$s]->element == 'ups' || $shippingmethod[$s]->element == 'uspsv4')
 			{
 				$style = 'block';
 			}
