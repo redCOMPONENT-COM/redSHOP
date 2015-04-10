@@ -1647,30 +1647,10 @@ class order_functions
 		{
 			$maxId = ($maxId + FIRST_INVOICE_NUMBER + 1);
 
-			$format = sprintf("%06d", $maxId);
-			$order_number = str_replace("XXXXXX", $format, INVOICE_NUMBER_TEMPLATE);
-			$order_number = str_replace("xxxxxx", $format, INVOICE_NUMBER_TEMPLATE);
-			$order_number = str_replace("######", $format, INVOICE_NUMBER_TEMPLATE);
-
-			$format = sprintf("%05d", $maxId);
-			$order_number = str_replace("XXXXX", $format, $order_number);
-			$order_number = str_replace("xxxxx", $format, $order_number);
-			$order_number = str_replace("#####", $format, $order_number);
-
-			$format = sprintf("%04d", $maxId);
-			$order_number = str_replace("XXXX", $format, $order_number);
-			$order_number = str_replace("xxxx", $format, $order_number);
-			$order_number = str_replace("####", $format, $order_number);
-
-			$format = sprintf("%03d", $maxId);
-			$order_number = str_replace("XXX", $format, $order_number);
-			$order_number = str_replace("xxx", $format, $order_number);
-			$order_number = str_replace("###", $format, $order_number);
-
-			$format = sprintf("%02d", $maxId);
-			$order_number = str_replace("XX", $format, $order_number);
-			$order_number = str_replace("xx", $format, $order_number);
-			$order_number = str_replace("##", $format, $order_number);
+			$order_number = RedshopHelperOrder::parseNumberTemplate(
+							INVOICE_NUMBER_TEMPLATE,
+							$maxId
+						);
 
 			return $order_number;
 		}
