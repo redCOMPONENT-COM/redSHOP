@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
 	<name>PLG_DEFAULT_SHIPPING</name>
-	<version>1.5</version>
+	<version>1.5.1</version>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
 	<copyright>redCOMPONENT.com</copyright>
@@ -25,6 +25,17 @@
 					default="1"
 					value="1"
 				/>
+				<field
+					name="allowPacsoftLabel"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL"
+					description="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 				<field
 					name="extrafield_shipping"
 					type="extrafieldshipping"

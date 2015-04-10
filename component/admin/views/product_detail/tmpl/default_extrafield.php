@@ -27,29 +27,38 @@ $fieldModel = RedshopModel::getInstance('fields', 'RedshopModel');
 $section = explode(',', '1,12,17');
 $fields  = $fieldModel->getFieldInfoBySection($section);
 
-$fieldsInfo = array();
+$html = '';
 
-for ($i = 0; $i < count($fields); $i++)
+for ($i = 0, $nf = count($fields); $i < $nf; $i++)
 {
 	if (strstr($template, "{" . $fields[$i]->field_name . "}"))
 	{
 		$sectionId = 0;
 		$fieldName = '';
 
-		if ($fields[$i]->field_section == 12)
-		{
-			if ($fields[$i]->field_type == 15)
-			{
-				$sectionId = $fields[$i]->field_section;
-				$fieldName = $fields[$i]->field_name;
-			}
-		}
-		else
+		if (12 != $fields[$i]->field_section
+			|| (12 == $fields[$i]->field_section && 15 == $fields[$i]->field_type))
 		{
 			$sectionId = $fields[$i]->field_section;
 			$fieldName = $fields[$i]->field_name;
 		}
 
-		echo $field->list_all_field($sectionId, $product_id, $fieldName);
+		$html .= $field->list_all_field($sectionId, $product_id, $fieldName);
 	}
 }
+
+if (empty($html))
+{
+	echo RedshopLayoutHelper::render(
+			'system.message',
+			array(
+				'msgList' => array(
+								'info' => array(JText::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
+							),
+				'showHeading' => false,
+				'allowClose' => false
+			)
+		);
+}
+
+echo $html;
