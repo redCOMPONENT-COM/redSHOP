@@ -77,7 +77,7 @@ class RedshopViewTemplate_detail extends RedshopView
 			'class="inputbox" size="1"  onchange="showclicktellbox();"', 'value', 'text', $detail->template_section
 		);
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox" ', $detail->published);
+		$lists['published'] = JHTML::_('redshopselect.booleanlist', 'published', 'class="inputbox" ', $detail->published);
 
 		$order_functions = new order_functions;
 

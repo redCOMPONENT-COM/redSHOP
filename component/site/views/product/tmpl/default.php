@@ -1852,26 +1852,4 @@ function setsendImagepath(elm) {
 	elm.href = elm + '&imageName=' + imageName[0];
 }
 
-function setZoomImagepath(elm) {
-	var elmpath = elm.href;
-	var elmfilenamepath = elmpath.replace(/\\/g, '/').replace(/.*\//, '');
-	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;
-	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
-	var imageName = filenamepath.split('&');
-	var imageurl;
-
-	if (/MSIE[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
-		elmfilenamepath = decodeURI(elmfilenamepath);
-		if (elmfilenamepath != imageName[0]) {
-			imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
-			elm.href = imageurl;
-		}
-	}
-	else {
-		if (elmfilenamepath != imageName[0]) {
-			imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
-			elm.href = imageurl;
-		}
-	}
-}
 </script>

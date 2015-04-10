@@ -34,7 +34,7 @@ class StateManagerJoomla2Steps extends AdminManagerJoomla2Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerPage::$URL);
-		$I->see('States', '//h2');
+		$I->see('States', 'h2');
 		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Page');
 		$I->click('New');
 		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager New');
@@ -43,10 +43,10 @@ class StateManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->fillField(\StateManagerPage::$stateTwoCode, $twoCode);
 		$I->fillField(\StateManagerPage::$stateThreeCode, $threeCode);
 		$I->click("Save & Close");
-		$I->see('State detail saved', "//div[@id='system-message-container']//dl//dd[@class='message message']");
+		$I->see('State detail saved', ".message");
 		$I->fillField(\StateManagerPage::$searchField, $stateName);
 		$I->click(\StateManagerPage::$searchButton);
-		$I->see($stateName);
+		$I->see($stateName, '.adminlist');
 	}
 
 	/**
@@ -78,7 +78,7 @@ class StateManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Edit');
 		$I->fillField(\StateManagerPage::$stateName, $stateNewName);
 		$I->click("Save & Close");
-		$I->see('State detail saved', "//div[@id='system-message-container']//dl//dd[@class='message message']");
+		$I->see('State detail saved', ".message");
 		$I->amOnPage(\StateManagerPage::$URL);
 		$I->executeInSelenium(
 			function(\WebDriver $webdriver)
@@ -91,7 +91,7 @@ class StateManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		);
 		$I->fillField(\StateManagerPage::$searchField, $stateNewName);
 		$I->click(\StateManagerPage::$searchButton);
-		$I->see($stateNewName);
+		$I->see($stateNewName, '.adminlist');
 	}
 
 	/**
@@ -116,12 +116,12 @@ class StateManagerJoomla2Steps extends AdminManagerJoomla2Steps
 		);
 		$I->fillField(\StateManagerPage::$searchField, $stateName);
 		$I->click(\StateManagerPage::$searchButton);
-		$I->see($stateName);
+		$I->see($stateName, '.adminlist');
 		$I->click(\StateManagerPage::$checkAll);
 		$I->click('Delete');
-		$I->see('State Detail Successfully Deleted', "//div[@id='system-message-container']//dl//dd[@class='message message']");
+		$I->see('State Detail Successfully Deleted', ".message");
 		$I->amOnPage(\StateManagerPage::$URL);
 		$I->click(\StateManagerPage::$searchButton);
-		$I->dontSee($stateName);
+		$I->dontSee($stateName, '.adminlist');
 	}
 }

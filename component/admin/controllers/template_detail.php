@@ -35,16 +35,13 @@ class RedshopControllerTemplate_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
+		$app  = JFactory::getApplication();
 		$post = JRequest::get('post');
-		$showbuttons = JRequest::getVar('showbuttons');
 
-		$template_desc = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["template_desc"] = $template_desc;
-
-		$option = JRequest::getVar('option');
+		$post["template_desc"] = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		$model = $this->getModel('template_detail');
-		$row = $model->store($post);
+		$row   = $model->store($post);
 
 		if ($row)
 		{
@@ -55,24 +52,27 @@ class RedshopControllerTemplate_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TEMPLATE');
 		}
 
-		if (!$showbuttons)
+		$showbuttons  = $app->input->getInt('showbuttons', 0);
+
+		if ($apply || $showbuttons)
 		{
-			if ($apply == 1)
+			$returnUrl = 'index.php?option=com_redshop&view=template_detail&task=edit&cid[]=' . $row->template_id;
+
+			if ($app->input->getInt('tmodeClicked'))
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=template_detail&task=edit&cid[]=' . $row->template_id, $msg);
+				if ($showbuttons)
+				{
+					$returnUrl .= '&showbuttons=1&tmpl=component';
+				}
+
+				$returnUrl .= '&templateMode=' . $post['templateMode'] . '#editor';
 			}
-			else
-			{
-				$this->setRedirect('index.php?option=com_redshop&view=template', $msg);
-			}
+
+			$this->setRedirect($returnUrl, $msg);
 		}
 		else
 		{
-			?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
-		<?php
+			$this->setRedirect('index.php?option=com_redshop&view=template', $msg);
 		}
 	}
 
