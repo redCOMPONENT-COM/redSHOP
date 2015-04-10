@@ -88,43 +88,46 @@ class RedshopHelperOrder
 			return $invoiceNo;
 		}
 
-		$isNegative = false;
+		return self::parseNumberTemplate(
+			INVOICE_NUMBER_TEMPLATE,
+			$invoiceNo
+		);
+	}
 
-		if ($invoiceNo < 0)
-		{
-			$isNegative = true;
-			$invoiceNo *= -1;
-		}
+	/**
+	 * Parse Invoice or Order Number template.
+	 *
+	 * @param   string  $template  Number Template
+	 * @param   float   $number    Source number to be replaced
+	 *
+	 * @return  string  Formatted Invoice Number
+	 */
+	public static function parseNumberTemplate($template, $number)
+	{
+		$format = sprintf("%06d", $number);
+		$formattedInvoiceNo = str_replace("XXXXXX", $format, $template);
+		$formattedInvoiceNo = str_replace("xxxxxx", $format, $formattedInvoiceNo);
+		$formattedInvoiceNo = str_replace("######", $format, $formattedInvoiceNo);
 
-		$format = sprintf("%06d", $invoiceNo);
-		$formattedInvoiceNo = str_replace("XXXXXX", $format, INVOICE_NUMBER_TEMPLATE);
-		$formattedInvoiceNo = str_replace("xxxxxx", $format, INVOICE_NUMBER_TEMPLATE);
-		$formattedInvoiceNo = str_replace("######", $format, INVOICE_NUMBER_TEMPLATE);
-
-		$format = sprintf("%05d", $invoiceNo);
+		$format = sprintf("%05d", $number);
 		$formattedInvoiceNo = str_replace("XXXXX", $format, $formattedInvoiceNo);
 		$formattedInvoiceNo = str_replace("xxxxx", $format, $formattedInvoiceNo);
 		$formattedInvoiceNo = str_replace("#####", $format, $formattedInvoiceNo);
 
-		$format = sprintf("%04d", $invoiceNo);
+		$format = sprintf("%04d", $number);
 		$formattedInvoiceNo = str_replace("XXXX", $format, $formattedInvoiceNo);
 		$formattedInvoiceNo = str_replace("xxxx", $format, $formattedInvoiceNo);
 		$formattedInvoiceNo = str_replace("####", $format, $formattedInvoiceNo);
 
-		$format = sprintf("%03d", $invoiceNo);
+		$format = sprintf("%03d", $number);
 		$formattedInvoiceNo = str_replace("XXX", $format, $formattedInvoiceNo);
 		$formattedInvoiceNo = str_replace("xxx", $format, $formattedInvoiceNo);
 		$formattedInvoiceNo = str_replace("###", $format, $formattedInvoiceNo);
 
-		$format = sprintf("%02d", $invoiceNo);
+		$format = sprintf("%02d", $number);
 		$formattedInvoiceNo = str_replace("XX", $format, $formattedInvoiceNo);
 		$formattedInvoiceNo = str_replace("xx", $format, $formattedInvoiceNo);
 		$formattedInvoiceNo = str_replace("##", $format, $formattedInvoiceNo);
-
-		if ($isNegative)
-		{
-			$formattedInvoiceNo = "-$formattedInvoiceNo";
-		}
 
 		return $formattedInvoiceNo;
 	}
