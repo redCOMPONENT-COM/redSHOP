@@ -162,22 +162,37 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 						{
 							case 'subproperty':
 								$query = $db->getQuery(true)
-									->select('psp.*, p.product_name, p.product_number')
+									->select('psp.*, p.product_name, p.product_number, pap.property_name, pa.attribute_name')
 									->from($db->qn('#__redshop_product_subattribute_color', 'psp'))
 									->leftJoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON pap.property_id = psp.subattribute_id')
 									->leftJoin($db->qn('#__redshop_product_attribute', 'pa') . ' ON pa.attribute_id = pap.attribute_id')
 									->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pa.product_id')
 									->where('psp.subattribute_color_id = ' . (int) $sectionId);
-								$sectionDetail = $db->setQuery($query)->loadObject();
+
+								if ($sectionDetail = $db->setQuery($query)->loadObject())
+								{
+									$sectionDetail->product_name = JText::sprintf(
+										'PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_SUB_PROPERTY_TEMPLATE',
+										$sectionDetail->product_name, $sectionDetail->attribute_name, $sectionDetail->property_name,
+										$sectionDetail->subattribute_color_title, $sectionDetail->subattribute_color_name
+									);
+								}
 								break;
 							case 'property':
 								$query = $db->getQuery(true)
-									->select('pap.*, p.product_name, p.product_number')
+									->select('pap.*, p.product_name, p.product_number, pa.attribute_name')
 									->from($db->qn('#__redshop_product_attribute_property', 'pap'))
 									->leftJoin($db->qn('#__redshop_product_attribute', 'pa') . ' ON pa.attribute_id = pap.attribute_id')
 									->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pa.product_id')
 									->where('pap.property_id = ' . (int) $sectionId);
-								$sectionDetail = $db->setQuery($query)->loadObject();
+
+								if ($sectionDetail = $db->setQuery($query)->loadObject())
+								{
+									$sectionDetail->product_name = JText::sprintf(
+										'PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_PROPERTY_TEMPLATE',
+										$sectionDetail->product_name, $sectionDetail->attribute_name, $sectionDetail->property_name
+									);
+								}
 								break;
 							case 'product':
 							default:
