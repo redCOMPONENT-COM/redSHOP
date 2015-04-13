@@ -503,6 +503,7 @@ class Redtemplate
 			'subscription_renewal_mail'         => JText::_('COM_REDSHOP_SUBSCRIPTION_RENEWAL_MAIL'),
 			'review_mail'                       => JText::_('COM_REDSHOP_REVIEW_MAIL'),
 			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK'),
+			'admin_notify_stock_mail'           => JText::_('COM_REDSHOP_ADMIN_NOTIFY_STOCK'),
 			'invoicefile_mail'                  => JText::_('COM_REDSHOP_INVOICE_FILE_MAIL')
 		);
 

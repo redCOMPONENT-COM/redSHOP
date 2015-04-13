@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="plugin" group="redshop_product" method="upgrade">
-    <name>redSHOP Stockroom Status</name>
-    <author>redCOMPONENT.com</author>
-    <version>1.3.2</version>
-    <creationDate>April 2013</creationDate>
-    <copyright>redCOMPONENT.com</copyright>
-    <license>GNU/GPL</license>
-    <authorEmail>email@redcomponent.com</authorEmail>
-    <authorUrl>www.redweb.dk</authorUrl>
-    <description>This plugin will send an e-mail when stockroom amount reaches minimum level</description>
-    <files>
-        <filename plugin="stockroom_status">stockroom_status.php</filename>
-
-
-    </files>
-
+	<name>PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS</name>
+	<author>redCOMPONENT.com</author>
+	<version>1.5</version>
+	<redshop>1.5</redshop>
+	<creationDate>April 2013</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<description>PLG_REDSHOP_PRODUCT_STOCKROOM_STATUS_DESC</description>
+	<files>
+		<filename plugin="stockroom_status">stockroom_status.php</filename>
+		<filename>index.html</filename>
+	</files>
 </extension>

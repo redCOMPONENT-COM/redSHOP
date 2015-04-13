@@ -9,29 +9,33 @@
 
 defined('_JEXEC') or die;
 
-// Import library dependencies
-jimport('joomla.plugin.plugin');
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminMail');
 
-class plgredshop_productstockroom_status extends JPlugin
+/**
+ * Class PlgRedshop_ProductStockroom_Status
+ *
+ * @since  1.5
+ */
+class PlgRedshop_ProductStockroom_Status extends JPlugin
 {
+	protected $autoloadLanguage = true;
+
 	/**
 	 * Constructor
 	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
 	 */
-	public function plgredshop_productstockroom_status(&$subject)
+	public function __construct(&$subject, $config = array())
 	{
-		parent::__construct($subject);
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_redshop_product_stockroom_status', JPATH_ADMINISTRATOR);
 
-		// Load plugin parameters
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'stockroom_status');
-		$this->_params = new JRegistry($this->_plugin->params);
+		parent::__construct($subject, $config);
 	}
 
 	/**
@@ -39,79 +43,161 @@ class plgredshop_productstockroom_status extends JPlugin
 	 *
 	 * Method is called by the product view
 	 *
-	 * @param    object        The Product Template Data
-	 * @param    object        The product params
-	 * @param    object        The product object
+	 * @param   int  $order_id  Order id
+	 *
+	 * @return  void
 	 */
 	public function getStockroomStatus($order_id)
 	{
-		$db = JFactory::getDbo();
-		//$order_id= $order->order_id;
+		$redshopMail = new redshopMail;
+
+		$notifyTemplate = $redshopMail->getMailtemplate(0, "admin_notify_stock_mail");
+
+		if (!count($notifyTemplate) && ADMINISTRATOR_EMAIL != "")
+		{
+			return;
+		}
+
+		$notifyTemplate = $notifyTemplate[0];
+		$mailData = $notifyTemplate->mail_body;
+
+		if (!(strstr($mailData, "{product_loop_start}") && strstr($mailData, "{product_loop_end}")))
+		{
+			return;
+		}
+
+		$templateSdata = explode('{product_loop_start}', $mailData);
+		$templateStart = $templateSdata[0];
+		$templateEdata = explode('{product_loop_end}', $templateSdata[1]);
+		$templateEnd = $templateEdata[1];
+		$templateMiddle = $templateEdata[0];
+		$middleData = '';
+
 		$order_functions = new order_functions;
-		$stockroomhelper = new rsstockroomhelper;
-		$producthelper = new producthelper;
+		$stock_flag = 0;
 		$orderproducts = $order_functions->getOrderItemDetail($order_id);
 
-		$stockroom_id = "";
-
-		$message = "<table ><tr><td colspan='4'>Hello Administrator,</td>
-					</tr>
-					<tr>
-						<td colspan='4'>The following product/s have reached minimum stock level. </td>
-					</tr>
-					<tr><td colspan='4'>
-					<table border ='1'>
-					<tr>
-						<td>Product Number</td>
-						<td>Product Name</td>
-						<td>Stockroom Name</td>
-						<td>Current Stock</td>
-					</tr>";
-
-		for ($p = 0; $p < count($orderproducts); $p++)
+		for ($p = 0, $cp = count($orderproducts); $p < $cp; $p++)
 		{
-			$product_id = $orderproducts[$p]->product_id;
-			$product_detail = $producthelper->getProductById($product_id);
-			$stockroom_id = $orderproducts[$p]->stockroom_id;
+			$orderItemId = $orderproducts[$p]->order_item_id;
 
-			$stockroom_id = explode(",", $stockroom_id);
-
-			$stock_flag = 0;
-
-			for ($s = 0; $s < count($stockroom_id); $s++)
+			if ($attArr = $order_functions->getOrderItemAttributeDetail($orderItemId, 0, "attribute", $orderproducts[$p]->product_id))
 			{
-				$stock_details = $stockroomhelper->getStockroomDetail($stockroom_id[$s]);
-
-				$min_stock_amount = $stock_details[0]->min_stock_amount;
-				$stock_status = $stockroomhelper->getStockAmountwithReserve($product_id, $section = "product", $stockroom_id[$s]);
-
-				if ($stock_status <= $min_stock_amount)
+				foreach ($attArr as $att)
 				{
-					$stock_flag = 1;
-
-					$message .= "
-						<tr>
-							<td>" . $product_detail->product_number . "</td>
-							<td>" . $product_detail->product_name . "</td>
-							<td>" . $stock_details[0]->stockroom_name . "</td>
-							<td>" . $stock_status . "</td>
-						</tr>";
+					if ($propArr = $order_functions->getOrderItemAttributeDetail($orderItemId, 0, "property", $att->section_id))
+					{
+						foreach ($propArr as $prop)
+						{
+							if ($subPropArr = $order_functions->getOrderItemAttributeDetail($orderItemId, 0, "subproperty", $prop->section_id))
+							{
+								foreach ($subPropArr as $subProp)
+								{
+									$middleData .= $templateMiddle;
+									$this->checkStockRoomAmount($subProp->stockroom_id, $subProp->section_id, 'subproperty', $stock_flag, $middleData);
+								}
+							}
+							else
+							{
+								$middleData .= $templateMiddle;
+								$this->checkStockRoomAmount($prop->stockroom_id, $prop->section_id, 'property', $stock_flag, $middleData);
+							}
+						}
+					}
 				}
 			}
-
+			else
+			{
+				$middleData .= $templateMiddle;
+				$this->checkStockRoomAmount($orderproducts[$p]->stockroom_id, $orderproducts[$p]->product_id, 'product', $stock_flag, $middleData);
+			}
 		}
 
-		$message .= "</table></td></tr>";
-		$message .= "<tr><td colspan='4'>Regards,</td></tr><tr><td colspan='4'>Stockkeeper</td></tr>";
-		$message .= "</table>";
+		$message = $templateStart . $middleData . $templateEnd;
 
-		if (ADMINISTRATOR_EMAIL != "" && $stock_flag == 1)
+		if ($stock_flag == 1)
 		{
-			JFactory::getMailer()->sendMail(SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
-		}
+			$mailbcc = null;
+			$app = JFactory::getApplication();
+			$mailFrom = $app->get('mailfrom');
+			$fromName = $app->get('fromname');
 
+			if (trim($notifyTemplate->mail_bcc) != "")
+			{
+				$mailbcc = explode(",", $notifyTemplate[0]->mail_bcc);
+			}
+
+			JFactory::getMailer()->sendMail($mailFrom, $fromName, ADMINISTRATOR_EMAIL, $notifyTemplate->mail_subject, $message, 1, null, $mailbcc);
+		}
 	}
 
-}
+	/**
+	 * Check Stockroom Amount
+	 *
+	 * @param   string  $stockrooms  List stockrooms
+	 * @param   int     $sectionId   Id section
+	 * @param   string  $section     Name section
+	 * @param   int     &$stockFlag  Flag stock
+	 * @param   string  &$message    Template mail message
+	 *
+	 * @return  void
+	 */
+	private function checkStockRoomAmount($stockrooms, $sectionId, $section, &$stockFlag, &$message)
+	{
+		if ($stockrooms = explode(",", $stockrooms))
+		{
+			$stockRoomHelper = new rsstockroomhelper;
+			$db = JFactory::getDbo();
 
-?>
+			foreach ($stockrooms as $stockroom)
+			{
+				if ($stockDetails = $stockRoomHelper->getStockroomDetail($stockroom))
+				{
+					$minStockAmount = $stockDetails[0]->min_stock_amount;
+					$stockStatus = $stockRoomHelper->getStockAmountwithReserve($sectionId, $section, $stockroom);
+
+					if ($stockStatus <= $minStockAmount)
+					{
+						switch ($section)
+						{
+							case 'subproperty':
+								$query = $db->getQuery(true)
+									->select('psp.*, p.product_name, p.product_number')
+									->from($db->qn('#__redshop_product_subattribute_color', 'psp'))
+									->leftJoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON pap.property_id = psp.subattribute_id')
+									->leftJoin($db->qn('#__redshop_product_attribute', 'pa') . ' ON pa.attribute_id = pap.attribute_id')
+									->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pa.product_id')
+									->where('psp.subattribute_color_id = ' . (int) $sectionId);
+								$sectionDetail = $db->setQuery($query)->loadObject();
+								break;
+							case 'property':
+								$query = $db->getQuery(true)
+									->select('pap.*, p.product_name, p.product_number')
+									->from($db->qn('#__redshop_product_attribute_property', 'pap'))
+									->leftJoin($db->qn('#__redshop_product_attribute', 'pa') . ' ON pa.attribute_id = pap.attribute_id')
+									->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pa.product_id')
+									->where('pap.property_id = ' . (int) $sectionId);
+								$sectionDetail = $db->setQuery($query)->loadObject();
+								break;
+							case 'product':
+							default:
+								$sectionDetail = RedshopHelperProduct::getProductById($sectionId);
+							break;
+						}
+
+						if ($sectionDetail)
+						{
+							$stockFlag = 1;
+							$message = str_replace("{product_number}", $sectionDetail->product_number, $message);
+							$message = str_replace("{product_name}", $sectionDetail->product_name, $message);
+							$message = str_replace("{stockroom_name}", $stockDetails[0]->stockroom_name, $message);
+							$message = str_replace("{stock_status}", $stockStatus, $message);
+						}
+					}
+				}
+			}
+		}
+
+		return;
+	}
+}
