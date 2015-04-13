@@ -3774,34 +3774,6 @@ class producthelper
 		return $list;
 	}
 
-	public function getProductNavigator($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
-	{
-		$orderby = "ORDER BY ordering ASC";
-
-		$and     = "";
-		$groupby = "";
-
-		if ($product_id != 0)
-		{
-			// Sanitize ids
-			$productIds = explode(',', $product_id);
-			JArrayHelper::toInteger($productIds);
-
-			$and .= "AND a.product_id IN (" . implode(',', $productIds) . ") ";
-		}
-
-		$query = "SELECT a.*, p.product_name, p.product_number "
-			. "FROM " . $this->_table_prefix . "product_navigator AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.child_product_id "
-			. "WHERE p.published = 1 "
-			. $and
-			. $orderby;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
-	}
-
 	public function getAddtoCartTemplate($data_add = "")
 	{
 		$redTemplate = new Redtemplate;
