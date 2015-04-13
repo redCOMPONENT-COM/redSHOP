@@ -193,19 +193,19 @@ class rsUserhelper
 		{
 			if (REGISTER_METHOD == 1 || $data['user_id'] < 0)
 			{
+				$reduser = new statsClass;
 				$reduser->id = $data['user_id'];
 
 				return $reduser;
-				die();
 			}
 		}
 
 		if ($app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id']))
 		{
+			$reduser = new statsClass;
 			$reduser->id = $data['user_id'];
 
 			return $reduser;
-			die;
 		}
 
 		$app = JFactory::getApplication();
@@ -1130,9 +1130,9 @@ class rsUserhelper
 				$classreq        = (REQUIRED_VAT_NUMBER == 1) ? "required" : "";
 				$template_middle = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_BUSINESS_NUMBER'), $template_middle);
 
-				if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
+				if (JPluginHelper::isEnabled('redshop_vies_registration', 'rs_vies_registration'))
 				{
-					$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" onblur="return replaceveisval();"/><input type="text" name="veis_wait_input" value="" id="veis_wait_input" style="width:1px;height:1px;border:none;background:none;" class="inputbox required">', $template_middle);
+					$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" onblur="return replaceviesval();"/><input type="text" name="vies_wait_input" value="" id="vies_wait_input" style="width:1px;height:1px;border:none;background:none;" class="inputbox required">', $template_middle);
 				}
 				else
 				{
@@ -1146,17 +1146,19 @@ class rsUserhelper
 		if (USE_TAX_EXEMPT == 1 && SHOW_TAX_EXEMPT_INFRONT)
 		{
 			$allowCompany  = '';
+			$taxExempt = '';
 
-			if (1 == (int) $post['is_company'])
-			{
-				$allowCustomer = 'style="display:none;"';
-			}
-			else
+			if (isset($post['is_company']) && 1 != (int) $post['is_company'])
 			{
 				$allowCompany = 'style="display:none;"';
 			}
 
-			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', $post["tax_exempt"], JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
+			if (isset($post["tax_exempt"]))
+			{
+				$taxExempt = $post["tax_exempt"];
+			}
+
+			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', $taxExempt, JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
 			$template_desc = str_replace("{tax_exempt_lbl}", '<div id="lblTaxExempt" ' . $allowCompany . '>' . JText::_('COM_REDSHOP_TAX_EXEMPT') . '</div>', $template_desc);
 			$template_desc = str_replace("{tax_exempt}", '<div id="trTaxExempt" ' . $allowCompany . '>' . $tax_exempt . '</div>', $template_desc);
 		}

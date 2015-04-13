@@ -631,9 +631,9 @@ function showCompanyOrCustomer(obj)
 			{
 				document.getElementById('customer_registrationintro').style.display='none';
 			}
-			if(document.getElementById('veis_wait'))
+			if(document.getElementById('vies_wait'))
 			{
-				document.getElementById('veis_wait').style.display='';
+				document.getElementById('vies_wait').style.display='';
 			}
 		}
 		else	// For Customer
@@ -654,9 +654,9 @@ function showCompanyOrCustomer(obj)
 			{
 				document.getElementById('customer_registrationintro').style.display='';
 			}
-			if(document.getElementById('veis_wait'))
+			if(document.getElementById('vies_wait'))
 			{
-				document.getElementById('veis_wait').style.display='none';
+				document.getElementById('vies_wait').style.display='none';
 			}
 		}
 		if (window.XMLHttpRequest)
