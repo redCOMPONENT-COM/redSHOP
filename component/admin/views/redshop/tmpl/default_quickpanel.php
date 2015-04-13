@@ -68,7 +68,7 @@ defined('_JEXEC') or die;
 				<div id="cpanel">
 					<?php for ($i = 0, $n = count($icons[$sectionName]); $i < $n; $i++) : ?>
 
-						<!-- Don't show some icons based on conditions -->
+						<?php // Don't show some icons based on conditions ?>
 						<?php if ((ENABLE_BACKENDACCESS && 'accessmanager' == $icons[$sectionName][$i])
 									|| ('stockroom' == $icons[$sectionName][$i] && USE_STOCKROOM)
 									|| 'accessmanager' != $icons[$sectionName][$i]
@@ -76,18 +76,23 @@ defined('_JEXEC') or die;
 							<?php
 								$isQuickLink = in_array($icons[$sectionName][$i], $quicklink_icon);
 
-								$isBackendAccess = (
-													$user->gid != 8
-													&& ENABLE_BACKENDACCESS != 0
-													&& in_array($icons[$sectionName][$i], $this->access_rslt)
-													&& $isQuickLink
-												);
+								// Prepare check for regular use - not super admin
+								$isBackendAccessReg = (
+														$user->gid != 8
+														&& ENABLE_BACKENDACCESS != 0
+														&& in_array($icons[$sectionName][$i], $this->access_rslt)
+													);
+
+								// Allow super admin access by default
+								$isBackendAccess = (8 == $user->gid || $isBackendAccessReg) && $isQuickLink;
+
+								// Prepare condition for disabled config backend access.
 								$defaultAccess = (ENABLE_BACKENDACCESS == 0 && $isQuickLink);
 							?>
 
-							<!-- Handles Backend Access in below conditions -->
+							<?php // Handles Backend Access in below conditions ?>
 							<?php if ($defaultAccess || $isBackendAccess) : ?>
-								<!-- Default shipping link -->
+								<?php // Default shipping link ?>
 								<?php $link = 'index.php?option=com_redshop&amp;view=' . $icons[$sectionName][$i]; ?>
 
 								<?php if ($icons[$sectionName][$i] == 'shipping_detail') : ?>
