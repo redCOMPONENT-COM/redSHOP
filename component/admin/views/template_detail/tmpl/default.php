@@ -7,15 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JLoader::load('RedshopHelperAdminExtra_field');
-$extra_field = new extra_field;
+
 JHTML::_('behavior.tooltip');
 
-// We only support codemirror editor for template editing.
-$editor      = JFactory::getEditor('codemirror');
-$model       = $this->getModel('template_detail');
-$showbuttons = JRequest::getVar('showbuttons');
+$app = JFactory::getApplication();
+$showbuttons = $app->input->getInt('showbuttons', 0);
+
 ?>
+
+<?php if (!$showbuttons) : ?>
+<script type="text/javascript">
+	window.parent.SqueezeBox.close();
+</script>
+<?php endif; ?>
+
 <script language="javascript" type="text/javascript">
 
 	function showclicktellbox() {
@@ -25,8 +30,10 @@ $showbuttons = JRequest::getVar('showbuttons');
 			document.getElementById('clicktellbox').style.display = 'none';
 		}
 	}
+
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
+
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
 			return;
@@ -40,28 +47,34 @@ $showbuttons = JRequest::getVar('showbuttons');
 			submitform(pressbutton);
 		}
 	}
+
+	jQuery(document).ready(function($) {
+		jQuery("input:radio[name='templateMode']").click(function(event) {
+
+			document.adminForm.action += '&tmodeClicked=1';
+			Joomla.submitbutton('apply');
+		});
+	});
 </script>
-<?php
-if (isset($showbuttons))
-{
-	?>
-	<fieldset>
-		<div style="float: right">
-			<button type="button" onclick="submitbutton('save');">
-				<?php echo JText::_('COM_REDSHOP_SAVE'); ?>
-			</button>
-			<button type="button" onclick="window.parent.SqueezeBox.close();">
-				<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
-			</button>
-		</div>
-	</fieldset>
-<?php
-}
+<?php if ($showbuttons):	?>
+	<p class="well">
+		<button class="btn btn-success" onclick="submitbutton('save');">
+			<?php echo JText::_('COM_REDSHOP_SAVE'); ?>
+		</button>
+		<button class="btn btn-danger pull-right" type="button" onclick="window.parent.SqueezeBox.close();">
+			<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
+		</button>
+	</p>
+	<style type="text/css">
+		legend
+		{
+			border-style:none;
+			margin-bottom:0;
+			width:auto;
+		}
+	</style>
+<?php endif; ?>
 
-$style = $this->detail->template_section == 'clicktell_sms_message' ? "display: block;" : "display: none;";
-
-
-?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<div class="col50">
 		<fieldset class="adminform">
@@ -78,10 +91,11 @@ $style = $this->detail->template_section == 'clicktell_sms_message' ? "display: 
 					</td>
 					<td><?php echo $this->lists['section']; ?></td>
 				</tr>
+
+				<?php if ('clicktell_sms_message' == $this->detail->template_section) :	?>
 				<tr>
 					<td colspan="2">
-
-						<div id="clicktellbox" style="<?php echo $style; ?>">
+						<div id="clicktellbox">
 							<table class="admintable">
 								<tr>
 									<td width="100" align="right" class="key">
@@ -100,10 +114,9 @@ $style = $this->detail->template_section == 'clicktell_sms_message' ? "display: 
 
 							</table>
 						</div>
-
 					</td>
 				</tr>
-
+				<?php endif; ?>
 				<tr>
 					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:</td>
 					<td><?php echo $this->lists['published']; ?></td>
@@ -111,33 +124,62 @@ $style = $this->detail->template_section == 'clicktell_sms_message' ? "display: 
 			</table>
 		</fieldset>
 	</div>
-	<div class="col50">
+	<div class="col50" id="editor">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
-			<table class="admintable">
-				<tr>
-					<td><?php echo $editor->display("template_desc", $this->detail->template_desc, '800px', '500px', '100', '20'); ?></td>
-				</tr>
-			</table>
+			<div class="span12">
+				<div class="span7">
+					<div class="row-fluid">
+						<label class="text-info" for="templateMode">
+							<?php echo JText::_('COM_REDSHOP_TEMPLATE_SWITCH_METHOD'); ?>
+						</label>
+						<?php
+						$option = array();
+						$option[] = JHTML::_('select.option', 'codemirror', JText::_('COM_REDSHOP_TEMPLATE_CODE_MIRRONR'));
+						$option[] = JHTML::_('select.option', 'joomladefault', JText::_('COM_REDSHOP_TEMPLATE_JOOMLA_DEFAULT'));
+
+						$templateMode = $app->input->getCmd('templateMode', 'codemirror');
+
+						echo JHTML::_(
+							'redshopselect.radiolist',
+							$option,
+							'templateMode',
+							null,
+							'value',
+							'text',
+							$templateMode
+						);
+						?>
+					</div>
+					<div class="row-fluid">
+						<?php if ('codemirror' != $templateMode): ?>
+							<?php $templateMode = null; ?>
+						<?php endif; ?>
+						<?php
+						echo JFactory::getEditor($templateMode)
+								->display(
+									"template_desc",
+									$this->detail->template_desc,
+									'800px',
+									'500px',
+									'100',
+									'20'
+								);
+						?>
+					</div>
+					<div class="row-fluid">
+						<fieldset class="adminform">
+							<legend><?php echo JText::_('COM_REDSHOP_AVAILABLE_TEXTLIBRARY_ITEMS'); ?></legend>
+							<?php echo $this->loadTemplate('library_items');?>
+						</fieldset>
+					</div>
+				</div>
+				<div class="span5">
+					<?php echo $this->loadTemplate('dynamic_fields');?>
+				</div>
+			</div>
 		</fieldset>
 	</div>
-	<!-- Available Dynamic fields-->
-	<div class="col50">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_REDSHOP_AVAILABLE_DYNAMIC_FIELDS'); ?></legend>
-			<?php echo $this->loadTemplate('dynamic_fields');?>
-		</fieldset>
-	</div>
-
-
-	<div class="col50">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_REDSHOP_AVAILABLE_TEXTLIBRARY_ITEMS'); ?></legend>
-			<?php echo $this->loadTemplate('library_items');?>
-		</fieldset>
-	</div>
-
-	<div class="clr"></div>
 	<input type="hidden" name="template_id" value="<?php echo $this->detail->template_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="template_detail"/>
