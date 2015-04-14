@@ -765,12 +765,6 @@ class RedshopUpdate
 				'idx_state_code' => 'state_code'
 			)
 		),
-		'#__redshop_product_navigator' => array(
-			'engine' => 'InnoDB',
-			'index' => array(
-				'idx_product_id' => 'product_id'
-			)
-		),
 		'#__redshop_notifystock_users' => array(
 			'engine' => 'InnoDB',
 			'index' => array(
