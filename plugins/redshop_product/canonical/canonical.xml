@@ -3,6 +3,7 @@
 	<name>PLG_REDSHOP_PRODUCT_CANONICAL</name>
 	<author>redCOMPONENT.com</author>
 	<version>1.0</version>
+	<redshop>1.5</redshop>
 	<creationDate>Septmber 2014</creationDate>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
