@@ -23,15 +23,9 @@ class FrontEndManagerJoomla3Steps extends \AcceptanceTester
 	public function checkForNotices()
 	{
 		$I = $this;
-		$result = $I->executeInSelenium(
-			function(\WebDriver $webdriver)
-			{
-				$haystack = strip_tags($webdriver->getPageSource());
-
-				return (bool) (stripos($haystack, "Notice:") || stripos($haystack, "Warning:"));
-
-			}
-		);
+		$I->dontSeeInPageSource('Notice:');
+		$I->dontSeeInPageSource('Warning:');
+		$result = false;
 
 		return $result;
 	}
