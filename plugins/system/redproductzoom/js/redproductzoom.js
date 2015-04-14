@@ -7,17 +7,17 @@ function preloadSlimbox(parameters)
 		});
 
 		getImagename = function (link) {
-	    	var re = new RegExp("images\/(.*?)\/thumb\/(.*?)_w([0-9]*?)_h([0-9]*?)_dope(.*?)$");
+	    	var re = new RegExp("images\/(.*?)\/thumb\/(.*?)_w([0-9]*?)_h([0-9]*?)(_.*?|)([.].*?)$");
 			var m = link.match(re);
 			return m;
-	    }
+	    };
 
 	    redproductzoom = function () {
 			var mainimg = $('div[id*=productImageWrapID_]').find('img');
 			var m = getImagename(mainimg.attr('src'));
 			var newxsize = m[3];
 			var newysize = m[4];
-			var urlfull = redSHOP.RSConfig._('SITE_URL') + 'components/com_redshop/assets/images/' + m[1] + '/' + m[2] + m[5];
+			var urlfull = redSHOP.RSConfig._('SITE_URL') + 'components/com_redshop/assets/images/' + m[1] + '/' + m[2] + m[6];
 
 			mainimg.attr('data-zoom-image', urlfull);
 
@@ -35,8 +35,8 @@ function preloadSlimbox(parameters)
 
 				var m = getImagename(urlimg);
 
-				var urlthumb = redSHOP.RSConfig._('SITE_URL') + 'components/com_redshop/assets/images/' + m[1] + '/thumb/' + m[2] + '_w' + newxsize + '_h' + newysize + '_dope' + m[5];
-				var urlfull = redSHOP.RSConfig._('SITE_URL') + 'components/com_redshop/assets/images/' + m[1] + '/' + m[2] + m[5];
+				var urlthumb = redSHOP.RSConfig._('SITE_URL') + 'components/com_redshop/assets/images/' + m[1] + '/thumb/' + m[2] + '_w' + newxsize + '_h' + newysize + m[5] + m[6];
+				var urlfull = redSHOP.RSConfig._('SITE_URL') + 'components/com_redshop/assets/images/' + m[1] + '/' + m[2] + m[6];
 
 				$(this).find('a').attr('data-image', urlthumb);
 				$(this).find('a').attr('data-zoom-image', urlfull);
@@ -83,10 +83,9 @@ function preloadSlimbox(parameters)
 			   		loadingIcon: 'plugins/system/redproductzoom/js/zoomloader.gif'
 		   		});
 		   	}
-	    }
+	    };
 
 	    redproductzoom();
-
 	});
 
 	if (parameters.isenable)
@@ -97,6 +96,5 @@ function preloadSlimbox(parameters)
             redBOX.assign($$("a[rel='myallimg']"), imgoptions);
         else
             redBOX.assign($$(".additional_image > a[rel='myallimg']"), imgoptions);
-
     }
 }
