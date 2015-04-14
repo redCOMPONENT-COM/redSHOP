@@ -62,9 +62,8 @@
 
     <target name="build" depends="prepare">
     	<mkdir dir="${tmpdir}/site" />
-    	<mkdir dir="${tmpdir}/admin" />
 
-		<!-- Generate site modules packages -->
+		<!-- Generate Site modules packages -->
 		<foreach param="dirname" target="site_modules">
 			<fileset dir="${extpath}/modules/site/">
 				<type type="dir" />
@@ -72,35 +71,21 @@
 			</fileset>
 		</foreach>
 
-		<!-- Generate site modules packages -->
-		<foreach param="dirname" target="admin_modules">
-			<fileset dir="${extpath}/modules/admin/">
-				<type type="dir" />
-				<depth max="0" min="0" />
-			</fileset>
-		</foreach>
-
-		<if>
-			<available file="${package.dir}/${extension}-${version}-modules" type="dir" />
-			<then>
-		        <delete dir="${package.dir}/${extension}-${version}-modules"/>
-			</then>
-		</if>
+        <if>
+            <available file="${package.dir}/${extension}-${version}-modules" type="dir" />
+            <then>
+                <delete dir="${package.dir}/${extension}-${version}-modules"/>
+            </then>
+        </if>
 
         <copy todir="${package.dir}/${extension}-${version}-modules/site">
             <fileset dir="${tmpdir}/site">
                 <include name="*.zip" />
             </fileset>
         </copy>
+    </target>
 
-        <copy todir="${package.dir}/${extension}-${version}-modules/admin">
-            <fileset dir="${tmpdir}/admin">
-                <include name="*.zip" />
-            </fileset>
-        </copy>
-	</target>
-
-	<target name="site_modules" description="Packages the extension for delivery">
+    <target name="site_modules" description="Packages the extension for delivery">
         <xmlproperty file="${extpath}/modules/site/${dirname}/${dirname}.xml" prefix="modulemanifest" keepRoot="false" />
         <property
                 name="module_version"
@@ -132,43 +117,6 @@
 				destfile="${tmpdir}/site/${dirname}_${module_version}${redshop_compatibility}.zip"
 				basedir="${extpath}/modules/site/${dirname}">
 			<fileset dir="${extpath}/modules/site/${dirname}">
-				<include name="**" />
-				<exclude name=".*" />
-			</fileset>
-		</zip>
-	</target>
-
-	<target name="admin_modules" description="Packages the extension for delivery">
-        <xmlproperty file="${extpath}/modules/admin/${dirname}/${dirname}.xml" prefix="modulemanifest" keepRoot="false" />
-        <property
-                name="module_version"
-                value="${modulemanifest.version}"
-                override="true"/>
-        <!-- Todo: the following code checks compatibility with redSHOP Core version. The code works, but it can be improved with some PHING knowledge -->
-        <property
-                name="redshop_compatibility"
-                value="${modulemanifest.redshop}"
-                override="true"/>
-
-        <if>
-            <contains string="${redshop_compatibility}" substring="modulemanifest.redshop" />
-            <then>
-                <property
-                        name="redshop_compatibility"
-                        value=""
-                        override="true"/>
-            </then>
-            <else>
-                <property
-                        name="redshop_compatibility"
-                        value="_for_redSHOP${redshop_compatibility}"
-                        override="true"/>
-            </else>
-        </if>
-		<zip
-				destfile="${tmpdir}/admin/${dirname}_${module_version}${redshop_compatibility}.zip"
-				basedir="${extpath}/modules/admin/${dirname}">
-			<fileset dir="${extpath}/modules/admin/${dirname}">
 				<include name="**" />
 				<exclude name=".*" />
 			</fileset>
