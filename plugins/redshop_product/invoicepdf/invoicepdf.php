@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Order CSV export and send email after order update
+ * Order Shipping PDF export
  *
  * @since  1.3.3.1
  */
@@ -38,51 +38,52 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 			return;
 		}
 
+		$app           = JFactory::getApplication();
+		$index         = $app->getUserState("com_redshop.order.batch.invoicepdf.currentIndex", 0);
+		$mergeOrderIds = $app->getUserState("com_redshop.order.batch.invoicepdf.orderId", array());
+		$message       = $response['message'];
+
 		if ($data['order_status_all'] == 'S' && $data['order_paymentstatus' . $orderId] != "Paid")
 		{
-			$response['message'] .= '<li class="red text-error">'
+			$message .= '<li class="red text-error">'
 						. JText::sprintf("PLG_REDSHOP_PRODUCT_INVOICEPDF_CREATE_FAIL", "<span class=\"badge badge-important\">" . $orderId . "</span>")
 					. '</li>';
+		}
+		else
+		{
+			$pdfObj = RedshopHelperPdf::getInstance();
 
-			return;
+			$pdfObj->SetTitle('Shipped');
+			$pdfObj->SetMargins(20, 85, 20);
+
+			$font = 'times';
+			$pdfObj->setHeaderFont(array($font, '', 8));
+			$pdfObj->SetFont($font, "", 6);
+
+			$invoice = $this->createShippedInvoicePdf($orderId);
+
+			// Writing Body area
+			$pdfObj->AddPage();
+			$pdfObj->WriteHTML($invoice, true, false, true, false, '');
+
+			$invoice_pdfName = 'shipped_' . $orderId;
+			$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
+
+			ob_end_clean();
+
+			// Set response message
+			$message .= '<li class="success text-success">'
+				. JText::sprintf("PLG_REDSHOP_PRODUCT_INVOICEPDF_CREATED", "<span class=\"badge badge-success\">" . $orderId . "</span>")
+				. '</li>';
+
+			array_push($mergeOrderIds, $orderId);
 		}
 
-		$pdfObj = RedshopHelperPdf::getInstance();
-
-		$pdfObj->SetTitle('Shipped');
-		$pdfObj->SetMargins(20, 85, 20);
-
-		$font = 'times';
-		$pdfObj->setHeaderFont(array($font, '', 8));
-		$pdfObj->SetFont($font, "", 6);
-
-		$invoice = $this->createShippedInvoicePdf($orderId);
-
-		// Writing Body area
-		$pdfObj->AddPage();
-		$pdfObj->WriteHTML($invoice, true, false, true, false, '');
-
-		$invoice_pdfName = 'shipped_' . $orderId;
-		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-
-		ob_end_clean();
-
-		// Set response message
-		$message = $response['message'] . '<li class="success text-success">'
-			. JText::sprintf("PLG_REDSHOP_PRODUCT_INVOICEPDF_CREATED", "<span class=\"badge badge-success\">" . $orderId . "</span>")
-			. '</li>';
-
-		$response['orderId'] = $orderId;
-		$mergeOrderIds[]     = $orderId;
-
-		$app   = JFactory::getApplication();
-		$index = $app->getUserState("com_redshop.order.batch.invoicepdf.currentIndex", 0);
-
 		// Last call
-		if ($index == count($data['cid']) - 1)
+		if ($index == (count($data['cid']) - 1))
 		{
 			$mergedPdf = $this->mergeShippingPdf($mergeOrderIds);
-			$message   .= '<li class="success text-success"><a target="_blank" href="' . $mergedPdf . '">' . $mergedPdf . '</a></li>';
+			$message   .= '<li><a target="_blank" href="' . $mergedPdf . '">' . $mergedPdf . '</a></li>';
 
 			$index = 0;
 		}
@@ -93,6 +94,9 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 
 		// Set current index in user state
 		$app->setUserState("com_redshop.order.batch.invoicepdf.currentIndex", $index);
+
+		// Setting up successfull order ids in queue
+		$app->setUserState("com_redshop.order.batch.invoicepdf.orderId", $mergeOrderIds);
 
 		$response['message'] = $message;
 	}
