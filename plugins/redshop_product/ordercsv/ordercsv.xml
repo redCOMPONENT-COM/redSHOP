@@ -12,6 +12,10 @@
 	<files>
 		<filename plugin="ordercsv">ordercsv.php</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_invoicepdf.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_invoicepdf.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
