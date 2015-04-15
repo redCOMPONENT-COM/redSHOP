@@ -9,28 +9,40 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
+$user = JFactory::getUser();
+$portalLogo = '';
 
-$uri    = JURI::getInstance();
-$url    = $uri->root();
-$Itemid = JRequest::getInt('Itemid');
-$user   = JFactory::getUser();
-$option = 'com_redshop';
-//echo $user->id;
-echo "<div class='mod_redshop_shoppergrouplogo'>";
 if (!$user->id)
 {
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO))
 	{
-		echo "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "shopperlogo/" . DEFAULT_PORTAL_LOGO . "' width='" . $thumbwidth . "' height='" . $thumbheight . "' />";
+		$portalLogo = RedShopHelperImages::getImagePath(
+			DEFAULT_PORTAL_LOGO,
+			'',
+			'thumb',
+			'shopperlogo',
+			$thumbwidth,
+			$thumbheight
+		);
 	}
 }
-else
+elseif ($userInfo = RedshopHelperUser::getUserInformation($user->id))
 {
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $rows->shopper_group_logo))
+	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $userInfo->shopper_group_logo))
 	{
-		echo "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "shopperlogo/" . $rows->shopper_group_logo . "' width='" . $thumbwidth . "' height='" . $thumbheight . "' />";
+		$portalLogo = RedShopHelperImages::getImagePath(
+			$userInfo->shopper_group_logo,
+			'',
+			'thumb',
+			'shopperlogo',
+			$thumbwidth,
+			$thumbheight
+		);
 	}
 }
-echo "</div>";?>
+?>
+<div class="mod_redshop_shoppergrouplogo">
+	<?php if ($portalLogo): ?>
+	<img src="<?php echo $portalLogo; ?>">
+	<?php endif; ?>
+</div>
