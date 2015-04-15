@@ -1815,7 +1815,8 @@ class shipping
 				$text = sprintf(JText::_('COM_REDSHOP_SHIPPING_TEXT_LBL'), $this->producthelper->getProductFormattedPrice($diff));
 			}
 
-			elseif ($shippingrate->shipping_rate_ordertotal_start < $order_subtotal && $shippingrate->shipping_rate_ordertotal_end > $order_subtotal)
+			elseif ($shippingrate->shipping_rate_ordertotal_start <= $order_subtotal
+				&& ($shippingrate->shipping_rate_ordertotal_end == 0 || $shippingrate->shipping_rate_ordertotal_end >= $order_subtotal))
 			{
 				$text = JText::_('COM_REDSHOP_FREE_SHIPPING_RATE_IS_IN_USED');
 			}
