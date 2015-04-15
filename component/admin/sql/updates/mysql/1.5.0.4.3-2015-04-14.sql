@@ -1,0 +1,1 @@
+DELETE FROM `#__redshop_template` WHERE `template_id` = 452;
