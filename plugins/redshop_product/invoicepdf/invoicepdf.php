@@ -100,29 +100,10 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 	public function createShippedInvoicePdf($orderId)
 	{
 		$orderHelper   = new order_functions;
-		$redconfig     = new Redconfiguration;
-		$producthelper = new producthelper;
-		$extra_field   = new extra_field;
-		$config        = JFactory::getConfig();
-		$redTemplate   = new Redtemplate;
 		$carthelper    = new rsCarthelper;
 		$redshopMail   = new redshopMail;
-		$message       = "";
-		$subject       = "";
-		$cart          = '';
 
 		$arr_discount_type = array();
-
-		$mailinfo = $redTemplate->getTemplate("shippment_invoice_template");
-
-		if (count($mailinfo) > 0)
-		{
-			$message = $mailinfo[0]->template_desc;
-		}
-		else
-		{
-			return false;
-		}
 
 		$row = $orderHelper->getOrderDetails($orderId);
 
@@ -153,32 +134,31 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 			$discount_type = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
 		}
 
-		$search[] = "{discount_type}";
-		$replace[] = $discount_type;
+		$body             = $this->params->get('shippment_invoice_template');
 
-		$message          = str_replace($search, $replace, $message);
+		$search[]         = "{discount_type}";
+		$replace[]        = $discount_type;
+		$body             = str_replace($search, $replace, $body);
 
-		$message          = $redshopMail->imginmail($message);
+		$body             = $redshopMail->imginmail($body);
 		$user             = JFactory::getUser();
 		$billingaddresses = $orderHelper->getOrderBillingUserInfo($orderId);
 		$email            = $billingaddresses->user_email;
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
-		$message          = $carthelper->replaceOrderTemplate($row, $message);
+		$body             = $carthelper->replaceOrderTemplate($row, $body);
 
 		echo "<div id='redshopcomponent' class='redshop'>";
 
-		if (strstr($message, "{barcode}"))
+		if (strstr($body, "{barcode}"))
 		{
 			$img_url = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
 
 			if (function_exists("curl_init"))
 			{
 				$bar_codeIMG = '<img src="' . $img_url . '" alt="Barcode"  border="0" />';
-				$message = str_replace("{barcode}", $bar_codeIMG, $message);
+				$body = str_replace("{barcode}", $bar_codeIMG, $body);
 			}
 		}
-
-		$body = $message;
 
 		return $body;
 	}
