@@ -65,7 +65,7 @@ class RedshopControllerSearch extends RedshopController
 			$manufac[]   = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
 			$manufacdata = @array_merge($manufac, $brands);
 
-			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
+			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox span12" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
 		}
 
 		exit;
