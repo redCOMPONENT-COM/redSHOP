@@ -17,7 +17,7 @@ $perpageproduct = $params->get('productperpage');
 $search_type = $app->input->getWord('search_type', $defaultSearchType);
 $keyword = $app->input->getString('keyword', $standardkeyword);
 
-// Manufacture Select Id
+// Manufacturer Select Id
 $manufac_data = $app->input->getInt('manufacture_id', '');
 
 $redhelper       = new redhelper;
