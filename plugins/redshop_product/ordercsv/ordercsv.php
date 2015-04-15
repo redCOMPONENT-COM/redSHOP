@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class PlgRedshop_Productordercsv extends JPlugin
 {
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * CSV file path
 	 *
 	 * @var  string
@@ -48,15 +56,16 @@ class PlgRedshop_Productordercsv extends JPlugin
 	 *
 	 * @return  void
 	 */
-	public function onAjaxOrderStatusUpdate($data)
+	public function onAjaxOrderStatusUpdate($orderId, $data, &$response)
 	{
 		if ($data['order_status_all'] !== 'S')
 		{
 			return '';
 		}
 
-		$index    = JRequest::getInt('cnt', 0);
-		$orderIds = $data['cid'];
+		$app = JFactory::getApplication();
+
+		$index    = $app->getUserState("com_redshop.order.batch.ordercsv.currentIndex", 0);
 		$html     = '';
 		$csvData  = '';
 
@@ -65,7 +74,6 @@ class PlgRedshop_Productordercsv extends JPlugin
 			$csvData  = '"Felt 1","Felt 2","Felt 3","Felt 4","Felt 5","Felt 6","Felt 7","Felt 8","Felt 9","Felt 10","Felt 11"' . "\n";
 		}
 
-		$orderId = $orderIds[$index];
 		$orderInfo = $this->getOrderDetail($orderId);
 
 		$line   = array();
@@ -135,10 +143,20 @@ class PlgRedshop_Productordercsv extends JPlugin
 		// Write CSV data in to File.
 		$this->writeCsvFile($csvData);
 
-		if ($index == count($orderIds) - 1)
+		if ($index == count($data['cid']) - 1)
 		{
 			$html = $this->sendCSVFile();
+			$index = 0;
 		}
+		else
+		{
+			$index++;
+		}
+
+		// Set current index in user state
+		$app->setUserState("com_redshop.order.batch.ordercsv.currentIndex", $index);
+
+		$response['message'] = $response['message'] . '<li class="success text-success">' . $html . '</li>';
 
 		return $html;
 	}
@@ -160,7 +178,10 @@ class PlgRedshop_Productordercsv extends JPlugin
 	 */
 	private function readCsvFile()
 	{
-		return file_get_contents(self::$csvFilePath);
+		if (JFile::exists(self::$csvFilePath))
+		{
+			return file_get_contents(self::$csvFilePath);
+		}
 	}
 
 	/**
@@ -204,7 +225,7 @@ class PlgRedshop_Productordercsv extends JPlugin
 		{
 			unlink($this->getCsvFile());
 
-			return JText::_('COM_REDSHOP_CSV_SEND_EMAIL');
+			return JText::_('PLG_REDSHOP_PRODUCT_ORDERCSV_SEND_EMAIL');
 		}
 	}
 
