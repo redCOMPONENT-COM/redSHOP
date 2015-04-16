@@ -26,14 +26,14 @@ class FrontEndLoginJoomla3Steps extends \AcceptanceTester
 	public function doFrontEndLogin()
 	{
 		$I = $this;
-		$this->acceptanceTester = $I;
-		$I->amOnPage(\FrontEndLoginManagerJoomla3Page::$frontEndLoginURL);
+		$frontEndLoginUrl = '/index.php?option=com_users&view=login';
+		$I->amOnPage($frontEndLoginUrl);
 		$config = $I->getConfig();
-		$I->waitForElement(\FrontEndLoginManagerJoomla3Page::$frontEndUserName);
-		$I->fillField(\FrontEndLoginManagerJoomla3Page::$frontEndUserName, $config['username']);
-		$I->fillField(\FrontEndLoginManagerJoomla3Page::$frontEndPassword, $config['password']);
-		$I->click(\FrontEndLoginManagerJoomla3Page::$frontEndLoginButton);
-		$I->waitForElement(\FrontEndLoginManagerJoomla3Page::$frontEndLoginSuccess, 30);
-		$I->seeElement(\FrontEndLoginManagerJoomla3Page::$frontEndLoginSuccess);
+		$I->waitForText("Username", 10, '.control-label');
+		$I->fillField("Username", $config['username']);
+		$I->fillField("Password", $config['password']);
+		$I->click('Log in');
+		$I->waitForElement('#member-profile', 30);
+		$I->seeElement('#member-profile');
 	}
 }
