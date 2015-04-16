@@ -49,17 +49,49 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 	 */
 	public function getStockroomStatus($order_id)
 	{
-		$redshopMail = new redshopMail;
-
-		$notifyTemplate = $redshopMail->getMailtemplate(0, "admin_notify_stock_mail");
-
-		if (!count($notifyTemplate) && ADMINISTRATOR_EMAIL != "")
+		if (ADMINISTRATOR_EMAIL == "")
 		{
 			return;
 		}
 
-		$notifyTemplate = $notifyTemplate[0];
-		$mailData = $notifyTemplate->mail_body;
+		$mailData = $this->params->get('template', '<table>
+  <tbody>
+  <tr>
+ 	 <td colspan="4">Hello Administrator,</td>
+  </tr>
+  <tr>
+  	<td colspan="4">The following product/s have reached minimum stock level.</td>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <table border="1">
+      <tbody>
+        <tr>
+          <td>Product Number</td>
+          <td>Product Name</td>
+          <td>Stockroom Name</td>
+          <td>Current Stock</td>
+        </tr>
+        <!--  {product_loop_start} -->
+        <tr>
+          <td>{product_number}</td>
+          <td>{product_name}</td>
+          <td>{stockroom_name}</td>
+          <td>{stock_status}</td>
+        </tr>
+        <!--  {product_loop_end} -->
+      </tbody>
+      </table>
+    </td>
+  </tr>
+  <tr>
+  	<td colspan="4">Regards,</td>
+  </tr>
+  <tr>
+  	<td colspan="4">Stockkeeper</td>
+  </tr>
+  </tbody>
+</table>');
 
 		if (!(strstr($mailData, "{product_loop_start}") && strstr($mailData, "{product_loop_end}")))
 		{
@@ -121,13 +153,16 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 			$app = JFactory::getApplication();
 			$mailFrom = $app->get('mailfrom');
 			$fromName = $app->get('fromname');
+			$replyTo = trim($this->params->get('replyTo', ''));
 
-			if (trim($notifyTemplate->mail_bcc) != "")
+			if ($replyTo != '')
 			{
-				$mailbcc = explode(",", $notifyTemplate[0]->mail_bcc);
+				$mailbcc = explode(",", $replyTo);
 			}
 
-			JFactory::getMailer()->sendMail($mailFrom, $fromName, ADMINISTRATOR_EMAIL, $notifyTemplate->mail_subject, $message, 1, null, $mailbcc);
+			JFactory::getMailer()->sendMail(
+				$mailFrom, $fromName, ADMINISTRATOR_EMAIL, $this->params->get('mailSubject', 'Stockroom Status Mail'), $message, 1, null, $mailbcc
+			);
 		}
 	}
 
