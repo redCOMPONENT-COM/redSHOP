@@ -507,24 +507,27 @@ class RedshopModelCart extends RedshopModel
 		$products_number = explode("\n", $post["numbercart"]);
 		$db = JFactory::getDbo();
 
-		for ($i = 0; $i < count($products_number); $i++)
+		for ($i = 0, $countNumber = count($products_number); $i < $countNumber; $i++)
 		{
-			if ($products_number[$i] == "")
+			$productNumber = trim($products_number[$i]);
+
+			if ($productNumber == "")
 			{
 				continue;
 			}
 
-			$query = "SELECT product_id,published, not_for_sale, expired,product_name FROM `" . $this->_table_prefix . "product`
-					WHERE `product_number` = " . $db->quote(addslashes(trim($products_number[$i]))) . " ";
-			$db->setQuery($query);
-			$product = $db->loadObject();
+			$query = $db->getQuery(true)
+				->select('product_id,published, not_for_sale, expired,product_name')
+				->from($db->qn('#__redshop_product'))
+				->where('product_number = ' . $db->quote($productNumber));
+			$product = $db->setQuery($query)->loadObject();
+
+			if (!$product)
+			{
+				continue;
+			}
 
 			$product_id = $product->product_id;
-
-			if ($product_id == "")
-			{
-				continue;
-			}
 
 			if ($product->published == 0)
 			{
