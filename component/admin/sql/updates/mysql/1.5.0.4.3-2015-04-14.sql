@@ -1,1 +1,1 @@
-DELETE FROM `#__redshop_template` WHERE `template_id` = 452;
+DELETE FROM `#__redshop_template` WHERE `template_section` = 'shippment_invoice_template';
