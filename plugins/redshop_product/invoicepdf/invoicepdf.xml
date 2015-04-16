@@ -2,7 +2,8 @@
 <extension version="2.5" type="plugin" group="redshop_product" method="upgrade">
 	<name>PLG_REDSHOP_PRODUCT_INVOICEPDF</name>
 	<author>redCOMPONENT.com</author>
-	<version>1.2.2</version>
+	<version>1.5</version>
+	<redshop>1.5</redshop>
 	<creationDate>April 2013</creationDate>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
