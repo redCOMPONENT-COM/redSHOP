@@ -9,108 +9,44 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
-class plgtelesearchrs_telesearch extends JPlugin
+/**
+ * Telephone Directory search plugin for redSHOP Registration
+ *
+ * @package     RedSHOP.Telesearch
+ * @subpackage  Plugin
+ *
+ * @since       1.1
+ */
+class PlgTeleSearchRs_Telesearch extends JPlugin
 {
 	/**
-	 * specific redform plugin parameters
+	 * Find data using telephone number
 	 *
-	 * @var JRegistry object
-	 */
-	public function plgtelesearchrs_telesearch(&$subject, $config = array())
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
-	 * Method to connect with telesearch
+	 * @param   array  $data  Phone number related data
 	 *
-	 * @access public
-	 * @return array
+	 * @return  array  Data found by telesearch operation
 	 */
-	public function findByTelephoneNumber($tele)
+	public function findByTelephoneNumber($data)
 	{
-		$returnarr = array();
+		jimport('joomla.http');
 
-		$query = "";
-		$query .= '&phone=' . $tele['phone'];
-		$query .= '&remoteadd=' . $_SERVER['SERVER_ADDR'];
+		$queryData = array(
+			'newapi'    => 1,
+			'phone'     => $data['phone'],
+			'remoteadd' => $_SERVER['SERVER_ADDR']
+		);
 
-		$plugin = JPluginHelper::getPlugin('telesearch', 'rs_telesearch');
-		$pluginParams = new JRegistry($plugin->params);
-		$serverurl = $pluginParams->get('telesearch_serverurl', 'http://opslag.redhost.dk/');
+		$url = $this->params->get('apiUrl', 'http://opslag.redhost.dk/lookup.php')
+				. '?' . http_build_query($queryData);
 
-		$myfile = $serverurl . '/lookup.php?' . $query;
+		$http     = new JHttp(new JRegistry);
+		$response = $http->get($url);
 
-		if (function_exists("curl_init"))
+		if (200 !== (int) $response->code)
 		{
-			$CR = curl_init();
-			curl_setopt($CR, CURLOPT_URL, $myfile);
-			curl_setopt($CR, CURLOPT_TIMEOUT, 30);
-			curl_setopt($CR, CURLOPT_FAILONERROR, true);
-
-			if ($query)
-			{
-				curl_setopt($CR, CURLOPT_POSTFIELDS, $query);
-				curl_setopt($CR, CURLOPT_POST, 1);
-			}
-
-			curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
-			$return = curl_exec($CR);
-			$error = curl_error($CR);
-			curl_close($CR);
-
-			if ($return)
-			{
-				$returnarr = explode("`_`", $return);
-				$result = array();
-
-				if (isset($returnarr[0]))
-				{
-					$result['company_name'] = $returnarr[0];
-				}
-
-				if (isset($returnarr[1]))
-				{
-					$result['address'] = $returnarr[1];
-				}
-
-				if (isset($returnarr[2]))
-				{
-					$result['zipcode'] = $returnarr[2];
-				}
-
-				if (isset($returnarr[3]))
-				{
-					$result['city'] = $returnarr[3];
-				}
-
-				if (isset($returnarr[4]))
-				{
-					$result['url'] = $returnarr[4];
-				}
-
-				if (isset($returnarr[5]))
-				{
-					$result['phone'] = $returnarr[5];
-				}
-
-				if (isset($returnarr[6]))
-				{
-					$result['firstname'] = $returnarr[6];
-				}
-
-				if (isset($returnarr[7]))
-				{
-					$result['lastname'] = $returnarr[7];
-				}
-
-				return $result;
-			}
+			return array();
 		}
 
-		return $returnarr;
+		return json_decode($response->body, true);
 	}
 }
-
