@@ -684,12 +684,8 @@ class rsUserhelper
 			}
 		}
 
-		if ($isNew)
-		{
-			JPluginHelper::importPlugin('highrise');
-			$dispatcher = JDispatcher::getInstance();
-			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array());
-		}
+		JPluginHelper::importPlugin('user');
+		JDispatcher::getInstance()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
 
 		/**
 		 * redCRM includes
