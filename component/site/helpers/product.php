@@ -3586,13 +3586,25 @@ class producthelper
 		$stockroomhelper     = new rsstockroomhelper;
 		$property_with_stock = array();
 
-		for ($p = 0; $p < count($property); $p++)
+		for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
 		{
-			$isStock = $stockroomhelper->isStockExists($property[$p]->property_id, $section = "property");
-
-			if ($isStock)
+			if ($stockroomhelper->isStockExists($property[$p]->property_id, $section = "property"))
 			{
 				$property_with_stock[] = $property[$p];
+			}
+			else
+			{
+				if ($subPropertyAll = $this->getAttibuteSubProperty(0, $property[$p]->value))
+				{
+					foreach ($subPropertyAll as $subProperty)
+					{
+						if ($stockroomhelper->isStockExists($subProperty->subattribute_color_id, $section = "subproperty"))
+						{
+							$property_with_stock[] = $property[$p];
+							break;
+						}
+					}
+				}
 			}
 		}
 
