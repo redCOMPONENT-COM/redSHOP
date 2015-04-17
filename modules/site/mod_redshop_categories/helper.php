@@ -182,6 +182,10 @@ class modProMenuHelper
 			{
 				$shoppergroup_cat = $this->get_shoppergroup_cat($shopper_group_id);
 			}
+			else
+			{
+				$shoppergroup_cat = 0;
+			}
 
 			// Get only published categories
 			$query = "SELECT category_id, category_description, category_name,category_child_id as cid, category_parent_id as pid,ordering, published
@@ -207,9 +211,9 @@ class modProMenuHelper
 				$query .= ") ";
 			}
 
-			if ($shopper_group_id)
+			if ($shopper_group_id && $shoppergroup_cat)
 			{
-				$query .= " and category_id in (" . $shoppergroup_cat[0] . ")";
+				$query .= " and category_id in (" . $shoppergroup_cat . ")";
 			}
 
 			$query .= "ORDER BY " . $sortparam . "";
@@ -360,7 +364,15 @@ class modProMenuHelper
 			$nrows = count($row_list);
 		}
 
-		$depth = max($depth_list);
+		if (count($depth_list) > 0)
+		{
+			$depth = max($depth_list);
+		}
+		else
+		{
+			$depth = 0;
+		}
+
 		$sub    = 0;
 
 		// Now show the categories
@@ -486,7 +498,7 @@ class modProMenuHelper
 		$query = "SELECT shopper_group_categories  FROM #__redshop_shopper_group "
 			. "WHERE shopper_group_id=" . (int) $shopper_group_id;
 		$db->setQuery($query);
-		$cat_id_arr = $db->loadColumn();
+		$cat_id_arr = $db->loadResult();
 
 		return $cat_id_arr;
 	}

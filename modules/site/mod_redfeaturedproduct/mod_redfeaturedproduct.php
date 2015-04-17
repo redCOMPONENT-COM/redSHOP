@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperRedshop.js');
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperHelper');

@@ -22,6 +22,72 @@ JLoader::load('RedshopHelperAdminImages');
 class PlgRedshop_ProductMergeImage extends JPlugin
 {
 	/**
+	 * After Display Product method
+	 *
+	 * Method is called by the product view
+	 *
+	 * @param   string  &$template  The Product Template Data
+	 * @param   object  $params     The product params
+	 * @param   object  $product    The product object
+	 *
+	 * @return  null
+	 */
+	public function onAfterDisplayProduct(&$template, $params, $product)
+	{
+		$app = JFactory::getApplication();
+
+		// No for admin
+		if ($app->isAdmin())
+		{
+			return;
+		}
+
+		$view = JRequest::getCmd('view');
+
+		if ($view != 'product')
+		{
+			return;
+		}
+
+		// Requests
+		$option = JRequest::getCmd('option');
+		$tmpl = JRequest::getCmd('tmpl');
+
+		if ($option == "com_redshop" && $tmpl != "component")
+		{
+			$document = JFactory::getDocument();
+			$document->addScriptDeclaration("
+				function setZoomImagepath(elm) {
+					var elmpath = elm.href;
+					var elmfilenamepath = elmpath.replace(/\\\/g, '/').replace(/.*\//, '');
+					var path = document.getElementById('main_image" . $product->product_id . "').src;
+					var filenamepath = path.replace(/\\\/g, '/').replace(/.*\//, '');
+					var imageName = filenamepath.split('&');
+					imageName = imageName[0].replace(/_w\d+_h\d+/, '');
+
+					var imageurl;
+
+					if (/MSIE[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+						elmfilenamepath = decodeURI(elmfilenamepath);
+						if (elmfilenamepath != imageName[0]) {
+							imageurl = redSHOP.RSConfig._('SITE_URL') + 'components/com_redshop/assets/images/mergeImages/' + imageName;
+							elm.href = imageurl;
+						}
+					}
+					else {
+						if (elmfilenamepath != imageName[0]) {
+							imageurl = redSHOP.RSConfig._('SITE_URL')  + 'components/com_redshop/assets/images/mergeImages/' + imageName;
+							elm.href = imageurl;
+						}
+					}
+				}"
+			);
+		}
+
+		return;
+	}
+
+	/**
 	 * Method will trigger Before redSHOP Image load
 	 *
 	 * @param   array  $productArr  Product Image information

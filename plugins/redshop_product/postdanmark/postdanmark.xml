@@ -3,7 +3,8 @@
 	<name>PLG_REDSHOP_PRODUCT_POSTDANMARK</name>
 	<author>redCOMPONENT.com</author>
 	<version>1.0</version>
-	<creationDate>Septmber 2014</creationDate>
+    <redshop>1.5</redshop>
+	<creationDate>September 2014</creationDate>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
 	<authorEmail>email@redcomponent.com</authorEmail>

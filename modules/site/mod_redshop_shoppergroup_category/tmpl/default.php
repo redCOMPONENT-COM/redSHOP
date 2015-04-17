@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 <ul class="menu<?php echo $class_sfx; ?>"<?php
 	$tag = '';
+
 	if ($params->get('tag_id') != null)
 	{
 		$tag = $params->get('tag_id') . '';
@@ -23,15 +24,15 @@ defined('_JEXEC') or die;
 	<?php
 	foreach ($list as $i => &$item) :
 		$class = 'item-' . $item->id;
+
 		if ($item->id == $active_id)
 		{
 			$class .= ' current';
 		}
 
-		if ($item->type == 'alias' &&
-			in_array($item->params->get('aliasoptions'), $path)
-			|| in_array($item->id, $path)
-		)
+		if ($item->type == 'alias'
+			&& in_array($item->params->get('aliasoptions'), $path)
+			|| in_array($item->id, $path))
 		{
 			$class .= ' active';
 		}
@@ -54,7 +55,8 @@ defined('_JEXEC') or die;
 		echo '<li' . $class . '>';
 
 		// Render the menu item.
-		switch ($item->type) :
+		switch ($item->type)
+		{
 			case 'separator':
 			case 'url':
 			case 'component':
@@ -64,23 +66,26 @@ defined('_JEXEC') or die;
 			default:
 				require JModuleHelper::getLayoutPath('mod_redshop_shoppergroup_category', 'default_url');
 				break;
-		endswitch;
+		}
 
 		// The next item is deeper.
 		if ($item->deeper)
 		{
 			echo '<ul>';
 		}
+
 		// The next item is shallower.
 		elseif ($item->shallower)
 		{
 			echo '</li>';
 			echo str_repeat('</ul></li>', $item->level_diff);
 		}
+
 		// The next item is on the same level.
 		else
 		{
 			echo '</li>';
 		}
+
 	endforeach;
 	?></ul>
