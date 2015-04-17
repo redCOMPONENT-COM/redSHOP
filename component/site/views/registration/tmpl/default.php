@@ -115,23 +115,8 @@ if ($this->params->get('show_page_heading', 1))
 			</tr>
 			<tr>
 				<td>
-					<?php
-					if (JPluginHelper::isEnabled('redshop_vies_registration', 'rs_vies_registration'))
-					{
-						?>
-						<input type="submit" class="button btn" name="submit"
-							   onclick="return checkviesvalid();"
-							   value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>">
-					<?php
-					}
-					else
-					{
-						?>
-						<input type="submit" class="button btn" name="submit"
-							   value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>"/>
-					<?php
-					}
-					?>
+					<input type="submit" class="registrationSubmitButton button btn" name="submit"
+						   value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>"/>
 				</td>
 			</tr>
 		</table>

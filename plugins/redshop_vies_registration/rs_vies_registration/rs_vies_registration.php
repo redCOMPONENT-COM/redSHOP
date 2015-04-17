@@ -30,6 +30,7 @@ class PlgRedshop_Vies_Registrationrs_Vies_Registration extends JPlugin
 	 */
 	public function __construct(&$subject, $config = array())
 	{
+		JHtml::_('redshopjquery.framework');
 		$lang = JFactory::getLanguage();
 		$lang->load('plg_redshop_vies_registration_rs_vies_registration', JPATH_ADMINISTRATOR);
 		JText::script('PLG_REDSHOP_VIES_REGISTRATION_BROWSER_NOT_SUPPORT_XMLHTTP');
@@ -37,6 +38,15 @@ class PlgRedshop_Vies_Registrationrs_Vies_Registration extends JPlugin
 		JHtml::script('plugins/redshop_vies_registration/rs_vies_registration/js/vies.js');
 
 		parent::__construct($subject, $config);
+	}
+
+	public function onChangeRegistrationForm(&$template)
+	{
+		$template = str_replace(
+			"{vat_number}",
+			'{vat_number}<input type="hidden" name="vies_wait_input" value="" id="vies_wait_input">',
+			$template
+		);
 	}
 
 	/**
