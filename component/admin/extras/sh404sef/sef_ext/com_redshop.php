@@ -195,12 +195,6 @@ switch ($view)
 			shRemoveFromGETVarsList('cid');
 		}
 
-		if ($layout == 'searchletter' && $layout != '')
-		{
-			$title[] = $letter;
-			shRemoveFromGETVarsList('letter');
-		}
-
 		shRemoveFromGETVarsList('layout');
 
 		if ($Treeid)
