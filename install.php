@@ -1222,7 +1222,8 @@ class Com_RedshopInstallerScript
 		{
 			array_push(
 				$folders,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system'
+				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system',
+				JPATH_SITE . '/components/com_redshop/views/category/tmpl/searchletter.php'
 			);
 		}
 
