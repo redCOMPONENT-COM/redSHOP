@@ -279,13 +279,23 @@ class RedshopModelSearch extends RedshopModel
 	{
 		$where = array();
 		$db = JFactory::getDbo();
+		$conditions = explode(' ', $conditions);
 
 		foreach ((array) $fields as $field)
 		{
+			$glueOneField = array();
+
 			foreach ((array) $conditions as $condition)
 			{
-				$where[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
+				$condition = trim($condition);
+
+				if ($condition != '')
+				{
+					$glueOneField[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
+				}
 			}
+
+			$where[] = '(' . implode(' AND ', $glueOneField) . ')';
 		}
 
 		return '(' . implode(' ' . $glue . ' ', $where) . ')';
@@ -481,43 +491,34 @@ class RedshopModelSearch extends RedshopModel
 				$defaultSearchType = $manudata['search_type'];
 			}
 
-			if ($defaultSearchType == "name_number")
+			switch ($defaultSearchType)
 			{
-				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number', 'p.product_s_desc'), $keyword));
-			}
-			elseif ($defaultSearchType == "name_desc")
-			{
-				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_desc', 'p.product_s_desc'), $keyword));
-			}
-			elseif ($defaultSearchType == "virtual_product_num")
-			{
-				$query->where($this->getSearchCondition(array('pap.property_number', 'ps.subattribute_color_number'), $keyword));
-			}
-			elseif ($defaultSearchType == "name_number_desc")
-			{
-				$query->where(
-					$this->getSearchCondition(
-						array('p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number', 'ps.subattribute_color_number'),
-						$keyword
-					)
-				);
-			}
-			elseif ($defaultSearchType == "product_desc")
-			{
-				$query->where($this->getSearchCondition('p.' . $defaultSearchType, $keyword));
-			}
-			elseif ($defaultSearchType == "product_name")
-			{
-				$mainSpName = explode(' ', $keyword);
-
-				if (count($mainSpName) > 0)
-				{
-					$query->where($this->getSearchCondition('p.product_name', explode(' ', $keyword), 'AND'));
-				}
-			}
-			elseif ($defaultSearchType == "product_number")
-			{
-				$query->where($this->getSearchCondition(array('p.product_number'), $keyword));
+				case 'name_number':
+					$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number'), $keyword));
+					break;
+				case 'name_desc':
+					$query->where($this->getSearchCondition(array('p.product_name', 'p.product_desc', 'p.product_s_desc'), $keyword));
+					break;
+				case 'virtual_product_num':
+					$query->where($this->getSearchCondition(array('pap.property_number', 'ps.subattribute_color_number'), $keyword));
+					break;
+				case 'name_number_desc':
+					$query->where(
+						$this->getSearchCondition(
+							array('p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number', 'ps.subattribute_color_number'),
+							$keyword
+						)
+					);
+					break;
+				case 'product_desc':
+					$query->where($this->getSearchCondition(array('p.product_s_desc', 'p.product_desc'), $keyword));
+					break;
+				case 'product_name':
+					$query->where($this->getSearchCondition('p.product_name', $keyword));
+					break;
+				case 'product_number':
+					$query->where($this->getSearchCondition('p.product_number', $keyword));
+					break;
 			}
 
 			if ($manufacture_id == 0)
@@ -1099,74 +1100,81 @@ class RedshopModelSearch extends RedshopModel
 		return $db->loadObjectList();
 	}
 
+	/**
+	 * Get ajax Data
+	 *
+	 * @return mixed
+	 *
+	 * @throws Exception
+	 */
 	public function getajaxData()
 	{
 		JLoader::import('joomla.application.module.helper');
 		$module      = JModuleHelper::getModule('redshop_search');
 		$params      = new JRegistry($module->params);
 		$limit       = $params->get('noofsearchresults');
-		$keyword     = JRequest::getCmd('input');
-		$search_type = JRequest::getCmd('search_type');
+		$app = JFactory::getApplication();
+		$keyword     = $app->input->getString('keyword', '');
+		$search_type = $app->input->getCmd('search_type', '');
 		$db = JFactory::getDbo();
+		$category_id    = $app->input->getInt('category_id', 0);
+		$manufacture_id = $app->input->getInt('manufacture_id', 0);
 
-		$category_id    = JRequest::getInt('category_id');
-		$manufacture_id = JRequest::getInt('manufacture_id');
+		$query = $db->getQuery(true)
+			->select('p.product_id AS id, p.product_name AS value')
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'x') . ' ON x.product_id = p.product_id')
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON x.category_id = c.category_id')
+			->where('p.published = 1')
+			->group('p.product_id');
 
-		$where = array();
+		switch ($search_type)
+		{
+			case 'product_name';
+				$query->where($this->getSearchCondition('p.product_name', $keyword));
+				break;
+			case 'product_number';
+				$query->where($this->getSearchCondition('p.product_number', $keyword));
+				break;
+			case 'name_number';
+				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number'), $keyword));
+				break;
+			case 'product_desc';
+				$query->where($this->getSearchCondition(array('p.product_s_desc', 'p.product_desc'), $keyword));
+				break;
+			case 'name_desc';
+				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_s_desc', 'p.product_desc'), $keyword));
+				break;
+			case 'virtual_product_num':
+				$query->where($this->getSearchCondition(array('pap.property_number', 'ps.subattribute_color_number'), $keyword));
+				break;
+			case 'name_number_desc':
+				$query->where(
+					$this->getSearchCondition(
+						array('p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number', 'ps.subattribute_color_number'),
+						$keyword
+					)
+				);
+				break;
+		}
 
-		if ($search_type == 'product_name')
+		if ($search_type == "name_number_desc" || $search_type == "virtual_product_num")
 		{
-			$where[] = "p.product_name LIKE " . $db->quote('%' . $keyword . '%') . " ";
-		}
-		elseif ($search_type == 'product_number')
-		{
-			$where[] = "p.product_number LIKE " . $db->quote('%' . $keyword . '%') . " ";
-		}
-		elseif ($search_type == 'name_number')
-		{
-			$where[] = "p.product_name LIKE " . $db->quote('%' . $keyword . '%')
-				. " or p.product_number LIKE " . $db->quote('%' . $keyword . '%') . " ";
-		}
-		elseif ($search_type == 'product_desc')
-		{
-			$where[] = "p.product_s_desc LIKE " . $db->quote('%' . $keyword . '%')
-				. "  or p.product_desc LIKE " . $db->quote('%' . $keyword . '%') . " ";
-		}
-		elseif ($search_type == 'name_desc')
-		{
-			$where[] = "p.product_name LIKE " . $db->quote('%' . $keyword . '%')
-				. " or p.product_s_desc LIKE " . $db->quote('%' . $keyword . '%')
-				. " or p.product_desc LIKE " . $db->quote('%' . $keyword . '%') . " ";
-		}
-		elseif ($search_type == 'name_number_desc')
-		{
-			$where[] = "p.product_name LIKE " . $db->quote('%' . $keyword . '%')
-				. "  or p.product_number LIKE " . $db->quote('%' . $keyword . '%')
-				. "  or p.product_s_desc LIKE " . $db->quote('%' . $keyword . '%')
-				. "  or p.product_desc LIKE " . $db->quote('%' . $keyword . '%') . " ";
+			$query->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.product_id = p.product_id')
+				->leftJoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON pap.attribute_id = a.attribute_id')
+				->leftJoin($db->qn('#__redshop_product_subattribute_color', 'ps') . ' ON ps.subattribute_id = pap.property_id');
 		}
 
 		if ($category_id != "0")
 		{
-			$where[] = "c.category_id = " . (int) $category_id . " ";
+			$query->where('c.category_id = ' . (int) $category_id);
 		}
 
 		if ($manufacture_id != "0")
 		{
-			$where[] = "p.manufacturer_id = " . (int) $manufacture_id . " ";
+			$query->where('p.manufacturer_id = ' . (int) $manufacture_id);
 		}
 
-		$wheres = '';
-		$wheres = implode(" AND ", $where);
-
-		$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number FROM "
-			. $this->_table_prefix . "product p "
-			. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'category c ON x.category_id = c.category_id '
-			. " WHERE p.published=1 AND " . $wheres . " GROUP BY p.product_id ";
-
-		$this->_data = $this->_getList($query, "0", $limit);
-
-		return $this->_data;
+		return $db->setQuery($query, 0, $limit)->loadObjectList();
 	}
 }

@@ -144,7 +144,7 @@ $form->protocol		= '7';
 $form->msgtype		= 'authorize';
 $form->merchant		= $this->params->get("quickpay_customer_id");
 $form->language		= $this->params->get("language");
-$form->ordernumber 	= $order_details[0]->order_id;
+$form->ordernumber 	= ((boolean) $this->params->get('sendOrderId')) ? $order_details[0]->order_id : $order_details[0]->order_number;
 $form->amount		= ($order_details[0]->order_total * 100);
 $form->currency		= 'DKK';
 

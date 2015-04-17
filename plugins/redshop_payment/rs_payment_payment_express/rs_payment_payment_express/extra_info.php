@@ -65,4 +65,5 @@ $valid = $response->get_attribute("valid");
 $session = JFactory::getSession();
 $session->set('cart', "");
 
+$app = JFactory::getApplication();
 $app->redirect($url);

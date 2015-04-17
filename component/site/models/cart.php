@@ -235,83 +235,90 @@ class RedshopModelCart extends RedshopModel
 
 		if ($newQuantity != $oldQuantity)
 		{
-			if (array_key_exists('checkQuantity', $data))
+			if (isset($cart[$cartElement]['giftcard_id']) && $cart[$cartElement]['giftcard_id'])
 			{
-				$cart[$cartElement]['quantity'] = $data['checkQuantity'];
+				$cart[$cartElement]['quantity'] = $newQuantity;
 			}
 			else
 			{
-				$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
-			}
-
-			if ($newQuantity > $cart[$cartElement]['quantity'])
-			{
-				$cart['notice_message'] = $cart[$cartElement]['quantity'] . " " . JTEXT::_('COM_REDSHOP_AVAILABLE_STOCK_MESSAGE');
-			}
-			else
-			{
-				$cart['notice_message'] = "";
-			}
-
-			$cart[$cartElement]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
-			$cart[$cartElement]['cart_attribute'] = $this->updateAttributePriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
-
-			// Discount calculator
-			if (!empty($cart[$cartElement]['discount_calc']))
-			{
-				$calcdata               = $cart[$cartElement]['discount_calc'];
-				$calcdata['product_id'] = $cart[$cartElement]['product_id'];
-
-				$discount_cal = $this->_carthelper->discountCalculator($calcdata);
-
-				$calculator_price  = $discount_cal['product_price'];
-				$product_price_tax = $discount_cal['product_price_tax'];
-			}
-
-			// Attribute price
-			$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
-			$product_price              = $retAttArr[1];
-			$product_vat_price          = $retAttArr[2];
-			$product_old_price          = $retAttArr[5] + $retAttArr[6];
-			$product_old_price_excl_vat = $retAttArr[5];
-
-			// Accessory price
-			$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$cartElement]['cart_accessory'], $cart[$cartElement]['product_id']);
-			$accessory_total_price = $retAccArr[1];
-			$accessory_vat_price   = $retAccArr[2];
-
-			if ($cart[$cartElement]['wrapper_id'])
-			{
-				$wrapperArr    = $this->_carthelper->getWrapperPriceArr(array('product_id' => $cart[$cartElement]['product_id'], 'wrapper_id' => $cart[$cartElement]['wrapper_id']));
-				$wrapper_vat   = $wrapperArr['wrapper_vat'];
-				$wrapper_price = $wrapperArr['wrapper_price'];
-			}
-
-			if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
-			{
-				$subscription_vat    = 0;
-				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($cart[$cartElement]['product_id'], $cart[$cartElement]['subscription_id']);
-				$subscription_price  = $subscription_detail->subscription_price;
-
-				if ($subscription_price)
+				if (array_key_exists('checkQuantity', $data))
 				{
-					$subscription_vat = $this->_producthelper->getProductTax($cart[$cartElement]['product_id'], $subscription_price);
+					$cart[$cartElement]['quantity'] = $data['checkQuantity'];
+				}
+				else
+				{
+					$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
 				}
 
-				$product_vat_price += $subscription_vat;
-				$product_price = $product_price + $subscription_price;
+				if ($newQuantity > $cart[$cartElement]['quantity'])
+				{
+					$cart['notice_message'] = $cart[$cartElement]['quantity'] . " " . JTEXT::_('COM_REDSHOP_AVAILABLE_STOCK_MESSAGE');
+				}
+				else
+				{
+					$cart['notice_message'] = "";
+				}
 
-				$product_old_price_excl_vat += $subscription_price;
+				$cart[$cartElement]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
+				$cart[$cartElement]['cart_attribute'] = $this->updateAttributePriceArray($cart[$cartElement], $cart[$cartElement]['quantity']);
+
+				// Discount calculator
+				if (!empty($cart[$cartElement]['discount_calc']))
+				{
+					$calcdata = $cart[$cartElement]['discount_calc'];
+					$calcdata['product_id'] = $cart[$cartElement]['product_id'];
+
+					$discount_cal = $this->_carthelper->discountCalculator($calcdata);
+
+					$calculator_price = $discount_cal['product_price'];
+					$product_price_tax = $discount_cal['product_price_tax'];
+				}
+
+				// Attribute price
+				$retAttArr = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
+				$product_price = $retAttArr[1];
+				$product_vat_price = $retAttArr[2];
+				$product_old_price = $retAttArr[5] + $retAttArr[6];
+				$product_old_price_excl_vat = $retAttArr[5];
+
+				// Accessory price
+				$retAccArr = $this->_producthelper->makeAccessoryCart($cart[$cartElement]['cart_accessory'], $cart[$cartElement]['product_id']);
+				$accessory_total_price = $retAccArr[1];
+				$accessory_vat_price = $retAccArr[2];
+
+				if ($cart[$cartElement]['wrapper_id'])
+				{
+					$wrapperArr = $this->_carthelper->getWrapperPriceArr(array('product_id' => $cart[$cartElement]['product_id'], 'wrapper_id' => $cart[$cartElement]['wrapper_id']));
+					$wrapper_vat = $wrapperArr['wrapper_vat'];
+					$wrapper_price = $wrapperArr['wrapper_price'];
+				}
+
+				if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
+				{
+					$subscription_vat = 0;
+					$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($cart[$cartElement]['product_id'], $cart[$cartElement]['subscription_id']);
+					$subscription_price = $subscription_detail->subscription_price;
+
+					if ($subscription_price)
+					{
+						$subscription_vat = $this->_producthelper->getProductTax($cart[$cartElement]['product_id'], $subscription_price);
+					}
+
+					$product_vat_price += $subscription_vat;
+					$product_price = $product_price + $subscription_price;
+
+					$product_old_price_excl_vat += $subscription_price;
+				}
+
+				$cart[$cartElement]['product_price'] = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
+				$cart[$cartElement]['product_old_price'] = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
+				$cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
+				$cart[$cartElement]['product_price_excl_vat'] = $product_price + $accessory_total_price + $wrapper_price;
+				$cart[$cartElement]['product_vat'] = $product_vat_price + $accessory_vat_price + $wrapper_vat;
+				JPluginHelper::importPlugin('redshop_product');
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 			}
-
-			$cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-			$cart[$cartElement]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-			$cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
-			$cart[$cartElement]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
-			$cart[$cartElement]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
-			JPluginHelper::importPlugin('redshop_product');
-			$dispatcher = JDispatcher::getInstance();
-			$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 		}
 
 		$session->set('cart', $cart);
@@ -332,10 +339,6 @@ class RedshopModelCart extends RedshopModel
 		}
 
 		$idx = (int) ($cart['idx']);
-
-		$prdocut_all = $data['product_all'];
-		$product_id  = explode(",", $prdocut_all);
-
 		$quantity_all = $data['quantity_all'];
 		$quantity     = explode(",", $quantity_all);
 
@@ -351,78 +354,86 @@ class RedshopModelCart extends RedshopModel
 
 			$quantity[$i] = intval(abs($quantity[$i]) > 0 ? $quantity[$i] : 1);
 
-			if ($cart[$i]['product_id'] == $product_id[$i] && $quantity[$i] != $cart[$i]['quantity'])
+			if ($quantity[$i] != $cart[$i]['quantity'])
 			{
-				$cart[$i]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
-
-				$cart[$i]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$i], $cart[$i]['quantity']);
-				$cart[$i]['cart_attribute'] = $this->updateAttributePriceArray($cart[$i], $cart[$i]['quantity']);
-
-				// Discount calculator
-				if (!empty($cart[$i]['discount_calc']))
+				if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
 				{
-					$calcdata               = $cart[$i]['discount_calc'];
-					$calcdata['product_id'] = $cart[$i]['product_id'];
-
-					$discount_cal = $this->_carthelper->discountCalculator($calcdata);
-
-					$calculator_price  = $discount_cal['product_price'];
-					$product_price_tax = $discount_cal['product_price_tax'];
-				}
-
-				$dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculator_price));
-
-				// Attribute price
-				$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$i]['cart_attribute'], $cart[$i]['product_id'], $user->id, $calculator_price, $cart[$i]['quantity']);
-				$product_price              = $retAttArr[1];
-				$product_vat_price          = $retAttArr[2];
-				$product_old_price          = $retAttArr[5] + $retAttArr[6];
-				$product_old_price_excl_vat = $retAttArr[5];
-
-				// Accessory price
-				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
-				$accessory_total_price = $retAccArr[1];
-				$accessory_vat_price   = $retAccArr[2];
-
-				$wrapper_price         = 0;
-				$wrapper_vat           = 0;
-
-				if ($cart[$i]['wrapper_id'])
-				{
-					$wrapperArr    = $this->_carthelper->getWrapperPriceArr(array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id']));
-					$wrapper_vat   = $wrapperArr['wrapper_vat'];
-					$wrapper_price = $wrapperArr['wrapper_price'];
-				}
-
-				$subscription_vat = 0;
-
-				if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "")
-				{
-					$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
-					$subscription_price  = $subscription_detail->subscription_price;
-
-					if ($subscription_price)
-					{
-						$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
-					}
-
-					$product_vat_price += $subscription_vat;
-					$product_price = $product_price + $subscription_price;
-
-					$product_old_price_excl_vat += $subscription_price;
+					$cart[$i]['quantity'] = $quantity[$i];
 				}
 				else
 				{
-					// Return ;
+					$product_id = $cart[$i]['product_id'];
+					$cart[$i]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
+
+					$cart[$i]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$i], $cart[$i]['quantity']);
+					$cart[$i]['cart_attribute'] = $this->updateAttributePriceArray($cart[$i], $cart[$i]['quantity']);
+
+					// Discount calculator
+					if (!empty($cart[$i]['discount_calc']))
+					{
+						$calcdata = $cart[$i]['discount_calc'];
+						$calcdata['product_id'] = $cart[$i]['product_id'];
+
+						$discount_cal = $this->_carthelper->discountCalculator($calcdata);
+
+						$calculator_price = $discount_cal['product_price'];
+						$product_price_tax = $discount_cal['product_price_tax'];
+					}
+
+					$dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculator_price));
+
+					// Attribute price
+					$retAttArr = $this->_producthelper->makeAttributeCart($cart[$i]['cart_attribute'], $cart[$i]['product_id'], $user->id, $calculator_price, $cart[$i]['quantity']);
+					$product_price = $retAttArr[1];
+					$product_vat_price = $retAttArr[2];
+					$product_old_price = $retAttArr[5] + $retAttArr[6];
+					$product_old_price_excl_vat = $retAttArr[5];
+
+					// Accessory price
+					$retAccArr = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
+					$accessory_total_price = $retAccArr[1];
+					$accessory_vat_price = $retAccArr[2];
+
+					$wrapper_price = 0;
+					$wrapper_vat = 0;
+
+					if ($cart[$i]['wrapper_id'])
+					{
+						$wrapperArr = $this->_carthelper->getWrapperPriceArr(array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id']));
+						$wrapper_vat = $wrapperArr['wrapper_vat'];
+						$wrapper_price = $wrapperArr['wrapper_price'];
+					}
+
+					$subscription_vat = 0;
+
+					if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "")
+					{
+						$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
+						$subscription_price = $subscription_detail->subscription_price;
+
+						if ($subscription_price)
+						{
+							$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+						}
+
+						$product_vat_price += $subscription_vat;
+						$product_price = $product_price + $subscription_price;
+
+						$product_old_price_excl_vat += $subscription_price;
+					}
+					else
+					{
+						// Return ;
+					}
+
+					$cart[$i]['product_price'] = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
+					$cart[$i]['product_old_price'] = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
+					$cart[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
+					$cart[$i]['product_price_excl_vat'] = $product_price + $accessory_total_price + $wrapper_price;
+					$cart[$i]['product_vat'] = $product_vat_price + $accessory_vat_price + $wrapper_vat;
+
+					$dispatcher->trigger('onAfterCartItemUpdate', array(&$cart, $i, $data));
 				}
-
-				$cart[$i]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-				$cart[$i]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-				$cart[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
-				$cart[$i]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
-				$cart[$i]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
-
-				$dispatcher->trigger('onAfterCartItemUpdate', array(&$cart, $i, $data));
 			}
 		}
 

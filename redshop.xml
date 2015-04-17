@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>1.5.0.4</version>
+    <version>1.5.0.4.3</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -91,6 +91,7 @@
 
     <!-- Plugins to install with the component -->
     <plugins>
+        <plugin name="redshop" group="system" />
         <plugin name="rs_payment_banktransfer" group="redshop_payment" />
         <plugin name="rs_payment_paypal" group="redshop_payment" />
         <plugin name="default_shipping" group="redshop_shipping" />

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Renders a Shopper Group MultiSelect List
  *
