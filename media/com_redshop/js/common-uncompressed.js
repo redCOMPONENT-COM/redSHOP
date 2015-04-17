@@ -954,8 +954,6 @@ function onestepCheckoutProcess(objectname,classname)
 			xmlhttp.open("POST", url, false);
 
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.setRequestHeader("Content-length", params.length);
-		xmlhttp.setRequestHeader("Connection", "close");
 		xmlhttp.send(params);
 	}
 
