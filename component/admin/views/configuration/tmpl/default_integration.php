@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 		<tr valign="top">
 			<td width="50%">
 				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYATICS'); ?></legend>
+					<legend><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS'); ?></legend>
 					<?php echo $this->loadTemplate('analytics');?>
 				</fieldset>
 				<fieldset class="adminform">

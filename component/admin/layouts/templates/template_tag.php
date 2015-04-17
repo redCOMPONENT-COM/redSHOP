@@ -92,7 +92,7 @@ switch ($name)
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CART_HINT'); ?></b><br /><br />
 		{cart_lbl} {product_price} {product_loop_start} {product_total_price} {product_name} {product_number} <br />
-		{product_attribute} {product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {attribute_change} {product_accessory} {product_old_price} {product_price_percent_discount} {product_customfields_lbl} {product_customfields} {product_subscription_lbl} {product_subscription} {product_wrapper} {discount_rule} <br />
+		{product_attribute} {product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {attribute_change} {product_accessory} {product_old_price} {product_customfields_lbl} {product_customfields} {product_subscription_lbl} {product_subscription} {product_wrapper} {discount_rule} <br />
 		{update} {discount_form_lbl} {discount_form} {product_userfields} {coupon_code_lbl} {shipping_lbl} {total_lbl} {product_name_lbl} {price_lbl} {quantity_lbl} {total_price_lbl} {print} {product_thumb_image} {product_price_excl_vat} {product_total_price_excl_vat} {product_loop_end} {attribute_price_with_vat} {attribute_price_without_vat} {shipping} <br />
 		{vat_info} {vat_shipping} {shipping_lbl} {product_subtotal} {shipping_excl_vat} {sub_total_vat} {discount_excl_vat} {total_excl_vat} {denotation_label} {discount_denotation} {discount_excl_vat} <br />
 		{shipping_denotation} {shipping_excl_vat} {product_subtotal_lbl} {product_subtotal_excl_vat_lbl} {shipping_with_vat_lbl} {shipping_excl_vat_lbl} {product_price_excl_lbl} {product_name_nolink} {product_attribute_number} {tax_with_shipping_lbl} {product_subtotal} {product_subtotal_excl_vat} {total} <br />
@@ -131,7 +131,7 @@ switch ($name)
 		{category_loop_start} {category_loop_end} {category_name} {category_description} {category_short_desc} {category_thumb_image} <br />
 		{product_price_lbl} {product_price_slider} {product_loop_start} {product_loop_end} {product_name} {product_price} {product_rating_summary} {product_s_desc} <br />
 		{pagination} {perpagelimit} {product_display_limit} {show_all_products_in_category} {order_by} {if product_on_sale} {product_on_sale end if} {price_excluding_vat} <br />
-		{more_documents} {product_id_lbl} {product_id} {product_number_lbl} {product_number} {product_discount_price} {product_old_price} {product_price_percent_discount} {product_price_saving} {product_price_saving_percentage} {with_vat} {without_vat} {filter_by} <br />
+		{more_documents} {product_id_lbl} {product_id} {product_number_lbl} {product_number} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {with_vat} {without_vat} {filter_by} <br />
 		{template_selector_category_lbl} {template_selector_category} {manufacturer_link} {manufacturer_name} {stock_status:class for available stock : class for out of stock: class for pre order} {shopname} {read_more} {category_readmore} {category_main_thumb_image_2} {category_main_thumb_image_3} {category_thumb_image_2} {category_thumb_image_3} <br />
 		{product_stock_amount_image} {product_price_table} {product_thumb_image_3} {product_thumb_image_2} {discount_start_date} {discount_end_date} {compare_products_button} {compare_product_div} {front_img_link} {back_img_link} {product_preview_img} {read_more_link} {product_name_nolink} {category_product_link} <br />
 		{order_by_lbl} {filter_by_lbl} {returntocategory_link} {returntocategory_name} {returntocategory} {category_total_product_lbl} {category_total_product} {product_delivery_time} {delivery_time_lbl} {product_length} {product_width} {product_height} {front_preview_img_link} {back_preview_img_link} {if product_userfield} {product_userfield end if}
@@ -240,7 +240,7 @@ switch ($name)
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_MANUFACTURER_PRODUCTS_HINT'); ?></b><br /><br />
 		{order_by} {filter_by} <br />
 		{product_loop_start} {category_heading_start} {category_name} {category_heading_end} {product_name} {product_thumb_image} {product_thumb_image_2} {product_thumb_image_3} {product_price} {product_s_desc} <br />
-		{product_old_price} {product_price_percent_discount} {product_price_saving} {product_price_saving_percentage} {product_loop_end} {manufacturer_product_link} {form_addtocart:add_to_cart1} {print} {product_id_lbl} {product_id} {product_number} {product_number_lbl} {product_desc} {read_more} {read_more_link} {manufacturer_image} {manufacturer_name} {manufacturer_description} {manufacturer_extra_fields} {manufacturer_link} {pagination}
+		{product_old_price} {product_price_saving} {product_price_saving_percentage} {product_loop_end} {manufacturer_product_link} {form_addtocart:add_to_cart1} {print} {product_id_lbl} {product_id} {product_number} {product_number_lbl} {product_desc} {read_more} {read_more_link} {manufacturer_image} {manufacturer_name} {manufacturer_description} {manufacturer_extra_fields} {manufacturer_link} {pagination}
 		<?php
 		break;
 	case 'newsletter':
@@ -277,7 +277,7 @@ switch ($name)
 		{tax} {reorder_button} {shipping} {vat_shipping} {shipping_lbl} <br />
 		{download_date_list_lbl} {download_date_list} {download_counter_lbl} {download_counter} {download_date_lbl} {download_date} {download_token_lbl} {download_token} <br />
 		{product_subtotal} {shipping_excl_vat} {product_subtotal} {sub_total_vat} {discount_excl_vat} {total_excl_vat} {denotation_label} {discount_denotation} {discount_excl_vat} <br />
-		{shipping_denotation} {shipping_excl_vat} {product_s_desc} {product_thumb_image} {product_old_price} {product_price_percent_discount} {special_discount} {special_discount_amount} <br />
+		{shipping_denotation} {shipping_excl_vat} {product_s_desc} {product_thumb_image} {product_old_price} {special_discount} {special_discount_amount} <br />
 		{payment_extrafields_lbl} {payment_extrafields} {shipping_extrafields_lbl} {shipping_extrafields}
 		<?php
 		break;
@@ -335,7 +335,7 @@ switch ($name)
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT'); ?></b><br /><br />
 		{product_name} {manufacturer_name} {supplier_name} {publish_date} {update_date} <br />
-		{discount_start_date} {discount_end_date} {product_discount_price} {product_old_price} {product_price_percent_discount} {product_price_saving} {product_price_saving_percentage} {if product_on_sale} <br />
+		{discount_start_date} {discount_end_date} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {if product_on_sale} <br />
 		{product_on_sale end if} {product_price_lbl} {if product_special} {product_special end if} {product_name} {product_price} <br />
 		{product_thumb_image} {product_thumb_image_2} {product_thumb_image_3} {product_s_desc} {product_rating} {more_images} {more_documents} <br />
 		{product_desc} {bookmark} {send_to_friend} {ask_question_about_product} {ask_question_about_product_without_lightbox} {manufacturer_product_link} {product_rating_summary} <br />
@@ -474,7 +474,7 @@ switch ($name)
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_WISHLIST_HINT'); ?></b><br /><br />
 		{if product_userfield} {product_userfield end if} {all_cart} {attribute_template:attributes} {product_loop_start} {product_loop_end} {mail_link} {product_price} {remove_product_link} <br />
 		{product_thumb_image} {product_name} {back_link} {product_thumb_image_2} {product_thumb_image_3} <br />
-		{price_excluding_vat} {product_price_table} {product_old_price} {product_price_percent_discount} {product_price_saving} {product_price_saving_percentage} {accessory_template:templatename} {product_s_desc} {read_more} {read_more_link}
+		{price_excluding_vat} {product_price_table} {product_old_price} {product_price_saving} {product_price_saving_percentage} {accessory_template:templatename} {product_s_desc} {read_more} {read_more_link}
 		<?php
 		break;
 	case 'wishlist_mail':
