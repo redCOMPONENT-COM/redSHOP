@@ -252,23 +252,8 @@ else
 								 value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>"
 								 onclick="javascript:window.history.go(-1);"></td>
 							<td align="left">
-								<?php
-								if (JPluginHelper::isEnabled('redshop_vies_registration', 'rs_vies_registration'))
-								{
-								?>
-									<input type="submit" class="greenbutton" name="submitbtn"
-									   onclick="return checkviesvalid();"
-									   value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
-								<?php
-								}
-								else
-								{
-								?>
-								<input type="submit" class="greenbutton" name="submitbtn" id="submitbtn"
+								<input type="submit" class="registrationSubmitButton greenbutton" name="submitbtn" id="submitbtn"
 									 value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
-								<?php
-								}
-								?>
 							</td>
 						</tr>
 					</table>
