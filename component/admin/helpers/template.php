@@ -444,7 +444,6 @@ class Redtemplate
 			'onestep_checkout'           => JText::_('COM_REDSHOP_ONESTEP_CHECKOUT_TEMPLATE'),
 			'categoryproduct'            => JText::_('COM_REDSHOP_PRODUCT_CATEGORY_TEMPLATE'),
 			'change_cart_attribute'      => JText::_('COM_REDSHOP_CHANGE_CART_ATTRIBUTE_TEMPLATE'),
-			'searchletter'               => JText::_('COM_REDSHOP_LETTER_SEARCH_TEMPLATE'),
 			'crmorder_receipt'           => JText::_('COM_REDSHOP_redCRM_ORDER_RECIEPT'),
 			'checkout'                   => JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE'),
 			'product_content_template'   => JText::_('COM_REDSHOP_PRODUCT_CONTENT'),
@@ -598,32 +597,5 @@ class Redtemplate
 		}
 
 		return $optionSection;
-	}
-
-	/**
-	 * Method to parse mod_redshop_lettersearch module parameter.
-	 *
-	 * @return void
-	 */
-	public function GetlettersearchParameters()
-	{
-		$db = JFactory::getDbo();
-		$sel = 'SELECT params from #__extensions where element = "mod_redshop_lettersearch" ';
-		$db->setQuery($sel);
-		$params = $db->loadResult();
-		$letterparamArr = array();
-		$allparams = explode("\n", $params);
-
-		for ($i = 0; $i < count($allparams); $i++)
-		{
-			$letter_param = explode('=', $allparams[$i]);
-
-			if (!empty($letter_param))
-			{
-				$letterparamArr[$letter_param[0]] = $letter_param[1];
-			}
-		}
-
-		return $letterparamArr;
 	}
 }

@@ -964,7 +964,7 @@ class shipping
 			$k = 0;
 			$userzip_len = ($this->strposa($zip, $numbers) !== false) ? ($this->strposa($zip, $numbers)) : strlen($zip);
 
-			for ($i = 0; $i < count($shippingrate); $i++)
+			for ($i = 0, $countShippingRate = count($shippingrate); $i < $countShippingRate; $i++)
 			{
 				$flag             = false;
 				$tmp_shippingrate = $shippingrate[$i];
@@ -1189,20 +1189,32 @@ class shipping
 		}
 	}
 
-	public function filter_by_priority($shippingrate)
+	/**
+	 * Filter by priority
+	 *
+	 * @param   array  $shippingRates  Array shipping rates
+	 *
+	 * @return array
+	 */
+	public function filter_by_priority($shippingRates)
 	{
-		$tmp_shippingrates = array();
-
-		for ($i = 0, $j = 0; $i < count($shippingrate); $i++)
+		if ($shippingRates && count($shippingRates))
 		{
-			if ($shippingrate[0]->shipping_rate_priority == $shippingrate[$i]->shipping_rate_priority)
+			$priority = array();
+
+			foreach ($shippingRates as $oneRate)
 			{
-				$tmp_shippingrates[$j] = $shippingrate[$i];
-				$j++;
+				$priority[] = $oneRate->shipping_rate_priority;
 			}
+
+			array_multisort($priority, SORT_DESC, $shippingRates);
+		}
+		else
+		{
+			$shippingRates = array();
 		}
 
-		return $tmp_shippingrates;
+		return $shippingRates;
 	}
 
 	/*
