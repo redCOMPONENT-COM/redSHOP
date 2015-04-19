@@ -1129,15 +1129,7 @@ class rsUserhelper
 				$template_middle = $template_pd_edata[0];
 				$classreq        = (REQUIRED_VAT_NUMBER == 1) ? "required" : "";
 				$template_middle = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_BUSINESS_NUMBER'), $template_middle);
-
-				if (JPluginHelper::isEnabled('redshop_vies_registration', 'rs_vies_registration'))
-				{
-					$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" onblur="return replaceviesval();"/><input type="text" name="vies_wait_input" value="" id="vies_wait_input" style="width:1px;height:1px;border:none;background:none;" class="inputbox required">', $template_middle);
-				}
-				else
-				{
-					$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" />', $template_middle);
-				}
+				$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" />', $template_middle);
 			}
 
 			$template_desc = $template_pd_sdata[0] . $template_middle . $template_pd_edata[1];

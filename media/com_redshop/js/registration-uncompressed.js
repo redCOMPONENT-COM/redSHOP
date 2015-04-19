@@ -122,7 +122,6 @@ if(typeof(window['jQuery']) != "undefined")
 				zipcode:Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'),
 				city:Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'),
 				phone:Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_PHONE'),
-				vies_wit_input:'',
 				username: {
 					required: Joomla.JText._('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME'),
 					minlength: Joomla.JText._('COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT')
