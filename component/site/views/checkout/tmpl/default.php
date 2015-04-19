@@ -245,9 +245,6 @@ else
 				<div>
 					<table cellspacing="3" cellpadding="0" border="0" width="100%">
 						<tr>
-							<td colspan="2" id="vies_wait" class="viesWait"></td>
-						</tr>
-						<tr>
 							<td align="right"><input type="button" class="blackbutton" name="back"
 								 value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>"
 								 onclick="javascript:window.history.go(-1);"></td>

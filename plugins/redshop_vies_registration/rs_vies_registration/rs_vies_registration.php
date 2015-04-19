@@ -35,6 +35,7 @@ class PlgRedshop_Vies_Registrationrs_Vies_Registration extends JPlugin
 		$lang->load('plg_redshop_vies_registration_rs_vies_registration', JPATH_ADMINISTRATOR);
 		JText::script('PLG_REDSHOP_VIES_REGISTRATION_VALIDATION_STATUS2');
 		JText::script('PLG_REDSHOP_VIES_REGISTRATION_VERYFIES_VAT_NUMBER');
+		JText::script('PLG_REDSHOP_VIES_REGISTRATION_VALID_VAT_NUMBER');
 		JHtml::script('plugins/redshop_vies_registration/rs_vies_registration/js/vies.js');
 
 		parent::__construct($subject, $config);
@@ -117,7 +118,7 @@ class PlgRedshop_Vies_Registrationrs_Vies_Registration extends JPlugin
 			}
 		}
 
-		echo $result;
+		echo json_encode($result);
 
 		exit;
 	}
