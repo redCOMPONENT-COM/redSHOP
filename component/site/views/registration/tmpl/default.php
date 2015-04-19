@@ -111,9 +111,6 @@ if ($this->params->get('show_page_heading', 1))
 			}
 			?>
 			<tr>
-				<td id="vies_wait" class="viesWait"></td>
-			</tr>
-			<tr>
 				<td>
 					<input type="submit" class="registrationSubmitButton button btn" name="submit"
 						   value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>"/>
