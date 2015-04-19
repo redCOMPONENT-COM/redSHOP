@@ -32,30 +32,6 @@ class PlgSystemRedSHOP extends JPlugin
 		// Load only from frontend
 		if (!$app->isAdmin())
 		{
-			$option = $app->input->getCmd('option', '');
-			$view = $app->input->getCmd('view', '');
-
-			// Redirect for use redSHOP registration instead com_users
-			if ($option == 'com_users' && $view == 'registration')
-			{
-				JLoader::load('RedshopHelperHelper');
-				$redHelper = new redhelper;
-				$items = $redHelper->getRedshopMenuItems();
-				$itemId = null;
-
-				// Search for a suitable menu id.
-				foreach ($items as $item)
-				{
-					if (isset($item->query['view']) && $item->query['view'] === 'registration')
-					{
-						$itemId = $item->id;
-						break;
-					}
-				}
-
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=registration&Itemid=' . $itemId, false));
-			}
-
 			JLoader::load('RedshopHelperRedshop.js');
 
 			// Use different CSS for print layout
