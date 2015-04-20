@@ -318,9 +318,24 @@ if (!$slide)
 
 		$cat_detail = "";
 
-		for ($i = 0; $i < count($this->detail); $i++)
+		for ($i = 0, $nc = count($this->detail); $i < $nc; $i++)
 		{
 			$row = $this->detail[$i];
+
+			// Filter categories based on Shopper group category ACL
+			$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
+			$sgportal = $objhelper->getShopperGroupPortal();
+			$portal   = 0;
+
+			if (count($sgportal) > 0)
+			{
+				$portal = $sgportal->shopper_group_portal;
+			}
+
+			if ('' == $checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+			{
+				continue;
+			}
 
 			$data_add = $subcat_template;
 
@@ -410,34 +425,7 @@ if (!$slide)
 			 */
 			$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
 
-			// Shopper group category ACL
-			$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
-			$sgportal = $objhelper->getShopperGroupPortal();
-			$portal   = 0;
-
-			if (count($sgportal) > 0)
-			{
-				$portal = $sgportal->shopper_group_portal;
-			}
-
-			if (PORTAL_SHOP == 1)
-			{
-				if ($checkcid != "")
-				{
-					$cat_detail .= $data_add;
-				}
-			}
-			else
-			{
-				if ($portal == 1 && $checkcid != "")
-				{
-					$cat_detail .= $data_add;
-				}
-				elseif ($portal == 0)
-				{
-					$cat_detail .= $data_add;
-				}
-			}
+			$cat_detail .= $data_add;
 		}
 
 		$template_desc = str_replace("{category_loop_start}", "", $template_desc);
@@ -536,7 +524,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$media_documents = $producthelper->getAdditionMediaImage($product->product_id, "product", "document");
 			$more_doc        = '';
 
-			for ($m = 0; $m < count($media_documents); $m++)
+			for ($m = 0, $nm = count($media_documents); $m < $nm; $m++)
 			{
 				$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
 
@@ -573,7 +561,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$ufield = "";
 
-			for ($ui = 0; $ui < count($userfieldArr); $ui++)
+			for ($ui = 0, $nui = count($userfieldArr); $ui < $nui; $ui++)
 			{
 				$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 				$ufield .= $product_userfileds[1];
@@ -619,7 +607,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			{
 				$ufield = "";
 
-				for ($ui = 0; $ui < count($userfieldArr); $ui++)
+				for ($ui = 0, $nui = count($userfieldArr); $ui < $nui; $ui++)
 				{
 					$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 					$ufield .= $product_userfileds[1];
