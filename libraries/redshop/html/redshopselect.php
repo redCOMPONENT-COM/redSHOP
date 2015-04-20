@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLoader::register('JHtmlSelect', JPATH_PLATFORM . '/joomla/html/html/select.php');
+
 /**
  * Utility class for creating HTML Grids
  *
