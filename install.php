@@ -1214,7 +1214,9 @@ class Com_RedshopInstallerScript
 			array_push(
 				$files,
 				JPATH_ADMINISTRATOR . '/components/com_redshop/tables/navigator_detail.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_detail/tmpl/default_product_dropdown.php'
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_detail/tmpl/default_product_dropdown.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/consignornumber.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/shippingmethod.php'
 			);
 		}
 
