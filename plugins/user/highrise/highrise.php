@@ -17,8 +17,18 @@ defined('_JEXEC') or die;
  */
 class PlgUserHighrise extends JPlugin
 {
+	/**
+	 * API Access token for highrisehq.com
+	 *
+	 * @var  string
+	 */
 	public $apiToken;
 
+	/**
+	 * API Access url to connect with highrisehq.com
+	 *
+	 * @var  [type]
+	 */
 	public $apiUrl;
 
 	/**
@@ -28,6 +38,24 @@ class PlgUserHighrise extends JPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		$lang          = JFactory::getLanguage();
+		$lang->load('plg_user_highrise', JPATH_ADMINISTRATOR);
+
+		parent::__construct($subject, $config);
+	}
 
 	/**
 	 * Method will trigger after creating redSHOP user
