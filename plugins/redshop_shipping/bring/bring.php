@@ -31,6 +31,10 @@ JLoader::load('RedshopHelperAdminConfiguration');
  */
 class Plgredshop_Shippingbring extends JPlugin
 {
+    public $payment_code = "bring";
+
+    public $classname = "bring";
+
 	/**
 	 * Constructor
 	 *
@@ -46,10 +50,6 @@ class Plgredshop_Shippingbring extends JPlugin
 
 		parent::__construct($subject, $config);
 	}
-
-	public $payment_code = "bring";
-
-	public $classname = "bring";
 
 	/**
 	 * onShowconfig
