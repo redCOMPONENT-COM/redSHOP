@@ -25,6 +25,24 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		$lang          = JFactory::getLanguage();
+		$lang->load('plg_redshop_product_invoicepdf', JPATH_ADMINISTRATOR);
+
+		parent::__construct($subject, $config);
+	}
+
+	/**
 	 * This method will trigger when redSHOP order status will be updated.
 	 *
 	 * @param   object  $data  Order Status Information
