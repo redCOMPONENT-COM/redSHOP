@@ -243,11 +243,11 @@ class redhelper
 				->where('product_id = ' . (int) $productId);
 			$db->setQuery($query);
 
-			if ($categories = $db->loadColumn())
+			if ($categoryId = $db->loadColumn())
 			{
 				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 				{
-					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categories)))
+					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId)))
 					{
 						return $oneMenuItem->id;
 					}
@@ -275,6 +275,11 @@ class redhelper
 					return $oneMenuItem->id;
 				}
 			}
+		}
+
+		if (!empty($categoryId))
+		{
+			return $this->getCategoryItemid($categoryId[0]);
 		}
 
 		return $input->getInt('Itemid', 0);
