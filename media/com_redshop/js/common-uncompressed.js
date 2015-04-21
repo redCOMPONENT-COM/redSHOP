@@ -785,37 +785,43 @@ function onestepCheckoutProcess(objectname,classname)
 				payment_method_id = propName[p].value;
 				newparam = newparam + "&payment_method_id=" + payment_method_id;
 			}
-			if (document.getElementById('divcardinfo_'+propName[p].value))
+			else
 			{
-				document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
+				if (document.getElementById('divcardinfo_'+propName[p].value))
+				{
+					document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
+				}
 			}
 		}
 
-		xmlhttp1=GetXmlHttpObject();
-		var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaycreditcard';
-		url1 = url1 + newparam;
-
-		xmlhttp1.onreadystatechange=function()
+		if(objectname=="payment_method_id")
 		{
-			if (xmlhttp1.readyState==4)
+			xmlhttp1=GetXmlHttpObject();
+			var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaycreditcard';
+			url1 = url1 + newparam;
+
+			xmlhttp1.onreadystatechange=function()
 			{
-				if(document.getElementById('divcardinfo_'+payment_method_id))
+				if (xmlhttp1.readyState==4)
 				{
-					document.getElementById('divcardinfo_'+payment_method_id).innerHTML = xmlhttp1.responseText;
-					if(document.getElementById('creditcardinfo'))
+					if(document.getElementById('divcardinfo_'+payment_method_id))
 					{
-						document.getElementById('divcardinfo_'+payment_method_id).innerHTML = document.getElementById('creditcardinfo').innerHTML;
+						document.getElementById('divcardinfo_'+payment_method_id).innerHTML = xmlhttp1.responseText;
+						if(document.getElementById('creditcardinfo'))
+						{
+							document.getElementById('divcardinfo_'+payment_method_id).innerHTML = document.getElementById('creditcardinfo').innerHTML;
+						}
+					}
+				} else {
+					if(document.getElementById('divcardinfo_'+payment_method_id))
+					{
+						document.getElementById('divcardinfo_'+payment_method_id).innerHTML = "<br>Please wait while loading credit card information form<br><img src='"+redSHOP.RSConfig._('SITE_URL')+"/components/com_redshop/assets/images/preloader.jpeg' border='0'>";
 					}
 				}
-			} else {
-				if(document.getElementById('divcardinfo_'+payment_method_id))
-				{
-					document.getElementById('divcardinfo_'+payment_method_id).innerHTML = "<br>Please wait while loading credit card information form<br><img src='"+redSHOP.RSConfig._('SITE_URL')+"/components/com_redshop/assets/images/preloader.jpeg' border='0'>";
-				}
-			}
-		};
-		xmlhttp1.open("GET",url1,true);
-		xmlhttp1.send(null);
+			};
+			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.send(null);
+		}
 
 		var params="";
 		var users_info_id=0;
