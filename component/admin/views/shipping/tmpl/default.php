@@ -23,13 +23,13 @@ $ordering = ($this->lists['order'] == 'ordering');
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHIPPING_NAME', 'name ', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_SHIPPING_NAME', 'name ', $this->lists['order_Dir'], $this->lists['order']); ?>
 
 				</th>
 
 				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PLUGIN', 'element ', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_PLUGIN', 'element ', $this->lists['order_Dir'], $this->lists['order']); ?>
 
 				</th>
 				<th class="title">
@@ -37,15 +37,15 @@ $ordering = ($this->lists['order'] == 'ordering');
 
 				</th>
 				<th class="order" width="20%">
-					<?php  echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
-					<?php  if ($ordering) echo JHTML::_('grid.order', $this->shippings); ?>
+					<?php  echo JHtml::_('grid.sort', 'COM_REDSHOP_ORDERING', 'ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php  if ($ordering) echo JHtml::_('grid.order', $this->shippings); ?>
 				</th>
 
 				<th width="5%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'state', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'id', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_ID', 'extension_id', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 
 			</tr>
@@ -65,7 +65,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 						<?php echo $this->pagination->getRowOffset($i); ?>
 					</td>
 					<td align="center">
-						<?php echo JHTML::_('grid.id', $i, $row->extension_id); ?>
+						<?php echo JHtml::_('grid.id', $i, $row->extension_id); ?>
 					</td>
 					<td width="50%">
 						<a href="<?php echo $link; ?>"
@@ -80,13 +80,23 @@ $ordering = ($this->lists['order'] == 'ordering');
 					<td align="center">
 						<?php echo $cache->get('version'); ?>
 					</td>
-					<td class="order" width="30%">
-						<span><?php echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
-						<?php $disabled = $ordering ? '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area input-small"
-						       style="text-align: center"/>
+					<td class="order">
+						<?php if ($ordering) :
+							$orderDir = strtoupper($this->lists['order_Dir']);
+							?>
+							<div class="input-prepend">
+								<?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderup'); ?></span>
+									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown'); ?></span>
+								<?php elseif ($orderDir == 'DESC') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderdown'); ?></span>
+									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderup'); ?></span>
+								<?php endif; ?>
+								<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
+							</div>
+						<?php else : ?>
+							<?php echo $row->ordering; ?>
+						<?php endif; ?>
 					</td>
 					<td align="center" width="5%">
 						<?php echo $published;?>
