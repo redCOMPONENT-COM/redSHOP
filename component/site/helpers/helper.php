@@ -204,7 +204,7 @@ class redhelper
 		{
 			if (!isset($oneMenuItem->query[$key])
 				|| (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
-				|| $oneMenuItem->query[$key] != $value)
+				|| (!is_array($value) && $oneMenuItem->query[$key] != $value))
 			{
 				return false;
 			}
@@ -243,11 +243,11 @@ class redhelper
 				->where('product_id = ' . (int) $productId);
 			$db->setQuery($query);
 
-			if ($categoryId = $db->loadColumn())
+			if ($categories = $db->loadColumn())
 			{
 				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 				{
-					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId)))
+					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categories)))
 					{
 						return $oneMenuItem->id;
 					}
@@ -275,11 +275,6 @@ class redhelper
 					return $oneMenuItem->id;
 				}
 			}
-		}
-
-		if (!empty($categoryId))
-		{
-			return $this->getCategoryItemid($categoryId[0]);
 		}
 
 		return $input->getInt('Itemid', 0);
