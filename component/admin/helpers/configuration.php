@@ -876,8 +876,6 @@ class Redconfiguration
 
 		$config_array["SHOW_PRICE_PRE"] = $d["show_price"];
 
-		$config_array["MAGIC_MAGNIFYPLUS_PRE"] = 0;
-
 		if ($d["newsletter_mail_chunk"] == 0)
 		{
 			$d["newsletter_mail_chunk"] = 1;
@@ -923,25 +921,6 @@ class Redconfiguration
 				define('DEFAULT_QUOTATION_MODE', DEFAULT_QUOTATION_MODE_PRE);
 			}
 		}
-
-		if (!defined('MAGIC_MAGNIFYPLUS'))
-		{
-			if (MAGIC_MAGNIFYPLUS_PRE == 0)
-			{
-				define('MAGIC_MAGNIFYPLUS', $this->checkMagicMagnity());
-			}
-			else
-			{
-				define('MAGIC_MAGNIFYPLUS', MAGIC_MAGNIFYPLUS_PRE);
-			}
-		}
-	}
-
-	public function checkMagicMagnity()
-	{
-		jimport('joomla.application.module.helper');
-
-		return JModuleHelper::isEnabled('redmagicmagnifyplus');
 	}
 
 	public function showPrice()
