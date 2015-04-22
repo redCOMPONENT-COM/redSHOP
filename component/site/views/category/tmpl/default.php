@@ -125,8 +125,14 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
 	$cat_detail     = "";
+	$countCategories = count($this->detail);
 
-	for ($i = 0, $nc = count($this->detail); $i < $nc; $i++)
+	if (!$countCategories)
+	{
+		$cat_detail .= '<h3 class="noCategoriesToShow">' . JText::_('COM_REDSHOP_THERE_ARE_NO_CATEGORIES_TO_SHOW') . '</h3>';
+	}
+
+	for ($i = 0; $i < $countCategories; $i++)
 	{
 		$row = $this->detail[$i];
 
