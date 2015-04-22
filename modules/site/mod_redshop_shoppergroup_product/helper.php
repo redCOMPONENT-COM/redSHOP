@@ -48,7 +48,7 @@ class ModRedshopShopperGroupProduct
 
 		if ($productIds = $db->setQuery($query, 0, (int) $params->get('count', 5))->loadColumn())
 		{
-			// Third steep get all product relate info
+			// Third step: get all product related info
 			$query->clear()
 				->where('p.product_id IN (' . implode(',', $productIds) . ')')
 				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
