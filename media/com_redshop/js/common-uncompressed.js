@@ -785,9 +785,12 @@ function onestepCheckoutProcess(objectname,classname)
 				payment_method_id = propName[p].value;
 				newparam = newparam + "&payment_method_id=" + payment_method_id;
 			}
-			if (document.getElementById('divcardinfo_'+propName[p].value))
+			else
 			{
-				document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
+				if (document.getElementById('divcardinfo_'+propName[p].value))
+				{
+					document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
+				}
 			}
 		}
 
@@ -957,8 +960,6 @@ function onestepCheckoutProcess(objectname,classname)
 			xmlhttp.open("POST", url, false);
 
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.setRequestHeader("Content-length", params.length);
-		xmlhttp.setRequestHeader("Connection", "close");
 		xmlhttp.send(params);
 	}
 
