@@ -14,6 +14,7 @@
 		<folder>tmpl</folder>
 		<folder>css</folder>
 		<filename>index.html</filename>
+		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_shoppergroup_product.ini</language>
