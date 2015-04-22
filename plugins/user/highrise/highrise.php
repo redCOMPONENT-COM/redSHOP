@@ -27,7 +27,7 @@ class PlgUserHighrise extends JPlugin
 	/**
 	 * API Access url to connect with highrisehq.com
 	 *
-	 * @var  [type]
+	 * @var  string
 	 */
 	public $apiUrl;
 
