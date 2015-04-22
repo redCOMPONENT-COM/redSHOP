@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperProduct');
 
@@ -22,14 +21,6 @@ JLoader::load('RedshopHelperProduct');
  */
 class RedshopModelSearch extends RedshopModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
 	// @ToDo In feature, when class Search extends RedshopModelList, replace filter_fields in constructor
 	public $filter_fields = array(
 		'p.product_name ASC', 'product_name ASC',
@@ -40,22 +31,31 @@ class RedshopModelSearch extends RedshopModel
 		'pc.ordering ASC', 'ordering ASC'
 	);
 
-	public function __construct()
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = null, $direction = null)
 	{
-		global $context;
+		parent::populateState($ordering, $direction);
 
-		parent::__construct();
+		$app    = JFactory::getApplication();
+		$params = $app->getParams('com_redshop');
+		$menu   = $app->getMenu();
+		$item   = $menu->getActive();
+		$layout = $app->getUserStateFromRequest($this->context . '.layout', 'layout', 'default');
+		$this->setState('layout', $layout);
 
-		$app = JFactory::getApplication();
-
-		$context = 'search';
-
-		$this->_table_prefix = '#__redshop_';
-		$params              = $app->getParams('com_redshop');
-		$menu                = $app->getMenu();
-		$item                = $menu->getActive();
-
-		$layout         = $app->getUserStateFromRequest($context . 'layout', 'layout', 'default');
 		if ($module         = JModuleHelper::getModule('redshop_search'))
 		{
 			$module_params  = new JRegistry($module->params);
@@ -88,98 +88,151 @@ class RedshopModelSearch extends RedshopModel
 		$productlimit = 0;
 
 		if (isset($item->query['productlimit']))
+		{
 			$productlimit = $item->query['productlimit'];
+		}
 
-		$limitstart = JRequest::getVar('limitstart', 0);
 		$this->setState('productperpage', $perpageproduct);
 		$this->setState('limit', $limit);
-		$productlimit = $app->getUserStateFromRequest($context . 'productlimit', 'productlimit', $productlimit, 8);
+		$productlimit = $app->getUserStateFromRequest($this->context . '.productlimit', 'productlimit', $productlimit, 8);
 		$this->setState('productlimit', $productlimit);
+
+		$limitstart = $app->input->getInt('limitstart', 0);
 		$this->setState('limitstart', $limitstart);
+
+		$keyword = $app->getUserStateFromRequest($this->context . '.keyword', 'keyword', '');
+		$this->setState('keyword', $keyword);
+
+		$templateid = $app->getUserStateFromRequest($this->context . '.templateid', 'templateid', '');
+		$this->setState('templateid', $templateid);
 	}
 
+	/**
+	 * Method to get a store id based on the model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  An identifier string to generate the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Add the list state to the store id.
+		$id .= ':' . $this->getState('productperpage');
+		$id .= ':' . $this->getState('productlimit');
+		$id .= ':' . $this->getState('templateid');
+		$id .= ':' . $this->getState('keyword');
+		$id .= ':' . $this->getState('layout');
+
+		return md5($this->context . ':' . $id);
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   1.5
+	 */
 	public function getData()
 	{
+		// Get a storage key.
+		$store = $this->getStoreId();
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
 		$post = JRequest::get('POST');
 		$db = JFactory::getDbo();
 		$redTemplate = new Redtemplate;
 
-		if (empty($this->_data))
+		$items = array();
+
+		$query = $this->_buildQuery($post);
+		$template = $this->getCategoryTemplet();
+		$countTmp = count($template);
+
+		for ($i = 0; $i < $countTmp; $i++)
 		{
-			$query = $this->_buildQuery($post);
-			$template = $this->getCategoryTemplet();
+			$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
+		}
 
-			for ($i = 0; $i < count($template); $i++)
+		if ($countTmp > 0)
+		{
+			if (strstr($template[0]->template_desc, "{show_all_products_in_category}"))
 			{
-				$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
+				$db->setQuery($query);
 			}
-
-			if (count($template) > 0)
+			elseif (strstr($template[0]->template_desc, "{pagination}"))
 			{
-				if (strstr($template[0]->template_desc, "{show_all_products_in_category}"))
+				if (strstr($template[0]->template_desc, "perpagelimit:"))
 				{
-					$db->setQuery($query);
+					$perpage = explode('{perpagelimit:', $template[0]->template_desc);
+					$perpage = explode('}', $perpage[1]);
+					$limit   = intval($perpage[0]);
+					$this->setState('limit', $limit);
 				}
-				elseif (strstr($template[0]->template_desc, "{pagination}"))
-				{
-					if (strstr($template[0]->template_desc, "perpagelimit:"))
-					{
-						$perpage = explode('{perpagelimit:', $template[0]->template_desc);
-						$perpage = explode('}', $perpage[1]);
-						$limit   = intval($perpage[0]);
-						$this->setState('limit', $limit);
-					}
 
-					if (strstr($template[0]->template_desc, "{product_display_limit}"))
-					{
-						$endlimit = $this->getProductPerPage();
-						$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
-						$this->setState('limit', $limit);
-					}
+				if (strstr($template[0]->template_desc, "{product_display_limit}"))
+				{
+					$endlimit = $this->getProductPerPage();
+					$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
+					$this->setState('limit', $limit);
+				}
 
-					$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
-				}
-				elseif ($this->getState('productlimit') > 0)
-				{
-					$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
-				}
-				else
-				{
-					$db->setQuery($query);
-				}
+				$db->setQuery($query, $this->getStart(), $this->getState('limit'));
+			}
+			elseif ($this->getState('productlimit') > 0)
+			{
+				$db->setQuery($query, $this->getStart(), $this->getState('limit'));
 			}
 			else
 			{
 				$db->setQuery($query);
 			}
+		}
+		else
+		{
+			$db->setQuery($query);
+		}
 
-			if ($productIds = $db->loadColumn())
-			{
-				// Third steep get all product relate info
-				$query->clear()
-					->where('p.product_id IN (' . implode(',', $productIds) . ')')
-					->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
+		if ($productIds = $db->loadColumn())
+		{
+			// Third steep get all product relate info
+			$query->clear()
+				->where('p.product_id IN (' . implode(',', $productIds) . ')')
+				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
 
-				$user = JFactory::getUser();
-				$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
-					->select(
-						array(
-							'pc.ordering', 'c.*', 'm.*',
-							'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
-						)
+			$user = JFactory::getUser();
+			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+				->select(
+					array(
+						'pc.ordering', 'c.*', 'm.*',
+						'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
 					)
-					->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
-					->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
+				)
+				->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
+				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
 
-				if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
-				{
-					RedshopHelperProduct::setProduct($products);
-					$this->_data = array_values($products);
-				}
+			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
+			{
+				RedshopHelperProduct::setProduct($products);
+				$items = array_values($products);
 			}
 		}
 
-		return $this->_data;
+		// Add the items to the internal cache.
+		$this->cache[$store] = $items;
+
+		return $this->cache[$store];
 	}
 
 	public function getProductPerPage()
@@ -189,7 +242,7 @@ class RedshopModelSearch extends RedshopModel
 		$redTemplate = new Redtemplate;
 		$template    = $this->getCategoryTemplet();
 
-		for ($i = 0; $i < count($template); $i++)
+		for ($i = 0, $countTmpl = count($template); $i < $countTmpl; $i++)
 		{
 			$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
 		}
@@ -233,37 +286,43 @@ class RedshopModelSearch extends RedshopModel
 		return $limit;
 	}
 
+	/**
+	 * Method to get the total number of items for the data set.
+	 *
+	 * @return  integer  The total number of items available in the data set.
+	 *
+	 * @since   1.5
+	 */
 	public function getTotal()
 	{
-		$app = JFactory::getApplication();
-		$productlimit = $this->getstate('productlimit');
-		$layout = $app->input->getCmd('layout', 'default');
+		// Get a storage key.
+		$store = $this->getStoreId('getTotal');
 
-		if (empty($this->_total))
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
 		{
-			$this->_db->setQuery($this->_buildQuery(0, true));
-			$this->_total = $this->_db->loadResult();
+			return $this->cache[$store];
+		}
 
-			if ($layout == 'newproduct' || $layout == 'productonsale')
+		$productlimit = $this->getState('productlimit');
+		$layout = $this->getState('layout', 'default');
+
+		$db = JFactory::getDbo();
+		$total = $db->setQuery($this->_buildQuery(0, true))
+			->loadResult();
+
+		if ($layout == 'newproduct' || $layout == 'productonsale')
+		{
+			if ($total > $productlimit && $productlimit != "")
 			{
-				if ($this->_total > $productlimit && $productlimit != "")
-				{
-					$this->_total = $productlimit;
-				}
+				$total = $productlimit;
 			}
 		}
 
-		return $this->_total;
-	}
+		// Add the total to the internal cache.
+		$this->cache[$store] = $total;
 
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
+		return $this->cache[$store];
 	}
 
 	/**
@@ -312,7 +371,7 @@ class RedshopModelSearch extends RedshopModel
 	public function _buildQuery($manudata = 0, $getTotal = false)
 	{
 		$app = JFactory::getApplication();
-		$context = 'search';
+
 		$db = JFactory::getDbo();
 		$productHelper   = new producthelper;
 		$redconfig  = $app->getParams();
@@ -340,7 +399,7 @@ class RedshopModelSearch extends RedshopModel
 		else
 		{
 			$query = $db->getQuery(true)
-				->select('p.product_id')
+				->select('DISTINCT(p.product_id)')
 				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.manufacturer_id = p.manufacturer_id')
 				->order($db->escape($order_by));
 		}
@@ -359,7 +418,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$cat = RedshopHelperCategory::getCategoryListArray(0, $category_id);
 
-			for ($j = 0; $j < count($cat); $j++)
+			for ($j = 0, $countCat = count($cat); $j < $countCat; $j++)
 			{
 				$cat_group[$j] = $cat[$j]->category_id;
 
@@ -420,7 +479,7 @@ class RedshopModelSearch extends RedshopModel
 				$cat_main       = $category_helper->getCategoryTree($categoryid);
 				$cat_group_main = array();
 
-				for ($j = 0; $j < count($cat_main); $j++)
+				for ($j = 0, $countCatMain = count($cat_main); $j < $countCatMain; $j++)
 				{
 					$cat_group_main[$j] = $cat_main[$j]->category_id;
 				}
@@ -450,7 +509,7 @@ class RedshopModelSearch extends RedshopModel
 			$cat_main       = $category_helper->getCategoryTree($catid);
 			$cat_group_main = array();
 
-			for ($j = 0; $j < count($cat_main); $j++)
+			for ($j = 0, $countCatMain = count($cat_main); $j < $countCatMain; $j++)
 			{
 				$cat_group_main[$j] = $cat_main[$j]->category_id;
 			}
@@ -483,7 +542,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 		else
 		{
-			$keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+			$keyword = $this->getState('keyword');
 			$defaultSearchType = $app->input->getCmd('search_type', 'product_name');
 
 			if (!empty($manudata['search_type']))
@@ -556,35 +615,15 @@ class RedshopModelSearch extends RedshopModel
 		return $query;
 	}
 
-	public function _buildContentOrderBy()
-	{
-		$db = JFactory::getDbo();
-
-		global $context;
-
-		$app = JFactory::getApplication();
-
-		$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id'));
-		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
-	}
-
 	public function getCategoryTemplet()
 	{
 		$app = JFactory::getApplication();
-		$context = 'search';
 
-		$layout     = $app->getUserStateFromRequest($context . 'layout', 'layout', '');
-		$templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
+		$layout     = $this->getState('layout');
+		$templateid = $this->getState('templateid');
 
-		$params = JComponentHelper::getParams('com_redshop');
 		$menu   = $app->getMenu();
 		$item   = $menu->getActive();
-		$cid 	= 0;
-
 		$cid = 0;
 
 		if ($layout == 'newproduct')
@@ -607,7 +646,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($templateid == 0 && $cid == 0)
 			{
-				$templateid = $app->getUserStateFromRequest($context . 'templateid', 'templateid', '');
+				$templateid = $this->getState('templateid');
 			}
 		}
 
@@ -634,8 +673,8 @@ class RedshopModelSearch extends RedshopModel
 			$and .= " AND t.template_id = " . (int) $templateid . " ";
 		}
 
-		$query = "SELECT c.category_template, t.* FROM " . $this->_table_prefix . "template AS t "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON t.template_id = c.category_template "
+		$query = "SELECT c.category_template, t.* FROM #__redshop_template AS t "
+			. "LEFT JOIN #__redshop_category AS c ON t.template_id = c.category_template "
 			. "WHERE t.template_section='category' AND t.published=1 "
 			. $and;
 
@@ -1073,8 +1112,8 @@ class RedshopModelSearch extends RedshopModel
 	public function loadCatProductsManufacturer($cid)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx "
-			. ", " . $this->_table_prefix . "product AS p "
+		$query = "SELECT  p.product_id, p.manufacturer_id FROM #__redshop_product_category_xref AS cx "
+			. ", #__redshop_product AS p "
 			. "WHERE cx.category_id = " . (int) $cid . " "
 			. "AND p.product_id=cx.product_id ";
 		$db->setQuery($query);
@@ -1082,7 +1121,7 @@ class RedshopModelSearch extends RedshopModel
 
 		$mids = array();
 
-		for ($i = 0; $i < count($manufacturer); $i++)
+		for ($i = 0, $countManuf = count($manufacturer); $i < $countManuf; $i++)
 		{
 			if ($manufacturer[$i]->manufacturer_id > 0)
 			{
@@ -1093,7 +1132,7 @@ class RedshopModelSearch extends RedshopModel
 		// Sanitize ids
 		JArrayHelper::toInteger($mids);
 
-		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM " . $this->_table_prefix . "manufacturer "
+		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM #__redshop_manufacturer "
 			. "WHERE manufacturer_id IN ('" . implode(",", $mids). "')";
 		$db->setQuery($query);
 
