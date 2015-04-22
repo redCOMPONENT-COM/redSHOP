@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+	version="2.5"
+	client="site"
+	type="plugin"
+	group="redshop_payment"
+	method="upgrade"
+>
+	<name>PLG_REDSHOP_PAYMENT_KLARNA</name>
+	<version>1.0</version>
+	<redshop>1.5</redshop>
+	<creationDate>March 2015</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_REDSHOP_PAYMENT_KLARNA_DESC</description>
+
+	<files>
+		<filename plugin="klarna">klarna.php</filename>
+		<folder>library</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.sys.ini</language>
+	</languages>
+
+	<config addfieldpath="/administrator/components/com_redshop/elements">
+		<fields name="params" addfieldpath="/plugins/redshop_payment/klarna/fields">
+			<fieldset name="basic">
+				<field
+					name="merchantId"
+					type="text"
+					default=""
+					required="true"
+					hint="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID_HINT"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_MERCHANTID_DESC"
+				/>
+				<field
+					name="sharedSecret"
+					type="text"
+					default=""
+					required="true"
+					hint="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET_HINT"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET_DESC"
+				/>
+				<field
+					name="purchaseCountry"
+					type="list"
+					class=""
+					default="DK"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_DESC"
+				>
+					<option value="AT">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_AUSTRIA</option>
+					<option value="DK">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_DENMARK</option>
+					<option value="FI">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_FINLAND</option>
+					<option value="DE">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_GERMANY</option>
+					<option value="NL">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_NETHERLANDS</option>
+					<option value="NO">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_NORWAY</option>
+					<option value="SE">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_SWEDEN</option>
+				</field>
+				<field
+					name="purchaseLanguage"
+					type="list"
+					class=""
+					default="DA"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DESC"
+				>
+					<option value="EN">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_ENGLISH</option>
+					<option value="DA">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DANISH</option>
+					<option value="FI">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_FINNISH</option>
+					<option value="DE">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_GERMAN</option>
+					<option value="NL">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DUTCH</option>
+					<option value="NB">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_NORWEGIAN</option>
+					<option value="SV">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_SWEDISH</option>
+				</field>
+				<field
+					name="purchaseCurrency"
+					type="list"
+					class=""
+					default="DKK"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_DESC"
+				>
+					<option value="DKK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_DANISH</option>
+					<option value="EUR">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_EURO</option>
+					<option value="NOK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_NORWEGIAN</option>
+					<option value="SEK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_SWEDISH</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="verify_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+					key_field="st_value"
+					value_field="st_title"
+					default="C"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_ORDER_STATUS"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_ORDER_STATUS_DESC"
+				/>
+				<field
+					name="invalid_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+					key_field="st_value"
+					value_field="st_title"
+					default="P"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_FAILED_STATUS"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_FAILED_STATUS_DESC"
+				/>
+				<field
+					name="capture_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+					key_field="st_value"
+					value_field="st_title"
+					default="S"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_CAPTURE_STATUS"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_SUCCESS_CAPTURE_STATUS_DESC"
+				/>
+				<field
+					name="payment_oprand"
+					type="text"
+					size="10"
+					default="-"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_OPRAND_LBL"
+				/>
+				<field
+					name="payment_price"
+					type="text"
+					size="30"
+					default=""
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_PRICE_LBL"
+				/>
+				<field
+					name="payment_discount_is_percent"
+					type="radio"
+					default="1"
+					class="btn-group"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_DISCOUNT_IS_PERCENT_LBL"
+				>
+					<option value="1">PLG_REDSHOP_PAYMENT_KLARNA_PERCENTAGE</option>
+					<option value="0">PLG_REDSHOP_PAYMENT_KLARNA_TOTAL</option>
+				</field>
+				<field
+					name="private_person"
+					type="radio"
+					default="1"
+					class="btn-group btn-group-yesno"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_PERSON_LBL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="business"
+					type="radio"
+					default="1"
+					class="btn-group btn-group-yesno"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_BUSINESS_LBL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="extrafield_payment"
+					type="extrafieldpayment"
+					multiple="multiple"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_LBL"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_DESC"
+				/>
+				<field
+					name="shopper_group_id"
+					type="shoppergrouplist"
+					default="0"
+					multiple="multiple"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_SHOPPER_GROUP_ID_LBL"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_SHOPPER_GROUP_ID_DESC"
+				/>
+				<field
+					name="economic_payment_terms_id"
+					type="text"
+					default=""
+					label="PLG_REDSHOP_PAYMENT_KLARNA_ECONOMIC_PAYMENT_TERMS_ID_LBL"
+				/>
+				<field
+					name="economic_design_layout"
+					type="text"
+					default=""
+					label="PLG_REDSHOP_PAYMENT_KLARNA_ECONOMIC_DESIGN_LAYOUT_LBL"
+				/>
+
+				<!-- Don't remove this hidden field or change value - this is to identify payment gateway is credit card or redirection.  -->
+				<field
+					name="is_creditcard"
+					type="hidden"
+					default="0"
+					value="0"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
