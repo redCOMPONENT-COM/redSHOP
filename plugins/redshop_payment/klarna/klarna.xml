@@ -93,6 +93,17 @@
 					<option value="NOK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_NORWEGIAN</option>
 					<option value="SEK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_SWEDISH</option>
 				</field>
+				<field
+					name="privateBilling"
+					type="extrafields"
+					field_section="7"
+					field_show_in_front="1"
+					default=""
+					required="true"
+					hint="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_HINT"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DESC"
+				/>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
