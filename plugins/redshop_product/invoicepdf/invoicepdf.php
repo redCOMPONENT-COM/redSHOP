@@ -169,8 +169,6 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$body             = $carthelper->replaceOrderTemplate($row, $body);
 
-		echo "<div id='redshopcomponent' class='redshop'>";
-
 		if (strstr($body, "{barcode}"))
 		{
 			$img_url = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
