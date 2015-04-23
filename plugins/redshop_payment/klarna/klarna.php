@@ -241,7 +241,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			return false;
 		}
 
-		print_r($_SERVER);
-		die;
+		// This evet is not needed to verify the status, we are doing in different way for Klarna.
+		// This method is only to ignore.
 	}
 }
