@@ -489,15 +489,6 @@ class order_functions
 
 			$dispatcher = JDispatcher::getInstance();
 
-			if ($data->order_payment_status_code == "Paid" && $data->order_status_code == "S")
-			{
-				// For Consignor Label generation
-				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$results = $dispatcher->trigger('onChangeStatusToShipped',
-					array($order_id, $data->order_status_code, $data->order_payment_status_code)
-				);
-			}
-
 			if ($data->order_payment_status_code == "Paid" && $data->order_status_code == "C")
 			{
 				$xml_order  = $this->getOrderDetails($order_id);
@@ -844,13 +835,6 @@ class order_functions
 
 			$dispatcher = JDispatcher::getInstance();
 
-			if ($paymentstatus == "Paid" && $newstatus == "S")
-			{
-				// For Consignor Label generation
-				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
-			}
-
 			if ($paymentstatus == "Paid")
 			{
 				if ($newstatus == 'C')
@@ -1051,12 +1035,6 @@ class order_functions
 				// For shipped pdf generaton
 				$order_shipped_id = $oid[0];
 				$invociepdfname = $this->createShippedInvoicePdf($order_shipped_id);
-
-				// For Consignor Label generation
-				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$dispatcher = JDispatcher::getInstance();
-				$results = $dispatcher->trigger('onChangeStatusToShipped', array($oid[0], $newstatus, $paymentstatus));
-
 			}
 
 			// For Webpack Postdk Label Generation
@@ -2453,11 +2431,6 @@ class order_functions
 		{
 			$this->updateOrderPaymentStatus($order_id, $paymentstatus);
 		}
-
-		// For Consignor Label generation
-		JPluginHelper::importPlugin('redshop_shippinglabel');
-		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 
 		if ($post['isPacsoft'])
 		{

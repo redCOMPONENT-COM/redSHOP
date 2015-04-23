@@ -1140,9 +1140,8 @@ class rsCarthelper
 
 				$product_total_price .= "</div>";
 
-				$product_old_price              = '';
-				$product_price_percent_discount = '';
-				$product_price                  = "<div class='product_price'>";
+				$product_old_price = "";
+				$product_price     = "<div class='product_price'>";
 
 				if (!$quotation_mode || ($quotation_mode && SHOW_QUOTATION_PRICE))
 				{
@@ -1168,9 +1167,6 @@ class rsCarthelper
 						$productOldPriceNoFormat = $product_old_price;
 
 						$product_old_price = $this->_producthelper->getProductFormattedPrice($product_old_price, true);
-
-						// Calculate percentage discount on product
-						$product_price_percent_discount = (($cart[$i]['product_old_price_excl_vat'] - $cart[$i]['product_price_excl_vat'])/$cart[$i]['product_old_price_excl_vat']) * 100;
 					}
 				}
 
@@ -1308,14 +1304,6 @@ class rsCarthelper
 				$cart_mdata           = str_replace("{product_attribute_number}", "", $cart_mdata);
 				$cart_mdata           = $this->_producthelper->getProductOnSaleComment($product, $cart_mdata, $product_old_price);
 				$cart_mdata           = str_replace("{product_old_price}", $product_old_price, $cart_mdata);
-				$cart_mdata           = str_replace(
-											"{product_price_percent_discount}",
-											JText::sprintf(
-												'COM_REDSHOP_CART_PRODUCT_PRICE_PERCENT_DISCOUNT_LBL',
-												round($product_price_percent_discount)
-											),
-											$cart_mdata
-										);
 				$cart_mdata           = str_replace("{product_wrapper}", $wrapper_name, $cart_mdata);
 				$cart_mdata           = str_replace("{product_thumb_image}", $product_image, $cart_mdata);
 				$cart_mdata           = str_replace("{attribute_price_without_vat}", '', $cart_mdata);
@@ -5003,18 +4991,6 @@ class rsCarthelper
 								$newquantity = $property_stock + $ownReservePropertyStock;
 							}
 
-							if ($productStock >= 0)
-							{
-								if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
-								{
-									$newquantity = $productStock + $ownProductReserveStock;
-								}
-							}
-							else
-							{
-								$newquantity = $productStock + $ownProductReserveStock;
-							}
-
 							if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
 							{
 								$newquantity = $productData->max_order_product_quantity;
@@ -5064,30 +5040,6 @@ class rsCarthelper
 								else
 								{
 									$newquantity = $subproperty_stock + $ownSubPropReserveStock;
-								}
-
-								if ($property_stock >= 0)
-								{
-									if ($newquantity > $ownReservePropertyStock && $property_stock < ($newquantity - $ownReservePropertyStock))
-									{
-										$newquantity = $property_stock + $ownReservePropertyStock;
-									}
-								}
-								else
-								{
-									$newquantity = $property_stock + $ownReservePropertyStock;
-								}
-
-								if ($productStock >= 0)
-								{
-									if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
-									{
-										$newquantity = $productStock + $ownProductReserveStock;
-									}
-								}
-								else
-								{
-									$newquantity = $productStock + $ownProductReserveStock;
 								}
 
 								if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)

@@ -70,11 +70,11 @@ class RedshopViewShopper_group_detail extends RedshopView
 			'class="inputbox" size="1" ', 'value', 'text', $detail->shopper_group_customer_type
 		);
 
-		$lists['portal'] = JHTML::_('select.booleanlist', 'shopper_group_portal', 'class="inputbox"', $detail->shopper_group_portal);
-		$lists['default_shipping'] = JHTML::_('select.booleanlist', 'default_shipping', 'class="inputbox"', $detail->default_shipping);
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$lists['show_price_without_vat'] = JHTML::_('select.booleanlist', 'show_price_without_vat', 'class="inputbox"', $detail->show_price_without_vat);
-		$lists['shopper_group_quotation_mode'] = JHTML::_('select.booleanlist', 'shopper_group_quotation_mode',
+		$lists['portal'] = JHTML::_('redshopselect.booleanlist', 'shopper_group_portal', 'class="inputbox"', $detail->shopper_group_portal);
+		$lists['default_shipping'] = JHTML::_('redshopselect.booleanlist', 'default_shipping', 'class="inputbox"', $detail->default_shipping);
+		$lists['published'] = JHTML::_('redshopselect.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['show_price_without_vat'] = JHTML::_('redshopselect.booleanlist', 'show_price_without_vat', 'class="inputbox"', $detail->show_price_without_vat);
+		$lists['shopper_group_quotation_mode'] = JHTML::_('redshopselect.booleanlist', 'shopper_group_quotation_mode',
 			'class="inputbox"', $detail->shopper_group_quotation_mode
 		);
 

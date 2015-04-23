@@ -696,58 +696,6 @@ if (strstr($template_desc, "{wrapper_template:"))
 	}
 }
 
-if (strstr($template_desc, "{navigator_products}"))
-{
-	$parentproductid = $this->data->product_id;
-
-	$frmChild               = "";
-	$navigator_products_lbl = "";
-
-	if ($parentproductid != 0 && JPluginHelper::isEnabled('redshop_product_navigation', 'rs_product_navigation'))
-	{
-		$productInfo = $producthelper->getProductById($parentproductid);
-
-		// Get child products
-		$childproducts = $producthelper->getProductNavigator(0, $parentproductid);
-
-		if (count($childproducts) > 0)
-		{
-			$navigator_products_lbl = JText::_('COM_REDSHOP_NAVIGATOR_PRODUCTS') . ": ";
-
-			if (count($childproducts) > 0)
-			{
-				for ($c = 0; $c < count($childproducts); $c++)
-				{
-					$childproducts[$c]->product_name = $childproducts[$c]->navigator_name;
-				}
-			}
-
-			$selected = array($this->data->product_id);
-
-			$lists['product_child_id'] = JHtml::_(
-													'select.genericlist',
-													$childproducts,
-													'pid',
-													'class="inputbox" size="1"  onchange="document.frmNav.submit();"',
-													'child_product_id',
-													'product_name',
-													$selected
-										);
-
-			$frmChild .= "<form name='frmNav' id='frmNav' method='post' action=''>";
-			$frmChild .= "<div class='product_child_product_list'>" . $lists ['product_child_id'] . "</div>";
-			$frmChild .= "<input type='hidden' name='view' value='product'>";
-			$frmChild .= "<input type='hidden' name='task' value='gotonavproduct'>";
-			$frmChild .= "<input type='hidden' name='option' value='com_redshop'>";
-			$frmChild .= "<input type='hidden' name='Itemid' value='" . $this->itemId . "'>";
-			$frmChild .= "</form>";
-		}
-	}
-
-	$template_desc = str_replace("{navigator_products}", $frmChild, $template_desc);
-	$template_desc = str_replace("{navigator_products_lbl}", $navigator_products_lbl, $template_desc);
-}
-
 // PRODUCT WRAPPER END
 
 if (strstr($template_desc, "{child_products}"))

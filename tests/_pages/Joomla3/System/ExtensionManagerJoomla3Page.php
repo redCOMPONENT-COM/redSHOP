@@ -22,7 +22,7 @@ class ExtensionManagerJoomla3Page
 
 	public static $installButton = "//input[contains(@onclick,'Joomla.submitbutton3()')]";
 
-	public static $installSuccessMessage = "Installing component was successful.";
+	public static $installSuccessMessage = "Installation of the component was successful.";
 
 	public static $installDemoContent = "//input[@value='Install Demo Content']";
 

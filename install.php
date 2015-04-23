@@ -1209,11 +1209,23 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
+		if (version_compare($this->getOldParam('version'), '1.5.0.4.3', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/tables/navigator_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_detail/tmpl/default_product_dropdown.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/consignornumber.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/shippingmethod.php'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '1.5.0.4.2', '<='))
 		{
 			array_push(
 				$folders,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system'
+				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system',
+				JPATH_SITE . '/components/com_redshop/views/category/tmpl/searchletter.php'
 			);
 		}
 
