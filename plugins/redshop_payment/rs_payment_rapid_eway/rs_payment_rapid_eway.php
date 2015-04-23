@@ -9,10 +9,20 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
+/**
+ * Class PlgRedshop_Paymentrs_Payment_Rapid_Eway
+ *
+ * @since  1.5
+ */
+class PlgRedshop_Paymentrs_Payment_Rapid_Eway extends JPlugin
 {
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
+	 *
+	 * @param   string  $element  Element name
+	 * @param   array   $data     Array data values
+	 *
+	 * @return  void
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -26,41 +36,35 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
-
 		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
-	function onNotifyPaymentrs_payment_rapid_eway($element, $request)
+	/**
+	 * onNotifyPaymentrs_payment_rapid_eway
+	 *
+	 * @param   string  $element  Element name
+	 * @param   array   $request  Array request values
+	 *
+	 * @return stdClass|void
+	 */
+	public function onNotifyPaymentrs_payment_rapid_eway($element, $request)
 	{
 		if ($element != 'rs_payment_rapid_eway')
 		{
 			return;
 		}
 
-		$user = JFActory::getUser();
-		$user_id = $user->id;
-
-		// Get Plugin params
-		$verify_status  = $this->params->get('verify_status', '');
-		$invalid_status = $this->params->get('invalid_status', '');
-		$auth_type      = $this->params->get('auth_type', '');
-		$eWAYusername   = $this->params->get("username");
-		$eWAYpassword   = $this->params->get("password");
-		$test_mode      = $this->params->get("test_mode");
-
 		$AccessCode = $request["AccessCode"];
-		$api_path   = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/Rapid.php';
-		include $api_path;
-		$service    = new RapidAPI;
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/RapidAPI.php';
 
-		// Call RapidAPI to get the result
-		$service->setTestMode($test_mode);
-		$service->getAuthorizeData($eWAYusername, $eWAYpassword);
-		$req             = new GetAccessCodeResultRequest;
+		$eway_params = array('sandbox' => $this->params->get('test_mode', true));
+		$service = new eWAY\RapidAPI($this->params->get("APIKey"), $this->params->get("APIPassword"), $eway_params);
+
+		$req             = new eWAY\GetAccessCodeResultRequest;
 		$req->AccessCode = $AccessCode;
 		$result          = $service->GetAccessCodeResult($req);
 		$order_id        = $request['orderid'];
+		$lblError = '';
 
 		// Check if any error returns
 		if (isset($result->Errors))
@@ -77,9 +81,9 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 
 		$values = new stdClass;
 
-		if (isset($lblError) && $response->ResponseCode != 00)
+		if ($lblError && $result->ResponseCode != 00)
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code = $this->params->get('invalid_status', '');
 			$values->order_payment_status_code = 'Unpaid';
 
 			if ($lblError != "")
@@ -89,27 +93,33 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 			}
 			else
 			{
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->log = JText::_('PLG_RS_PAYMENT_RAPID_EWAY_ORDER_NOT_PLACED');
+				$values->msg = JText::_('PLG_RS_PAYMENT_RAPID_EWAY_ORDER_NOT_PLACED');
 			}
 		}
 		else
 		{
-			$tid = $result->TransactionID;
-			$transaction_id = $tid;
-			$values->order_status_code = $verify_status;
+			$values->transaction_id = $result->TransactionID;
+			$values->order_status_code = $this->params->get('verify_status', '');
 			$values->order_payment_status_code = 'Paid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+			$values->log = JText::_('PLG_RS_PAYMENT_RAPID_EWAY_ORDER_PLACED');
+			$values->msg = JText::_('PLG_RS_PAYMENT_RAPID_EWAY_ORDER_PLACED');
 		}
 
-		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 
 		return $values;
 	}
 
-	function onCapture_Paymentrs_payment_rapid_eway($element, $data)
+	/**
+	 * onCapture_Paymentrs_payment_rapid_eway
+	 *
+	 * @param   string  $element  Element name
+	 * @param   array   $data     Array data values
+	 *
+	 * @return  void
+	 */
+	public function onCapture_Paymentrs_payment_rapid_eway($element, $data)
 	{
 		return;
 	}
