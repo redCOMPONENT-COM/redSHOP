@@ -21,8 +21,6 @@ class RedshopViewSearch extends RedshopView
 		$redTemplate = new Redtemplate;
 		$lists       = array();
 
-		$uri = JFactory::getURI();
-
 		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 
@@ -176,7 +174,7 @@ class RedshopViewSearch extends RedshopView
 			$model      = $this->getModel('search');
 			$limit      = $this->limit;
 			$limitstart = JRequest::getInt('limitstart', 0);
-			$total      = $model->_total;
+			$total      = $model->getTotal();
 
 			JHTML::_('behavior.tooltip');
 			JHTMLBehavior::modal();
@@ -343,7 +341,7 @@ class RedshopViewSearch extends RedshopView
 			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
-			$total_product = $model->_total;
+			$total_product = $model->getTotal();
 			$endlimit      = $this->limit;
 			$start         = JRequest::getInt('limitstart', 0, '', 'int');
 
@@ -373,7 +371,7 @@ class RedshopViewSearch extends RedshopView
 			$count_no_user_field = 0;
 			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 
-			for ($i = 0; $i < count($this->search); $i++)
+			for ($i = 0, $countSearch = count($this->search); $i < $countSearch; $i++)
 			{
 				$data_add   = "";
 				$thum_image = "";
@@ -552,7 +550,7 @@ class RedshopViewSearch extends RedshopView
 					$media_documents = $producthelper->getAdditionMediaImage($this->search[$i]->product_id, "product", "document");
 					$more_doc        = '';
 
-					for ($m = 0; $m < count($media_documents); $m++)
+					for ($m = 0, $countMedia = count($media_documents); $m < $countMedia; $m++)
 					{
 						$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
 
@@ -586,7 +584,7 @@ class RedshopViewSearch extends RedshopView
 				{
 					$ufield = "";
 
-					for ($ui = 0; $ui < count($userfieldArr); $ui++)
+					for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 					{
 						$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
 						$ufield .= $product_userfileds[1];
@@ -631,7 +629,7 @@ class RedshopViewSearch extends RedshopView
 					{
 						$ufield = "";
 
-						for ($ui = 0; $ui < count($userfieldArr); $ui++)
+						for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 						{
 							$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
 							$ufield .= $product_userfileds[1];

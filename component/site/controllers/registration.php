@@ -108,10 +108,10 @@ class RedshopControllerRegistration extends RedshopController
 		$get = JRequest::get('get');
 		$return = "";
 
-		JPluginHelper::importPlugin('telesearch', 'rs_telesearch');
+		JPluginHelper::importPlugin('telesearch');
 		$this->_dispatcher = JDispatcher::getInstance();
 		$tele['phone']     = $get['phone'];
-		$accountHandle     = $this->_dispatcher->trigger('findByTelephoneNumber', array($tele));
+		$accountHandle     = $this->_dispatcher->trigger('onSearchUserDetails', array($tele));
 
 		if (count($accountHandle) > 0)
 		{

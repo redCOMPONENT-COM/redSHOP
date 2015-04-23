@@ -21,6 +21,15 @@ $user             = JFActory::getUser();
 $task             = JRequest::getCmd('task');
 $app              = JFactory::getApplication();
 
+// Redirection after full page load
+JHtml::_('redshopjquery.framework');
+$document = JFactory::getDocument();
+$document->addScriptDeclaration(
+	'jQuery(document).ready(function(){
+		jQuery("#ingenicoform").submit();
+	});'
+);
+
 $query = $db->getQuery(true)
 	->select('op.*, o.order_total, o.user_id, o.order_tax, o.order_subtotal, o.order_shipping, o.order_number, o.payment_discount')
 	->from($db->qn('#__redshop_order_payment', 'op'))
@@ -35,6 +44,8 @@ $currency              = $this->params->get("currency");
 $language              = $this->params->get("language");
 
 $orderSubtotal = round($currencyClass->convert($order_details->order_total, '', $currency), 2) * 100;
+$linkForReturn = JURI::base()
+	. "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_ingenico";
 
 $post_variables = array(
 	"PSPID"        => $this->params->get("ingenico_pspid"),
@@ -42,9 +53,9 @@ $post_variables = array(
 	"AMOUNT"       => $orderSubtotal,
 	"CURRENCY"     => $currency,
 	"LANGUAGE"     => $language,
-	"ACCEPTURL"    => JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_ingenico",
-	"DECLINEURL"   => JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_ingenico",
-	"CANCELURL"    => JURI::base() . "index.php",
+	"ACCEPTURL"    => $linkForReturn,
+	"DECLINEURL"   => $linkForReturn,
+	"CANCELURL"    => $linkForReturn,
 	"OPERATION"    => $opreation_mode
 );
 
@@ -98,14 +109,10 @@ else
 }
 
 $post_variables['SHASIGN'] = $shasign;
-
+echo "<h3>" . JText::_('PLG_RS_PAYMENT_INGENICO_WAIT_MESSAGE') . "</h3>";
 echo "<form action='$actionurl' method='post' name='ingenicoform' id='ingenicoform'>";
 
 foreach ($post_variables as $name => $value)
 {
 	echo "<input type='hidden' name='$name' value='$value' />";
 }
-
-echo "</form>";
-?>
-<script type='text/javascript'>document.ingenicoform.submit();</script>
