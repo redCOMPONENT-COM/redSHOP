@@ -204,7 +204,7 @@ class redhelper
 		{
 			if (!isset($oneMenuItem->query[$key])
 				|| (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
-				|| $oneMenuItem->query[$key] != $value)
+				|| (!is_array($value) && $oneMenuItem->query[$key] != $value))
 			{
 				return false;
 			}

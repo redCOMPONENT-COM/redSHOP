@@ -125,10 +125,31 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
 	$cat_detail     = "";
+	$countCategories = count($this->detail);
 
-	for ($i = 0; $i < count($this->detail); $i++)
+	if (!$countCategories)
+	{
+		$cat_detail .= '<h3 class="noCategoriesToShow">' . JText::_('COM_REDSHOP_THERE_ARE_NO_CATEGORIES_TO_SHOW') . '</h3>';
+	}
+
+	for ($i = 0; $i < $countCategories; $i++)
 	{
 		$row = $this->detail[$i];
+
+		// Filter categories based on Shopper group category ACL
+		$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
+		$sgportal = $objhelper->getShopperGroupPortal();
+		$portal   = 0;
+
+		if (count($sgportal) > 0)
+		{
+			$portal = $sgportal->shopper_group_portal;
+		}
+
+		if ('' == $checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+		{
+			continue;
+		}
 
 		$data_add = $middletemplate_desc;
 
@@ -212,37 +233,10 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		 */
 		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
 
-		// Shopper group category ACL
-		$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
-
 		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$data_add  = str_replace("{read_more}", $read_more, $data_add);
-		$sgportal  = $objhelper->getShopperGroupPortal();
-		$portal    = 0;
 
-		if (count($sgportal) > 0)
-		{
-			$portal = $sgportal->shopper_group_portal;
-		}
-
-		if (PORTAL_SHOP == 1)
-		{
-			if ($checkcid != "")
-			{
-				$cat_detail .= $data_add;
-			}
-		}
-		else
-		{
-			if ($portal == 1 && $checkcid != "")
-			{
-				$cat_detail .= $data_add;
-			}
-			elseif ($portal == 0)
-			{
-				$cat_detail .= $data_add;
-			}
-		}
+		$cat_detail .= $data_add;
 	}
 
 	$template_desc = str_replace("{category_frontpage_loop_start}", "", $template_desc);

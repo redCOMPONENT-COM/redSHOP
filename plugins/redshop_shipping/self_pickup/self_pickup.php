@@ -52,6 +52,7 @@ class plgredshop_shippingself_pickup extends JPlugin
 				$shipping_rate_id = $shippinghelper->encryptShipping(
 					__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|"
 						. number_format(0, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|0");
+				$shippingrate[$rate] = new stdClass;
 				$shippingrate[$rate]->text = JText::_($rs->shipping_rate_name);
 				$shippingrate[$rate]->value = $shipping_rate_id;
 				$shippingrate[$rate]->rate = 0;
