@@ -17,6 +17,22 @@ defined('_JEXEC') or die;
 class PlgRedshop_Paymentrs_Payment_Rapid_Eway extends JPlugin
 {
 	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_redshop_payment_rs_payment_rapid_eway', JPATH_ADMINISTRATOR);
+
+		parent::__construct($subject, $config);
+	}
+
+	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 *
 	 * @param   string  $element  Element name
