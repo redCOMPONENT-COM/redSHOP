@@ -56,14 +56,13 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::$this->params->get('purchaseCountry'),
-			KlarnaLanguage::$this->params->get('purchaseLanguage'),
-			KlarnaCurrency::$this->params->get('purchaseCurrency'),
+			KlarnaCountry::fromCode($this->params->get('purchaseCountry')),
+			KlarnaLanguage::fromCode($this->params->get('purchaseLanguage')),
+			KlarnaCurrency::fromCode(strtolower($this->params->get('purchaseCurrency'))),
 			Klarna::BETA,         // Server
 			'json',               // PClass storage
 			'./pclasses.json'     // PClass storage URI path
 		);
-
 
 		$orderHelper = new order_functions;
 		$orderItems = $orderHelper->getOrderItemDetail($data['order_id']);
@@ -113,10 +112,6 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			KlarnaFlags::INC_VAT | KlarnaFlags::IS_HANDLING
 		);*/
 
-/*echo "<pre>";
-print_r($data);
-echo "</pre>";*/
-
 		$k->setAddress(
 			KlarnaFlags::IS_BILLING,
 			new KlarnaAddr(
@@ -129,7 +124,7 @@ echo "</pre>";*/
 				$data['billinginfo']->address,
 				$data['billinginfo']->zipcode,
 				$data['billinginfo']->city,
-				$this->getKlarnaCountry($data['billinginfo']->country_2_code),
+				KlarnaCountry::fromCode($data['billinginfo']->country_2_code),
 				null,                         // House number (AT/DE/NL only)
 				null                          // House extension (NL only)
 			)
@@ -147,7 +142,7 @@ echo "</pre>";*/
 				$data['shippinginfo']->address,
 				$data['shippinginfo']->zipcode,
 				$data['shippinginfo']->city,
-				$this->getKlarnaCountry($data['shippinginfo']->country_2_code),
+				KlarnaCountry::fromCode($data['shippinginfo']->country_2_code),
 				null,                         // House number (AT/DE/NL only)
 				null                          // House extension (NL only)
 			)
@@ -156,26 +151,79 @@ echo "</pre>";*/
 		try
 		{
 			$result = $k->reserveAmount(
-				'4103219202', // PNO (Date of birth DD-MM-YYYY for AT/DE/NL)  @todo
+				'0801363945', // PNO (Date of birth DD-MM-YYYY for AT/DE/NL)  @todo
 				null, // KlarnaFlags::MALE, KlarnaFlags::FEMALE (AT/DE/NL only) @todo
 				-1,   // Automatically calculate and reserve the cart total amount
 				KlarnaFlags::NO_FLAG,
 				KlarnaPClass::INVOICE
 			);
 
-			$rno = $result[0];
-			$status = $result[1];
+			$reservation = $result[0];
+			$status      = $result[1];
 
-			// $status is KlarnaFlags::PENDING or KlarnaFlags::ACCEPTED.
+			$values                 = new stdClass;
+			$values->order_id       = $data['order_id'];
+			$values->transaction_id = $reservation;
 
-			echo "OK: reservation {$rno} - order status {$status}\n";
+			if ($status == KlarnaFlags::ACCEPTED)
+			{
+				$values->order_status_code         = $this->params->get('verify_status', '');
+				$values->order_payment_status_code = 'Paid';
+
+				$values->log = JText::_('PLG_KLARNA_ORDER_PLACED');
+				$values->msg = JText::_('PLG_KLARNA_ORDER_PLACED');
+			}
+			else
+			{
+				$values->order_status_code         = $this->params->get('invalid_status', '');
+				$values->order_payment_status_code = 'Unpaid';
+
+				$values->log = JText::_('PLG_KLARNA_NOT_PLACED');
+				$values->msg = JText::_('PLG_KLARNA_NOT_PLACED');
+			}
+
+			// Change order status based on Klarna status response
+			$this->klarnaOrderReservationUpdate($values);
+
+			/*// $status is KlarnaFlags::PENDING or KlarnaFlags::ACCEPTED.
+			echo "OK: reservation {$reservation} - order status {$status}\n";
+			die;*/
 		}
 		catch(Exception $e)
 		{
-			echo "{$e->getMessage()} (#{$e->getCode()})\n";
-		}
+			$values                            = new stdClass;
+			$values->order_id                  = $data['order_id'];
+			$values->transaction_id            = null;
+			$values->order_status_code         = $this->params->get('invalid_status', '');
+			$values->order_payment_status_code = 'Unpaid';
 
-		die;
+			$values->log                       = $e->getMessage() . ' #' . $e->getCode();
+			$values->msg                       = $e->getMessage();
+
+			// Change order status based on Klarna status response
+			$this->klarnaOrderReservationUpdate($values);
+		}
+	}
+
+	/**
+	 * Notify payment function
+	 *
+	 * @return  void
+	 */
+	public function klarnaOrderReservationUpdate($values)
+	{
+		$app         = JFactory::getApplication();
+		$orderHelper = new order_functions;
+		$orderId     = $values->order_id;
+
+		$orderHelper->changeorderstatus($values);
+
+		RedshopModel::getInstance('order_detail', 'RedshopModel')->resetcart();
+
+		$app->redirect(
+			JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId),
+			$values->msg
+		);
 	}
 
 	/**
@@ -195,37 +243,5 @@ echo "</pre>";*/
 
 		print_r($_SERVER);
 		die;
-	}
-
-	private function getKlarnaCountry($countryCode)
-	{
-		switch ($countryCode)
-		{
-			case 'AT':
-				return KlarnaCountry::AT;
-				break;
-			case 'DK':
-				return KlarnaCountry::DK;
-				break;
-			case 'FI':
-				return KlarnaCountry::FI;
-				break;
-			case 'DE':
-				return KlarnaCountry::DE;
-				break;
-			case 'NL':
-				return KlarnaCountry::NL;
-				break;
-			case 'NO':
-				return KlarnaCountry::NO;
-				break;
-			case 'SE':
-				return KlarnaCountry::SE;
-				break;
-
-			default:
-				return KlarnaCountry::DK;
-				break;
-		}
 	}
 }
