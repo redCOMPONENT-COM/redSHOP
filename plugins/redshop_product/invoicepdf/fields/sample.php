@@ -1,16 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package     Redshop
+ * @subpackage  Plugin.redshop_product
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2015 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Form Field class for the Joomla Platform.
+ * Form Field class to show Sample Invoice PDF template
  * Supports a one line text field.
  *
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
@@ -207,7 +207,7 @@ class JFormFieldSample extends JFormFieldNote
 </table>
 EOF;
 
-		return '<pre>' . $html . '</pre>';
+		return '<pre>' . htmlentities($html) . '</pre>';
 	}
 
 	/**
