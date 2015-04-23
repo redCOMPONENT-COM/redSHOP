@@ -23,7 +23,9 @@
 			<fieldset name="basic">
 				<field
 					name="shippment_invoice_template"
-					type="editor"
+					type="codemirror|none"
+					syntax="php"
+					buttons="no"
 					required="true"
 					default="This is a example string for PDF template. Create your own template from available tags."
 					label="PLG_REDSHOP_PRODUCT_INVOICEPDF_SHIPPMENT_INVOICE_TEMPLATE"
