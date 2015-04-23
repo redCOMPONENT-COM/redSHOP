@@ -822,33 +822,39 @@ class RedshopModelCheckout extends RedshopModel
 
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
-						$prooprand    = array();
-						$proprice     = array();
-						$attribute_id = $attchildArr[$j]['attribute_id'];
-						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
+						$prooprand     = array();
+						$proprice      = array();
 
-						$rowattitem                    = $this->getTable('order_attribute_item');
-						$rowattitem->order_att_item_id = 0;
-						$rowattitem->order_item_id     = $rowitem->order_item_id;
-						$rowattitem->section_id        = $attribute_id;
-						$rowattitem->section           = "attribute";
-						$rowattitem->parent_section_id = $accessory_id;
-						$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
-						$rowattitem->is_accessory_att  = 1;
+						$propArr       = $attchildArr[$j]['attribute_childs'];
+						$totalProperty = count($propArr);
 
-						if ($attribute_id > 0)
+						if ($totalProperty)
 						{
-							if (!$rowattitem->store())
-							{
-								$this->setError($this->_db->getErrorMsg());
 
-								return false;
+							$attribute_id = $attchildArr[$j]['attribute_id'];
+							$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
+
+							$rowattitem                    = $this->getTable('order_attribute_item');
+							$rowattitem->order_att_item_id = 0;
+							$rowattitem->order_item_id     = $rowitem->order_item_id;
+							$rowattitem->section_id        = $attribute_id;
+							$rowattitem->section           = "attribute";
+							$rowattitem->parent_section_id = $accessory_id;
+							$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
+							$rowattitem->is_accessory_att  = 1;
+
+							if ($attribute_id > 0)
+							{
+								if (!$rowattitem->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
 							}
 						}
 
-						$propArr = $attchildArr[$j]['attribute_childs'];
-
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0; $k < $totalProperty; $k++)
 						{
 							$prooprand[$k] = $propArr[$k]['property_oprand'];
 							$proprice[$k]  = $propArr[$k]['property_price'];
@@ -884,7 +890,7 @@ class RedshopModelCheckout extends RedshopModel
 								}
 							}
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $nl = count($subpropArr); $l < $nl; $l++)
 							{
 								$section_vat = 0;
 
@@ -990,31 +996,32 @@ class RedshopModelCheckout extends RedshopModel
 
 				for ($j = 0; $j < count($attchildArr); $j++)
 				{
-					$attribute_id                  = $attchildArr[$j]['attribute_id'];
-					$rowattitem                    = $this->getTable('order_attribute_item');
-					$rowattitem->order_att_item_id = 0;
-					$rowattitem->order_item_id     = $rowitem->order_item_id;
-					$rowattitem->section_id        = $attribute_id;
-					$rowattitem->section           = "attribute";
-					$rowattitem->parent_section_id = $rowitem->product_id;
-					$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
-					$rowattitem->is_accessory_att  = 0;
+					$propArr       = $attchildArr[$j]['attribute_childs'];
+					$totalProperty = count($propArr);
 
-					if ($attribute_id > 0)
+					if ($totalProperty > 0)
 					{
-						if (!$rowattitem->store())
+						$attribute_id                  = $attchildArr[$j]['attribute_id'];
+						$rowattitem                    = $this->getTable('order_attribute_item');
+						$rowattitem->order_att_item_id = 0;
+						$rowattitem->order_item_id     = $rowitem->order_item_id;
+						$rowattitem->section_id        = $attribute_id;
+						$rowattitem->section           = "attribute";
+						$rowattitem->parent_section_id = $rowitem->product_id;
+						$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
+						$rowattitem->is_accessory_att  = 0;
+
+						if ($attribute_id > 0)
 						{
-							$this->setError($this->_db->getErrorMsg());
+							if (!$rowattitem->store())
+							{
+								$this->setError($this->_db->getErrorMsg());
 
-							return false;
+								return false;
+							}
 						}
-					}
 
-					$propArr = $attchildArr[$j]['attribute_childs'];
-
-					if (count($propArr) > 0)
-					{
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0; $k < $totalProperty; $k++)
 						{
 							$section_vat = 0;
 
@@ -1056,7 +1063,7 @@ class RedshopModelCheckout extends RedshopModel
 
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $nl = count($subpropArr); $l < $nl; $l++)
 							{
 								$section_vat = 0;
 

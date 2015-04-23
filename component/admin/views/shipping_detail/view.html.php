@@ -54,7 +54,7 @@ class RedshopViewShipping_detail extends RedshopView
 		JToolBarHelper::save();
 		JToolBarHelper::cancel();
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->enabled);
+		$lists['published'] = JHTML::_('redshopselect.booleanlist', 'published', 'class="inputbox"', $detail->enabled);
 
 		$this->lists       = $lists;
 		$this->detail      = $detail;

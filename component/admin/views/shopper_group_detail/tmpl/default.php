@@ -41,7 +41,7 @@ $url = $uri->root();    ?>
 					</td>
 					<td><input class="text_area" type="text" name="shopper_group_name" id="shopper_group_name" size="32"
 							   maxlength="250" value="<?php echo $this->detail->shopper_group_name; ?>"/>
-						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_NAME'), JText::_('COM_REDSHOP_SHOPPER_GROUP_NAME'), 'tooltip.png', '', '', false); ?>
+						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_NAME'), JText::_('COM_REDSHOP_SHOPPER_GROUP_NAME'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 				<tr>
@@ -66,7 +66,7 @@ $url = $uri->root();    ?>
 					<td valign="top" align="right"
 						class="key"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_CATEGORY'); ?>:
 					</td>
-					<td><?php echo $this->lists['categories']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_CATEGORY'), JText::_('COM_REDSHOP_SHOPPER_GROUP_CATEGORY'), 'tooltip.png', '', '', false); ?>
+					<td><?php echo $this->lists['categories']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_CATEGORY'), JText::_('COM_REDSHOP_SHOPPER_GROUP_CATEGORY'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 
@@ -74,7 +74,7 @@ $url = $uri->root();    ?>
 					<td valign="top" align="right"
 						class="key"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE'); ?>:
 					</td>
-					<td><?php echo $this->lists['manufacturers']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_MANUFACTURE'), JText::_('COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE'), 'tooltip.png', '', '', false); ?>
+					<td><?php echo $this->lists['manufacturers']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_MANUFACTURE'), JText::_('COM_REDSHOP_SHOPPER_GROUP_MANUFACTURE'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 
@@ -94,7 +94,7 @@ $url = $uri->root();    ?>
 					<td><input class="text_area" type="text" name="shopper_group_cart_itemid"
 							   id="shopper_group_cart_itemid" size="32" maxlength="250"
 							   value="<?php echo $this->detail->shopper_group_cart_itemid; ?>"/>
-						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_CART_ITEMID'), JText::_('COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_LBL'), 'tooltip.png', '', '', false); ?>
+						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOPPER_GROUP_CART_ITEMID'), JText::_('COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_LBL'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 				<tr>
@@ -110,7 +110,7 @@ $url = $uri->root();    ?>
 					<td>
 						<input class="text_area" type="text" name="default_shipping_rate" id="default_shipping_rate"
 							   size="32" maxlength="250" value="<?php echo $this->detail->default_shipping_rate; ?>"/>
-						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CHOOSE_DEFAULT_SHIPPING_RATE'), JText::_('COM_REDSHOP_CHOOSE_DEFAULT_SHIPPING_RATE'), 'tooltip.png', '', '', false); ?>
+						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CHOOSE_DEFAULT_SHIPPING_RATE'), JText::_('COM_REDSHOP_CHOOSE_DEFAULT_SHIPPING_RATE'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 				<tr>
@@ -120,7 +120,7 @@ $url = $uri->root();    ?>
 					<td><input class="text_area" type="text" name="shopper_group_cart_checkout_itemid"
 							   id="shopper_group_cart_checkout_itemid" size="32" maxlength="250"
 							   value="<?php echo $this->detail->shopper_group_cart_checkout_itemid; ?>"/>
-						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_SHOPPER_GROUP_CART_CHECKOUT_ITEMID'), JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CART_CHECKOUT_ITEMID'), 'tooltip.png', '', '', false); ?>
+						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_SHOPPER_GROUP_CART_CHECKOUT_ITEMID'), JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CART_CHECKOUT_ITEMID'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 				<tr style="display: none;">
@@ -128,12 +128,12 @@ $url = $uri->root();    ?>
 						:
 					</td>
 					<td><?php echo $this->lists['tax_group_id'];
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_USE_VAT_GROUP'), JText::_('COM_REDSHOP_USE_VAT_GROUP_LBL'), 'tooltip.png', '', '', false); ?></td>
+						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_USE_VAT_GROUP'), JText::_('COM_REDSHOP_USE_VAT_GROUP_LBL'), 'tooltip.png', '', '', false, 'hasTip'); ?></td>
 				</tr>
 				<tr style="display: none;">
 					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_ADD_VAT'); ?>:</td>
 					<td><?php echo $this->lists['apply_vat'];
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_ADD_VAT'), JText::_('COM_REDSHOP_ADD_VAT'), 'tooltip.png', '', '', false); ?>
+						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_ADD_VAT'), JText::_('COM_REDSHOP_ADD_VAT'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 				<tr>
@@ -141,7 +141,7 @@ $url = $uri->root();    ?>
 						class="key"><?php echo JText::_('COM_REDSHOP_SHOW_PRICE_WITHOUT_VAT'); ?>:
 					</td>
 					<td><?php echo $this->lists['show_price_without_vat'];
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOW_PRICE_WITHOUT_VAT'), JText::_('COM_REDSHOP_SHOW_PRICE_WITH_OR_WITHOUT_VAT'), 'tooltip.png', '', '', false); ?>
+						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOW_PRICE_WITHOUT_VAT'), JText::_('COM_REDSHOP_SHOW_PRICE_WITH_OR_WITHOUT_VAT'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 
@@ -166,18 +166,18 @@ $url = $uri->root();    ?>
 						class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_VAT_LBL'); ?>:
 					</td>
 					<td><?php echo $this->lists['apply_product_price_vat'];
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE_VAT_LBL'), JText::_('COM_REDSHOP_PRODUCT_PRICE_VAT_LBL'), 'tooltip.png', '', '', false); ?>
+						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE_VAT_LBL'), JText::_('COM_REDSHOP_PRODUCT_PRICE_VAT_LBL'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 				<!--	<tr>
 		<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT' ); ?>:</td>
 		<td><?php echo $this->lists['tax_exempt'];
-			echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE_VAT_LBL' ), JText::_('COM_REDSHOP_PRODUCT_PRICE_VAT_LBL' ), 'tooltip.png', '', '', false); ?>
+			echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE_VAT_LBL' ), JText::_('COM_REDSHOP_PRODUCT_PRICE_VAT_LBL' ), 'tooltip.png', '', '', false, 'hasTip'); ?>
 		</td></tr>
 	<tr>
 		<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_SHIPPING' ); ?>:</td>
 		<td><?php echo $this->lists['tax_exempt_on_shipping'];
-			echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_TAX_EXEMPT_SHIPPING' ), JText::_('COM_REDSHOP_TAX_EXEMPT_SHIPPING' ), 'tooltip.png', '', '', false); ?>
+			echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_TAX_EXEMPT_SHIPPING' ), JText::_('COM_REDSHOP_TAX_EXEMPT_SHIPPING' ), 'tooltip.png', '', '', false, 'hasTip'); ?>
 		</td>
 	</tr>-->
 				<tr>
@@ -185,7 +185,7 @@ $url = $uri->root();    ?>
 						:
 					</td>
 					<td><?php echo $this->lists['shopper_group_quotation_mode'];
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_QUOTATION_MODE_LBL'), JText::_('COM_REDSHOP_QUOTATION_MODE_LBL'), 'tooltip.png', '', '', false); ?>
+						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_QUOTATION_MODE_LBL'), JText::_('COM_REDSHOP_QUOTATION_MODE_LBL'), 'tooltip.png', '', '', false, 'hasTip'); ?>
 					</td>
 				</tr>
 				<tr>

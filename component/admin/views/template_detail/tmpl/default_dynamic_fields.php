@@ -1683,46 +1683,6 @@ if ($this->detail->template_section == "change_cart_attribute")
 	}
 }
 
-// Letter Search Template Start
-if ($this->detail->template_section == "searchletter")
-{
-	echo JHtml::_('tabs.panel', $title, 'searchletter');    ?>
-	<table class="adminlist">
-		<tr>
-			<td>
-				<?php
-				$tags_front = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin = $extra_field->getSectionFieldList(1, 0);
-				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				for ($i = 0; $i < count($tags); $i++)
-				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
-				}    ?>
-			</td>
-		</tr>
-		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('letter_search'); ?></td>
-		</tr>
-	</table>
-	<?php
-	$letter = $redtemplate->getInstallSectionTemplate("letter_search_product", $setflag = True);
-	if ($letter != "")
-	{
-		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
-			<tr>
-				<td>
-					<?php echo $letter;?>
-				</td>
-			</tr>
-		</table>
-		<?php
-
-	}
-}
-
 // Product Content Template Start
 if ($this->detail->template_section == "product_content_template")
 {
