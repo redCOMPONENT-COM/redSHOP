@@ -42,6 +42,9 @@ if (1 == (int) $this->params->get("auto_return"))
 	$returnUrl = $this->params->get("auto_return_url");
 }
 
+$key = array($data['order_id'], (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
+$key = md5(implode('|', $key));
+
 $paypalPostData = Array(
 	"cmd"                => "_cart",
 	"upload"             => "1",
@@ -61,18 +64,17 @@ $paypalPostData = Array(
 	"amount"             => $currencyClass->convert($data['order']->order_total, '', $paymentCurrency),
 	"return"             => $returnUrl,
 	"notify_url"         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
-							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
+							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'] . '&key=' . $key,
 	"night_phone_b"      => substr($data['billinginfo']->phone, 0, 25),
 	"cancel_return"      => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
 							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
 	"undefined_quantity" => "0",
-	"test_ipn"           => $this->params->get("is_test"),
 	"pal"                => "NRUBJXESJTY24",
 	"no_shipping"        => "0",
 	"no_note"            => "1",
 	"tax_cart"           => $data['order']->order_tax,
-	"currency_code"      => $paymentCurrency
-
+	"currency_code"      => $paymentCurrency,
+	'bn'                 => 'redCOMPONENT_SP'
 );
 
 if (SHIPPING_METHOD_ENABLE)
@@ -115,7 +117,7 @@ foreach ($items as $item)
 $shipping = $data['order']->order_shipping / $totalQuantity;
 $paypalCartItems = array();
 
-for ($i = 0; $i < count($items); $i++)
+for ($i = 0, $countItems = count($items); $i < $countItems; $i++)
 {
 	$index = $i + 1;
 
@@ -124,21 +126,21 @@ for ($i = 0; $i < count($items); $i++)
 	$paypalCartItems["item_name_" . $index] = strip_tags(str_replace('"', "'", $item->order_item_name));
 	$paypalCartItems["quantity_" . $index]  = $item->product_quantity;
 	$paypalCartItems["amount_" . $index]    = round(
-												$currencyClass->convert(
-													$item->product_item_price_excl_vat,
-													'',
-													$paymentCurrency
-												),
-												2
-											);
+		$currencyClass->convert(
+			$item->product_item_price_excl_vat,
+			'',
+			$paymentCurrency
+		),
+		2
+	);
 	$paypalCartItems['shipping_' . $index]  = round(
-												$currencyClass->convert(
-													$item->product_quantity * $shipping,
-													'',
-													$paymentCurrency
-												),
-												2
-											);
+		$currencyClass->convert(
+			$item->product_quantity * $shipping,
+			'',
+			$paymentCurrency
+		),
+		2
+	);
 }
 
 echo '<form action="' . $paypalurl . '" method="post" name="paypalfrm" id="paypalfrm">';

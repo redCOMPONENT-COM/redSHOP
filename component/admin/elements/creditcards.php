@@ -9,15 +9,16 @@
 
 defined('_JEXEC') or die;
 
+JFormHelper::loadFieldClass('checkboxes');
+
 /**
  * Renders a Productfinder Form
  *
- * @package        Joomla
- * @subpackage     Banners
+ * @package        RedSHOP.Backend
+ * @subpackage     Element
  * @since          1.5
  */
-
-class JFormFieldcreditcards extends JFormField
+class JFormFieldCreditCards extends JFormFieldCheckboxes
 {
 	/**
 	 * Element name
@@ -25,44 +26,48 @@ class JFormFieldcreditcards extends JFormField
 	 * @access    protected
 	 * @var        string
 	 */
-	public $type = 'creditcards';
+	protected $type = 'creditcards';
 
-	protected function getInput()
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   11.1
+	 */
+	protected function getOptions()
 	{
-		$db = JFactory::getDbo();
+		JFactory::getLanguage()->load('com_redshop');
 
-		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$cc_list = array();
-		$cc_list['VISA'] = 'Visa';
-		$cc_list['MC'] = 'MasterCard';
-		$cc_list['amex'] = 'American Express';
-		$cc_list['maestro'] = 'Maestro';
-		$cc_list['jcb'] = 'JCB';
-		$cc_list['diners'] = 'Diners Club';
-		$cc_list['discover'] = 'Discover';
+		$cardTypes             = array();
+		$cardTypes['VISA']     = 'COM_REDSHOP_CARD_TYPE_VISA';
+		$cardTypes['MC']       = 'COM_REDSHOP_CARD_TYPE_MASTERCARD';
+		$cardTypes['amex']     = 'COM_REDSHOP_CARD_TYPE_AMERICAN_EXPRESS';
+		$cardTypes['maestro']  = 'COM_REDSHOP_CARD_TYPE_MAESTRO';
+		$cardTypes['jcb']      = 'COM_REDSHOP_CARD_TYPE_JCB';
+		$cardTypes['diners']   = 'COM_REDSHOP_CARD_TYPE_DINERS_CLUB';
+		$cardTypes['discover'] = 'COM_REDSHOP_CARD_TYPE_DISCOVER';
 
-		//$selected_cc = explode(",",$this->detail->accepted_credict_card);
+		// Allow parent options - This will extends the options added directly from XML
+		$options = parent::getOptions();
 
-		$html = '';
-		foreach ($cc_list as $key => $valuechk)
+		foreach ($cardTypes as $value => $text)
 		{
-			$checked = '';
-			if (count($this->value) > 1)
-			{
-				$checked = in_array($key, $this->value) ? "checked=\"checked\"" : "";
-			}
-			else if ($this->value != "")
-			{
-				$checked = ($key == $this->value) ? "checked=\"checked\"" : "";
-			}
+			$tmp = JHtml::_(
+				'select.option',
+				$value,
+				$text,
+				'value',
+				'text'
+			);
 
+			// Set some option attributes.
+			$tmp->checked = false;
 
-			$html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' " . $checked . "  />" . $valuechk . "&nbsp;<br /></label>";
+			// Add the option object to the result set.
+			$options[] = $tmp;
 		}
 
-
-		return $html;
+		return $options;
 	}
 }
-
-?>

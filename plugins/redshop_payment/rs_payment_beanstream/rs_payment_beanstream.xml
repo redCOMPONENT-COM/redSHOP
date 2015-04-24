@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_BEANSTREAM</name>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
@@ -80,7 +80,7 @@
                        label="Enter E-conomic Design and Layout ID"/>
                 <field name="accepted_credict_card" type="creditcards" default="0" label="Select Credit Cards"
                        description="Displays the selected category product"/>
-                <field name="shopper_group_id" type="shoppergrouplist" default="0" label="Select Shopper Group"
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0" label="Select Shopper Group"
                        description="Displays the shopper groups"/>
             </fieldset>
         </fields>

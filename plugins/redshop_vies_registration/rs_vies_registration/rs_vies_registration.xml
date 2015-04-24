@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.0" client="site" type="plugin" group="redshop_vies_registration" method="upgrade">
+	<name>PLG_REDSHOP_VIES_REGISTRATION_NAME</name>
+	<version>1.5</version>
+	<redshop>1.5</redshop>
+	<creationDate>April 2013</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_REDSHOP_VIES_REGISTRATION_DESC</description>
+	<files>
+		<filename plugin="rs_vies_registration">rs_vies_registration.php</filename>
+		<filename>index.html</filename>
+		<folder plugin="rs_vies_registration">js</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_redshop_vies_registration_rs_vies_registration.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_redshop_vies_registration_rs_vies_registration.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="member_state" type="list" default=""
+					   label="PLG_REDSHOP_VIES_REGISTRATION_MEMBER_STATE_LBL">
+					<option value="">--</option>
+					<option value="AT">PLG_REDSHOP_VIES_REGISTRATION_AT</option>
+					<option value="BE">PLG_REDSHOP_VIES_REGISTRATION_BE</option>
+					<option value="BG">PLG_REDSHOP_VIES_REGISTRATION_BG</option>
+					<option value="CY">PLG_REDSHOP_VIES_REGISTRATION_CY</option>
+					<option value="CZ">PLG_REDSHOP_VIES_REGISTRATION_CZ</option>
+					<option value="DE">PLG_REDSHOP_VIES_REGISTRATION_DE</option>
+					<option value="DK">PLG_REDSHOP_VIES_REGISTRATION_DK</option>
+					<option value="EE">PLG_REDSHOP_VIES_REGISTRATION_EE</option>
+					<option value="EL">PLG_REDSHOP_VIES_REGISTRATION_EL</option>
+					<option value="ES">PLG_REDSHOP_VIES_REGISTRATION_ES</option>
+					<option value="FI">PLG_REDSHOP_VIES_REGISTRATION_FI</option>
+					<option value="FR">PLG_REDSHOP_VIES_REGISTRATION_FR</option>
+					<option value="GB">PLG_REDSHOP_VIES_REGISTRATION_GB</option>
+					<option value="HU">PLG_REDSHOP_VIES_REGISTRATION_HU</option>
+					<option value="IE">PLG_REDSHOP_VIES_REGISTRATION_IE</option>
+					<option value="IT">PLG_REDSHOP_VIES_REGISTRATION_IT</option>
+					<option value="LT">PLG_REDSHOP_VIES_REGISTRATION_LT</option>
+					<option value="LU">PLG_REDSHOP_VIES_REGISTRATION_LU</option>
+					<option value="LV">PLG_REDSHOP_VIES_REGISTRATION_LV</option>
+					<option value="MT">PLG_REDSHOP_VIES_REGISTRATION_MT</option>
+					<option value="NL">PLG_REDSHOP_VIES_REGISTRATION_NL</option>
+					<option value="PL">PLG_REDSHOP_VIES_REGISTRATION_PL</option>
+					<option value="PT">PLG_REDSHOP_VIES_REGISTRATION_PT</option>
+					<option value="RO">PLG_REDSHOP_VIES_REGISTRATION_RO</option>
+					<option value="SE">PLG_REDSHOP_VIES_REGISTRATION_SE</option>
+					<option value="SI">PLG_REDSHOP_VIES_REGISTRATION_SI</option>
+					<option value="SK">PLG_REDSHOP_VIES_REGISTRATION_SK</option>
+				</field>
+				<field name="vat_number" type="text" size="10" default=""
+					   label="PLG_REDSHOP_VIES_REGISTRATION_VAT_NUMBER_LBL"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

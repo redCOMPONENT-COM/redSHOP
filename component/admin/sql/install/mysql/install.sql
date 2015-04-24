@@ -1081,19 +1081,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_download_log` (
 	DEFAULT CHARSET =utf8
 	COMMENT ='redSHOP Downloadable Products Logs';
 
-CREATE TABLE IF NOT EXISTS `#__redshop_product_navigator` (
-	`navigator_id`     INT(11)      NOT NULL AUTO_INCREMENT,
-	`product_id`       INT(11)      NOT NULL,
-	`child_product_id` INT(11)      NOT NULL,
-	`navigator_name`   VARCHAR(255) NOT NULL,
-	`ordering`         INT(11)      NOT NULL,
-	PRIMARY KEY (`navigator_id`),
-	KEY `idx_product_id` (`product_id`)
-)
-	ENGINE =InnoDB
-	DEFAULT CHARSET =utf8
-	COMMENT ='redSHOP Products Navigator';
-
 CREATE TABLE IF NOT EXISTS `#__redshop_product_price` (
 	`price_id`             INT(11)        NOT NULL AUTO_INCREMENT,
 	`product_id`           INT(11)        NOT NULL,
@@ -1716,6 +1703,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_usercart_item` (
 	`product_wrapper_id`      INT(11) NOT NULL,
 	`product_subscription_id` INT(11) NOT NULL,
 	`giftcard_id`             INT(11) NOT NULL,
+	`attribs`                 VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item',
 	PRIMARY KEY (`cart_item_id`),
 	KEY `idx_cart_id` (`cart_id`)
 )

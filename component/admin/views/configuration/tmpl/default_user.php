@@ -18,15 +18,11 @@ defined('_JEXEC') or die;
 					<?php echo $this->loadTemplate('registration');?>
 				</fieldset>
 			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td width="50%">
+			<td>
 				<fieldset class="adminform">
 					<?php echo $this->loadTemplate('shopper_group');?>
 				</fieldset>
 			</td>
-			<td></td>
 		</tr>
 	</table>
 </fieldset>

@@ -66,7 +66,7 @@ class RedshopControllerShipping extends RedshopController
 		JArrayHelper::toInteger($order);
 
 		$model = $this->getModel('shipping');
-		$model->saveorder($cid);
+		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_SHIPPING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);

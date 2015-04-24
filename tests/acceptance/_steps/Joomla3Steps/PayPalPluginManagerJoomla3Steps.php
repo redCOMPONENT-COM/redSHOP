@@ -39,7 +39,7 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($pluginName, \PluginManagerJoomla3Page::$searchResultRow);
 		$I->click(\PluginManagerJoomla3Page::$firstCheck);
 		$I->click('Enable');
-		$I->see(\PluginManagerJoomla3Page::$pluginEnabledSuccessMessage);
+		$I->see(\PluginManagerJoomla3Page::$pluginEnabledSuccessMessage, '.alert-success');
 	}
 
 	/**
@@ -66,6 +66,6 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalBusinessAccountEmail, $businessUserEmail);
 		$I->click(\PayPalPluginManagerJoomla3Page::$payPalUseField);
 		$I->click("Save & Close");
-		$I->see(\PayPalPluginManagerJoomla3Page::$pluginSuccessSavedMessage);
+		$I->see(\PayPalPluginManagerJoomla3Page::$pluginSuccessSavedMessage, '.alert-success');
 	}
 }
