@@ -631,10 +631,6 @@ function showCompanyOrCustomer(obj)
 			{
 				document.getElementById('customer_registrationintro').style.display='none';
 			}
-			if(document.getElementById('veis_wait'))
-			{
-				document.getElementById('veis_wait').style.display='';
-			}
 		}
 		else	// For Customer
 		{
@@ -653,10 +649,6 @@ function showCompanyOrCustomer(obj)
 			if(document.getElementById('customer_registrationintro'))
 			{
 				document.getElementById('customer_registrationintro').style.display='';
-			}
-			if(document.getElementById('veis_wait'))
-			{
-				document.getElementById('veis_wait').style.display='none';
 			}
 		}
 		if (window.XMLHttpRequest)
