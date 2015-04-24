@@ -50,7 +50,7 @@ class RedshopViewTax_detail extends RedshopView
 		$lists['tax_country'] = JHTML::_('select.genericlist', $countries, 'tax_country',
 			'class="inputbox" size="1" onchange="changeStateList();"', 'value', 'text', $detail->tax_country
 		);
-		$lists['is_eu_country'] = JHTML::_('select.booleanlist', 'is_eu_country', 'class="inputbox"', $detail->is_eu_country);
+		$lists['is_eu_country'] = JHTML::_('redshopselect.booleanlist', 'is_eu_country', 'class="inputbox"', $detail->is_eu_country);
 
 		$country_list_name = 'tax_country';
 		$state_list_name = 'tax_state';
@@ -115,8 +115,11 @@ class RedshopViewTax_detail extends RedshopView
 					selected_country = document.adminForm." . $country_list_name . "[i].value;
 
 			  changeDynaList('" . $state_list_name . "',states,selected_country, originalPos, originalOrder);
+				if(window.jQuery){
+					jQuery(\"#" . $state_list_name . "\").trigger(\"liszt:updated\");
+				}
 		 	}
-			writeDynaList( 'class=\"inputbox\" name=\"tax_state\" size=\"1\" id=\"state\"', states, originalPos, originalPos, $selected_state_code );
+			writeDynaList( 'class=\"inputbox\" name=\"tax_state\" id=\"tax_state\" size=\"1\" id=\"state\"', states, originalPos, originalPos, $selected_state_code );
 			//-->
 			//]]></script>";
 		$lists['tax_state'] = $script;

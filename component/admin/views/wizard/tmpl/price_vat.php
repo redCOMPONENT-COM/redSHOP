@@ -85,7 +85,7 @@ JHTMLBehavior::modal();
 		<label for="name"><?php
 			echo JText::_('COM_REDSHOP_ADD_VAT_RATES_LBL');
 			?></label></span></td>
-		<td><a class="modal"
+		<td><a class="modal btn btn-small btn-info"
 		       href="index.php?option=com_redshop&view=tax_detail&task=edit&tax_group_id=1&tmpl=component"
 		       rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php
 				echo JText::_('COM_REDSHOP_ADD_RATES');
