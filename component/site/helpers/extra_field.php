@@ -11,51 +11,241 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
+/**
+ * Extra Field Class
+ */
 class extraField
 {
-	/*
-	 * field_type 	=   1 :- Text Field
-	 * 					2 :- Text Area
-	 * 					3 :- Check Box
-	 * 					4 :- Radio Button
-	 * 					5 :- Select Box (Single select)
-	 * 					6 :- Select Box (Multiple select)
-	 * 					7 :- Select country box
-	 * 					8 :- Wysiwyg
-	 * 					9 :- Media
-	 * 					10:- Documents
-	 * 					11:- Image Select
-	 * 					12:- Date Picker
+	/**
+	 * Extra Field Type for Input Text Element
 	 *
-	 * field_section = 	1 :- Product
-	 * 					2 :- Category
-	 * 					3 :- Form
-	 * 					4 :- E-mail
-	 * 					5 :- Confirmation
-	 * 					6 :- Userinformations
-	 * 					7 :- Customer Address
-	 * 					8 :- Company Address
-	 * 					9 :- Color sample
-	 * 				   10 :- Manufacturer
-	 * 				   11 :- Shipping
-	 * 				   12 :- Product_UserField
-	 *
+	 * @var  int
 	 */
-	public $_data         = null;
+	const TYPE_TEXT = 1;
 
-	public $_table_prefix = null;
+	/**
+	 * Extra Field Type for Input Text Area Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_TEXT_AREA = 2;
 
-	public $_db           = null;
+	/**
+	 * Extra Field Type for Checkboxes Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_CHECK_BOX = 3;
 
+	/**
+	 * Extra Field Type for Input Radio Button Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_RADIO_BUTTON = 4;
+
+	/**
+	 * Extra Field Type for Input Single Select Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_SELECT_BOX_SINGLE = 5;
+
+	/**
+	 * Extra Field Type for Input Multi Select Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_SELECT_BOX_MULTIPLE = 6;
+
+	/**
+	 * Extra Field Type for Country Select List Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_SELECT_COUNTRY_BOX = 7;
+
+	/**
+	 * Extra Field Type for WYSIWYG Editor
+	 *
+	 * @var  int
+	 */
+	const TYPE_WYSIWYG = 8;
+
+	/**
+	 * Extra Field Type for Input Media element
+	 *
+	 * @var  int
+	 */
+	const TYPE_MEDIA = 9;
+
+	/**
+	 * Extra Field Type for Document
+	 *
+	 * @var  int
+	 */
+	const TYPE_DOCUMENTS = 10;
+
+	/**
+	 * Extra Field Type for Image select
+	 *
+	 * @var  int
+	 */
+	const TYPE_IMAGE_SELECT = 11;
+
+	/**
+	 * Extra Field Type for Date Picket element.
+	 *
+	 * @var  int
+	 */
+	const TYPE_DATE_PICKER = 12;
+
+	/**
+	 * Extra Field Section Id for Product
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRODUCT =	1;
+
+	/**
+	 * Extra Field Section Id for Category
+	 *
+	 * @var  integer
+	 */
+	const SECTION_CATEGORY = 2;
+
+	/**
+	 * Extra Field Section Id for Form
+	 *
+	 * @var  integer
+	 */
+	const SECTION_FORM = 3;
+
+	/**
+	 * Extra Field Section Id for Email
+	 *
+	 * @var  integer
+	 */
+	const SECTION_EMAIL = 4;
+
+	/**
+	 * Extra Field Section Id for Confirmation
+	 *
+	 * @var  integer
+	 */
+	const SECTION_CONFIRMATION = 5;
+
+	/**
+	 * Extra Field Section Id for User information
+	 *
+	 * @var  integer
+	 */
+	const SECTION_USER_INFORMATIONS = 6;
+
+	/**
+	 * Extra Field Section Id for Private Billing Address
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRIVATE_BILLING_ADDRESS = 7;
+
+	/**
+	 * Extra Field Section Id for Private Billing Address
+	 *
+	 * @var  integer
+	 */
+	const SECTION_COMPANY_BILLING_ADDRESS = 8;
+
+	/**
+	 * Extra Field Section Id for Color Sample
+	 *
+	 * @var  integer
+	 */
+	const SECTION_COLOR_SAMPLE = 9;
+
+	/**
+	 * Extra Field Section Id for Manufacturer
+	 *
+	 * @var  integer
+	 */
+	const SECTION_MANUFACTURER = 10;
+
+	/**
+	 * Extra Field Section Id for Shipping
+	 *
+	 * @var  integer
+	 */
+	const SECTION_SHIPPING = 11;
+
+	/**
+	 * Extra Field Section Id for Product User Field
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRODUCT_USERFIELD = 12;
+
+	/**
+	 * Extra Field Section Id for Gift Card User Field
+	 *
+	 * @var  integer
+	 */
+	const SECTION_GIFT_CARD_USER_FIELD = 13;
+
+	/**
+	 * Extra Field Section Id for Private Shipping Address
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRIVATE_SHIPPING_ADDRESS = 14;
+
+	/**
+	 * Extra Field Section Id for Company Shipping Address
+	 *
+	 * @var  integer
+	 */
+	const SECTION_COMPANY_SHIPPING_ADDRESS = 15;
+
+	/**
+	 * Extra Field Section Id for Quotation
+	 *
+	 * @var  integer
+	 */
+	const SECTION_QUOTATION = 16;
+
+	/**
+	 * Extra Field Section Id for Date Picker
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRODUCT_FINDER_DATE_PICKER = 17;
+
+	/**
+	 * Extra Field Section Id for Payment Gateways
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PAYMENT_GATEWAY = 18;
+
+	/**
+	 * Extra Field Section Id for Shipping Gateways
+	 *
+	 * @var  integer
+	 */
+	const SECTION_SHIPPING_GATEWAY = 19;
+
+	/**
+	 * User fields
+	 *
+	 * @var  array
+	 */
 	protected static $userFields = array();
 
+	/**
+	 * Extra field display data
+	 *
+	 * @var  array
+	 */
 	protected static $extraFieldDisplay = array();
-
-	public function __construct()
-	{
-		$this->_db = JFactory::getDbo();
-		$this->_table_prefix = '#__redshop_';
-	}
 
 	public function list_all_field($field_section = "", $section_id = 0, $uclass = '')
 	{
@@ -676,7 +866,7 @@ class extraField
 				$query->where('field_name IN (' . $field_name . ')');
 			}
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
 			if (!isset(self::$extraFieldDisplay[$field_section]))
 			{
@@ -756,10 +946,10 @@ class extraField
 
 						if ($data_value->data_txt != "")
 						{
-							$q = "SELECT country_name FROM " . $this->_table_prefix . "country "
+							$q = "SELECT country_name FROM #__redshop_country "
 								. "WHERE country_id = " . (int) $data_value->data_txt;
-							$this->_db->setQuery($q);
-							$field_chk    = $this->_db->loadObject();
+							$db->setQuery($q);
+							$field_chk    = $db->loadObject();
 							$displayvalue = $field_chk->country_name;
 						}
 						break;
@@ -873,11 +1063,13 @@ class extraField
 
 	public function getFieldValue($id)
 	{
-		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
+		$db = JFactory::getDbo();
+
+		$q = "SELECT * FROM #__redshop_fields_value "
 			. "WHERE field_id=" . (int) $id . " "
 			. "ORDER BY value_id ASC ";
-		$this->_db->setQuery($q);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($q);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
@@ -903,12 +1095,12 @@ class extraField
 			$and .= "AND field_show_in_front=" . (int) $front . " ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
+		$query = "SELECT * FROM #__redshop_fields "
 			. "WHERE field_section=" . $db->quote($section) . " "
 			. $and
 			. "ORDER BY ordering ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
@@ -929,11 +1121,11 @@ class extraField
 			$and .= "AND required=" . (int) $required . " ";
 		}
 
-		$query = "SELECT field_name FROM " . $this->_table_prefix . "fields "
+		$query = "SELECT field_name FROM #__redshop_fields "
 			. "WHERE field_section = " . $db->quote($section) . " "
 			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadColumn();
+		$db->setQuery($query);
+		$list = $db->loadColumn();
 
 		return $list;
 	}
@@ -954,12 +1146,12 @@ class extraField
 			$and .= "AND required=" . (int) $required . " ";
 		}
 
-		$query = "SELECT field_id, field_name FROM " . $this->_table_prefix . "fields "
+		$query = "SELECT field_id, field_name FROM #__redshop_fields "
 			. "WHERE field_section = " . $db->quote($section) . " "
 			. "AND field_show_in_front = " . (int) $front . " "
 			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$list = $db->loadObjectList();
 
 		return $list;
 	}
