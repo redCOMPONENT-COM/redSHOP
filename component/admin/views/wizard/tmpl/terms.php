@@ -62,7 +62,7 @@ $params = JRequest::getVar('params');
 						for="showprice"><?php echo JText::_('COM_REDSHOP_ADD_TERMS_AND_CONDITIONS_LBL');?></label></span>
 				</td>
 				<td>
-					<a href="index.php?option=com_content&task=edit&cid[]=0" target="_blank"
+					<a href="index.php?option=com_content&task=edit&cid[]=0" target="_blank" class="btn btn-small btn-info"
 					   name="<?php echo JText::_('COM_REDSHOP_ADD_TERMS_AND_CONDITIONS_LBL'); ?>"><?php echo JText::_('COM_REDSHOP_ADD')?></a>
 				</td>
 			</tr>

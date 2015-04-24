@@ -1669,6 +1669,10 @@ class Redconfiguration
 					}
 				}
 			}
+
+			if(window.jQuery){
+				jQuery(\"#\"+ listname).trigger(\"liszt:updated\");
+			}
 		}
 		function changeStateList" . $country_codename . "(form,objId)
 		{
