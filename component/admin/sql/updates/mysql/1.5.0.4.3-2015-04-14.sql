@@ -1,1 +1,0 @@
-DELETE FROM `#__redshop_template` WHERE `template_section` = 'shippment_invoice_template';
