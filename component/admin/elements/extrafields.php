@@ -14,9 +14,9 @@ JFormHelper::loadFieldClass('list');
 /**
  * Renders a Productfinder Form
  *
- * @package        Joomla
- * @subpackage     Banners
- * @since          1.5
+ * @package     RedSHOP.Backend
+ * @subpackage  Element
+ * @since       1.5
  */
 class JFormFieldExtraFields extends JFormFieldList
 {
@@ -26,7 +26,47 @@ class JFormFieldExtraFields extends JFormFieldList
 	 * @access    protected
 	 * @var        string
 	 */
-	public $type = 'extrafields';
+	protected $type = 'extrafields';
+
+	/**
+	 * Extra Field Section Id for field_section database column
+	 *
+	 * @access    protected
+	 * @var       integer
+	 */
+	protected $fieldSection;
+
+	/**
+	 * Extra Field Show In Front flag value for field_show_in_front database column
+	 *
+	 * @access    protected
+	 * @var       integer
+	 */
+	protected $fieldShowInFront;
+
+	/**
+	 * Extra Field Publishing flag value for published database column
+	 *
+	 * @access    protected
+	 * @var       integer
+	 */
+	protected $published;
+
+	/**
+	 * Database Query Select value to set as element value
+	 *
+	 * @access    protected
+	 * @var       integer
+	 */
+	protected $valueField;
+
+	/**
+	 * Database Query Select value to set as element text
+	 *
+	 * @access    protected
+	 * @var       integer
+	 */
+	protected $textField;
 
 	/**
 	 * Get Extra field info as an option
@@ -38,17 +78,26 @@ class JFormFieldExtraFields extends JFormFieldList
 		// Initialiase variables.
 		$db = JFactory::getDbo();
 
-		$fieldSection     = isset($this->element['field_section']) ? (int) $this->element['field_section'] : 1;
-		$fieldShowInFront = isset($this->element['field_show_in_front']) ? (int) $this->element['field_show_in_front'] : 1;
-		$published        = isset($this->element['published']) ? (int) $this->element['published'] : 1;
+		$this->fieldSection     = isset($this->element['field_section']) ? (int) $this->element['field_section'] : 1;
+		$this->fieldShowInFront = isset($this->element['field_show_in_front']) ? (int) $this->element['field_show_in_front'] : 1;
+		$this->published        = isset($this->element['published']) ? (int) $this->element['published'] : 1;
+
+		// Dynamic query select options
+		$this->valueField = isset($this->element['value_field']) ? (string) $this->element['value_field'] : 'field_name';
+		$this->textField  = isset($this->element['text_field']) ? (string) $this->element['text_field'] : 'field_title';
 
 		// Create the base select statement.
 		$query = $db->getQuery(true)
-			->select('field_name as value,field_title as text')
+			->select(
+				array(
+					$this->valueField . ' as value',
+					$this->textField . ' as text'
+				)
+			)
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('published') . ' = ' . (int) $published)
-			->where($db->qn('field_show_in_front') . ' = ' . (int) $fieldShowInFront)
-			->where($db->qn('field_section') . ' = ' . (int) $fieldSection)
+			->where($db->qn('published') . ' = ' . (int) $this->published)
+			->where($db->qn('field_show_in_front') . ' = ' . (int) $this->fieldShowInFront)
+			->where($db->qn('field_section') . ' = ' . (int) $this->fieldSection)
 			->order($db->qn('ordering') . ' ASC');
 
 		// Set the query and load the result.

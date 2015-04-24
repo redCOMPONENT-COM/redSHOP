@@ -94,15 +94,43 @@
 					<option value="SEK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_SWEDISH</option>
 				</field>
 				<field
-					name="privateBilling"
+					name="noteForGeneral"
+					type="note"
+					class="alert alert-info"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PNO_NOTE"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_PNO_NOTE_DESC"
+				/>
+				<field
+					name="noteForPrivate"
+					type="note"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_NOTE"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_NOTE_DESC"
+				/>
+				<field
+					name="privatePNO"
 					type="extrafields"
 					field_section="7"
-					field_show_in_front="1"
-					default=""
+					value_field="field_id"
+					text_field="CONCAT(field_title, ' (', field_name, ')')"
 					required="true"
-					hint="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_HINT"
 					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING"
 					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DESC"
+				/>
+				<field
+					name="noteForCompany"
+					type="note"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_NOTE"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_NOTE_DESC"
+				/>
+				<field
+					name="companyPNO"
+					type="extrafields"
+					field_section="8"
+					value_field="field_id"
+					text_field="CONCAT(field_title, ' (', field_name, ')')"
+					required="true"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DESC"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
