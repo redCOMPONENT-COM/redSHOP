@@ -168,6 +168,12 @@ class RedshopModelOrder extends RedshopModel
 		$order_functions->update_status();
 	}
 
+	public function update_status_all()
+	{
+		$order_functions = new order_functions;
+		$order_functions->update_status_all();
+	}
+
 	public function export_data($cid)
 	{
 		$where = "";
