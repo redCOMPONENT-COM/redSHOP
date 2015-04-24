@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperExtra_Field');
 
 class plgRedshop_PaymentKlarna extends JPlugin
 {
@@ -22,12 +23,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * This method will be triggered on before placing order to authorize or charge credit card
-	 *
-	 * Example of return parameters:
-	 * $return->responsestatus = 'Success' or 'Fail';
-	 * $return->message        = 'Success or Fail messafe';
-	 * $return->transaction_id = 'Transaction Id from gateway';
+	 * This method will be triggered on before placing order to reserve amount in klarna.
 	 *
 	 * @param   string  $element  Name of the payment plugin
 	 * @param   array   $data     Cart Information
@@ -41,7 +37,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			return;
 		}
 
-		$app = JFactory::getApplication();
+		$extraField = new extraField;
 
 		define('JPATH_PLUGIN_KLARNA_LIBRARY', JPATH_SITE . '/plugins/redshop_payment/klarna/library/klarna/');
 
@@ -70,13 +66,13 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		foreach ($orderItems as $orderItem)
 		{
 			$k->addArticle(
-				$orderItem->product_quantity,                      // Quantity
-				$orderItem->order_item_sku,             // Article number
-				$orderItem->order_item_name,      // Article name/title
-				$orderItem->product_final_price,                 // Price
+				$orderItem->product_quantity,
+				$orderItem->order_item_sku,
+				$orderItem->order_item_name,
+				$orderItem->product_final_price,
 				0,                     // 25% VAT @todo need to fix with dynamic vat
 				0,                      // Discount
-				KlarnaFlags::INC_VAT    // Price is including VAT.
+				KlarnaFlags::INC_VAT
 			);
 		}
 
@@ -125,8 +121,8 @@ class plgRedshop_PaymentKlarna extends JPlugin
 				$data['billinginfo']->zipcode,
 				$data['billinginfo']->city,
 				KlarnaCountry::fromCode($data['billinginfo']->country_2_code),
-				null,                         // House number (AT/DE/NL only)
-				null                          // House extension (NL only)
+				null,  // House number (AT/DE/NL only)
+				null   // House extension (NL only)
 			)
 		);
 
@@ -143,15 +139,39 @@ class plgRedshop_PaymentKlarna extends JPlugin
 				$data['shippinginfo']->zipcode,
 				$data['shippinginfo']->city,
 				KlarnaCountry::fromCode($data['shippinginfo']->country_2_code),
-				null,                         // House number (AT/DE/NL only)
-				null                          // House extension (NL only)
+				null, // House number (AT/DE/NL only)
+				null  // House extension (NL only)
 			)
+		);
+
+		// Set redSHOP Order Identifier. We can always search using klarna reference number too.
+		$k->setEstoreInfo(
+			$data['order_id'],
+			$data['order']->order_number
 		);
 
 		try
 		{
+			// Collect PNO Information
+			$pnoInfo = $extraField->getSectionFieldDataList(
+				$this->params->get('privatePNO'),
+				extraField::SECTION_PRIVATE_BILLING_ADDRESS,
+				$data['billinginfo']->users_info_id
+			);
+
+			if ((int) $data['billinginfo']->is_company)
+			{
+				$pnoInfo = $extraField->getSectionFieldDataList(
+					$this->params->get('companyPNO'),
+					extraField::SECTION_COMPANY_BILLING_ADDRESS,
+					$data['billinginfo']->users_info_id
+				);
+			}
+
+			$data['billinginfo']->pno = (count($pnoInfo) > 0) ? $pnoInfo->data_txt : '';
+
 			$result = $k->reserveAmount(
-				'0801363945', // PNO (Date of birth DD-MM-YYYY for AT/DE/NL)  @todo
+				$data['billinginfo']->pno,
 				null, // KlarnaFlags::MALE, KlarnaFlags::FEMALE (AT/DE/NL only) @todo
 				-1,   // Automatically calculate and reserve the cart total amount
 				KlarnaFlags::NO_FLAG,
