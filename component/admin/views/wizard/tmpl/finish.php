@@ -18,9 +18,9 @@ $params = JRequest::getVar('params');
 				</td>
 			</tr>
 			<tr>
-				<td><strong><?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT');?></strong><input type="checkbox"
+				<td><label class="inline checkbox"><strong><?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT');?></strong><input type="checkbox"
 				                                                                                      name="installcontent"
-				                                                                                      value="1"></td>
+				                                                                                      value="1"></label></td>
 			</tr>
 			<tr>
 				<td>
