@@ -76,11 +76,11 @@ class RedshopViewWizard extends RedshopView
 		// Country lists
 		$country_list = explode(',', $this->temparray['country_list']);
 		$lists['country_list'] = JHTML::_('select.genericlist', $countries, 'country_list[]',
-			'class="inputbox" multiple="multiple"', 'value', 'text', $country_list
+			'class="inputbox disableBootstrapChosen" multiple="multiple" size="5"', 'value', 'text', $country_list
 		);
 
 		// Invoice mail enable
-		$lists['invoice_mail_enable'] = JHTML::_('select.booleanlist', 'invoice_mail_enable',
+		$lists['invoice_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'invoice_mail_enable',
 			'class="inputbox" onchange="enableInvoice(this.value);"', $this->temparray['invoice_mail_enable']
 		);
 
@@ -149,9 +149,9 @@ class RedshopViewWizard extends RedshopView
 		$lists['discount_type'] = JHTML::_('select.genericlist', $discount_type, 'discount_type',
 			'class="inputbox" ', 'value', 'text', $this->temparray['discount_type']
 		);
-		$lists['discount_enable'] = JHTML::_('select.booleanlist', 'discount_enable', 'class="inputbox" ', $this->temparray['discount_enable']);
-		$lists['coupons_enable'] = JHTML::_('select.booleanlist', 'coupons_enable', 'class="inputbox" ', $this->temparray['coupons_enable']);
-		$lists['vouchers_enable'] = JHTML::_('select.booleanlist', 'vouchers_enable', 'class="inputbox" ', $this->temparray['vouchers_enable']);
+		$lists['discount_enable'] = JHTML::_('redshopselect.booleanlist', 'discount_enable', 'class="inputbox" ', $this->temparray['discount_enable']);
+		$lists['coupons_enable'] = JHTML::_('redshopselect.booleanlist', 'coupons_enable', 'class="inputbox" ', $this->temparray['coupons_enable']);
+		$lists['vouchers_enable'] = JHTML::_('redshopselect.booleanlist', 'vouchers_enable', 'class="inputbox" ', $this->temparray['vouchers_enable']);
 
 		// Discount after Shipping
 		$shipping_after = $this->temparray['shipping_after'];
@@ -233,6 +233,10 @@ class RedshopViewWizard extends RedshopView
 			//}
 
 		  VATchangeDynaList('" . $state_list_name . "',states,selected_country, originalPos, originalOrder);
+
+			if(window.jQuery){
+				jQuery(\"#" . $state_list_name . "\").trigger(\"liszt:updated\");
+			}
 	 	}
 		writeDynaList( 'class=\"inputbox\" name=\"$state_list_name\" size=\"1\" id=\"$state_list_name\"', states, originalPos, originalPos, $selected_state_code );
 
@@ -262,7 +266,7 @@ class RedshopViewWizard extends RedshopView
 		</script>";
 		$lists['default_vat_state'] = $script;
 
-		$lists['apply_vat_on_discount'] = JHTML::_('select.booleanlist', 'apply_vat_on_discount',
+		$lists['apply_vat_on_discount'] = JHTML::_('redshopselect.booleanlist', 'apply_vat_on_discount',
 			'class="inputbox" size="1"', $this->temparray['apply_vat_on_discount']
 		);
 

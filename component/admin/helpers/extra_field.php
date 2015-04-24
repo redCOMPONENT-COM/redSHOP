@@ -1149,7 +1149,7 @@ class extra_field
 			JHTML::_('select.option', $no_value, JText::_($no))
 		);
 
-		return JHTML::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', $selected, $id);
+		return JHTML::_('redshopselect.radiolist', $arr, $name, $attribs, 'value', 'text', $selected, $id);
 	}
 
 	public function getFieldValue($id)

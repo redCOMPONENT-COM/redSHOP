@@ -537,6 +537,10 @@ class RedshopViewConfiguration extends RedshopView
 							}
 						}
 						changeDynaList('" . $state_list_name . "',states,selected_country, originalPos, originalOrder);
+
+						if(window.jQuery){
+							jQuery(\"#" . $state_list_name . "\").trigger(\"liszt:updated\");
+		  				}
 				 	}
 				 	writeDynaList( 'class=\"inputbox\" name=\"default_vat_state\" size=\"1\" id=\"default_vat_state\"',
 				 	states, originalPos, originalPos, $selected_state_code );
