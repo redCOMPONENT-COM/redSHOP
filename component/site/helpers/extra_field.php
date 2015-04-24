@@ -1002,8 +1002,7 @@ class extraField
 							}
 						}
 						break;
-					case self::TYPE_IMAGE_SELECT :
-						// Image
+					case self::TYPE_IMAGE_SELECT :						
 					case self::TYPE_IMAGE_WITH_LINK :
 						$document_value = $this->getFieldValue($row_data[$i]->field_id);
 
