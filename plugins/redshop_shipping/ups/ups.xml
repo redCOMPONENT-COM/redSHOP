@@ -31,7 +31,8 @@
 				/>
 				<field
 					name="extrafield_shipping"
-					type="extrafieldshipping"
+					type="extrafields"
+					field_section="19"
 					multiple="multiple"
 					label="PLG_REDSHOP_SHIPPING_EXTRAFIELD_SHIPPING_LBL"
 					description="PLG_REDSHOP_SHIPPING_EXTRAFIELD_SHIPPING_DESC"
