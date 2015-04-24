@@ -14,9 +14,10 @@ JFormHelper::loadFieldClass('list');
 /**
  * Renders a Productfinder Form
  *
- * @package        Joomla
- * @subpackage     Banners
- * @since          1.5
+ * @package     RedSHOP.Backend
+ * @subpackage  Element
+ * @since       1.5
+ * @deprecated  1.6  Use JFormFieldExtraFields (extrafields) instead.
  */
 class JFormFieldExtraFieldPayment extends JFormFieldList
 {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
 	<name>PLG_RS_PAYMENT_BANKTRANSFER</name>
-	<version>1.5</version>
+	<version>1.5.1</version>
 	<redshop>1.5</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -62,7 +62,7 @@
 					   label="PLG_RS_PAYMENT_BANKTRANSFER_TXTEXTRA_INFO_LBL"
 					   description="PLG_RS_PAYMENT_BANKTRANSFER_TXTEXTRA_INFO_DESC"
 					   filter="raw"/>
-				<field name="extrafield_payment" type="extrafieldpayment" multiple="multiple"
+				<field name="extrafield_payment" type="extrafields" field_section="18" multiple="multiple"
 					   label="PLG_RS_PAYMENT_BANKTRANSFER_EXTRAFIELD_PAYMENT_LBL"
 					   description="PLG_RS_PAYMENT_BANKTRANSFER_EXTRAFIELD_PAYMENT_DESC"/>
 			</fieldset>
