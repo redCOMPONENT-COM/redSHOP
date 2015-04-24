@@ -35,14 +35,7 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		$app = JFactory::getApplication();
-
-		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
 	public function onNotifyPaymentrs_payment_paypal($element, $request)
@@ -52,40 +45,29 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 			return;
 		}
 
-		$db             = JFactory::getDbo();
 		$request        = JRequest::get('request');
-		$Itemid         = $request["Itemid"];
-
-		$is_test        = $this->params->get('sandbox', '');
 		$verify_status  = $this->params->get('verify_status', '');
 		$invalid_status = $this->params->get('invalid_status', '');
-		$cancel_status  = $this->params->get('cancel_status', '');
-
-		$user           = JFactory::getUser();
-
 		$order_id       = $request["orderid"];
-
 		$status         = $request['payment_status'];
 		$tid            = $request['txn_id'];
-		$uri            = JURI::getInstance();
-		$url            = JURI::base();
-		$uid            = $user->id;
-
 		$values         = new stdClass;
+		$key = array($order_id, (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
+		$key = md5(implode('|', $key));
 
-		if ($status == 'Completed')
+		if ($status == 'Completed' && $request['key'] == $key)
 		{
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
+			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
 		}
 		else
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
 		}
 
 		$values->transaction_id = $tid;

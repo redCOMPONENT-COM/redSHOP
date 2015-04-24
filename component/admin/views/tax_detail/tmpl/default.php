@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-JHTML::_('behavior.tooltip');
+JHTML::_('behavior.tooltip', '.hasTooltip, .hasTip');
 $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();

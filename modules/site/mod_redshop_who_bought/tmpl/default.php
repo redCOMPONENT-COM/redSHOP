@@ -37,10 +37,6 @@ $redTemplate = new Redtemplate;
 $extraField = new extraField;
 $module_id = "mod_" . $module->id;
 
-// 	include redshop js file.
-JLoader::load('RedshopHelperRedshop.js');
-
-
 JHtml::script('com_redshop/common.js', false, true);
 JHtml::script('com_redshop/redbox.js', false, true);
 

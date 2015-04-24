@@ -398,21 +398,21 @@ class Redtemplate
 		$options = array(
 			'product'                    => JText::_('COM_REDSHOP_PRODUCT'),
 			'related_product'            => JText::_('COM_REDSHOP_RELATED_PRODUCT'),
-			'category'                   => JText::_('COM_REDSHOP_Category'),
-			'manufacturer'               => JText::_('COM_REDSHOP_Manufacturer'),
+			'category'                   => JText::_('COM_REDSHOP_CATEGORY'),
+			'manufacturer'               => JText::_('COM_REDSHOP_MANUFACTURER'),
 			'manufacturer_detail'        => JText::_('COM_REDSHOP_MANUFACTURER_DETAIL'),
 			'manufacturer_products'      => JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'),
-			'newsletter'                 => JText::_('COM_REDSHOP_Newsletter'),
+			'newsletter'                 => JText::_('COM_REDSHOP_NEWSLETTER'),
 			'newsletter_product'         => JText::_('COM_REDSHOP_NEWSLETTER_PRODUCTS'),
 			'empty_cart'                 => JText::_('COM_REDSHOP_EMPTY_CART'),
-			'cart'                       => JText::_('COM_REDSHOP_Cart'),
+			'cart'                       => JText::_('COM_REDSHOP_CART'),
 			'add_to_cart'                => JText::_('COM_REDSHOP_ADD_TO_CART'),
 			'catalog'                    => JText::_('COM_REDSHOP_CATALOG'),
 			'product_sample'             => JText::_('COM_REDSHOP_PRODUCT_SAMPLE'),
 			'order_list'                 => JText::_('COM_REDSHOP_ORDER_LIST'),
 			'order_detail'               => JText::_('COM_REDSHOP_ORDER_DETAIL'),
 			'order_receipt'              => JText::_('COM_REDSHOP_ORDER_RECEIPT'),
-			'review'                     => JText::_('COM_REDSHOP_Review'),
+			'review'                     => JText::_('COM_REDSHOP_REVIEW'),
 			'frontpage_category'         => JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY'),
 			'attribute_template'         => JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE'),
 			'attributewithcart_template' => JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE'),
@@ -444,7 +444,6 @@ class Redtemplate
 			'onestep_checkout'           => JText::_('COM_REDSHOP_ONESTEP_CHECKOUT_TEMPLATE'),
 			'categoryproduct'            => JText::_('COM_REDSHOP_PRODUCT_CATEGORY_TEMPLATE'),
 			'change_cart_attribute'      => JText::_('COM_REDSHOP_CHANGE_CART_ATTRIBUTE_TEMPLATE'),
-			'searchletter'               => JText::_('COM_REDSHOP_LETTER_SEARCH_TEMPLATE'),
 			'crmorder_receipt'           => JText::_('COM_REDSHOP_redCRM_ORDER_RECIEPT'),
 			'checkout'                   => JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE'),
 			'product_content_template'   => JText::_('COM_REDSHOP_PRODUCT_CONTENT'),
@@ -598,32 +597,5 @@ class Redtemplate
 		}
 
 		return $optionSection;
-	}
-
-	/**
-	 * Method to parse mod_redshop_lettersearch module parameter.
-	 *
-	 * @return void
-	 */
-	public function GetlettersearchParameters()
-	{
-		$db = JFactory::getDbo();
-		$sel = 'SELECT params from #__extensions where element = "mod_redshop_lettersearch" ';
-		$db->setQuery($sel);
-		$params = $db->loadResult();
-		$letterparamArr = array();
-		$allparams = explode("\n", $params);
-
-		for ($i = 0; $i < count($allparams); $i++)
-		{
-			$letter_param = explode('=', $allparams[$i]);
-
-			if (!empty($letter_param))
-			{
-				$letterparamArr[$letter_param[0]] = $letter_param[1];
-			}
-		}
-
-		return $letterparamArr;
 	}
 }

@@ -61,7 +61,6 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			'amount'          => number_format($data['carttotal'], 2, '.', '') * 100,
 			'currency'        => $CurrencyHelper->get_iso_code(CURRENCY_CODE),
 			'orderid'         => $data['order_id'],
-			'group'           => $this->params->get("payment_group"),
 			'instantcapture'  => $this->params->get("auth_type"),
 			'instantcallback' => 1,
 			'language'        => $this->params->get("language"),
@@ -70,6 +69,12 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			'ownreceipt'      => $this->params->get("ownreceipt"),
 			'subscription'    => $this->params->get("epay_subscription")
 		);
+
+		// Payment Group is an optional
+		if ($this->params->get('payment_group'))
+		{
+			$formdata['group'] = $this->params->get('payment_group');
+		}
 
 		if ((int) $this->params->get('activate_callback', 0) == 1)
 		{

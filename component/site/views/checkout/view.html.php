@@ -56,10 +56,7 @@ class RedshopViewCheckout extends RedshopView
 		JHtml::stylesheet('com_redshop/validation.css', array(), true);
 		JHtml::script('com_redshop/redbox.js', false, true);
 
-		if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
-		{
-			JHtml::script('plugins/redshop_veis_registration/rs_veis_registration/js/veis.js');
-		}
+		JPluginHelper::importPlugin('redshop_vies_registration');
 
 		$cart = $session->get('cart');
 		$auth = $session->get('auth');

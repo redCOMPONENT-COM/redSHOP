@@ -349,20 +349,19 @@ class order_functions
 					. "&type=xml";
 		try
 		{
-			// Set up Curl Headers
-			$headers = array(
-				'Content-Type' => 'text/xml'
-			);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $postURL);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_VERBOSE, true);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
+			$response = curl_exec($ch);
+			$error = curl_error($ch);
+			curl_close($ch);
 
-			$curl     = new JHttpTransportCurl(new JRegistry);
-			$response = $curl->request(
-							'POST',
-							JUri::getInstance($postURL),
-							$xmlnew,
-							$headers
-						);
-
-			$xmlResponse = JFactory::getXML($response->body, false)->val;
+			$xmlResponse = JFactory::getXML($response, false)->val;
 
 			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
 			{
@@ -489,15 +488,6 @@ class order_functions
 			}
 
 			$dispatcher = JDispatcher::getInstance();
-
-			if ($data->order_payment_status_code == "Paid" && $data->order_status_code == "S")
-			{
-				// For Consignor Label generation
-				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$results = $dispatcher->trigger('onChangeStatusToShipped',
-					array($order_id, $data->order_status_code, $data->order_payment_status_code)
-				);
-			}
 
 			if ($data->order_payment_status_code == "Paid" && $data->order_status_code == "C")
 			{
@@ -845,13 +835,6 @@ class order_functions
 
 			$dispatcher = JDispatcher::getInstance();
 
-			if ($paymentstatus == "Paid" && $newstatus == "S")
-			{
-				// For Consignor Label generation
-				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
-			}
-
 			if ($paymentstatus == "Paid")
 			{
 				if ($newstatus == 'C')
@@ -1052,12 +1035,6 @@ class order_functions
 				// For shipped pdf generaton
 				$order_shipped_id = $oid[0];
 				$invociepdfname = $this->createShippedInvoicePdf($order_shipped_id);
-
-				// For Consignor Label generation
-				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$dispatcher = JDispatcher::getInstance();
-				$results = $dispatcher->trigger('onChangeStatusToShipped', array($oid[0], $newstatus, $paymentstatus));
-
 			}
 
 			// For Webpack Postdk Label Generation
@@ -1847,7 +1824,7 @@ class order_functions
 
 			if ($mailbody && $useremail != "")
 			{
-				JMail::getInstance()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
+				JFactory::getMailer()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
 
@@ -1930,7 +1907,7 @@ class order_functions
 
 		if ($is_creditcard == 0)
 		{
-			if ($values['payment_plugin'] == "rs_payment_banktransfer" || $values['payment_plugin'] == "rs_payment_banktransfer2" || $values['payment_plugin'] == "rs_payment_banktransfer3" || $values['payment_plugin'] == "rs_payment_cashtransfer" || $values['payment_plugin'] == "rs_payment_cashsale" || $values['payment_plugin'] == "rs_payment_banktransfer_discount")
+			if ($values['payment_plugin'] == "rs_payment_banktransfer"|| $values['payment_plugin'] == "rs_payment_banktransfer_discount")
 			{
 				$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
 			}
@@ -2195,7 +2172,7 @@ class order_functions
 
 			if ('' != $userdetail->thirdparty_email && $mailbody)
 			{
-				JMail::getInstance()->sendMail(
+				JFactory::getMailer()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->thirdparty_email,
@@ -2208,7 +2185,7 @@ class order_functions
 
 			if ('' != $userdetail->user_email && $mailbody)
 			{
-				JMail::getInstance()->sendMail(
+				JFactory::getMailer()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->user_email,
@@ -2310,7 +2287,21 @@ class order_functions
 			$order_details  = $this->getOrderDetails($order_id);
 			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 
-			if ($details[0] === 'plgredshop_shippingdefault_shipping' && !$order_details->order_label_create)
+			$shippingParams = new JRegistry(
+								JPluginHelper::getPlugin(
+									'redshop_shipping',
+									str_replace(
+										'plgredshop_shipping',
+										'',
+										strtolower($details[0])
+									)
+								)->params
+							);
+
+			// Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
+			$allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean) $shippingParams->get('allowPacsoftLabel'));
+
+			if ($allowPacsoftLabel && !$order_details->order_label_create)
 			{
 				$generate_label = $this->generateParcel($order_id, $specifiedSendDate);
 
@@ -2440,11 +2431,6 @@ class order_functions
 		{
 			$this->updateOrderPaymentStatus($order_id, $paymentstatus);
 		}
-
-		// For Consignor Label generation
-		JPluginHelper::importPlugin('redshop_shippinglabel');
-		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 
 		if ($post['isPacsoft'])
 		{

@@ -76,6 +76,16 @@ if (ENABLE_BACKENDACCESS)
 $isWizard = JRequest::getInt('wizard', 0);
 $step     = JRequest::getVar('step', '');
 
+JHtml::_('behavior.framework');
+JHtml::_('redshopjquery.framework');
+$document = JFactory::getDocument();
+
+if (version_compare(JVERSION, '3.0', '>='))
+{
+	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")');
+	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
+}
+
 // Initialize wizard
 if ($isWizard || $step != '')
 {
@@ -98,16 +108,6 @@ if ($isWizard || $step != '')
 }
 
 $view = $app->input->get('view', 'redshop');
-
-JHtml::_('behavior.framework');
-JHtml::_('redshopjquery.framework');
-$document = JFactory::getDocument();
-
-if (version_compare(JVERSION, '3.0', '>='))
-{
-	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")');
-	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
-}
 
 $user        = JFactory::getUser();
 $task        = $app->input->get('task', '');
@@ -226,6 +226,3 @@ $controller->redirect();
 
 // End div here
 echo '</div></div>';
-
-// Set redshop config javascript header
-RedshopConfig::scriptDeclaration();

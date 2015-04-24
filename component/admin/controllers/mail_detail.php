@@ -65,7 +65,10 @@ class RedshopControllerMail_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=mail_detail&task=edit&cid[]=' . $row->mail_id, $msg);
+			$this->setRedirect(
+				'index.php?option=com_redshop&view=mail_detail&task=edit&cid[]=' . $row->mail_id . '&templateMode=' . $post['templateMode'],
+				$msg
+			);
 		}
 		else
 		{

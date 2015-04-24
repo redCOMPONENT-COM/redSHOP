@@ -113,7 +113,7 @@ defined('_JEXEC') or die;
 			      title="<?php echo JText::_('COM_REDSHOP_SHOW_TERMS_AND_CONDITIONS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_TERMS_AND_CONDITIONS_LBL'); ?>">
 			<label for="showprice"><?php echo JText::_('COM_REDSHOP_SHOW_TERMS_AND_CONDITIONS_LBL');?></label></span>
 		</td>
-		<td><?php echo $this->lists ['show_terms_and_conditions'];?><input type="button"
+		<td><?php echo $this->lists ['show_terms_and_conditions'];?>&nbsp;<input type="button" class="btn btn-small"
 		                                                                   onclick="javascript:resetTermsCondition();"
 		                                                                   value="<?php echo JText::_('COM_REDSHOP_RESET_FOR_ALL_USER'); ?>"/>
 		</td>
