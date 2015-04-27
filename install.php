@@ -1209,6 +1209,14 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
+		if (version_compare($this->getOldParam('version'), '1.5.0.5', '<='))
+		{
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '1.5.0.4.3', '<='))
 		{
 			array_push(
@@ -1224,7 +1232,11 @@ class Com_RedshopInstallerScript
 		{
 			array_push(
 				$folders,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system'
+			);
+
+			array_push(
+				$files,
 				JPATH_SITE . '/components/com_redshop/views/category/tmpl/searchletter.php'
 			);
 		}
