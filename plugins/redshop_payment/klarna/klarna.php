@@ -79,13 +79,15 @@ class plgRedshop_PaymentKlarna extends JPlugin
 
 		foreach ($orderItems as $orderItem)
 		{
+			$vatInPercentage = 100 * (($orderItem->product_item_price / $orderItem->product_item_price_excl_vat) - 1);
+
 			$k->addArticle(
 				$orderItem->product_quantity,
 				$orderItem->order_item_sku,
 				$orderItem->order_item_name,
 				$orderItem->product_final_price,
-				0,                     // 25% VAT @todo need to fix with dynamic vat
-				0,                      // Discount
+				$vatInPercentage,
+				0, // Discount will be added as a new line in order
 				KlarnaFlags::INC_VAT
 			);
 		}
@@ -100,15 +102,18 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			KlarnaFlags::INC_VAT | KlarnaFlags::IS_SHIPMENT
 		);
 
-		$k->addArticle(
-			1,
-			'',
-			'Discount Line',
-			$data['order']->order_discount,
-			0,  // @todo  need to show vat
-			0,
-			KlarnaFlags::INC_VAT
-		);
+		if ($data['order']->order_discount > 0)
+		{
+			$k->addArticle(
+				1,
+				'',
+				'Discount Line',
+				$data['order']->order_discount,
+				0,  // @todo  need to show vat
+				0,
+				KlarnaFlags::INC_VAT
+			);
+		}
 
 		/*
 		 @todo Not sure what is this for now.
