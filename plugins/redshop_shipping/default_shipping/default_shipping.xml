@@ -16,7 +16,7 @@
 		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_shipping_default_shipping.ini</language>
 		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_shipping_default_shipping.sys.ini</language>
 	</languages>
-	<config addfieldpath="/administrator/components/com_redshop/elements">
+	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
 				<field

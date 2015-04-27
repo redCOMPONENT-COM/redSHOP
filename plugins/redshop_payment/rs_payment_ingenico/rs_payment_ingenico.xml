@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_ingenico.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_ingenico.sys.ini</language>
 	</languages>
-	<config addfieldpath="/administrator/components/com_redshop/elements">
+	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
 				<field
