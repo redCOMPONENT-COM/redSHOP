@@ -117,6 +117,26 @@
 					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DESC"
 				/>
 				<field
+					name="privateDOB"
+					type="extrafields"
+					field_section="7"
+					value_field="field_id"
+					text_field="CONCAT(field_title, ' (', field_name, ')')"
+					required="true"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DOB"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DOB_DESC"
+				/>
+				<field
+					name="privateGender"
+					type="extrafields"
+					field_section="7"
+					value_field="field_id"
+					text_field="CONCAT(field_title, ' (', field_name, ')')"
+					required="true"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_GENDER"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_GENDER_DESC"
+				/>
+				<field
 					name="noteForCompany"
 					type="note"
 					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_NOTE"
@@ -131,6 +151,26 @@
 					required="true"
 					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING"
 					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DESC"
+				/>
+				<field
+					name="companyDOB"
+					type="extrafields"
+					field_section="8"
+					value_field="field_id"
+					text_field="CONCAT(field_title, ' (', field_name, ')')"
+					required="true"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DOB"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DOB_DESC"
+				/>
+				<field
+					name="companyGender"
+					type="extrafields"
+					field_section="8"
+					value_field="field_id"
+					text_field="CONCAT(field_title, ' (', field_name, ')')"
+					required="true"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_GENDER"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_GENDER_DESC"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -242,6 +282,12 @@
 					type="hidden"
 					default="0"
 					value="0"
+				/>
+				<field
+					name="refund"
+					type="hidden"
+					default="1"
+					value="1"
 				/>
 			</fieldset>
 		</fields>
