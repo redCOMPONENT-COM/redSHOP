@@ -13,22 +13,63 @@ JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperAdminImages');
-JLoader::load('RedshopHelperExtra_Field');
 
 class extra_field
 {
-	public function list_all_field_in_product($section = extraField::SECTION_PRODUCT)
-	{
-		$db = JFactory::getDbo();
+	/**
+	 * field_type    =   1 :- Text Field
+	 *                    2 :- Text Area
+	 *                    3 :- Check Box
+	 *                    4 :- Radio Button
+	 *                    5 :- Select Box (Single select)
+	 *                    6 :- Select Box (Multiple select)
+	 *                    7 :- Select country box
+	 *                    8 :- Wysiwyg
+	 *                    9 :- Media
+	 *                    10:- Documents
+	 *                    11:- Image
+	 *    `                12:- Date Picker
+	 *                    13:- Image selection with Link And hover
+	 *                    14:- Dealer Code
+	 *                    15:- Product Data Range
+	 *                    17:- Product-finder Date-picker
+	 *
+	 * field_section =    1 :- Product
+	 *                    2 :- Category
+	 *                    3 :- Form
+	 *                    4 :- E-mail
+	 *                    5 :- Confirmation
+	 *                    6 :- Userinformations
+	 *                    7 :- Customer Address
+	 *                    8 :- Company Address
+	 *                    9 :- Color sample
+	 *                   10 :- Manufacturer
+	 *                   11 :- Shipping
+	 *
+	 */
 
-		$query = "SELECT * FROM #__redshop_fields "
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public $_db = null;
+
+	public function __construct()
+	{
+		$this->_table_prefix = '#__redshop_';
+		$this->_db = JFactory::getDbo();
+	}
+
+	public function list_all_field_in_product($section = 1)
+	{
+		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
 			. "WHERE field_section = " . (int) $section . " "
 			. "AND display_in_product=1 "
 			. "AND `published`=1 "
 			. "ORDER BY ordering ";
 
-		$db->setQuery($query);
-		$row_data = $db->loadObjectlist();
+		$this->_db->setQuery($query);
+		$row_data = $this->_db->loadObjectlist();
 
 		return $row_data;
 	}
@@ -39,7 +80,7 @@ class extra_field
 		$option = JRequest::getVar('option');
 		$uri    = JURI::getInstance();
 		$url    = $uri->root();
-		$q      = "SELECT * FROM #__redshop_fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
+		$q      = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
 
 		if ($field_name != '')
 		{
@@ -69,7 +110,7 @@ class extra_field
 			$reqlbl = ' reqlbl="" ';
 			$errormsg = ' errormsg="" ';
 
-			if ($field_section == extraField::SECTION_QUOTATION && $row_data[$i]->required == 1)
+			if ($field_section == 16 && $row_data[$i]->required == 1)
 			{
 				$required = ' required="1" ';
 				$reqlbl = ' reqlbl="' . $extra_field_label . '" ';
@@ -78,7 +119,8 @@ class extra_field
 
 			switch ($type)
 			{
-				case extraField::TYPE_TEXT:
+				// 1 :- Text Field
+				case 1:
 					$text_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
 					$extra_field_value = '<input
@@ -97,14 +139,16 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_TEXT_AREA:
+				// 2 :- Text Area
+				case 2:
 					$textarea_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$extra_field_value = '<textarea class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '" ' . $required . $reqlbl . $errormsg . ' id="' . $row_data[$i]->field_name . '" cols="' . $row_data[$i]->field_cols . '" rows="' . $row_data[$i]->field_rows . '" >' . htmlspecialchars($textarea_value) . '</textarea>';
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_CHECK_BOX:
+				// 3 :- Check Box
+				case 3:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -120,7 +164,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_RADIO_BUTTON:
+				// 4 :- Radio Button
+				case 4:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -136,7 +181,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_BOX_SINGLE:
+				// 5 :-Select Box (Single select)
+				case 5:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -154,7 +200,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_BOX_MULTIPLE:
+				// 6 :- Select Box (Multiple select)
+				case 6:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -171,8 +218,9 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_COUNTRY_BOX:
-					$q = "SELECT * FROM #__redshop_country";
+				// 7 :-Select Country box
+				case 7:
+					$q = "SELECT * FROM " . $this->_table_prefix . "country";
 					$db->setQuery($q);
 					$field_chk = $db->loadObjectlist();
 					$chk_data = @explode(",", $data_value->data_txt);
@@ -191,7 +239,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_WYSIWYG:
+				// 8 :- Wysiwyg
+				case 8:
 					$editor = JFactory::getEditor();
 					$document = JFactory::getDocument();
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
@@ -200,7 +249,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_DOCUMENTS:
+				// 10 :- Documents
+				case 10:
 
 					$document = JFactory::getDocument();
 					JHtml::_('redshopjquery.ui');
@@ -291,7 +341,8 @@ class extra_field
 					$ex_field .= '<td><a href="#" title="' . $row_data[$i]->field_name . '" id="add_' . $row_data[$i]->field_name . '">' . JText::_('COM_REDSHOP_ADD') . '</a><div id="html_' . $row_data[$i]->field_name . '">' . $extra_field_value . '</div>';
 					break;
 
-				case extraField::TYPE_IMAGE_SELECT:
+				// 11 :- Image select
+				case 11:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 					$value = '';
@@ -324,7 +375,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_DATE_PICKER:
+				// 12 :- Date Picker
+				case 12:
 
 					if ($row_data[$i]->field_section != 17)
 					{
@@ -349,8 +401,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_IMAGE_WITH_LINK:
-
+				// 13 :- Image selection with Link And hover
+				case 13:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 					$value = ($data_value) ? $data_value->data_txt : '';
@@ -414,8 +466,8 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
-
+				// 15 :- Product Date Range
+				case 15:
 					$date = date("d-m-Y", time());
 
 					if ($data_value)
@@ -531,15 +583,13 @@ class extra_field
 
 	public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
 	{
-		$db = JFactory::getDbo();
-
 		$option = JRequest::getVar('option');
 
-		$q = "SELECT * FROM #__redshop_fields "
+		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
 			. "WHERE field_section IN (" . (int) $field_section . ") "
 			. "AND published=1 ";
-		$db->setQuery($q);
-		$row_data = $db->loadObjectlist();
+		$this->_db->setQuery($q);
+		$row_data = $this->_db->loadObjectlist();
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
@@ -558,7 +608,7 @@ class extra_field
 			}
 
 			// Save Document Extra Field
-			if ($row_data[$i]->field_type == extraField::TYPE_DOCUMENTS)
+			if ($row_data[$i]->field_type == 10)
 			{
 				$files = $_FILES[$row_data[$i]->field_name]['name'];
 				$texts = $data['text_' . $row_data[$i]->field_name];
@@ -618,7 +668,7 @@ class extra_field
 				}
 			}
 
-			if ($row_data[$i]->field_type == extraField::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS)
+			if ($row_data[$i]->field_type == 15)
 			{
 				if ($data[$row_data[$i]->field_name] != "" && $data[$row_data[$i]->field_name . "_expiry"] != "")
 				{
@@ -641,11 +691,11 @@ class extra_field
 
 			$sect = explode(",", $field_section);
 
-			if ($row_data[$i]->field_type == extraField::TYPE_IMAGE_SELECT || $row_data[$i]->field_type == extraField::TYPE_IMAGE_WITH_LINK)
+			if ($row_data[$i]->field_type == 11 || $row_data[$i]->field_type == 13)
 			{
 				$list = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id, $user_email);
 
-				if ($row_data[$i]->field_type == extraField::TYPE_IMAGE_WITH_LINK)
+				if ($row_data[$i]->field_type == 13)
 				{
 					$field_value_array = explode(',', $data['imgFieldId' . $row_data[$i]->field_id]);
 					$image_hover = array();
@@ -660,38 +710,38 @@ class extra_field
 					$str_image_hover = implode(',,,,,', $image_hover);
 					$str_image_link = implode(',,,,,', $image_link);
 
-					$sql = "UPDATE #__redshop_fields_data "
-						. "SET alt_text = " . $db->quote($str_image_hover) . " , image_link = " . $db->quote($str_image_link) . " "
+					$sql = "UPDATE " . $this->_table_prefix . "fields_data "
+						. "SET alt_text = " . $this->_db->quote($str_image_hover) . " , image_link = " . $this->_db->quote($str_image_link) . " "
 						. "WHERE itemid = " . (int) $section_id . " "
-						. "AND section = " . $db->quote($field_section) . " "
-						. "AND user_email = " . $db->quote($user_email) . " "
+						. "AND section = " . $this->_db->quote($field_section) . " "
+						. "AND user_email = " . $this->_db->quote($user_email) . " "
 						. "AND fieldid = " . (int) $row_data[$i]->field_id . " ";
-					$db->setQuery($sql);
-					$db->execute();
+					$this->_db->setQuery($sql);
+					$this->_db->execute();
 				}
 
 				if (count($list) > 0)
 				{
-					$sql = "UPDATE #__redshop_fields_data "
-						. "SET data_txt = " . $db->quote($data['imgFieldId' . $row_data[$i]->field_id]) . " "
+					$sql = "UPDATE " . $this->_table_prefix . "fields_data "
+						. "SET data_txt = " . $this->_db->quote($data['imgFieldId' . $row_data[$i]->field_id]) . " "
 						. "WHERE itemid = " . (int) $section_id . " "
-						. "AND section = " . $db->quote($field_section) . " "
-						. "AND user_email = " . $db->quote($user_email) . " "
+						. "AND section = " . $this->_db->quote($field_section) . " "
+						. "AND user_email = " . $this->_db->quote($user_email) . " "
 						. "AND fieldid = " . (int) $row_data[$i]->field_id . " ";
 				}
 				else
 				{
-					$sql = "INSERT INTO #__redshop_fields_data "
+					$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 						. "(fieldid, data_txt, itemid, section, alt_text, image_link, user_email) "
 						. "VALUE "
-						. "(" . (int) $row_data[$i]->field_id . "," . $db->quote($data['imgFieldId' . $row_data[$i]->field_id])
-						. "," . (int) $section_id . "," . $db->quote($field_section)
-						. "," . $db->quote($str_image_hover) . "," . $db->quote($str_image_link)
-						. ", " . $db->quote($user_email) . ")";
+						. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote($data['imgFieldId' . $row_data[$i]->field_id])
+						. "," . (int) $section_id . "," . $this->_db->quote($field_section)
+						. "," . $this->_db->quote($str_image_hover) . "," . $this->_db->quote($str_image_link)
+						. ", " . $this->_db->quote($user_email) . ")";
 				}
 
-				$db->setQuery($sql);
-				$db->execute();
+				$this->_db->setQuery($sql);
+				$this->_db->execute();
 			}
 			else
 			{
@@ -703,24 +753,24 @@ class extra_field
 					{
 						if (count($list) > 0)
 						{
-							$sql = "UPDATE #__redshop_fields_data "
-								. "SET data_txt = " . $db->quote($data_txt) . " "
+							$sql = "UPDATE " . $this->_table_prefix . "fields_data "
+								. "SET data_txt = " . $this->_db->quote($data_txt) . " "
 								. "WHERE itemid = " . (int) $section_id . " "
 								. "AND section = " . (int) $sect[$h] . " "
-								. "AND user_email = " . $db->quote($user_email) . " "
+								. "AND user_email = " . $this->_db->quote($user_email) . " "
 								. "AND fieldid = " . (int) $row_data[$i]->field_id . " ";
 						}
 						else
 						{
-							$sql = "INSERT INTO #__redshop_fields_data "
+							$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 								. "(fieldid, data_txt, itemid, section, user_email) "
 								. "VALUE "
-								. "(" . (int) $row_data[$i]->field_id . "," . $db->quote($data_txt)
-								. "," . (int) $section_id . "," . (int) $sect[$h] . ", " . $db->quote($user_email) . ")";
+								. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote($data_txt)
+								. "," . (int) $section_id . "," . (int) $sect[$h] . ", " . $this->_db->quote($user_email) . ")";
 						}
 
-						$db->setQuery($sql);
-						$db->execute();
+						$this->_db->setQuery($sql);
+						$this->_db->execute();
 					}
 				}
 			}
@@ -747,8 +797,6 @@ class extra_field
 
 	public function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "")
 	{
-		$db = JFactory::getDbo();
-
 		$row_data = $this->getSectionFieldList($field_section);
 
 		$ex_field = '';
@@ -777,17 +825,20 @@ class extra_field
 
 			switch ($type)
 			{
-				case extraField::TYPE_TEXT:
+				// 1 :- Text Field
+				case 1:
 					$extra_field_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_TEXT_AREA:
+				// 2 :- Text Area
+				case 2:
 					$extra_field_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_CHECK_BOX:
+				// 3 :- Check Box
+				case 3:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -804,7 +855,8 @@ class extra_field
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_RADIO_BUTTON:
+				// 4 :- Radio Button
+				case 4:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -821,7 +873,8 @@ class extra_field
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_BOX_SINGLE:
+				// 5 :-Select Box (Single select)
+				case 5:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -838,7 +891,8 @@ class extra_field
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_BOX_MULTIPLE:
+				// 6 :- Select Box (Multiple select)
+				case 6:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -862,15 +916,16 @@ class extra_field
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_COUNTRY_BOX:
+				// 7 :- Select Box (Country box)
+				case 7:
 					$extra_field_value = "";
 
 					if ($data_value && $data_value->data_txt)
 					{
-						$q = "SELECT country_name FROM #__redshop_country "
-							. "WHERE country_id = " . $db->quote($data_value->data_txt);
-						$db->setQuery($q);
-						$field_chk = $db->loadObject();
+						$q = "SELECT country_name FROM " . $this->_table_prefix . "country "
+							. "WHERE country_id = " . $this->_db->quote($data_value->data_txt);
+						$this->_db->setQuery($q);
+						$field_chk = $this->_db->loadObject();
 						$extra_field_value = $field_chk->country_name;
 					}
 
@@ -878,7 +933,7 @@ class extra_field
 					break;
 
 				// 12 :- Date Picker
-				case extraField::TYPE_DATE_PICKER:
+				case 12:
 					$extra_field_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$ex_field .= $extra_field_value;
 					break;
@@ -911,21 +966,20 @@ class extra_field
 	}
 
 
-	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id)
+	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $unique_id)
 	{
-		$db = JFactory::getDbo();
 		$url = JURI::base();
 
 		$document = JFactory::getDocument();
 		JHtml::script('com_redshop/attribute.js', false, true);
 
-		$q = "SELECT * FROM #__redshop_fields "
+		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
 			. "WHERE field_section = " . (int) $section_id . " "
-			. "AND field_name = " . $db->quote($field_section) . " "
+			. "AND field_name = " . $this->_db->quote($field_section) . " "
 			. "AND published=1 "
 			. "AND field_show_in_front=1 ";
-		$db->setQuery($q);
-		$row_data = $db->loadObjectlist();
+		$this->_db->setQuery($q);
+		$row_data = $this->_db->loadObjectlist();
 		$ex_field = '';
 		$ex_field_title = '';
 
@@ -953,17 +1007,20 @@ class extra_field
 
 				switch ($type)
 				{
-					case extraField::TYPE_TEXT:
+					// 1 :- Text Field
+					case 1:
 						$onkeyup = '';
 						$ex_field .= '<div class="userfield_input"><input class="' . $row_data[$i]->field_class . '" type="text" maxlength="' . $row_data[$i]->field_maxlength . '" onkeyup="var f_value = this.value;' . $onkeyup . '" name="extrafieldname' . $unique_id . '[]"  id="' . $row_data[$i]->field_name . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" value="' . $text_value . '" size="' . $row_data[$i]->field_size . '" /></div>';
 						break;
 
-					case extraField::TYPE_TEXT_AREA:
+					// 2 :- Text Area
+					case 2:
 						$onkeyup = '';
 						$ex_field .= '<div class="userfield_input"><textarea class="' . $row_data[$i]->field_class . '"  name="extrafieldname' . $unique_id . '[]"  id="' . $row_data[$i]->field_name . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" cols="' . $row_data[$i]->field_cols . '" onkeyup=" var f_value = this.value;' . $onkeyup . '" rows="' . $row_data[$i]->field_rows . '" >' . $text_value . '</textarea></div>';
 						break;
 
-					case extraField::TYPE_CHECK_BOX:
+					// 3 :- Check Box
+					case 3:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
@@ -974,7 +1031,8 @@ class extra_field
 						}
 						break;
 
-					case extraField::TYPE_RADIO_BUTTON:
+					// 4 :- Radio Button
+					case 4:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
@@ -985,7 +1043,8 @@ class extra_field
 						}
 						break;
 
-					case extraField::TYPE_SELECT_BOX_SINGLE:
+					// 5 :-Select Box (Single select)
+					case 5:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select name="extrafieldname' . $unique_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
@@ -1003,7 +1062,8 @@ class extra_field
 						$ex_field .= '</select></div>';
 						break;
 
-					case extraField::TYPE_SELECT_BOX_MULTIPLE:
+					// 6 :- Select Box (Multiple select)
+					case 6:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafieldname' . $unique_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
@@ -1017,7 +1077,8 @@ class extra_field
 						$ex_field .= '</select></div>';
 						break;
 
-					case extraField::TYPE_DOCUMENTS:
+					// File Upload
+					case 10 :
 						JHtml::_('redshopjquery.framework');
 						JHtml::script('com_redshop/ajaxupload.js', false, true);
 						$ajax = "";
@@ -1028,7 +1089,8 @@ class extra_field
 
 						break;
 
-					case extraField::TYPE_IMAGE_SELECT:
+					// 11 :- Image select
+					case 11:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<table><tr>';
@@ -1044,7 +1106,8 @@ class extra_field
 						$ex_field .= '<input type="hidden" name="extrafieldname' . $unique_id . '[]" id="' . $ajax . $row_data[$i]->field_name . '_' . $unique_id . '" userfieldlbl="' . $row_data[$i]->field_title . '" ' . $req . '  />';
 						break;
 
-					case extraField::TYPE_DATE_PICKER:
+					// 12 :- Date Picker
+					case 12:
 						$ajax = '';
 						$req = $row_data[$i]->required;
 
@@ -1091,78 +1154,68 @@ class extra_field
 
 	public function getFieldValue($id)
 	{
-		$db = JFactory::getDbo();
-
-		$q = "SELECT * FROM #__redshop_fields_value "
+		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
 			. "WHERE field_id = " . (int) $id . " "
 			. "ORDER BY value_id ASC ";
-		$db->setQuery($q);
-		$list = $db->loadObjectlist();
+		$this->_db->setQuery($q);
+		$list = $this->_db->loadObjectlist();
 
 		return $list;
 	}
 
-	public function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
+	public function getSectionFieldList($section = 12, $front = 1)
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT * FROM #__redshop_fields "
+		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
 			. "WHERE published=1 "
 			. "AND field_show_in_front = " . (int) $front . " "
 			. "AND field_section = " . (int) $section . "  ORDER BY ordering";
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
+		$this->_db->setQuery($query);
+		$list = $this->_db->loadObjectlist();
 
 		return $list;
 	}
 
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT * FROM #__redshop_fields_data "
+		$query = "SELECT * FROM " . $this->_table_prefix . "fields_data "
 			. "WHERE itemid = " . (int) $orderitemid . " "
 			. "AND fieldid = " . (int) $fieldid . " "
-			. "AND user_email = " . $db->quote($user_email) . " "
+			. "AND user_email = " . $this->_db->quote($user_email) . " "
 			. "AND section = " . (int) $section . " ";
-		$db->setQuery($query);
-		$list = $db->loadObject();
+		$this->_db->setQuery($query);
+		$list = $this->_db->loadObject();
 
 		return $list;
 	}
 
 	public function copy_product_extra_field($oldproduct_id, $newPid)
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT * FROM #__redshop_fields_data "
+		$query = "SELECT * FROM " . $this->_table_prefix . "fields_data "
 			. "WHERE itemid = " . (int) $oldproduct_id . " "
 			. "AND (section='1' or section = '12' or section = '17') ";
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
+		$this->_db->setQuery($query);
+		$list = $this->_db->loadObjectList();
 
 		for ($i = 0; $i < count($list); $i++)
 		{
-			$sql = "INSERT INTO #__redshop_fields_data "
+			$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 				. "(fieldid, data_txt, itemid, section, alt_text, image_link, user_email) "
 				. "VALUE "
-				. "(" . (int) $list[$i]->fieldid . "," . $db->quote($list[$i]->data_txt)
-				. "," . (int) $newPid . "," . (int) $list[$i]->section . "," . $db->quote($list[$i]->alt_text)
-				. "," . $db->quote($list[$i]->image_link) . ", " . $db->quote($list[$i]->user_email) . ")";
+				. "(" . (int) $list[$i]->fieldid . "," . $this->_db->quote($list[$i]->data_txt)
+				. "," . (int) $newPid . "," . (int) $list[$i]->section . "," . $this->_db->quote($list[$i]->alt_text)
+				. "," . $this->_db->quote($list[$i]->image_link) . ", " . $this->_db->quote($list[$i]->user_email) . ")";
 
-			$db->setQuery($sql);
-			$db->execute();
+			$this->_db->setQuery($sql);
+			$this->_db->execute();
 		}
 	}
 
 	public function deleteExtraFieldData($data_id)
 	{
-		$db = JFactory::getDbo();
-
-		$query = "DELETE FROM #__redshop_fields_data "
+		$query = "DELETE FROM " . $this->_table_prefix . "fields_data "
 			. "WHERE data_id = " . (int) $data_id . " ";
-		$db->setQuery($query);
-		$db->execute();
+		$this->_db->setQuery($query);
+		$this->_db->execute();
 	}
 }
 

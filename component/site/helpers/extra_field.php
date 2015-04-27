@@ -100,27 +100,6 @@ class extraField
 	 */
 	const TYPE_DATE_PICKER = 12;
 
-    /**
-     * Extra Field Type for with link
-     *
-     * @var  int
-     */
-    const TYPE_IMAGE_WITH_LINK = 13;
-
-    /**
-     * Extra Field Type for selection based on selected condition.
-     *
-     * @var  int
-     */
-    const TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS = 15;
-
-    /**
-     * Extra Field Type for product finder date picker.
-     *
-     * @var  int
-     */
-    const TYPE_PRODUCT_FINDER_DATE_PICKER = 17;
-
 	/**
 	 * Extra Field Section Id for Product
 	 *
@@ -310,14 +289,13 @@ class extraField
 
 			switch ($type)
 			{
-				case self::TYPE_TEXT:
-
+				case 1:
+					// 1 :- Text Field
 					$text_value = $data_value->data_txt;
 					$ex_field .= '<input ' . $class . ' type="text" maxlength="' . $row_data[$i]->field_maxlength . '" name="' . $row_data[$i]->field_name . '" id="' . $row_data[$i]->field_name . '" value="' . $text_value . '" size="32" />';
 					break;
-
-				case self::TYPE_TEXT_AREA:
-
+				case 2:
+					// 2 :- Text Area
 					$textarea_value = '';
 
 					if ($data_value && $data_value->data_txt)
@@ -327,9 +305,8 @@ class extraField
 
 					$ex_field .= '<textarea ' . $class . '  name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" cols="' . $row_data[$i]->field_cols . '" rows="' . $row_data[$i]->field_rows . '" >' . $textarea_value . '</textarea>';
 					break;
-
-				case self::TYPE_CHECK_BOX:
-
+				case 3:
+					// 3 :- Check Box
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
@@ -356,9 +333,8 @@ class extraField
 
 					$ex_field .= '<label for="' . $row_data[$i]->field_name . '[]" class="error">' . JText::_('COM_REDSHOP_PLEASE_SELECT_YOUR') . '&nbsp;' . $row_data[$i]->field_title . '</label>';
 					break;
-
-				case self::TYPE_RADIO_BUTTON:
-
+				case 4:
+					// 4 :- Radio Button
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
@@ -385,8 +361,8 @@ class extraField
 
 					$ex_field .= '<label for="' . $row_data[$i]->field_name . '" class="error">' . JText::_('COM_REDSHOP_PLEASE_SELECT_YOUR') . '&nbsp;' . $row_data[$i]->field_title . '</label>';
 					break;
-                case self::TYPE_SELECT_BOX_SINGLE:
-
+				case 5:
+					// 5 :-Select Box (Single select)
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
@@ -416,8 +392,8 @@ class extraField
 					$ex_field .= '</select>';
 					break;
 
-                case self::TYPE_SELECT_BOX_MULTIPLE:
-
+				case 6:
+					// 6 :- Select Box (Multiple select)
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
@@ -447,8 +423,8 @@ class extraField
 					$ex_field .= '</select>';
 					break;
 
-                case self::TYPE_DATE_PICKER:
-
+				case 12:
+					// 12 :- Date Picker
 					$date = date("d-m-Y", time());
 					$size = '20';
 
@@ -580,7 +556,7 @@ class extraField
 
 			if ($cart && isset($cart[$idx][$row_data[$i]->field_name]))
 			{
-				if ($type == self::TYPE_DATE_PICKER)
+				if ($type == 12)
 				{
 					$text_value = date("d-m-Y", strtotime($cart[$idx][$row_data[$i]->field_name]));
 				}
@@ -594,7 +570,7 @@ class extraField
 			{
 				$value = '';
 
-				if ($type == self::TYPE_DOCUMENTS)
+				if ($type == 10)
 				{
 					$userDocuments = $session->get('userDocument', array());
 					$fileNames = array();
@@ -625,8 +601,8 @@ class extraField
 
 				switch ($type)
 				{
-                    case self::TYPE_TEXT:
-
+					case 1:
+						// 1 :- Text Field
 						$onkeyup = '';
 
 						if (AJAX_CART_BOX == 0)
@@ -637,8 +613,8 @@ class extraField
 						$ex_field .= '<div class="userfield_input"><input class="' . $row_data[$i]->field_class . '" type="text" maxlength="' . $row_data[$i]->field_maxlength . '" onkeyup="var f_value = this.value;' . $onkeyup . '" name="extrafields' . $product_id . '[]"  id="' . $row_data[$i]->field_name . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" value="' . $text_value . '" size="' . $row_data[$i]->field_size . '" /></div>';
 						break;
 
-					case self::TYPE_TEXT_AREA:
-
+					case 2:
+						// 2 :- Text Area
 						$onkeyup = '';
 
 						if (AJAX_CART_BOX == 0)
@@ -649,8 +625,8 @@ class extraField
 						$ex_field .= '<div class="userfield_input"><textarea class="' . $row_data[$i]->field_class . '"  name="extrafields' . $product_id . '[]"  id="' . $row_data[$i]->field_name . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" cols="' . $row_data[$i]->field_cols . '" onkeyup=" var f_value = this.value;' . $onkeyup . '" rows="' . $row_data[$i]->field_rows . '" >' . $text_value . '</textarea></div>';
 						break;
 
-					case self::TYPE_CHECK_BOX:
-
+					case 3:
+						// 3 :- Check Box
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
@@ -667,8 +643,8 @@ class extraField
 						}
 						break;
 
-					case self::TYPE_RADIO_BUTTON:
-
+					case 4:
+						// 4 :- Radio Button
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
@@ -685,8 +661,8 @@ class extraField
 						}
 						break;
 
-					case self::TYPE_SELECT_BOX_SINGLE:
-
+					case 5:
+						// 5 :-Select Box (Single select)
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select name="extrafields' . $product_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
@@ -710,8 +686,8 @@ class extraField
 						$ex_field .= '</select></div>';
 						break;
 
-					case self::TYPE_SELECT_BOX_MULTIPLE:
-
+					case 6:
+						// 6 :- Select Box (Multiple select)
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafields' . $product_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
@@ -731,7 +707,7 @@ class extraField
 						$ex_field .= '</select></div>';
 						break;
 
-                    case self::TYPE_DOCUMENTS :
+					case 10 :
 						// File Upload
 						JHtml::_('redshopjquery.framework');
 						JHtml::script('com_redshop/ajaxupload.js', false, true);
@@ -783,8 +759,8 @@ class extraField
 
 						break;
 
-					case self::TYPE_IMAGE_SELECT:
-
+					case 11:
+						// 11 :- Image select
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<table><tr>';
@@ -805,8 +781,8 @@ class extraField
 						$ex_field .= '<input type="hidden" name="extrafields' . $product_id . '[]" id="' . $ajax . $row_data[$i]->field_name . '_' . $product_id . '" userfieldlbl="' . $row_data[$i]->field_title . '" ' . $req . '  />';
 						break;
 
-					case self::TYPE_DATE_PICKER:
-
+					case 12:
+						// 12 :- Date Picker
 						$ajax = '';
 						$req = $row_data[$i]->required;
 
@@ -823,7 +799,7 @@ class extraField
 						$ex_field .= '<div class="userfield_input">' . JHTML::_('calendar', $text_value, 'extrafields' . $product_id . '[]', $ajax . $row_data[$i]->field_name . '_' . $product_id, $format = '%d-%m-%Y', array('class' => $row_data[$i]->field_class, 'size' => $row_data[$i]->field_size, 'maxlength' => $row_data[$i]->field_maxlength, 'required' => $req, 'userfieldlbl' => $row_data[$i]->field_title, 'errormsg' => '')) . '</div>';
 						break;
 
-                    case self::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
+					case 15:
 						$field_chk = $this->getSectionFieldDataList($row_data[$i]->field_id, 12, $product_id);
 
 						if (count($field_chk) > 0)
@@ -927,23 +903,28 @@ class extraField
 
 				switch ($type)
 				{
-                    case self::TYPE_TEXT:
-					case self::TYPE_WYSIWYG:
-					case self::TYPE_DATE_PICKER:
-					case self::TYPE_SELECT_BOX_SINGLE:
+					case 1:
+						// 1 :- Text Field //
+					case 8:
+						// 8 :- Wysiwyg
+					case 12:
+						// Calender
+					case 5:
+						// 5 :-Select Box (Single select)
 
 						$displayvalue = $data_value->data_txt;
 						break;
-
-					case self::TYPE_TEXT_AREA:
-
+					case 2:
+						// 2 :- Text Area
 						$displayvalue = htmlspecialchars($data_value->data_txt);
 						break;
 
-					case self::TYPE_CHECK_BOX:
-					case self::TYPE_RADIO_BUTTON:
-					case self::TYPE_SELECT_BOX_MULTIPLE:
-
+					case 3:
+						// 3 :- Check Box
+					case 4:
+						// 4 :- Radio Button
+					case 6:
+						// 6 :- Select Box (Multiple select)
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data  = @explode(",", $data_value->data_txt);
 						$tmparr    = array();
@@ -959,8 +940,8 @@ class extraField
 						$displayvalue = urldecode(implode('<br>', $tmparr));
 						break;
 
-					case self::TYPE_SELECT_COUNTRY_BOX:
-
+					case 7:
+						// 7 :-Select Country box
 						$displayvalue = "";
 
 						if ($data_value->data_txt != "")
@@ -972,7 +953,8 @@ class extraField
 							$displayvalue = $field_chk->country_name;
 						}
 						break;
-					case self::TYPE_DOCUMENTS :
+					case 10 :
+						// Document
 
 						// Support Legacy string.
 						if (preg_match('/\n/', $data_value->data_txt))
@@ -1002,9 +984,9 @@ class extraField
 							}
 						}
 						break;
-					case self::TYPE_IMAGE_SELECT :
+					case 11 :
 						// Image
-					case self::TYPE_IMAGE_WITH_LINK :
+					case 13 :
 						$document_value = $this->getFieldValue($row_data[$i]->field_id);
 
 						$tmp_image_hover = array();
@@ -1092,7 +1074,7 @@ class extraField
 		return $list;
 	}
 
-	public function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
+	public function getSectionFieldList($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$db = JFactory::getDbo();
 
@@ -1123,7 +1105,7 @@ class extraField
 		return $list;
 	}
 
-	public function getSectionFieldNameArray($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
+	public function getSectionFieldNameArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$db = JFactory::getDbo();
 
@@ -1148,7 +1130,7 @@ class extraField
 		return $list;
 	}
 
-	public function getSectionFieldIdArray($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
+	public function getSectionFieldIdArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		JFactory::getDbo();
 
