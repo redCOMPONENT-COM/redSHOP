@@ -7,7 +7,7 @@
 	method="upgrade"
 >
 	<name>PLG_REDSHOP_PAYMENT_QUICKBOOK</name>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<redshop>1.5</redshop>
 	<creationDate>March 2015</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -187,7 +187,8 @@
 				</field>
 				<field
 					name="extrafield_payment"
-					type="extrafieldpayment"
+					type="extrafields"
+					field_section="18"
 					multiple="multiple"
 					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_EXTRAFIELD_PAYMENT_LBL"
 					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_EXTRAFIELD_PAYMENT_DESC"

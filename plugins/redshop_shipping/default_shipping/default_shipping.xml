@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
 	<name>PLG_DEFAULT_SHIPPING</name>
-	<version>1.5.1</version>
+	<version>1.5.2</version>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
 	<copyright>redCOMPONENT.com</copyright>
@@ -38,7 +38,8 @@
 				</field>
 				<field
 					name="extrafield_shipping"
-					type="extrafieldshipping"
+					type="extrafields"
+					field_section="19"
 					label="PLG_DEFAULT_SHIPPING_LABEL"
 					multiple="multiple"
 					description="PLG_DEFAULT_SHIPPING_DESCRIPTION"
