@@ -6,7 +6,7 @@
         </message>
     </layout>
 
-    <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+    <fields name="params" addfieldpath="/libraries/redshop/form/fields">
         <fieldset name="basic">
             <field name="maxcategory" type="text" size="4" default="5"
                        label="COM_REDSHOP_HOW_MANY_CATEGROY_TO_DISPLAY_PER_PAGE_LBL"
@@ -22,7 +22,7 @@
 
     <fields name="request">
         <fieldset name="request"
-                      addfieldpath="/administrator/components/com_redshop/elements">
+                      addfieldpath="/libraries/redshop/form/fields">
             <field name="cid" type="redshopcategory" label="COM_REDSHOP_SELECT_CATEGORY" required="true"
                        description="COM_REDSHOP_DISPLAYS_THE_SELECTED_CATEGORY_PRODUCT"/>
         </fieldset>

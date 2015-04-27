@@ -38,7 +38,7 @@
 					   default="0"
 					   label="COM_REDSHOP_SELECT_TEMPLATE_LBL"
 					   description="COM_REDSHOP_SELECT_TEMPLATE_DESC"
-					   addfieldpath="/administrator/components/com_redshop/elements"/>
+					   addfieldpath="/libraries/redshop/form/fields"/>
 				<field name="productperpage"
 					   type="text"
 					   default=""
@@ -68,7 +68,7 @@
 					   default=""
 					   label="COM_REDSHOP_DEFAULT_SEARCH_TYPE_LBL"
 					   description="COM_REDSHOP_DEFAULT_SEARCH_TYPE_DESC"
-					   addfieldpath="/administrator/components/com_redshop/elements"/>
+					   addfieldpath="/libraries/redshop/form/fields"/>
 				<field name="showSearchTypeField"
 					   type="radio"
 					   default="yes"

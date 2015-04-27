@@ -20,7 +20,7 @@
         <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_eantransfer.ini</language>
         <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_eantransfer.sys.ini</language>
     </languages>
-    <config addfieldpath="/administrator/components/com_redshop/elements">
+    <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 

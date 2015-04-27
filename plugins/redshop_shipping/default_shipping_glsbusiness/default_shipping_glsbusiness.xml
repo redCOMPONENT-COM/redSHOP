@@ -15,7 +15,7 @@
 	<files>
 		<filename plugin="default_shipping_glsbusiness">default_shipping_glsbusiness.php</filename>
 	</files>
-	<config addfieldpath="/administrator/components/com_redshop/elements">
+	<config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
                 <field
