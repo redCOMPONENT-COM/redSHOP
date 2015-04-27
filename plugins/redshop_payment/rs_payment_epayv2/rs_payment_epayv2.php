@@ -66,14 +66,27 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			'language'        => $this->params->get("language"),
 			'windowstate'     => $this->params->get("epay_window_state"),
 			'windowid'        => $this->params->get("windowid"),
-			'ownreceipt'      => $this->params->get("ownreceipt"),
-			'subscription'    => $this->params->get("epay_subscription")
+			'ownreceipt'      => $this->params->get("ownreceipt")
 		);
 
 		// Payment Group is an optional
 		if ($this->params->get('payment_group'))
 		{
 			$formdata['group'] = $this->params->get('payment_group');
+		}
+
+		// Epay will send email receipt to given email
+		if (trim($this->params->get('mailreceipt')))
+		{
+			$formdata['mailreceipt'] = $this->params->get('mailreceipt');
+		}
+
+		if ($cardTypes = $this->params->get('paymenttype'))
+		{
+			// Remove ALL keyword
+			unset($cardTypes[array_search('ALL', $cardTypes)]);
+
+			$formdata['paymenttype'] = implode(',', $cardTypes);
 		}
 
 		if ((int) $this->params->get('activate_callback', 0) == 1)
