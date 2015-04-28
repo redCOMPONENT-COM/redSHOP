@@ -81,11 +81,13 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		{
 			$vatInPercentage = 100 * (($orderItem->product_item_price / $orderItem->product_item_price_excl_vat) - 1);
 
+			$productName = strip_tags($orderItem->order_item_name . " " . $orderItem->product_attribute . " " . $orderItem->product_accessory);
+
 			$k->addArticle(
 				$orderItem->product_quantity,
 				$orderItem->order_item_sku,
-				$orderItem->order_item_name,
-				$orderItem->product_final_price,
+				$productName,
+				$orderItem->product_item_price,
 				$vatInPercentage,
 				0, // Discount will be added as a new line in order
 				KlarnaFlags::INC_VAT
