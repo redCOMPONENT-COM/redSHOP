@@ -67,6 +67,14 @@ class order_functions
 		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'order_payment`';
 		$this->_db->setQuery($query);
 		$this->_db->execute();
+
+		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'product_download`';
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+
+		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'product_download_log`';
+		$this->_db->setQuery($query);
+		$this->_db->execute();
 	}
 
 	/*
