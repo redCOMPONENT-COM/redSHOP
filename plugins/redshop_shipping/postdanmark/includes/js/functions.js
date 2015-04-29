@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
         }
     });
 
-    jQuery('input[type="radio"]').click(function() {
+    jQuery('input[type="radio"][id^="shipping_rate_id"]').click(function() {
         if (checkPDinput(jQuery(this))) {
             inject_button(jQuery(this));
         } else {
