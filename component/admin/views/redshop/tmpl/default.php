@@ -253,7 +253,7 @@ $new_arr        = RedShopHelperImages::geticonarray();
 				{
 					if ($new_arr['shippings'][$i] == 'shipping_detail')
 					{
-						$link = 'index.php?option=com_redshop&view=shipping';
+						$link = 'index.php?option=com_installer';
 						redshopViewredshop::quickiconButton($link, $new_arr['shippingimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['shippingtxt'][$i]));
 						$cnt_ship = 1;
 					}
