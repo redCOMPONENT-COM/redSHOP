@@ -102,7 +102,9 @@ class RedshopControllerOrder extends RedshopController
 		// Change Order Status
 		$order_functions->orderStatusUpdate($orderId, $post);
 
-		$response = array();
+		$response = array(
+			'message' => '<li class="success text-success">' . JText::sprintf('COM_REDSHOP_AJAX_ORDER_UPDATE_SUCCESS', $orderId) . '</li>'
+		);
 
 		// Trigger when order status changed.
 		JPluginHelper::importPlugin('redshop_product');
