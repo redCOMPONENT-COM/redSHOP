@@ -15,12 +15,10 @@ jimport('joomla.plugin.plugin');
  * Replaces textstring with link
  */
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperRedshop.js');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperAdminTemplate');
 JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperRedshop.js');
 
 class plgContentredshop_product extends JPlugin
 {

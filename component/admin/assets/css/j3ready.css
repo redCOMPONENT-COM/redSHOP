@@ -499,3 +499,22 @@ div.cpanel-right {
 .icon-redshop_shipping48:before{
 	content: "\E022";
 }
+.icon-redshop_export32:before,
+.icon-redshop_export48:before,
+.icon-redshop_export_export32:before{
+	content: "\E201";
+}
+.icon-redshop_import_import32:before,
+.icon-redshop_import48:before{
+	content: "\E203";
+}
+fieldset.redRadioGroup{
+	padding-top: 5px;
+}
+fieldset.redRadioGroup > .btn {
+	min-width: 50px;
+	display: inline-block !important;
+}
+fieldset.redRadioGroup label.radio{
+	margin: 0 !important;
+}

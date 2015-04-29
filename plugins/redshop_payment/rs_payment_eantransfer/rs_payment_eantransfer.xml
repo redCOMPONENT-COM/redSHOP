@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_EANTRANSFER</name>
-    <version>1.2</version>
+    <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -42,7 +43,7 @@
                        key_field="st_value" value_field="st_title" default="C" label="Order Status transactions"
                        description="Select the order status to which the actual order is set.">
                 </field>
-                <field name="shopper_group_id" type="shoppergrouplist" default="" label="Select Shopper Group"
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="" label="Select Shopper Group"
                        description="Displays the shopper groups"/>
                 <field name="txtextra_info" type="extrainfo" default="Please enter your Extra Info"
                        label="Enter Extra Info"

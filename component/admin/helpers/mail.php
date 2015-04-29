@@ -284,13 +284,13 @@ class redshopMail
 
 			if ($thirdpartyemail != '')
 			{
-				if (!JMail::getInstance()->sendMail($from, $fromname, $thirdpartyemail, $subject, $body, 1, null, $bcc))
+				if (!JFactory::getMailer()->sendMail($from, $fromname, $thirdpartyemail, $subject, $body, 1, null, $bcc))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
 			}
 
-			if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
+			if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 			}
@@ -308,7 +308,7 @@ class redshopMail
 
 			for ($man = 0; $man < count($manufacturer_email); $man++)
 			{
-				if (!JMail::getInstance()->sendMail($from, $fromname, $manufacturer_email[$man], $subject, $body, 1))
+				if (!JFactory::getMailer()->sendMail($from, $fromname, $manufacturer_email[$man], $subject, $body, 1))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -321,7 +321,7 @@ class redshopMail
 
 			for ($sup = 0; $sup < count($supplier_email); $sup++)
 			{
-				if (!JMail::getInstance()->sendMail($from, $fromname, $supplier_email[$sup], $subject, $body, 1))
+				if (!JFactory::getMailer()->sendMail($from, $fromname, $supplier_email[$sup], $subject, $body, 1))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -392,9 +392,7 @@ class redshopMail
 		$search[]       = "{order_detail_link}";
 		$replace[]      = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount"
-			|| $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3"
-			|| $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount")
 		{
 			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 			$paymentparams = new JRegistry($paymentmethod->params);
@@ -426,7 +424,7 @@ class redshopMail
 
 			if (SPECIAL_DISCOUNT_MAIL_SEND == '1')
 			{
-				if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
+				if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -439,7 +437,7 @@ class redshopMail
 
 			for ($man = 0; $man < count($manufacturer_email); $man++)
 			{
-				if (!JMail::getInstance()->sendMail($from, $fromname, $manufacturer_email[$man], $subject, $body, 1))
+				if (!JFactory::getMailer()->sendMail($from, $fromname, $manufacturer_email[$man], $subject, $body, 1))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -757,7 +755,7 @@ class redshopMail
 
 		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
 		{
-			if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
+			if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
@@ -769,7 +767,7 @@ class redshopMail
 		{
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
 
-			if (!JMail::getInstance()->sendMail($from, $fromname, $sendto, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
+			if (!JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
@@ -861,7 +859,7 @@ class redshopMail
 			}
 
 			$bcc = array_merge($bcc, $mailbcc);
-			JMail::getInstance()->sendMail($MailFrom, $FromName, $data['email'], $mailsubject, $mailbody, 1, null, $bcc);
+			JFactory::getMailer()->sendMail($MailFrom, $FromName, $data['email'], $mailsubject, $mailbody, 1, null, $bcc);
 		}
 
 		// Tax exempt waiting approval mail
@@ -932,7 +930,7 @@ class redshopMail
 
 			if ($email != "")
 			{
-				JMail::getInstance()->sendMail($MailFrom, $FromName, $email, $mailsubject, $maildata, 1, null, $mailbcc);
+				JFactory::getMailer()->sendMail($MailFrom, $FromName, $email, $mailsubject, $maildata, 1, null, $mailbcc);
 			}
 		}
 
@@ -1015,7 +1013,7 @@ class redshopMail
 
 		if ($user_email != "")
 		{
-			JMail::getInstance()->sendMail($MailFrom, $FromName, $user_email, $mailsubject, $maildata, 1, null, $mailbcc);
+			JFactory::getMailer()->sendMail($MailFrom, $FromName, $user_email, $mailsubject, $maildata, 1, null, $mailbcc);
 		}
 
 		return true;
@@ -1400,7 +1398,7 @@ class redshopMail
 
 			$bcc = array_merge($bcc, $mailbcc);
 
-			if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
+			if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 			{
 				$this->setError('ERROR_SENDING_QUOTATION_MAIL');
 			}
@@ -1475,7 +1473,7 @@ class redshopMail
 			// Send the e-mail
 			if ($email != "")
 			{
-				if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc))
+				if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -1521,7 +1519,7 @@ class redshopMail
 		// Send the e-mail
 		if ($email != "")
 		{
-			JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc);
+			JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc);
 		}
 
 		return true;
@@ -1597,7 +1595,7 @@ class redshopMail
 
 			if ($email)
 			{
-				if (JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $data_add, $mode = 1, null, $mailbcc))
+				if (JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $data_add, $mode = 1, null, $mailbcc))
 				{
 					return true;
 				}
@@ -1665,13 +1663,13 @@ class redshopMail
 
 		if ($user_billinginfo->user_email != "")
 		{
-			JMail::getInstance()->sendMail($from, $fromname, $user_billinginfo->user_email, $subject, $data_add, 1, null, $mailbcc, $attachment);
+			JFactory::getMailer()->sendMail($from, $fromname, $user_billinginfo->user_email, $subject, $data_add, 1, null, $mailbcc, $attachment);
 		}
 
 		if (ADMINISTRATOR_EMAIL != '')
 		{
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
-			JMail::getInstance()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc, $attachment);
+			JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc, $attachment);
 		}
 
 		return true;
@@ -1715,7 +1713,7 @@ class redshopMail
 			$data_add = str_replace("{city}", $data->city, $data_add);
 
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
-			JMail::getInstance()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc);
+			JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc);
 		}
 	}
 
@@ -1758,7 +1756,7 @@ class redshopMail
 
 		$data_add = str_replace("{name}", $catalog->name, $data_add);
 
-		if (JMail::getInstance()->sendMail($from, $fromname, $catalog->email, $subject, $data_add, 1, null, $mailbcc, $attachment))
+		if (JFactory::getMailer()->sendMail($from, $fromname, $catalog->email, $subject, $data_add, 1, null, $mailbcc, $attachment))
 		{
 			return true;
 		}

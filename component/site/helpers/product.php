@@ -53,8 +53,6 @@ class producthelper
 
 	public $_attributewithcart_template = null;
 
-	protected static $userShopperGroupData = array();
-
 	protected static $vatRate = array();
 
 	protected static $productSpecialIds = array();
@@ -1177,7 +1175,7 @@ class producthelper
 
 		$commonid = ($suffixid) ? $product_id . '_' . $suffixid : $product_id;
 
-		if ($Product_detail_is_light != 2 && $Product_detail_is_light != 1 && !MAGIC_MAGNIFYPLUS)
+		if ($Product_detail_is_light != 2 && $Product_detail_is_light != 1)
 		{
 			$thum_image = "<img id='main_image" . $commonid . "' src='" . $product_img . "' " . $title . $alt . " />";
 		}
@@ -1186,12 +1184,6 @@ class producthelper
 			if ($Product_detail_is_light == 1)
 			{
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' rel=\"myallimg\">";
-			}
-			elseif (MAGIC_MAGNIFYPLUS)
-			{
-				$cat_product_hover = false;
-				$thum_image        = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage
-					. "' class='MagicMagnifyPlus'>";
 			}
 			elseif (PRODUCT_IS_LIGHTBOX == 1)
 			{
@@ -1420,19 +1412,20 @@ class producthelper
 
 	public function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
 	{
-		$product_price                  = '';
-		$price_excluding_vat            = '';
-		$display_product_discount_price = '';
-		$display_product_old_price      = '';
-		$display_product_price_saving   = '';
-		$display_product_price_novat    = '';
-		$display_product_price_incl_vat = '';
-		$product_price_saving_lbl       = '';
-		$product_old_price_lbl          = '';
-		$product_vat_lbl                = '';
-		$product_price_lbl              = '';
-		$seoProductPrice                = '';
-		$seoProductSavingPrice          = '';
+		$product_price                           = '';
+		$price_excluding_vat                     = '';
+		$display_product_discount_price          = '';
+		$display_product_old_price               = '';
+		$display_product_price_saving            = '';
+		$display_product_price_saving_percentage = '';
+		$display_product_price_novat             = '';
+		$display_product_price_incl_vat          = '';
+		$product_price_saving_lbl                = '';
+		$product_old_price_lbl                   = '';
+		$product_vat_lbl                         = '';
+		$product_price_lbl                       = '';
+		$seoProductPrice                         = '';
+		$seoProductSavingPrice                   = '';
 
 		$user = JFactory::getUser();
 
@@ -1499,7 +1492,10 @@ class producthelper
 
 			if ($ProductPriceArr['product_price_saving'])
 			{
-				$display_product_price_saving = '<span id="display_product_saving_price' . $product_id . '">' . $product_price_saving . '</span>';
+				$display_product_price_saving            = '<span id="display_product_saving_price' . $product_id . '">' . $product_price_saving . '</span>';
+				$display_product_price_saving_percentage = '<span id="display_product_saving_price_percentage' . $product_id . '">'
+														. JText::sprintf('COM_REDSHOP_PRODUCT_PRICE_SAVING_PERCENTAGE_LBL', round($ProductPriceArr['product_price_saving_percentage']))
+														. '%</span>';
 			}
 
 			if ($ProductPriceArr['product_price_novat'] != "")
@@ -1527,15 +1523,20 @@ class producthelper
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving}", $display_product_price_saving, $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving_excl_vat}", $display_product_price_saving, $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving_lbl}", $product_price_saving_lbl, $data_add);
+
+			$data_add = str_replace("{" . $relPrefix . "product_price_saving_percentage}", $display_product_price_saving_percentage, $data_add);
 		}
 		else
 		{
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving}", '', $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_price_saving_lbl}", '', $data_add);
+
+			$data_add = str_replace("{" . $relPrefix . "product_price_saving_percentage}", '', $data_add);
 		}
 
 		if ($ProductPriceArr['product_old_price'])
 		{
+			$product_price_percent_discount = 100 - ($ProductPriceArr['product_discount_price'] / $ProductPriceArr['product_old_price'] * 100);
 			$data_add = str_replace("{" . $relPrefix . "product_old_price}", $display_product_old_price, $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_old_price_lbl}", $product_old_price_lbl, $data_add);
 		}
@@ -1698,19 +1699,23 @@ class producthelper
 
 				if ($product_price < $product_discount_price_tmp )
 				{
-					$product_price          = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
-					$product_main_price     = $product_price;
-					$product_discount_price = '';
-					$product_old_price      = '';
-					$product_price_saving   = '';
-					$product_price_novat    = $product_price_exluding_vat;
-					$seoProductSavingPrice  = '';
-					$seoProductPrice        = $product_price;
-					$tax_amount             = $this->getProductTax($product_id, $product_price_novat, $user_id);
+					$product_price                   = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
+					$product_main_price              = $product_price;
+					$product_discount_price          = '';
+					$product_old_price               = '';
+					$product_price_saving            = '';
+					$product_price_saving_percentage = '';
+					$product_price_novat             = $product_price_exluding_vat;
+					$seoProductSavingPrice           = '';
+					$seoProductPrice                 = $product_price;
+					$tax_amount                      = $this->getProductTax($product_id, $product_price_novat, $user_id);
 				}
 				else
 				{
 					$product_price_saving = $product_price_exluding_vat - $dicount_price_exluding_vat;
+
+					// Calculate total price saving in percentage
+					$product_price_saving_percentage = ($product_price_saving / $product_price_exluding_vat) * 100;
 
 					// Only apply VAT if set to apply in config or tag
 					if (intval($applytax) && $product_price_saving)
@@ -1731,20 +1736,21 @@ class producthelper
 					$seoProductPrice            = $product_discount_price_tmp;
 					$seoProductSavingPrice      = $product_price_saving;
 
-					$product_price_saving_lbl   = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVING_LBL');
-					$product_old_price_lbl      = JText::_('COM_REDSHOP_PRODUCT_OLD_PRICE_LBL');
+					$product_price_saving_lbl            = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVING_LBL');
+					$product_old_price_lbl               = JText::_('COM_REDSHOP_PRODUCT_OLD_PRICE_LBL');
 				}
 			}
 			else
 			{
-				$product_main_price     = $product_price;
-				$product_price          = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
-				$product_discount_price = '';
-				$product_price_saving   = '';
-				$product_old_price      = '';
-				$product_price_novat    = $product_price_exluding_vat;
-				$seoProductPrice        = $product_price;
-				$seoProductSavingPrice  = '';
+				$product_main_price                  = $product_price;
+				$product_price                       = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
+				$product_discount_price              = '';
+				$product_price_saving                = '';
+				$product_price_saving_percentage     = '';
+				$product_old_price                   = '';
+				$product_price_novat                 = $product_price_exluding_vat;
+				$seoProductPrice                     = $product_price;
+				$seoProductSavingPrice               = '';
 			}
 
 			if ($tax_amount && intval($applytax))
@@ -1760,34 +1766,38 @@ class producthelper
 		}
 		else
 		{
-			$seoProductPrice        = '';
-			$seoProductSavingPrice  = '';
-			$product_discount_price = '';
-			$product_old_price      = '';
-			$product_price_saving   = '';
-			$product_price_novat    = '';
-			$product_main_price     = '';
-			$product_price          = '';
-			$price_excluding_vat    = '';
+			$seoProductPrice                     = '';
+			$seoProductSavingPrice               = '';
+			$product_discount_price              = '';
+			$product_old_price                   = '';
+			$product_price_saving                = '';
+			$product_price_saving_percentage     = '';
+			$product_price_novat                 = '';
+			$product_main_price                  = '';
+			$product_price                       = '';
+			$price_excluding_vat                 = '';
 		}
 
-		$ProductPriceArr['productPrice']               = $product_price_novat;
-		$ProductPriceArr['product_price']              = $product_price;
-		$ProductPriceArr['price_excluding_vat']        = $price_excluding_vat;
-		$ProductPriceArr['product_main_price']         = $product_main_price;
-		$ProductPriceArr['product_price_novat']        = $product_price_novat;
-		$ProductPriceArr['product_price_saving']       = $product_price_saving;
-		$ProductPriceArr['product_old_price']          = $product_old_price;
-		$ProductPriceArr['product_discount_price']     = $product_discount_price;
-		$ProductPriceArr['seoProductSavingPrice']      = $seoProductSavingPrice;
-		$ProductPriceArr['seoProductPrice']            = $seoProductPrice;
-		$ProductPriceArr['product_old_price_lbl']      = $product_old_price_lbl;
-		$ProductPriceArr['product_price_saving_lbl']   = $product_price_saving_lbl;
-		$ProductPriceArr['product_price_lbl']          = $product_price_lbl;
-		$ProductPriceArr['product_vat_lbl']            = $product_vat_lbl;
-		$ProductPriceArr['productVat']                 = $tax_amount;
-		$ProductPriceArr['product_old_price_excl_vat'] = $product_old_price_excl_vat;
-		$ProductPriceArr['product_price_incl_vat']     = $product_price_incl_vat;
+		$ProductPriceArr['productPrice']                        = $product_price_novat;
+		$ProductPriceArr['product_price']                       = $product_price;
+		$ProductPriceArr['price_excluding_vat']                 = $price_excluding_vat;
+		$ProductPriceArr['product_main_price']                  = $product_main_price;
+		$ProductPriceArr['product_price_novat']                 = $product_price_novat;
+		$ProductPriceArr['product_price_saving']                = $product_price_saving;
+		$ProductPriceArr['product_price_saving_percentage']     = $product_price_saving_percentage;
+		$ProductPriceArr['product_price_saving_lbl']            = $product_price_saving_lbl;
+
+		$ProductPriceArr['product_old_price']                   = $product_old_price;
+		$ProductPriceArr['product_discount_price']              = $product_discount_price;
+		$ProductPriceArr['seoProductSavingPrice']               = $seoProductSavingPrice;
+		$ProductPriceArr['seoProductPrice']                     = $seoProductPrice;
+		$ProductPriceArr['product_old_price_lbl']               = $product_old_price_lbl;
+
+		$ProductPriceArr['product_price_lbl']                   = $product_price_lbl;
+		$ProductPriceArr['product_vat_lbl']                     = $product_vat_lbl;
+		$ProductPriceArr['productVat']                          = $tax_amount;
+		$ProductPriceArr['product_old_price_excl_vat']          = $product_old_price_excl_vat;
+		$ProductPriceArr['product_price_incl_vat']              = $product_price_incl_vat;
 
 		return $ProductPriceArr;
 	}
@@ -2118,47 +2128,13 @@ class producthelper
 	 * @param   string  $addressType  Type user BT or ST
 	 * @param   int     $userInfoId   Id redshop user
 	 *
+	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
+	 *
 	 * @return  object  Redshop user information
 	 */
 	public function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0)
 	{
-		if ($userId == 0)
-		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-
-		if (!$userId)
-		{
-			return array();
-		}
-
-		if ($addressType == '')
-		{
-			$addressType = 'BT';
-		}
-
-		if (!array_key_exists($userId . '.' . $addressType . '.' . $userInfoId, self::$userShopperGroupData))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('sh.*', 'u.*'))
-				->from($db->qn('#__redshop_users_info', 'u'))
-				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
-				->where('u.user_id = ' . (int) $userId)
-				->where('u.address_type = ' . $db->q($addressType));
-
-			if ($userInfoId && $addressType == 'ST')
-			{
-				$query->where('u.users_info_id = ' . (int) $userInfoId);
-			}
-
-			$db->setQuery($query);
-
-			self::$userShopperGroupData[$userId . '.' . $addressType . '.' . $userInfoId] = $db->loadObject();
-		}
-
-		return self::$userShopperGroupData[$userId . '.' . $addressType . '.' . $userInfoId];
+		return RedshopHelperUser::getUserInformation($userId, $addressType, $userInfoId);
 	}
 
 	public function getApplyVatOrNot($data_add = "", $user_id = 0)
@@ -2301,7 +2277,7 @@ class producthelper
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($user_id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -3604,13 +3580,25 @@ class producthelper
 		$stockroomhelper     = new rsstockroomhelper;
 		$property_with_stock = array();
 
-		for ($p = 0; $p < count($property); $p++)
+		for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
 		{
-			$isStock = $stockroomhelper->isStockExists($property[$p]->property_id, $section = "property");
-
-			if ($isStock)
+			if ($stockroomhelper->isStockExists($property[$p]->property_id, $section = "property"))
 			{
 				$property_with_stock[] = $property[$p];
+			}
+			else
+			{
+				if ($subPropertyAll = $this->getAttibuteSubProperty(0, $property[$p]->value))
+				{
+					foreach ($subPropertyAll as $subProperty)
+					{
+						if ($stockroomhelper->isStockExists($subProperty->subattribute_color_id, $section = "subproperty"))
+						{
+							$property_with_stock[] = $property[$p];
+							break;
+						}
+					}
+				}
 			}
 		}
 
@@ -3785,34 +3773,6 @@ class producthelper
 			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.child_product_id "
 			. "WHERE p.published = 1 "
 			. $and . $groupby
-			. $orderby;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
-	}
-
-	public function getProductNavigator($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
-	{
-		$orderby = "ORDER BY ordering ASC";
-
-		$and     = "";
-		$groupby = "";
-
-		if ($product_id != 0)
-		{
-			// Sanitize ids
-			$productIds = explode(',', $product_id);
-			JArrayHelper::toInteger($productIds);
-
-			$and .= "AND a.product_id IN (" . implode(',', $productIds) . ") ";
-		}
-
-		$query = "SELECT a.*, p.product_name, p.product_number "
-			. "FROM " . $this->_table_prefix . "product_navigator AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.child_product_id "
-			. "WHERE p.published = 1 "
-			. $and
 			. $orderby;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -4107,9 +4067,6 @@ class producthelper
 
 		if (strstr($data_add, "{if product_on_sale}") && strstr($data_add, "{product_on_sale end if}"))
 		{
-			$template_pd_sdata = explode('{if product_on_sale}', $data_add);
-			$template_pd_edata = explode('{product_on_sale end if}', $template_pd_sdata [1]);
-
 			if ($product->product_on_sale == 1 && (($product->discount_stratdate == 0 && $product->discount_enddate == 0) || ($product->discount_stratdate <= time() && $product->discount_enddate >= time())))
 			{
 				$data_add = str_replace("{discount_start_date}", $redconfig->convertDateFormat($product->discount_stratdate), $data_add);
@@ -4119,7 +4076,9 @@ class producthelper
 			}
 			else
 			{
-				$data_add = $template_pd_sdata[0] . $template_pd_edata[1];
+				$template_pd_sdata = strstr($data_add, '{if product_on_sale}', true);
+				$template_pd_edata = substr(strstr($data_add, '{product_on_sale end if}'), 24);
+				$data_add = $template_pd_sdata . $template_pd_edata;
 			}
 
 			$data_add = str_replace("{discount_start_date}", '', $data_add);
@@ -10069,71 +10028,12 @@ class producthelper
 				}
 			}
 
-			if (strstr($template_desc, "{stock_notify_flag}"))
-			{
-				$userArr       = $this->_session->get('rs_user');
-				$user = JFactory::getUser();
-
-				if (empty($userArr))
-				{
-					$userArr = $this->_userhelper->createUserSession($user->id);
-				}
-
-				if (!isset($userArr['rs_user_info_id']))
-				{
-					$UserInformation = $this->getUserInformation($user->id);
-					$userArr['rs_user_info_id'] = isset($UserInformation->users_info_id) ? $UserInformation->users_info_id : 0;
-
-					if (isset($UserInformation->users_info_id))
-					{
-						$userArr = $this->_session->set('rs_user', $userArr);
-					}
-				}
-
-				$is_login      = $userArr['rs_is_user_login'];
-				$users_info_id = $userArr['rs_user_info_id'];
-				$user_id       = $userArr['rs_userid'];
-
-				$is_notified   = $this->isAlreadyNotifiedUser(
-					$user_id,
-					$product->product_id,
-					$property_id,
-					$subproperty_id
-				);
-
-				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $is_login && $users_info_id)
-				{
-					if (($productStockStatus['preorder']
-						&& !$productStockStatus['preorder_stock'])
-						|| !$productStockStatus['preorder'])
-					{
-						if ($is_notified)
-						{
-							$notify_stock = "<span>" . JText::_('COM_REDSHOP_ALREADY_REQUESTED_FOR_NOTIFICATION')
-								. "</span>";
-
-						}
-						else
-						{
-							$notify_stock = '<span >' . JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL')
-								. '</span><input type="button" name="" value="' . JText::_('COM_REDSHOP_NOTIFY_STOCK')
-								. '" class="notifystockbtn" title="' . JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL')
-								. '" onclick="getStocknotify(\'' . $product->product_id . '\',\'' . $property_id . '\', \''
-								. $subproperty_id . '\');">';
-						}
-
-					}
-					else
-					{
-						$notify_stock = "";
-					}
-				}
-				else
-				{
-					$notify_stock = '';
-				}
-
-			}
+			RedshopLayoutHelper::renderTag(
+				'{stock_notify_flag}', $data_add, 'product', array(
+					'productId' => $product_id, 'propertyId' => $property_id, 'subPropertyId' => $subproperty_id,
+					'productStockStatus' => $productStockStatus, 'isAjax' => true
+				)
+			);
 
 			if (strstr($template_desc, "{product_availability_date}"))
 			{
@@ -10610,46 +10510,12 @@ class producthelper
 
 		}
 
-		if (strstr($data_add, "{stock_notify_flag}"))
-		{
-			$userArr       = $this->_session->get('rs_user');
-			$user_id       = isset($userArr['rs_userid']) ? $userArr['rs_userid'] : '';
-			$is_login      = isset($userArr['rs_is_user_login']) ? $userArr['rs_is_user_login'] : '';
-			$users_info_id = isset($userArr['rs_user_info_id']) ? $userArr['rs_user_info_id'] : 0;
-
-			$is_notified   = $this->isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id);
-
-			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $is_login && $users_info_id && $user_id)
-			{
-				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
-				{
-					if ($is_notified)
-					{
-						$data_add = str_replace("{stock_notify_flag}", "<div id='notify_stock" . $product_id . "'>"
-							. JText::_('COM_REDSHOP_ALREADY_REQUESTED_FOR_NOTIFICATION') . "</div>", $data_add);
-					}
-					else
-					{
-						$data_add = str_replace("{stock_notify_flag}", '<div id="notify_stock' . $product_id . '"><span >'
-							. JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL') . '</span><input type="button" name="" value="'
-							. JText::_('COM_REDSHOP_NOTIFY_STOCK') . '" class="notifystockbtn" title="'
-							. JText::_('COM_REDSHOP_NOTIFY_STOCK_LBL') . '" onclick="getStocknotify(\'' . $product_id
-							. '\',\'' . $property_id . '\', \'' . $subproperty_id . '\');"></div>', $data_add);
-					}
-
-				}
-				else
-				{
-					$data_add = str_replace("{stock_notify_flag}", "<div id='notify_stock" . $product_id . "'></div>", $data_add);
-				}
-
-			}
-			else
-			{
-				$data_add = str_replace("{stock_notify_flag}", "<div id='notify_stock" . $product_id . "'></div>", $data_add);
-			}
-
-		}
+		RedshopLayoutHelper::renderTag(
+			'{stock_notify_flag}', $data_add, 'product', array(
+				'productId' => $product_id, 'propertyId' => $property_id, 'subPropertyId' => $subproperty_id,
+				'productStockStatus' => $stockStatusArray
+			)
+		);
 
 		if (strstr($data_add, "{product_availability_date}"))
 		{
@@ -10687,14 +10553,21 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * Check already notified user
+	 *
+	 * @param   int  $user_id         User id
+	 * @param   int  $product_id      Product id
+	 * @param   int  $property_id     Property id
+	 * @param   int  $subproperty_id  Sub property id
+	 *
+	 * @deprecated  1.5 Use RedshopHelperStockroom::isAlreadyNotifiedUser instead
+	 *
+	 * @return mixed
+	 */
 	public function isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'notifystock_users  WHERE product_id = ' . (int) $product_id
-			. ' and property_id = ' . (int) $property_id . ' and subproperty_id = ' . (int) $subproperty_id . ' AND user_id ='
-			. (int) $user_id . ' and notification_status=0';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return RedshopHelperStockroom::isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id);
 	}
 
 	public function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)

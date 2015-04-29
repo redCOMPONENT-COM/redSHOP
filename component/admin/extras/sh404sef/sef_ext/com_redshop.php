@@ -101,8 +101,17 @@ $texpricemin = isset($texpricemin) ? @$texpricemin : null;
 $payment_method_id = isset($payment_method_id) ? @$payment_method_id : null;
 $shipping_rate_id  = isset($shipping_rate_id) ? @$shipping_rate_id : null;
 
-$menu = $productHelper->getMenuInformation($Itemid, 0, '', $view);
-$myparams = $menu->params;
+if ($menu = $productHelper->getMenuInformation($Itemid, 0, '', $view))
+{
+	$myparams = $menu->params;
+}
+else
+{
+	$menu        = new stdClass;
+	$menu->title = '';
+	$menu->alias = '';
+	$myparams    = new JRegistry;
+}
 
 // Set redSHOP prefix
 $component_prefix = shGetComponentPrefix('com_redshop');
@@ -184,12 +193,6 @@ switch ($view)
 		{
 			$title[] = $sh_LANG[$shLangIso]['_REDSHOP_CATEGORY_PRODUCT_LAYOUT'];
 			shRemoveFromGETVarsList('cid');
-		}
-
-		if ($layout == 'searchletter' && $layout != '')
-		{
-			$title[] = $letter;
-			shRemoveFromGETVarsList('letter');
 		}
 
 		shRemoveFromGETVarsList('layout');

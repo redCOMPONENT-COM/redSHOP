@@ -15,7 +15,7 @@
  */
 class PayPalPluginManagerJoomla3Page
 {
-	public static $payPalUseField = "//input[@id='jform_params_sandbox1']";
+	public static $payPalUseField = "//fieldset[@id='jform_params_sandbox']/label[2]";
 
 	public static $payPalBusinessAccountEmail = "//input[@id='jform_params_merchant_email']";
 

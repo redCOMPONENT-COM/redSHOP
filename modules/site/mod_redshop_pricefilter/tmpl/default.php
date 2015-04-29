@@ -15,8 +15,6 @@ $url = $uri->root();
 $Itemid = JRequest::getInt('Itemid');
 $document = JFactory::getDocument();
 
-// 	include redshop js file.
-JLoader::load('RedshopHelperRedshop.js');
 JHtml::_('redshopjquery.ui');
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::stylesheet('com_redshop/priceslider.css', array(), true);

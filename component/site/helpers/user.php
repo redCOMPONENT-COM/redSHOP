@@ -24,8 +24,6 @@ class rsUserhelper
 
 	protected static $shopperGroupData = array();
 
-	protected static $userShopperGroupData = array();
-
 	protected static $userInfo = array();
 
 	public function __construct()
@@ -40,29 +38,13 @@ class rsUserhelper
 	 * @param   int     $joomlaUserId  Joomla user id
 	 * @param   string  $addressType   Type user address BT or ST
 	 *
+	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
+	 *
 	 * @return mixed
 	 */
 	public function getRedSHOPUserInfo($joomlaUserId = 0, $addressType = 'BT')
 	{
-		if (!$joomlaUserId)
-		{
-			$joomlaUserId = JFactory::getUser()->get('id');
-		}
-
-		$index = $joomlaUserId . '.' . $addressType;
-
-		if (!isset(self::$userInfo[$index]))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('ui.*')
-				->from($db->qn('#__redshop_users_info', 'ui'))
-				->where('ui.user_id = ' . (int) $joomlaUserId)
-				->where('ui.address_type = ' . $db->q(strtoupper($addressType)));
-			self::$userInfo[$index] = $db->setQuery($query)->loadObject();
-		}
-
-		return self::$userInfo[$index];
+		return RedshopHelperUser::getUserInformation($joomlaUserId, $addressType);
 	}
 
 	/**
@@ -70,44 +52,13 @@ class rsUserhelper
 	 *
 	 * @param   integer  $userId  User identifier
 	 *
+	 * @deprecated  1.5  Use RedshopHelperUser::getShopperGroup instead
+	 *
 	 * @return  integer            User group
 	 */
 	public function getShopperGroup($userId = 0)
 	{
-		if (0 == $userId)
-		{
-			$auth = JFactory::getSession()->get('auth');
-
-			if (is_array($auth) && array_key_exists('users_info_id', $auth))
-			{
-				$userId -= $auth['users_info_id'];
-			}
-		}
-
-		// Get redCRM Contact person session array
-		$isredcrmuser = $this->_session->get('isredcrmuser', false);
-
-		if ($isredcrmuser)
-		{
-			$this->_db->setQuery("SELECT user_id FROM #__redshop_users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $userId . ") and address_type='BT'");
-			$userId = $this->_db->loadResult();
-		}
-
-		$shopperGroupId = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-
-		if ($userId)
-		{
-			$shopperGroupData = $this->getShoppergroupData($userId);
-
-			if (count($shopperGroupData) > 0)
-			{
-				$shopperGroupId = $shopperGroupData->shopper_group_id;
-			}
-		}
-
-		$this->_userId = $userId;
-
-		return $shopperGroupId;
+		return RedshopHelperUser::getShopperGroup($userId);
 	}
 
 	/**
@@ -146,40 +97,13 @@ class rsUserhelper
 	 *
 	 * @param   int  $userId  User id
 	 *
+	 * @deprecated  1.5  Use RedshopHelperUser::getShopperGroupData instead
+	 *
 	 * @return mixed
 	 */
 	public function getShoppergroupData($userId = 0)
 	{
-		if ($userId == 0)
-		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-
-		if ($userId != 0)
-		{
-			if (!array_key_exists($userId, self::$userShopperGroupData))
-			{
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select('sg.*')
-					->from($db->qn('#__redshop_shopper_group', 'sg'))
-					->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
-					->where('ui.user_id = ' . (int) $userId)
-					->where('ui.address_type = ' . $db->q('BT'));
-				$db->setQuery($query);
-				self::$userShopperGroupData[$userId] = $db->loadObject();
-
-				if (!self::$userShopperGroupData[$userId])
-				{
-					self::$userShopperGroupData[$userId] = array();
-				}
-			}
-
-			return self::$userShopperGroupData[$userId];
-		}
-
-		return array();
+		return RedshopHelperUser::getShopperGroupData($userId);
 	}
 
 	/**
@@ -212,41 +136,18 @@ class rsUserhelper
 		return self::$shopperGroupData[$shopperGroupId];
 	}
 
-	public function createUserSession($user_id)
+	/**
+	 * Create redshop user session
+	 *
+	 * @param   int  $user_id  Joomla user id
+	 *
+	 * @deprecated  1.5  Use RedshopHelperUser::createUserSession instead
+	 *
+	 * @return  array|mixed
+	 */
+	public function createUserSession($user_id = 0)
 	{
-		$userArr = $this->_session->get('rs_user');
-
-		if (empty($userArr))
-		{
-			$userArr              = array();
-			$userArr['rs_userid'] = $user_id;
-		}
-
-		if (array_key_exists('rs_userid', $userArr))
-		{
-			if ($user_id != $userArr['rs_userid'])
-			{
-				$userArr['rs_userid'] = $user_id;
-			}
-		}
-		else
-		{
-			$userArr['rs_userid'] = $user_id;
-		}
-
-		if ($user_id)
-		{
-			$userArr['rs_is_user_login'] = 1;
-		}
-		else
-		{
-			$userArr['rs_is_user_login'] = 0;
-		}
-
-		$userArr['rs_user_shopperGroup'] = $this->getShopperGroup($user_id);
-		$this->_session->set('rs_user', $userArr);
-
-		return $userArr;
+		return RedshopHelperUser::createUserSession($user_id);
 	}
 
 	/**
@@ -292,19 +193,19 @@ class rsUserhelper
 		{
 			if (REGISTER_METHOD == 1 || $data['user_id'] < 0)
 			{
+				$reduser = new statsClass;
 				$reduser->id = $data['user_id'];
 
 				return $reduser;
-				die();
 			}
 		}
 
 		if ($app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id']))
 		{
+			$reduser = new statsClass;
 			$reduser->id = $data['user_id'];
 
 			return $reduser;
-			die;
 		}
 
 		$app = JFactory::getApplication();
@@ -1228,15 +1129,7 @@ class rsUserhelper
 				$template_middle = $template_pd_edata[0];
 				$classreq        = (REQUIRED_VAT_NUMBER == 1) ? "required" : "";
 				$template_middle = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_BUSINESS_NUMBER'), $template_middle);
-
-				if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
-				{
-					$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" onblur="return replaceveisval();"/><input type="text" name="veis_wait_input" value="" id="veis_wait_input" style="width:1px;height:1px;border:none;background:none;" class="inputbox required">', $template_middle);
-				}
-				else
-				{
-					$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" />', $template_middle);
-				}
+				$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" />', $template_middle);
 			}
 
 			$template_desc = $template_pd_sdata[0] . $template_middle . $template_pd_edata[1];
@@ -1245,17 +1138,19 @@ class rsUserhelper
 		if (USE_TAX_EXEMPT == 1 && SHOW_TAX_EXEMPT_INFRONT)
 		{
 			$allowCompany  = '';
+			$taxExempt = '';
 
-			if (1 == (int) $post['is_company'])
-			{
-				$allowCustomer = 'style="display:none;"';
-			}
-			else
+			if (isset($post['is_company']) && 1 != (int) $post['is_company'])
 			{
 				$allowCompany = 'style="display:none;"';
 			}
 
-			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', $post["tax_exempt"], JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
+			if (isset($post["tax_exempt"]))
+			{
+				$taxExempt = $post["tax_exempt"];
+			}
+
+			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', $taxExempt, JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
 			$template_desc = str_replace("{tax_exempt_lbl}", '<div id="lblTaxExempt" ' . $allowCompany . '>' . JText::_('COM_REDSHOP_TAX_EXEMPT') . '</div>', $template_desc);
 			$template_desc = str_replace("{tax_exempt}", '<div id="trTaxExempt" ' . $allowCompany . '>' . $tax_exempt . '</div>', $template_desc);
 		}

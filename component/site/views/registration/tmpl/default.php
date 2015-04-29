@@ -111,8 +111,10 @@ if ($this->params->get('show_page_heading', 1))
 			}
 			?>
 			<tr>
-				<td><input type="submit" class="button" name="submit"
-				           value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>"/></td>
+				<td>
+					<input type="submit" class="registrationSubmitButton button btn" name="submit"
+						   value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>"/>
+				</td>
 			</tr>
 		</table>
 
