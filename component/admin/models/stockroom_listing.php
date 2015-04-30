@@ -65,7 +65,9 @@ class RedshopModelStockroom_listing extends RedshopModel
 		$db = JFactory::getDbo();
 
 		// Initialize query
-		$query = $db->getQuery(true)->select('p.*');
+		$query = $db->getQuery(true)
+					->select('p.*')
+					->where($db->qn('p.product_id') . ' !=' . $db->q(''));
 
 		$keyword = $this->getState('keyword');
 
