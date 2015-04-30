@@ -486,14 +486,9 @@ class order_functions
 				}
 			}
 
-			$dispatcher = JDispatcher::getInstance();
-
-			if ($data->order_payment_status_code == "Paid" && $data->order_status_code == "C")
-			{
-				$xml_order  = $this->getOrderDetails($order_id);
-				JPluginHelper::importPlugin('ERPImportExport');
-				$dispatcher->trigger('exportOrder', array ($xml_order));
-			}
+			// Trigger function on Order Status change
+			JPluginHelper::importPlugin('order');
+			JDispatcher::getInstance()->trigger('onAfterOrderStatusUpdate', array($this->getOrderDetails($order_id)));
 
 			// For Webpack Postdk Label Generation
 			$this->createWebPacklabel($order_id, '', $data->order_status_code, $data->order_payment_status_code);
@@ -841,17 +836,12 @@ class order_functions
 			// Changing the status of the order
 			$this->updateOrderStatus($order_id, $newstatus, $order_log->order_status_log_id);
 
-			$dispatcher = JDispatcher::getInstance();
+			// Trigger function on Order Status change
+			JPluginHelper::importPlugin('order');
+			JDispatcher::getInstance()->trigger('onAfterOrderStatusUpdate', array($this->getOrderDetails($order_id)));
 
 			if ($paymentstatus == "Paid")
 			{
-				if ($newstatus == 'C')
-				{
-					$xml_order = $this->getOrderDetails($order_id);
-					JPluginHelper::importPlugin('ERPImportExport');
-					$dispatcher->trigger('exportOrder', array ($xml_order));
-				}
-
 				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
