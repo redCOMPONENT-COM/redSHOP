@@ -137,7 +137,7 @@ if ($order->order_shipping > 0)
 										. ";" . ($p + 1)
 										. ";" . $shipping_vat;
 	$p++;
-	$amount += $shipping_price + $shipping_vat;
+	$amount += $shipping_price;
 }
 
 $payment_price = $order->payment_discount;
