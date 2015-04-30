@@ -120,8 +120,7 @@ class order_functions
 			$values['billinginfo'] = $this->getOrderBillingUserInfo($order_id);
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher = JDispatcher::getInstance();
-			$data = $dispatcher->trigger('onCapture_Payment' . $result[0]->element, array($result[0]->element, $values));
+			$data = JDispatcher::getInstance()->trigger('onCapture_Payment' . $result[0]->element, array($result[0]->element, $values));
 			$results = $data[0];
 
 			if (!empty($data))
@@ -149,10 +148,9 @@ class order_functions
 			$values["order_userid"] = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher = JDispatcher::getInstance();
 
 			// Get status and refund if capture/cancel if authorize (for quickpay only)
-			$data = $dispatcher->trigger('onStatus_Payment' . $result[0]->element, array($result[0]->element, $values));
+			$data = JDispatcher::getInstance()->trigger('onStatus_Payment' . $result[0]->element, array($result[0]->element, $values));
 			$results = $data[0];
 
 			if (!empty($data))
