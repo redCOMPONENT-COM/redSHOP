@@ -22,7 +22,7 @@ if (isset($cart) && isset($cart['idx']) && $cart['idx'] > 0)
 if ($displayData['cartOutput'] == 'simple'): ?>
 	<div class="mod_cart_extend_total_pro_value" id="mod_cart_total_txt_product" >
 	<?php if ($displayData['totalQuantity']): ?>
-		<?php echo JText::_('MOD_REDSHOP_CART_TOTAL_PRODUCT') . ': ' . $displayData['totalQuantity'] . ' ' . JText::_('MOD_REDSHOP_CART_PRODUCTS_IN_CART'); ?>
+		<?php echo JText::_('MOD_REDSHOP_CART_TOTAL_PRODUCT') . ' ' . $displayData['totalQuantity'] . ' ' . JText::_('MOD_REDSHOP_CART_PRODUCTS_IN_CART'); ?>
 	<?php endif; ?>
 	</div>
 <?php else: ?>
@@ -69,7 +69,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 <?php if ((!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)) && $displayData['totalQuantity']): ?>
 <div class="mod_cart_totalprice">
 	<div class="mod_cart_total_txt cartItemAlign" id="mod_cart_total_txt_ajax" >
-		<?php echo JText::_('MOD_REDSHOP_CART_TOTAL'); ?>:
+		<?php echo JText::_('MOD_REDSHOP_CART_TOTAL'); ?>
 	</div>
 	<div class="mod_cart_total_value cartItemAlign" id="mod_cart_total_value_ajax">
 		<?php echo $productHelper->getProductFormattedPrice($total); ?>
