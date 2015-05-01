@@ -42,8 +42,7 @@ JHTML::_('behavior.tooltip');
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="name" id="name" size="32" maxlength="250"
-				       value="<?php echo $this->detail->name; ?>"/>
+				<?php echo JText::_($this->detail->name); ?>
 			</td>
 		</tr>
 		<tr>
