@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     RedSHOP.Backend
- * @subpackage  Element
+ * @package     RedSHOP.Library
+ * @subpackage  Form.Field
  *
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Renders a Productfinder Form
+ * Field to create extra field list dynamically
+ * based on `field_section` and `field_show_in_front` etc...
  *
- * @package     RedSHOP.Backend
- * @subpackage  Element
+ * @package     RedSHOP.Library
+ * @subpackage  Form.Field
  * @since       1.5
  */
 class JFormFieldExtraFields extends JFormFieldList
