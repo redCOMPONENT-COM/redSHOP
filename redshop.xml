@@ -58,7 +58,6 @@
         <files folder="component/admin">
             <folder>assets</folder>
             <folder>controllers</folder>
-            <folder>elements</folder>
             <folder>extras</folder>
             <folder>help</folder>
             <folder>helpers</folder>
