@@ -77,14 +77,13 @@ for ($p = 0; $p < count($order_items); $p++)
 	$product_item_price          = $currencyClass->convert($order_items[$p]->product_item_price, '', $this->params->get("dibs_currency"));
 	$product_item_price_excl_vat = $currencyClass->convert($order_items[$p]->product_item_price_excl_vat, '', $this->params->get("dibs_currency"));
 	$pvat                        = $product_item_price - $product_item_price_excl_vat;
-	$total_amount                = $product_item_price * $order_items[$p]->product_quantity;
 	$product_item_price_excl_vat = floor($product_item_price_excl_vat * 1000) / 1000;
 	$product_item_price_excl_vat = number_format($product_item_price_excl_vat, 2, '.', '') * 100;
 	$pvat                        = floor($pvat * 1000) / 1000;
 	$pvat                        = number_format($pvat, 2, '.', '') * 100;
 
 	// Accumulate total
-	$amount += (float) number_format($total_amount, 2, '.', '') * 100;
+	$amount += ($product_item_price_excl_vat + $pvat) * $order_items[$p]->product_quantity;
 
 	$formdata['oiRow' . ($p + 1) . ''] = $order_items[$p]->product_quantity
 										. ";pcs"
