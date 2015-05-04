@@ -9,21 +9,6 @@
 
 defined('_JEXEC') or die;
 
-if (version_compare(JVERSION, '3.0', '>='))
-{
-	/**
-	 * Renders a link button
-	 *
-	 * @package     RedSHOP.Library
-	 * @subpackage  Toolbar
-	 * @since       1.5
-	 */
-	class JToolbarButtonRedshopLink extends JButtonRedshopLink
-	{
-		protected $joomlaSuffix = 'j3';
-	}
-}
-
 /**
  * Renders a link button
  *
@@ -96,5 +81,20 @@ class JButtonRedshopLink extends JButton
 	protected function _getCommand($url)
 	{
 		return $url;
+	}
+}
+
+if (version_compare(JVERSION, '3.0', '>='))
+{
+	/**
+	 * Renders a link button
+	 *
+	 * @package     RedSHOP.Library
+	 * @subpackage  Toolbar
+	 * @since       1.5
+	 */
+	class JToolbarButtonRedshopLink extends JButtonRedshopLink
+	{
+		protected $joomlaSuffix = 'j3';
 	}
 }
