@@ -1935,6 +1935,11 @@ class order_functions
 			JPluginHelper::importPlugin('redshop_payment');
 			JDispatcher::getInstance()->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
+			$app->redirect(
+				JURI::base()
+				. "index.php?option=com_redshop&view=order_detail&task=edit&cid[]="
+				. $row->order_id
+			);
 		}
 		else
 		{
