@@ -23,7 +23,9 @@
 			<fieldset name="basic">
 				<field
 					name="shippment_invoice_template"
-					type="codemirror|none"
+					type="editor"
+					editor="codemirror|none"
+					filter="raw"
 					syntax="php"
 					buttons="no"
 					required="true"
