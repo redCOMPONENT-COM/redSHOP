@@ -30,7 +30,7 @@ class RedshopViewStockroom_listing extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_STOCKROOM_LISTING'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM_LISTING_MANAGEMENT'), 'redshop_stockroom48');
-		JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'Export Data', false);
+		RedshopToolbarHelper::link('index.php?option=com_redshop&view=stockroom_listing&format=csv', 'save', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'));
 		JToolBarHelper::custom('print_data', 'save.png', 'save_f2.png', 'Print Data', false);
 
 		$this->state = $this->get('State');
@@ -64,9 +64,30 @@ class RedshopViewStockroom_listing extends RedshopView
 		$lists ['order']     = $this->state->get('list.ordering', 'p.product_id');
 		$lists ['order_Dir'] = $this->state->get('list.direction');
 
-		$resultlisting = $this->get('Data');
+		$resultlisting = $this->get('Items');
 		$stockroom     = $this->get('Stockroom');
 		$pagination    = $this->get('Pagination');
+		$model = $this->getModel('stockroom_listing');
+		$ids = array();
+
+		if ($resultlisting)
+		{
+			if ($stockroom_type != 'product')
+			{
+				$nameId = 'section_id';
+			}
+			else
+			{
+				$nameId = 'product_id';
+			}
+
+			foreach ($resultlisting as $item)
+			{
+				$ids[] = $item->$nameId;
+			}
+		}
+
+		$this->quantities = $model->getQuantity($stockroom_type, '', $ids);
 
 		$this->lists = $lists;
 		$this->resultlisting = $resultlisting;
