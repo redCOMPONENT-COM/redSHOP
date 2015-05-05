@@ -197,7 +197,7 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 					</td>
 				<?php endif; ?>
 
-				<?php for ($j = 0; $j < count($this->stockroom); $j++) : ?>
+				<?php for ($j = 0, $countStockRoom = count($this->stockroom); $j < $countStockRoom; $j++) : ?>
 
 				<?php
 					$quantity         = 0;
@@ -205,11 +205,9 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 					$ordered_preorder = 0;
 					$section_id       = ($this->stockroom_type != 'product') ? $row->section_id : $row->product_id;
 
-					$secrow = $model->getQuantity($this->stockroom_type, $this->stockroom[$j]->stockroom_id, $section_id);
-
-					if (count($secrow) > 0)
+					if (isset($this->quantities[$section_id . '.' . $this->stockroom[$j]->stockroom_id]))
 					{
-						$secrow           = $secrow[0];
+						$secrow           = $this->quantities[$section_id . '.' . $this->stockroom[$j]->stockroom_id];
 						$quantity         = $secrow->quantity;
 						$preorder_stock   = $secrow->preorder_stock;
 						$ordered_preorder = $secrow->ordered_preorder;
