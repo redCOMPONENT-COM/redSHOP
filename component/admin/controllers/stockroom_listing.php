@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerStockroom_listing extends RedshopController
+/**
+ * Class RedshopControllerStockroom_listing
+ *
+ * @since  1.5
+ */
+class RedshopControllerStockroom_listing extends RedshopControllerAdmin
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
-
 	public function saveStock()
 	{
 		$model = $this->getModel('stockroom_listing');
@@ -46,64 +45,6 @@ class RedshopControllerStockroom_listing extends RedshopController
 		$model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid);
 
 		$this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
-	}
-
-	public function export_data()
-	{
-		$model = $this->getModel('stockroom_listing');
-		$cid = JRequest::getVar('category_id');
-
-		/* Start output to the browser */
-		if (preg_match('Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "Opera";
-		}
-		elseif (preg_match('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "IE";
-		}
-		else
-		{
-			$UserBrowser = '';
-		}
-
-		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
-
-		/* Clean the buffer */
-		while (@ob_end_clean()) ;
-
-		header('Content-Type: ' . $mime_type);
-		header('Content-Encoding: UTF-8');
-		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-
-		if ($UserBrowser == 'IE')
-		{
-			header('Content-Disposition: inline; filename=StockroomProduct.csv');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
-		}
-		else
-		{
-			header('Content-Disposition: attachment; filename=StockroomProduct.csv');
-			header('Pragma: no-cache');
-		}
-
-		echo "Stockroom_Id,Stockroom_Name";
-		echo ",Product_SKU,Product_Name,Quantity,M3\n\n";
-
-		$product_ids = 0;
-
-		if ($cid != "" && $cid != 0)
-		{
-			$product_list = $model->getProductIdsfromCategoryid($cid);
-
-			for ($p = 0; $p < count($product_list); $p++)
-			{
-				$product_ids = implode(",", $product_list);
-			}
-		}
-
-		exit;
 	}
 
 	public function print_data()
