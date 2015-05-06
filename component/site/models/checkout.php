@@ -529,8 +529,7 @@ class RedshopModelCheckout extends RedshopModel
 		$this->deleteOrdernumberTrack();
 
 		// Generate Invoice Number for confirmed credit card payment
-		if ($is_creditcard
-			&& 'C' == $row->order_status
+		if ('C' == $row->order_status
 			&& 'Paid' == $row->order_payment_status)
 		{
 			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
