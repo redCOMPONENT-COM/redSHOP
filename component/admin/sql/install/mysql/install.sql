@@ -631,7 +631,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
 	KEY `idx_barcode` (`barcode`),
 	KEY `idx_order_payment_status` (`order_payment_status`),
 	KEY `idx_order_status` (`order_status`),
-	KEY `vm_order_number` (`vm_order_number`)
+	KEY `vm_order_number` (`vm_order_number`),
+	KEY `idx_orders_invoice_number` (`invoice_number`),
+	KEY `idx_orders_invoice_number_chrono` (`invoice_number_chrono`)
 )
 	ENGINE =InnoDB
 	DEFAULT CHARSET =utf8
