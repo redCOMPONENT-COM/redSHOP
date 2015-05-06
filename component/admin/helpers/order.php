@@ -90,6 +90,8 @@ class order_functions
 		$db->setQuery($query);
 		$db->execute();
 
+		RedshopHelperOrder::generateInvoiceNumber($order_id);
+
 		$query = "SELECT p.element,op.order_transfee,op.order_payment_trans_id,op.order_payment_amount FROM #__extensions AS p " . "LEFT JOIN "
 			. "#__redshop_order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id = "
 			. (int) $order_id . " " . "AND p.folder='redshop_payment' ";
@@ -437,6 +439,13 @@ class order_functions
 				. ", order_payment_status = " . $db->quote($data->order_payment_status_code) . " where order_id = " . (int) $order_id;
 			$db->SetQuery($query);
 			$db->execute();
+
+			// Generate Invoice Number
+			if ("C" == $data->order_status_code
+				&& "Paid" == $data->order_payment_status_code)
+			{
+				RedshopHelperOrder::generateInvoiceNumber($order_id);
+			}
 
 			if (!isset($data->transfee))
 			{
@@ -1638,30 +1647,10 @@ class order_functions
 		{
 			$maxId = ($maxId + FIRST_INVOICE_NUMBER + 1);
 
-			$format = sprintf("%06d", $maxId);
-			$order_number = str_replace("XXXXXX", $format, INVOICE_NUMBER_TEMPLATE);
-			$order_number = str_replace("xxxxxx", $format, INVOICE_NUMBER_TEMPLATE);
-			$order_number = str_replace("######", $format, INVOICE_NUMBER_TEMPLATE);
-
-			$format = sprintf("%05d", $maxId);
-			$order_number = str_replace("XXXXX", $format, $order_number);
-			$order_number = str_replace("xxxxx", $format, $order_number);
-			$order_number = str_replace("#####", $format, $order_number);
-
-			$format = sprintf("%04d", $maxId);
-			$order_number = str_replace("XXXX", $format, $order_number);
-			$order_number = str_replace("xxxx", $format, $order_number);
-			$order_number = str_replace("####", $format, $order_number);
-
-			$format = sprintf("%03d", $maxId);
-			$order_number = str_replace("XXX", $format, $order_number);
-			$order_number = str_replace("xxx", $format, $order_number);
-			$order_number = str_replace("###", $format, $order_number);
-
-			$format = sprintf("%02d", $maxId);
-			$order_number = str_replace("XX", $format, $order_number);
-			$order_number = str_replace("xx", $format, $order_number);
-			$order_number = str_replace("##", $format, $order_number);
+			$order_number = RedshopHelperOrder::parseNumberTemplate(
+							INVOICE_NUMBER_TEMPLATE,
+							$maxId
+						);
 
 			return $order_number;
 		}

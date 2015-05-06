@@ -161,6 +161,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<td><?php echo $this->detail->order_number; ?></td>
 				</tr>
 				<tr>
+					<td><?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER'); ?>:</td>
+					<td><?php echo $this->detail->invoice_number; ?></td>
+				</tr>
+				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ORDER_DATE'); ?>:</td>
 					<td><?php echo $config->convertDateFormat($this->detail->cdate); ?></td>
 				</tr>
