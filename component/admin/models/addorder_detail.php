@@ -872,11 +872,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$checkOrderStatus = 1;
 
 		if ($postdata['payment_method_class'] == "rs_payment_banktransfer"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer_discount"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer2"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer3"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer4"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer5")
+			|| $postdata['payment_method_class'] == "rs_payment_banktransfer_discount")
 		{
 			$checkOrderStatus = 0;
 		}

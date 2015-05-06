@@ -38,7 +38,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
 		$I->fillField(\VoucherManagerPage::$voucherLeft, $count);
 		$I->click('Save & Close');
-		$I->see("Voucher details saved");
+		$I->see("Voucher details saved", '.alert-success');
 		$I->click("ID");
 		$I->see($code, \VoucherManagerPage::$voucherResultRow);
 		$I->click("ID");
@@ -63,7 +63,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
 		$I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click('Save & Close');
-		$I->see("Voucher details saved");
+		$I->see("Voucher details saved", '.alert-success');
 		$I->see($voucherNewCode, \VoucherManagerPage::$voucherResultRow);
 		$I->click("ID");
 	}

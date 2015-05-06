@@ -112,7 +112,7 @@ class Cron
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -164,7 +164,7 @@ class Cron
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
@@ -228,7 +228,7 @@ class Cron
 						$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 
-						$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+						$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 						if ($sent == 1)
 						{
@@ -341,7 +341,7 @@ class Cron
 					$token        = substr($better_token, 0, 10);
 					$body         = str_replace("{coupon_code}", $token, $body);
 					$body         = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent         = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent         = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -391,7 +391,7 @@ class Cron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent           = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent           = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
 					$db->execute();
@@ -425,7 +425,7 @@ class Cron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent           = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent           = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
 					$db->execute();
@@ -485,7 +485,7 @@ class Cron
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -526,7 +526,7 @@ class Cron
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -578,7 +578,7 @@ class Cron
 					$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
@@ -643,7 +643,7 @@ class Cron
 						$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 
-						$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+						$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 						if ($sent == 1)
 						{

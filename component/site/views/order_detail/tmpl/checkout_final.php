@@ -42,8 +42,7 @@ if ($order->order_total > 0 && !USE_AS_CATALOG)
 		$adminpath        = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
-		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-		$billingaddresses = $order_functions->getBillingAddress($order->user_id);
+		$billingaddresses = $order_functions->getOrderBillingUserInfo($order->order_id);
 
 		if (isset($billingaddresses))
 		{

@@ -23,8 +23,10 @@ $payPalInformation = array(
 );
 $payPalInformation2 = array(
 	"username" => "alexis@redcomponent.com",
-	"password" => "reddieSTUFF11",
-	"email" => "jacobo@redcomponent.com",
+	//"password" => "reddieSTUFF11",
+	//"email" => "jacobo@redcomponent.com",
+	"password" => "I10v3redK0mpont#",
+	"email" => "alexis-buyer@redcomponent.com",
 	"email2" => "alexis-facilitator@redcomponent.com"
 );
 $I = new AcceptanceTester\PayPalPluginManagerJoomla3Steps($scenario);
