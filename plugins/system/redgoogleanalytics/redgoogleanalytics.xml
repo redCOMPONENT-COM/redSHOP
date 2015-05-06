@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" client="site" type="plugin" group="system" method="upgrade">
-    <name>Analytics Plugin - redSHOP Google Analytics</name>
-    <version>1.2</version>
+<extension version="3.0" client="site" type="plugin" group="system" method="upgrade">
+    <name>PLG_SYS_REDGOOGLEANALYTICS</name>
+    <version>1.5</version>
+    <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Allows page tracking view Google API For Joomla</description>
+    <description>PLG_SYS_REDGOOGLEANALYTICS_DESCRIPTION</description>
     <files>
         <filename plugin="redgoogleanalytics">redgoogleanalytics.php</filename>
     </files>
-
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_redgoogleanalytics.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_redgoogleanalytics.sys.ini</language>
+    </languages>
 </extension>

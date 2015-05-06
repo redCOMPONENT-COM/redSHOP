@@ -40,8 +40,8 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\TextLibraryManagerJoomla3Page::$sectionDropDown);
 		$I->click($textLibraryManagerPage->section($textTagSection));
 		$I->click('Save & Close');
-		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, 60);
-		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage);
+		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, 60, '.alert-success');
+		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
 		$I->click('ID');
 		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
 		$I->click('ID');
@@ -68,8 +68,8 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\TextLibraryManagerJoomla3Page::$textTagName, 30);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagName, $newTextTagName);
 		$I->click('Save & Close');
-		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage);
-		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage);
+		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, 60, '.alert-success');
+		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
 		$I->see($newVerifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
 		$I->click('ID');
 	}

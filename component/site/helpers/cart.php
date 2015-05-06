@@ -2945,7 +2945,7 @@ class rsCarthelper
 
 		$txtextra_info = '';
 
-		if ($paymentmethod_detail->element == "rs_payment_banktransfer" || $paymentmethod_detail->element == "rs_payment_banktransfer_discount" || $paymentmethod_detail->element == "rs_payment_banktransfer2" || $paymentmethod_detail->element == "rs_payment_banktransfer3" || $paymentmethod_detail->element == "rs_payment_banktransfer4" || $paymentmethod_detail->element == "rs_payment_banktransfer5")
+		if ($paymentmethod_detail->element == "rs_payment_banktransfer" || $paymentmethod_detail->element == "rs_payment_banktransfer_discount")
 		{
 			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment/'
 				. $paymentmethod_detail->element . '/' . $paymentmethod_detail->element . '.xml';
@@ -3331,7 +3331,7 @@ class rsCarthelper
 
 		for ($s = 0; $s < count($shippingmethod); $s++)
 		{
-			if ($shippingmethod[$s]->element == 'australiapost' || $shippingmethod[$s]->element == 'bring' || $shippingmethod[$s]->element == 'ups' || $shippingmethod[$s]->element == 'uspsv4')
+			if ($shippingmethod[$s]->element == 'bring' || $shippingmethod[$s]->element == 'ups' || $shippingmethod[$s]->element == 'uspsv4')
 			{
 				$style = 'block';
 			}
@@ -3864,7 +3864,7 @@ class rsCarthelper
 
 					$is_subscription = false;
 
-					if ($oneMethod->name == 'rs_payment_eantransfer' || $oneMethod->name == 'rs_payment_cashtransfer' || $oneMethod->name == 'rs_payment_banktransfer' || $oneMethod->name == "rs_payment_banktransfer2" || $oneMethod->name == "rs_payment_banktransfer3" || $oneMethod->name == "rs_payment_banktransfer4" || $oneMethod->name == "rs_payment_banktransfer5")
+					if ($oneMethod->name == 'rs_payment_eantransfer' || $oneMethod->name == 'rs_payment_banktransfer')
 					{
 						if ($is_company == 0 && $private_person == 1)
 						{
@@ -4991,18 +4991,6 @@ class rsCarthelper
 								$newquantity = $property_stock + $ownReservePropertyStock;
 							}
 
-							if ($productStock >= 0)
-							{
-								if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
-								{
-									$newquantity = $productStock + $ownProductReserveStock;
-								}
-							}
-							else
-							{
-								$newquantity = $productStock + $ownProductReserveStock;
-							}
-
 							if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)
 							{
 								$newquantity = $productData->max_order_product_quantity;
@@ -5052,30 +5040,6 @@ class rsCarthelper
 								else
 								{
 									$newquantity = $subproperty_stock + $ownSubPropReserveStock;
-								}
-
-								if ($property_stock >= 0)
-								{
-									if ($newquantity > $ownReservePropertyStock && $property_stock < ($newquantity - $ownReservePropertyStock))
-									{
-										$newquantity = $property_stock + $ownReservePropertyStock;
-									}
-								}
-								else
-								{
-									$newquantity = $property_stock + $ownReservePropertyStock;
-								}
-
-								if ($productStock >= 0)
-								{
-									if ($newquantity > $ownProductReserveStock && $productStock < ($newquantity - $ownProductReserveStock))
-									{
-										$newquantity = $productStock + $ownProductReserveStock;
-									}
-								}
-								else
-								{
-									$newquantity = $productStock + $ownProductReserveStock;
 								}
 
 								if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newquantity)

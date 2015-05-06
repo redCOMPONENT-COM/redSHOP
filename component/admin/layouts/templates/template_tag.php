@@ -217,12 +217,6 @@ switch ($name)
 		{giftcard_loop_start} {giftcard_name} {giftcard_desc} {giftcard_readmore} {giftcard_value_lbl} {giftcard_value} {giftcard_price_lbl} {giftcard_price} {giftcard_validity} {giftcard_loop_end}
 		<?php
 		break;
-	case 'letter_search':
-		?>
-		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_LETTER_SEARCH_HINT'); ?></b><br /><br />
-		{product_loop_start} {product_loop_end} {product_thumb_image} {product_name} {searched_tag} {product_price} {form_addtocart:add_to_cart1} {pagination}
-		<?php
-		break;
 	case 'manufacturer':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_MANUFACTURER_HINT'); ?></b><br /><br />

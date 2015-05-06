@@ -691,34 +691,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		if (isset($data['product_navigator']) && count($data['product_navigator']) > 0 && is_array($data['product_navigator']))
-		{
-			$data['product_navigator'] = array_merge(array(), $data['product_navigator']);
-
-			for ($a = 0; $a < count($data['product_navigator']); $a++)
-			{
-				$acc = $data['product_navigator'][$a];
-				$accdetail = $this->getTable('navigator_detail');
-
-				if (!isset($data['copy_product']) || $data['copy_product'] != 1)
-				{
-					$accdetail->navigator_id = $acc['navigator_id'];
-				}
-
-				$accdetail->product_id = $row->product_id;
-				$accdetail->child_product_id = $acc['child_product_id'];
-				$accdetail->navigator_name = $acc['navigator_name'];
-				$accdetail->ordering = $acc['ordering'];
-
-				if (!$accdetail->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-			}
-		}
-
 		$query_rel_del = 'DELETE FROM ' . $this->table_prefix . 'product_related ' . 'WHERE product_id IN ( ' . $row->product_id . ' )';
 		$this->_db->setQuery($query_rel_del);
 
@@ -4466,31 +4438,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		if (!$db->setQuery($query)->execute())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	/**
-	 * Function removenavigator.
-	 *
-	 * @param   int  $navigator_id  navigator_id
-	 *
-	 * @return bool
-	 */
-	public function removenavigator($navigator_id)
-	{
-		$query = 'DELETE FROM ' . $this->table_prefix . 'product_navigator
-				  WHERE navigator_id="' . $navigator_id . '" ';
-		$this->_db->setQuery($query);
-
-		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

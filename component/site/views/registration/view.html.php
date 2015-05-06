@@ -35,6 +35,8 @@ class RedshopViewRegistration extends RedshopView
 		JHtml::script('com_redshop/registration.js', false, true);
 		JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
+		JPluginHelper::importPlugin('redshop_vies_registration');
+
 		$field                        = new extraField;
 
 		$jInput = JFactory::getApplication()->input;

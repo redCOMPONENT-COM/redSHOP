@@ -79,7 +79,7 @@
 				<field
 					name="isTest"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_TEST_MODE"
 					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_TEST_MODE_DESC"
@@ -90,7 +90,7 @@
 				<field
 					name="isDebug"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_DEBUG_MODE"
 					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_DEBUG_MODE_DESC"
@@ -146,73 +146,71 @@
 					type="text"
 					size="10"
 					default="-"
-					label="Payment operand"
-					description="Payment Operand"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_PAYMENT_OPRAND_LBL"
 				/>
 				<field
 					name="payment_price"
 					type="text"
 					size="30"
 					default=""
-					label="Payment price"
-					description="Payment price"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_PAYMENT_PRICE_LBL"
 				/>
 				<field
 					name="payment_discount_is_percent"
 					type="radio"
 					default="1"
-					label="Discount Type: "
-					description="Discount Type"
+					class="btn-group"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_PAYMENT_DISCOUNT_IS_PERCENT_LBL"
 				>
-					<option value="1">Percentage</option>
-					<option value="0">Total</option>
+					<option value="1">PLG_REDSHOP_PAYMENT_QUICKBOOK_PERCENTAGE</option>
+					<option value="0">PLG_REDSHOP_PAYMENT_QUICKBOOK_TOTAL</option>
 				</field>
 				<field
 					name="private_person"
 					type="radio"
 					default="1"
-					label="Show on Private Person"
-					description="Show on Private Person"
+					class="btn-group btn-group-yesno"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_PRIVATE_PERSON_LBL"
 				>
-					<option value="1">Yes</option>
-					<option value="0">No</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="business"
 					type="radio"
 					default="1"
-					label="Show on Business"
-					description="Show on Business"
+					class="btn-group btn-group-yesno"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_BUSINESS_LBL"
 				>
-					<option value="1">Yes</option>
-					<option value="0">No</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="extrafield_payment"
 					type="extrafieldpayment"
 					multiple="multiple"
-					label="Select Extra Field"
-					description="Displays on checkout"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_EXTRAFIELD_PAYMENT_LBL"
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_EXTRAFIELD_PAYMENT_DESC"
 				/>
 				<field
 					name="shopper_group_id"
 					type="shoppergrouplist"
 					default="0"
 					multiple="multiple"
-					label="Select Shopper Group"
-					description="Displays the shopper groups"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_SHOPPER_GROUP_ID_LBL"
+					description="PLG_REDSHOP_PAYMENT_QUICKBOOK_SHOPPER_GROUP_ID_DESC"
 				/>
 				<field
 					name="economic_payment_terms_id"
 					type="text"
 					default=""
-					label="Enter E-conomic Payment Conditions ID"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_ECONOMIC_PAYMENT_TERMS_ID_LBL"
 				/>
 				<field
 					name="economic_design_layout"
 					type="text"
 					default=""
-					label="Enter E-conomic Design and Layout ID"
+					label="PLG_REDSHOP_PAYMENT_QUICKBOOK_ECONOMIC_DESIGN_LAYOUT_LBL"
 				/>
 
 				<!-- Don't remove this hidden field or change value - this is to identify payment gateway is credit card or redirection.  -->

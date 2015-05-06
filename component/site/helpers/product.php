@@ -1175,7 +1175,7 @@ class producthelper
 
 		$commonid = ($suffixid) ? $product_id . '_' . $suffixid : $product_id;
 
-		if ($Product_detail_is_light != 2 && $Product_detail_is_light != 1 && !MAGIC_MAGNIFYPLUS)
+		if ($Product_detail_is_light != 2 && $Product_detail_is_light != 1)
 		{
 			$thum_image = "<img id='main_image" . $commonid . "' src='" . $product_img . "' " . $title . $alt . " />";
 		}
@@ -1184,12 +1184,6 @@ class producthelper
 			if ($Product_detail_is_light == 1)
 			{
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' rel=\"myallimg\">";
-			}
-			elseif (MAGIC_MAGNIFYPLUS)
-			{
-				$cat_product_hover = false;
-				$thum_image        = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage
-					. "' class='MagicMagnifyPlus'>";
 			}
 			elseif (PRODUCT_IS_LIGHTBOX == 1)
 			{
@@ -1542,6 +1536,7 @@ class producthelper
 
 		if ($ProductPriceArr['product_old_price'])
 		{
+			$product_price_percent_discount = 100 - ($ProductPriceArr['product_discount_price'] / $ProductPriceArr['product_old_price'] * 100);
 			$data_add = str_replace("{" . $relPrefix . "product_old_price}", $display_product_old_price, $data_add);
 			$data_add = str_replace("{" . $relPrefix . "product_old_price_lbl}", $product_old_price_lbl, $data_add);
 		}
@@ -3585,13 +3580,25 @@ class producthelper
 		$stockroomhelper     = new rsstockroomhelper;
 		$property_with_stock = array();
 
-		for ($p = 0; $p < count($property); $p++)
+		for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
 		{
-			$isStock = $stockroomhelper->isStockExists($property[$p]->property_id, $section = "property");
-
-			if ($isStock)
+			if ($stockroomhelper->isStockExists($property[$p]->property_id, $section = "property"))
 			{
 				$property_with_stock[] = $property[$p];
+			}
+			else
+			{
+				if ($subPropertyAll = $this->getAttibuteSubProperty(0, $property[$p]->value))
+				{
+					foreach ($subPropertyAll as $subProperty)
+					{
+						if ($stockroomhelper->isStockExists($subProperty->subattribute_color_id, $section = "subproperty"))
+						{
+							$property_with_stock[] = $property[$p];
+							break;
+						}
+					}
+				}
 			}
 		}
 
@@ -3766,34 +3773,6 @@ class producthelper
 			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.child_product_id "
 			. "WHERE p.published = 1 "
 			. $and . $groupby
-			. $orderby;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
-	}
-
-	public function getProductNavigator($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
-	{
-		$orderby = "ORDER BY ordering ASC";
-
-		$and     = "";
-		$groupby = "";
-
-		if ($product_id != 0)
-		{
-			// Sanitize ids
-			$productIds = explode(',', $product_id);
-			JArrayHelper::toInteger($productIds);
-
-			$and .= "AND a.product_id IN (" . implode(',', $productIds) . ") ";
-		}
-
-		$query = "SELECT a.*, p.product_name, p.product_number "
-			. "FROM " . $this->_table_prefix . "product_navigator AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.child_product_id "
-			. "WHERE p.published = 1 "
-			. $and
 			. $orderby;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();

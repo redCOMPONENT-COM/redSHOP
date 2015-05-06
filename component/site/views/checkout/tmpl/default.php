@@ -244,41 +244,17 @@ else
 
 				<div>
 					<table cellspacing="3" cellpadding="0" border="0" width="100%">
-						<?php
-						if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
-						{
-							?>
-							<div id="veis_wait"></div>
-							<tr>
-								<td align="right"><input type="button" class="blackbutton" name="back"
-								                         value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>"
-								                         onclick="javascript:window.history.go(-1);"></td>
-								<td align="left">
-									<input type="submit" class="greenbutton" name="submitbtn"
-									       onclick="return checkveisvalid();"
-									       value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
-								</td>
-							</tr>
-						<?php
-						}
-						else
-						{
-							?>
-							<tr>
-								<td align="right"><input type="button" class="blackbutton" name="back"
-								                         value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>"
-								                         onclick="javascript:window.history.go(-1);"></td>
-								<td align="left">
-									<input type="submit" class="greenbutton" name="submitbtn" id="submitbtn"
-									       value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
-								</td>
-							</tr>
-						<?php
-						}
-						?>
+						<tr>
+							<td align="right"><input type="button" class="blackbutton" name="back"
+								 value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>"
+								 onclick="javascript:window.history.go(-1);"></td>
+							<td align="left">
+								<input type="submit" class="registrationSubmitButton greenbutton" name="submitbtn" id="submitbtn"
+									 value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
+							</td>
+						</tr>
 					</table>
 				</div>
-
 			</div>
 
 			<div class="clr"></div>

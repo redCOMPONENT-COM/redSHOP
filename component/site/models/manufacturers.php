@@ -162,16 +162,21 @@ class RedshopModelManufacturers extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$layout  = $app->input->getCmd('layout', '');
-		$order_by = urldecode($app->input->getCmd('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD));
+		$params = $app->getParams('com_redshop');
+		$order_by = urldecode($app->input->getString('order_by', ''));
 
-		if (($layout == "products" && in_array($order_by, $this->filter_fields_products))
-			|| ($layout != "products" && in_array($order_by, $this->filter_fields_manufacturer)))
+		if ($layout == 'products')
 		{
-			$filter_order = $order_by;
+			$filter_order = 'mn.manufacturer_id';
 		}
 		else
 		{
-			$filter_order = 'mn.manufacturer_id';
+			$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+
+			if (in_array($order_by, $this->filter_fields_manufacturer))
+			{
+				$filter_order = $order_by;
+			}
 		}
 
 		$orderby = " ORDER BY " . $db->escape($filter_order) . ' ';
@@ -303,7 +308,7 @@ class RedshopModelManufacturers extends RedshopModel
 	{
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
-		$order_by = urldecode($app->input->getCmd('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD));
+		$order_by = urldecode($app->input->getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD));
 
 		if (in_array($order_by, $this->filter_fields_products))
 		{

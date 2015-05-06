@@ -33,7 +33,7 @@
                     <option value="0">Total</option>
                 </field>
                 <field name="seller_id" type="text" default=""
-                       label="dibs.com Seller/Vendor ID: " description="DIBS Seller or Vendot ID"/>
+                       label="DIBS Integration ID: " description="DIBS Seller or Vendor ID"/>
                 <field name="dibs_currency" type="list" default="1" label="Currecy: "
                        description="Currency">
                     <option value="DKK" selected="selected">Danish Kroner (DKK)</option>
@@ -61,7 +61,7 @@
                     <option value="0">No</option>
                 </field>
                 <field name="dibs_languages" type="list" default="1"
-                       label="FlexWin Language:" description="Select language for DIBS flexwin">
+                       label="Language:" description="Select language for DIBS interface">
                     <option value="Auto" selected="selected">Auto</option>
                     <option value="da">Danish</option>
                     <option value="sv">Swedish</option>

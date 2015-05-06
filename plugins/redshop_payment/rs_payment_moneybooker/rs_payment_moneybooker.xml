@@ -2,7 +2,7 @@
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment"
            method="upgrade">
     <name>PLG_RS_PAYMENT_MONEYBOOKER</name>
-    <version>1.3.4</version>
+    <version>1.3.5</version>
     <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
@@ -36,8 +36,10 @@
                     <option value="1">Percentage</option>
                     <option value="0">Total</option>
                 </field>
-                <field name="pay_to_email" type="text" default=""
+                <field name="pay_to_email" type="text" required="true" default=""
                        label="Moneybooker Merchant Email:" description="Enter Moneybooker merchange email. "/>
+                 <field name="pay_to_password" type="password" required="true" default=""
+                       label="Moneybooker Merchant Password:" description="Enter Moneybooker merchange Password for refund money. "/>
                 <field name="moneybooker_languages" type="list" default="EN"
                        label="Money Booker Language:" description="Select language for Moneybooker.">
                     <option value="EN">English</option>
@@ -84,6 +86,7 @@
                     <option value="0">No</option>
                 </field>
                 <field name="is_creditcard" type="hidden" default="0" value="0"/>
+                <field name="refund" type="hidden" default="1" value="1"/>
                 <field name="economic_payment_terms_id" type="text" default=""
                        label="Enter E-conomic Payment Conditions ID"/>
                 <field name="economic_design_layout" type="text" default=""
