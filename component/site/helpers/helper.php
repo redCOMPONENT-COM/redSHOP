@@ -259,14 +259,11 @@ class redhelper
 
 			if ($product && is_array($product->categories))
 			{
-				foreach ($product->categories as $oneCategory)
+				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 				{
-					foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $product->categories)))
 					{
-						if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $oneCategory)))
-						{
-							return $oneMenuItem->id;
-						}
+						return $oneMenuItem->id;
 					}
 				}
 			}
