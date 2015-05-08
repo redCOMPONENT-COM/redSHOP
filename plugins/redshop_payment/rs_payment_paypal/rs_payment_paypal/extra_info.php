@@ -63,6 +63,7 @@ $paypalPostData = Array(
 	"item_number"        => $data['order_id'],
 	"invoice"            => $data['order']->order_number,
 	"amount"             => $currencyClass->convert($data['order']->order_total, '', $paymentCurrency),
+	"landing_page"       => "billing",
 	"return"             => $returnUrl,
 	"notify_url"         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
 							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'] . '&key=' . $key,
