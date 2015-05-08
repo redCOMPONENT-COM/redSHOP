@@ -71,9 +71,8 @@ class RedshopModelShipping_detail extends RedshopModel
 			->update($db->qn('#__extensions'))
 			->set('enabled = ' . (int) $data['published'])
 			->where('element = ' . $db->q($data['element']));
-		$db->setQuery($query)->execute();
 
-		if (!$db->execute())
+		if (!$db->setQuery($query)->execute())
 		{
 			$this->setError($db->getErrorMsg());
 
