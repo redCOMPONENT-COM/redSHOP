@@ -33,17 +33,17 @@ else
 	$paypalurl = "https://www.paypal.com/cgi-bin/webscr";
 }
 
+$key = array($data['order_id'], (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
+$key = md5(implode('|', $key));
+
 $returnUrl = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&"
 			. "controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid="
-			. $data['order_id'];
+			. $data['order_id'] . '&key=' . $key;
 
 if (1 == (int) $this->params->get("auto_return"))
 {
 	$returnUrl = $this->params->get("auto_return_url");
 }
-
-$key = array($data['order_id'], (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
-$key = md5(implode('|', $key));
 
 $paypalPostData = Array(
 	"cmd"                => "_cart",
@@ -67,7 +67,7 @@ $paypalPostData = Array(
 							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'] . '&key=' . $key,
 	"night_phone_b"      => substr($data['billinginfo']->phone, 0, 25),
 	"cancel_return"      => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
-							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
+							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'] . '&key=' . $key,
 	"undefined_quantity" => "0",
 	"pal"                => "NRUBJXESJTY24",
 	"no_shipping"        => "0",
