@@ -66,16 +66,16 @@ class RedshopModelShipping_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$query = 'UPDATE #__extensions '
-			. 'SET name="' . $data['name'] . '" '
-			. ',enabled ="' . intval($data['published']) . '" '
-			. 'WHERE element="' . $data['element'] . '" ';
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__extensions'))
+			->set('enabled = ' . (int) $data['published'])
+			->where('element = ' . $db->q($data['element']));
+		$db->setQuery($query)->execute();
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
