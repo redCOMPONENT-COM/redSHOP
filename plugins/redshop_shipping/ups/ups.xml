@@ -2,6 +2,7 @@
 <extension version="2.5" client="site" type="plugin" group="redshop_shipping" method="upgrade">
 	<name>PLG_REDSHOP_SHIPPING_UPS</name>
 	<version>1.5</version>
+	<redshop>1.5</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -14,12 +15,11 @@
 	<files>
 		<filename plugin="ups">ups.php</filename>
 		<filename plugin="ups">ups.cfg.php</filename>
+		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_ups.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_ups.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_shipping_ups.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_shipping_ups.sys.ini</language>
 	</languages>
 	<config addfieldpath="/administrator/components/com_redshop/elements">
 		<fields name="params">
@@ -33,8 +33,8 @@
 					name="extrafield_shipping"
 					type="extrafieldshipping"
 					multiple="multiple"
-					label="Select Extra Field"
-					description="Displays on checkout"
+					label="PLG_REDSHOP_SHIPPING_EXTRAFIELD_SHIPPING_LBL"
+					description="PLG_REDSHOP_SHIPPING_EXTRAFIELD_SHIPPING_DESC"
 				/>
 			</fieldset>
 		</fields>
