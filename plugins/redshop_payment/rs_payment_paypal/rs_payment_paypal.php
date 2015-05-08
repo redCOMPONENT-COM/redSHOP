@@ -51,11 +51,12 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		$order_id       = $request["orderid"];
 		$status         = $request['payment_status'];
 		$tid            = $request['txn_id'];
+		$pending_reason = $request['pending_reason'];
 		$values         = new stdClass;
 		$key = array($order_id, (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
 		$key = md5(implode('|', $key));
 
-		if ($status == 'Completed' && $request['key'] == $key)
+		if (($status == 'Completed' || $pending_reason == 'authorization') && $request['key'] == $key)
 		{
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
@@ -66,8 +67,8 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
-			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PAID');
+			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PAID');
 		}
 
 		$values->transaction_id = $tid;

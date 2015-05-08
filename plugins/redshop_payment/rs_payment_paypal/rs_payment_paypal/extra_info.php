@@ -58,6 +58,7 @@ $paypalPostData = Array(
 	"country"            => $data['billinginfo']->country_2_code,
 	"zip"                => $data['billinginfo']->zipcode,
 	"email"              => $data['billinginfo']->user_email,
+	"paymentaction"      => $this->params->get("action_type"),
 	"rm"                 => '2',
 	"item_number"        => $data['order_id'],
 	"invoice"            => $data['order']->order_number,
