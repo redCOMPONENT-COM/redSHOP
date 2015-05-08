@@ -3274,7 +3274,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				JPluginHelper::importPlugin('redshop_product');
 				$dispatcher = JDispatcher::getInstance();
-				$dispatcher->trigger('afterUpdateStock', array($stockroom_data));
+				$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 			}
 		}
 
@@ -3899,7 +3899,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('afterUpdateStock', array($stockroom_data));
+		$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 
 		return true;
 	}
