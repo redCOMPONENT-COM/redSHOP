@@ -3,9 +3,6 @@ language: php
 php:
   - 5.4
 
-env:
- - GROUP=Joomla3 ENV=joomla3
-
 before_script:
   - phpenv config-add .travis.ini
   - phpenv rehash
@@ -40,14 +37,12 @@ script:
   - cd ..
   - php tests/getjoomla.php
   - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
-  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms2/ /var/www/joomla-cms2 #Add joomla 2 to apache htdocs
   - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms3/ /var/www/joomla-cms3 #Add joomla 3 to apache htdocs
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
   - sudo /etc/init.d/apache2 restart
-  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms2/installation/index.php # Test apache
   - php .travis/traviswebserverckecker.php http://localhost/joomla-cms3/installation/index.php # Test apache
   - php vendor/bin/codecept build
-  - php vendor/bin/codecept run acceptance -g $GROUP --env $ENV --steps
+  - php vendor/bin/codecept run acceptance --debug --steps
   #- php vendor/bin/codecept run acceptance -g Joomla3 --env joomla3
   - php .travis/codeceptionerror2slack.php # Send found errors into redSHOP slackchat
 
