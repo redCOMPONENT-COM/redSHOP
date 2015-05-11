@@ -11,6 +11,4 @@ settings:
 extensions:
     enabled: [Joomla\Tests\TestsPerformance]
     enabled: [InstallationJ2Group]
-    enabled: [Joomla2Group]
-    enabled: [Joomla3Group]
     enabled: [InstallationJ3Group]
