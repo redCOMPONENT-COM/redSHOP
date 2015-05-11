@@ -63,8 +63,8 @@
 					<option value="ILS">PLG_RS_PAYMENT_PAYPAL_ILS</option>
 				</field>
 				<field name="action_type" type="radio" default="sale"
-                       label="Capture method:"
-                       description="Do you want to send the final sales info to paypal or just authorize the card, return to the site and capture the payment later?" class="btn-group">
+                       label="PLG_RS_PAYMENT_PAYPAL_ACTION_TYPE_LBL"
+                       description="PLG_RS_PAYMENT_PAYPAL_ACTION_TYPE_DESC" class="btn-group">
                     <option value="sale">PLG_RS_PAYMENT_PAYPAL_INSTANT_CAPTURE</option>
                     <option value="authorization">PLG_RS_PAYMENT_PAYPAL_AUTHORIZE_ONLY</option>
                 </field>
