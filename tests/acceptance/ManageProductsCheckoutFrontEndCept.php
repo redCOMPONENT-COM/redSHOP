@@ -5,7 +5,6 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-$scenario->group('Joomla3');
 $I = new AcceptanceTester($scenario);
 $I->wantTo('Test Product Checkout on Front End with Bank Transfer');
 $I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
