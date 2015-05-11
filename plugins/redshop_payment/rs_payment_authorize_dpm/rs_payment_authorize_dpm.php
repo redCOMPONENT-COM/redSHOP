@@ -119,12 +119,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		if ($response_code == 1)
 		{
 			$values->order_status_code = $verify_status;
-			$values->order_payment_status_code = 'Unpaid';
-
-			if (isset($tid))
-			{
-				$values->order_payment_status_code = 'Paid';
-			}
+			$values->order_payment_status_code = 'Paid';
 
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
