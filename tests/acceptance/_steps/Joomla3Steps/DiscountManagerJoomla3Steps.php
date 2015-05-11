@@ -30,7 +30,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addDiscount($amount = '100', $discountAmount = '100', $shopperGroup = 'Default Private', $discountType = 'Total')
 	{
 		$I = $this;
-		$config = $I->getConfig();
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$discountManagerPage = new \DiscountManagerJ3Page;
 		$verifyAmount = '$ ' . $amount . ',00';
