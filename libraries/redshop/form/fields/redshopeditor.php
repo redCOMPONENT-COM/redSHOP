@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLoader::import('redshop.library');
 JFormHelper::loadFieldClass('editor');
 
 /**
@@ -29,11 +30,15 @@ class JFormFieldRedshopEditor extends JFormFieldEditor
 	 * Method to get the field input markup for the editor area
 	 *
 	 * @return  string  The field input markup.
-	 *
-	 * @since   11.1
 	 */
 	protected function getInput()
 	{
+		if (!$this->value)
+		{
+			$layoutFile = $this->element['layoutFile'] ? (string) $this->element['layoutFile'] : 'sample';
+			$this->value = RedshopLayoutHelper::render($layoutFile, null, JPATH_SITE . (string) $this->element['basePath']);
+		}
+
 		// Style needed for J2.5
 		return '<div style="float:left;width: 100%;">' . parent::getInput() . '</div>';
 	}
