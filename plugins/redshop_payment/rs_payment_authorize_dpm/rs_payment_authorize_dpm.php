@@ -116,7 +116,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		$invalid_status = $this->params->get('invalid_status', '');
 		$cancel_status  = $this->params->get('cancel_status', '');
 
-		if ($response_code == 1)
+		if (isset($tid) && $response_code == 1)
 		{
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
