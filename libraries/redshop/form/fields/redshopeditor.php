@@ -40,6 +40,7 @@ class JFormFieldRedshopEditor extends JFormFieldEditor
 		}
 
 		// Style needed for J2.5
+		// @todo: remove style in redSHOP 1.6
 		return '<div style="float:left;width: 100%;">' . parent::getInput() . '</div>';
 	}
 }

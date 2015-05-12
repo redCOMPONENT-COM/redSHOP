@@ -37,6 +37,7 @@ class JFormFieldSample extends JFormField
 		$html = RedshopLayoutHelper::render($layoutFile, null, JPATH_SITE . (string) $this->element['basePath']);
 
 		// Style needed for J2.5
+		// @todo: remove style in redSHOP 1.6
 		return '<pre style="float: left;width: 100%;">' . htmlentities($html) . '</pre>';
 	}
 }
