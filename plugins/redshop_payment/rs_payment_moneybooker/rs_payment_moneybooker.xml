@@ -15,8 +15,7 @@
 	<authorUrl>http://www.redcomponent.com</authorUrl>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU General Public License v2</license>
-	<description>This plugin enables standard Money Booker payments
-	</description>
+	<description>PLG_RS_PAYMENT_MONEYBOOKER_DESC</description>
 	<files>
 		<filename plugin="rs_payment_moneybooker">rs_payment_moneybooker.php</filename>
 		<folder>rs_payment_moneybooker</folder>
