@@ -47,11 +47,14 @@ $comment = JRequest::getVar('filter');
 	<div id="editcell">
 		<table width="100%">
 			<tr>
-				<td valign="top" align="right" class="key">
-					<?php echo JText::_('COM_REDSHOP_COUPON_FILTER'); ?>:
-					<input type="text" name="filter" id="filter" value="<?php echo $comment; ?>">
-					<input type="reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-					       onclick="return clearreset();">
+				<td valign="top" class="key">
+					<div class="btn-wrapper input-append">
+						<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+							   placeholder="<?php echo JText::_('COM_REDSHOP_COUPON_FILTER'); ?>">
+						<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+						<input type="reset" class="btn" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+							   onclick="return clearreset();">
+					</div>
 				</td>
 			</tr>
 		</table>
