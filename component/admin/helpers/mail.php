@@ -633,35 +633,12 @@ class redshopMail
 		return $invoice_pdfName;
 	}
 
-	public function sendInvoiceMail($order_id)
+	protected function replaceInvoiceMailTemplate($html, $subject, $type = 'html')
 	{
 		$redconfig         = new Redconfiguration;
 		$producthelper     = new producthelper;
 		$extra_field       = new extra_field;
-
-		$config            = JFactory::getConfig();
-		$message           = "";
-		$subject           = "";
-		$cart              = '';
-		$mailbcc           = null;
 		$arr_discount_type = array();
-
-		$mailinfo          = $this->getMailtemplate(0, "invoicefile_mail");
-
-		if (count($mailinfo) > 0)
-		{
-			$message = $mailinfo[0]->mail_body;
-			$subject = $mailinfo[0]->mail_subject;
-
-			if (trim($mailinfo[0]->mail_bcc) != "")
-			{
-				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
-			}
-		}
-		else
-		{
-			return false;
-		}
 
 		$row           = $this->_order_functions->getOrderDetails($order_id);
 		$barcode_code  = $row->barcode;
@@ -703,7 +680,6 @@ class redshopMail
 
 		$user             = JFactory::getUser();
 		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
-		$email            = $billingaddresses->user_email;
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$search_sub[]     = "{fullname}";
 		$replace_sub[]    = $userfullname;
@@ -718,52 +694,104 @@ class redshopMail
 		$search[]  = "{invoice_number}";
 		$replace[] = $row->invoice_number;
 
-		$message   = str_replace($search, $replace, $message);
+		$html   = str_replace($search, $replace, $html);
 
-		$message   = $this->imginmail($message);
-		$message   = $this->_carthelper->replaceOrderTemplate($row, $message);
-		$message   = str_replace("{firstname}", $billingaddresses->firstname, $message);
-		$message   = str_replace("{lastname}", $billingaddresses->lastname, $message);
-		$body      = $message;
-		$body1     = $message;
-		$img_url1  = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
-		$img_url   = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
+		$html   = $this->imginmail($html);
+		$html   = $this->_carthelper->replaceOrderTemplate($row, $html);
+		$html   = str_replace("{firstname}", $billingaddresses->firstname, $html);
+		$html   = str_replace("{lastname}", $billingaddresses->lastname, $html);
 
-		// For pdf
 		if (function_exists("curl_init"))
 		{
-			$bar_codeIMG  = '<img src="' . $img_url . '" alt="Barcode"  border="0" />';
-			$body         = str_replace("{barcode}", $bar_codeIMG, $body);
-
-			// For mail
-			$bar_codeIMG1 = '<img src="' . $img_url1 . '" alt="Barcode"  border="0" />';
-			$body1        = str_replace("{barcode}", $bar_codeIMG1, $body1);
+			if ('pdf' == $type)
+			{
+				$barcodeImageUrl = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $row->barcode . ".png";
+				$barcodeImage    = '<img src="' . $barcodeImageUrl . '" alt="Barcode"  border="0" />';
+				$html         = str_replace("{barcode}", $barcodeImage, $html);
+			}
+			else
+			{
+				$barcodeImageUrl = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $row->barcode . ".png";
+				$barcodeImage    = '<img src="' . $barcodeImageUrl . '" alt="Barcode"  border="0" />';
+				$html         = str_replace("{barcode}", $barcodeImage, $html);
+			}
 		}
 
-		$message = $this->_carthelper->replaceOrderTemplate($row, $message);
+		$html = $this->_carthelper->replaceOrderTemplate($row, $html);
+
+		$object = new stdClass;
+		$object->subject = $subject;
+		$object->body    = $html;
+
+		return $object;
+	}
+
+	public function sendInvoiceMail($order_id)
+	{
+		$config            = JFactory::getConfig();
+		$message           = "";
+		$subject           = "";
+		$mailbcc           = null;
+		$arr_discount_type = array();
+
+		$mailinfo          = $this->getMailtemplate(0, "invoice_mail");
+
+		if (count($mailinfo) > 0)
+		{
+			$message = $mailinfo[0]->mail_body;
+			$subject = $mailinfo[0]->mail_subject;
+
+			if (trim($mailinfo[0]->mail_bcc) != "")
+			{
+				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
+			}
+		}
+		else
+		{
+			return false;
+		}
+
+		$mailTemplate = $this->replaceInvoiceMailTemplate($message, $subject);
+		$mailBody     = $mailTemplate->body;
+		$subject      = $mailTemplate->subject;
+
+		$pdfTemplateFile = $this->getMailtemplate(0, "invoicefile_mail");
+
+		// Init PDF template body
+		$pdfTemplate = $mailBody;
+
+		// Set actual PDF template if found
+		if (count($pdfTemplateFile) > 0)
+		{
+			$pdfTemplate = $this->replaceInvoiceMailTemplate($pdfTemplateFile[0]->mail_body, '', 'pdf')->body;
+		}
+
 		ob_clean();
 
 		echo "<div id='redshopcomponent' class='redshop'>";
 
 		$pdfObj = RedshopHelperPdf::getInstance();
-		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $row->order_id);
+		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $order_id);
 		$pdfObj->SetMargins(15, 15, 15);
 		$pdfObj->setHeaderFont(array('times', '', 10));
 		$pdfObj->AddPage();
-		$pdfObj->WriteHTML($body, true, false, true, false, '');
+		$pdfObj->WriteHTML($pdfTemplate, true, false, true, false, '');
 
-		$invoice_pdfName = $row->order_id;
+		$invoice_pdfName = $order_id;
 
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-		$invoice_attachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf";
+		$invoiceAttachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf";
 
 		// Set the e-mail parameters
 		$from     = $config->get('mailfrom');
 		$fromname = $config->get('fromname');
 
+		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
+		$email            = $billingaddresses->user_email;
+
 		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
 		{
-			if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
+			if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $mailBody, 1, null, $mailbcc, $invoiceAttachment))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
@@ -775,7 +803,7 @@ class redshopMail
 		{
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
 
-			if (!JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
+			if (!JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $mailBody, 1, null, $mailbcc, $invoiceAttachment))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
