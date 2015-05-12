@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDSHOP_SEARCH</name>
-	<version>1.5</version>
-	<redshop>1.5</redshop>
+	<version>1.5.0.6</version>
+	<redshop>1.5.0.6</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -38,7 +38,7 @@
 					   default="0"
 					   label="COM_REDSHOP_SELECT_TEMPLATE_LBL"
 					   description="COM_REDSHOP_SELECT_TEMPLATE_DESC"
-					   addfieldpath="/administrator/components/com_redshop/elements"/>
+					   addfieldpath="/libraries/redshop/form/fields"/>
 				<field name="productperpage"
 					   type="text"
 					   default=""
@@ -68,7 +68,7 @@
 					   default=""
 					   label="COM_REDSHOP_DEFAULT_SEARCH_TYPE_LBL"
 					   description="COM_REDSHOP_DEFAULT_SEARCH_TYPE_DESC"
-					   addfieldpath="/administrator/components/com_redshop/elements"/>
+					   addfieldpath="/libraries/redshop/form/fields"/>
 				<field name="showSearchTypeField"
 					   type="radio"
 					   default="yes"

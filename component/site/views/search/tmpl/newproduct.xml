@@ -6,7 +6,7 @@
         </message>
     </layout>
 
-    <fields name="request" addfieldpath="/administrator/components/com_redshop/elements">
+    <fields name="request" addfieldpath="/libraries/redshop/form/fields">
         <fieldset name="request">
             <field name="categorytemplate" type="redshopcategory" label="Select Category" required="true"
                        description="Displays the selected category product"/>
