@@ -7,8 +7,8 @@
 	method="upgrade"
 >
 	<name>PLG_REDSHOP_PAYMENT_KLARNA</name>
-	<version>1.0</version>
-	<redshop>1.5</redshop>
+	<version>1.0.1</version>
+	<redshop>1.5.0.6</redshop>
 	<creationDate>March 2015</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -27,8 +27,8 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.sys.ini</language>
 	</languages>
 
-	<config addfieldpath="/administrator/components/com_redshop/elements">
-		<fields name="params" addfieldpath="/libraries/redshop/form/fields">
+	<config addfieldpath="/libraries/redshop/form/fields">
+		<fields name="params">
 			<fieldset name="basic">
 				<field
 					name="merchantId"

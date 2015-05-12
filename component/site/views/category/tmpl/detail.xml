@@ -6,7 +6,7 @@
         </message>
     </layout>
 
-    <fields name="request" addfieldpath="/administrator/components/com_redshop/elements">
+    <fields name="request" addfieldpath="/libraries/redshop/form/fields">
         <fieldset name="request">
             <field name="cid" type="redshopcategory" label="Select Category" required="true"
                        description="Displays the selected category product"/>
@@ -15,7 +15,7 @@
         </fieldset>
     </fields>
 
-    <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+    <fields name="params" addfieldpath="/libraries/redshop/form/fields">
         <fieldset name="basic">
             <field name="order_by" type='orderbyproduct' label="Product Sorting"
                        description="Select Product Sorting"/>

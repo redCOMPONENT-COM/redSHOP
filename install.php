@@ -1209,14 +1209,20 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
+		if (version_compare($this->getOldParam('version'), '1.5.0.5', '<='))
+		{
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '1.5.0.4.3', '<='))
 		{
 			array_push(
 				$files,
 				JPATH_ADMINISTRATOR . '/components/com_redshop/tables/navigator_detail.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_detail/tmpl/default_product_dropdown.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/consignornumber.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/shippingmethod.php'
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_detail/tmpl/default_product_dropdown.php'
 			);
 		}
 
@@ -1224,7 +1230,11 @@ class Com_RedshopInstallerScript
 		{
 			array_push(
 				$folders,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system'
+			);
+
+			array_push(
+				$files,
 				JPATH_SITE . '/components/com_redshop/views/category/tmpl/searchletter.php'
 			);
 		}
@@ -1259,8 +1269,6 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/product_container.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/category.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/plugins.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/subinstall.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container_detail.php',
