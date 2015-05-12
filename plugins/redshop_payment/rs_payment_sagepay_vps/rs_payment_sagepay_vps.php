@@ -9,14 +9,34 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
+/**
+ * Class PlgRedshop_Paymentrs_Payment_Sagepay_Vps
+ *
+ * @since  1.5
+ */
+class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 {
+	protected $autoloadLanguage = true;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_sagepay_vps');
+		parent::__construct($subject, $config);
+	}
+
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
 	public function onPrePayment($element, $data)
 	{
-		$config = new Redconfiguration;
 		$currencyClass = new CurrencyHelper;
 
 		// Get user billing information
@@ -33,12 +53,15 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		}
 
 		// Get params from plugin
-		$sagepay_vps_vendorname       = $this->params->get('sagepay_vendorname', '');
+		$strVendorName       = $this->params->get('sagepay_vendorname', '');
 		$payment_method               = $this->params->get('payment_method', '');
 		$sagepay_vps_transaction_type = $this->params->get('sagepay_vps_transaction_type', 'PAYMENT');
-		$order_desc                   = $this->params->get('order_desc', '');
+		$order_desc                   = $this->params->get('order_desc', JText::_('COM_REDSHOP_ORDER_ID_LBL') . ":" . $data['order_id']);
 		$sagepay_vps_test_status      = $this->params->get('sagepay_vps_test_status', '');
 		$sagepay_3dsecure             = $this->params->get('sagepay_3dsecure', '0');
+		$app              = JFactory::getApplication();
+		$input            = $app->input;
+		$Itemid           = $input->getInt('Itemid');
 
 		if ($this->params->get("currency"))
 		{
@@ -88,7 +111,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 
 		// PAYMENT by default.  You can change this in the includes file
 		$strPost = $strPost . "&TxType=" . $sagepay_vps_transaction_type;
-		$strPost = $strPost . "&Vendor=" . $sagepay_vps_vendorname;
+		$strPost = $strPost . "&Vendor=" . $strVendorName;
 
 		// As generated above
 		$strPost = $strPost . "&VendorTxCode=" . $strVendorTxCode;
@@ -213,6 +236,8 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		{
 			$returnURL = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_sagepay_vps&Itemid=$Itemid&orderid=" . $data['order_id'];
 
+			$values = new stdClass;
+
 			// Update the database and redirect the user appropriately
 			if ($strStatus == "OK" || $strStatus == "AUTHENTICATED" || $strStatus == "REGISTERED")
 			{
@@ -267,6 +292,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$order_id       = $request['orderid'];
 		$transresult    = $request['responsestatus'];
 		$message        = $request['responsemessage'];
+		$values = new stdClass;
 
 		if ($transresult == "success")
 		{
