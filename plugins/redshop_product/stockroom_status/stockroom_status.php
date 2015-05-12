@@ -54,7 +54,10 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 			return;
 		}
 
-		$mailData = $this->params->get('template', '');
+		$mailData = $this->params->get(
+			'template',
+			RedshopLayoutHelper::render('sample', null, JPATH_PLUGINS . '/redshop_product/stockroom_status/layouts')
+		);
 
 		if (!(strstr($mailData, "{product_loop_start}") && strstr($mailData, "{product_loop_end}")))
 		{
