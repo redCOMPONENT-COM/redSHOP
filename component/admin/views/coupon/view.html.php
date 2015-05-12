@@ -28,8 +28,6 @@ class RedshopViewCoupon extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$context = 'coupon_id';
-
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -45,6 +43,7 @@ class RedshopViewCoupon extends RedshopView
 		$uri = JFactory::getURI();
 		$context = "rating";
 
+		$state = $this->get('State');
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'coupon_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
@@ -59,6 +58,7 @@ class RedshopViewCoupon extends RedshopView
 		$this->coupons = $coupons;
 		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
+		$this->filter      = $state->get('filter');
 
 		parent::display($tpl);
 	}
