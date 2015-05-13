@@ -23,9 +23,9 @@ before_script:
   - "fluxbox &"
 
   # Selenium server
-  - wget http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar -O selenium-server-standalone.jar
-  - "java -jar selenium-server-standalone.jar > /dev/null 2>/dev/null &"
-  - sh .travis/wait4selenium.sh
+  #- wget http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar -O selenium-server-standalone.jar
+  #- "java -jar selenium-server-standalone.jar > /dev/null 2>/dev/null &"
+  #- sh .travis/wait4selenium.sh
 
 
 script:
@@ -35,16 +35,15 @@ script:
   - cd tests/
   - composer update
   - cd ..
-  - php tests/getjoomla.php
-  - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
-  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms3/ /var/www/joomla-cms3 #Add joomla 3 to apache htdocs
+  - php vendor/bin/robo prepare:site-for-system-tests
+  - sudo chmod 777 -R $TRAVIS_BUILD_DIR
+  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/joomla-cms3/ /var/www/joomla-cms3 #Add joomla 3 to apache htdocs
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
   - sudo /etc/init.d/apache2 restart
   - php .travis/traviswebserverckecker.php http://localhost/joomla-cms3/installation/index.php # Test apache
-  - php vendor/bin/codecept build
-  - php vendor/bin/codecept run acceptance --debug --steps
+  - php vendor/bin/robo run:tests
   #- php vendor/bin/codecept run acceptance -g Joomla3 --env joomla3
-  - php .travis/codeceptionerror2slack.php # Send found errors into redSHOP slackchat
+  - php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
 
 
 notifications:
