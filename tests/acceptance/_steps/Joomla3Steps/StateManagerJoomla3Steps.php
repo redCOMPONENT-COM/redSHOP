@@ -66,8 +66,8 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeInSelenium(
 			function(\WebDriver $webdriver)
 			{
-				$config = $this->getConfig();
-				$webdriver->get($config['host'] . \StateManagerJ3Page::$URL);
+				$host = $this->getConfig('host');
+				$webdriver->get($host . \StateManagerJ3Page::$URL);
 				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
 				$element->clear();
 			}
@@ -84,8 +84,8 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeInSelenium(
 			function(\WebDriver $webdriver)
 			{
-				$config = $this->getConfig();
-				$webdriver->get($config['host'] . \StateManagerJ3Page::$URL);
+				$host = $this->getConfig('host');
+				$webdriver->get($host . \StateManagerJ3Page::$URL);
 				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
 				$element->clear();
 			}
@@ -109,8 +109,8 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeInSelenium(
 			function(\WebDriver $webdriver)
 			{
-				$config = $this->getConfig();
-				$webdriver->get($config['host'] . \StateManagerJ3Page::$URL);
+				$host = $this->getConfig('host');
+				$webdriver->get($host . \StateManagerJ3Page::$URL);
 				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
 				$element->clear();
 			}
