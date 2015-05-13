@@ -528,7 +528,7 @@ class adminproducthelper
 		$product_data = array();
 		$product_data[0] = new stdClass;
 		$product_data[0]->value = "0";
-		$product_data[0]->text = JText::_('COM_REDSHOP_SELECT');
+		$product_data[0]->text = JText::_('COM_REDSHOP_SELECT_PUBLISHED');
 
 		$product_data[1] = new stdClass;
 		$product_data[1]->value = "p.published";
