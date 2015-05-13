@@ -31,7 +31,6 @@ $order_id = JRequest::getInt('oid');
 $model = $this->getModel('order_detail');
 
 $order = $this->OrdersDetail;
-$thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEIPT_INTROTEXT);
 ?>
 <?php
 if ($this->params->get('show_page_title', 1))
@@ -55,13 +54,6 @@ if (!ONESTEP_CHECKOUT_ENABLE):
 	</table>
 	<hr/>
 	<?php endif; ?>
-	<div>
-		<?php
-		echo $thankyou_text;
-		?>
-	</div>
-	<br/>
-
 <?php
 
 if (USE_AS_CATALOG)

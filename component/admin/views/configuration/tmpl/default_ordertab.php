@@ -26,32 +26,6 @@ $ord_path = "/components/com_redshop/assets/images/";
 							</tr>
 							<tr>
 								<td align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_DETAILS_INTRO_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_DETAILS_INTRO_LBL'); ?>">
-		<?php echo JText::_('COM_REDSHOP_ORDER_DETAILS_INTRO_LBL');?>:</span>
-								</td>
-								<td>
-									<textarea class="text_area" type="text" name="order_detail_introtext"
-									          id="order_detail_introtext" rows="4"
-									          cols="40"/><?php echo stripslashes(ORDER_DETAIL_INTROTEXT); ?></textarea>
-								</td>
-							</tr>
-
-							<tr>
-								<td align="right" class="key">
-	<span class="editlinktip hasTip"
-	      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_RECEIPT_INTRO_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_RECEIPT_INTRO'); ?>">
-		<?php echo JText::_('COM_REDSHOP_ORDER_RECEIPT_INTRO_LBL'); ?>:</span>
-								</td>
-								<td>
-									<textarea class="text_area" type="text" name="order_receipt_introtext"
-									          id="order_receipt_introtext" rows="4"
-									          cols="40"/><?php echo stripslashes(ORDER_RECEIPT_INTROTEXT); ?></textarea>
-								</td>
-							</tr>
-
-							<tr>
-								<td align="right" class="key">
 	<span class="editlinktip hasTip"
 	      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER'); ?>">
 		<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER_LBL'); ?>:</span>
