@@ -7,39 +7,62 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-defined('_JEXEC') or die;
-$uri = JURI::getInstance();
-$url = $uri->root();
-$ord_path = "/components/com_redshop/assets/images/";
-
 ?>
 <div id="config-document">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_REDSHOP_ORDERS'); ?></legend>
-		<table width="100%" cellpadding="0" cellspacing="0" border="0">
-			<tr valign="top">
-				<td width="50%">
-					<fieldset class="adminform">
-						<table class="admintable">
-							<tr>
-								<td class="config_param"><?php echo JText::_('COM_REDSHOP_ORDER_MAIN_SETTINGS'); ?></td>
-							</tr>
-							<tr>
-								<td align="right" class="key">
-	<span class="editlinktip hasTip"
-	      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER'); ?>">
-		<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER_LBL'); ?>:</span>
-								</td>
-								<td>
-									<?php echo $this->lists ['send_mail_to_customer'];?>
-								</td>
-							</tr>
-
-						</table>
-					</fieldset>
-				</td>
-				<td></td>
-			</tr>
-		</table>
-	</fieldset>
+	<table class="admintable">
+		<tr>
+			<td width="100" align="right" class="key">
+				<span
+					class="editlinktip hasTip"
+					title="<?php echo JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_MAIL_AFTER'); ?>"
+				>
+					<label for="order_mail_after">
+						<?php echo JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL');?>
+					</label>
+				</span>
+			</td>
+			<td><?php echo $this->lists['order_mail_after'];?></td>
+		</tr>
+		<tr>
+			<td width="100" align="right" class="key">
+				<span
+					class="editlinktip hasTip"
+					title="<?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_ENABLE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_MAIL_ENABLE'); ?>"
+				>
+					<label for="invoice_mail_enable">
+						<?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_ENABLE_LBL');?>
+					</label>
+				</span>
+			</td>
+			<td><?php echo $this->lists ['invoice_mail_enable'];?></td>
+		</tr>
+		<tr>
+			<td width="100" align="right" class="key">
+				<span
+					class="editlinktip hasTip"
+				    title="<?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_SEND_OPTION_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_MAIL_SEND_OPTION'); ?>"
+				>
+					<label for="invoice_mail_send_option">
+						<?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_SEND_OPTION_LBL');?>
+					</label>
+				</span>
+			</td>
+			<td><?php echo $this->lists ['invoice_mail_send_option'];?></td>
+		</tr>
+		<tr>
+			<td align="right" class="key">
+				<span
+					class="editlinktip hasTip"
+					title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER'); ?>"
+				>
+					<label for="send_mail_to_customer">
+						<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEND_MAIL_TO_CUSTOMER_LBL');?>
+					</label>
+				</span>
+			</td>
+			<td>
+				<?php echo $this->lists ['send_mail_to_customer'];?>
+			</td>
+		</tr>
+	</table>
 </div>

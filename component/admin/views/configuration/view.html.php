@@ -742,7 +742,7 @@ class RedshopViewConfiguration extends RedshopView
 		$invoice_mail_send_option           = array();
 		$invoice_mail_send_option[0]        = new stdClass;
 		$invoice_mail_send_option[0]->value = 0;
-		$invoice_mail_send_option[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$invoice_mail_send_option[0]->text  = JText::_('COM_REDSHOP_NONE');
 
 		$invoice_mail_send_option[1]        = new stdClass;
 		$invoice_mail_send_option[1]->value = 1;
@@ -756,8 +756,14 @@ class RedshopViewConfiguration extends RedshopView
 		$invoice_mail_send_option[3]->value = 3;
 		$invoice_mail_send_option[3]->text  = JText::_('COM_REDSHOP_BOTH');
 
-		$lists['invoice_mail_send_option'] = JHTML::_('select.genericlist', $invoice_mail_send_option, 'invoice_mail_send_option',
-			'class="inputbox" ', 'value', 'text', INVOICE_MAIL_SEND_OPTION
+		$lists['invoice_mail_send_option'] = JHtml::_(
+			'redshopselect.radiolist',
+			$invoice_mail_send_option,
+			'invoice_mail_send_option',
+			'',
+			'value',
+			'text',
+			INVOICE_MAIL_SEND_OPTION
 		);
 
 		$order_mail_after           = array();
@@ -773,8 +779,14 @@ class RedshopViewConfiguration extends RedshopView
 		$order_mail_after[2]->value = 2;
 		$order_mail_after[2]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
 
-		$lists['order_mail_after'] = JHTML::_('select.genericlist', $order_mail_after, 'order_mail_after',
-			'class="inputbox" ', 'value', 'text', ORDER_MAIL_AFTER
+		$lists['order_mail_after'] = JHtml::_(
+			'redshopselect.radiolist',
+			$order_mail_after,
+			'order_mail_after',
+			'',
+			'value',
+			'text',
+			ORDER_MAIL_AFTER
 		);
 
 		$discount_type           = array();
