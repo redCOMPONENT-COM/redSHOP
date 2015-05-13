@@ -1198,20 +1198,15 @@ class shipping
 	 */
 	public function filter_by_priority($shippingRates)
 	{
-		if ($shippingRates && count($shippingRates))
-		{
-			$priority = array();
+		$shippingRates = array();
 
-			foreach ($shippingRates as $oneRate)
+		for ($i = 0, $j = 0, $ni = count($shippingrate); $i < $ni; $i++)
+		{
+			if ($shippingrate[0]->shipping_rate_priority == $shippingrate[$i]->shipping_rate_priority)
 			{
-				$priority[] = $oneRate->shipping_rate_priority;
+				$shippingRates[$j] = $shippingrate[$i];
+				$j++;
 			}
-
-			array_multisort($priority, SORT_DESC, $shippingRates);
-		}
-		else
-		{
-			$shippingRates = array();
 		}
 
 		return $shippingRates;
