@@ -912,6 +912,11 @@ class Com_RedshopInstallerScript
 			$cfgarr["CATEGORY_TREE_IN_SEF_URL"] = '0';
 		}
 
+		if (!defined("INVOICE_NUMBER_FOR_FREE_ORDER"))
+		{
+			$cfgarr["INVOICE_NUMBER_FOR_FREE_ORDER"] = 0;
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 

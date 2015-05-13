@@ -704,6 +704,7 @@ class Redconfiguration
 
 						"INVOICE_NUMBER_TEMPLATE"                      => $d["invoice_number_template"],
 						"FIRST_INVOICE_NUMBER"                         => $d["first_invoice_number"],
+						"INVOICE_NUMBER_FOR_FREE_ORDER"                => $d["invoice_number_for_free_order"],
 						"DEFAULT_CATEGORY_ORDERING_METHOD"             => $d["default_category_ordering_method"],
 						"DEFAULT_PRODUCT_ORDERING_METHOD"              => $d["default_product_ordering_method"],
 						"DEFAULT_RELATED_ORDERING_METHOD"              => $d["default_related_ordering_method"],
