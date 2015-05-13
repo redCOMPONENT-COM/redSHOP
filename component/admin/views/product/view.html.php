@@ -108,7 +108,7 @@ class RedshopViewProduct extends RedshopView
 		$temps = array();
 		$temps[0] = new stdClass;
 		$temps[0]->id = "0";
-		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT');
+		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT_CATEGORY');
 		$categories1 = @array_merge($temps, $categories1);
 		$lists['category'] = JHTML::_('select.genericlist', $categories1, 'category_id',
 			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $category_id
