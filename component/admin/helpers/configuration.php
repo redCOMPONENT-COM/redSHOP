@@ -641,7 +641,6 @@ class Redconfiguration
 						"REGISTRATION_INTROTEXT"                       => $d["registration_introtext"],
 						"REGISTRATION_COMPANY_INTROTEXT"               => $d["registration_comp_introtext"],
 						"VAT_INTROTEXT"                                => $d["vat_introtext"],
-						"ORDER_LIST_INTROTEXT"                         => $d["order_lists_introtext"],
 						"ORDER_DETAIL_INTROTEXT"                       => $d["order_detail_introtext"],
 						"ORDER_RECEIPT_INTROTEXT"                      => $d["order_receipt_introtext"],
 						"DELIVERY_RULE"                                => $d["delivery_rule"],

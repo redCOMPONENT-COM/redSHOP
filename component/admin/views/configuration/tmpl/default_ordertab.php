@@ -27,18 +27,6 @@ $ord_path = "/components/com_redshop/assets/images/";
 							<tr>
 								<td align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_LISTS_INTRO_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_LISTS_INTRO_LBL'); ?>">
-		<?php echo JText::_('COM_REDSHOP_ORDER_LISTS_INTRO_LBL');?>:</span>
-								</td>
-								<td>
-									<textarea class="text_area" type="text" name="order_lists_introtext"
-									          id="order_lists_introtext" rows="4"
-									          cols="40"/><?php echo stripslashes(ORDER_LIST_INTROTEXT); ?></textarea>
-								</td>
-							</tr>
-							<tr>
-								<td align="right" class="key">
-		<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_DETAILS_INTRO_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_DETAILS_INTRO_LBL'); ?>">
 		<?php echo JText::_('COM_REDSHOP_ORDER_DETAILS_INTRO_LBL');?>:</span>
 								</td>
