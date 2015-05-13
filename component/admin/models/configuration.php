@@ -424,7 +424,6 @@ class RedshopModelConfiguration extends RedshopModel
 		$data["registration_introtext"] = JRequest::getVar('registration_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["registration_comp_introtext"] = JRequest::getVar('registration_comp_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["vat_introtext"] = JRequest::getVar('vat_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["order_lists_introtext"] = JRequest::getVar('order_lists_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["order_detail_introtext"] = JRequest::getVar('order_detail_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["welcomepage_introtext"] = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["order_receipt_introtext"] = JRequest::getVar('order_receipt_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
