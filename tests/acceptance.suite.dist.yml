@@ -36,7 +36,7 @@ modules:
             sample data: 'Default English (GB) Sample Data'    # Default Sample Data
             admin email: 'admin@mydomain.com'      # email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
-            joomla folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms3/' # Path to Joomla installation where we execute the tests
+            joomla folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/tests/joomla-cms3/' # Path to Joomla installation where we execute the tests
         AcceptanceHelper:
             repo folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
             folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
