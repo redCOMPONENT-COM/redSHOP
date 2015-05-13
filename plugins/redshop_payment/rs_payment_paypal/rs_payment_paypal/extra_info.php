@@ -107,16 +107,9 @@ switch ($this->params->get("payment_oprand"))
 }
 
 $items         = $objOrder->getOrderItemDetail($data['order_id']);
-$totalQuantity = 0;
-
-// Calculate total quantity from an order items array
-foreach ($items as $item)
-{
-	$totalQuantity += $item->product_quantity;
-}
 
 // Calculate Total Shipping
-$shipping = $data['order']->order_shipping / $totalQuantity;
+$shipping = $data['order']->order_shipping;
 $paypalCartItems = array();
 
 for ($i = 0, $countItems = count($items); $i < $countItems; $i++)
@@ -135,15 +128,11 @@ for ($i = 0, $countItems = count($items); $i < $countItems; $i++)
 		),
 		2
 	);
-	$paypalCartItems['shipping_' . $index]  = round(
-		$currencyClass->convert(
-			$item->product_quantity * $shipping,
-			'',
-			$paymentCurrency
-		),
-		2
-	);
+
+	$paypalCartItems['shipping_' . $index] = 0;
 }
+
+$paypalCartItems['shipping_1']  = round($currencyClass->convert($shipping, '', $paymentCurrency), 2);
 
 echo '<form action="' . $paypalurl . '" method="post" name="paypalfrm" id="paypalfrm">';
 echo "<h3>" . JText::_('PLG_RS_PAYMENT_PAYPAL_WAIT_MESSAGE') . "</h3>";
