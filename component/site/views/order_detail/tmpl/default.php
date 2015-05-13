@@ -44,7 +44,6 @@ if ($this->params->get('show_page_heading', 1)) : ?>
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS'));?>
 	</div>
 <?php endif; ?>
-<div><?php echo ORDER_DETAIL_INTROTEXT;?></div>
 <?php
 $model          = $this->getModel('order_detail');
 $OrdersDetail   = $this->OrdersDetail;
