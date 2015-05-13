@@ -53,9 +53,14 @@ defined('_JEXEC') or die;
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_DATEFORMAT_LBL'); ?>">
-			<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL');?></span>
+			<span
+				class="editlinktip hasTip"
+			    title="<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_DATEFORMAT_LBL'); ?>"
+			   >
+				<label for="default_dateformat">
+					<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL');?>
+				</label>
+			</span>
 		</td>
 		<td>
 			<?php echo $this->lists ['default_dateformat'];    ?>
@@ -82,32 +87,27 @@ defined('_JEXEC') or die;
 			       value="<?php echo ADMINISTRATOR_EMAIL; ?>">
 		</td>
 	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_MAIL_AFTER'); ?>">
-		<label for="order_mail_after"><?php echo JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['order_mail_after'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_ENABLE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_MAIL_ENABLE'); ?>">
-		<label for="invoice_mail_enable"><?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_ENABLE_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['invoice_mail_enable'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_SEND_OPTION_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_MAIL_SEND_OPTION'); ?>">
-		<label for="invoice_mail_send_option"><?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_SEND_OPTION_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['invoice_mail_send_option'];?></td>
-	</tr>
+
 	<tr>
 		<td colspan="2">
+			<p class="text-warning">
+				<strong>
+				<?php
+					echo JText::sprintf(
+						'COM_REDSHOP_CONFIG_ORDER_FIELD_MOVED_HINT',
+						'<a id="showOrderTab" href="javascript:void(0);">Orders</a>'
+					);
+
+					JFactory::getDocument()->addScriptDeclaration("
+						window.addEvent('domready', function() {
+							$('showOrderTab').addEvent('click', function(){
+							    $$('.tabs .ordertab').fireEvent('click');
+							});
+						});
+					");
+				?>
+				</strong>
+			</p>
 			<hr/>
 		</td>
 	</tr>
