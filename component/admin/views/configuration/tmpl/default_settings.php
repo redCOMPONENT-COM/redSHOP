@@ -95,12 +95,12 @@ defined('_JEXEC') or die;
 				<?php
 					echo JText::sprintf(
 						'COM_REDSHOP_CONFIG_ORDER_FIELD_MOVED_HINT',
-						'<a id="showOrderTab" href="javascript:void(0);">Orders</a>'
+						'<a class="showOrderTab" href="javascript:void(0);">Orders</a>'
 					);
 
 					JFactory::getDocument()->addScriptDeclaration("
 						window.addEvent('domready', function() {
-							$('showOrderTab').addEvent('click', function(){
+							$$('.showOrderTab').addEvent('click', function(){
 							    $$('.tabs .ordertab').fireEvent('click');
 							});
 						});
