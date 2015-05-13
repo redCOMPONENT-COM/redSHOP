@@ -114,6 +114,28 @@ defined('_JEXEC') or die;
 						>
 					</td>
 				</tr>
+				<tr>
+					<td width="100" align="right" class="key">
+						<span
+							class="editlinktip hasTip"
+						    title="<?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER_FOR_FREE_ORDER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_FOR_FREE_ORDER_LBL'); ?>"
+						   >
+							<label for="invoice_number_template">
+								<?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER_FOR_FREE_ORDER_LBL');?>
+							</label>
+						</span>
+					</td>
+					<td>
+						<?php
+							echo JHtml::_(
+								'redshopselect.booleanlist',
+								'invoice_number_for_free_order',
+								'',
+								INVOICE_NUMBER_FOR_FREE_ORDER
+							);
+						?>
+					</td>
+				</tr>
 			</table>
 		</fieldset>
 	</div>
