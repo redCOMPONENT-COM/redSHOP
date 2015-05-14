@@ -25,13 +25,11 @@ $media_id = JRequest::getInt('media_id');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		var form = document.additionaladminForm;
-
-		if (pressbutton == 'save') {
-			form.submit();
+		if (pressbutton == 'save')
+		{
+			document.additionaladminForm.submit();
 			return;
 		}
-
 	}
 
 	function addNewRow(tableRef) {
@@ -61,13 +59,13 @@ $media_id = JRequest::getInt('media_id');
 
 <fieldset class="adminform">
 	<div style="float: right">
-		<button type="button" onclick="submitbutton('save');">
+		<button type="button" onclick="Joomla.submitbutton('save');">
 			<?php
 			echo JText::_('COM_REDSHOP_SAVE');
 			?>
 		</button>
 		<button type="button"
-		        onclick="window.parent.SqueezeBox.close();">
+		        onclick="window.parent.location.reload();window.parent.SqueezeBox.close();">
 			<?php
 			echo JText::_('COM_REDSHOP_CANCEL');
 			?>
