@@ -19,7 +19,7 @@ class RoboFile extends \Robo\Tasks
     /**
      * Current RoboFile version
      */
-    private $version = '1.1';
+    private $version = '1.2';
 
     /**
      * Hello World example task.
@@ -123,7 +123,8 @@ class RoboFile extends \Robo\Tasks
             ->suite('acceptance')
             ->arg('--steps')
             ->arg('--debug')
-            ->run();
+            ->run()
+			->stopOnFail();
 
         // Kill selenium server
         // $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
