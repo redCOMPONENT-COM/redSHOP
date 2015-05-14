@@ -27,11 +27,13 @@ class JFormFieldSample extends JFormField
 	protected $type = 'Sample';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field label markup.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  string  The field label markup.
+	 *
+	 * @since   11.1
 	 */
-	protected function getInput()
+	protected function getLabel()
 	{
 		$layoutFile = $this->element['layoutFile'] ? (string) $this->element['layoutFile'] : 'sample';
 		$html = RedshopLayoutHelper::render($layoutFile, null, JPATH_SITE . (string) $this->element['basePath']);
@@ -39,5 +41,17 @@ class JFormFieldSample extends JFormField
 		// Style needed for J2.5
 		// @todo: remove style in redSHOP 1.6
 		return '<pre style="float: left;width: 100%;">' . htmlentities($html) . '</pre>';
+	}
+
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   11.1
+	 */
+	protected function getInput()
+	{
+		return '';
 	}
 }
