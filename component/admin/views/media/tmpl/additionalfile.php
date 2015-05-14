@@ -9,18 +9,11 @@
 
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
-
 jimport('joomla.filesystem.file');
 
-$uri = JURI::getInstance();
-$url = $uri->root();
+JHtmlBehavior::modal();
 
-$option = JRequest::getVar('option');
-
-$model = $this->getModel('media');
-
-$media_id = JRequest::getInt('media_id');
+$mediaId = JFactory::getApplication()->input->getInt('media_id');
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -32,10 +25,9 @@ $media_id = JRequest::getInt('media_id');
 		}
 	}
 
-	function addNewRow(tableRef) {
-
-		var myTable = document.getElementById(tableRef);
-		var tBody = myTable.getElementsByTagName('tbody')[0];
+	function addNewRow(tableRef)
+	{
+		var tBody = document.getElementById(tableRef).getElementsByTagName('tbody')[0];
 		var newTR = document.createElement('tr');
 		var newTD = document.createElement('td');
 		var newTD1 = document.createElement('td');
@@ -45,49 +37,55 @@ $media_id = JRequest::getInt('media_id');
 		newTR.appendChild(newTD);
 		newTR.appendChild(newTD1);
 		tBody.appendChild(newTR);
-
 	}
 
-
-	//******************************** Delete Poperty Element ******************
-
-	function deleteRow(r) {
-		var i = r.parentNode.parentNode.rowIndex;
-		document.getElementById('admintable').deleteRow(i);
+	// Delete Poperty Element
+	function deleteRow(r)
+	{
+		document.getElementById('admintable').deleteRow(r.parentNode.parentNode.rowIndex);
 	}
 </script>
 
-<fieldset class="adminform">
+<div class="container">
+	<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES');?>
 	<div style="float: right">
 		<button type="button" onclick="Joomla.submitbutton('save');">
-			<?php
-			echo JText::_('COM_REDSHOP_SAVE');
-			?>
+			<?php echo JText::_('COM_REDSHOP_SAVE');?>
 		</button>
-		<button type="button"
-		        onclick="window.parent.location.reload();window.parent.SqueezeBox.close();">
-			<?php
-			echo JText::_('COM_REDSHOP_CANCEL');
-			?>
+		<button
+			type="button"
+		    onclick="window.parent.location.reload();window.parent.SqueezeBox.close();"
+		>
+			<?php echo JText::_('COM_REDSHOP_CANCEL');?>
 		</button>
 	</div>
-	<div class="configuration"><?php
-		echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES');
-		?></div>
-</fieldset>
+</div>
 
-<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="additionaladminForm" id="additionaladminForm"
-      enctype="multipart/form-data">
+<form
+	action="index.php"
+	method="post"
+	name="additionaladminForm"
+	id="additionaladminForm"
+    enctype="multipart/form-data">
 	<div class="col50">
 		<fieldset class="adminform">
 			<table class="admintable" border="0" width="100%" id="admintable">
 				<tr>
-					<td class="key"><?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER');?></td>
-					<td><?php $down_ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'); ?>
+					<td class="key">
+						<?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER');?>
+					</td>
+					<td>
 						<div class="button2-left">
-							<div class="image" style="padding-top: 0px !important"><a class="modal" title="Image"
-							                                                          href="<?php echo $down_ilink; ?>"
-							                                                          rel="{handler: 'iframe', size: {x: 950, y: 450}}"><?php echo JText::_('COM_REDSHOP_FILE'); ?></a>
+							<div
+								class="image"
+								style="padding-top: 0px !important">
+								<a
+									class="modal"
+									title="Image"
+							        href="index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1"
+							        rel="{handler: 'iframe', size: {x: 950, y: 450}}">
+							    	<?php echo JText::_('COM_REDSHOP_FILE'); ?>
+							    </a>
 							</div>
 						</div>
 						<div id='selected_file'></div>
@@ -101,79 +99,81 @@ $media_id = JRequest::getInt('media_id');
 					</td>
 					<td>
 						<input type="file" name="downloadfile[]" id="downloadfile[]" value="" size="75"/>
-						<input type="button" name="addvalue" id="addvalue" class="button"
-						       Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>" onclick="addNewRow('admintable');"/>
+						<input
+							type="button"
+							name="addvalue"
+							id="addvalue"
+							class="button"
+						    Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+						    onclick="addNewRow('admintable');"
+						/>
 					</td>
 				</tr>
 			</table>
+
+			<div>
+				<h4><?php echo JText::_('COM_REDSHOP_FILES');?></h4>
+				<table class="table table-striped table-hover" width="100%" id="admintable">
+				<?php
+
+				$additionalfiles = $this->getModel('media')->getAdditionalFiles($mediaId);
+				$k = 0;
+
+				for ($i = 0; $i < count($additionalfiles); $i++)
+				{
+					$filename = $additionalfiles[$i]->name;
+					$fileId = $additionalfiles[$i]->id;
+
+					$link = JURI::root() . "/components/com_redshop/assets/download/product/" . $filename;
+
+					$link_delete = "index.php?tmpl=component&option=com_redshop&view=media&task=deleteAddtionalFiles&fileId=" . $fileId . "&media_id=" . $mediaId;
+
+					$path = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
+
+					$fileExt = strtolower(JFile::getExt($filename));
+
+					?>
+						<tr class="<?php echo "row$k"; ?>">
+							<td width="70%">
+								<?php if (is_file($path)) : ?>
+									<?php if ($fileExt == 'gif' || $fileExt == 'png' || $fileExt == 'jpg' || $fileExt == 'jpeg') : ?>
+										<a
+											href="<?php echo $link; ?>"
+											class="modal"
+											rel="{handler: 'image', size: {}}"
+										>
+											<?php echo $filename;?>
+										</a>
+									<?php else: ?>
+										<a href="<?php echo $link; ?>"><?php echo $filename;?></a>
+									<?php endif; ?>
+								<?php else: ?>
+									<?php echo $filename; ?>
+								<?php endif; ?>
+							</td>
+							<td>
+								<a href="<?php echo $link_delete; ?>">
+									<?php echo JText::_('COM_REDSHOP_DELETE');?>
+								</a>
+							</td>
+						</tr>
+					<?php
+					$k = 1 - $k;
+					$k++;
+				}
+				?>
+				</table>
+			</div>
 		</fieldset>
 	</div>
 	<div class="clr"></div>
 	<input type="hidden" name="id" value=""/>
 	<input type="hidden" name="option" value="com_redshop"/>
-	<input type="hidden" name="media_id" value="<?php echo $media_id; ?>"/>
+	<input type="hidden" name="media_id" value="<?php echo $mediaId; ?>"/>
 	<input type="hidden" name="task" value="saveAdditionalFiles"/>
 	<input type="hidden" name="view" value="media"/>
 </form>
-<fieldset class="adminform">
-	<legend><?php echo JText::_('COM_REDSHOP_FILES');?></legend>
-	<?php
 
-	$additionalfiles = $model->getAdditionalFiles($media_id);
-	$k = 0;
-	for ($i = 0; $i < count($additionalfiles); $i++)
-	{
-
-		$filename = $additionalfiles[$i]->name;
-		$fileId = $additionalfiles[$i]->id;
-
-		$link = JURI::root() . "/components/com_redshop/assets/download/product/" . $filename;
-
-		$link_delete = "index.php?tmpl=component&option=com_redshop&view=media&task=deleteAddtionalFiles&fileId=" . $fileId . "&media_id=" . $media_id;
-
-		$path = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
-
-		$fileExt = strtolower(JFile::getExt($filename));
-
-		?>
-		<table class="adminlist" border="0" width="100%" id="admintable">
-			<tr class="<?php
-			echo "row$k";
-			?>">
-				<td width="70%">
-					<?php
-					if (is_file($path))
-					{
-
-						if ($fileExt == 'gif' || $fileExt == 'png' || $fileExt == 'jpg' || $fileExt == 'jpeg')
-						{
-							?>
-							<a href="<?php echo $link; ?>" class="modal"
-							   rel="{handler: 'image', size: {}}"><?php echo $filename;?></a>
-						<?php
-						}
-						else
-						{
-							?>
-							<a href="<?php echo $link; ?>"><?php echo $filename;?></a>
-						<?php
-						}
-					}
-					else
-					{
-						echo $filename;
-					}?>
-				</td>
-				<td><a href="<?php echo $link_delete; ?>"><?php echo JText::_('COM_REDSHOP_DELETE');?></a></td>
-			</tr>
-		</table>
-		<?php
-		$k = 1 - $k;
-		$k++;
-	}
-
-	?>
-</fieldset>
 <script language="javascript">
 	function jdownload_file(path, filename) {
 		document.getElementById("selected_file").innerHTML = filename;
