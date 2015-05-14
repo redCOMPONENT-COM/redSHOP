@@ -177,6 +177,7 @@ class RedshopControllerOrder extends RedshopController
 		$bookInvoiceDate = $post ['bookInvoiceDate'];
 		$order_id = JRequest::getCmd('order_id');
 		$ecomsg = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
+		$msgType = 'warning';
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1)
@@ -188,12 +189,13 @@ class RedshopControllerOrder extends RedshopController
 			{
 				$redshopMail = new redshopMail;
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
+				$msgType = 'message';
 				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 
 		// End Economic
-		$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
 	}
 
 	public function createInvoice()
