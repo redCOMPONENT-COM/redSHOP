@@ -1010,7 +1010,7 @@ class shipping
 
 			if ($is_admin == false)
 			{
-				$shipping = $this->filter_by_priority($shipping);
+				$shipping = self::filterRatesByPriority($shipping);
 			}
 
 			return $shipping;
@@ -1019,7 +1019,7 @@ class shipping
 		{
 			if ($is_admin == false)
 			{
-				$shippingrate = $this->filter_by_priority($shippingrate);
+				$shippingrate = self::filterRatesByPriority($shippingrate);
 			}
 
 			return $shippingrate;
@@ -1190,26 +1190,28 @@ class shipping
 	}
 
 	/**
-	 * Filter by priority
+	 * Filter Shipping rates based on their priority
+	 * Only show Higher priority rates (In [1,2,3,4] take 1 as a high priority)
+	 * Rates with same priority will shown as radio button list in checkout
 	 *
 	 * @param   array  $shippingRates  Array shipping rates
 	 *
 	 * @return array
 	 */
-	public function filter_by_priority($shippingRates)
+	public static function filterRatesByPriority($shippingRates)
 	{
-		$shippingRates = array();
+		$filteredRates = array();
 
-		for ($i = 0, $j = 0, $ni = count($shippingrate); $i < $ni; $i++)
+		for ($i = 0, $j = 0, $ni = count($shippingRates); $i < $ni; $i++)
 		{
-			if ($shippingrate[0]->shipping_rate_priority == $shippingrate[$i]->shipping_rate_priority)
+			if ($shippingRates[0]->shipping_rate_priority == $shippingRates[$i]->shipping_rate_priority)
 			{
-				$shippingRates[$j] = $shippingrate[$i];
+				$filteredRates[$j] = $shippingRates[$i];
 				$j++;
 			}
 		}
 
-		return $shippingRates;
+		return $filteredRates;
 	}
 
 	/*
