@@ -84,15 +84,18 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		}
 		catch ( Exception $exception )
 		{
-			print("<p><i>error msg in GetNearstParcelShops" . $exception->getMessage() . "</i></p>");
-			JError::raiseWarning(21, "GetNearstParcelShops:" . $exception->getMessage());
+			if ($exception->getMessage())
+			{
+				print("<p><i>" . $exception->getMessage() . "</i></p>");
+			}
+
+			return false;
 		}
 	}
 
 	function ShopArray($PakkeshopData)
 	{
 		$j              = 0;
-		$shippinghelper = new shipping;
 		$returnArr      = array();
 
 		for ($i = 0; $i < count($PakkeshopData); $i++)
