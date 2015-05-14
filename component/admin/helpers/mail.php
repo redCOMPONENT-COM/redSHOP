@@ -633,7 +633,16 @@ class redshopMail
 		return $invoice_pdfName;
 	}
 
-	protected function replaceInvoiceMailTemplate($html, $subject, $type = 'html')
+	/**
+	 * Replace invoice mail template tags and prepare mail body and pdf html
+	 *
+	 * @param   string  $html     HTML template of mail body or pdf
+	 * @param   string  $subject  Email Subject template, can be null for PDF
+	 * @param   string  $type     Either 'html' or 'pdf'
+	 *
+	 * @return  object  Object having mail body and subject. subject can be null for PDF type.
+	 */
+	protected function replaceInvoiceMailTemplate($html, $subject = null, $type = 'pdf')
 	{
 		$redconfig         = new Redconfiguration;
 		$producthelper     = new producthelper;
@@ -726,6 +735,15 @@ class redshopMail
 		return $object;
 	}
 
+	/**
+	 * Send Order Invoice Mail
+	 * Email Body and Subject is from "Invoice Mail" template section.
+	 * Contains PDF attachement. PDF html is from "Invoice Mail PDF" section.
+	 *
+	 * @param   integer  $order_id  Order Information Id
+	 *
+	 * @return  boolean  True on sending email successfully.
+	 */
 	public function sendInvoiceMail($order_id)
 	{
 		$config            = JFactory::getConfig();
@@ -751,7 +769,7 @@ class redshopMail
 			return false;
 		}
 
-		$mailTemplate = $this->replaceInvoiceMailTemplate($message, $subject);
+		$mailTemplate = $this->replaceInvoiceMailTemplate($message, $subject, 'html');
 		$mailBody     = $mailTemplate->body;
 		$subject      = $mailTemplate->subject;
 
@@ -763,7 +781,7 @@ class redshopMail
 		// Set actual PDF template if found
 		if (count($pdfTemplateFile) > 0)
 		{
-			$pdfTemplate = $this->replaceInvoiceMailTemplate($pdfTemplateFile[0]->mail_body, '', 'pdf')->body;
+			$pdfTemplate = $this->replaceInvoiceMailTemplate($pdfTemplateFile[0]->mail_body)->body;
 		}
 
 		ob_clean();
