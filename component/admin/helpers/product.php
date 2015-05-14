@@ -104,7 +104,7 @@ class adminproducthelper
 			$prefix = $uniqueid . "prd_";
 		}
 
-		$attributelist .= '<span id="att_lebl" style="display:none;">' . JText::_('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') . '</span>';
+		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
 		for ($a = 0; $a < count($attributes); $a++)
 		{
