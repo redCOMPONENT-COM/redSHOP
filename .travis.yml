@@ -14,13 +14,15 @@ before_script:
 
   # XVFB
   - "export DISPLAY=:99.0"
-  - "Xvfb :99.0 -extension RANDR > /dev/null &"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
 
   # Window manager
   - echo "c10"
   - "sudo apt-get install fluxbox -y --force-yes"
   - echo "c11"
   - "fluxbox &"
+  - sleep 3 # give fluxbox sometime to start
 
   # Selenium server
   #- wget http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar -O selenium-server-standalone.jar
