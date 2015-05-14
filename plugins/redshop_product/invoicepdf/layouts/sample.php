@@ -7,35 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
-
-/**
- * Form Field class to show Sample Invoice PDF template
- * Supports a one line text field.
- *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since  11.1
- */
-class JFormFieldSample extends JFormField
-{
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $type = 'Sample';
-
-	/**
-	 * Method to get the field label markup.
-	 *
-	 * @return  string  The field label markup.
-	 *
-	 * @since   11.1
-	 */
-	protected function getLabel()
-	{
-		$html = <<<EOF
+defined('_JEXEC') or die;
+?>
 <table width="100%" border="0" cellspacing="0" cellpadding="5">
 	<tbody>
 	<tr>
@@ -126,7 +99,7 @@ class JFormFieldSample extends JFormField
 					</td>
 				</tr>
 				<tr>
-					<td> </td>
+					<td> </td>
 				</tr>
 				<tr>
 					<td>
@@ -205,20 +178,3 @@ class JFormFieldSample extends JFormField
 	</tr>
 	</tbody>
 </table>
-EOF;
-
-		return '<pre>' . htmlentities($html) . '</pre>';
-	}
-
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   11.1
-	 */
-	protected function getInput()
-	{
-		return '';
-	}
-}
