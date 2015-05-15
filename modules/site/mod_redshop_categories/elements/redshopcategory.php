@@ -26,7 +26,7 @@ class JFormFieldRedshopcategory extends JFormField
 	{
 		$name         = $this->name;
 		$categories = RedshopHelperCategory::getCategoryListArray();
-		array_unshift($categories, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -', 'category_id', 'category_name'));
+		array_unshift($categories, JHTML::_('select.option', '0', JText::_('MOD_REDSHOP_CATEGORIES_SELECT_CATEGORY'), 'category_id', 'category_name'));
 		ob_start();
 		$output = JHTML::_('select.genericlist', $categories, $name, 'class="inputbox"', 'category_id', 'category_name', $this->value, $name);
 		ob_end_clean();
