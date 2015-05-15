@@ -661,3 +661,8 @@ div.current select, div.current input, div.current textarea, div.current select 
 	width: 12px !important;
 	background-repeat: no-repeat;
 }
+
+#toolbar #toolbar-print,
+#toolbar #toolbar-cancel {
+    float: right;
+}
