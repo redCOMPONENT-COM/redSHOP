@@ -56,9 +56,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 ?>
 <script type="text/javascript">
 	var rowCount = 1;
-	function openPrintOrder() {
-		window.open('index.php?tmpl=component&option=com_redshop&view=order_detail&layout=print_order&cid[]=' + <?php echo $order_id;?>, 'mywindow', 'scrollbars=1', 'location=1');
-	}
+
 	function submitbutton(pressbutton, form) {
 		if (pressbutton == 'add') {
 			if (form.product1.value == 0) {
@@ -86,72 +84,63 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 				<tr>
 					<th align="right" colspan="2">
 						<?php if(isset($order_id)) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id); ?>">
-								<?php echo JText::_('COM_REDSHOP_CREATE_STOCKNOTE'); ?>
-							</a>
-							&nbsp;|&nbsp;
-							<a
-								href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id); ?>">
-								<?php echo JText::_('COM_REDSHOP_CREATE_SHIPPING_LABEL'); ?>
-							</a>
-							&nbsp;|&nbsp;
-
 							<?php
+								RedshopToolbarHelper::link(
+									'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
+									'list',
+									'COM_REDSHOP_CREATE_STOCKNOTE',
+									'_blank'
+								);
 
-							$appendTmpl = '';
+								RedshopToolbarHelper::link(
+									'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
+									'list',
+									'COM_REDSHOP_CREATE_SHIPPING_LABEL',
+									'_blank'
+								);
 
-							if($tmpl)
-							{
-								$appendTmpl = '&tmpl=component';
-							}
+								$appendTmpl = ($tmpl) ? '&tmpl=component' : '';
 
+								RedshopToolbarHelper::link(
+									'index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl,
+									'mail',
+									'COM_REDSHOP_SEND_DOWNLOEADMAIL'
+								);
+
+								RedshopToolbarHelper::link(
+									'index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl,
+									'mail',
+									'COM_REDSHOP_RESEND_ORDER_MAIL'
+								);
+
+								RedshopToolbarHelper::link(
+									'index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl,
+									'mail',
+									'COM_REDSHOP_SEND_INVOICEMAIL'
+								);
+
+								if ($tmpl)
+								{
+									RedshopToolbarHelper::link(
+										'index.php?option=com_redshop&view=order&tmpl=component',
+										'back',
+										'COM_REDSHOP_BACK'
+									);
+								}
+
+								RedshopToolbarHelper::link(
+									'index.php?tmpl=component&option=com_redshop&view=order_detail&layout=print_order&cid[]=' . $order_id,
+									'print',
+									'COM_REDSHOP_PRINT',
+									'_blank'
+								);
 							?>
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl); ?>">
-								<?php echo JText::_('COM_REDSHOP_SEND_DOWNLOEADMAIL'); ?>
-							</a>
-
-							&nbsp;|&nbsp;
-
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl); ?>">
-								<?php echo JText::_('COM_REDSHOP_RESEND_ORDER_MAIL'); ?>
-							</a>
-
-							&nbsp;|&nbsp;
-
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl); ?>">
-								<?php echo JText::_('COM_REDSHOP_SEND_INVOICEMAIL'); ?>
-							</a>
-
-							<?php if($tmpl) : ?>
-							&nbsp;|&nbsp;
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order&tmpl=component'); ?>">
-								<?php echo JText::_('COM_REDSHOP_BACK'); ?>
-							</a>
-							<?php endif; ?>
-
-							<a href="javascript:openPrintOrder();" title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>">
-								<img src="<?php echo JSYSTEM_IMAGES_PATH . 'printButton.png'; ?>"
-								     alt="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
-								     title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
-								/>
-							</a>
 						<?php endif; ?>
 					</th>
 				</tr>
 				<tr>
 					<th align="left" colspan="2"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></th>
 				</tr>
-				<!--<tr>
-						<td width="100"><?php echo "Barcode" ?>:</td>
-						<td>
-							<?php
-							$barcode = sprintf("%012d",$this->detail->order_number);
-							$barcode_url = REDSHOP_FRONT_IMAGES_ABSPATH.'barcode/'.$barcode.'.png';
-							?>
-							<img alt="" src="<?php echo $barcode_url;?>">
-						</td>
-					</tr>
-					-->
 				<tr>
 					<td width="100"><?php echo JText::_('COM_REDSHOP_ORDER_ID'); ?>:</td>
 					<td><?php echo $order_id; ?></td>
