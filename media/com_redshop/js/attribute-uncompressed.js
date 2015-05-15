@@ -593,15 +593,14 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 	{
 		var attribute_id = attrArr[i];
 		commonid = prefix + product_id + '_' + accessory_id + '_' + attribute_id;
-		var propId = document.getElementById('property_id_' + commonid);
 
-		if (propId)
+		var propName = document.getElementsByName('property_id_' + commonid + '[]');
+
+		if (propName.length > 0)
 		{
 			setPropertyImage(product_id, 'property_id_' + commonid);
-			var propName = document.getElementsByName('property_id_' + commonid + '[]');
 
-			var seli = 0;
-			var propArr = new Array();
+			var seli = 0, requiredProp = [], propArr = [];
 
 			// Collect property start
 			for (var p = 0; p < propName.length; p++)
@@ -620,6 +619,11 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 						propArr[seli++] = propName[p].options[propName[p].selectedIndex].value;
 					}
 				}
+
+				if (propName[p].required)
+				{
+					requiredProp.push(propName[p].getAttribute('attribute_name'));
+				}
 			}
 
 			if (propArr.length > 0)
@@ -628,8 +632,9 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 			}
 
 			// required check
-			if (propId.getAttribute('required') == 1 && propArr.length == 0) {
-				acc_error += document.getElementById('att_lebl').innerHTML + " " + unescape(propId.getAttribute('attribute_name')) + "\n";
+			if (requiredProp.length > 0 && propArr.length == 0)
+			{
+				acc_error += Joomla.JText._('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') + " " + unescape(requiredProp[0]) + "\n";
 			}
 
 			/******Collect property Price start*******/

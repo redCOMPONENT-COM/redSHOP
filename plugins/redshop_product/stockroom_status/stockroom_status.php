@@ -54,44 +54,10 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 			return;
 		}
 
-		$mailData = $this->params->get('template', '<table>
-  <tbody>
-  <tr>
- 	 <td colspan="4">Hello Administrator,</td>
-  </tr>
-  <tr>
-  	<td colspan="4">The following product/s have reached minimum stock level.</td>
-  </tr>
-  <tr>
-    <td colspan="4">
-      <table border="1">
-      <tbody>
-        <tr>
-          <td>Product Number</td>
-          <td>Product Name</td>
-          <td>Stockroom Name</td>
-          <td>Current Stock</td>
-        </tr>
-        <!--  {product_loop_start} -->
-        <tr>
-          <td>{product_number}</td>
-          <td>{product_name}</td>
-          <td>{stockroom_name}</td>
-          <td>{stock_status}</td>
-        </tr>
-        <!--  {product_loop_end} -->
-      </tbody>
-      </table>
-    </td>
-  </tr>
-  <tr>
-  	<td colspan="4">Regards,</td>
-  </tr>
-  <tr>
-  	<td colspan="4">Stockkeeper</td>
-  </tr>
-  </tbody>
-</table>');
+		$mailData = $this->params->get(
+			'template',
+			RedshopLayoutHelper::render('sample', null, JPATH_PLUGINS . '/redshop_product/stockroom_status/layouts')
+		);
 
 		if (!(strstr($mailData, "{product_loop_start}") && strstr($mailData, "{product_loop_end}")))
 		{

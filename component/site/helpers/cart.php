@@ -800,6 +800,7 @@ class rsCarthelper
 	 */
 	public function replaceShippingMethod($row = array(), $data = "")
 	{
+		$search = array();
 		$search[] = "{shipping_method}";
 		$search[] = "{order_shipping}";
 		$search[] = "{shipping_excl_vat}";
@@ -835,6 +836,7 @@ class rsCarthelper
 
 			// $shopLocation = $this->_shippinghelper->decryptShipping( str_replace(" ","+",$row->shop_id) );
 			$shopLocation = $row->shop_id;
+			$replace      = array();
 			$replace[]    = $shipping_method;
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping - $row->order_shipping_tax);
@@ -853,27 +855,52 @@ class rsCarthelper
 			{
 				$mobilearr          = explode('###', $shopLocation);
 				$arrLocationDetails = explode('|', $shopLocation);
-				$shopLocation       = "<b>" . $arrLocationDetails[0] . $arrLocationDetails[1] . '</b><br>';
-				$shopLocation .= $arrLocationDetails[2] . '<br>';
-				$shopLocation .= $arrLocationDetails[3] . $arrLocationDetails[4] . '<br>';
-				$shopLocation .= $arrLocationDetails[5] . '<br>';
-				$arrLocationTime = explode('  ', $arrLocationDetails[6]);
+				$countLocDet = count($arrLocationDetails);
+				$shopLocation = '';
 
-				for ($t = 0; $t < count($arrLocationTime); $t++)
+				if ($countLocDet > 1)
 				{
-					$shopLocation .= $arrLocationTime[$t] . '<br>';
+					$shopLocation .= '<b>' . $arrLocationDetails[0] . ' ' . $arrLocationDetails[1] . '</b>';
+				}
+
+				if ($countLocDet > 2)
+				{
+					$shopLocation .= '<br>' . $arrLocationDetails[2];
+				}
+
+				if ($countLocDet > 3)
+				{
+					$shopLocation .= '<br>' . $arrLocationDetails[3];
+				}
+
+				if ($countLocDet > 4)
+				{
+					$shopLocation .= ' ' . $arrLocationDetails[4];
+				}
+
+				if ($countLocDet > 5)
+				{
+					$shopLocation .= '<br>' . $arrLocationDetails[5];
+				}
+
+				if ($countLocDet > 6)
+				{
+					$arrLocationTime = explode('  ', $arrLocationDetails[6]);
+					$shopLocation .= '<br>';
+
+					for ($t = 0; $t < count($arrLocationTime); $t++)
+					{
+						$shopLocation .= $arrLocationTime[$t] . '<br>';
+					}
 				}
 			}
 
-			if (isset($mobilearr[1]) === true)
+			if (isset($mobilearr[1]))
 			{
-				$replace[] = $shopLocation . ' ' . $mobilearr[1];
-			}
-			else
-			{
-				$replace[] = $shopLocation;
+				$shopLocation .= ' ' . $mobilearr[1];
 			}
 
+			$replace[] = $shopLocation;
 			$data = str_replace($search, $replace, $data);
 		}
 		else
@@ -3354,28 +3381,23 @@ class rsCarthelper
 		$this->_db->setQuery($sql);
 		$isEnabled = $this->_db->loadResult();
 		$selected_shop_id = null;
-		$ShopRespons = array();
 
 		if ($isEnabled && $classname == 'default_shipping_gls')
 		{
 			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
-			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
-			$this->_db->setQuery($sql);
-			$values = $this->_db->loadObject();
-
+			$values = RedshopHelperUser::getUserInformation(0, 'ST', $users_info_id);
+			$shopList = array();
 			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
 
-			if(isset($ShopResponses[0]))
+			if($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
 			{
 				$ShopRespons = $ShopResponses[0];
-			}
 
-			$shopList = array();
-
-			for ($i = 0; $i < count($ShopRespons); $i++)
-			{
-				$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
+				for ($i = 0, $n = count($ShopRespons); $i < $n; $i++)
+				{
+					$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
+				}
 			}
 
 			if ($shop_id)
@@ -3388,7 +3410,7 @@ class rsCarthelper
 			}
 
 			$output .= JText::_('COM_REDSHOP_PROVIDE_ZIPCODE_TO_PICKUP_PARCEL') . " : ";
-			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='" . JText::_('COM_REDSHOP_GLS_UPDATE') . "' name='update'><br/>";
+			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><br/>";
 			$output .= JText::_('COM_REDSHOP_SELECT_GLS_LOCATION') . " : ";
 			$output .= "<span id='rs_locationdropdown'>";
 			$output .= $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selected_shop_id);

@@ -49,7 +49,7 @@ class JFormFieldRedshopCategory extends JFormFieldList
 
 		if (!$this->multiple)
 		{
-			$options[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -', 'value', 'text');
+			$options[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
 		}
 
 		if (!self::$cache)
@@ -63,7 +63,7 @@ class JFormFieldRedshopCategory extends JFormFieldList
 		{
 			if ($this->multiple)
 			{
-				$options[] = JHtml::_('select.optgroup', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -');
+				$options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_CATEGORY'));
 			}
 
 			foreach (self::$cache as $item)
@@ -73,7 +73,7 @@ class JFormFieldRedshopCategory extends JFormFieldList
 
 			if ($this->multiple)
 			{
-				$options[] = JHtml::_('select.optgroup', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -');
+				$options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_CATEGORY'));
 			}
 		}
 

@@ -363,6 +363,7 @@ class RedshopModelSearch extends RedshopModel
 		$where = array();
 		$db = JFactory::getDbo();
 		$conditions = explode(' ', $conditions);
+		$hasCondition = false;
 
 		foreach ((array) $fields as $field)
 		{
@@ -374,6 +375,7 @@ class RedshopModelSearch extends RedshopModel
 
 				if ($condition != '')
 				{
+					$hasCondition = true;
 					$glueOneField[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
 				}
 			}
@@ -381,7 +383,14 @@ class RedshopModelSearch extends RedshopModel
 			$where[] = '(' . implode(' AND ', $glueOneField) . ')';
 		}
 
-		return '(' . implode(' ' . $glue . ' ', $where) . ')';
+		if ($hasCondition)
+		{
+			return '(' . implode(' ' . $glue . ' ', $where) . ')';
+		}
+		else
+		{
+			return '1 = 1';
+		}
 	}
 
 	/**

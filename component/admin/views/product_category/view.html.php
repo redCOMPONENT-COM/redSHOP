@@ -43,14 +43,8 @@ class RedshopViewProduct_category extends RedshopView
 		$product_category = new product_category;
 		$categories = $product_category->getCategoryListArray();
 
-		$temps = array();
-		$temps[0] = new stdClass;
-		$temps[0]->category_id = "0";
-		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
-		$categories = @array_merge($temps, $categories);
-
 		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id[]',
-			'class="inputbox" multiple="multiple"', 'category_id', 'category_name'
+			'class="inputbox" multiple="multiple" size="10"', 'category_id', 'category_name'
 		);
 
 		$this->products = $products;
