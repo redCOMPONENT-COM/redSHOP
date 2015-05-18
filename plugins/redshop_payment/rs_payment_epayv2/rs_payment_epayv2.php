@@ -87,9 +87,9 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$unsetIndex = array_search('ALL', $cardTypes);
 
 			if ($unsetIndex !== false)
-            {
+			{
 				unset($cardTypes[$unsetIndex]);
-            }
+			}
 
 			$formdata['paymenttype'] = implode(',', $cardTypes);
 		}
