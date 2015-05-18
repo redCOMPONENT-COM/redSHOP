@@ -22,7 +22,7 @@ class RedshopHelperUser
 	 * Get redshop user information
 	 *
 	 * @param   int     $userId          Id joomla user
-	 * @param   string  $addressType     Type user BT or ST
+	 * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
 	 * @param   int     $userInfoId      Id redshop user
 	 * @param   bool    $useAddressType  Select user info relate with address type
 	 *
