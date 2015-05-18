@@ -86,7 +86,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		{
 			if ($exception->getMessage())
 			{
-				print("<p><i>" . $exception->getMessage() . "</i></p>");
+				return "<p><i>" . $exception->getMessage() . "</i></p>";
 			}
 
 			return false;
