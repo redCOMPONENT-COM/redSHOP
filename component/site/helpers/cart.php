@@ -3386,7 +3386,7 @@ class rsCarthelper
 		{
 			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
-			$values = RedshopHelperUser::getUserInformation(0, 'ST', $users_info_id);
+			$values = RedshopHelperUser::getUserInformation(0, '', $users_info_id, false);
 			$shopList = array();
 			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
 

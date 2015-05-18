@@ -176,7 +176,7 @@ class RedshopControllerCheckout extends RedshopController
 		$app = JFactory::getApplication();
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
-		$values = RedshopHelperUser::getUserInformation(0, 'ST');
+		$values = RedshopHelperUser::getUserInformation(0, '', 0, false);
 		$values->zipcode = $app->input->get('zipcode', '');
 		$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
 
