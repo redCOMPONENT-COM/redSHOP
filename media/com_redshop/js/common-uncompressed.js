@@ -716,7 +716,15 @@ function updateGLSLocation(zipcode)
 {
 	xmlhttp1=GetXmlHttpObject();
 	var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
-	url1 = url1 + "&zipcode=" + zipcode;
+	var users_info_id = '';
+	var propName = document.getElementsByName('users_info_id');
+	for(var p=0;p<propName.length;p++){
+		if(propName[p].checked){
+			users_info_id = propName[p].value;
+		}
+	}
+	url1 = url1 + "&zipcode=" + zipcode + '&users_info_id=' + users_info_id;
+
 	xmlhttp1.onreadystatechange=function()
 	{
 		if (xmlhttp1.readyState==4)
