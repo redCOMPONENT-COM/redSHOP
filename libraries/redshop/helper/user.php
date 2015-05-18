@@ -16,20 +16,19 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperUser
 {
-	protected static $redshopUserInfo = array();
-
 	protected static $userShopperGroupData = array();
 
 	/**
 	 * Get redshop user information
 	 *
-	 * @param   int     $userId       Id joomla user
-	 * @param   string  $addressType  Type user BT or ST
-	 * @param   int     $userInfoId   Id redshop user
+	 * @param   int     $userId          Id joomla user
+	 * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
+	 * @param   int     $userInfoId      Id redshop user
+	 * @param   bool    $useAddressType  Select user info relate with address type
 	 *
 	 * @return  object  Redshop user information
 	 */
-	public static function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0)
+	public static function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0, $useAddressType = true)
 	{
 		if ($userId == 0)
 		{
@@ -42,30 +41,41 @@ class RedshopHelperUser
 			return array();
 		}
 
-		if ($addressType == '')
+		if (!$useAddressType)
+		{
+			$addressType = 'NA';
+		}
+		elseif ($addressType == '')
 		{
 			$addressType = 'BT';
 		}
 
-		if (!array_key_exists($userId . '.' . $addressType . '.' . $userInfoId, self::$redshopUserInfo))
+		$key = $userId . '.' . $addressType . '.' . $userInfoId;
+		static $redshopUserInfo = array();
+
+		if (!array_key_exists($key, $redshopUserInfo))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select(array('sh.*', 'u.*'))
 				->from($db->qn('#__redshop_users_info', 'u'))
 				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
-				->where('u.user_id = ' . (int) $userId)
-				->where('u.address_type = ' . $db->q($addressType));
+				->where('u.user_id = ' . (int) $userId);
 
-			if ($userInfoId && $addressType == 'ST')
+			if ($useAddressType)
+			{
+				$query->where('u.address_type = ' . $db->q($addressType));
+			}
+
+			if ($userInfoId)
 			{
 				$query->where('u.users_info_id = ' . (int) $userInfoId);
 			}
 
-			self::$redshopUserInfo[$userId . '.' . $addressType . '.' . $userInfoId] = $db->setQuery($query)->loadObject();
+			$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
 		}
 
-		return self::$redshopUserInfo[$userId . '.' . $addressType . '.' . $userInfoId];
+		return $redshopUserInfo[$key];
 	}
 
 	/**

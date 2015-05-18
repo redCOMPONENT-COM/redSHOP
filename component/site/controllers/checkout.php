@@ -176,21 +176,29 @@ class RedshopControllerCheckout extends RedshopController
 		$app = JFactory::getApplication();
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
-		$values = RedshopHelperUser::getUserInformation(0, 'ST');
+		$usersInfoId = $app->input->getInt('users_info_id', 0);
+		$values = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
 		$values->zipcode = $app->input->get('zipcode', '');
 		$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
 
 		if ($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
 		{
-			$ShopRespons = $ShopResponses[0];
-			$shopList = array();
-
-			for ($i = 0, $c = count($ShopRespons); $i < $c; $i++)
+			if (is_array($ShopResponses[0]))
 			{
-				$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
-			}
+				$ShopRespons = $ShopResponses[0];
+				$shopList = array();
 
-			echo JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $ShopRespons[0]->shop_id);
+				for ($i = 0, $c = count($ShopRespons); $i < $c; $i++)
+				{
+					$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
+				}
+
+				echo JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $ShopRespons[0]->shop_id);
+			}
+			else
+			{
+				echo $ShopResponses[0];
+			}
 		}
 
 		$app->close();
