@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-//JHTML::_ ( 'behavior.tooltip' );
 JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option');
@@ -97,37 +96,37 @@ $url = $uri->root();
 
 	echo JHtml::_('tabs.start', 'pane', array('startOffset' => $offset));
 	$output = '';
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'tab1');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'general');
 	?>
 	<input type="hidden" name="view" value="configuration"/>
 	<input type="hidden" name="task" value=""/>
 	<?php
 	echo $this->loadTemplate('general');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_USER'), 'tab11');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_USER'), 'user');
 	echo $this->loadTemplate('user');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_TAB'), 'cattab');
 	echo $this->loadTemplate('cattab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_REDMANUFACTURER_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_REDMANUFACTURER_TAB'), 'manufacturertab');
 	echo $this->loadTemplate('manufacturertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_TAB'), 'producttab');
 	echo $this->loadTemplate('producttab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FEATURE_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FEATURE_TAB'), 'featuretab');
 	echo $this->loadTemplate('featuretab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRICE_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRICE_TAB'), 'pricetab');
 	echo $this->loadTemplate('pricetab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CART_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CART_TAB'), 'carttab');
 	echo $this->loadTemplate('carttab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ORDER_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ORDER_TAB'), 'ordertab');
 	echo $this->loadTemplate('ordertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_NEWSLETTER_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_NEWSLETTER_TAB'), 'newslettertab');
 	echo $this->loadTemplate('newslettertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_INTEGRATION'), 'tab4');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_INTEGRATION'), 'integration');
 	echo $this->loadTemplate('integration');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_SEO'), 'tab7');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_SEO'), 'seo');
 	echo $this->loadTemplate('seo');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DASHBOARD'), 'tab8');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DASHBOARD'), 'dashboard');
 	echo $this->loadTemplate('dashboard');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ABOUT'), 'tab9');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ABOUT'), 'redshopabout');
 	echo $this->loadTemplate('redshopabout');
 	echo JHtml::_('tabs.end');
 	?>

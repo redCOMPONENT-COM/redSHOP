@@ -528,9 +528,9 @@ class RedshopModelCheckout extends RedshopModel
 		// Start code to track duplicate order number checking
 		$this->deleteOrdernumberTrack();
 
-		// Generate Invoice Number for confirmed credit card payment
-		if ('C' == $row->order_status
-			&& 'Paid' == $row->order_payment_status)
+		// Generate Invoice Number for confirmed credit card payment or for free order
+		if (((boolean) INVOICE_NUMBER_FOR_FREE_ORDER || $is_creditcard)
+			&& ('C' == $row->order_status && 'Paid' == $row->order_payment_status))
 		{
 			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
 		}
