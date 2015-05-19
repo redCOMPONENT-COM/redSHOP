@@ -40,7 +40,7 @@
 		<!-- Temp dir to create packages -->
 		<property
 				name="tmpdir"
-				value="tmp"
+				value=".tmp"
 				override="true"/>
 
 		<!-- Check if the temp folder exists. If not, create it -->
@@ -135,7 +135,7 @@
 		</copy>
 
 		<zip
-				destfile="${tmpdir}/${extension}-${version}-packages/pkg_${dirname}_${package_version}${redshop_compatibility}.zip"
+				destfile="${tmpdir}/${extension}-${version}-packages/${dirname}_${package_version}${redshop_compatibility}.zip"
 				basedir="${tmpdir}/${extension}-${version}-packages/${dirname}_${package_version}${redshop_compatibility}">
 			<fileset dir="${tmpdir}/${extension}-${version}-packages/${dirname}_${package_version}${redshop_compatibility}">
 				<include name="**" />
@@ -190,7 +190,7 @@
 
 		<property
 				name="joomla.version"
-				value="3"
+				value="j3_and_j25"
 				override="true"/>
 
 		<property
