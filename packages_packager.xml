@@ -58,7 +58,7 @@
 	<!-- ============================================  -->
 	<!-- Target: build                                 -->
 	<!-- ============================================  -->
-	<!-- Loops through folders creating module packages -->
+	<!-- Loops through folders creating package packages -->
 
 	<target name="build" depends="_customtasks, prepare">
 		<mkdir dir="${tmpdir}" />
@@ -86,9 +86,9 @@
 	</target>
 
 	<target name="itemtarget">
-		<mkdir dir="${tmpdir}/${extension}-${version}-packages/${dirname}_${module_version}${redshop_compatibility}/${extensionInfo.folder}"/>
+		<mkdir dir="${tmpdir}/${extension}-${version}-packages/${dirname}_${package_version}${redshop_compatibility}/${extensionInfo.folder}"/>
 		<zip
-				destfile="${tmpdir}/${extension}-${version}-packages/${dirname}_${module_version}${redshop_compatibility}/${extensionInfo.folder}/${extensionInfo.zipName}"
+				destfile="${tmpdir}/${extension}-${version}-packages/${dirname}_${package_version}${redshop_compatibility}/${extensionInfo.folder}/${extensionInfo.zipName}"
 				basedir="${extpath}/${item}">
 			<fileset dir="${extpath}/${item}">
 				<include name="**" />
@@ -98,19 +98,19 @@
 	</target>
 
 	<target name="site_packages" description="Packages the extension for delivery">
-		<xmlproperty file="${extpath}/packages/${dirname}/${dirname}.xml" prefix="modulemanifest" keepRoot="false" />
+		<xmlproperty file="${extpath}/packages/${dirname}/${dirname}.xml" prefix="packagemanifest" keepRoot="false" />
 		<property
-				name="module_version"
-				value="${modulemanifest.version}"
+				name="package_version"
+				value="${packagemanifest.version}"
 				override="true"/>
 		<!-- Todo: the following code checks compatibility with redSHOP Core version. The code works, but it can be improved with some PHING knowledge -->
 		<property
 				name="redshop_compatibility"
-				value="${modulemanifest.redshop}"
+				value="${packagemanifest.redshop}"
 				override="true"/>
 
 		<if>
-			<contains string="${redshop_compatibility}" substring="modulemanifest.redshop" />
+			<contains string="${redshop_compatibility}" substring="packagemanifest.redshop" />
 			<then>
 				<property
 						name="redshop_compatibility"
@@ -127,7 +127,7 @@
 
 		<jproject file="${extpath}/packages/${dirname}/${dirname}.xml" param="item" target="itemtarget" prefix="extensionInfo" />
 
-		<copy todir="${tmpdir}/${extension}-${version}-packages/${dirname}_${module_version}${redshop_compatibility}">
+		<copy todir="${tmpdir}/${extension}-${version}-packages/${dirname}_${package_version}${redshop_compatibility}">
 			<fileset dir="${extpath}/packages/${dirname}">
 				<include name="**" />
 				<exclude name=".*" />
@@ -135,9 +135,9 @@
 		</copy>
 
 		<zip
-				destfile="${tmpdir}/${extension}-${version}-packages/pkg_${dirname}_${module_version}${redshop_compatibility}.zip"
-				basedir="${tmpdir}/${extension}-${version}-packages/${dirname}_${module_version}${redshop_compatibility}">
-			<fileset dir="${tmpdir}/${extension}-${version}-packages/${dirname}_${module_version}${redshop_compatibility}">
+				destfile="${tmpdir}/${extension}-${version}-packages/pkg_${dirname}_${package_version}${redshop_compatibility}.zip"
+				basedir="${tmpdir}/${extension}-${version}-packages/${dirname}_${package_version}${redshop_compatibility}">
+			<fileset dir="${tmpdir}/${extension}-${version}-packages/${dirname}_${package_version}${redshop_compatibility}">
 				<include name="**" />
 				<exclude name=".*" />
 			</fileset>
