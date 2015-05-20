@@ -87,14 +87,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<?php
 								RedshopToolbarHelper::link(
 									'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
-									'list',
+									'redshop_export_export32',
 									'COM_REDSHOP_CREATE_STOCKNOTE',
 									'_blank'
 								);
 
 								RedshopToolbarHelper::link(
 									'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
-									'list',
+									'redshop_export_export32',
 									'COM_REDSHOP_CREATE_SHIPPING_LABEL',
 									'_blank'
 								);
@@ -103,19 +103,19 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 								RedshopToolbarHelper::link(
 									'index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl,
-									'mail',
+									'send',
 									'COM_REDSHOP_SEND_DOWNLOEADMAIL'
 								);
 
 								RedshopToolbarHelper::link(
 									'index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl,
-									'mail',
+									'send',
 									'COM_REDSHOP_RESEND_ORDER_MAIL'
 								);
 
 								RedshopToolbarHelper::link(
 									'index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl,
-									'mail',
+									'send',
 									'COM_REDSHOP_SEND_INVOICEMAIL'
 								);
 
