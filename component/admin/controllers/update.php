@@ -48,9 +48,9 @@ class RedshopControllerUpdate extends RedshopController
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_UPDATE_FAILED'), 'error');
 		}
 
-		if (!empty($layoutOutput))
+		if (!empty($syncOutput))
 		{
-			JFactory::getApplication()->enqueueMessage($syncOutput, 'message');
+			JFactory::getApplication()->enqueueMessage($syncOutput, 'warning');
 		}
 
 		$messages = $app->getMessageQueue();

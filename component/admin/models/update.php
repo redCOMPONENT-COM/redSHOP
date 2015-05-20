@@ -101,6 +101,8 @@ class RedshopModelUpdate extends RedshopModel
 	{
 		if (array_key_exists('engine', $values))
 		{
+			$config = JFactory::getConfig();
+			$tableName = str_replace('#__', $config->get('dbprefix'), $tableName);
 			$db = JFactory::getDbo();
 			$db->setQuery('SHOW TABLE STATUS WHERE Name = ' . $db->q($tableName));
 			$result = $db->loadObject();
@@ -112,6 +114,37 @@ class RedshopModelUpdate extends RedshopModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * checkTableExists
+	 *
+	 * @param   string  $tableName  Table name
+	 *
+	 * @return bool
+	 */
+	public function checkTableExists($tableName)
+	{
+		static $tables = array();
+		$config = JFactory::getConfig();
+		$tableName = str_replace('#__', $config->get('dbprefix'), $tableName);
+
+		if (!isset($tables[$tableName]))
+		{
+			$db = JFactory::getDbo();
+
+			if ($db->setQuery('SHOW TABLES LIKE ' . $db->q($tableName))->loadResult())
+			{
+				$tables[$tableName] = true;
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDSHOP_UPDATE_TABLE_NOT_EXISTS', $tableName), 'warning');
+				$tables[$tableName] = false;
+			}
+		}
+
+		return $tables[$tableName];
 	}
 
 	/**
@@ -131,16 +164,26 @@ class RedshopModelUpdate extends RedshopModel
 
 		try
 		{
+			// Count all indexes needed
 			$count = count(RedshopUpdate::$tablesRelates);
 			$db->transactionStart();
 
 			// Check tables engines
 			foreach (RedshopUpdate::$tablesRelates as $tableName => $values)
 			{
-				$counter++;
+				if (!$this->checkTableExists($tableName))
+				{
+					continue;
+				}
 
 				if (!$this->checkEngine($tableName, $values))
 				{
+					if (microtime(1) - $start >= $maxTime)
+					{
+						$goToNextPart = true;
+						continue;
+					}
+
 					$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ENGINE = ' . $db->q($values['engine']));
 
 					if (!$db->execute())
@@ -149,44 +192,44 @@ class RedshopModelUpdate extends RedshopModel
 					}
 
 					$queryExecuted++;
-
-					if (microtime(1) - $start >= $maxTime)
-					{
-						$goToNextPart = true;
-						break;
-					}
 				}
+
+				$counter++;
 			}
 
 			foreach (RedshopUpdate::$tablesRelates as $tableName => $values)
 			{
+				if (!$this->checkTableExists($tableName))
+				{
+					continue;
+				}
+
 				if (array_key_exists('index', $values) && count($values['index']) > 0)
 				{
 					$count += count($values['index']);
 
-					if (!$goToNextPart)
+					foreach ($values['index'] as $key => $oneIndex)
 					{
-						foreach ($values['index'] as $key => $oneIndex)
+						if (microtime(1) - $start >= $maxTime)
 						{
-							if (!$this->checkIndex($tableName, $key))
-							{
-								$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
-								$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD INDEX ' . $db->qn($key) . ' (' . $indexFields . ')');
-
-								if (!$db->execute())
-								{
-									throw new Exception($db->getErrorMsg());
-								}
-
-								$queryExecuted++;
-							}
-
-							if (microtime(1) - $start >= $maxTime)
-							{
-								$goToNextPart = true;
-								break;
-							}
+							$goToNextPart = true;
+							continue;
 						}
+
+						if (!$this->checkIndex($tableName, $key))
+						{
+							$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
+							$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD INDEX ' . $db->qn($key) . ' (' . $indexFields . ')');
+
+							if (!$db->execute())
+							{
+								throw new Exception($db->getErrorMsg());
+							}
+
+							$queryExecuted++;
+						}
+
+						$counter++;
 					}
 				}
 
@@ -194,29 +237,28 @@ class RedshopModelUpdate extends RedshopModel
 				{
 					$count += count($values['unique']);
 
-					if (!$goToNextPart)
+					foreach ($values['unique'] as $key => $oneIndex)
 					{
-						foreach ($values['unique'] as $key => $oneIndex)
+						if (!$this->checkIndex($tableName, $key))
 						{
-							if (!$this->checkIndex($tableName, $key))
-							{
-								$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
-								$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD UNIQUE ' . $db->qn($key) . ' (' . $indexFields . ')');
-
-								if (!$db->execute())
-								{
-									throw new Exception($db->getErrorMsg());
-								}
-
-								$queryExecuted++;
-							}
-
 							if (microtime(1) - $start >= $maxTime)
 							{
 								$goToNextPart = true;
-								break;
+								continue;
 							}
+
+							$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
+							$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD UNIQUE ' . $db->qn($key) . ' (' . $indexFields . ')');
+
+							if (!$db->execute())
+							{
+								throw new Exception($db->getErrorMsg());
+							}
+
+							$queryExecuted++;
 						}
+
+						$counter++;
 					}
 				}
 			}
