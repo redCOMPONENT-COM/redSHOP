@@ -362,3 +362,4 @@ define('STATISTICS_ENABLE', 1);
 define('MEDIA_ALLOWED_MIME_TYPE', 'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls');
 define('AUTO_GENERATE_LABEL', 1);
 define('GENERATE_LABEL_ON_STATUS', "S");
+define('INVOICE_NUMBER_FOR_FREE_ORDER', 0);
