@@ -1829,6 +1829,7 @@ function discountCalculation(proid) {
 
 				if (document.getElementById('main_price' + proid))
 				{
+					calculateTotalPrice(proid, 0);
 					var product_main_price = document.getElementById('main_price' + proid).value;
 
 					if (redSHOP.RSConfig._('SHOW_PRICE') == '1' && ( redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') != '1' || (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE'))))
@@ -1860,8 +1861,6 @@ function discountCalculation(proid) {
 						// set product main price as price total for dynamic price change
 						document.getElementById('main_price' + proid).value = product_price_excl_vat;
 					}
-
-					calculateTotalPrice(proid, 0);
 				}
 			}
 		}
