@@ -22,6 +22,8 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function element()
 	{
+		// Check for request forgeries
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 		JRequest::setVar('layout', 'element');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
