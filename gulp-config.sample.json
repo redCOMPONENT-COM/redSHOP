@@ -1,9 +1,9 @@
 {
-	"releasePkgName": "redshop_",
-	"packageDir"    : "/var/www/packages",
-	"version"       : "1.5.0.5.2",
-	"joomlaVersion" : "j25-j3x",
-	"packageFiles"  :[
+	"name"         : "redshop_",
+	"releasesDir"  : "/var/www/releases",
+	"version"      : "1.5.0.5.2",
+	"joomlaVersion": "j25-j3x",
+	"packageFiles" :[
 		"LICENSE.txt",
 		"redshop.xml",
 		"install.php",

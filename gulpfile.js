@@ -67,12 +67,12 @@ gulp.task('release:extensions', function() {
 				)
 			    .pipe(
 			    	zip(
-			    		extSuffix + config.releasePkgName + plugin + '_' + 'v' + config.version + '.zip'
+			    		extSuffix + config.name + plugin + '_' + 'v' + config.version + '.zip'
 			    	)
 			    )
 				.pipe(
 					gulp.dest(
-						path.join(config.packageDir, srcFolder.split(path.sep)[1], folder)
+						path.join(config.releasesDir, srcFolder.split(path.sep)[1], folder)
 					)
 				);
 		});
@@ -98,10 +98,10 @@ gulp.task('release:component', function() {
 	gutil.log(gutil.colors.white.bgGreen('Preparing release for component'));
 
 	gulp.src(config.packageFiles, {base: '.'})
-		.pipe(zip(config.releasePkgName + 'v' + config.version + '_' + config.joomlaVersion + '.zip'))
-		.pipe(gulp.dest(config.packageDir));
+		.pipe(zip(config.name + 'v' + config.version + '_' + config.joomlaVersion + '.zip'))
+		.pipe(gulp.dest(config.releasesDir));
 
-	gutil.log(gutil.colors.white.bgGreen('Component packages are ready at ' + config.packageDir))
+	gutil.log(gutil.colors.white.bgGreen('Component packages are ready at ' + config.releasesDir));
 });
 
 gulp.task(
