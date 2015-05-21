@@ -52,7 +52,7 @@ class PlgButtonProduct extends JPlugin
 		}";
 		$doc->addScriptDeclaration($js);
 
-		$link = 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . $name;
+		$link = 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . $name . '&' . JSession::getFormToken() . '=1';
 
 		JHTML::_('behavior.modal');
 
@@ -62,7 +62,7 @@ class PlgButtonProduct extends JPlugin
 		$button->set('link', $link);
 		$button->set('text', JText::_('PLG_EDITORS-XTD_PRODUCT_BUTTON_TEXT'));
 		$button->set('name', 'file-add article');
-		$button->set('options', "{handler: 'iframe', size: {x: 700, y: 550}}");
+		$button->set('options', "{handler: 'iframe', size: {x: 800, y: 500}}");
 
 		return $button;
 	}
