@@ -35,6 +35,7 @@ phing-latest.phar
 
 # Gulp Build script
 gulp-config.json
+npm-debug.log
 node_modules/
 
 # Composer
