@@ -138,4 +138,4 @@ ALTER TABLE `#__redshop_product_voucher` CHANGE `voucher_type` `voucher_type` VA
 
 ALTER TABLE `#__redshop_stockroom` CHANGE `stockroom_desc` `stockroom_desc` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
-DROP TABLE `#__redshop_shipping_method`;
+DROP TABLE IF EXISTS `#__redshop_shipping_method`;
