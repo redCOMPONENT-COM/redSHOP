@@ -147,8 +147,6 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 	JRequest::setVar('view', $view);
 }
 
-$document->addStyleDeclaration('fieldset.adminform textarea {margin: 0px 0px 10px 0px !important;width: 100% !important;}');
-
 RedshopConfig::script('SITE_URL', JURI::root());
 RedshopConfig::script('REDCURRENCY_SYMBOL', REDCURRENCY_SYMBOL);
 RedshopConfig::script('PRICE_SEPERATOR', PRICE_SEPERATOR);
