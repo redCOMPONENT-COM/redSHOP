@@ -23,13 +23,13 @@ extensionConfig = require('./package.json')
 manifest = {},
 
 // Init component version - Set default as config version
-redshop = {"version":'',"compatibility":'',"pluginVersion":''};
+component = {"version":'',"compatibility":'',"pluginVersion":''};
 
 // Reading manifest file
-readManifest('./redshop.xml');
+readManifest('./' + config.name + '.xml');
 
 // Update version from manifest file
-redshop.version = manifest.extension.version[0];
+component.version = manifest.extension.version[0];
 
 function getFolders(dir) {
 	return fs.readdirSync(dir)
@@ -79,28 +79,29 @@ gulp.task('release:extensions', function() {
 
 		tasks = plugins.map(function(plugin) {
 
-			var pluginBasePath = path.join(srcFolder, folder, plugin);
+			var pluginBasePath = path.join(srcFolder, folder, plugin),
+			componentName = config.name;
 
 			// Reading manifest file
 			readManifest(path.join(pluginBasePath, plugin + '.xml'));
 
 			// Update version from manifest file
-			redshop.pluginVersion = manifest.extension.version[0];
-			redshop.compatibility = (manifest.extension.redshop) ? '_for_redSHOP_' + manifest.extension.redshop[0] : '';
+			component.pluginVersion = manifest.extension.version[0];
+			component.compatibility = (manifest.extension.componentName) ? '_for_' + config.name + '_' + manifest.extension.componentName[0] : '';
 
 			// Strip group name for modules
 			var extGroupName = ('site' == folder) ? '' : folder + '_',
-			destFolderName = 'redshop-' + redshop.version + '-' + srcFolder.split(path.sep)[1];
+			destFolderName = config.name + '-' + component.version + '-' + srcFolder.split(path.sep)[1];
 
 			// Print current extension name
-			gutil.log(gutil.colors.red.bold.italic('-' + plugin + ' v' + redshop.pluginVersion));
+			gutil.log(gutil.colors.red.bold.italic('-' + plugin + ' v' + component.pluginVersion));
 
 			return gulp.src(
 					path.join(pluginBasePath, '**')
 				)
 				.pipe(
 					zip(
-						extSuffix + extGroupName + plugin + '_' + redshop.pluginVersion + redshop.compatibility + '.zip'
+						extSuffix + extGroupName + plugin + '_' + component.pluginVersion + component.compatibility + '.zip'
 					)
 				)
 				.pipe(
@@ -129,10 +130,10 @@ gulp.task('release:component', function() {
 	}
 
 	// Start up log
-	gutil.log(gutil.colors.white.bgGreen('Preparing release for version' + redshop.version));
+	gutil.log(gutil.colors.white.bgGreen('Preparing release for version' + component.version));
 
 	gulp.src(config.packageFiles, {base: '.'})
-		.pipe(zip(config.name + 'v' + redshop.version + '_' + config.joomlaVersion + '.zip'))
+		.pipe(zip(config.name + '_v' + component.version + '_' + config.joomlaVersion + '.zip'))
 		.pipe(gulp.dest(config.releasesDir));
 
 	gutil.log(gutil.colors.white.bgGreen('Component packages are ready at ' + config.releasesDir));
