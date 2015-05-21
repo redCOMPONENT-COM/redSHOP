@@ -23,6 +23,43 @@ JLoader::load('RedshopHelperAdminImages');
 class RedshopControllerProduct extends RedshopController
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
+	 */
+	public function __construct($config = array())
+	{
+		$this->input = JFactory::getApplication()->input;
+
+		// Article frontpage Editor product proxying:
+		if ($this->input->get('task') === 'element')
+		{
+			JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+			$lang = JFactory::getLanguage();
+			$lang->load('com_redshop', JPATH_ADMINISTRATOR);
+			JHtml::_('behavior.framework');
+			JHtml::_('redshopjquery.framework');
+			$document = JFactory::getDocument();
+
+			if (version_compare(JVERSION, '3.0', '>='))
+			{
+				JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")');
+				$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
+			}
+
+			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
+			JRequest::setVar('layout', 'element');
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Display Product add price
 	 *
 	 * @return  void
