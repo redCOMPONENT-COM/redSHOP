@@ -33,6 +33,10 @@ Desktop.ini
 build.properties
 phing-latest.phar
 
+# Gulp Build script
+gulp-config.json
+node_modules/
+
 # Composer
 composer.lock
 composer.phar
