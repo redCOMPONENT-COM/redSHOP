@@ -1,3 +1,9 @@
+fieldset.adminform textarea {
+	margin: 0 0 10px 0 !important;
+	width: 100% !important;
+	box-sizing: border-box;
+}
+
 /* product Finder */
 .select_box_parent {
 	cursor: pointer;
