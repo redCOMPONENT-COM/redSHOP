@@ -19,7 +19,7 @@ modules:
         - AcceptanceHelper
     config:
         JoomlaBrowser:
-            url: 'http://localhost/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'firefox'
             window_size: 1024x768
             capabilities:
