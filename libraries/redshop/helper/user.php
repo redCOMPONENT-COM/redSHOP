@@ -36,7 +36,8 @@ class RedshopHelperUser
 			$userId = $user->id;
 		}
 
-		if (!$userId)
+		// If both is not set return, as we also have silent user creating where joomla user id is not set
+		if (!$userId && !$userInfoId)
 		{
 			return array();
 		}
@@ -59,8 +60,13 @@ class RedshopHelperUser
 			$query = $db->getQuery(true)
 				->select(array('sh.*', 'u.*'))
 				->from($db->qn('#__redshop_users_info', 'u'))
-				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
-				->where('u.user_id = ' . (int) $userId);
+				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id');
+
+			// Not necessory that all user is registed with joomla id. We have silent user creation too.
+			if ($userId)
+			{
+				$query->where('u.user_id = ' . (int) $userId);
+			}
 
 			if ($useAddressType)
 			{
