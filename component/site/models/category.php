@@ -471,15 +471,15 @@ class RedshopModelCategory extends RedshopModel
 				}
 			}
 
-			$this->_product[0]->minprice = floor($min);
-			$this->_product[0]->maxprice = ceil($max);
+			$this->setState('minprice', floor($min));
+			$this->setState('maxprice', ceil($max));
 			$this->setMaxMinProductPrice(array(floor($min), ceil($max)));
 		}
 		elseif ($isSlider)
 		{
 			$newProduct = array();
 
-			for ($i = 0; $i < count($this->_product); $i++)
+			for ($i = 0, $cp = count($this->_product); $i < $cp; $i++)
 			{
 				$ProductPriceArr                 = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->sliderprice = $ProductPriceArr['product_price'];
@@ -490,8 +490,8 @@ class RedshopModelCategory extends RedshopModel
 				}
 			}
 
-			$this->_product = $newProduct;
-			$this->_total   = count($this->_product);
+			$this->_total   = count($newProduct);
+			$this->_product = array_slice($newProduct, $limitstart, $endlimit);
 		}
 		else
 		{
