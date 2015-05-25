@@ -15,6 +15,7 @@ fieldset.adminform label.radiobtn, table.admintable label.radiobtn
 	float: none;
 }
 </style>
+<fieldset class="adminform">
 <div class="wizard_header">
 	<div>&nbsp;</div>
 	<div class="wizard_intro_text1"><?php echo JText::_('COM_REDSHOP_GENERAL_WIZARD_INTRO_TEXT1');?></div>
@@ -166,6 +167,7 @@ fieldset.adminform label.radiobtn, table.admintable label.radiobtn
 		</table>
 	</form>
 </div>
+</fieldset>
 <script>
 
 	window.onload = enableInvoice('<?php echo $this->temparray["invoice_mail_enable"];?>');
