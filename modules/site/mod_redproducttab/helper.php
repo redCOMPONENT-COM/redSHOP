@@ -45,10 +45,12 @@ abstract class ModRedProductTabHelper
 			}
 			else
 			{
-				if ($cid = JFactory::getApplication()->input->getInt('cid', 0))
-				{
-					$catIds = array($cid);
+				$input = JFactory::getApplication()->input;
+				$cid = $input->getInt('cid', 0);
+				$catIds = array($cid);
 
+				if ($input->getCmd('option', '') == 'com_redshop' && $input->getCmd('view', '') == 'category' && $cid)
+				{
 					if ($categories = RedshopHelperCategory::getCategoryListArray('', $cid))
 					{
 						foreach ($categories as $oneCategory)
@@ -56,9 +58,9 @@ abstract class ModRedProductTabHelper
 							$catIds[] = $oneCategory->category_id;
 						}
 					}
-
-					self::$categories[$moduleId] = implode(',', $catIds);
 				}
+
+				self::$categories[$moduleId] = implode(',', $catIds);
 			}
 		}
 
