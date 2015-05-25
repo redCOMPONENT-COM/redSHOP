@@ -98,10 +98,10 @@ defined('_JEXEC') or die;
 					<td width="100" align="right" class="key">
 						<span
 							class="editlinktip hasTip"
-						    title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_TEMPLATE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_TEMPLATE'); ?>"
+						    title="<?php echo JText::_('COM_REDSHOP_ORDER_NUMBER_TEMPLATE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_NUMBER_TEMPLATE'); ?>"
 						   >
 							<label for="invoice_number_template">
-								<?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER_TEMPLATE_LBL');?>
+								<?php echo JText::_('COM_REDSHOP_ORDER_NUMBER_TEMPLATE_LBL');?>
 							</label>
 						</span>
 					</td>
@@ -111,6 +111,26 @@ defined('_JEXEC') or die;
 							name="invoice_number_template"
 							id="invoice_number_template"
 						    value="<?php echo INVOICE_NUMBER_TEMPLATE; ?>"
+						>
+					</td>
+				</tr>
+				<tr>
+					<td width="100" align="right" class="key">
+						<span
+							class="editlinktip hasTip"
+						    title="<?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER_TEMPLATE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_TEMPLATE'); ?>"
+						   >
+							<label for="invoice_number_template">
+								<?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER_TEMPLATE_LBL');?>
+							</label>
+						</span>
+					</td>
+					<td>
+						<input
+							type="text"
+							name="real_invoice_number_template"
+							id="real_invoice_number_template"
+						    value="<?php echo REAL_INVOICE_NUMBER_TEMPLATE; ?>"
 						>
 					</td>
 				</tr>

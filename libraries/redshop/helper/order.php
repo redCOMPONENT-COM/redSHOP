@@ -90,13 +90,13 @@ class RedshopHelperOrder
 			return '';
 		}
 
-		if (!INVOICE_NUMBER_TEMPLATE)
+		if (!REAL_INVOICE_NUMBER_TEMPLATE)
 		{
 			return $invoiceNo;
 		}
 
 		return self::parseNumberTemplate(
-			INVOICE_NUMBER_TEMPLATE,
+			REAL_INVOICE_NUMBER_TEMPLATE,
 			$invoiceNo
 		);
 	}
