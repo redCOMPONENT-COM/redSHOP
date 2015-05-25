@@ -130,6 +130,20 @@ CREATE TABLE IF NOT EXISTS `#__redshop_ordernumber_track` (
 	`trackdatetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Order number track';
 
+CREATE TABLE IF NOT EXISTS `#__redshop_notifystock_users` (
+	`id`                  INT(11) NOT NULL AUTO_INCREMENT,
+	`product_id`          INT(11) NOT NULL,
+	`property_id`         INT(11) NOT NULL,
+	`subproperty_id`      INT(11) NOT NULL,
+	`user_id`             INT(11) NOT NULL,
+	`notification_status` INT(11) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`),
+	KEY `idx_common` (`product_id`, `property_id`, `subproperty_id`, `notification_status`, `user_id`),
+	KEY `idx_user_id` (`user_id`)
+)
+	ENGINE =InnoDB
+	DEFAULT CHARSET =utf8;
+
 ALTER TABLE `#__redshop_product_price` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 ALTER TABLE `#__redshop_product_subattribute_color` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
