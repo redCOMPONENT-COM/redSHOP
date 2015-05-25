@@ -1390,10 +1390,11 @@ class Redconfiguration
 
 	public function getCountryList($post = array(), $country_codename = "country_code", $address_type = "BT", $country_class = "inputbox")
 	{
-		$address_type = ($address_type == "ST") ? "_ST" : "";
-		$countries    = $this->countryList();
+		$address_type   = ($address_type == "ST") ? "_ST" : "";
+		$countries      = $this->countryList();
+		$totalCountries = count($countries);
 
-		if (count($countries) == 1)
+		if ($totalCountries == 1)
 		{
 			$post['country_code' . $address_type] = $countries[0]->value;
 		}
@@ -1403,15 +1404,21 @@ class Redconfiguration
 			$post['country_code' . $address_type] = SHOP_COUNTRY;
 		}
 
-		$temps           = array();
-		$temps[0]        = new stdClass;
-		$temps[0]->value = '';
-		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
-		$temps           = array_merge($temps, $countries);
+		$temps = array();
+
+		// Only offer please select hint if more than one countries.
+		if ($totalCountries > 1)
+		{
+			$temps[0]        = new stdClass;
+			$temps[0]->value = '';
+			$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		}
+
+		$temps = array_merge($temps, $countries);
 
 		$selectedcnt = '';
 
-		for ($i = 0; $i < count($countries); $i++)
+		for ($i = 0; $i < $totalCountries; $i++)
 		{
 			if ($countries[$i]->value == $post['country_code' . $address_type])
 			{
