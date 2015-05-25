@@ -74,11 +74,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 		}
 	}
 </script>
-<?php if(isset($order_id)) : ?>
-	<?php
-
-	?>
-<?php endif; ?>
 <table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 <tbody>
 <tr>
