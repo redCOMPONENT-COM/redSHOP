@@ -672,3 +672,7 @@ div.current select, div.current input, div.current textarea, div.current select 
 #toolbar #toolbar-cancel {
     float: right;
 }
+.tableHeader td, .tableHeader th{
+	padding: 4px 5px;
+	background-color: #cccccc !important;
+}
