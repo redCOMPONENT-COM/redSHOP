@@ -1078,8 +1078,8 @@ class rsUserhelper
 		$template_desc = str_replace("{city}", '<input class="inputbox required" type="text" name="city" ' . $read_only . ' id="city" value="' . @$post['city'] . '" size="32" maxlength="250" />', $template_desc);
 
 		// Allow phone number to be optional using template tags.
-		$phoneIsRequired = ((boolean) strstr($template_desc, '{phone-optional}')) ? '' : 'required';
-		$template_desc = str_replace("{phone-optional}",'', $template_desc);
+		$phoneIsRequired = ((boolean) strstr($template_desc, '{phone_optional}')) ? '' : 'required';
+		$template_desc = str_replace("{phone_optional}",'', $template_desc);
 		$template_desc = str_replace(
 			"{phone}",
 			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . @$post ["phone"] . '" onblur="return searchByPhone(this.value,\'BT\');" />',
