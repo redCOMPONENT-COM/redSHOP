@@ -57,7 +57,7 @@ class RedshopModelOrder extends RedshopModel
 	{
 		$filter_status         = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', '', 'string');
 		$filter_payment_status = $this->getUserStateFromRequest($this->context . 'filter_payment_status', 'filter_payment_status', '', '');
-		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', 0);
+		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
 		$filter_by             = $this->getUserStateFromRequest($this->context . 'filter_by', 'filter_by', '', '');
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);

@@ -14,7 +14,8 @@ $class  = $displayData['class'];
 $text   = $displayData['text'];
 $target = $displayData['target'];
 ?>
-<button onclick="window.open('<?php echo $doTask; ?>', '<?php echo $target; ?>');" class="btn btn-small">
+<a href="<?php echo $doTask; ?>"
+	  target="<?php echo $target; ?>" class="btn btn-small">
 	<span class="<?php echo $class; ?>"></span>
 	<?php echo $text; ?>
-</button>
+</a>
