@@ -916,6 +916,11 @@ class Com_RedshopInstallerScript
 			$cfgarr["INVOICE_NUMBER_FOR_FREE_ORDER"] = 0;
 		}
 
+		if (!defined("REAL_INVOICE_NUMBER_TEMPLATE"))
+		{
+			$cfgarr["REAL_INVOICE_NUMBER_TEMPLATE"] = '';
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 

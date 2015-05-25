@@ -133,6 +133,7 @@ $defaultarray["addtocart_behaviour"] = ADDTOCART_BEHAVIOUR;
 $defaultarray["wanttoshowattributeimage"] = WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART;
 $defaultarray["default_quotation_mode"] = DEFAULT_QUOTATION_MODE;
 $defaultarray["invoice_number_template"] = INVOICE_NUMBER_TEMPLATE;
+$defaultarray["real_invoice_number_template"] = REAL_INVOICE_NUMBER_TEMPLATE;
 $defaultarray["first_invoice_number"] = FIRST_INVOICE_NUMBER;
 $defaultarray["cart_timeout"] = CART_TIMEOUT;
 $defaultarray["ajax_cart_box"] = AJAX_CART_BOX;
