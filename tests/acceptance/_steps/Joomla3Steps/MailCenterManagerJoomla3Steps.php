@@ -43,10 +43,10 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage, 60, '.alert-success');
 		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
-		$I->click('ID');
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see($mailName);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -61,7 +61,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($mailName);
 		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
@@ -71,7 +71,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage, 30, '.alert-success');
 		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
 		$I->see($newMailName);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
