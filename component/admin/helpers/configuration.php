@@ -703,6 +703,7 @@ class Redconfiguration
 						"TERMS_ARTICLE_ID"                             => $d["terms_article_id"],
 
 						"INVOICE_NUMBER_TEMPLATE"                      => $d["invoice_number_template"],
+						"REAL_INVOICE_NUMBER_TEMPLATE"                 => $d["real_invoice_number_template"],
 						"FIRST_INVOICE_NUMBER"                         => $d["first_invoice_number"],
 						"INVOICE_NUMBER_FOR_FREE_ORDER"                => $d["invoice_number_for_free_order"],
 						"DEFAULT_CATEGORY_ORDERING_METHOD"             => $d["default_category_ordering_method"],
