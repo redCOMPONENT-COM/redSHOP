@@ -30,10 +30,9 @@ class RedshopHelperUser
 	 */
 	public static function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0, $useAddressType = true)
 	{
-		if ($userId == 0)
+		if (0 == $userId && 0 == $userInfoId)
 		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
+			$userId = JFactory::getUser()->id;
 		}
 
 		// If both is not set return, as we also have silent user creating where joomla user id is not set
