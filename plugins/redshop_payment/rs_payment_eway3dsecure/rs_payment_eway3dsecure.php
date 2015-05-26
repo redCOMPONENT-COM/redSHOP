@@ -63,7 +63,8 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 			return;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$accessCode = $input->getString('AccessCode', '');
 		$order_id = $input->getString('orderid', '');
 		$verify_status  = $this->params->get('verify_status', '');
@@ -90,12 +91,11 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 			if (isset($result->Errors))
 			{
 				$ErrorArray = explode(",", $result->Errors);
-				$lblError = "";
 
 				foreach ($ErrorArray as $error)
 				{
 					$error = $service->getMessage($error);
-					$lblError .= $error . "<br />\n";
+					$app->enqueueMessage($error, 'warning');
 				}
 			}
 			else
