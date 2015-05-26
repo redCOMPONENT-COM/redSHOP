@@ -918,7 +918,7 @@ class Com_RedshopInstallerScript
 
 		if (!defined("REAL_INVOICE_NUMBER_TEMPLATE"))
 		{
-			$cfgarr["REAL_INVOICE_NUMBER_TEMPLATE"] = '';
+			$cfgarr["REAL_INVOICE_NUMBER_TEMPLATE"] = '##';
 		}
 
 		$Redconfiguration->manageCFGFile($cfgarr);
