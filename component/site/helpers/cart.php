@@ -4708,20 +4708,44 @@ class rsCarthelper
 	{
 		$db = JFactory::getDbo();
 
-		$current_time = time();
-		$cart         = $this->_session->get('cart');
-		$user         = JFactory::getUser();
-		$coupon       = array();
+		$today  = time();
+		$cart   = $this->_session->get('cart');
+		$user   = JFactory::getUser();
+		$coupon = array();
+
+		// Create the base select statement.
+		$query = $db->getQuery(true)
+					->select('c.*')
+					->from($db->qn('#__redshop_coupons', 'c'))
+					->where($db->qn('c.published') . ' = 1')
+					->where(
+						'('
+							. $db->qn('c.start_date') . ' <= ' . $db->quote($today)
+							. ' AND ' . $db->qn('c.end_date') . ' >= ' . $db->quote($today)
+						. ')'
+					);
 
 		if ($user->id)
 		{
-			$query = "SELECT ct.coupon_value as coupon_value,c.free_shipping, c.coupon_id,c.coupon_code,c.percent_or_total,ct.userid,ct.transaction_coupon_id FROM " . $this->_table_prefix . "coupons as c "
-				. "left join " . $this->_table_prefix . "coupons_transaction as ct on ct.coupon_id = c.coupon_id "
-				. "WHERE ct.coupon_value > 0 AND c.published = 1 and ct.coupon_code=" . $db->quote($coupon_code)
-				. " AND (c.start_date<=" . $db->quote($current_time) . " AND c.end_date>=" . $db->quote($current_time) . " )"
-				. " AND ct.userid=" . (int) $user->id . " ORDER BY transaction_coupon_id DESC limit 0,1";
-			$this->_db->setQuery($query);
-			$coupon = $this->_db->loadObject();
+			$userQuery = clone($query);
+			$userQuery->select(
+					array(
+						$db->qn('ct.coupon_value', 'coupon_value'),
+						$db->qn('ct.userid'),
+						$db->qn('ct.transaction_coupon_id')
+					)
+				)
+				->leftjoin(
+					$db->qn('#__redshop_coupons_transaction', 'ct')
+					. ' ON ' . $db->qn('ct.coupon_id') . ' = ' . $db->qn('c.coupon_id')
+				)
+				->where($db->qn('ct.coupon_value') . ' > 0')
+				->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($coupon_code))
+				->where($db->qn('ct.userid') . ' = ' . (int) $user->id)
+				->order($db->qn('ct.transaction_coupon_id') . ' DESC');
+
+			$db->setQuery($userQuery, 0, 1);
+			$coupon = $db->loadObject();
 
 			if (count($coupon) > 0)
 			{
@@ -4731,12 +4755,18 @@ class rsCarthelper
 
 		if (count($coupon) <= 0)
 		{
-			$query = "SELECT * FROM " . $this->_table_prefix . "coupons   "
-				. "WHERE published = 1 and coupon_code = " . $db->quote($coupon_code) . " and (start_date<=" . $db->quote($current_time)
-				. " AND end_date>=" . $db->quote($current_time) . " ) AND coupon_left > 0 "
-				. " AND ( " . $db->quote($subtotal) . " >= subtotal OR subtotal = 0 OR subtotal = '' ) limit 0,1";
-			$this->_db->setQuery($query);
-			$coupon = $this->_db->loadObject();
+			$query->where($db->qn('c.coupon_code') . ' = ' . $db->quote($coupon_code))
+
+				->where($db->qn('c.coupon_left') . ' > 0')
+				->where(
+					'('
+						. $db->quote($subtotal) . ' >= ' . $db->qn('c.subtotal')
+						. ' OR ' . $db->qn('c.subtotal') . ' = 0'
+					. ')'
+				);
+
+			$db->setQuery($query, 0, 1);
+			$coupon = $db->loadObject();
 		}
 
 		return $coupon;
