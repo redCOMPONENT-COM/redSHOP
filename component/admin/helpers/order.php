@@ -1644,6 +1644,7 @@ class order_functions
 
 			$maildata = $productstart . $pmiddle . $productend;
 			$mailbody = $maildata;
+			$mailbody = $redshopMail->imginmail($mailbody);
 			$mailsubject = str_replace("{order_number}", $orderdetail->order_number, $mailsubject);
 
 			if ($mailbody && $useremail != "")
@@ -1998,6 +1999,7 @@ class order_functions
 			$replace[] = "<a href='" . $order_trackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
 			$mailbody = str_replace($search, $replace, $maildata);
+			$mailbody = $redshopMail->imginmail($mailbody);
 			$mailsubject = str_replace($search, $replace, $mailsubject);
 
 			if ('' != $userdetail->thirdparty_email && $mailbody)

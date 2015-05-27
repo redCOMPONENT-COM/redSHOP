@@ -166,6 +166,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data_add    = str_replace('{user_telephone}', $data['telephone'], $data_add);
 		$data_add    = str_replace('{user_telephone_lbl}', JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
 		$data_add    = str_replace('{user_address_lbl}', JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
+		$data_add = $redshopMail->imginmail($data_add);
 
 		if (ADMINISTRATOR_EMAIL != '')
 		{
