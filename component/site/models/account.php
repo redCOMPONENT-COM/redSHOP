@@ -447,6 +447,7 @@ class RedshopModelAccount extends RedshopModel
 		$data          = "";
 		$mailbcc       = null;
 		$wishlist_body = $redshopMail->getMailtemplate(0, "mywishlist_mail");
+		$data_add = '';
 
 		if (count($wishlist_body) > 0)
 		{
@@ -552,6 +553,8 @@ class RedshopModelAccount extends RedshopModel
 				}
 			}
 		}
+
+		$data_add = $redshopMail->imginmail($data_add);
 
 		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
 		{
