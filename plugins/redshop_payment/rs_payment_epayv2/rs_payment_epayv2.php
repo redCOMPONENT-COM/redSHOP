@@ -84,7 +84,12 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		if ($cardTypes = $this->params->get('paymenttype'))
 		{
 			// Remove ALL keyword
-			unset($cardTypes[array_search('ALL', $cardTypes)]);
+			$unsetIndex = array_search('ALL', $cardTypes);
+
+			if ($unsetIndex !== false)
+			{
+				unset($cardTypes[$unsetIndex]);
+			}
 
 			$formdata['paymenttype'] = implode(',', $cardTypes);
 		}

@@ -49,7 +49,7 @@ class Plgredshop_Productstock_Notifyemail extends JPlugin
 	 *
 	 * @return  void
 	 */
-	public function afterUpdateStock($stockroom_data)
+	public function onAfterUpdateStock($stockroom_data)
 	{
 		if ($stockroom_data['regular_stock'] || $stockroom_data['preorder_stock'])
 		{

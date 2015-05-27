@@ -282,6 +282,11 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			else
 			{
 				$k->update($paymentInfo[0]->order_payment_trans_id);
+
+				$app = JFactory::getApplication();
+				$app->redirect(
+					JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $data['order_id'])
+				);
 			}
 		}
 		catch(Exception $e)

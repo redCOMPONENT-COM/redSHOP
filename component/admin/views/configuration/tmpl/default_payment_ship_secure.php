@@ -27,17 +27,6 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td><?php echo $this->lists ['payment_calculation_on']; ?></td>
 					</tr>
-					<tr>
-						<td width="100" align="right" class="key">
-				<span class="editlinktip hasTip"
-				      title="<?php echo JText::_('COM_REDSHOP_FIRST_INVOICE_NUMBER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_FIRST_INVOICE_NUMBER_LBL'); ?>">
-				<label for="first_invoice_number"><?php echo JText::_('COM_REDSHOP_FIRST_INVOICE_NUMBER_LBL');?></label></span>
-						</td>
-						<td>
-							<input type="text" name="first_invoice_number" id="first_invoice_number"
-							       value="<?php echo FIRST_INVOICE_NUMBER; ?>">
-						</td>
-					</tr>
 				</table>
 			</fieldset>
 

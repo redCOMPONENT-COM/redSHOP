@@ -101,8 +101,8 @@ class RedshopModelUpdate extends RedshopModel
 	{
 		if (array_key_exists('engine', $values))
 		{
-			$app = JFactory::getApplication();
-			$tableName = str_replace('#__', $app->get('dbprefix'), $tableName);
+			$config = JFactory::getConfig();
+			$tableName = str_replace('#__', $config->get('dbprefix'), $tableName);
 			$db = JFactory::getDbo();
 			$db->setQuery('SHOW TABLE STATUS WHERE Name = ' . $db->q($tableName));
 			$result = $db->loadObject();
@@ -114,6 +114,37 @@ class RedshopModelUpdate extends RedshopModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * checkTableExists
+	 *
+	 * @param   string  $tableName  Table name
+	 *
+	 * @return bool
+	 */
+	public function checkTableExists($tableName)
+	{
+		static $tables = array();
+		$config = JFactory::getConfig();
+		$tableName = str_replace('#__', $config->get('dbprefix'), $tableName);
+
+		if (!isset($tables[$tableName]))
+		{
+			$db = JFactory::getDbo();
+
+			if ($db->setQuery('SHOW TABLES LIKE ' . $db->q($tableName))->loadResult())
+			{
+				$tables[$tableName] = true;
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDSHOP_UPDATE_TABLE_NOT_EXISTS', $tableName), 'warning');
+				$tables[$tableName] = false;
+			}
+		}
+
+		return $tables[$tableName];
 	}
 
 	/**
@@ -140,6 +171,11 @@ class RedshopModelUpdate extends RedshopModel
 			// Check tables engines
 			foreach (RedshopUpdate::$tablesRelates as $tableName => $values)
 			{
+				if (!$this->checkTableExists($tableName))
+				{
+					continue;
+				}
+
 				if (!$this->checkEngine($tableName, $values))
 				{
 					if (microtime(1) - $start >= $maxTime)
@@ -155,17 +191,19 @@ class RedshopModelUpdate extends RedshopModel
 						throw new Exception($db->getErrorMsg());
 					}
 
-					$counter++;
 					$queryExecuted++;
 				}
-				else
-				{
-					$counter++;
-				}
+
+				$counter++;
 			}
 
 			foreach (RedshopUpdate::$tablesRelates as $tableName => $values)
 			{
+				if (!$this->checkTableExists($tableName))
+				{
+					continue;
+				}
+
 				if (array_key_exists('index', $values) && count($values['index']) > 0)
 				{
 					$count += count($values['index']);
@@ -189,12 +227,9 @@ class RedshopModelUpdate extends RedshopModel
 							}
 
 							$queryExecuted++;
-							$counter++;
 						}
-						else
-						{
-							$counter++;
-						}
+
+						$counter++;
 					}
 				}
 
@@ -220,13 +255,10 @@ class RedshopModelUpdate extends RedshopModel
 								throw new Exception($db->getErrorMsg());
 							}
 
-							$counter++;
 							$queryExecuted++;
 						}
-						else
-						{
-							$counter++;
-						}
+
+						$counter++;
 					}
 				}
 			}

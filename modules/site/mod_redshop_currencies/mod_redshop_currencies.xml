@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_CURRENCIES</name>
-    <version>1.5</version>
-    <redshop>1.5</redshop>
+    <version>1.5.0.6</version>
+    <redshop>1.5.0.6</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -18,7 +18,7 @@
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_currencies.sys.ini</language>
     </languages>
 
-    <config addfieldpath="/administrator/components/com_redshop/elements">
+    <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
                 <field name="text_before" type="textarea" cols="40" rows="3"

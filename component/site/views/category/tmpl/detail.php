@@ -57,19 +57,7 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
-if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
-{
-	$endlimit = $this->state->get('list.limit');
-
-	if (strstr($template_desc, "{product_display_limit}"))
-	{
-		$endlimit = JRequest::getInt('limit', $endlimit, '', 'int');
-	}
-}
-else
-{
-	$endlimit = $this->state->get('list.limit');
-}
+$endlimit = $this->state->get('list.limit');
 
 $app = JFactory::getApplication();
 $router = $app->getRouter();
@@ -1030,37 +1018,46 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$template_desc = str_replace("{pagination}", "", $template_desc);
 	}
 
-	$product_display_limit = '';
+	$slidertag = '';
+	$pagination = new JPagination($model->_total, $start, $endlimit);
 
 	if (strstr($template_desc, "{pagination}"))
 	{
-		$pagination = new JPagination($model->_total, $start, $endlimit);
-		$slidertag  = $pagination->getPagesLinks();
-
-		if (strstr($template_desc, "{product_display_limit}"))
-		{
-			$slidertag     = "<form action='' method='post'> " . $pagination->getListFooter() . "</form>";
-			$template_desc = str_replace("{product_display_limit}", $slidertag, $template_desc);
-			$template_desc = str_replace("{pagination}", '', $template_desc);
-		}
-
-		$template_desc = str_replace("{pagination}", $slidertag, $template_desc);
+		$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);
 	}
 
-	$template_desc = str_replace("{product_display_limit}", "", $template_desc);
+	$usePerPageLimit = false;
 
 	if (strstr($template_desc, "perpagelimit:"))
 	{
+		$usePerPageLimit = true;
 		$perpage       = explode('{perpagelimit:', $template_desc);
 		$perpage       = explode('}', $perpage[1]);
 		$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
 	}
 
-	$product_tmpl = "<div id='productlist'>" . $product_tmpl . "</div>" . "<div id='redcatpagination' style='display:none'>" . $slidertag . "</div>";
+	if (strstr($template_desc, "{product_display_limit}"))
+	{
+		if ($usePerPageLimit)
+		{
+			$limitBox = '';
+		}
+		else
+		{
+			$limitBox = "<form action='' method='post'> " . $pagination->getLimitBox() . "</form>";
+		}
+
+		$template_desc = str_replace("{product_display_limit}", $limitBox, $template_desc);
+	}
+
+	if ($this->productPriceSliderEnable)
+	{
+		$product_tmpl = "<div id='redcatpagination' style='display:none'>" . $slidertag . "</div>";
+	}
 
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
 	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
-	$template_desc = str_replace($template_product, $product_tmpl, $template_desc);
+	$template_desc = str_replace($template_product, "<div id='productlist'>" . $product_tmpl . "</div>", $template_desc);
 }
 
 if (!$slide)

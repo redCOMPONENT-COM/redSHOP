@@ -37,9 +37,9 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, '.alert-success');
 		$I->see(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, '.alert-success');
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($name, \StockRoomManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($name, \StockRoomManagerJoomla3Page::$firstResultRow);
 		$I->click(\StockRoomManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
@@ -65,7 +65,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, '.alert-success');
 		$I->see(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, '.alert-success');
 		$I->see($newName, \StockRoomManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

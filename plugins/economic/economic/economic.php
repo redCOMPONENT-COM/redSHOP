@@ -1449,13 +1449,10 @@ class plgEconomicEconomic extends JPlugin
 			// Get Employee to set Our Reference Number
 			if ($employeeHandle = $this->employeeFindByNumber($d))
 			{
-				$valueHandle         = new stdclass;
-				$valueHandle->Number = $employeeHandle;
-
 				$this->client->CurrentInvoice_SetOurReference2(
 					array(
 						'currentInvoiceHandle' => $invoiceHandle,
-						'valueHandle'          => $valueHandle
+						'valueHandle'          => $employeeHandle
 					)
 				);
 			}

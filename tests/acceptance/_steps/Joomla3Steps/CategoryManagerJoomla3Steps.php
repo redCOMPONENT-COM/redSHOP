@@ -31,7 +31,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page');
 		$I->click("New");
 		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);

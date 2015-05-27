@@ -830,10 +830,24 @@ switch ($view)
 		break;
 }
 
+if ($limitstart)
+{
+	if (!isset($limit))
+	{
+		$limit = JFactory::getApplication()->get('list_limit');
+	}
+
+	$title[] = 'results' . ($limitstart + 1) . '-' . ($limitstart + $limit);
+}
+
 // ------------------  standard plugin finalize function - don't change ---------------------------
 if ($dosef)
 {
-	$string = shFinalizePlugin($string, $title, $shAppendString, $shItemidString, (isset($limit) ? @$limit : null), (isset($limitstart) ? @$limitstart : null), (isset($shLangName) ? @$shLangName : null));
+	$string = shFinalizePlugin(
+		$string, $title, $shAppendString, $shItemidString, (isset($limit) ? $limit : null),
+		(isset($limitstart) ? $limitstart : null), (isset($shLangName) ? $shLangName : null),
+		(isset($showall) ? $showall : null), $suppressPagination = true
+	);
 }
 
 // ------------------  standard plugin finalize function - don't change ---------------------------
