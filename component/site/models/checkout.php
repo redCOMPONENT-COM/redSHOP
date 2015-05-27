@@ -1445,6 +1445,8 @@ class RedshopModelCheckout extends RedshopModel
 			$fromname            = $config->get('fromname');
 			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
 
+			$giftcardmail_body = $this->_redshopMail->imginmail($giftcardmail_body);
+
 			JFactory::getMailer()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}
 

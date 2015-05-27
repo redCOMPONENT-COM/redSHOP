@@ -697,33 +697,8 @@ class RedshopModelConfiguration extends RedshopModel
 		$texts = new text_library;
 		$content = $texts->replace_texts($content);
 
-		// If the template contains the images, then revising the path of the images,
-		// So the full URL goes with the mail, so images are visible in the mails.
-		$data1 = $data = $content;
-
-		preg_match_all("/\< *[img][^\>]*[.]*\>/i", $data, $matches);
-		$imagescurarray = array();
-
-		foreach ($matches[0] as $match)
-		{
-			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
-			$images[] = array_combine($m[1], $m[2]);
-			$imagescur = array_combine($m[1], $m[2]);
-			$imagescurarray[] = $imagescur['src'];
-		}
-
-		$imagescurarray = array_unique($imagescurarray);
-
-		if ($imagescurarray)
-		{
-			foreach ($imagescurarray as $change)
-			{
-				if (strpos($change, 'http') === false)
-				{
-					$data1 = str_replace($change, $url . $change, $data1);
-				}
-			}
-		}
+		$redshopMail     = new redshopMail;
+		$data1 = $redshopMail->imginmail($content);
 
 		$to = trim($to);
 		$today = time();
