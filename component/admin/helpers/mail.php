@@ -977,7 +977,7 @@ class redshopMail
 	}
 
 	/**
-	 * Use absolute pathes instead relatively
+	 * Use absolute paths instead of relative ones when linking images
 	 *
 	 * @param   string  $message  Text message
 	 *
