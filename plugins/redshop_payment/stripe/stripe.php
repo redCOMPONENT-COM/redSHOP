@@ -27,11 +27,6 @@ class plgRedshop_PaymentStripe extends JPlugin
 	/**
 	 * This method will be triggered on before placing order to authorize or charge credit card
 	 *
-	 * Example of return parameters:
-	 * $return->responsestatus = 'Success' or 'Fail';
-	 * $return->message        = 'Success or Fail messafe';
-	 * $return->transaction_id = 'Transaction Id from gateway';
-	 *
 	 * @param   string  $element  Name of the payment plugin
 	 * @param   array   $data     Cart Information
 	 *
@@ -44,8 +39,6 @@ class plgRedshop_PaymentStripe extends JPlugin
 			return;
 		}
 
-		$app = JFactory::getApplication();
-
 		echo RedshopLayoutHelper::render(
 			'form',
 			array(
@@ -54,6 +47,89 @@ class plgRedshop_PaymentStripe extends JPlugin
 				'params' => $this->params
 			),
 			dirname(__DIR__) . '/stripe/layouts'
+		);
+	}
+
+	/**
+	 * Notify payment
+	 *
+	 * @param   string  $element  Name of plugin
+	 * @param   array   $request  HTTP request data
+	 *
+	 * @return  object  Contains the information of order success of falier in object
+	 */
+	public function onNotifyPaymentStripe($element, $request)
+	{
+		if ($element != 'stripe')
+		{
+			return;
+		}
+
+		$app         = JFactory::getApplication();
+		$orderHelper = new order_functions;
+		$orderId     = $app->input->getInt('orderid');
+		$order       = $orderHelper->getOrderDetails($orderId);
+		$price       = $order->order_total;
+		$values      = new stdClass;
+
+		// Initialize response
+		$values->order_id                  = $orderId;
+		$values->order_status_code         = $this->params->get('invalid_status', '');
+		$values->order_payment_status_code = 'Unpaid';
+		$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_STRIPE_ORDER_NOT_PLACED');
+		$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_STRIPE_ORDER_NOT_PLACED');
+
+		// Set Stripe API Key
+		\Stripe\Stripe::setApiKey($this->params->get('secretKey'));
+
+		try
+		{
+			// Change amount
+			$charge = \Stripe\Charge::create(
+				array(
+					"amount"      => round($price * 100),
+					"currency"    => CURRENCY_CODE,
+					"source"      => $app->input->get('stripeToken'),
+					"description" => $orderId
+				)
+			);
+
+			$values->transaction_id = $charge->balance_transaction;
+
+			// When Transaction Success
+			if ($charge->captured)
+			{
+				$values->order_status_code         = $this->params->get('verify_status', '');
+				$values->order_payment_status_code = 'Paid';
+
+				$values->log = JText::_('PLG_REDSHOP_PAYMENT_STRIPE_ORDER_PLACED');
+				$values->msg = JText::_('PLG_REDSHOP_PAYMENT_STRIPE_ORDER_PLACED');
+			}
+		}
+		catch (\Stripe\Error\Card $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return $values;
+	}
+
+	/**
+	 * Redirecting after payment notify
+	 *
+	 * @param   string   $name     Name of plugin
+	 * @param   integer  $orderId  Order Information Id
+	 *
+	 * @return  void
+	 */
+	public function onAfterNotifyPaymentStripe($name, $orderId)
+	{
+		$app = JFactory::getApplication();
+		$app->redirect(
+			JRoute::_(
+				'index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId,
+				false
+			)
 		);
 	}
 }
