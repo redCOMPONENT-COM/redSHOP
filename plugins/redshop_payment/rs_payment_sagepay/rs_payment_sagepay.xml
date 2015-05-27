@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_SAGEPAY</name>
-    <version>1.5.1</version>
-    <redshop>1.5</redshop>
+    <version>1.5.2</version>
+    <redshop>1.5.0.6</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -21,7 +21,7 @@
         <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_sagepay.ini</language>
         <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_sagepay.sys.ini</language>
     </languages>
-    <config addfieldpath="/administrator/components/com_redshop/elements">
+    <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 
@@ -78,7 +78,7 @@
                        label="PLG_RS_PAYMENT_SAGEPAY_CAPTURE_STATUS_LBL"
                        description="PLG_RS_PAYMENT_SAGEPAY_CAPTURE_STATUS_DESC">
                 </field>
-                <field name="extrafield_payment" type="extrafieldpayment" multiple="multiple" label="PLG_RS_PAYMENT_SAGEPAY_EXTRAFIELD_PAYMENT_LBL"
+                <field name="extrafield_payment" type="extrafields" field_section="18" multiple="multiple" label="PLG_RS_PAYMENT_SAGEPAY_EXTRAFIELD_PAYMENT_LBL"
                        description="PLG_RS_PAYMENT_SAGEPAY_EXTRAFIELD_PAYMENT_DESC"/>
                 <field type="spacer"/>
             </fieldset>

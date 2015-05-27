@@ -47,9 +47,9 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Coupon Management', 10, 'h1');
 		$I->see('Coupon Management', 'h1');
 		$I->see('Coupon detail saved', '.alert-success');
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -64,7 +64,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CouponManagerJ3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
 		$I->click(\CouponManagerJ3Page::$selectFirst);
 		$I->click('Edit');
@@ -75,7 +75,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Coupon Management', 10, 'h1');
 		$I->see('Coupon detail saved', '.alert-success');
 		$I->see($newCouponCode, \CouponManagerJ3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

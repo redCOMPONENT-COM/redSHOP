@@ -268,7 +268,6 @@ class Com_RedshopInstallerScript
 					(370, 'quotation_request_template', 'quotation_request', '" . $redtemplate->getInstallSectionTemplate('quotation_request_template') . "',1),
 					(450, 'billing_template', 'billing_template', '" . $redtemplate->getInstallSectionTemplate('billing_template') . "',1),
 					(451, 'shipping_template', 'shipping_template', '" . $redtemplate->getInstallSectionTemplate('shipping_template') . "',1),
-					(452, 'shippment_invoice_template', 'shippment_invoice_template', '" . $redtemplate->getInstallSectionTemplate('shippment_invoice_template') . "',1),
 					(460, 'private_billing_template', 'private_billing_template', '" . $redtemplate->getInstallSectionTemplate('private_billing_template') . "',1),
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
 	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1)";
@@ -912,6 +911,16 @@ class Com_RedshopInstallerScript
 			$cfgarr["CATEGORY_TREE_IN_SEF_URL"] = '0';
 		}
 
+		if (!defined("INVOICE_NUMBER_FOR_FREE_ORDER"))
+		{
+			$cfgarr["INVOICE_NUMBER_FOR_FREE_ORDER"] = 0;
+		}
+
+		if (!defined("REAL_INVOICE_NUMBER_TEMPLATE"))
+		{
+			$cfgarr["REAL_INVOICE_NUMBER_TEMPLATE"] = '##';
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 
@@ -1209,14 +1218,20 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
+		if (version_compare($this->getOldParam('version'), '1.5.0.5', '<='))
+		{
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '1.5.0.4.3', '<='))
 		{
 			array_push(
 				$files,
 				JPATH_ADMINISTRATOR . '/components/com_redshop/tables/navigator_detail.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_detail/tmpl/default_product_dropdown.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/consignornumber.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/shippingmethod.php'
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_detail/tmpl/default_product_dropdown.php'
 			);
 		}
 
@@ -1224,7 +1239,11 @@ class Com_RedshopInstallerScript
 		{
 			array_push(
 				$folders,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system'
+			);
+
+			array_push(
+				$files,
 				JPATH_SITE . '/components/com_redshop/views/category/tmpl/searchletter.php'
 			);
 		}
@@ -1259,8 +1278,6 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/product_container.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/category.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/plugins.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/subinstall.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container_detail.php',

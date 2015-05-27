@@ -53,12 +53,12 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($type == "Check box")
 		{
-			$I->click('ID');
+			$I->click(['link' => 'ID']);
 		}
 
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click(\CustomFieldManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
@@ -82,7 +82,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 		$I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_REDSHOP_USERS'); ?></legend>
-	<table cellpadding="0" cellspacing="0">
+	<table cellpadding="0" cellspacing="0" width="100%">
 		<tr valign="top">
 			<td width="50%">
 				<fieldset class="adminform">

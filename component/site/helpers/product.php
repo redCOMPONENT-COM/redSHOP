@@ -2125,7 +2125,7 @@ class producthelper
 	 * Get redshop user information
 	 *
 	 * @param   int     $userId       Id joomla user
-	 * @param   string  $addressType  Type user BT or ST
+	 * @param   string  $addressType  Type user address BT (Billing Type) or ST (Shipping Type)
 	 * @param   int     $userInfoId   Id redshop user
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
@@ -5033,7 +5033,7 @@ class producthelper
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
 		}
 
-		$data_add .= '<span id="att_lebl" style="display:none;">' . JText::_('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') . '</span>';
+		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
 		if (count($attributes) > 0)
 		{
@@ -5283,50 +5283,31 @@ class producthelper
 					$new_property      = array_merge($tmp_array, $property);
 					$defaultpropertyId = array();
 					$chklist           = "";
-					$display_type      = $attributes [$a]->display_type;
+					$display_type      = $attributes[$a]->display_type;
 
-					if ($attributes [$a]->allow_multiple_selection)
+					if ($attributes[$a]->allow_multiple_selection)
 					{
 						$display_type = 'checkbox';
 					}
 
 					if ($display_type == 'checkbox' || $display_type == 'radio')
 					{
-						for ($chk = 0; $chk < count($property); $chk++)
-						{
-							$checked = "";
+						unset($new_property[0]);
 
-							if (count($selectProperty) > 0)
-							{
-								if (in_array($property[$chk]->value, $selectProperty))
-								{
-									$checked             = "checked";
-									$subdisplay          = true;
-									$defaultpropertyId[] = $property[$chk]->value;
-								}
-							}
-							else
-							{
-								if ($property[$chk]->setdefault_selected)
-								{
-									$checked             = "checked";
-									$subdisplay          = true;
-									$defaultpropertyId[] = $property[$chk]->value;
-								}
-							}
+						$htmlAttr = 'attribute_name="' . urldecode($attributes[$a]->attribute_name) . '"'
+									. ' required="' . $attributes [$a]->attribute_required . '"'
+									. ' onClick="javascript:changePropertyDropdown(\'' . $product_id . '\',\'' . $accessory_id . '\',\'' . $relproduct_id . '\',\'' . $attributes [$a]->value . '\',this.value,\'' . $mpw_thumb . '\',\'' . $mph_thumb . '\');"';
 
-							$scrollerFunction = "";
-
-							if ($imgAdded > 0 && strstr($attribute_table, "{property_image_scroller}"))
-							{
-								$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
-							}
-
-							$chklist .= "<div class='attribute_multiselect_single'><input type='" . $display_type . "' "
-								. $checked . " value='" . $property[$chk]->value . "' name='" . $propertyid . "[]' id='"
-								. $propertyid . "' class='inputbox' attribute_name='" . urldecode($attributes [$a]->attribute_name)
-								. "' required='" . $attributes[$a]->attribute_required . "' onClick='javascript:" . $scrollerFunction . "changePropertyDropdown(\"" . $product_id . "\",\"" . $accessory_id . "\",\"" . $relproduct_id . "\",\"" . $attributes [$a]->value . "\",\"" . $property[$chk]->value . "\",\"" . $mpw_thumb . "\",\"" . $mph_thumb . "\");'  />&nbsp;" . $property[$chk]->text . "</div>";
-						}
+						$chklist = JHtml::_(
+							'select.radiolist',
+							$new_property,
+							$propertyid . '[]',
+							$htmlAttr,
+							'value',
+							'text',
+							$selectedproperty,
+							$propertyid . '_'
+						);
 					}
 					else
 					{

@@ -36,7 +36,7 @@ class rsUserhelper
 	 * Get RedSHOP User Info
 	 *
 	 * @param   int     $joomlaUserId  Joomla user id
-	 * @param   string  $addressType   Type user address BT or ST
+	 * @param   string  $addressType   Type user address BT (Billing Type) or ST (Shipping Type)
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
 	 *

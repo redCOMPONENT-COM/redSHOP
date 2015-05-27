@@ -2,8 +2,8 @@
 <extension version="2.5.0" type="plugin" group="redshop_payment"
 		   method="upgrade">
 	<name>PLG_RS_PAYMENT_PAYPAL</name>
-	<version>1.5</version>
-	<redshop>1.5</redshop>
+	<version>1.5.0.6</version>
+	<redshop>1.5.0.6</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -20,7 +20,7 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_paypal.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_paypal.sys.ini</language>
 	</languages>
-	<config addfieldpath="/administrator/components/com_redshop/elements">
+	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="payment_oprand" type="text" size="10" default="-"
@@ -62,12 +62,18 @@
 					<option value="TRY">PLG_RS_PAYMENT_PAYPAL_TRY</option>
 					<option value="ILS">PLG_RS_PAYMENT_PAYPAL_ILS</option>
 				</field>
+				<field name="action_type" type="radio" default="sale"
+                       label="PLG_RS_PAYMENT_PAYPAL_ACTION_TYPE_LBL"
+                       description="PLG_RS_PAYMENT_PAYPAL_ACTION_TYPE_DESC" class="btn-group">
+                    <option value="sale">PLG_RS_PAYMENT_PAYPAL_INSTANT_CAPTURE</option>
+                    <option value="authorization">PLG_RS_PAYMENT_PAYPAL_AUTHORIZE_ONLY</option>
+                </field>
 				<field name="sandbox" type="radio" default="0" label="PLG_RS_PAYMENT_PAYPAL_SANDBOX_LBL"
 					   class="btn-group">
 					<option value="0">PLG_RS_PAYMENT_PAYPAL_LIVE</option>
 					<option value="1">PLG_RS_PAYMENT_PAYPAL_SANDBOX</option>
 				</field>
-				<field name="extrafield_payment" type="extrafieldpayment" multiple="multiple"
+				<field name="extrafield_payment" type="extrafields" field_section="18" multiple="multiple"
 					   label="PLG_RS_PAYMENT_PAYPAL_EXTRAFIELD_PAYMENT_LBL"
 					   description="PLG_RS_PAYMENT_PAYPAL_EXTRAFIELD_PAYMENT_DESC"/>
 			</fieldset>
