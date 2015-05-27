@@ -1430,14 +1430,18 @@ class RedshopModelCheckout extends RedshopModel
 			$pdf->SetFont('times', '', 18);
 			$pdf->AddPage();
 			$pdfImage = "";
+			$mailImage = '';
 
 			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image) && $giftcardData->giftcard_image)
 			{
 				$pdfImage = '<img src="' . REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
+				$mailImage = '<img src="giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
 			}
 
-			$giftcardmail_body = str_replace("{giftcard_image}", $pdfImage, $giftcardmail_body);
-			$pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
+			$pdfMailBody = clone $giftcardmail_body;
+			$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
+			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
+			$pdf->writeHTML($pdfMailBody, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
 			$g_pdfName = time();
 			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
 			$config              = JFactory::getConfig();
