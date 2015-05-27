@@ -49,6 +49,22 @@
 					label="PLG_REDSHOP_PAYMENT_STRIPE_PUBLISHABLE_KEY"
 					description="PLG_REDSHOP_PAYMENT_STRIPE_PUBLISHABLE_KEY_DESC"
 				/>
+				<field
+					name="dataName"
+					type="text"
+					default=""
+					hint="PLG_REDSHOP_PAYMENT_STRIPE_DATA_NAME_HINT"
+					label="PLG_REDSHOP_PAYMENT_STRIPE_DATA_NAME"
+					description="PLG_REDSHOP_PAYMENT_STRIPE_DATA_NAME_DESC"
+				/>
+				<field
+					name="logo"
+					type="media"
+					default=""
+					hint="PLG_REDSHOP_PAYMENT_STRIPE_IMAGE_HINT"
+					label="PLG_REDSHOP_PAYMENT_STRIPE_IMAGE"
+					description="PLG_REDSHOP_PAYMENT_STRIPE_IMAGE_DESC"
+				/>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
