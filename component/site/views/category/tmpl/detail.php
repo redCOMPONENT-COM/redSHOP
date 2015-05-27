@@ -1010,23 +1010,28 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$product_tmpl .= "<input type='hidden' name='slider_texpricemin' id='slider_texpricemin' value='" . $texpricemin . "' />";
 	$product_tmpl .= "<input type='hidden' name='slider_texpricemax' id='slider_texpricemax' value='" . $texpricemax . "' />";
 
-	$slidertag = "";
-
 	if (strstr($template_desc, "{show_all_products_in_category}"))
 	{
 		$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
 		$template_desc = str_replace("{pagination}", "", $template_desc);
 	}
 
-	$slidertag = '';
+	$limitBox = '';
+	$paginationList = '';
+	$usePerPageLimit = false;
 	$pagination = new JPagination($model->_total, $start, $endlimit);
+
+	if ($this->productPriceSliderEnable)
+	{
+		$pagination->setAdditionalUrlParam('texpricemin', $texpricemin);
+		$pagination->setAdditionalUrlParam('texpricemax', $texpricemax);
+	}
 
 	if (strstr($template_desc, "{pagination}"))
 	{
-		$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);
+		$paginationList = $pagination->getPagesLinks();
+		$template_desc = str_replace("{pagination}", $paginationList, $template_desc);
 	}
-
-	$usePerPageLimit = false;
 
 	if (strstr($template_desc, "perpagelimit:"))
 	{
@@ -1038,13 +1043,11 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	if (strstr($template_desc, "{product_display_limit}"))
 	{
-		if ($usePerPageLimit)
+		if (!$usePerPageLimit)
 		{
-			$limitBox = '';
-		}
-		else
-		{
-			$limitBox = "<form action='' method='post'> " . $pagination->getLimitBox() . "</form>";
+			$limitBox .= "<input type='hidden' name='texpricemin' value='" . $texpricemin . "' />";
+			$limitBox .= "<input type='hidden' name='texpricemax' value='" . $texpricemax . "' />";
+			$limitBox = "<form action='' method='post'> " . $limitBox . $pagination->getLimitBox() . "</form>";
 		}
 
 		$template_desc = str_replace("{product_display_limit}", $limitBox, $template_desc);
@@ -1052,7 +1055,8 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	if ($this->productPriceSliderEnable)
 	{
-		$product_tmpl = "<div id='redcatpagination' style='display:none'>" . $slidertag . "</div>";
+		$product_tmpl .= "<div id='redcatpagination' style='display:none'>" . $paginationList . "</div>";
+		$product_tmpl .= '<div id="redPageLimit" style="display:none">' . $limitBox . "</div>";
 	}
 
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
