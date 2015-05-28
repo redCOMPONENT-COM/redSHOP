@@ -7,90 +7,90 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri       = JURI::getInstance();
-$url       = $uri->root();
-$user      = JFactory::getUser();
-$sessionid = session_id();
-$db        = JFactory::getDbo();
+// Include RapidAPI Library
+require 'RapidAPI.php';
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+// Create Responsive Shared Page Request Object
+$request = new eWAY\CreateAccessCodesSharedRequest;
 
-$sql = "SELECT op.*,o.order_total,o.user_id FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
-$db->setQuery($sql);
-$order_details = $db->loadObjectList();
+// Populate values for Customer Object
+$request->Customer->FirstName = $data['billinginfo']->firstname;
+$request->Customer->LastName = $data['billinginfo']->lastname;
+$request->Customer->CompanyName = $data['billinginfo']->company_name;
+$request->Customer->Street1 = $data['billinginfo']->address;
+$request->Customer->City = $data['billinginfo']->city;
+$request->Customer->State = $data['billinginfo']->state_code;
+$request->Customer->PostalCode = $data['billinginfo']->zipcode;
+$request->Customer->Country = $data['billinginfo']->country_2_code;
+$request->Customer->Email = $data['billinginfo']->user_email;
+$request->Customer->Phone = $data['billinginfo']->phone;
+$request->Customer->Comments = $data['order']->customer_note;
 
-// Get order item information
-$q_oi = "SELECT * FROM #__redshop_order_item ";
-$q_oi .= "WHERE #__redshop_order_item.order_id='" . $orderid . "'";
-$db->setQuery($q_oi);
-$items = $db->loadObjectList();
+// Populate values for ShippingAddress Object.
+$request->ShippingAddress->FirstName = $data['shippinginfo']->firstname;
+$request->ShippingAddress->LastName = $data['shippinginfo']->lastname;
+$request->ShippingAddress->Street1 = $data['shippinginfo']->address;
+$request->ShippingAddress->City = $data['shippinginfo']->city;
+$request->ShippingAddress->State = $data['shippinginfo']->state_code;
+$request->ShippingAddress->Country = $data['shippinginfo']->country_2_code;
+$request->ShippingAddress->PostalCode = $data['shippinginfo']->zipcode;
+$request->ShippingAddress->Email = $data['shippinginfo']->user_email;
+$request->ShippingAddress->Phone = $data['shippinginfo']->phone;
 
-$item = array();
+$order_functions  = new order_functions;
+$orderItems      = $order_functions->getOrderItemDetail($data['order_id']);
 
-for ($i = 0; $i < count($items); $i++)
+if (count($orderItems) > 0)
 {
-	$item[] = strip_tags($items[$i]->order_item_name) . '  ' . round($items[$i]->product_item_price, 2);
+	foreach ($orderItems as $orderItem)
+	{
+		// Populate values for LineItems
+		$item = new eWAY\LineItem;
+		$item->SKU = $orderItem->order_item_sku;
+		$item->Description = $orderItem->order_item_name;
+		$request->Items->LineItem[] = $item;
+	}
 }
 
-$table_desc = join(', ', $item);
-// Currency converter
-$currency = new CurrencyHelper;
-$amount = $order_details[0]->order_total * 100;
+$currency_main = $this->params->get('paymentCurrency');
+$currencyClass  = new CurrencyHelper;
+$order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
-$post_variables = array();
+// Populate values for Payment Object
+$request->Payment->TotalAmount = round($order_subtotal * 100, 0, PHP_ROUND_HALF_UP);
+$request->Payment->InvoiceNumber = $data['order']->order_number;
+$request->Payment->CurrencyCode = $currency_main;
+$app = JFactory::getApplication();
+$Itemid = $app->input->getInt('Itemid');
 
-// Get plugin params
-$live_mode = $this->params->get("is_live");
+$url = JURI::base()
+	. "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_eway3dsecure&Itemid="
+	. $Itemid . "&orderid=" . $data['order_id'];
 
-if ($live_mode == "1")
+$request->RedirectUrl = $url;
+$request->CancelUrl   = $url;
+$request->Method = 'ProcessPayment';
+$request->CustomerReadOnly = true;
+
+// Call RapidAPI
+$eway_params = array('sandbox' => $this->params->get('test_mode', true));
+$service = new eWAY\RapidAPI($this->params->get("APIKey"), $this->params->get("APIPassword"), $eway_params);
+$result = $service->CreateAccessCodesShared($request);
+
+// Check if any error returns
+if (isset($result->Errors))
 {
-	$customer_id = $this->params->get("eway_3dsecure");
-	$gatewayurl = $this->params->get("eway_3dsecure_liveurl");
+	// Get Error Messages from Error Code.
+	$ErrorArray = explode(",", $result->Errors);
+	$lblError = "";
+
+	foreach ($ErrorArray as $error)
+	{
+		$error = $service->getMessage($error);
+		$app->enqueueMessage($error, 'error');
+	}
 }
 else
 {
-	$customer_id = "87654321";
-	$gatewayurl = $this->params->get("eway_3dsecure_sandboxurl");
+	$app->redirect($result->SharedPaymentUrl);
 }
-
-$cancelurl     = JURI::base() . "index.php";
-$declineurl    = JURI::base() . "index.php?option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=rs_payment_eway3dsecure&Itemid=1&orderid=" . $data['order_id'];
-$approveurl    = JURI::base() . "index.php?option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=rs_payment_eway3dsecure&Itemid=1&orderid=" . $data['order_id'];
-
-$cust_name     = $data['billinginfo']->firstname . " " . $data['billinginfo']->lastname;
-$company       = $data['billinginfo']->company_name;
-
-$cust_address1 = $data['billinginfo']->address;
-$cust_address2 = $data['billinginfo']->state_code;
-$cust_address3 = "";
-$cust_zip      = $data['billinginfo']->zipcode;
-$cust_city     = $data['billinginfo']->city;
-$cust_phone    = $data['billinginfo']->phone;
-$cust_email    = $data['billinginfo']->user_email;
-$cust_country  = $data['billinginfo']->country_code;
-
-// Fill array with class variables
-$post_variables = array("ewayCustomerID" => $customer_id, "ewayTotalAmount" => $amount, "ewayCustomerFirstName" => $data['billinginfo']->firstname, "ewayCustomerLastName" => $data['billinginfo']->lastname, "ewayCustomerEmail" => $cust_email, "ewayCustomerAddress" => $cust_address1, "ewayCustomerPostcode" => $cust_zip, "ewayCustomerInvoiceDescription" => $table_desc, "ewayCustomerInvoiceRef" => $data['order_id'], "ewayURL" => $approveurl, "ewaySiteTitle" => "WebActive", "eWAYoption1" => $data['order_id']);
-
-// Hidden form variables
-$html_hidden_params = "";
-
-foreach ($post_variables as $key => $val)
-{
-	$html_hidden_params .= "<input type='hidden' name='$key' value='$val' />";
-}
-
-$form_head = "<form id = \"eway3dform\" name=\"eway3dform\" action=\" ";
-$form_head .= $gatewayurl;
-$form_head .= " \" method=\"post\"> ";
-
-echo $form_head;
-echo $html_hidden_params;
-
-// Now we make our own form end tag without any visible html
-echo "</form>";
-
-?>
-<script>
-	document.eway3dform.submit();
-</script>

@@ -45,10 +45,10 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage, 60, '.alert-success');
 		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage, '.alert-success');
-		$I->click('ID');
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
 		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
@@ -75,7 +75,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage, 60, '.alert-success');
 		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage, '.alert-success');
 		$I->see($updatedQuestion, \QuestionManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

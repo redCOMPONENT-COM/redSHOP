@@ -30,13 +30,20 @@ class RedshopHelperOrder
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select('invoice_number, invoice_number_chrono, order_status, order_payment_status')
+		$query->select('invoice_number, invoice_number_chrono, order_status, order_payment_status, order_total')
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 		$db->setQuery($query);
 
-		$orderInfo       = $db->loadObject();
+		$orderInfo = $db->loadObject();
+
+		// Don't generate invoice number for free orders if disabled from config
+		if ($orderInfo->order_total <= 0 && ! (boolean) INVOICE_NUMBER_FOR_FREE_ORDER)
+		{
+			return;
+		}
+
 		$number          = $orderInfo->invoice_number_chrono;
 		$formattedNumber = $orderInfo->invoice_number;
 
@@ -83,13 +90,13 @@ class RedshopHelperOrder
 			return '';
 		}
 
-		if (!INVOICE_NUMBER_TEMPLATE)
+		if (!REAL_INVOICE_NUMBER_TEMPLATE)
 		{
 			return $invoiceNo;
 		}
 
 		return self::parseNumberTemplate(
-			INVOICE_NUMBER_TEMPLATE,
+			REAL_INVOICE_NUMBER_TEMPLATE,
 			$invoiceNo
 		);
 	}
