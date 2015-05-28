@@ -31,7 +31,7 @@ $producthelper = new producthelper;
 
 	//else if(form.giftcard_validity.value == "" || form.giftcard_validity.value == '0' ){
 	//alert( "
-	<?php //echo JText::_('COM_REDSHOP_GIFTCARD_MUST_HAVE_A_VALIDATE_PERIOD', true );?>" );
+	<?php //echo JText::_('COM_REDSHOP_GIFTCARD_MUST_HAVE_A_VALIDATE_PERIOD', true );?>//" );
 	//}
 	//function amountValidation(amt)
 	//{
@@ -156,6 +156,13 @@ if (isset($showbuttons))
 					<td>
 						<input class="text_area" type="file" name="giftcard_bgimage" id="giftcard_bgimage" size="32"
 						       maxlength="250" value="<?php echo $this->detail->giftcard_bgimage; ?>"/>
+						<?php $giftcard_bgpath = 'giftcard/' . $this->detail->giftcard_bgimage;
+						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $giftcard_bgpath)):?>
+							<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftcard_bgpath; ?>"
+							   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
+							   rel="{handler: 'image', size: {}}">
+								<?php echo $this->detail->giftcard_bgimage;?></a>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
@@ -167,6 +174,13 @@ if (isset($showbuttons))
 					<td>
 						<input class="text_area" type="file" name="giftcard_image" id="giftcard_image" size="32"
 						       maxlength="250" value="<?php echo $this->detail->giftcard_image; ?>"/>
+						<?php $giftcard_path = 'giftcard/' . $this->detail->giftcard_image;
+						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $giftcard_path)): ?>
+							<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftcard_path; ?>"
+							   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
+							   rel="{handler: 'image', size: {}}">
+								<?php echo $this->detail->giftcard_image;?></a>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<?php
