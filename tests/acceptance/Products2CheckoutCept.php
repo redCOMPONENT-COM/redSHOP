@@ -10,7 +10,7 @@ $I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
 $I->doAdministratorLogin();
 $pluginName = '2Checkout';
 $pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_2checkout/';
-$I->installPluginFromDirectory($pathToPlugin);
+$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
 
 $checkoutAccountInformation = array(
 	"vendorID" => "901261371",
