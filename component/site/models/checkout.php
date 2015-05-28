@@ -1438,7 +1438,7 @@ class RedshopModelCheckout extends RedshopModel
 				$mailImage = '<img src="giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
 			}
 
-			$pdfMailBody = clone $giftcardmail_body;
+			$pdfMailBody = $giftcardmail_body;
 			$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
 			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
 			$pdf->writeHTML($pdfMailBody, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
