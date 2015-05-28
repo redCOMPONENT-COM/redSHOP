@@ -355,7 +355,11 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 		<?php
 			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
 
-			$shippingParams = new JRegistry(
+			$shippingParams = new JRegistry;
+
+			if (!empty($details[0]))
+			{
+				$shippingParams = new JRegistry(
 								JPluginHelper::getPlugin(
 									'redshop_shipping',
 									str_replace(
@@ -365,6 +369,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 									)
 								)->params
 							);
+			}
 
 			// Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
 			$allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean) $shippingParams->get('allowPacsoftLabel'));
