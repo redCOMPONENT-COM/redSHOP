@@ -16,7 +16,19 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperUser
 {
+	/**
+	 * Shopper Group information
+	 *
+	 * @var  array
+	 */
 	protected static $userShopperGroupData = array();
+
+	/**
+	 * Users Info
+	 *
+	 * @var  array
+	 */
+	protected static $redshopUserInfo = array();
 
 	/**
 	 * Get redshop user information
@@ -32,7 +44,9 @@ class RedshopHelperUser
 	{
 		if (0 == $userId && 0 == $userInfoId)
 		{
-			$userId = JFactory::getUser()->id;
+			$userId     = JFactory::getUser()->id;
+			$auth       = JFactory::getSession()->get('auth');
+			$userInfoId = $auth['users_info_id'];
 		}
 
 		// If both is not set return, as we also have silent user creating where joomla user id is not set
@@ -51,9 +65,8 @@ class RedshopHelperUser
 		}
 
 		$key = $userId . '.' . $addressType . '.' . $userInfoId;
-		static $redshopUserInfo = array();
 
-		if (!array_key_exists($key, $redshopUserInfo))
+		if (!array_key_exists($key, self::$redshopUserInfo))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -77,10 +90,10 @@ class RedshopHelperUser
 				$query->where('u.users_info_id = ' . (int) $userInfoId);
 			}
 
-			$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
+			self::$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
 		}
 
-		return $redshopUserInfo[$key];
+		return self::$redshopUserInfo[$key];
 	}
 
 	/**
