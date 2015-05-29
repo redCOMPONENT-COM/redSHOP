@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$verify_status  = $this->params->get('verify_status', '');
 		$invalid_status = $this->params->get('invalid_status', '');
 
-		$request  = JRequest::get('request');
+		$request  = JRequest::get('post');
 		$order_id = $request['orderid'];
 		$Itemid   = $request['Itemid'];
 
