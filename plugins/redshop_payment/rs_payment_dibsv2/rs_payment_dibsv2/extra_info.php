@@ -63,7 +63,7 @@ $formdata = array(
 
 if ($this->params->get("instant_capture"))
 {
-	$formdata['capturenow'] = $this->params->get("instant_capture");
+	$formdata['captureNow'] = $this->params->get("instant_capture");
 }
 
 if ($this->params->get("is_test"))
