@@ -94,7 +94,7 @@ class plgRedshop_PaymentStripe extends JPlugin
 				)
 			);
 
-			$values->transaction_id = $charge->balance_transaction;
+			$values->transaction_id = $charge->id;
 
 			// When Transaction Success
 			if ($charge->captured)
@@ -131,5 +131,65 @@ class plgRedshop_PaymentStripe extends JPlugin
 				false
 			)
 		);
+	}
+
+	/**
+	 * Refund amount on cancel order
+	 *
+	 * @param   string  $element  Plugin Name
+	 * @param   array   $data     Order Transaction information
+	 *
+	 * @return  object  Return status information
+	 */
+	public function onStatus_PaymentStripe($element, $data)
+	{
+		if ($element != 'stripe')
+		{
+			return;
+		}
+
+		$transactionId = $data['order_transactionid'];
+
+		if ('' == $transactionId)
+		{
+			return;
+		}
+
+		$db  = JFactory::getDbo();
+		$app = JFactory::getApplication();
+
+		// Set Stripe API Key
+		\Stripe\Stripe::setApiKey($this->params->get('secretKey'));
+
+		$return = new stdClass;
+
+		try
+		{
+			$ch     = \Stripe\Charge::retrieve($transactionId);
+			$refund = $ch->refunds->create();
+
+			// Update transaction string
+			$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_order_payment'))
+					->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($refund->id))
+					->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
+
+			// Set the query and execute the update.
+			$db->setQuery($query)->execute();
+
+			$return->responsestatus = 'Success';
+			$return->type           = 'message';
+			$return->message = JText::_('PLG_REDSHOP_PAYMENT_STRIPE_REFUND_SUCCESS');
+		}
+		catch(Exception $e)
+		{
+			$return->responsestatus = 'Fail';
+			$return->message        = $e->getMessage() . ' #' . $e->getCode();
+			$return->type           = 'error';
+		}
+
+		$app->enqueueMessage($return->message, $return->type);
+
+		return $return;
 	}
 }
