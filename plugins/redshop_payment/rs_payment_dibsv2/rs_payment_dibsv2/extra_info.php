@@ -190,6 +190,7 @@ $mac_key   = $dibs_hmac->calculateMac($formdata, $hmac_key);
 // Action URL
 $dibsurl = "https://payment.dibspayment.com/dpw/entrypoint";
 ?>
+<h2><?php echo JText::_('PLG_RS_PAYMENT_DIBSV2_WAIT_MESSAGE'); ?></h2>
 <form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" method="post" accept-charset="utf-8">
 	<?php foreach ($formdata as $name => $value): ?>
 	<input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
