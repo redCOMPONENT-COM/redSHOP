@@ -823,6 +823,12 @@ class rsCarthelper
 
 			if (count($details) > 0)
 			{
+				// Load language file of the shipping plugin
+				JFactory::getLanguage()->load(
+					'plg_redshop_shipping_' . strtolower(str_replace('plgredshop_shipping', '', $details[0])),
+					JPATH_ADMINISTRATOR
+				);
+
 				if (array_key_exists(1, $details))
 				{
 					$shipping_method = $details[1];
