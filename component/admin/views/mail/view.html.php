@@ -45,6 +45,7 @@ class RedshopViewMail extends RedshopView
 		$state = $this->get('State');
 		$lists['order'] = $state->get('list.ordering', 'm.mail_id');
 		$lists['order_Dir'] = $state->get('list.direction');
+		$lists['filter'] = $state->get('filter');
 
 		$redtemplate = new Redtemplate;
 		$optionsection = $redtemplate->getMailSections();
