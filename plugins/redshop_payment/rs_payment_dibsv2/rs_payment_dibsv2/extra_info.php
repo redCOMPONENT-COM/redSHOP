@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 
-$Itemid          = JRequest::getInt('Itemid');
+$Itemid          = $app->input->get('Itemid');
 $order_functions = new order_functions;
 $currencyClass   = new CurrencyHelper;
 $order_items     = $order_functions->getOrderItemDetail($data['order_id']);
@@ -35,6 +35,8 @@ $formdata = array(
 	'merchant'            => $this->params->get("seller_id"),
 	'orderId'             => $data['order_id'],
 	'currency'            => $this->params->get("dibs_currency"),
+	'yourRef'             => $data['order_id'],
+	'ourRef'              => $data['order_id'],
 	'language'            => $language,
 	'amount'              => $amount,
 	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
@@ -69,6 +71,16 @@ if ($this->params->get("instant_capture"))
 if ($this->params->get("is_test"))
 {
 	$formdata['test'] = 1;
+}
+
+if ($this->params->get("orgnumber"))
+{
+	$formdata['organizationnumber'] = $this->params->get("orgnumber");
+}
+
+if ($this->params->get("ssn"))
+{
+	$formdata['socialSecurityNumber'] = $this->params->get("ssn");
 }
 
 for ($p = 0; $p < count($order_items); $p++)
@@ -171,7 +183,7 @@ if ($payment_price > 0)
 
 $formdata['amount'] = $amount;
 
-include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/dibs_hmac.php';
+include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
 $dibs_hmac = new dibs_hmac;
 $mac_key   = $dibs_hmac->calculateMac($formdata, $hmac_key);
 
@@ -180,7 +192,7 @@ $dibsurl = "https://payment.dibspayment.com/dpw/entrypoint";
 ?>
 <form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" method="post" accept-charset="utf-8">
 	<?php foreach ($formdata as $name => $value): ?>
-		<input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
+	<input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
 	<?php endforeach; ?>
 	<input type="hidden" name="MAC" value="<?php echo $mac_key ?>"/>
 </form>
