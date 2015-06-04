@@ -14,6 +14,13 @@ Please follow the next steps in order to release a new version of redSHOP.
 - Execute component_packager.xml PHING file to generate the main component package (includes 1 module and 2 plugins).
 
 ### Using Gulp build system
+
+Before you can run any Gulp command you need to:
+
+- download and install NodeJS https://nodejs.org/download/
+- install npm: `sudo npm install`
+- install Gulp: `npm install --save gulp-install`
+
 #### Following tasks and switches are available:
 
 Use this command to release component.
