@@ -13,6 +13,35 @@ Please follow the next steps in order to release a new version of redSHOP.
 
 - Execute component_packager.xml PHING file to generate the main component package (includes 1 module and 2 plugins).
 
+### Using Gulp build system
+#### Following tasks and switches are available:
+
+Use this command to release component.
+Version and other information can be set in `gulp-config.json` file.
+
+    gulp release:component
+
+This command is to release the extensions.
+
+    gulp release:extensions
+
+
+This command will read the base directory and create zip files for each of the folder.
+
+#### === Switches ===
+Pass an argument to choose different folder
+
+    --folder {source direcory}  Default: "./plugins"
+
+Pass an argument to change suffix for extension
+
+    --suffix {text of suffix}   Default: "plg_"
+
+#### Example Usage:
+
+	 gulp release:extensions --folder ./modules --suffix ext_
+
+
 ### Languages & translation
 - Move the language files to the translations repository: https://github.com/redCOMPONENT-COM/translations/tree/master/redSHOP/source
 - Check in 24hours that Transifex was able to get the new translation strings adding them to the .ini resource files
