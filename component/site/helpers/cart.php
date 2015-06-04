@@ -2650,11 +2650,11 @@ class rsCarthelper
 
 		if ($checkout)
 		{
-			$cart_data = $this->replacePayment($cart_data, $cart['payment_amount'], 0);
+			$cart_data = $this->replacePayment($cart_data, $cart['payment_amount'], 0, $cart['payment_oprand']);
 		}
 		else
 		{
-			$cart_data = $this->replacePayment($cart_data, 0, 1);
+			$cart_data = $this->replacePayment($cart_data, 0, 1, $cart['payment_oprand']);
 		}
 
 		$cart_data = $this->replaceTax($cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, DEFAULT_QUOTATION_MODE);
