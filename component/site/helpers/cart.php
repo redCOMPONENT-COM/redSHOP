@@ -840,10 +840,9 @@ class rsCarthelper
 				}
 			}
 
-			// $shopLocation = $this->_shippinghelper->decryptShipping( str_replace(" ","+",$row->shop_id) );
 			$shopLocation = $row->shop_id;
 			$replace      = array();
-			$replace[]    = $shipping_method;
+			$replace[]    = JText::_($shipping_method);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping - $row->order_shipping_tax);
 			$replace[]    = $shipping_rate_name;
