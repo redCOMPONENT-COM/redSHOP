@@ -49,6 +49,11 @@ function jimage_insert(main_path) {
 		document.getElementById("image_display").src = "";
 	}
 }
+function jdownload_file(path, filename) {
+	document.getElementById("selected_file").innerHTML = filename;
+	document.getElementById("hdn_download_file_path").value = path;
+	document.getElementById("hdn_download_file").value = filename;
+}
 ');
 
 if ($showbuttons)
