@@ -193,7 +193,7 @@ class rsUserhelper
 		{
 			if (REGISTER_METHOD == 1 || $data['user_id'] < 0)
 			{
-				$reduser = new statsClass;
+				$reduser = new stdClass;
 				$reduser->id = $data['user_id'];
 
 				return $reduser;
@@ -202,7 +202,7 @@ class rsUserhelper
 
 		if ($app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id']))
 		{
-			$reduser = new statsClass;
+			$reduser = new stdClass;
 			$reduser->id = $data['user_id'];
 
 			return $reduser;
