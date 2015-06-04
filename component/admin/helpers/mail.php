@@ -535,20 +535,21 @@ class redshopMail
 	/**
 	 * Replace invoice mail template tags and prepare mail body and pdf html
 	 *
-	 * @param   string  $html     HTML template of mail body or pdf
-	 * @param   string  $subject  Email Subject template, can be null for PDF
-	 * @param   string  $type     Either 'html' or 'pdf'
+	 * @param   integer  $orderId  Order Information ID
+	 * @param   string   $html     HTML template of mail body or pdf
+	 * @param   string   $subject  Email Subject template, can be null for PDF
+	 * @param   string   $type     Either 'html' or 'pdf'
 	 *
 	 * @return  object  Object having mail body and subject. subject can be null for PDF type.
 	 */
-	protected function replaceInvoiceMailTemplate($html, $subject = null, $type = 'pdf')
+	protected function replaceInvoiceMailTemplate($orderId, $html, $subject = null, $type = 'pdf')
 	{
 		$redconfig         = new Redconfiguration;
 		$producthelper     = new producthelper;
 		$extra_field       = new extra_field;
 		$arr_discount_type = array();
 
-		$row           = $this->_order_functions->getOrderDetails($order_id);
+		$row           = $this->_order_functions->getOrderDetails($orderId);
 		$barcode_code  = $row->barcode;
 		$arr_discount  = explode('@', $row->discount_type);
 		$discount_type = '';
@@ -587,7 +588,7 @@ class redshopMail
 		$replace_sub[]    = SHOP_NAME;
 
 		$user             = JFactory::getUser();
-		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
+		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($orderId);
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$search_sub[]     = "{fullname}";
 		$replace_sub[]    = $userfullname;
@@ -639,11 +640,11 @@ class redshopMail
 	 * Email Body and Subject is from "Invoice Mail" template section.
 	 * Contains PDF attachement. PDF html is from "Invoice Mail PDF" section.
 	 *
-	 * @param   integer  $order_id  Order Information Id
+	 * @param   integer  $orderId  Order Information Id
 	 *
 	 * @return  boolean  True on sending email successfully.
 	 */
-	public function sendInvoiceMail($order_id)
+	public function sendInvoiceMail($orderId)
 	{
 		$config            = JFactory::getConfig();
 		$message           = "";
@@ -668,7 +669,7 @@ class redshopMail
 			return false;
 		}
 
-		$mailTemplate = $this->replaceInvoiceMailTemplate($message, $subject, 'html');
+		$mailTemplate = $this->replaceInvoiceMailTemplate($orderId, $message, $subject, 'html');
 		$mailBody     = $mailTemplate->body;
 		$subject      = $mailTemplate->subject;
 
@@ -680,7 +681,7 @@ class redshopMail
 		// Set actual PDF template if found
 		if (count($pdfTemplateFile) > 0)
 		{
-			$pdfTemplate = $this->replaceInvoiceMailTemplate($pdfTemplateFile[0]->mail_body)->body;
+			$pdfTemplate = $this->replaceInvoiceMailTemplate($orderId, $pdfTemplateFile[0]->mail_body)->body;
 		}
 
 		ob_clean();
@@ -688,13 +689,13 @@ class redshopMail
 		echo "<div id='redshopcomponent' class='redshop'>";
 
 		$pdfObj = RedshopHelperPdf::getInstance();
-		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $order_id);
+		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $orderId);
 		$pdfObj->SetMargins(15, 15, 15);
 		$pdfObj->setHeaderFont(array('times', '', 10));
 		$pdfObj->AddPage();
 		$pdfObj->WriteHTML($pdfTemplate, true, false, true, false, '');
 
-		$invoice_pdfName = $order_id;
+		$invoice_pdfName = $orderId;
 
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 		$invoiceAttachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf";
@@ -703,7 +704,7 @@ class redshopMail
 		$from     = $config->get('mailfrom');
 		$fromname = $config->get('fromname');
 
-		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
+		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($orderId);
 		$email            = $billingaddresses->user_email;
 		$mailBody = $this->imginmail($mailBody);
 
