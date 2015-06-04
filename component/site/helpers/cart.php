@@ -840,7 +840,6 @@ class rsCarthelper
 				}
 			}
 
-			// $shopLocation = $this->_shippinghelper->decryptShipping( str_replace(" ","+",$row->shop_id) );
 			$shopLocation = $row->shop_id;
 			$replace      = array();
 			$replace[]    = JText::_($shipping_method);
