@@ -104,8 +104,7 @@ if(typeof(window['jQuery']) != "undefined")
 					zipcode: true
 				},
 				phone: {
-					//required: true,
-					phone:true
+					phone: rs('#phone').hasClass('required')
 				},
 				termscondition: {
 					required: function (){if(!document.getElementById("termscondition") | (document.getElementById("termscondition") && rs("#termscondition").is(":checked"))) {return false;}else {  return true;}}

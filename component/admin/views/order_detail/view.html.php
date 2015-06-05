@@ -148,6 +148,58 @@ class RedshopViewOrder_detail extends RedshopView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_order48');
 		JToolBarHelper::cancel('cancel', JText::_('COM_REDSHOP_ORDERLIST'));
 
+		$order_id = $detail->order_id;
+		RedshopToolbarHelper::link(
+			'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
+			'redshop_export_export32',
+			'COM_REDSHOP_CREATE_STOCKNOTE',
+			'_blank'
+		);
+
+		RedshopToolbarHelper::link(
+			'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
+			'redshop_export_export32',
+			'COM_REDSHOP_CREATE_SHIPPING_LABEL',
+			'_blank'
+		);
+
+		$tmpl = JFactory::getApplication()->input->get('tmpl', '');
+		$appendTmpl = ($tmpl) ? '&tmpl=component' : '';
+
+		RedshopToolbarHelper::link(
+			'index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl,
+			'send',
+			'COM_REDSHOP_SEND_DOWNLOEADMAIL'
+		);
+
+		RedshopToolbarHelper::link(
+			'index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl,
+			'send',
+			'COM_REDSHOP_RESEND_ORDER_MAIL'
+		);
+
+		RedshopToolbarHelper::link(
+			'index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl,
+			'send',
+			'COM_REDSHOP_SEND_INVOICEMAIL'
+		);
+
+		if ($tmpl)
+		{
+			RedshopToolbarHelper::link(
+				'index.php?option=com_redshop&view=order&tmpl=component',
+				'back',
+				'COM_REDSHOP_BACK'
+			);
+		}
+
+		RedshopToolbarHelper::link(
+			'index.php?tmpl=component&option=com_redshop&view=order_detail&layout=print_order&cid[]=' . $order_id,
+			'print',
+			'COM_REDSHOP_PRINT',
+			'_blank'
+		);
+
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->billing = $billing;

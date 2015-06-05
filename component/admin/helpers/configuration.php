@@ -703,6 +703,7 @@ class Redconfiguration
 						"TERMS_ARTICLE_ID"                             => $d["terms_article_id"],
 
 						"INVOICE_NUMBER_TEMPLATE"                      => $d["invoice_number_template"],
+						"REAL_INVOICE_NUMBER_TEMPLATE"                 => $d["real_invoice_number_template"],
 						"FIRST_INVOICE_NUMBER"                         => $d["first_invoice_number"],
 						"INVOICE_NUMBER_FOR_FREE_ORDER"                => $d["invoice_number_for_free_order"],
 						"DEFAULT_CATEGORY_ORDERING_METHOD"             => $d["default_category_ordering_method"],
@@ -1390,10 +1391,11 @@ class Redconfiguration
 
 	public function getCountryList($post = array(), $country_codename = "country_code", $address_type = "BT", $country_class = "inputbox")
 	{
-		$address_type = ($address_type == "ST") ? "_ST" : "";
-		$countries    = $this->countryList();
+		$address_type   = ($address_type == "ST") ? "_ST" : "";
+		$countries      = $this->countryList();
+		$totalCountries = count($countries);
 
-		if (count($countries) == 1)
+		if ($totalCountries == 1)
 		{
 			$post['country_code' . $address_type] = $countries[0]->value;
 		}
@@ -1403,15 +1405,21 @@ class Redconfiguration
 			$post['country_code' . $address_type] = SHOP_COUNTRY;
 		}
 
-		$temps           = array();
-		$temps[0]        = new stdClass;
-		$temps[0]->value = '';
-		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
-		$temps           = array_merge($temps, $countries);
+		$temps = array();
+
+		// Only offer please select hint if more than one countries.
+		if ($totalCountries > 1)
+		{
+			$temps[0]        = new stdClass;
+			$temps[0]->value = '';
+			$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		}
+
+		$temps = array_merge($temps, $countries);
 
 		$selectedcnt = '';
 
-		for ($i = 0; $i < count($countries); $i++)
+		for ($i = 0; $i < $totalCountries; $i++)
 		{
 			if ($countries[$i]->value == $post['country_code' . $address_type])
 			{

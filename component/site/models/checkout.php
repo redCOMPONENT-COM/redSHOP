@@ -1430,20 +1430,26 @@ class RedshopModelCheckout extends RedshopModel
 			$pdf->SetFont('times', '', 18);
 			$pdf->AddPage();
 			$pdfImage = "";
+			$mailImage = '';
 
-			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image) && $giftcardData->giftcard_image)
+			if ($giftcardData->giftcard_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image))
 			{
 				$pdfImage = '<img src="' . REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
+				$mailImage = '<img src="components/com_redshop/assets/images/giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
 			}
 
-			$giftcardmail_body = str_replace("{giftcard_image}", $pdfImage, $giftcardmail_body);
-			$pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
+			$pdfMailBody = $giftcardmail_body;
+			$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
+			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
+			$pdf->writeHTML($pdfMailBody, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
 			$g_pdfName = time();
 			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
 			$config              = JFactory::getConfig();
 			$from                = $config->get('mailfrom');
 			$fromname            = $config->get('fromname');
 			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
+
+			$giftcardmail_body = $this->_redshopMail->imginmail($giftcardmail_body);
 
 			JFactory::getMailer()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}

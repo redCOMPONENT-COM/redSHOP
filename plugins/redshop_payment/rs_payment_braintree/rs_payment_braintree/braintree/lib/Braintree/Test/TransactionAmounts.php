@@ -1,11 +1,4 @@
 <?php
-/**
- * Transaction amounts used for testing purposes
- *
- * @package    Braintree
- * @subpackage Test
- * @copyright  2010 Braintree Payment Solutions
- */
 
 /**
  * Transaction amounts used for testing purposes
@@ -15,10 +8,10 @@
  *
  * @package    Braintree
  * @subpackage Test
- * @copyright  2010 Braintree Payment Solutions
+ * @copyright  2014 Braintree, a division of PayPal, Inc.
  */
 class Braintree_Test_TransactionAmounts
 {
-	public static $authorize = '1000.00';
-	public static $decline = '2000.00';
+   public static $authorize = '1000.00';
+   public static $decline   = '2000.00';
 }

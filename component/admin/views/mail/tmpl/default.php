@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
-$filter = JRequest::getVar('filter');
-
 $redtemplate = new Redtemplate;
 
 ?>
@@ -36,11 +33,11 @@ $redtemplate = new Redtemplate;
 	}
 
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<div class="filterItem">
 			<div class="btn-wrapper input-append">
-				<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
+				<input type="text" name="filter" id="filter" value="<?php echo $this->lists['filter']; ?>"
 					   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>">
 				<button onclick="this.form.submit();" class="btn"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
 				<button class="btn"

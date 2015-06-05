@@ -193,7 +193,7 @@ class rsUserhelper
 		{
 			if (REGISTER_METHOD == 1 || $data['user_id'] < 0)
 			{
-				$reduser = new statsClass;
+				$reduser = new stdClass;
 				$reduser->id = $data['user_id'];
 
 				return $reduser;
@@ -202,7 +202,7 @@ class rsUserhelper
 
 		if ($app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id']))
 		{
-			$reduser = new statsClass;
+			$reduser = new stdClass;
 			$reduser->id = $data['user_id'];
 
 			return $reduser;
@@ -1076,8 +1076,16 @@ class rsUserhelper
 		$template_desc = str_replace("{zipcode}", '<input class="inputbox required"  type="text" name="zipcode" id="zipcode" size="32" maxlength="10" value="' . @$post['zipcode'] . '" onblur="return autoFillCity(this.value,\'BT\');" />', $template_desc);
 		$template_desc = str_replace("{city_lbl}", JText::_('COM_REDSHOP_CITY'), $template_desc);
 		$template_desc = str_replace("{city}", '<input class="inputbox required" type="text" name="city" ' . $read_only . ' id="city" value="' . @$post['city'] . '" size="32" maxlength="250" />', $template_desc);
+
+		// Allow phone number to be optional using template tags.
+		$phoneIsRequired = ((boolean) strstr($template_desc, '{phone_optional}')) ? '' : 'required';
+		$template_desc = str_replace("{phone_optional}",'', $template_desc);
+		$template_desc = str_replace(
+			"{phone}",
+			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . @$post ["phone"] . '" onblur="return searchByPhone(this.value,\'BT\');" />',
+			$template_desc
+		);
 		$template_desc = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
-		$template_desc = str_replace("{phone}", '<input class="inputbox required" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . @$post ["phone"] . '" onblur="return searchByPhone(this.value,\'BT\');" />', $template_desc);
 
 		$template_desc = str_replace("{country_txtid}", "div_country_txt", $template_desc);
 		$template_desc = str_replace("{country_style}", $countrystyle, $template_desc);

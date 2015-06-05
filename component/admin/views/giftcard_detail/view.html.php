@@ -48,8 +48,8 @@ class RedshopViewGiftcard_detail extends RedshopView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$lists['customer_amount'] = JHTML::_('select.booleanlist', 'customer_amount', 'class="inputbox" ', $detail->customer_amount);
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['customer_amount'] = JHTML::_('redshopselect.booleanlist', 'customer_amount', 'class="inputbox" ', $detail->customer_amount);
+		$lists['published'] = JHTML::_('redshopselect.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{

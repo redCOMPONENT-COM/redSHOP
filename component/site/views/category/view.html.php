@@ -118,9 +118,9 @@ class RedshopViewCategory extends RedshopView
 
 			if (count($loadCategorytemplate) > 0 && strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
 			{
-				$limit_product = $model->getCategoryProduct(1);
-				$minmax[0]     = $limit_product[0]->minprice;
-				$minmax[1]     = $limit_product[0]->maxprice;
+				$model->getCategoryProduct(1);
+				$minmax[0]     = $model->getState('minprice');
+				$minmax[1]     = $model->getState('maxprice');
 
 				$isSlider    = true;
 				$texpricemin = $this->input->getInt('texpricemin', $minmax[0]);
@@ -407,6 +407,9 @@ class RedshopViewCategory extends RedshopView
 
 					$strToInsert = "<div id='oldredcatpagination'>{pagination}</div>";
 					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", $strToInsert, $loadCategorytemplate[0]->template_desc);
+
+					$strToInsert = '<span id="oldRedPageLimit">{product_display_limit}</span>';
+					$loadCategorytemplate[0]->template_desc = str_replace("{product_display_limit}", $strToInsert, $loadCategorytemplate[0]->template_desc);
 				}
 
 				if (count($product) > 0)

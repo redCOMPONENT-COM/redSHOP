@@ -34,13 +34,9 @@ script:
   - php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
   # Download Joomla for testing
-  - cd tests/
-  - composer update
-  - cd ..
   - php vendor/bin/robo prepare:site-for-system-tests
   - php .travis/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php # Test apache
   - php vendor/bin/robo run:tests
-  #- php vendor/bin/codecept run acceptance -g Joomla3 --env joomla3
   - php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
 
 

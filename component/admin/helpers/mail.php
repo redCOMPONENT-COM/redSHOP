@@ -535,20 +535,21 @@ class redshopMail
 	/**
 	 * Replace invoice mail template tags and prepare mail body and pdf html
 	 *
-	 * @param   string  $html     HTML template of mail body or pdf
-	 * @param   string  $subject  Email Subject template, can be null for PDF
-	 * @param   string  $type     Either 'html' or 'pdf'
+	 * @param   integer  $orderId  Order Information ID
+	 * @param   string   $html     HTML template of mail body or pdf
+	 * @param   string   $subject  Email Subject template, can be null for PDF
+	 * @param   string   $type     Either 'html' or 'pdf'
 	 *
 	 * @return  object  Object having mail body and subject. subject can be null for PDF type.
 	 */
-	protected function replaceInvoiceMailTemplate($html, $subject = null, $type = 'pdf')
+	protected function replaceInvoiceMailTemplate($orderId, $html, $subject = null, $type = 'pdf')
 	{
 		$redconfig         = new Redconfiguration;
 		$producthelper     = new producthelper;
 		$extra_field       = new extra_field;
 		$arr_discount_type = array();
 
-		$row           = $this->_order_functions->getOrderDetails($order_id);
+		$row           = $this->_order_functions->getOrderDetails($orderId);
 		$barcode_code  = $row->barcode;
 		$arr_discount  = explode('@', $row->discount_type);
 		$discount_type = '';
@@ -587,7 +588,7 @@ class redshopMail
 		$replace_sub[]    = SHOP_NAME;
 
 		$user             = JFactory::getUser();
-		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
+		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($orderId);
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$search_sub[]     = "{fullname}";
 		$replace_sub[]    = $userfullname;
@@ -639,11 +640,11 @@ class redshopMail
 	 * Email Body and Subject is from "Invoice Mail" template section.
 	 * Contains PDF attachement. PDF html is from "Invoice Mail PDF" section.
 	 *
-	 * @param   integer  $order_id  Order Information Id
+	 * @param   integer  $orderId  Order Information Id
 	 *
 	 * @return  boolean  True on sending email successfully.
 	 */
-	public function sendInvoiceMail($order_id)
+	public function sendInvoiceMail($orderId)
 	{
 		$config            = JFactory::getConfig();
 		$message           = "";
@@ -668,7 +669,7 @@ class redshopMail
 			return false;
 		}
 
-		$mailTemplate = $this->replaceInvoiceMailTemplate($message, $subject, 'html');
+		$mailTemplate = $this->replaceInvoiceMailTemplate($orderId, $message, $subject, 'html');
 		$mailBody     = $mailTemplate->body;
 		$subject      = $mailTemplate->subject;
 
@@ -680,7 +681,7 @@ class redshopMail
 		// Set actual PDF template if found
 		if (count($pdfTemplateFile) > 0)
 		{
-			$pdfTemplate = $this->replaceInvoiceMailTemplate($pdfTemplateFile[0]->mail_body)->body;
+			$pdfTemplate = $this->replaceInvoiceMailTemplate($orderId, $pdfTemplateFile[0]->mail_body)->body;
 		}
 
 		ob_clean();
@@ -688,13 +689,13 @@ class redshopMail
 		echo "<div id='redshopcomponent' class='redshop'>";
 
 		$pdfObj = RedshopHelperPdf::getInstance();
-		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $order_id);
+		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $orderId);
 		$pdfObj->SetMargins(15, 15, 15);
 		$pdfObj->setHeaderFont(array('times', '', 10));
 		$pdfObj->AddPage();
 		$pdfObj->WriteHTML($pdfTemplate, true, false, true, false, '');
 
-		$invoice_pdfName = $order_id;
+		$invoice_pdfName = $orderId;
 
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 		$invoiceAttachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf";
@@ -703,8 +704,9 @@ class redshopMail
 		$from     = $config->get('mailfrom');
 		$fromname = $config->get('fromname');
 
-		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
+		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($orderId);
 		$email            = $billingaddresses->user_email;
+		$mailBody = $this->imginmail($mailBody);
 
 		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
 		{
@@ -794,6 +796,7 @@ class redshopMail
 			. '" target="_blank">' . JText::_('COM_REDSHOP_ACCOUNT_LINK') . '</a>';
 
 		$mailbody    = str_replace($search, $replace, $maildata);
+		$mailbody = $this->imginmail($mailbody);
 		$mailsubject = str_replace($search, $replace, $mailsubject);
 
 		if ($MailFrom != '' && $FromName != '')
@@ -880,6 +883,7 @@ class redshopMail
 			$replace[] = $userinfo['phone'];
 
 			$maildata = str_replace($search, $replace, $maildata);
+			$maildata = $this->imginmail($maildata);
 
 			if ($email != "")
 			{
@@ -961,6 +965,7 @@ class redshopMail
 		$replace[]   = "<a href='" . $producturl . "'>" . $product->product_name . "</a>";
 
 		$maildata    = str_replace($search, $replace, $maildata);
+		$maildata = $this->imginmail($maildata);
 
 		$mailsubject = str_replace($search, $replace, $mailsubject);
 
@@ -972,41 +977,41 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * Use absolute paths instead of relative ones when linking images
+	 *
+	 * @param   string  $message  Text message
+	 *
+	 * @return  string
+	 */
 	public function imginmail($message)
 	{
-		$uri   = JFactory::getURI();
+		$url   = JFactory::getURI()->root();
+		$imagescurarray = array();
 
-		$url   = $uri->root();
-
-		$data1 = $data = $message;
-
-		preg_match_all("/\< *[img][^\>]*[.]*\>/i", $data, $matches);
+		preg_match_all("/\< *[img][^\>]*[.]*\>/i", $message, $matches);
 
 		foreach ($matches[0] as $match)
 		{
 			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
-
-			$images[]         = array_combine($m[1], $m[2]);
-
 			$imagescur        = array_combine($m[1], $m[2]);
-
 			$imagescurarray[] = $imagescur['src'];
 		}
 
-		$imagescurarray = @array_unique($imagescurarray);
+		$imagescurarray = array_unique($imagescurarray);
 
-		if ($imagescurarray)
+		if (count($imagescurarray))
 		{
 			foreach ($imagescurarray as $change)
 			{
 				if (strpos($change, 'http') === false)
 				{
-					$data1 = str_replace($change, $url . $change, $data1);
+					$message = str_replace($change, $url . $change, $message);
 				}
 			}
 		}
 
-		return $data1;
+		return $message;
 	}
 
 	public function sendQuotationMail($quotation_id, $status = 0)
@@ -1418,6 +1423,7 @@ class redshopMail
 			$subject   = str_replace($search, $replace, $subject);
 
 			$message   = str_replace($search, $replace, $message);
+			$message = $this->imginmail($message);
 
 			$from      = $config->get('mailfrom');
 
@@ -1464,6 +1470,7 @@ class redshopMail
 		$subject   = str_replace($search, $replace, $subject);
 
 		$message   = str_replace($search, $replace, $message);
+		$message = $this->imginmail($message);
 
 		$from      = $config->get('mailfrom');
 
@@ -1545,6 +1552,7 @@ class redshopMail
 			$subject     = str_replace("{user_question}", $question, $subject);
 			$subject     = str_replace("{shopname}", SHOP_NAME, $subject);
 			$subject     = str_replace("{product_name}", $product->product_name, $subject);
+			$data_add = $this->imginmail($data_add);
 
 			if ($email)
 			{
@@ -1611,6 +1619,7 @@ class redshopMail
 		$replace[] = $redconfig->convertDateFormat($orderdetail->cdate);
 
 		$data_add = str_replace($search, $replace, $data_add);
+		$data_add = $this->imginmail($data_add);
 
 		$attachment[] = $bookinvoicepdf;
 
@@ -1664,6 +1673,7 @@ class redshopMail
 			$data_add = str_replace("{zipcode}", $data->zipcode, $data_add);
 			$data_add = str_replace("{address}", $data->address, $data_add);
 			$data_add = str_replace("{city}", $data->city, $data_add);
+			$data_add = $this->imginmail($data_add);
 
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
 			JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc);
@@ -1672,7 +1682,7 @@ class redshopMail
 
 	public function sendCatalogRequest($catalog = array())
 	{
-		$maildata = $this->getMailtemplate(0, "catalog");
+		$mailinfo = $this->getMailtemplate(0, "catalog");
 		$data_add = "";
 		$subject = "";
 		$mailbcc = null;
@@ -1708,6 +1718,7 @@ class redshopMail
 		}
 
 		$data_add = str_replace("{name}", $catalog->name, $data_add);
+		$data_add = $this->imginmail($data_add);
 
 		if (JFactory::getMailer()->sendMail($from, $fromname, $catalog->email, $subject, $data_add, 1, null, $mailbcc, $attachment))
 		{
