@@ -163,12 +163,13 @@ class RoboFile extends \Robo\Tasks
     /**
      * Executes Selenium System Tests in your machine
      *
-     * @param null $seleniumPath   Optional path to selenium-standalone-server-x.jar
-     * @param null $pathToTestFile Optional name of the test to be run
+     * @param string $seleniumPath   Optional path to selenium-standalone-server-x.jar
+     * @param string $pathToTestFile Optional name of the test to be run
+     * @param string $suite          Optional name of the suite containing the tests, Acceptance by default.
      *
      * @return mixed
      */
-    public function runTest($seleniumPath = null, $pathToTestFile = null)
+    public function runTest($seleniumPath = null, $pathToTestFile = null, $suite = 'acceptance')
     {
         if (!$seleniumPath) {
             if (!file_exists('selenium-server-standalone.jar')) {
@@ -200,18 +201,24 @@ class RoboFile extends \Robo\Tasks
 
         if (!$pathToTestFile)
         {
+            $tests = array();
             $this->say('Available tests in the system:');
-            $testFiles = scandir(getcwd() . '/tests/acceptance');
-            foreach ($testFiles as $number => $testFileName)
+            $filesInSuite = scandir(getcwd() . '/tests/' . $suite);
+
+            $i = 1;
+            foreach ($filesInSuite as $file)
             {
-                if (strripos($testFileName, 'cept.php') || strripos($testFileName, 'cest.php'))
+                // Make sure the file is a Test file
+                if (strripos($file, 'cept.php') || strripos($file, 'cest.php'))
                 {
-                    $this->say('[' . $number . '] ' . $testFileName);
+                    $tests[$i] = $file;
+                    $this->say('[' . $i . '] ' . $file);
+                    $i++;
                 }
             }
             $this->say('');
             $testNumber = $this->ask('Type the number of the test  in the list that you want to run...');
-            $pathToTestFile = 'tests/acceptance/' . $testFiles[$testNumber];
+            $pathToTestFile = 'tests/acceptance/' . $tests[$testNumber];
         }
 
         $this->taskCodecept()
