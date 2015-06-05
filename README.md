@@ -13,7 +13,7 @@ Please follow the next steps in order to release a new version of redSHOP.
 
 - Execute component_packager.xml PHING file to generate the main component package (includes 1 module and 2 plugins).
 
-### Using Gulp build system
+## Using Gulp build system
 
 Before you can run any Gulp command you need to:
 
@@ -21,12 +21,33 @@ Before you can run any Gulp command you need to:
 - install npm: `sudo npm install`
 - install Gulp: `npm install --save gulp-install`
 
-#### Following tasks and switches are available:
+### Following tasks and switches are available:
+#### Setup gulp config file. Copy and rename `gulp-config.sample.json` file into `gulp-config.json`
 
-Use this command to release component.
-Version and other information can be set in `gulp-config.json` file.
+> Version and other information can be set in `gulp-config.json` file.
+
+#### To Release `component` and create `.zip` file
+
+> Use this command to release component. Version and other information can be set in `gulp-config.json` file.
 
     gulp release:component
+
+#### To Release `modules` and create `.zip` file
+
+    gulp release:modules
+
+#### To Release `plugins` and create `.zip` file
+
+    gulp release:plugins
+
+#### To Release `packages` and create `.zip` file
+
+    gulp release:packages
+
+_or_
+
+    gulp release:packages --folder ./individual_package_dir
+
 
 This command is to release the extensions.
 
