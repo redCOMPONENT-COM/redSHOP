@@ -19,7 +19,7 @@ class RoboFile extends \Robo\Tasks
     /**
      * Current RoboFile version
      */
-    private $version = '1.2';
+    private $version = '1.3';
 
     /**
      * Hello World example task.
@@ -160,4 +160,87 @@ class RoboFile extends \Robo\Tasks
             ->stopOnFail();
     }
 
+    /**
+     * Executes Selenium System Tests in your machine
+     *
+     * @param null $seleniumPath   Optional path to selenium-standalone-server-x.jar
+     * @param null $pathToTestFile Optional name of the test to be run
+     *
+     * @return mixed
+     */
+    public function runTest($seleniumPath = null, $pathToTestFile = null)
+    {
+        if (!$seleniumPath) {
+            if (!file_exists('selenium-server-standalone.jar')) {
+                $this->say('Downloading Selenium Server, this may take a while.');
+                $this->taskExec('wget')
+                     ->arg('http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar')
+                     ->arg('-O selenium-server-standalone.jar')
+                     ->printed(false)
+                     ->run();
+            }
+            $seleniumPath = 'selenium-server-standalone.jar';
+        }
+
+        // Make sure we have Composer
+        if (!file_exists('./composer.phar')) {
+            $this->_exec('curl -sS https://getcomposer.org/installer | php');
+        }
+        $this->taskComposerUpdate()->run();
+
+        // Running Selenium server
+        $this->_exec("java -jar $seleniumPath > selenium-errors.log 2>selenium.log &");
+
+        $this->taskWaitForSeleniumStandaloneServer()
+             ->run()
+             ->stopOnFail();
+
+        // Make sure to Run the Build Command to Generate AcceptanceTester
+        $this->_exec("php vendor/bin/codecept build");
+
+        if (!$pathToTestFile)
+        {
+            $this->say('Available tests in the system:');
+            $testFiles = scandir(getcwd() . '/tests/acceptance');
+            foreach ($testFiles as $number => $testFileName)
+            {
+                if (strripos($testFileName, 'cept.php') || strripos($testFileName, 'cest.php'))
+                {
+                    $this->say('[' . $number . '] ' . $testFileName);
+                }
+            }
+            $this->say('');
+            $testNumber = $this->ask('Type the number of the test  in the list that you want to run...');
+            $pathToTestFile = 'tests/acceptance/' . $testFiles[$testNumber];
+        }
+
+        $this->taskCodecept()
+             ->test($pathToTestFile)
+             ->arg('--steps')
+             ->arg('--debug')
+             ->run()
+             ->stopOnFail();
+
+        // Kill selenium server
+        // $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
+
+        $this->say('Printing Selenium Log files');
+        $this->say('------ selenium-errors.log (start) ---------');
+        $seleniumErrors = file_get_contents('selenium-errors.log');
+        if ($seleniumErrors) {
+            $this->say(file_get_contents('selenium-errors.log'));
+        }
+        else {
+            $this->say('no errors were found');
+        }
+        $this->say('------ selenium-errors.log (end) -----------');
+
+        /*
+        // Uncomment if you need to debug issues in selenium
+        $this->say('');
+        $this->say('------ selenium.log (start) -----------');
+        $this->say(file_get_contents('selenium.log'));
+        $this->say('------ selenium.log (end) -----------');
+        */
+    }
 }
