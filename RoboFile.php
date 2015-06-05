@@ -218,7 +218,7 @@ class RoboFile extends \Robo\Tasks
             }
             $this->say('');
             $testNumber = $this->ask('Type the number of the test  in the list that you want to run...');
-            $pathToTestFile = 'tests/acceptance/' . $tests[$testNumber];
+            $pathToTestFile = "tests/$suite/" . $tests[$testNumber];
         }
 
         $this->taskCodecept()
