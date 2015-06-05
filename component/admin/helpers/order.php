@@ -1187,10 +1187,15 @@ class order_functions
 			return $list;
 		}
 
-		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM #__redshop_users_info '
-				. 'WHERE address_type like "BT" ' . 'AND user_id = ' . (int) $user_id;
-		$db->setQuery($query);
-		$list = $db->loadObject();
+		if ($user_id)
+		{
+			$query = $db->getQuery(true)
+				->select('*, CONCAT(firstname," ",lastname) AS text')
+				->from('#__redshop_users_info')
+				->where('address_type = ' . $db->q('BT'))
+				->where('user_id = ' . (int) $user_id);
+			$list = $db->setQuery($query)->loadObject();
+		}
 
 		return $list;
 	}
@@ -1644,6 +1649,7 @@ class order_functions
 
 			$maildata = $productstart . $pmiddle . $productend;
 			$mailbody = $maildata;
+			$mailbody = $redshopMail->imginmail($mailbody);
 			$mailsubject = str_replace("{order_number}", $orderdetail->order_number, $mailsubject);
 
 			if ($mailbody && $useremail != "")
@@ -1998,6 +2004,7 @@ class order_functions
 			$replace[] = "<a href='" . $order_trackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
 			$mailbody = str_replace($search, $replace, $maildata);
+			$mailbody = $redshopMail->imginmail($mailbody);
 			$mailsubject = str_replace($search, $replace, $mailsubject);
 
 			if ('' != $userdetail->thirdparty_email && $mailbody)

@@ -45,9 +45,9 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\DiscountManagerJ3Page::$discountSuccessMessage, 60, '.alert-success');
 		$I->see(\DiscountManagerJ3Page::$discountSuccessMessage, '.alert-success');
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -62,7 +62,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$verifyAmount = '$ ' . $amount . ',00';
 		$newVerifyAmount = '$ ' . $newAmount . ',00';
 		$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
@@ -74,7 +74,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\DiscountManagerJ3Page::$discountSuccessMessage, 60, '.alert-success');
 		$I->see(\DiscountManagerJ3Page::$discountSuccessMessage, '.alert-success');
 		$I->see($newVerifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
