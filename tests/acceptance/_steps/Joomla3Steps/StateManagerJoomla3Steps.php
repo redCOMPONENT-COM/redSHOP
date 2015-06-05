@@ -63,6 +63,15 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerJ3Page::$URL);
+		$I->executeInSelenium(
+			function(\WebDriver $webdriver)
+			{
+				$host = $this->getConfig('host');
+				$webdriver->get($host . \StateManagerJ3Page::$URL);
+				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
+				$element->clear();
+			}
+		);
 		$I->fillField(\StateManagerJ3Page::$searchField, $stateName);
 		$I->click(\StateManagerJ3Page::$searchButton);
 		$I->click(\StateManagerJ3Page::$checkAll);
