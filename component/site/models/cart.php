@@ -100,7 +100,8 @@ class RedshopModelCart extends RedshopModel
 				$userArr = $this->_producthelper->getVatUserinfo($user_id);
 
 				// Removed due to discount issue $usersess['vatCountry']
-				if ($cart['user_shopper_group_id'] != $shopperGroupId || ($usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code))
+				if ($cart['user_shopper_group_id'] != $shopperGroupId
+					|| (!isset($usersess['vatCountry']) || !isset($usersess['vatState']) || $usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code))
 				{
 					$cart                          = $this->_carthelper->modifyCart($cart, $user_id);
 					$cart['user_shopper_group_id'] = $shopperGroupId;
