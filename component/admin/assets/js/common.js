@@ -154,7 +154,11 @@ function collectOfflineAttributes(product_id, accessory_id, unique_id) {
 
             // required check
             if (propId.getAttribute('required') == 1 && propArr.length == 0) {
-                acc_error += document.getElementById('att_lebl').innerHTML + " " + unescape(propId.getAttribute('attribute_name')) + "\n";
+                if (document.getElementById('att_lebl'))
+                {
+                    acc_error += document.getElementById('att_lebl').innerHTML + " ";
+                }
+                acc_error += unescape(propId.getAttribute('attribute_name')) + "\n";
                 acc_error_alert = true;
             }
 
