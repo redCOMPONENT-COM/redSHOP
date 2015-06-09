@@ -28,7 +28,7 @@ if ($language == "Auto")
 // For total amount
 $amount       = 0;
 $paytype      = $this->params->get("dibs_paytype");
-$dibs_paytype = implode(",", $paytype);
+$dibs_paytype = is_array($paytype) ? implode(",", $paytype) : '';
 
 // Authenticate vars to send
 $formdata = array(
@@ -58,10 +58,14 @@ $formdata = array(
 	'shippingPostalPlace' => $data['shippinginfo']->city,
 
 	// Extra parameters
-	'payType'             => $dibs_paytype,
 	'oiTypes'             => "QUANTITY;UNITCODE;DESCRIPTION;AMOUNT;ITEMID;VATAMOUNT",
 	'oiNames'             => "Items;UnitCode;Description;Amount;ItemId;VatAmount"
 );
+
+if (!empty($dibs_paytype))
+{
+	$formdata['payType'] = $dibs_paytype;
+}
 
 if ($this->params->get("instant_capture"))
 {
@@ -71,16 +75,6 @@ if ($this->params->get("instant_capture"))
 if ($this->params->get("is_test"))
 {
 	$formdata['test'] = 1;
-}
-
-if ($this->params->get("orgnumber"))
-{
-	$formdata['organizationnumber'] = $this->params->get("orgnumber");
-}
-
-if ($this->params->get("ssn"))
-{
-	$formdata['socialSecurityNumber'] = $this->params->get("ssn");
 }
 
 for ($p = 0; $p < count($order_items); $p++)
