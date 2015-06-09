@@ -12,6 +12,8 @@ require_once 'vendor/autoload.php';
 
 class RoboFile extends \Robo\Tasks
 {
+    use \Codeception\Task\MergeReports;
+    use \Codeception\Task\SplitTestsByGroups;
 
     // load tasks from composer, see composer.json
     use \redcomponent\robo\loadTasks;
@@ -89,34 +91,15 @@ class RoboFile extends \Robo\Tasks
      *
      * @return mixed
      */
-    public function runTests($seleniumPath = null)
+    public function runTests($launchSelenium = true, $seleniumPath = null)
     {
-        if (!$seleniumPath) {
-            if (!file_exists('selenium-server-standalone.jar')) {
-                $this->say('Downloading Selenium Server, this may take a while.');
-                $this->taskExec('wget')
-                    ->arg('http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar')
-                    ->arg('-O selenium-server-standalone.jar')
-                    ->printed(false)
-                    ->run();
-            }
-            $seleniumPath = 'selenium-server-standalone.jar';
+        if($launchSelenium)
+        {
+            $this->composerInstall();
+            $this->runSelenium();
         }
 
-        // Make sure we have Composer
-        if (!file_exists('./composer.phar')) {
-            $this->_exec('curl -sS https://getcomposer.org/installer | php');
-        }
-        $this->taskComposerUpdate()->run();
-
-        // Running Selenium server
-        $this->_exec("java -jar $seleniumPath > selenium-errors.log 2>selenium.log &");
-
-        $this->taskWaitForSeleniumStandaloneServer()
-            ->run()
-            ->stopOnFail();
-
-		// Make sure to Run the Build Command to Generate AcceptanceTester
+        // Make sure to Run the Build Command to Generate AcceptanceTester
 		$this->_exec("php vendor/bin/codecept build");
 
         $this->taskCodecept()
@@ -164,38 +147,20 @@ class RoboFile extends \Robo\Tasks
     /**
      * Executes Selenium System Tests in your machine
      *
-     * @param string $seleniumPath   Optional path to selenium-standalone-server-x.jar
-     * @param string $pathToTestFile Optional name of the test to be run
-     * @param string $suite          Optional name of the suite containing the tests, Acceptance by default.
+     * @param boolean $launchSelenium
+     * @param string  $seleniumPath    Optional path to selenium-standalone-server-x.jar
+     * @param string  $pathToTestFile  Optional name of the test to be run
+     * @param string  $suite           Optional name of the suite containing the tests, Acceptance by default.
      *
      * @return mixed
      */
-    public function runTest($seleniumPath = null, $pathToTestFile = null, $suite = 'acceptance')
+    public function runTest($launchSelenium = true, $seleniumPath = null, $pathToTestFile = null, $suite = 'acceptance')
     {
-        if (!$seleniumPath) {
-            if (!file_exists('selenium-server-standalone.jar')) {
-                $this->say('Downloading Selenium Server, this may take a while.');
-                $this->taskExec('wget')
-                     ->arg('http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar')
-                     ->arg('-O selenium-server-standalone.jar')
-                     ->printed(false)
-                     ->run();
-            }
-            $seleniumPath = 'selenium-server-standalone.jar';
+        if($launchSelenium)
+        {
+            $this->composerInstall();
+            $this->runSelenium();
         }
-
-        // Make sure we have Composer
-        if (!file_exists('./composer.phar')) {
-            $this->_exec('curl -sS https://getcomposer.org/installer | php');
-        }
-        $this->taskComposerUpdate()->run();
-
-        // Running Selenium server
-        $this->_exec("java -jar $seleniumPath > selenium-errors.log 2>selenium.log &");
-
-        $this->taskWaitForSeleniumStandaloneServer()
-             ->run()
-             ->stopOnFail();
 
         // Make sure to Run the Build Command to Generate AcceptanceTester
         $this->_exec("php vendor/bin/codecept build");
@@ -229,9 +194,6 @@ class RoboFile extends \Robo\Tasks
              ->run()
              ->stopOnFail();
 
-        // Kill selenium server
-        // $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
-
         $this->say('Printing Selenium Log files');
         $this->say('------ selenium-errors.log (start) ---------');
         $seleniumErrors = file_get_contents('selenium-errors.log');
@@ -242,13 +204,91 @@ class RoboFile extends \Robo\Tasks
             $this->say('no errors were found');
         }
         $this->say('------ selenium-errors.log (end) -----------');
+    }
 
-        /*
-        // Uncomment if you need to debug issues in selenium
+    /**
+     * Run the test in parallel to reduce the time to execute
+     */
+    public function runTestsInParallel()
+    {
+        // Make sure to Run the Build Command to Generate AcceptanceTester
+        $this->_exec("php vendor/bin/codecept build");
+
+        $this->runTest(true, null,'tests/acceptance/1stInstallJoomla3TestCept.php');
+        $this->runTest(false, null,'tests/acceptance/2ndInstallJoomla3ExtensionCept.php');
+
+        $parallel = $this->taskParallelExec();
+
+        for ($i = 1; $i <= 3; $i++) {
+            $parallel->process(
+                $this->taskCodecept() // use built-in Codecept task
+                     ->suite('acceptance') // run acceptance tests
+                     ->group("p$i")        // for all p* groups
+                     ->xml("tests/_log/result_$i.xml") // save XML results
+            );
+        }
+        return $parallel->run();
+
+    }
+
+    private function runSelenium($seleniumPath = null)
+    {
+        if (!$seleniumPath) {
+            if (!file_exists('selenium-server-standalone.jar')) {
+                $this->say('Downloading Selenium Server, this may take a while.');
+                $this->taskExec('wget')
+                     ->arg('http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar')
+                     ->arg('-O selenium-server-standalone.jar')
+                     ->printed(false)
+                     ->run();
+            }
+            $seleniumPath = 'selenium-server-standalone.jar';
+        }
+
+        // Running Selenium server
+        $this->_exec("java -jar $seleniumPath > selenium-errors.log 2>selenium.log &");
+
+        $this->taskWaitForSeleniumStandaloneServer()
+             ->run()
+             ->stopOnFail();
+    }
+
+    private function shutDownSelenium()
+    {
+        // Kill selenium server
+        $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
+    }
+
+    private function composerInstall()
+    {
+        // Make sure we have Composer
+        if (!file_exists('./composer.phar')) {
+            $this->_exec('curl -sS https://getcomposer.org/installer | php');
+        }
+        $this->taskComposerUpdate()->run();
+    }
+
+    public function parallelSplitTests()
+    {
+        $this->taskSplitTestFilesByGroups(3)
+             ->projectRoot('.')
+             ->testsFrom('tests/acceptance')
+             ->groupsTo('tests/_log/p')
+             ->run();
+    }
+
+    public function parallelMergeResults()
+    {
+        $merge = $this->taskMergeXmlReports();
+        for ($i=1; $i<=5; $i++) {
+            $merge->from("/tests/_log/result_$i.xml");
+        }
+        $merge->into("/tests/_log/result.xml")
+              ->run();
+
         $this->say('');
         $this->say('------ selenium.log (start) -----------');
-        $this->say(file_get_contents('selenium.log'));
+        $this->say(file_get_contents('/tests/_log/result.xml'));
         $this->say('------ selenium.log (end) -----------');
-        */
     }
 }

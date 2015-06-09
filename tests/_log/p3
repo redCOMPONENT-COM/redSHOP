@@ -1,0 +1,11 @@
+tests/acceptance/ManageAdministratorNoticesCept.php
+tests/acceptance/ManageCouponsAdministratorCept.php
+tests/acceptance/ManageDiscountsAdministratorCept.php
+tests/acceptance/ManageMailCentersAdministratorCept.php
+tests/acceptance/ManageOrdersAdministratorCept.php
+tests/acceptance/ManageQuestionsAdministratorCept.php
+tests/acceptance/ManageStockImagesAdministratorCept.php
+tests/acceptance/ManageTemplatesAdministratorCept.php
+tests/acceptance/ManageVouchersAdministratorCept.php
+tests/acceptance/ProductsCheckoutBeanStreamCept.php
+tests/joomla-cms3/tests/codeception/tests/acceptance/administrator/setDevelopmentErrorReportingCept.php

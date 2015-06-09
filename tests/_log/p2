@@ -1,0 +1,10 @@
+tests/acceptance/ManageCountriesAdministratorCept.php
+tests/acceptance/ManageCustomFieldsAdministratorCept.php
+tests/acceptance/ManageGiftCardsAdministratorCept.php
+tests/acceptance/ManageMediasAdministratorCept.php
+tests/acceptance/ManageProductsCheckoutFrontEndCept.php
+tests/acceptance/ManageStatesAdministratorCept.php
+tests/acceptance/ManageSuppliersAdministratorCept.php
+tests/acceptance/ManageUsersAdministratorCept.php
+tests/acceptance/Products2CheckoutCept.php
+tests/acceptance/ZZUninstallExtensionCept.php
