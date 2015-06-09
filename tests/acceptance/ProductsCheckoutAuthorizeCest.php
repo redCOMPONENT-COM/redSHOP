@@ -74,7 +74,7 @@ class ProductsCheckoutAuthorizeCest
 	 *
 	 * @return void
 	 */
-	protected function updateAuthorizePlugin(AcceptanceTester $I, $accessId, $transactionKey)
+	private function updateAuthorizePlugin(AcceptanceTester $I, $accessId, $transactionKey)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
@@ -113,7 +113,7 @@ class ProductsCheckoutAuthorizeCest
 	 *
 	 * @return void
 	 */
-	protected  function checkoutProductWithAuthorizePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	private function checkoutProductWithAuthorizePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
