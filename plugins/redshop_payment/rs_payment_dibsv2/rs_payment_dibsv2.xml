@@ -89,13 +89,13 @@
 					 <option value="MTRO">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_MTRO</option>
 					 <option value="V-DK">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_VDK</option>
 					 <option value="VISA">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_VISA</option>
-					 <option value="pbbtest">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_PBB</option>
-					 <option value="cl_invtest">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_CL_INV</option>
-					 <option value="cl_instest">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_CL_INS</option>
-					 <option value="sv_invtest">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_SV_INV</option>
-					 <option value="sv_instest">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_SV_INS</option>
-					 <option value="kl_invtest">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_KL_INV</option>
-					 <option value="kl_instest">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_KL_INS</option>
+					 <option value="pbb">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_PBB</option>
+					 <option value="cl_inv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_CL_INV</option>
+					 <option value="cl_ins">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_CL_INS</option>
+					 <option value="sv_inv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_SV_INV</option>
+					 <option value="sv_ins">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_SV_INS</option>
+					 <option value="kl_inv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_KL_INV</option>
+					 <option value="kl_ins">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_KL_INS</option>
 					 <option value="shb_inv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_SHB_INV</option>
 				</field>
 				<field name="hmac_key" type="text" default="" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_HMAC"/>
@@ -119,12 +119,6 @@
 				<field type="spacer"/>
 			</fieldset>
 			<fieldset name="advanced">
-				<field name="orgnumber" type="text" default=""
-					 label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_ORG_NUMBER" description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_ORG_NUMBER_DESC">
-				</field>
-				<field name="ssn" type="text" default=""
-					 label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_SSN" description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_SSN_DESC">
-				</field>
 				<field name="private_person" type="radio" default="1"
 					 label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PRIVATE_PERSON" description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PRIVATE_PERSON_DESC">
 					 <option value="1">JYES</option>
