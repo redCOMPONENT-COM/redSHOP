@@ -916,7 +916,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		// ORDER MAIL SEND
-		if ($postdata['task'] != "save_without_sendmail")
+		if ($postdata['task'] != "addorder_detail.save_without_sendmail")
 		{
 			$redshopMail->sendOrderMail($row->order_id);
 		}
