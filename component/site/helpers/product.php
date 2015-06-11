@@ -588,6 +588,7 @@ class producthelper
 			}
 			else
 			{
+				$userdata = new stdClass;
 				$userdata->country_code = DEFAULT_VAT_COUNTRY;
 				$userdata->state_code   = DEFAULT_VAT_STATE;
 			}
