@@ -251,4 +251,83 @@ class RoboFile extends \Robo\Tasks
         $this->say('------ selenium.log (end) -----------');
         */
     }
+
+	/**
+	 * Function to Run tests in a Group
+	 *
+	 * @param array $options
+	 *
+	 * @return void
+	 */
+	public function runGroupsTests($options = ['group' => 'installation', 'skip_group' => null, 'suite' => 'acceptance', 'selenium_path' => null])
+	{
+
+		if (!$options['selenium_path']) {
+			if (!file_exists('selenium-server-standalone.jar')) {
+				$this->say('Downloading Selenium Server, this may take a while.');
+				$this->taskExec('wget')
+					->arg('http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar')
+					->arg('-O selenium-server-standalone.jar')
+					->printed(false)
+					->run();
+			}
+			$options['selenium_path'] = 'selenium-server-standalone.jar';
+
+		}
+		$seleniumPath = $options['selenium_path'];
+		// Make sure we have Composer
+		if (!file_exists('./composer.phar')) {
+			$this->_exec('curl -sS https://getcomposer.org/installer | php');
+		}
+		$this->taskComposerUpdate()->run();
+
+		// Running Selenium server
+		$this->_exec("java -jar $seleniumPath > selenium-errors.log 2>selenium.log &");
+
+		$this->taskWaitForSeleniumStandaloneServer()
+			->run()
+			->stopOnFail();
+
+		// Make sure to Run the Build Command to Generate AcceptanceTester
+		$this->_exec("php vendor/bin/codecept build");
+
+		if (!$options['skip_group'])
+		{
+			$this->taskCodecept()
+				->suite($options['suite'])
+				->arg('--steps')
+				->group($options['group'])
+				->arg('--debug')
+				->arg('--fail-fast')
+				->run()
+				->stopOnFail();
+		}
+		if ($options['skip_group'])
+		{
+			$this->_exec('php vendor/bin/codecept run --steps --skip-group=installation acceptance');
+		}
+
+
+		// Kill selenium server
+		// $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
+
+		$this->say('Printing Selenium Log files');
+		$this->say('------ selenium-errors.log (start) ---------');
+		$seleniumErrors = file_get_contents('selenium-errors.log');
+		if ($seleniumErrors) {
+			$this->say(file_get_contents('selenium-errors.log'));
+		}
+		else {
+			$this->say('no errors were found');
+		}
+		$this->say('------ selenium-errors.log (end) -----------');
+
+		/*
+		// Uncomment if you need to debug issues in selenium
+		$this->say('');
+		$this->say('------ selenium.log (start) -----------');
+		$this->say(file_get_contents('selenium.log'));
+		$this->say('------ selenium.log (end) -----------');
+		*/
+	}
 }
