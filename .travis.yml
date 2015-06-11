@@ -43,4 +43,4 @@ script:
 
 notifications:
   slack:
-    secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY4php vendor/bin/robo php vendor/bin/robo run:groups-tests --group installation --skip_group yesrun:groups-tests --group installation --skip_group yes4XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=
+    secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=
