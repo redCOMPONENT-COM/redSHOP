@@ -1,0 +1,11 @@
+tests/acceptance/ManageCategoriesAdministratorCept.php
+tests/acceptance/ManageCurrenciesAdministratorCept.php
+tests/acceptance/ManageFrontEndNoticesCept.php
+tests/acceptance/ManageManufacturersAdministratorCept.php
+tests/acceptance/ManageProductsAdministratorCept.php
+tests/acceptance/ManageQuotationsAdministratorCept.php
+tests/acceptance/ManageStockRoomsAdministratorCept.php
+tests/acceptance/ManageTextLibrariesAdministratorCept.php
+tests/acceptance/ManageWrappersAdministratorCept.php
+tests/acceptance/ProductsCheckoutPayPalCept.php
+tests/joomla-cms3/tests/codeception/tests/acceptance/installation/InstallJoomlaCept.php
