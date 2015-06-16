@@ -47,7 +47,7 @@ class ProductsCheckoutAuthorizeDPMCest
 			"customerName" => 'Testing Customer'
 		);
 		$I->enablePlugin($pluginName);
-		$this->updateAuthorizePlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId'], $checkoutAccountInformation['md5Key']);
+		$this->updateAuthorizeDPMPlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId'], $checkoutAccountInformation['md5Key']);
 		$I->doAdministratorLogout();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
@@ -64,7 +64,7 @@ class ProductsCheckoutAuthorizeDPMCest
 		);
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
-		$this->checkoutProductWithAuthorizePayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$this->checkoutProductWithAuthorizeDPMPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class ProductsCheckoutAuthorizeDPMCest
 	 *
 	 * @return void
 	 */
-	private function updateAuthorizePlugin(AcceptanceTester $I, $accessId, $transactionKey, $md5Key)
+	private function updateAuthorizeDPMPlugin(AcceptanceTester $I, $accessId, $transactionKey, $md5Key)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
@@ -102,19 +102,19 @@ class ProductsCheckoutAuthorizeDPMCest
 	}
 
 	/**
-	 * Function to Test Checkout Process of a Product using the Braintree Payment Plugin
+	 * Function to Test Checkout Process of a Product using the Authorize DPM Payment Plugin
 	 *
 	 * @param   AcceptanceTester  $I                      Actor Class Object
 	 * @param   String            $scenario               Scenario Variable
 	 * @param   Array             $addressDetail          Address Detail
 	 * @param   Array             $shipmentDetail         Shipping Address Detail
-	 * @param   Array             $checkoutAccountDetail  2Checkout Account Detail
+	 * @param   Array             $checkoutAccountDetail  Account Detail
 	 * @param   string            $productName            Name of the Product
 	 * @param   string            $categoryName           Name of the Category
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithAuthorizePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	private function checkoutProductWithAuthorizeDPMPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
