@@ -2654,7 +2654,8 @@ class rsCarthelper
 		}
 		else
 		{
-			$cart_data = $this->replacePayment($cart_data, 0, 1, $cart['payment_oprand']);
+			$paymentOprand = (isset($cart['payment_oprand'])) ? $cart['payment_oprand'] : '-';
+			$cart_data     = $this->replacePayment($cart_data, 0, 1, $paymentOprand);
 		}
 
 		$cart_data = $this->replaceTax($cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, DEFAULT_QUOTATION_MODE);
