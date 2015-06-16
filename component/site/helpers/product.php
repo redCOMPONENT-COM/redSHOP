@@ -3362,10 +3362,11 @@ class producthelper
 			{
 				foreach ($productData->attributes as $attribute)
 				{
-					if (($attributeSetId && $attributeSetId != $attribute->attribute_set_id)
-						|| ($attributeId && $attributeId != $attribute->attribute_id)
-						|| ($published && $published != $attribute->attribute_set_published)
-						|| ($attributeRequired && $attributeRequired != $attribute->attribute_required))
+					if (($attributeSetId && ($attributeSetId != $attribute->attribute_set_id))
+						|| ($attributeId && ($attributeId != $attribute->attribute_id))
+						|| ($published && ($published != $attribute->attribute_published))
+						|| ($published && $attributeSetId && ($published != $attribute->attribute_set_published))
+						|| ($attributeRequired && ($attributeRequired != $attribute->attribute_required)))
 					{
 						continue;
 					}
