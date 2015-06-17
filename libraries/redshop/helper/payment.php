@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class RedshopHelperPayment
 {
 	/**
-	 * Check for specif payment group type plugin - suffixed using given `type`
+	 * Check for specific payment group type plugin - suffixed using given `type`
 	 * Specially Checking for suffixed using `rs_payment_banktransfer` plugin
 	 *
 	 * @param   string  $name        Payment Plugin Element Name
@@ -29,7 +29,13 @@ class RedshopHelperPayment
 	{
 		$position = strpos($name, $typeSuffix);
 
-		// True when position found else false
-		return !($position === false);
+		// Return false when given suffix is not found in string
+		if ($position === false)
+		{
+			return false;
+		}
+
+		// True when position found
+		return true;
 	}
 }
