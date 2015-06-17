@@ -78,25 +78,11 @@
 					 <option value="fo">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_FO</option>
 				</field>
 				<field name="dibs_paytype" type="list" default="1" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE"
-					 description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE_DESC" multiple="multiple" size="10">
-					 <option value="AMEX" selected="selected">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_AMEX</option>
-					 <option value="DIN">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_DIN</option>
-					 <option value="DK">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_DK</option>
-					 <option value="ELEC">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ELEC</option>
-					 <option value="FFK">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_FFK</option>
-					 <option value="JCB">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_JCB</option>
+					 description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE_DESC" size="10">
 					 <option value="MC">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_MC</option>
-					 <option value="MTRO">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_MTRO</option>
-					 <option value="V-DK">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_VDK</option>
 					 <option value="VISA">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_VISA</option>
-					 <option value="pbb">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_PBB</option>
-					 <option value="cl_inv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_CL_INV</option>
-					 <option value="cl_ins">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_CL_INS</option>
-					 <option value="sv_inv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_SV_INV</option>
-					 <option value="sv_ins">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_SV_INS</option>
-					 <option value="kl_inv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_KL_INV</option>
-					 <option value="kl_ins">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_KL_INS</option>
-					 <option value="shb_inv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_SHB_INV</option>
+					 <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ALL_CARDS</option>
+					 <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ALL_INVOICES</option>
 				</field>
 				<field name="hmac_key" type="text" default="" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_HMAC"/>
 				 <field name="verify_status" type="sql"
