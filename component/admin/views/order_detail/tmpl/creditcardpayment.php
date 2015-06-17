@@ -330,7 +330,10 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 }
 else
 {
-	if ($plugin == "rs_payment_banktransfer" || $plugin == "rs_payment_banktransfer_discount")
+	// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+	$isBankTransferPaymentType = strpos($plugin , 'rs_payment_banktransfer');
+
+	if ($isBankTransferPaymentType >= 0)
 	{
 		JFactory::getApplication()->redirect(
 			'index.php?option=com_redshop&view=order_detail&task=checkoutnext&payment_plugin=' . $plugin . '&order_id='

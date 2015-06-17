@@ -869,14 +869,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 			}
 		}
 
-		$checkOrderStatus = 1;
-
-		if ($postdata['payment_method_class'] == "rs_payment_banktransfer"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer_discount")
-		{
-			$checkOrderStatus = 0;
-		}
-
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
@@ -906,6 +898,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
+				// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+				$isBankTransferPaymentType = strpos($postdata['payment_method_class'] , 'rs_payment_banktransfer');
+
+				$checkOrderStatus          = ($isBankTransferPaymentType >= 0) ? 0 : 1;
+
 				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (is_file($bookinvoicepdf))

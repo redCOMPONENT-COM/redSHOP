@@ -111,7 +111,10 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($helper->isredCRM())
 		{
-			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && ($post['payment_method_id'] == "rs_payment_banktransfer" || $post['payment_method_id'] == "rs_payment_banktransfer_discount"))
+			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+			$isBankTransferPaymentType = strpos($post['payment_method_id'] , 'rs_payment_banktransfer');
+
+			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && $isBankTransferPaymentType >= 0)
 			{
 				$crmDebitorHelper = new crmDebitorHelper;
 
