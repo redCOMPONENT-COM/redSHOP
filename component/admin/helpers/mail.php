@@ -393,9 +393,9 @@ class redshopMail
 		$replace[]      = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
 		// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-		$isBankTransferPaymentType = strpos($paymentmethod->element , 'rs_payment_banktransfer');
+		$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($paymentmethod->element);
 
-		if ($isBankTransferPaymentType >= 0)
+		if ($isBankTransferPaymentType)
 		{
 			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 			$paymentparams = new JRegistry($paymentmethod->params);
