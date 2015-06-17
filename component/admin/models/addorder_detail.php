@@ -899,9 +899,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
 				// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-				$isBankTransferPaymentType = strpos($postdata['payment_method_class'] , 'rs_payment_banktransfer');
+				$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($postdata['payment_method_class']);
 
-				$checkOrderStatus          = ($isBankTransferPaymentType >= 0) ? 0 : 1;
+				$checkOrderStatus          = ($isBankTransferPaymentType) ? 0 : 1;
 
 				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 

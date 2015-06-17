@@ -325,13 +325,12 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentElementName = $paymentMethod->element;
 
 		// Check for bank transfer payment type plugin - suffixed using `rs_payment_banktransfer`
-		$isBankTransferPaymentType = strpos($paymentMethod->element , 'rs_payment_banktransfer');
+		$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($paymentMethod->element);
 
-		if ($isBankTransferPaymentType >= 0
-			|| $paymentMethod->element == "rs_payment_eantransfer")
+		if ($isBankTransferPaymentType || $paymentMethod->element == "rs_payment_eantransfer")
 		{
 			// @todo  Review this condition - as above condition will never allow this condition to become true.
-			if ($isBankTransferPaymentType === false && $paymentMethod->element != "rs_payment_eantransfer")
+			if (!$isBankTransferPaymentType && $paymentMethod->element != "rs_payment_eantransfer")
 			{
 				$paymentMethod->element = substr($paymentMethod->element, 0, -1);
 			}
@@ -1264,7 +1263,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
-				$checkOrderStatus = ($isBankTransferPaymentType >= 0) ? 0 : 1;
+				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
 				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 

@@ -2979,9 +2979,9 @@ class rsCarthelper
 		$txtextra_info = '';
 
 		// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-		$isBankTransferPaymentType = strpos($paymentmethod_detail->element , 'rs_payment_banktransfer');
+		$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($paymentmethod_detail->element);
 
-		if ($isBankTransferPaymentType >= 0)
+		if ($isBankTransferPaymentType)
 		{
 			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment/'
 				. $paymentmethod_detail->element . '/' . $paymentmethod_detail->element . '.xml';
@@ -3896,9 +3896,9 @@ class rsCarthelper
 					$is_subscription = false;
 
 					// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-					$isBankTransferPaymentType = strpos($oneMethod->name , 'rs_payment_banktransfer');
+					$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($oneMethod->name);
 
-					if ($oneMethod->name == 'rs_payment_eantransfer' || $isBankTransferPaymentType >= 0)
+					if ($oneMethod->name == 'rs_payment_eantransfer' || $isBankTransferPaymentType)
 					{
 						if ($is_company == 0 && $private_person == 1)
 						{

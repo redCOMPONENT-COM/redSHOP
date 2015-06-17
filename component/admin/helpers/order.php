@@ -1739,9 +1739,9 @@ class order_functions
 		if ($is_creditcard == 0)
 		{
 			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-			$isBankTransferPaymentType = strpos($values['payment_plugin'] , 'rs_payment_banktransfer');
+			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($values['payment_plugin']);
 
-			if ($isBankTransferPaymentType >= 0)
+			if ($isBankTransferPaymentType)
 			{
 				$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
 			}

@@ -49,9 +49,9 @@ if (count($paymentmethod) == 1)
 			$business = $paymentparams->get('business', '');
 
 			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-			$isBankTransferPaymentType = strpos($paymentmethod[$p]->element , 'rs_payment_banktransfer');
+			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($paymentmethod[$p]->element);
 
-			if ($paymentmethod[$p]->element == 'rs_payment_eantransfer' || $isBankTransferPaymentType >= 0)
+			if ($paymentmethod[$p]->element == 'rs_payment_eantransfer' || $isBankTransferPaymentType)
 			{
 				if ($is_company == 0 && $private_person == 1)
 				{
