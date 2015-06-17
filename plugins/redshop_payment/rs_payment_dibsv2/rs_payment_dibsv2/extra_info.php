@@ -27,8 +27,7 @@ if ($language == "Auto")
 
 // For total amount
 $amount       = 0;
-$paytype      = $this->params->get("dibs_paytype");
-$dibs_paytype = is_array($paytype) ? implode(",", $paytype) : '';
+$paytype      = $this->params->get('dibs_paytype', '');
 
 // Authenticate vars to send
 $formdata = array(
@@ -62,9 +61,9 @@ $formdata = array(
 	'oiNames'             => "Items;UnitCode;Description;Amount;ItemId;VatAmount"
 );
 
-if (!empty($dibs_paytype))
+if (!empty($paytype))
 {
-	$formdata['payType'] = $dibs_paytype;
+	$formdata['payType'] = $paytype;
 }
 
 if ($this->params->get("instant_capture"))
