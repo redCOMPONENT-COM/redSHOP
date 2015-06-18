@@ -268,6 +268,26 @@ class extraField
 	 */
 	protected static $extraFieldDisplay = array();
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the extraField object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  extraField  The extraField object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new extraField;
+		}
+
+		return self::$instance;
+	}
+
 	public function list_all_field($field_section = "", $section_id = 0, $uclass = '')
 	{
 		$row_data = $this->getSectionFieldList($field_section, 1);
@@ -875,7 +895,7 @@ class extraField
 	{
 		$db = JFactory::getDbo();
 
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 		$url         = JURI::base();
 
 		if (!isset(self::$extraFieldDisplay[$field_section]) || !array_key_exists($field_name, self::$extraFieldDisplay[$field_section]))
@@ -1189,7 +1209,7 @@ class extraField
 
 		if ($section == 1)
 		{
-			$productHelper = new producthelper;
+			$productHelper = producthelper::getInstance();
 			$product = $productHelper->getProductById($sectionItem);
 
 			if ($product && isset($product->extraFields[$fieldId]))

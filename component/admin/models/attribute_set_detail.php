@@ -110,7 +110,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		if (count($cid))
@@ -250,7 +250,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		$db = $this->_db;
 		$attribute_data = '';
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$attr = $producthelper->getProductAttribute(0, $data);
 
 		for ($i = 0; $i < count($attr); $i++)
@@ -274,7 +274,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function getpropertylist($data)
 	{
 		$db = $this->_db;
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if (count($data))
 		{
@@ -433,7 +433,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function property_image_list($cid)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if (count($cid))
 		{
@@ -750,7 +750,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function  attribute_empty()
 	{
 		$database = JFactory::getDbo();
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if ($this->_id)
 		{
@@ -788,7 +788,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removepropertyImage($pid)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$image = $producthelper->getAttibuteProperty($pid);
 		$image = $image[0];
@@ -822,7 +822,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removesubpropertyImage($pid)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$image = $producthelper->getAttibuteSubProperty($pid);
 		$image = $image[0];
 		$imagename = $image->subattribute_color_image;

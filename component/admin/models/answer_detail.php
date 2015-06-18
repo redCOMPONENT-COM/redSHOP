@@ -288,7 +288,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 	public function sendMailForAskQuestion($ansid)
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$rs = $redshopMail->sendAskQuestionMail($ansid);
 
 		return $rs;

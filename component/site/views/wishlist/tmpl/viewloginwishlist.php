@@ -13,9 +13,9 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
 
-$config = new Redconfiguration;
-$producthelper = new producthelper;
-$redhelper = new redhelper;
+$config = Redconfiguration::getInstance();
+$producthelper = producthelper::getInstance();
+$redhelper = redhelper::getInstance();
 
 $uri = JURI::getInstance();
 $url = $uri->root();

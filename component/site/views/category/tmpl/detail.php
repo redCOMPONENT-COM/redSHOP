@@ -13,12 +13,12 @@ JHtml::_('behavior.tooltip');
 JHtmlBehavior::modal();
 $url = JURI::base();
 
-$objhelper = new redhelper;
-$Redconfiguration = new Redconfiguration;
-$producthelper = new producthelper;
-$extraField = new extraField;
-$stockroomhelper = new rsstockroomhelper;
-$redTemplate = new Redtemplate;
+$objhelper = redhelper::getInstance();
+$Redconfiguration = Redconfiguration::getInstance();
+$producthelper = producthelper::getInstance();
+$extraField = extraField::getInstance();
+$stockroomhelper = rsstockroomhelper::getInstance();
+$redTemplate = Redtemplate::getInstance();
 $texts = new text_library;
 
 $start = $this->input->getInt('limitstart', 0);

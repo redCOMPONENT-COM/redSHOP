@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 $app           = JFactory::getApplication();
-$extra_field   = new extra_field;
+$extra_field   = extra_field::getInstance();
 JHTMLBehavior::modal();
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'x.ordering');

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtmlBehavior::modal();
 
-$producthelper = new producthelper;
-$extraField = new extraField;
+$producthelper = producthelper::getInstance();
+$extraField = extraField::getInstance();
 
 $url = JURI::base();
 

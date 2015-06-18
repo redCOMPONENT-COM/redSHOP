@@ -195,7 +195,7 @@ class plgAcymailingRedshop extends JPlugin
 	 */
 	public function getProduct($product_id, $tag)
 	{
-				$redTemplate = new Redtemplate;
+				$redTemplate = Redtemplate::getInstance();
 
 		$prtemplate_id = trim($this->params->get('product_template', 1));
 		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
@@ -207,7 +207,7 @@ class plgAcymailingRedshop extends JPlugin
 		$rs = $db->loadObject();
 
 		// Product helper Object
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		// Get Product Formatted price as per redshop configuration
 		$productArr = $producthelper->getProductNetPrice($product_id);

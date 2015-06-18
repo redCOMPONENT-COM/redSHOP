@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 
-$carthelper = new rsCarthelper;
-$redconfig = new Redconfiguration;
-$configobj = new Redconfiguration;
-$redTemplate = new Redtemplate;
-$producthelper = new producthelper;
-$order_functions = new order_functions;
-$redhelper = new redhelper;
+$carthelper = rsCarthelper::getInstance();
+$redconfig = Redconfiguration::getInstance();
+$configobj = Redconfiguration::getInstance();
+$redTemplate = Redtemplate::getInstance();
+$producthelper = producthelper::getInstance();
+$order_functions = order_functions::getInstance();
+$redhelper = redhelper::getInstance();
 
 $db = JFactory::getDbo();
 $url = JURI::base();

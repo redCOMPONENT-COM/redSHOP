@@ -17,7 +17,7 @@ class RedshopViewOrder extends RedshopView
 		$context = 'order_id';
 
 
-		$order_function = new order_functions;
+		$order_function = order_functions::getInstance();
 
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();

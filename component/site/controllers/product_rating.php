@@ -36,7 +36,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		$Itemid      = $app->input->getInt('Itemid', 0);
 		$modal       = $app->input->getInt('modal', 0);
 		$category_id = $app->input->getInt('category_id', 0);
-		$userHelper  = new rsUserhelper;
+		$userHelper  = rsUserHelper::getInstance();
 		$user = JFactory::getUser();
 
 		if ($modal)
@@ -89,7 +89,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		}
 		else
 		{
-			$userHelper = new rsUserhelper;
+			$userHelper = rsUserHelper::getInstance();
 			$data['userid'] = $user->id;
 
 			if ($userInfo = $userHelper->getRedSHOPUserInfo($user->id))

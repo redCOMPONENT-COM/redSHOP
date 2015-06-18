@@ -7,21 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 
 
 global $context;
 
 $app = JFactory::getApplication();
 
-$order_function = new order_functions;
-$config = new Redconfiguration;
+$order_function = order_functions::getInstance();
+$config = Redconfiguration::getInstance();
 $option = JRequest::getVar('option');
 $lists = $this->lists;
 $model = $this->getModel('order');
-$redhelper = new redhelper;
-$shippinghelper = new shipping;
-$stockroomhelper = new rsstockroomhelper;
+$redhelper = redhelper::getInstance();
+$shippinghelper = shipping::getInstance();
+$stockroomhelper = rsstockroomhelper::getInstance();
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_product');
 ?>
@@ -285,7 +285,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 			</td>
 			<td align="center">
 			<?php
-				$carthelper    = new rsCarthelper;
+				$carthelper    = rsCarthelper::getInstance();
 				echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
 				echo "<br />";
 

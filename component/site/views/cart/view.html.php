@@ -15,7 +15,7 @@ class RedshopViewCart extends RedshopView
 		$app = JFactory::getApplication();
 
 		// Request variables
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 		$user        = JFactory::getUser();
 
 		$session = JFactory::getSession();

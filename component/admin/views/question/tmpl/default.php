@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = new producthelper;
-$config        = new Redconfiguration;
+$producthelper = producthelper::getInstance();
+$config        = Redconfiguration::getInstance();
 
 $lists         = $this->lists;
 $ordering      = ($this->lists['order'] == 'ordering');

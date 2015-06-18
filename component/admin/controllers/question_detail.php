@@ -119,7 +119,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 
 		for ($i = 0; $i < count($cid); $i++)
 		{
-			$redshopMail = new redshopMail;
+			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendAskQuestionMail($cid[$i]);
 		}
 

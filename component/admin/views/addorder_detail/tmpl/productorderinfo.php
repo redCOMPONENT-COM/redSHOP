@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 $session = JFactory::getSession();
 
 $post = JRequest::get('get');

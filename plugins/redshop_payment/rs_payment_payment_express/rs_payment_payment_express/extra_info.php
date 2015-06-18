@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$objOrder          = new order_functions;
+$objOrder          = order_functions::getInstance();
 $request           = JRequest::get('request');
 $Itemid            = $request["Itemid"];
 $task              = $request['task'];

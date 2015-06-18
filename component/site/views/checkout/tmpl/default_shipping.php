@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$redTemplate = new Redtemplate;
-$carthelper = new rsCarthelper;
+$redTemplate = Redtemplate::getInstance();
+$carthelper = rsCarthelper::getInstance();
 
 $user   = JFactory::getUser();
 $jinput = JFactory::getApplication()->input;
@@ -43,7 +43,7 @@ else
 
 if ($this->users_info_id > 0)
 {
-	$shippinghelper          = new shipping;
+	$shippinghelper          = shipping::getInstance();
 	$shippingBoxes           = $shippinghelper->getShippingBox();
 	$selshipping_box_post_id = 0;
 

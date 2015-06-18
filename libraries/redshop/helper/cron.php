@@ -73,7 +73,7 @@ class RedshopHelperCron
 	public static function catalog_mail()
 	{
 		$date        = JFactory::getDate();
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$fdate       = $date->format('%Y-%m-%d');
 
 		$db = $db = JFactory::getDbo();
@@ -255,9 +255,9 @@ class RedshopHelperCron
 	 */
 	public static function after_purchased_order_mail()
 	{
-		$redshopMail     = new redshopMail;
-		$redconfig       = new Redconfiguration;
-		$stockroomhelper = new rsstockroomhelper;
+		$redshopMail     = redshopMail::getInstance();
+		$redconfig       = Redconfiguration::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$db              = JFactory::getDbo();
 		$date            = JFactory::getDate();
 		$fdate           = $date->format('%Y-%m-%d');
@@ -451,7 +451,7 @@ class RedshopHelperCron
 	public static function color_mail()
 	{
 		$date        = JFactory::getDate();
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$today       = time();
 
 		$fdate = $date->format('%Y-%m-%d');
@@ -678,7 +678,7 @@ class RedshopHelperCron
 	public static function subscription_renewal_mail()
 	{
 		$db          = $db = JFactory::getDbo();
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$query       = "SELECT ps.* FROM #__redshop_product_subscribe_detail AS ps"
 			. " ,#__redshop_subscription_renewal AS r"
 			. " WHERE r.product_id = ps.product_id AND r.before_no_days >= DATEDIFF(FROM_UNIXTIME( ps.end_date ),curdate())"

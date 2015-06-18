@@ -99,7 +99,7 @@ class RedshopControllerAccount extends RedshopController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 		$userhelper->newsletterSubscribe(0, array(), 1);
 
 		$msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
@@ -116,7 +116,7 @@ class RedshopControllerAccount extends RedshopController
 		$user       = JFactory::getUser();
 		$option     = JRequest::getVar('option');
 		$Itemid     = JRequest::getVar('Itemid');
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 
 		$userhelper->newsletterUnsubscribe($user->email);
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');

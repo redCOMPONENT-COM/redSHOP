@@ -136,7 +136,7 @@ class RedshopModelGiftcard_detail extends RedshopModel
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic;
+			$economic = economic::getInstance();
 
 			$giftdata = new stdClass;
 			$giftdata->product_id = $row->giftcard_id;

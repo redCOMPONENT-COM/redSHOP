@@ -18,6 +18,26 @@ class quotationHelper
 	public $_table_prefix = null;
 	public $_db = null;
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the quotationHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  quotationHelper  The quotationHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new quotationHelper;
+		}
+
+		return self::$instance;
+	}
+
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -184,7 +204,7 @@ class quotationHelper
 
 	public function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
 	{
-		$extra_field = new extra_field;
+		$extra_field = extra_field::getInstance();
 		$row_data = $extra_field->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
@@ -225,8 +245,8 @@ class quotationHelper
 
 	public function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
 	{
-		$redTemplate = new Redtemplate;
-		$producthelper = new producthelper;
+		$redTemplate = Redtemplate::getInstance();
+		$producthelper = producthelper::getInstance();
 		$resultArr = array();
 		$db = JFactory::getDbo();
 

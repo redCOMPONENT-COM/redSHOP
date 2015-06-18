@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 $db            = JFactory::getDBO();
 $template_id   = $this->detail->product_template;
 $product_id    = $this->detail->product_id;
-$redTemplate   = new Redtemplate;
-$field         = new extra_field;
+$redTemplate   = Redtemplate::getInstance();
+$field         = extra_field::getInstance();
 $template_desc = $redTemplate->getTemplate("product", $template_id);
 
 if (count($template_desc) == 0)

@@ -39,11 +39,11 @@ class RedshopViewConfiguration extends RedshopView
 		$model = $this->getModel('configuration');
 		$currency_data = $model->getCurrency();
 
-		$redhelper   = new redhelper;
-		$config      = new Redconfiguration;
-		$redTemplate = new Redtemplate;
-		$extra_field = new extra_field;
-		$userhelper  = new rsUserhelper;
+		$redhelper   = redhelper::getInstance();
+		$config      = Redconfiguration::getInstance();
+		$redTemplate = Redtemplate::getInstance();
+		$extra_field = extra_field::getInstance();
+		$userhelper  = rsUserHelper::getInstance();
 		$lists       = array();
 
 		// Load language file

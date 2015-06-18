@@ -31,12 +31,12 @@ JHTMLBehavior::modal();
 
 
 
-$carthelper = new rsCarthelper;
-$producthelper = new producthelper;
-$order_functions = new order_functions;
-$redhelper = new redhelper;
-$userhelper = new rsUserhelper;
-$redTemplate = new Redtemplate;
+$carthelper = rsCarthelper::getInstance();
+$producthelper = producthelper::getInstance();
+$order_functions = order_functions::getInstance();
+$redhelper = redhelper::getInstance();
+$userhelper = rsUserHelper::getInstance();
+$redTemplate = Redtemplate::getInstance();
 $dispatcher = JDispatcher::getInstance();
 
 $user = JFactory::getUser();

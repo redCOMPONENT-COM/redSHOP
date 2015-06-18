@@ -47,7 +47,7 @@ class RedshopViewMail extends RedshopView
 		$lists['order_Dir'] = $state->get('list.direction');
 		$lists['filter'] = $state->get('filter');
 
-		$redtemplate = new Redtemplate;
+		$redtemplate = Redtemplate::getInstance();
 		$optionsection = $redtemplate->getMailSections();
 		$lists['mailsection'] = JHTML::_('select.genericlist', $optionsection, 'filter_section',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"',

@@ -55,7 +55,7 @@ class Plgredshop_Productstock_Notifyemail extends JPlugin
 
 			if (count($userData) > 0)
 			{
-				$redshopMail = new redshopMail;
+				$redshopMail = redshopMail::getInstance();
 				$notify_template = $redshopMail->getMailtemplate(0, "notify_stock_mail");
 
 				for ($u = 0, $countUserData = count($userData); $u < $countUserData; $u++)
@@ -136,7 +136,7 @@ class Plgredshop_Productstock_Notifyemail extends JPlugin
 			if ($product_data = RedshopHelperProduct::getProductById($userData->product_id))
 			{
 				$productDetail = $product_data->product_name;
-				$producthelper = new producthelper;
+				$producthelper = producthelper::getInstance();
 
 				if ($userData->property_id)
 				{

@@ -58,7 +58,7 @@ class RedshopModelSplit_payment extends RedshopModel
 		$Itemid          = JRequest::getVar('Itemid');
 		$task            = JRequest::getVar('task');
 		$user            = JFactory::getUser();
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$user      = JFactory::getUser();

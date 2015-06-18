@@ -15,7 +15,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 $user      = JFactory::getUser();
-$redhelper = new redhelper;
+$redhelper = redhelper::getInstance();
 $Itemid    = $redhelper->getItemid();
 
 if (MY_WISHLIST)

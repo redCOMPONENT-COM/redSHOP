@@ -53,7 +53,7 @@ class RedshopViewGiftcard_detail extends RedshopView
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$redhelper = new redhelper;
+			$redhelper = redhelper::getInstance();
 			$accountgroup = $redhelper->getEconomicAccountGroup();
 			$op = array();
 			$op[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));

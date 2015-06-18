@@ -16,12 +16,12 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 
-$carthelper = new rsCarthelper;
-$producthelper = new producthelper;
-$order_functions = new order_functions;
-$redhelper = new redhelper;
-$redTemplate = new Redtemplate;
-$shippinghelper = new shipping;
+$carthelper = rsCarthelper::getInstance();
+$producthelper = producthelper::getInstance();
+$order_functions = order_functions::getInstance();
+$redhelper = redhelper::getInstance();
+$redTemplate = Redtemplate::getInstance();
+$shippinghelper = shipping::getInstance();
 $session = JFactory::getSession();
 $document = JFactory::getDocument();
 

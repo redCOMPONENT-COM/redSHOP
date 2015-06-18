@@ -51,7 +51,7 @@ class Tableproduct_discount_calc extends JTable
 	 */
 	public function check()
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
 

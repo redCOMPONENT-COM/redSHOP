@@ -21,7 +21,7 @@ class RedshopViewTemplate_detail extends RedshopView
 
 		$model = $this->getModel('template_detail');
 		$user = JFactory::getUser();
-		$redtemplate = new Redtemplate;
+		$redtemplate = Redtemplate::getInstance();
 
 		// 	fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
@@ -78,7 +78,7 @@ class RedshopViewTemplate_detail extends RedshopView
 
 		$lists['published'] = JHTML::_('redshopselect.booleanlist', 'published', 'class="inputbox" ', $detail->published);
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		$paymentMethod = $order_functions->getPaymentMethodInfo();
 

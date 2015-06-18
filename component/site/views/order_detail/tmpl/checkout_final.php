@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 
-$configobj = new Redconfiguration;
-$order_functions = new order_functions;
-$redhelper = new redhelper;
+$configobj = Redconfiguration::getInstance();
+$order_functions = order_functions::getInstance();
+$redhelper = redhelper::getInstance();
 
 $url = JURI::base();
 $Itemid = $redhelper->getCheckoutItemid();

@@ -30,8 +30,8 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function __construct($default = array())
 	{
-		$this->_order_functions = new order_functions;
-		$this->_shippinghelper  = new shipping;
+		$this->_order_functions = order_functions::getInstance();
+		$this->_shippinghelper  = shipping::getInstance();
 		JRequest::setVar('layout', 'default');
 		parent::__construct($default);
 	}
@@ -90,7 +90,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		$Itemid        = JRequest::getInt('Itemid');
 		$users_info_id = JRequest::getInt('users_info_id');
-		$helper        = new redhelper;
+		$helper        = redhelper::getInstance();
 		$chk           = $this->chkvalidation($users_info_id);
 
 		if (!empty($chk))
@@ -231,7 +231,7 @@ class RedshopControllerCheckout extends RedshopController
 		$model             = $this->getModel('checkout');
 		$billingaddresses  = $model->billingaddresses();
 		$shippingaddresses = $model->shipaddress($users_info_id);
-		$extra_field       = new extra_field;
+		$extra_field       = extra_field::getInstance();
 		$extrafield_name   = '';
 		$return            = 0;
 
@@ -283,7 +283,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			elseif (ECONOMIC_INTEGRATION == 1 && trim($billingaddresses->ean_number) != '')
 			{
-				$economic     = new economic;
+				$economic     = economic::getInstance();
 				$debtorHandle = $economic->createUserInEconomic($billingaddresses);
 
 				if (JError::isError(JError::getError()))
@@ -596,10 +596,10 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
-		$producthelper   = new producthelper;
-		$redTemplate     = new Redtemplate;
-		$carthelper      = new rsCarthelper;
-		$order_functions = new order_functions;
+		$producthelper   = producthelper::getInstance();
+		$redTemplate     = Redtemplate::getInstance();
+		$carthelper      = rsCarthelper::getInstance();
+		$order_functions = order_functions::getInstance();
 
 		$model   = $this->getModel('checkout');
 		$post    = JRequest::get('post');
@@ -690,7 +690,7 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function displaycreditcard()
 	{
-		$carthelper = new rsCarthelper;
+		$carthelper = rsCarthelper::getInstance();
 		$get = JRequest::get('get');
 		$creditcard = "";
 
@@ -741,7 +741,7 @@ class RedshopControllerCheckout extends RedshopController
 		$paymentparams      = new JRegistry($paymentmethod[0]->params);
 		$extrafield_payment = $paymentparams->get('extrafield_payment', '');
 
-		$extraField       = new extraField;
+		$extraField       = extraField::getInstance();
 		$extrafield_total = "";
 
 		if (count($extrafield_payment) > 0)
@@ -774,7 +774,7 @@ class RedshopControllerCheckout extends RedshopController
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
 
-		$extraField = new extraField;
+		$extraField = extraField::getInstance();
 		$extrafield_total = "";
 
 		if (count($extrafield_shipping) > 0)

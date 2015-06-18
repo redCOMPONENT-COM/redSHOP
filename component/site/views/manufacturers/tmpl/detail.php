@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
-$extraField = new extraField;
-$extra_field = new extra_field;
-$producthelper = new producthelper;
-$redTemplate = new Redtemplate;
-$redhelper = new redhelper;
+$extraField = extraField::getInstance();
+$extra_field = extra_field::getInstance();
+$producthelper = producthelper::getInstance();
+$redTemplate = Redtemplate::getInstance();
+$redhelper = redhelper::getInstance();
 $Itemid = JRequest::getInt('Itemid');
 $model = $this->getModel('manufacturers');
 

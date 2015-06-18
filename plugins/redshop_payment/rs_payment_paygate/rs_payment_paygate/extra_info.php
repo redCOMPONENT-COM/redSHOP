@@ -9,13 +9,13 @@
 
 JLoader::import('redshop.library');
 
-$objOrder         = new order_functions;
-$objconfiguration = new Redconfiguration;
+$objOrder         = order_functions::getInstance();
+$objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 
 $Itemid        = JFactory::getApplication()->input->getInt('Itemid');
-$redhelper     = new redhelper;
+$redhelper     = redhelper::getInstance();
 $db            = JFactory::getDbo();
 $user          = JFActory::getUser();
 $task          = JRequest::getVar('task');
@@ -25,7 +25,7 @@ $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 $paygateurl    = "https://www.paygate.co.za/paywebv2/process.trans";
 
-$currencyClass = new CurrencyHelper;
+$currencyClass = CurrencyHelper::getInstance();
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', 'ZAR');
 

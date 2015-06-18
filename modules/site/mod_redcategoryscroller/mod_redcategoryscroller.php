@@ -347,8 +347,8 @@ if (!class_exists('redcategoryScroller'))
 
 		function ShowCategory($row, $i)
 		{
-			$producthelper = new producthelper;
-			$redhelper     = new redhelper;
+			$producthelper = producthelper::getInstance();
+			$redhelper     = redhelper::getInstance();
 
 			$category_id = intval(JRequest::getInt('cid', 0));
 

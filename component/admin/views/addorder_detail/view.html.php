@@ -22,9 +22,9 @@ class RedshopViewAddorder_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$extra_field      = new extra_field;
-		$order_functions  = new order_functions;
-		$Redconfiguration = new Redconfiguration;
+		$extra_field      = extra_field::getInstance();
+		$order_functions  = order_functions::getInstance();
+		$Redconfiguration = Redconfiguration::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
@@ -39,7 +39,7 @@ class RedshopViewAddorder_detail extends RedshopView
 		$shippinginfo = array();
 		$model        = $this->getModel();
 		$detail       = $this->get('data');
-		$redhelper    = new redhelper;
+		$redhelper    = redhelper::getInstance();
 
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 

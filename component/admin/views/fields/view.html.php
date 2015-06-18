@@ -30,7 +30,7 @@ class RedshopViewFields extends RedshopView
 		$fields        = $this->get('Data');
 		$pagination    = $this->get('Pagination');
 
-		$redtemplate = new Redtemplate;
+		$redtemplate = Redtemplate::getInstance();
 		$optiontype    = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
 		$this->state = $this->get('State');

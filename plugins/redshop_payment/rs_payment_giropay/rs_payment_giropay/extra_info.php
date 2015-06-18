@@ -13,7 +13,7 @@ $uri           = JURI::getInstance();
 $url           = $uri->root();
 $user          = JFactory::getUser();
 $sessionid     = session_id();
-$currencyClass = new CurrencyHelper;
+$currencyClass = CurrencyHelper::getInstance();
 $amount        = $currencyClass->convert($data['carttotal'], '', "EUR");
 
 $parameter['sourceId']      = $this->params->get("source_id");

@@ -25,7 +25,7 @@ class RedshopViewWishlist extends RedshopView
 		$pid    = JRequest::getInt('product_id');
 		$layout = JRequest::getCmd('layout');
 
-		$config = new Redconfiguration;
+		$config = Redconfiguration::getInstance();
 
 		$pageheadingtag = '';
 

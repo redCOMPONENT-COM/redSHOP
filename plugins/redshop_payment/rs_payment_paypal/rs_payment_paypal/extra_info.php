@@ -9,10 +9,10 @@
 
 JLoader::import('redshop.library');
 
-$objOrder         = new order_functions;
-$objconfiguration = new Redconfiguration;
-$redhelper        = new redhelper;
-$currencyClass    = new CurrencyHelper;
+$objOrder         = order_functions::getInstance();
+$objconfiguration = Redconfiguration::getInstance();
+$redhelper        = redhelper::getInstance();
+$currencyClass    = CurrencyHelper::getInstance();
 $app              = JFactory::getApplication();
 $input            = $app->input;
 

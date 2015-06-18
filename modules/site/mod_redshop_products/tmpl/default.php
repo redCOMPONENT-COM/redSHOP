@@ -26,11 +26,11 @@ JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 JHtml::script('com_redshop/redbox.js', false, true);
 
-$producthelper   = new producthelper;
-$redhelper       = new redhelper;
-$redTemplate     = new Redtemplate;
-$extraField      = new extraField;
-$stockroomhelper = new rsstockroomhelper;
+$producthelper   = producthelper::getInstance();
+$redhelper       = redhelper::getInstance();
+$redTemplate     = Redtemplate::getInstance();
+$extraField      = extraField::getInstance();
+$stockroomhelper = rsstockroomhelper::getInstance();
 
 
 echo "<div class=\"mod_redshop_products_wrapper\">";

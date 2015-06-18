@@ -15,7 +15,7 @@ class RedshopControllerOrder extends RedshopController
 	public function multiprint_order()
 	{
 		$mypost = JRequest::getVar('cid');
-		$order_function = new order_functions;
+		$order_function = order_functions::getInstance();
 		ob_start();
 		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
 		ob_end_clean();
@@ -94,7 +94,7 @@ class RedshopControllerOrder extends RedshopController
 		$serialized      = $app->getUserState("com_redshop.order.batch.postdata");
 		$post            = unserialize($serialized);
 		$orderId         = $app->input->getInt('oid', 0);
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		// Change Order Status
 		$order_functions->orderStatusUpdate($orderId, $post);
@@ -123,12 +123,12 @@ class RedshopControllerOrder extends RedshopController
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic;
+			$economic = economic::getInstance();
 			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, 0, $bookInvoiceDate);
 
 			if (is_file($bookinvoicepdf))
 			{
-				$redshopMail = new redshopMail;
+				$redshopMail = redshopMail::getInstance();
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
 				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
@@ -144,7 +144,7 @@ class RedshopControllerOrder extends RedshopController
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
 			$order_id = JRequest::getCmd('order_id');
-			$order_function = new order_functions;
+			$order_function = order_functions::getInstance();
 			$paymentInfo = $order_function->getOrderPaymentDetail($order_id);
 
 			if (count($paymentInfo) > 0)
@@ -169,7 +169,7 @@ class RedshopControllerOrder extends RedshopController
 				}
 			}
 
-			$economic = new economic;
+			$economic = economic::getInstance();
 			$economicdata ['split_payment'] = 0;
 			$invoiceHandle = $economic->createInvoiceInEconomic($order_id, $economicdata);
 
@@ -179,7 +179,7 @@ class RedshopControllerOrder extends RedshopController
 
 				if (is_file($bookinvoicepdf))
 				{
-					$redshopMail = new redshopMail;
+					$redshopMail = redshopMail::getInstance();
 					$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
 			}
@@ -200,8 +200,8 @@ class RedshopControllerOrder extends RedshopController
 			exit;
 		}
 
-		$producthelper = new producthelper;
-		$order_function = new order_functions;
+		$producthelper = producthelper::getInstance();
+		$order_function = order_functions::getInstance();
 
 		$model = $this->getModel('order');
 		$data = $model->export_data();
@@ -230,7 +230,7 @@ class RedshopControllerOrder extends RedshopController
 
 		$no_products = max($product_count);
 
-		$shipping_helper = new shipping;
+		$shipping_helper = shipping::getInstance();
 		ob_clean();
 
 		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
@@ -323,8 +323,8 @@ class RedshopControllerOrder extends RedshopController
 			exit;
 		}
 
-		$producthelper = new producthelper;
-		$order_function = new order_functions;
+		$producthelper = producthelper::getInstance();
+		$order_function = order_functions::getInstance();
 		$model = $this->getModel('order');
 
 		$product_count = array();
@@ -432,7 +432,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function generateParcel()
 	{
-		$order_function = new order_functions;
+		$order_function = order_functions::getInstance();
 		$post = JRequest::get('post');
 		$specifiedSendDate = $post ['specifiedSendDate'];
 		$order_id = JRequest::getCmd('order_id');

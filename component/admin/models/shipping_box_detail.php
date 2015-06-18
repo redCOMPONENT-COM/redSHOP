@@ -52,7 +52,7 @@ class RedshopModelShipping_box_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$red_template = new Redtemplate;
+		$red_template = Redtemplate::getInstance();
 
 		if (empty($this->_data))
 		{
@@ -109,7 +109,7 @@ class RedshopModelShipping_box_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$red_template = new Redtemplate;
+		$red_template = Redtemplate::getInstance();
 
 		if (count($cid))
 		{

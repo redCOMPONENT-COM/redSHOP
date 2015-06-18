@@ -154,7 +154,7 @@ $Itemid = JRequest::getVar('Itemid');
 				</tr>
 				<tr>
 					<?php
-					$field = new extra_field;
+					$field = extra_field::getInstance();
 					if ($shipping->is_company == 1)
 					{
 						echo $extrafields = $field->list_all_field(15, $shipping->users_info_id);

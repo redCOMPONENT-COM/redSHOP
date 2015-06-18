@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = new producthelper;
-$extra_field = new extra_field;
-$redTemplate = new Redtemplate;
-$redhelper = new redhelper;
-$extraField = new extraField;
-$Redconfiguration = new Redconfiguration;
+$producthelper = producthelper::getInstance();
+$extra_field = extra_field::getInstance();
+$redTemplate = Redtemplate::getInstance();
+$redhelper = redhelper::getInstance();
+$extraField = extraField::getInstance();
+$Redconfiguration = Redconfiguration::getInstance();
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

@@ -112,7 +112,7 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($template = $db->setQuery($query)->loadObject())
 		{
-			$redTemplate = new Redtemplate;
+			$redTemplate = Redtemplate::getInstance();
 			$templateDesc = $redTemplate->readtemplateFile($template->template_section, $template->template_name);
 		}
 
@@ -403,7 +403,7 @@ class RedshopModelSearch extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$productHelper   = new producthelper;
+		$productHelper   = producthelper::getInstance();
 		$redconfig  = $app->getParams();
 		$getorderby = urldecode($app->input->getString('order_by', ''));
 
@@ -478,7 +478,7 @@ class RedshopModelSearch extends RedshopModel
 		$aclProducts = $productHelper->loadAclProducts();
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = new rsUserhelper;
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")

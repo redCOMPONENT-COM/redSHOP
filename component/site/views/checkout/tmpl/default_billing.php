@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$order_functions = new order_functions;
-$extra_field = new extra_field;
+$order_functions = order_functions::getInstance();
+$extra_field = extra_field::getInstance();
 $model = $this->getModel('checkout');
 $billingaddresses = $model->billingaddresses();    ?>
 <table class="admintable">

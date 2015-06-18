@@ -48,8 +48,8 @@ class RedshopModelSend_friend extends RedshopModel
 
 	public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
 	{
-		$producthelper = new producthelper;
-		$redshopMail   = new redshopMail;
+		$producthelper = producthelper::getInstance();
+		$redshopMail   = redshopMail::getInstance();
 		$url           = JURI::base();
 		$option        = JRequest::getVar('option');
 

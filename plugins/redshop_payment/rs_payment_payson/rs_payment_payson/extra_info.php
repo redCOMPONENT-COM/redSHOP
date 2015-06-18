@@ -28,7 +28,7 @@ $extracost = 0;
 $guaranteeoffered = 1;
 
 // Convert price into SEK
-$currency = new CurrencyHelper;
+$currency = CurrencyHelper::getInstance();
 $cost_dotsep = $currency->convert($data['carttotal'], '', 'SEK');
 $cost = number_format($cost_dotsep, 2);
 $cost = str_replace(',', '', $cost);

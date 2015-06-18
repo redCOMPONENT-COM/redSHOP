@@ -10,18 +10,18 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$producthelper   = new producthelper;
+$producthelper   = producthelper::getInstance();
 
-$quotationHelper = new quotationHelper;
+$quotationHelper = quotationHelper::getInstance();
 
-$order_functions = new order_functions;
+$order_functions = order_functions::getInstance();
 
-$redconfig       = new Redconfiguration;
+$redconfig       = Redconfiguration::getInstance();
 
 $option          = JRequest::getVar('option');
 $model           = $this->getModel('quotation_detail');
 
-$extra_field     = new extra_field;
+$extra_field     = extra_field::getInstance();
 $quotation       = $this->quotation;
 
 $uri             = JURI::getInstance();

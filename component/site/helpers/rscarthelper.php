@@ -31,17 +31,37 @@ class rsCarthelper
 
 	public $_globalvoucher = 0;
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the rsCarthelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  rsCarthelper  The rsCarthelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new rsCarthelper;
+		}
+
+		return self::$instance;
+	}
+
 	public function __construct()
 	{
 		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = JFactory::getDBO();
 		$this->_session         = JFactory::getSession();
-		$this->_order_functions = new order_functions;
-		$this->_extra_field     = new extra_field;
-		$this->_extraFieldFront = new extraField;
-		$this->_redhelper       = new redhelper;
-		$this->_producthelper   = new producthelper;
-		$this->_shippinghelper  = new shipping;
+		$this->_order_functions = order_functions::getInstance();
+		$this->_extra_field     = extra_field::getInstance();
+		$this->_extraFieldFront = extraField::getInstance();
+		$this->_redhelper       = redhelper::getInstance();
+		$this->_producthelper   = producthelper::getInstance();
+		$this->_shippinghelper  = shipping::getInstance();
 	}
 
 	/**
@@ -1117,7 +1137,7 @@ class rsCarthelper
 
 				if ($prd_image !== '')
 				{
-					$redhelper = new redhelper;
+					$redhelper = redhelper::getInstance();
 
 					if (WATERMARK_CART_THUMB_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
 					{
@@ -2659,7 +2679,7 @@ class rsCarthelper
 	public function replaceOrderTemplate($row, $ReceiptTemplate)
 	{
 		$url       = JURI::base();
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 		$order_id  = $row->order_id;
 		$session   = JFactory::getSession();
 		$orderitem = $this->_order_functions->getOrderItemDetail($order_id);
@@ -3572,7 +3592,7 @@ class rsCarthelper
 
 					if (strpos($rate_data, "{shipping_extrafields}") !== false)
 					{
-						$extraField         = new extraField;
+						$extraField         = extraField::getInstance();
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
 						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
 
@@ -3761,7 +3781,7 @@ class rsCarthelper
 	{
 		$ccdata = $this->_session->get('ccdata');
 
-		$rsUserhelper = new rsUserhelper;
+		$rsUserhelper = rsUserHelper::getInstance();
 		$url          = JURI::base();
 		$user         = JFactory::getUser();
 		$user_id      = $user->id;
@@ -3949,7 +3969,7 @@ class rsCarthelper
 
 		if (strpos($template_desc, "{payment_extrafields}") !== false)
 		{
-			$extraField         = new extraField;
+			$extraField         = extraField::getInstance();
 			$paymentparams_new  = new JRegistry($paymentmethod[0]->params);
 			$extrafield_payment = $paymentparams_new->get('extrafield_payment');
 			$extrafield_total   = '';
@@ -4942,7 +4962,7 @@ class rsCarthelper
 
 	public function checkQuantityInStock($data = array(), $newquantity = 1, $minQuantity = 0)
 	{
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$productData      = $this->_producthelper->getProductById($data['product_id']);
 		$product_preorder = $productData->preorder;
@@ -5388,7 +5408,7 @@ class rsCarthelper
 
 	public function dbtocart($userId = 0)
 	{
-		$rsUserhelper = new rsUserhelper;
+		$rsUserhelper = rsUserHelper::getInstance();
 
 		if ($userId == 0)
 		{
@@ -5851,8 +5871,8 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher       = JDispatcher::getInstance();
-		$rsUserhelper     = new rsUserhelper;
-		$redTemplate      = new Redtemplate;
+		$rsUserhelper     = rsUserHelper::getInstance();
+		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
 		$cart             = $this->_session->get('cart');
 		$data['quantity'] = round($data['quantity']);

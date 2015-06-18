@@ -32,7 +32,7 @@ $dosef = shInitializePlugin( $lang='', $shLangName, $shLangIso, $option);
 if(!defined('TABLE_PREFIX'))
 {
 	JLoader::import('redshop.library');
-		$config = new Redconfiguration;
+		$config = Redconfiguration::getInstance();
 	$config->config();
 }
 

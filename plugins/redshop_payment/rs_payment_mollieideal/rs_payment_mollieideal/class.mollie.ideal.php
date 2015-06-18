@@ -44,7 +44,7 @@ class ideal
 
 	function setAmount($amount)
 	{
-		$currency = new CurrencyHelper;
+		$currency = CurrencyHelper::getInstance();
 		$amount = $currency->convert($amount, '', 'EUR');
 		$amount *= 100;
 

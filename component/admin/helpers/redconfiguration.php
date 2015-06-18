@@ -30,6 +30,26 @@ class Redconfiguration
 
 	public $_db = null;
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the RedConfiguration object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  RedConfiguration  The RedConfiguration object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new Redconfiguration;
+		}
+
+		return self::$instance;
+	}
+
 	/**
 	 * define default path
 	 *
@@ -924,7 +944,7 @@ class Redconfiguration
 	public function showPrice()
 	{
 		$user       = JFactory::getUser();
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -951,7 +971,7 @@ class Redconfiguration
 	public function getCatalog()
 	{
 		$user             = JFactory::getUser();
-		$userHelper       = new rsUserhelper;
+		$userHelper       = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -979,7 +999,7 @@ class Redconfiguration
 	public function setQuotationMode()
 	{
 		$user             = JFactory::getUser();
-		$userhelper       = new rsUserhelper;
+		$userhelper       = rsUserHelper::getInstance();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 
 		if ($user->id)
@@ -1353,7 +1373,7 @@ class Redconfiguration
 
 		if (empty($this->_country_list))
 		{
-						$redhelper = new redhelper;
+						$redhelper = redhelper::getInstance();
 
 			$countries = array();
 

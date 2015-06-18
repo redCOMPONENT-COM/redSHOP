@@ -38,7 +38,7 @@ class RedshopHelperJs
 
 		$post   = JRequest::get('POST');
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper   = new redhelper;
+		$redhelper   = redhelper::getInstance();
 		$cart_Itemid = $redhelper->getCartItemid();
 
 		if ($cart_Itemid == "" || $cart_Itemid == 0)
@@ -62,7 +62,7 @@ class RedshopHelperJs
 		if ($session->get('product_currency'))
 		{
 			$currency_symbol  = $session->get('product_currency');
-			$convertPrice     = new CurrencyHelper;
+			$convertPrice     = CurrencyHelper::getInstance();
 			$currency_convert = round($convertPrice->convert(1), 2);
 		}
 

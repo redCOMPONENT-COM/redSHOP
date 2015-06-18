@@ -210,7 +210,7 @@ class Com_RedshopInstallerScript
 		// Demo content insert
 
 		// Start template demo content
-		$redtemplate = new Redtemplate;
+		$redtemplate = Redtemplate::getInstance();
 		$q           = "INSERT IGNORE INTO `#__redshop_template` (`template_id`, `template_name`, `template_section`, `template_desc`, `published`) VALUES
 					(8, 'grid', 'category', '" . $redtemplate->getInstallSectionTemplate('grid') . "', 1),
 					(5, 'list', 'category', '" . $redtemplate->getInstallSectionTemplate('list') . "', 1),
@@ -283,7 +283,7 @@ class Com_RedshopInstallerScript
 		{
 			$data = $list[$i];
 
-			$red_template        = new Redtemplate;
+			$red_template        = Redtemplate::getInstance();
 			$tname               = $data->template_name;
 			$data->template_name = strtolower($data->template_name);
 			$data->template_name = str_replace(" ", "_", $data->template_name);
@@ -469,7 +469,7 @@ class Com_RedshopInstallerScript
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 		$cnt        = $userhelper->userSynchronization();
 	}
 
@@ -497,7 +497,7 @@ class Com_RedshopInstallerScript
 			require_once $cfgfile;
 		}
 
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 
 		// Declaration
 		$cfgarr = array();

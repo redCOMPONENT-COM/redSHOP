@@ -166,7 +166,7 @@ class RedshopModelUser_detail extends RedshopModel
 	public function storeUser($post)
 	{
 
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
@@ -196,7 +196,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function store($post)
 	{
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;

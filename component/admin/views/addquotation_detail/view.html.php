@@ -23,8 +23,8 @@ class RedshopViewAddquotation_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
-		$extra_field = new extra_field;
-		$order_functions = new order_functions;
+		$extra_field = extra_field::getInstance();
+		$order_functions = order_functions::getInstance();
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
@@ -37,7 +37,7 @@ class RedshopViewAddquotation_detail extends RedshopView
 
 		$lists = array();
 		$model = $this->getModel();
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 
 		$user_id = JRequest::getVar('user_id', 0);
 

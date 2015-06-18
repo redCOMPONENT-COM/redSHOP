@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 $option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
 $model = $this->getModel('giftcard');

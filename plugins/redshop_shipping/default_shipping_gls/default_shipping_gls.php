@@ -181,7 +181,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 		$shippingrate   = array();
 		$rate           = 0;
 		$shipping       = $shippinghelper->getShippingMethodByClass(self::SHIPPING_NAME);

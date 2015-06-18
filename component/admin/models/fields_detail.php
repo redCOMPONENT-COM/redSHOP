@@ -125,7 +125,7 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public function field_save($id, $post)
 	{
-		$extra_field = new extra_field;
+		$extra_field = extra_field::getInstance();
 		$value_id = array();
 		$extra_name = array();
 		$extra_value = array();

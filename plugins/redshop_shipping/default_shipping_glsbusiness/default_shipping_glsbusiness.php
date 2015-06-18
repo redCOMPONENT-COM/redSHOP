@@ -53,7 +53,7 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 	 */
 	public function onListRates(&$d)
 	{
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 		$shippingrate   = array();
 		$rate           = 0;
 		$shipping       = $shippinghelper->getShippingMethodByClass($this->classname);

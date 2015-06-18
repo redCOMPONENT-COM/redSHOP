@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = new producthelper;
-$redconfig = new Redconfiguration;
+$producthelper = producthelper::getInstance();
+$redconfig = Redconfiguration::getInstance();
 
 
 $option = JRequest::getVar('option', '', 'request', 'string');

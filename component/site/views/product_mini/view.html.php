@@ -18,7 +18,7 @@ class RedshopViewProduct_mini extends RedshopView
 
 		$app = JFactory::getApplication();
 
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));

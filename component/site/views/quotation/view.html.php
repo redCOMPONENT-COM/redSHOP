@@ -16,7 +16,7 @@ class RedshopViewQuotation extends RedshopView
 	{
 		$app = JFactory::getApplication();
 
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 		$uri       = JFactory::getURI();
 
 		$Itemid  = JRequest::getInt('Itemid');

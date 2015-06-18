@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$order_function = new order_functions;
+$order_function = order_functions::getInstance();
 
 $option = JRequest::getVar('option');
-$config = new Redconfiguration;
+$config = Redconfiguration::getInstance();
 $model = $this->getModel('newslettersubscr');
 ?>
 <script language="javascript" type="text/javascript">

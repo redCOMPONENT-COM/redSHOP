@@ -16,7 +16,7 @@ function display ($tpl = null)
 {
 	$app = JFactory::getApplication();
 
-	$quotationHelper = new quotationHelper;
+	$quotationHelper = quotationHelper::getInstance();
 
 	$print = JRequest::getInt('print');
 

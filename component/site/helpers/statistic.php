@@ -105,5 +105,3 @@ class statistic
 		}
 	}
 }
-
-$statistic = new statistic;

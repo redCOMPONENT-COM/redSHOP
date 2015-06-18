@@ -71,7 +71,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		parent::__construct();
-		$this->producthelper = new producthelper;
+		$this->producthelper = producthelper::getInstance();
 
 		$this->setId((int) $Id);
 	}
@@ -333,7 +333,7 @@ class RedshopModelCategory extends RedshopModel
 		$sort = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = new rsUserhelper;
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopperGroupManufactures != "")
@@ -633,7 +633,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$category_template = $this->getState('category_template');
 
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		if ($this->_id)
 		{
@@ -668,7 +668,7 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function loadCategoryTemplate($category_template = null)
 	{
-		$redTemplate       = new Redtemplate;
+		$redTemplate       = Redtemplate::getInstance();
 
 		$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		$template_section  = "frontpage_category";
@@ -789,7 +789,7 @@ class RedshopModelCategory extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$setproductfinderobj = new redhelper;
+		$setproductfinderobj = redhelper::getInstance();
 		$setproductfinder    = $setproductfinderobj->isredProductfinder();
 		$finder_condition    = "";
 

@@ -53,11 +53,31 @@ class producthelper
 
 	protected static $productDateRange = array();
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the productHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  productHelper  The productHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new producthelper;
+		}
+
+		return self::$instance;
+	}
+
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
-		$this->_userhelper   = new rsUserhelper;
+		$this->_userhelper   = rsUserHelper::getInstance();
 		$this->_session      = JFactory::getSession();
 	}
 
@@ -145,7 +165,7 @@ class producthelper
 	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
 		$userArr  = $this->_session->get('rs_user');
-		$helper = new redhelper;
+		$helper = redhelper::getInstance();
 		$result = null;
 
 		if (empty($userArr))
@@ -805,7 +825,7 @@ class producthelper
 	{
 		if ($dbname = $this->getExtraFieldsForCurrentTemplate($filedname, $template_data, $categorypage))
 		{
-			$extraField = new extraField;
+			$extraField = extraField::getInstance();
 			$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 		}
 
@@ -858,7 +878,7 @@ class producthelper
 		 */
 		if ($convert && $session->get('product_currency'))
 		{
-			$CurrencyHelper  = new CurrencyHelper;
+			$CurrencyHelper  = CurrencyHelper::getInstance();
 			$product_price = $CurrencyHelper->convert($product_price);
 
 			if (CURRENCY_SYMBOL_POSITION == 'behind')
@@ -926,9 +946,9 @@ class producthelper
 
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
 	{
-		$config          = new Redconfiguration;
+		$config          = Redconfiguration::getInstance();
 		$thum_image      = '';
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$result          = $this->getProductById($product_id);
 
 		$isStockExists = $stockroomhelper->isStockExists($product_id);
@@ -1116,7 +1136,7 @@ class producthelper
 		$imagename     = trim($imagename);
 		$linkimagename = trim($linkimagename);
 		$product_id    = $product->product_id;
-		$redhelper     = new redhelper;
+		$redhelper     = redhelper::getInstance();
 
 		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
@@ -1229,7 +1249,7 @@ class producthelper
 
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
-		$redhelper  = new redhelper;
+		$redhelper  = redhelper::getInstance();
 		$result     = $this->getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
@@ -1262,7 +1282,7 @@ class producthelper
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
-		$helper = new redhelper;
+		$helper = redhelper::getInstance();
 
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
@@ -1454,7 +1474,7 @@ class producthelper
 			$relPrefix = 'rel';
 		}
 
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
 		{
@@ -2389,7 +2409,7 @@ class producthelper
 
 	public function getCategoryNavigationlist($category_id)
 	{
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		static $i = 0;
 		static $category_list = array();
 
@@ -2788,7 +2808,7 @@ class producthelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
-		$helper = new redhelper;
+		$helper = redhelper::getInstance();
 
 		if ($menuView != "")
 		{
@@ -2902,7 +2922,7 @@ class producthelper
 
 	public function getProductCategory($id = 0)
 	{
-		$rsUserhelper               = new rsUserhelper;
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -2974,7 +2994,7 @@ class producthelper
 	public function getValidityDate($period, $data)
 	{
 		$todate = mktime(0, 0, 0, date('m'), date('d') + $period, date('Y'));
-		$config = new Redconfiguration;
+		$config = Redconfiguration::getInstance();
 
 		$todate   = $config->convertDateFormat($todate);
 		$fromdate = $config->convertDateFormat(strtotime(date('d M Y')));
@@ -3036,8 +3056,8 @@ class producthelper
 
 	public function getuserfield($orderitemid = 0, $section_id = 12)
 	{
-		$redTemplate     = new Redtemplate;
-		$order_functions = new order_functions;
+		$redTemplate     = Redtemplate::getInstance();
+		$order_functions = order_functions::getInstance();
 		$live_site       = JURI::root();
 		$resultArr       = array();
 
@@ -3178,8 +3198,8 @@ class producthelper
 
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
-		$extraField  = new extraField;
-		$redTemplate = new Redtemplate;
+		$extraField  = extraField::getInstance();
+		$redTemplate = Redtemplate::getInstance();
 		$cart        = $this->_session->get('cart');
 
 		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
@@ -3241,7 +3261,7 @@ class producthelper
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
-		$extraField = new extraField;
+		$extraField = extraField::getInstance();
 		$cart       = $this->_session->get('cart');
 		$product_id = $cart[$id]['product_id'];
 		$row_data   = $extraField->getSectionFieldList($section_id, 1, 0);
@@ -3273,8 +3293,8 @@ class producthelper
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
-		$extraField      = new extraField;
-		$order_functions = new order_functions;
+		$extraField      = extraField::getInstance();
+		$order_functions = order_functions::getInstance();
 		$orderItem       = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
 
 		$product_id = $orderItem[0]->product_id;
@@ -3310,7 +3330,7 @@ class producthelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = new extraField;
+		$extraField = extraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
@@ -3574,7 +3594,7 @@ class producthelper
 
 	public function getAttibutePropertyWithStock($property)
 	{
-		$stockroomhelper     = new rsstockroomhelper;
+		$stockroomhelper     = rsstockroomhelper::getInstance();
 		$property_with_stock = array();
 
 		for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
@@ -3604,7 +3624,7 @@ class producthelper
 
 	public function getAttibuteSubPropertyWithStock($subproperty)
 	{
-		$stockroomhelper        = new rsstockroomhelper;
+		$stockroomhelper        = rsstockroomhelper::getInstance();
 		$subproperty_with_stock = array();
 
 		for ($p = 0; $p < count($subproperty); $p++)
@@ -3651,7 +3671,7 @@ class producthelper
 	{
 		$attribute_template      = array();
 		$attribute_template_data = array();
-		$redTemplate             = new Redtemplate;
+		$redTemplate             = Redtemplate::getInstance();
 		$displayname             = "attribute_template";
 		$nodisplayname           = "attributewithcart_template";
 
@@ -3779,7 +3799,7 @@ class producthelper
 
 	public function getAddtoCartTemplate($data_add = "")
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		if (is_null($this->_cart_template))
 		{
@@ -3815,7 +3835,7 @@ class producthelper
 
 	public function getAccessoryTemplate($data_add = "")
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		if (is_null($this->_acc_template))
 		{
@@ -3851,7 +3871,7 @@ class producthelper
 
 	public function getRelatedProductTemplate($data_add = "")
 	{
-		$redTemplate   = new Redtemplate;
+		$redTemplate   = Redtemplate::getInstance();
 		$template      = $redTemplate->getTemplate("related_product");
 		$template_data = array();
 
@@ -3875,7 +3895,7 @@ class producthelper
 
 	public function getRelatedProduct($product_id = 0, $related_id = 0)
 	{
-		$helper          = new redhelper;
+		$helper          = redhelper::getInstance();
 		$and             = "";
 		$orderby         = "ORDER BY p.product_id ASC ";
 		$orderby_related = "";
@@ -4060,7 +4080,7 @@ class producthelper
 
 	public function getProductOnSaleComment($product = array(), $data_add = "")
 	{
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 
 		if (strpos($data_add, "{if product_on_sale}") && strpos($data_add, "{product_on_sale end if}") !== false)
 		{
@@ -4187,7 +4207,7 @@ class producthelper
 	{
 		$user_id   = 0;
 		$url       = JURI::base();
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 
 		$viewacc = JRequest::getVar('viewacc', 1);
 		$layout  = JRequest::getVar('layout');
@@ -4669,8 +4689,8 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$stockroomhelper = new rsstockroomhelper;
-		$redTemplate     = new Redtemplate;
+		$stockroomhelper = rsstockroomhelper::getInstance();
+		$redTemplate     = Redtemplate::getInstance();
 
 		if (count($attribute_template) <= 0)
 		{
@@ -4935,7 +4955,7 @@ class producthelper
 		$user_id         = 0;
 		$url             = JURI::base();
 		$redTemplate     = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$chktagArr['chkvat'] = $chktag = $this->getApplyattributeVatOrNot($data_add);
 		$this->_session->set('chkvat', $chktagArr);
@@ -5432,8 +5452,8 @@ class producthelper
 
 	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
 	{
-		$redTemplate     = new Redtemplate;
-		$stockroomhelper = new rsstockroomhelper;
+		$redTemplate     = Redtemplate::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$url             = JURI::base();
 		$attribute_table = "";
 		$subproperty     = array();
@@ -5924,7 +5944,7 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$option          = 'com_redshop';
 		$Itemid          = JRequest::getInt('Itemid');
 
@@ -6149,9 +6169,9 @@ class producthelper
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
 		$user_id         = 0;
-		$redconfig       = new Redconfiguration;
-		$extraField      = new extraField;
-		$stockroomhelper = new rsstockroomhelper;
+		$redconfig       = Redconfiguration::getInstance();
+		$extraField      = extraField::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$product_quantity = JRequest::getVar('product_quantity');
 		$Itemid           = JRequest::getInt('Itemid');
@@ -7348,7 +7368,7 @@ class producthelper
 	{
 		if (empty($this->_cartTemplateData))
 		{
-			$redTemplate = new Redtemplate;
+			$redTemplate = Redtemplate::getInstance();
 
 			if (!USE_AS_CATALOG || USE_AS_CATALOG)
 				$this->_cartTemplateData = $redTemplate->getTemplate("cart");
@@ -7363,7 +7383,7 @@ class producthelper
 	{
 		$user            = JFactory::getUser();
 		$cart            = $this->_session->get('cart');
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$product         = $this->getProductById($product_id);
 
 		if ($user_id == 0)
@@ -7643,7 +7663,7 @@ class producthelper
 
 	public function makeAccessoryOrder($order_item_id = 0)
 	{
-		$order_functions  = new order_functions;
+		$order_functions  = order_functions::getInstance();
 		$displayaccessory = "";
 		$orderItemdata    = $order_functions->getOrderItemAccessoryDetail($order_item_id);
 
@@ -7676,8 +7696,8 @@ class producthelper
 
 	public function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
 	{
-		$stockroomhelper   = new rsstockroomhelper;
-		$order_functions   = new order_functions;
+		$stockroomhelper   = rsstockroomhelper::getInstance();
+		$order_functions   = order_functions::getInstance();
 		$displayattribute  = "";
 		$chktag            = $this->getApplyattributeVatOrNot($data);
 		$product_attribute = "";
@@ -7931,7 +7951,7 @@ class producthelper
 
 	public function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)
 	{
-		$quotationHelper  = new quotationHelper;
+		$quotationHelper  = quotationHelper::getInstance();
 		$displayaccessory = "";
 		$Itemdata         = $quotationHelper->getQuotationItemAccessoryDetail($quotation_item_id);
 
@@ -7969,7 +7989,7 @@ class producthelper
 
 	public function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
 	{
-		$quotationHelper  = new quotationHelper;
+		$quotationHelper  = quotationHelper::getInstance();
 		$displayattribute = "";
 
 		$product_attribute = "";
@@ -8906,7 +8926,7 @@ class producthelper
 			}
 		}
 
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$productinstock  = $stockroomhelper->getStockAmountwithReserve($Id, $sec);
 
 		if ($productinstock == 0)
@@ -9174,7 +9194,7 @@ class producthelper
 
 			if ($displaylink)
 			{
-				$redhelper = new redhelper;
+				$redhelper = redhelper::getInstance();
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
 
 				if(!(boolean) $catItem)
@@ -9200,7 +9220,7 @@ class producthelper
 		$url                 = JURI::base();
 		$option              = JRequest::getVar('option');
 		$product             = $this->getProductById($product_id);
-		$redhelper           = new redhelper;
+		$redhelper           = redhelper::getInstance();
 		$aHrefImageResponse  = '';
 		$imagename           = '';
 		$aTitleImageResponse = '';
@@ -9335,10 +9355,10 @@ class producthelper
 	{
 		$redshopconfig   = new Redconfiguration ();
 		$redTemplate     = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$url             = JURI::base();
 		$option          = JRequest::getVar('option');
-		$redhelper       = new redhelper;
+		$redhelper       = redhelper::getInstance();
 
 		if ($accessory_id != 0)
 		{
@@ -10061,7 +10081,7 @@ class producthelper
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = new extraField;
+		$extraField = extraField::getInstance();
 
 		if (count($fieldArray) > 0)
 		{
@@ -10100,10 +10120,10 @@ class producthelper
 	 */
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field      = new extraField;
-		$config           = new Redconfiguration;
-		$redTemplate      = new Redtemplate;
-		$redhelper        = new redhelper;
+		$extra_field      = extraField::getInstance();
+		$config           = Redconfiguration::getInstance();
+		$redTemplate      = Redtemplate::getInstance();
+		$redhelper        = redhelper::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$option           = 'com_redshop';
@@ -10346,7 +10366,7 @@ class producthelper
 
 	public function removeOutofstockProduct($products)
 	{
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$filter_products = array();
 
 		for ($s = 0; $s < count($products); $s++)
@@ -10378,7 +10398,7 @@ class producthelper
 
 	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
 	{
-		$stockroomhelper            = new rsstockroomhelper;
+		$stockroomhelper            = rsstockroomhelper::getInstance();
 		$producDetail               = $this->getProductById($product_id);
 		$product_preorder           = trim($producDetail->preorder);
 		$rsltdata                   = array();
@@ -10548,7 +10568,7 @@ class producthelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = new extraField;
+		$extraField = extraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
@@ -10571,7 +10591,7 @@ class producthelper
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = new extraField;
+		$extraField = extraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 

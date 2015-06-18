@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
  * Include required files
  */
 
-$producthelper = new producthelper;
-$carthelper    = new rsCarthelper;
-$redTemplate   = new Redtemplate;
+$producthelper = producthelper::getInstance();
+$carthelper    = rsCarthelper::getInstance();
+$redTemplate   = Redtemplate::getInstance();
 
 $cart       = $this->cart;
 $idx        = $cart ['idx'];

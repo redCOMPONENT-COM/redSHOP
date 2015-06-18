@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 // Get product helper
-$extra_data = new producthelper;
+$extra_data = producthelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $tagid  = JRequest::getInt('tagid');

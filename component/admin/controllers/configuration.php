@@ -317,7 +317,7 @@ class RedshopControllerConfiguration extends RedshopController
 		$imname = JRequest::getString('imname', '');
 		$spath = JRequest::getString('spath', '');
 		$data_id = JRequest::getInt('data_id', 0);
-		$extra_field = new extra_field;
+		$extra_field = extra_field::getInstance();
 
 		if ($data_id)
 		{
@@ -351,14 +351,14 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function resetTermsCondition()
 	{
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 		$userhelper->updateUserTermsCondition();
 		die();
 	}
 
 	public function resetOrderId()
 	{
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$order_functions->resetOrderId();
 		die();
 	}

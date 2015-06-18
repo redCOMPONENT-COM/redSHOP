@@ -164,7 +164,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		ob_clean();
 		$model = $this->getModel('newslettersubscr_detail');
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order_function = new order_functions;
+		$order_function = order_functions::getInstance();
 		$data = $model->getnewslettersbsc($cid);
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");

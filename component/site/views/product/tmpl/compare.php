@@ -12,17 +12,17 @@ $url = JURI::base();
 
 // Get product helper
 
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 
 $print  = $this->input->getBool('print', false);
 $user   = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 
-$config  = new Redconfiguration;
+$config  = Redconfiguration::getInstance();
 $compare = $producthelper->getCompare();
 
-$stockroomhelper = new rsstockroomhelper;
+$stockroomhelper = rsstockroomhelper::getInstance();
 
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
@@ -82,7 +82,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 	$template = str_replace('{returntocategory_link}', $returnlink, $template);
 
 	// Make extrafield object..
-	$field    = new extraField;
+	$field    = extraField::getInstance();
 
 	$product_tag = array();
 

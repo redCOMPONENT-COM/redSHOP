@@ -45,7 +45,7 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 		// Getting the configuration
 		require_once $cfgFile;
 
-		$redConfiguration = new Redconfiguration;
+		$redConfiguration = Redconfiguration::getInstance();
 		$redConfiguration->defineDynamicVars();
 	}
 }

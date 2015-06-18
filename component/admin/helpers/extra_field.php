@@ -14,6 +14,26 @@ jimport('joomla.filesystem.file');
 
 class extra_field
 {
+	protected static $instance = null;
+
+	/**
+	 * Returns the extra_field object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  extra_field  The extra_field object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new extra_field;
+		}
+
+		return self::$instance;
+	}
+
 	public function list_all_field_in_product($section = extraField::SECTION_PRODUCT)
 	{
 		$db = JFactory::getDbo();

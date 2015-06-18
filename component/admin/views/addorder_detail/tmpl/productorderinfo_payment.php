@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$order_functions = new order_functions;
+$order_functions = order_functions::getInstance();
 
 $is_creditcard = 0;
 $paymentmethod = $order_functions->getPaymentMethodInfo();

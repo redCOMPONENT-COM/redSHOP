@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $option = JRequest::getCmd('option');
 JLoader::import('redshop.library');
 
-$shippinghelper = new shipping;
+$shippinghelper = shipping::getInstance();
 $shipping_rate_id = $params->get("shipping_rate_id");
 $text = $shippinghelper->getfreeshippingRate($shipping_rate_id);
 

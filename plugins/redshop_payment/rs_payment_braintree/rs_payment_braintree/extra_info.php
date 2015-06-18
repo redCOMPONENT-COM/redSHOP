@@ -8,10 +8,10 @@
  */
 
 JLoader::import('redshop.library');
-$objOrder         = new order_functions;
-$objconfiguration = new Redconfiguration;
+$objOrder         = order_functions::getInstance();
+$objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
-$redhelper        = new redhelper;
+$redhelper        = redhelper::getInstance();
 $db               = JFactory::getDbo();
 $user             = JFActory::getUser();
 $task             = JRequest::getVar('task');

@@ -104,7 +104,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$and     = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = new rsUserhelper;
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -225,7 +225,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$and       = '';
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = new rsUserhelper;
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -261,7 +261,7 @@ class RedshopModelManufacturers extends RedshopModel
 	public function getmanufacturercategory($mid, $tblobj)
 	{
 		$and              = "";
-		$order_functions  = new order_functions;
+		$order_functions  = order_functions::getInstance();
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')

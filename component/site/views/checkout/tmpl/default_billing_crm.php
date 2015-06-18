@@ -14,7 +14,7 @@ $model = $this->getModel('checkout');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$redhelper = new redhelper;
+$redhelper = redhelper::getInstance();
 $Itemid = $redhelper->getCheckoutItemid();
 
 if ($Itemid == 0)
@@ -24,8 +24,8 @@ if ($Itemid == 0)
 
 $session = JFactory::getSession();
 
-$order_functions = new order_functions;
-$extra_field = new extra_field;
+$order_functions = order_functions::getInstance();
+$extra_field = extra_field::getInstance();
 
 $billingaddresses = $model->billingaddresses();
 

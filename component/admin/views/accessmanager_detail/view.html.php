@@ -15,7 +15,7 @@ class RedshopViewAccessmanager_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$option = JRequest::getVar('option');
 
 		$section = JRequest::getVar('section');

@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$redtemplate = new Redtemplate;
+$redtemplate = Redtemplate::getInstance();
 
 ?>
 <script language="javascript" type="text/javascript">

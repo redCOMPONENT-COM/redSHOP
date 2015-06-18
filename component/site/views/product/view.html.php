@@ -68,9 +68,9 @@ class RedshopViewProduct extends RedshopView
 	public function display($tpl = null)
 	{
 		// Request variables
-		$prodhelperobj     = new producthelper;
-		$this->redTemplate = new Redtemplate;
-		$this->redHelper   = new redhelper;
+		$prodhelperobj     = producthelper::getInstance();
+		$this->redTemplate = Redtemplate::getInstance();
+		$this->redHelper   = redhelper::getInstance();
 		$this->textHelper  = new text_library;
 
 		$this->app             = JFactory::getApplication();

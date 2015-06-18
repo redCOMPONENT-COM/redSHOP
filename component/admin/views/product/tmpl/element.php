@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 $app = JFactory::getApplication();
-$productobj = new producthelper;
+$productobj = producthelper::getInstance();
 $model = $this->getModel('product');
 $category_id = $this->state->get('category_id', 0);
 ?>

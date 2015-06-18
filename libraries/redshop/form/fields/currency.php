@@ -32,7 +32,7 @@ class JFormFieldcurrency extends JFormField
 	{
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$CurrencyHelper = new CurrencyHelper;
+		$CurrencyHelper = CurrencyHelper::getInstance();
 
 		$CurrencyHelper->init();
 

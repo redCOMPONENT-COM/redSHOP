@@ -37,7 +37,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		$Itemid      = $app->input->getInt('Itemid', 0);
 		$ask         = $app->input->getInt('ask', 0);
 		$category_id = $app->input->getInt('category_id', 0);
-		$userHelper  = new rsUserhelper;
+		$userHelper  = rsUserHelper::getInstance();
 
 		if ($ask)
 		{
@@ -66,7 +66,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		if (SHOW_CAPTCHA && JFactory::getUser()->guest)
 		{
 			// Check exists captcha tag in question template form
-			$redTemplate = new Redtemplate;
+			$redTemplate = Redtemplate::getInstance();
 			$template = $redTemplate->getTemplate('ask_question_template');
 
 			if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}') && !$userHelper->checkCaptcha($data, false))

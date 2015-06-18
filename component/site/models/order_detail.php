@@ -102,7 +102,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	public function billingaddresses()
 	{
 		$app = JFactory::getApplication();
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$user            = JFactory::getUser();
 		$session         = JFactory::getSession();
 

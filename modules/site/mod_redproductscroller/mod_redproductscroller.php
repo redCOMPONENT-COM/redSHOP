@@ -357,8 +357,8 @@ if (!class_exists('redproductScroller'))
 
 		public function ShowProducts($row, $i)
 		{
-			$producthelper = new producthelper;
-			$redhelper     = new redhelper;
+			$producthelper = producthelper::getInstance();
+			$redhelper     = redhelper::getInstance();
 			$url           = JURI::base();
 			$category_id   = $producthelper->getCategoryProduct($row->product_id);
 			$ItemData      = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);

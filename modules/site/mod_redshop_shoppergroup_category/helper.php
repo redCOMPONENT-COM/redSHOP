@@ -50,7 +50,7 @@ class RedmodMenuHelper
 			$showAll = $params->get('showAllChildren');
 			$maxdepth = $params->get('maxdepth');
 			$items = $menu->getItems('menutype', $params->get('menutype'));
-			$redHelper = new redhelper;
+			$redHelper = redhelper::getInstance();
 
 			$lastitem = 0;
 

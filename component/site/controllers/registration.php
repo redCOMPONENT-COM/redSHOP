@@ -33,8 +33,8 @@ class RedshopControllerRegistration extends RedshopController
 		$option = JRequest::getCmd('option');
 		$Itemid = JRequest::getInt('Itemid', 0);
 
-		$prodhelperobj = new producthelper;
-		$redshopMail   = new redshopMail;
+		$prodhelperobj = producthelper::getInstance();
+		$redshopMail   = redshopMail::getInstance();
 
 		$model   = $this->getModel('registration');
 		$success = $model->store($post);
@@ -130,9 +130,9 @@ class RedshopControllerRegistration extends RedshopController
 	 */
 	public function getCompanyOrCustomer()
 	{
-		$redTemplate  = new Redtemplate;
-		$rsUserhelper = new rsUserhelper;
-		$extraField   = new extraField;
+		$redTemplate  = Redtemplate::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
+		$extraField   = extraField::getInstance();
 
 		$get = JRequest::get('get');
 		$template_id = $get['template_id'];

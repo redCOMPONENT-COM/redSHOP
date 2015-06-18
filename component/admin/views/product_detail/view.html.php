@@ -58,9 +58,9 @@ class RedshopViewProduct_Detail extends RedshopView
 		JPluginHelper::importPlugin('redshop_product_type');
 		$this->dispatcher    = JDispatcher::getInstance();
 
-		$redTemplate         = new Redtemplate;
-		$redhelper           = new redhelper;
-		$this->producthelper = new producthelper;
+		$redTemplate         = Redtemplate::getInstance();
+		$redhelper           = redhelper::getInstance();
+		$this->producthelper = producthelper::getInstance();
 
 		$this->option        = $this->input->getString('option', 'com_redshop');
 		$db                  = JFactory::getDBO();
@@ -337,7 +337,7 @@ class RedshopViewProduct_Detail extends RedshopView
 			}
 			else
 			{
-				$objhelper = new redhelper;
+				$objhelper = redhelper::getInstance();
 				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
 			}
 

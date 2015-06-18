@@ -37,7 +37,7 @@ class RedshopModelAccount extends RedshopModel
 
 	public function getuseraccountinfo($uid)
 	{
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		$user = JFactory::getUser();
 
@@ -405,8 +405,8 @@ class RedshopModelAccount extends RedshopModel
 	public function sendWishlist($post)
 	{
 		$user        = JFactory::getUser();
-		$redshopMail = new redshopMail;
-		$redhelper   = new redhelper;
+		$redshopMail = redshopMail::getInstance();
+		$redhelper   = redhelper::getInstance();
 
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$emailto     = $post['emailto'];
@@ -415,7 +415,7 @@ class RedshopModelAccount extends RedshopModel
 		$subject     = $post['subject'];
 		$Itemid      = $post['Itemid'];
 
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		// Get data from database if not than fetch from session
 		if ($user->id && $wishlist_id)

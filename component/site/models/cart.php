@@ -53,10 +53,10 @@ class RedshopModelCart extends RedshopModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_producthelper = new producthelper;
-		$this->_carthelper    = new rsCarthelper;
-		$this->_userhelper    = new rsUserhelper;
-		$this->_objshipping   = new shipping;
+		$this->_producthelper = producthelper::getInstance();
+		$this->_carthelper    = rsCarthelper::getInstance();
+		$this->_userhelper    = rsUserHelper::getInstance();
+		$this->_objshipping   = shipping::getInstance();
 
 		if (JModuleHelper::isEnabled('redshop_cart'))
 		{
@@ -118,7 +118,7 @@ class RedshopModelCart extends RedshopModel
 	{
 		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
-			$stockroomhelper = new rsstockroomhelper;
+			$stockroomhelper = rsstockroomhelper::getInstance();
 			$session         = JFactory::getSession();
 			$db              = JFactory::getDbo();
 			$cart            = $session->get('cart');
@@ -171,7 +171,7 @@ class RedshopModelCart extends RedshopModel
 	public function empty_cart()
 	{
 		$session         = JFactory::getSession();
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$cart = $session->get('cart');
 		unset($cart);
@@ -185,7 +185,7 @@ class RedshopModelCart extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$redTemplate = new Redtemplate;
+			$redTemplate = Redtemplate::getInstance();
 
 			if (DEFAULT_QUOTATION_MODE)
 			{
@@ -440,7 +440,7 @@ class RedshopModelCart extends RedshopModel
 
 	public function delete($cartElement)
 	{
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$session         = JFactory::getSession();
 
 		$cart = $session->get('cart');
@@ -574,7 +574,7 @@ class RedshopModelCart extends RedshopModel
 	public function checkifTagAvailable($product_id)
 	{
 		$db          = JFactory::getDbo();
-		$redTemplate = new redTemplate;
+		$redTemplate = Redtemplate::getInstance();
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
 			. "WHERE product_id = " . (int) $product_id;
 
@@ -600,7 +600,7 @@ class RedshopModelCart extends RedshopModel
 	public function shippingrate_calc()
 	{
 		JHTML::script('com_redshop/common.js', false, true);
-		$redConfig = new Redconfiguration;
+		$redConfig = Redconfiguration::getInstance();
 
 		$countryarray         = $redConfig->getCountryList();
 		$post['country_code'] = $countryarray['country_code'];

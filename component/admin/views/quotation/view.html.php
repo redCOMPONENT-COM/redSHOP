@@ -23,7 +23,7 @@ class RedshopViewQuotation extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$quotationHelper = new quotationHelper;
+		$quotationHelper = quotationHelper::getInstance();
 
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();

@@ -164,7 +164,7 @@ class RedshopControllerWizard extends RedshopController
 
 	public function finish()
 	{
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 
 		$post = JRequest::get('post');
 

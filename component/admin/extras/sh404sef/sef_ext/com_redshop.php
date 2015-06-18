@@ -29,7 +29,7 @@ $shLangIso = shLoadPluginLanguage('com_redshop', $shLangIso, '_COM_SEF_SH_REDSHO
 
 JLoader::import('redshop.library');
 $product_category = new product_category;
-$productHelper = new producthelper;
+$productHelper = producthelper::getInstance();
 
 shRemoveFromGETVarsList('option');
 

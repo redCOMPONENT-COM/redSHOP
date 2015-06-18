@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 jimport('joomla.filesystem.file');
 
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 $uri = JURI::getInstance();
 $url = $uri->root();
 

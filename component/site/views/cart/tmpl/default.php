@@ -14,11 +14,11 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $dispatcher    = JDispatcher::getInstance();
-$producthelper = new producthelper;
-$objshipping   = new shipping;
-$redhelper     = new redhelper;
-$carthelper    = new rsCarthelper;
-$redTemplate   = new Redtemplate;
+$producthelper = producthelper::getInstance();
+$objshipping   = shipping::getInstance();
+$redhelper     = redhelper::getInstance();
+$carthelper    = rsCarthelper::getInstance();
+$redTemplate   = Redtemplate::getInstance();
 
 $url     = JURI::base();
 $cart    = $this->cart;

@@ -100,7 +100,7 @@ class TransMenu
 		$app = JFactory::getApplication();
 
 		$txt       = '';
-		$objhelper = new redhelper;
+		$objhelper = redhelper::getInstance();
 		$Itemid    = JRequest::getInt('Itemid', '1');
 
 		$cItemid = $objhelper->getCategoryItemid($row->id);

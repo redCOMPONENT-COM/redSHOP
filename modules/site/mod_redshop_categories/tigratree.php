@@ -110,7 +110,7 @@ class redTigraTreeMenu
 		global $Itemid, $urlpath, $sortparam;
 
 		$db        = JFactory::getDbo();
-		$objhelper = new redhelper;
+		$objhelper = redhelper::getInstance();
 		$Itemid    = JRequest::getInt('Itemid');
 		$level++;
 		$redproduct_menu = new modProMenuHelper;

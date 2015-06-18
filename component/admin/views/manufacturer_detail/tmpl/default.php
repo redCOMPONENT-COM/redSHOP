@@ -14,7 +14,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $editor = JFactory::getEditor();
-$order_functions = new order_functions;
+$order_functions = order_functions::getInstance();
 $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 ?>
 

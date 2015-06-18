@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$adminproducthelper = new adminproducthelper;
+$adminproducthelper = adminProductHelper::getInstance();
 $session = JFactory::getSession();
 
 $ordertotal = $session->get('ordertotal');

@@ -15,7 +15,7 @@ class RedshopViewQuotation_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$quotationHelper = new quotationHelper;
+		$quotationHelper = quotationHelper::getInstance();
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout', 'default');
 
@@ -36,7 +36,7 @@ class RedshopViewQuotation_detail extends RedshopView
 		}
 
 		$detail = $this->get('data');
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 
 		$isNew = ($detail->quotation_id < 1);
 		$userarr = $this->get('userdata');

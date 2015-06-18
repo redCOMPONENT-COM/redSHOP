@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 
-$producthelper   = new producthelper;
-$quotationHelper = new quotationHelper;
-$order_functions = new order_functions;
-$configobj       = new Redconfiguration;
-$redTemplate     = new Redtemplate;
-$extra_field     = new extra_field;
-$extraField      = new extraField;
-$carthelper      = new rsCarthelper;
+$producthelper   = producthelper::getInstance();
+$quotationHelper = quotationHelper::getInstance();
+$order_functions = order_functions::getInstance();
+$configobj       = Redconfiguration::getInstance();
+$redTemplate     = Redtemplate::getInstance();
+$extra_field     = extra_field::getInstance();
+$extraField      = extraField::getInstance();
+$carthelper      = rsCarthelper::getInstance();
 
 $user         = JFactory::getUser();
 $Itemid       = JRequest::getInt('Itemid');

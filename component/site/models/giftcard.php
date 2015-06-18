@@ -82,7 +82,7 @@ class RedshopModelGiftcard extends RedshopModel
 
 	public function getGiftcardTemplate()
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		if (!$this->_id)
 		{

@@ -9,8 +9,8 @@
 JLoader::import('redshop.library');
 
 $app = JFactory::getApplication();
-$Redconfiguration = new Redconfiguration;
-$order_functions  = new order_functions;
+$Redconfiguration = Redconfiguration::getInstance();
+$order_functions  = order_functions::getInstance();
 $order_items      = $order_functions->getOrderItemDetail($data['order_id']);
 $session          = JFactory::getSession();
 $ccdata           = $session->get('redirect_ccdata');
@@ -43,7 +43,7 @@ else
 
 $currency_main = "GBP";
 
-$currencyClass  = new CurrencyHelper;
+$currencyClass  = CurrencyHelper::getInstance();
 $order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
 // Create DirectPayment Request Object

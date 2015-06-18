@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-$producthelper = new producthelper;
-$config = new Redconfiguration;
+$producthelper = producthelper::getInstance();
+$config = Redconfiguration::getInstance();
 $option = JRequest::getVar('option', '', 'request', 'string');
 ?>
 <script language="javascript" type="text/javascript">

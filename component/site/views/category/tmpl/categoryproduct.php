@@ -12,12 +12,12 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$objhelper       = new redhelper;
-$config          = new Redconfiguration;
-$producthelper   = new producthelper;
-$extraField      = new extraField;
-$redTemplate     = new Redtemplate;
-$stockroomhelper = new rsstockroomhelper;
+$objhelper       = redhelper::getInstance();
+$config          = Redconfiguration::getInstance();
+$producthelper   = producthelper::getInstance();
+$extraField      = extraField::getInstance();
+$redTemplate     = Redtemplate::getInstance();
+$stockroomhelper = rsstockroomhelper::getInstance();
 
 $url    = JURI::base();
 

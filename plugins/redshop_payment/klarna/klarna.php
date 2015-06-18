@@ -58,8 +58,8 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			return;
 		}
 
-		$orderHelper = new order_functions;
-		$extraField  = new extraField;
+		$orderHelper = order_functions::getInstance();
+		$extraField  = extraField::getInstance();
 		$k           = new Klarna;
 
 		$k->config(
@@ -311,7 +311,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 	public function klarnaOrderReservationUpdate($values)
 	{
 		$app         = JFactory::getApplication();
-		$orderHelper = new order_functions;
+		$orderHelper = order_functions::getInstance();
 		$orderId     = $values->order_id;
 
 		$orderHelper->changeorderstatus($values);

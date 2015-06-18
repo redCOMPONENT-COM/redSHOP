@@ -14,7 +14,7 @@ JHTML::_('behavior.tooltip');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 
-$redTemplate = new Redtemplate;
+$redTemplate = Redtemplate::getInstance();
 $user = JFactory::getUser();
 $form = $displayData['form'];
 

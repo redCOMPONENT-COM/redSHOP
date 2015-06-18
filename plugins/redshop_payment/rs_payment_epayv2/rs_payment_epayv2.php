@@ -48,8 +48,8 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		}
 
 
-		$producthelper  = new producthelper;
-		$CurrencyHelper = new CurrencyHelper;
+		$producthelper  = producthelper::getInstance();
+		$CurrencyHelper = CurrencyHelper::getInstance();
 		$uri            = JURI::getInstance();
 		$url            = $uri->root();
 		$user           = JFactory::getUser();

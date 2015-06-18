@@ -8,7 +8,7 @@
  */
 
 $option = JRequest::getVar('option');
-$Redconfiguration = new Redconfiguration;?>
+$Redconfiguration = Redconfiguration::getInstance();?>
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {

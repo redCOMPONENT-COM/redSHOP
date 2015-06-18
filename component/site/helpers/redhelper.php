@@ -21,6 +21,26 @@ class redhelper
 
 	protected static $isRedProductFinder = null;
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the redHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  redHelper  The redHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new redhelper;
+		}
+
+		return self::$instance;
+	}
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -105,7 +125,7 @@ class redhelper
 
 		if ($user->id && !isset($cart['idx']))
 		{
-			$rscarthelper = new rsCarthelper;
+			$rscarthelper = rsCarthelper::getInstance();
 			$rscarthelper->dbtocart();
 		}
 	}
@@ -356,7 +376,7 @@ class redhelper
 	 */
 	public function getShopperGroupPortal()
 	{
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserHelper::getInstance();
 		$user = JFactory::getUser();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
@@ -378,7 +398,7 @@ class redhelper
 	public function getShopperGroupCategory($cid = 0)
 	{
 		$user = JFactory::getUser();
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
@@ -607,7 +627,7 @@ class redhelper
 	// Get checkout Itemid
 	public function getCheckoutItemid()
 	{
-		$userhelper         = new rsUserhelper;
+		$userhelper         = rsUserHelper::getInstance();
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
@@ -627,7 +647,7 @@ class redhelper
 	// Get cart Itemid
 	public function getCartItemid()
 	{
-		$userhelper         = new rsUserhelper;
+		$userhelper         = rsUserHelper::getInstance();
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
@@ -786,7 +806,7 @@ class redhelper
 
 		$db = JFactory::getDbo();
 
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "order_users_info AS oui "
 			. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oui.order_id "
@@ -803,7 +823,7 @@ class redhelper
 		$paymentData       = $this->_db->loadobject();
 		$paymentName       = $paymentData->payment_method_name;
 		$payment_method_id = $paymentData->payment_method_id;
-		$redTemplate       = new Redtemplate;
+		$redTemplate       = Redtemplate::getInstance();
 		$TemplateDetail    = $redTemplate->getTemplate("clicktell_sms_message");
 
 		$order_shipping_class = 0;
@@ -900,7 +920,7 @@ class redhelper
 
 	public function replaceMessage($message, $orderData, $paymentName)
 	{
-		$shippinghelper  = new shipping;
+		$shippinghelper  = shipping::getInstance();
 		$shipping_method = '';
 		$details         = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
 
@@ -916,7 +936,7 @@ class redhelper
 			$shipping_method = $details[1] . $ext;
 		}
 
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$userData = $producthelper->getUserInformation($orderData->user_id);
 

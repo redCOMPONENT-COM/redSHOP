@@ -65,7 +65,7 @@ class plgRedshop_PaymentStripe extends JPlugin
 		}
 
 		$app         = JFactory::getApplication();
-		$orderHelper = new order_functions;
+		$orderHelper = order_functions::getInstance();
 		$orderId     = $app->input->getInt('orderid');
 		$order       = $orderHelper->getOrderDetails($orderId);
 		$price       = $order->order_total;

@@ -18,7 +18,7 @@ if ($is_company != 1)
 	$allowCompany = 'style="display:none;"';
 }
 
-$extra_field = new extra_field;
+$extra_field = extra_field::getInstance();
 
 if (!isset($billing->order_info_id))
 	$billing->order_info_id = 0;

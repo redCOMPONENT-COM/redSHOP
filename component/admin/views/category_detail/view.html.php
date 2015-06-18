@@ -23,9 +23,9 @@ class RedshopViewCategory_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$redTemplate      = new Redtemplate;
+		$redTemplate      = Redtemplate::getInstance();
 		$product_category = new product_category;
-		$producthelper    = new producthelper;
+		$producthelper    = producthelper::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/validation.js');
@@ -50,7 +50,7 @@ class RedshopViewCategory_detail extends RedshopView
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
-			$objhelper = new redhelper;
+			$objhelper = redhelper::getInstance();
 			$itemId    = (int) $objhelper->getCategoryItemid($this->detail->category_id);
 
 			$link  = JURI::root() . 'index.php?option=com_redshop'

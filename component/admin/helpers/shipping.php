@@ -12,13 +12,33 @@ defined('_JEXEC') or die;
 
 class shipping
 {
+	protected static $instance = null;
+
+	/**
+	 * Returns the shipping object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  shipping  The shipping object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new shipping;
+		}
+
+		return self::$instance;
+	}
+
 	/**
 	 *  function ******** To get Shipping rate for cart
 	 */
 	public function getDefaultShipping($d)
 	{
-		$productHelper  = new producthelper;
-		$userhelper     = new rsUserhelper;
+		$productHelper  = producthelper::getInstance();
+		$userhelper     = rsUserHelper::getInstance();
 		$session        = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
 		$user           = JFactory::getUser();
@@ -29,7 +49,7 @@ class shipping
 		$weighttotal     = $totaldimention['totalweight'];
 		$volume          = $totaldimention['totalvolume'];
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$userInfo        = $order_functions->getBillingAddress($user_id);
 		$country         = '';
 		$state           = '';
@@ -233,8 +253,8 @@ class shipping
 	 */
 	public function getDefaultShipping_xmlexport($d)
 	{
-		$productHelper  = new producthelper;
-		$userhelper     = new rsUserhelper;
+		$productHelper  = producthelper::getInstance();
+		$userhelper     = rsUserHelper::getInstance();
 		$session        = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
 		$user           = JFactory::getUser();
@@ -438,7 +458,7 @@ class shipping
 	 */
 	public function getShippingrate_calc()
 	{
-		$productHelper = new producthelper;
+		$productHelper = producthelper::getInstance();
 		$country       = JRequest::getVar('country_code');
 		$state         = JRequest::getVar('state_code');
 		$zip           = JRequest::getVar('zip_code');
@@ -758,7 +778,7 @@ class shipping
 
 	public function applyVatOnShippingRate($shippingrate = array(), $user_id)
 	{
-		$productHelper     = new producthelper;
+		$productHelper     = producthelper::getInstance();
 		$shipping_rate_vat = $shippingrate->shipping_rate_value;
 
 		if ($shippingrate->apply_vat == 1)
@@ -780,7 +800,7 @@ class shipping
 
 	public function listshippingrates($shipping_class, $users_info_id, &$d)
 	{
-		$userhelper     = new rsUserhelper;
+		$userhelper     = rsUserHelper::getInstance();
 		$order_subtotal = $d['order_subtotal'];
 
 		$totaldimention = $this->getCartItemDimention();
@@ -1023,7 +1043,7 @@ class shipping
 
 	public function getShippingVatRates($shipping_tax_group_id, $user_id = 0)
 	{
-		$productHelper = new producthelper;
+		$productHelper = producthelper::getInstance();
 		$user          = JFactory::getUser();
 		$session       = JFactory::getSession();
 		$db            = JFactory::getDbo();
@@ -1116,7 +1136,7 @@ class shipping
 
 	public function getShopperGroupDefaultShipping($user_id = 0)
 	{
-		$productHelper = new producthelper;
+		$productHelper = producthelper::getInstance();
 		$shippingArr   = array();
 		$user          = JFactory::getUser();
 
@@ -1218,7 +1238,7 @@ class shipping
 	 */
 	public function getProductVolumeShipping()
 	{
-		$productHelper = new producthelper;
+		$productHelper = producthelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$idx           = (int) ($cart ['idx']);
@@ -1328,7 +1348,7 @@ class shipping
 
 	public function getCartItemDimention()
 	{
-		$productHelper = new producthelper;
+		$productHelper = producthelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$idx           = (int) ($cart ['idx']);
@@ -1556,7 +1576,7 @@ class shipping
 
 	public function isUserInfoMatch(&$d)
 	{
-		$userhelper   = new rsUserhelper;
+		$userhelper   = rsUserHelper::getInstance();
 		$shippingrate = array();
 		$db = JFactory::getDbo();
 
@@ -1696,8 +1716,8 @@ class shipping
 
 	public function getfreeshippingRate($shipping_rate_id = 0)
 	{
-		$productHelper = new producthelper;
-		$userhelper    = new rsUserhelper;
+		$productHelper = producthelper::getInstance();
+		$userhelper    = rsUserHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart', null);
 		$db            = JFactory::getDbo();
@@ -1710,7 +1730,7 @@ class shipping
 		}
 
 		$order_subtotal  = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$user            = JFactory::getUser();
 		$user_id         = $user->id;
 

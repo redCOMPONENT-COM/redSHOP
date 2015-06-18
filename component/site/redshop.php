@@ -16,8 +16,10 @@ JLoader::import('redshop.library');
 JLoader::import('joomla.html.parameter');
 JLoader::import('joomla.html.pagination');
 
+new statistic;
+
 // Helper object
-$helper = new redhelper;
+$helper = redhelper::getInstance();
 
 // Include redCRM if required
 $helper->isredCRM();

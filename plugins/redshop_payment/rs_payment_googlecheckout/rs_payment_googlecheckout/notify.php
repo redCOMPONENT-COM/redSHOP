@@ -65,7 +65,7 @@ JPlugin::loadLanguage('com_redshop');
 
 JLoader::import('redshop.library');
 
-$objOrder = new order_functions;
+$objOrder = order_functions::getInstance();
 
 $tid = $_REQUEST ["transact"];
 $order_id = JFilterOutput::cleanText($_REQUEST ['shopping-cart_merchant-private-data']);

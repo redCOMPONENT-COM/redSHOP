@@ -11,10 +11,10 @@ JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 
-$order_function = new order_functions;
-$config = new Redconfiguration;
-$productHelper = new producthelper;
-$redhelper = new redhelper;
+$order_function = order_functions::getInstance();
+$config = Redconfiguration::getInstance();
+$productHelper = producthelper::getInstance();
+$redhelper = redhelper::getInstance();
 $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
       name="adminForm" id="adminForm">

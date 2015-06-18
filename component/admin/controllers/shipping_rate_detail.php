@@ -44,7 +44,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 		if ($row = $model->store($post))
 		{
-			$field = new extra_field;
+			$field = extra_field::getInstance();
 
 			// Field_section 11 :Shipping
 			$field->extra_field_save($post, "11", $row->shipping_rate_id);

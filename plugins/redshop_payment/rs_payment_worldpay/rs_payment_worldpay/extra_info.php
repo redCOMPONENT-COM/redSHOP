@@ -9,12 +9,12 @@
 
 JLoader::import('redshop.library');
 
-$objOrder         = new order_functions;
-$objconfiguration = new Redconfiguration;
+$objOrder         = order_functions::getInstance();
+$objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 
-$redhelper        = new redhelper;
+$redhelper        = redhelper::getInstance();
 $db               = JFactory::getDbo();
 $user             = JFActory::getUser();
 $task             = JRequest::getVar('task');
@@ -49,7 +49,7 @@ else
 	$worldpayurl = "https://secure.worldpay.com/wcc/purchase";
 }
 
-$currencyClass         = new CurrencyHelper;
+$currencyClass         = CurrencyHelper::getInstance();
 $order->order_subtotal = number_format($order_details[0]->order_total, 2, '.', '');
 $amount                = $order->order_subtotal;
 $sign_key              = $md5_key . ":" . $instId . ":" . $order->order_subtotal . ":" . CURRENCY_CODE . ":" . $cartId;

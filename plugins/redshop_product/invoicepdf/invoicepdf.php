@@ -121,9 +121,9 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 
 	public function createShippedInvoicePdf($orderId)
 	{
-		$orderHelper   = new order_functions;
-		$carthelper    = new rsCarthelper;
-		$redshopMail   = new redshopMail;
+		$orderHelper   = order_functions::getInstance();
+		$carthelper    = rsCarthelper::getInstance();
+		$redshopMail   = redshopMail::getInstance();
 
 		$arr_discount_type = array();
 

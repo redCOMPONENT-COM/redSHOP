@@ -21,15 +21,35 @@ class redshopMail
 
 	protected static $mailTemplates = array();
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the redShopMail object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  redShopMail  The redShopMail object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new redshopMail;
+		}
+
+		return self::$instance;
+	}
+
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
 
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_carthelper      = new rsCarthelper;
-		$this->_redhelper       = new redhelper;
-		$this->_order_functions = new order_functions;
+		$this->_carthelper      = rsCarthelper::getInstance();
+		$this->_redhelper       = redhelper::getInstance();
+		$this->_order_functions = order_functions::getInstance();
 	}
 
 	/**
@@ -83,8 +103,8 @@ class redshopMail
 	 */
 	public function sendOrderMail($order_id, $onlyAdmin = false)
 	{
-		$redconfig = new Redconfiguration;
-		$producthelper = new producthelper;
+		$redconfig = Redconfiguration::getInstance();
+		$producthelper = producthelper::getInstance();
 		$session = JFactory::getSession();
 
 		$config = JFactory::getConfig();
@@ -328,9 +348,9 @@ class redshopMail
 
 	public function sendOrderSpecialDiscountMail($order_id)
 	{
-		$redconfig     = new Redconfiguration;
-		$producthelper = new producthelper;
-		$extra_field   = new extra_field;
+		$redconfig     = Redconfiguration::getInstance();
+		$producthelper = producthelper::getInstance();
+		$extra_field   = extra_field::getInstance();
 
 		$config        = JFactory::getConfig();
 		$mailbcc       = array();
@@ -438,12 +458,12 @@ class redshopMail
 
 	public function createMultiprintInvoicePdf($oid)
 	{
-		$order_functions = new order_functions;
-		$shippinghelper  = new shipping;
-		$extra_field     = new extra_field;
-		$redconfig       = new Redconfiguration;
-		$redTemplate     = new Redtemplate;
-		$producthelper   = new producthelper;
+		$order_functions = order_functions::getInstance();
+		$shippinghelper  = shipping::getInstance();
+		$extra_field     = extra_field::getInstance();
+		$redconfig       = Redconfiguration::getInstance();
+		$redTemplate     = Redtemplate::getInstance();
+		$producthelper   = producthelper::getInstance();
 		$message         = "";
 
 		$pdfObj = RedshopHelperPdf::getInstance();
@@ -533,9 +553,9 @@ class redshopMail
 	 */
 	protected function replaceInvoiceMailTemplate($orderId, $html, $subject = null, $type = 'pdf')
 	{
-		$redconfig         = new Redconfiguration;
-		$producthelper     = new producthelper;
-		$extra_field       = new extra_field;
+		$redconfig         = Redconfiguration::getInstance();
+		$producthelper     = producthelper::getInstance();
+		$extra_field       = extra_field::getInstance();
 		$arr_discount_type = array();
 
 		$row           = $this->_order_functions->getOrderDetails($orderId);
@@ -888,8 +908,8 @@ class redshopMail
 	{
 		$app           = JFactory::getApplication();
 
-		$producthelper = new producthelper;
-		$redconfig     = new Redconfiguration;
+		$producthelper = producthelper::getInstance();
+		$redconfig     = Redconfiguration::getInstance();
 
 		$MailFrom      = $app->getCfg('mailfrom');
 		$FromName      = $app->getCfg('fromname');
@@ -1008,10 +1028,10 @@ class redshopMail
 	{
 		$uri             = JURI::getInstance();
 		$url             = $uri->root();
-		$redconfig       = new Redconfiguration;
-		$producthelper   = new producthelper;
-		$extra_field     = new extra_field;
-		$quotationHelper = new quotationHelper;
+		$redconfig       = Redconfiguration::getInstance();
+		$producthelper   = producthelper::getInstance();
+		$extra_field     = extra_field::getInstance();
+		$quotationHelper = quotationHelper::getInstance();
 		$config          = JFactory::getConfig();
 		$mailinfo        = $this->getMailtemplate(0, "quotation_mail");
 		$mailbcc         = array();
@@ -1042,7 +1062,7 @@ class redshopMail
 
 		$template_sdata = explode('{product_loop_start}', $message);
 
-		$extraField = new extraField;
+		$extraField = extraField::getInstance();
 		$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 
 		if (count($template_sdata) > 0)
@@ -1477,7 +1497,7 @@ class redshopMail
 
 	public function sendAskQuestionMail($ansid)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$uri           = JURI::getInstance();
 		$url           = $uri->root();
 		$option        = JRequest::getVar('option');
@@ -1563,7 +1583,7 @@ class redshopMail
 			return false;
 		}
 
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 
 		$config    = JFactory::getConfig();
 		$from      = $config->get('mailfrom');

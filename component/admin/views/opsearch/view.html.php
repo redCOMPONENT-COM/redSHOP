@@ -28,7 +28,7 @@ class RedshopViewOpsearch extends RedshopView
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();
 
-		$order_function = new order_functions;
+		$order_function = order_functions::getInstance();
 
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'));
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH_BY_CUSTOMER'), 'redshop_order48');
