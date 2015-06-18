@@ -29,7 +29,6 @@ class ProductsCheckoutEWAYCest
 	{
 		$I->wantTo('Test Product Checkout on Front End with EWAY Payment Plugin');
 		$I->doAdministratorLogin();
-		$pluginName = 'E-Way Payments';
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_eway/';
 		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
 
@@ -42,7 +41,7 @@ class ProductsCheckoutEWAYCest
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
-		$I->enablePlugin($pluginName);
+		$I->enablePlugin('E-Way Payments');
 		$this->updateEWAYPlugin($I, $checkoutAccountInformation['customerID']);
 		$I->doAdministratorLogout();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
@@ -75,16 +74,16 @@ class ProductsCheckoutEWAYCest
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->fillField(['xpath' => "//input[@id='filter_search']"], 'E-Way Payments');
+		$I->fillField(['id' => "filter_search"], 'E-Way Payments');
 		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
 		$I->waitForElement($pluginManagerPage->searchResultPluginName('E-Way Payments'), 30);
 		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
 		$I->see('E-Way Payments', ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
-		$I->click(['xpath' => "//input[@id='cb0']"]);
+		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['xpath' => "//input[@id='jform_params_eway_customer_id']"], 30);
-		$I->fillField(['xpath' => "//input[@id='jform_params_eway_customer_id']"], $customerId);
+		$I->waitForElement(['id' => "jform_params_eway_customer_id"], 30);
+		$I->fillField(['id' => "jform_params_eway_customer_id"], $customerId);
 
 		$I->click(['xpath' => "//li//label[text()='Visa']"]);
 		$I->click(['xpath' => "//li//label[text()='MasterCard']"]);
@@ -107,37 +106,37 @@ class ProductsCheckoutEWAYCest
 	 */
 	private function checkoutProductWithEWAYPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->amOnPage('/index.php?option=com_redshop');
+		$I->waitForElement(['id' => "redshopcomponent"], 30);
 		$I->checkForPhpNoticesOrWarnings();
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
+		$I->waitForElement(['xpath' => "//div[@class='alert alert-success']"]);
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-success');
+		$I->see("Product has been added to your cart.", '.alert-success');
+		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
+		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
+		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->addressInformation($addressDetail);
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
+		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
 		$I->click(['xpath' => "//div[@id='rs_payment_eway']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement(['xpath' => "//input[@id='order_payment_name']"], 10);
-		$I->fillField(['xpath' => "//input[@id='order_payment_name']"], $checkoutAccountDetail['customerName']);
-		$I->fillField(['xpath' => "//input[@id='order_payment_number']"], $checkoutAccountDetail['debitCardNumber']);
-		$I->fillField(['xpath' => "//input[@id='credit_card_code']"], $checkoutAccountDetail['cvv']);
+		$I->waitForElement(['id' => "order_payment_name"], 10);
+		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
+		$I->fillField(['id' => "order_payment_number"], $checkoutAccountDetail['debitCardNumber']);
+		$I->fillField(['id' => "credit_card_code"], $checkoutAccountDetail['cvv']);
 		$I->click(['xpath' => "//input[@value='VISA']"]);
 		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(['id' => "termscondition"]);
+		$I->click(['id' => "checkout_final"]);
 		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-message']"]);
 		$I->see('Order placed', "//div[@class='alert alert-message']");
 	}
