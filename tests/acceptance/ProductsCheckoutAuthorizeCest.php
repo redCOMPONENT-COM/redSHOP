@@ -29,7 +29,6 @@ class ProductsCheckoutAuthorizeCest
 	{
 		$I->wantTo('Test Product Checkout on Front End with Authorize Net Payment Plugin');
 		$I->doAdministratorLogin();
-		$pluginName = 'Authorize';
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize/';
 		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
 
@@ -44,7 +43,7 @@ class ProductsCheckoutAuthorizeCest
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
-		$I->enablePlugin($pluginName);
+		$I->enablePlugin('Authorize Payments');
 		$this->updateAuthorizePlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId']);
 		$I->doAdministratorLogout();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
@@ -78,17 +77,17 @@ class ProductsCheckoutAuthorizeCest
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->fillField(['xpath' => "//input[@id='filter_search']"], 'Authorize');
+		$I->fillField(['id' => "filter_search"], 'Authorize Payments');
 		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize'), 30);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize Payments'), 30);
 		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
-		$I->see('Authorize', ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
-		$I->click(['xpath' => "//input[@id='cb0']"]);
+		$I->see('Authorize Payments', ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
+		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['xpath' => "//input[@id='jform_params_access_id']"], 30);
-		$I->fillField(['xpath' => "//input[@id='jform_params_access_id']"], $accessId);
-		$I->fillField(['xpath' => "//input[@id='jform_params_transaction_id']"], $transactionKey);
+		$I->waitForElement(['id' => "jform_params_access_id"], 30);
+		$I->fillField(['id' => "jform_params_access_id"], $accessId);
+		$I->fillField(['id' => "jform_params_transaction_id"], $transactionKey);
 		$I->click(['xpath' => "//div[@id='jform_params_is_test_chzn']/a"]);
 
 		// Choosing Test Mode to Yes
@@ -115,37 +114,37 @@ class ProductsCheckoutAuthorizeCest
 	 */
 	private function checkoutProductWithAuthorizePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->amOnPage('/index.php?option=com_redshop');
+		$I->waitForElement(['id' => "redshopcomponent"], 30);
 		$I->checkForPhpNoticesOrWarnings();
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
+		$I->waitForElement(['xpath' => "//div[@class='alert alert-success']"]);
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-success');
+		$I->see("Product has been added to your cart.", '.alert-success');
+		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
+		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
+		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->addressInformation($addressDetail);
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
+		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
 		$I->click(['xpath' => "//div[@id='rs_payment_authorize']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement(['xpath' => "//input[@id='order_payment_name']"], 10);
-		$I->fillField(['xpath' => "//input[@id='order_payment_name']"], $checkoutAccountDetail['customerName']);
-		$I->fillField(['xpath' => "//input[@id='order_payment_number']"], $checkoutAccountDetail['debitCardNumber']);
-		$I->fillField(['xpath' => "//input[@id='credit_card_code']"], $checkoutAccountDetail['cvv']);
+		$I->waitForElement(['id' => "order_payment_name"], 10);
+		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
+		$I->fillField(['id' => "order_payment_number"], $checkoutAccountDetail['debitCardNumber']);
+		$I->fillField(['id' => "credit_card_code"], $checkoutAccountDetail['cvv']);
 		$I->click(['xpath' => "//input[@value='VISA']"]);
 		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(['id' => "termscondition"]);
+		$I->click(['id' => "checkout_final"]);
 		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-message']"]);
 		$I->see('Order placed', "//div[@class='alert alert-message']");
 	}
