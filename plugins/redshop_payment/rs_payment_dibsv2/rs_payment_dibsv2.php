@@ -76,8 +76,7 @@ class PlgRedshop_Paymentrs_Payment_Dibsv2 extends JPlugin
 		$verify_status  = $this->params->get('verify_status', '');
 		$invalid_status = $this->params->get('invalid_status', '');
 
-		$order_id = $request->get('orderId');
-		$Itemid   = $request->get('Itemid');
+		$order_id = $request->getString('orderId');
 
 		// Put your HMAC key below.
 		$HmacKey = $this->params->get('hmac_key');
@@ -88,7 +87,7 @@ class PlgRedshop_Paymentrs_Payment_Dibsv2 extends JPlugin
 		{
 			$MAC = $dibs_hmac->calculateMac($request->getArray(), $HmacKey);
 
-			if ($request->get('MAC') == $MAC && $request->get('status') == "ACCEPTED")
+			if ($request->getString('MAC') == $MAC && $request->getString('status') == "ACCEPTED")
 			{
 				$tid = $request->get('transaction');
 
