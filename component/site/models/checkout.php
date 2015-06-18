@@ -329,16 +329,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($isBankTransferPaymentType || $paymentMethod->element == "rs_payment_eantransfer")
 		{
-			// @todo  Review this condition - as above condition will never allow this condition to become true.
-			if (!$isBankTransferPaymentType && $paymentMethod->element != "rs_payment_eantransfer")
-			{
-				$paymentMethod->element = substr($paymentMethod->element, 0, -1);
-			}
-
 			$order_status        = $paymentMethod->params->get('verify_status', '');
 			$order_paymentstatus = trim("Unpaid");
-
-			$order_status_full = $this->_order_functions->getOrderStatusTitle($order_status);
 		}
 
 		$paymentMethod->element = $paymentElementName;
