@@ -77,7 +77,7 @@
 					 <option value="pl">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_PL</option>
 					 <option value="fo">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_FO</option>
 				</field>
-				<field name="dibs_paytype" type="list" default="1" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE"
+				<field name="dibs_paytype" type="list" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE"
 					 description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE_DESC" size="10">
 					 <option value="MC">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_MC</option>
 					 <option value="VISA">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_VISA</option>
@@ -110,10 +110,24 @@
 					 <option value="1">JYES</option>
 					 <option value="0">JNO</option>
 				</field>
-				<field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_BUSINESS_PERSON"
+				<field name="paytype_private" type="list" default="1" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE_PRIVATE"
+					 description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE_PRIVATE_DESC" size="10">
+					 <option value="MC">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_MC</option>
+					 <option value="VISA">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_VISA</option>
+					 <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ALL_CARDS</option>
+					 <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ALL_INVOICES</option>
+				</field>
+				<field name="business" type="radio" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_BUSINESS_PERSON"
 					 description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_BUSINESS_PERSON_DESC">
 					 <option value="1">JYES</option>
 					 <option value="0">JNO</option>
+				</field>
+				<field name="paytype_business" type="list" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE_BUSINESS"
+					 description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE_PRIVATE_DESC" size="10">
+					 <option value="MC">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_MC</option>
+					 <option value="VISA">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_VISA</option>
+					 <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ALL_CARDS</option>
+					 <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ALL_INVOICES</option>
 				</field>
 				<field name="is_creditcard" type="hidden" default="0" value="0"/>
 				<field name="economic_payment_terms_id" type="text" default=""
