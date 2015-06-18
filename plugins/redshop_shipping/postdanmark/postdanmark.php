@@ -15,6 +15,25 @@ defined('_JEXEC') or die;
  */
 class Plgredshop_ShippingPostdanmark extends JPlugin
 {
+	protected $autoloadLanguage = true;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		JPlugin::loadLanguage('plg_redshop_shipping_postdanmark');
+
+		parent::__construct($subject, $config);
+	}
+
 	/**
 	 * Shipping Method unique name
 	 *
@@ -43,6 +62,7 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			$shippingVatRate            = $shippingArr['shipping_vat'];
 			$default_shipping           = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_SHIPPING');
 			$shopper_shipping_id        = $shippinghelper->encryptShipping(__CLASS__ . "|" . JText::_($shipping->name) . "|" . $default_shipping . "|" . number_format($shopper_shipping, 2, '.', '') . "|" . $default_shipping . "|single|" . $shippingVatRate . "|0|1");
+			$shippingrate[$rate]        = new stdClass;
 			$shippingrate[$rate]->text  = $default_shipping;
 			$shippingrate[$rate]->value = $shopper_shipping_id;
 			$shippingrate[$rate]->rate  = $shopper_shipping;
@@ -70,11 +90,22 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			$rate++;
 		}
 
+		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT');
+		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALUD_ZIP_CODE');
+		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_CANCEL');
+		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_OK');
+		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_POSTAL_CODE');
+		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALID_ZIP');
+		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_PRESS_POINT_TO_DELIVERY');
+		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_SELECT_ONE_OPTION');
 		JHtml::_('redshopjquery.framework');
 		$document = JFactory::getDocument();
+		$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css');
+		$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/css/postdanmark_style.css');
 		$document->addScript('//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
 		$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/functions.js');
 		$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/map_functions.js');
+		$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js');
 
 		return $shippingrate;
 	}
@@ -192,7 +223,7 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			}
 			else
 			{
-				$shopLocations['error'] = 'Der er desværre ingen Post Danmark udleveringssted i det ønskede postnummer.';
+				$shopLocations['error'] = JText::_('PLG_REDSHOP_SHIPPING_POSTDANMARK_NOT_ANSWER_FOR_CURRENT_ZIP');
 				echo json_encode($shopLocations);
 			}
 		}
@@ -211,17 +242,17 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	{
 		$response = '';
 
-		if (!isset($shops) || sizeof($shops) == 0)
+		if (!isset($shops) || count($shops) == 0)
 		{
-			$response .= '<span class="postdanmark-error" id="postdanmark-error">Postnummeret er ikke korrekt.</span><br/>';
+			$response .= '<span class="postdanmark-error" id="postdanmark-error">' . JText::_('PLG_REDSHOP_SHIPPING_POSTDANMARK_NOT_CORRECT_ZIP') . '</span><br/>';
 			$response .= '<input type="hidden" name="postdanmark_pickupLocation" id="location" class="postdanmark_location">';
 		}
 		else
 		{
-			$response .= '<div class="postdanmark-choose"><strong>Vælg et udleveringssted:</strong></div>';
+			$response .= '<div class="postdanmark-choose"><strong>' . JText::_('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT') . ':</strong></div>';
 			$response .= '<table id="mapAddress"><tr>';
 
-			if (sizeof($shops) == 1)
+			if (count($shops) == 1)
 			{
 				$response .= $this->createShop($shops[0], 0, 1);
 			}

@@ -421,10 +421,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$data["registration_introtext"] = JRequest::getVar('registration_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["registration_comp_introtext"] = JRequest::getVar('registration_comp_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["vat_introtext"] = JRequest::getVar('vat_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["order_lists_introtext"] = JRequest::getVar('order_lists_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["order_detail_introtext"] = JRequest::getVar('order_detail_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["welcomepage_introtext"] = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["order_receipt_introtext"] = JRequest::getVar('order_receipt_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["product_expire_text"] = JRequest::getVar('product_expire_text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["cart_reservation_message"] = JRequest::getVar('cart_reservation_message', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data["with_vat_text_info"] = JRequest::getVar('with_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -697,33 +694,8 @@ class RedshopModelConfiguration extends RedshopModel
 		$texts = new text_library;
 		$content = $texts->replace_texts($content);
 
-		// If the template contains the images, then revising the path of the images,
-		// So the full URL goes with the mail, so images are visible in the mails.
-		$data1 = $data = $content;
-
-		preg_match_all("/\< *[img][^\>]*[.]*\>/i", $data, $matches);
-		$imagescurarray = array();
-
-		foreach ($matches[0] as $match)
-		{
-			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
-			$images[] = array_combine($m[1], $m[2]);
-			$imagescur = array_combine($m[1], $m[2]);
-			$imagescurarray[] = $imagescur['src'];
-		}
-
-		$imagescurarray = array_unique($imagescurarray);
-
-		if ($imagescurarray)
-		{
-			foreach ($imagescurarray as $change)
-			{
-				if (strpos($change, 'http') === false)
-				{
-					$data1 = str_replace($change, $url . $change, $data1);
-				}
-			}
-		}
+		$redshopMail     = new redshopMail;
+		$data1 = $redshopMail->imginmail($content);
 
 		$to = trim($to);
 		$today = time();
@@ -744,7 +716,7 @@ class RedshopModelConfiguration extends RedshopModel
 		// Replace tag {unsubscribe_link} for testing mail to empty link, because test mail not have subscribes
 		$content = str_replace("{unsubscribe_link}", "<a href=\"#\">" . JText::_('COM_REDSHOP_UNSUBSCRIBE') . "</a>", $content);
 
-		if (JMail::getInstance()->sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
+		if (JFactory::getMailer()->sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
 		{
 			return true;
 		}

@@ -30,10 +30,17 @@ class RedshopViewShipping_rate_detail extends RedshopView
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/common.js');
 
-		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.xml';
-		$myparams = new JRegistry($shipping->params, $shippingpath);
-		$is_shipper = $myparams->get('is_shipper');
-		$shipper_location = $myparams->get('shipper_location');
+		// Load language file of the shipping plugin
+		JFactory::getLanguage()->load(
+			'plg_redshop_shipping_' . strtolower($shipping->element),
+			JPATH_ADMINISTRATOR
+		);
+
+		$plugin           = JPluginHelper::getPlugin($shipping->folder, $shipping->element);
+		$pluginParams     = new JRegistry($plugin->params);
+
+		$is_shipper       = $pluginParams->get('is_shipper');
+		$shipper_location = $pluginParams->get('shipper_location');
 
 		$jtitle = ($shipper_location) ? JText::_('COM_REDSHOP_SHIPPING_LOCATION') : JText::_('COM_REDSHOP_SHIPPING_RATE');
 
@@ -42,7 +49,7 @@ class RedshopViewShipping_rate_detail extends RedshopView
 		$detail = $this->get('data');
 		$isNew = ($detail->shipping_rate_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
-		JToolBarHelper::title($jtitle . ': <small><small>[ ' . $shipping->name . ' : ' . $text . ' ]</small></small>', 'redshop_shipping_rates48');
+		JToolBarHelper::title($jtitle . ': <small><small>[ ' . JText::_($shipping->name) . ' : ' . $text . ' ]</small></small>', 'redshop_shipping_rates48');
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 

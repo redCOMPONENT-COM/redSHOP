@@ -39,12 +39,12 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\WrapperManagerJoomla3Page::$categoryDropDown);
 		$I->click($wrapperManagerPage->category($category));
 		$I->click('Save & Close');
-		$I->waitForText(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage, 60);
-		$I->see(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage);
-		$I->click('ID');
-		$I->click('ID');
+		$I->waitForText(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage, 60, '.alert-success');
+		$I->see(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage, '.alert-success');
+		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -59,17 +59,17 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\WrapperManagerJoomla3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
 		$I->click(\WrapperManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->waitForElement(\WrapperManagerJoomla3Page::$wrapperName, 30);
 		$I->fillField(\WrapperManagerJoomla3Page::$wrapperName, $newName);
 		$I->click('Save & Close');
-		$I->waitForText(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage);
-		$I->see(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage);
+		$I->waitForText(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage, 60, '.alert-success');
+		$I->see(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage, '.alert-success');
 		$I->see($newName, \WrapperManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

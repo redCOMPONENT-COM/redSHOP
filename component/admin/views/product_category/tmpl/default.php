@@ -43,7 +43,7 @@ JHTMLBehavior::modal();
 </script>
 <form name="adminForm" id="adminForm" method="post">
 	<div class="filterItem">
-		<?php echo JText::_("COM_REDSHOP_SELECT_CATEGORY")?> <?php echo $this->lists["category"]; ?>
+		<?php echo JText::_("COM_REDSHOP_SELECT_CATEGORY_LBL")?><br /><?php echo $this->lists["category"]; ?>
 	</div>
 	<table class="adminlist table table-striped">
 		<thead>

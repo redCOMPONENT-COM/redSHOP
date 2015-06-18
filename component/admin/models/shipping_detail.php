@@ -24,6 +24,8 @@ class RedshopModelShipping_detail extends RedshopModel
 
 	public $_copydata = null;
 
+	public $sectionCondition = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,6 +35,11 @@ class RedshopModelShipping_detail extends RedshopModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
+		$db = JFactory::getDbo();
+		$this->sectionCondition = array(
+			'folder = ' . $db->q('redshop_shipping'),
+			'type = ' . $db->q('plugin')
+		);
 	}
 
 	public function setId($id)
@@ -59,16 +66,15 @@ class RedshopModelShipping_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$query = 'UPDATE #__extensions '
-			. 'SET name="' . $data['name'] . '" '
-			. ',enabled ="' . intval($data['published']) . '" '
-			. 'WHERE element="' . $data['element'] . '" ';
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__extensions'))
+			->set('enabled = ' . (int) $data['published'])
+			->where('element = ' . $db->q($data['element']));
 
-		if (!$this->_db->execute())
+		if (!$db->setQuery($query)->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -101,16 +107,11 @@ class RedshopModelShipping_detail extends RedshopModel
 		return true;
 	}
 
-	public function saveOrder(&$cid)
+	public function saveOrder($cid, $order)
 	{
-		$app = JFactory::getApplication();
-
 		$db = JFactory::getDbo();
 		$row = $this->getTable();
-
 		$total = count($cid);
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
-		JArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values
 		for ($i = 0; $i < $total; $i++)
@@ -127,7 +128,8 @@ class RedshopModelShipping_detail extends RedshopModel
 				}
 			}
 		}
-		$row->reorder();
+
+		$row->reorder($this->sectionCondition);
 
 		return true;
 	}
@@ -149,9 +151,9 @@ class RedshopModelShipping_detail extends RedshopModel
 	/**
 	 * Method to move
 	 *
-	 * @access  public
+	 * @param   string  $direction  Direction
+	 *
 	 * @return  boolean True on success
-	 * @since 0.9
 	 */
 	public function move($direction)
 	{
@@ -164,12 +166,14 @@ class RedshopModelShipping_detail extends RedshopModel
 			return false;
 		}
 
-		if (!$row->move($direction))
+		if (!$row->move($direction, $this->sectionCondition))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
+		$row->reorder($this->sectionCondition);
 
 		return true;
 	}

@@ -13,53 +13,72 @@ jimport('joomla.plugin.plugin');
 JLoader::import('redshop.library');
 
 /**
- * Joomla! System Logging Plugin
+ * Plgredshop_Shippingshipper
  *
- * @package        Joomla
- * @subpackage     System
+ * @since  1.5
  */
-class plgredshop_shippingshipper extends JPlugin
+class Plgredshop_Shippingshipper extends JPlugin
 {
-	var $payment_code = "shipper";
-	var $classname = "shipper";
+	public $payment_code = "shipper";
 
-	function onShowconfig()
+	public $classname = "shipper";
+
+	/**
+	 * onShowconfig
+	 *
+	 * @return  bool
+	 */
+	public function onShowconfig()
 	{
 		return true;
 	}
 
-	function onWriteconfig($values)
+	/**
+	 * onWriteconfig
+	 *
+	 * @param   array  $values  Values
+	 *
+	 * @return  bool
+	 */
+	public function onWriteconfig($values)
 	{
 		return true;
 	}
 
-	function onListRates(&$d)
+	/**
+	 * onListRates
+	 *
+	 * @param   array  &$d  Array values
+	 *
+	 * @return array
+	 */
+	public function onListRates(&$d)
 	{
 		$shippinghelper = new shipping;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$shippingrate = array();
-		$rate = 0;
 
 		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
 
-		for ($i = 0; $i < count($ratelist); $i++)
+		if ($ratelist)
 		{
-			$rs = $ratelist[$i];
-			$shippingRateInt = $rs->shipping_rate_value;
-			$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
-			$shippingVatRate = $rs->shipping_rate_value - $shippingRateInt;
-			$economic_displaynumber = $rs->economic_displaynumber;
-			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber);
-			$shippingrate[$rate]->text = $rs->shipping_rate_name;
-			$shippingrate[$rate]->value = $shipping_rate_id;
-			$shippingrate[$rate]->rate = $rs->shipping_rate_value;
-			$shippingrate[$rate]->vat = $shippingVatRate;
-			$rate++;
+			foreach ($ratelist as $rs)
+			{
+				$shippingRateInt = $rs->shipping_rate_value;
+				$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
+				$shippingVatRate = $rs->shipping_rate_value - $shippingRateInt;
+				$economic_displaynumber = $rs->economic_displaynumber;
+				$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber);
+				$oneShippingRate = new stdClass;
+				$oneShippingRate->text = $rs->shipping_rate_name;
+				$oneShippingRate->value = $shipping_rate_id;
+				$oneShippingRate->rate = $rs->shipping_rate_value;
+				$oneShippingRate->vat = $shippingVatRate;
+				$shippingrate[] = $oneShippingRate;
+			}
 		}
 
 		return $shippingrate;
 	}
 }
-
-?>

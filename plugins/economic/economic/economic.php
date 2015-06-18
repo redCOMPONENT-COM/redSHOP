@@ -62,13 +62,8 @@ class plgEconomicEconomic extends JPlugin
 	 */
 	public function onEconomicConnection()
 	{
-		// Get plugin info
-		$plugin = JPluginHelper::getPlugin('economic', 'economic');
-		$pluginParams = new JRegistry($plugin->params);
-		$this->ecoparams = $pluginParams;
-
 		// Check whether plugin has been unpublished
-		if (count($pluginParams) > 0)
+		if (count($this->params) > 0)
 		{
 			$url = 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
 
@@ -85,9 +80,9 @@ class plgEconomicEconomic extends JPlugin
 			try
 			{
 				$conn = array(
-					'agreementNumber' => $pluginParams->get('economic_agreement_number', ''),
-					'userName'        => $pluginParams->get('economic_username', ''),
-					'password'        => $pluginParams->get('economic_password', '')
+					'agreementNumber' => $this->params->get('economic_agreement_number', ''),
+					'userName'        => $this->params->get('economic_username', ''),
+					'password'        => $this->params->get('economic_password', '')
 				);
 				$this->_conn = $this->client->Connect($conn);
 			}
@@ -225,7 +220,7 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$checkDebtorgrpId = $this->ecoparams->get('economic_debtor_group_id', 2);
+		$checkDebtorgrpId = $this->params->get('economic_debtor_group_id', 2);
 
 		if ($this->debtorGroupHandles)
 		{
@@ -291,7 +286,7 @@ class plgEconomicEconomic extends JPlugin
 		}
 		else
 		{
-			$checkpaymentId = $this->ecoparams->get('economic_payment_terms', 2);
+			$checkpaymentId = $this->params->get('economic_payment_terms', 2);
 		}
 
 		if ($this->termofpayment && $this->termofpayment == $checkpaymentId)
@@ -413,7 +408,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if (count($arr) > 0)
 			{
-				$cashbook_number = $this->ecoparams->get('economic_cashbook_number', 1);
+				$cashbook_number = $this->params->get('economic_cashbook_number', 1);
 
 				if (in_array($cashbook_number, $arr))
 				{
@@ -491,7 +486,7 @@ class plgEconomicEconomic extends JPlugin
 			}
 			else
 			{
-				$checkId = $this->ecoparams->get('economic_layout_id', 19);
+				$checkId = $this->params->get('economic_layout_id', 19);
 			}
 
 			if (in_array($checkId, $arr))
@@ -1039,7 +1034,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if (count($arr) > 0)
 			{
-				$checkId = $this->ecoparams->get('economic_units_id', 1);
+				$checkId = $this->params->get('economic_units_id', 1);
 
 				if (in_array($checkId, $arr))
 				{
@@ -1454,13 +1449,10 @@ class plgEconomicEconomic extends JPlugin
 			// Get Employee to set Our Reference Number
 			if ($employeeHandle = $this->employeeFindByNumber($d))
 			{
-				$valueHandle         = new stdclass;
-				$valueHandle->Number = $employeeHandle;
-
 				$this->client->CurrentInvoice_SetOurReference2(
 					array(
 						'currentInvoiceHandle' => $invoiceHandle,
-						'valueHandle'          => $valueHandle
+						'valueHandle'          => $employeeHandle
 					)
 				);
 			}
@@ -1872,7 +1864,7 @@ class plgEconomicEconomic extends JPlugin
 			$pdf = $this->Invoice_GetPdf($bookHandle);
 
 			// Cashbook entry
-			$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+			$makeCashbook = (int) $this->params->get('economicUseCashbook', 1);
 
 			if ($makeCashbook && $d['amount'] > 0)
 			{
@@ -2010,7 +2002,7 @@ class plgEconomicEconomic extends JPlugin
 	public function createCashbookEntry($d, $bookHandle)
 	{
 		// Cashbook entry
-		$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+		$makeCashbook = (int) $this->params->get('economicUseCashbook', 1);
 
 		if (!$makeCashbook)
 		{

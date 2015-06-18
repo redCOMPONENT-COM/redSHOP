@@ -22,6 +22,9 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 	// Register library prefix
 	JLoader::registerPrefix('Redshop', JPATH_REDSHOP_LIBRARY);
 
+	// Make available the redSHOP forms
+	JForm::addFormPath(JPATH_REDSHOP_LIBRARY . '/form/forms');
+
 	// Make available the redSHOP fields
 	JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/fields');
 

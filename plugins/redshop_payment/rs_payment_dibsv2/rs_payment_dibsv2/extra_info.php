@@ -25,9 +25,7 @@ if ($language == "Auto")
 }
 
 // For total amount
-$amount       = $currencyClass->convert($data['carttotal'], '', $this->params->get("dibs_currency"));
-$amount       = floor($amount * 1000) / 1000;
-$amount       = number_format($amount, 2, '.', '') * 100;
+$amount       = 0;
 $paytype      = $this->params->get("dibs_paytype");
 $dibs_paytype = implode(",", $paytype);
 
@@ -78,11 +76,13 @@ for ($p = 0; $p < count($order_items); $p++)
 	$product_item_price          = $currencyClass->convert($order_items[$p]->product_item_price, '', $this->params->get("dibs_currency"));
 	$product_item_price_excl_vat = $currencyClass->convert($order_items[$p]->product_item_price_excl_vat, '', $this->params->get("dibs_currency"));
 	$pvat                        = $product_item_price - $product_item_price_excl_vat;
-	$total_amount                = $product_item_price * $order_items[$p]->quantity;
 	$product_item_price_excl_vat = floor($product_item_price_excl_vat * 1000) / 1000;
 	$product_item_price_excl_vat = number_format($product_item_price_excl_vat, 2, '.', '') * 100;
 	$pvat                        = floor($pvat * 1000) / 1000;
 	$pvat                        = number_format($pvat, 2, '.', '') * 100;
+
+	// Accumulate total
+	$amount += ($product_item_price_excl_vat + $pvat) * $order_items[$p]->product_quantity;
 
 	$formdata['oiRow' . ($p + 1) . ''] = $order_items[$p]->product_quantity
 										. ";pcs"
@@ -108,6 +108,7 @@ if ($order->order_discount > 0)
 										. ";" . ($p + 1)
 										. ";" . $discount_pvat;
 	$p++;
+	$amount -= $discount_pvat + $discount_amount;
 }
 
 if ($order->order_shipping > 0)
@@ -134,6 +135,7 @@ if ($order->order_shipping > 0)
 										. ";" . ($p + 1)
 										. ";" . $shipping_vat;
 	$p++;
+	$amount += $shipping_price;
 }
 
 $payment_price = $order->payment_discount;
@@ -162,14 +164,18 @@ if ($payment_price > 0)
 										. ";" . $discount_payment_price
 										. ";" . ($p + 1)
 										. ";" . $payment_vat;
+
+	$amount += $discount_payment_price + $payment_vat;
 }
+
+$formdata['amount'] = $amount;
 
 include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/dibs_hmac.php';
 $dibs_hmac = new dibs_hmac;
 $mac_key   = $dibs_hmac->calculateMac($formdata, $hmac_key);
 
 // Action URL
-$dibsurl = "https://sat1.dibspayment.com/dibspaymentwindow/entrypoint";
+$dibsurl = "https://payment.dibspayment.com/dpw/entrypoint";
 ?>
 <form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" method="post" accept-charset="utf-8">
 	<?php foreach ($formdata as $name => $value): ?>

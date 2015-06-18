@@ -43,11 +43,7 @@ if ($this->params->get('show_page_heading', 1))
 	</div>
 <?php
 }
-?>
-	<div>
-		<?php echo ORDER_LIST_INTROTEXT;?>
-	</div>
-<?php
+
 if ($print)
 {
 	$onclick = "onclick='window.print();'";

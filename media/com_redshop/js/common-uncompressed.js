@@ -631,10 +631,6 @@ function showCompanyOrCustomer(obj)
 			{
 				document.getElementById('customer_registrationintro').style.display='none';
 			}
-			if(document.getElementById('veis_wait'))
-			{
-				document.getElementById('veis_wait').style.display='';
-			}
 		}
 		else	// For Customer
 		{
@@ -653,10 +649,6 @@ function showCompanyOrCustomer(obj)
 			if(document.getElementById('customer_registrationintro'))
 			{
 				document.getElementById('customer_registrationintro').style.display='';
-			}
-			if(document.getElementById('veis_wait'))
-			{
-				document.getElementById('veis_wait').style.display='none';
 			}
 		}
 		if (window.XMLHttpRequest)
@@ -724,7 +716,15 @@ function updateGLSLocation(zipcode)
 {
 	xmlhttp1=GetXmlHttpObject();
 	var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
-	url1 = url1 + "&zipcode=" + zipcode;
+	var users_info_id = '';
+	var propName = document.getElementsByName('users_info_id');
+	for(var p=0;p<propName.length;p++){
+		if(propName[p].checked){
+			users_info_id = propName[p].value;
+		}
+	}
+	url1 = url1 + "&zipcode=" + zipcode + '&users_info_id=' + users_info_id;
+
 	xmlhttp1.onreadystatechange=function()
 	{
 		if (xmlhttp1.readyState==4)
@@ -785,9 +785,12 @@ function onestepCheckoutProcess(objectname,classname)
 				payment_method_id = propName[p].value;
 				newparam = newparam + "&payment_method_id=" + payment_method_id;
 			}
-			if (document.getElementById('divcardinfo_'+propName[p].value))
+			else
 			{
-				document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
+				if (document.getElementById('divcardinfo_'+propName[p].value))
+				{
+					document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
+				}
 			}
 		}
 
@@ -957,8 +960,6 @@ function onestepCheckoutProcess(objectname,classname)
 			xmlhttp.open("POST", url, false);
 
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.setRequestHeader("Content-length", params.length);
-		xmlhttp.setRequestHeader("Connection", "close");
 		xmlhttp.send(params);
 	}
 

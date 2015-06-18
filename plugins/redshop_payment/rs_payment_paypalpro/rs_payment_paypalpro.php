@@ -11,8 +11,22 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
+class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_paypalpro');
+		parent::__construct($subject, $config);
+	}
+
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -23,17 +37,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		$app = JFactory::getApplication();
-		$objOrder = new order_functions;
-		$uri = JURI::getInstance();
-		$url = $uri->root();
-		$user = JFactory::getUser();
-		$sessionid = session_id();
 		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
@@ -53,7 +56,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$expDateYear      = urlencode($ccdata['order_payment_expire_year']);
 		$cvv2Number       = urlencode($creditCardType);
 		$address1         = urlencode($data['billinginfo']->address);
-		$address2         = urlencode('customer_address2');
 		$city             = urlencode($data['billinginfo']->city);
 		$state            = urlencode($data['billinginfo']->state_code);
 		$zip              = urlencode($data['billinginfo']->zipcode);
@@ -78,7 +80,8 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		// Execute the API operation; see the PPHttpPost function above.
 		$httpParsedResponseAr = $this->PPHttpPost('DoDirectPayment', $nvpStr);
 
-		$transaction_id = $request['transaction_id'];
+		$transaction_id = $httpParsedResponseAr['TRANSACTIONID'];
+		$values = new stdClass;
 
 		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
@@ -86,11 +89,11 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 			if ($debug_mode == 1)
 			{
-				$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
+				$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
 			}
 			else
 			{
-				$message = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$message = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_PLACED');
 			}
 		}
 		else
@@ -99,11 +102,11 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 			if ($debug_mode == 1)
 			{
-				$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
+				$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
 			}
 			else
 			{
-				$message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$message = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
 			}
 		}
 
@@ -118,7 +121,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$api_username = $this->params->get('api_username', '');
 		$api_password = $this->params->get('api_password', '');
 		$api_signature = $this->params->get('api_signature', '');
-		$sales_auth_only = $this->params->get('sales_auth_only', '');
 
 		// Set up your API credentials, PayPal end point, and API version.
 		$API_UserName = urlencode($api_username);
@@ -149,7 +151,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		curl_setopt($ch, CURLOPT_POST, 1);
 
 		// Set the API operation, version, and API signature in the request.
-		$nvpreq = "METHOD=$API_method&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
+		$nvpreq = "METHOD=$API_method&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_" . '&BUTTONSOURCE=redCOMPONENT_SP';
 
 		// Set the request as a POST FIELD for curl.
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
@@ -159,7 +161,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 		if (!$httpResponse)
 		{
-			exit("$methodName_ failed: " . curl_error($ch) . '(' . curl_errno($ch) . ')');
+			exit(JText::sprintf('PLG_RS_PAYMENT_PAYPALPRO_METHOD_FAILED', $methodName_, $ch, $ch));
 		}
 
 		// Extract the response details.
@@ -171,242 +173,22 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		{
 			$tmpAr = explode("=", $value);
 
-			if (sizeof($tmpAr) > 1)
+			if (count($tmpAr) > 1)
 			{
 				$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
 			}
 		}
 
-		if ((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr))
+		if ((0 == count($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr))
 		{
-			exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+			exit(JText::sprintf('PLG_RS_PAYMENT_PAYPALPRO_METHOD_INVALID_RESPONSE', $nvpreq, $API_Endpoint));
 		}
 
 		return $httpParsedResponseAr;
 	}
 
-	/*
-	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
-	 */
-	public function onNotifyPaymentrs_payment_paypalpro($element, $request)
-	{
-		if ($element != 'rs_payment_paypalpro')
-		{
-			return false;
-		}
-
-		$db             = JFactory::getDbo();
-		$request        = JRequest::get('request');
-		$accept         = $request["accept"];
-		$tid            = $request["tid"];
-		$order_id       = $request["orderid"];
-		$Itemid         = $request["Itemid"];
-		$order_amount   = $request["amount"];
-		$order_ekey     = $request["eKey"];
-		$error          = $request["error"];
-		$order_currency = $request["cur"];
-
-		JPlugin::loadLanguage('com_redshop');
-
-		$verify_status  = $this->params->get('verify_status', '');
-		$invalid_status = $this->params->get('invalid_status', '');
-		$auth_type      = $this->params->get('auth_type', '');
-		$values         = new stdClass;
-
-		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
-		//
-		if (($order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
-		{
-			// Find the corresponding order in the database
-
-			$db = JFactory::getDbo();
-			$qv = "SELECT order_id, order_number FROM #__redshop_orders WHERE order_id='" . $order_id . "'";
-			$db->setQuery($qv);
-			$orders = $db->LoadObjectList();
-
-			foreach ($orders as $order_detail)
-			{
-				$d['order_id'] = $order_detail->order_id;
-			}
-
-			// Switch on the order accept code
-			// accept = 1 (standard redirect) accept = 2 (callback)
-			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
-			{
-				// Only update the order information once
-				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
-				{
-					// UPDATE THE ORDER STATUS to 'VALID'
-					$transaction_id = $tid;
-					$values->order_status_code = $verify_status;
-					$values->order_payment_status_code = 'Paid';
-					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-
-					// Add history callback info
-					if ($accept == "2")
-					{
-						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CALLBACK');
-					}
-
-					// Payment fee
-					if ($request["transfee"])
-					{
-						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_FEE');
-					}
-
-					// Payment date
-					if ($request["date"])
-					{
-						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_DATE');
-					}
-
-					// Payment fraud control
-					if (@$request["fraud"])
-					{
-						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
-					}
-
-					// Card id
-					if ($request["cardid"])
-					{
-						$cardname = "Unknown";
-						$cardimage = "c" . $_REQUEST["cardid"] . ".gif";
-
-						switch ($_REQUEST["cardid"])
-						{
-							case 1:
-								$cardname = 'Dankort (DK)';
-								break;
-							case 2:
-								$cardname = 'Visa/Dankort (DK)';
-								break;
-							case 3:
-								$cardname = 'Visa Electron (Udenlandsk)';
-								break;
-							case 4:
-								$cardname = 'Mastercard (DK)';
-								break;
-							case 5:
-								$cardname = 'Mastercard (Udenlandsk)';
-								break;
-							case 6:
-								$cardname = 'Visa Electron (DK)';
-								break;
-							case 7:
-								$cardname = 'JCB (Udenlandsk)';
-								break;
-							case 8:
-								$cardname = 'Diners (DK)';
-								break;
-							case 9:
-								$cardname = 'Maestro (DK)';
-								break;
-							case 10:
-								$cardname = 'American Express (DK)';
-								break;
-							case 11:
-								$cardname = 'Ukendt';
-								break;
-							case 12:
-								$cardname = 'eDankort (DK)';
-								break;
-							case 13:
-								$cardname = 'Diners (Udenlandsk)';
-								break;
-							case 14:
-								$cardname = 'American Express (Udenlandsk)';
-								break;
-							case 15:
-								$cardname = 'Maestro (Udenlandsk)';
-								break;
-							case 16:
-								$cardname = 'Forbrugsforeningen (DK)';
-								break;
-							case 17:
-								$cardname = 'eWire';
-								break;
-							case 18:
-								$cardname = 'VISA';
-								break;
-							case 19:
-								$cardname = 'IKANO';
-								break;
-							case 20:
-								$cardname = 'Andre';
-								break;
-							case 21:
-								$cardname = 'Nordea';
-								break;
-							case 22:
-								$cardname = 'Danske Bank';
-								break;
-							case 23:
-								$cardname = 'Danske Bank';
-								break;
-						}
-
-						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
-					}
-
-					// Creation information
-					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
-					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
-				}
-			}
-			elseif ($accept == "0")
-			{
-				$values->order_status_code = $invalid_status;
-				$values->order_payment_status_code = 'Unpaid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_ERROR');
-			}
-			else
-			{
-				$values->order_status_code = $invalid_status;
-				$values->order_payment_status_code = 'Unpaid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
-			}
-		}
-		else
-		{
-			$values->order_status_code = $invalid_status;
-			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
-		}
-
-		$values->transaction_id = $tid;
-		$values->order_id = $order_id;
-
-		return $values;
-	}
-
-	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
-	{
-		$db    = JFactory::getDbo();
-		$res   = false;
-		$query = "SELECT COUNT(*) `qty` FROM #__redshop_order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->setQuery($query);
-		$order_payment = $db->loadResult();
-
-		if ($order_payment == 0)
-		{
-			$res = true;
-		}
-
-		return $res;
-	}
-
 	public function onCapture_Paymentrs_payment_paypalpro($element, $data)
 	{
-		$db = JFactory::getDbo();
-		$objOrder = new order_functions;
-
 		// Set request-specific fields.
 		$authorizationID = urlencode($this->params->get('api_username'));
 		$amount = urlencode($data['order_amount']);
@@ -414,7 +196,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		// Or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
 		$currency         = urlencode(CURRENCY_CODE);
 		$completeCodeType = urlencode('Complete');
-		$invoiceID        = urlencode($data['order_transaction_id']);
 		$note             = urlencode(JText::_('COM_REDSHOP_CAPTURED_PAYMENT'));
 
 		// Add request-specific fields to the request string.
@@ -422,6 +203,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 		// Execute the API operation; see the PPHttpPost function above.
 		$httpParsedResponseAr = $this->PPHttpPost('DoCapture', $nvpStr);
+		$values = new stdClass;
 
 		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
@@ -430,7 +212,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		}
 		else
 		{
-			$message = $httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"];
+			$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
 			$values->responsestatus = 'Fail';
 		}
 

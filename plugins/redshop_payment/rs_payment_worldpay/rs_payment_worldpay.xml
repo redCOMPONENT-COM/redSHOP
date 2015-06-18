@@ -2,8 +2,8 @@
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment"
            method="upgrade">
     <name>PLG_RS_PAYMENT_WORLDPAY</name>
-    <version>1.5</version>
-    <redshop>1.5</redshop>
+    <version>1.5.2</version>
+    <redshop>1.5.0.6</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -23,7 +23,7 @@
         <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_worldpay.ini</language>
         <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_worldpay.sys.ini</language>
     </languages>
-    <config addfieldpath="/administrator/components/com_redshop/elements">
+    <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 
@@ -91,7 +91,7 @@
                        label="Enter E-conomic Payment Conditions ID"/>
                 <field name="economic_design_layout" type="text" default=""
                        label="Enter E-conomic Design and Layout ID"/>
-                <field name="shopper_group_id" type="shoppergrouplist" default="0"
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
                        label="Select Shopper Group" description="Displays the shopper groups"/>
             </fieldset>
         </fields>

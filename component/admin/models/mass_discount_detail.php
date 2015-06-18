@@ -471,11 +471,14 @@ class RedshopModelMass_discount_detail extends RedshopModel
 		if (count($productId) > 0)
 		{
 			JArrayHelper::toInteger($productId);
+
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->update('#__redshop_product')
-				->set('product_on_sale = 0')
-				->where('product_id IN (' . implode(',', $productId) . ')');
+				->update($db->qn('#__redshop_product'))
+				->set($db->qn('product_on_sale') . ' = 0')
+				->set($db->qn('discount_stratdate') . ' = 0')
+				->set($db->qn('discount_enddate') . ' = 0')
+				->where($db->qn('product_id') . ' IN (' . implode(',', $productId) . ')');
 
 			if (!$db->setQuery($query)->execute())
 			{

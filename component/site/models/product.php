@@ -251,6 +251,7 @@ class RedshopModelProduct extends RedshopModel
 		$data_add    = str_replace("{title}", $message, $data_add);
 		$data_add    = str_replace("{comment}", $comment, $data_add);
 		$data_add    = str_replace("{username}", $username, $data_add);
+		$data_add = $redshopMail->imginmail($data_add);
 
 		if (ADMINISTRATOR_EMAIL != "")
 		{

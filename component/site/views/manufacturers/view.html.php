@@ -221,12 +221,14 @@ class RedshopViewManufacturers extends RedshopView
 
 		if ($layout == "products")
 		{
-			$order_by_select = JRequest::getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
+			$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
+			$order_by_select = $app->input->getString('order_by', $filter_order);
 			$order_data      = $redhelper->getOrderByList();
 		}
 		else
 		{
-			$order_by_select = JRequest::getString('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+			$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+			$order_by_select = $app->input->getString('order_by', $filter_order);
 			$order_data      = $redhelper->getManufacturerOrderByList();
 		}
 

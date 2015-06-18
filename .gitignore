@@ -11,6 +11,9 @@ Desktop.ini
 # PHPStorm
 .idea/
 
+# Sublime Text
+*.sublime*
+
 # Eclipse
 .buildpath
 .project
@@ -29,6 +32,11 @@ Desktop.ini
 # Phing build script
 build.properties
 phing-latest.phar
+
+# Gulp Build script
+gulp-config.json
+npm-debug.log
+node_modules/
 
 # Composer
 composer.lock

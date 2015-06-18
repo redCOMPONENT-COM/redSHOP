@@ -5,15 +5,10 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-$scenario->group('Joomla3');
 $I = new AcceptanceTester($scenario);
-$config = $I->getConfig();
-$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
-$I = new $className($scenario);
 $sillyLogic = rand(99, 999);
 $I->wantTo('Test Product Checkout on Front End with PayPal Payment Plugin');
-$I->doAdminLogin();
-$config = $I->getConfig();
+$I->doAdministratorLogin();
 $pluginName = 'Paypal';
 $payPalInformation = array(
 	"username" => "alexis@redcomponent.com",
@@ -23,16 +18,16 @@ $payPalInformation = array(
 );
 $payPalInformation2 = array(
 	"username" => "alexis@redcomponent.com",
-	"password" => "reddieSTUFF11",
-	"email" => "jacobo@redcomponent.com",
+	//"password" => "reddieSTUFF11",
+	//"email" => "jacobo@redcomponent.com",
+	"password" => "I10v3redK0mpont#",
+	"email" => "alexis-buyer@redcomponent.com",
 	"email2" => "alexis-facilitator@redcomponent.com"
 );
 $I = new AcceptanceTester\PayPalPluginManagerJoomla3Steps($scenario);
 $I->enablePlugin($pluginName);
 $I->updatePayPalPlugin($payPalInformation["email2"]);
-$className = 'AcceptanceTester\Login' . $config['env'] . 'Steps';
-$I = new $className($scenario);
-$I->doAdminLogout();
+$I->doAdministratorLogout();
 $I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
 $customerInformation = array(

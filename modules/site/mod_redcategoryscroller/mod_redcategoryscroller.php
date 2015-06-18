@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 global $my, $mosConfig_absolute_path;
 JLoader::import('redshop.library');
 
-RedshopHelperJs::init();
-
 $document = JFactory::getDocument();
 JHTML::script('com_redshop/redbox.js', false, true);
 JHtml::script('com_redshop/attribute.js', false, true);

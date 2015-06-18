@@ -12,27 +12,18 @@ defined('_JEXEC') or die;
 
 class shipping
 {
-	public $_db;
-
-	public function __construct()
-	{
-		$this->_db = JFactory::getDbo();
-
-		$this->_table_prefix = '#__redshop_';
-		$this->producthelper = new producthelper;
-	}
-
 	/**
 	 *  function ******** To get Shipping rate for cart
 	 */
 	public function getDefaultShipping($d)
 	{
-		$userhelper      = new rsUserhelper;
-		$session         = JFactory::getSession();
-		$order_subtotal  = $d ['order_subtotal'];
-		$user            = JFactory::getUser();
-		$user_id         = $user->id;
-		$db = JFactory::getDbo();
+		$productHelper  = new producthelper;
+		$userhelper     = new rsUserhelper;
+		$session        = JFactory::getSession();
+		$order_subtotal = $d ['order_subtotal'];
+		$user           = JFactory::getUser();
+		$user_id        = $user->id;
+		$db             = JFactory::getDbo();
 
 		$totaldimention  = $this->getCartItemDimention();
 		$weighttotal     = $totaldimention['totalweight'];
@@ -118,7 +109,7 @@ class shipping
 
 				$pwhere    .= ")";
 				$newpwhere = str_replace("AND (", "OR (", $pwhere);
-				$sql       = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr "
+				$sql       = "SELECT * FROM #__redshop_shipping_rate as sr "
 							. "LEFT JOIN #__extensions AS s ON sr.shipping_class = s.element
 		 	     				 WHERE s.folder='redshop_shipping' and s.enabled =1  and  $wherecountry
 								 $iswhere
@@ -140,7 +131,7 @@ class shipping
 				for ($i = 0; $i < $idx; $i++)
 				{
 					$product_id = $cart [$i] ['product_id'];
-					$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
+					$sel = 'SELECT category_id FROM #__redshop_product_category_xref WHERE product_id = ' . (int) $product_id;
 					$db->setQuery($sel);
 					$categorydata = $db->loadObjectList();
 					$where = ' ';
@@ -161,7 +152,7 @@ class shipping
 
 						$where .= ")";
 						$newcwhere = str_replace("AND (", "OR (", $where);
-						$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr
+						$sql = "SELECT * FROM #__redshop_shipping_rate as sr
 									 LEFT JOIN #__extensions AS s
 									 ON
 									 sr.shipping_class = s.element
@@ -184,7 +175,7 @@ class shipping
 
 			if (!$shippingrate)
 			{
-				$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr
+				$sql = "SELECT * FROM #__redshop_shipping_rate as sr
 								 LEFT JOIN #__extensions AS s
 								 ON
 								 sr.shipping_class = s.element
@@ -213,7 +204,7 @@ class shipping
 				if ($shippingrate->apply_vat == 1)
 				{
 					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-					$addVat = $this->producthelper->taxexempt_addtocart($user_id);
+					$addVat = $productHelper->taxexempt_addtocart($user_id);
 
 					if (!empty($result) && $addVat)
 					{
@@ -242,14 +233,15 @@ class shipping
 	 */
 	public function getDefaultShipping_xmlexport($d)
 	{
+		$productHelper  = new producthelper;
 		$userhelper     = new rsUserhelper;
 		$session        = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
 		$user           = JFactory::getUser();
 		$user_id        = $user->id;
-		$db = JFactory::getDbo();
+		$db             = JFactory::getDbo();
 
-		$data           = $this->producthelper->getProductById($d['product_id']);
+		$data           = $productHelper->getProductById($d['product_id']);
 
 		$totalQnt       = '';
 		$weighttotal    = $data->weight;
@@ -325,7 +317,7 @@ class shipping
 			$pwhere = 'AND ( FIND_IN_SET(' . (int) $product_id . ', shipping_rate_on_product) )';
 			$newpwhere = str_replace("AND (", "OR (", $pwhere);
 
-			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr "
+			$sql = "SELECT * FROM #__redshop_shipping_rate as sr "
 				. "LEFT JOIN #__extensions AS s ON sr.shipping_class = s.element
  	     				 WHERE s.folder='redshop_shipping' and  $wherecountry
 						 $iswhere
@@ -344,9 +336,9 @@ class shipping
 			if (!$shippingrate)
 			{
 				$product_id = $cart ['product_id'];
-				$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
-				$this->_db->setQuery($sel);
-				$categorydata = $this->_db->loadObjectList();
+				$sel = 'SELECT category_id FROM #__redshop_product_category_xref WHERE product_id = ' . (int) $product_id;
+				$db->setQuery($sel);
+				$categorydata = $db->loadObjectList();
 				$where = ' ';
 
 				if ($categorydata)
@@ -365,7 +357,7 @@ class shipping
 
 					$where .= ")";
 					$newcwhere = str_replace("AND (", "OR (", $where);
-					$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr
+					$sql = "SELECT * FROM #__redshop_shipping_rate as sr
 									 LEFT JOIN #__extensions AS s
 									 ON
 									 sr.shipping_class = s.element
@@ -387,7 +379,7 @@ class shipping
 
 			if (!$shippingrate)
 			{
-				$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr
+				$sql = "SELECT * FROM #__redshop_shipping_rate as sr
 								 LEFT JOIN #__extensions AS s
 								 ON
 								 sr.shipping_class = s.element
@@ -416,7 +408,7 @@ class shipping
 				if ($shippingrate->apply_vat == 1)
 				{
 					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-					$addVat = $this->producthelper->taxexempt_addtocart($user_id);
+					$addVat = $productHelper->taxexempt_addtocart($user_id);
 
 					if (!empty($result) && $addVat)
 					{
@@ -446,14 +438,15 @@ class shipping
 	 */
 	public function getShippingrate_calc()
 	{
-		$country    = JRequest::getVar('country_code');
-		$state      = JRequest::getVar('state_code');
-		$zip        = JRequest::getVar('zip_code');
-		$ordertotal = 0;
-		$rate       = 0;
-		$session    = JFactory::getSession();
-		$cart       = $session->get('cart');
-		$db = JFactory::getDbo();
+		$productHelper = new producthelper;
+		$country       = JRequest::getVar('country_code');
+		$state         = JRequest::getVar('state_code');
+		$zip           = JRequest::getVar('zip_code');
+		$ordertotal    = 0;
+		$rate          = 0;
+		$session       = JFactory::getSession();
+		$cart          = $session->get('cart');
+		$db            = JFactory::getDbo();
 
 		$idx        = (int) ($cart ['idx']);
 
@@ -472,9 +465,9 @@ class shipping
 				$pwhere .= " or ";
 			}
 
-			$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
-			$this->_db->setQuery($sel);
-			$categorydata = $this->_db->loadObjectList();
+			$sel = 'SELECT category_id FROM #__redshop_product_category_xref WHERE product_id = ' . (int) $product_id;
+			$db->setQuery($sel);
+			$categorydata = $db->loadObjectList();
 
 			if ($categorydata)
 			{
@@ -566,7 +559,7 @@ class shipping
 			$wherestate = ' AND (FIND_IN_SET(' . $db->quote($state) . ', shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
 		}
 
-		$sql = "SELECT shipping_rate_value,shipping_rate_zip_start,shipping_rate_zip_end FROM " . $this->_table_prefix . "shipping_rate as sr
+		$sql = "SELECT shipping_rate_value,shipping_rate_zip_start,shipping_rate_zip_end FROM #__redshop_shipping_rate as sr
 				LEFT JOIN #__extensions AS s
 				ON
 				sr.shipping_class = s.element WHERE 1=1 and s.folder='redshop_shipping'  and
@@ -583,9 +576,9 @@ class shipping
 
 				ORDER BY shipping_rate_priority ,shipping_rate_value, sr.shipping_rate_id ";
 
-		$this->_db->setQuery($sql);
+		$db->setQuery($sql);
 
-		$shippingrate = $this->_db->loadObjectlist();
+		$shippingrate = $db->loadObjectlist();
 
 		/**
 		 * rearrange shipping rates array
@@ -661,8 +654,8 @@ class shipping
 
 		$total = $cart['total'] - $cart['shipping'] + $rate;
 
-		$rate  = $this->producthelper->getProductFormattedPrice($rate, true);
-		$total = $this->producthelper->getProductFormattedPrice($total, true);
+		$rate  = $productHelper->getProductFormattedPrice($rate, true);
+		$total = $productHelper->getProductFormattedPrice($total, true);
 
 		return $rate . "`" . $total;
 	}
@@ -716,10 +709,12 @@ class shipping
 
 	public function getShippingAddress($user_info_id)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
+		$db = JFactory::getDbo();
+
+		$query = 'SELECT * FROM #__redshop_users_info '
 			. 'WHERE users_info_id = ' .(int) $user_info_id;
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
 		return $result;
 	}
@@ -753,7 +748,7 @@ class shipping
 	public function getShippingRates($shipping_class)
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT * FROM " . $this->_table_prefix . "shipping_rate "
+		$query = "SELECT * FROM #__redshop_shipping_rate "
 			. "WHERE shipping_class = " . $db->quote($shipping_class);
 		$db->setQuery($query);
 		$result = $db->loadObjectlist();
@@ -763,12 +758,13 @@ class shipping
 
 	public function applyVatOnShippingRate($shippingrate = array(), $user_id)
 	{
+		$productHelper     = new producthelper;
 		$shipping_rate_vat = $shippingrate->shipping_rate_value;
 
 		if ($shippingrate->apply_vat == 1)
 		{
 			$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-			$addVat = $this->producthelper->taxexempt_addtocart($user_id);
+			$addVat = $productHelper->taxexempt_addtocart($user_id);
 
 			if (!empty($result) && $addVat)
 			{
@@ -902,9 +898,9 @@ class shipping
 			for ($i = 0; $i < $idx; $i++)
 			{
 				$product_id = $cart [$i] ['product_id'];
-				$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
-				$this->_db->setQuery($sel);
-				$categorydata = $this->_db->loadObjectList();
+				$sel = 'SELECT category_id FROM #__redshop_product_category_xref WHERE product_id = ' . (int) $product_id;
+				$db->setQuery($sel);
+				$categorydata = $db->loadObjectList();
 
 				if ($categorydata)
 				{
@@ -936,7 +932,7 @@ class shipping
 				OR (shipping_rate_zip_start = "" AND shipping_rate_zip_end = "") ) ';
 			}
 
-			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($shipping_class) . "
+			$sql = "SELECT * FROM #__redshop_shipping_rate WHERE shipping_class = " . $db->quote($shipping_class) . "
 				$wherecountry $wherestate $whereshopper
 				$zipCond
 				AND (( '$volume' BETWEEN shipping_rate_volume_start AND shipping_rate_volume_end) OR (shipping_rate_volume_end = 0) )
@@ -963,7 +959,7 @@ class shipping
 			$k = 0;
 			$userzip_len = ($this->strposa($zip, $numbers) !== false) ? ($this->strposa($zip, $numbers)) : strlen($zip);
 
-			for ($i = 0; $i < count($shippingrate); $i++)
+			for ($i = 0, $countShippingRate = count($shippingrate); $i < $countShippingRate; $i++)
 			{
 				$flag             = false;
 				$tmp_shippingrate = $shippingrate[$i];
@@ -1009,7 +1005,7 @@ class shipping
 
 			if ($is_admin == false)
 			{
-				$shipping = $this->filter_by_priority($shipping);
+				$shipping = self::filterRatesByPriority($shipping);
 			}
 
 			return $shipping;
@@ -1018,7 +1014,7 @@ class shipping
 		{
 			if ($is_admin == false)
 			{
-				$shippingrate = $this->filter_by_priority($shippingrate);
+				$shippingrate = self::filterRatesByPriority($shippingrate);
 			}
 
 			return $shippingrate;
@@ -1027,9 +1023,10 @@ class shipping
 
 	public function getShippingVatRates($shipping_tax_group_id, $user_id = 0)
 	{
-		$user    = JFactory::getUser();
-		$session = JFactory::getSession();
-		$db = JFactory::getDbo();
+		$productHelper = new producthelper;
+		$user          = JFactory::getUser();
+		$session       = JFactory::getSession();
+		$db            = JFactory::getDbo();
 
 		if ($user_id == 0)
 		{
@@ -1041,7 +1038,7 @@ class shipping
 
 		if ($user_id)
 		{
-			$userdata = $this->producthelper->getUserInformation($user_id);
+			$userdata = $productHelper->getUserInformation($user_id);
 
 			if (count($userdata) > 0)
 			{
@@ -1082,8 +1079,8 @@ class shipping
 
 			if ($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (VAT_BASED_ON == 2 || VAT_BASED_ON == 1))
 			{
-				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
-					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
+				$query = "SELECT country_code,state_code FROM #__redshop_users_info AS u "
+					. "LEFT JOIN #__redshop_shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
 					. "WHERE u.users_info_id = " . (int) $users_info_id . " "
 					. "order by u.users_info_id ASC LIMIT 0,1";
 				$db->setQuery($query);
@@ -1097,7 +1094,7 @@ class shipping
 		}
 		elseif ($shipping_tax_group_id > 0)
 		{
-			$q2 = 'LEFT JOIN ' . $this->_table_prefix . 'shipping_rate as s on tr.tax_group_id=s.shipping_tax_group_id ';
+			$q2 = 'LEFT JOIN #__redshop_shipping_rate as s on tr.tax_group_id=s.shipping_tax_group_id ';
 			$and .= 'AND s.shipping_tax_group_id = ' . (int) $shipping_tax_group_id . ' ';
 		}
 		else
@@ -1105,7 +1102,7 @@ class shipping
 			$and .= 'AND tr.tax_group_id = ' . (int) DEFAULT_VAT_GROUP . ' ';
 		}
 
-		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
+		$query = 'SELECT tr.* FROM #__redshop_tax_rate as tr '
 			. $q2
 			. 'WHERE ( tr.tax_country = ' . $db->quote($userdata->country_code) . ' or tr.tax_country = "") '
 			. 'AND ( tr.tax_state = ' . $db->quote($userdata->state_code) . ' or tr.tax_state = "")'
@@ -1119,8 +1116,9 @@ class shipping
 
 	public function getShopperGroupDefaultShipping($user_id = 0)
 	{
-		$shippingArr = array();
-		$user        = JFactory::getUser();
+		$productHelper = new producthelper;
+		$shippingArr   = array();
+		$user          = JFactory::getUser();
 
 		// FOR OFFLINE ORDER
 		if ($user_id == 0)
@@ -1130,7 +1128,7 @@ class shipping
 
 		if ($user_id)
 		{
-			$result = $this->producthelper->getUserInformation($user_id);
+			$result = $productHelper->getUserInformation($user_id);
 
 			if (count($result) > 0 && $result->default_shipping == 1)
 			{
@@ -1188,20 +1186,29 @@ class shipping
 		}
 	}
 
-	public function filter_by_priority($shippingrate)
+	/**
+	 * Filter Shipping rates based on their priority
+	 * Only show Higher priority rates (In [1,2,3,4] take 1 as a high priority)
+	 * Rates with same priority will shown as radio button list in checkout
+	 *
+	 * @param   array  $shippingRates  Array shipping rates
+	 *
+	 * @return array
+	 */
+	public static function filterRatesByPriority($shippingRates)
 	{
-		$tmp_shippingrates = array();
+		$filteredRates = array();
 
-		for ($i = 0, $j = 0; $i < count($shippingrate); $i++)
+		for ($i = 0, $j = 0, $ni = count($shippingRates); $i < $ni; $i++)
 		{
-			if ($shippingrate[0]->shipping_rate_priority == $shippingrate[$i]->shipping_rate_priority)
+			if ($shippingRates[0]->shipping_rate_priority == $shippingRates[$i]->shipping_rate_priority)
 			{
-				$tmp_shippingrates[$j] = $shippingrate[$i];
+				$filteredRates[$j] = $shippingRates[$i];
 				$j++;
 			}
 		}
 
-		return $tmp_shippingrates;
+		return $filteredRates;
 	}
 
 	/*
@@ -1211,9 +1218,10 @@ class shipping
 	 */
 	public function getProductVolumeShipping()
 	{
-		$session  = JFactory::getSession();
-		$cart     = $session->get('cart');
-		$idx      = (int) ($cart ['idx']);
+		$productHelper = new producthelper;
+		$session       = JFactory::getSession();
+		$cart          = $session->get('cart');
+		$idx           = (int) ($cart ['idx']);
 
 		$length   = array();
 		$width    = array();
@@ -1231,7 +1239,12 @@ class shipping
 		// Cart loop
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$data       = $this->producthelper->getProductById($cart [$i] ['product_id']);
+			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
+			{
+				continue;
+			}
+
+			$data       = $productHelper->getProductById($cart [$i] ['product_id']);
 
 			$length[$i] = $data->product_length;
 			$width[$i]  = $data->product_width;
@@ -1315,9 +1328,10 @@ class shipping
 
 	public function getCartItemDimention()
 	{
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$idx     = (int) ($cart ['idx']);
+		$productHelper = new producthelper;
+		$session       = JFactory::getSession();
+		$cart          = $session->get('cart');
+		$idx           = (int) ($cart ['idx']);
 
 		$totalQnt    = 0;
 		$totalWeight = 0;
@@ -1328,7 +1342,12 @@ class shipping
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$data       = $this->producthelper->getProductById($cart [$i] ['product_id']);
+			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
+			{
+				continue;
+			}
+
+			$data       = $productHelper->getProductById($cart [$i] ['product_id']);
 			$acc_weight = 0;
 
 			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
@@ -1337,7 +1356,8 @@ class shipping
 				{
 					$acc_id     = $cart[$i]['cart_accessory'][$a]['accessory_id'];
 					$acc_qty    = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
-					if ($acc_data   = $this->producthelper->getProductById($acc_id))
+
+					if ($acc_data   = $productHelper->getProductById($acc_id))
 					{
 						$acc_weight += ($acc_data->weight * $acc_qty);
 					}
@@ -1398,7 +1418,7 @@ class shipping
 			$whereShippingVolume .= " ) ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "shipping_boxes "
+		$query = "SELECT * FROM #__redshop_shipping_boxes "
 			. "WHERE published = 1 "
 			. $whereShippingVolume
 			. " ORDER BY shipping_box_priority ASC ";
@@ -1417,15 +1437,17 @@ class shipping
 	 */
 	public function getBoxDimensions($boxid = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$whereShippingBoxes = array();
 
 		if ($boxid)
 		{
-			$query = "SELECT * FROM " . $this->_table_prefix . "shipping_boxes "
+			$query = "SELECT * FROM #__redshop_shipping_boxes "
 				. "WHERE published = 1 "
 				. "AND shipping_box_id = " . (int) $boxid;
-			$this->_db->setQuery($query);
-			$box_detail = $this->_db->loadObject();
+			$db->setQuery($query);
+			$box_detail = $db->loadObject();
 
 			if (count($box_detail) > 0)
 			{
@@ -1514,7 +1536,7 @@ class shipping
 			$whereShippingVolume .= " ) ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "shipping_rate "
+		$query = "SELECT * FROM #__redshop_shipping_rate "
 			. "WHERE (shipping_class = 'default_shipping' OR shipping_class = 'shipper') "
 			. "AND ((" . $db->quote($volume) . " BETWEEN shipping_rate_volume_start AND shipping_rate_volume_end) OR (shipping_rate_volume_end = 0) ) "
 			. "AND ((" . $db->quote($order_subtotal) . " BETWEEN shipping_rate_ordertotal_start AND shipping_rate_ordertotal_end)  OR (shipping_rate_ordertotal_end = 0)) "
@@ -1589,7 +1611,7 @@ class shipping
 				. "OR (shipping_rate_zip_start='' AND shipping_rate_zip_end='') ) ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "shipping_rate "
+		$query = "SELECT * FROM #__redshop_shipping_rate "
 			. "WHERE (shipping_class = 'default_shipping' OR shipping_class = 'shipper') "
 			. $wherecountry
 			. $wherestate
@@ -1610,6 +1632,7 @@ class shipping
 
 	public function isProductDetailMatch(&$d)
 	{
+		$db = JFactory::getDbo();
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$idx     = (int) ($cart['idx']);
@@ -1640,9 +1663,9 @@ class shipping
 		for ($i = 0; $i < $idx; $i++)
 		{
 			$product_id = $cart[$i]['product_id'];
-			$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
-			$this->_db->setQuery($sel);
-			$categorydata = $this->_db->loadObjectList();
+			$sel = 'SELECT category_id FROM #__redshop_product_category_xref WHERE product_id = ' . (int) $product_id;
+			$db->setQuery($sel);
+			$categorydata = $db->loadObjectList();
 
 			for ($c = 0; $c < count($categorydata); $c++)
 			{
@@ -1656,12 +1679,12 @@ class shipping
 			$cwhere = ' OR (' . $acwhere . ')';
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "shipping_rate "
+		$query = "SELECT * FROM #__redshop_shipping_rate "
 			. "WHERE (shipping_class = 'default_shipping' OR shipping_class = 'shipper') "
 			. "AND (shipping_rate_on_product = '' $pwhere) AND (shipping_rate_on_category = '' $cwhere ) "
 			. "ORDER BY shipping_rate_priority ";
-		$this->_db->setQuery($query);
-		$shippingrate = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$shippingrate = $db->loadObjectList();
 
 		if (count($shippingrate) > 0)
 		{
@@ -1673,10 +1696,11 @@ class shipping
 
 	public function getfreeshippingRate($shipping_rate_id = 0)
 	{
-		$userhelper = new rsUserhelper;
-		$session    = JFactory::getSession();
-		$cart       = $session->get('cart', null);
-		$db = JFactory::getDbo();
+		$productHelper = new producthelper;
+		$userhelper    = new rsUserhelper;
+		$session       = JFactory::getSession();
+		$cart          = $session->get('cart', null);
+		$db            = JFactory::getDbo();
 
 		$idx = 0;
 
@@ -1783,7 +1807,7 @@ class shipping
 			$where .= ' AND sr.shipping_rate_id = ' . (int) $shipping_rate_id . ' ';
 		}
 
-		$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr
+		$sql = "SELECT * FROM #__redshop_shipping_rate as sr
 								 LEFT JOIN #__extensions AS s
 								 ON
 								 sr.shipping_class = s.element
@@ -1800,10 +1824,11 @@ class shipping
 			if ($shippingrate->shipping_rate_ordertotal_start > $order_subtotal)
 			{
 				$diff = $shippingrate->shipping_rate_ordertotal_start - $order_subtotal;
-				$text = sprintf(JText::_('COM_REDSHOP_SHIPPING_TEXT_LBL'), $this->producthelper->getProductFormattedPrice($diff));
+				$text = sprintf(JText::_('COM_REDSHOP_SHIPPING_TEXT_LBL'), $productHelper->getProductFormattedPrice($diff));
 			}
 
-			elseif ($shippingrate->shipping_rate_ordertotal_start < $order_subtotal && $shippingrate->shipping_rate_ordertotal_end > $order_subtotal)
+			elseif ($shippingrate->shipping_rate_ordertotal_start <= $order_subtotal
+				&& ($shippingrate->shipping_rate_ordertotal_end == 0 || $shippingrate->shipping_rate_ordertotal_end >= $order_subtotal))
 			{
 				$text = JText::_('COM_REDSHOP_FREE_SHIPPING_RATE_IS_IN_USED');
 			}

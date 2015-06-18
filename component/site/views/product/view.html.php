@@ -137,10 +137,6 @@ class RedshopViewProduct extends RedshopView
 		{
 			$this->setLayout('viewajaxdetail');
 		}
-		elseif ($layout == "searchletter")
-		{
-			$this->setLayout('searchletter');
-		}
 		else
 		{
 			// Ajax box

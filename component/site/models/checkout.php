@@ -310,7 +310,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentmethod = $paymentmethod[0];
 		$mainelement   = $paymentmethod->element;
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3" || $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5" || $paymentmethod->element == "rs_payment_cashtransfer" || $paymentmethod->element == "rs_payment_cashsale" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
 		{
 			$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod->element);
 			$paymentmethod = $paymentmethod[0];
@@ -321,7 +321,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_main_status = $paymentparams->get('verify_status', '');
 
 
-			if ($paymentmethod->element != "rs_payment_banktransfer" && $paymentmethod->element != "rs_payment_cashtransfer" && $paymentmethod->element != "rs_payment_cashsale" && $paymentmethod->element != "rs_payment_banktransfer_discount" && $paymentmethod->element != "rs_payment_eantransfer")
+			if ($paymentmethod->element != "rs_payment_banktransfer" && $paymentmethod->element != "rs_payment_banktransfer_discount" && $paymentmethod->element != "rs_payment_eantransfer")
 			{
 				$paymentmethod->element = substr($paymentmethod->element, 0, -1);
 			}
@@ -329,7 +329,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_cashtransfer" || $paymentmethod->element == "rs_payment_cashsale" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
 		{
 			$order_status = $order_main_status;
 
@@ -439,7 +439,7 @@ class RedshopModelCheckout extends RedshopModel
 			$values['billinginfo']    = $d['billingaddress'];
 			$values['order_total']    = $order_total;
 			$values['order_subtotal'] = $order_subtotal;
-			$values["order_id"]       = $order_id;
+			$values["order_id"]       = $app->input->get('order_id', $row->order_id);
 			$values['payment_plugin'] = $paymentmethod->element;
 			$values['odiscount']      = $odiscount;
 			$paymentResponses         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
@@ -518,11 +518,17 @@ class RedshopModelCheckout extends RedshopModel
 		// Start code to track duplicate order number checking
 		$this->deleteOrdernumberTrack();
 
+		// Generate Invoice Number for confirmed credit card payment or for free order
+		if (((boolean) INVOICE_NUMBER_FOR_FREE_ORDER || $is_creditcard)
+			&& ('C' == $row->order_status && 'Paid' == $row->order_payment_status))
+		{
+			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
+		}
+
 		$order_id = $row->order_id;
 
 		$this->coupon($cart, $order_id);
 		$this->voucher($cart, $order_id);
-
 
 		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $order_id;
 		$db->setQuery($query);
@@ -812,33 +818,39 @@ class RedshopModelCheckout extends RedshopModel
 
 					for ($j = 0; $j < count($attchildArr); $j++)
 					{
-						$prooprand    = array();
-						$proprice     = array();
-						$attribute_id = $attchildArr[$j]['attribute_id'];
-						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
+						$prooprand     = array();
+						$proprice      = array();
 
-						$rowattitem                    = $this->getTable('order_attribute_item');
-						$rowattitem->order_att_item_id = 0;
-						$rowattitem->order_item_id     = $rowitem->order_item_id;
-						$rowattitem->section_id        = $attribute_id;
-						$rowattitem->section           = "attribute";
-						$rowattitem->parent_section_id = $accessory_id;
-						$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
-						$rowattitem->is_accessory_att  = 1;
+						$propArr       = $attchildArr[$j]['attribute_childs'];
+						$totalProperty = count($propArr);
 
-						if ($attribute_id > 0)
+						if ($totalProperty)
 						{
-							if (!$rowattitem->store())
-							{
-								$this->setError($this->_db->getErrorMsg());
 
-								return false;
+							$attribute_id = $attchildArr[$j]['attribute_id'];
+							$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
+
+							$rowattitem                    = $this->getTable('order_attribute_item');
+							$rowattitem->order_att_item_id = 0;
+							$rowattitem->order_item_id     = $rowitem->order_item_id;
+							$rowattitem->section_id        = $attribute_id;
+							$rowattitem->section           = "attribute";
+							$rowattitem->parent_section_id = $accessory_id;
+							$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
+							$rowattitem->is_accessory_att  = 1;
+
+							if ($attribute_id > 0)
+							{
+								if (!$rowattitem->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
 							}
 						}
 
-						$propArr = $attchildArr[$j]['attribute_childs'];
-
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0; $k < $totalProperty; $k++)
 						{
 							$prooprand[$k] = $propArr[$k]['property_oprand'];
 							$proprice[$k]  = $propArr[$k]['property_price'];
@@ -874,7 +886,7 @@ class RedshopModelCheckout extends RedshopModel
 								}
 							}
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $nl = count($subpropArr); $l < $nl; $l++)
 							{
 								$section_vat = 0;
 
@@ -980,31 +992,32 @@ class RedshopModelCheckout extends RedshopModel
 
 				for ($j = 0; $j < count($attchildArr); $j++)
 				{
-					$attribute_id                  = $attchildArr[$j]['attribute_id'];
-					$rowattitem                    = $this->getTable('order_attribute_item');
-					$rowattitem->order_att_item_id = 0;
-					$rowattitem->order_item_id     = $rowitem->order_item_id;
-					$rowattitem->section_id        = $attribute_id;
-					$rowattitem->section           = "attribute";
-					$rowattitem->parent_section_id = $rowitem->product_id;
-					$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
-					$rowattitem->is_accessory_att  = 0;
+					$propArr       = $attchildArr[$j]['attribute_childs'];
+					$totalProperty = count($propArr);
 
-					if ($attribute_id > 0)
+					if ($totalProperty > 0)
 					{
-						if (!$rowattitem->store())
+						$attribute_id                  = $attchildArr[$j]['attribute_id'];
+						$rowattitem                    = $this->getTable('order_attribute_item');
+						$rowattitem->order_att_item_id = 0;
+						$rowattitem->order_item_id     = $rowitem->order_item_id;
+						$rowattitem->section_id        = $attribute_id;
+						$rowattitem->section           = "attribute";
+						$rowattitem->parent_section_id = $rowitem->product_id;
+						$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
+						$rowattitem->is_accessory_att  = 0;
+
+						if ($attribute_id > 0)
 						{
-							$this->setError($this->_db->getErrorMsg());
+							if (!$rowattitem->store())
+							{
+								$this->setError($this->_db->getErrorMsg());
 
-							return false;
+								return false;
+							}
 						}
-					}
 
-					$propArr = $attchildArr[$j]['attribute_childs'];
-
-					if (count($propArr) > 0)
-					{
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0; $k < $totalProperty; $k++)
 						{
 							$section_vat = 0;
 
@@ -1046,7 +1059,7 @@ class RedshopModelCheckout extends RedshopModel
 
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $nl = count($subpropArr); $l < $nl; $l++)
 							{
 								$section_vat = 0;
 
@@ -1228,7 +1241,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$checkOrderStatus = 1;
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3" || $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5")
+		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount")
 		{
 			$checkOrderStatus = 0;
 		}
@@ -1407,14 +1420,18 @@ class RedshopModelCheckout extends RedshopModel
 			$pdf->SetFont('times', '', 18);
 			$pdf->AddPage();
 			$pdfImage = "";
+			$mailImage = '';
 
-			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image) && $giftcardData->giftcard_image)
+			if ($giftcardData->giftcard_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image))
 			{
 				$pdfImage = '<img src="' . REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
+				$mailImage = '<img src="components/com_redshop/assets/images/giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
 			}
 
-			$giftcardmail_body = str_replace("{giftcard_image}", $pdfImage, $giftcardmail_body);
-			$pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
+			$pdfMailBody = $giftcardmail_body;
+			$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
+			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
+			$pdf->writeHTML($pdfMailBody, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
 			$g_pdfName = time();
 			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
 			$config              = JFactory::getConfig();
@@ -1422,7 +1439,9 @@ class RedshopModelCheckout extends RedshopModel
 			$fromname            = $config->get('fromname');
 			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
 
-			JMail::getInstance()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
+			$giftcardmail_body = $this->_redshopMail->imginmail($giftcardmail_body);
+
+			JFactory::getMailer()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}
 
 	}

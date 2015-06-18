@@ -9,7 +9,8 @@ settings:
     colors: true
     memory_limit: 1024M
 extensions:
+    enabled: [Joomla\Tests\TestsPerformance]
     enabled: [InstallationJ2Group]
-    enabled: [Joomla2Group]
-    enabled: [Joomla3Group]
     enabled: [InstallationJ3Group]
+groups:
+    installation: [tests/acceptance/1stInstallJoomla3TestCept.php, tests/acceptance/2ndInstallJoomla3ExtensionCept.php]

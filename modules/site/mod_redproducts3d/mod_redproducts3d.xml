@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDPRODUCTS3D</name>
-    <version>1.5</version>
+    <version>1.5.0.6</version>
+    <redshop>1.5.0.6</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -20,7 +21,7 @@
         <language tag="da-DK">language/da-DK/da-DK.mod_redproducts3d.sys.ini</language>
     </languages>
     <config>
-        <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
                 <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX"
                        description="COM_REDSHOP_CLASS_SFX_DESC"/>

@@ -863,11 +863,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$checkOrderStatus = 1;
 
 		if ($postdata['payment_method_class'] == "rs_payment_banktransfer"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer_discount"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer2"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer3"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer4"
-			|| $postdata['payment_method_class'] == "rs_payment_banktransfer5")
+			|| $postdata['payment_method_class'] == "rs_payment_banktransfer_discount")
 		{
 			$checkOrderStatus = 0;
 		}
@@ -911,7 +907,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		// ORDER MAIL SEND
-		if ($postdata['task'] != "save_without_sendmail")
+		if ($postdata['task'] != "addorder_detail.save_without_sendmail")
 		{
 			$redshopMail->sendOrderMail($row->order_id);
 		}

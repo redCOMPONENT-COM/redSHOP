@@ -11,16 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-/**
- * Joomla! System Logging Plugin
- *
- * @package        Joomla
- * @subpackage     System
- */
-//defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
-
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
-JHTML::_('behavior.tooltip');
+JHTML::_('behavior.tooltip', '.hasTooltip');
 
 JLoader::import('redshop.library');
 
@@ -34,141 +25,145 @@ class plgredshop_shippingups extends JPlugin
 		if ($ps->element == $this->classname)
 		{
 			?>
-			<table class="adminform">
+			<table class="adminform table table-striped">
 			<tr class="row0">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_ACCESS_CODE') ?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_ACCESS_CODE') ?></strong></td>
 				<td><input type="text" name="UPS_ACCESS_CODE" class="inputbox" value="<?php echo UPS_ACCESS_CODE ?>"/>
 				</td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_ACCESS_CODE'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_ACCESS_CODE'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_USER_ID') ?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_USER_ID') ?></strong></td>
 				<td><input type="text" name="UPS_USER_ID" class="inputbox" value="<?php echo UPS_USER_ID ?>"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_USER_ID'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_USER_ID'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row0">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PASSWORD') ?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_PASSWORD') ?></strong></td>
 				<td><input type="text" name="UPS_PASSWORD" class="inputbox" value="<?php echo UPS_PASSWORD ?>"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PASSWORD'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PASSWORD'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PICKUP_METHOD') ?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_PICKUP_METHOD') ?></strong></td>
 				<td><select class="inputbox" name="pickup_type">
-						<option <?php if (UPS_PICKUP_TYPE == "01") echo "selected=\"selected\"" ?> value="01">Daily
-							Pickup
+						<option <?php if (UPS_PICKUP_TYPE == "01") echo "selected=\"selected\"" ?> value="01"><?php
+							echo JText::_('PLG_REDSHOP_SHIPPING_UPS_DAILY_PICKUP');
+							?></option>
+						<option <?php if (UPS_PICKUP_TYPE == "03") echo "selected=\"selected\"" ?> value="03">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_CUSTOMER_COUNTER'); ?>
 						</option>
-						<option <?php if (UPS_PICKUP_TYPE == "03") echo "selected=\"selected\"" ?> value="03">Customer
-							Counter
+						<option <?php if (UPS_PICKUP_TYPE == "06") echo "selected=\"selected\"" ?> value="06">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_ONE_TIME_PICKUP'); ?>
 						</option>
-						<option <?php if (UPS_PICKUP_TYPE == "06") echo "selected=\"selected\"" ?> value="06">One Time
-							Pickup
+						<option <?php if (UPS_PICKUP_TYPE == "07") echo "selected=\"selected\"" ?> value="07">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_ON_CALL_AIR_PICKUP'); ?>
 						</option>
-						<option <?php if (UPS_PICKUP_TYPE == "07") echo "selected=\"selected\"" ?> value="07">On Call
-							Air Pickup
+						<option <?php if (UPS_PICKUP_TYPE == "19") echo "selected=\"selected\"" ?> value="19">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_LETTER_CENTER'); ?>
 						</option>
-						<option <?php if (UPS_PICKUP_TYPE == "19") echo "selected=\"selected\"" ?> value="19">Letter
-							Center
-						</option>
-						<option <?php if (UPS_PICKUP_TYPE == "20") echo "selected=\"selected\"" ?> value="20">Air
-							Service Center
+						<option <?php if (UPS_PICKUP_TYPE == "20") echo "selected=\"selected\"" ?> value="20">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_AIR_SERVICE_CENTER'); ?>
 						</option>
 					</select></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PICKUP_METHOD'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PICKUP_METHOD'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row0">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PACKAGE_TYPE') ?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_PACKAGE_TYPE') ?></strong></td>
 				<td><select class="inputbox" name="package_type">
-						<option <?php if (UPS_PACKAGE_TYPE == "00") echo "selected=\"selected\"" ?> value="00">Unknown
-						<option <?php if (UPS_PACKAGE_TYPE == "01") echo "selected=\"selected\"" ?> value="01">UPS
-							letter
+						<option <?php if (UPS_PACKAGE_TYPE == "00") echo "selected=\"selected\"" ?> value="00">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UNKNOWN'); ?>
 						</option>
-						<option <?php if (UPS_PACKAGE_TYPE == "02") echo "selected=\"selected\"" ?> value="02">Package
+						<option <?php if (UPS_PACKAGE_TYPE == "01") echo "selected=\"selected\"" ?> value="01">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_LETTER'); ?>
 						</option>
-						<option <?php if (UPS_PACKAGE_TYPE == "03") echo "selected=\"selected\"" ?> value="03">UPS
-							Tube
+						<option <?php if (UPS_PACKAGE_TYPE == "02") echo "selected=\"selected\"" ?> value="02">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_PACKAGE'); ?>
 						</option>
-						<option <?php if (UPS_PACKAGE_TYPE == "04") echo "selected=\"selected\"" ?> value="04">UPS Pak
+						<option <?php if (UPS_PACKAGE_TYPE == "03") echo "selected=\"selected\"" ?> value="03">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_TUBE'); ?>
 						</option>
-						<option <?php if (UPS_PACKAGE_TYPE == "21") echo "selected=\"selected\"" ?> value="21">UPS
-							Express Box
+						<option <?php if (UPS_PACKAGE_TYPE == "04") echo "selected=\"selected\"" ?> value="04">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_PAK'); ?>
 						</option>
-						<option <?php if (UPS_PACKAGE_TYPE == "24") echo "selected=\"selected\"" ?> value="24">UPS 25Kg
-							Box
+						<option <?php if (UPS_PACKAGE_TYPE == "21") echo "selected=\"selected\"" ?> value="21">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_EXPRESS_BOX'); ?>
 						</option>
-						<option <?php if (UPS_PACKAGE_TYPE == "25") echo "selected=\"selected\"" ?> value="25">UPS 10Kg
-							Box
+						<option <?php if (UPS_PACKAGE_TYPE == "24") echo "selected=\"selected\"" ?> value="24">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_25KG_BOX'); ?>
+						</option>
+						<option <?php if (UPS_PACKAGE_TYPE == "25") echo "selected=\"selected\"" ?> value="25">
+							<?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_10KG_BOX'); ?>
 						</option>
 					</select></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PACKAGE_TYPE'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_PACKAGE_TYPE'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL') ?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_TYPE_RESIDENTIAL') ?></strong></td>
 				<td><select class="inputbox" name="residential">
 						<option <?php if (UPS_RESIDENTIAL == "yes") echo "selected=\"selected\"" ?>
-							value="yes"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_RESIDENTIAL') ?></option>
+							value="yes"><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_RESIDENTIAL') ?></option>
 						<option <?php if (UPS_RESIDENTIAL == "no") echo "selected=\"selected\"" ?>
-							value="no"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_COMMERCIAL') ?></option>
+							value="no"><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_COMMERCIAL') ?></option>
 					</select></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_TYPE_RESIDENTIAL'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_HANDLING_FEE') ?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_HANDLING_FEE') ?></strong></td>
 				<td><input class="inputbox" type="text" name="handling_fee" value="<?php echo UPS_HANDLING_FEE ?>"/>
 				</td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_HANDLING_FEE'), JText::_('COM_REDSHOP_SHIPPING_METHOD_UPS_HANDLING_FEE'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<?php // BEGIN CUSTOM CODE ?>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHIP_FROM_ZIPCODE');?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_SHIP_FROM_ZIPCODE');?></strong></td>
 				<td><input class="inputbox" type="text" name="Override_Source_Zip"
 				           value="<?php echo Override_Source_Zip ?>"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIP_FROM_ZIPCODE'), JText::_('COM_REDSHOP_SHIP_FROM_ZIPCODE'), 'tooltip.png', '', '', false);?></td>
+				<td><?php echo JHTML::tooltip(JText::_('PLG_REDSHOP_SHIPPING_UPS_SHIP_FROM_ZIPCODE_TOOLTIP'), JText::_('PLG_REDSHOP_SHIPPING_UPS_SHIP_FROM_ZIPCODE'), 'tooltip.png', '', '', false);?></td>
 			</tr>
 			<tr class="row0">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHOW_DELIVERY_DAY_QUOTE');?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_SHOW_DELIVERY_DAY_QUOTE');?></strong></td>
 				<td><input class="inputbox" type="checkbox"
 				           name="Show_Delivery_Days_Quote" <?php if (Show_Delivery_Days_Quote == 1) echo "checked=\"checked\""; ?>
 				           value="1"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHOW_DELIVERY_DAY_QUOTE'), JText::_('COM_REDSHOP_SHOW_DELIVERY_DAY_QUOTE'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row1">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHOW_DELIVERY_ETA');?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_SHOW_DELIVERY_ETA');?></strong></td>
 				<td><input class="inputbox" type="checkbox"
 				           name="Show_Delivery_ETA_Quote" <?php if (Show_Delivery_ETA_Quote == 1) echo "checked=\"checked\""; ?>
 				           value="1"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHOW_DELIVERY_ETA'), JText::_('COM_REDSHOP_SHOW_DELIVERY_ETA'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row0">
-				<td><strong><?php echo JText::_('COM_REDSHOP_SHOW_DELIVERY_WARNING');?></strong></td>
+				<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_SHOW_DELIVERY_WARNING');?></strong></td>
 				<td><input class="inputbox" type="checkbox"
 				           name="Show_Delivery_Warning" <?php if (Show_Delivery_Warning == 1) echo "checked=\"checked\""; ?>
 				           value="1"/></td>
-				<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHOW_DELIVERY_WARNING'), JText::_('COM_REDSHOP_SHOW_DELIVERY_WARNING'), 'tooltip.png', '', '', false);?></td>
+				<td></td>
 			</tr>
 			<tr class="row1">
 			<td colspan="3">
 			<table>
 				<tr class="row0">
-					<td colspan="2"><strong><?php echo JText::_('COM_REDSHOP_AUTHORIZED_SHIPPING_METHOD');?></strong>
+					<td colspan="2"><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_AUTHORIZED_SHIPPING_METHOD');?></strong>
 					</td>
-					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_AUTHORIZED_SHIPPING_METHOD'), JText::_('COM_REDSHOP_AUTHORIZED_SHIPPING_METHOD'), 'tooltip.png', '', '', false);?></td>
+					<td></td>
 				</tr>
 				<tr class="row1">
 					<td>
-						<div align="left"><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL');?></strong>
+						<div align="left"><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_SHIPPING_METHOD_LBL');?></strong>
 						</div>
 					</td>
 					<td>
-						<div align="left"><strong>Enable?</strong></div>
+						<div align="left"><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_ENABLE'); ?></strong></div>
 					</td>
 					<td>
-						<div align="left"><strong>Fuel SurCharge
-								Rate(%)</strong><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL'), JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL_TOOLTIP'), 'tooltip.png', '', '', false);?>
+						<div align="left"><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_FUEL_SURCHARGE_RATE'); ?></strong>
+							<?php echo JHTML::tooltip(JText::_('PLG_REDSHOP_SHIPPING_UPS_SHIPPING_METHOD_LBL'), JText::_('PLG_REDSHOP_SHIPPING_UPS_SHIPPING_METHOD_LBL_TOOLTIP'), 'tooltip.png', '', '', false);?>
 						</div>
 					</td>
 				</tr>
 				<tr class="row0">
-					<td>UPS Next Day Air</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_NEXT_DAY_AIR'); ?></td>
 					<td>
 						<div align="center"><input type="checkbox" name="UPS_Next_Day_Air"
 						                           class="inputbox" <?php if (UPS_Next_Day_Air == 01) echo "checked=\"checked\""; ?>
@@ -178,7 +173,7 @@ class plgredshop_shippingups extends JPlugin
 					           value="<?php echo UPS_Next_Day_Air_FSC; ?>"/></td>
 				</tr>
 				<tr class="row1">
-					<td>UPS 2nd Day Air</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_2ND_DAY_AIR'); ?></td>
 					<td>
 						<div align="center"><input type="checkbox" name="UPS_2nd_Day_Air"
 						                           class="inputbox" <?php if (UPS_2nd_Day_Air == 02) echo "checked=\"checked\""; ?>
@@ -188,7 +183,7 @@ class plgredshop_shippingups extends JPlugin
 					           value="<?php echo UPS_2nd_Day_Air_FSC; ?>"/></td>
 				</tr>
 				<tr class="row0">
-					<td>UPS Ground</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_GROUND'); ?></td>
 					<td>
 						<div align="center"><input type="checkbox" name="UPS_Ground"
 						                           class="inputbox" <?php if (UPS_Ground == 03) echo "checked=\"checked\""; ?>
@@ -198,7 +193,7 @@ class plgredshop_shippingups extends JPlugin
 					           value="<?php echo UPS_Ground_FSC; ?>"/></td>
 				</tr>
 				<tr class="row1">
-					<td>UPS Worldwide Express SM</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_WORLDWIDE_EXPRESS_SM'); ?></td>
 					<td>
 						<div align="center"><input type="checkbox" name="UPS_Worldwide_Express_SM"
 						                           class="inputbox" <?php if (UPS_Worldwide_Express_SM == 07) echo "checked=\"checked\""; ?>
@@ -208,7 +203,7 @@ class plgredshop_shippingups extends JPlugin
 					           value="<?php echo UPS_Worldwide_Express_SM_FSC; ?>"/></td>
 				</tr>
 				<tr class="row0">
-					<td>UPS Worldwide Expedited SM</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_WORLDWIDE_EXPEDITED_SM'); ?></td>
 					<td>
 						<div align="center"><input type="checkbox" name="UPS_Worldwide_Expedited_SM"
 						                           class="inputbox" <?php if (UPS_Worldwide_Expedited_SM == '08') echo "checked=\"checked\""; ?>
@@ -218,7 +213,7 @@ class plgredshop_shippingups extends JPlugin
 					           value="<?php echo UPS_Worldwide_Expedited_SM_FSC; ?>"/></td>
 				</tr>
 				<tr class="row1">
-					<td>UPS Standard</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_STANDARD'); ?></td>
 					<td>
 						<div align="center">
 							<input type="checkbox" name="UPS_Standard"
@@ -231,7 +226,7 @@ class plgredshop_shippingups extends JPlugin
 					</td>
 				</tr>
 				<tr class="row0">
-					<td>UPS 3 Day Select</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_3_DAY_SELECT'); ?></td>
 					<td>
 						<div align="center">
 							<input type="checkbox" name="UPS_3_Day_Select"
@@ -244,7 +239,7 @@ class plgredshop_shippingups extends JPlugin
 					</td>
 				</tr>
 				<tr class="row1">
-					<td>UPS Next Day Air Saver</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_NEXT_DAY_AIR_SAVER'); ?></td>
 					<td>
 						<div align="center">
 							<input type="checkbox" name="UPS_Next_Day_Air_Saver"
@@ -257,7 +252,7 @@ class plgredshop_shippingups extends JPlugin
 					</td>
 				</tr>
 				<tr class="row0">
-					<td>UPS Next Day Air Early A.M.</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_NEXT_DAY_AIR_EARLY_AM'); ?></td>
 					<td>
 						<div align="center">
 							<input type="checkbox" name="UPS_Next_Day_Air_Early_AM"
@@ -270,7 +265,7 @@ class plgredshop_shippingups extends JPlugin
 					</td>
 				</tr>
 				<tr class="row1">
-					<td>UPS Worldwide Express Plus SM</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_WORLDWIDE_EXPRESS_PLUS_SM'); ?></td>
 					<td>
 						<div align="center">
 							<input type="checkbox" name="UPS_Worldwide_Express_Plus_SM"
@@ -283,7 +278,7 @@ class plgredshop_shippingups extends JPlugin
 					</td>
 				</tr>
 				<tr class="row0">
-					<td>UPS 2nd Day Air A.M</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_2ND_DAY_AIR_AM'); ?></td>
 					<td>
 						<div align="center">
 							<input type="checkbox" name="UPS_2nd_Day_Air_AM"
@@ -296,7 +291,7 @@ class plgredshop_shippingups extends JPlugin
 					</td>
 				</tr>
 				<tr class="row1">
-					<td>UPS Express Saver</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_UPS_EXPRESS_SAVER'); ?></td>
 					<td>
 						<div align="center">
 							<input type="checkbox" name="UPS_Saver"
@@ -308,7 +303,7 @@ class plgredshop_shippingups extends JPlugin
 					</td>
 				</tr>
 				<tr class="row0">
-					<td>n/a</td>
+					<td><?php echo JText::_('PLG_REDSHOP_SHIPPING_UPS_N_A'); ?></td>
 					<td>
 						<div align="center">
 							<input type="checkbox" name="na"
@@ -747,12 +742,10 @@ class plgredshop_shippingups extends JPlugin
 					}
 
 					$charge += (UPS_HANDLING_FEE + $charge_fee);
-					$ratevalue = $producthelper->getProductFormattedPrice($charge, false);
 				}
 				else
 				{
 					$charge = $ratevalue;
-					$charge_fee = ($charge * $fsc) / 100;
 
 					if ($fsc == 0)
 					{
@@ -764,7 +757,6 @@ class plgredshop_shippingups extends JPlugin
 					}
 
 					$charge += (UPS_HANDLING_FEE + $charge_fee);
-					$ratevalue = $ratevalue . " USD";
 				}
 			}
 			else
@@ -781,12 +773,11 @@ class plgredshop_shippingups extends JPlugin
 				}
 
 				$charge += (UPS_HANDLING_FEE + $charge_fee);
-				$ratevalue = $producthelper->getProductFormattedPrice($charge, false);
 			}
 
 			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $ServiceName . "|" . number_format($charge, 2, '.', '') . "|" . $ServiceName . "|single|0");
 			$shippingrate[$rate] = new stdClass;
-			$shippingrate[$rate]->text = $ServiceName . ' (' . $ratevalue . ') '; //." ".JText::_('COM_REDSHOP_DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
+			$shippingrate[$rate]->text = $ServiceName; //." ".JText::_('COM_REDSHOP_DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate = $charge;
 			$shippingrate[$rate]->vat = 0;
@@ -807,7 +798,6 @@ class plgredshop_shippingups extends JPlugin
 			if (Show_Delivery_Warning == 1 && !empty($value['RatedShipmentWarning'])) {
 				$RatedShipmentWarning = "</label><br/>\n&nbsp;&nbsp;&nbsp;*&nbsp;<em>".$value['RatedShipmentWarning']."</em>\n";
 			}*/
-
 		}
 
 		return $shippingrate;
@@ -815,10 +805,5 @@ class plgredshop_shippingups extends JPlugin
 
 	function show_configuration()
 	{
-		?>
-
-	<?php
-
 	}
-
 }

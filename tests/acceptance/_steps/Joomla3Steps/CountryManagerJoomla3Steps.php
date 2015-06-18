@@ -42,11 +42,11 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CountryManagerPage::$countryTwoCode, $twoCode);
 		$I->fillField(\CountryManagerPage::$country, $country);
 		$I->click('Save & Close');
-		$I->waitForText('Country Management');
+		$I->waitForText('Country Management', 10, 'h1');
 		$I->see('Country detail saved');
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -62,16 +62,16 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
 		$I->click(\CountryManagerPage::$countryCheck);
 		$I->click('Edit');
 		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Edit View');
 		$I->fillField(\CountryManagerPage::$countryName, $newCountryName);
 		$I->click('Save & Close');
-		$I->waitForText('Country Management');
+		$I->waitForText('Country Management', 10, 'h1');
 		$I->see('Country detail saved');
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

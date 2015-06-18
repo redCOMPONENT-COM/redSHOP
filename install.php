@@ -262,11 +262,10 @@ class Com_RedshopInstallerScript
 					(359, 'attributes_listing1', 'attributewithcart_template', '" . $redtemplate->getInstallSectionTemplate('attributes_listing1') . "', 1),
 					(360, 'checkout', 'checkout', '" . $redtemplate->getInstallSectionTemplate('checkout') . "',1),
 					(371, 'product_content', 'product_content_template', '" . $redtemplate->getInstallSectionTemplate('product_content') . "',1),
-				    (372, 'quotation_cart_template', 'quotation_cart', '" . $redtemplate->getInstallSectionTemplate('quotation_cart') . "',1),
+				    (372, 'quotation_cart_template', 'quotation_cart', '" . $redtemplate->getInstallSectionTemplate('quotation_cart_template') . "',1),
 					(370, 'quotation_request_template', 'quotation_request', '" . $redtemplate->getInstallSectionTemplate('quotation_request_template') . "',1),
 					(450, 'billing_template', 'billing_template', '" . $redtemplate->getInstallSectionTemplate('billing_template') . "',1),
 					(451, 'shipping_template', 'shipping_template', '" . $redtemplate->getInstallSectionTemplate('shipping_template') . "',1),
-					(452, 'shippment_invoice_template', 'shippment_invoice_template', '" . $redtemplate->getInstallSectionTemplate('shippment_invoice_template') . "',1),
 					(460, 'private_billing_template', 'private_billing_template', '" . $redtemplate->getInstallSectionTemplate('private_billing_template') . "',1),
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
 	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1)";
@@ -898,6 +897,26 @@ class Com_RedshopInstallerScript
 			$cfgarr["CHECKOUT_LOGIN_REGISTER_SWITCHER"] = 'sliders';
 		}
 
+		if (!defined("RATING_REVIEW_LOGIN_REQUIRED"))
+		{
+			$cfgarr["RATING_REVIEW_LOGIN_REQUIRED"] = '1';
+		}
+
+		if (!defined("CATEGORY_TREE_IN_SEF_URL"))
+		{
+			$cfgarr["CATEGORY_TREE_IN_SEF_URL"] = '0';
+		}
+
+		if (!defined("INVOICE_NUMBER_FOR_FREE_ORDER"))
+		{
+			$cfgarr["INVOICE_NUMBER_FOR_FREE_ORDER"] = 0;
+		}
+
+		if (!defined("REAL_INVOICE_NUMBER_TEMPLATE"))
+		{
+			$cfgarr["REAL_INVOICE_NUMBER_TEMPLATE"] = '##';
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 
@@ -1192,8 +1211,75 @@ class Com_RedshopInstallerScript
 	 */
 	private function cleanUpgradeFiles($parent)
 	{
-		$versionFolders = array(
-			'1.5.0.1' => array(
+		$folders = array();
+		$files   = array();
+
+		if (version_compare($this->getOldParam('version'), '1.6', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_SITE . '/components/com_redshop/helpers/captcha.php',
+				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
+				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
+				JPATH_SITE . '/components/com_redshop/helpers/extra_field.php',
+				JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php',
+				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
+				JPATH_SITE . '/components/com_redshop/helpers/product.php',
+				JPATH_SITE . '/components/com_redshop/helpers/user.php',
+				JPATH_SITE . '/components/com_redshop/helpers/zip.php',
+				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
+				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/access_level.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/images.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/media.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/menu.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/update.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php'
+			);
+		}
+
+		if (version_compare($this->getOldParam('version'), '1.5.0.5', '<='))
+		{
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/elements'
+			);
+		}
+
+		if (version_compare($this->getOldParam('version'), '1.5.0.4.3', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/tables/navigator_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_detail/tmpl/default_product_dropdown.php'
+			);
+		}
+
+		if (version_compare($this->getOldParam('version'), '1.5.0.4.2', '<='))
+		{
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/system'
+			);
+
+			array_push(
+				$files,
+				JPATH_SITE . '/components/com_redshop/views/category/tmpl/searchletter.php'
+			);
+		}
+
+		if (version_compare($this->getOldParam('version'), '1.5.0.1', '<='))
+		{
+			array_push(
+				$folders,
 				JPATH_SITE . '/components/com_redshop/assets/js',
 				JPATH_SITE . '/components/com_redshop/assets/css',
 				JPATH_SITE . '/components/com_redshop/helpers/fonts',
@@ -1208,25 +1294,10 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/views/payment',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/views/payment_detail',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/views/product_container'
-			)
-		);
+			);
 
-		foreach ($versionFolders as $version => $folders)
-		{
-			if (version_compare($this->getOldParam('version'), $version, '<='))
-			{
-				foreach ($folders as $path)
-				{
-					if (JFolder::exists($path))
-					{
-						JFolder::delete($path);
-					}
-				}
-			}
-		}
-
-		$versionFiles = array(
-			'1.5.0.1' => array(
+			array_push(
+				$files,
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/container_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/customprint.php',
@@ -1235,8 +1306,6 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/product_container.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/category.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements/plugins.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/subinstall.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container_detail.php',
@@ -1268,47 +1337,27 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/models/password.php',
 				JPATH_SITE . '/components/com_redshop/views/price_filter/view.html.php',
 				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php'
-			),
-			'1.6' => array(
-				JPATH_SITE . '/components/com_redshop/helpers/captcha.php',
-				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
-				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
-				JPATH_SITE . '/components/com_redshop/helpers/extra_field.php',
-				JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php',
-				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
-				JPATH_SITE . '/components/com_redshop/helpers/product.php',
-				JPATH_SITE . '/components/com_redshop/helpers/user.php',
-				JPATH_SITE . '/components/com_redshop/helpers/zip.php',
-				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
-				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
-				JPATH_SITE . '/components/com_redshop/helpers/pagination.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/access_level.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/images.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/media.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/menu.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/update.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php',
-			)
-		);
+			);
+		}
 
-		foreach ($versionFiles as $version => $files)
+		if (!empty($folders))
 		{
-			if (version_compare($this->getOldParam('version'), $version, '<='))
+			foreach ($folders as $path)
 			{
-				foreach ($files as $path)
+				if (JFolder::exists($path))
 				{
-					if (JFile::exists($path))
-					{
-						JFile::delete($path);
-					}
+					JFolder::delete($path);
+				}
+			}
+		}
+
+		if (!empty($files))
+		{
+			foreach ($files as $path)
+			{
+				if (JFile::exists($path))
+				{
+					JFile::delete($path);
 				}
 			}
 		}

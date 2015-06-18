@@ -199,7 +199,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 		if ($billingaddresses && OPTIONAL_SHIPPING_ADDRESS)
 		{
 			$ship_check = ($users_info_id == $billingaddresses->users_info_id) ? 'checked="checked"' : '';
-			$shipp .= '<div><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</div>';
+			$shipp .= '<div><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
 		}
 
 		for ($i = 0; $i < count($shippingaddresses); $i++)
@@ -211,7 +211,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 			$delete_addlink = $url . "index.php?option=com_redshop&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
 			$ship_check     = ($users_info_id == $shipinfo->users_info_id) ? 'checked="checked"' : '';
 
-			$shipp .= '<div><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $shipinfo->users_info_id . '" ' . $ship_check . ' />' . $shipinfo->firstname . " " . $shipinfo->lastname . " ";
+			$shipp .= '<div><label class="radio inline"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $shipinfo->users_info_id . '" ' . $ship_check . ' />' . $shipinfo->firstname . " " . $shipinfo->lastname . "</label> ";
 			$shipp .= '<a class="modal" href="' . $edit_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}">(' . JText::_('COM_REDSHOP_EDIT_LBL') . ')</a> ';
 			$shipp .= '<a href="' . $delete_addlink . '" title="">(' . JText::_('COM_REDSHOP_DELETE_LBL') . ')</a></div>';
 		}

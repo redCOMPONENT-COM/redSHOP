@@ -72,6 +72,7 @@ $cart      = $session->get('cart');
 					$checked = ((!isset($this->users_info_id) || $this->users_info_id == 0) || $this->users_info_id == $billingaddresses->users_info_id) ? 'checked' : '';    ?>
 					<tr>
 						<td>
+							<label class="radio inline" for="users_info_id_default">
 							<?php
 							if (!$session->get('isredcrmuser'))
 							{
@@ -92,7 +93,7 @@ $cart      = $session->get('cart');
 							<?php
 							}
 							?>
-							- <?php echo '<label for="users_info_id_default">' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label>';?></td>
+							<?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label>';?></td>
 					</tr>
 				<?php
 				}
@@ -112,6 +113,8 @@ $cart      = $session->get('cart');
 					<tr>
 						<td>
 							<?php
+							echo '<label class="radio inline" for="users_info_id_' . $i . '">';
+
 							if (!$session->get('isredcrmuser'))
 							{
 								?>
@@ -137,7 +140,7 @@ $cart      = $session->get('cart');
 								echo $shippingaddresses [$i]->address . " ";
 							}
 
-							echo '<label for="users_info_id_' . $i . '">' . $shippingaddresses[$i]->text . '</label>';
+							echo $shippingaddresses[$i]->text . '</label>';
 
 							if (!$session->get('isredcrmuser'))
 							{

@@ -27,6 +27,8 @@ class RedshopViewCategory extends RedshopView
 
 	public $state = null;
 
+	public $productPriceSliderEnable = false;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -87,10 +89,11 @@ class RedshopViewCategory extends RedshopView
 
 		$maincat = $model->_loadCategory();
 
+		$categoryTemplateId = $model->getState('category_template');
 		$allCategoryTemplate  = $model->getCategoryTemplate();
 		$orderData           = $objhelper->getOrderByList();
 		$manufacturers        = $model->getManufacturer();
-		$loadCategorytemplate = $model->loadCategoryTemplate();
+		$loadCategorytemplate = $model->loadCategoryTemplate($categoryTemplateId);
 		$detail               = $model->getdata();
 
 		if (count($maincat) > 0 && $maincat->canonical_url != "")
@@ -114,9 +117,9 @@ class RedshopViewCategory extends RedshopView
 
 			if (count($loadCategorytemplate) > 0 && strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
 			{
-				$limit_product = $model->getCategoryProduct(1);
-				$minmax[0]     = $limit_product[0]->minprice;
-				$minmax[1]     = $limit_product[0]->maxprice;
+				$model->getCategoryProduct(1);
+				$minmax[0]     = $model->getState('minprice');
+				$minmax[1]     = $model->getState('maxprice');
 
 				$isSlider    = true;
 				$texpricemin = $this->input->getInt('texpricemin', $minmax[0]);
@@ -341,8 +344,7 @@ class RedshopViewCategory extends RedshopView
 			$disabled = "disabled";
 		}
 
-		$categoryTemplateId = $this->state->get('category_template');
-		$manufacturerId = $this->state->get('manufacturer_id');
+		$manufacturerId = $model->getState('manufacturer_id');
 
 		$lists['category_template'] = "";
 		$lists['manufacturer']      = "";
@@ -380,7 +382,7 @@ class RedshopViewCategory extends RedshopView
 			);
 		}
 
-		$orderBySelect = $this->state->get('list.ordering') . ' ' . $this->state->get('list.direction');
+		$orderBySelect = $model->getState('list.ordering') . ' ' . $model->getState('list.direction');
 		$lists['order_by'] = JHtml::_(
 			'select.genericlist',
 			$orderData,
@@ -390,9 +392,6 @@ class RedshopViewCategory extends RedshopView
 			'text',
 			$orderBySelect
 		);
-
-		// THIS FILE MUST LOAD AFTER MODEL CONSTUCTOR LOAD
-		$GLOBALS['product_price_slider'] = 0;
 
 		if ($this->catid && count($loadCategorytemplate) > 0)
 		{
@@ -407,11 +406,14 @@ class RedshopViewCategory extends RedshopView
 
 					$strToInsert = "<div id='oldredcatpagination'>{pagination}</div>";
 					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", $strToInsert, $loadCategorytemplate[0]->template_desc);
+
+					$strToInsert = '<span id="oldRedPageLimit">{product_display_limit}</span>';
+					$loadCategorytemplate[0]->template_desc = str_replace("{product_display_limit}", $strToInsert, $loadCategorytemplate[0]->template_desc);
 				}
 
 				if (count($product) > 0)
 				{
-					$GLOBALS['product_price_slider'] = 1;
+					$this->productPriceSliderEnable = true;
 
 					// Start Code for fixes IE9 issue
 					JHtml::_('redshopjquery.ui');

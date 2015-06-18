@@ -578,6 +578,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
 	`order_id`                 INT(11)        NOT NULL AUTO_INCREMENT,
 	`user_id`                  INT(11)        NOT NULL DEFAULT '0',
 	`order_number`             VARCHAR(32)             DEFAULT NULL,
+	`invoice_number_chrono`    INT(11)        NOT NULL COMMENT 'Order invoice number in chronological order',
+  	`invoice_number` 		   VARCHAR(255)   NOT NULL COMMENT 'Formatted Order Invoice for final use',
 	`barcode`                  VARCHAR(13)    NOT NULL,
 	`user_info_id`             VARCHAR(32)             DEFAULT NULL,
 	`order_total`              DECIMAL(15, 2) NOT NULL DEFAULT '0.00',
@@ -629,7 +631,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
 	KEY `idx_barcode` (`barcode`),
 	KEY `idx_order_payment_status` (`order_payment_status`),
 	KEY `idx_order_status` (`order_status`),
-	KEY `vm_order_number` (`vm_order_number`)
+	KEY `vm_order_number` (`vm_order_number`),
+	KEY `idx_orders_invoice_number` (`invoice_number`),
+	KEY `idx_orders_invoice_number_chrono` (`invoice_number_chrono`)
 )
 	ENGINE =InnoDB
 	DEFAULT CHARSET =utf8
@@ -1080,19 +1084,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_download_log` (
 	ENGINE =MyISAM
 	DEFAULT CHARSET =utf8
 	COMMENT ='redSHOP Downloadable Products Logs';
-
-CREATE TABLE IF NOT EXISTS `#__redshop_product_navigator` (
-	`navigator_id`     INT(11)      NOT NULL AUTO_INCREMENT,
-	`product_id`       INT(11)      NOT NULL,
-	`child_product_id` INT(11)      NOT NULL,
-	`navigator_name`   VARCHAR(255) NOT NULL,
-	`ordering`         INT(11)      NOT NULL,
-	PRIMARY KEY (`navigator_id`),
-	KEY `idx_product_id` (`product_id`)
-)
-	ENGINE =InnoDB
-	DEFAULT CHARSET =utf8
-	COMMENT ='redSHOP Products Navigator';
 
 CREATE TABLE IF NOT EXISTS `#__redshop_product_price` (
 	`price_id`             INT(11)        NOT NULL AUTO_INCREMENT,
@@ -1716,6 +1707,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_usercart_item` (
 	`product_wrapper_id`      INT(11) NOT NULL,
 	`product_subscription_id` INT(11) NOT NULL,
 	`giftcard_id`             INT(11) NOT NULL,
+	`attribs`                 VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item',
 	PRIMARY KEY (`cart_item_id`),
 	KEY `idx_cart_id` (`cart_id`)
 )

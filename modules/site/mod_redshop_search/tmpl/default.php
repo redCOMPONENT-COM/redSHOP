@@ -9,14 +9,15 @@
 
 defined('_JEXEC') or die;
 
+$app = JFactory::getApplication();
 $templateid = $params->get('templateid');
 $defaultSearchType = trim($params->get('defaultSearchType', 'product_name'));
 $perpageproduct = $params->get('productperpage');
-$search_type = JRequest::getWord('search_type', $defaultSearchType);
-$keyword = JRequest::getString('keyword', $standardkeyword);
+$search_type = $app->input->getWord('search_type', $defaultSearchType);
+$keyword = $app->input->getString('keyword', $standardkeyword);
 
-// Manufacture Select Id
-$manufac_data = JRequest::getInt('manufacture_id', '');
+// Manufacturer Select Id
+$manufac_data = $app->input->getInt('manufacture_id', '');
 
 $redhelper       = new redhelper;
 $Itemid          = $redhelper->getItemid();
@@ -39,6 +40,8 @@ if ($modsearchitemid != "")
 
 		<?php if ($showSearchTypeField == 'yes'): ?>
 			<div class="product_search_type"><?php echo $lists['searchtypedata'];?></div>
+		<?php else: ?>
+			<input type="hidden" name="search_type" id="search_type" value="<?php echo $search_type; ?>"/>
 		<?php endif; ?>
 
 		<?php if ($showCategory == 'yes'):	?>
@@ -67,7 +70,7 @@ if ($modsearchitemid != "")
 				<div class="product_search_input">
 					<?php echo JText::_('COM_REDSHOP_KEYWORD'); ?>
 				<?php endif; ?>
-				<br>
+					<br>
 					<input type="text" class="span12" name="keyword" id="keyword" value="<?php echo $keyword; ?>" onclick="this.value=''"/>
 			<?php if ($showKeywordtitle == 'yes'): ?>
 				</div>
@@ -86,12 +89,6 @@ if ($modsearchitemid != "")
 	<input type="hidden" name="templateid" value="<?php echo $templateid; ?>"/>
 	<input type="hidden" name="perpageproduct" value="<?php echo $perpageproduct; ?>"/>
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
-
-	<?php if ($showSearchTypeField == 'yes'): ?>
-		<input type="hidden" name="search_type1" id="search_type1" value="<?php echo $search_type; ?>"/>
-	<?php else: ?>
-		<input type="hidden" name="search_type" id="search_type" value="<?php echo $search_type; ?>"/>
-	<?php endif;?>
 </form>
 
 <script type="text/javascript">
@@ -105,51 +102,49 @@ if ($modsearchitemid != "")
 	}
 </script>
 <?php
-$document = JFactory::getDocument();
 
 if ($enableAjaxsearch)
 {
+	$document = JFactory::getDocument();
 	$document->addScriptDeclaration("
-		window.addEvent('domready', function(){
-			function makeUrl()
+		function makeUrl()
+		{
+			var urlArg = new Array();
+			var urlArgstring = '';
+			var i = 0;
+
+			if (document.getElementById('search_type'))
 			{
-				var urlArg = new Array();
-				var urlArgstring = '';
-				var i = 0;
-				var Itemid = 0;
-
-				if (document.getElementById('Itemid'))
-				{
-					Itemid = (document.getElementById('Itemid').value);
-				}
-
-				if (document.getElementById('search_type'))
-				{
-					urlArg[i++] = 'search_type=' + document.getElementById('search_type').value;
-				}
-
-				if (document.getElementById('category_id'))
-				{
-					urlArg[i++] = 'category_id=' + document.getElementById('category_id').value;
-				}
-
-				if (document.getElementById('manufacture_id'))
-				{
-					urlArg[i++] = 'manufacture_id=' + document.getElementById('manufacture_id').value;
-				}
-
-				urlArgstring = urlArg.join('&');
-				new bsn.AutoSuggest('keyword', {
-					script: 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
-					varname: 'keyword',
-					json: true,
-					cache: false,
-					shownoresults: true,
-					callback: function (obj) {
-						location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=' + Itemid;
-					}
-				});
+				var searchType = document.getElementById('search_type');
+				urlArg[i++] = 'search_type=' + searchType.options[searchType.selectedIndex].value;
 			}
+
+			if (document.getElementById('category_id'))
+			{
+				var categoryId = document.getElementById('category_id');
+				urlArg[i++] = 'category_id=' + categoryId.options[categoryId.selectedIndex].value;
+			}
+
+			if (document.getElementById('manufacture_id'))
+			{
+				var manufactureId = document.getElementById('manufacture_id');
+				urlArg[i++] = 'manufacture_id=' + manufactureId.options[manufactureId.selectedIndex].value;
+			}
+
+			urlArgstring = urlArg.join('&');
+			new bsn.AutoSuggest('keyword', {
+				script: 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
+				varname: 'keyword',
+				json: true,
+				cache: false,
+				shownoresults: true,
+				callback: function (obj) {
+					location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=" . $Itemid . "';
+				}
+			});
+		}
+
+		window.addEvent('domready', function(){
 			makeUrl();
 		});
 	");

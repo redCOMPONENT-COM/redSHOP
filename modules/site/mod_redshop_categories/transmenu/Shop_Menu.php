@@ -51,9 +51,14 @@ class Shop_Menu
 		{
 			$sortparam = "ordering ASC";
 		}
+
 		if ($shopper_group_id)
 		{
 			$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);
+		}
+		else
+		{
+			$shoppergroup_cat = 0;
 		}
 
 		$query = "SELECT category_id as id, category_parent_id as parent, category_name as name, '' as type,
@@ -62,10 +67,12 @@ class Shop_Menu
 								FROM #__redshop_category, #__redshop_category_xref
 								WHERE #__redshop_category.published='1'
 								AND #__redshop_category.category_id=#__redshop_category_xref.category_child_id ";
-		if ($shopper_group_id && count($shoppergroup_cat) > 0)
+
+		if ($shopper_group_id && $shoppergroup_cat)
 		{
-			$query .= " and category_id in (" . $shoppergroup_cat[0] . ")";
+			$query .= " and category_id in (" . $shoppergroup_cat . ")";
 		}
+
 		$query .= " ORDER BY " . $sortparam . "";
 
 		$this->_db->setQuery($query);

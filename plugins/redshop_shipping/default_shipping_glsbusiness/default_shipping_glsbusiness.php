@@ -26,6 +26,24 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	public $classname = "default_shipping_glsbusiness";
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_redshop_shipping_default_shipping_glsbusiness', JPATH_ADMINISTRATOR);
+
+		parent::__construct($subject, $config);
+	}
+
 	/**
 	 * Method will trigger on listing shipping rates.
 	 *
@@ -49,8 +67,9 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 			$shippingRate 			 	= $rs->shipping_rate_value;
 			$rs->shipping_rate_value 	= $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
 			$shippingVatRate		 	= $rs->shipping_rate_value - $shippingRate;
-			$economic_displayname		= $rs->economic_displayname;
-			$shipping_rate_id 			= $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . "|" . $economic_displayname);
+			$economic_displaynumber		= $rs->economic_displaynumber;
+			$shipping_rate_id 			= $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . "|" . $economic_displaynumber);
+			$shippingrate[$rate] = new stdClass;
 			$shippingrate[$rate]->text 	= $rs->shipping_rate_name;
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate 	= $rs->shipping_rate_value;

@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 JLoader::import('redshop.library');
 
-// Getting the configuration in redshop.js.php
-RedshopHelperJs::init();
-
 $thumbWidth = $params->get('thumbwidth', "100");
 $thumbHeight = $params->get('thumbheight', "100");
 $scrollerWidth = $params->get('scrollerwidth', "700");

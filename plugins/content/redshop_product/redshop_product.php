@@ -15,8 +15,6 @@ jimport('joomla.plugin.plugin');
  * Replaces textstring with link
  */
 JLoader::import('redshop.library');
-RedshopHelperJs::init();
-RedshopHelperJs::init();
 
 class plgContentredshop_product extends JPlugin
 {
@@ -28,7 +26,7 @@ class plgContentredshop_product extends JPlugin
 			JHTML::_('behavior.modal');
 
 			$session = JFactory::getSession();
-			$post = JRequest::get('POST');
+			$post    = JRequest::get('POST');
 
 			if (isset($post['product_currency']))
 			{

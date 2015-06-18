@@ -84,6 +84,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_initData();
 		}
 
+		// Set discount Price null for '0' value
+		if (!$this->data->discount_price)
+		{
+			$this->data->discount_price = null;
+		}
+
 		return $this->data;
 	}
 
@@ -132,15 +138,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$data                               = $this->input->getArray($_POST);
-		$data['product_desc']               = $this->input->get('product_desc', '', 'SAFE_HTML');
-		$data['product_s_desc']             = $this->input->get('product_s_desc', '', 'SAFE_HTML');
+		$data['product_desc']               = JFilterInput::getInstance(null, null, 1, 1)->clean($this->input->get('product_desc', '', 'RAW'), 'html');
+		$data['product_s_desc']             = JFilterInput::getInstance(null, null, 1, 1)->clean($this->input->get('product_s_desc', '', 'RAW'), 'html');
 		$detail->product_id                 = (isset($data['product_id'])) ? $data['product_id'] : 0;
 		$detail->product_parent_id          = (isset($data['product_parent_id'])) ? $data['product_parent_id'] : 0;
 		$detail->product_number             = (isset($data['product_number'])) ? $data['product_number'] : null;
 		$detail->product_price              = (isset($data['product_price'])) ? $data['product_price'] : 0;
 		$detail->discount_price             = (isset($data['discount_price'])) ? $data['discount_price'] : null;
-		$detail->discount_stratdate         = (isset($data['discount_stratdate'])) ? $data['discount_stratdate'] : time();
-		$detail->discount_enddate           = (isset($data['discount_enddate'])) ? $data['discount_enddate'] : time();
+		$detail->discount_stratdate         = (isset($data['discount_stratdate'])) ? $data['discount_stratdate'] : null;
+		$detail->discount_enddate           = (isset($data['discount_enddate'])) ? $data['discount_enddate'] : null;
 		$detail->product_volume             = (isset($data['product_volume'])) ? $data['product_volume'] : 0;
 		$detail->product_type               = (isset($data['product_type'])) ? $data['product_type'] : null;
 		$detail->product_name               = (isset($data['product_name'])) ? $data['product_name'] : null;
@@ -670,34 +676,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$accdetail->oprand = $acc['oprand'];
 				$accdetail->ordering = $acc['ordering'];
 				$accdetail->setdefault_selected = (isset($acc['setdefault_selected']) && $acc['setdefault_selected'] == 1) ? 1 : 0;
-
-				if (!$accdetail->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-			}
-		}
-
-		if (isset($data['product_navigator']) && count($data['product_navigator']) > 0 && is_array($data['product_navigator']))
-		{
-			$data['product_navigator'] = array_merge(array(), $data['product_navigator']);
-
-			for ($a = 0; $a < count($data['product_navigator']); $a++)
-			{
-				$acc = $data['product_navigator'][$a];
-				$accdetail = $this->getTable('navigator_detail');
-
-				if (!isset($data['copy_product']) || $data['copy_product'] != 1)
-				{
-					$accdetail->navigator_id = $acc['navigator_id'];
-				}
-
-				$accdetail->product_id = $row->product_id;
-				$accdetail->child_product_id = $acc['child_product_id'];
-				$accdetail->navigator_name = $acc['navigator_name'];
-				$accdetail->ordering = $acc['ordering'];
 
 				if (!$accdetail->store())
 				{
@@ -1271,6 +1249,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function copy($cid = array(), $postMorePriority = false)
 	{
 		$row = null;
+		$db = JFactory::getDbo();
 
 		if (count($cid))
 		{
@@ -1301,16 +1280,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				for ($i = 0; $i < count($categorydata); $i++)
 				{
 					$copycategory[$i] = $categorydata[$i]->category_id;
-				}
-
-				$query = 'SELECT related_id FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $pdata->product_id . ' )';
-				$this->_db->setQuery($query);
-				$relatedproductdata = $this->_db->loadObjectList();
-				$copyrelatedproduct = '';
-
-				for ($i = 0; $i < count($relatedproductdata); $i++)
-				{
-					$copyrelatedproduct .= $relatedproductdata[$i]->related_id;
 				}
 
 				$query = 'SELECT stockroom_id,quantity FROM ' . $this->table_prefix . 'product_stockroom_xref
@@ -1386,8 +1355,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post['cat_in_sefurl'] = $pdata->cat_in_sefurl;
 				$post['weight'] = $pdata->weight;
 				$post['expired'] = $pdata->expired;
+				$post['sef_url'] = $pdata->sef_url;
+				$post['canonical_url'] = $pdata->canonical_url;
 				$post['product_category'] = $copycategory;
-				$post['related_product'] = $copyrelatedproduct;
 				$post['quantity'] = $copyquantity;
 				$post['stockroom_id'] = $copystockroom;
 				$post['product_accessory'] = $copyaccessory;
@@ -1408,8 +1378,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$post['visited'] = 0;
 			$post['checked_out'] = 0;
 			$post['checked_out_time'] = '0000-00-00 00:00:00';
-			$post['sef_url'] = $this->renameToUniqueValue('sef_url', $post['sef_url'], 'dash');
-			$post['canonical_url'] = $this->renameToUniqueValue('canonical_url', $post['canonical_url'], 'dash');
+
+			if (isset($post['sef_url']) && $post['sef_url'] != '')
+			{
+				$post['sef_url'] = $this->renameToUniqueValue('sef_url', $post['sef_url'], 'dash');
+			}
+
+			if (isset($post['canonical_url']) && $post['canonical_url'] != '')
+			{
+				$post['canonical_url'] = $this->renameToUniqueValue('canonical_url', $post['canonical_url'], 'dash');
+			}
 
 			$new_product_thumb_image = $this->changeCopyImageName($post['product_thumb_image']);
 			$new_product_full_image = $this->changeCopyImageName($post['product_full_image']);
@@ -1427,6 +1405,31 @@ class RedshopModelProduct_Detail extends RedshopModel
 				copy($path . $pdata->product_preview_back_image, $path . $new_product_preview_back_image);
 				copy($path . $pdata->product_back_full_image, $path . $new_product_back_full_image);
 				copy($path . $pdata->product_back_thumb_image, $path . $new_product_back_thumb_image);
+
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_product_related'))
+					->where('product_id = ' . (int) $pdata->product_id);
+				$relatedProductData = $db->setQuery($query)->loadObjectList();
+
+				if ($relatedProductData)
+				{
+					foreach ($relatedProductData as $relatedData)
+					{
+						$query = $db->getQuery(true)
+							->insert($db->qn('#__redshop_product_related'))
+							->set('related_id = ' . (int) $relatedData->related_id)
+							->set('product_id = ' . (int) $row->product_id)
+							->set('ordering = ' . (int) $relatedData->ordering);
+
+						if (!$db->setQuery($query)->execute())
+						{
+							$this->setError($db->getErrorMsg());
+
+							return false;
+						}
+					}
+				}
 
 				$field = new extra_field;
 
@@ -3266,7 +3269,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				JPluginHelper::importPlugin('redshop_product');
 				$dispatcher = JDispatcher::getInstance();
-				$dispatcher->trigger('afterUpdateStock', array($stockroom_data));
+				$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 			}
 		}
 
@@ -3891,7 +3894,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('afterUpdateStock', array($stockroom_data));
+		$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 
 		return true;
 	}
@@ -4430,31 +4433,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		if (!$db->setQuery($query)->execute())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	/**
-	 * Function removenavigator.
-	 *
-	 * @param   int  $navigator_id  navigator_id
-	 *
-	 * @return bool
-	 */
-	public function removenavigator($navigator_id)
-	{
-		$query = 'DELETE FROM ' . $this->table_prefix . 'product_navigator
-				  WHERE navigator_id="' . $navigator_id . '" ';
-		$this->_db->setQuery($query);
-
-		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

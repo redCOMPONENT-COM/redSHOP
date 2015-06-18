@@ -110,7 +110,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		$div_end = "</div>";
 
 		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
-		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
+		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&id=' . $product->product_id . '&Itemid=' . $this->itemId);
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 
@@ -141,8 +141,16 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 		if (strstr($template, "{manufacturer_name}"))
 		{
-			$manufacturer = $producthelper->getSection('manufacturer', $product->manufacturer_id);
-			$template     = str_replace('{manufacturer_name}', $exp_div . $manufacturer->manufacturer_name . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
+			if ($manufacturer = $producthelper->getSection('manufacturer', $product->manufacturer_id))
+			{
+				$manufacturerName = $manufacturer->manufacturer_name;
+			}
+			else
+			{
+				$manufacturerName = '';
+			}
+
+			$template     = str_replace('{manufacturer_name}', $exp_div . $manufacturerName . $div_end . $td_end . $td_start . "{manufacturer_name}", $template);
 		}
 
 		if (strstr($template, "{discount_start_date}"))

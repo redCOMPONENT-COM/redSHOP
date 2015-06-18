@@ -53,9 +53,9 @@ if (version_compare(JVERSION, '3.0', '<'))
 					}
 				}
 
-				if(!haveErrors && data.success != false && typeof data.success[0] !== 'undefined' && typeof data.success[0]['parts'] !== 'undefined')
+				if(!haveErrors && data.success != false && typeof data.success !== 'undefined' && typeof data.parts !== 'undefined')
 				{
-					var persent = 100 - Math.ceil((100 * data.success[0]['parts'])/data.success[0]['total']);
+					var persent = 100 - Math.ceil((100 * data.parts)/data.total);
 					syncItem(persent, progressLog);
 				}
 				else

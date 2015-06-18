@@ -11,10 +11,7 @@ defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-// get product helper
 $producthelper = new producthelper;
-
-RedshopHelperJs::init();
 $redhelper = new redhelper;
 
 $option = JRequest::getCmd('option');

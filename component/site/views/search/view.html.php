@@ -17,10 +17,7 @@ class RedshopViewSearch extends RedshopView
 	{
 		$app = JFactory::getApplication();
 
-		$redTemplate = new Redtemplate;
 		$lists       = array();
-
-		$uri = JFactory::getURI();
 
 		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
@@ -105,21 +102,12 @@ class RedshopViewSearch extends RedshopView
 		$order_data            = $redHelper->getOrderByList();
 		$getorderby            = JRequest::getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
-
-		$templatedata = $model->getCategoryTemplet();
-
-		for ($i = 0; $i < 1; $i++)
-		{
-			$templatedata[$i]->template_desc = $redTemplate->readtemplateFile($templatedata[$i]->template_section, $templatedata[$i]->template_name);
-		}
-
 		$search     = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
 		$this->params = $params;
-		$this->limit = $model->getState('limit');
 		$this->lists = $lists;
-		$this->templatedata = $templatedata;
+		$this->templatedata = $model->getState('templateDesc');
 		$this->search = $search;
 		$this->pagination = $pagination;
 		parent::display($tpl);
@@ -170,9 +158,7 @@ class RedshopViewSearch extends RedshopView
 
 			$session    = JFactory::getSession();
 			$model      = $this->getModel('search');
-			$limit      = $this->limit;
-			$limitstart = JRequest::getInt('limitstart', 0);
-			$total      = $model->_total;
+			$total      = $model->getTotal();
 
 			JHTML::_('behavior.tooltip');
 			JHTMLBehavior::modal();
@@ -193,22 +179,17 @@ class RedshopViewSearch extends RedshopView
 				echo $pagetitle;
 				echo '</h1>';
 			}
+
 			echo '<div style="clear:both"></div>';
 			$category_tmpl = "";
 
-			if (count($this->templatedata) > 0 && $this->templatedata[0]->template_desc != "")
+			if ($this->templatedata != "")
 			{
-				$template_desc = $this->templatedata[0]->template_desc;
+				$template_desc = $this->templatedata;
 			}
 			else
 			{
 				$template_desc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"category_main_description\">{category_main_description}</div>\r\n<p>{if subcats} {category_loop_start}</p>\r\n<div id=\"categories\">\r\n<div style=\"float: left; width: 200px;\">\r\n<div class=\"category_image\">{category_thumb_image}</div>\r\n<div class=\"category_description\">\r\n<h2 class=\"category_title\">{category_name}</h2>\r\n{category_description}</div>\r\n</div>\r\n</div>\r\n<p>{category_loop_end} {subcats end if}</p>\r\n<div style=\"clear: both;\"></div>\r\n<div id=\"category_header\">\r\n<div class=\"category_order_by\">{order_by}</div>\r\n</div>\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n<div>{product_rating_summary}</div>\r\n<div class=\"category_product_addtocart\">{form_addtocart:add_to_cart1}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n</div>\r\n<div class=\"pagination\">{pagination}</div>";
-			}
-
-			if (strstr($template_desc, "{product_display_limit}"))
-			{
-				$endlimit = $model->getProductPerPage();
-				$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
 			}
 
 			$template_org = $template_desc;
@@ -340,30 +321,9 @@ class RedshopViewSearch extends RedshopView
 			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
-			$total_product = $model->_total;
-			$endlimit      = $this->limit;
-			$start         = JRequest::getInt('limitstart', 0, '', 'int');
-
-			if (strstr($template_org, "{pagination}"))
-			{
-				if (strstr($template_org, "{product_display_limit}"))
-				{
-					$endlimit = JRequest::getInt('limit', $endlimit, '', 'int');
-				}
-			}
-			else
-			{
-				$endlimit = $model->getData();
-			}
-
-			if ($endlimit == 0)
-			{
-				$final_endlimit = $total_product;
-			}
-			else
-			{
-				$final_endlimit = $endlimit;
-			}
+			$total_product = $model->getTotal();
+			$endlimit = $model->getState('list.limit');
+			$start    = $model->getState('list.start');
 
 			$tagarray            = $texts->getTextLibraryTagArray();
 			$data                = "";
@@ -553,7 +513,7 @@ class RedshopViewSearch extends RedshopView
 					$media_documents = $producthelper->getAdditionMediaImage($this->search[$i]->product_id, "product", "document");
 					$more_doc        = '';
 
-					for ($m = 0; $m < count($media_documents); $m++)
+					for ($m = 0, $countMedia = count($media_documents); $m < $countMedia; $m++)
 					{
 						$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
 
@@ -587,7 +547,7 @@ class RedshopViewSearch extends RedshopView
 				{
 					$ufield = "";
 
-					for ($ui = 0; $ui < count($userfieldArr); $ui++)
+					for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 					{
 						$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
 						$ufield .= $product_userfileds[1];
@@ -632,7 +592,7 @@ class RedshopViewSearch extends RedshopView
 					{
 						$ufield = "";
 
-						for ($ui = 0; $ui < count($userfieldArr); $ui++)
+						for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 						{
 							$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
 							$ufield .= $product_userfileds[1];
@@ -751,37 +711,50 @@ class RedshopViewSearch extends RedshopView
 				'order_by'       => $getorderby,
 				'category_id'    => $cid,
 				'Itemid'         => $Itemid,
-				'limit'          => $limit,
 				'search_type'    => $search_type
 			);
 			$router->setVars($vars);
 			unset($vars);
 
-			if (strstr($template_org, "{pagination}"))
+			if (strstr($template_org, "{show_all_products_in_category}"))
 			{
-				$pagination = new JPagination($total_product, $start, $endlimit);
-				$slidertag  = $pagination->getPagesLinks();
-
-				if (strstr($template_org, "{product_display_limit}"))
-				{
-					$slidertag    = "<form action='' method='post'><input type='hidden' name='keyword' value='$keyword'>
-			<input type='hidden' name='category_id' value='$cid'>
-			<input type='hidden' name='manufacture_id' value='$manufacture_id'>
-			<input type='hidden' name='templateid' value='$templateid'> " . $pagination->getListFooter() . "</form>";
-					$template_org = str_replace("{product_display_limit}", $slidertag, $template_org);
-					$template_org = str_replace("{pagination}", '', $template_org);
-				}
-
-				$template_org = str_replace("{pagination}", $slidertag, $template_org);
+				$template_org = str_replace("{show_all_products_in_category}", "", $template_org);
+				$template_org = str_replace("{pagination}", "", $template_org);
 			}
 
-			$template_org = str_replace("{product_display_limit}", "", $template_org);
+			$pagination = new JPagination($total_product, $start, $endlimit);
+
+			if (strstr($template_org, "{pagination}"))
+			{
+				$template_org = str_replace("{pagination}", $pagination->getPagesLinks(), $template_org);
+			}
+
+			$usePerPageLimit = false;
 
 			if (strstr($template_org, "perpagelimit:"))
 			{
-				$perpage      = explode('{perpagelimit:', $template_org);
-				$perpage      = explode('}', $perpage[1]);
+				$usePerPageLimit = true;
+				$perpage       = explode('{perpagelimit:', $template_org);
+				$perpage       = explode('}', $perpage[1]);
 				$template_org = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_org);
+			}
+
+			if (strstr($template_org, "{product_display_limit}"))
+			{
+				if ($usePerPageLimit)
+				{
+					$limitBox = '';
+				}
+				else
+				{
+					$limitBox = "<form action='' method='post'>
+						<input type='hidden' name='keyword' value='$keyword'>
+						<input type='hidden' name='category_id' value='$cid'>
+						<input type='hidden' name='manufacture_id' value='$manufacture_id'>"
+						. $pagination->getLimitBox() . "</form>";
+				}
+
+				$template_org = str_replace("{product_display_limit}", $limitBox, $template_org);
 			}
 
 			$template_org = str_replace("{order_by}", $orderby_form, $template_org);

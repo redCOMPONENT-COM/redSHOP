@@ -136,22 +136,28 @@ if (count($oricart_type) > 0)
 	$cart_type = implode(',', $oricart_type);
 }
 
-$form = new stdClass();
-$form->protocol		= '7';
-$form->msgtype		= 'authorize';
-$form->merchant		= $this->params->get("quickpay_customer_id");
-$form->language		= $this->params->get("language");
-$form->ordernumber 	= $order_details[0]->order_id;
-$form->amount		= ($order_details[0]->order_total * 100);
-$form->currency		= 'DKK';
+// Decide to use Order Id or Order Number
+$orderNumber = ((boolean) $this->params->get('sendOrderId')) ? $order_details[0]->order_id : $order_details[0]->order_number;
 
-$form->continueurl	= JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=".$Itemid."&oid=" . $data['order_id'];
-$form->cancelurl	= JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
-$form->callbackurl	= JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
+$form               = new stdClass;
+$form->protocol     = '7';
+$form->msgtype      = 'authorize';
+$form->merchant     = $this->params->get("quickpay_customer_id");
+$form->language     = $this->params->get("language");
 
-$form->autocapture	= $this->params->get("autocapture",0);
+// Convert number into 4 digit string by adding `0` in left - It is required by Quickpay
+$form->ordernumber  = str_pad($orderNumber, 4, "0", STR_PAD_LEFT);
+
+$form->amount       = ($order_details[0]->order_total * 100);
+$form->currency     = 'DKK';
+
+$form->continueurl  = JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=".$Itemid."&oid=" . $data['order_id'];
+$form->cancelurl    = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
+$form->callbackurl  = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
+
+$form->autocapture  = $this->params->get("autocapture",0);
 $form->cardtypelock = $cart_type;
-$form->testmode 	= $this->params->get("is_test");
+$form->testmode     = $this->params->get("is_test");
 
 /**
  * on test account i get errors in md5 if i use "autocapture".

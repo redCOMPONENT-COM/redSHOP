@@ -31,6 +31,20 @@ class plgSearchRedshop_categories extends JPlugin
 	}
 
 	/**
+	 * Determine areas searchable by this plugin.
+	 *
+	 * @return  array  An array of search areas.
+	 */
+	public function onContentSearchAreas()
+	{
+		$areas = array(
+			'redshop_categories' => JText::_('PLG_SEARCH_REDSHOP_CATEGORIES_SECTION_NAME')
+		);
+
+		return $areas;
+	}
+
+	/**
 	 * Search content (redSHOP Categories).
 	 *
 	 * The SQL must return the following fields that are used in a common display
@@ -47,6 +61,14 @@ class plgSearchRedshop_categories extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
+				return array();
+			}
+		}
+
 		$section    = '';
 
 		if ($this->params->get('showSection'))
@@ -64,7 +86,8 @@ class plgSearchRedshop_categories extends JPlugin
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select(array(
+			->select(
+				array(
 					$db->qn('category_id'),
 					$db->qn('category_name', 'title'),
 					$db->qn('category_short_description'),
@@ -72,7 +95,8 @@ class plgSearchRedshop_categories extends JPlugin
 					'"' . $section . '" AS ' . $db->qn('section'),
 					'"" AS ' . $db->qn('created'),
 					'"2" AS ' . $db->qn('browsernav')
-				))
+				)
+			)
 			->from($db->qn('#__redshop_category'))
 			->where($db->qn('published') . ' = 1');
 
@@ -80,7 +104,7 @@ class plgSearchRedshop_categories extends JPlugin
 		{
 			case 'exact':
 
-				$text = $db->q('%' . $db->getEscaped($text, true) . '%', false);
+				$text = $db->q('%' . $text . '%', false);
 
 				$where = array();
 				$where[] = $db->qn('category_name') . ' LIKE ' . $text;
@@ -99,7 +123,7 @@ class plgSearchRedshop_categories extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->q('%' . $db->getEscaped($word, true) . '%', false);
+					$word = $db->q('%' . $word . '%', false);
 
 					$where = array();
 					$where[] = $db->qn('category_name') . ' LIKE ' . $word;
@@ -118,6 +142,10 @@ class plgSearchRedshop_categories extends JPlugin
 		{
 			case 'oldest':
 				$query->order($db->qn('category_id') . ' ASC');
+				break;
+
+			case 'alpha':
+				$query->order($db->qn('category_name') . ' ASC');
 				break;
 
 			case 'newest':
@@ -142,7 +170,7 @@ class plgSearchRedshop_categories extends JPlugin
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = $redhelper->getItemid($row->category_id);
+			$Itemid    = $redhelper->getItemid(0, $row->category_id);
 			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $Itemid;
 
 			$return[]  = $row;

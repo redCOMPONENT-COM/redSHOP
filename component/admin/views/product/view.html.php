@@ -33,24 +33,17 @@ class RedshopViewProduct extends RedshopView
 	 */
 	public $user;
 
-	public function display($tpl = null)
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
+	protected function addToolbar()
 	{
-		global $context;
-
-		$context = 'product_id';
-
-		$GLOBALS['productlist'] = array();
-		$redTemplate        = new Redtemplate;
-		$extra_field        = new extra_field;
-		$adminproducthelper = new adminproducthelper;
-
-		$list_in_products = $extra_field->list_all_field_in_product();
-
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
-
-		$layout = JRequest::getVar('layout');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
+		$layout = JRequest::getVar('layout');
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
@@ -67,6 +60,30 @@ class RedshopViewProduct extends RedshopView
 		if ($layout == 'listing')
 		{
 			JToolBarHelper::back();
+		}
+	}
+
+	public function display($tpl = null)
+	{
+		global $context;
+
+		$context = 'product_id';
+
+		$GLOBALS['productlist'] = array();
+		$redTemplate        = new Redtemplate;
+		$extra_field        = new extra_field;
+		$adminproducthelper = new adminproducthelper;
+
+		$list_in_products = $extra_field->list_all_field_in_product();
+
+		$uri      = JFactory::getURI();
+
+		$layout = JRequest::getVar('layout');
+
+		// We don't need toolbar in the modal window.
+		if ($layout !== 'element')
+		{
+			$this->addToolbar();
 		}
 
 		$state = $this->get('State');
@@ -105,7 +122,7 @@ class RedshopViewProduct extends RedshopView
 		$temps = array();
 		$temps[0] = new stdClass;
 		$temps[0]->id = "0";
-		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT');
+		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT_CATEGORY');
 		$categories1 = @array_merge($temps, $categories1);
 		$lists['category'] = JHTML::_('select.genericlist', $categories1, 'category_id',
 			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $category_id

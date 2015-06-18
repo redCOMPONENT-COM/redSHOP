@@ -41,10 +41,10 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
 		$I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
 		$I->click('Save & Close');
-		$I->see('Gift Card Saved');
-		$I->click('ID');
+		$I->see('Gift Card Saved', '.alert-success');
+		$I->click(['link' => 'ID']);
 		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -59,7 +59,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
 		$I->click(\GiftCardManagerPage::$firstResult);
 		$I->click('Edit');
@@ -67,9 +67,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\GiftCardManagerPage::$giftCardName);
 		$I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
 		$I->click('Save & Close');
-		$I->see('Gift Card Saved');
+		$I->see('Gift Card Saved', '.alert-success');
 		$I->see($newCardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

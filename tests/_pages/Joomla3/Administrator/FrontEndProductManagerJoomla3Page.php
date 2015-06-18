@@ -24,7 +24,7 @@ class FrontEndProductManagerJoomla3Page
 
 	public static $addToCart = "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']";
 
-	public static $alertMessageDiv = "//div[@class='alert alert-message']";
+	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
 	public static $alertSuccessMessage = "Product has been added to your cart.";
 

@@ -30,7 +30,6 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addDiscount($amount = '100', $discountAmount = '100', $shopperGroup = 'Default Private', $discountType = 'Total')
 	{
 		$I = $this;
-		$config = $I->getConfig();
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$discountManagerPage = new \DiscountManagerJ3Page;
 		$verifyAmount = '$ ' . $amount . ',00';
@@ -44,11 +43,11 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\DiscountManagerJ3Page::$shopperGroupDropDown);
 		$I->click($discountManagerPage->shopperGroup($shopperGroup));
 		$I->click('Save & Close');
-		$I->waitForText(\DiscountManagerJ3Page::$discountSuccessMessage, 60);
-		$I->see(\DiscountManagerJ3Page::$discountSuccessMessage);
-		$I->click('ID');
+		$I->waitForText(\DiscountManagerJ3Page::$discountSuccessMessage, 60, '.alert-success');
+		$I->see(\DiscountManagerJ3Page::$discountSuccessMessage, '.alert-success');
+		$I->click(['link' => 'ID']);
 		$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -63,7 +62,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$verifyAmount = '$ ' . $amount . ',00';
 		$newVerifyAmount = '$ ' . $newAmount . ',00';
 		$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
@@ -72,10 +71,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
 		$I->fillField(\DiscountManagerJ3Page::$amount, $newAmount);
 		$I->click('Save & Close');
-		$I->waitForText(\DiscountManagerJ3Page::$discountSuccessMessage);
-		$I->see(\DiscountManagerJ3Page::$discountSuccessMessage);
+		$I->waitForText(\DiscountManagerJ3Page::$discountSuccessMessage, 60, '.alert-success');
+		$I->see(\DiscountManagerJ3Page::$discountSuccessMessage, '.alert-success');
 		$I->see($newVerifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

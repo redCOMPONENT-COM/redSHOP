@@ -45,7 +45,7 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\StateManagerJ3Page::$stateTwoCode, $twoCode);
 		$I->fillField(\StateManagerJ3Page::$stateThreeCode, $threeCode);
 		$I->click("Save & Close");
-		$I->see('State detail saved');
+		$I->see('State detail saved', '.alert-success');
 		$I->fillField(\StateManagerJ3Page::$searchField, $stateName);
 		$I->click(\StateManagerJ3Page::$searchButton);
 		$I->see($stateName, \StateManagerJ3Page::$stateResultRow);
@@ -66,8 +66,8 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeInSelenium(
 			function(\WebDriver $webdriver)
 			{
-				$config = $this->getConfig();
-				$webdriver->get($config['host'] . \StateManagerJ3Page::$URL);
+				$host = $this->getConfig('host');
+				$webdriver->get($host . \StateManagerJ3Page::$URL);
 				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
 				$element->clear();
 			}
@@ -79,13 +79,13 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Edit');
 		$I->fillField(\StateManagerJ3Page::$stateName, $stateNewName);
 		$I->click("Save & Close");
-		$I->see('State detail saved');
+		$I->see('State detail saved', '.alert-success');
 		$I->amOnPage(\StateManagerJ3Page::$URL);
 		$I->executeInSelenium(
 			function(\WebDriver $webdriver)
 			{
-				$config = $this->getConfig();
-				$webdriver->get($config['host'] . \StateManagerJ3Page::$URL);
+				$host = $this->getConfig('host');
+				$webdriver->get($host . \StateManagerJ3Page::$URL);
 				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
 				$element->clear();
 			}
@@ -109,8 +109,8 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeInSelenium(
 			function(\WebDriver $webdriver)
 			{
-				$config = $this->getConfig();
-				$webdriver->get($config['host'] . \StateManagerJ3Page::$URL);
+				$host = $this->getConfig('host');
+				$webdriver->get($host . \StateManagerJ3Page::$URL);
 				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
 				$element->clear();
 			}
@@ -120,7 +120,7 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($stateName, \StateManagerJ3Page::$stateResultRow);
 		$I->click(\StateManagerJ3Page::$checkAll);
 		$I->click('Delete');
-		$I->see('State Detail Successfully Deleted');
+		$I->see('State Detail Successfully Deleted', '.alert-success');
 		$I->amOnPage(\StateManagerJ3Page::$URL);
 		$I->click(\StateManagerJ3Page::$searchButton);
 		$I->dontSee($stateName, \StateManagerJ3Page::$stateResultRow);

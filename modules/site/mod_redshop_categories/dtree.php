@@ -66,19 +66,26 @@ if ($params->get('categorysorttype') == "catorder")
 {
 	$sortparam = "ordering ASC";
 }
+
 if ($shopper_group_id)
 {
 	$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);
+}
+else
+{
+	$shoppergroup_cat = 0;
 }
 
 // select menu items from database
 $query = "SELECT category_id,category_parent_id,category_name FROM #__redshop_category AS c "
 	. "LEFT JOIN #__redshop_category_xref AS cx ON c.category_id=cx.category_child_id "
 	. "WHERE c.published=1 ";
-if ($shopper_group_id && count($shoppergroup_cat) > 0)
+
+if ($shopper_group_id && $shoppergroup_cat)
 {
-	$query .= " and category_id IN(" . $shoppergroup_cat[0] . ")";
+	$query .= " and category_id IN(" . $shoppergroup_cat . ")";
 }
+
 $query .= " ORDER BY " . $sortparam . "";
 //."ORDER BY ".$sortparam." ";
 $db->setQuery($query);

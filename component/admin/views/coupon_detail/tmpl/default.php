@@ -34,7 +34,21 @@ $date = JFactory::getDate();
 		else {
 			submitform(pressbutton);
 		}
-	}
+	};
+	jQuery(function($) {
+		var userId = $("#userid");
+		var couponType = $('#coupon_type');
+		couponType.on('change', function () {
+			if ($(this).val() != 1){
+				userId.select2("val", "").prop("disabled", true);
+			}else{
+				userId.prop("disabled", false);
+			}
+		});
+		if (couponType.val() != 1){
+			userId.select2("val", "").prop("disabled", true);
+		}
+	});
 </script>
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
@@ -142,7 +156,8 @@ $date = JFactory::getDate();
 
 						echo JHTML::_('redshopselect.search', $value, 'userid',
 							array(
-								'select2.ajaxOptions' => array('typeField' => ', user:1')
+								'select2.ajaxOptions' => array('typeField' => ', user:1'),
+								'select2.options' => array('placeholder' => JText::_('COM_REDSHOP_USER'))
 							)
 						);
 						?>

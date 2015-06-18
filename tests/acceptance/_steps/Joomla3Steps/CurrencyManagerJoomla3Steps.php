@@ -34,11 +34,11 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $currencyName);
 		$I->fillField(\CurrencyManagerPage::$currencyCodeField, $currencyCode);
 		$I->click('Save & Close');
-		$I->see('Currency Management');
-		$I->see('Currency detail saved');
-		$I->click('ID');
+		$I->see('Currency Management', 'h1');
+		$I->see('Currency detail saved', '.alert-success');
+		$I->click(['link' => 'ID']);
 		$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CurrencyManagerPage::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
 		$I->click(\CurrencyManagerPage::$firstResult);
 		$I->click('Edit');
@@ -61,9 +61,9 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Currency Edit View');
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $newCurrencyName);
 		$I->click('Save & Close');
-		$I->see('Currency Management');
+		$I->see('Currency Management', 'h1');
 		$I->see($newCurrencyName, \CurrencyManagerPage::$currencyResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 
 	}
 

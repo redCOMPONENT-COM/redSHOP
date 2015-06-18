@@ -559,8 +559,8 @@ class economic
 					$this->updateInvoiceNumber($order_id, $invoice_no);
 
 					$eco['invoiceHandle'] = $invoice_no;
-					$eco['name_ST']       = ($user_billinginfo->is_company == 1 && $user_billinginfo->company_name != '')
-						? $user_billinginfo->company_name : $user_billinginfo->firstname . ' ' . $user_billinginfo->lastname;
+					$eco['name_ST']       = ($user_shippinginfo->is_company == 1 && $user_shippinginfo->company_name != '')
+						? $user_shippinginfo->company_name : $user_shippinginfo->firstname . ' ' . $user_shippinginfo->lastname;
 					$eco['address_ST']    = $user_shippinginfo->address;
 					$eco['city_ST']       = $user_shippinginfo->city;
 					$eco['country_ST']    = $this->_order_functions->getCountryName($user_shippinginfo->country_code);

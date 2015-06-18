@@ -57,19 +57,7 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
-if (strpos($template_desc, "{show_all_products_in_category}") === false && strpos($template_desc, "{pagination}") !== false)
-{
-	$endlimit = $this->state->get('list.limit');
-
-	if (strpos($template_desc, "{product_display_limit}") !== false)
-	{
-		$endlimit = JRequest::getInt('limit', $endlimit, '', 'int');
-	}
-}
-else
-{
-	$endlimit = $this->state->get('list.limit');
-}
+$endlimit = $this->state->get('list.limit');
 
 $app = JFactory::getApplication();
 $router = $app->getRouter();
@@ -319,9 +307,24 @@ if (!$slide)
 		$cat_detail = "";
 		$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $subcat_template);
 
-		for ($i = 0, $countDetail = count($this->detail); $i < $countDetail; $i++)
+		for ($i = 0, $nc = count($this->detail); $i < $nc; $i++)
 		{
 			$row = $this->detail[$i];
+
+			// Filter categories based on Shopper group category ACL
+			$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
+			$sgportal = $objhelper->getShopperGroupPortal();
+			$portal   = 0;
+
+			if (count($sgportal) > 0)
+			{
+				$portal = $sgportal->shopper_group_portal;
+			}
+
+			if ('' == $checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+			{
+				continue;
+			}
 
 			$data_add = $subcat_template;
 
@@ -414,34 +417,7 @@ if (!$slide)
 				$data_add = $extraField->extra_field_display(2, $row->category_id, $extraFieldsForCurrentTemplate, $data_add);
 			}
 
-			// Shopper group category ACL
-			$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
-			$sgportal = $objhelper->getShopperGroupPortal();
-			$portal   = 0;
-
-			if (count($sgportal) > 0)
-			{
-				$portal = $sgportal->shopper_group_portal;
-			}
-
-			if (PORTAL_SHOP == 1)
-			{
-				if ($checkcid != "")
-				{
-					$cat_detail .= $data_add;
-				}
-			}
-			else
-			{
-				if ($portal == 1 && $checkcid != "")
-				{
-					$cat_detail .= $data_add;
-				}
-				elseif ($portal == 0)
-				{
-					$cat_detail .= $data_add;
-				}
-			}
+			$cat_detail .= $data_add;
 		}
 
 		$template_desc = str_replace("{category_loop_start}", "", $template_desc);
@@ -543,7 +519,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$media_documents = $producthelper->getAdditionMediaImage($product->product_id, "product", "document");
 			$more_doc        = '';
 
-			for ($m = 0, $countMediaDocuments = count($media_documents); $m < $countMediaDocuments; $m++)
+			for ($m = 0, $nm = count($media_documents); $m < $nm; $m++)
 			{
 				$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
 
@@ -577,7 +553,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		{
 			$ufield = "";
 
-			for ($ui = 0, $countUserFieldArr = count($userfieldArr); $ui < $countUserFieldArr; $ui++)
+			for ($ui = 0, $nui = count($userfieldArr); $ui < $nui; $ui++)
 			{
 				$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 				$ufield .= $product_userfileds[1];
@@ -623,7 +599,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			{
 				$ufield = "";
 
-				for ($ui = 0, $countUserFieldArr = count($userfieldArr); $ui < $countUserFieldArr; $ui++)
+				for ($ui = 0, $nui = count($userfieldArr); $ui < $nui; $ui++)
 				{
 					$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
 					$ufield .= $product_userfileds[1];
@@ -1035,45 +1011,58 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 	$product_tmpl .= "<input type='hidden' name='slider_texpricemin' id='slider_texpricemin' value='" . $texpricemin . "' />";
 	$product_tmpl .= "<input type='hidden' name='slider_texpricemax' id='slider_texpricemax' value='" . $texpricemax . "' />";
 
-	$slidertag = "";
-
-	if (strpos($template_desc, "{show_all_products_in_category}") !== false)
+	if (strstr($template_desc, "{show_all_products_in_category}"))
 	{
 		$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
 		$template_desc = str_replace("{pagination}", "", $template_desc);
 	}
 
-	$product_display_limit = '';
+	$limitBox = '';
+	$paginationList = '';
+	$usePerPageLimit = false;
+	$pagination = new JPagination($model->_total, $start, $endlimit);
 
-	if (strpos($template_desc, "{pagination}") !== false)
+	if ($this->productPriceSliderEnable)
 	{
-		$pagination = new JPagination($model->_total, $start, $endlimit);
-		$slidertag  = $pagination->getPagesLinks();
-
-		if (strpos($template_desc, "{product_display_limit}") !== false)
-		{
-			$slidertag     = "<form action='' method='post'> " . $pagination->getListFooter() . "</form>";
-			$template_desc = str_replace("{product_display_limit}", $slidertag, $template_desc);
-			$template_desc = str_replace("{pagination}", '', $template_desc);
-		}
-
-		$template_desc = str_replace("{pagination}", $slidertag, $template_desc);
+		$pagination->setAdditionalUrlParam('texpricemin', $texpricemin);
+		$pagination->setAdditionalUrlParam('texpricemax', $texpricemax);
 	}
 
-	$template_desc = str_replace("{product_display_limit}", "", $template_desc);
-
-	if (strpos($template_desc, "perpagelimit:") !== false)
+	if (strstr($template_desc, "{pagination}"))
 	{
+		$paginationList = $pagination->getPagesLinks();
+		$template_desc = str_replace("{pagination}", $paginationList, $template_desc);
+	}
+
+	if (strstr($template_desc, "perpagelimit:"))
+	{
+		$usePerPageLimit = true;
 		$perpage       = explode('{perpagelimit:', $template_desc);
 		$perpage       = explode('}', $perpage[1]);
 		$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
 	}
 
-	$product_tmpl = "<div id='productlist'>" . $product_tmpl . "</div>" . "<div id='redcatpagination' style='display:none'>" . $slidertag . "</div>";
+	if (strstr($template_desc, "{product_display_limit}"))
+	{
+		if (!$usePerPageLimit)
+		{
+			$limitBox .= "<input type='hidden' name='texpricemin' value='" . $texpricemin . "' />";
+			$limitBox .= "<input type='hidden' name='texpricemax' value='" . $texpricemax . "' />";
+			$limitBox = "<form action='' method='post'> " . $limitBox . $pagination->getLimitBox() . "</form>";
+		}
+
+		$template_desc = str_replace("{product_display_limit}", $limitBox, $template_desc);
+	}
+
+	if ($this->productPriceSliderEnable)
+	{
+		$product_tmpl .= "<div id='redcatpagination' style='display:none'>" . $paginationList . "</div>";
+		$product_tmpl .= '<div id="redPageLimit" style="display:none">' . $limitBox . "</div>";
+	}
 
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
 	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
-	$template_desc = str_replace($template_product, $product_tmpl, $template_desc);
+	$template_desc = str_replace($template_product, "<div id='productlist'>" . $product_tmpl . "</div>", $template_desc);
 }
 
 if (!$slide)

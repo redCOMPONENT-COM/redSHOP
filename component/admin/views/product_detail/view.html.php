@@ -377,16 +377,6 @@ class RedshopViewProduct_Detail extends RedshopView
 		}
 
 		$lists['accessory_product'] = $accessory_product;
-
-		$navigator_product = array();
-
-		if ($detail->product_id)
-		{
-			$navigator_product = $this->producthelper->getProductNavigator(0, $detail->product_id);
-		}
-
-		$lists['navigator_product'] = $navigator_product;
-
 		$lists['QUANTITY_SELECTBOX_VALUE'] = $detail->quantity_selectbox_value;
 
 		$result = array();

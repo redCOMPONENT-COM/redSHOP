@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Getting the configuration in redshop.js.php
 JLoader::import('redshop.library');
-RedshopHelperJs::init();
 
 $document = JFactory::getDocument();
 JHTML::script('com_redshop/redbox.js', false, true);

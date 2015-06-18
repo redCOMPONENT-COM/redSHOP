@@ -37,12 +37,12 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\TemplateManagerJoomla3Page::$templateSectionDropDown);
 		$I->click($templateManagerPage->templateSection($templateSection));
 		$I->click('Save & Close');
-		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage, 60);
-		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage);
-		$I->click('ID');
-		$I->click('ID');
+		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage, 60, '.alert-success');
+		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, '.alert-success');
+		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see(strtolower($templateName), \TemplateManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -57,17 +57,17 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see(strtolower($templateName), \TemplateManagerJoomla3Page::$firstResultRow);
 		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName, 30);
 		$I->fillField(\TemplateManagerJoomla3Page::$templateName, $templateUpdatedName);
 		$I->click('Save & Close');
-		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage);
-		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage);
+		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage, 60, '.alert-success');
+		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, '.alert-success');
 		$I->see($templateUpdatedName, \TemplateManagerJoomla3Page::$firstResultRow);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

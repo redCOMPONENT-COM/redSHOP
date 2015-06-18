@@ -41,12 +41,12 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\MailCenterManagerJoomla3Page::$mailSectionDropDown);
 		$I->click($mailCenterManagerPage->mailSection($mailSection));
 		$I->click('Save & Close');
-		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage, 60);
-		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage);
-		$I->click('ID');
-		$I->click('ID');
+		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage, 60, '.alert-success');
+		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
+		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see($mailName);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -61,17 +61,17 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 		$I->see($mailName);
 		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName, 30);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailName, $newMailName);
 		$I->click('Save & Close');
-		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage);
-		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage);
+		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage, 30, '.alert-success');
+		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
 		$I->see($newMailName);
-		$I->click('ID');
+		$I->click(['link' => 'ID']);
 	}
 
 	/**

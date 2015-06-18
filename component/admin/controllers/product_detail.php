@@ -928,20 +928,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 	}
 
 	/**
-	 * Function removenavigator.
-	 *
-	 * @return void
-	 */
-	public function removenavigator()
-	{
-		$navigator_id = $this->input->getInt('navigator_id', null);
-		$model = $this->getModel('product_detail');
-		$model->removenavigator($navigator_id);
-
-		exit;
-	}
-
-	/**
 	 * Function ResetPreorderStock.
 	 *
 	 * @return void

@@ -163,4 +163,5 @@ $category_id = $this->state->get('category_id', 0);
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

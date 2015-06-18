@@ -114,8 +114,9 @@ class RedshopHelperCron
 
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
+					$body = $redshopMail->imginmail($body);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -166,8 +167,9 @@ class RedshopHelperCron
 					$body = str_replace("{days}", DISCOUNT_DURATION, $body);
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
+					$body = $redshopMail->imginmail($body);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
@@ -230,8 +232,9 @@ class RedshopHelperCron
 						$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 						$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
+						$body = $redshopMail->imginmail($body);
 
-						$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+						$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 						if ($sent == 1)
 						{
@@ -344,7 +347,8 @@ class RedshopHelperCron
 					$token        = substr($better_token, 0, 10);
 					$body         = str_replace("{coupon_code}", $token, $body);
 					$body         = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent         = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$body = $redshopMail->imginmail($body);
+					$sent         = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -394,7 +398,8 @@ class RedshopHelperCron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent           = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$body = $redshopMail->imginmail($body);
+					$sent           = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
 					$db->execute();
@@ -428,7 +433,8 @@ class RedshopHelperCron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent           = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$body = $redshopMail->imginmail($body);
+					$sent           = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
 					$db->execute();
@@ -487,8 +493,9 @@ class RedshopHelperCron
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
+					$body = $redshopMail->imginmail($body);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -528,8 +535,9 @@ class RedshopHelperCron
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
+					$body = $redshopMail->imginmail($body);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -580,8 +588,9 @@ class RedshopHelperCron
 					$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
 					$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
+					$body = $redshopMail->imginmail($body);
 
-					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
@@ -645,8 +654,9 @@ class RedshopHelperCron
 						$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
 						$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
+						$body = $redshopMail->imginmail($body);
 
-						$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+						$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 						if ($sent == 1)
 						{

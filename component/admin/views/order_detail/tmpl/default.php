@@ -51,9 +51,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 ?>
 <script type="text/javascript">
 	var rowCount = 1;
-	function openPrintOrder() {
-		window.open('index.php?tmpl=component&option=com_redshop&view=order_detail&layout=print_order&cid[]=' + <?php echo $order_id;?>, 'mywindow', 'scrollbars=1', 'location=1');
-	}
+
 	function submitbutton(pressbutton, form) {
 		if (pressbutton == 'add') {
 			if (form.product1.value == 0) {
@@ -71,82 +69,16 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 		}
 	}
 </script>
-<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 <tbody>
 <tr>
 	<td colspan="2">
 		<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
-			<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+			<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed">
 				<tbody>
-				<tr>
-					<th align="right" colspan="2">
-						<?php if(isset($order_id)) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id); ?>">
-								<?php echo JText::_('COM_REDSHOP_CREATE_STOCKNOTE'); ?>
-							</a>
-							&nbsp;|&nbsp;
-							<a
-								href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id); ?>">
-								<?php echo JText::_('COM_REDSHOP_CREATE_SHIPPING_LABEL'); ?>
-							</a>
-							&nbsp;|&nbsp;
-
-							<?php
-
-							$appendTmpl = '';
-
-							if($tmpl)
-							{
-								$appendTmpl = '&tmpl=component';
-							}
-
-							?>
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl); ?>">
-								<?php echo JText::_('COM_REDSHOP_SEND_DOWNLOEADMAIL'); ?>
-							</a>
-
-							&nbsp;|&nbsp;
-
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl); ?>">
-								<?php echo JText::_('COM_REDSHOP_RESEND_ORDER_MAIL'); ?>
-							</a>
-
-							&nbsp;|&nbsp;
-
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl); ?>">
-								<?php echo JText::_('COM_REDSHOP_SEND_INVOICEMAIL'); ?>
-							</a>
-
-							<?php if($tmpl) : ?>
-							&nbsp;|&nbsp;
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order&tmpl=component'); ?>">
-								<?php echo JText::_('COM_REDSHOP_BACK'); ?>
-							</a>
-							<?php endif; ?>
-
-							<a href="javascript:openPrintOrder();" title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>">
-								<img src="<?php echo JSYSTEM_IMAGES_PATH . 'printButton.png'; ?>"
-								     alt="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
-								     title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
-								/>
-							</a>
-						<?php endif; ?>
-					</th>
-				</tr>
-				<tr>
+				<tr class="tableHeader">
 					<th align="left" colspan="2"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></th>
 				</tr>
-				<!--<tr>
-						<td width="100"><?php echo "Barcode" ?>:</td>
-						<td>
-							<?php
-							$barcode = sprintf("%012d",$this->detail->order_number);
-							$barcode_url = REDSHOP_FRONT_IMAGES_ABSPATH.'barcode/'.$barcode.'.png';
-							?>
-							<img alt="" src="<?php echo $barcode_url;?>">
-						</td>
-					</tr>
-					-->
 				<tr>
 					<td width="100"><?php echo JText::_('COM_REDSHOP_ORDER_ID'); ?>:</td>
 					<td><?php echo $order_id; ?></td>
@@ -154,6 +86,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ORDER_NUMBER'); ?>:</td>
 					<td><?php echo $this->detail->order_number; ?></td>
+				</tr>
+				<tr>
+					<td><?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER'); ?>:</td>
+					<td><?php echo $this->detail->invoice_number; ?></td>
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ORDER_DATE'); ?>:</td>
@@ -194,6 +130,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER'); ?>:</td>
 					<td><input class="inputbox" name="requisition_number" id="requisition_number"
+							   type="text"
 					           value="<?php echo $this->detail->requisition_number; ?>"/></td>
 				</tr>
 				<?php //}?>
@@ -218,10 +155,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 						{ ?>
 							<input type="hidden" name="tmpl" value="<?php echo $tmpl ?>">
 						<?php } ?>
+						<label class="checkbox inline">
 						<input type="checkbox" <?php echo $send_mail_to_customer;?>  value="true"
 						       name="order_sendordermail"
 						       id="order_sendordermail"/><?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
-						<input class="button" onclick="this.form.submit();" name="order_status"
+						</label>
+						<input class="button btn btn-small" onclick="this.form.submit();" name="order_status"
 						       value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>" type="button">
 						<br/><br/>
 						<?php
@@ -240,22 +179,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_COMMENT'); ?>:</td>
 					<td>
-						<table width="100%" border="0" cellspacing="2" cellpadding="2">
-							<tr>
-								<td width="25%"><textarea cols="50" rows="5"
-								                          name="customer_note"><?php echo $this->detail->customer_note;?></textarea>
-								</td>
-								<td><?php /*?><input class="inputbox" name="nc"
-										id="notify_customer<?php echo $order_id ;?>"
-										value="N" type="checkbox"
-										onclick="if(this.checked==true) {this.value = 'Y';} else {this.value = 'N';}"><?php echo JText::_('COM_REDSHOP_INCLUDE_COMMENT_MSG' ); ?> <br />
-									<input class="inputbox" name="ic"
-										id="include_comment<?php echo $order_id ;?>"
-										value="N" type="checkbox"
-										onclick="if(this.checked==true) {this.value = 'Y';} else {this.value = 'N';}"><?php echo JText::_('COM_REDSHOP_NOTIFY_CUSTOMER_MSG' ); ?><?php */?>
-								</td>
-							</tr>
-						</table>
+						<textarea cols="50" rows="5"
+								  name="customer_note"><?php echo $this->detail->customer_note;?></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -282,15 +207,31 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 </tr>
 <tr>
 	<td colspan="2">
-		<table border="0" cellspacing="0" cellpadding="0" width="100%" class="adminlist">
+		<table border="0" cellspacing="0" cellpadding="0" width="100%" class="adminlist table table-condensed table-striped">
 			<tbody>
-			<tr style="background-color: #cccccc">
-				<th><?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?></th>
-				<th><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?></th>
+			<tr class="tableHeader">
+				<th width="50%">
+					<?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?>
+					<?php if (!$tmpl)
+					{ ?>
+						<a class="modal btn btn-small"
+						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $order_id; ?>"
+						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
+					<?php } ?>
+				</th>
+				<th>
+					<?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?>
+					<?php if (!$tmpl)
+					{ ?>
+						<a class="modal btn btn-small"
+						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $order_id; ?>"
+						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
+					<?php } ?>
+				</th>
 			</tr>
 			<tr valign="top">
 				<td>
-					<table class="adminlist" border="0">
+					<table class="adminlist table" border="0">
 
 						<tr>
 							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
@@ -365,20 +306,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$fields = $extra_field->list_all_field_display(7, $billing->users_info_id);
 						}
 						echo $fields; ?>
-						<tr>
-							<td colspan="2">
-								<?php if (!$tmpl)
-								{ ?>
-									<a class="modal"
-									   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $order_id; ?>"
-									   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
-								<?php } ?>
-							</td>
-						</tr>
 					</table>
 				</td>
 				<td>
-					<table class="adminlist" border="0">
+					<table class="adminlist table" border="0">
 						<tr>
 							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
 							<td><?php echo $shipping->firstname; ?></td>
@@ -422,17 +353,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$fields = $extra_field->list_all_field_display(14, $shipping->users_info_id);
 						}
 						echo $fields; ?>
-						<tr>
-							<td colspan="2">
-								<?php if (!$tmpl)
-								{ ?>
-
-									<a class="modal"
-									   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $order_id; ?>"
-									   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
-								<?php } ?>
-							</td>
-						</tr>
 					</table>
 				</td>
 			</tr>
@@ -464,9 +384,9 @@ if (!$discount_type)
 ?>
 <tr>
 	<td colspan="2">
-		<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+		<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-condensed table-striped">
 			<tbody>
-			<tr style="background-color: #cccccc">
+			<tr class="tableHeader">
 				<th align="left"><?php echo JText::_('COM_REDSHOP_DISCOUNT_TYPE_LBL'); ?></th>
 			</tr>
 			<tr>
@@ -479,9 +399,9 @@ if (!$discount_type)
 </tr>
 <tr>
 <td colspan="2">
-<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 <tbody>
-<tr style="background-color: #cccccc">
+<tr class="tableHeader">
 	<th align="left"><?php echo JText::_('COM_REDSHOP_ORDER_DETAILS'); ?></th>
 </tr>
 <tr>
@@ -493,17 +413,17 @@ if (!$discount_type)
 		<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 			<tr>
 				<td>
-					<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
+					<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed" width="100%">
 						<tr>
-							<td width="20%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
-							<td width="15%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></td>
-							<td width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></td>
-							<td width="5%"><?php echo JText::_('COM_REDSHOP_TAX'); ?></td>
-							<td width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></td>
-							<td width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></td>
-							<td width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></td>
-							<td width="20%"><?php echo JText::_('COM_REDSHOP_STATUS'); ?></td>
-							<td width="5%"><?php echo JText::_('COM_REDSHOP_ACTION'); ?></td>
+							<th width="20%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
+							<th width="15%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></th>
+							<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></th>
+							<th width="5%"><?php echo JText::_('COM_REDSHOP_TAX'); ?></th>
+							<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
+							<th width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></th>
+							<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></th>
+							<th width="20%"><?php echo JText::_('COM_REDSHOP_STATUS'); ?></th>
+							<th width="5%"><?php echo JText::_('COM_REDSHOP_ACTION'); ?></th>
 						</tr>
 					</table>
 				</td>
@@ -561,7 +481,7 @@ for ($i = 0; $i < count($products); $i++)
 					<td>
 						<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
 						      name="itemForm<?php echo $order_item_id; ?>">
-							<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
+							<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped" width="100%">
 								<tr>
 									<td width="20%">
 										<?php echo $Product_name; ?>
@@ -591,17 +511,18 @@ for ($i = 0; $i < count($products); $i++)
 										?>
 									</td>
 									<td width="10%">
-										<?php echo REDCURRENCY_SYMBOL; ?>
-										<input type="text" name="update_price" id="update_price"
+										<div class="input-prepend span12">
+										<span class="add-on span3"><?php echo REDCURRENCY_SYMBOL; ?></span>
+										<input type="text" name="update_price" id="update_price" class="span9"
 										       value="<?php echo $producthelper->redpriceDecimal($products[$i]->product_item_price_excl_vat); ?>"
 										       size="10">
-
+										</div>
 									</td>
 									<td width="5%"><?php echo REDCURRENCY_SYMBOL . " " . $vat;?></td>
 									<td width="10%"><?php echo $producthelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 
 									<td width="5%">
-										<input type="text" name="quantity" id="quantity"
+										<input type="text" name="quantity" id="quantity" class="span12"
 										       value="<?php echo $quantity; ?>" size="3">
 									</td>
 									<td align="right" width="10%">
@@ -766,8 +687,6 @@ for ($i = 0; $i < count($products); $i++)
 					<?php
 					}
 					?>
-				</tr>
-			</table>
 		</td>
 	</tr>
 
@@ -784,18 +703,24 @@ $session->set('cart', $cart); ?>
 </tr>
 <tr>
 	<td>
-		<table border="0" cellspacing="0" cellpadding="0"
-		       class="adminlist">
+		<div class="offset7 span5">
+		<table width="100%" align="right" border="0" cellspacing="0" cellpadding="0"
+		       class="adminlist table table-condensed table-striped">
 			<tbody>
 			<tr align="left">
-				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SUBTOTAL'); ?>:</strong>
+				<td colspan="3" align="left">
+					<hr/>
 				</td>
-				<td align="right" width="30%">
+			</tr>
+			<tr align="left">
+				<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SUBTOTAL'); ?>:</strong>
+				</td>
+				<td align="right" width="35%">
 					<?php echo $producthelper->getProductFormattedPrice($subtotal_excl_vat);?>
 				</td>
 			</tr>
 			<tr align="left">
-				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TAX'); ?>:</strong></td>
+				<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TAX'); ?>:</strong></td>
 				<?php
 
 				$order_tax               = $this->detail->order_tax;
@@ -826,12 +751,12 @@ $session->set('cart', $cart); ?>
 					$order_tax = (float) VAT_RATE_AFTER_DISCOUNT * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
 				}
 				?>
-				<td align="right" width="30%">
+				<td align="right" width="35%">
 					<?php echo $producthelper->getProductFormattedPrice($order_tax);?>
 				</td>
 			</tr>
 			<tr align="left">
-				<td align="right" width="70%">
+				<td align="right" width="65%">
 					<strong>
 						<?php
 						if ($this->detail->payment_oprand == '+')
@@ -841,32 +766,37 @@ $session->set('cart', $cart); ?>
 						?>:
 					</strong>
 				</td>
-				<td align="right" width="30%">
+				<td align="right" width="35%">
 					<?php echo $producthelper->getProductFormattedPrice($this->detail->payment_discount); ?>
 				</td>
 			</tr>
 			<tr align="left">
-				<td align="right" width="70%">
+				<td colspan="3" align="left">
+					<hr/>
+				</td>
+			</tr>
+			<tr align="left">
+				<td align="right" width="65%">
 					<strong>
-						<?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT_LBL'); ?>:
+						<?php echo JText::_('COM_REDSHOP_ORDER_DISCOUNT'); ?>:
 					</strong>
 				</td>
-				<td align="right" width="30%">
+				<td align="right" width="35%">
 					<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
 					      name="update_discount<?php echo $order_id; ?>">
-						<label style="float: left;">
-							<?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?>
+						<div class="input-prepend input-append">
+							<span class="add-on"><?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?></span>
 							<input type="text" name="update_discount"
-								id="update_discount"
+								id="update_discount" class="span6"
 								value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
 								size="10">
-							&nbsp;
-							<img class="update_price" align="absmiddle"
+							<span class="add-on"><label class="inline">&nbsp;<img class="update_price" align="absmiddle"
 								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
 								title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
-								onclick="document.update_discount<?php echo $order_id; ?>.submit();">
-						</label>
+								onclick="document.update_discount<?php echo $order_id; ?>.submit();"></label></span>
+						</div>
+						<br />
 						<?php echo $producthelper->getProductFormattedPrice($totaldiscount);?>
 						<input type="hidden" name="task" value="update_discount">
 						<input type="hidden" name="view" value="order_detail">
@@ -875,24 +805,28 @@ $session->set('cart', $cart); ?>
 				</td>
 			</tr>
 			<tr align="left">
-				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'); ?>:</strong>
+				<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'); ?>:</strong>
 				</td>
-				<td align="right" width="30%">
+				<td align="right" width="35%">
 					<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
 					      name="special_discount<?php echo $order_id; ?>">
-						<label style="float: left;">
-							<?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?>
+						<div class="input-prepend input-append">
+							<span class="add-on"><?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?></span>
 							<input type="text" name="special_discount"
-								id="special_discount"
+								id="special_discount" class="span6"
 								value="<?php echo $this->detail->special_discount; ?>"
-								size="10">%
-							&nbsp;
+								size="10">
+							<span class="add-on">%&nbsp;</span>
+							<span class="add-on">
+							<label class="inline">&nbsp;
 							<img class="update_price" align="absmiddle"
 								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
 								title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								onclick="document.special_discount<?php echo $order_id; ?>.submit();">
-						</label>
+								</label></span>
+						</div>
+						<br />
 						<?php
 							echo $producthelper->getProductFormattedPrice($special_discount_amount);
 						?>
@@ -904,9 +838,14 @@ $session->set('cart', $cart); ?>
 				</td>
 			</tr>
 			<tr align="left">
-				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING'); ?>:</strong>
+				<td colspan="3" align="left">
+					<hr/>
 				</td>
-				<td align="right" width="30%">
+			</tr>
+			<tr align="left">
+				<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING'); ?>:</strong>
+				</td>
+				<td align="right" width="35%">
 					<?php echo $producthelper->getProductFormattedPrice($this->detail->order_shipping);?>
 				</td>
 			</tr>
@@ -916,40 +855,40 @@ $session->set('cart', $cart); ?>
 				</td>
 			</tr>
 			<tr align="left">
-				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?>:</strong></td>
-				<td align="right" width="30%">
+				<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?>:</strong></td>
+				<td align="right" width="35%">
 					<?php echo $producthelper->getProductFormattedPrice($this->detail->order_total);?>
 				</td>
 			</tr>
 			<tr align="left">
-				<td colspan="2" align="left">
+				<td colspan="3" align="left">
 					<hr/>
 					<br/>
-					<hr/>
 				</td>
 			</tr>
 			</tbody>
 		</table>
+		</div>
 	</td>
 </tr>
-<tr>
-	<td><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT');?>
-
-	</td>
+<tr class="tableHeader">
+	<th align="left">
+		<?php echo JText::_('COM_REDSHOP_ADD_PRODUCT');?>
+	</th>
 </tr>
 <tr>
 	<td>
 		<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminFormAdd" id="adminFormAdd">
-			<table border="0" cellspacing="0" cellpadding="0" class="adminlist table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist table table-condensed table-striped">
 				<tr>
-					<td width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
-					<td width="20%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></td>
-					<td width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></td>
-					<td width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TAX'); ?></td>
-					<td width="10%" align="right"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></td>
-					<td width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></td>
-					<td width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></td>
-					<td width="5%"><?php echo JText::_('COM_REDSHOP_ACTION');?></td>
+					<th width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
+					<th width="20%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></th>
+					<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></th>
+					<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TAX'); ?></th>
+					<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
+					<th width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></th>
+					<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></th>
+					<th width="5%"><?php echo JText::_('COM_REDSHOP_ACTION');?></th>
 				</tr>
 				<tr id="trPrd1">
 					<td><?php
@@ -972,7 +911,7 @@ $session->set('cart', $cart); ?>
 					<td id="tdnoteproduct1"></td>
 					<td><input type="hidden" name="change_product_tmp_priceproduct1"
 					           id="change_product_tmp_priceproduct1" value="0" size="10">
-						<input type="text" name="prdexclpriceproduct1" style="display: none;" id="prdexclpriceproduct1"
+						<input type="text" name="prdexclpriceproduct1" style="display: none;" id="prdexclpriceproduct1" class="span12"
 						       onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
 					<td align="right">
 						<div id="prdtaxproduct1"></div>
@@ -981,7 +920,7 @@ $session->set('cart', $cart); ?>
 						<div id="prdpriceproduct1"></div>
 						<input name="productpriceproduct1" id="productpriceproduct1" type="hidden" value="0"/></td>
 					<td><input type="text" name="quantityproduct1" id="quantityproduct1" style="display: none;"
-					           onchange="changeOfflineQuantityBox('product1');" value="1"
+					           onchange="changeOfflineQuantityBox('product1');" value="1" class="span12"
 					           size="<?php echo DEFAULT_QUANTITY; ?>" maxlength="<?php echo DEFAULT_QUANTITY; ?>"></td>
 					<td align="right">
 						<div id="tdtotalprdproduct1"></div>
@@ -1015,7 +954,7 @@ $session->set('cart', $cart); ?>
 						<?php } ?>
 
 					</td>
-					<td><input type="button" name="add" id="add" style="display: none;"
+					<td><input type="button" class="btn" name="add" id="add" style="display: none;"
 					           value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
 					           onclick="javascript:submitbutton('add',this.form);"/></td>
 				</tr>
@@ -1039,7 +978,7 @@ $session->set('cart', $cart); ?>
 		<td>
 			<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="updateshippingrate"
 			      id="updateshippingrate">
-				<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+				<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed">
 					<tr>
 						<td align="left">
 							<?php
@@ -1088,19 +1027,15 @@ $session->set('cart', $cart); ?>
 							</div>
 						</td>
 					</tr>
-
-
-					<tr>
-						<td><input type="submit" name="add" id="add"
-						           value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"/>
-							<input type="hidden" name="task" value="update_shippingrates">
-							<input type="hidden" name="user_id" id="user_id"
-							       value="<?php echo $this->detail->user_id; ?>">
-							<input type="hidden" name="view" value="order_detail">
-							<input type="hidden" name="return" value="order_detail">
-							<input type="hidden" name="cid[]" value="<?php echo $order_id; ?>"></td>
-					</tr>
 				</table>
+				<input type="submit" name="add" id="add" class="btn"
+					   value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"/>
+				<input type="hidden" name="task" value="update_shippingrates">
+				<input type="hidden" name="user_id" id="user_id"
+					   value="<?php echo $this->detail->user_id; ?>">
+				<input type="hidden" name="view" value="order_detail">
+				<input type="hidden" name="return" value="order_detail">
+				<input type="hidden" name="cid[]" value="<?php echo $order_id; ?>">
 			</form>
 		</td>
 	</tr>
@@ -1117,25 +1052,26 @@ $session->set('cart', $cart); ?>
 	<td colspan="2">
 		<table border="0" cellspacing="0" cellpadding="0" width="100%" class="adminlist" id="log">
 			<tbody>
-			<tr style="background-color: #cccccc">
-				<th><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_LOG'); ?></th>
+			<tr class="tableHeader">
+				<th align="left"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_LOG'); ?></th>
 			</tr>
 			<tr valign="top">
 				<td>
-					<table class="adminlist" border="0">
+					<table width="100%" class="adminlist table table-condensed table-condensed" border="0">
 						<tr>
-							<td width="5%" align="center"><b><?php echo JText::_('COM_REDSHOP_NUM');?></b></td>
-							<td width="15%" align="center"><b><?php echo JText::_('COM_REDSHOP_MODIFIED_DATE');?></b>
-							</td>
-							<td width="20%" align="center"><b><?php echo JText::_('COM_REDSHOP_STATUS');?></b></td>
-							<td width="20%" align="center"><b><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS');?></b>
-							</td>
-							<td width="40%" align="center"><b><?php echo JText::_('COM_REDSHOP_COMMENT');?></b></td>
+							<th width="5%" align="center"><b><?php echo JText::_('COM_REDSHOP_NUM');?></b></th>
+							<th width="15%" align="center"><b><?php echo JText::_('COM_REDSHOP_MODIFIED_DATE');?></b>
+							</th>
+							<th width="20%" align="center"><b><?php echo JText::_('COM_REDSHOP_STATUS');?></b></th>
+							<th width="20%" align="center"><b><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS');?></b>
+							</th>
+							<th width="40%" align="center"><b><?php echo JText::_('COM_REDSHOP_COMMENT');?></b></th>
 						</tr>
 						<?php
 						for ($log = 0; $log < count($log_rec); $log++):
 							$log_row = $log_rec[$log];
 							?>
+							</tr>
 							<tr>
 								<td width="5%" align="center"><?php echo ($log + 1); ?></td>
 								<td width="15%"

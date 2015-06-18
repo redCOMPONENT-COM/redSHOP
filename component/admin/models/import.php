@@ -2302,7 +2302,7 @@ class RedshopModelImport extends RedshopModel
 
 		if ($check == null)
 		{
-			JError::raiseWarning(403, "NO_VM");
+			JError::raiseWarning(403, JText::_("COM_REDSHOP_NO_VM"));
 
 			return false;
 		}

@@ -49,6 +49,7 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 			$shippingVatRate = $shippingArr['shipping_vat'];
 			$default_shipping = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_SHIPPING');
 			$shopper_shipping_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $default_shipping . "|" . number_format($shopper_shipping, 2, '.', '') . "|" . $default_shipping . "|single|" . $shippingVatRate . "|0|1");
+			$shippingrate[$rate] = new stdClass;
 			$shippingrate[$rate]->text = $default_shipping;
 			$shippingrate[$rate]->value = $shopper_shipping_id;
 			$shippingrate[$rate]->rate = $shopper_shipping;

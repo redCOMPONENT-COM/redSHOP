@@ -93,8 +93,17 @@ $texpricemin = isset($texpricemin) ? @$texpricemin : null;
 $payment_method_id = isset($payment_method_id) ? @$payment_method_id : null;
 $shipping_rate_id  = isset($shipping_rate_id) ? @$shipping_rate_id : null;
 
-$menu = $productHelper->getMenuInformation($Itemid, 0, '', $view);
-$myparams = $menu->params;
+if ($menu = $productHelper->getMenuInformation($Itemid, 0, '', $view))
+{
+	$myparams = $menu->params;
+}
+else
+{
+	$menu        = new stdClass;
+	$menu->title = '';
+	$menu->alias = '';
+	$myparams    = new JRegistry;
+}
 
 // Set redSHOP prefix
 $component_prefix = shGetComponentPrefix('com_redshop');
@@ -176,12 +185,6 @@ switch ($view)
 		{
 			$title[] = $sh_LANG[$shLangIso]['_REDSHOP_CATEGORY_PRODUCT_LAYOUT'];
 			shRemoveFromGETVarsList('cid');
-		}
-
-		if ($layout == 'searchletter' && $layout != '')
-		{
-			$title[] = $letter;
-			shRemoveFromGETVarsList('letter');
 		}
 
 		shRemoveFromGETVarsList('layout');
@@ -819,10 +822,24 @@ switch ($view)
 		break;
 }
 
+if ($limitstart)
+{
+	if (!isset($limit))
+	{
+		$limit = JFactory::getApplication()->get('list_limit');
+	}
+
+	$title[] = 'results' . ($limitstart + 1) . '-' . ($limitstart + $limit);
+}
+
 // ------------------  standard plugin finalize function - don't change ---------------------------
 if ($dosef)
 {
-	$string = shFinalizePlugin($string, $title, $shAppendString, $shItemidString, (isset($limit) ? @$limit : null), (isset($limitstart) ? @$limitstart : null), (isset($shLangName) ? @$shLangName : null));
+	$string = shFinalizePlugin(
+		$string, $title, $shAppendString, $shItemidString, (isset($limit) ? $limit : null),
+		(isset($limitstart) ? $limitstart : null), (isset($shLangName) ? $shLangName : null),
+		(isset($showall) ? $showall : null), $suppressPagination = true
+	);
 }
 
 // ------------------  standard plugin finalize function - don't change ---------------------------

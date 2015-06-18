@@ -8,28 +8,49 @@
  */
 
 defined('_JEXEC') or die;
+
+$productHelper = new producthelper;
+
 ?>
 <div class="mod_discount_main">
-	<div class="mod_discount_title"><?php echo JText::_("COM_REDSHOP_DISCOUNT_DETAIL");?></div>
-	<div class="mod_discount_main_value">
-		<?php
-		for ($i = (count($data) - 1); $i >= 0; $i--)
-		{
-			for ($j = 0; $j <= $i; $j++)
+	<table class="table table-striped table-condensed">
+		<thead>
+		<tr>
+			<th><?php echo JText::_('MOD_REDSHOP_DISCOUNT_CONDITION'); ?></th>
+			<th><?php echo JText::_('MOD_REDSHOP_DISCOUNT_DISCOUNT'); ?></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($data as $oneData):
+			switch ($oneData->condition)
 			{
-				?>
-				<div class="mod_discount_spacer"><?php echo "&nbsp;&nbsp;";?></div>
-			<?php
+				case '1':
+					$cond = '<';
+					break;
+				case '3':
+					$cond = '>';
+					break;
+				default:
+					$cond = '=';
+					break;
 			}
-			$data[$i]->condition == '1' ? $cond = '-' : ($data[$i]->condition == '3' ? $cond = '+' : $cond = '');
-			$amount = $data[$i]->amount;
-			$data[$i]->discount_type == '1' ? $disc = '%' : $disc = REDCURRENCY_SYMBOL;
-			$discount_amount = $data[$i]->discount_amount;
+
+			$amount = $oneData->amount;
+
+			if ($oneData->discount_type == '1')
+			{
+				$discount_amount = number_format((double) $oneData->discount_amount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR) . ' %';
+			}
+			else
+			{
+				$discount_amount = $productHelper->getProductFormattedPrice($oneData->discount_amount);
+			}
 			?>
-			<div
-				class="mod_discount_value"><?php echo $cond . "&nbsp;" . $amount . "&nbsp; = " . $discount_amount . "&nbsp;" . $disc; ?></div>
-		<?php
-		}
-		?>
-	</div>
+		<tr>
+			<td><?php echo JText::sprintf('MOD_REDSHOP_DISCOUNT_CONDITION_TEMPLATE', $cond, $amount); ?></td>
+			<td><?php echo $discount_amount; ?></td>
+		</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
 </div>
