@@ -61,9 +61,22 @@ $formdata = array(
 	'oiNames'             => "Items;UnitCode;Description;Amount;ItemId;VatAmount"
 );
 
-if (!empty($paytype))
+if ($data['shippinginfo']->is_company)
+{
+	$groupPaytype = $this->params->get('paytype_business', '');
+}
+else
+{
+	$groupPaytype = $this->params->get('paytype_private', '');
+}
+
+if (!empty($paytype) && empty($groupPaytype))
 {
 	$formdata['payType'] = $paytype;
+}
+elseif (!empty($groupPaytype))
+{
+	$formdata['payType'] = $groupPaytype;
 }
 
 if ($this->params->get("instant_capture"))
