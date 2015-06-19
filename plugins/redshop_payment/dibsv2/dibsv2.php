@@ -26,7 +26,7 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	 */
 	public function __construct(&$subject, $config = array())
 	{
-		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_dibsv2');
+		JPlugin::loadLanguage('plg_redshop_payment_dibsv2');
 		parent::__construct($subject, $config);
 	}
 
@@ -40,7 +40,7 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
-		if ($element != 'rs_payment_dibsv2')
+		if ($element != 'dibsv2')
 		{
 			return;
 		}
@@ -51,16 +51,16 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	}
 
 	/**
-	 * onNotifyPaymentrs_payment_dibsv2
+	 * onNotifyPaymentdibsv2
 	 *
 	 * @param   string  $element  Name element
 	 * @param   array   $request  Request data
 	 *
 	 * @return  stdClass|void
 	 */
-	public function onNotifyPaymentrs_payment_dibsv2($element, $request)
+	public function onNotifyPaymentdibsv2($element, $request)
 	{
-		if ($element != 'rs_payment_dibsv2')
+		if ($element != 'dibsv2')
 		{
 			return;
 		}
@@ -116,7 +116,7 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	}
 
 	/**
-	 * onNotifyPaymentrs_payment_dibsv2
+	 * orderPaymentNotYetUpdated
 	 *
 	 * @param   JDatabase  $dbConn    Name element
 	 * @param   int        $order_id  Order ID
@@ -142,16 +142,16 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	}
 
 	/**
-	 * onNotifyPaymentrs_payment_dibsv2
+	 * onCapture_Paymentdibsv2
 	 *
 	 * @param   string  $element  Name element
 	 * @param   array   $data     Request data
 	 *
 	 * @return  stdClass
 	 */
-	public function onCapture_Paymentrs_payment_dibsv2($element, $data)
+	public function onCapture_Paymentdibsv2($element, $data)
 	{
-		if ($element != 'rs_payment_dibsv2')
+		if ($element != 'dibsv2')
 		{
 			return;
 		}

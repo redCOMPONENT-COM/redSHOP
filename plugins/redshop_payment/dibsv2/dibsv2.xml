@@ -12,7 +12,7 @@
 	<description>PLG_RS_PAYMENT_DIBSV2_DESC</description>
 
 	<files>
-		<filename plugin="rs_payment_dibsv2">dibsv2.php</filename>
+		<filename plugin="dibsv2">dibsv2.php</filename>
 		<filename>index.html</filename>
 		<folder>language</folder>
 		<folder>dibsv2</folder>
