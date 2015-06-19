@@ -12,14 +12,14 @@
 	<description>PLG_RS_PAYMENT_DIBSV2_DESC</description>
 
 	<files>
-		<filename plugin="rs_payment_dibsv2">rs_payment_dibsv2.php</filename>
+		<filename plugin="rs_payment_dibsv2">dibsv2.php</filename>
 		<filename>index.html</filename>
 		<folder>language</folder>
-		<folder>rs_payment_dibsv2</folder>
+		<folder>dibsv2</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_dibsv2.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_dibsv2.sys.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dibsv2.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dibsv2.sys.ini</language>
 	</languages>
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">

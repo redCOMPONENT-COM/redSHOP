@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Class PlgRedshop_Paymentrs_Payment_Dibsv2
+ * Class PlgRedshop_PaymentDibsv2
  *
  * @since  1.5
  */
-class PlgRedshop_Paymentrs_Payment_Dibsv2 extends JPlugin
+class PlgRedshop_PaymentDibsv2 extends JPlugin
 {
 	/**
 	 * Constructor
