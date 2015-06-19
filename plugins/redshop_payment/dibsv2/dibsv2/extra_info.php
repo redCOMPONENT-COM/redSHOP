@@ -38,9 +38,9 @@ $formdata = array(
 	'ourRef'              => $data['order_id'],
 	'language'            => $language,
 	'amount'              => $amount,
-	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
-	'cancelreturnurl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
-	'callbackUrl'         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'cancelreturnurl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'callbackUrl'         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
 
 	// Customer Billing Address
 	'billingFirstName'    => $data['billinginfo']->firstname,
