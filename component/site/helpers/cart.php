@@ -3396,13 +3396,17 @@ class rsCarthelper
 			$shopList = array();
 			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
 
-			if($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
+			if($ShopResponses && isset($ShopResponses[0]) && is_array($ShopResponses[0]))
 			{
 				$ShopRespons = $ShopResponses[0];
 
 				for ($i = 0, $n = count($ShopRespons); $i < $n; $i++)
 				{
-					$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
+					$shopList[] = JHTML::_(
+						'select.option',
+						$ShopRespons[$i]->shop_id,
+						$ShopRespons[$i]->CompanyName . ', ' . $ShopRespons[$i]->Streetname . ', ' . $ShopRespons[$i]->ZipCode . ', ' . $ShopRespons[$i]->CityName
+					);
 				}
 			}
 
