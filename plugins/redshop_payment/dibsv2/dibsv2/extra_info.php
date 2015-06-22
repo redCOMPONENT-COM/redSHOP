@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 
-$Itemid          = JRequest::getInt('Itemid');
+$Itemid          = $app->input->get('Itemid');
 $order_functions = new order_functions;
 $currencyClass   = new CurrencyHelper;
 $order_items     = $order_functions->getOrderItemDetail($data['order_id']);
@@ -27,19 +27,20 @@ if ($language == "Auto")
 
 // For total amount
 $amount       = 0;
-$paytype      = $this->params->get("dibs_paytype");
-$dibs_paytype = implode(",", $paytype);
+$paytype      = $this->params->get('dibs_paytype', '');
 
 // Authenticate vars to send
 $formdata = array(
 	'merchant'            => $this->params->get("seller_id"),
 	'orderId'             => $data['order_id'],
 	'currency'            => $this->params->get("dibs_currency"),
+	'yourRef'             => $data['order_id'],
+	'ourRef'              => $data['order_id'],
 	'language'            => $language,
 	'amount'              => $amount,
-	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
-	'cancelreturnurl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
-	'callbackUrl'         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'cancelreturnurl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'callbackUrl'         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
 
 	// Customer Billing Address
 	'billingFirstName'    => $data['billinginfo']->firstname,
@@ -56,14 +57,31 @@ $formdata = array(
 	'shippingPostalPlace' => $data['shippinginfo']->city,
 
 	// Extra parameters
-	'payType'             => $dibs_paytype,
 	'oiTypes'             => "QUANTITY;UNITCODE;DESCRIPTION;AMOUNT;ITEMID;VATAMOUNT",
 	'oiNames'             => "Items;UnitCode;Description;Amount;ItemId;VatAmount"
 );
 
+if ($data['shippinginfo']->is_company)
+{
+	$groupPaytype = $this->params->get('paytype_business', '');
+}
+else
+{
+	$groupPaytype = $this->params->get('paytype_private', '');
+}
+
+if (!empty($paytype) && empty($groupPaytype))
+{
+	$formdata['payType'] = $paytype;
+}
+elseif (!empty($groupPaytype))
+{
+	$formdata['payType'] = $groupPaytype;
+}
+
 if ($this->params->get("instant_capture"))
 {
-	$formdata['capturenow'] = $this->params->get("instant_capture");
+	$formdata['captureNow'] = $this->params->get("instant_capture");
 }
 
 if ($this->params->get("is_test"))
@@ -171,16 +189,17 @@ if ($payment_price > 0)
 
 $formdata['amount'] = $amount;
 
-include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/dibs_hmac.php';
+include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
 $dibs_hmac = new dibs_hmac;
 $mac_key   = $dibs_hmac->calculateMac($formdata, $hmac_key);
 
 // Action URL
 $dibsurl = "https://payment.dibspayment.com/dpw/entrypoint";
 ?>
+<h2><?php echo JText::_('PLG_RS_PAYMENT_DIBSV2_WAIT_MESSAGE'); ?></h2>
 <form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" method="post" accept-charset="utf-8">
 	<?php foreach ($formdata as $name => $value): ?>
-		<input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
+	<input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
 	<?php endforeach; ?>
 	<input type="hidden" name="MAC" value="<?php echo $mac_key ?>"/>
 </form>
