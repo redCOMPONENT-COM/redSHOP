@@ -12,7 +12,7 @@ class dibs_hmac
 			ksort($formKeyValues); // Sort the posted values by alphanumeric
 			foreach ($formKeyValues as $key => $value)
 			{
-				if ($key != "MAC" && $key != "option" && $key != "tmpl" && $key != "controller" && $key != "view" && $key != "task" && $key != "payment_plugin" && $key != "orderid" && $key != "Itemid")
+				if ($key != "MAC" && $key != "view" && $key != "task")
 				{ // Don't include the MAC in the calculation of the MAC.
 					if (strlen($string) > 0) $string .= "&";
 					$string .= "$key=$value"; // Create string representation
@@ -44,6 +44,7 @@ class dibs_hmac
 		if (is_array($formKeyValues))
 		{
 			$messageToBeSigned = $this->createMessage($formKeyValues);
+
 			// Calculate the MAC.
 			$MAC = hash_hmac("sha256", $messageToBeSigned, $this->hextostr($HmacKey));
 			// Following is only relevant if you wan't to log the calculated MAC to a log file.

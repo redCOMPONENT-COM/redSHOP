@@ -9,31 +9,58 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
+/**
+ * Class PlgRedshop_PaymentDibsv2
+ *
+ * @since  1.5
+ */
+class PlgRedshop_PaymentDibsv2 extends JPlugin
 {
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'group', 'params', 'language'
+	 * (this list is not meant to be comprehensive).
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		JPlugin::loadLanguage('plg_redshop_payment_dibsv2');
+		parent::__construct($subject, $config);
+	}
+
+	/**
+	 * onPrePayment
+	 *
+	 * @param   string  $element  Name element
+	 * @param   array   $data     Request data
+	 *
+	 * @return  void
 	 */
 	public function onPrePayment($element, $data)
 	{
-		if ($element != 'rs_payment_dibsv2')
+		if ($element != 'dibsv2')
 		{
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
 		$app = JFactory::getApplication();
 
-		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
-	public function onNotifyPaymentrs_payment_dibsv2($element, $request)
+	/**
+	 * onNotifyPaymentdibsv2
+	 *
+	 * @param   string  $element  Name element
+	 * @param   array   $request  Request data
+	 *
+	 * @return  stdClass|void
+	 */
+	public function onNotifyPaymentdibsv2($element, $request)
 	{
-		if ($element != 'rs_payment_dibsv2')
+		if ($element != 'dibsv2')
 		{
 			return;
 		}
@@ -43,27 +70,26 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$dibs_hmac = new dibs_hmac;
 
 		JPlugin::loadLanguage('com_redshop');
-		$db = JFactory::getDbo();
+		$db      = JFactory::getDbo();
+		$request = JFactory::getApplication()->input->post;
 
 		$verify_status  = $this->params->get('verify_status', '');
 		$invalid_status = $this->params->get('invalid_status', '');
 
-		$request  = JRequest::get('request');
-		$order_id = $request['orderid'];
-		$Itemid   = $request['Itemid'];
+		$order_id = $request->getString('orderId');
 
 		// Put your HMAC key below.
 		$HmacKey = $this->params->get('hmac_key');
 		$values  = new stdClass;
 
 		// Calculate the MAC for the form key-values posted from DIBS.
-		if (sizeof($request) > 0)
+		if ($request)
 		{
-			$MAC = $dibs_hmac->calculateMac($request, $HmacKey);
+			$MAC = $dibs_hmac->calculateMac($request->getArray(), $HmacKey);
 
-			if ($request['MAC'] == $MAC && $request['status'] == "ACCEPTED")
+			if ($request->getString('MAC') == $MAC && $request->getString('status') == "ACCEPTED")
 			{
-				$tid = $request['transaction'];
+				$tid = $request->get('transaction');
 
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
@@ -89,6 +115,15 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		return $values;
 	}
 
+	/**
+	 * orderPaymentNotYetUpdated
+	 *
+	 * @param   JDatabase  $dbConn    Name element
+	 * @param   int        $order_id  Order ID
+	 * @param   int        $tid       Transaction ID
+	 *
+	 * @return  stdClass|void
+	 */
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDbo();
@@ -106,9 +141,17 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		return $res;
 	}
 
-	public function onCapture_Paymentrs_payment_dibsv2($element, $data)
+	/**
+	 * onCapture_Paymentdibsv2
+	 *
+	 * @param   string  $element  Name element
+	 * @param   array   $data     Request data
+	 *
+	 * @return  stdClass
+	 */
+	public function onCapture_Paymentdibsv2($element, $data)
 	{
-		if ($element != 'rs_payment_dibsv2')
+		if ($element != 'dibsv2')
 		{
 			return;
 		}
