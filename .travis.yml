@@ -6,11 +6,19 @@ php:
 before_script:
   - phpenv config-add .travis.ini
   - phpenv rehash
+  - composer install --dev --prefer-dist
 
   # Install Apache
   - sudo apt-get update -qq
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl php5-gd > /dev/null
-  - composer install --dev --prefer-dist
+  - sudo /etc/init.d/apache2 stop
+  - sudo sed -i -e "s,APACHE_RUN_USER=www-data,APACHE_RUN_USER=$USER,g" /etc/apache2/envvars
+  - sudo sed -i -e "s,APACHE_RUN_GROUP=www-data,APACHE_RUN_GROUP=$USER,g" /etc/apache2/envvars
+  - sudo chown -R $USER /var/lock/apache2
+  - sudo chown -R $USER:$USER /var/www
+  - ln -s $TRAVIS_BUILD_DIR/tests/ /var/www/tests
+  - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
+  - sudo /etc/init.d/apache2 start
 
   # XVFB
   - "export DISPLAY=:99.0"
@@ -18,29 +26,18 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
   # Window manager
-  - echo "c10"
   - "sudo apt-get install fluxbox -y --force-yes"
-  - echo "c11"
   - "fluxbox &"
   - sleep 3 # give fluxbox sometime to start
-
-  # Selenium server
-  #- wget http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar -O selenium-server-standalone.jar
-  #- "java -jar selenium-server-standalone.jar > /dev/null 2>/dev/null &"
-  #- sh .travis/wait4selenium.sh
-
 
 script:
   - php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
   # Download Joomla for testing
   - php vendor/bin/robo prepare:site-for-system-tests
-  - sudo chmod 777 -R $TRAVIS_BUILD_DIR
-  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/joomla-cms3/ /var/www/joomla-cms3 #Add joomla 3 to apache htdocs
-  - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
-  - sudo /etc/init.d/apache2 restart
-  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms3/installation/index.php # Test apache
-  - php vendor/bin/robo run:tests
+  - php .travis/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php # Test apache
+  - php vendor/bin/robo run:groups-tests --group installation
+  - php vendor/bin/robo run:groups-tests --group installation --skip_group yes
   - php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
 
 

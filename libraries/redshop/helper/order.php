@@ -62,7 +62,13 @@ class RedshopHelperOrder
 
 			$firstInvoiceNo = (int) FIRST_INVOICE_NUMBER;
 
-			$number = $maxInvoiceNo + $firstInvoiceNo + 1;
+			// It will apply only for the first number ideally!
+			if ($maxInvoiceNo <= $firstInvoiceNo)
+			{
+				$maxInvoiceNo += $firstInvoiceNo;
+			}
+
+			$number = $maxInvoiceNo + 1;
 
 			self::updateInvoiceNumber($number, $orderId);
 

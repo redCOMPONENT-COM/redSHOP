@@ -823,6 +823,12 @@ class rsCarthelper
 
 			if (count($details) > 0)
 			{
+				// Load language file of the shipping plugin
+				JFactory::getLanguage()->load(
+					'plg_redshop_shipping_' . strtolower(str_replace('plgredshop_shipping', '', $details[0])),
+					JPATH_ADMINISTRATOR
+				);
+
 				if (array_key_exists(1, $details))
 				{
 					$shipping_method = $details[1];
@@ -834,10 +840,9 @@ class rsCarthelper
 				}
 			}
 
-			// $shopLocation = $this->_shippinghelper->decryptShipping( str_replace(" ","+",$row->shop_id) );
 			$shopLocation = $row->shop_id;
 			$replace      = array();
-			$replace[]    = $shipping_method;
+			$replace[]    = JText::_($shipping_method);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping - $row->order_shipping_tax);
 			$replace[]    = $shipping_rate_name;
@@ -2645,11 +2650,12 @@ class rsCarthelper
 
 		if ($checkout)
 		{
-			$cart_data = $this->replacePayment($cart_data, $cart['payment_amount'], 0);
+			$cart_data = $this->replacePayment($cart_data, $cart['payment_amount'], 0, $cart['payment_oprand']);
 		}
 		else
 		{
-			$cart_data = $this->replacePayment($cart_data, 0, 1);
+			$paymentOprand = (isset($cart['payment_oprand'])) ? $cart['payment_oprand'] : '-';
+			$cart_data     = $this->replacePayment($cart_data, 0, 1, $paymentOprand);
 		}
 
 		$cart_data = $this->replaceTax($cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, DEFAULT_QUOTATION_MODE);
@@ -3390,13 +3396,17 @@ class rsCarthelper
 			$shopList = array();
 			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
 
-			if($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
+			if($ShopResponses && isset($ShopResponses[0]) && is_array($ShopResponses[0]))
 			{
 				$ShopRespons = $ShopResponses[0];
 
 				for ($i = 0, $n = count($ShopRespons); $i < $n; $i++)
 				{
-					$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
+					$shopList[] = JHTML::_(
+						'select.option',
+						$ShopRespons[$i]->shop_id,
+						$ShopRespons[$i]->CompanyName . ', ' . $ShopRespons[$i]->Streetname . ', ' . $ShopRespons[$i]->ZipCode . ', ' . $ShopRespons[$i]->CityName
+					);
 				}
 			}
 
@@ -4708,20 +4718,44 @@ class rsCarthelper
 	{
 		$db = JFactory::getDbo();
 
-		$current_time = time();
-		$cart         = $this->_session->get('cart');
-		$user         = JFactory::getUser();
-		$coupon       = array();
+		$today  = time();
+		$cart   = $this->_session->get('cart');
+		$user   = JFactory::getUser();
+		$coupon = array();
+
+		// Create the base select statement.
+		$query = $db->getQuery(true)
+					->select('c.*')
+					->from($db->qn('#__redshop_coupons', 'c'))
+					->where($db->qn('c.published') . ' = 1')
+					->where(
+						'('
+							. $db->qn('c.start_date') . ' <= ' . $db->quote($today)
+							. ' AND ' . $db->qn('c.end_date') . ' >= ' . $db->quote($today)
+						. ')'
+					);
 
 		if ($user->id)
 		{
-			$query = "SELECT ct.coupon_value as coupon_value,c.free_shipping, c.coupon_id,c.coupon_code,c.percent_or_total,ct.userid,ct.transaction_coupon_id FROM " . $this->_table_prefix . "coupons as c "
-				. "left join " . $this->_table_prefix . "coupons_transaction as ct on ct.coupon_id = c.coupon_id "
-				. "WHERE ct.coupon_value > 0 AND c.published = 1 and ct.coupon_code=" . $db->quote($coupon_code)
-				. " AND (c.start_date<=" . $db->quote($current_time) . " AND c.end_date>=" . $db->quote($current_time) . " )"
-				. " AND ct.userid=" . (int) $user->id . " ORDER BY transaction_coupon_id DESC limit 0,1";
-			$this->_db->setQuery($query);
-			$coupon = $this->_db->loadObject();
+			$userQuery = clone($query);
+			$userQuery->select(
+					array(
+						$db->qn('ct.coupon_value', 'coupon_value'),
+						$db->qn('ct.userid'),
+						$db->qn('ct.transaction_coupon_id')
+					)
+				)
+				->leftjoin(
+					$db->qn('#__redshop_coupons_transaction', 'ct')
+					. ' ON ' . $db->qn('ct.coupon_id') . ' = ' . $db->qn('c.coupon_id')
+				)
+				->where($db->qn('ct.coupon_value') . ' > 0')
+				->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($coupon_code))
+				->where($db->qn('ct.userid') . ' = ' . (int) $user->id)
+				->order($db->qn('ct.transaction_coupon_id') . ' DESC');
+
+			$db->setQuery($userQuery, 0, 1);
+			$coupon = $db->loadObject();
 
 			if (count($coupon) > 0)
 			{
@@ -4731,12 +4765,18 @@ class rsCarthelper
 
 		if (count($coupon) <= 0)
 		{
-			$query = "SELECT * FROM " . $this->_table_prefix . "coupons   "
-				. "WHERE published = 1 and coupon_code = " . $db->quote($coupon_code) . " and (start_date<=" . $db->quote($current_time)
-				. " AND end_date>=" . $db->quote($current_time) . " ) AND coupon_left > 0 "
-				. " AND ( " . $db->quote($subtotal) . " >= subtotal OR subtotal = 0 OR subtotal = '' ) limit 0,1";
-			$this->_db->setQuery($query);
-			$coupon = $this->_db->loadObject();
+			$query->where($db->qn('c.coupon_code') . ' = ' . $db->quote($coupon_code))
+
+				->where($db->qn('c.coupon_left') . ' > 0')
+				->where(
+					'('
+						. $db->quote($subtotal) . ' >= ' . $db->qn('c.subtotal')
+						. ' OR ' . $db->qn('c.subtotal') . ' = 0'
+					. ')'
+				);
+
+			$db->setQuery($query, 0, 1);
+			$coupon = $db->loadObject();
 		}
 
 		return $coupon;

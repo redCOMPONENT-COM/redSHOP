@@ -8,7 +8,7 @@
         "joomla-projects/joomla-browser": "dev-develop"
     },
     "require-dev": {
-        "codeception/codeception": "*",
+        "codeception/codeception": "2.0.13",
         "codegyre/robo": "~0.5",
         "redcomponent/robo": "dev-master"
     }

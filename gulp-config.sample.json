@@ -1,0 +1,18 @@
+{
+	"name"         : "redshop",
+	"releasesDir"  : "/var/www/releases",
+	"joomlaVersion": "j25-j3x",
+	"packageFiles" :[
+		"LICENSE.txt",
+		"redshop.xml",
+		"install.php",
+		"component/**",
+		"media/**",
+		"libraries/**",
+		"modules/site/mod_redshop_cart/**",
+		"plugins/system/redshop/**",
+		"plugins/redshop_payment/rs_payment_banktransfer/**",
+		"plugins/redshop_payment/rs_payment_paypal/**",
+		"plugins/redshop_shipping/default_shipping/**"
+	]
+}

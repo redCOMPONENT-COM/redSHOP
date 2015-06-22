@@ -167,6 +167,12 @@
 					default="0"
 					value="0"
 				/>
+				<field
+					name="refund"
+					type="hidden"
+					default="1"
+					value="1"
+				/>
 			</fieldset>
 		</fields>
 	</config>
