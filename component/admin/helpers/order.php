@@ -1187,10 +1187,15 @@ class order_functions
 			return $list;
 		}
 
-		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM #__redshop_users_info '
-				. 'WHERE address_type like "BT" ' . 'AND user_id = ' . (int) $user_id;
-		$db->setQuery($query);
-		$list = $db->loadObject();
+		if ($user_id)
+		{
+			$query = $db->getQuery(true)
+				->select('*, CONCAT(firstname," ",lastname) AS text')
+				->from('#__redshop_users_info')
+				->where('address_type = ' . $db->q('BT'))
+				->where('user_id = ' . (int) $user_id);
+			$list = $db->setQuery($query)->loadObject();
+		}
 
 		return $list;
 	}

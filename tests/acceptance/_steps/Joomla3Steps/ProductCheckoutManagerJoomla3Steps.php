@@ -152,4 +152,103 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
 		$I->seeElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage);
 	}
+
+	/**
+	 * Function to Test Checkout Process of a Product using the 2Checkout Payment Plugin
+	 *
+	 * @param   Array   $addressDetail          Address Detail
+	 * @param   Array   $shipmentDetail         Shipping Address Detail
+	 * @param   Array   $checkoutAccountDetail  2Checkout Account Detail
+	 * @param   string  $productName            Name of the Product
+	 * @param   string  $categoryName           Name of the Category
+	 *
+	 * @return void
+	 */
+	public function checkoutProductWith2CheckoutPayment($addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	{
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
+		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+		$this->addressInformation($addressDetail);
+		$this->shippingInformation($shipmentDetail);
+		$I->click("Proceed");
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
+		$I->click(['xpath' => "//div[@id='rs_payment_2checkout']//label//input"]);
+		$I->click("Checkout");
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->seeElement($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForText('Secure Checkout', 20, ['xpath' => '//h1']);
+		$I->see('Secure Checkout', ['xpath' => '//h1']);
+		$I->click(['xpath' => "//section[@id='review-cart']/button"]);
+		$I->fillField(['xpath' => "//input[@id='shipping-address-1']"], $checkoutAccountDetail['shippingAddress']);
+		$I->click(['xpath' => "//section[@id='shipping-information']/button"]);
+		$I->click(['xpath' => "//input[@id='same-as-shipping']"]);
+		$I->click(['xpath' => "//section[@id='billing-information']/button"]);
+		$I->fillField(['xpath' => "//input[@id='card-number']"], $checkoutAccountDetail['debitCardNumber']);
+		$I->click(['xpath' => "//section[@id='payment-method']/div[2]/button"]);
+		$I->waitForText('Your payment has been processed', 10, '//h1');
+		$I->see('Your payment has been processed', '//h1');
+	}
+
+	/**
+	 * Function to Test Checkout Process of a Product using the Braintree Payment Plugin
+	 *
+	 * @param   Array   $addressDetail          Address Detail
+	 * @param   Array   $shipmentDetail         Shipping Address Detail
+	 * @param   Array   $checkoutAccountDetail  2Checkout Account Detail
+	 * @param   string  $productName            Name of the Product
+	 * @param   string  $categoryName           Name of the Category
+	 *
+	 * @return void
+	 */
+	public function checkoutProductWithBeanStreamPayment($addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	{
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
+		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+		$this->addressInformation($addressDetail);
+		$this->shippingInformation($shipmentDetail);
+		$I->click("Proceed");
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
+		$I->click(['xpath' => "//div[@id='rs_payment_beanstream']//label//input"]);
+		$I->click("Checkout");
+		$I->waitForElement(['xpath' => "//input[@id='order_payment_name']"], 10);
+		$I->fillField(['xpath' => "//input[@id='order_payment_name']"], $checkoutAccountDetail['customerName']);
+		$I->fillField(['xpath' => "//input[@id='order_payment_number']"], $checkoutAccountDetail['debitCardNumber']);
+		$I->fillField(['xpath' => "//input[@id='credit_card_code']"], $checkoutAccountDetail['cvv']);
+		$I->click(['xpath' => "//input[@value='VISA']"]);
+		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->seeElement($productFrontEndManagerPage->product($productName));
+		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-message']"]);
+		$I->see('Order placed', "//div[@class='alert alert-message']");
+	}
 }
