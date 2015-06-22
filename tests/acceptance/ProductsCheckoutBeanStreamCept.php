@@ -64,7 +64,7 @@ else
 
 	if (($productRandomizer % 2) == 1)
 	{
-		$productName = 'redCORE';
+		$productName = 'redSHOP';
 	}
 	else
 	{
