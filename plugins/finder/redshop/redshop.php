@@ -160,8 +160,10 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 		}
 
 		// Build the necessary route and path information.
-		$item->url = $this->getURL($item->slug, $this->extension, $this->layout);
-		$item->route = RedshopHelperRoute::getProductRoute($item->slug, $item->catid);
+
+		$alias = JFilterOutput::stringURLSafe($item->slug);
+		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		$item->route = RedshopHelperRoute::getProductRoute($alias, $item->catid);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Add the meta-author.
@@ -223,10 +225,18 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 
 		// Check if we can use the supplied SQL query.
 		$query = is_a($query, 'JDatabaseQuery') ? $query : $this->db->getQuery(true);
-		$query->select('p.product_id AS slug, p.product_name AS title, p.product_price, p.discount_price')
-			->select('p.product_s_desc AS body, p.product_desc AS body')
+		$case_when_item_alias = ' CASE WHEN ';
+		$case_when_item_alias .= $query->charLength('p.product_name', '!=', '0');
+		$case_when_item_alias .= ' THEN ';
+		$p_id = $query->castAsChar('p.product_id');
+		$case_when_item_alias .= $query->concatenate(array($p_id, 'p.product_name'), ':');
+		$case_when_item_alias .= ' ELSE ';
+		$case_when_item_alias .= $p_id . ' END as slug';
+		$query->select('p.product_id as id, p.product_name AS title, p.product_price, p.discount_price')
+			->select('p.product_s_desc AS body, p.product_desc AS summary')
 			->select('p.published AS state, p.publish_date AS publish_start_date, p.update_date')
 			->select('pc.category_id AS catid, 1 AS access, 0 AS publish_end_date, c.published AS cat_state')
+			->select($case_when_item_alias)
 			->from('#__redshop_product AS p')
 			->join('LEFT', '#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
 			->join('LEFT', '#__redshop_category AS c ON c.category_id = pc.category_id')
