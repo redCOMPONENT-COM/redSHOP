@@ -52,7 +52,7 @@ class PlgButtonProduct extends JPlugin
 		}";
 		$doc->addScriptDeclaration($js);
 
-		$link = 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . $name . '&' . JSession::getFormToken() . '=1';
+		$link = 'index.php?option=com_redshop&amp;view=product&amp;layout=element&amp;tmpl=component&amp;object=' . $name . '&' . JSession::getFormToken() . '=1';
 
 		JHTML::_('behavior.modal');
 

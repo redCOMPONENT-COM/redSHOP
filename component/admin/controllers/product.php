@@ -17,18 +17,6 @@ class RedshopControllerProduct extends RedshopController
 		$this->setRedirect('index.php');
 	}
 
-	/*
-	 * select A Product Element
-	 */
-	public function element()
-	{
-		// Check for request forgeries
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
-		JRequest::setVar('layout', 'element');
-		JRequest::setVar('hidemainmenu', 1);
-		parent::display();
-	}
-
 	public function ins_product()
 	{
 		JRequest::setVar('layout', 'ins_product');
