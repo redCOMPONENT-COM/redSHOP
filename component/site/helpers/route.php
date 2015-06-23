@@ -38,37 +38,20 @@ abstract class RedshopHelperRoute
 	public static function getProductRoute($id, $catid)
 	{
 		$needles = array(
-				'product' => array((int) $id)
+			'product'  => array((int) $id)
 		);
 
-		// Set some vars for further processing
-		static::$format = 'html';
-		static::$type = 'product';
+		// Create the link
+		$link = 'index.php?option=com_redshop&view=product&pid=' . $id;
 
-		if ($id < 1)
+		if ((int) $catid > 0)
 		{
-			$link = '';
+			$link .= '&cid=' . $catid;
 		}
-		else
-		{
-			if ($item = static::_findItem($needles))
-			{
-				$link = 'index.php?Itemid=' . $item;
-			}
-			else
-			{
-				// Create the link
-				$link = 'index.php?option=com_redshop&view=product&pid=' . $id;
 
-				if ($item = static::_findItem($needles))
-				{
-					$link .= '&Itemid=' . $item;
-				}
-				elseif ($item = static::_findItem())
-				{
-					$link .= '&Itemid=' . $item;
-				}
-			}
+		if ($item = self::_findItem($needles))
+		{
+			$link .= '&Itemid=' . $item;
 		}
 
 		return $link;

@@ -226,7 +226,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 		$query->select('p.product_id AS slug, p.product_name AS title, p.product_price, p.discount_price')
 			->select('p.product_s_desc AS body, p.product_desc AS body')
 			->select('p.published AS state, p.publish_date AS publish_start_date, p.update_date')
-			->select('pc.category_id AS catid')
+			->select('pc.category_id AS catid, 1 AS access, 0 AS publish_end_date, c.published AS cat_state')
 			->from('#__redshop_product AS p')
 			->join('LEFT', '#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
 			->join('LEFT', '#__redshop_category AS c ON c.category_id = pc.category_id')
