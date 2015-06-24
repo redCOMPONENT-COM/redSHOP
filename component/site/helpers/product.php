@@ -7690,6 +7690,7 @@ class producthelper
 		$quantity          = 0;
 		$stockroom_id      = "0";
 		$orderItemdata     = $order_functions->getOrderItemDetail(0, 0, $order_item_id);
+		$cartAttributes    = array();
 
 		$products = $this->getProductById($orderItemdata[0]->product_id);
 
@@ -7798,6 +7799,15 @@ class producthelper
 					// Assign tmp variable to looping variable to get copy of all texts
 					$attribute_final_template .= $tmp_attribute_middle_template;
 
+					// Initialize attribute child array
+					$attributeChilds = array(
+						'property_id' => $orderPropdata[$p]->section_id,
+						'property_name' => $orderPropdata[$p]->section_name,
+						'property_oprand' => $orderPropdata[$p]->section_oprand,
+						'property_price' => $property_price,
+						'property_childs' => array()
+					);
+
 					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
 					for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
@@ -7863,6 +7873,14 @@ class producthelper
 						}
 
 						$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
+
+						$attributeChilds['property_childs'][] = array(
+							'subproperty_id'           => $orderSubpropdata[$sp]->section_id,
+							'subproperty_name'         => $orderSubpropdata[$sp]->section_name,
+							'subproperty_oprand'       => $orderSubpropdata[$sp]->section_oprand,
+							'subattribute_color_title' => urldecode($subproperty[0]->subattribute_color_title),
+							'subproperty_price'        => $subproperty_price
+						);
 					}
 
 					// Format Calculated price using Language variable
@@ -7875,7 +7893,13 @@ class producthelper
 						$productAttributeCalculatedPrice,
 						$tmp_attribute_middle_template
 					);
+
+					// Initialize attribute child array
+					$attribute[0]->attribute_childs[] = $attributeChilds;
 				}
+
+				// Prapare cart type attribute array
+				$cartAttributes[] = get_object_vars($attribute[0]);
 			}
 		}
 		else
@@ -7888,10 +7912,11 @@ class producthelper
 			$displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
 		}
 
-		$data = new stdClass;
-		$data->product_attribute = $displayattribute;
-		$data->attribute_middle_template = $attribute_final_template;
+		$data                                 = new stdClass;
+		$data->product_attribute              = $displayattribute;
+		$data->attribute_middle_template      = $attribute_final_template;
 		$data->attribute_middle_template_core = $attribute_middle_template;
+		$data->cart_attribute                 = $cartAttributes;
 
 		return $data;
 	}
