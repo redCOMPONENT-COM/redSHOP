@@ -1638,8 +1638,6 @@ class rsCarthelper
 				}
 			}
 
-			$dispatcher->trigger('changeCartOrderItemImage', array(&$data, &$attrib_img, $rowitem[$i], $i));
-
 			$product_name        = "<div class='product_name'>" . $product_name . "</div>";
 			$product_total_price = "<div class='product_price'>";
 
@@ -1785,7 +1783,26 @@ class rsCarthelper
 			// ProductFinderDatepicker Extra Field Start
 			$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray);
 
-			$cart_mdata = str_replace("{product_thumb_image}", "<div  class='product_image'>" . $attrib_img . "</div>", $cart_mdata);
+			// Change order item image based on plugin
+			$prepareCartAttributes[$i]               = get_object_vars($attribute_data);
+			$prepareCartAttributes[$i]['product_id'] = $rowitem[$i]->product_id;
+
+			$dispatcher->trigger(
+				'changeCartOrderItemImage',
+				array(
+					&$prepareCartAttributes,
+					&$attrib_img,
+					$rowitem[$i],
+					$i
+				)
+			);
+
+			$cart_mdata = str_replace(
+				"{product_thumb_image}",
+				"<div  class='product_image'>" . $attrib_img . "</div>",
+				$cart_mdata
+			);
+
 			$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
 
 			$cart_mdata = str_replace("{product_old_price}", $product_old_price, $cart_mdata);
