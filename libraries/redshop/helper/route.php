@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * @package     Redshop.Libararies
+ * @subpackage  com_redshop
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -13,20 +13,38 @@ defined('_JEXEC') or die;
  * Contact Component Route Helper
  *
  * @static
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * @package     Redshop.Libararies
+ * @subpackage  com_redshop
  * @since       1.5
  */
 abstract class RedshopHelperRoute
 {
+	/**
+	 * The format to route
+	 *
+	 * @var string
+	 * @since 2.0
+	 */
 	protected static $format;
 
+	/**
+	 * An array of data to reference
+	 *
+	 * @var array
+	 * @since 1.8
+	 */
 	protected static $lookup;
 
+	/**
+	 * The type of link to lookup (redshop/products)
+	 *
+	 * @var string
+	 * @since 2.0
+	 */
 	protected static $type;
 
 	/**
-	 * Get the URL route for a product from a product ID, product category ID and language
+	 * Get the URL route for a product from a product ID, product category ID and product manufacturer ID
 	 *
 	 * @param   integer  $id              The id of the product
 	 * @param   integer  $catid           The id of the product's category
@@ -72,7 +90,7 @@ abstract class RedshopHelperRoute
 	 *
 	 * @since   1.5
 	 */
-	protected static function _findItem($needles = null)
+	protected static function findItem($needles = null)
 	{
 		$app = JFactory::getApplication();
 		$menus = $app->getMenu('site');
