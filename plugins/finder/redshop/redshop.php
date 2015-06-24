@@ -205,7 +205,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load com_content route helper as it is the fallback for routing in the indexer in this instance.
-		include_once JPATH_SITE . '/components/com_redshop/helpers/route.php';
+		include_once JPATH_SITE . '/libraries/redshop/helper/route.php';
 
 		return true;
 	}
