@@ -28,14 +28,15 @@ abstract class RedshopHelperRoute
 	/**
 	 * Get the URL route for a product from a product ID, product category ID and language
 	 *
-	 * @param   integer  $id     The id of the product
-	 * @param   integer  $catid  The id of the product's category
+	 * @param   integer  $id              The id of the product
+	 * @param   integer  $catid           The id of the product's category
+	 * @param   integer  $manufacturerId  The id of the product's manufacturer
 	 *
 	 * @return  string  The link to the product
 	 *
 	 * @since   1.5
 	 */
-	public static function getProductRoute($id, $catid)
+	public static function getProductRoute($id, $catid, $manufacturerId)
 	{
 		$needles = array(
 			'product'  => array((int) $id)
@@ -49,9 +50,14 @@ abstract class RedshopHelperRoute
 			$link .= '&cid=' . $catid;
 		}
 
-		if ($item = self::_findItem($needles))
+		// Find the menu item for the search
+		$app = JFactory::getApplication();
+		$menu  = $app->getMenu();
+		$items = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catid . '&manufacturer_id=' . $manufacturerId);
+
+		if (isset($items[0]))
 		{
-			$link .= '&Itemid=' . $item;
+			$link .= '&Itemid=' . $items[0]->id;
 		}
 
 		return $link;
