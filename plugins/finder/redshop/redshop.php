@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Plugin
- * @subpackage  Finder.Categories
+ * @package     Redshop.Plugin
+ * @subpackage  Finder.redSHOP
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
- * Smart Search adapter for Joomla Categories.
+ * Smart Search adapter for redSHOP Products.
  *
  * @since  2.5
  */
@@ -117,9 +117,9 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	 * from outside the edit screen. This is fired when the item is published,
 	 * unpublished, archived, or unarchived from the list view.
 	 *
-	 * @param   string   $context  The context for the category passed to the plugin.
-	 * @param   array    $pks      An array of primary key ids of the category that has changed state.
-	 * @param   integer  $value    The value of the state that the category has been changed to.
+	 * @param   string   $context  The context for the products passed to the plugin.
+	 * @param   array    $pks      An array of primary key ids of the products that has changed state.
+	 * @param   integer  $value    The value of the state that the products has been changed to.
 	 *
 	 * @return  void
 	 *
@@ -178,7 +178,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', $this->type_title);
 		$item->addTaxonomy('Language', $item->language);
 
-		// Translate the state. Categories should only be published if the parent category is published.
+		// Translate the state. Products should only be published if the parent category is published.
 		$item->state = $this->translateState($item->state);
 
 		// Get content extras.

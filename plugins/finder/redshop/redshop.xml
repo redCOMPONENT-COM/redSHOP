@@ -3,10 +3,9 @@
 	<name>plg_finder_redshop</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2015</creationDate>
-	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2008 - 2015 redCOMPONENT.com. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE</license>
+	<author>redCOMPONENT.com</author>
 	<version>3.0.0</version>
 	<description>PLG_FINDER_REDSHOP_XML_DESCRIPTION</description>
 	<files>
