@@ -234,7 +234,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 		$case_when_item_alias .= $p_id . ' END as slug';
 		$query->select('p.product_id as id, p.product_name AS title, p.product_price, p.discount_price')
 			->select('p.product_s_desc AS body, p.product_desc AS summary')
-			->select('p.published AS state, p.publish_date AS publish_start_date, p.update_date')
+			->select('p.published AS state, 0 AS publish_start_date, p.update_date')
 			->select('pc.category_id AS catid, 1 AS access, 0 AS publish_end_date, c.published AS cat_state')
 			->select($case_when_item_alias)
 			->from('#__redshop_product AS p')
