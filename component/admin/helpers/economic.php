@@ -851,7 +851,14 @@ class economic
 
 			if (count($order_shipping) > 5)
 			{
-				$shipping_nshortname = (strlen($order_shipping[1]) > 15) ? substr($order_shipping[1], 0, 15) : $order_shipping[1];
+				// Load language file of the shipping plugin
+				JFactory::getLanguage()->load(
+					'plg_redshop_shipping_' . strtolower(str_replace('plgredshop_shipping', '', $order_shipping[0])),
+					JPATH_ADMINISTRATOR
+				);
+
+				$shippingName        = JText::_($order_shipping[1]);
+				$shipping_nshortname = (strlen($shippingName) > 15) ? substr($shippingName, 0, 15) : $shippingName;
 				$shipping_number     = $shipping_nshortname . ' ' . $order_shipping[4];
 				$shipping_name       = $order_shipping[2];
 				$shipping_rate       = $order_shipping[3];
