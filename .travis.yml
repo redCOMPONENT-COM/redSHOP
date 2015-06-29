@@ -6,7 +6,8 @@ php:
 before_script:
   - phpenv config-add .travis.ini
   - phpenv rehash
-  - composer install --dev --prefer-dist
+  - composer config -g github-oauth.github.com 4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
+  - composer install --prefer-dist
 
   # Install Apache
   - sudo apt-get update -qq
