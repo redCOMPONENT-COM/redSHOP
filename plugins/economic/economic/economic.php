@@ -12,6 +12,14 @@ defined('_JEXEC') or die;
 class plgEconomicEconomic extends JPlugin
 {
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * specific redform plugin parameters
 	 *
 	 * @var JRegistry object
@@ -52,6 +60,8 @@ class plgEconomicEconomic extends JPlugin
 			$this->error = 1;
 			$this->errorMsg = "Disable Plugin";
 		}
+
+		JPlugin::loadLanguage('plg_economic_economic');
 	}
 
 	/**
@@ -2087,11 +2097,6 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to create cash book entry in economic for Merchant Fees
 	 *
-	 * @return array
-	 */
-	/**
-	 * Method to create cash book entry in economic for Merchant Fees
-	 *
 	 * @param   array   $d           Information about booking invoice
 	 * @param   Object  $bookHandle  SOAP Object of the e-conomic current book invoice
 	 *
@@ -2104,23 +2109,23 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$cashBookHandle              = new stdclass();
+		$cashBookHandle              = new stdclass;
 		$cashBookHandle->Number      = intval($this->getCashBookAll());
 
-		$debtorHandle                = new stdclass();
+		$debtorHandle                = new stdclass;
 		$debtorHandle->Number        = $this->params->get('economicCreditorNumber');
 
 		$contraaccount               = intval($this->getTermOfPaymentContraAccount($d));
 
-		$contraAccountHandle         = new stdclass();
+		$contraAccountHandle         = new stdclass;
 		$contraAccountHandle->Number = $contraaccount;
 
-		$CurrencyHandle              = new stdclass();
+		$CurrencyHandle              = new stdclass;
 		$CurrencyHandle->Code        = $d ['currency_code'];
 
 		try
 		{
-			if($contraaccount)
+			if ($contraaccount)
 			{
 				$info = array(
 					'cashBookHandle'      => $cashBookHandle,
@@ -2175,16 +2180,15 @@ class plgEconomicEconomic extends JPlugin
 		}
 		catch ( Exception $exception )
 		{
-	 		print("<p><i>createCashbookEntry:" . $exception->getMessage() . "</i></p>");
+			print("<p><i>createCashbookEntry:" . $exception->getMessage() . "</i></p>");
 
-			if(DETAIL_ERROR_MESSAGE_ON)
+			if (DETAIL_ERROR_MESSAGE_ON)
 			{
-				JError::raiseWarning(21,"createCashbookEntry:".$exception->getMessage());
-				//exit;
+				JError::raiseWarning(21, "createCashbookEntry:" . $exception->getMessage());
 			}
 			else
 			{
-				JError::raiseWarning(21,JText::_('DETAIL_ERROR_MESSAGE_LBL'));
+				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
 			}
 		}
 	}
