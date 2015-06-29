@@ -24,8 +24,8 @@ class ProductsCheckoutMonerisCest
 	 * @param   String            $scenario  Scenario Variable
 	 *
 	 * @return void
-	 */
-	public function testEWAYPaymentPlugin(AcceptanceTester $I, $scenario)
+
+	public function MonerisPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Checkout on Front End with Moneris Payments Plugin');
 		$I->doAdministratorLogin();
@@ -95,7 +95,7 @@ class ProductsCheckoutMonerisCest
 
 		$this->checkoutProductWithMonerisPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
 	}
-
+	*/
 	/**
 	 * Function to update Moneris Payment Plugin
 
