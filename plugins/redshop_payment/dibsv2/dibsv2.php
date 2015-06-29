@@ -85,7 +85,8 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 		// Calculate the MAC for the form key-values posted from DIBS.
 		if ($request)
 		{
-			$MAC = $dibs_hmac->calculateMac($request->getArray(), $HmacKey);
+			// Getting the array of post values is done this way to maintain compatibility with J2.5. J3 supports using simply `$post->getArray()`
+			$MAC = $dibs_hmac->calculateMac($request->getArray(array_flip(array_keys($_POST))), $HmacKey);
 
 			if ($request->getString('MAC') == $MAC && $request->getString('status') == "ACCEPTED")
 			{
