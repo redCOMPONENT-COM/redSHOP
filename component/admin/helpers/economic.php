@@ -1140,7 +1140,7 @@ class economic
 								$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
 							}
 
-							$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdata->order_id);
+							$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdetail->order_id);
 
 							if (count($paymentInfo) > 0)
 							{
@@ -1151,6 +1151,12 @@ class economic
 									$paymentparams                    = new JRegistry($paymentmethod[0]->params);
 									$eco['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
 									$eco['economic_design_layout']    = $paymentparams->get('economic_design_layout');
+								}
+
+								// Setting merchant fees for economic
+								if($paymentInfo[0]->order_transfee > 0)
+								{
+									$eco['order_transfee'] = $paymentInfo[0]->order_transfee;
 								}
 							}
 
