@@ -135,7 +135,7 @@ class ProductsCheckoutAuthorizeCest
 		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
 		$I->click(['xpath' => "//div[@id='rs_payment_authorize']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement(['id' => "order_payment_name"], 10);
+		$I->waitForElement(['id' => "order_payment"], 10);
 		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
 		$I->fillField(['id' => "order_payment_number"], $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField(['id' => "credit_card_code"], $checkoutAccountDetail['cvv']);
