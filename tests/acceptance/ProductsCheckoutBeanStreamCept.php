@@ -75,4 +75,4 @@ else
 
 }
 
-$I->checkoutProductWithBeanStreamPayment($customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+// $I->checkoutProductWithBeanStreamPayment($customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
