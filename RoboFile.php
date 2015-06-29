@@ -299,8 +299,8 @@ class RoboFile extends \Robo\Tasks
 				->group($options['group'])
 				->arg('--debug')
 				->arg('--fail-fast')
-				->run()
-				->stopOnFail();
+				->stopOnFail()
+				->run();
 		}
 		if ($options['skip_group'])
 		{
