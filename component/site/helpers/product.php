@@ -288,7 +288,8 @@ class producthelper
 				->select('dp.*')
 				->from($db->qn('#__redshop_discount_product', 'dp'))
 				->where('dp.published = 1')
-				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ') OR FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
+				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ')')
+				->where('FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
 				->where('dp.start_date <= ' . $db->q($time))
 				->where('dp.end_date >= ' . $db->q($time))
 				->order('dp.amount DESC');
@@ -588,6 +589,7 @@ class producthelper
 			}
 			else
 			{
+				$userdata = new stdClass;
 				$userdata->country_code = DEFAULT_VAT_COUNTRY;
 				$userdata->state_code   = DEFAULT_VAT_STATE;
 			}
@@ -3361,10 +3363,11 @@ class producthelper
 			{
 				foreach ($productData->attributes as $attribute)
 				{
-					if (($attributeSetId && $attributeSetId != $attribute->attribute_set_id)
-						|| ($attributeId && $attributeId != $attribute->attribute_id)
-						|| ($published && $published != $attribute->attribute_set_published)
-						|| ($attributeRequired && $attributeRequired != $attribute->attribute_required))
+					if (($attributeSetId && ($attributeSetId != $attribute->attribute_set_id))
+						|| ($attributeId && ($attributeId != $attribute->attribute_id))
+						|| ($published && ($published != $attribute->attribute_published))
+						|| ($published && $attributeSetId && ($published != $attribute->attribute_set_published))
+						|| ($attributeRequired && ($attributeRequired != $attribute->attribute_required)))
 					{
 						continue;
 					}

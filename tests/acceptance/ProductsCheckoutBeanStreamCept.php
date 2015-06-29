@@ -40,7 +40,39 @@ $customerInformation = array(
 	"state" => "Karnataka",
 	"phone" => "8787878787"
 );
-$productName = 'redCOOKIE';
-$categoryName = 'Events and Forms';
+$randomNumber = rand(10, 1000);
+
+if (($randomNumber % 2) == 1)
+{
+	$productRandomizer = rand(10, 1000);
+
+	if (($productRandomizer % 2) == 1)
+	{
+		$productName = 'redSLIDER';
+	}
+	else
+	{
+		$productName = 'redCOOKIE';
+	}
+
+	$categoryName = 'Events and Forms';
+
+}
+else
+{
+	$productRandomizer = rand(10, 1000);
+
+	if (($productRandomizer % 2) == 1)
+	{
+		$productName = 'redSHOP';
+	}
+	else
+	{
+		$productName = 'redITEM';
+	}
+
+	$categoryName = 'CCK and e-Commerce';
+
+}
 
 $I->checkoutProductWithBeanStreamPayment($customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
