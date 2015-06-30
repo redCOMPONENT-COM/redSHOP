@@ -391,7 +391,16 @@ class redhelper
 		
 		$db->setQuery($query);
 
-		return $db->loadAssocList();
+		$results = $db->loadAssocList(); 
+		
+		if ($results)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
