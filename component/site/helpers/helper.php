@@ -371,6 +371,29 @@ class redhelper
 		return false;
 	}
 
+	public function getCategoryHaveShoperGroup($catid)
+	{
+		// Check this category is everyone can access
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		
+		$condition = "`cat`.`category_id` IN (SELECT
+						  SUBSTRING_INDEX(SUBSTRING_INDEX(a.shopper_group_categories, ',', b.shopper_group_id), ',', -1) `categories`
+						FROM
+						  j3_redshop_shopper_group as a INNER JOIN j3_redshop_shopper_group as b
+						  ON CHAR_LENGTH(a.shopper_group_categories) - CHAR_LENGTH(REPLACE(a.shopper_group_categories, ',', '')) >= b.shopper_group_id-1
+						WHERE a.shopper_group_categories <> '' AND a.published = '1')";
+		
+		$query->select("*");
+		$query->from($db->qn("#__redshop_category", "cat"));
+		$query->where($condition);
+		$query->where("`cat`.`category_id`=" . $db->q($catid));
+		
+		$db->setQuery($query);
+
+		return $db->loadAssocList();
+	}
+
 	/**
 	 * shopper Group category ACL
 	 *

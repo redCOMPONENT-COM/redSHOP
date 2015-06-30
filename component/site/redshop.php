@@ -63,11 +63,13 @@ if (count($sgportal) > 0)
 
 if (PORTAL_SHOP == 1)
 {
+	$cids = $helper->getCategoryHaveShoperGroup($categoryid);
+	
 	if ($vName == 'product' && $productid > 0 && $user->id > 0)
 	{
 		$checkcid = $helper->getShopperGroupProductCategory($productid);
 
-		if ($checkcid == true)
+		if ($checkcid == true && $cids)
 		{
 			$vName = 'login';
 			JRequest::setVar('view', 'login');
@@ -78,8 +80,29 @@ if (PORTAL_SHOP == 1)
 	elseif ($vName == 'category' && $categoryid > 0 && $user->id > 0)
 	{
 		$checkcid = $helper->getShopperGroupCategory($categoryid);
-
-		if ($checkcid == "")
+		
+		if ($checkcid == "" && $cids)
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+	
+	// Guest can not access if this category located in some shoper group
+	if ($user->id <= 0)
+	{
+		if ($productid != 0)
+		{
+			$checkproductID = $helper->getShopperGroupProductCategory($productid);
+		}
+		else
+		{
+			$checkproductID = true;
+		}
+		
+		if ($cids || $checkproductID == false)
 		{
 			$vName = 'login';
 			JRequest::setVar('view', 'login');
