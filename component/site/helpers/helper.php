@@ -380,7 +380,7 @@ class redhelper
 		$condition = "`cat`.`category_id` IN (SELECT
 						  SUBSTRING_INDEX(SUBSTRING_INDEX(a.shopper_group_categories, ',', b.shopper_group_id), ',', -1) `categories`
 						FROM
-						  j3_redshop_shopper_group as a INNER JOIN j3_redshop_shopper_group as b
+						  #__redshop_shopper_group as a INNER JOIN #__redshop_shopper_group as b
 						  ON CHAR_LENGTH(a.shopper_group_categories) - CHAR_LENGTH(REPLACE(a.shopper_group_categories, ',', '')) >= b.shopper_group_id-1
 						WHERE a.shopper_group_categories <> '' AND a.published = '1')";
 		
