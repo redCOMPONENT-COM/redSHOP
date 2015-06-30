@@ -257,7 +257,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @param array $options
 	 *
-	 * @return void
+	 * @return int Result
 	 */
 	public function runGroupsTests($options = ['group' => 'installation', 'skip_group' => null, 'suite' => 'acceptance', 'selenium_path' => null])
 	{
@@ -293,18 +293,18 @@ class RoboFile extends \Robo\Tasks
 
 		if (!$options['skip_group'])
 		{
-			$this->taskCodecept()
-				->suite($options['suite'])
-				->arg('--steps')
-				->group($options['group'])
-				->arg('--debug')
-				->arg('--fail-fast')
-				->run()
-				->stopOnFail();
+			$res1 = $this->taskCodecept()
+					->suite($options['suite'])
+					->arg('--steps')
+					->group($options['group'])
+					->arg('--debug')
+					->arg('--fail-fast')
+					->run()
+					->stopOnFail();
 		}
 		if ($options['skip_group'])
 		{
-			$this->_exec('php vendor/bin/codecept run --steps --skip-group=installation acceptance');
+			$res1 = $this->_exec('php vendor/bin/codecept run --steps --skip-group=installation acceptance');
 		}
 
 
@@ -329,5 +329,6 @@ class RoboFile extends \Robo\Tasks
 		$this->say(file_get_contents('selenium.log'));
 		$this->say('------ selenium.log (end) -----------');
 		*/
+		return $res1;
 	}
 }
