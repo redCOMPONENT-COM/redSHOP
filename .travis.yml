@@ -6,6 +6,7 @@ php:
 before_script:
   - phpenv config-add .travis.ini
   - phpenv rehash
+  # Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
   - composer config -g github-oauth.github.com 4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
   - composer install --prefer-dist
 
