@@ -64,18 +64,17 @@
 				<field name="dibs_languages" type="list" default="1"
 					 label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE" description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_DESC">
 					 <option value="Auto" selected="selected">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_AUTO</option>
-					 <option value="da">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_DA</option>
-					 <option value="sv">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_SV</option>
-					 <option value="no">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_NO</option>
-					 <option value="en">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_EN</option>
-					 <option value="nl">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_NL</option>
-					 <option value="de">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_DE</option>
-					 <option value="fr">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_FR</option>
-					 <option value="fi">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_FI</option>
-					 <option value="es">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_ES</option>
-					 <option value="it">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_IT</option>
-					 <option value="pl">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_PL</option>
-					 <option value="fo">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_FO</option>
+					 <option value="da_DK">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_DA</option>
+					 <option value="de_DE">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_DE</option>
+					 <option value="en_GB">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_EN</option>
+					 <option value="es_ES">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_ES</option>
+					 <option value="fi_FI">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_FI</option>
+					 <option value="fr_FR">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_FR</option>
+					 <option value="it_IT">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_IT</option>
+					 <option value="nb_NO">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_NO</option>
+					 <option value="nl_NL">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_NL</option>
+					 <option value="pl_PL">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_PL</option>
+					 <option value="sv_SE">PLG_RS_PAYMENT_DIBSV2_PAYMENT_LANGUAGE_SV</option>
 				</field>
 				<field name="dibs_paytype" type="list" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE"
 					 description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_TYPE_DESC" size="10">
@@ -117,7 +116,7 @@
 					 <option value="ALL_CARDS">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ALL_CARDS</option>
 					 <option value="ALL_INVOICES">PLG_RS_PAYMENT_DIBSV2_PAYMENT_PAY_ALL_INVOICES</option>
 				</field>
-				<field name="business" type="radio" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_BUSINESS_PERSON"
+				<field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSV2_PAYMENT_BUSINESS_PERSON"
 					 description="PLG_RS_PAYMENT_DIBSV2_PAYMENT_BUSINESS_PERSON_DESC">
 					 <option value="1">JYES</option>
 					 <option value="0">JNO</option>
