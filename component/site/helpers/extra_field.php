@@ -287,26 +287,31 @@ class extraField
 				$data_value->data_txt = '';
 			}
 
-			$astrict = $row_data[$i]->required ? "<span class='required'>*</span>" : "";
+			$cssClassName = array();
+			$astrict      = '';
+			$class        = '';
 
 			if ($row_data[$i]->required == 1)
 			{
 				if ($uclass == '')
 				{
-					$class = 'class="required"';
+					$cssClassName[] = 'required';
 				}
 				else
 				{
-					$class = 'class="' . $uclass . '"';
+					$cssClassName[] = $uclass;
 				}
 
-				$span_class = "<span class='required'>*</span>";
+				$astrict = "<span class='required'>*</span>";
+
+				// Adding title to display JS validation Error message.
+				$class = 'title="' . JText::sprintf('COM_REDSHOP_VALIDATE_EXTRA_FIELD_IS_REQUIRED', $row_data[$i]->field_title) . '" ';
 			}
-			else
-			{
-				$class      = '';
-				$span_class = '';
-			}
+
+			// Default css class name
+			$cssClassName[] = $row_data[$i]->field_class;
+
+			$class .= ' class="' . implode(' ', $cssClassName) . '"';
 
 			switch ($type)
 			{
@@ -333,15 +338,6 @@ class extraField
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
-					if ($row_data[$i]->required == 1)
-					{
-						$class = 'required';
-					}
-					else
-					{
-						$class = '';
-					}
-
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						$checked = '';
@@ -362,15 +358,6 @@ class extraField
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
-					if ($row_data[$i]->required == 1)
-					{
-						$class = 'required';
-					}
-					else
-					{
-						$class = '';
-					}
-
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						$checked = '';
@@ -389,15 +376,6 @@ class extraField
 
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
-
-					if ($row_data[$i]->required == 1)
-					{
-						$class = 'required';
-					}
-					else
-					{
-						$class = '';
-					}
 
 					$ex_field .= '<select class="' . $row_data[$i]->field_class . ' ' . $class . '"    name="' . $row_data[$i]->field_name . '"   id="' . $row_data[$i]->field_name . '">';
 
@@ -420,15 +398,6 @@ class extraField
 
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
-
-					if ($row_data[$i]->required == 1)
-					{
-						$class = 'required';
-					}
-					else
-					{
-						$class = '';
-					}
 
 					$ex_field .= '<select class="' . $row_data[$i]->field_class . ' ' . $class . '"   multiple size=10 name="' . $row_data[$i]->field_name . '[]">';
 
@@ -468,11 +437,11 @@ class extraField
 
 			if (trim($row_data[$i]->field_desc) == '')
 			{
-				$ex_field .= '</td><td valign="top">' . $span_class;
+				$ex_field .= '</td><td valign="top">' . $astrict;
 			}
 			else
 			{
-				$ex_field .= '</td><td valign="top">' . $span_class . '&nbsp; ' . JHTML::tooltip($row_data[$i]->field_desc, '', 'tooltip.png', '', '', false);
+				$ex_field .= '</td><td valign="top">' . $astrict . '&nbsp; ' . JHTML::tooltip($row_data[$i]->field_desc, '', 'tooltip.png', '', '', false);
 			}
 
 			$ex_field .= '</td></tr>';
