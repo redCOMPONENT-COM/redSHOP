@@ -371,38 +371,6 @@ class redhelper
 		return false;
 	}
 
-	public function getCategoryHaveShoperGroup($catid)
-	{
-		// Check this category is everyone can access
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		
-		$condition = "`cat`.`category_id` IN (SELECT
-						  SUBSTRING_INDEX(SUBSTRING_INDEX(a.shopper_group_categories, ',', b.shopper_group_id), ',', -1) `categories`
-						FROM
-						  #__redshop_shopper_group as a INNER JOIN #__redshop_shopper_group as b
-						  ON CHAR_LENGTH(a.shopper_group_categories) - CHAR_LENGTH(REPLACE(a.shopper_group_categories, ',', '')) >= b.shopper_group_id-1
-						WHERE a.shopper_group_categories <> '' AND a.published = '1')";
-		
-		$query->select("*");
-		$query->from($db->qn("#__redshop_category", "cat"));
-		$query->where($condition);
-		$query->where("`cat`.`category_id`=" . $db->q($catid));
-		
-		$db->setQuery($query);
-
-		$results = $db->loadAssocList(); 
-		
-		if ($results)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 	/**
 	 * shopper Group category ACL
 	 *
@@ -412,6 +380,13 @@ class redhelper
 	 */
 	public function getShopperGroupCategory($cid = 0)
 	{
+		static $categories = array();
+
+		if (array_key_exists($cid, $categories))
+		{
+			return $categories[$cid];
+		}
+
 		$user = JFactory::getUser();
 		$userHelper = new rsUserhelper;
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
@@ -424,12 +399,30 @@ class redhelper
 
 				if (array_search((int) $cid, $categories) !== false)
 				{
+					$categories[$cid] = $shopperGroupData[0];
+
 					return $shopperGroupData[0];
 				}
 			}
 		}
 
-		return null;
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('shopper_group_id')
+			->from($db->qn('#__redshop_shopper_group'))
+			->where('FIND_IN_SET(' . $db->quote($cid) . ', shopper_group_categories)')
+			->where('shopper_group_id != ' . (int) $shopperGroupId);
+
+		if ($db->setQuery($query)->loadResult())
+		{
+			$categories[$cid] = null;
+		}
+		else
+		{
+			$categories[$cid] = 1;
+		}
+
+		return $categories[$cid];
 	}
 
 	public function getShopperGroupProductCategory($pid = 0)
