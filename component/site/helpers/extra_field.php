@@ -288,7 +288,7 @@ class extraField
 			}
 
 			$cssClassName = array();
-			$astrict      = '';
+			$requiredSpan = '';
 			$class        = '';
 
 			if ($row_data[$i]->required == 1)
@@ -302,7 +302,7 @@ class extraField
 					$cssClassName[] = $uclass;
 				}
 
-				$astrict = "<span class='required'>*</span>";
+				$requiredSpan = "<span class='required'>*</span>";
 
 				// Adding title to display JS validation Error message.
 				$class = 'title="' . JText::sprintf('COM_REDSHOP_VALIDATE_EXTRA_FIELD_IS_REQUIRED', $row_data[$i]->field_title) . '" ';
@@ -437,11 +437,11 @@ class extraField
 
 			if (trim($row_data[$i]->field_desc) == '')
 			{
-				$ex_field .= '</td><td valign="top">' . $astrict;
+				$ex_field .= '</td><td valign="top">' . $requiredSpan;
 			}
 			else
 			{
-				$ex_field .= '</td><td valign="top">' . $astrict . '&nbsp; ' . JHTML::tooltip($row_data[$i]->field_desc, '', 'tooltip.png', '', '', false);
+				$ex_field .= '</td><td valign="top">' . $requiredSpan . '&nbsp; ' . JHTML::tooltip($row_data[$i]->field_desc, '', 'tooltip.png', '', '', false);
 			}
 
 			$ex_field .= '</td></tr>';
