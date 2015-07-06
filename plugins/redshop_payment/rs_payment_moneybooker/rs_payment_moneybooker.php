@@ -74,16 +74,15 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 		{
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 		}
 		else
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		}
+
+		$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
+		$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 
 		$values->transaction_id = $request['mb_transaction_id'];
 		$values->order_id       = $request['transaction_id'];
