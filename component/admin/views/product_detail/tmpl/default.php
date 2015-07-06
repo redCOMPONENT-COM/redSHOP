@@ -38,7 +38,7 @@ $showbuttons = $this->input->getBool('showbuttons', false);
 		if (document.getElementById('product_id'))
 			product_id = document.getElementById('product_id').value;
 		var args = "dependent_tags=" + dependent_tags + "&product_id=" + product_id + "&type_id=" + type_id + "&tag_id=" + tag_id;
-		var url = "index.php?tmpl=component&option=com_redproductfinder&controller=associations&task=savedependent&" + args;
+		var url = "index.php?tmpl=component&option=com_redproductfinder&task=associations.savedependent&" + args;
 
 		request.onreadystatechange = function () {
 			if (request.readyState == 4) {
