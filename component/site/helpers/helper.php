@@ -462,18 +462,17 @@ class redhelper
 		$db = $this->_db;
 		$query = $db->getQuery(true);
 
-		$query->select("p.product_id,cx.category_id")
+		$query->select("cx.category_id")
 			->from($db->qn($this->_table_prefix . "product", "p"))
 			->join("LEFT", $db->qn($this->_table_prefix . "product_category_xref", "cx") . " ON p.product_id=cx.product_id")
 			->where($db->qn("p.product_id") . "=" . (int) $pid);
 
 		$this->_db->setQuery($query);
 
-		$prodctcat = $this->_db->loadObjectList();
+		$prodctcat = $this->_db->loadColumn();
 
-		foreach ($prodctcat as $key => $item)
+		foreach ($prodctcat as $key => $cid)
 		{
-			$cid = $item->category_id;
 			$checkPermission = $this->checkPortalCategoryPermission($cid);
 
 			if (!$checkPermission)
