@@ -459,9 +459,14 @@ class redhelper
 	 */
 	public function checkPortalProductPermission($pid = 0)
 	{
-		$query = "SELECT p.product_id,cx.category_id FROM `" . $this->_table_prefix . "product` AS p "
-				. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS cx ON p.product_id=cx.product_id "
-						. "WHERE p.product_id=" . (int) $pid;
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+
+		$query->select("p.product_id,cx.category_id")
+			->from($db->qn($this->_table_prefix . "product", "p"))
+			->join("LEFT", $db->qn($this->_table_prefix . "product_category_xref", "cx") . " ON p.product_id=cx.product_id")
+			->where($db->qn("p.product_id") . "=" . (int) $pid);
+
 		$this->_db->setQuery($query);
 
 		$prodctcat = $this->_db->loadObjectList();
