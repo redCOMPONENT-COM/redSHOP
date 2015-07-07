@@ -463,8 +463,8 @@ class redhelper
 		$query = $db->getQuery(true);
 
 		$query->select("cx.category_id")
-			->from($db->qn($this->_table_prefix . "product", "p"))
-			->join("LEFT", $db->qn($this->_table_prefix . "product_category_xref", "cx") . " ON p.product_id=cx.product_id")
+			->from($db->qn("#__redshop_product", "p"))
+			->join("LEFT", $db->qn("#__redshop_product_category_xref", "cx") . " ON p.product_id=cx.product_id")
 			->where($db->qn("p.product_id") . "=" . (int) $pid);
 
 		$this->_db->setQuery($query);
