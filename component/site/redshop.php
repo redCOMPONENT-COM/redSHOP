@@ -121,9 +121,9 @@ else
 {
 	if ($vName == 'product' && $productid > 0 && $portal == 1)
 	{
-		$checkcid = $helper->getShopperGroupProductCategory($productid);
+		$checkProductPermission = $helper->checkPortalProductPermission($productid);
 
-		if ($checkcid == true)
+		if (!$checkProductPermission)
 		{
 			$vName = 'login';
 			JRequest::setVar('view', 'login');
@@ -134,9 +134,9 @@ else
 
 	if ($vName == 'category' && $categoryid > 0 && $portal == 1)
 	{
-		$checkcid = $helper->getShopperGroupCategory($categoryid);
+		$checkCategoryPermission = $helper->checkPortalCategoryPermission($categoryid);
 
-		if ($checkcid == "")
+		if (!$checkCategoryPermission)
 		{
 			$vName = 'login';
 			JRequest::setVar('view', 'login');
