@@ -58,6 +58,8 @@ class ProductsCheckoutBankTransfer2Cest
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
 		$this->checkoutProductWithBankTransfer2Payment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$I->doAdministratorLogin();
+		$I->uninstallExtension('redSHOP - Bank Transfer Payment', true);
 	}
 
 	/**
