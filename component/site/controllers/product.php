@@ -36,14 +36,18 @@ class RedshopControllerProduct extends RedshopController
 		$this->input = JFactory::getApplication()->input;
 
 		// Article frontpage Editor product proxying:
-		if ($this->input->get('task') === 'element')
+		if ($this->input->get('layout') === 'element')
 		{
 			JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+
 			$lang = JFactory::getLanguage();
 			$lang->load('com_redshop', JPATH_ADMINISTRATOR);
+
 			JHtml::_('behavior.framework');
 			JHtml::_('redshopjquery.framework');
+
 			$document = JFactory::getDocument();
 
 			if (version_compare(JVERSION, '3.0', '>='))
