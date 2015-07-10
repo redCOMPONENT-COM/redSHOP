@@ -78,6 +78,20 @@ if (PORTAL_SHOP == 1)
 	elseif ($vName == 'category' && $categoryid > 0 && $user->id > 0)
 	{
 		$checkcid = $helper->getShopperGroupCategory($categoryid);
+		
+		if ($checkcid == "")
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+
+	// Guest can access to any category and product except product or category be located in shopper group
+	if ($user->id <= 0)
+	{
+		$checkcid = $helper->getShopperGroupCategory($categoryid);
 
 		if ($checkcid == "")
 		{
