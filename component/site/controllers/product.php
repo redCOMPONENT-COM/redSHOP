@@ -834,7 +834,7 @@ class RedshopControllerProduct extends RedshopController
 				$app->close();
 			}
 
-			if (JFile::move($uploadFileData['tmp_name'], $uploadFilePath))
+			if (JFile::upload($uploadFileData['tmp_name'], $uploadFilePath))
 			{
 				$id                     = JFile::stripExt(JFile::getName($fileName));
 				$sendData               = array();
