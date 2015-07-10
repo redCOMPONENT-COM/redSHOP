@@ -17,6 +17,6 @@ $I->installExtensionFromDirectory($I->getConfig('repo folder'));
 
 if ($I->getConfig('install demo data') == 'Yes')
 {
-	$I->click("//input[@value='Install Demo Content']");
+	$I->click("//input[@value='Install Demo ContentBREAKING TRAVIS']");
 	$I->waitForText('Data Installed Successfully', 10, '#system-message-container');
 }
