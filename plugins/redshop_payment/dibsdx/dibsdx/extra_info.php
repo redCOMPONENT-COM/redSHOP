@@ -38,9 +38,9 @@ $formdata = array(
 	'ourRef'              => $data['order_id'],
 	'language'            => $language,
 	'amount'              => $amount,
-	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
-	'cancelreturnurl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
-	'callbackUrl'         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsdx&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'cancelreturnurl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsdx&Itemid=$Itemid&orderid=" . $data['order_id'],
+	'callbackUrl'         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=dibsdx&Itemid=$Itemid&orderid=" . $data['order_id'],
 
 	// Customer Billing Address
 	'billingFirstName'    => $data['billinginfo']->firstname,
@@ -196,7 +196,7 @@ $mac_key   = $dibs_hmac->calculateMac($formdata, $hmac_key);
 // Action URL
 $dibsurl = "https://payment.dibspayment.com/dpw/entrypoint";
 ?>
-<h2><?php echo JText::_('PLG_RS_PAYMENT_DIBSV2_WAIT_MESSAGE'); ?></h2>
+<h2><?php echo JText::_('PLG_RS_PAYMENT_DIBSDX_WAIT_MESSAGE'); ?></h2>
 <form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" method="post" accept-charset="utf-8">
 	<?php foreach ($formdata as $name => $value): ?>
 	<input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>

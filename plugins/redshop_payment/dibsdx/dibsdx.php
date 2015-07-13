@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Class PlgRedshop_PaymentDibsv2
+ * Class PlgRedshop_PaymentDibsDx
  *
  * @since  1.5
  */
-class PlgRedshop_PaymentDibsv2 extends JPlugin
+class PlgRedshop_PaymentDibsDx extends JPlugin
 {
 	/**
 	 * Constructor
@@ -26,7 +26,7 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	 */
 	public function __construct(&$subject, $config = array())
 	{
-		JPlugin::loadLanguage('plg_redshop_payment_dibsv2');
+		JPlugin::loadLanguage('plg_redshop_payment_dibsdx');
 		parent::__construct($subject, $config);
 	}
 
@@ -40,7 +40,7 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
-		if ($element != 'dibsv2')
+		if ($element != 'dibsdx')
 		{
 			return;
 		}
@@ -51,16 +51,16 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	}
 
 	/**
-	 * onNotifyPaymentdibsv2
+	 * onNotifyPaymentdibsdx
 	 *
 	 * @param   string  $element  Name element
 	 * @param   array   $request  Request data
 	 *
 	 * @return  stdClass|void
 	 */
-	public function onNotifyPaymentdibsv2($element, $request)
+	public function onNotifyPaymentdibsdx($element, $request)
 	{
-		if ($element != 'dibsv2')
+		if ($element != 'dibsdx')
 		{
 			return;
 		}
@@ -143,16 +143,16 @@ class PlgRedshop_PaymentDibsv2 extends JPlugin
 	}
 
 	/**
-	 * onCapture_Paymentdibsv2
+	 * onCapture_Paymentdibsdx
 	 *
 	 * @param   string  $element  Name element
 	 * @param   array   $data     Request data
 	 *
 	 * @return  stdClass
 	 */
-	public function onCapture_Paymentdibsv2($element, $data)
+	public function onCapture_Paymentdibsdx($element, $data)
 	{
-		if ($element != 'dibsv2')
+		if ($element != 'dibsdx')
 		{
 			return;
 		}
