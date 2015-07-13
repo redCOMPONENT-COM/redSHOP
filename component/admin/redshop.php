@@ -195,7 +195,8 @@ if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task !
 		&& $view != 'xmlimport_detail' && $view != 'addquotation_detail'
 		&& $view != 'xmlexport_detail' && $task != 'element'  && $view != 'stockimage_detail'
 		&& $view != 'mass_discount_detail' && $view != 'supplier_detail'
-		&& $view != 'orderstatus_detail')
+		&& $view != 'orderstatus_detail'
+		&& 'component' != $app->input->get('tmpl'))
 	{
 		echo '<div style="float:left;width:19%; margin-right:1%;">';
 		JLoader::load('RedshopHelperAdminMenu');
