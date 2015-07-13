@@ -41,7 +41,7 @@ class ProductsCheckoutBankTransfer2Cest
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
-		$I->enablePlugin('redSHOP - Bank Transfer Payment');
+		$I->enablePlugin('redSHOP - Bank Transfer Payment 2');
 		$I->doAdministratorLogout();
 
 		$customerInformation = array(
@@ -59,7 +59,7 @@ class ProductsCheckoutBankTransfer2Cest
 		$categoryName = 'Events and Forms';
 		$this->checkoutProductWithBankTransfer2Payment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
 		$I->doAdministratorLogin();
-		$I->uninstallExtension('redSHOP - Bank Transfer Payment', true);
+		$I->uninstallExtension('redSHOP - Bank Transfer Payment 2', true);
 	}
 
 	/**
