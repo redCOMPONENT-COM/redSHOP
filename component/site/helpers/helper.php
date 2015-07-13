@@ -400,6 +400,90 @@ class redhelper
 		return null;
 	}
 
+	/**
+	 * Check permission for Categories shopper group can access or can't access
+	 *
+	 * @param   number  $cid  category id that need to be checked
+	 *
+	 * @return boolean
+	 */
+	public function checkPortalCategoryPermission($cid = 0)
+	{
+		static $categories = array();
+
+		if (array_key_exists($cid, $categories))
+		{
+			return true;
+		}
+
+		$user = JFactory::getUser();
+		$userHelper = new rsUserhelper;
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+
+		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		{
+			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
+			{
+				$categories = explode(',', $shopperGroupData[0]->shopper_group_categories);
+
+				if (array_search((int) $cid, $categories) !== false)
+				{
+					return true;
+				}
+			}
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('shopper_group_id')
+			->from($db->qn('#__redshop_shopper_group'))
+			->where('FIND_IN_SET(' . $db->quote($cid) . ', shopper_group_categories)')
+			->where('shopper_group_id != ' . (int) $shopperGroupId);
+
+		if ($db->setQuery($query)->loadResult())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
+	 * Check permission for Products shopper group can accesss or can't access
+	 *
+	 * @param   number  $pid  Product id that need to be checked
+	 *
+	 * @return boolean
+	 */
+	public function checkPortalProductPermission($pid = 0)
+	{
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+
+		$query->select("cx.category_id")
+			->from($db->qn("#__redshop_product", "p"))
+			->join("LEFT", $db->qn("#__redshop_product_category_xref", "cx") . " ON p.product_id=cx.product_id")
+			->where($db->qn("p.product_id") . "=" . (int) $pid);
+
+		$this->_db->setQuery($query);
+
+		$prodctcat = $this->_db->loadColumn();
+
+		foreach ($prodctcat as $key => $cid)
+		{
+			$checkPermission = $this->checkPortalCategoryPermission($cid);
+
+			if (!$checkPermission)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public function getShopperGroupProductCategory($pid = 0)
 	{
 		$user = JFactory::getUser();

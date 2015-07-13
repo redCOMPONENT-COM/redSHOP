@@ -63,11 +63,11 @@ if (count($sgportal) > 0)
 
 if (PORTAL_SHOP == 1)
 {
-	if ($vName == 'product' && $productid > 0 && $user->id > 0)
+	if ($vName == 'product' && $productid > 0)
 	{
-		$checkcid = $helper->getShopperGroupProductCategory($productid);
+		$checkProductPermission = $helper->checkPortalProductPermission($productid);
 
-		if ($checkcid == true)
+		if (!$checkProductPermission)
 		{
 			$vName = 'login';
 			JRequest::setVar('view', 'login');
@@ -75,11 +75,11 @@ if (PORTAL_SHOP == 1)
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
-	elseif ($vName == 'category' && $categoryid > 0 && $user->id > 0)
+	elseif ($vName == 'category' && $categoryid > 0)
 	{
-		$checkcid = $helper->getShopperGroupCategory($categoryid);
+		$checkCategoryPermission = $helper->checkPortalCategoryPermission($categoryid);
 
-		if ($checkcid == "")
+		if (!$checkCategoryPermission)
 		{
 			$vName = 'login';
 			JRequest::setVar('view', 'login');
@@ -92,9 +92,9 @@ else
 {
 	if ($vName == 'product' && $productid > 0 && $portal == 1)
 	{
-		$checkcid = $helper->getShopperGroupProductCategory($productid);
+		$checkProductPermission = $helper->checkPortalProductPermission($productid);
 
-		if ($checkcid == true)
+		if (!$checkProductPermission)
 		{
 			$vName = 'login';
 			JRequest::setVar('view', 'login');
@@ -105,9 +105,9 @@ else
 
 	if ($vName == 'category' && $categoryid > 0 && $portal == 1)
 	{
-		$checkcid = $helper->getShopperGroupCategory($categoryid);
+		$checkCategoryPermission = $helper->checkPortalCategoryPermission($categoryid);
 
-		if ($checkcid == "")
+		if (!$checkCategoryPermission)
 		{
 			$vName = 'login';
 			JRequest::setVar('view', 'login');
