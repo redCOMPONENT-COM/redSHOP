@@ -1153,7 +1153,7 @@ class rsCarthelper
 				}
 
 				// Trigger to change product image.
-				$dispatcher->trigger('changeCartOrderItemImage', array(&$cart, &$product_image, $product, $i));
+				$dispatcher->trigger('OnSetCartOrderItemImage', array(&$cart, &$product_image, $product, $i));
 
 				$chktag              = $this->_producthelper->getApplyVatOrNot($data);
 				$product_total_price = "<div class='product_price'>";
@@ -1788,7 +1788,7 @@ class rsCarthelper
 			$prepareCartAttributes[$i]['product_id'] = $rowitem[$i]->product_id;
 
 			$dispatcher->trigger(
-				'changeCartOrderItemImage',
+				'OnSetCartOrderItemImage',
 				array(
 					&$prepareCartAttributes,
 					&$attrib_img,
