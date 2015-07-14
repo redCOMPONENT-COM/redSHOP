@@ -5910,7 +5910,7 @@ class producthelper
 
 		$cartform = "<form name='" . $addtocartFormName
 			. "' id='" . $addtocartFormName
-			. "' class='addtocart_formclass' action='" . JRoute::_('index.php') . "' method='post'>";
+			. "' class='addtocart_formclass' action='' method='post'>";
 		$cartform .= $cart_template->template_desc;
 
 		$cartform .= "
@@ -6440,7 +6440,7 @@ class producthelper
 
 			$addtocartFormName = 'addtocart_' . $prefix . $product_id; //$category_id
 			$cartform          = "<form name='" . $addtocartFormName . "' id='" . $addtocartFormName
-				. "' class='addtocart_formclass' action='" . JRoute::_('index.php') . "' method='post'>";
+				. "' class='addtocart_formclass' action='' method='post'>";
 			$cartform .= $cart_template->template_desc;
 
 			if (count($userfieldArr) > 0)
