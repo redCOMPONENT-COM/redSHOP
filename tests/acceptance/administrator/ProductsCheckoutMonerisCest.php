@@ -109,12 +109,10 @@ class ProductsCheckoutMonerisCest
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->fillField(['id' => "filter_search"], 'Moneris Payments');
-		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		$I->searchForItem('Moneris Payments');
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
 		$I->waitForElement($pluginManagerPage->searchResultPluginName('Moneris Payments'), 30);
-		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
-		$I->see('Moneris Payments', ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
+		$I->checkExistenceOf('Moneris Payments');
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
 		$I->waitForElement(['xpath' => "//li//label[text()='Visa']"]);
