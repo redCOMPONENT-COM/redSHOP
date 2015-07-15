@@ -80,12 +80,10 @@ class ProductsCheckoutAuthorizeDPMCest
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->fillField(['id' => "filter_search"], 'Authorize Direct Post Method');
-		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
+		$I->searchForItem('Authorize Direct Post Method');
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
 		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize Direct Post Method'), 30);
-		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
-		$I->see('Authorize Direct Post Method', ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
+		$I->checkExistenceOf('Authorize Direct Post Method');
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
 		$I->waitForElement(['id' => "jform_params_access_id"], 30);
