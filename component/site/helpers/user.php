@@ -1333,5 +1333,17 @@ class rsUserhelper
 
 		return $shopper_group_manufactures;
 	}
+
+	/**
+	 * Display an error message
+	 *
+	 * @param   string  $error  Error message
+	 *
+	 * @return  void
+	 */
+	public function setError($error)
+	{
+		JFactory::getApplication()->enqueueMessage($error, 'error');
+	}
 }
 

@@ -392,7 +392,10 @@ class redshopMail
 		$search[]       = "{order_detail_link}";
 		$replace[]      = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount")
+		// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+		$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($paymentmethod->element);
+
+		if ($isBankTransferPaymentType)
 		{
 			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 			$paymentparams = new JRegistry($paymentmethod->params);
@@ -686,11 +689,12 @@ class redshopMail
 
 		ob_clean();
 
-		echo "<div id='redshopcomponent' class='redshop'>";
-
-		$pdfObj = RedshopHelperPdf::getInstance();
+		$options = array(
+			'format' => 'A4'
+		);
+		$pdfObj = RedshopHelperPdf::getInstance('tcpdf', $options);
 		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $orderId);
-		$pdfObj->SetMargins(15, 15, 15);
+		$pdfObj->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
 		$pdfObj->setHeaderFont(array('times', '', 10));
 		$pdfObj->AddPage();
 		$pdfObj->WriteHTML($pdfTemplate, true, false, true, false, '');

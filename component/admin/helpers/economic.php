@@ -851,7 +851,14 @@ class economic
 
 			if (count($order_shipping) > 5)
 			{
-				$shipping_nshortname = (strlen($order_shipping[1]) > 15) ? substr($order_shipping[1], 0, 15) : $order_shipping[1];
+				// Load language file of the shipping plugin
+				JFactory::getLanguage()->load(
+					'plg_redshop_shipping_' . strtolower(str_replace('plgredshop_shipping', '', $order_shipping[0])),
+					JPATH_ADMINISTRATOR
+				);
+
+				$shippingName        = JText::_($order_shipping[1]);
+				$shipping_nshortname = (strlen($shippingName) > 15) ? substr($shippingName, 0, 15) : $shippingName;
 				$shipping_number     = $shipping_nshortname . ' ' . $order_shipping[4];
 				$shipping_name       = $order_shipping[2];
 				$shipping_rate       = $order_shipping[3];
@@ -1133,7 +1140,7 @@ class economic
 								$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
 							}
 
-							$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdata->order_id);
+							$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdetail->order_id);
 
 							if (count($paymentInfo) > 0)
 							{
@@ -1144,6 +1151,12 @@ class economic
 									$paymentparams                    = new JRegistry($paymentmethod[0]->params);
 									$eco['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
 									$eco['economic_design_layout']    = $paymentparams->get('economic_design_layout');
+								}
+
+								// Setting merchant fees for economic
+								if($paymentInfo[0]->order_transfee > 0)
+								{
+									$eco['order_transfee'] = $paymentInfo[0]->order_transfee;
 								}
 							}
 

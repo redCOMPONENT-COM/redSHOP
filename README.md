@@ -20,6 +20,7 @@ Before you can run any Gulp command you need to:
 - download and install NodeJS https://nodejs.org/download/
 - install npm: `sudo npm install`
 - install Gulp: `npm install --save gulp-install`
+- install joomla-gulp-release: `sudo npm install --save-dev joomla-gulp-release`
 
 ### Following tasks and switches are available:
 #### Setup gulp config file. Copy and rename `gulp-config.sample.json` file into `gulp-config.json`

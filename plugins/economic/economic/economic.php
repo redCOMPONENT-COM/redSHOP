@@ -12,6 +12,14 @@ defined('_JEXEC') or die;
 class plgEconomicEconomic extends JPlugin
 {
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * specific redform plugin parameters
 	 *
 	 * @var JRegistry object
@@ -52,6 +60,8 @@ class plgEconomicEconomic extends JPlugin
 			$this->error = 1;
 			$this->errorMsg = "Disable Plugin";
 		}
+
+		JPlugin::loadLanguage('plg_economic_economic');
 	}
 
 	/**
@@ -1870,6 +1880,12 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$this->createCashbookEntry($d, $bookHandle);
 			}
+
+			// Cashbook Entry for Creditor Payment to Paypal
+			if($makeCashbook && isset($d['order_transfee']) && $this->params->get('economicCreditorNumber', false))
+			{
+				$this->createCashbookEntryCreditorPayment($d, $bookHandle);
+			}
 		}
 
 		return $pdf;
@@ -1889,7 +1905,7 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$invoiceHandle = new stdclass;
+		$invoiceHandle     = new stdclass;
 		$invoiceHandle->Id = $d['invoiceHandle'];
 
 		try
@@ -2070,6 +2086,105 @@ class plgEconomicEconomic extends JPlugin
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
+			}
+			else
+			{
+				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
+			}
+		}
+	}
+
+	/**
+	 * Method to create cash book entry in economic for Merchant Fees
+	 *
+	 * @param   array   $d           Information about booking invoice
+	 * @param   Object  $bookHandle  SOAP Object of the e-conomic current book invoice
+	 *
+	 * @return  void
+	 */
+	public function createCashbookEntryCreditorPayment($d, $bookHandle)
+	{
+		if ($this->error)
+		{
+			return $this->errorMsg;
+		}
+
+		$cashBookHandle              = new stdclass;
+		$cashBookHandle->Number      = intval($this->getCashBookAll());
+
+		$debtorHandle                = new stdclass;
+		$debtorHandle->Number        = $this->params->get('economicCreditorNumber');
+
+		$contraaccount               = intval($this->getTermOfPaymentContraAccount($d));
+
+		$contraAccountHandle         = new stdclass;
+		$contraAccountHandle->Number = $contraaccount;
+
+		$CurrencyHandle              = new stdclass;
+		$CurrencyHandle->Code        = $d ['currency_code'];
+
+		try
+		{
+			if ($contraaccount)
+			{
+				$info = array(
+					'cashBookHandle'      => $cashBookHandle,
+					'creditorHandle'      => $debtorHandle,
+					'contraAccountHandle' => $contraAccountHandle
+				);
+			}
+			else
+			{
+				$info = array(
+					'cashBookHandle' => $cashBookHandle,
+					'creditorHandle' => $debtorHandle
+				);
+			}
+
+			$cashBookEntryHandle = $this->client->CashBookEntry_CreateCreditorPayment($info)
+												->CashBookEntry_CreateCreditorPaymentResult;
+
+			$this->client->CashBookEntry_SetAmount(
+				array(
+					'cashBookEntryHandle' => $cashBookEntryHandle,
+					'value'               => $d['order_transfee']
+				)
+			);
+
+			$this->client->CashBookEntry_SetCreditor(
+				array(
+					'cashBookEntryHandle' => $cashBookEntryHandle,
+					'valueHandle'         => $debtorHandle
+				)
+			);
+
+			$this->client->CashBookEntry_SetText(
+				array(
+					'cashBookEntryHandle' => $cashBookEntryHandle,
+					'value'               => JText::_('COM_REDSHOP_ECONOMIC_CREDITOR_TEXT')
+				)
+			);
+
+			$this->client->CashBookEntry_SetCurrency(
+				array(
+					'cashBookEntryHandle' => $cashBookEntryHandle,
+					'valueHandle'         => $CurrencyHandle
+				)
+			);
+
+			$this->client->CashBook_Book(
+				array(
+					'cashBookHandle' => $cashBookHandle
+				)
+			);
+		}
+		catch ( Exception $exception )
+		{
+			print("<p><i>createCashbookEntry:" . $exception->getMessage() . "</i></p>");
+
+			if (DETAIL_ERROR_MESSAGE_ON)
+			{
+				JError::raiseWarning(21, "createCashbookEntry:" . $exception->getMessage());
 			}
 			else
 			{

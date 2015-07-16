@@ -15,7 +15,7 @@ class leftmenu
 	{
 		$view      = JRequest::getVar('view');
 		$redhelper = new redhelper;
-		$cnt       = 6;
+		$cnt       = 5;
 
 		if (USE_STOCKROOM)
 		{
@@ -555,10 +555,6 @@ class leftmenu
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=attribute_set', 'COM_REDSHOP_ATTRIBUTE_SET_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=attribute_set_detail', 'COM_REDSHOP_ADD_ATTRIBUTE_SET');
 			?>
-		</table>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_INTEGRATION'), 'COM_REDSHOP_INTEGRATION'); ?>
-		<table class="adminlist">
-			<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=integration&task=googlebase', 'COM_REDSHOP_GOOGLEBASE'); ?>
 		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_CUSTOMER_INPUT');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUESTION'), 'COM_REDSHOP_QUESTION'); ?>

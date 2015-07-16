@@ -2650,11 +2650,12 @@ class rsCarthelper
 
 		if ($checkout)
 		{
-			$cart_data = $this->replacePayment($cart_data, $cart['payment_amount'], 0);
+			$cart_data = $this->replacePayment($cart_data, $cart['payment_amount'], 0, $cart['payment_oprand']);
 		}
 		else
 		{
-			$cart_data = $this->replacePayment($cart_data, 0, 1);
+			$paymentOprand = (isset($cart['payment_oprand'])) ? $cart['payment_oprand'] : '-';
+			$cart_data     = $this->replacePayment($cart_data, 0, 1, $paymentOprand);
 		}
 
 		$cart_data = $this->replaceTax($cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, DEFAULT_QUOTATION_MODE);
@@ -2977,7 +2978,10 @@ class rsCarthelper
 
 		$txtextra_info = '';
 
-		if ($paymentmethod_detail->element == "rs_payment_banktransfer" || $paymentmethod_detail->element == "rs_payment_banktransfer_discount")
+		// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+		$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($paymentmethod_detail->element);
+
+		if ($isBankTransferPaymentType)
 		{
 			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment/'
 				. $paymentmethod_detail->element . '/' . $paymentmethod_detail->element . '.xml';
@@ -3395,13 +3399,17 @@ class rsCarthelper
 			$shopList = array();
 			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
 
-			if($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
+			if($ShopResponses && isset($ShopResponses[0]) && is_array($ShopResponses[0]))
 			{
 				$ShopRespons = $ShopResponses[0];
 
 				for ($i = 0, $n = count($ShopRespons); $i < $n; $i++)
 				{
-					$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
+					$shopList[] = JHTML::_(
+						'select.option',
+						$ShopRespons[$i]->shop_id,
+						$ShopRespons[$i]->CompanyName . ', ' . $ShopRespons[$i]->Streetname . ', ' . $ShopRespons[$i]->ZipCode . ', ' . $ShopRespons[$i]->CityName
+					);
 				}
 			}
 
@@ -3891,7 +3899,10 @@ class rsCarthelper
 
 					$is_subscription = false;
 
-					if ($oneMethod->name == 'rs_payment_eantransfer' || $oneMethod->name == 'rs_payment_banktransfer')
+					// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+					$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($oneMethod->name);
+
+					if ($oneMethod->name == 'rs_payment_eantransfer' || $isBankTransferPaymentType)
 					{
 						if ($is_company == 0 && $private_person == 1)
 						{

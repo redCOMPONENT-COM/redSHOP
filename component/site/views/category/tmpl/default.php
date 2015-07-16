@@ -137,7 +137,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$row = $this->detail[$i];
 
 		// Filter categories based on Shopper group category ACL
-		$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
+		$checkcid = $objhelper->checkPortalCategoryPermission($row->category_id);
 		$sgportal = $objhelper->getShopperGroupPortal();
 		$portal   = 0;
 
@@ -146,7 +146,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$portal = $sgportal->shopper_group_portal;
 		}
 
-		if ('' == $checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+		if (!$checkcid && (PORTAL_SHOP == 1 || $portal == 1))
 		{
 			continue;
 		}
