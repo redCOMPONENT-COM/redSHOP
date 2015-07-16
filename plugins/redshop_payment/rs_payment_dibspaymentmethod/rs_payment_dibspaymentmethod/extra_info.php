@@ -72,7 +72,7 @@ if ($this->params->get("is_test") == "1")
 }
 
 $version            = "2";
-$dibsurl            = "https://payment.architrade.com/payment/start.pml";
+$dibsurl            = "https://payment.architrade.com/paymentweb/start.action";
 $currencyClass      = new CurrencyHelper;
 $formdata['amount'] = $currencyClass->convert($order_details[0]->order_total, '', $this->params->get("dibs_currency"));
 $formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
@@ -92,7 +92,7 @@ if ($formdata['flexlang'] == "Auto")
 		'Faroe Islands' => 'fo'
 	);
 
-	if ($lang != "" && isset($lang))
+	if (isset($lang) && $lang != '')
 	{
 		$formdata["lang"] = $lang;
 	}

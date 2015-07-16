@@ -288,7 +288,8 @@ class producthelper
 				->select('dp.*')
 				->from($db->qn('#__redshop_discount_product', 'dp'))
 				->where('dp.published = 1')
-				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ') OR FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
+				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ')')
+				->where('FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
 				->where('dp.start_date <= ' . $db->q($time))
 				->where('dp.end_date >= ' . $db->q($time))
 				->order('dp.amount DESC');
@@ -588,6 +589,7 @@ class producthelper
 			}
 			else
 			{
+				$userdata = new stdClass;
 				$userdata->country_code = DEFAULT_VAT_COUNTRY;
 				$userdata->state_code   = DEFAULT_VAT_STATE;
 			}
@@ -696,73 +698,6 @@ class producthelper
 		$session->set('rs_user', $userArr);
 
 		return self::$vatRate[$taxGroup . '.' . $userId];
-	}
-
-	// Get Vat for Googlebase xml
-	public function getGoogleVatRates($product_id = 0, $product_price = 0, $tax_exempt = 0)
-	{
-		$db = JFactory::getDbo();
-
-		$proinfo         = $this->getProductById($product_id);
-		$tax_group_id    = 0;
-		$rs_user_info_id = 0;
-
-		$country_code = DEFAULT_VAT_COUNTRY;
-		$state_code   = DEFAULT_VAT_STATE;
-		$and          = 'AND tg.published= "1" ';
-		$q2           = 'LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg on tg.tax_group_id=tr.tax_group_id ';
-
-		$chkflg = true;
-
-		if (VAT_BASED_ON == 2)
-		{
-			$and .= ' AND tr.is_eu_country=1 ';
-		}
-
-		if ($product_id == 0)
-		{
-			$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
-		}
-		elseif ($proinfo->product_tax_group_id > 0)
-		{
-			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
-			$and .= 'AND p.product_id = ' . (int) $product_id . ' ';
-		}
-		else
-		{
-			$and .= 'AND tr.tax_group_id=' . DEFAULT_VAT_GROUP . ' ';
-		}
-
-		$where = $q2
-			. 'WHERE tr.tax_country=' . $db->quote($country_code) . ' '
-			. 'AND (tr.tax_state = ' . $db->quote($state_code) . ' OR tr.tax_state = "") '
-			. $and;
-
-		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
-			. $where
-			. ' ORDER BY `tax_rate` DESC';
-		$this->_db->setQuery($query);
-		$this->_taxData = $this->_db->loadObject();
-
-		$tax_rate      = $this->_taxData->tax_rate;
-		$product_price = $product_price;
-		$product_price = $this->productPriceRound($product_price);
-
-		if ($tax_exempt)
-		{
-			$protax = $product_price * $tax_rate;
-
-			return $protax;
-		}
-
-		if ($tax_rate)
-		{
-			$protax = $product_price * $tax_rate;
-		}
-
-		$protax = $this->productPriceRound($protax);
-
-		return $protax;
 	}
 
 	/*
@@ -3361,10 +3296,11 @@ class producthelper
 			{
 				foreach ($productData->attributes as $attribute)
 				{
-					if (($attributeSetId && $attributeSetId != $attribute->attribute_set_id)
-						|| ($attributeId && $attributeId != $attribute->attribute_id)
-						|| ($published && $published != $attribute->attribute_set_published)
-						|| ($attributeRequired && $attributeRequired != $attribute->attribute_required))
+					if (($attributeSetId && ($attributeSetId != $attribute->attribute_set_id))
+						|| ($attributeId && ($attributeId != $attribute->attribute_id))
+						|| ($published && ($published != $attribute->attribute_published))
+						|| ($published && $attributeSetId && ($published != $attribute->attribute_set_published))
+						|| ($attributeRequired && ($attributeRequired != $attribute->attribute_required)))
 					{
 						continue;
 					}
@@ -5974,7 +5910,7 @@ class producthelper
 
 		$cartform = "<form name='" . $addtocartFormName
 			. "' id='" . $addtocartFormName
-			. "' class='addtocart_formclass' action='" . JRoute::_('index.php') . "' method='post'>";
+			. "' class='addtocart_formclass' action='' method='post'>";
 		$cartform .= $cart_template->template_desc;
 
 		$cartform .= "
@@ -6504,7 +6440,7 @@ class producthelper
 
 			$addtocartFormName = 'addtocart_' . $prefix . $product_id; //$category_id
 			$cartform          = "<form name='" . $addtocartFormName . "' id='" . $addtocartFormName
-				. "' class='addtocart_formclass' action='" . JRoute::_('index.php') . "' method='post'>";
+				. "' class='addtocart_formclass' action='' method='post'>";
 			$cartform .= $cart_template->template_desc;
 
 			if (count($userfieldArr) > 0)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="2.5.0" client="site" type="plugin" group="economic" method="upgrade">
     <name>PLG_E-CONOMIC</name>
-    <version>1.5</version>
+    <version>1.5.0.1</version>
     <redshop>1.5</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
@@ -68,6 +68,13 @@
                     default=""
                     label="COM_REDSHOP_ECONOMIC_UNITS_ID_LBL"
                     description="COM_REDSHOP_DESC_ECONOMIC_UNITS_ID_LBL"
+                />
+                <field
+                    name="economicCreditorNumber"
+                    type="text"
+                    default=""
+                    label="COM_REDSHOP_ECONOMIC_CREDITOR_NUMBER_LBL"
+                    description="COM_REDSHOP_ECONOMIC_CREDITOR_NUMBER_DESC"
                 />
                 <field
                     name="economicUseCashbook"

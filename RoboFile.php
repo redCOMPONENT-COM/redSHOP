@@ -5,21 +5,24 @@
  * Download robo.phar from http://robo.li/robo.phar and type in the root of the repo: $ php robo.phar
  * Or do: $ composer update, and afterwards you will be able to execute robo like $ php vendor/bin/robo
  *
- * @see http://robo.li/
+ * @see  http://robo.li/
  */
 require_once 'vendor/autoload.php';
 
-
+/**
+ * Class RoboFile
+ *
+ * @since  1.6
+ */
 class RoboFile extends \Robo\Tasks
 {
-
-    // load tasks from composer, see composer.json
+    // Load tasks from composer, see composer.json
     use \redcomponent\robo\loadTasks;
 
     /**
      * Current RoboFile version
      */
-    private $version = '1.3';
+    private $version = '1.5';
 
     /**
      * Hello World example task.
@@ -39,15 +42,16 @@ class RoboFile extends \Robo\Tasks
     /**
      * Sends Codeception errors to Slack
      *
-     * @param string $slackChannel            The Slack Channel ID
-     * @param string $slackToken              Your Slack authentication token.
-     * @param string $codeceptionOutputFolder Optional. By default tests/_output
+     * @param   string  $slackChannel             The Slack Channel ID
+     * @param   string  $slackToken               Your Slack authentication token.
+     * @param   string  $codeceptionOutputFolder  Optional. By default tests/_output
      *
      * @return mixed
      */
     public function sendCodeceptionOutputToSlack($slackChannel, $slackToken = null, $codeceptionOutputFolder = null)
     {
-        if (is_null($slackToken)) {
+        if (is_null($slackToken))
+        {
             $this->say('we are in Travis environment, getting token from ENV');
 
             // Remind to set the token in repo Travis settings,
@@ -74,7 +78,8 @@ class RoboFile extends \Robo\Tasks
     public function prepareSiteForSystemTests()
     {
         // Get Joomla Clean Testing sites
-        if (is_dir('tests/joomla-cms3')) {
+        if (is_dir('tests/joomla-cms3'))
+        {
             $this->taskDeleteDir('tests/joomla-cms3')->run();
         }
 
@@ -85,141 +90,71 @@ class RoboFile extends \Robo\Tasks
     /**
      * Executes Selenium System Tests in your machine
      *
-     * @param null $seleniumPath Optional path to selenium-standalone-server-x.jar
+     * @param   array  $options  Use -h to see available options
      *
      * @return mixed
      */
-    public function runTests($seleniumPath = null)
+    public function runTest($options = [
+        'test'         => null,
+        'suite'         => 'acceptance',
+        'selenium_path' => null
+    ])
     {
-        if (!$seleniumPath) {
-            if (!file_exists('selenium-server-standalone.jar')) {
-                $this->say('Downloading Selenium Server, this may take a while.');
-                $this->taskExec('wget')
-                    ->arg('http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar')
-                    ->arg('-O selenium-server-standalone.jar')
-                    ->printed(false)
-                    ->run();
-            }
-            $seleniumPath = 'selenium-server-standalone.jar';
+        if (!$options['selenium_path'])
+        {
+            $this->getSelenium();
         }
 
-        // Make sure we have Composer
-        if (!file_exists('./composer.phar')) {
-            $this->_exec('curl -sS https://getcomposer.org/installer | php');
+        $this->getComposer();
+
+        $this->taskComposerInstall()->run();
+
+        if (!'api' == $options['suite'])
+        {
+            $this->runSelenium($options['selenium_path']);
+
+            $this->taskWaitForSeleniumStandaloneServer()
+                 ->run()
+                 ->stopOnFail();
         }
-        $this->taskComposerUpdate()->run();
-
-        // Running Selenium server
-        $this->_exec("java -jar $seleniumPath > selenium-errors.log 2>selenium.log &");
-
-        $this->taskWaitForSeleniumStandaloneServer()
-            ->run()
-            ->stopOnFail();
-
-		// Make sure to Run the Build Command to Generate AcceptanceTester
-		$this->_exec("php vendor/bin/codecept build");
-
-        $this->taskCodecept()
-            ->suite('acceptance')
-            ->arg('--steps')
-            ->arg('--debug')
-            ->run()
-			->stopOnFail();
-
-        // Kill selenium server
-        // $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
-
-        $this->say('Printing Selenium Log files');
-        $this->say('------ selenium-errors.log (start) ---------');
-        $seleniumErrors = file_get_contents('selenium-errors.log');
-        if ($seleniumErrors) {
-            $this->say(file_get_contents('selenium-errors.log'));
-        }
-        else {
-            $this->say('no errors were found');
-        }
-        $this->say('------ selenium-errors.log (end) -----------');
-
-        /*
-        // Uncomment if you need to debug issues in selenium
-        $this->say('');
-        $this->say('------ selenium.log (start) -----------');
-        $this->say(file_get_contents('selenium.log'));
-        $this->say('------ selenium.log (end) -----------');
-        */
-    }
-
-    /**
-     * This function ensures that you have the latest version of RoboFile in your project.
-     * All redCOMPONENT RoboFiles are clones. All special needs for a project are stored in a robofile.yml file
-     */
-    public function checkRoboFileVersion()
-    {
-        $this->taskCheckRoboFileVersion($this->version)
-            ->run()
-            ->stopOnFail();
-    }
-
-    /**
-     * Executes Selenium System Tests in your machine
-     *
-     * @param string $seleniumPath   Optional path to selenium-standalone-server-x.jar
-     * @param string $pathToTestFile Optional name of the test to be run
-     * @param string $suite          Optional name of the suite containing the tests, Acceptance by default.
-     *
-     * @return mixed
-     */
-    public function runTest($seleniumPath = null, $pathToTestFile = null, $suite = 'acceptance')
-    {
-        if (!$seleniumPath) {
-            if (!file_exists('selenium-server-standalone.jar')) {
-                $this->say('Downloading Selenium Server, this may take a while.');
-                $this->taskExec('wget')
-                     ->arg('http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar')
-                     ->arg('-O selenium-server-standalone.jar')
-                     ->printed(false)
-                     ->run();
-            }
-            $seleniumPath = 'selenium-server-standalone.jar';
-        }
-
-        // Make sure we have Composer
-        if (!file_exists('./composer.phar')) {
-            $this->_exec('curl -sS https://getcomposer.org/installer | php');
-        }
-        $this->taskComposerUpdate()->run();
-
-        // Running Selenium server
-        $this->_exec("java -jar $seleniumPath > selenium-errors.log 2>selenium.log &");
-
-        $this->taskWaitForSeleniumStandaloneServer()
-             ->run()
-             ->stopOnFail();
 
         // Make sure to Run the Build Command to Generate AcceptanceTester
-        $this->_exec("php vendor/bin/codecept build");
+        $this->_exec("vendor/bin/codecept build");
 
-        if (!$pathToTestFile)
+        if (!$options['test'])
         {
-            $tests = array();
             $this->say('Available tests in the system:');
-            $filesInSuite = scandir(getcwd() . '/tests/' . $suite);
 
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(
+                    'tests/' . $options['suite'],
+                    RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::SELF_FIRST);
+
+            $tests = array();
+
+            $iterator->rewind();
             $i = 1;
-            foreach ($filesInSuite as $file)
+
+            while ($iterator->valid())
             {
-                // Make sure the file is a Test file
-                if (strripos($file, 'cept.php') || strripos($file, 'cest.php'))
+                if (strripos($iterator->getSubPathName(), 'cept.php')
+                    || strripos($iterator->getSubPathName(), 'cest.php'))
                 {
-                    $tests[$i] = $file;
-                    $this->say('[' . $i . '] ' . $file);
+                    $this->say('[' . $i . '] ' . $iterator->getSubPathName());
+                    $tests[$i] = $iterator->getSubPathName();
                     $i++;
                 }
+
+                $iterator->next();
             }
+
             $this->say('');
-            $testNumber = $this->ask('Type the number of the test  in the list that you want to run...');
-            $pathToTestFile = "tests/$suite/" . $tests[$testNumber];
+            $testNumber     = $this->ask('Type the number of the test  in the list that you want to run...');
+            $options['test'] = $tests[$testNumber];
         }
+
+        $pathToTestFile = 'tests/' . $options['suite'] . '/' . $options['test'];
 
         $this->taskCodecept()
              ->test($pathToTestFile)
@@ -228,26 +163,185 @@ class RoboFile extends \Robo\Tasks
              ->run()
              ->stopOnFail();
 
-        // Kill selenium server
-        // $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
-
-        $this->say('Printing Selenium Log files');
-        $this->say('------ selenium-errors.log (start) ---------');
-        $seleniumErrors = file_get_contents('selenium-errors.log');
-        if ($seleniumErrors) {
-            $this->say(file_get_contents('selenium-errors.log'));
+        if (!'api' == $options['suite'])
+        {
+            $this->killSelenium();
         }
-        else {
-            $this->say('no errors were found');
-        }
-        $this->say('------ selenium-errors.log (end) -----------');
+    }
 
-        /*
-        // Uncomment if you need to debug issues in selenium
-        $this->say('');
-        $this->say('------ selenium.log (start) -----------');
-        $this->say(file_get_contents('selenium.log'));
-        $this->say('------ selenium.log (end) -----------');
-        */
+    /**
+     * Function to Run tests in a Group
+     *
+     * @param   array  $options  Array of options
+     *
+     * @return void
+     */
+    public function runTests($options = ['selenium_path' => null])
+    {
+        $this->prepareSiteForSystemTests();
+
+        if (!$options['selenium_path'])
+        {
+            $this->getSelenium();
+        }
+
+        $this->getComposer();
+
+        $this->taskComposerInstall()->run();
+
+        $this->runSelenium($options['selenium_path']);
+
+        $this->taskWaitForSeleniumStandaloneServer()
+             ->run()
+             ->stopOnFail();
+
+        // Make sure to Run the Build Command to Generate AcceptanceTester
+        $this->_exec("vendor/bin/codecept build");
+
+        $this->taskCodecept()
+             ->arg('--steps')
+             ->arg('--debug')
+             ->arg('--tap')
+             ->arg('--fail-fast')
+             ->arg('tests/acceptance/install/')
+             ->run()
+             ->stopOnFail();
+
+        $this->taskCodecept()
+             ->arg('--steps')
+             ->arg('--debug')
+             ->arg('--fail-fast')
+             ->arg('tests/acceptance/administrator/')
+             ->run()
+             ->stopOnFail();
+
+        $this->taskCodecept()
+             ->arg('--steps')
+             ->arg('--debug')
+             ->arg('--fail-fast')
+             ->arg('tests/acceptance/uninstall/')
+             ->run()
+             ->stopOnFail();
+
+        $this->killSelenium();
+    }
+
+    /**
+     * This function ensures that you have the latest version of RoboFile in your project.
+     * All redCOMPONENT RoboFiles are clones. All special needs for a project are stored in a robofile.yml file
+     *
+     * @return void
+     */
+    public function checkRoboFileVersion()
+    {
+        $this->taskCheckRoboFileVersion($this->version)
+             ->run()
+             ->stopOnFail();
+    }
+
+    /**
+     * Downloads Selenium Standalone Server
+     *
+     * @return void
+     */
+    private function getSelenium()
+    {
+        if (!file_exists('selenium-server-standalone.jar'))
+        {
+            $this->say('Downloading Selenium Server, this may take a while.');
+            $this->_exec('curl'
+                         . ' -sS'
+                         . ' --retry 3 --retry-delay 5'
+                         . ' http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar'
+                         . ' > selenium-server-standalone.jar');
+        }
+    }
+
+    /**
+     * Stops Selenium Standalone Server
+     *
+     * @return void
+     */
+    public function killSelenium()
+    {
+        $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
+    }
+
+    /**
+     * Downloads Composer
+     *
+     * @return void
+     */
+    private function getComposer()
+    {
+        // Make sure we have Composer
+        if (!file_exists('./composer.phar'))
+        {
+            $this->_exec('curl --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
+        }
+    }
+
+    /**
+     * Runs Selenium Standalone Server
+     *
+     * @param   string  $path  Optional path to selenium standalone server
+     *
+     * @return void
+     */
+    public function runSelenium($path = null)
+    {
+        if (!$path)
+        {
+            $path = 'selenium-server-standalone.jar';
+        }
+
+        // Running Selenium server
+        $this->_exec("java -jar $path >> selenium.log 2>&1 &");
+    }
+
+    public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $GithubToken, $repoOwner, $repo, $pull)
+    {
+        // Loop throught Codeception snapshots
+        if ($handler = opendir('tests/_output'))
+        {
+            while (false !== ($errorSnapshot = readdir($handler)))
+            {
+                // Avoid sending system files or html files
+                if ('.' === substr($errorSnapshot, 0, 1)
+                    || 'html' == substr($errorSnapshot, -4)
+                    || 'log' == substr($errorSnapshot, -3))
+                {
+                    continue;
+                }
+
+                $this->say('Uploading screenshots...');
+
+                Cloudinary::config(
+                    array(
+                        'cloud_name' => $cloudName,
+                        'api_key'    => $apiKey,
+                        'api_secret' => $apiSecret
+                    )
+                );
+
+                $result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/tests/_output/' . $errorSnapshot));
+                $this->say($errorSnapshot . 'Image sent');
+
+                $this->say('Creating Github issue');
+                $body = file_get_contents('tests/_output/report.tap.log', NULL, NULL, 15);
+                $body .= '![Screenshot](' . $result['secure_url'] . ')';
+
+                $client = new \Github\Client;
+                $client->authenticate($GithubToken, \Github\Client::AUTH_HTTP_TOKEN);
+                $client
+                    ->api('issue')
+                    ->comments()->create(
+                        $repoOwner, $repo, $pull,
+                        array(
+                            'body'  => $body
+                        )
+                    );
+            }
+        }
     }
 }
