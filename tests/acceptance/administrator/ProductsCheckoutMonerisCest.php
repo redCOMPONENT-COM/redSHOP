@@ -45,8 +45,6 @@ class ProductsCheckoutMonerisCest
 		$I->enablePlugin('Moneris Payments');
 		$this->updateMonerisPlugin($I, $checkoutAccountInformation['storeID'], $checkoutAccountInformation['apiToken']);
 		$I->doAdministratorLogout();
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-
 		$customerInformation = array(
 			"email" => "test@test" . rand() . ".com",
 			"firstName" => "Tester",
