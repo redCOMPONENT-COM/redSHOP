@@ -24,7 +24,7 @@ class ProductsCheckoutMonerisCest
 	 * @param   String            $scenario  Scenario Variable
 	 *
 	 * @return void
-
+	 */
 	public function MonerisPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Checkout on Front End with Moneris Payments Plugin');
@@ -45,8 +45,6 @@ class ProductsCheckoutMonerisCest
 		$I->enablePlugin('Moneris Payments');
 		$this->updateMonerisPlugin($I, $checkoutAccountInformation['storeID'], $checkoutAccountInformation['apiToken']);
 		$I->doAdministratorLogout();
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-
 		$customerInformation = array(
 			"email" => "test@test" . rand() . ".com",
 			"firstName" => "Tester",
@@ -95,7 +93,7 @@ class ProductsCheckoutMonerisCest
 
 		$this->checkoutProductWithMonerisPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
 	}
-	*/
+
 	/**
 	 * Function to update Moneris Payment Plugin
 
