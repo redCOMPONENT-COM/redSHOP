@@ -37,10 +37,11 @@ class RedshopHelperUser
 	 * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
 	 * @param   int     $userInfoId      Id redshop user
 	 * @param   bool    $useAddressType  Select user info relate with address type
+	 * @param   bool    $force           Force to get user infromation DB instead of cache
 	 *
 	 * @return  object  Redshop user information
 	 */
-	public static function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0, $useAddressType = true)
+	public static function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0, $useAddressType = true, $force = false)
 	{
 		if (0 == $userId && 0 == $userInfoId)
 		{
@@ -66,7 +67,7 @@ class RedshopHelperUser
 
 		$key = $userId . '.' . $addressType . '.' . $userInfoId;
 
-		if (!array_key_exists($key, self::$redshopUserInfo))
+		if (!array_key_exists($key, self::$redshopUserInfo) || $force)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
