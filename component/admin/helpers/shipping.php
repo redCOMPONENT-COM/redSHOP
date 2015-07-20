@@ -1040,13 +1040,9 @@ class shipping
 	 */
 	public function getShippingVatRates($shipping_tax_group_id, $data = array())
 	{
-		$productHelper = new producthelper;
-		$user          = JFactory::getUser();
-		$session       = JFactory::getSession();
-		$db            = JFactory::getDbo();
-
+		$db  = JFactory::getDbo();
 		$and = '';
-		$q2 = '';
+		$q2  = '';
 
 		if (!empty($data))
 		{
@@ -1090,6 +1086,7 @@ class shipping
 		}
 		else
 		{
+			$session                = JFactory::getSession();
 			$auth                   = $session->get('auth');
 			$users_info_id          = $auth['users_info_id'];
 			$userdata               = new stdClass;
