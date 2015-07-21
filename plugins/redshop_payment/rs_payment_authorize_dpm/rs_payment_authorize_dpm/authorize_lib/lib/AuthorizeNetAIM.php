@@ -40,7 +40,7 @@
  */
 class AuthorizeNetAIM extends AuthorizeNetRequest
 {
-	const LIVE_URL = 'https://secure.authorize.net/gateway/transact.dll';
+	const LIVE_URL = 'https://secure2.authorize.net/gateway/transact.dll';
 	const SANDBOX_URL = 'https://test.authorize.net/gateway/transact.dll';
 
 	/**
