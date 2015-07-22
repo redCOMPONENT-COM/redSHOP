@@ -1305,7 +1305,7 @@ class redshopMail
 				$tax                     = $tax - $Discountspvat;
 			}
 
-			$quotation_subtotal_excl_vat       = $producthelper->getProductFormattedPrice($row->quotation_subtotal);
+			$quotation_subtotal_excl_vat       = $producthelper->getProductFormattedPrice($row->quotation_subtotal - $row->quotation_tax);
 			$quotation_subtotal_minus_discount = $producthelper->getProductFormattedPrice($row->quotation_subtotal - $row->quotation_discount);
 			$quotation_subtotal                = $producthelper->getProductFormattedPrice($row->quotation_subtotal);
 			$quotation_total                   = $producthelper->getProductFormattedPrice($row->quotation_total);
