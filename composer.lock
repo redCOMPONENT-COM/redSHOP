@@ -346,12 +346,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "ea2ec5a83c218ed62ea47cec1929dd8275528616"
+                "reference": "aab078382bcb75d295306a287547a6cb13941ac5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/ea2ec5a83c218ed62ea47cec1929dd8275528616",
-                "reference": "ea2ec5a83c218ed62ea47cec1929dd8275528616",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/aab078382bcb75d295306a287547a6cb13941ac5",
+                "reference": "aab078382bcb75d295306a287547a6cb13941ac5",
                 "shasum": ""
             },
             "require": {
@@ -386,7 +386,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2015-07-16 07:27:49"
+            "time": "2015-07-22 08:41:54"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
