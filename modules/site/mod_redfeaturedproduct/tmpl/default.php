@@ -127,8 +127,6 @@ if (count($list) > 0)
 									<?php
 									if ($params->get('show_product_name', 1))
 									{
-										//TODO Check function maxchar for replace title (if title more than product_title_max_chars, title REPLACE for product_title_end_suffix)
-
 										echo "<div class=\"mod_redproducts_title\"><a href=\"" . $link . "\" title=\"" . $row->product_name . "\">" . $row->product_name . "</a></div>";
 									}
 
