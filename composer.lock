@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b7c42f22958784e4e21c33a35d6f20a3",
+    "hash": "251efdd084d8c0dd663cdd7b0288bfba",
     "packages": [
         {
             "name": "codeception/codeception",
@@ -346,12 +346,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "aab078382bcb75d295306a287547a6cb13941ac5"
+                "reference": "359e48fb9c4100a9366ae006eacf3f7de056f15f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/aab078382bcb75d295306a287547a6cb13941ac5",
-                "reference": "aab078382bcb75d295306a287547a6cb13941ac5",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/359e48fb9c4100a9366ae006eacf3f7de056f15f",
+                "reference": "359e48fb9c4100a9366ae006eacf3f7de056f15f",
                 "shasum": ""
             },
             "require": {
@@ -386,7 +386,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2015-07-22 08:41:54"
+            "time": "2015-07-22 09:22:31"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -2017,6 +2017,51 @@
             "time": "2015-06-19 07:00:17"
         },
         {
+            "name": "redcomponent/teststatistics",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/redCOMPONENT-COM/teststatistics.git",
+                "reference": "a291f2a482247c082b1a4202c200df8a0d3bf6d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/redCOMPONENT-COM/teststatistics/zipball/a291f2a482247c082b1a4202c200df8a0d3bf6d1",
+                "reference": "a291f2a482247c082b1a4202c200df8a0d3bf6d1",
+                "shasum": ""
+            },
+            "require-dev": {
+                "codeception/codeception": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Codeception\\Extension\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL2"
+            ],
+            "authors": [
+                {
+                    "name": "Javier Gómez",
+                    "email": "javier@redcomponent.com",
+                    "homepage": "https://github.com/redCOMPONENT-COM/teststatistics"
+                }
+            ],
+            "description": "Codeception Extension to measure the performance of your tests",
+            "homepage": "https://github.com/redCOMPONENT-COM/teststatistics",
+            "keywords": [
+                "TDD",
+                "acceptance testing",
+                "functional testing",
+                "performance",
+                "unit testing"
+            ],
+            "time": "2015-07-20 17:10:31"
+        },
+        {
             "name": "symfony/config",
             "version": "v2.7.2",
             "source": {
@@ -2169,7 +2214,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "joomla-projects/joomla-browser": 20,
-        "redcomponent/robo": 20
+        "redcomponent/robo": 20,
+        "redcomponent/teststatistics": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
