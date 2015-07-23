@@ -129,12 +129,7 @@ if (count($list) > 0)
 									{
 										//TODO Check function maxchar for replace title (if title more than product_title_max_chars, title REPLACE for product_title_end_suffix)
 
-										$pname = $Redconfiguration->maxchar($row->product_name, $params->get('product_title_max_chars', "10"), $params->get('product_title_end_suffix', "...."));
-
-										/* Get only product title without maxchar function and cut with CSS */
-										$pname = $row->product_name;
-
-										echo "<div class=\"mod_redproducts_title\"><a href=\"" . $link . "\" title=\"" . $row->product_name . "\">" . $pname . "</a></div>";
+										echo "<div class=\"mod_redproducts_title\"><a href=\"" . $link . "\" title=\"" . $row->product_name . "\">" . $row->product_name . "</a></div>";
 									}
 
 									if (!$row->not_for_sale && $params->get('show_price', 1))

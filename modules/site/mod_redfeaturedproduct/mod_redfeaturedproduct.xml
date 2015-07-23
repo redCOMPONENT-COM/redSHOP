@@ -132,22 +132,6 @@
 				/>
 
 				<field
-					name="product_title_max_chars"
-					type="text"
-					size="10"
-					label="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_MAX_CHARS"
-					description="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_MAX_CHARS"
-					default="20"
-				/>
-				<field
-					name="product_title_end_suffix"
-					type="text"
-					size="10"
-					label="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_END_SUFFIX"
-					description="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_END_SUFFIX"
-					default="...."
-				/>
-				<field
 					name="show_discountpricelayout"
 					type="radio"
 					class="btn-group btn-group-yesno"
