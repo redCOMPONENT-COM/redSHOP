@@ -738,9 +738,13 @@ class RedshopModelConfiguration extends RedshopModel
 		return $list;
 	}
 
-	/*
-	 * handle .htaccess file for download product
-	 * @param: product download root path
+	/**
+	 * Handle .htaccess file for Downloadble Product root folder
+	 *
+	 * @param   string  $product_download_root  Path to the downloadable product root folder
+	 *
+	 * @deprecated  1.6      This method is deprecated and not used anywhere
+	 * @return      boolean  Return true on success
 	 */
 	public function handleHtaccess($product_download_root)
 	{
