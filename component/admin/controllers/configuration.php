@@ -239,9 +239,6 @@ class RedshopControllerConfiguration extends RedshopController
 			}
 			else
 			{
-				// Handle .htaccess file generation
-				$model->handleHtaccess($post['product_download_root']);
-
 				if ($model->store($post))
 				{
 					$msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
