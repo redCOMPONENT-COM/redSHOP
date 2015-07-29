@@ -35,12 +35,12 @@ class Payment2CheckoutPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(['xpath' => "//input[@id='filter_search']"], '2Checkout');
 		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('2Checkout'), 30);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('2Checkout'),30);
 		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
 		$I->see('2Checkout', ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
 		$I->click(['xpath' => "//input[@id='cb0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['xpath' => "//input[@id='jform_params_vendor_id']"], 30);
+		$I->waitForElement(['xpath' => "//input[@id='jform_params_vendor_id']"],30);
 		$I->fillField(['xpath' => "//input[@id='jform_params_vendor_id']"], $vendorID);
 		$I->fillField(['xpath' => "//input[@id='jform_params_secret_words']"], $secretWord);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
