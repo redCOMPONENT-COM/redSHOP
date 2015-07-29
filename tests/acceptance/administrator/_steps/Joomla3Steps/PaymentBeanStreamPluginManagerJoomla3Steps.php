@@ -36,12 +36,12 @@ class PaymentBeanStreamPluginManagerJoomla3Steps extends AdminManagerJoomla3Step
 		$I->fillField(['xpath' => "//input[@id='filter_search']"], 'BeanStream');
 		$I->click(['xpath' => "//button[@type='submit' and @data-original-title='Search']"]);
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('BeanStream'), 30);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('BeanStream'),30);
 		$I->seeElement(['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
 		$I->see('BeanStream', ['xpath' => "//form[@id='adminForm']/div/table/tbody/tr[1]"]);
 		$I->click(['xpath' => "//input[@id='cb0']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['xpath' => "//input[@id='jform_params_merchant_id']"], 30);
+		$I->waitForElement(['xpath' => "//input[@id='jform_params_merchant_id']"],30);
 		$I->fillField(['xpath' => "//input[@id='jform_params_merchant_id']"], $merchantCode);
 		$I->fillField(['xpath' => "//input[@id='jform_params_api_username']"], $username);
 		$I->fillField(['xpath' => "//input[@id='jform_params_api_password']"], $password);
