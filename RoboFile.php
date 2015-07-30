@@ -365,7 +365,7 @@ class RoboFile extends \Robo\Tasks
             $this->taskDeleteDir('tests/develop')->run();
         }
 
-        $this->_exec('git clone -b develop --single-branch --depth 1 git@github.com:redCOMPONENT-COM/redSHOPB2B.git tests/develop');
+        $this->_exec('git clone -b develop --single-branch --depth 1 git@github.com:redCOMPONENT-COM/redSHOP.git tests/develop');
         $this->say('Downloaded Develop Branch for Update test');
     }
 }
