@@ -220,18 +220,18 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv,30);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,10,'.alert-success');
 		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
 		$this->addressInformation($addressDetail);
 		$this->shippingInformation($shipmentDetail);
@@ -239,17 +239,17 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
 		$I->click(['xpath' => "//div[@id='rs_payment_braintree']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->waitForElement($productFrontEndManagerPage->product($productName),30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForElement(['xpath' => "//input[@id='order_payment_name']"], 10);
+		$I->waitForElement(['xpath' => "//input[@id='order_payment_name']"],10);
 		$I->fillField(['xpath' => "//input[@id='order_payment_name']"], $checkoutAccountDetail['customerName']);
 		$I->fillField(['xpath' => "//input[@id='order_payment_number']"], $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField(['xpath' => "//input[@id='credit_card_code']"], $checkoutAccountDetail['cvv']);
 		$I->click(['xpath' => "//input[@value='VISA']"]);
 		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
-		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-message']"]);
+		$I->waitForText('Order placed',15,['xpath' => "//div[@class='alert alert-message']"]);
 		$I->see('Order placed', "//div[@class='alert alert-message']");
 	}
 
@@ -287,7 +287,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
 		$I->click(['xpath' => "//div[@id='rs_payment_beanstream']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement(['xpath' => "//input[@id='order_payment_name']"], 10);
+		$I->waitForElement(['xpath' => "//input[@id='order_payment_name']"],10);
 		$I->fillField(['xpath' => "//input[@id='order_payment_name']"], $checkoutAccountDetail['customerName']);
 		$I->fillField(['xpath' => "//input[@id='order_payment_number']"], $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField(['xpath' => "//input[@id='credit_card_code']"], $checkoutAccountDetail['cvv']);
@@ -297,7 +297,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-message']"]);
+		$I->waitForText('Order placed',15,['xpath' => "//div[@class='alert alert-message']"]);
 		$I->see('Order placed', "//div[@class='alert alert-message']");
 	}
 }

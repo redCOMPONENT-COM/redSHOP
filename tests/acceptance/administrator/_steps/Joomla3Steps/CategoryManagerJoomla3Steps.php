@@ -40,7 +40,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$categoryTemplateDropDown);
 		$I->click($categoryManagerPage->categoryTemplate("list"));
 		$I->click("Save & Close");
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter,30);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $updatedName);
 		$I->click("Save & Close");
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter,30);
 	}
 
 	/**
