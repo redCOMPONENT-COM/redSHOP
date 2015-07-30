@@ -225,6 +225,16 @@ class RoboFile extends \Robo\Tasks
              ->run()
              ->stopOnFail();
 
+        $this->say('preparing for update test');
+        $this->getDevelop();
+        $this->taskCodecept()
+             ->arg('--steps')
+             ->arg('--debug')
+             ->arg('--fail-fast')
+             ->arg('tests/acceptance/update/')
+             ->run()
+             ->stopOnFail();
+
         $this->killSelenium();
     }
 
@@ -345,5 +355,17 @@ class RoboFile extends \Robo\Tasks
                     );
             }
         }
+    }
+
+    private function getDevelop()
+    {
+        // Get current develop branch of the extension for Extension update test
+        if (is_dir('tests/develop'))
+        {
+            $this->taskDeleteDir('tests/develop')->run();
+        }
+
+        $this->_exec('git clone -b develop --single-branch --depth 1 git@github.com:redCOMPONENT-COM/redSHOPB2B.git tests/develop');
+        $this->say('Downloaded Develop Branch for Update test');
     }
 }
