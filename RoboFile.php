@@ -95,23 +95,22 @@ class RoboFile extends \Robo\Tasks
      * @return mixed
      */
     public function runTest($options = [
-        'test'         => null,
+        'test'          => null,
         'suite'         => 'acceptance',
         'selenium_path' => null
     ])
     {
-        if (!$options['selenium_path'])
-        {
-            $this->getSelenium();
-        }
-
         $this->getComposer();
 
         $this->taskComposerInstall()->run();
 
-        if (!'api' == $options['suite'])
-        {
-            $this->runSelenium($options['selenium_path']);
+		if (isset($options['suite']) && 'api' === $options['suite'])
+		{
+			// Do not launch selenium when running API tests
+		}
+		else
+		{
+			$this->runSelenium();
 
             $this->taskWaitForSeleniumStandaloneServer()
                  ->run()
@@ -172,24 +171,17 @@ class RoboFile extends \Robo\Tasks
     /**
      * Function to Run tests in a Group
      *
-     * @param   array  $options  Array of options
-     *
      * @return void
      */
-    public function runTests($options = ['selenium_path' => null])
+    public function runTests()
     {
         $this->prepareSiteForSystemTests();
-
-        if (!$options['selenium_path'])
-        {
-            $this->getSelenium();
-        }
 
         $this->getComposer();
 
         $this->taskComposerInstall()->run();
 
-        $this->runSelenium($options['selenium_path']);
+        $this->runSelenium();
 
         $this->taskWaitForSeleniumStandaloneServer()
              ->run()
@@ -242,24 +234,6 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
-     * Downloads Selenium Standalone Server
-     *
-     * @return void
-     */
-    private function getSelenium()
-    {
-        if (!file_exists('selenium-server-standalone.jar'))
-        {
-            $this->say('Downloading Selenium Server, this may take a while.');
-            $this->_exec('curl'
-                         . ' -sS'
-                         . ' --retry 3 --retry-delay 5'
-                         . ' http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar'
-                         . ' > selenium-server-standalone.jar');
-        }
-    }
-
-    /**
      * Stops Selenium Standalone Server
      *
      * @return void
@@ -292,13 +266,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function runSelenium($path = null)
     {
-        if (!$path)
-        {
-            $path = 'selenium-server-standalone.jar';
-        }
-
-        // Running Selenium server
-        $this->_exec("java -jar $path >> selenium.log 2>&1 &");
+        $this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
     }
 
     public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $GithubToken, $repoOwner, $repo, $pull)
