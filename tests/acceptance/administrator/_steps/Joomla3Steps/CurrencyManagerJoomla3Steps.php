@@ -34,7 +34,7 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $currencyName);
 		$I->fillField(\CurrencyManagerPage::$currencyCodeField, $currencyCode);
 		$I->click('Save & Close');
-		$I->see('Currency Management', 'h1');
+		$I->see('Currency Management','h1');
 		$I->see('Currency detail saved', '.alert-success');
 		$I->click(['link' => 'ID']);
 		$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
