@@ -36,9 +36,9 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function __construct()
 	{
-		global $context;
-
 		$app = JFactory::getApplication();
+
+		$this->context = 'com_redshop.' . $app->input->getCmd('view') . '.' . $app->input->getCmd('layout', 'default');
 
 		// @ToDo In fearure, when class Manufacturers extends RedshopModelList, replace filter_fields in constructor
 		$this->filter_fields_products = array(
@@ -71,7 +71,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 		$this->setId($manid);
 
-		$limit = $app->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
+		$limit = $app->getUserStateFromRequest($this->context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
