@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "251efdd084d8c0dd663cdd7b0288bfba",
+    "hash": "4b492b052b46fe87ad8c51d95922791d",
     "packages": [
         {
             "name": "codeception/codeception",
@@ -2061,6 +2061,42 @@
                 "unit testing"
             ],
             "time": "2015-07-20 17:10:31"
+        },
+        {
+            "name": "se/selenium-server-standalone",
+            "version": "v2.46.0+p1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sveneisenschmidt/selenium-server-standalone.git",
+                "reference": "91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sveneisenschmidt/selenium-server-standalone/zipball/91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a",
+                "reference": "91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a",
+                "shasum": ""
+            },
+            "bin": [
+                "composer/bin/selenium-server-standalone"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sven Eisenschmidt",
+                    "email": "sven.eisenschmidt@gmail.com"
+                }
+            ],
+            "description": "Composer distribution of Selenium Server Standalone, the browser automation framework. Adds a executable to your composer bin directory.",
+            "homepage": "https://github.com/sveneisenschmidt/selenium-server-standalone",
+            "keywords": [
+                "selenium",
+                "testing"
+            ],
+            "time": "2015-07-18 08:03:29"
         },
         {
             "name": "symfony/config",
