@@ -51,7 +51,7 @@
                        label="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_VENDOREMAIL_LBL" description="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_VENDOREMAIL_DESC"/>
                 <field name="sagepay_encryptpass" type="text" default=""
                        label="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_ENCRYPTPASS_LBL"/>
-                <field name="sagepay_protocol" type="text" default="2.23"
+                <field name="sagepay_protocol" type="text" default="3.00"
                        label="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_PROTOCOL_LBL"/>
                 <field name="sagepay_transactiontype" type="text" default="PAYMENT"
                        label="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_TRANSACTIONTYPE_LBL"/>

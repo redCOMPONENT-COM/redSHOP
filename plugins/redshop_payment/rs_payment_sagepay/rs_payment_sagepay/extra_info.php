@@ -137,26 +137,13 @@ else
 	);
 }
 
-$strPost = "";
-$i = 0;
-
-foreach ($crypt_variables as $name => $value)
-{
-	$strPost .= $name . "=" . $value;
-
-	if ($i < count($crypt_variables) - 1)
-	{
-		$strPost .= "&";
-	}
-
-	$i++;
-}
-
 $strCrypt = '';
 
 if ($strEncryptionPassword != null)
 {
-	$strCrypt = base64Encode(simpleXor($strPost, $strEncryptionPassword));
+	$strPost = self::arrayToQueryString($crypt_variables);
+
+	$strCrypt = self::encryptAes($strPost, $strEncryptionPassword);
 }
 
 $post_variables = Array(
@@ -175,59 +162,6 @@ foreach ($post_variables as $name => $value)
 }
 
 echo '</form>';
-
-function base64Encode($plain)
-{
-	// Initialise output variable
-	$output = "";
-
-	// Do encoding
-	$output = base64_encode($plain);
-
-	// Return the result
-	return $output;
-}
-
-function base64Decode($scrambled)
-{
-	// Initialize output variable
-	$output = "";
-
-	// Fix plus to space conversion issue
-	$scrambled = str_replace(" ", "+", $scrambled);
-
-	// Do encoding
-	$output = base64_decode($scrambled);
-
-	// Return the result
-	return $output;
-}
-
-function simpleXor($InString, $Key)
-{
-	// Initialize key array
-	$KeyList = array();
-
-	// Initialize out variable
-	$output = "";
-
-	// Convert $Key into array of ASCII values
-	for ($i = 0; $i < strlen($Key); $i++)
-	{
-		$KeyList[$i] = ord(substr($Key, $i, 1));
-	}
-
-	// Step through string a character at a time
-	for ($i = 0; $i < strlen($InString); $i++)
-	{
-		// Get ASCII code from string, get ASCII code from key (loop through with MOD), XOR the two, get the character from the result
-		// % is MOD (modulus), ^ is XOR
-		$output .= chr(ord(substr($InString, $i, 1)) ^ ($KeyList[$i % strlen($Key)]));
-	}
-
-	// Return the result
-	return $output;
-}
 ?>
 <script>
 	document.frmsagepay.submit();
