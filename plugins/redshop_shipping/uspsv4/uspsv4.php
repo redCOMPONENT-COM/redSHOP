@@ -765,8 +765,6 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 					}
 				}
 
-				$html = "";
-
 				if (function_exists("curl_init"))
 				{
 					$CR = curl_init();
@@ -792,17 +790,14 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 
 					if (!empty($error))
 					{
-						$html = _USPS_RESPONSE_ERROR;
 						$error = true;
 					}
 					else
 					{
 						// Check for error from response from USPS
-						if (strstr($xmlResult, "Error"))
+						if (strstr($xmlResult, "<Error>"))
 						{
 							$error = true;
-							$html  = "<span class=\"message\">" . _USPS_RESPONSE_ERROR . "</span><br/>";
-							$html  .= "Error Description: " . $xmlResult . "<br/>";
 						}
 					}
 
@@ -816,7 +811,6 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 					if (!$fp)
 					{
 						$error = true;
-						$html = _USPS_RESPONSE_ERROR . ": $errstr ($errno)";
 					}
 					else
 					{
@@ -856,7 +850,6 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 						else
 						{
 							$error = true;
-							$html = JText::_('PLG_REDSHOP_SHIPPING_USPSV4_USPS_ERROR_PARSING_RESPONSE');
 						}
 					}
 				}

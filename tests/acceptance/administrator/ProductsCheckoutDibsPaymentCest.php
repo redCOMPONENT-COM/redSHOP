@@ -7,7 +7,7 @@
  */
 use \AcceptanceTester;
 /**
- * Class ProductsCheckoutMonerisCest
+ * Class ProductsCheckoutDibsPaymentCest
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ use \AcceptanceTester;
  *
  * @since    1.4
  */
-class ProductsCheckoutMonerisCest
+class ProductsCheckoutDibsPaymentCest
 {
 	/**
 	 * Test to Verify the Payment Plugin
@@ -25,26 +25,27 @@ class ProductsCheckoutMonerisCest
 	 *
 	 * @return void
 	 */
-	public function MonerisPaymentPlugin(AcceptanceTester $I, $scenario)
+	public function testDIBSPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Checkout on Front End with Moneris Payments Plugin');
+		$I->wantTo('Test Product Checkout on Front End with DIBS Payment Method Plugin');
 		$I->doAdministratorLogin();
-		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_moneris/';
+		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_dibspaymentmethod/';
 		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
-			"storeID" => "store1",
-			"debitCardNumber" => "5454545454545454",
-			"apiToken"	=> "yesguy",
-			"cvv" => "1234",
-			"cardExpiryMonth" => '2',
-			"cardExpiryYear" => '2016',
+			"vendorID" => "90197177",
+			"debitCardNumber" => "5100100000000000",
+			"cvv" => "684",
+			"cardExpiryMonth" => '06',
+			"cardExpiryYear" => '24',
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
-		$I->enablePlugin('Moneris Payments');
-		$this->updateMonerisPlugin($I, $checkoutAccountInformation['storeID'], $checkoutAccountInformation['apiToken']);
+		$I->enablePlugin('DIBS Payment Method Payments');
+		$this->updateDIBSPlugin($I, $checkoutAccountInformation['vendorID']);
 		$I->doAdministratorLogout();
+		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+
 		$customerInformation = array(
 			"email" => "test@test" . rand() . ".com",
 			"firstName" => "Tester",
@@ -91,41 +92,36 @@ class ProductsCheckoutMonerisCest
 
 		}
 
-		$this->checkoutProductWithMonerisPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$this->checkoutProductWithDIBSPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
 	}
 
 	/**
-	 * Function to update Moneris Payment Plugin
-
+	 * Function to Update the Payment Plugin
+	 *
 	 * @param   AcceptanceTester  $I         Actor Class Object
-	 * @param   String            $storeId   Store ID for API
-	 * @param   String            $apiToken  ApiToken for Plugin
+	 * @param   String            $vendorID  Vendor ID
 	 *
 	 * @return void
 	 */
-	private function updateMonerisPlugin(AcceptanceTester $I, $storeId, $apiToken)
+	private function updateDIBSPlugin(AcceptanceTester $I, $vendorID)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->searchForItem('Moneris Payments');
+		$I->searchForItem('DIBS Payment Method Payments');
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('Moneris Payments'), 30);
-		$I->checkExistenceOf('Moneris Payments');
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('DIBS Payment Method Payments'), 30);
+		$I->checkExistenceOf('DIBS Payment Method Payments');
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['xpath' => "//li//label[text()='Visa']"]);
-		$I->click(['xpath' => "//li//label[text()='Visa']"]);
-		$I->click(['xpath' => "//li//label[text()='MasterCard']"]);
-		$I->fillField(['id' => "jform_params_moneris_store_id"], $storeId);
-		$I->fillField(['id' => "jform_params_moneris_test_store_id"], $storeId);
-		$I->fillField(['id' => "jform_params_moneris_api_token"], $apiToken);
-		$I->fillField(['id' => "jform_params_moneris_test_api_token"], $apiToken);
+		$I->waitForElement(['id' => "jform_params_seller_id"], 30);
+		$I->fillField(['id' => "jform_params_seller_id"], $vendorID);
+
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('successfully saved', ['id' => 'system-message-container']);
 	}
 
 	/**
-	 * Function to Test Checkout Process of a Product using the Moneris Payment Plugin
+	 * Function to Test Checkout Process of a Product using the DIBS Payment Plugin
 	 *
 	 * @param   AcceptanceTester  $I                      Actor Class Object
 	 * @param   String            $scenario               Scenario Variable
@@ -137,40 +133,52 @@ class ProductsCheckoutMonerisCest
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithMonerisPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	private function checkoutProductWithDIBSPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage('/index.php?option=com_redshop');
-		$I->waitForElement(['id' => "redshopcomponent"], 30);
+		$I->waitForElement(['id' => "redshopcomponent"],30);
 		$I->checkForPhpNoticesOrWarnings();
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
 		$I->waitForElement(['xpath' => "//div[@class='alert alert-success']"]);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-success');
+		$I->waitForText("Product has been added to your cart.",10,'.alert-success');
 		$I->see("Product has been added to your cart.", '.alert-success');
 		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
-		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
+		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"],30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->addressInformation($addressDetail);
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
 		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
-		$I->click(['xpath' => "//div[@id='rs_payment_moneris']//label//input"]);
+		$I->click(['xpath' => "//div[@id='rs_payment_dibspaymentmethod']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement(['id' => "order_payment_name"], 10);
-		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
-		$I->fillField(['id' => "order_payment_number"], $checkoutAccountDetail['debitCardNumber']);
-		$I->fillField(['id' => "credit_card_code"], $checkoutAccountDetail['cvv']);
-		$I->click(['xpath' => "//input[@value='MC']"]);
-		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->waitForElement($productFrontEndManagerPage->product($productName),30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-message']"]);
-		$I->see('Order placed', "//div[@class='alert alert-message']");
+		$I->executeInSelenium(function (\WebDriver $webdriver) {
+			$handles=$webdriver->getWindowHandles();
+			$last_window = end($handles);
+			$webdriver->switchTo()->window($last_window);
+		});
+		$I->waitForElement(["id" => "paytypeLink_MC"],30);
+		$I->seeElement(["id" => "paytypeLink_MC"]);
+		$I->click(["id" => "paytypeLink_MC"]);
+		$I->waitForElement(["id" => "auth_cardno"],30);
+		$I->fillField(["id" => "auth_cardno"],$checkoutAccountDetail["debitCardNumber"]);
+		$I->fillField(["id" => "auth_expmon"],$checkoutAccountDetail["cardExpiryMonth"]);
+		$I->fillField(["id" => "auth_expyear"], $checkoutAccountDetail["cardExpiryYear"]);
+		$I->fillField(["id" => "auth_cvc"],$checkoutAccountDetail["cvv"]);
+		$I->click(["xpath" => "//button[@value='Validate payment']"]);
+		$I->waitForElement(["xpath" => "//span[@id='payment_accepted']"],30);
+		$I->see("Payment accepted.", ["xpath" => "//span[@id='payment_accepted']"]);
+		$I->click(["xpath" => "//button[@value='Next']"]);
+		$I->acceptPopup();
+		$I->waitForText('Order placed',15,['xpath' => "//div[@class='alert alert-message']"]);
+		$I->see('Order placed',"//div[@class='alert alert-message']");
 	}
 }

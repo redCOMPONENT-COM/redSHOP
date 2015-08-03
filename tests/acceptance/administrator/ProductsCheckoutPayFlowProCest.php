@@ -7,7 +7,7 @@
  */
 use \AcceptanceTester;
 /**
- * Class ProductsCheckoutAuthorizeCest
+ * Class ProductsCheckoutPayFlowProCest
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ use \AcceptanceTester;
  *
  * @since    1.4
  */
-class ProductsCheckoutAuthorizeCest
+class ProductsCheckoutPayFlowProCest
 {
 	/**
 	 * Test to Verify the Payment Plugin
@@ -25,28 +25,27 @@ class ProductsCheckoutAuthorizeCest
 	 *
 	 * @return void
 	 */
-	public function testAuthorizePaymentPlugin(AcceptanceTester $I, $scenario)
+	public function testPayFlowProPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Checkout on Front End with Authorize Net Payment Plugin');
+		$I->wantTo('Test Product Checkout on Front End with PayFlow Pro Payment Plugin');
 		$I->doAdministratorLogin();
-		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize/';
+		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_payflowpro/';
 		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
-			"accessId" => "62qpC9xN9nN4",
-			"transactionId" => "97sRY6pGTea3E48d",
-			"password" => "Pull416!t",
-			"debitCardNumber" => "4012888818888",
-			"cvv" => "1234",
-			"cardExpiryMonth" => '2',
-			"cardExpiryYear" => '2016',
+			"merchantLogin" => "gunjan",
+			"password" => "gunjan105",
+			"user" => "gunjan",
+			"debitCardNumber" => "4111111111111111",
+			"cvv" => "123",
+			"cardExpiryMonth" => '12',
+			"cardExpiryYear" => '2015',
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
-		$I->enablePlugin('Authorize Payments');
-		$this->updateAuthorizePlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId']);
+		$I->enablePlugin('Payflow Pro Payment');
+		$this->updatePayFlowProPlugin($I, $checkoutAccountInformation['merchantLogin'], $checkoutAccountInformation['user'], $checkoutAccountInformation['password']);
 		$I->doAdministratorLogout();
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
 		$customerInformation = array(
 			"email" => "test@test" . rand() . ".com",
@@ -59,37 +58,69 @@ class ProductsCheckoutAuthorizeCest
 			"state" => "Karnataka",
 			"phone" => "8787878787"
 		);
-		$productName = 'redCOOKIE';
-		$categoryName = 'Events and Forms';
-		$this->checkoutProductWithAuthorizePayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$randomNumber = rand(10, 1000);
+
+		if (($randomNumber % 2) == 1)
+		{
+			$productRandomizer = rand(10, 1000);
+
+			if (($productRandomizer % 2) == 1)
+			{
+				$productName = 'redSLIDER';
+			}
+			else
+			{
+				$productName = 'redCOOKIE';
+			}
+
+			$categoryName = 'Events and Forms';
+
+		}
+		else
+		{
+			$productRandomizer = rand(10, 1000);
+
+			if (($productRandomizer % 2) == 1)
+			{
+				$productName = 'redSHOP';
+			}
+			else
+			{
+				$productName = 'redITEM';
+			}
+
+			$categoryName = 'CCK and e-Commerce';
+
+		}
+
+		$this->checkoutProductWithPayFlowProPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
 	}
 
 	/**
 	 * Function to Update the Payment Plugin
 	 *
-	 * @param   AcceptanceTester  $I               Actor Class Object
-	 * @param   String            $accessId        Access Id of API
-	 * @param   String            $transactionKey  Transaction Key
+	 * @param   AcceptanceTester  $I           Acceptance Tester Object
+	 * @param   String            $merchantId  Merchant ID
+	 * @param   String            $user        User ID
+	 * @param   String            $password    Password for the Merchant Account
 	 *
 	 * @return void
 	 */
-	private function updateAuthorizePlugin(AcceptanceTester $I, $accessId, $transactionKey)
+	private function updatePayFlowProPlugin(AcceptanceTester $I, $merchantId, $user, $password)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->searchForItem('Authorize Payments');
+		$I->searchForItem('Payflow Pro Payment');
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize Payments'), 30);
-		$I->checkExistenceOf('Authorize Payments');
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('Payflow Pro Payment'), 30);
+		$I->checkExistenceOf('Payflow Pro Payment');
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['id' => "jform_params_access_id"], 30);
-		$I->fillField(['id' => "jform_params_access_id"], $accessId);
-		$I->fillField(['id' => "jform_params_transaction_id"], $transactionKey);
-		$I->click(['xpath' => "//div[@id='jform_params_is_test_chzn']/a"]);
+		$I->waitForElement(['id' => "jform_params_merchant_id"], 30);
+		$I->fillField(['id' => "jform_params_merchant_id"], $merchantId);
+		$I->fillField(['id' => "jform_params_merchant_user"], $user);
+		$I->fillField(['id' => "jform_params_merchant_password"], $password);
 
-		// Choosing Test Mode to Yes
-		$I->click(['xpath' => "//div[@id='jform_params_is_test_chzn']/div/ul/li[contains(text(), 'Yes')]"]);
 		$I->click(['link' => 'Advanced']);
 		$I->click(['xpath' => "//li//label[text()='Visa']"]);
 		$I->click(['xpath' => "//li//label[text()='MasterCard']"]);
@@ -98,19 +129,19 @@ class ProductsCheckoutAuthorizeCest
 	}
 
 	/**
-	 * Function to Test Checkout Process of a Product using the Braintree Payment Plugin
+	 * Function to Test Checkout Process of a Product using the PayFlow Pro Payment Plugin
 	 *
 	 * @param   AcceptanceTester  $I                      Actor Class Object
 	 * @param   String            $scenario               Scenario Variable
 	 * @param   Array             $addressDetail          Address Detail
 	 * @param   Array             $shipmentDetail         Shipping Address Detail
-	 * @param   Array             $checkoutAccountDetail  2Checkout Account Detail
+	 * @param   Array             $checkoutAccountDetail  Account Detail
 	 * @param   string            $productName            Name of the Product
 	 * @param   string            $categoryName           Name of the Category
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithAuthorizePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	private function checkoutProductWithPayFlowProPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage('/index.php?option=com_redshop');
 		$I->waitForElement(['id' => "redshopcomponent"], 30);
@@ -131,7 +162,7 @@ class ProductsCheckoutAuthorizeCest
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
 		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
-		$I->click(['xpath' => "//div[@id='rs_payment_authorize']//label//input"]);
+		$I->click(['xpath' => "//div[@id='rs_payment_payflowpro']//label//input"]);
 		$I->click("Checkout");
 		$I->waitForElement(['id' => "order_payment_name"], 10);
 		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
