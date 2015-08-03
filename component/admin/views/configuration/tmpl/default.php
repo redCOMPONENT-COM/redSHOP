@@ -10,8 +10,6 @@ defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 
-$option = JRequest::getVar('option');
-
 $uri = JURI::getInstance();
 $url = $uri->root();
 ?>
@@ -80,21 +78,32 @@ $url = $uri->root();
 		form.submit();
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<?php
-	$dashboard = JRequest::getVar('dashboard');
+	$dashboard = JFactory::getApplication()->input->getInt('dashboard');
 
-	if ($dashboard == 1)
+	$options = array('startOffset' => 0);
+
+	if ($dashboard)
 	{
-		$offset = 9;
-	}
-	else
-	{
-		$offset = 0;
+		// Temporary fix - due to joomla bug have to force this code. Need to remove after fix in Joomla.
+		JFactory::getDocument()->addScriptDeclaration('
+			window.addEvent("domready", function(){
+				$$("dl#pane.tabs").each(function(tabs){
+					new JTabs(tabs, {"display": 12,"useStorage": false,"titleSelector": "dt.tabs","descriptionSelector": "dd.tabs"});
+				});
+			});
+		');
+
+		// Permenant fix - will work after joomla bug fix
+		$options = array(
+			'startOffset' => 12,
+			'useCookie'   => false
+		);
 	}
 
-	echo JHtml::_('tabs.start', 'pane', array('startOffset' => $offset));
+	echo JHtml::_('tabs.start', 'pane', $options);
 	$output = '';
 	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'general');
 	?>
@@ -131,7 +140,7 @@ $url = $uri->root();
 	echo JHtml::_('tabs.end');
 	?>
 	<input type="hidden" name="cid" value="1"/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 </form>
 <script type="text/javascript">
 	function cleardata() {
