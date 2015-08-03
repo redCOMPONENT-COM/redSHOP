@@ -17,11 +17,11 @@ $mediaHelper = new redMediahelper;
 
 if ($folder == '')
 {
-	$basePath = "components/com_redshop/assets/images/";
+	$basePath = "components " . DIRECTORY_SEPARATOR . "com_redshop" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR. "images" . DIRECTORY_SEPARATOR;
 
 	if ($fdl)
 	{
-		$basePath = str_replace(JPATH_ROOT . '/', '', PRODUCT_DOWNLOAD_ROOT) . '/';
+		$basePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR, '', PRODUCT_DOWNLOAD_ROOT) . DIRECTORY_SEPARATOR;
 	}
 
 	$thumb_path = JURI::root() . $basePath . $this->_tmp_img->path_relative;
