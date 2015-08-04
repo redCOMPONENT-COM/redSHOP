@@ -462,29 +462,23 @@ class plgredshop_shippingfedex extends JPlugin
 		{
 			$response = $client->getRates($request);
 
-			if ($this->setEndpoint('changeEndpoint'))
-			{
-				$newLocation = $client->__setLocation($this->setEndpoint('endpoint'));
-			}
-
-			if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR' && $response->HighestSeverity != 'WARNING')
+			if ($response->HighestSeverity == 'FAILURE' || $response->HighestSeverity == 'ERROR' || $response->HighestSeverity == 'WARNING')
 			{
 				if (count($response->Notifications) > 1)
 				{
 					foreach ($response->Notifications as $notification)
 					{
-						$str .= "<b>Fed ex " . $notification->Severity . " : " . $notification->Code . "</b> : " . $notification->Message . "<br>";
+						$str .= "<b>Fedex " . $notification->Severity . " : " . $notification->Code . "</b> : " . $notification->Message . "<br>";
 					}
 				}
 				else
 				{
-					$str = "<b>Fed ex " . $response->Notifications->Severity . "</b> : " . $response->Notifications->Message;
+					$str = "<b>Fedex " . $response->Notifications->Severity . "</b> : " . $response->Notifications->Message;
 				}
 
 				echo $str;
 			}
-
-			if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR')
+			else
 			{
 				$error = 0;
 				$i = 0;
@@ -507,29 +501,12 @@ class plgredshop_shippingfedex extends JPlugin
 					}
 				}
 			}
-			else
-			{
-				$error = "1";
-			}
 		}
 		catch (SoapFault $exception)
 		{
-			$error = 1;
+			// Handle Exception
 		}
 
 		return $shippingrate;
-	}
-
-	public function setEndpoint($var)
-	{
-		if ($var == 'changeEndpoint')
-		{
-			return false;
-		}
-
-		if ($var == 'endpoint')
-		{
-			return '';
-		}
 	}
 }
