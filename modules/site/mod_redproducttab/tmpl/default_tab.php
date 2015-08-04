@@ -8,10 +8,19 @@
  */
 
 defined('_JEXEC') or die;
+
+$itemClass      = '';
+$containerClass = '';
+
+if (version_compare(JVERSION, '3.0', '<'))
+{
+	$itemClass      = 'left1';
+	$containerClass = 'clearfix';
+}
 ?>
-<div class="row">
+<div class="row <?php echo $containerClass; ?>">
 	<?php foreach ($rows as $row): ?>
-		<div class="span3">
+		<div class="span3 <?php echo $itemClass; ?>">
 		<?php
 			$category_id = $row->category_id;
 			$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
