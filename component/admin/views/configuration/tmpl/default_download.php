@@ -36,6 +36,24 @@ defined('_JEXEC') or die;
 		</td>
 	</tr>
 	<tr>
+		<td colspan="2">
+			<?php
+				echo RedshopLayoutHelper::render(
+					'system.message',
+					array(
+						'msgList' => array(
+							'notice' => array(
+								JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_ROOT_WARNING')
+							)
+						),
+						'showHeading' => true,
+						'allowClose' => false
+					)
+				);
+			?>
+		</td>
+	</tr>
+	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_ROOT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DOWNLOAD_ROOT_LBL'); ?>">
