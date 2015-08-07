@@ -12,8 +12,7 @@
     <files>
         <filename plugin="fedex">fedex.php</filename>
         <filename plugin="fedex">fedex.cfg.php</filename>
-        <filename plugin="fedex">RateService_v9.wsdl</filename>
-        <filename plugin="fedex">RateService_v9_test.wsdl</filename>
+        <folder>wsdl</folder>
     </files>
 
 </extension>
