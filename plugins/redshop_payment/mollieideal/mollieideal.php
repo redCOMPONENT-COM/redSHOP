@@ -80,7 +80,7 @@ class plgRedshop_paymentMollieideal extends JPlugin
 			$payment = $mollie->payments->create(array(
 				"amount"       => $data['order']->order_total,
 				"method"       => Mollie_API_Object_Method::IDEAL,
-				"description"  => JText::_('COM_REDSHOP_MOLLIEIDEAL_PAYMENT_DESCRIPTION'),
+				"description"  => JText::_('PLG_REDSHOP_PAYMENT_MOLLIEIDEAL_PAYMENT_DESCRIPTION'),
 				"webhookUrl"   => $webhookUrl,
 				"redirectUrl"  => $redirectUrl,
 				"metadata"     => array(
