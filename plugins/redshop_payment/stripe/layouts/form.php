@@ -34,6 +34,7 @@ $description = JText::sprintf('PLG_REDSHOP_PAYMENT_STRIPE_PAYMENT_DESCRIPTION', 
 		data-image="<?php echo $params->get('logo', 'plugins/redshop_payment/stripe/library/128.png'); ?>"
 		data-label="<?php echo JText::_('PLG_REDSHOP_PAYMENT_STRIPE_PAYMENT_PAY_BUTTON_TEXT'); ?>"
 		data-panel-label="<?php echo JText::_('PLG_REDSHOP_PAYMENT_STRIPE_PAYMENT_PAY_PANEL_BUTTON_TEXT'); ?>"
+		data-email="<?php echo $data['billinginfo']->user_email; ?>"
 	>
 	</script>
 </form>
