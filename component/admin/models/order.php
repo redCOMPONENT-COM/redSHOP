@@ -233,7 +233,7 @@ class RedshopModelOrder extends RedshopModel
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
-			if (($details[0] == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
+			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
 				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
@@ -320,25 +320,13 @@ class RedshopModelOrder extends RedshopModel
 		// Start the ouput
 		$outputCsv = fopen('php://output', 'w');
 
-		$column = array(
-			'Order_number',
-			'Quantity',
-			'Create_date',
-			'total_weight',
-			'reciever_firstName',
-			'reciever_lastname',
-			'Customer_note'
-		);
-
-		fputcsv($outputCsv, $column);
-
 		$ordersInfo = $this->getOrdersDetail($cid);
 
 		for ($i = 0; $i < count($ordersInfo); $i++)
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
-			if ($details[0] == 'plgredshop_shippingdefault_shipping_glsBusiness')
+			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
 				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
