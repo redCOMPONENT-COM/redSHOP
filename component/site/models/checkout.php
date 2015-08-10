@@ -2135,7 +2135,7 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$shipArr              = $this->calculateShipping($shipping_rate_id);
 			$cart['shipping']     = $shipArr['order_shipping_rate'];
-			$cart['shipping_vat'] = $shipArr['shipping_vat'];
+			$cart['shipping_vat'] = (!isset($shipArr['shipping_vat'])) ? 0 : $shipArr['shipping_vat'];
 		}
 
 		$cart = $this->_carthelper->modifyDiscount($cart);
