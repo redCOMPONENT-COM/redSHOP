@@ -186,5 +186,7 @@ class ProductsCheckoutStripeCest
 		$I->click(['id' => "submitButton"]);
 		$I->waitForElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"],30);
 		$I->seeElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"]);
+		$I->doAdministratorLogin();
+		$I->uninstallExtension('redSHOP Payment - Stripe');
 	}
 }
