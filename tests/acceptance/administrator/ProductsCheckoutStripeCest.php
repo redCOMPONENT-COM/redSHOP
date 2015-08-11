@@ -49,7 +49,7 @@ class ProductsCheckoutStripeCest
 		$I->doAdministratorLogout();
 
 		$customerInformation = array(
-			"email" => "test@test" . rand() . ".com",
+			"email" => "gunjan@redcomponent.com",
 			"firstName" => "Tester",
 			"lastName" => "User",
 			"address" => "Some Place in the World",
@@ -164,12 +164,9 @@ class ProductsCheckoutStripeCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForElement(['xpath' => "//button[@class='stripe-button-el']//span[text()='Pay with Card']"],30);
-		$I->click(['xpath' => "//button[@class='stripe-button-el']"]);
 		$I->switchToIFrame("stripe_checkout_app");
 		$I->waitForElementVisible(['class' => "bodyView"],30);
-		$I->waitForElement(['id' => "email"],30);
-		$I->fillField(['id' => "email"], $checkoutAccountDetail['email']);
+		$I->waitForElement(['id' => "card_number"],30);
 
 		$I->comment('I have to fill the card number one by one due to a JS validation in the field');
 		$cardNumber = str_split($checkoutAccountDetail['debitCardNumber']);
