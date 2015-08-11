@@ -359,16 +359,19 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 
 			if (!empty($details[0]))
 			{
-				$shippingParams = new JRegistry(
-								JPluginHelper::getPlugin(
-									'redshop_shipping',
-									str_replace(
-										'plgredshop_shipping',
-										'',
-										strtolower($details[0])
-									)
-								)->params
+				$shippingPlugin = JPluginHelper::getPlugin(
+								'redshop_shipping',
+								str_replace(
+									'plgredshop_shipping',
+									'',
+									strtolower($details[0])
+								)
 							);
+
+				if (!empty($shippingPlugin))
+				{
+					$shippingParams = new JRegistry($shippingPlugin->params);
+				}
 			}
 
 			// Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
