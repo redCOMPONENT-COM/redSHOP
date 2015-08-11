@@ -36,10 +36,10 @@ class ProductsCheckoutStripeCest
 			"secretKey" => "sk_test_3macQ0wmSqMrOzfyneBCdAaa",
 			"publishKey" => "pk_test_dbkhgfbAZjhDJGpZ863DgwXe",
 			"email"	=> "gunjan@redcomponent.com",
-			"debitCardNumber" => '4242 4242 4242 4242',
+			"debitCardNumber" => '4242424242424242',
 			"cvv" => "123",
 			"expiryDate" => '09/18',
-			"cardExpiryMonth" => '05',
+			"cardExpiryMonth" => '09',
 			"cardExpiryYear" => '2018',
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
@@ -170,9 +170,22 @@ class ProductsCheckoutStripeCest
 		$I->waitForElementVisible(['class' => "bodyView"],30);
 		$I->waitForElement(['id' => "email"],30);
 		$I->fillField(['id' => "email"], $checkoutAccountDetail['email']);
-		$I->fillField(['id' => "card_number"], $checkoutAccountDetail['debitCardNumber']);
+
+		$I->comment('I have to fill the card number one by one due to a JS validation in the field');
+		$cardNumber = str_split($checkoutAccountDetail['debitCardNumber']);
+		foreach ($cardNumber as $number)
+		{
+			$I->pressKey(['id' => "card_number"], $number);
+		}
 		$I->fillField(['id' => "cc-csc"], $checkoutAccountDetail['cvv']);
-		$I->fillField(['id' => "cc-exp"], $checkoutAccountDetail['expiryDate']);
+
+		$I->comment('I have to fill the expiry date one by one due to a JS validation in the field');
+		$expiryDate = str_split(str_replace('/', '', $checkoutAccountDetail['expiryDate']));
+		foreach ($expiryDate as $number)
+		{
+			$I->pressKey(['id' => "cc-exp"], $number);
+		}
+
 		$I->click(['id' => "submitButton"]);
 		$I->waitForElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"],30);
 		$I->seeElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"]);
