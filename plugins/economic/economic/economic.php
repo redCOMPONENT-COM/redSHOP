@@ -65,21 +65,31 @@ class plgEconomicEconomic extends JPlugin
 	}
 
 	/**
-	 * Method to connect with economic
+	 * Create e-conomic connection
 	 *
-	 * @access public
-	 * @return array
+	 * @return  void
 	 */
 	public function onEconomicConnection()
 	{
 		// Check whether plugin has been unpublished
 		if (count($this->params) > 0)
 		{
-			$url = 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
-
 			try
 			{
-				$this->client = new SoapClient($url, array("trace" => 1, "exceptions" => 1));
+				$this->client = new SoapClient(
+					'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL',
+					array(
+						"trace" => 1,
+						"exceptions" => 1,
+						"stream_context" => stream_context_create(
+							[
+								"http" => [
+									"header" => "X-EconomicAppIdentifier: " . self::getAppIdentifier()
+								]
+							]
+						)
+					)
+				);
 			}
 			catch (Exception $exception)
 			{
@@ -111,6 +121,26 @@ class plgEconomicEconomic extends JPlugin
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get unique app identifier for e-conomic plugin.
+	 *
+	 * @see http://techtalk.e-conomic.com/e-conomic-soap-api-now-requires-you-to-specify-a-custom-x-economicappidentifier-header/ X-EconomicAppIdentifier
+	 *
+	 * @return  string  Unique Identifier string
+	 */
+	protected static function getAppIdentifier()
+	{
+		// Getting plugin information
+		$manifestFile = simplexml_load_file(__DIR__ . '/economic.xml');
+
+		$appIdentifier = __CLASS__ . '/' . $manifestFile->version
+					. ' redshop/' . $manifestFile->redshop
+					. ' (http://redcomponent.com/redcomponent/redshop/plugins/economic-accounting; support@redcomponent.com)'
+					. ' ' . JFactory::getConfig()->get('sitename');
+
+		return $appIdentifier;
 	}
 
 	/**

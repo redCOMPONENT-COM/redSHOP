@@ -7,6 +7,111 @@
     "hash": "4b492b052b46fe87ad8c51d95922791d",
     "packages": [
         {
+            "name": "joomla-projects/joomla-browser",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-projects/joomla-browser.git",
+                "reference": "2f895571f90d2d9e7df0e5ae4826e3f3ad21cc69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/2f895571f90d2d9e7df0e5ae4826e3f3ad21cc69",
+                "reference": "2f895571f90d2d9e7df0e5ae4826e3f3ad21cc69",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "codegyre/robo": "^0.5.3",
+                "joomla-projects/robo": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Codeception\\Module\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Puneet Kala",
+                    "email": "puneet.kala@community.joomla.org"
+                },
+                {
+                    "name": "Javier Gomez",
+                    "email": "javier.gomez@community.joomla.org"
+                }
+            ],
+            "description": "joomla-browser Codeception Module",
+            "homepage": "https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception",
+            "keywords": [
+                "BDD",
+                "TDD",
+                "acceptance testing",
+                "joomla"
+            ],
+            "time": "2015-08-10 14:20:41"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "cloudinary/cloudinary_php",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cloudinary/cloudinary_php.git",
+                "reference": "cbec2945b51e976fe1605221939b3f988a0e7d23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cloudinary/cloudinary_php/zipball/cbec2945b51e976fe1605221939b3f988a0e7d23",
+                "reference": "cbec2945b51e976fe1605221939b3f988a0e7d23",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ],
+                "files": [
+                    "src/Helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cloudinary",
+                    "homepage": "https://github.com/cloudinary/cloudinary_php/graphs/contributors"
+                }
+            ],
+            "description": "Cloudinary PHP SDK",
+            "homepage": "https://github.com/cloudinary/cloudinary_php",
+            "keywords": [
+                "cdn",
+                "cloud",
+                "cloudinary",
+                "image management",
+                "sdk"
+            ],
+            "time": "2015-06-02 18:51:59"
+        },
+        {
             "name": "codeception/codeception",
             "version": "2.0.13",
             "source": {
@@ -85,6 +190,57 @@
                 "unit testing"
             ],
             "time": "2015-04-24 23:54:03"
+        },
+        {
+            "name": "codegyre/robo",
+            "version": "0.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Codegyre/Robo.git",
+                "reference": "a668fde69e30bbd489442d2953cb57d07a4c29d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Codegyre/Robo/zipball/a668fde69e30bbd489442d2953cb57d07a4c29d5",
+                "reference": "a668fde69e30bbd489442d2953cb57d07a4c29d5",
+                "shasum": ""
+            },
+            "require": {
+                "henrikbjorn/lurker": "1.0.*@dev",
+                "php": ">=5.4.0",
+                "symfony/console": "~2.5",
+                "symfony/filesystem": "~2.5",
+                "symfony/finder": "~2.5",
+                "symfony/process": "~2.5"
+            },
+            "require-dev": {
+                "codeception/aspect-mock": "0.5.*",
+                "codeception/base": "~2.1",
+                "codeception/verify": "0.2.*",
+                "natxet/cssmin": "~3.0",
+                "patchwork/jsqueeze": "~1.0"
+            },
+            "bin": [
+                "robo"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Robo\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Davert",
+                    "email": "davert.php@resend.cc"
+                }
+            ],
+            "description": "Modern task runner",
+            "time": "2015-07-14 23:31:50"
         },
         {
             "name": "doctrine/instantiator",
@@ -180,6 +336,101 @@
                 "webdriver"
             ],
             "time": "2015-02-09 19:39:34"
+        },
+        {
+            "name": "guzzle/guzzle",
+            "version": "v3.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3",
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle": "src/",
+                    "Guzzle\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                }
+            ],
+            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2015-03-18 18:23:50"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -341,52 +592,126 @@
             "time": "2014-10-12 19:18:40"
         },
         {
-            "name": "joomla-projects/joomla-browser",
-            "version": "dev-develop",
+            "name": "henrikbjorn/lurker",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "343c2049d54997265490495978c6cfd819b34434"
+                "url": "https://github.com/henrikbjorn/Lurker.git",
+                "reference": "a020d45b3bc37810aeafe27343c51af8a74c9419"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/343c2049d54997265490495978c6cfd819b34434",
-                "reference": "343c2049d54997265490495978c6cfd819b34434",
+                "url": "https://api.github.com/repos/henrikbjorn/Lurker/zipball/a020d45b3bc37810aeafe27343c51af8a74c9419",
+                "reference": "a020d45b3bc37810aeafe27343c51af8a74c9419",
                 "shasum": ""
             },
             "require": {
-                "codeception/codeception": "2.*",
-                "php": ">=5.3.0"
+                "php": ">=5.3.3",
+                "symfony/config": "~2.2",
+                "symfony/event-dispatcher": "~2.2"
+            },
+            "suggest": {
+                "ext-inotify": ">=0.1.6"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
-                "psr-4": {
-                    "Codeception\\Module\\": "src"
+                "psr-0": {
+                    "Lurker": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Puneet Kala",
-                    "email": "puneet.kala@community.joomla.org"
+                    "name": "Henrik Bjornskov",
+                    "email": "henrik@bjrnskov.dk",
+                    "homepage": "http://henrik.bjrnskov.dk"
                 },
                 {
-                    "name": "Javier Gomez",
-                    "email": "javier.gomez@community.joomla.org"
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                },
+                {
+                    "name": "Yaroslav Kiliba",
+                    "email": "om.dattaya@gmail.com"
                 }
             ],
-            "description": "joomla-browser Codeception Module",
-            "homepage": "https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception",
+            "description": "Resource Watcher.",
             "keywords": [
-                "BDD",
-                "TDD",
-                "acceptance testing",
-                "joomla"
+                "filesystem",
+                "resource",
+                "watching"
             ],
-            "time": "2015-08-03 16:42:43"
+            "time": "2013-05-24 06:47:29"
+        },
+        {
+            "name": "knplabs/github-api",
+            "version": "1.4.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/php-github-api.git",
+                "reference": "ccf5e49a2454c1b102333586d80ce67012b5080f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/ccf5e49a2454c1b102333586d80ce67012b5080f",
+                "reference": "ccf5e49a2454c1b102333586d80ce67012b5080f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "guzzle/guzzle": "~3.7",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "knplabs/gaufrette": "Needed for optional Gaufrette cache"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Github\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibault Duplessis",
+                    "email": "thibault.duplessis@gmail.com",
+                    "homepage": "http://ornicar.github.com"
+                },
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                }
+            ],
+            "description": "GitHub API v3 client",
+            "homepage": "https://github.com/KnpLabs/php-github-api",
+            "keywords": [
+                "api",
+                "gh",
+                "gist",
+                "github"
+            ],
+            "time": "2015-06-17 08:02:22"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -499,16 +824,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.2.1",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "6526d9bdb56e2af1e8950114d42391044d18cfa7"
+                "reference": "2d7c03c0e4e080901b8f33b2897b0577be18a13c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6526d9bdb56e2af1e8950114d42391044d18cfa7",
-                "reference": "6526d9bdb56e2af1e8950114d42391044d18cfa7",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2d7c03c0e4e080901b8f33b2897b0577be18a13c",
+                "reference": "2d7c03c0e4e080901b8f33b2897b0577be18a13c",
                 "shasum": ""
             },
             "require": {
@@ -516,7 +841,7 @@
                 "phpunit/php-file-iterator": "~1.3",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-token-stream": "~1.3",
-                "sebastian/environment": "~1.3.1",
+                "sebastian/environment": "^1.3.2",
                 "sebastian/version": "~1.0"
             },
             "require-dev": {
@@ -557,7 +882,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-08-02 04:45:08"
+            "time": "2015-08-04 03:42:39"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -908,6 +1233,128 @@
             ],
             "description": "A lightweight implementation of CommonJS Promises/A for PHP",
             "time": "2015-07-03 13:48:55"
+        },
+        {
+            "name": "redcomponent/robo",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/redCOMPONENT-COM/robo.git",
+                "reference": "60ed656757b93fb789edff7a0d736f8fcab0afd7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/redCOMPONENT-COM/robo/zipball/60ed656757b93fb789edff7a0d736f8fcab0afd7",
+                "reference": "60ed656757b93fb789edff7a0d736f8fcab0afd7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "redcomponent\\robo\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "redCOMPONENT",
+                    "email": "javier@redcomponent.com"
+                }
+            ],
+            "description": "Robo tasks for redCOMPONENT Quality Assurance",
+            "keywords": [
+                "BDD",
+                "robo",
+                "task"
+            ],
+            "time": "2015-06-19 07:00:17"
+        },
+        {
+            "name": "redcomponent/teststatistics",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/redCOMPONENT-COM/teststatistics.git",
+                "reference": "a291f2a482247c082b1a4202c200df8a0d3bf6d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/redCOMPONENT-COM/teststatistics/zipball/a291f2a482247c082b1a4202c200df8a0d3bf6d1",
+                "reference": "a291f2a482247c082b1a4202c200df8a0d3bf6d1",
+                "shasum": ""
+            },
+            "require-dev": {
+                "codeception/codeception": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Codeception\\Extension\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL2"
+            ],
+            "authors": [
+                {
+                    "name": "Javier Gómez",
+                    "email": "javier@redcomponent.com",
+                    "homepage": "https://github.com/redCOMPONENT-COM/teststatistics"
+                }
+            ],
+            "description": "Codeception Extension to measure the performance of your tests",
+            "homepage": "https://github.com/redCOMPONENT-COM/teststatistics",
+            "keywords": [
+                "TDD",
+                "acceptance testing",
+                "functional testing",
+                "performance",
+                "unit testing"
+            ],
+            "time": "2015-07-20 17:10:31"
+        },
+        {
+            "name": "se/selenium-server-standalone",
+            "version": "v2.46.0+p1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sveneisenschmidt/selenium-server-standalone.git",
+                "reference": "91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sveneisenschmidt/selenium-server-standalone/zipball/91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a",
+                "reference": "91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a",
+                "shasum": ""
+            },
+            "bin": [
+                "composer/bin/selenium-server-standalone"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sven Eisenschmidt",
+                    "email": "sven.eisenschmidt@gmail.com"
+                }
+            ],
+            "description": "Composer distribution of Selenium Server Standalone, the browser automation framework. Adds a executable to your composer bin directory.",
+            "homepage": "https://github.com/sveneisenschmidt/selenium-server-standalone",
+            "keywords": [
+                "selenium",
+                "testing"
+            ],
+            "time": "2015-07-18 08:03:29"
         },
         {
             "name": "sebastian/comparator",
@@ -1336,6 +1783,56 @@
             "time": "2015-07-09 16:07:40"
         },
         {
+            "name": "symfony/config",
+            "version": "v2.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Config.git",
+                "reference": "6c905bbed1e728226de656e4c07d620dfe9e80d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/6c905bbed1e728226de656e4c07d620dfe9e80d9",
+                "reference": "6c905bbed1e728226de656e4c07d620dfe9e80d9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "symfony/filesystem": "~2.3"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Config\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Config Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-07-09 16:07:40"
+        },
+        {
             "name": "symfony/console",
             "version": "v2.7.3",
             "source": {
@@ -1557,598 +2054,6 @@
             "time": "2015-06-18 19:21:56"
         },
         {
-            "name": "symfony/finder",
-            "version": "v2.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Finder.git",
-                "reference": "ae0f363277485094edc04c9f3cbe595b183b78e4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/ae0f363277485094edc04c9f3cbe595b183b78e4",
-                "reference": "ae0f363277485094edc04c9f3cbe595b183b78e4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "~2.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Finder\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Finder Component",
-            "homepage": "https://symfony.com",
-            "time": "2015-07-09 16:07:40"
-        },
-        {
-            "name": "symfony/yaml",
-            "version": "v2.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Yaml.git",
-                "reference": "71340e996171474a53f3d29111d046be4ad8a0ff"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/71340e996171474a53f3d29111d046be4ad8a0ff",
-                "reference": "71340e996171474a53f3d29111d046be4ad8a0ff",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "~2.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Yaml\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Yaml Component",
-            "homepage": "https://symfony.com",
-            "time": "2015-07-28 14:07:07"
-        }
-    ],
-    "packages-dev": [
-        {
-            "name": "cloudinary/cloudinary_php",
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cloudinary/cloudinary_php.git",
-                "reference": "cbec2945b51e976fe1605221939b3f988a0e7d23"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cloudinary/cloudinary_php/zipball/cbec2945b51e976fe1605221939b3f988a0e7d23",
-                "reference": "cbec2945b51e976fe1605221939b3f988a0e7d23",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.4.*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src"
-                ],
-                "files": [
-                    "src/Helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Cloudinary",
-                    "homepage": "https://github.com/cloudinary/cloudinary_php/graphs/contributors"
-                }
-            ],
-            "description": "Cloudinary PHP SDK",
-            "homepage": "https://github.com/cloudinary/cloudinary_php",
-            "keywords": [
-                "cdn",
-                "cloud",
-                "cloudinary",
-                "image management",
-                "sdk"
-            ],
-            "time": "2015-06-02 18:51:59"
-        },
-        {
-            "name": "codegyre/robo",
-            "version": "0.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Codegyre/Robo.git",
-                "reference": "a668fde69e30bbd489442d2953cb57d07a4c29d5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Codegyre/Robo/zipball/a668fde69e30bbd489442d2953cb57d07a4c29d5",
-                "reference": "a668fde69e30bbd489442d2953cb57d07a4c29d5",
-                "shasum": ""
-            },
-            "require": {
-                "henrikbjorn/lurker": "1.0.*@dev",
-                "php": ">=5.4.0",
-                "symfony/console": "~2.5",
-                "symfony/filesystem": "~2.5",
-                "symfony/finder": "~2.5",
-                "symfony/process": "~2.5"
-            },
-            "require-dev": {
-                "codeception/aspect-mock": "0.5.*",
-                "codeception/base": "~2.1",
-                "codeception/verify": "0.2.*",
-                "natxet/cssmin": "~3.0",
-                "patchwork/jsqueeze": "~1.0"
-            },
-            "bin": [
-                "robo"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Robo\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Davert",
-                    "email": "davert.php@resend.cc"
-                }
-            ],
-            "description": "Modern task runner",
-            "time": "2015-07-14 23:31:50"
-        },
-        {
-            "name": "guzzle/guzzle",
-            "version": "v3.9.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
-                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.3",
-                "symfony/event-dispatcher": "~2.1"
-            },
-            "replace": {
-                "guzzle/batch": "self.version",
-                "guzzle/cache": "self.version",
-                "guzzle/common": "self.version",
-                "guzzle/http": "self.version",
-                "guzzle/inflection": "self.version",
-                "guzzle/iterator": "self.version",
-                "guzzle/log": "self.version",
-                "guzzle/parser": "self.version",
-                "guzzle/plugin": "self.version",
-                "guzzle/plugin-async": "self.version",
-                "guzzle/plugin-backoff": "self.version",
-                "guzzle/plugin-cache": "self.version",
-                "guzzle/plugin-cookie": "self.version",
-                "guzzle/plugin-curlauth": "self.version",
-                "guzzle/plugin-error-response": "self.version",
-                "guzzle/plugin-history": "self.version",
-                "guzzle/plugin-log": "self.version",
-                "guzzle/plugin-md5": "self.version",
-                "guzzle/plugin-mock": "self.version",
-                "guzzle/plugin-oauth": "self.version",
-                "guzzle/service": "self.version",
-                "guzzle/stream": "self.version"
-            },
-            "require-dev": {
-                "doctrine/cache": "~1.3",
-                "monolog/monolog": "~1.0",
-                "phpunit/phpunit": "3.7.*",
-                "psr/log": "~1.0",
-                "symfony/class-loader": "~2.1",
-                "zendframework/zend-cache": "2.*,<2.3",
-                "zendframework/zend-log": "2.*,<2.3"
-            },
-            "suggest": {
-                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.9-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Guzzle": "src/",
-                    "Guzzle\\Tests": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                },
-                {
-                    "name": "Guzzle Community",
-                    "homepage": "https://github.com/guzzle/guzzle/contributors"
-                }
-            ],
-            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
-            "homepage": "http://guzzlephp.org/",
-            "keywords": [
-                "client",
-                "curl",
-                "framework",
-                "http",
-                "http client",
-                "rest",
-                "web service"
-            ],
-            "time": "2015-03-18 18:23:50"
-        },
-        {
-            "name": "henrikbjorn/lurker",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/henrikbjorn/Lurker.git",
-                "reference": "a020d45b3bc37810aeafe27343c51af8a74c9419"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/henrikbjorn/Lurker/zipball/a020d45b3bc37810aeafe27343c51af8a74c9419",
-                "reference": "a020d45b3bc37810aeafe27343c51af8a74c9419",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/config": "~2.2",
-                "symfony/event-dispatcher": "~2.2"
-            },
-            "suggest": {
-                "ext-inotify": ">=0.1.6"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Lurker": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Henrik Bjornskov",
-                    "email": "henrik@bjrnskov.dk",
-                    "homepage": "http://henrik.bjrnskov.dk"
-                },
-                {
-                    "name": "Konstantin Kudryashov",
-                    "email": "ever.zet@gmail.com",
-                    "homepage": "http://everzet.com"
-                },
-                {
-                    "name": "Yaroslav Kiliba",
-                    "email": "om.dattaya@gmail.com"
-                }
-            ],
-            "description": "Resource Watcher.",
-            "keywords": [
-                "filesystem",
-                "resource",
-                "watching"
-            ],
-            "time": "2013-05-24 06:47:29"
-        },
-        {
-            "name": "knplabs/github-api",
-            "version": "1.4.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "ccf5e49a2454c1b102333586d80ce67012b5080f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/ccf5e49a2454c1b102333586d80ce67012b5080f",
-                "reference": "ccf5e49a2454c1b102333586d80ce67012b5080f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "guzzle/guzzle": "~3.7",
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "suggest": {
-                "knplabs/gaufrette": "Needed for optional Gaufrette cache"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Github\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thibault Duplessis",
-                    "email": "thibault.duplessis@gmail.com",
-                    "homepage": "http://ornicar.github.com"
-                },
-                {
-                    "name": "KnpLabs Team",
-                    "homepage": "http://knplabs.com"
-                }
-            ],
-            "description": "GitHub API v3 client",
-            "homepage": "https://github.com/KnpLabs/php-github-api",
-            "keywords": [
-                "api",
-                "gh",
-                "gist",
-                "github"
-            ],
-            "time": "2015-06-17 08:02:22"
-        },
-        {
-            "name": "redcomponent/robo",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/redCOMPONENT-COM/robo.git",
-                "reference": "60ed656757b93fb789edff7a0d736f8fcab0afd7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/redCOMPONENT-COM/robo/zipball/60ed656757b93fb789edff7a0d736f8fcab0afd7",
-                "reference": "60ed656757b93fb789edff7a0d736f8fcab0afd7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "redcomponent\\robo\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "redCOMPONENT",
-                    "email": "javier@redcomponent.com"
-                }
-            ],
-            "description": "Robo tasks for redCOMPONENT Quality Assurance",
-            "keywords": [
-                "BDD",
-                "robo",
-                "task"
-            ],
-            "time": "2015-06-19 07:00:17"
-        },
-        {
-            "name": "redcomponent/teststatistics",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/redCOMPONENT-COM/teststatistics.git",
-                "reference": "a291f2a482247c082b1a4202c200df8a0d3bf6d1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/redCOMPONENT-COM/teststatistics/zipball/a291f2a482247c082b1a4202c200df8a0d3bf6d1",
-                "reference": "a291f2a482247c082b1a4202c200df8a0d3bf6d1",
-                "shasum": ""
-            },
-            "require-dev": {
-                "codeception/codeception": "@dev"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Codeception\\Extension\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL2"
-            ],
-            "authors": [
-                {
-                    "name": "Javier Gómez",
-                    "email": "javier@redcomponent.com",
-                    "homepage": "https://github.com/redCOMPONENT-COM/teststatistics"
-                }
-            ],
-            "description": "Codeception Extension to measure the performance of your tests",
-            "homepage": "https://github.com/redCOMPONENT-COM/teststatistics",
-            "keywords": [
-                "TDD",
-                "acceptance testing",
-                "functional testing",
-                "performance",
-                "unit testing"
-            ],
-            "time": "2015-07-20 17:10:31"
-        },
-        {
-            "name": "se/selenium-server-standalone",
-            "version": "v2.46.0+p1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sveneisenschmidt/selenium-server-standalone.git",
-                "reference": "91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sveneisenschmidt/selenium-server-standalone/zipball/91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a",
-                "reference": "91c6caa46ef0e7ea70518f9c0dc4f0c05e41701a",
-                "shasum": ""
-            },
-            "bin": [
-                "composer/bin/selenium-server-standalone"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache 2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Sven Eisenschmidt",
-                    "email": "sven.eisenschmidt@gmail.com"
-                }
-            ],
-            "description": "Composer distribution of Selenium Server Standalone, the browser automation framework. Adds a executable to your composer bin directory.",
-            "homepage": "https://github.com/sveneisenschmidt/selenium-server-standalone",
-            "keywords": [
-                "selenium",
-                "testing"
-            ],
-            "time": "2015-07-18 08:03:29"
-        },
-        {
-            "name": "symfony/config",
-            "version": "v2.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Config.git",
-                "reference": "6c905bbed1e728226de656e4c07d620dfe9e80d9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/6c905bbed1e728226de656e4c07d620dfe9e80d9",
-                "reference": "6c905bbed1e728226de656e4c07d620dfe9e80d9",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "symfony/filesystem": "~2.3"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "~2.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Config\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Config Component",
-            "homepage": "https://symfony.com",
-            "time": "2015-07-09 16:07:40"
-        },
-        {
             "name": "symfony/filesystem",
             "version": "v2.7.3",
             "source": {
@@ -2194,6 +2099,55 @@
                 }
             ],
             "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-07-09 16:07:40"
+        },
+        {
+            "name": "symfony/finder",
+            "version": "v2.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Finder.git",
+                "reference": "ae0f363277485094edc04c9f3cbe595b183b78e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/ae0f363277485094edc04c9f3cbe595b183b78e4",
+                "reference": "ae0f363277485094edc04c9f3cbe595b183b78e4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Finder\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
             "time": "2015-07-09 16:07:40"
         },
@@ -2245,6 +2199,55 @@
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
             "time": "2015-07-01 11:25:50"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "71340e996171474a53f3d29111d046be4ad8a0ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/71340e996171474a53f3d29111d046be4ad8a0ff",
+                "reference": "71340e996171474a53f3d29111d046be4ad8a0ff",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-07-28 14:07:07"
         }
     ],
     "aliases": [],
