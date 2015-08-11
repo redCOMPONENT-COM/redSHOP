@@ -164,8 +164,8 @@ class ProductsCheckoutStripeCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForElement(['xpath' => "//button//span[text()='Pay with Card']"],30);
-		$I->click(['xpath' => "//button//span[text()='Pay with Card']"]);
+		$I->waitForElement(['xpath' => "//button[@class='stripe-button-el']//span[text()='Pay with Card']"],30);
+		$I->click(['xpath' => "//button[@class='stripe-button-el']"]);
 		$I->switchToIFrame("stripe_checkout_app");
 		$I->waitForElementVisible(['class' => "bodyView"],30);
 		$I->waitForElement(['id' => "email"],30);
