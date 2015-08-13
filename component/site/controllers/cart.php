@@ -359,7 +359,7 @@ class RedshopControllerCart extends RedshopController
 		else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
-			$this->setRedirect($link, JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID'));
+			$this->setRedirect($link, JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID'), 'error');
 		}
 	}
 
@@ -394,7 +394,7 @@ class RedshopControllerCart extends RedshopController
 		else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&Itemid=' . $Itemid, false);
-			$this->setRedirect($link, JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID'));
+			$this->setRedirect($link, JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID'), 'error');
 		}
 	}
 
