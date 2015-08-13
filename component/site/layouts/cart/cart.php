@@ -91,23 +91,23 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 	<?php endif; ?>
 
 	<?php if ($displayData['showWithDiscount']):
-
 		$discountValue = $cart['discount_ex_vat'];
 
 		if ($displayData['showWithVat'])
 		{
 			$discountValue = $cart['discount_ex_vat'] + $cart['discount_vat'];
 		}
-		?>
 
+		if ($discountValue > 0) :
+		?>
 		<div class="mod_cart_discount_txt cartItemAlign" id="mod_cart_discount_txt_ajax" >
 			<?php echo JText::_('MOD_REDSHOP_CART_DISCOUNT_LBL'); ?> :
 		</div>
 		<div class="mod_cart_discount_value cartItemAlign" id="mod_cart_discount_value_ajax">
 			<?php echo $productHelper->getProductFormattedPrice($discountValue); ?>
 		</div>
-
 		<div class="clr"></div>
+		<?php endif; ?>
 	<?php endif; ?>
 
 	<div class="mod_cart_total_txt cartItemAlign" id="mod_cart_total_txt_ajax" >
