@@ -1413,7 +1413,7 @@ class RedshopModelExport extends RedshopModel
 	/**
 	 * Get product extrafields data
 	 *
-	 * @return  array  Extrafields info and product data
+	 * @return  object  Extrafields info and product data
 	 */
 	public static function getProductExtraFields()
 	{
@@ -1439,9 +1439,10 @@ class RedshopModelExport extends RedshopModel
 			}
 		}
 
-		return array(
-			'fields' => array_keys(self::$productExtraFields),
-			'data'   => self::$productExtraFieldsData
-		);
+		$return         = new stdClass;
+		$return->fields = array_keys(self::$productExtraFields);
+		$return->data   = self::$productExtraFieldsData;
+
+		return $return;
 	}
 }
