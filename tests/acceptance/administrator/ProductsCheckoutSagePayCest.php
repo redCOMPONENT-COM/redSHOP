@@ -126,6 +126,14 @@ class ProductsCheckoutSagePayCest
 
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('successfully saved', ['id' => 'system-message-container']);
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=configuration');
+		$I->waitForElement(["xpath" => "//a[text()='Price']"], 10);
+		$I->click(["xpath" => "//a[text()='Price']"]);
+		$I->waitForElement(["id" => "currency_code"], 10);
+		$I->click(['xpath' => "//div[@id='currency_code_chzn']/a/div/b"]);
+		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='British Pound']"]);
+		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+		$I->see('Configuration Saved', ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -181,5 +189,14 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"],30);
 		$I->waitForText('0000 : The Authorisation was Successful.', 15, ['xpath' => "//div[@class='alert alert-message']"]);
 		$I->see('0000 : The Authorisation was Successful.', "//div[@class='alert alert-message']");
+		$I->doAdministratorLogin();
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=configuration');
+		$I->waitForElement(["xpath" => "//a[text()='Price']"], 10);
+		$I->click(["xpath" => "//a[text()='Price']"]);
+		$I->waitForElement(["id" => "currency_code"], 10);
+		$I->click(['xpath' => "//div[@id='currency_code_chzn']/a/div/b"]);
+		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='US Dollar']"]);
+		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+		$I->see('Configuration Saved', ['id' => 'system-message-container']);
 	}
 }
