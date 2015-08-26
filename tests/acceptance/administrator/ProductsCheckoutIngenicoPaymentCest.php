@@ -176,9 +176,7 @@ class ProductsCheckoutIngenicoPaymentCest
 		$I->click(["xpath" => "//input[@title='VISA']"]);
 		$I->waitForElement(["id" => "Ecom_Payment_Card_Number"], 30);
 		$I->fillField(["id" => "Ecom_Payment_Card_Number"], $checkoutAccountDetail['debitCardNumber']);
-		$I->click(["xpath" => "//select[@id='Ecom_Payment_Card_ExpDate_Month']"]);
 		$I->click(["xpath" => "//select[@id='Ecom_Payment_Card_ExpDate_Month']//option[@value='01']"]);
-		$I->click(["xpath" => "//select[@id='Ecom_Payment_Card_ExpDate_Year']"]);
 		$I->click(["xpath" => "//select[@id='Ecom_Payment_Card_ExpDate_Year']//option[@value='2017']"]);
 		$I->fillField(["id" => "Ecom_Payment_Card_Verification"], $checkoutAccountDetail['cvv']);
 		$I->click(["xpath" => "//input[@value='Yes, I confirm my payment']"]);
