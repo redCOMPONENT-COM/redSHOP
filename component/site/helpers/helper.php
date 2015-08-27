@@ -1019,36 +1019,19 @@ class redhelper
 		return $message;
 	}
 
-	public function getsslLink($link, $applySSL)
-	{
-		$uri = JURI::getInstance($link);
-
-		if ($applySSL)
-		{
-			$uri->setScheme('https');
-		}
-		else
-		{
-			$uri->setScheme('http');
-		}
-
-		return $uri;
-	}
-
+	/**
+	 * SSL link
+	 *
+	 * @param   string   $link      Link
+	 * @param   integer  $applySSL  Apply ssl or not.
+	 *
+	 * @deprecated 1.6   Use RedshopHelperUtility::getSslLink($link, $applySSL) instead
+	 *
+	 * @return  string              Converted string
+	 */
 	public function sslLink($link, $applySSL = 1)
 	{
-		if (!SSL_ENABLE_IN_BACKEND || $applySSL == 0)
-		{
-			return $link;
-		}
-		else
-		{
-			$url  = JURI::base();
-			$link = $url . $link;
-			$link = $this->getsslLink($link, $applySSL);
-		}
-
-		return $link;
+		return RedshopHelperUtility::getSSLLink($link, $applySSL);
 	}
 
 	public function getEconomicAccountGroup($accountgroup_id = 0, $front = 0)

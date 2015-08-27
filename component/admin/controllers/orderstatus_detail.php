@@ -52,8 +52,7 @@ class RedshopControllerOrderstatus_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDERSTATUS_DETAIL');
 		}
 
-		$link = 'index.php?option=com_redshop&view=orderstatus';
-		$link = $redhelper->sslLink($link, 0);
+		$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=orderstatus', 0);
 		$this->setRedirect($link, $msg);
 	}
 
