@@ -121,7 +121,7 @@ submitbutton = function (pressbutton) {
 
 	if (pressbutton == 'cancel') {
 		<?php      $link = 'index.php?option=com_redshop&view=order';
-					  $link = $redhelper->sslLink($link,0);
+					  $link = RedshopHelperUtility::getSSLLink($link,0);
 		?>
 		window.location = '<?php echo $link;?>';
 		return;
