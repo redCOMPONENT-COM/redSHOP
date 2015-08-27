@@ -1032,9 +1032,7 @@ class redhelper
 			$uri->setScheme('http');
 		}
 
-		$link = JFilterOutput::cleanText($uri->toString());
-
-		return $link;
+		return $uri;
 	}
 
 	public function sslLink($link, $applySSL = 1)
