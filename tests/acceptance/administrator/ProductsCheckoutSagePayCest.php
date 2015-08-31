@@ -39,7 +39,7 @@ class ProductsCheckoutSagePayCest
 			"debitCardNumber" => "4929 0000 0000 6",
 			"cvv" => "123",
 			"cardExpiryMonth" => '05',
-			"cardExpiryYear" => '2018',
+			"cardExpiryYear" => '18',
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
@@ -176,16 +176,16 @@ class ProductsCheckoutSagePayCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForElement(['id' => "sagePayLogo"],30);
-		$I->click(['xpath' => "//img[@name='VISA']"]);
+		$I->waitForElement(['xpath' => "//img[@alt='Sage Pay']"],30);
+		$I->click(['xpath' => "//button[@value='VISA']"]);
 		$I->waitForElement(['xpath' => "//input[@name='cardnumber']"],30);
 		$I->fillField(['xpath' => "//input[@name='cardnumber']"], $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField(['xpath' => "//input[@name='securitycode']"], $checkoutAccountDetail['cvv']);
-		$I->click(['xpath' => "//select[@name='expirymonth']//option[@value='05']"]);
-		$I->click(['xpath' => "//select[@name='expiryyear']//option[@value='18']"]);
-		$I->click(['xpath' => "//img[@name='proceed']"]);
-		$I->waitForElement(['xpath' => "//img[@name='proceed']"],10);
-		$I->click(['xpath' => "//img[@name='proceed']"]);
+		$I->fillField(['id' => "form-card_details.field-expiry_mm"], $checkoutAccountDetail['cardExpiryMonth']);
+		$I->fillField(['id' => "form-card_details.field-expiry_yy"], $checkoutAccountDetail['cardExpiryYear']);
+		$I->click(['xpath' => "//button[@value='proceed']"]);
+		$I->waitForElement(['xpath' => "//button[@value='proceed']"],10);
+		$I->click(['xpath' => "//button[@value='proceed']"]);
 		$I->waitForElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"],30);
 		$I->waitForText('0000 : The Authorisation was Successful.', 15, ['xpath' => "//div[@class='alert alert-message']"]);
 		$I->see('0000 : The Authorisation was Successful.', "//div[@class='alert alert-message']");
