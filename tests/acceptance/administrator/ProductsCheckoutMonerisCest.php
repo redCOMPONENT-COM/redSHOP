@@ -30,7 +30,7 @@ class ProductsCheckoutMonerisCest
 		$I->wantTo('Test Product Checkout on Front End with Moneris Payments Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_moneris/';
-		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"storeID" => "store1",
