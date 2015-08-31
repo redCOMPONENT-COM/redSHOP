@@ -30,7 +30,7 @@ class ProductsCheckoutEWAYCest
 		$I->wantTo('Test Product Checkout on Front End with EWAY Payment Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_eway/';
-		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"customerID" => "87654321",
