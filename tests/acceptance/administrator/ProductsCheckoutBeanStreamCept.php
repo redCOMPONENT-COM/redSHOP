@@ -10,7 +10,7 @@ $I->wantTo('Test Product Checkout on Front End with Beanstream Payment Plugin');
 $I->doAdministratorLogin();
 $pluginName = 'BeanStream';
 $pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_beanstream/';
-$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 $checkoutAccountInformation = array(
 	"merchantID" => "300210236",
