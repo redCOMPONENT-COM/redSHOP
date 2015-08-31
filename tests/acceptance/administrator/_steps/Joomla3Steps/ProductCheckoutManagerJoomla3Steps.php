@@ -91,6 +91,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function shippingInformation($shippingDetail)
 	{
 		$I = $this;
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingFirstName, 30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingDetail['firstName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingDetail['lastName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
@@ -123,6 +124,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
