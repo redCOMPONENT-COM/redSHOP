@@ -4147,29 +4147,19 @@ class rsCarthelper
 		$quantity               = 0;
 		$flag                   = false;
 		$product_idArr          = explode(',', $product_id);
+		JArrayHelper::toInteger($product_idArr);
 
-		for ($v = 0; ($v < $idx) && ($voucher_left > 0); $v++)
+		for ($v = 0; $v < $idx; $v++)
 		{
-			if ($voucher_left < $cart[$v]['quantity'] && $voucher_left)
-			{
-				$cart[$v]['quantity'] = $voucher_left;
-			}
-
 			if (in_array($cart[$v]['product_id'], $product_idArr) || $this->_globalvoucher)
 			{
-				if (DISCOUNT_TYPE > 3)
-				{
-					$p_quantity = $cart[$v]['quantity'];
-				}
-				else
-				{
-					$p_quantity = 1;
-				}
+				// Set Quantity based on discount type - i.e Multiple or Single.
+				$p_quantity = (DISCOUNT_TYPE == 4) ? $cart[$v]['quantity'] : 1;
 
-				$product_price += ($cart[$v]['product_price'] * $p_quantity);
-				$product_price_excl_vat += $cart[$v]['product_price_excl_vat'] * $p_quantity;
+				$product_price            += ($cart[$v]['product_price'] * $p_quantity);
+				$product_price_excl_vat   += $cart[$v]['product_price_excl_vat'] * $p_quantity;
 				$affected_product_idArr[] = $cart[$v]['product_id'];
-				$voucher_left             = $voucher_left - $p_quantity;
+
 				$quantity += $p_quantity;
 			}
 		}
