@@ -126,7 +126,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(['xpath' => "//div[@class='alert ']"]);
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
@@ -177,7 +176,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(['xpath' => "//div[@class='alert ']"]);
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
@@ -229,7 +227,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(['xpath' => "//div[@class='alert ']"]);
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
@@ -277,7 +274,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(['xpath' => "//div[@class='alert ']"]);
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
