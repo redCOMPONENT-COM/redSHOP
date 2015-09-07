@@ -159,9 +159,9 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
-		$I->waitForElement(['xpath' => "//div[@class='alert alert-success']"]);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-success');
-		$I->see("Product has been added to your cart.", '.alert-success');
+		$I->waitForElement(['xpath' => "//div[@class='alert ']"]);
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
 		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
@@ -187,8 +187,8 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement(['xpath' => "//button[@value='proceed']"],10);
 		$I->click(['xpath' => "//button[@value='proceed']"]);
 		$I->waitForElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"],30);
-		$I->waitForText('0000 : The Authorisation was Successful.', 15, ['xpath' => "//div[@class='alert alert-message']"]);
-		$I->see('0000 : The Authorisation was Successful.', "//div[@class='alert alert-message']");
+		$I->waitForText('0000 : The Authorisation was Successful.', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->see('0000 : The Authorisation was Successful.', "//div[@class='alert alert-success']");
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=configuration');
 		$I->waitForElement(["xpath" => "//a[text()='Price']"], 10);
