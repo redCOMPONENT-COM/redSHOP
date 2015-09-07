@@ -120,7 +120,6 @@ class ProductsCheckoutAuthorizeCest
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
-		$I->waitForElement(['xpath' => "//div[@class='alert ']"]);
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
