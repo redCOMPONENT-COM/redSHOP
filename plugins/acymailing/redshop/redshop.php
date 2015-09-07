@@ -223,7 +223,7 @@ class plgAcymailingRedshop extends JPlugin
 		$price = $productArr['productPrice'] + $productArr['productVat'];
 		$price = $producthelper->getProductFormattedPrice($price);
 
-		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id);
+		$link = JUri::root() . 'index.php?option=com_redshop&view=product&pid=' . $product_id;
 
 		// Get product Image
 		$productImage = $producthelper->getProductImage($product_id, $link, PRODUCT_MAIN_IMAGE, PRODUCT_MAIN_IMAGE_HEIGHT, PRODUCT_DETAIL_IS_LIGHTBOX);
@@ -235,7 +235,7 @@ class plgAcymailingRedshop extends JPlugin
 			$text = $prtemplate[0]->template_desc;
 
 			$text = str_replace("{product_thumb_image}", $productImage, $text);
-			$text = str_replace("{product_name}", $rs->product_name, $text);
+			$text = str_replace("{product_name}", '<a href="' . $link . '">' . $rs->product_name . '</a>', $text);
 			$text = str_replace("{product_price}", $price, $text);
 
 			$text = str_replace("{read_more}", "", $text);
