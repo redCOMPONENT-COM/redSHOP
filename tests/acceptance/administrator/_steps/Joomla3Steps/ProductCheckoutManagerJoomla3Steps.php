@@ -38,9 +38,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, \FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \FrontEndProductManagerJoomla3Page::$alertMessageDiv);
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
