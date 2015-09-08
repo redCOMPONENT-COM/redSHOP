@@ -30,7 +30,7 @@ class ProductsCheckoutPayFlowProCest
 		$I->wantTo('Test Product Checkout on Front End with PayFlow Pro Payment Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_payflowpro/';
-		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"merchantLogin" => "gunjan",

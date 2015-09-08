@@ -30,7 +30,7 @@ class ProductsCheckoutBankTransfer2Cest
 		$I->wantTo('Test Product Checkout on Front End with BankTransfer2 Payment Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_banktransfer2/';
-		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"customerID" => "87654321",
