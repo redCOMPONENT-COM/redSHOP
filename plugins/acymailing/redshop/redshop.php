@@ -226,15 +226,24 @@ class plgAcymailingRedshop extends JPlugin
 		$link = JUri::root() . 'index.php?option=com_redshop&view=product&pid=' . $product_id;
 
 		// Get product Image
-		$productImage = $producthelper->getProductImage($product_id, $link, PRODUCT_MAIN_IMAGE, PRODUCT_MAIN_IMAGE_HEIGHT, PRODUCT_DETAIL_IS_LIGHTBOX);
+		$productImage = $producthelper->getProductImage(
+							$product_id,
+							$link,
+							PRODUCT_MAIN_IMAGE,
+							PRODUCT_MAIN_IMAGE_HEIGHT,
+							0
+						);
+		$productImageLink = '<a href="' . $link . '">' . $productImage . '</a>';
 
-		$text = "<div>" . $productImage . "</div><div>" . $rs->product_name . "</div><div>" . $price . "</div>";
+		$text = "<div>" . $productImageLink . "</div>"
+			. "<div>" . $rs->product_name . "</div>"
+			. "<div>" . $price . "</div>";
 
 		if ($prtemplate[0]->template_desc && strpos($tag, 'product:') !== false)
 		{
 			$text = $prtemplate[0]->template_desc;
 
-			$text = str_replace("{product_thumb_image}", $productImage, $text);
+			$text = str_replace("{product_thumb_image}", $productImageLink, $text);
 			$text = str_replace("{product_name}", '<a href="' . $link . '">' . $rs->product_name . '</a>', $text);
 			$text = str_replace("{product_price}", $price, $text);
 
