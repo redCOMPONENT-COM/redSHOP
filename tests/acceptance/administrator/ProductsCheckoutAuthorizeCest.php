@@ -30,7 +30,7 @@ class ProductsCheckoutAuthorizeCest
 		$I->wantTo('Test Product Checkout on Front End with Authorize Net Payment Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize/';
-		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"accessId" => "62qpC9xN9nN4",

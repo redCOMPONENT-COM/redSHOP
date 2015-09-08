@@ -30,7 +30,7 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->wantTo('Test Product Checkout on Front End with Authorize DPM Net Payment Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize_dpm/';
-		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"accessId" => "5rCF42xJ",
