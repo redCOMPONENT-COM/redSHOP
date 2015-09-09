@@ -38,9 +38,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, \FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \FrontEndProductManagerJoomla3Page::$alertMessageDiv);
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -91,6 +90,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function shippingInformation($shippingDetail)
 	{
 		$I = $this;
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingFirstName, 30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingDetail['firstName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingDetail['lastName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
@@ -123,10 +123,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -175,9 +175,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -227,9 +226,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,10,'.alert-success');
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -249,8 +247,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(['xpath' => "//input[@id='credit_card_code']"], $checkoutAccountDetail['cvv']);
 		$I->click(['xpath' => "//input[@value='VISA']"]);
 		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
-		$I->waitForText('Order placed',15,['xpath' => "//div[@class='alert alert-message']"]);
-		$I->see('Order placed', "//div[@class='alert alert-message']");
+		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 
 	/**
@@ -275,9 +273,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertMessageDiv);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, '.alert-success');
-		$I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, '.alert-success');
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$checkoutURL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -297,7 +294,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForText('Order placed',15,['xpath' => "//div[@class='alert alert-message']"]);
-		$I->see('Order placed', "//div[@class='alert alert-message']");
+		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 }

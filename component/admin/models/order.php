@@ -39,6 +39,8 @@ class RedshopModelOrder extends RedshopModel
 		$id .= ':' . $this->getState('filter_by');
 		$id .= ':' . $this->getState('filter_status');
 		$id .= ':' . $this->getState('filter_payment_status');
+		$id .= ':' . $this->getState('filter_from_date');
+		$id .= ':' . $this->getState('filter_to_date');
 
 		return parent::getStoreId($id);
 	}
@@ -59,10 +61,14 @@ class RedshopModelOrder extends RedshopModel
 		$filter_payment_status = $this->getUserStateFromRequest($this->context . 'filter_payment_status', 'filter_payment_status', '', '');
 		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
 		$filter_by             = $this->getUserStateFromRequest($this->context . 'filter_by', 'filter_by', '', '');
+		$filter_from_date     = $this->getUserStateFromRequest($this->context . 'filter_from_date', 'filter_from_date', '', '');
+		$filter_to_date       = $this->getUserStateFromRequest($this->context . 'filter_to_date', 'filter_to_date', '', '');
+
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);
 		$this->setState('filter_status', $filter_status);
-		$this->setState('filter_payment_status', $filter_payment_status);
+		$this->setState('filter_from_date', $filter_from_date);
+		$this->setState('filter_to_date', $filter_to_date);
 
 		parent::populateState($ordering, $direction);
 	}
@@ -77,6 +83,19 @@ class RedshopModelOrder extends RedshopModel
 		$filter_by             = $this->getState('filter_by');
 		$filter_status         = $this->getState('filter_status');
 		$filter_payment_status = $this->getState('filter_payment_status');
+		$filter_from_date     = $this->getState('filter_from_date');
+		$filter_to_date       = $this->getState('filter_to_date');
+
+		if ($filter_from_date)
+		{
+			$query->where($db->qn('o.cdate') . '>=' . strtotime($filter_from_date));
+		}
+
+		if ($filter_to_date)
+		{
+			// Adding 24 hours to the end date to consider whole end day
+			$query->where($db->qn('o.cdate') . ' <= ' . (strtotime($filter_to_date) + 24 * 3600));
+		}
 
 		if ($filter_status)
 		{
