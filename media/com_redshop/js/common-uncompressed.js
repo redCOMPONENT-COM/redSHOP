@@ -1,3 +1,8 @@
+// New registration functions
+jQuery(document).ready(function() {
+    billingIsShipping(document.getElementById('billisship'));
+});
+
 function validateInputNumber(objid)
 {
 	if(document.getElementById(objid) && (trim(document.getElementById(objid).value)=="" || isNaN(document.getElementById(objid).value) || document.getElementById(objid).value<=0))
@@ -482,12 +487,6 @@ function changeproductImage(product_id,imgPath,ahrefpath)
 	{
 		document.getElementById('main_image'+product_id).src=imgPath;
 	}
-}
-
-// New registration functions
-
-window.onload = function(){
-	billingIsShipping(document.getElementById('billisship'));
 }
 
 function billingIsShipping(obj)
