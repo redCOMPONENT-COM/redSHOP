@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "01924dbfce13e7726a375ba11f7f1a60dac9e096"
+                "reference": "69cbe8c6952229435c5969dbbb0135f7813bff26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/01924dbfce13e7726a375ba11f7f1a60dac9e096",
-                "reference": "01924dbfce13e7726a375ba11f7f1a60dac9e096",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/69cbe8c6952229435c5969dbbb0135f7813bff26",
+                "reference": "69cbe8c6952229435c5969dbbb0135f7813bff26",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2015-08-17 17:18:09"
+            "time": "2015-09-03 12:22:48"
         }
     ],
     "packages-dev": [
@@ -193,16 +193,16 @@
         },
         {
             "name": "codegyre/robo",
-            "version": "0.5.3",
+            "version": "0.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codegyre/Robo.git",
-                "reference": "a668fde69e30bbd489442d2953cb57d07a4c29d5"
+                "reference": "10aa223f6d1db182dc81d723bf1545dfc6ff380d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codegyre/Robo/zipball/a668fde69e30bbd489442d2953cb57d07a4c29d5",
-                "reference": "a668fde69e30bbd489442d2953cb57d07a4c29d5",
+                "url": "https://api.github.com/repos/Codegyre/Robo/zipball/10aa223f6d1db182dc81d723bf1545dfc6ff380d",
+                "reference": "10aa223f6d1db182dc81d723bf1545dfc6ff380d",
                 "shasum": ""
             },
             "require": {
@@ -240,7 +240,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2015-07-14 23:31:50"
+            "time": "2015-08-31 17:35:30"
         },
         {
             "name": "doctrine/instantiator",
@@ -1136,20 +1136,20 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.3.6",
+            "version": "2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42"
+                "reference": "5e2645ad49d196e020b85598d7c97e482725786a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/5e2645ad49d196e020b85598d7c97e482725786a",
+                "reference": "5e2645ad49d196e020b85598d7c97e482725786a",
                 "shasum": ""
             },
             "require": {
-                "doctrine/instantiator": "~1.0,>=1.0.2",
+                "doctrine/instantiator": "^1.0.2",
                 "php": ">=5.3.3",
                 "phpunit/php-text-template": "~1.2",
                 "sebastian/exporter": "~1.2"
@@ -1188,7 +1188,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-07-10 06:54:24"
+            "time": "2015-08-19 09:14:08"
         },
         {
             "name": "react/promise",
