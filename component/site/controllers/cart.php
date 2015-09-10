@@ -227,7 +227,7 @@ class RedshopControllerCart extends RedshopController
 						$this->setMessage($cart['notice_message'], 'warning');
 					}
 
-					$this->setMessage(JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'success');
+					$this->setMessage(JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'message');
 					$link = JRoute::_($_SERVER['HTTP_REFERER'], false);
 				}
 			}
