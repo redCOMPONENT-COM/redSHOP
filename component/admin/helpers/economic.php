@@ -828,7 +828,11 @@ class economic
 					$property_price  = $orderPropdata[0]->section_price;
 					$property_name   = $orderPropdata[0]->section_name;
 
-					$eco ['product_number'] = $property_number;
+					if ($property_number)
+					{
+						$eco ['product_number'] = $property_number;
+					}
+
 					$eco ['product_name']   = $orderitem[$i]->order_item_name . " " . $property_name . $displaywrapper . $discount_calc;
 				}
 			}
