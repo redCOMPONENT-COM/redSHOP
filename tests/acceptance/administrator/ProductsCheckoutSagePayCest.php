@@ -175,7 +175,7 @@ class ProductsCheckoutSagePayCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForElement(['xpath' => "//img[@alt='Sage Pay']"],30);
+		$I->waitForText('How do you want to pay?', 30, ['xpath' => '//h1']);
 		$I->click(['xpath' => "//button[@value='VISA']"]);
 		$I->waitForElement(['xpath' => "//input[@name='cardnumber']"],30);
 		$I->fillField(['xpath' => "//input[@name='cardnumber']"], $checkoutAccountDetail['debitCardNumber']);
