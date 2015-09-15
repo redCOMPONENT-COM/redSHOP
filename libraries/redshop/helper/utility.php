@@ -26,18 +26,15 @@ class RedshopHelperUtility
 	 */
 	public static function getSSLLink($link, $applySSL = 1)
 	{
+		$link = JUri::getInstance(JUri::base() . $link);
+
 		if (SSL_ENABLE_IN_BACKEND && $applySSL)
 		{
-			$link = JUri::getInstance(JUri::base() . $link);
-
-			if ($applySSL)
-			{
-				$link->setScheme('https');
-			}
-			else
-			{
-				$link->setScheme('http');
-			}
+			$link->setScheme('https');
+		}
+		else
+		{
+			$link->setScheme('http');
 		}
 
 		return $link;
