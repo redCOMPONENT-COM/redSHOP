@@ -41,7 +41,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->see($productName, ['id' => "redshopcomponent"]);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -130,7 +131,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->see($productName, ['id' => "redshopcomponent"]);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -182,7 +184,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->see($productName, ['id' => "redshopcomponent"]);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -235,7 +238,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->see($productName, ['id' => "redshopcomponent"]);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
@@ -284,7 +288,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->see($productName, ['id' => "redshopcomponent"]);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
