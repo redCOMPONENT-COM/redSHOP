@@ -201,41 +201,48 @@ class plgAcymailingRedshop extends JPlugin
 	 *
 	 * @return mixed  Product Main Image,Product Name,Product Formatted Price
 	 */
-	public function getProduct($product_id, $tag)
+	public function getProduct($productId, $tag)
 	{
+		JLoader::load('RedshopHelperHelper');
 		JLoader::load('RedshopHelperAdminTemplate');
-		$redTemplate = new Redtemplate;
 
-		$prtemplate_id = trim($this->params->get('product_template', 1));
-		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
+		$template      = new Redtemplate;
+		$productHelper = new producthelper;
+		$helper        = new redhelper;
 
-		// Get Product Data
-		$db = JFactory::getDbo();
-		$query = "SELECT * FROM #__redshop_product WHERE product_id=" . $product_id;
-		$db->setQuery($query);
-		$rs = $db->loadObject();
-
-		// Product helper Object
-		$producthelper = new producthelper;
+		$templateId = trim($this->params->get('product_template', 1));
+		$templateDetail = $template->getTemplate('product_content_template', $templateId);
+		$product    = RedshopHelperProduct::getProductById($productId);
 
 		// Get Product Formatted price as per redshop configuration
-		$productArr = $producthelper->getProductNetPrice($product_id);
-		$price = $productArr['productPrice'] + $productArr['productVat'];
-		$price = $producthelper->getProductFormattedPrice($price);
+		$productPrices = $productHelper->getProductNetPrice($productId);
+		$price         = $productPrices['productPrice'] + $productPrices['productVat'];
+		$price         = $productHelper->getProductFormattedPrice($price);
 
-		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id);
+		$link = JUri::root()
+			. 'index.php?option=com_redshop&view=product&pid=' . $productId
+			. '&Itemid=' . $helper->getItemid($productId);
 
 		// Get product Image
-		$productImage = $producthelper->getProductImage($product_id, $link, PRODUCT_MAIN_IMAGE, PRODUCT_MAIN_IMAGE_HEIGHT, PRODUCT_DETAIL_IS_LIGHTBOX);
+		$productImage = $productHelper->getProductImage(
+							$productId,
+							$link,
+							PRODUCT_MAIN_IMAGE,
+							PRODUCT_MAIN_IMAGE_HEIGHT,
+							0
+						);
+		$productImageLink = '<a href="' . $link . '">' . $productImage . '</a>';
 
-		$text = "<div>" . $productImage . "</div><div>" . $rs->product_name . "</div><div>" . $price . "</div>";
+		$text = "<div>" . $productImageLink . "</div>"
+			. "<div>" . $product->product_name . "</div>"
+			. "<div>" . $price . "</div>";
 
-		if ($prtemplate[0]->template_desc && strpos($tag, 'product:') !== false)
+		if ($templateDetail[0]->template_desc && strpos($tag, 'product:') !== false)
 		{
-			$text = $prtemplate[0]->template_desc;
+			$text = $templateDetail[0]->template_desc;
 
-			$text = str_replace("{product_thumb_image}", $productImage, $text);
-			$text = str_replace("{product_name}", $rs->product_name, $text);
+			$text = str_replace("{product_thumb_image}", $productImageLink, $text);
+			$text = str_replace("{product_name}", '<a href="' . $link . '">' . $product->product_name . '</a>', $text);
 			$text = str_replace("{product_price}", $price, $text);
 
 			$text = str_replace("{read_more}", "", $text);
@@ -258,7 +265,7 @@ class plgAcymailingRedshop extends JPlugin
 		}
 		elseif (strpos($tag, 'name:') !== false)
 		{
-			return $rs->product_name;
+			return $product->product_name;
 		}
 		elseif (strpos($tag, 'price:') !== false)
 		{
