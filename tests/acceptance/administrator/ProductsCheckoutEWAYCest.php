@@ -115,7 +115,8 @@ class ProductsCheckoutEWAYCest
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->see($productName, ['id' => "redshopcomponent"]);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
