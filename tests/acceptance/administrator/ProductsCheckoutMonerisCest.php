@@ -27,6 +27,7 @@ class ProductsCheckoutMonerisCest
 	 */
 	public function MonerisPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
+		/* @todo: commented until REDSHOP-2643 will be resolved
 		$I->wantTo('Test Product Checkout on Front End with Moneris Payments Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_moneris/';
@@ -92,6 +93,7 @@ class ProductsCheckoutMonerisCest
 		}
 
 		$this->checkoutProductWithMonerisPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		 */
 	}
 
 	/**
