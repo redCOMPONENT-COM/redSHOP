@@ -38,6 +38,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post = JRequest::get('post');
+		$post["shopper_group_introtext"] = JRequest::getVar('shopper_group_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["shopper_group_desc"] = JRequest::getVar('shopper_group_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["shopper_group_url"] = "";
 		$post["shopper_group_id"] = $cid [0];
