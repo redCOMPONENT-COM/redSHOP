@@ -245,8 +245,17 @@ $url = $uri->root();    ?>
 				<legend><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_INTROTEXT'); ?></legend>
 				<table class="admintable">
 					<tr>
-						<td><textarea name="shopper_group_introtext" id="shopper_group_introtext" cols="100"
-									  rows="15"><?php echo $this->detail->shopper_group_introtext;?></textarea>
+						<td>
+							<?php
+								echo $editor->display(
+										"shopper_group_introtext",
+										$this->detail->shopper_group_introtext,
+										'400',
+										'600',
+										'100',
+										'40'
+									);
+							?>
 						</td>
 					</tr>
 				</table>
