@@ -7,7 +7,7 @@
  */
 use \AcceptanceTester;
 /**
- * Class ProductsCheckoutStripeCest
+ * Class ProductsCheckoutBankTransferDiscountCest
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ use \AcceptanceTester;
  *
  * @since    1.4
  */
-class ProductsCheckoutStripeCest
+class ProductsCheckoutBankTransferDiscountCest
 {
 	/**
 	 * Test to Verify the Payment Plugin
@@ -25,31 +25,27 @@ class ProductsCheckoutStripeCest
 	 *
 	 * @return void
 	 */
-	public function testStripePaymentPlugin(AcceptanceTester $I, $scenario)
+	public function testBankTransferDiscountPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Checkout on Front End with STRIPE Payment Plugin');
+		$I->wantTo('Test Product Checkout on Front End with Bank Transfer Discount Payments for redSHOP Payment Plugin');
 		$I->doAdministratorLogin();
-		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/stripe/';
+		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_banktransfer_discount/';
 		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
-			"secretKey" => "sk_test_3macQ0wmSqMrOzfyneBCdAaa",
-			"publishKey" => "pk_test_dbkhgfbAZjhDJGpZ863DgwXe",
-			"email"	=> "gunjan@redcomponent.com",
-			"debitCardNumber" => '4242424242424242',
-			"cvv" => "123",
-			"expiryDate" => '09/18',
-			"cardExpiryMonth" => '09',
-			"cardExpiryYear" => '2018',
+			"customerID" => "87654321",
+			"debitCardNumber" => "4444333322221111",
+			"cvv" => "1234",
+			"cardExpiryMonth" => '2',
+			"cardExpiryYear" => '2016',
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
-		$I->enablePlugin('redSHOP Payment - Stripe');
-		$this->updateStripePaymentPlugin($I, $checkoutAccountInformation['secretKey'], $checkoutAccountInformation['publishKey']);
+		$I->enablePlugin('Bank Transfer Discount Payments for redSHOP');
 		$I->doAdministratorLogout();
 
 		$customerInformation = array(
-			"email" => "gunjan@redcomponent.com",
+			"email" => "test@test" . rand() . ".com",
 			"firstName" => "Tester",
 			"lastName" => "User",
 			"address" => "Some Place in the World",
@@ -94,38 +90,13 @@ class ProductsCheckoutStripeCest
 
 		}
 
-		$this->checkoutProductWithStripePayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$this->checkoutProductWithBankTransferDiscountPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$I->doAdministratorLogin();
+		$I->uninstallExtension('Bank Transfer Discount Payments for redSHOP', true);
 	}
 
 	/**
-	 * Function to Update the Plugin
-	 *
-	 * @param   AcceptanceTester  $I             Actor Class Object
-	 * @param   String            $secretKey     Secret Key for the Plugin
-	 * @param   String            $publishedKey  Published Key for the Plugin
-	 *
-	 * @return void
-	 */
-	private function updateStripePaymentPlugin(AcceptanceTester $I, $secretKey, $publishedKey)
-	{
-		$I->amOnPage('/administrator/index.php?option=com_plugins');
-		$I->checkForPhpNoticesOrWarnings();
-		$I->searchForItem('redSHOP Payment - Stripe');
-		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('redSHOP Payment - Stripe'), 30);
-		$I->checkExistenceOf('redSHOP Payment - Stripe');
-		$I->click(['id' => "cb0"]);
-		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['id' => "jform_params_secretKey"], 30);
-		$I->fillField(['id' => "jform_params_secretKey"], $secretKey);
-		$I->fillField(['id' => "jform_params_publishableKey"], $publishedKey);
-
-		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
-		$I->see('successfully saved', ['id' => 'system-message-container']);
-	}
-
-	/**
-	 * Function to Test Checkout Process of a Product using the Stripe Payment Plugin
+	 * Function to Test Checkout Process of a Product using the Bank Transfer Discount Payment Plugin
 	 *
 	 * @param   AcceptanceTester  $I                      Actor Class Object
 	 * @param   String            $scenario               Scenario Variable
@@ -137,7 +108,7 @@ class ProductsCheckoutStripeCest
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithStripePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	private function checkoutProductWithBankTransferDiscountPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage('/index.php?option=com_redshop');
 		$I->waitForElement(['id' => "redshopcomponent"], 30);
@@ -160,35 +131,12 @@ class ProductsCheckoutStripeCest
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
 		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
-		$I->click(['xpath' => "//div[@id='stripe']//label//input"]);
+		$I->click(['xpath' => "//div[@id='rs_payment_banktransfer_discount']//label//input"]);
 		$I->click("Checkout");
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->switchToIFrame("stripe_checkout_app");
-		$I->waitForElementVisible(['class' => "bodyView"],30);
-		$I->waitForElement(['id' => "card_number"],30);
-
-		$I->comment('I have to fill the card number one by one due to a JS validation in the field');
-		$cardNumber = str_split($checkoutAccountDetail['debitCardNumber']);
-		foreach ($cardNumber as $number)
-		{
-			$I->pressKey(['id' => "card_number"], $number);
-		}
-		$I->fillField(['id' => "cc-csc"], $checkoutAccountDetail['cvv']);
-
-		$I->comment('I have to fill the expiry date one by one due to a JS validation in the field');
-		$expiryDate = str_split(str_replace('/', '', $checkoutAccountDetail['expiryDate']));
-		foreach ($expiryDate as $number)
-		{
-			$I->pressKey(['id' => "cc-exp"], $number);
-		}
-
-		$I->click(['id' => "submitButton"]);
-		$I->waitForElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"],30);
-		$I->seeElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"]);
-		$I->doAdministratorLogin();
-		$I->uninstallExtension('redSHOP Payment - Stripe');
+		$I->see('Order Receipt', "//div[@class='componentheading']");
 	}
 }
