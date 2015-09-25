@@ -258,8 +258,16 @@ class RedshopControllerMedia_Detail extends RedshopController
 				{
 					$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
+					if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+					{
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+							. $post['section_id'] . '&showbuttons=1&section_name='
+							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+						);
+					}
+
 					// Set First Image as product Main Imaged
-					if ($save->media_section == 'product')
+					else if ($save->media_section == 'product')
 					{
 						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail', $msg);
 					}
