@@ -161,7 +161,10 @@ class ProductsCheckoutSagePayCest
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
-		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
+		$I->amOnPage('index.php?option=com_redshop&view=cart');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
+		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
@@ -175,7 +178,7 @@ class ProductsCheckoutSagePayCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForElement(['xpath' => "//img[@alt='Sage Pay']"],30);
+		$I->waitForText('How do you want to pay?', 30, ['xpath' => '//h1']);
 		$I->click(['xpath' => "//button[@value='VISA']"]);
 		$I->waitForElement(['xpath' => "//input[@name='cardnumber']"],30);
 		$I->fillField(['xpath' => "//input[@name='cardnumber']"], $checkoutAccountDetail['debitCardNumber']);
