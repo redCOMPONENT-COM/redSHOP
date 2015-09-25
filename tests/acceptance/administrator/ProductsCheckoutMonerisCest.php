@@ -120,6 +120,12 @@ class ProductsCheckoutMonerisCest
 		$I->fillField(['id' => "jform_params_moneris_test_store_id"], $storeId);
 		$I->fillField(['id' => "jform_params_moneris_api_token"], $apiToken);
 		$I->fillField(['id' => "jform_params_moneris_test_api_token"], $apiToken);
+		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_creditcard_code_chzn']/a"]);
+		$I->waitForElement(['xpath' => "//li[contains(text(), 'No')]"],10);
+		$I->click(['xpath' => "//li[contains(text(), 'No')]"]);
+		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/a"]);
+		$I->waitForElement(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/div/ul//li[contains(text(), 'No')]"],10);
+		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/div/ul//li[contains(text(), 'No')]"]);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('successfully saved', ['id' => 'system-message-container']);
 	}
@@ -150,7 +156,8 @@ class ProductsCheckoutMonerisCest
 		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->see($productName, ['id' => "redshopcomponent"]);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
