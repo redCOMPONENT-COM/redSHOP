@@ -96,7 +96,7 @@ if ($showbuttons)
 
 				return false;
 			}
-			else if (form.file.value == '')
+			else if (form.file.value == '' && form.media_bank_image.value == '' && form.hdn_download_file.value == '')
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
 
