@@ -62,6 +62,72 @@ class ProductsCheckoutAuthorizeCest
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
 		$this->checkoutProductWithAuthorizePayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$I->doAdministratorLogin();
+		$I->uninstallExtension('Authorize Payments');
+	}
+
+	/**
+	 * Test to Verify the Payment Plugin
+	 *
+	 * @param   AcceptanceTester  $I         Actor Class Object
+	 * @param   String            $scenario  Scenario Variable
+	 *
+	 * @return void
+	 */
+	public function testAuthorizePaymentPluginWithProducts(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Test Product Checkout on Front End with Authorize Net Payment Plugin');
+		$I->doAdministratorLogin();
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$randomCategoryName = 'TestingCategory' . rand(99, 999);
+		$randomProductName = 'Testing Products' . rand(99, 999);
+		$randomProductNumber = rand(999, 9999);
+		$randomProductPrice = rand(99, 199);
+
+		$I->wantTo('Create a Category');
+		$I->addCategory($randomCategoryName);
+		$I->see($randomCategoryName);
+
+		$product = new ManageProductsAdministratorCest;
+		$I->wantTo('Create a Product');
+		$product->createProduct($I, $randomProductName, $randomCategoryName, $randomProductNumber, $randomProductPrice);
+		$product->searchProduct($I, $randomProductName);
+		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize/';
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
+
+		$checkoutAccountInformation = array(
+			"accessId" => "62qpC9xN9nN4",
+			"transactionId" => "97sRY6pGTea3E48d",
+			"password" => "Pull416!t",
+			"debitCardNumber" => "4012888818888",
+			"cvv" => "1234",
+			"cardExpiryMonth" => '2',
+			"cardExpiryYear" => '2016',
+			"shippingAddress" => "some place on earth",
+			"customerName" => 'Testing Customer'
+		);
+		$I->enablePlugin('Authorize Payments');
+		$this->updateAuthorizePlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId']);
+		$I->doAdministratorLogout();
+		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+
+		$customerInformation = array(
+			"email" => "test@test" . rand() . ".com",
+			"firstName" => "Tester",
+			"lastName" => "User",
+			"address" => "Some Place in the World",
+			"postalCode" => "23456",
+			"city" => "Bangalore",
+			"country" => "India",
+			"state" => "Karnataka",
+			"phone" => "8787878787"
+		);
+		$this->checkoutProductWithAuthorizePayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $randomProductName, $randomCategoryName);
+		$product->deleteProduct($I, $randomProductName);
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($randomCategoryName);
+		$I->searchCategory($randomCategoryName, 'Delete');
+		$I->dontSee($randomCategoryName);
 	}
 
 	/**
