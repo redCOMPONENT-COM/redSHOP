@@ -220,11 +220,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 		else
 		{
-			$row->product_id = $post ['product_id'];
-			$msg = $model->getError();
-
-			$this->app->enqueueMessage($msg, 'error');
-
+			$this->app->enqueueMessage($model->getError(), 'error');
 			$this->input->set('view', 'product_detail');
 			$this->input->set('layout', 'default');
 			$this->input->set('hidemainmenu', 1);
