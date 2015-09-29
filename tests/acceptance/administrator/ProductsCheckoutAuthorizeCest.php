@@ -81,17 +81,29 @@ class ProductsCheckoutAuthorizeCest
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$randomCategoryName = 'TestingCategory' . rand(99, 999);
 		$randomProductName = 'Testing Products' . rand(99, 999);
-		$randomProductNumber = rand(999, 9999);
+		$randomProductNumber = rand(99, 999);
 		$randomProductPrice = rand(99, 199);
 
 		$I->wantTo('Create a Category');
 		$I->addCategory($randomCategoryName);
 		$I->see($randomCategoryName);
 
-		$product = new ManageProductsAdministratorCest;
 		$I->wantTo('Create a Product');
-		$product->createProduct($I, $randomProductName, $randomCategoryName, $randomProductNumber, $randomProductPrice);
-		$product->searchProduct($I, $randomProductName);
+		$I->amOnPage('administrator/index.php?option=com_redshop&view=product');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+		$I->click("New");
+		$I->waitForElement(['id' => "product_name"], 30);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->fillField(['id' => "product_name"], $randomProductName);
+		$I->fillField(['id' => "product_number"], $randomProductNumber);
+		$I->fillField(['id' => "product_price"], $randomProductPrice);
+		$I->fillField(['xpath' => "//div[@id='product_category_chzn']//ul/li//input"], $randomCategoryName);
+		$I->waitForElement(['xpath' => "//em[contains(text(), " . $randomCategoryName . ")]"], 30);
+		$I->click(['xpath' => "//em[contains(text(), " . $randomCategoryName . ")]"]);
+		$I->click("Save & Close");
+		$I->waitForText('Product details saved', 30, ['class' => 'alert-message']);
+		$I->see('Product details saved', ['class' => 'alert-message']);
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize/';
 		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
@@ -123,11 +135,22 @@ class ProductsCheckoutAuthorizeCest
 			"phone" => "8787878787"
 		);
 		$this->checkoutProductWithAuthorizePayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $randomProductName, $randomCategoryName);
-		$product->deleteProduct($I, $randomProductName);
+		$I->doAdministratorLogin();
+		$I->wantTo('Delete the created Product');
+		$I->amOnPage('administrator/index.php?option=com_redshop&view=product');
+		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+		$I->fillField(['xpath' => "//div[@class='filterItem']//div//input[@name='keyword']"], $randomProductName);
+		$I->click(['xpath' => "//div[@class='filterItem']//div//input[@value='Search']"]);
+		$I->see($randomProductName, ['xpath' => "//div[@id='editcell']/table/tbody/tr[1]"]);
+		$I->checkAllResults();
+		$I->click("Delete");
+		$I->waitForText('Product deleted successfully', 30, ['class' => 'alert-success']);
+		$I->dontSee($randomProductName);
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($randomCategoryName);
 		$I->searchCategory($randomCategoryName, 'Delete');
 		$I->dontSee($randomCategoryName);
+		$I->uninstallExtension('Authorize Payments');
 	}
 
 	/**
