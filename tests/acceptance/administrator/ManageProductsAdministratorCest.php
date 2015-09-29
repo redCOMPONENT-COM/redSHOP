@@ -72,6 +72,7 @@ class ManageProductsAdministratorCest
 		$I->fillField(['id' => "product_name"], $productName);
 		$I->fillField(['id' => "product_number"], $productNumber);
 		$I->fillField(['id' => "product_price"], $price);
+		$I->click(['xpath' => "//div[@id='product_category_chzn']//ul/li//input"]);
 		$I->fillField(['xpath' => "//div[@id='product_category_chzn']//ul/li//input"], $productCategory);
 		$I->waitForElement(['xpath' => "//em[contains(text(), " . $productCategory . ")]"], 30);
 		$I->click(['xpath' => "//em[contains(text(), " . $productCategory . ")]"]);
