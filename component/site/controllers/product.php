@@ -52,7 +52,7 @@ class RedshopControllerProduct extends RedshopController
 
 			if (version_compare(JVERSION, '3.0', '>='))
 			{
-				JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")');
+				JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true));
 				$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
 			}
 
