@@ -1018,16 +1018,14 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 	{
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
-
-		// $db    = $this->getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
+					->select('country_name')
 					->from($db->qn('#__redshop_country'))
 					->where($db->qn('country_3_code') . ' = ' . $db->q($country3Code));
 
 		// Set the query and load the result.
-		$db->setQuery($query);
-		$country = $db->loadObject();
+		$db->setQuery($query, 0, 1);
+		$countryName = $db->loadResult();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -1037,6 +1035,6 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 			return null;
 		}
 
-		return $country->country_name;
+		return $countryName;
 	}
 }
