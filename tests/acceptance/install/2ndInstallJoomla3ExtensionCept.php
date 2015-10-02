@@ -13,7 +13,7 @@ $I = new AcceptanceTester($scenario);
 $I->wantTo('Install Extension');
 $I->doAdministratorLogin();
 $I->wantTo('Install redSHOP');
-$I->installExtensionFromDirectory($I->getConfig('repo folder'));
+$I->installExtensionFromFolder($I->getConfig('repo folder'));
 
 if ($I->getConfig('install demo data') == 'Yes')
 {
