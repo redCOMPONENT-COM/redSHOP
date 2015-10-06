@@ -293,7 +293,7 @@ switch ($name)
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ORDER_RECEIPT_HINT'); ?></b><br /><br />
 		{product_loop_start} {product_loop_end} {product_name} {product_number} <br />
 		{product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {product_wrapper} {product_price} {product_quantity} {product_total_price} {order_subtotal} <br />
-		{order_shipping} {order_total} {delivery_time} {payment_status} {print}{delivery_time_lbl}  <br />
+		{order_id} {order_number} {order_shipping} {order_total} {delivery_time} {payment_status} {print}{delivery_time_lbl}  <br />
 		{if discount} {discount_lbl} {order_discount} {discount_in_percentage} {discount end if} {if vat} {vat_lbl} {order_tax} {vat end if} {shipping_lbl} {shipping_method_lbl} {shipping_method} <br />
 		{if payment_discount} {payment_discount_lbl} {payment_order_discount} {payment_discount end if} <br />
 		{product_userfields} {shipping} {vat_shipping} {shipping_lbl} <br />
