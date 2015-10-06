@@ -12,6 +12,6 @@ $scenario->group('installationJ3');
 // Load the Step Object Page
 $I = new AcceptanceTester($scenario);
 $I->wantTo('Execute Joomla Installation');
-$I->installJoomla();
+$I->installJoomlaRemovingInstallationFolder();
 $I->doAdministratorLogin();
 $I->setErrorReportingtoDevelopment();

@@ -24,6 +24,13 @@ class RedshopHelperUser
 	protected static $userShopperGroupData = array();
 
 	/**
+	 * Shopper Group information
+	 *
+	 * @var  array
+	 */
+	protected static $shopperGroupData = array();
+
+	/**
 	 * Users Info
 	 *
 	 * @var  array
@@ -233,5 +240,28 @@ class RedshopHelperUser
 		}
 
 		return array();
+	}
+
+	/**
+	 * Get Shopper Group Data using shopper group id
+	 *
+	 * @param   int  $id  Shopper Group Id
+	 *
+	 * @return mixed
+	 */
+	public static function getShopperGroupDataById($id)
+	{
+		if (!array_key_exists($id, self::$shopperGroupData))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+						->select('sg.*')
+						->from($db->qn('#__redshop_shopper_group', 'sg'))
+						->where('sg.shopper_group_id = ' . (int) $id);
+			$db->setQuery($query);
+			self::$shopperGroupData[$id] = $db->loadObject();
+		}
+
+		return self::$shopperGroupData[$id];
 	}
 }

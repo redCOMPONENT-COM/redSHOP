@@ -39,7 +39,7 @@ class ProductsCheckoutSagePayCest
 			"debitCardNumber" => "4929 0000 0000 6",
 			"cvv" => "123",
 			"cardExpiryMonth" => '05',
-			"cardExpiryYear" => '2018',
+			"cardExpiryYear" => '18',
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
@@ -159,10 +159,12 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
-		$I->waitForElement(['xpath' => "//div[@class='alert alert-success']"]);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-success');
-		$I->see("Product has been added to your cart.", '.alert-success');
-		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
+		$I->amOnPage('index.php?option=com_redshop&view=cart');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
+		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
@@ -176,19 +178,19 @@ class ProductsCheckoutSagePayCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForElement(['id' => "sagePayLogo"],30);
-		$I->click(['xpath' => "//img[@name='VISA']"]);
+		$I->waitForText('How do you want to pay?', 30, ['xpath' => '//h1']);
+		$I->click(['xpath' => "//button[@value='VISA']"]);
 		$I->waitForElement(['xpath' => "//input[@name='cardnumber']"],30);
 		$I->fillField(['xpath' => "//input[@name='cardnumber']"], $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField(['xpath' => "//input[@name='securitycode']"], $checkoutAccountDetail['cvv']);
-		$I->click(['xpath' => "//select[@name='expirymonth']//option[@value='05']"]);
-		$I->click(['xpath' => "//select[@name='expiryyear']//option[@value='18']"]);
-		$I->click(['xpath' => "//img[@name='proceed']"]);
-		$I->waitForElement(['xpath' => "//img[@name='proceed']"],10);
-		$I->click(['xpath' => "//img[@name='proceed']"]);
+		$I->fillField(['id' => "form-card_details.field-expiry_mm"], $checkoutAccountDetail['cardExpiryMonth']);
+		$I->fillField(['id' => "form-card_details.field-expiry_yy"], $checkoutAccountDetail['cardExpiryYear']);
+		$I->click(['xpath' => "//button[@value='proceed']"]);
+		$I->waitForElement(['xpath' => "//button[@value='proceed']"],10);
+		$I->click(['xpath' => "//button[@value='proceed']"]);
 		$I->waitForElement(['xpath' => "//table[@class='cart_calculations']//tbody//tr[6]//td//p[text()='Paid ']"],30);
-		$I->waitForText('0000 : The Authorisation was Successful.', 15, ['xpath' => "//div[@class='alert alert-message']"]);
-		$I->see('0000 : The Authorisation was Successful.', "//div[@class='alert alert-message']");
+		$I->waitForText('0000 : The Authorisation was Successful.', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->see('0000 : The Authorisation was Successful.', "//div[@class='alert alert-success']");
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=configuration');
 		$I->waitForElement(["xpath" => "//a[text()='Price']"], 10);

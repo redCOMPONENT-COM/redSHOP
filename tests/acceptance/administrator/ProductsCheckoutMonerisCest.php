@@ -30,7 +30,7 @@ class ProductsCheckoutMonerisCest
 		$I->wantTo('Test Product Checkout on Front End with Moneris Payments Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_moneris/';
-		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"storeID" => "store1",
@@ -120,6 +120,12 @@ class ProductsCheckoutMonerisCest
 		$I->fillField(['id' => "jform_params_moneris_test_store_id"], $storeId);
 		$I->fillField(['id' => "jform_params_moneris_api_token"], $apiToken);
 		$I->fillField(['id' => "jform_params_moneris_test_api_token"], $apiToken);
+		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_creditcard_code_chzn']/a"]);
+		$I->waitForElement(['xpath' => "//li[contains(text(), 'No')]"],10);
+		$I->click(['xpath' => "//li[contains(text(), 'No')]"]);
+		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/a"]);
+		$I->waitForElement(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/div/ul//li[contains(text(), 'No')]"],10);
+		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/div/ul//li[contains(text(), 'No')]"]);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('successfully saved', ['id' => 'system-message-container']);
 	}
@@ -147,10 +153,12 @@ class ProductsCheckoutMonerisCest
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
-		$I->waitForElement(['xpath' => "//div[@class='alert alert-success']"]);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-success');
-		$I->see("Product has been added to your cart.", '.alert-success');
-		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
+		$I->amOnPage('index.php?option=com_redshop&view=cart');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
+		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
@@ -170,7 +178,7 @@ class ProductsCheckoutMonerisCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-message']"]);
-		$I->see('Order placed', "//div[@class='alert alert-message']");
+		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 }

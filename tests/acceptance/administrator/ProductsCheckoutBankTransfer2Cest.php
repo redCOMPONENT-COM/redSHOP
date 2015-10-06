@@ -30,7 +30,7 @@ class ProductsCheckoutBankTransfer2Cest
 		$I->wantTo('Test Product Checkout on Front End with BankTransfer2 Payment Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_banktransfer2/';
-		$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"customerID" => "87654321",
@@ -85,10 +85,12 @@ class ProductsCheckoutBankTransfer2Cest
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
-		$I->waitForElement(['xpath' => "//div[@class='alert alert-success']"]);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-success');
-		$I->see("Product has been added to your cart.", '.alert-success');
-		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
+		$I->amOnPage('index.php?option=com_redshop&view=cart');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
+		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"], 30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);

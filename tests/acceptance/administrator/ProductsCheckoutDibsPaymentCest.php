@@ -143,10 +143,12 @@ class ProductsCheckoutDibsPaymentCest
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
-		$I->waitForElement(['xpath' => "//div[@class='alert alert-success']"]);
-		$I->waitForText("Product has been added to your cart.",10,'.alert-success');
-		$I->see("Product has been added to your cart.", '.alert-success');
-		$I->amOnPage('/index.php?option=com_redshop&view=checkout');
+		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
+		$I->amOnPage('index.php?option=com_redshop&view=cart');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
+		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"],30);
 		$I->click(['xpath' => "//span[text() = 'New customer? Please Provide Your Billing Information']"]);
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
@@ -178,7 +180,7 @@ class ProductsCheckoutDibsPaymentCest
 		$I->see("Payment accepted.", ["xpath" => "//span[@id='payment_accepted']"]);
 		$I->click(["xpath" => "//button[@value='Next']"]);
 		$I->acceptPopup();
-		$I->waitForText('Order placed',15,['xpath' => "//div[@class='alert alert-message']"]);
-		$I->see('Order placed',"//div[@class='alert alert-message']");
+		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 }
