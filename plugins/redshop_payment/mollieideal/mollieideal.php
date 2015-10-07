@@ -66,7 +66,7 @@ class plgRedshop_paymentMollieideal extends JPlugin
 			$path        = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
 			$webhookUrl  = JUri::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=mollieideal&orderid=" . $data['order_id'];
-			$redirectUrl = JUri::base() . "index.php?option=com_redshop&view=order_detail&Itemid=" . $app->input->getInt('Itemid') . "&oid=" . $data['order_id'];
+			$redirectUrl = JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&oid=" . $data['order_id'] . "&Itemid=" . $app->input->getInt('Itemid');
 
 			/*
 			 * Payment parameters:
