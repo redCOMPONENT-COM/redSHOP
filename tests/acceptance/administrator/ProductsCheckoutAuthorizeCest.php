@@ -44,7 +44,7 @@ class ProductsCheckoutAuthorizeCest
 			"customerName" => 'Testing Customer'
 		);
 		$I->enablePlugin('Authorize Payments');
-		$this->updateAuthorizePlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId']);
+		$this->updateAuthorizePluginConfiguration($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId']);
 		$I->doAdministratorLogout();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
@@ -98,9 +98,9 @@ class ProductsCheckoutAuthorizeCest
 		$I->fillField(['id' => "product_name"], $randomProductName);
 		$I->fillField(['id' => "product_number"], $randomProductNumber);
 		$I->fillField(['id' => "product_price"], $randomProductPrice);
-		$I->fillField(['xpath' => "//div[@id='product_category_chzn']//ul/li//input"], $randomCategoryName);
-		$I->waitForElement(['xpath' => "//em[contains(text(), " . $randomCategoryName . ")]"], 30);
-		$I->click(['xpath' => "//em[contains(text(), " . $randomCategoryName . ")]"]);
+		$I->click(['xpath' => "//div[@id='product_category_chzn']//ul/li"]);
+		$I->waitForElement(['xpath' => "//div[@id='product_category_chzn']//ul/li[text()='- " . $randomCategoryName . "']"], 30);
+		$I->click(['xpath' => "//div[@id='product_category_chzn']//ul/li[text()='- " . $randomCategoryName . "']"]);
 		$I->click("Save & Close");
 		$I->waitForText('Product details saved', 30, ['class' => 'alert-message']);
 		$I->see('Product details saved', ['class' => 'alert-message']);
@@ -119,7 +119,7 @@ class ProductsCheckoutAuthorizeCest
 			"customerName" => 'Testing Customer'
 		);
 		$I->enablePlugin('Authorize Payments');
-		$this->updateAuthorizePlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId']);
+		$this->updateAuthorizePluginConfiguration($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId']);
 		$I->doAdministratorLogout();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
@@ -162,7 +162,7 @@ class ProductsCheckoutAuthorizeCest
 	 *
 	 * @return void
 	 */
-	private function updateAuthorizePlugin(AcceptanceTester $I, $accessId, $transactionKey)
+	private function updateAuthorizePluginConfiguration(AcceptanceTester $I, $accessId, $transactionKey)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
