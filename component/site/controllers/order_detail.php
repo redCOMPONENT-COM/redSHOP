@@ -178,7 +178,13 @@ class RedshopControllerOrder_detail extends RedshopController
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = JDispatcher::getInstance();
 
-		$results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
+		$results = $dispatcher->trigger(
+			'onNotifyPayment' . $request['payment_plugin'],
+			array(
+				$request['payment_plugin'],
+				$request
+			)
+		);
 
 		$msg = $results[0]->msg;
 
@@ -191,14 +197,22 @@ class RedshopControllerOrder_detail extends RedshopController
 			$order_id = $results[0]->order_id;
 		}
 
+		// Change Order Status based on resutls
 		$objOrder->changeorderstatus($results[0]);
+
 		$model     = $this->getModel('order_detail');
 		$resetcart = $model->resetcart();
 
 		/*
 		 * Plugin will trigger onAfterNotifyPayment
 		 */
-		$dispatcher->trigger('onAfterNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $order_id));
+		$dispatcher->trigger(
+			'onAfterNotifyPayment' . $request['payment_plugin'],
+			array(
+				$request['payment_plugin'],
+				$order_id
+			)
+		);
 
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
@@ -211,7 +225,6 @@ class RedshopControllerOrder_detail extends RedshopController
 			$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id);
 			$this->setRedirect($redirect_url, $msg);
 		}
-
 	}
 
 	/**

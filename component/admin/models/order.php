@@ -39,6 +39,8 @@ class RedshopModelOrder extends RedshopModel
 		$id .= ':' . $this->getState('filter_by');
 		$id .= ':' . $this->getState('filter_status');
 		$id .= ':' . $this->getState('filter_payment_status');
+		$id .= ':' . $this->getState('filter_from_date');
+		$id .= ':' . $this->getState('filter_to_date');
 
 		return parent::getStoreId($id);
 	}
@@ -57,12 +59,16 @@ class RedshopModelOrder extends RedshopModel
 	{
 		$filter_status         = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', '', 'string');
 		$filter_payment_status = $this->getUserStateFromRequest($this->context . 'filter_payment_status', 'filter_payment_status', '', '');
-		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', 0);
+		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
 		$filter_by             = $this->getUserStateFromRequest($this->context . 'filter_by', 'filter_by', '', '');
+		$filter_from_date     = $this->getUserStateFromRequest($this->context . 'filter_from_date', 'filter_from_date', '', '');
+		$filter_to_date       = $this->getUserStateFromRequest($this->context . 'filter_to_date', 'filter_to_date', '', '');
+
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);
 		$this->setState('filter_status', $filter_status);
-		$this->setState('filter_payment_status', $filter_payment_status);
+		$this->setState('filter_from_date', $filter_from_date);
+		$this->setState('filter_to_date', $filter_to_date);
 
 		parent::populateState($ordering, $direction);
 	}
@@ -77,6 +83,19 @@ class RedshopModelOrder extends RedshopModel
 		$filter_by             = $this->getState('filter_by');
 		$filter_status         = $this->getState('filter_status');
 		$filter_payment_status = $this->getState('filter_payment_status');
+		$filter_from_date     = $this->getState('filter_from_date');
+		$filter_to_date       = $this->getState('filter_to_date');
+
+		if ($filter_from_date)
+		{
+			$query->where($db->qn('o.cdate') . '>=' . strtotime($filter_from_date));
+		}
+
+		if ($filter_to_date)
+		{
+			// Adding 24 hours to the end date to consider whole end day
+			$query->where($db->qn('o.cdate') . ' <= ' . (strtotime($filter_to_date) + 24 * 3600));
+		}
 
 		if ($filter_status)
 		{
@@ -168,12 +187,6 @@ class RedshopModelOrder extends RedshopModel
 		$order_functions->update_status();
 	}
 
-	public function update_status_all()
-	{
-		$order_functions = new order_functions;
-		$order_functions->update_status_all();
-	}
-
 	public function export_data($cid)
 	{
 		$where = "";
@@ -239,7 +252,7 @@ class RedshopModelOrder extends RedshopModel
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
-			if (($details[0] == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
+			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
 				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
@@ -326,25 +339,13 @@ class RedshopModelOrder extends RedshopModel
 		// Start the ouput
 		$outputCsv = fopen('php://output', 'w');
 
-		$column = array(
-			'Order_number',
-			'Quantity',
-			'Create_date',
-			'total_weight',
-			'reciever_firstName',
-			'reciever_lastname',
-			'Customer_note'
-		);
-
-		fputcsv($outputCsv, $column);
-
 		$ordersInfo = $this->getOrdersDetail($cid);
 
 		for ($i = 0; $i < count($ordersInfo); $i++)
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
-			if ($details[0] == 'plgredshop_shippingdefault_shipping_glsBusiness')
+			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
 				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);

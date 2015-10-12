@@ -40,8 +40,8 @@
     white-space: nowrap;
 }
 
-.ThemeOfficeMainItem {
-    /*background-color:	#EFEBDE;*/
+.ThemeOfficeMainItem, .ThemeOfficeMainItemHover, .ThemeOfficeMainItemActive {
+	display: inline-block;
 }
 
 .ThemeOfficeMainItemHover, .ThemeOfficeMainItemActive {

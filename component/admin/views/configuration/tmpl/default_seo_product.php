@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<table class="admintable">
+<table class="admintable" width="100%">
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"

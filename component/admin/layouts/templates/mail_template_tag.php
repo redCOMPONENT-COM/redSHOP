@@ -100,6 +100,7 @@ switch ($name)
 	case 'invoice':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_MAIL_TEMPLATE_TAG_INVOICE_HINT'); ?></b><br /><br />
+		{invoice_number}
 		{order_information_lbl} {order_id_lbl} {order_id} {order_number_lbl} {order_number} {order_date_lbl} {order_date} {order_status_lbl} {order_status} <br />
 		{billing_address_information_lbl} {billing_address} {shipping_address_information_lbl} {shipping_address} {order_detail_lbl} {product_name_lbl} <br />
 		product_name} {product_number} {note_lbl} {product_wrapper} {price_lbl} <br />

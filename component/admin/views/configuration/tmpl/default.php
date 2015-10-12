@@ -8,10 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-//JHTML::_ ( 'behavior.tooltip' );
 JHTMLBehavior::modal();
-
-$option = JRequest::getVar('option');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -81,58 +78,69 @@ $url = $uri->root();
 		form.submit();
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<?php
-	$dashboard = JRequest::getVar('dashboard');
+	$dashboard = JFactory::getApplication()->input->getInt('dashboard');
 
-	if ($dashboard == 1)
+	$options = array('startOffset' => 0);
+
+	if ($dashboard)
 	{
-		$offset = 9;
-	}
-	else
-	{
-		$offset = 0;
+		// Temporary fix - due to joomla bug have to force this code. Need to remove after fix in Joomla.
+		JFactory::getDocument()->addScriptDeclaration('
+			window.addEvent("domready", function(){
+				$$("dl#pane.tabs").each(function(tabs){
+					new JTabs(tabs, {"display": 12,"useStorage": false,"titleSelector": "dt.tabs","descriptionSelector": "dd.tabs"});
+				});
+			});
+		');
+
+		// Permenant fix - will work after joomla bug fix
+		$options = array(
+			'startOffset' => 12,
+			'useCookie'   => false
+		);
 	}
 
-	echo JHtml::_('tabs.start', 'pane', array('startOffset' => $offset));
+	echo JHtml::_('tabs.start', 'pane', $options);
 	$output = '';
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'tab1');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'general');
 	?>
 	<input type="hidden" name="view" value="configuration"/>
 	<input type="hidden" name="task" value=""/>
 	<?php
 	echo $this->loadTemplate('general');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_USER'), 'tab11');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_USER'), 'user');
 	echo $this->loadTemplate('user');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_TAB'), 'cattab');
 	echo $this->loadTemplate('cattab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_REDMANUFACTURER_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_REDMANUFACTURER_TAB'), 'manufacturertab');
 	echo $this->loadTemplate('manufacturertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_TAB'), 'producttab');
 	echo $this->loadTemplate('producttab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FEATURE_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FEATURE_TAB'), 'featuretab');
 	echo $this->loadTemplate('featuretab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRICE_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRICE_TAB'), 'pricetab');
 	echo $this->loadTemplate('pricetab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CART_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CART_TAB'), 'carttab');
 	echo $this->loadTemplate('carttab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ORDER_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ORDER_TAB'), 'ordertab');
 	echo $this->loadTemplate('ordertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_NEWSLETTER_TAB'), 'tab5');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_NEWSLETTER_TAB'), 'newslettertab');
 	echo $this->loadTemplate('newslettertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_INTEGRATION'), 'tab4');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_INTEGRATION'), 'integration');
 	echo $this->loadTemplate('integration');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_SEO'), 'tab7');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_SEO'), 'seo');
 	echo $this->loadTemplate('seo');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DASHBOARD'), 'tab8');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DASHBOARD'), 'dashboard');
 	echo $this->loadTemplate('dashboard');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ABOUT'), 'tab9');
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ABOUT'), 'redshopabout');
 	echo $this->loadTemplate('redshopabout');
 	echo JHtml::_('tabs.end');
 	?>
 	<input type="hidden" name="cid" value="1"/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 </form>
 <script type="text/javascript">
 	function cleardata() {

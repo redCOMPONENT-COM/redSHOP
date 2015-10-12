@@ -26,7 +26,7 @@ switch ($name)
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ACCOUNT_HINT'); ?></b><br /><br />
 		{welcome_introtext} {account_image} {account_title} {fullname_lbl} {fullname} {vatnumber_lbl} {vatnumber} {email_lbl} {email} {address_lbl} {address} {city_lbl} {city} <br />
-		{zipcode_lbl} {zipcode} {state_lbl} {state} {country_lbl} {country} {phone_lbl} {phone} {company_name_lbl} {company_name} {requesting_tax_exempt_lbl} {requesting_tax_exempt} {edit_account_link} {customer_custom_fields} <br />
+		{zipcode_lbl} {zipcode} {state_lbl} {state} {country_lbl} {country} {phone_lbl} {phone}{phone_optional} {company_name_lbl} {company_name} {requesting_tax_exempt_lbl} {requesting_tax_exempt} {edit_account_link} {customer_custom_fields} <br />
 		{more_orders} {order_image} {order_title} {order_loop_start} {order_index} {order_id} {order_detail_link} {order_loop_end} <br />
 		{coupon_image} {coupon_title} {coupon_loop_start} {coupon_code_lbl} {coupon_code} {coupon_value_lbl} {coupon_value} {coupon_loop_end} <br />
 		{shipping_image} {shipping_title} {edit_shipping_link} <br />
@@ -130,7 +130,7 @@ switch ($name)
 		{if subcats} {category_main_description} {category_main_short_desc} {category_main_name} {category_main_thumb_image} {subcats end if} <br />
 		{category_loop_start} {category_loop_end} {category_name} {category_description} {category_short_desc} {category_thumb_image} <br />
 		{product_price_lbl} {product_price_slider} {product_loop_start} {product_loop_end} {product_name} {product_price} {product_rating_summary} {product_s_desc} <br />
-		{pagination} {perpagelimit} {product_display_limit} {show_all_products_in_category} {order_by} {if product_on_sale} {product_on_sale end if} {price_excluding_vat} <br />
+		{pagination} {perpagelimit:X} {product_display_limit} {show_all_products_in_category} {order_by} {if product_on_sale} {product_on_sale end if} {price_excluding_vat} <br />
 		{more_documents} {product_id_lbl} {product_id} {product_number_lbl} {product_number} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {with_vat} {without_vat} {filter_by} <br />
 		{template_selector_category_lbl} {template_selector_category} {manufacturer_link} {manufacturer_name} {stock_status:class for available stock : class for out of stock: class for pre order} {shopname} {read_more} {category_readmore} {category_main_thumb_image_2} {category_main_thumb_image_3} {category_thumb_image_2} {category_thumb_image_3} <br />
 		{product_stock_amount_image} {product_price_table} {product_thumb_image_3} {product_thumb_image_2} {discount_start_date} {discount_end_date} {compare_products_button} {compare_product_div} {front_img_link} {back_img_link} {product_preview_img} {read_more_link} {product_name_nolink} {category_product_link} <br />
@@ -179,7 +179,7 @@ switch ($name)
 		{city_lbl}{city}
 		{country_lbl}{country}
 		{state_lbl}{state}
-		{phone_lbl}{phone}
+		{phone_lbl}{phone}{phone_optional}
 		{tax_exempt_lbl}{tax_exempt}<br/><br/>
 		<b><?php echo JText::_('COM_REDSHOP_OPTION_TAG'); ?></b><br /><br />
 		{ean_number_lbl}{ean_number}<br/>
@@ -293,7 +293,7 @@ switch ($name)
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ORDER_RECEIPT_HINT'); ?></b><br /><br />
 		{product_loop_start} {product_loop_end} {product_name} {product_number} <br />
 		{product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {product_wrapper} {product_price} {product_quantity} {product_total_price} {order_subtotal} <br />
-		{order_shipping} {order_total} {delivery_time} {payment_status} {print}{delivery_time_lbl}  <br />
+		{order_id} {order_number} {order_shipping} {order_total} {delivery_time} {payment_status} {print}{delivery_time_lbl}  <br />
 		{if discount} {discount_lbl} {order_discount} {discount_in_percentage} {discount end if} {if vat} {vat_lbl} {order_tax} {vat end if} {shipping_lbl} {shipping_method_lbl} {shipping_method} <br />
 		{if payment_discount} {payment_discount_lbl} {payment_order_discount} {payment_discount end if} <br />
 		{product_userfields} {shipping} {vat_shipping} {shipping_lbl} <br />
@@ -320,7 +320,7 @@ switch ($name)
 		{city_lbl}{city}
 		{country_lbl}{country}
 		{state_lbl}{state}
-		{phone_lbl}{phone}
+		{phone_lbl}{phone}{phone_optional}
 		{private_extrafield}<br/>
 		{retype_email_lbl}{retype_email}
 		<?php

@@ -288,7 +288,8 @@ class producthelper
 				->select('dp.*')
 				->from($db->qn('#__redshop_discount_product', 'dp'))
 				->where('dp.published = 1')
-				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ') OR FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
+				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ')')
+				->where('FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
 				->where('dp.start_date <= ' . $db->q($time))
 				->where('dp.end_date >= ' . $db->q($time))
 				->order('dp.amount DESC');
@@ -588,6 +589,7 @@ class producthelper
 			}
 			else
 			{
+				$userdata = new stdClass;
 				$userdata->country_code = DEFAULT_VAT_COUNTRY;
 				$userdata->state_code   = DEFAULT_VAT_STATE;
 			}
@@ -696,73 +698,6 @@ class producthelper
 		$session->set('rs_user', $userArr);
 
 		return self::$vatRate[$taxGroup . '.' . $userId];
-	}
-
-	// Get Vat for Googlebase xml
-	public function getGoogleVatRates($product_id = 0, $product_price = 0, $tax_exempt = 0)
-	{
-		$db = JFactory::getDbo();
-
-		$proinfo         = $this->getProductById($product_id);
-		$tax_group_id    = 0;
-		$rs_user_info_id = 0;
-
-		$country_code = DEFAULT_VAT_COUNTRY;
-		$state_code   = DEFAULT_VAT_STATE;
-		$and          = 'AND tg.published= "1" ';
-		$q2           = 'LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg on tg.tax_group_id=tr.tax_group_id ';
-
-		$chkflg = true;
-
-		if (VAT_BASED_ON == 2)
-		{
-			$and .= ' AND tr.is_eu_country=1 ';
-		}
-
-		if ($product_id == 0)
-		{
-			$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
-		}
-		elseif ($proinfo->product_tax_group_id > 0)
-		{
-			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
-			$and .= 'AND p.product_id = ' . (int) $product_id . ' ';
-		}
-		else
-		{
-			$and .= 'AND tr.tax_group_id=' . DEFAULT_VAT_GROUP . ' ';
-		}
-
-		$where = $q2
-			. 'WHERE tr.tax_country=' . $db->quote($country_code) . ' '
-			. 'AND (tr.tax_state = ' . $db->quote($state_code) . ' OR tr.tax_state = "") '
-			. $and;
-
-		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
-			. $where
-			. ' ORDER BY `tax_rate` DESC';
-		$this->_db->setQuery($query);
-		$this->_taxData = $this->_db->loadObject();
-
-		$tax_rate      = $this->_taxData->tax_rate;
-		$product_price = $product_price;
-		$product_price = $this->productPriceRound($product_price);
-
-		if ($tax_exempt)
-		{
-			$protax = $product_price * $tax_rate;
-
-			return $protax;
-		}
-
-		if ($tax_rate)
-		{
-			$protax = $product_price * $tax_rate;
-		}
-
-		$protax = $this->productPriceRound($protax);
-
-		return $protax;
 	}
 
 	/*
@@ -2125,7 +2060,7 @@ class producthelper
 	 * Get redshop user information
 	 *
 	 * @param   int     $userId       Id joomla user
-	 * @param   string  $addressType  Type user BT or ST
+	 * @param   string  $addressType  Type user address BT (Billing Type) or ST (Shipping Type)
 	 * @param   int     $userInfoId   Id redshop user
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
@@ -3361,10 +3296,11 @@ class producthelper
 			{
 				foreach ($productData->attributes as $attribute)
 				{
-					if (($attributeSetId && $attributeSetId != $attribute->attribute_set_id)
-						|| ($attributeId && $attributeId != $attribute->attribute_id)
-						|| ($published && $published != $attribute->attribute_set_published)
-						|| ($attributeRequired && $attributeRequired != $attribute->attribute_required))
+					if (($attributeSetId && ($attributeSetId != $attribute->attribute_set_id))
+						|| ($attributeId && ($attributeId != $attribute->attribute_id))
+						|| ($published && ($published != $attribute->attribute_published))
+						|| ($published && $attributeSetId && ($published != $attribute->attribute_set_published))
+						|| ($attributeRequired && ($attributeRequired != $attribute->attribute_required)))
 					{
 						continue;
 					}
@@ -5044,7 +4980,7 @@ class producthelper
 			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
 		}
 
-		$data_add .= '<span id="att_lebl" style="display:none;">' . JText::_('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') . '</span>';
+		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
 		if (count($attributes) > 0)
 		{
@@ -5294,50 +5230,31 @@ class producthelper
 					$new_property      = array_merge($tmp_array, $property);
 					$defaultpropertyId = array();
 					$chklist           = "";
-					$display_type      = $attributes [$a]->display_type;
+					$display_type      = $attributes[$a]->display_type;
 
-					if ($attributes [$a]->allow_multiple_selection)
+					if ($attributes[$a]->allow_multiple_selection)
 					{
 						$display_type = 'checkbox';
 					}
 
 					if ($display_type == 'checkbox' || $display_type == 'radio')
 					{
-						for ($chk = 0; $chk < count($property); $chk++)
-						{
-							$checked = "";
+						unset($new_property[0]);
 
-							if (count($selectProperty) > 0)
-							{
-								if (in_array($property[$chk]->value, $selectProperty))
-								{
-									$checked             = "checked";
-									$subdisplay          = true;
-									$defaultpropertyId[] = $property[$chk]->value;
-								}
-							}
-							else
-							{
-								if ($property[$chk]->setdefault_selected)
-								{
-									$checked             = "checked";
-									$subdisplay          = true;
-									$defaultpropertyId[] = $property[$chk]->value;
-								}
-							}
+						$htmlAttr = 'attribute_name="' . urldecode($attributes[$a]->attribute_name) . '"'
+									. ' required="' . $attributes [$a]->attribute_required . '"'
+									. ' onClick="javascript:changePropertyDropdown(\'' . $product_id . '\',\'' . $accessory_id . '\',\'' . $relproduct_id . '\',\'' . $attributes [$a]->value . '\',this.value,\'' . $mpw_thumb . '\',\'' . $mph_thumb . '\');"';
 
-							$scrollerFunction = "";
-
-							if ($imgAdded > 0 && strstr($attribute_table, "{property_image_scroller}"))
-							{
-								$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
-							}
-
-							$chklist .= "<div class='attribute_multiselect_single'><input type='" . $display_type . "' "
-								. $checked . " value='" . $property[$chk]->value . "' name='" . $propertyid . "[]' id='"
-								. $propertyid . "' class='inputbox' attribute_name='" . urldecode($attributes [$a]->attribute_name)
-								. "' required='" . $attributes[$a]->attribute_required . "' onClick='javascript:" . $scrollerFunction . "changePropertyDropdown(\"" . $product_id . "\",\"" . $accessory_id . "\",\"" . $relproduct_id . "\",\"" . $attributes [$a]->value . "\",\"" . $property[$chk]->value . "\",\"" . $mpw_thumb . "\",\"" . $mph_thumb . "\");'  />&nbsp;" . $property[$chk]->text . "</div>";
-						}
+						$chklist = JHtml::_(
+							'select.radiolist',
+							$new_property,
+							$propertyid . '[]',
+							$htmlAttr,
+							'value',
+							'text',
+							$selectedproperty,
+							$propertyid . '_'
+						);
 					}
 					else
 					{
@@ -5993,7 +5910,7 @@ class producthelper
 
 		$cartform = "<form name='" . $addtocartFormName
 			. "' id='" . $addtocartFormName
-			. "' class='addtocart_formclass' action='" . JRoute::_('index.php') . "' method='post'>";
+			. "' class='addtocart_formclass' action='' method='post'>";
 		$cartform .= $cart_template->template_desc;
 
 		$cartform .= "
@@ -6523,7 +6440,7 @@ class producthelper
 
 			$addtocartFormName = 'addtocart_' . $prefix . $product_id; //$category_id
 			$cartform          = "<form name='" . $addtocartFormName . "' id='" . $addtocartFormName
-				. "' class='addtocart_formclass' action='" . JRoute::_('index.php') . "' method='post'>";
+				. "' class='addtocart_formclass' action='' method='post'>";
 			$cartform .= $cart_template->template_desc;
 
 			if (count($userfieldArr) > 0)
@@ -7706,6 +7623,7 @@ class producthelper
 		$quantity          = 0;
 		$stockroom_id      = "0";
 		$orderItemdata     = $order_functions->getOrderItemDetail(0, 0, $order_item_id);
+		$cartAttributes    = array();
 
 		$products = $this->getProductById($orderItemdata[0]->product_id);
 
@@ -7814,6 +7732,15 @@ class producthelper
 					// Assign tmp variable to looping variable to get copy of all texts
 					$attribute_final_template .= $tmp_attribute_middle_template;
 
+					// Initialize attribute child array
+					$attributeChilds = array(
+						'property_id' => $orderPropdata[$p]->section_id,
+						'property_name' => $orderPropdata[$p]->section_name,
+						'property_oprand' => $orderPropdata[$p]->section_oprand,
+						'property_price' => $property_price,
+						'property_childs' => array()
+					);
+
 					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
 					for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
@@ -7879,6 +7806,14 @@ class producthelper
 						}
 
 						$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
+
+						$attributeChilds['property_childs'][] = array(
+							'subproperty_id'           => $orderSubpropdata[$sp]->section_id,
+							'subproperty_name'         => $orderSubpropdata[$sp]->section_name,
+							'subproperty_oprand'       => $orderSubpropdata[$sp]->section_oprand,
+							'subattribute_color_title' => urldecode($subproperty[0]->subattribute_color_title),
+							'subproperty_price'        => $subproperty_price
+						);
 					}
 
 					// Format Calculated price using Language variable
@@ -7891,7 +7826,13 @@ class producthelper
 						$productAttributeCalculatedPrice,
 						$tmp_attribute_middle_template
 					);
+
+					// Initialize attribute child array
+					$attribute[0]->attribute_childs[] = $attributeChilds;
 				}
+
+				// Prapare cart type attribute array
+				$cartAttributes[] = get_object_vars($attribute[0]);
 			}
 		}
 		else
@@ -7904,10 +7845,11 @@ class producthelper
 			$displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
 		}
 
-		$data = new stdClass;
-		$data->product_attribute = $displayattribute;
-		$data->attribute_middle_template = $attribute_final_template;
+		$data                                 = new stdClass;
+		$data->product_attribute              = $displayattribute;
+		$data->attribute_middle_template      = $attribute_final_template;
 		$data->attribute_middle_template_core = $attribute_middle_template;
+		$data->cart_attribute                 = $cartAttributes;
 
 		return $data;
 	}

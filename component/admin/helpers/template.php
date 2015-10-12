@@ -451,7 +451,6 @@ class Redtemplate
 			'private_billing_template'   => JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE'),
 			'company_billing_template'   => JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE'),
 			'shipping_template'          => JText::_('COM_REDSHOP_SHIPPING_TEMPLATE'),
-			'shippment_invoice_template' => JText::_('COM_REDSHOP_SHIPPMENT_INVOICE_TEMPLATE'),
 			'stock_note'                 => JText::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE')
 		);
 

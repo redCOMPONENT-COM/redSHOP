@@ -6,22 +6,21 @@
 		<div>{template_selector_category_lbl}{template_selector_category}</div>
 	</div>
 	{if subcats}
-	<div>
-		<div>{category_loop_start}
-			<div id="categories">
-				<div style="float: left; width: 200px;">
-					<div class="category_image">{category_thumb_image}</div>
-					<div class="category_description">
-						<h2 class="category_title">{category_name}</h2>
-					</div>
-					<div class="category_description">{category_readmore}</div>
-					<div class="category_description">{category_description}</div>
-				</div>
+	<div id="categories">
+		{category_loop_start}
+		<div style="float: left; width: 200px;">
+			<div class="category_image">{category_thumb_image}</div>
+			<div class="category_description">
+				<h2 class="category_title">{category_name}</h2>
 			</div>
-			{category_loop_end}
+			<div class="category_description">{category_readmore}</div>
+			<div class="category_description">{category_description}</div>
 		</div>
+		{category_loop_end}
+		<div class="clr"></div>
 	</div>
 	{subcats end if}
+	<div class="clr"></div>
 	<div class="category_box_wrapper">{product_loop_start}
 		<div class="category_box_outside">
 			<div class="category_box_inside">

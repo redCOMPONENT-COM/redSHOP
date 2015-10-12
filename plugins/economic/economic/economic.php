@@ -12,6 +12,14 @@ defined('_JEXEC') or die;
 class plgEconomicEconomic extends JPlugin
 {
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * specific redform plugin parameters
 	 *
 	 * @var JRegistry object
@@ -52,29 +60,36 @@ class plgEconomicEconomic extends JPlugin
 			$this->error = 1;
 			$this->errorMsg = "Disable Plugin";
 		}
+
+		JPlugin::loadLanguage('plg_economic_economic');
 	}
 
 	/**
-	 * Method to connect with economic
+	 * Create e-conomic connection
 	 *
-	 * @access public
-	 * @return array
+	 * @return  void
 	 */
 	public function onEconomicConnection()
 	{
-		// Get plugin info
-		$plugin = JPluginHelper::getPlugin('economic', 'economic');
-		$pluginParams = new JRegistry($plugin->params);
-		$this->ecoparams = $pluginParams;
-
 		// Check whether plugin has been unpublished
-		if (count($pluginParams) > 0)
+		if (count($this->params) > 0)
 		{
-			$url = 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
-
 			try
 			{
-				$this->client = new SoapClient($url, array("trace" => 1, "exceptions" => 1));
+				$this->client = new SoapClient(
+					'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL',
+					array(
+						"trace" => 1,
+						"exceptions" => 1,
+						"stream_context" => stream_context_create(
+							[
+								"http" => [
+									"header" => "X-EconomicAppIdentifier: " . self::getAppIdentifier()
+								]
+							]
+						)
+					)
+				);
 			}
 			catch (Exception $exception)
 			{
@@ -85,9 +100,9 @@ class plgEconomicEconomic extends JPlugin
 			try
 			{
 				$conn = array(
-					'agreementNumber' => $pluginParams->get('economic_agreement_number', ''),
-					'userName'        => $pluginParams->get('economic_username', ''),
-					'password'        => $pluginParams->get('economic_password', '')
+					'agreementNumber' => $this->params->get('economic_agreement_number', ''),
+					'userName'        => $this->params->get('economic_username', ''),
+					'password'        => $this->params->get('economic_password', '')
 				);
 				$this->_conn = $this->client->Connect($conn);
 			}
@@ -106,6 +121,26 @@ class plgEconomicEconomic extends JPlugin
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get unique app identifier for e-conomic plugin.
+	 *
+	 * @see http://techtalk.e-conomic.com/e-conomic-soap-api-now-requires-you-to-specify-a-custom-x-economicappidentifier-header/ X-EconomicAppIdentifier
+	 *
+	 * @return  string  Unique Identifier string
+	 */
+	protected static function getAppIdentifier()
+	{
+		// Getting plugin information
+		$manifestFile = simplexml_load_file(__DIR__ . '/economic.xml');
+
+		$appIdentifier = __CLASS__ . '/' . $manifestFile->version
+					. ' redshop/' . $manifestFile->redshop
+					. ' (http://redcomponent.com/redcomponent/redshop/plugins/economic-accounting; support@redcomponent.com)'
+					. ' ' . JFactory::getConfig()->get('sitename');
+
+		return $appIdentifier;
 	}
 
 	/**
@@ -225,7 +260,7 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$checkDebtorgrpId = $this->ecoparams->get('economic_debtor_group_id', 2);
+		$checkDebtorgrpId = $this->params->get('economic_debtor_group_id', 2);
 
 		if ($this->debtorGroupHandles)
 		{
@@ -291,7 +326,7 @@ class plgEconomicEconomic extends JPlugin
 		}
 		else
 		{
-			$checkpaymentId = $this->ecoparams->get('economic_payment_terms', 2);
+			$checkpaymentId = $this->params->get('economic_payment_terms', 2);
 		}
 
 		if ($this->termofpayment && $this->termofpayment == $checkpaymentId)
@@ -413,7 +448,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if (count($arr) > 0)
 			{
-				$cashbook_number = $this->ecoparams->get('economic_cashbook_number', 1);
+				$cashbook_number = $this->params->get('economic_cashbook_number', 1);
 
 				if (in_array($cashbook_number, $arr))
 				{
@@ -491,7 +526,7 @@ class plgEconomicEconomic extends JPlugin
 			}
 			else
 			{
-				$checkId = $this->ecoparams->get('economic_layout_id', 19);
+				$checkId = $this->params->get('economic_layout_id', 19);
 			}
 
 			if (in_array($checkId, $arr))
@@ -1039,7 +1074,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if (count($arr) > 0)
 			{
-				$checkId = $this->ecoparams->get('economic_units_id', 1);
+				$checkId = $this->params->get('economic_units_id', 1);
 
 				if (in_array($checkId, $arr))
 				{
@@ -1454,13 +1489,10 @@ class plgEconomicEconomic extends JPlugin
 			// Get Employee to set Our Reference Number
 			if ($employeeHandle = $this->employeeFindByNumber($d))
 			{
-				$valueHandle         = new stdclass;
-				$valueHandle->Number = $employeeHandle;
-
 				$this->client->CurrentInvoice_SetOurReference2(
 					array(
 						'currentInvoiceHandle' => $invoiceHandle,
-						'valueHandle'          => $valueHandle
+						'valueHandle'          => $employeeHandle
 					)
 				);
 			}
@@ -1872,11 +1904,17 @@ class plgEconomicEconomic extends JPlugin
 			$pdf = $this->Invoice_GetPdf($bookHandle);
 
 			// Cashbook entry
-			$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+			$makeCashbook = (int) $this->params->get('economicUseCashbook', 1);
 
 			if ($makeCashbook && $d['amount'] > 0)
 			{
 				$this->createCashbookEntry($d, $bookHandle);
+			}
+
+			// Cashbook Entry for Creditor Payment to Paypal
+			if($makeCashbook && isset($d['order_transfee']) && $this->params->get('economicCreditorNumber', false))
+			{
+				$this->createCashbookEntryCreditorPayment($d, $bookHandle);
 			}
 		}
 
@@ -1897,7 +1935,7 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$invoiceHandle = new stdclass;
+		$invoiceHandle     = new stdclass;
 		$invoiceHandle->Id = $d['invoiceHandle'];
 
 		try
@@ -2010,7 +2048,7 @@ class plgEconomicEconomic extends JPlugin
 	public function createCashbookEntry($d, $bookHandle)
 	{
 		// Cashbook entry
-		$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+		$makeCashbook = (int) $this->params->get('economicUseCashbook', 1);
 
 		if (!$makeCashbook)
 		{
@@ -2078,6 +2116,105 @@ class plgEconomicEconomic extends JPlugin
 
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
+			}
+			else
+			{
+				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
+			}
+		}
+	}
+
+	/**
+	 * Method to create cash book entry in economic for Merchant Fees
+	 *
+	 * @param   array   $d           Information about booking invoice
+	 * @param   Object  $bookHandle  SOAP Object of the e-conomic current book invoice
+	 *
+	 * @return  void
+	 */
+	public function createCashbookEntryCreditorPayment($d, $bookHandle)
+	{
+		if ($this->error)
+		{
+			return $this->errorMsg;
+		}
+
+		$cashBookHandle              = new stdclass;
+		$cashBookHandle->Number      = intval($this->getCashBookAll());
+
+		$debtorHandle                = new stdclass;
+		$debtorHandle->Number        = $this->params->get('economicCreditorNumber');
+
+		$contraaccount               = intval($this->getTermOfPaymentContraAccount($d));
+
+		$contraAccountHandle         = new stdclass;
+		$contraAccountHandle->Number = $contraaccount;
+
+		$CurrencyHandle              = new stdclass;
+		$CurrencyHandle->Code        = $d ['currency_code'];
+
+		try
+		{
+			if ($contraaccount)
+			{
+				$info = array(
+					'cashBookHandle'      => $cashBookHandle,
+					'creditorHandle'      => $debtorHandle,
+					'contraAccountHandle' => $contraAccountHandle
+				);
+			}
+			else
+			{
+				$info = array(
+					'cashBookHandle' => $cashBookHandle,
+					'creditorHandle' => $debtorHandle
+				);
+			}
+
+			$cashBookEntryHandle = $this->client->CashBookEntry_CreateCreditorPayment($info)
+												->CashBookEntry_CreateCreditorPaymentResult;
+
+			$this->client->CashBookEntry_SetAmount(
+				array(
+					'cashBookEntryHandle' => $cashBookEntryHandle,
+					'value'               => $d['order_transfee']
+				)
+			);
+
+			$this->client->CashBookEntry_SetCreditor(
+				array(
+					'cashBookEntryHandle' => $cashBookEntryHandle,
+					'valueHandle'         => $debtorHandle
+				)
+			);
+
+			$this->client->CashBookEntry_SetText(
+				array(
+					'cashBookEntryHandle' => $cashBookEntryHandle,
+					'value'               => JText::_('COM_REDSHOP_ECONOMIC_CREDITOR_TEXT')
+				)
+			);
+
+			$this->client->CashBookEntry_SetCurrency(
+				array(
+					'cashBookEntryHandle' => $cashBookEntryHandle,
+					'valueHandle'         => $CurrencyHandle
+				)
+			);
+
+			$this->client->CashBook_Book(
+				array(
+					'cashBookHandle' => $cashBookHandle
+				)
+			);
+		}
+		catch ( Exception $exception )
+		{
+			print("<p><i>createCashbookEntry:" . $exception->getMessage() . "</i></p>");
+
+			if (DETAIL_ERROR_MESSAGE_ON)
+			{
+				JError::raiseWarning(21, "createCashbookEntry:" . $exception->getMessage());
 			}
 			else
 			{

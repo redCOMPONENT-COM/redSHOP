@@ -38,15 +38,17 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 					</tr>
 					<tr>
-						<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_TEMPLATE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_INVOICE_NUMBER_TEMPLATE'); ?>">
-			<label
-				for="invoice_number_template"><?php echo JText::_('COM_REDSHOP_INVOICE_NUMBER_TEMPLATE_LBL');?></label></span>
-						</td>
-						<td>
-							<input type="text" name="invoice_number_template" id="invoice_number_template"
-							       value="<?php echo INVOICE_NUMBER_TEMPLATE; ?>">
+						<td colspan="2">
+							<p class="text-warning">
+							<strong>
+							<?php
+								echo JText::sprintf(
+									'COM_REDSHOP_CONFIG_ORDER_FIELD_MOVED_HINT',
+									'<a class="showOrderTab" href="javascript:void(0);">Orders</a>'
+								);
+							?>
+							</strong>
+						</p>
 						</td>
 					</tr>
 					<tr>

@@ -30,7 +30,16 @@ class plgContentredshop_product extends JPlugin
 			JHTML::_('behavior.modal');
 
 			$session = JFactory::getSession();
-			$post = JRequest::get('POST');
+			$post    = JRequest::get('POST');
+			$option  = JRequest::getCmd('option');
+
+			if ($option != 'com_redshop')
+			{
+				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+				JLoader::load('RedshopHelperAdminConfiguration');
+				$Redconfiguration = new Redconfiguration;
+				$Redconfiguration->defineDynamicVars();
+			}
 
 			if (isset($post['product_currency']))
 			{

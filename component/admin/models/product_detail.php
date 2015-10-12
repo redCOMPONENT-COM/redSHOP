@@ -143,8 +143,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$data                               = $this->input->getArray($_POST);
-		$data['product_desc']               = $this->input->get('product_desc', '', 'SAFE_HTML');
-		$data['product_s_desc']             = $this->input->get('product_s_desc', '', 'SAFE_HTML');
+		$data['product_desc']               = JFilterInput::getInstance(null, null, 1, 1)->clean($this->input->get('product_desc', '', 'RAW'), 'html');
+		$data['product_s_desc']             = JFilterInput::getInstance(null, null, 1, 1)->clean($this->input->get('product_s_desc', '', 'RAW'), 'html');
 		$detail->product_id                 = (isset($data['product_id'])) ? $data['product_id'] : 0;
 		$detail->product_parent_id          = (isset($data['product_parent_id'])) ? $data['product_parent_id'] : 0;
 		$detail->product_number             = (isset($data['product_number'])) ? $data['product_number'] : null;
@@ -3274,7 +3274,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				JPluginHelper::importPlugin('redshop_product');
 				$dispatcher = JDispatcher::getInstance();
-				$dispatcher->trigger('afterUpdateStock', array($stockroom_data));
+				$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 			}
 		}
 
@@ -3899,7 +3899,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('afterUpdateStock', array($stockroom_data));
+		$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 
 		return true;
 	}

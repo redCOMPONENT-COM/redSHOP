@@ -49,6 +49,11 @@ function jimage_insert(main_path) {
 		document.getElementById("image_display").src = "";
 	}
 }
+function jdownload_file(path, filename) {
+	document.getElementById("selected_file").innerHTML = filename;
+	document.getElementById("hdn_download_file_path").value = path;
+	document.getElementById("hdn_download_file").value = filename;
+}
 ');
 
 if ($showbuttons)
@@ -75,7 +80,7 @@ if ($showbuttons)
 			history.go(-1);
 		}
 
-		Joomla.submitbutton =  submitbutton = function (pressbutton) {
+		Joomla.submitbutton = function (pressbutton) {
 
 			var form = document.adminForm;
 
@@ -88,18 +93,32 @@ if ($showbuttons)
 			if (form.bulk.value == 0)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true ); ?>");
+
+				return false;
+			}
+			else if (form.file.value == '' && form.media_bank_image.value == '' && form.hdn_download_file.value == '')
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
+
+				return false;
 			}
 			else if (form.media_type.value == 0)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true ); ?>");
+
+				return false;
 			}
 			else if (form.media_section.value == 0)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true ); ?>");
+
+				return false;
 			}
 			else if (form.section_id.value == '' && form.media_section.value != 'media')
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true ); ?>");
+
+				return false;
 			}
 			else
 			{
@@ -108,7 +127,7 @@ if ($showbuttons)
 		}
 	</script>
 
-	<form onsubmit="javascript:return false;" action="<?php echo JRoute::_($this->request_url) ?>" method="post"
+	<form action="<?php echo JRoute::_($this->request_url) ?>" method="post"
 	      name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 	<div class="col50" id="media_data">
