@@ -1200,14 +1200,24 @@ class order_functions
 		return $list;
 	}
 
-	public function getOrderBillingUserInfo($order_id)
+	/**
+	 * Get Order Billing information
+	 *
+	 * @param   integer  $orderId  order id
+	 *
+	 * @return  object   Billing Information
+	 */
+	public function getOrderBillingUserInfo($orderId)
 	{
 		$db = JFactory::getDbo();
 
 		$helper = new redhelper;
 
-		$query = 'SELECT * FROM #__redshop_order_users_info ' . 'WHERE address_type LIKE "BT" '
-			. 'AND order_id = ' . (int) $order_id;
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_order_users_info'))
+					->where($db->qn('address_type') . ' LIKE ' . $db->q('BT'))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 		if ($helper->isredCRM())
 		{
@@ -1216,11 +1226,20 @@ class order_functions
 				. 'LEFT JOIN #__redcrm_order as co ON co.order_id = oui.order_id '
 				. 'LEFT JOIN #__redcrm_contact_persons as cp ON cp.person_id  = co.person_id '
 				. 'LEFT JOIN #__redcrm_debitors as cd ON cd.users_info_id = co.debitor_id ' . 'WHERE oui.address_type LIKE "BT" '
-				. 'AND oui.order_id = ' . (int) $order_id;
+				. 'AND oui.order_id = ' . (int) $orderId;
 		}
 
-		$db->setQuery($query);
+		// Set the query and load the result.
+		$db->setQuery($query, 0, 1);
 		$list = $db->loadObject();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
 
 		return $list;
 	}
