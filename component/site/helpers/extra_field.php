@@ -890,7 +890,9 @@ class extraField
 				$search     = "{" . $row_data[$i]->field_name . "}";
 			}
 
-			if (count($data_value) != 0 && $published && $field_show_in_front)
+			if (count($data_value) != 0 
+				&& $published 
+				&& ($field_show_in_front || JFactory::getApplication()->isAdmin()))
 			{
 				$displayvalue = '';
 
