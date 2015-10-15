@@ -44,10 +44,9 @@ class ProductsCheckoutSagePayCest
 			"customerName" => 'Testing Customer'
 		);
 
-		// @todo: commenting this part until REDSHOP-2659 is fixed
-		//$I->enablePlugin('SagePay Payments');
+		$I->enablePlugin('SagePay Payments');
 		$this->updateSagePayPaymentPlugin($I, $checkoutAccountInformation['vendorName'], $checkoutAccountInformation['vendorEmail'], $checkoutAccountInformation['encryptPassword']);
-		/*
+
 		$I->doAdministratorLogout();
 
 		$customerInformation = array(
@@ -97,7 +96,6 @@ class ProductsCheckoutSagePayCest
 		}
 
 		$this->checkoutProductWithSagePayPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
-		*/
 	}
 
 	/**
@@ -182,7 +180,7 @@ class ProductsCheckoutSagePayCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('How do you want to pay?', 30, ['xpath' => '//h1']);
+		$I->waitForElement(['xapth' => "//button[@value='VISA']"], 60);
 		$I->click(['xpath' => "//button[@value='VISA']"]);
 		$I->waitForElement(['xpath' => "//input[@name='cardnumber']"],30);
 		$I->fillField(['xpath' => "//input[@name='cardnumber']"], $checkoutAccountDetail['debitCardNumber']);
