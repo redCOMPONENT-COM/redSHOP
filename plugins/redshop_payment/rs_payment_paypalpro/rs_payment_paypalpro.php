@@ -44,7 +44,6 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 		// Set request-specific fields.
 		$paymentType      = urlencode($this->params->get("sales_auth_only"));
 
-		$debug_mode       = $this->params->get('debug_mode', 0);
 		$firstName        = urlencode($data['billinginfo']->firstname);
 		$lastName         = urlencode($data['billinginfo']->lastname);
 		$creditCardType   = urlencode($ccdata['creditcard_code']);
@@ -105,7 +104,8 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 			$messageType            = 'Error';
 		}
 
-		if ($debug_mode == 1)
+		if (1 == $this->params->get('debug_mode', 0)
+			&& ('Error' == $messageType || 'Warning' == $messageType))
 		{
 			$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
 		}
