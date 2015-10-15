@@ -534,7 +534,7 @@ class RedshopControllerCheckout extends RedshopController
 
 				if ($is_creditcard && !$is_redirected)
 				{
-					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid, false);
 					$msg  = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$this->setRedirect($link, $msg);
 				}

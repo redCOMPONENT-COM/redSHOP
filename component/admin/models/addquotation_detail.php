@@ -614,14 +614,14 @@ class RedshopModelAddquotation_detail extends RedshopModel
 					$chklist .= "<br /><input type='" . $display_type . "' value='" . $subproperty[$chk]->value
 						. "' name='" . $subpropertyid . "[]'  id='" . $subpropertyid
 						. "' class='inputbox' onchange='javascript:calculateOfflineTotalPrice(\""
-						. $uniqueid . "\");' />&nbsp;" . $subproperty[$chk]->text;
+						. $uniqueid . "\", true);' />&nbsp;" . $subproperty[$chk]->text;
 				}
 			}
 			else
 			{
 				$chklist = JHTML::_('select.genericlist', $new_subproperty, $subpropertyid . '[]', ' id="'
 					. $subpropertyid . '" class="inputbox" size="1" onchange="javascript:calculateOfflineTotalPrice(\''
-					. $uniqueid . '\');" ', 'value', 'text', '');
+					. $uniqueid . '\', true);" ', 'value', 'text', '');
 			}
 
 			$lists ['subproperty_id'] = $chklist;
