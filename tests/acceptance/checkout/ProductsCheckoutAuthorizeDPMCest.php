@@ -45,10 +45,10 @@ class ProductsCheckoutAuthorizeDPMCest
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
-		// @todo: commenting this part until REDSHOP-2658 is fixed
-		// $I->enablePlugin('Authorize Direct Post Method');
+
+		$I->enablePlugin('Authorize Direct Post Method');
 		$this->updateAuthorizeDPMPlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId'], $checkoutAccountInformation['md5Key']);
-		/*
+
 		$I->doAdministratorLogout();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
@@ -66,7 +66,6 @@ class ProductsCheckoutAuthorizeDPMCest
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
 		$this->checkoutProductWithAuthorizeDPMPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
-		*/
 	}
 
 	/**
