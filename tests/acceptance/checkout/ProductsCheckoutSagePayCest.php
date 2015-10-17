@@ -136,6 +136,14 @@ class ProductsCheckoutSagePayCest
 		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='British Pound']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('Configuration Saved', ['id' => 'system-message-container']);
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=configuration');
+		$I->waitForElement(["xpath" => "//a[text()='Price']"], 10);
+		$I->click(["xpath" => "//a[text()='Price']"]);
+		$I->waitForElement(["id" => "currency_code"], 10);
+		$I->click(['xpath' => "//div[@id='currency_code_chzn']/a/div/b"]);
+		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='US Dollar']"]);
+		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+		$I->see('Configuration Saved', ['id' => 'system-message-container']);
 	}
 
 	/**
