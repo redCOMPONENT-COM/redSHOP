@@ -44,10 +44,9 @@ class ProductsCheckoutSagePayCest
 			"customerName" => 'Testing Customer'
 		);
 
-		// @todo: commenting this part until REDSHOP-2659 is fixed
-		//$I->enablePlugin('SagePay Payments');
+		$I->enablePlugin('SagePay Payments');
 		$this->updateSagePayPaymentPlugin($I, $checkoutAccountInformation['vendorName'], $checkoutAccountInformation['vendorEmail'], $checkoutAccountInformation['encryptPassword']);
-		/*
+
 		$I->doAdministratorLogout();
 
 		$customerInformation = array(
@@ -97,7 +96,7 @@ class ProductsCheckoutSagePayCest
 		}
 
 		$this->checkoutProductWithSagePayPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
-		*/
+
 	}
 
 	/**
@@ -136,14 +135,6 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement(["id" => "currency_code"], 10);
 		$I->click(['xpath' => "//div[@id='currency_code_chzn']/a/div/b"]);
 		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='British Pound']"]);
-		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
-		$I->see('Configuration Saved', ['id' => 'system-message-container']);
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=configuration');
-		$I->waitForElement(["xpath" => "//a[text()='Price']"], 10);
-		$I->click(["xpath" => "//a[text()='Price']"]);
-		$I->waitForElement(["id" => "currency_code"], 10);
-		$I->click(['xpath' => "//div[@id='currency_code_chzn']/a/div/b"]);
-		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='US Dollar']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('Configuration Saved', ['id' => 'system-message-container']);
 	}
@@ -190,7 +181,7 @@ class ProductsCheckoutSagePayCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('How do you want to pay?', 30, ['xpath' => '//h1']);
+		$I->waitForElement(['xpath' => "//button[@value='VISA']"],30);
 		$I->click(['xpath' => "//button[@value='VISA']"]);
 		$I->waitForElement(['xpath' => "//input[@name='cardnumber']"],30);
 		$I->fillField(['xpath' => "//input[@name='cardnumber']"], $checkoutAccountDetail['debitCardNumber']);
