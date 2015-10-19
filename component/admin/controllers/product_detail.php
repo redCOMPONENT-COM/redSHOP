@@ -132,7 +132,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
-		if (is_array($post['product_category']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
+		if (is_array($post['product_category'])
+			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
 		{
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
