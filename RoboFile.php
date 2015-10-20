@@ -75,7 +75,7 @@ class RoboFile extends \Robo\Tasks
      *
      * @return mixed
      */
-    public function prepareSiteForSystemTests()
+    public function prepareSiteForSystemTests($use_htaccess = 0)
     {
         // Get Joomla Clean Testing sites
         if (is_dir('tests/joomla-cms3'))
@@ -94,6 +94,13 @@ class RoboFile extends \Robo\Tasks
 		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms3");
 
 		$this->say("Joomla CMS ($version) site created at tests/joomla-cms3");
+
+		// Optionally uses Joomla default htaccess file
+		if ($use_htaccess == 1)
+		{
+			$this->_copy('tests/joomla-cms3/htaccess.txt', 'tests/joomla-cms3/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms3/,g" --in-place tests/joomla-cms3/.htaccess');
+		}
 	}
 
     /**
@@ -182,9 +189,9 @@ class RoboFile extends \Robo\Tasks
      *
      * @return void
      */
-    public function runTests()
+    public function runTests($use_htaccess = 0)
     {
-        $this->prepareSiteForSystemTests();
+        $this->prepareSiteForSystemTests($use_htaccess);
 
         $this->getComposer();
 
