@@ -10,7 +10,7 @@ $I->wantTo('Test Product Checkout on Front End with Braintree Payment Plugin');
 $I->doAdministratorLogin();
 $pluginName = 'Braintree';
 $pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_braintree/';
-$I->installExtensionFromDirectory($pathToPlugin, 'Plugin');
+$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 $checkoutAccountInformation = array(
 	"merchantID" => "2xvzzjy89sx3m2md",
