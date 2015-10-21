@@ -46,8 +46,9 @@ class PaymentBraintreePluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(['xpath' => "//input[@id='jform_params_public_key']"], $publicKey);
 		$I->fillField(['xpath' => "//input[@id='jform_params_private_key']"], $privateKey);
 		$I->click(['link' => 'Advanced']);
-		$I->click(['xpath' => "//li//label[text()='Visa']"]);
-		$I->click(['xpath' => "//li//label[text()='MasterCard']"]);
+		$I->waitForElement(['xpath' => "//input[@value='VISA']"],30);
+		$I->click(['xpath' => "//input[@value='VISA']"]);
+		$I->click(['xpath' => "//input[@value='MC']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('successfully saved', ['id' => 'system-message-container']);
 	}
