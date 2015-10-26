@@ -1411,27 +1411,33 @@ class RedshopModelProduct_Detail extends RedshopModel
 				copy($path . $pdata->product_back_full_image, $path . $new_product_back_full_image);
 				copy($path . $pdata->product_back_thumb_image, $path . $new_product_back_thumb_image);
 
-				$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_product_related'))
-					->where('product_id = ' . (int) $pdata->product_id);
-				$relatedProductData = $db->setQuery($query)->loadObjectList();
-
-				if ($relatedProductData)
+				// Copy related product only when not send in POST data
+				// When POST data is set related product will be created using above store method.
+				if (!isset($post['related_product']))
 				{
-					foreach ($relatedProductData as $relatedData)
+					$query = $db->getQuery(true)
+								->select('*')
+								->from($db->qn('#__redshop_product_related'))
+								->where('product_id = ' . (int) $pdata->product_id);
+
+					$relatedProductData = $db->setQuery($query)->loadObjectList();
+
+					if ($relatedProductData)
 					{
-						$query = $db->getQuery(true)
-							->insert($db->qn('#__redshop_product_related'))
-							->set('related_id = ' . (int) $relatedData->related_id)
-							->set('product_id = ' . (int) $row->product_id)
-							->set('ordering = ' . (int) $relatedData->ordering);
-
-						if (!$db->setQuery($query)->execute())
+						foreach ($relatedProductData as $relatedData)
 						{
-							$this->setError($db->getErrorMsg());
+							$query = $db->getQuery(true)
+								->insert($db->qn('#__redshop_product_related'))
+								->set('related_id = ' . (int) $relatedData->related_id)
+								->set('product_id = ' . (int) $row->product_id)
+								->set('ordering = ' . (int) $relatedData->ordering);
 
-							return false;
+							if (!$db->setQuery($query)->execute())
+							{
+								$this->setError($db->getErrorMsg());
+
+								return false;
+							}
 						}
 					}
 				}
