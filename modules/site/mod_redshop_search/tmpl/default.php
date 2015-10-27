@@ -117,7 +117,15 @@ if ($enableAjaxsearch)
 			if (document.getElementById('search_type'))
 			{
 				var searchType = document.getElementById('search_type');
-				urlArg[i++] = 'search_type=' + searchType.options[searchType.selectedIndex].value;
+
+				if ('hidden' == searchType.type)
+				{
+					urlArg[i++] = 'search_type=' + searchType.value;
+				}
+				else
+				{
+					urlArg[i++] = 'search_type=' + searchType.options[searchType.selectedIndex].value;
+				}
 			}
 
 			if (document.getElementById('category_id'))
