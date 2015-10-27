@@ -27,6 +27,9 @@ class ProductsCheckoutEWAYCest
 	 */
 	public function testEWAYPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
+		// @todo this test is skiped until REDSHOP-2678 is resolved
+		$scenario->skip();
+		/*
 		$I->wantTo('Test Product Checkout on Front End with EWAY Payment Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_eway/';
@@ -60,6 +63,7 @@ class ProductsCheckoutEWAYCest
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
 		$this->checkoutProductWithEWAYPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		*/
 	}
 
 	/**
@@ -137,7 +141,7 @@ class ProductsCheckoutEWAYCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->waitForText('Order placed', 60, ['xpath' => "//div[@class='alert alert-success']"]);
 		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 }
