@@ -137,7 +137,7 @@ class ProductsCheckoutEWAYCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->waitForText('Order placed', 60, ['xpath' => "//div[@class='alert alert-success']"]);
 		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 }
