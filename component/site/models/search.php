@@ -62,7 +62,16 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($layout == 'newproduct')
 		{
-			$cid = $item->query['categorytemplate'];
+			$result = $item->query['template_id'];
+
+			if ($result != 0)
+			{
+				$templateid = $result;
+			}
+			else
+			{
+				$cid = $item->query['categorytemplate'];
+			}
 		}
 		elseif ($layout == 'productonsale')
 		{
