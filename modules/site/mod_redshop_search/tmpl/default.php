@@ -30,8 +30,10 @@ if ($modsearchitemid != "")
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $Itemid); ?>" method="post"
-      name="redSHOPSEARCH">
+<form
+	action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $Itemid); ?>"
+	method="get"
+    name="redSHOPSEARCH">
 	<div class="product_search">
 		<?php if ($showProductsearchtitle == 'yes'): ?>
 			<div class="product_search_title">
