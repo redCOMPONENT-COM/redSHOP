@@ -131,6 +131,7 @@ class RedshopControllerCart extends RedshopController
 						$post['attribute_data']              = $acc_attribute_data[$i];
 						$post['property_data']               = $acc_property_data[$i];
 						$post['subproperty_data']            = $acc_subproperty_data[$i];
+						$post['accessory_id']                = $accessory_data[$i];
 
 						$result = $this->_carthelper->addProductToCart($post);
 
