@@ -5957,8 +5957,13 @@ class rsCarthelper
 			$quantity = $data['quantity'];
 			$product_data = $this->_producthelper->getProductById($product_id);
 
-			if (isset($data['parent_accessory_product_id']) && $data['parent_accessory_product_id'] != 0)
+			if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE
+				&& isset($data['parent_accessory_product_id'])
+				&& $data['parent_accessory_product_id'] != 0)
 			{
+				$accessoryInfo = $this->_producthelper->getProductAccessory($data['accessory_id']);
+				$product_data->product_price = $accessoryInfo[0]->accessory_price;
+
 				$tempdata = $this->_producthelper->getProductById($data['parent_accessory_product_id']);
 				$producttemplate = $redTemplate->getTemplate("product", $tempdata->product_template);
 				$accessory_template = $this->_producthelper->getAccessoryTemplate($producttemplate[0]->template_desc);

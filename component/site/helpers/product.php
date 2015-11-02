@@ -3683,21 +3683,13 @@ class producthelper
 			$groupby = " GROUP BY a.child_product_id";
 		}
 
-		if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
-		{
-			$switchquery = ", IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-				. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) AS newaccessory_price ";
-		}
-		else
-		{
-			$switchquery = ", CASE a.oprand "
-				. "WHEN '+' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-				. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) + accessory_price "
-				. "WHEN '-' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-				. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) - accessory_price "
-				. "WHEN '=' THEN accessory_price "
-				. "END AS newaccessory_price ";
-		}
+		$switchquery = ", CASE a.oprand "
+			. "WHEN '+' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
+			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) + accessory_price "
+			. "WHEN '-' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
+			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) - accessory_price "
+			. "WHEN '=' THEN accessory_price "
+			. "END AS newaccessory_price ";
 
 		$mainpricequery = "IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
 			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) AS accessory_main_price ";
@@ -4452,7 +4444,8 @@ class producthelper
 
 					if (!strstr($accessory_div, "{without_vat}"))
 					{
-						$accessorypricelist = $this->getAccessoryPrice($product_id,
+						$accessorypricelist = $this->getAccessoryPrice(
+							$product_id,
 							$accessory[$a]->newaccessory_price,
 							$accessory[$a]->accessory_main_price
 						);
