@@ -121,7 +121,7 @@ class RedshopModelQuotation extends RedshopModelList
 				)
 			)
 			->from($db->qn('#__redshop_quotation', 'q'))
-			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON q.user_id = uf.user_id AND uf.address_type = ' . $db->q('BT'))
+			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON q.user_info_id = uf.users_info_id AND uf.address_type = ' . $db->q('BT'))
 			->leftJoin($db->qn('#__redshop_quotation_item', 'qi') . ' ON qi.quotation_id = q.quotation_id');
 
 		if ($filter = $this->getState('filter'))
