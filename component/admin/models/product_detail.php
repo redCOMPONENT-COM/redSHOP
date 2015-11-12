@@ -1529,7 +1529,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if ($imageName && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $imageName))
 		{
 			$newImageName = strstr($imageName, '_') ? strstr($imageName, '_') : $imageName;
-			$imageName = RedShopHelperImages::cleanFileName($newImageName);
+			$newImageName = $imageName = RedShopHelperImages::cleanFileName($newImageName);
 		}
 		else
 		{
@@ -4307,7 +4307,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copy_image_from_path($imagePath, $section, $section_id = 0)
 	{
-		$src = JPATH_ROOT . '/' . $imagePath;
+		$src = REDSHOP_FRONT_IMAGES_RELPATH . $imagePath;
 		$imgname = RedShopHelperImages::cleanFileName($imagePath);
 		$property_image = $section_id . '_' . JFile::getName($imgname);
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
