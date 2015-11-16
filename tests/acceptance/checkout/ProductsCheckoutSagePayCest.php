@@ -44,11 +44,10 @@ class ProductsCheckoutSagePayCest
 			"customerName" => 'Testing Customer'
 		);
 
-		// @todo: commenting this part until REDSHOP-2659 is fixed
-		// $I->enablePlugin('SagePay Payments');
+		$I->enablePlugin('SagePay Payments');
 		$this->updateSagePayPaymentPlugin($I, $checkoutAccountInformation['vendorName'], $checkoutAccountInformation['vendorEmail'], $checkoutAccountInformation['encryptPassword']);
 
-		/*
+
 		$I->doAdministratorLogout();
 
 		$customerInformation = array(
@@ -98,7 +97,7 @@ class ProductsCheckoutSagePayCest
 		}
 
 		$this->checkoutProductWithSagePayPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
-		*/
+
 	}
 
 	/**
@@ -120,7 +119,7 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement($pluginManagerPage->searchResultPluginName('SagePay Payments'), 30);
 		$I->checkExistenceOf('SagePay Payments');
 		$I->click(['id' => "cb0"]);
-		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
+		$I->clickToolbarButton('Edit');
 		$I->waitForElement(['id' => "jform_params_sagepay_vendorname"], 30);
 		$I->fillField(['id' => "jform_params_sagepay_vendorname"], $vendorName);
 		$I->fillField(['id' => "jform_params_sagepay_vendoremail"], $vendorEmail);
@@ -129,7 +128,7 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement(['xpath' => "//li[contains(text(), 'Test')]"],10);
 		$I->click(['xpath' => "//li[contains(text(), 'Test')]"]);
 
-		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+		$I->clickToolbarButton('Save & Close');
 		$I->see('successfully saved', ['id' => 'system-message-container']);
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=configuration');
 		$I->waitForElement(["xpath" => "//a[text()='Price']"], 10);
@@ -137,16 +136,7 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement(["id" => "currency_code"], 10);
 		$I->click(['xpath' => "//div[@id='currency_code_chzn']/a/div/b"]);
 		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='British Pound']"]);
-		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
-		$I->see('Configuration Saved', ['id' => 'system-message-container']);
-		// @todo: review following lines when REDSHOP-2659 is fixed
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=configuration');
-		$I->waitForElement(["xpath" => "//a[text()='Price']"], 10);
-		$I->click(["xpath" => "//a[text()='Price']"]);
-		$I->waitForElement(["id" => "currency_code"], 10);
-		$I->click(['xpath' => "//div[@id='currency_code_chzn']/a/div/b"]);
-		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='US Dollar']"]);
-		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+		$I->clickToolbarButton('Save & Close');
 		$I->see('Configuration Saved', ['id' => 'system-message-container']);
 	}
 
@@ -192,7 +182,7 @@ class ProductsCheckoutSagePayCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForElement(['xpath' => "//button[@value='VISA']"], 60);
+		$I->waitForElement(['xpath' => "//button[@value='VISA']"], 90);
 		$I->click(['xpath' => "//button[@value='VISA']"]);
 		$I->waitForElement(['xpath' => "//input[@name='cardnumber']"],30);
 		$I->fillField(['xpath' => "//input[@name='cardnumber']"], $checkoutAccountDetail['debitCardNumber']);
@@ -212,7 +202,7 @@ class ProductsCheckoutSagePayCest
 		$I->waitForElement(["id" => "currency_code"], 10);
 		$I->click(['xpath' => "//div[@id='currency_code_chzn']/a/div/b"]);
 		$I->click(['xpath' => "//div[@id='currency_code_chzn']//li[text()='US Dollar']"]);
-		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+		$I->clickToolbarButton('Save & Close');
 		$I->see('Configuration Saved', ['id' => 'system-message-container']);
 	}
 }
