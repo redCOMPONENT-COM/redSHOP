@@ -77,7 +77,7 @@ class plgEconomicEconomic extends JPlugin
 			try
 			{
 				$this->client = new SoapClient(
-					'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL',
+					'https://soap.reviso.com/api1/?WSDL',
 					array(
 						"trace" => 1,
 						"exceptions" => 1,
