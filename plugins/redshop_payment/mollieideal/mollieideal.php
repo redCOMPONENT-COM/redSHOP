@@ -55,7 +55,7 @@ class plgRedshop_paymentMollieideal extends JPlugin
 					'data'   => $data,
 					'params' => $this->params
 				),
-				dirname(__DIR__) . '/mollieideal/layouts'
+				__DIR__ . '/layouts'
 			);
 		}
 		else if (2 == $step)
@@ -78,15 +78,15 @@ class plgRedshop_paymentMollieideal extends JPlugin
 			 *   issuer        The customer's bank. If empty the customer can select it later.
 			 */
 			$payment = $mollie->payments->create(array(
-				"amount"       => $data['order']->order_total,
-				"method"       => Mollie_API_Object_Method::IDEAL,
-				"description"  => JText::_('PLG_REDSHOP_PAYMENT_MOLLIEIDEAL_PAYMENT_DESCRIPTION'),
-				"webhookUrl"   => $webhookUrl,
-				"redirectUrl"  => $redirectUrl,
-				"metadata"     => array(
-					"order_id" => $data['order_id'],
+					"amount"      => $data['order']->order_total,
+					"method"      => Mollie_API_Object_Method::IDEAL,
+					"description" => JText::_('PLG_REDSHOP_PAYMENT_MOLLIEIDEAL_PAYMENT_DESCRIPTION'),
+					"webhookUrl"  => $webhookUrl,
+					"redirectUrl" => $redirectUrl,
+					"metadata"    => array(
+					"order_id"    => $data['order_id'],
 				),
-				"issuer"       => !empty($_POST["issuer"]) ? $_POST["issuer"] : NULL
+				"issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : NULL
 			));
 
 			// Send the customer off to complete the payment.
@@ -114,7 +114,7 @@ class plgRedshop_paymentMollieideal extends JPlugin
 		 *
 		 * @link  https://www.mollie.com/beheer/account/profielen/
 		 */
-		require_once JPATH_SITE . '/plugins/redshop_payment/mollieideal/library/initialize.php';
+		require_once __DIR__ . '/library/initialize.php';
 
 		$transactioId = JFactory::getApplication()->input->getString('id');
 
