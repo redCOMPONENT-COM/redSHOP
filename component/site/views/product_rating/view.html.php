@@ -45,10 +45,11 @@ class RedshopViewProduct_Rating extends RedshopView
 			return;
 		}
 
-		$this->params    = $app->getParams('com_redshop');
-		$model           = $this->getModel('product_rating');
-		$this->productId = $app->input->getInt('product_id', 0);
-		$rate            = $app->input->getInt('rate', 0);
+		$this->params      = $app->getParams('com_redshop');
+		$model             = $this->getModel('product_rating');
+		$this->productId   = $app->input->getInt('product_id', 0);
+		$rate              = $app->input->getInt('rate', 0);
+		$this->productInfo = RedshopHelperProduct::getProductById($this->productId);
 
 		if (!$rate && $user->id && $model->checkRatedProduct($this->productId, $user->id))
 		{
