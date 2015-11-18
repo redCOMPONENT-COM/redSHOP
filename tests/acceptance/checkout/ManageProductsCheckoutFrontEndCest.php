@@ -25,7 +25,7 @@ class ManageProductsCheckoutFrontEndCest
 	 *
 	 * @return void
 	 */
-	public function testProductsCheckoutFrondEnd(AcceptanceTester $I, $scenario)
+	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
 		$I->wantTo('Test Product Checkout on Front End with Bank Transfer');
