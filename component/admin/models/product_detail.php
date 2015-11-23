@@ -1411,27 +1411,33 @@ class RedshopModelProduct_Detail extends RedshopModel
 				copy($path . $pdata->product_back_full_image, $path . $new_product_back_full_image);
 				copy($path . $pdata->product_back_thumb_image, $path . $new_product_back_thumb_image);
 
-				$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_product_related'))
-					->where('product_id = ' . (int) $pdata->product_id);
-				$relatedProductData = $db->setQuery($query)->loadObjectList();
-
-				if ($relatedProductData)
+				// Copy related product only when not send in POST data
+				// When POST data is set related product will be created using above store method.
+				if (!isset($post['related_product']))
 				{
-					foreach ($relatedProductData as $relatedData)
+					$query = $db->getQuery(true)
+								->select('*')
+								->from($db->qn('#__redshop_product_related'))
+								->where('product_id = ' . (int) $pdata->product_id);
+
+					$relatedProductData = $db->setQuery($query)->loadObjectList();
+
+					if ($relatedProductData)
 					{
-						$query = $db->getQuery(true)
-							->insert($db->qn('#__redshop_product_related'))
-							->set('related_id = ' . (int) $relatedData->related_id)
-							->set('product_id = ' . (int) $row->product_id)
-							->set('ordering = ' . (int) $relatedData->ordering);
-
-						if (!$db->setQuery($query)->execute())
+						foreach ($relatedProductData as $relatedData)
 						{
-							$this->setError($db->getErrorMsg());
+							$query = $db->getQuery(true)
+								->insert($db->qn('#__redshop_product_related'))
+								->set('related_id = ' . (int) $relatedData->related_id)
+								->set('product_id = ' . (int) $row->product_id)
+								->set('ordering = ' . (int) $relatedData->ordering);
 
-							return false;
+							if (!$db->setQuery($query)->execute())
+							{
+								$this->setError($db->getErrorMsg());
+
+								return false;
+							}
 						}
 					}
 				}
@@ -1523,7 +1529,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if ($imageName && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $imageName))
 		{
 			$newImageName = strstr($imageName, '_') ? strstr($imageName, '_') : $imageName;
-			$imageName = RedShopHelperImages::cleanFileName($newImageName);
+			$newImageName = $imageName = RedShopHelperImages::cleanFileName($newImageName);
 		}
 		else
 		{
@@ -4301,7 +4307,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copy_image_from_path($imagePath, $section, $section_id = 0)
 	{
-		$src = JPATH_ROOT . '/' . $imagePath;
+		$src = REDSHOP_FRONT_IMAGES_RELPATH . $imagePath;
 		$imgname = RedShopHelperImages::cleanFileName($imagePath);
 		$property_image = $section_id . '_' . JFile::getName($imgname);
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
