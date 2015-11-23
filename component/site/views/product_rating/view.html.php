@@ -32,9 +32,9 @@ class RedshopViewProduct_Rating extends RedshopView
 	public function display ($tpl = null)
 	{
 		$this->state = $this->get('State');
-		$this->form = $this->get('Form');
+		$this->form  = $this->get('Form');
 
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
 		// Preform security checks
@@ -45,14 +45,13 @@ class RedshopViewProduct_Rating extends RedshopView
 			return;
 		}
 
-		$params        = $app->getParams('com_redshop');
-		$model = $this->getModel('product_rating');
-		$productId   = $app->input->getInt('product_id', 0);
-		$this->params = $params;
-		$this->productId = $productId;
-		$rate = $app->input->getInt('rate', 0);
+		$this->params      = $app->getParams('com_redshop');
+		$model             = $this->getModel('product_rating');
+		$this->productId   = $app->input->getInt('product_id', 0);
+		$rate              = $app->input->getInt('rate', 0);
+		$this->productInfo = RedshopHelperProduct::getProductById($this->productId);
 
-		if (!$rate && $user->id && $model->checkRatedProduct($productId, $user->id))
+		if (!$rate && $user->id && $model->checkRatedProduct($this->productId, $user->id))
 		{
 			$app->input->set('rate', 1);
 			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');

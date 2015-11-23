@@ -7,7 +7,7 @@
  */
 use \AcceptanceTester;
 /**
- * Class ProductsCheckoutAuthorizeDPMCest
+ * Class ProductsCheckoutEWAYCest
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ use \AcceptanceTester;
  *
  * @since    1.4
  */
-class ProductsCheckoutAuthorizeDPMCest
+class ProductsCheckoutEWAYCest
 {
 	/**
 	 * Test to Verify the Payment Plugin
@@ -25,28 +25,27 @@ class ProductsCheckoutAuthorizeDPMCest
 	 *
 	 * @return void
 	 */
-	public function testAuthorizeDPMPaymentPlugin(AcceptanceTester $I, $scenario)
+	public function testEWAYPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Checkout on Front End with Authorize DPM Net Payment Plugin');
+		// @todo this test is skiped until REDSHOP-2678 is resolved
+		$scenario->skip();
+		/*
+		$I->wantTo('Test Product Checkout on Front End with EWAY Payment Plugin');
 		$I->doAdministratorLogin();
-		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize_dpm/';
+		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_eway/';
 		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
-			"accessId" => "5rCF42xJ",
-			"transactionId" => "336VyCe7R62LyjZZ",
-			"secretQuestion" => "Simon",
-			"md5Key" => "Simon",
-			"password" => "Pull416!t",
-			"debitCardNumber" => "4012888818888",
+			"customerID" => "87654321",
+			"debitCardNumber" => "4444333322221111",
 			"cvv" => "1234",
 			"cardExpiryMonth" => '2',
 			"cardExpiryYear" => '2016',
 			"shippingAddress" => "some place on earth",
 			"customerName" => 'Testing Customer'
 		);
-		$I->enablePlugin('Authorize Direct Post Method');
-		$this->updateAuthorizeDPMPlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId'], $checkoutAccountInformation['md5Key']);
+		$I->enablePlugin('E-Way Payments');
+		$this->updateEWAYPlugin($I, $checkoutAccountInformation['customerID']);
 		$I->doAdministratorLogout();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
@@ -63,43 +62,39 @@ class ProductsCheckoutAuthorizeDPMCest
 		);
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
-		$this->checkoutProductWithAuthorizeDPMPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$this->checkoutProductWithEWAYPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		*/
 	}
 
 	/**
 	 * Function to Update the Payment Plugin
 	 *
-	 * @param   AcceptanceTester  $I               Actor Class Object
-	 * @param   String            $accessId        Access Id of API
-	 * @param   String            $transactionKey  Transaction Key
-	 * @param   String            $md5Key          MD5 Key for the Plugin
+	 * @param   AcceptanceTester  $I           Actor Class Object
+	 * @param   String            $customerId  Access Id of API
 	 *
 	 * @return void
 	 */
-	private function updateAuthorizeDPMPlugin(AcceptanceTester $I, $accessId, $transactionKey, $md5Key)
+	private function updateEWAYPlugin(AcceptanceTester $I, $customerId)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->searchForItem('Authorize Direct Post Method');
+		$I->searchForItem('E-Way Payments');
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize Direct Post Method'), 30);
-		$I->checkExistenceOf('Authorize Direct Post Method');
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('E-Way Payments'), 30);
+		$I->checkExistenceOf('E-Way Payments');
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['id' => "jform_params_access_id"], 30);
-		$I->fillField(['id' => "jform_params_access_id"], $accessId);
-		$I->fillField(['id' => "jform_params_transaction_id"], $transactionKey);
-		$I->fillField(['id' => "jform_params_md5_key"], $md5Key);
-		$I->click(['xpath' => "//div[@id='jform_params_is_test_chzn']/a"]);
+		$I->waitForElement(['id' => "jform_params_eway_customer_id"], 30);
+		$I->fillField(['id' => "jform_params_eway_customer_id"], $customerId);
 
-		// Choosing Test Mode to Yes
-		$I->click(['xpath' => "//div[@id='jform_params_is_test_chzn']/div/ul/li[contains(text(), 'Yes')]"]);
+		$I->click(['xpath' => "//li//label[text()='Visa']"]);
+		$I->click(['xpath' => "//li//label[text()='MasterCard']"]);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('successfully saved', ['id' => 'system-message-container']);
 	}
 
 	/**
-	 * Function to Test Checkout Process of a Product using the Authorize DPM Payment Plugin
+	 * Function to Test Checkout Process of a Product using the EWAY Payment Plugin
 	 *
 	 * @param   AcceptanceTester  $I                      Actor Class Object
 	 * @param   String            $scenario               Scenario Variable
@@ -111,7 +106,7 @@ class ProductsCheckoutAuthorizeDPMCest
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithAuthorizeDPMPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	private function checkoutProductWithEWAYPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage('/index.php?option=com_redshop');
 		$I->waitForElement(['id' => "redshopcomponent"], 30);
@@ -134,7 +129,7 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
 		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
-		$I->click(['xpath' => "//div[@id='rs_payment_authorize_dpm']//label//input"]);
+		$I->click(['xpath' => "//div[@id='rs_payment_eway']//label//input"]);
 		$I->click("Checkout");
 		$I->waitForElement(['id' => "order_payment_name"], 10);
 		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
@@ -146,7 +141,7 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('This transaction has been approved.', 15, ['xpath' => "//td"]);
-		$I->see('This transaction has been approved.', ['xpath' => "//td"]);
+		$I->waitForText('Order placed', 60, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->see('Order placed', "//div[@class='alert alert-success']");
 	}
 }

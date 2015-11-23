@@ -75,9 +75,14 @@ class RedshopHelperPdf
 				$options['format'] = 'A5';
 			}
 
-			if (JLoader::import('helper.' . strtolower($client), JPATH_REDSHOP_LIBRARY))
+			if (!isset($options['helper']))
 			{
-				$className = 'RedshopHelper' . $client;
+				$options['helper'] = $client;
+			}
+
+			if (JLoader::import('helper.' . strtolower($options['helper']), JPATH_REDSHOP_LIBRARY))
+			{
+				$className = 'RedshopHelper' . $options['helper'];
 			}
 
 			return new $className($options['orientation'], $options['unit'], $options['format']);

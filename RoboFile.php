@@ -75,7 +75,7 @@ class RoboFile extends \Robo\Tasks
      *
      * @return mixed
      */
-    public function prepareSiteForSystemTests()
+    public function prepareSiteForSystemTests($use_htaccess = 0)
     {
         // Get Joomla Clean Testing sites
         if (is_dir('tests/joomla-cms3'))
@@ -83,9 +83,25 @@ class RoboFile extends \Robo\Tasks
             $this->taskDeleteDir('tests/joomla-cms3')->run();
         }
 
-        $this->_exec('git clone -b staging --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms3');
-        $this->say('Joomla CMS site created at tests/joomla-cms3');
-    }
+		$version = 'staging';
+
+		/*
+		 * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
+		 * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
+		 */
+		$version = '3.4.4';
+
+		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms3");
+
+		$this->say("Joomla CMS ($version) site created at tests/joomla-cms3");
+
+		// Optionally uses Joomla default htaccess file
+		if ($use_htaccess == 1)
+		{
+			$this->_copy('tests/joomla-cms3/htaccess.txt', 'tests/joomla-cms3/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms3/,g" --in-place tests/joomla-cms3/.htaccess');
+		}
+	}
 
     /**
      * Executes Selenium System Tests in your machine
@@ -173,9 +189,9 @@ class RoboFile extends \Robo\Tasks
      *
      * @return void
      */
-    public function runTests()
+    public function runTests($use_htaccess = 0)
     {
-        $this->prepareSiteForSystemTests();
+        $this->prepareSiteForSystemTests($use_htaccess);
 
         $this->getComposer();
 
@@ -207,6 +223,15 @@ class RoboFile extends \Robo\Tasks
              ->arg('tests/acceptance/administrator/')
              ->run()
              ->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/checkout/')
+			->run()
+			->stopOnFail();
 
         $this->taskCodecept()
              ->arg('--steps')
