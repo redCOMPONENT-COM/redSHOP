@@ -12,6 +12,7 @@
         "codegyre/robo": "~0.5",
         "redcomponent/robo": "dev-master",
         "redcomponent/teststatistics": "dev-master",
+        "fzaninotto/faker": "^1.5",
         "cloudinary/cloudinary_php": "1.1.1",
         "knplabs/github-api": "1.4.12",
         "se/selenium-server-standalone": "^2.46"
