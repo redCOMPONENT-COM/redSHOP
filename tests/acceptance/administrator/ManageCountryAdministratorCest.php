@@ -42,7 +42,7 @@ class ManageCountryAdministratorCest
 	}
 
 	/**
-	 * Function to Test Category Updation in the Administrator
+	 * Function to Test Country Updation in the Administrator
 	 *
 	 * @depends createCountry
 	 */
