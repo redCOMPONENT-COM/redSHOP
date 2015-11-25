@@ -290,7 +290,7 @@ class leftmenu
 		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=order', 'COM_REDSHOP_ORDER_LISTING');
-			echo $this->generateMenuItem($redhelper->sslLink('index.php?option=com_redshop&view=addorder_detail'), 'COM_REDSHOP_ADD_ORDER');
+			echo $this->generateMenuItem(RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'), 'COM_REDSHOP_ADD_ORDER');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=order&layout=labellisting', 'COM_REDSHOP_DOWNLOAD_LABEL');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=orderstatus', 'COM_REDSHOP_ORDERSTATUS_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=opsearch', 'COM_REDSHOP_PRODUCT_ORDER_SEARCH');
