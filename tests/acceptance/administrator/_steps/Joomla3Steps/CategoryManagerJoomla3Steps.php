@@ -106,6 +106,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
+		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter,30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
 		$I->click(\CategoryManagerJ3Page::$categorySearch);
 
@@ -130,6 +131,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
+		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter,30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
 		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
@@ -159,6 +161,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
+		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter,30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
 		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
