@@ -3012,14 +3012,14 @@ class producthelper
 
 							if (trim($data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->field_title . " : " . $data_txt;
+								$resultArr[] = $userfield[$j]->field_title . " : " . stripslashes($data_txt);
 							}
 						}
 						else
 						{
 							if (trim($userfield[$j]->data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->field_title . " : " . $userfield[$j]->data_txt;
+								$resultArr[] = $userfield[$j]->field_title . " : " . stripslashes($userfield[$j]->data_txt);
 							}
 						}
 					}
