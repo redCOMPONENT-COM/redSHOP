@@ -17,7 +17,7 @@ $mediaHelper = new redMediahelper;
 
 if ($folder == '')
 {
-	$basePath = "components " . DIRECTORY_SEPARATOR . "com_redshop" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR. "images" . DIRECTORY_SEPARATOR;
+	$basePath = "components" . DIRECTORY_SEPARATOR . "com_redshop" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR. "images" . DIRECTORY_SEPARATOR;
 
 	if ($fdl)
 	{
