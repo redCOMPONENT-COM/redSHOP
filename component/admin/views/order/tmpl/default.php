@@ -50,8 +50,8 @@ JPluginHelper::importPlugin('redshop_product');
 
 		if (pressbutton == 'add')
 		{
-			<?php      $link = 'index.php?option=com_redshop&view=addorder_detail';
-				$link = $redhelper->sslLink($link);
+		<?php
+			$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail');
 		?>
 			window.location = '<?php echo $link;?>';
 			return;
@@ -214,7 +214,7 @@ JPluginHelper::importPlugin('redshop_product');
 		$row = $this->orders[$i];
 		$row->id = $row->order_id;
 		$link = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
-		$link = $redhelper->sslLink($link);
+		$link = RedshopHelperUtility::getSSLLink($link);
 
 		/**
 		 * This is an event that is using into back-end order listing page. In to grid column, below check-box.

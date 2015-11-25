@@ -59,13 +59,13 @@ class RedshopControllerUser_detail extends RedshopController
 		{
 			if ($apply == 1)
 			{
-				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id;
-				$link = $this->redhelper->sslLink($link);
+				$link = RedshopHelperUtility::getSSLLink(
+						'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
+					);
 			}
 			else
 			{
-				$link = 'index.php?option=com_redshop&view=user';
-				$link = $this->redhelper->sslLink($link, 0);
+				$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=user', 0);
 			}
 		}
 
@@ -165,7 +165,7 @@ class RedshopControllerUser_detail extends RedshopController
 		}
 
 		// Not to apply ssl (passed Zero)
-		$link = $this->redhelper->sslLink($link, 0);
+		$link = RedshopHelperUtility::getSSLLink($link, 0);
 		$this->setRedirect($link, $msg);
 	}
 
