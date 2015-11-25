@@ -5988,6 +5988,7 @@ class rsCarthelper
 			$calc_output = "";
 			$calc_output_array = array();
 			$product_price_tax = 0;
+			$product_vat_price = 0;
 
 			if (!empty($discountArr))
 			{
@@ -5995,7 +5996,7 @@ class rsCarthelper
 				$calc_output_array = $discountArr[1];
 
 				// Calculate price without VAT
-				$data['product_price'] = $discountArr[2] + $discountArr[3];
+				$data['product_price'] = $discountArr[2];
 
 				$cart[$idx]['product_price_excl_vat'] = $discountArr[2];
 				$product_vat_price += $discountArr[3];
