@@ -5225,24 +5225,22 @@ class producthelper
 					$chklist           = "";
 					$display_type      = $attributes[$a]->display_type;
 
-					if ($attributes[$a]->allow_multiple_selection)
-					{
-						$display_type = 'checkbox';
-					}
-
-					if ($display_type == 'checkbox' || $display_type == 'radio')
+					if ($display_type == 'radio')
 					{
 						unset($new_property[0]);
 
-						$htmlAttr = 'attribute_name="' . urldecode($attributes[$a]->attribute_name) . '"'
-									. ' required="' . $attributes [$a]->attribute_required . '"'
-									. ' onClick="javascript:changePropertyDropdown(\'' . $product_id . '\',\'' . $accessory_id . '\',\'' . $relproduct_id . '\',\'' . $attributes [$a]->value . '\',this.value,\'' . $mpw_thumb . '\',\'' . $mph_thumb . '\');"';
+						$listType = ($attributes[$a]->allow_multiple_selection) ? 'checklist' : 'radiolist';
 
 						$chklist = JHtml::_(
-							'select.radiolist',
+							'redshopselect.' . $listType,
 							$new_property,
 							$propertyid . '[]',
-							$htmlAttr,
+							array(
+								'cssClassSuffix' => ' no-group',
+								'attribute_name' => urldecode($attributes[$a]->attribute_name),
+								'required'       => $attributes[$a]->attribute_required,
+								'onClick'        => "javascript:changePropertyDropdown('" . $product_id . "','" . $accessory_id . "','" . $relproduct_id . "', '" . $attributes[$a]->value . "',this.value, '" . $mpw_thumb . "', '" . $mph_thumb . "');"
+							),
 							'value',
 							'text',
 							$selectedproperty,
@@ -5661,13 +5659,13 @@ class producthelper
 					$display_type = $subproperty[0]->setdisplay_type;
 				}
 
-				if ($subproperty[0]->setmulti_selected)
+				if ($display_type == 'radio')
 				{
-					$display_type = 'checkbox';
-				}
+					if ($subproperty[0]->setmulti_selected)
+					{
+						$display_type = 'checkbox';
+					}
 
-				if ($display_type == 'checkbox' || $display_type == 'radio')
-				{
 					for ($chk = 0; $chk < count($subproperty); $chk++)
 					{
 						$checked = "";
