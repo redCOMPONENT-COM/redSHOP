@@ -55,6 +55,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
 		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see($manufacturerName, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
@@ -79,7 +80,23 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeManufacturerState($name, $state = 'unpublish')
 	{
-		$this->changeState(new \ManufacturerManagerJoomla3Page, $name, $state, \ManufacturerManagerJoomla3Page::$firstResultRow, \ManufacturerManagerJoomla3Page::$selectFirst);
+		$I = $this;
+		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
+		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
+
+		if ($state == 'unpublish')
+		{
+			$I->click("Unpublish");
+		}
+		else
+		{
+			$I->click("Publish");
+		}
+
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -92,7 +109,20 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchManufacturer($name, $functionName = 'Search')
 	{
-		$this->search(new \ManufacturerManagerJoomla3Page, $name, \ManufacturerManagerJoomla3Page::$firstResultRow, $functionName);
+		$I = $this;
+		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->click(['link' => 'ID']);
+
+		if ($functionName == 'Search')
+		{
+			$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		}
+		else
+		{
+			$I->dontSee($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		}
+
+		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -104,7 +134,23 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function getManufacturerState($name)
 	{
-		$result = $this->getState(new \ManufacturerManagerJoomla3Page, $name, \ManufacturerManagerJoomla3Page::$firstResultRow, \ManufacturerManagerJoomla3Page::$manufacturerStatePath);
+		$I = $this;
+		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->click(['link' => 'ID']);
+		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		$text = $I->grabAttributeFrom(\ManufacturerManagerJoomla3Page::$manufacturerStatePath, 'onclick');
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+
+		if (strpos($text, 'publish') > 0)
+		{
+			$result = 'unpublished';
+		}
+
+		$I->click(['link' => 'ID']);
 
 		return $result;
 	}
@@ -118,6 +164,14 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteManufacturer($name)
 	{
-		$this->delete(new \ManufacturerManagerJoomla3Page, $name, \ManufacturerManagerJoomla3Page::$firstResultRow, \ManufacturerManagerJoomla3Page::$selectFirst);
+		$I = $this;
+		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
+		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
+		$I->click('Delete');
+		$I->dontSee($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		$I->click(['link' => 'ID']);
 	}
 }
