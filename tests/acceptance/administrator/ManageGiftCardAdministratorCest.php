@@ -73,7 +73,7 @@ class ManageGiftCardAdministratorCest
 	 *
 	 * @depends changeGiftCardState
 	 */
-	public function deleteDiscount(AcceptanceTester $I, $scenario)
+	public function deleteGiftCard(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Deletion of Gift Card in Administrator');
 		$I->doAdministratorLogin();
