@@ -2874,7 +2874,7 @@ class producthelper
 	 */
 	public function checkProductDownload($pid, $return = false)
 	{
-		$query = 'SELECT product_download,product_download_days,product_download_limit,product_download_clock,product_download_clock_min,product_download_infinite FROM #__redshop_product'
+		$query = 'SELECT product_download,product_download_days,product_download_limit,product_download_clock,product_download_clock_min,product_download_infinite FROM #__redshop_product '
 			. 'WHERE product_id =' . (int) $pid;
 
 		$this->_db->setQuery($query);
@@ -2888,7 +2888,7 @@ class producthelper
 
 	public function getProductMediaName($product_id)
 	{
-		$query = 'SELECT media_name FROM #__redshop_media'
+		$query = 'SELECT media_name FROM #__redshop_media '
 			. 'WHERE media_section = "product" '
 			. 'AND media_type="download" '
 			. 'AND published=1 AND section_id = ' . (int) $product_id;
