@@ -20,7 +20,6 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
@@ -28,7 +27,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 		$app = JFactory::getApplication();
 		$this->_context = 'ordering';
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$field_section_drop = $app->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
@@ -51,12 +50,13 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function getTotal()
 	{
+		$db = JFactory::getDbo();
 		$query = $this->_buildQuerycount();
 
 		if (empty($this->_total))
 		{
-			$this->_db->setQuery($query);
-			$this->_total = $this->_db->loadResult();
+			$db->setQuery($query);
+			$this->_total = $db->loadResult();
 		}
 
 		return $this->_total;
@@ -85,11 +85,11 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 		if ($where == '')
 		{
-			$query = "SELECT count(*)  FROM " . $this->_table_prefix . "fields f WHERE 1=1";
+			$query = "SELECT count(*)  FROM #__redshop_fields f WHERE 1=1";
 		}
 		else
 		{
-			$query = " SELECT count(*)  FROM " . $this->_table_prefix . "fields f" . $where;
+			$query = " SELECT count(*)  FROM #__redshop_fields f" . $where;
 		}
 
 		return $query;
@@ -115,11 +115,11 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 		if ($where == '')
 		{
-			$query = "SELECT distinct(f.field_id),f.*  FROM " . $this->_table_prefix . "fields f WHERE 1=1" . $orderby . $limit;
+			$query = "SELECT distinct(f.field_id),f.*  FROM #__redshop_fields f WHERE 1=1" . $orderby . $limit;
 		}
 		else
 		{
-			$query = " SELECT distinct(f.field_id),f.*  FROM " . $this->_table_prefix . "fields f" . $where . $orderby . $limit;
+			$query = " SELECT distinct(f.field_id),f.*  FROM #__redshop_fields f" . $where . $orderby . $limit;
 		}
 
 		return $query;
@@ -147,6 +147,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable("fields_detail");
 		$groupings = array();
 		$conditions = array();
@@ -165,7 +166,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}
@@ -200,10 +201,11 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function MaxOrdering()
 	{
-		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = "SELECT (count(*)+1) FROM #__redshop_fields";
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	/**
@@ -215,18 +217,19 @@ class RedshopModelAddressfields_listing extends RedshopModel
 	 */
 	public function move($direction, $field_id)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable("fields_detail");
 
 		if (!$row->load($field_id))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->move($direction, 'field_section = ' . (int) $row->field_section))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}

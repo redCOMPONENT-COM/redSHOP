@@ -27,9 +27,9 @@ class Tableshipping_box_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'shipping_boxes', 'shipping_box_id', $db);
+
+		parent::__construct('#__redshop_shipping_boxes', 'shipping_box_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

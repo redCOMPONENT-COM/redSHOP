@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperUser');
@@ -25,19 +24,15 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 		$this->_order_functions = new order_functions;
-		$this->_db = JFactory::getDbo();
 	}
 
 	public function setId($id)
@@ -245,6 +240,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function store($postdata)
 	{
+		$db = JFactory::getDbo();
 		$redshopMail = new redshopMail;
 		$order_functions = new order_functions;
 		$helper = new redhelper;
@@ -263,14 +259,14 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$row->bind($postdata))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -287,14 +283,14 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if (!$crmorder->bind($postdata))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
 
 			if (!$crmorder->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -398,7 +394,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if (!$rowitem->bind($postdata))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -455,7 +451,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if (!$rowitem->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -499,7 +495,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError($db->getErrorMsg());
 
 								return false;
 							}
@@ -538,7 +534,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -574,7 +570,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 								{
 									if (!$rowattitem->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										$this->setError($db->getErrorMsg());
 
 										return false;
 									}
@@ -608,7 +604,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					{
 						if (!$rowaccitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
@@ -638,7 +634,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					{
 						if (!$rowattitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
@@ -675,7 +671,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError($db->getErrorMsg());
 
 								return false;
 							}
@@ -712,7 +708,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -780,7 +776,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$rowpayment->bind($postdata))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -793,7 +789,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$rowpayment->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -805,7 +801,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$orderuserrow->bind($userrow))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -815,7 +811,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$orderuserrow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -832,7 +828,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$orderuserrow->bind($userrow))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -842,7 +838,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$orderuserrow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -929,15 +925,16 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
+		$db = JFactory::getDbo();
 		$extra_field = new extra_field;
 		$Redconfiguration = new Redconfiguration;
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
+		$query = 'SELECT * FROM #__redshop_users_info '
 			. 'WHERE address_type like "ST" '
 			. 'AND user_id = ' . (int) $user_id . ' '
 			. 'AND users_info_id = ' . (int) $shippingadd_id;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		$db->setQuery($query);
+		$list = $db->loadObject();
 
 		if (count($list) > 0)
 		{

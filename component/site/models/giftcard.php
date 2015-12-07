@@ -28,7 +28,6 @@ class RedshopModelGiftcard extends RedshopModel
 	 */
 	public $_product = null;
 
-	public $_table_prefix = null;
 
 	public $_template = null;
 
@@ -39,7 +38,7 @@ class RedshopModelGiftcard extends RedshopModel
 		$app = JFactory::getApplication();
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$Id                  = JRequest::getInt('gid', 0);
 
 		$this->setId((int) $Id);
@@ -62,7 +61,7 @@ class RedshopModelGiftcard extends RedshopModel
 			$and .= "AND giftcard_id = " . (int) $this->_id . " ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "giftcard "
+		$query = "SELECT * FROM #__redshop_giftcard "
 			. "WHERE published = 1 "
 			. $and;
 

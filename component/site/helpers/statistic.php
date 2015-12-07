@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 class statistic
 {
-	public $_table_prefix = null;
 
 	public $_db = null;
 

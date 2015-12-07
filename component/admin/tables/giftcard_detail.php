@@ -37,9 +37,9 @@ class Tablegiftcard_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'giftcard', 'giftcard_id', $db);
+
+		parent::__construct('#__redshop_giftcard', 'giftcard_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

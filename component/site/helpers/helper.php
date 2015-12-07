@@ -13,7 +13,6 @@ JLoader::load('RedshopHelperUser');
 
 class redhelper
 {
-	public $_table_prefix = null;
 
 	public $_db = null;
 
@@ -25,7 +24,7 @@ class redhelper
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__redshop_';
+
 		$this->_db           = JFactory::getDbo();
 	}
 
@@ -122,7 +121,7 @@ class redhelper
 	{
 		$db = JFactory::getDbo();
 
-		$query = "SELECT DISTINCT(shipping_class)  FROM " . $this->_table_prefix . "shipping_rate ";
+		$query = "SELECT DISTINCT(shipping_class)  FROM #__redshop_shipping_rate ";
 		$this->_db->setQuery($query);
 		$data = $this->_db->loadColumn();
 
@@ -137,7 +136,7 @@ class redhelper
 
 			for ($i = 0; $i < count($diff_ship); $i++)
 			{
-				$query = "DELETE  FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($diff_ship[$i]);
+				$query = "DELETE  FROM #__redshop_shipping_rate WHERE shipping_class = " . $db->quote($diff_ship[$i]);
 				$this->_db->setQuery($query);
 				$this->_db->execute();
 			}
@@ -176,7 +175,7 @@ class redhelper
 		$db = JFactory::getDbo();
 
 		$res   = false;
-		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` "
+		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` "
 			. "WHERE `order_id` = " . (int) $db->getEscaped($order_id) . " "
 			. "AND order_payment_trans_id = " . $db->quote($tid);
 		$db->setQuery($query);
@@ -488,8 +487,8 @@ class redhelper
 	{
 		$user = JFactory::getUser();
 
-		$query = "SELECT p.product_id,cx.category_id FROM `" . $this->_table_prefix . "product` AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS cx ON p.product_id=cx.product_id "
+		$query = "SELECT p.product_id,cx.category_id FROM `#__redshop_product` AS p "
+			. "LEFT JOIN #__redshop_product_category_xref AS cx ON p.product_id=cx.product_id "
 			. "WHERE p.product_id=" . (int) $pid ;
 		$this->_db->setQuery($query);
 		$prodctcat = $this->_db->loadObjectList();
@@ -876,16 +875,16 @@ class redhelper
 
 		$shippinghelper = new shipping;
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "order_users_info AS oui "
-			. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oui.order_id "
+		$query = "SELECT * FROM #__redshop_order_users_info AS oui "
+			. "LEFT JOIN #__redshop_orders AS o ON o.order_id = oui.order_id "
 			. "WHERE oui.order_id = " . (int) $order_id . " "
 			. "AND address_type='ST' ";
 		$this->_db->setQuery($query);
 		$orderData = $this->_db->loadobject();
 
-		$query = "SELECT payment_method_name, oy.payment_method_id FROM " . $this->_table_prefix . "order_payment AS oy "
-			. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oy.order_id "
-			. "LEFT JOIN " . $this->_table_prefix . "payment_method AS p ON p.payment_method_id = oy.payment_method_id "
+		$query = "SELECT payment_method_name, oy.payment_method_id FROM #__redshop_order_payment AS oy "
+			. "LEFT JOIN #__redshop_orders AS o ON o.order_id = oy.order_id "
+			. "LEFT JOIN #__redshop_payment_method AS p ON p.payment_method_id = oy.payment_method_id "
 			. "WHERE oy.order_id = " . (int) $order_id;
 		$this->_db->setQuery($query);
 		$paymentData       = $this->_db->loadobject();
@@ -906,7 +905,7 @@ class redhelper
 		$s_where = " AND (FIND_IN_SET( " . $db->quote($order_shipping_class) . ", shipping_methods ))";
 
 		$orderby = " ORDER BY `template_id` DESC LIMIT 0,1";
-		$query   = "SELECT * FROM " . $this->_table_prefix . "template AS t "
+		$query   = "SELECT * FROM #__redshop_template AS t "
 			. "WHERE t.template_section = 'clicktell_sms_message' "
 			. "AND (FIND_IN_SET( " . $db->quote($orderData->order_status) . ", order_status )) ";
 		$to      = $orderData->phone;
@@ -1048,7 +1047,7 @@ class redhelper
 			$and .= 'AND ea.published="1" ';
 		}
 
-		$query = 'SELECT ea.*, ea.accountgroup_id AS value, ea.accountgroup_name AS text FROM ' . $this->_table_prefix . 'economic_accountgroup AS ea '
+		$query = 'SELECT ea.*, ea.accountgroup_id AS value, ea.accountgroup_name AS text FROM #__redshop_economic_accountgroup AS ea '
 			. 'WHERE 1=1 '
 			. $and;
 		$this->_db->setQuery($query);

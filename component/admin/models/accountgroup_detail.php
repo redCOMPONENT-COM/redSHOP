@@ -16,13 +16,9 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -51,10 +47,11 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'economic_accountgroup '
+			$db = JFactory::getDbo();
+			$query = 'SELECT * FROM #__redshop_economic_accountgroup '
 				. 'WHERE accountgroup_id = ' . (int) $this->_id . ' ';
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -89,18 +86,19 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -110,19 +108,21 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			// Sanitise ids
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'economic_accountgroup '
+			$query = 'DELETE FROM #__redshop_economic_accountgroup '
 				. 'WHERE accountgroup_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -135,18 +135,20 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
+			$db = JFactory::getDbo();
+
 			// Sanitise ids
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'economic_accountgroup'
+			$query = 'UPDATE #__redshop_economic_accountgroup'
 				. ' SET published = ' . (int) $publish . ' '
 				. ' WHERE accountgroup_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}

@@ -25,7 +25,6 @@ class producthelper
 
 	public $_userdata = null;
 
-	public $_table_prefix = null;
 
 	public $_product_level = 0;
 
@@ -64,7 +63,7 @@ class producthelper
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
-		$this->_table_prefix = '#__redshop_';
+
 		$this->_userhelper   = new rsUserhelper;
 		$this->_session      = JFactory::getSession();
 	}
@@ -605,8 +604,8 @@ class producthelper
 
 			if ($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (VAT_BASED_ON == 2 || VAT_BASED_ON == 1))
 			{
-				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
-					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
+				$query = "SELECT country_code,state_code FROM #__redshop_users_info AS u "
+					. "LEFT JOIN #__redshop_shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
 					. "WHERE u.users_info_id = " . (int) $users_info_id . " "
 					. "ORDER BY u.users_info_id ASC LIMIT 0,1";
 				$this->_db->setQuery($query);
@@ -1750,15 +1749,15 @@ class producthelper
 
 		if ($userid)
 		{
-			$query = "SELECT p.* FROM " . $this->_table_prefix . "users_info AS u "
-				. "LEFT JOIN " . $this->_table_prefix . "product_price AS p ON u.shopper_group_id = p.shopper_group_id "
+			$query = "SELECT p.* FROM #__redshop_users_info AS u "
+				. "LEFT JOIN #__redshop_product_price AS p ON u.shopper_group_id = p.shopper_group_id "
 				. "WHERE p.product_id = " . (int) $product_id . " "
 				. "AND u.user_id=" . (int) $userid . " AND u.address_type='BT' "
 				. "ORDER BY price_quantity_start ASC ";
 		}
 		else
 		{
-			$query = "SELECT p.* FROM " . $this->_table_prefix . "product_price AS p "
+			$query = "SELECT p.* FROM #__redshop_product_price AS p "
 				. "WHERE p.product_id = " . (int) $product_id . " "
 				. "AND p.shopper_group_id = " . (int) $shopperGroupId . " "
 				. "ORDER BY price_quantity_start ASC ";
@@ -1811,7 +1810,7 @@ class producthelper
 		$userArr = $this->_userhelper->createUserSession($user_id);
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
 
-		$sql = "SELECT ds.discount_id FROM " . $this->_table_prefix . "discount_shoppers AS ds "
+		$sql = "SELECT ds.discount_id FROM #__redshop_discount_shoppers AS ds "
 			. " WHERE ds.shopper_group_id = " . (int) $shopperGroupId;
 
 		$this->_db->setQuery($sql);
@@ -1826,7 +1825,7 @@ class producthelper
 			// Secure ids
 			JArrayHelper::toInteger($list);
 
-			$query   = "SELECT * FROM " . $this->_table_prefix . "discount "
+			$query   = "SELECT * FROM #__redshop_discount "
 				. "WHERE published =1 "
 				. "AND discount_id IN (" . implode(',', $list) . ") "
 				. "AND `start_date`<=" . $db->quote(time()) . " "
@@ -1981,22 +1980,22 @@ class producthelper
 
 		if ($section == "product")
 		{
-			$left = "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = m.section_id ";
+			$left = "LEFT JOIN #__redshop_product AS p ON p.product_id = m.section_id ";
 		}
 		elseif ($section == "property")
 		{
-			$left = "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS p ON p.property_id = m.section_id ";
+			$left = "LEFT JOIN #__redshop_product_attribute_property AS p ON p.property_id = m.section_id ";
 		}
 		elseif ($section == "subproperty")
 		{
-			$left = "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS p ON p.subattribute_color_id = m.section_id ";
+			$left = "LEFT JOIN #__redshop_product_subattribute_color AS p ON p.subattribute_color_id = m.section_id ";
 		}
 		elseif ($section == "manufacturer")
 		{
-			$left = "LEFT JOIN " . $this->_table_prefix . "manufacturer AS p ON p.manufacturer_id = m.section_id ";
+			$left = "LEFT JOIN #__redshop_manufacturer AS p ON p.manufacturer_id = m.section_id ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "media AS m "
+		$query = "SELECT * FROM #__redshop_media AS m "
 			. $left
 			. "WHERE m.media_section = " . $db->quote($section) . " "
 			. "AND m.media_type=" . $db->quote($mediaType) . " "
@@ -2219,7 +2218,7 @@ class producthelper
 
 		if ($user_id)
 		{
-			$leftjoin = " LEFT JOIN " . $this->_table_prefix . "users_info AS u ON u.shopper_group_id=p.shopper_group_id ";
+			$leftjoin = " LEFT JOIN #__redshop_users_info AS u ON u.shopper_group_id=p.shopper_group_id ";
 			$and      = " AND u.user_id = " . (int) $user_id . " AND u.address_type='BT' ";
 		}
 		else
@@ -2228,7 +2227,7 @@ class producthelper
 		}
 
 		$query = "SELECT p.price_id,p.product_price,p.product_currency,p.discount_price, p.discount_start_date, p.discount_end_date  "
-			. "FROM " . $this->_table_prefix . "product_attribute_price AS p "
+			. "FROM #__redshop_product_attribute_price AS p "
 			. $leftjoin
 			. " WHERE p.section_id = " . (int) $section_id . " AND section = " . $db->quote($section) . " "
 			. $and
@@ -2256,7 +2255,7 @@ class producthelper
 		if ($section == 'property')
 		{
 			$query = "SELECT p.*,property_price as product_price  "
-				. " FROM " . $this->_table_prefix . "product_attribute_property AS p "
+				. " FROM #__redshop_product_attribute_property AS p "
 				. " WHERE "
 				. " p.property_id = " . (int) $section_id . " AND p.property_published = 1 ";
 		}
@@ -2264,7 +2263,7 @@ class producthelper
 		if ($section == 'subproperty')
 		{
 			$query = "SELECT p.*,subattribute_color_price as product_price  "
-				. " FROM " . $this->_table_prefix . "product_subattribute_color AS p "
+				. " FROM #__redshop_product_subattribute_color AS p "
 				. " WHERE "
 				. " p.subattribute_color_id = " . (int) $section_id . " AND p.subattribute_published = 1 ";
 		}
@@ -2285,7 +2284,7 @@ class producthelper
 			$and .= " AND wrapper_id='" . $wrapper_id . "' ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref "
+		$query = "SELECT * FROM #__redshop_product_category_xref "
 			. "WHERE product_id = '" . (int) $product_id . "' ";
 		$this->_db->setQuery($query);
 		$cat = $this->_db->loadObjectList();
@@ -2300,7 +2299,7 @@ class producthelper
 			$usetoall .= " OR wrapper_use_to_all = 1 ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "wrapper "
+		$query = "SELECT * FROM #__redshop_wrapper "
 			. "WHERE published = 1 "
 			. "AND (FIND_IN_SET(" . (int) $product_id . ",product_id) "
 			. $usetoall . " )"
@@ -2853,8 +2852,8 @@ class producthelper
 			$and .= " AND p.manufacturer_id IN (" . implode(',', $shopGroupsIds) . ") ";
 		}
 
-		$query = "SELECT p.product_id FROM " . $this->_table_prefix . "product_category_xref pc"
-			. " LEFT JOIN " . $this->_table_prefix . "product AS p ON pc.product_id=p.product_id "
+		$query = "SELECT p.product_id FROM #__redshop_product_category_xref pc"
+			. " LEFT JOIN #__redshop_product AS p ON pc.product_id=p.product_id "
 			. " WHERE category_id = " . (int) $id . " "
 			. $and;
 		$this->_db->setQuery($query);
@@ -2875,8 +2874,7 @@ class producthelper
 	 */
 	public function checkProductDownload($pid, $return = false)
 	{
-		$query = 'SELECT product_download,product_download_days,product_download_limit,product_download_clock,product_download_clock_min,product_download_infinite FROM '
-			. $this->_table_prefix . 'product '
+		$query = 'SELECT product_download,product_download_days,product_download_limit,product_download_clock,product_download_clock_min,product_download_infinite FROM #__redshop_product '
 			. 'WHERE product_id =' . (int) $pid;
 
 		$this->_db->setQuery($query);
@@ -2890,7 +2888,7 @@ class producthelper
 
 	public function getProductMediaName($product_id)
 	{
-		$query = 'SELECT media_name FROM ' . $this->_table_prefix . 'media '
+		$query = 'SELECT media_name FROM #__redshop_media '
 			. 'WHERE media_section = "product" '
 			. 'AND media_type="download" '
 			. 'AND published=1 AND section_id = ' . (int) $product_id;
@@ -2902,7 +2900,7 @@ class producthelper
 
 	public function getGiftcardData($gid)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "giftcard "
+		$query = "SELECT * FROM #__redshop_giftcard "
 			. "WHERE giftcard_id = " . (int) $gid;
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadObject();
@@ -3260,7 +3258,7 @@ class producthelper
 
 				if (trim($user_fields) != '')
 				{
-					$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
+					$sql = "INSERT INTO #__redshop_fields_data "
 						. "(fieldid,data_txt,itemid,section) "
 						. "value (" . (int) $row_data[$i]->field_id . "," . $db->quote(addslashes($user_fields)) . ","
 						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
@@ -3574,9 +3572,8 @@ class producthelper
 		}
 
 		$query = "SELECT sp.subattribute_color_id AS value, sp.subattribute_color_name AS text"
-			. ",sp.*,p.property_name,p.setrequire_selected,p.setmulti_selected,p.setdisplay_type FROM " . $this->_table_prefix
-			. "product_subattribute_color AS sp "
-			. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS p ON p.property_id=sp.subattribute_id "
+			. ",sp.*,p.property_name,p.setrequire_selected,p.setmulti_selected,p.setdisplay_type FROM #__redshop_product_subattribute_color AS sp "
+			. "LEFT JOIN #__redshop_product_attribute_property AS p ON p.property_id=sp.subattribute_id "
 			. "WHERE sp.subattribute_published = 1 "
 			. $and
 			. " ORDER BY sp.ordering ASC";
@@ -3697,8 +3694,8 @@ class producthelper
 		$query = "SELECT a.*,p.product_number, p.product_name, " . $mainpricequery
 			. ", p.product_s_desc, p.product_full_image, p.product_on_sale "
 			. $switchquery
-			. "FROM " . $this->_table_prefix . "product_accessory AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.child_product_id "
+			. "FROM #__redshop_product_accessory AS a "
+			. "LEFT JOIN #__redshop_product AS p ON p.product_id = a.child_product_id "
 			. "WHERE p.published = 1 "
 			. $and . $groupby
 			. $orderby;
@@ -3846,7 +3843,7 @@ class producthelper
 
 				$InProduct = "";
 
-				$query = "SELECT * FROM " . $this->_table_prefix . "product_related AS r "
+				$query = "SELECT * FROM #__redshop_product_related AS r "
 					. "WHERE r.product_id IN (" . implode(',', $productIds) . ") OR r.related_id IN (" . implode(',', $productIds) . ")" . $orderby_related . "";
 				$this->_db->setQuery($query);
 				$list = $this->_db->loadObjectlist();
@@ -3875,7 +3872,7 @@ class producthelper
 				$relatedArr = array_unique($relatedArr);
 
 				$query = "SELECT " . $product_id . " AS mainproduct_id,p.* "
-					. "FROM " . $this->_table_prefix . "product AS p "
+					. "FROM #__redshop_product AS p "
 					. "WHERE p.published = 1 ";
 				$query .= ' AND p.product_id IN (' . implode(", ", $relatedArr) . ') ';
 				$query .= $orderby;
@@ -3903,14 +3900,14 @@ class producthelper
 		}
 
 		$query = "SELECT r.product_id AS mainproduct_id,p.* " . $add_e . " "
-			. "FROM " . $this->_table_prefix . "product_related AS r "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = r.related_id ";
+			. "FROM #__redshop_product_related AS r "
+			. "LEFT JOIN #__redshop_product AS p ON p.product_id = r.related_id ";
 
 		if (count($finaltypetype_result) > 0
 			&& $finaltypetype_result->extrafield != ''
 			&& (DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt ASC' || DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt DESC'))
 		{
-			$query .= " LEFT JOIN " . $this->_table_prefix . "fields_data  AS e ON p.product_id = e.itemid ";
+			$query .= " LEFT JOIN #__redshop_fields_data  AS e ON p.product_id = e.itemid ";
 		}
 
 		$query .= " WHERE p.published = 1 ";
@@ -8282,7 +8279,7 @@ class producthelper
 	public function getProductSubscriptionDetail($product_id, $subscription_id)
 	{
 		$query = "SELECT * "
-			. " FROM " . $this->_table_prefix . "product_subscription"
+			. " FROM #__redshop_product_subscription"
 			. " WHERE "
 			. " product_id = " . (int) $product_id . " AND subscription_id = " . (int) $subscription_id;
 		$this->_db->setQuery($query);
@@ -8293,8 +8290,8 @@ class producthelper
 	// Get User Product subscription detail
 	public function getUserProductSubscriptionDetail($order_item_id)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product_subscribe_detail AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_subscription AS ps ON ps.subscription_id=p.subscription_id "
+		$query = "SELECT * FROM #__redshop_product_subscribe_detail AS p "
+			. "LEFT JOIN #__redshop_product_subscription AS ps ON ps.subscription_id=p.subscription_id "
 			. "WHERE order_item_id = " . (int) $order_item_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
@@ -8327,7 +8324,7 @@ class producthelper
 		// Generate Download Token
 		$token = md5(uniqid(mt_rand(), true));
 
-		$sql = "INSERT INTO " . $this->_table_prefix . "product_download "
+		$sql = "INSERT INTO #__redshop_product_download "
 			. "(product_id,user_id,order_id, end_date, download_max, download_id, file_name,product_serial_number) "
 			. "VALUES(" . (int) $product_id . ", " . (int) $user_id . ", " . (int) $order_id . ", "
 			. (int) $endtime . ", " . (int) $product_download_limit . ", "
@@ -8344,7 +8341,7 @@ class producthelper
 
 	public function getProdcutSerialNumber($product_id, $is_used = 0)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product_serial_number "
+		$query = "SELECT * FROM #__redshop_product_serial_number "
 			. "WHERE product_id = " . (int) $product_id . " "
 			. " AND is_used = " . (int) $is_used . " "
 			. " LIMIT 0,1";
@@ -8369,7 +8366,7 @@ class producthelper
 	 */
 	public function updateProdcutSerialNumber($serial_id)
 	{
-		$update_query = "UPDATE " . $this->_table_prefix . "product_serial_number "
+		$update_query = "UPDATE #__redshop_product_serial_number "
 			. " SET is_used='1' WHERE serial_id = " . (int) $serial_id;
 		$this->_db->setQuery($update_query);
 		$this->_db->execute();
@@ -8377,7 +8374,7 @@ class producthelper
 
 	public function getSubscription($product_id = 0)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product_subscription "
+		$query = "SELECT * FROM #__redshop_product_subscription "
 			. "WHERE product_id = " . (int) $product_id . " "
 			. "ORDER BY subscription_id ";
 		$this->_db->setQuery($query);
@@ -8414,7 +8411,7 @@ class producthelper
 		// Avoid db killing
 		if (!empty($and))
 		{
-			$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+			$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 				. "WHERE question_id <> 0 "
 				. $and
 				. "ORDER BY q.ordering ";
@@ -8609,7 +8606,7 @@ class producthelper
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT field_name from " . $this->_table_prefix . "fields where field_section = " . $db->quote($section);
+		$q = "SELECT field_name from #__redshop_fields where field_section = " . $db->quote($section);
 
 		$this->_db->setQuery($q);
 
@@ -8923,8 +8920,7 @@ class producthelper
 
 	public function getChildProduct($product_id = 0)
 	{
-		$query = "SELECT product_parent_id,product_id,product_name,product_number FROM " . $this->_table_prefix
-			. "product "
+		$query = "SELECT product_parent_id,product_id,product_name,product_number FROM #__redshop_product "
 			. "WHERE product_parent_id = " . (int) $product_id . " AND published = 1 ORDER BY product_id";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -8939,7 +8935,7 @@ class producthelper
 	 */
 	public function getMainParentProduct($parent_id)
 	{
-		$query = "SELECT product_parent_id FROM " . $this->_table_prefix . "product "
+		$query = "SELECT product_parent_id FROM #__redshop_product "
 			. "WHERE published=1 "
 			. "AND product_id = " . (int) $parent_id;
 		$this->_db->setQuery($query);
@@ -9003,7 +8999,7 @@ class producthelper
 			if (in_array($field_name, $userfieldArr))
 			{
 				$field_id  = $fieldData->field_id;
-				$dateQuery = "select data_txt from " . $this->_table_prefix . "fields_data where fieldid = " . (int) $field_id . " AND itemid = " . (int) $product_id;
+				$dateQuery = "select data_txt from #__redshop_fields_data where fieldid = " . (int) $field_id . " AND itemid = " . (int) $product_id;
 				$this->_db->setQuery($dateQuery);
 				$datedata = $this->_db->loadObject();
 
@@ -9077,8 +9073,8 @@ class producthelper
 
 	public function getCategoryCompareTemplate($cid)
 	{
-		$query = "SELECT t.template_id  FROM " . $this->_table_prefix . "template  AS t "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.compare_template_id=t.template_id "
+		$query = "SELECT t.template_id  FROM #__redshop_template  AS t "
+			. "LEFT JOIN #__redshop_category AS c ON c.compare_template_id=t.template_id "
 			. "WHERE c.category_id = " . (int) $cid . " "
 			. "AND t.published=1";
 		$this->_db->setQuery($query);
@@ -9090,8 +9086,8 @@ class producthelper
 	public function getProductCaterories($product_id, $displaylink = 0)
 	{
 		$prodCatsObjectArray = array();
-		$query               = "SELECT  ct.category_name, ct.category_id FROM " . $this->_table_prefix . "category AS ct "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pct ON ct.category_id=pct.category_id "
+		$query               = "SELECT  ct.category_name, ct.category_id FROM #__redshop_category AS ct "
+			. "LEFT JOIN #__redshop_product_category_xref AS pct ON ct.category_id=pct.category_id "
 			. "WHERE pct.product_id = " . (int) $product_id . " "
 			. "AND ct.published=1 ";
 		$this->_db->setQuery($query);
@@ -9102,8 +9098,8 @@ class producthelper
 			$ppCat = $pCat = '';
 			$row   = $rows[$i];
 
-			$query = "SELECT cx.category_parent_id,c.category_name FROM " . $this->_table_prefix . "category_xref AS cx "
-				. "LEFT JOIN " . $this->_table_prefix . "category AS c ON cx.category_parent_id=c.category_id "
+			$query = "SELECT cx.category_parent_id,c.category_name FROM #__redshop_category_xref AS cx "
+				. "LEFT JOIN #__redshop_category AS c ON cx.category_parent_id=c.category_id "
 				. "WHERE cx.category_child_id=" . (int) $row->category_id;
 			$this->_db->setQuery($query);
 			$parentCat = $this->_db->loadObject();
@@ -9111,8 +9107,8 @@ class producthelper
 			if (count($parentCat) > 0 && $parentCat->category_parent_id)
 			{
 				$pCat  = $parentCat->category_name;
-				$query = "SELECT cx.category_parent_id,c.category_name FROM " . $this->_table_prefix . "category_xref AS cx "
-					. "LEFT JOIN " . $this->_table_prefix . "category AS c ON cx.category_parent_id=c.category_id "
+				$query = "SELECT cx.category_parent_id,c.category_name FROM #__redshop_category_xref AS cx "
+					. "LEFT JOIN #__redshop_category AS c ON cx.category_parent_id=c.category_id "
 					. "WHERE cx.category_child_id = " . (int) $parentCat->category_parent_id;
 				$this->_db->setQuery($query);
 				$pparentCat = $this->_db->loadObject();
@@ -10289,8 +10285,8 @@ class producthelper
 
 	public function getCategoryNameByProductId($pid)
 	{
-		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
+		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
+			. "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id "
 			. "WHERE pcx.product_id=" . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
 
 		$this->_db->setQuery($query);
@@ -10512,7 +10508,7 @@ class producthelper
 
 			if (trim($user_fields) != '')
 			{
-				$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
+				$sql = "INSERT INTO #__redshop_fields_data "
 					. "(fieldid,data_txt,itemid,section) "
 					. "value ('" . (int) $row_data[$i]->field_id . "'," . $db->quote(addslashes($user_fields)) . "," . (int) $order_id
 					. "," . $db->quote($section_id) . ")";

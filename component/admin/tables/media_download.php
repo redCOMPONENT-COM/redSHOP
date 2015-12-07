@@ -19,9 +19,9 @@ class Tablemedia_download extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'media_download', 'id', $db);
+
+		parent::__construct('#__redshop_media_download', 'id', $db);
 	}
 
 	public function bind($array, $ignore = '')

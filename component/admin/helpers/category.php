@@ -11,20 +11,11 @@ defined('_JEXEC') or die;
 
 class product_category
 {
-	public $_cats = array();
-
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		$this->_table_prefix = '#__redshop_';
-	}
-
 	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false, $multiple = false, $disabledFields = array(), $width = 250)
 	{
 		$db = JFactory::getDbo();
 		$html = '';
-		$q = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref ";
+		$q = "SELECT category_parent_id FROM #__redshop_category_xref ";
 
 		if ($category_id)
 		{
@@ -60,7 +51,7 @@ class product_category
 		$level++;
 
 		$q = "SELECT category_id, category_child_id,category_name "
-			. "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx "
+			. "FROM #__redshop_category AS c, #__redshop_category_xref AS cx "
 			. "WHERE cx.category_parent_id='$cid' "
 			. "AND c.category_id=cx.category_child_id "
 			. "AND c.category_id != " . (int) $category_id . " "
@@ -160,8 +151,8 @@ class product_category
 	{
 		$db = JFactory::getDbo();
 		$query = 'SELECT DISTINCT c.category_name, c.category_id'
-			. ' FROM ' . $this->_table_prefix . 'category c '
-			. ' LEFT JOIN ' . $this->_table_prefix . 'category_xref AS x ON c.category_id = x.category_child_id '
+			. ' FROM #__redshop_category c '
+			. ' LEFT JOIN #__redshop_category_xref AS x ON c.category_id = x.category_child_id '
 			. 'WHERE x.category_parent_id=0 ';
 		$db->setQuery($query);
 
@@ -187,7 +178,7 @@ class product_category
 		$db = JFactory::getDbo();
 		$q = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
-			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
+			. "FROM #__redshop_category_xref as cx, #__redshop_category as c "
 			. "WHERE cx.category_parent_id = " . (int) $cid . " "
 			. "AND c.category_id = cx.category_child_id";
 
@@ -210,9 +201,9 @@ class product_category
 	{
 		$db = JFactory::getDbo();
 		$query = "SELECT p.product_id AS id "
-			. "FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id "
+			. "FROM #__redshop_product AS p "
+			. "LEFT JOIN #__redshop_product_category_xref AS x ON x.product_id = p.product_id "
+			. "LEFT JOIN #__redshop_category AS c ON x.category_id = c.category_id "
 			. "WHERE c.category_id = " . (int) $cid . " and p.published =1 ";
 
 		$db->setQuery($query);
@@ -227,7 +218,7 @@ class product_category
 		$db = JFactory::getDbo();
 
 		$query = "SELECT accessory_id,product_id "
-			. "FROM " . $this->_table_prefix . "product_accessory  "
+			. "FROM #__redshop_product_accessory  "
 			. "WHERE product_id = " . (int) $product_id . " and child_product_id = " . (int) $accessory_id;
 
 		$db->setQuery($query);

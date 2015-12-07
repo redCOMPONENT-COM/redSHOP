@@ -16,7 +16,6 @@ class RedshopControllerUser_detail extends RedshopController
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
-		$this->_table_prefix = '#__redshop_';
 		$this->redhelper = new redhelper;
 	}
 

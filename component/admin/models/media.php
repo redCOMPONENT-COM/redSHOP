@@ -316,18 +316,19 @@ class RedshopModelMedia extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('media_download');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -345,10 +346,11 @@ class RedshopModelMedia extends RedshopModel
 
 	public function deleteAddtionalFiles($fileId)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT name FROM `#__redshop_media_download` "
 			. "WHERE `id`='" . $fileId . "' ";
-		$this->_db->setQuery($query);
-		$filename = $this->_db->loadResult();
+		$db->setQuery($query);
+		$filename = $db->loadResult();
 		$path = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
 
 		if (is_file($path))
@@ -357,11 +359,11 @@ class RedshopModelMedia extends RedshopModel
 		}
 
 		$query = "DELETE FROM `#__redshop_media_download` WHERE `id`='" . $fileId . "' ";
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -371,6 +373,7 @@ class RedshopModelMedia extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('media_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
@@ -387,7 +390,7 @@ class RedshopModelMedia extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}

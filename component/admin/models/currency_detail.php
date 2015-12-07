@@ -9,20 +9,15 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelCurrency_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -49,11 +44,13 @@ class RedshopModelCurrency_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'currency WHERE currency_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$query = 'SELECT * FROM #__redshop_currency WHERE currency_id = ' . $this->_id;
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -78,46 +75,20 @@ class RedshopModelCurrency_detail extends RedshopModel
 		return true;
 	}
 
-	public function store($data)
-	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->check())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
-	}
-
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'currency WHERE currency_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$query = 'DELETE FROM #__redshop_currency WHERE currency_id IN ( ' . $cids . ' )';
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}

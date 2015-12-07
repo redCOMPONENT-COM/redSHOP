@@ -18,8 +18,6 @@ JLoader::load('RedshopHelperAdminImages');
 
 class rsCarthelper
 {
-	public $_table_prefix = null;
-
 	public $_db = null;
 
 	public $_session = null;
@@ -40,7 +38,6 @@ class rsCarthelper
 
 	public function __construct()
 	{
-		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = JFactory::getDBO();
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = new order_functions;
@@ -4021,7 +4018,7 @@ class rsCarthelper
 
 			if ($user->id)
 			{
-				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
+				$query = "SELECT u.* FROM #__redshop_users_info AS u "
 					. "WHERE u.user_id='" . $user->id . "' "
 					. "AND address_type='BT' ";
 				$this->_db->setQuery($query);
@@ -4029,7 +4026,7 @@ class rsCarthelper
 			}
 			elseif (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)
 			{
-				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
+				$query = "SELECT u.* FROM #__redshop_users_info AS u "
 					. "WHERE u.users_info_id='" . $auth['users_info_id'] . "' "
 					. "AND address_type='BT' ";
 				$this->_db->setQuery($query);
@@ -4111,7 +4108,7 @@ class rsCarthelper
 			if (DEFAULT_NEWSLETTER != 0)
 			{
 				$user  = JFactory::getUser();
-				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
+				$query = "SELECT subscription_id FROM #__redshop_newsletter_subscription"
 					. " WHERE user_id=" . (int) $user->id . " AND email=" . $db->quote($user->email);
 				$this->_db->setQuery($query);
 				$subscribe = $this->_db->loadResult();
@@ -4702,8 +4699,8 @@ class rsCarthelper
 		$db = JFactory::getDbo();
 
 		$current_time = time();
-		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
-			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
+		$query        = "SELECT product_id,v.* from #__redshop_product_voucher_xref as pv  "
+			. "left join #__redshop_product_voucher as v on v.voucher_id = pv.voucher_id "
 			. " \nWHERE v.published = 1"
 			. " AND v.voucher_code=" . $db->quote($voucher_code)
 			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
@@ -4714,7 +4711,7 @@ class rsCarthelper
 		if (count($voucher) <= 0)
 		{
 			$this->_globalvoucher = 1;
-			$query                = "SELECT v.*,v.amount as total from " . $this->_table_prefix . "product_voucher as v "
+			$query                = "SELECT v.*,v.amount as total from #__redshop_product_voucher as v "
 				. "WHERE v.published = 1 "
 				. "AND v.voucher_code=" . $db->quote($voucher_code)
 				. "AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
@@ -5197,7 +5194,7 @@ class rsCarthelper
 		if ($user->id <= 0)
 			return false;
 
-		$query = "SELECT cart_id FROM " . $this->_table_prefix . "usercart WHERE user_id='" . $user->id . "'";
+		$query = "SELECT cart_id FROM #__redshop_usercart WHERE user_id='" . $user->id . "'";
 		$this->_db->setQuery($query);
 		$cart_id = $this->_db->loadResult();
 
@@ -5375,30 +5372,30 @@ class rsCarthelper
 
 		if ($cart_id == 0)
 		{
-			$query = "SELECT cart_id FROM " . $this->_table_prefix . "usercart WHERE user_id=" . (int) $userid;
+			$query = "SELECT cart_id FROM #__redshop_usercart WHERE user_id=" . (int) $userid;
 			$this->_db->setQuery($query);
 			$cart_id = $this->_db->loadResult();
 		}
 
-		$query = "SELECT cart_item_id FROM " . $this->_table_prefix . "usercart_item WHERE cart_id=" . (int) $cart_id;
+		$query = "SELECT cart_item_id FROM #__redshop_usercart_item WHERE cart_id=" . (int) $cart_id;
 		$this->_db->setQuery($query);
 		$cart_item_id = $this->_db->loadResult();
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_accessory_item WHERE cart_item_id=" . (int) $cart_item_id;
+		$query = "DELETE FROM #__redshop_usercart_accessory_item WHERE cart_item_id=" . (int) $cart_item_id;
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_attribute_item WHERE cart_item_id=" . (int) $cart_item_id;
+		$query = "DELETE FROM #__redshop_usercart_attribute_item WHERE cart_item_id=" . (int) $cart_item_id;
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_item WHERE cart_id=" . (int) $cart_id;
+		$query = "DELETE FROM #__redshop_usercart_item WHERE cart_id=" . (int) $cart_id;
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
 		if ($delCart)
 		{
-			$query = "DELETE FROM " . $this->_table_prefix . "usercart WHERE cart_id=" . (int) $cart_id;
+			$query = "DELETE FROM #__redshop_usercart WHERE cart_id=" . (int) $cart_id;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -5416,7 +5413,7 @@ class rsCarthelper
 			$userId = $user->id;
 		}
 
-		$query = "SELECT ci.* FROM " . $this->_table_prefix . "usercart AS c," . $this->_table_prefix . "usercart_item AS ci
+		$query = "SELECT ci.* FROM #__redshop_usercart AS c,#__redshop_usercart_item AS ci
 				  WHERE c.cart_id = ci.cart_id AND user_id=" . (int) $userId . " ORDER BY cart_idx";
 		$this->_db->setQuery($query);
 		$cart_items = $this->_db->loadObjectlist();
@@ -5775,7 +5772,7 @@ class rsCarthelper
 
 		if ($cart_item_id != 0)
 		{
-			$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_accessory_item "
+			$query = "SELECT * FROM  #__redshop_usercart_accessory_item "
 				. "WHERE cart_item_id=" . (int) $cart_item_id;
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObjectlist();
@@ -5800,7 +5797,7 @@ class rsCarthelper
 			$and .= " AND parent_section_id=" . (int) $parent_section_id . " ";
 		}
 
-		$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_attribute_item "
+		$query = "SELECT * FROM  #__redshop_usercart_attribute_item "
 			. "WHERE is_accessory_att=" . (int) $is_accessory . " "
 			. "AND section=" . $db->quote($section) . " "
 			. $and;
@@ -6669,9 +6666,9 @@ class rsCarthelper
 		}
 
 		$query = "SELECT a.attribute_id AS value,a.attribute_name AS text,a.*,ast.attribute_set_name "
-			. "FROM " . $this->_table_prefix . "product_attribute AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "attribute_set AS ast ON ast.attribute_set_id=a.attribute_set_id "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.attribute_set_id=a.attribute_set_id " . $astpublished
+			. "FROM #__redshop_product_attribute AS a "
+			. "LEFT JOIN #__redshop_attribute_set AS ast ON ast.attribute_set_id=a.attribute_set_id "
+			. "LEFT JOIN #__redshop_product AS p ON p.attribute_set_id=a.attribute_set_id " . $astpublished
 			. "WHERE a.attribute_name!='' "
 			. $and
 			. " and attribute_published=1 ORDER BY a.ordering ASC ";
@@ -6683,7 +6680,7 @@ class rsCarthelper
 
 	public function getAttributeSetId($pid)
 	{
-		$query = "SELECT attribute_set_id FROM " . $this->_table_prefix . "product"
+		$query = "SELECT attribute_set_id FROM #__redshop_product"
 			. " WHERE product_id=" . (int) $pid;
 
 		$this->_db->setQuery($query);
@@ -7389,7 +7386,7 @@ class rsCarthelper
 			$and .= "AND pdcextra_id IN (" . implode(',', $extraIds) . ") ";
 		}
 
-		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc_extra` "
+		$query = "SELECT * FROM `#__redshop_product_discount_calc_extra` "
 			. "WHERE 1=1 "
 			. $and
 			. "ORDER BY option_name ";

@@ -19,12 +19,11 @@ class RedshopControllerAddquotation_detail extends RedshopController
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
-        $this->_db = JFactory::getDbo();
-
     }
 
 	public function save($send = 0)
 	{
+		$db = JFactory::getDbo();
 		$post = JRequest::get('post');
 		$adminproducthelper = new adminproducthelper;
 
@@ -56,7 +55,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 			if (!$user)
 			{
-                $errorMsg = $this->_db->getErrorMsg();
+                $errorMsg = $db->getErrorMsg();
                 $link = JRoute::_('index.php?option=com_redshop&view=addquotation_detail', false);
                 $this->setRedirect($link, $errorMsg);
 

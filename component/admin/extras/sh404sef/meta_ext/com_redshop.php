@@ -29,13 +29,10 @@ $title = array();
 $shItemidString = '';
 $dosef = shInitializePlugin( $lang='', $shLangName, $shLangIso, $option);
 
-if(!defined('TABLE_PREFIX'))
-{
-	JLoader::import('redshop.library');
-	JLoader::load('RedshopHelperAdminConfiguration');
-	$config = new Redconfiguration;
-	$config->config();
-}
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminConfiguration');
+$config = new Redconfiguration;
+$config->config();
 
 if ($dosef == false) return;
 

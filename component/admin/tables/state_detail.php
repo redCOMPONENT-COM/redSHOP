@@ -35,9 +35,9 @@ class Tablestate_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'state', 'state_id', $db);
+
+		parent::__construct('#__redshop_state', 'state_id', $db);
 	}
 
 	public function bind($array, $ignore = '')
@@ -55,7 +55,7 @@ class Tablestate_detail extends JTable
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT state_id,state_3_code  FROM " . $this->_table_prefix . "state"
+		$q = "SELECT state_id,state_3_code  FROM #__redshop_state"
 			. " WHERE state_3_code = " . $db->quote($this->state_3_code)
 			. " AND state_id !=  " . (int) $this->state_id
 			. " AND country_id =" . (int) $this->country_id;
@@ -73,7 +73,7 @@ class Tablestate_detail extends JTable
 		}
 		else
 		{
-			$q = "SELECT state_id,state_3_code,state_2_code  FROM " . $this->_table_prefix . "state"
+			$q = "SELECT state_id,state_3_code,state_2_code  FROM #__redshop_state"
 				. " WHERE state_2_code = " . $db->quote($this->state_2_code)
 				. " AND state_id !=  " . (int) $this->state_id
 				. " AND country_id =" . (int) $this->country_id;

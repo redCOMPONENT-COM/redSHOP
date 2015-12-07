@@ -21,9 +21,9 @@ class Tablecatalog extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'catalog', 'catalog_id', $db);
+
+		parent::__construct('#__redshop_catalog', 'catalog_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

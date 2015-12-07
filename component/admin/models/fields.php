@@ -117,6 +117,7 @@ class RedshopModelFields extends RedshopModel
 	 */
 	public function saveorder($cid = array(), $order = array())
 	{
+		$db = JFactory::getDbo();
 		$row        = $this->getTable('fields_detail');
 		$conditions = array();
 
@@ -131,7 +132,7 @@ class RedshopModelFields extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}

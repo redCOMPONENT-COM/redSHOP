@@ -23,7 +23,6 @@ class RedshopModelBarcode extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_loglist = null;
 
@@ -32,23 +31,24 @@ class RedshopModelBarcode extends RedshopModel
 		parent::__construct();
 
 		$app = JFactory::getApplication();
-		$this->_table_prefix = '#__redshop_';
+
 	}
 
 	public function save($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('barcode');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -56,9 +56,10 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function checkorder($barcode)
 	{
-		$query = "SELECT order_id  FROM " . $this->_table_prefix . "orders where barcode='" . $barcode . "'";
-		$this->_db->setQuery($query);
-		$order = $this->_db->loadObject();
+		$db = JFactory::getDbo();
+		$query = "SELECT order_id  FROM #__redshop_orders where barcode='" . $barcode . "'";
+		$db->setQuery($query);
+		$order = $db->loadObject();
 
 		if (!$order)
 		{
@@ -70,35 +71,37 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function getLog($order_id)
 	{
-		$query = "SELECT count(*) as log FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = "SELECT count(*) as log FROM #__redshop_orderbarcode_log where order_id=" . $order_id;
+		$db->setQuery($query);
 
-		return $this->_db->loadObject();
+		return $db->loadObject();
 	}
 
 	public function getLogdetail($order_id)
 	{
-		$logquery = "SELECT *  FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
-		$this->_db->setQuery($logquery);
+		$db = JFactory::getDbo();
+		$logquery = "SELECT *  FROM #__redshop_orderbarcode_log where order_id=" . $order_id;
+		$db->setQuery($logquery);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getUser($user_id)
 	{
+		$db = JFactory::getDbo();
+		$userquery = "SELECT name  FROM #__redshop_users where id=" . $user_id;
+		$db->setQuery($userquery);
 
-		$this->_table_prefix = '#__';
-		$userquery = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
-		$this->_db->setQuery($userquery);
-
-		return $this->_db->loadObject();
+		return $db->loadObject();
 	}
 
 	public function updateorderstatus($barcode, $order_id)
 	{
-		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
+		$db = JFactory::getDbo();
+		$update_query = "UPDATE #__redshop_orders SET order_status = 'S' where barcode='"
 			. $barcode . "' and order_id ='" . $order_id . "'";
-		$this->_db->setQuery($update_query);
-		$this->_db->execute();
+		$db->setQuery($update_query);
+		$db->execute();
 	}
 }

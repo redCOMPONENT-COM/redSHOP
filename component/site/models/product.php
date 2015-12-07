@@ -33,8 +33,6 @@ class RedshopModelProduct extends RedshopModel
 	 */
 	public $_product = null;
 
-	public $_table_prefix = null;
-
 	public $_template = null;
 
 	public $_catid = null;
@@ -43,7 +41,7 @@ class RedshopModelProduct extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$option              = JRequest::getVar('option', 'com_redshop');
 		$pid                 = JRequest::getInt('pid', 0);
 
@@ -82,10 +80,10 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$query = "SELECT p.*, c.category_id, c.category_name ,c.category_back_full_image,c.category_full_image , m.manufacturer_name,pcx.ordering "
-			. "FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.product_id = p.product_id " . $and
-			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id = p.manufacturer_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id = pcx.category_id "
+			. "FROM #__redshop_product AS p "
+			. "LEFT JOIN #__redshop_product_category_xref AS pcx ON pcx.product_id = p.product_id " . $and
+			. "LEFT JOIN #__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id "
+			. "LEFT JOIN #__redshop_category AS c ON c.category_id = pcx.category_id "
 			. "WHERE 1=1 "
 			. "AND p.product_id = " . (int) $this->_id . " "
 			. "LIMIT 0,1 ";
@@ -137,13 +135,13 @@ class RedshopModelProduct extends RedshopModel
 	 */
 	public function getPrevNextproduct($product_id, $category_id, $dirn)
 	{
-		$query = "SELECT ordering FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int) $product_id . " AND category_id = " . (int) $category_id . " LIMIT 0,1";
+		$query = "SELECT ordering FROM #__redshop_product_category_xref WHERE product_id = " . (int) $product_id . " AND category_id = " . (int) $category_id . " LIMIT 0,1";
 
 		$where = ' AND p.published="1" AND category_id = ' . (int) $category_id;
 
-		$sql = "SELECT pcx.product_id, p.product_name , ordering FROM " . $this->_table_prefix . "product_category_xref ";
+		$sql = "SELECT pcx.product_id, p.product_name , ordering FROM #__redshop_product_category_xref ";
 
-		$sql .= " as pcx LEFT JOIN " . $this->_table_prefix . "product as p ON p.product_id = pcx.product_id ";
+		$sql .= " as pcx LEFT JOIN #__redshop_product as p ON p.product_id = pcx.product_id ";
 
 		if ($dirn < 0)
 		{
@@ -174,7 +172,7 @@ class RedshopModelProduct extends RedshopModel
 	public function checkReview($email)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT email from " . $this->_table_prefix . "product_rating WHERE email = " . $db->quote($email) . " AND email != '' AND product_id = " . (int) $product_id . " limit 0,1 ";
+		$query = "SELECT email from #__redshop_product_rating WHERE email = " . $db->quote($email) . " AND email != '' AND product_id = " . (int) $product_id . " limit 0,1 ";
 		$db->setQuery($query);
 		$chkemail = $db->loadResult();
 
@@ -278,8 +276,8 @@ class RedshopModelProduct extends RedshopModel
 	public function getProductTags($tagname, $productid)
 	{
 		$query = "SELECT pt.*,ptx.product_id,ptx.users_id "
-			. "FROM " . $this->_table_prefix . "product_tags AS pt "
-			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
+			. "FROM #__redshop_product_tags AS pt "
+			. "LEFT JOIN #__redshop_product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
 			. "WHERE pt.tags_name LIKE " . $this->_db->quote($tagname) . " ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -289,7 +287,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function updateVisited($product_id)
 	{
-		$query = "UPDATE " . $this->_table_prefix . "product "
+		$query = "UPDATE #__redshop_product "
 			. "SET visited=visited + 1 "
 			. "WHERE product_id = " . (int) $product_id;
 		$this->_db->setQuery($query);
@@ -371,7 +369,7 @@ class RedshopModelProduct extends RedshopModel
 	public function addProductTagsXref($post, $tags)
 	{
 		$user  = JFactory::getUser();
-		$query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
+		$query = "INSERT INTO #__redshop_product_tags_xref "
 			. "VALUES('" . (int) $tags->tags_id . "','" . (int) $post['product_id'] . "','" . (int) $user->id . "')";
 		$this->_db->setQuery($query);
 		$this->_db->execute();
@@ -382,8 +380,8 @@ class RedshopModelProduct extends RedshopModel
 	public function checkProductTags($tagname, $productid)
 	{
 		$user  = JFactory::getUser();
-		$query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM " . $this->_table_prefix . "product_tags AS pt "
-			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
+		$query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM #__redshop_product_tags AS pt "
+			. "LEFT JOIN #__redshop_product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
 			. "WHERE pt.tags_name LIKE " . $this->_db->quote($tagname) . " "
 			. "AND ptx.product_id = " . (int) $productid . " "
 			. "AND ptx.users_id = " . (int) $user->id;
@@ -396,7 +394,7 @@ class RedshopModelProduct extends RedshopModel
 	public function checkWishlist($product_id)
 	{
 		$user  = JFactory::getUser();
-		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist "
+		$query = "SELECT * FROM #__redshop_wishlist "
 			. "WHERE product_id = " . (int) $product_id . " "
 			. "AND user_id = " . (int) $user->id;
 		$this->_db->setQuery($query);
@@ -559,7 +557,7 @@ class RedshopModelProduct extends RedshopModel
 			$tablename = "media_download ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . $tablename
+		$query = "SELECT * FROM #__redshop_" . $tablename
 			. "WHERE 1=1 "
 			. $where;
 		$list  = $this->_getList($query);
@@ -569,7 +567,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function setDownloadLimit($did)
 	{
-		$query = "UPDATE " . $this->_table_prefix . "product_download "
+		$query = "UPDATE #__redshop_product_download "
 			. "SET download_max=(download_max - 1) "
 			. "WHERE download_id = " . (int) $did;
 		$this->_db->setQuery($query);

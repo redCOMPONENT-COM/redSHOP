@@ -23,7 +23,6 @@ class RedshopModelOrders extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_template = null;
 
@@ -39,7 +38,7 @@ class RedshopModelOrders extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$this->_limitstart   = JRequest::getVar('limitstart', 0);
 		$this->_limit        = $app->getUserStateFromRequest($context . 'limit', 'limit', 10, 'int');
 	}
@@ -51,7 +50,7 @@ class RedshopModelOrders extends RedshopModel
 		$query = $db->getQuery(true);
 
 		$query->select('*');
-		$query->from($this->_table_prefix . "orders");
+		$query->from("#__redshop_orders");
 		$query->where('user_id = ' . (int) $user->id);
 		$query->order('cdate DESC');
 

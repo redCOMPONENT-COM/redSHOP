@@ -25,8 +25,6 @@ class RedshopModelProduct_mini extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		global $context;
@@ -36,7 +34,7 @@ class RedshopModelProduct_mini extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$context             = 'product_id';
-		$this->_table_prefix = '#__redshop_';
+
 
 		$limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', 0);
@@ -82,15 +80,15 @@ class RedshopModelProduct_mini extends RedshopModel
 		if ($where != '')
 		{
 			$query = 'SELECT count(distinct(p.product_id)) '
-				. 'FROM ' . $this->_table_prefix . 'product p '
-				. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '
-				. 'LEFT JOIN ' . $this->_table_prefix . 'category c ON x.category_id = c.category_id '
+				. 'FROM #__redshop_product p '
+				. 'LEFT JOIN #__redshop_product_category_xref x ON x.product_id = p.product_id '
+				. 'LEFT JOIN #__redshop_category c ON x.category_id = c.category_id '
 				. 'WHERE 1=1 '
 				. $where;
 		}
 		else
 		{
-			$query = 'SELECT count(*) FROM ' . $this->_table_prefix . 'product p ';
+			$query = 'SELECT count(*) FROM #__redshop_product p ';
 		}
 
 		if (empty($this->_total))
@@ -147,9 +145,9 @@ class RedshopModelProduct_mini extends RedshopModel
 
 		if ($where != '')
 		{
-			$query = 'SELECT distinct(p.product_id),p.*, x.ordering , x.category_id FROM ' . $this->_table_prefix . 'product p '
-				. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '
-				. 'LEFT JOIN ' . $this->_table_prefix . 'category c ON x.category_id = c.category_id '
+			$query = 'SELECT distinct(p.product_id),p.*, x.ordering , x.category_id FROM #__redshop_product p '
+				. 'LEFT JOIN #__redshop_product_category_xref x ON x.product_id = p.product_id '
+				. 'LEFT JOIN #__redshop_category c ON x.category_id = c.category_id '
 				. 'WHERE 1=1 ' . $where . ' '
 				. $orderby;
 		}

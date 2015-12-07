@@ -13,15 +13,6 @@ JLoader::load('RedshopHelperAdminMail');
 
 class RedshopModelAccessmanager_detail extends RedshopModel
 {
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
-	}
-
 	public function setId($id)
 	{
 		$this->_id = $id;
@@ -33,10 +24,10 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 		$db = JFactory::getDbo();
 
 		$section = JRequest::getVar('section');
-		$query = "SELECT a.* FROM " . $this->_table_prefix . "accessmanager AS a "
+		$query = "SELECT a.* FROM #__redshop_accessmanager AS a "
 			. "WHERE a.section_name = " . $db->quote($section);
-		$this->_db->setQuery($query);
-		$this->_data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$this->_data = $db->loadObjectList();
 
 		return $this->_data;
 	}
@@ -82,14 +73,14 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 					{
 						if (!$row->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
 					}
 					else
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
@@ -111,7 +102,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row1->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -125,7 +116,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row1->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -146,7 +137,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_amt->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -160,7 +151,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_amt->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -183,7 +174,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_img->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -198,7 +189,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_img->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -219,7 +210,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_imgd->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -234,7 +225,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_imgd->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -262,7 +253,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 
 					if ($row->view == 1 && $row->add == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+						$query = "UPDATE #__redshop_accessmanager"
 							. " SET `view` = " . (int) $row->view . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -270,13 +261,13 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 					else
 					{
 						$child_view = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+						$query = "UPDATE #__redshop_accessmanager"
 							. " SET `view` = " . (int) $child_view . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -284,15 +275,15 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 
 					$child_section1 = "stockroom_listing";
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+						$query = "UPDATE #__redshop_accessmanager"
 							. " SET `view` = " . (int) $row->view . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -300,13 +291,13 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section1)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 					else
 					{
 						$child_view1 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+						$query = "UPDATE #__redshop_accessmanager"
 							. " SET `view` = " . (int) $child_view1 . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -314,15 +305,15 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = '" . $db->quote($child_section1)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 
 					$child_section2 = "stockimage";
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+						$query = "UPDATE #__redshop_accessmanager"
 							. " SET `view` = " . (int) $row->view . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -330,14 +321,14 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section2)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 					else
 					{
 						$child_view2 = null;
 						$child_add2 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+						$query = "UPDATE #__redshop_accessmanager"
 							. " SET `view` = " . (int) $child_view2 . ","
 							. " `add` = " . (int) $child_add2 . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -345,15 +336,15 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = '" . $db->quote($child_section2)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 
 					$child_section3 = "stockimage_detail";
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+						$query = "UPDATE #__redshop_accessmanager"
 							. " SET `view` = " . (int) $row->view . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -361,13 +352,13 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section3)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 					else
 					{
 						$child_view1 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+						$query = "UPDATE #__redshop_accessmanager"
 							. " SET `view` = " . (int) $child_view1 . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","
@@ -375,12 +366,12 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section3)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 				}
 
-				$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+				$query = "UPDATE #__redshop_accessmanager"
 					. " SET `view` = " . (int) $row->view . ","
 					. " `add` = " . (int) $row->add . ","
 					. " `edit` = " . (int) $row->edit . ","
@@ -388,8 +379,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 					. " WHERE `section_name` = " . $db->quote($row->section_name)
 					. " AND `gid` = " . (int) $row->gid;
 
-				$this->_db->setQuery($query);
-				$this->_db->execute();
+				$db->setQuery($query);
+				$db->execute();
 			}
 		}
 
@@ -405,11 +396,11 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 	public function checksection($section)
 	{
 		$db = JFactory::getDbo();
-		$query = " SELECT count(*) FROM " . $this->_table_prefix . "accessmanager "
+		$query = " SELECT count(*) FROM #__redshop_accessmanager "
 			. "WHERE `section_name` = " . $db->quote($section);
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function getGroup()

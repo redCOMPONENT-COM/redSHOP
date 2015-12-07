@@ -19,7 +19,6 @@ defined('_JEXEC') or die;
  */
 class RedshopModelNewsletter extends RedshopModel
 {
-	public $_table_prefix = null;
 
 	public $_db = null;
 
@@ -31,7 +30,7 @@ class RedshopModelNewsletter extends RedshopModel
 		parent::__construct();
 
 		$this->_db           = JFactory::getDbo();
-		$this->_table_prefix = '#__redshop_';
+
 		$sub_id              = JRequest::getInt('sid', '', 'request');
 
 		if ($sub_id)
@@ -52,7 +51,7 @@ class RedshopModelNewsletter extends RedshopModel
 			$email = $user->email;
 		}
 
-		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "newsletter";
+		$query = "SELECT COUNT(*) FROM #__redshop_newsletter";
 		$this->_db->setQuery($query);
 		$newsletter = $this->_db->loadResult();
 		$url        = JURI::root();
@@ -60,7 +59,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 		if ($newsletter != 0)
 		{
-			$query = "SELECT subscription_id FROM  " . $this->_table_prefix . "newsletter_subscription "
+			$query = "SELECT subscription_id FROM  #__redshop_newsletter_subscription "
 				. "WHERE email = " . $this->_db->quote($email) . " "
 				. "AND newsletter_id = " . (int) DEFAULT_NEWSLETTER . " "
 				. $and;
@@ -85,7 +84,7 @@ class RedshopModelNewsletter extends RedshopModel
 	public function confirmsubscribe($sub_id)
 	{
 		$app = JFactory::getApplication();
-		$query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . (int) $sub_id . "' ";
+		$query = "UPDATE `#__redshop_newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . (int) $sub_id . "' ";
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 		$url  = JURI::root();

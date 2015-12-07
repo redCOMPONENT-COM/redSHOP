@@ -33,7 +33,6 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public $_product = null;
 
-	public $_table_prefix = null;
 
 	public $_template = null;
 
@@ -54,7 +53,7 @@ class RedshopModelCart extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 
 		$this->_producthelper = new producthelper;
 		$this->_carthelper    = new rsCarthelper;
@@ -129,14 +128,14 @@ class RedshopModelCart extends RedshopModel
 			$carttimeout     = (int) CART_TIMEOUT;
 			$time            = time() - ($carttimeout * 60);
 
-			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
+			$sql = "SELECT product_id FROM #__redshop_cart "
 				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. "AND section='product' "
 				. "AND time < $time ";
 			$db->setQuery($sql);
 			$deletedrs = $db->loadColumn();
 
-			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
+			$sql = "SELECT product_id FROM #__redshop_cart "
 				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. "AND section='product' ";
 			$db->setQuery($sql);
@@ -578,7 +577,7 @@ class RedshopModelCart extends RedshopModel
 	{
 		$db          = JFactory::getDbo();
 		$redTemplate = new redTemplate;
-		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
+		$q           = "SELECT product_template FROM #__redshop_product "
 			. "WHERE product_id = " . (int) $product_id;
 
 		$db->setQuery($q);

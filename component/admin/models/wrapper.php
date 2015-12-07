@@ -20,7 +20,6 @@ class RedshopModelWrapper extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -31,7 +30,7 @@ class RedshopModelWrapper extends RedshopModel
 
 		$this->_context = 'wrapper_id';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -92,7 +91,7 @@ class RedshopModelWrapper extends RedshopModel
 		{
 			$and = 'WHERE FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1 ';
 
-			$query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref "
+			$query = "SELECT * FROM #__redshop_product_category_xref "
 				. "WHERE product_id = " . $this->_productid;
 			$cat = $this->_getList($query);
 
@@ -101,7 +100,7 @@ class RedshopModelWrapper extends RedshopModel
 				$and .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
 			}
 		}
-		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w '
+		$query = 'SELECT distinct(w.wrapper_id), w.* FROM #__redshop_wrapper AS w '
 			. $and;
 
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'w.wrapper_id');

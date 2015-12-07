@@ -30,8 +30,6 @@ class RedshopModelWishlist extends RedshopModel
 	// Product data
 	public $_userid = null;
 
-	public $_table_prefix = null;
-
 	public $_comment = null;
 
 	public $_cdate = null;
@@ -39,7 +37,7 @@ class RedshopModelWishlist extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 	}
 
 	public function getUserWishlist()
@@ -47,7 +45,7 @@ class RedshopModelWishlist extends RedshopModel
 		$user = JFactory::getUser();
 		$db   = JFactory::getDbo();
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist WHERE user_id=" . (int) $user->id;
+		$query = "SELECT * FROM #__redshop_wishlist WHERE user_id=" . (int) $user->id;
 		$db->setQuery($query);
 
 		return $db->loadObjectlist();
@@ -165,7 +163,7 @@ class RedshopModelWishlist extends RedshopModel
 
 			if ($product_id)
 			{
-				$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
+				$ins_query = "INSERT INTO #__redshop_wishlist_product "
 					. " SET wishlist_id=" . (int) $row->wishlist_id
 					. ", product_id=" . (int) $product_id
 					. ", cdate = " . $db->quote(time());
@@ -230,7 +228,7 @@ class RedshopModelWishlist extends RedshopModel
 
 		for ($i = 0; $i < count($cid); $i++)
 		{
-			$query = "SELECT wishlist_product_id FROM " . $this->_table_prefix . "wishlist_product "
+			$query = "SELECT wishlist_product_id FROM #__redshop_wishlist_product "
 				. " WHERE wishlist_id=" . (int) $cid[$i] . " AND product_id=" . (int) $product_id;
 			$db->setQuery($query);
 
@@ -239,7 +237,7 @@ class RedshopModelWishlist extends RedshopModel
 				continue;
 			}
 
-			$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
+			$ins_query = "INSERT INTO #__redshop_wishlist_product "
 				. " SET wishlist_id=" . (int) $cid[$i]
 				. ", product_id=" . (int) $product_id
 				. ", cdate = " . $db->quote(time());
@@ -261,7 +259,7 @@ class RedshopModelWishlist extends RedshopModel
 	public function check_user_wishlist_authority($userid, $wishlist_id)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
+		$query = "SELECT wishlist_id FROM #__redshop_wishlist "
 			. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
 		$db->setQuery($query);
 
@@ -280,18 +278,18 @@ class RedshopModelWishlist extends RedshopModel
 	public function delwishlist($userid, $wishlist_id)
 	{
 		$db    = JFactory::getDbo();
-		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
+		$query = "DELETE FROM #__redshop_wishlist_product "
 			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
 
 		$db->execute();
-		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_userfielddata "
+		$query = "DELETE FROM #__redshop_wishlist_userfielddata "
 			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
 
 		if ($db->execute())
 		{
-			$query = "DELETE FROM " . $this->_table_prefix . "wishlist "
+			$query = "DELETE FROM #__redshop_wishlist "
 				. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
 			$db->setQuery($query);
 

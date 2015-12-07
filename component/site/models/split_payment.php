@@ -24,18 +24,16 @@ class RedshopModelSplit_payment extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 	}
 
 	public function getordersdetail($oid)
 	{
-		$query = "SELECT * FROM  " . $this->_table_prefix . "orders WHERE order_id = " . (int) $oid;
+		$query = "SELECT * FROM  #__redshop_orders WHERE order_id = " . (int) $oid;
 		$this->_db->setQuery($query);
 		$order_detail = $this->_db->loadObject();
 
@@ -44,7 +42,7 @@ class RedshopModelSplit_payment extends RedshopModel
 
 	public function getuseraccountinfo($uid)
 	{
-		$query = 'SELECT uf.*,u.email FROM ' . $this->_table_prefix . 'users_info as uf, #__users as u WHERE user_id = '
+		$query = 'SELECT uf.*,u.email FROM #__redshop_users_info as uf, #__users as u WHERE user_id = '
 			. (int) $uid . ' AND uf.user_id=u.id';
 		$this->_db->setQuery($query);
 
@@ -100,8 +98,7 @@ class RedshopModelSplit_payment extends RedshopModel
 			$order_paymentstatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 			$order_status_full   = 'Awaiting bank transfer';
 
-			$query = "UPDATE " . $this->_table_prefix
-				. "orders set order_payment_status = '" . $order_paymentstatus
+			$query = "UPDATE #__redshop_orders set order_payment_status = '" . $order_paymentstatus
 				. "', split_payment=0  where order_id = " . (int) $oid;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -181,8 +178,7 @@ class RedshopModelSplit_payment extends RedshopModel
 					$order_paymentstatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
 					$msg                 = JText::_('COM_REDSHOP_PARTIAL_PAYMENT_DONE');
 
-					$query = "UPDATE " . $this->_table_prefix
-						. "orders set order_payment_status = " . $this->_db->quote($order_paymentstatus)
+					$query = "UPDATE #__redshop_orders set order_payment_status = " . $this->_db->quote($order_paymentstatus)
 						. ", split_payment = 0  where order_id = " . (int) $oid;
 					$this->_db->setQuery($query);
 					$this->_db->execute();

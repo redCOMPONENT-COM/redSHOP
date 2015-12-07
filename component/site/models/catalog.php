@@ -20,12 +20,11 @@ JLoader::load('RedshopHelperAdminMail');
  */
 class RedshopModelCatalog extends RedshopModel
 {
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 	}
 
 	public function catalogStore($data)
@@ -72,7 +71,7 @@ class RedshopModelCatalog extends RedshopModel
 
 	public function getCatalogList()
 	{
-		$query   = "SELECT c.*,c.catalog_id AS value,c.catalog_name AS text FROM " . $this->_table_prefix . "catalog AS c "
+		$query   = "SELECT c.*,c.catalog_id AS value,c.catalog_name AS text FROM #__redshop_catalog AS c "
 			. "WHERE c.published = 1 ";
 		$catalog = $this->_getList($query);
 
@@ -81,7 +80,7 @@ class RedshopModelCatalog extends RedshopModel
 
 	public function getCatalogSampleList()
 	{
-		$query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_sample AS c "
+		$query   = "SELECT c.* FROM #__redshop_catalog_sample AS c "
 			. "WHERE c.published = 1 ";
 		$catalog = $this->_getList($query);
 
@@ -97,7 +96,7 @@ class RedshopModelCatalog extends RedshopModel
 			$and = "AND c.sample_id = " . (int) $sample_id . " ";
 		}
 
-		$query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_colour AS c "
+		$query   = "SELECT c.* FROM #__redshop_catalog_colour AS c "
 			. "WHERE 1=1 "
 			. $and;
 		$catalog = $this->_getList($query);

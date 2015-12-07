@@ -21,12 +21,9 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_sectionid = JRequest::getVar('product_id', 0, '', 'int');
@@ -57,8 +54,8 @@ class RedshopModelWrapper_detail extends RedshopModel
 		if (empty($this->_data))
 		{
 			$query = 'SELECT p.*, w.* '
-				. 'FROM ' . $this->_table_prefix . 'wrapper as w '
-				. 'LEFT JOIN ' . $this->_table_prefix . 'product as p ON p.product_id = w.product_id '
+				. 'FROM #__redshop_wrapper as w '
+				. 'LEFT JOIN #__redshop_product as p ON p.product_id = w.product_id '
 				. 'WHERE w.wrapper_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -94,7 +91,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 	public function getProductName($productid)
 	{
 		$q = 'SELECT product_name '
-			. 'FROM ' . $this->_table_prefix . 'product '
+			. 'FROM #__redshop_product '
 			. 'WHERE product_id = ' . $productid;
 		$this->_db->setQuery($q);
 		$pname = $this->_db->loadResult();
@@ -104,8 +101,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 	public function getProductInfo($productid = 0)
 	{
-		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix .
-			'product WHERE published = 1 and product_id in   (' . $productid . ')';
+		$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id in   (' . $productid . ')';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
 
@@ -115,7 +111,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 	public function getCategoryName($categoryid)
 	{
 		$q = 'SELECT category_name '
-			. 'FROM ' . $this->_table_prefix . 'category '
+			. 'FROM #__redshop_category '
 			. 'WHERE category_id = ' . $categoryid;
 		$this->_db->setQuery($q);
 		$name = $this->_db->loadResult();
@@ -133,7 +129,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 		}
 
 		$q = 'SELECT * '
-			. 'FROM ' . $this->_table_prefix . 'category '
+			. 'FROM #__redshop_category '
 			. $and;
 		$this->_db->setQuery($q);
 		$list = $this->_db->loadObjectList();
@@ -145,13 +141,11 @@ class RedshopModelWrapper_detail extends RedshopModel
 	{
 		if ($productid)
 		{
-			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix
-				. 'product WHERE published = 1 and product_id in   (' . $productid . ')';
+			$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id in   (' . $productid . ')';
 		}
 		else
 		{
-			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix .
-				'product WHERE published = 1 and product_id =""';
+			$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id =""';
 		}
 
 		$this->_db->setQuery($query);
@@ -266,7 +260,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'wrapper '
+			$query = 'DELETE FROM #__redshop_wrapper '
 				. 'WHERE wrapper_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -292,7 +286,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = ' UPDATE ' . $this->_table_prefix . 'wrapper '
+			$query = ' UPDATE #__redshop_wrapper '
 				. ' SET published = ' . intval($publish)
 				. ' WHERE wrapper_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -314,7 +308,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = ' UPDATE ' . $this->_table_prefix . 'wrapper '
+			$query = ' UPDATE #__redshop_wrapper '
 				. ' SET wrapper_use_to_all = ' . intval($publish)
 				. ' WHERE wrapper_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);

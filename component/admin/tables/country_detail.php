@@ -23,9 +23,9 @@ class Tablecountry_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'country', 'country_id', $db);
+
+		parent::__construct('#__redshop_country', 'country_id', $db);
 	}
 
 	public function bind($array, $ignore = '')
@@ -44,7 +44,7 @@ class Tablecountry_detail extends JTable
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT country_id,country_3_code  FROM " . $this->_table_prefix . "country"
+		$q = "SELECT country_id,country_3_code  FROM #__redshop_country"
 			. " WHERE country_3_code = " . $db->quote($this->country_3_code)
 			. " AND country_id !=  " . (int) $this->country_id;
 
@@ -61,7 +61,7 @@ class Tablecountry_detail extends JTable
 		}
 		else
 		{
-			$q = "SELECT country_id,country_3_code,country_2_code  FROM " . $this->_table_prefix . "country"
+			$q = "SELECT country_id,country_3_code,country_2_code  FROM #__redshop_country"
 				. " WHERE country_2_code = " . $db->quote($this->country_2_code)
 				. " AND country_id !=  " . (int) $this->country_id;
 

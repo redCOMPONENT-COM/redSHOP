@@ -18,7 +18,6 @@ class RedshopModelOrderstatus extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -30,7 +29,7 @@ class RedshopModelOrderstatus extends RedshopModel
 
 		$this->_context = 'order_status_id';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -74,7 +73,7 @@ class RedshopModelOrderstatus extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = 'SELECT distinct(o.order_status_id),o.* FROM ' . $this->_table_prefix . 'order_status o'
+		$query = 'SELECT distinct(o.order_status_id),o.* FROM #__redshop_order_status o'
 			. $orderby;
 
 		return $query;

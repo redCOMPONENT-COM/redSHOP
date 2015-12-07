@@ -9,20 +9,15 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelVoucher_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -52,7 +47,7 @@ class RedshopModelVoucher_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_voucher WHERE voucher_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_product_voucher WHERE voucher_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -86,25 +81,11 @@ class RedshopModelVoucher_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
+		$row = parent::store($data);
 
 		$voucher_id = $row->voucher_id;
 
-		$sql = "delete from " . $this->_table_prefix . "product_voucher_xref where voucher_id='" . $voucher_id . "' ";
+		$sql = "delete from #__redshop_product_voucher_xref where voucher_id='" . $voucher_id . "' ";
 		$this->_db->setQuery($sql);
 		$this->_db->execute();
 
@@ -114,7 +95,7 @@ class RedshopModelVoucher_detail extends RedshopModel
 		{
 			foreach ($products_list as $cp)
 			{
-				$sql = "insert into " . $this->_table_prefix . "product_voucher_xref (voucher_id,product_id) value ('" . $voucher_id . "','" . $cp . "')";
+				$sql = "insert into #__redshop_product_voucher_xref (voucher_id,product_id) value ('" . $voucher_id . "','" . $cp . "')";
 				$this->_db->setQuery($sql);
 				$this->_db->execute();
 			}
@@ -129,7 +110,7 @@ class RedshopModelVoucher_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_voucher WHERE voucher_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product_voucher WHERE voucher_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -149,7 +130,7 @@ class RedshopModelVoucher_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'product_voucher'
+			$query = 'UPDATE #__redshop_product_voucher'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE voucher_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -167,8 +148,8 @@ class RedshopModelVoucher_detail extends RedshopModel
 
 	public function product_data()
 	{
-		$query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv,"
-			. $this->_table_prefix . "product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
+		$query = "SELECT pv.product_id,p.product_name FROM #__redshop_product_voucher_xref as pv,"
+			. "#__redshop_product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
 
@@ -177,8 +158,8 @@ class RedshopModelVoucher_detail extends RedshopModel
 
 	public function voucher_products_sel($voucher_id)
 	{
-		$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , "
-			. $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $voucher_id . " and cp.product_id=p.product_id ";
+		$query = "SELECT cp.product_id as value,p.product_name as text FROM #__redshop_product as p , "
+			. "#__redshop_product_voucher_xref as cp  WHERE cp.voucher_id=" . $voucher_id . " and cp.product_id=p.product_id ";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
 
@@ -187,8 +168,8 @@ class RedshopModelVoucher_detail extends RedshopModel
 
 	public function checkduplicate($discount_code)
 	{
-		$query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons"
-			. " LEFT JOIN " . $this->_table_prefix . "product_voucher ON coupon_code=voucher_code"
+		$query = "SELECT count(*) as code from #__redshop_coupons"
+			. " LEFT JOIN #__redshop_product_voucher ON coupon_code=voucher_code"
 			. " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";
 
 		$this->_db->setQuery($query);
