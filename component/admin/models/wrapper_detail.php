@@ -147,8 +147,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 		}
 		else
 		{
-			$query = 'SELECT product_name as text,product_id as value FROM ' . #__redshop_ .
-				'product WHERE published = 1 and product_id =""';
+			$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id =""';
 		}
 
 		$this->_db->setQuery($query);
