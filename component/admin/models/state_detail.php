@@ -8,19 +8,15 @@
  */
 defined('_JEXEC') or die;
 
-
 class RedshopModelState_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -79,35 +75,6 @@ class RedshopModelState_detail extends RedshopModel
 		}
 
 		return true;
-	}
-
-	public function store($data)
-	{
-
-		$row = $this->getTable('state_detail');
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->check())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
 	}
 
 	public function delete($cid = array())

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelCatalog_request extends RedshopModel
 {
 	public $_data = null;
@@ -17,7 +16,6 @@ class RedshopModelCatalog_request extends RedshopModel
 	public $_total = null;
 
 	public $_pagination = null;
-
 
 	public $_context = null;
 

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelShipping_rate extends RedshopModel
 {
 	public $_data = null;
@@ -18,14 +17,12 @@ class RedshopModelShipping_rate extends RedshopModel
 
 	public $_pagination = null;
 
-
 	public $_context = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$app = JFactory::getApplication();
-
 
 		$this->_context = 'shipping_rate_id';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCart');
 JLoader::load('RedshopHelperAdminExtra_field');
@@ -24,13 +23,11 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -157,21 +154,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
+		$row = parent::store($data);
 
 		$quotation_item = $data['quotation_item'];
 

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
@@ -19,13 +18,11 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -117,48 +114,32 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		$data['shipping_rate_state'] = @ implode(',', $data['shipping_rate_state']);
 		$data['shipping_rate_on_shopper_group'] = @ implode(',', $data['shipping_rate_on_shopper_group']);
 
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
+		if (!$data['shipping_rate_on_product'])
 		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
+			$data['shipping_rate_on_product'] = '';
 		}
 
-		if (!$row->shipping_rate_on_product)
+		if (!$data['shipping_rate_on_category'])
 		{
-			$row->shipping_rate_on_product = '';
+			$data['shipping_rate_on_category'] = '';
 		}
 
-		if (!$row->shipping_rate_on_category)
+		if (!$data['shipping_rate_state'])
 		{
-			$row->shipping_rate_on_category = '';
+			$data['shipping_rate_state'] = '';
 		}
 
-		if (!$row->shipping_rate_state)
+		if (!$data['shipping_rate_on_shopper_group'])
 		{
-			$row->shipping_rate_state = '';
+			$data['shipping_rate_on_shopper_group'] = '';
 		}
 
-		if (!$row->shipping_rate_on_shopper_group)
+		if (!$data['company_only'])
 		{
-			$row->shipping_rate_on_shopper_group = '';
+			$data['company_only'] = 0;
 		}
 
-		if (!$row->company_only)
-		{
-			$row->company_only = 0;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
+		return parent::store($data);
 	}
 
 	public function delete($cid = array())

@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelManufacturer_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
-
 
 	public $_copydata = null;
 
@@ -24,8 +22,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -98,8 +94,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$db = JFactory::getDbo();
-		$order_functions = new order_functions;
+		$order_functions  = new order_functions;
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
@@ -107,35 +102,20 @@ class RedshopModelManufacturer_detail extends RedshopModel
 			$data['excluding_category_list'] = @ implode(',', $data['excluding_category_list']);
 		}
 
-		$row = $this->getTable();
-
 		if ($data['manufacturer_id'] == 0)
 		{
 			$data['ordering'] = $this->MaxOrdering();
 		}
 
-		if (!$row->bind($data))
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
-			if (!$row->excluding_category_list)
+			if (!$data['excluding_category_list'])
 			{
-				$row->excluding_category_list = '';
+				$data['excluding_category_list'] = '';
 			}
 		}
 
-		if (!$row->store())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
+		return parent::store($data);
 	}
 
 	public function delete($cid = array())

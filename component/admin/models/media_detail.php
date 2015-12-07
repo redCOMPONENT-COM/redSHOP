@@ -8,13 +8,11 @@
  */
 defined('_JEXEC') or die;
 
-
 class RedshopModelMedia_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
-
 
 	public $_mediadata = null;
 
@@ -88,22 +86,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$db = JFactory::getDbo();
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
+		$row = parent::store($data);
 
 		$db = JFactory::getDbo();
 		$condition = 'section_id = ' . $db->q($row->section_id) . ' AND media_section = ' . $db->q($row->media_section);

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminMail');
 
 class RedshopModelAnswer_detail extends RedshopModel
@@ -100,29 +99,12 @@ class RedshopModelAnswer_detail extends RedshopModel
 	 */
 	public function store($data)
 	{
-		$db = JFactory::getDbo();
-		$row = $this->getTable('question_detail');
-
 		if (!$data['question_id'])
 		{
 			$data['ordering'] = $this->MaxOrdering();
 		}
 
-		if (!$row->bind($data))
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
+		return parent::store($data);
 	}
 
 	/**

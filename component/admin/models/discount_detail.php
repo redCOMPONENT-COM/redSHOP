@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelDiscount_detail extends RedshopModel
 {
 	public $_id = null;
@@ -18,12 +17,9 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public $_shoppers = null;
 
-
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -102,22 +98,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$db = JFactory::getDbo();
-		$row = $this->getTable('discount_detail');
-
-		if (!$row->bind($data))
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
+		$row = parent::store($data);
 
 		// Remove Relation With Shoppers
 		$sdel = "DELETE FROM #__redshop_discount_shoppers WHERE discount_id = " . $row->discount_id;

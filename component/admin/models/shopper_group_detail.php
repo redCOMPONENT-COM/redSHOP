@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminThumbnail');
 JLoader::load('RedshopHelperAdminImages');
 jimport('joomla.client.helper');
@@ -20,7 +19,6 @@ class RedshopModelShopper_group_detail extends RedshopModel
 	public $_id = null;
 
 	public $_data = null;
-
 
 	public function __construct()
 	{
@@ -173,21 +171,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			$data['shopper_group_logo'] = $destname;
 		}
 
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
+		$row = parent::store($data);
 
 		if ($isNew && NEW_SHOPPER_GROUP_GET_VALUE_FROM)
 		{

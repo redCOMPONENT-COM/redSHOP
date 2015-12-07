@@ -17,7 +17,6 @@ class RedshopModelStockimage_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public function __construct()
 	{
 		parent::__construct();

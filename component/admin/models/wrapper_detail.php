@@ -21,11 +21,9 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public function __construct()
 	{
 		parent::__construct();
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_sectionid = JRequest::getVar('product_id', 0, '', 'int');

@@ -9,21 +9,17 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelStockroom_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -84,29 +80,6 @@ class RedshopModelStockroom_detail extends RedshopModel
 		}
 
 		return true;
-	}
-
-	public function store($data)
-	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		$stockroom_id = $row->stockroom_id;
-
-		return $row;
 	}
 
 	public function delete($cid = array())

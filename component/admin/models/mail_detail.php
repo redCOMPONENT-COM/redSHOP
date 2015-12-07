@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
@@ -21,12 +20,9 @@ class RedshopModelMail_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -89,28 +85,6 @@ class RedshopModelMail_detail extends RedshopModel
 		}
 
 		return true;
-	}
-
-	public function store($data)
-	{
-		$db = JFactory::getDbo();
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
 	}
 
 	public function delete($cid = array())

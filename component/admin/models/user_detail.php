@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminMail');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperUser');
@@ -22,7 +21,6 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public $_pagination = null;
 
 	public $_copydata = null;
@@ -33,7 +31,6 @@ class RedshopModelUser_detail extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 		parent::__construct();
-
 
 		$this->_context = 'order_id';
 

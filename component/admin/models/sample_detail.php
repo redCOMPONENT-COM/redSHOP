@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelSample_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
-
 
 	public function __construct()
 	{
@@ -78,23 +76,9 @@ class RedshopModelSample_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$row = $this->getTable();
+		$row = parent::store($data);
 
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		else
+		if ($row)
 		{
 			$total_loop = count($data["colour_id"]);
 			$sql = "DELETE FROM #__redshop_catalog_colour "

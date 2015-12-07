@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelAttributeprices_detail extends RedshopModel
 {
 	public $_id = null;
@@ -129,35 +128,6 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 		$rs = $db->loadObject();
 
 		return $rs;
-	}
-
-	public function store($data)
-	{
-		$db = JFactory::getDbo();
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->check())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		return true;
 	}
 
 	public function delete($cid = array())

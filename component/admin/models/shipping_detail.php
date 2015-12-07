@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
@@ -20,7 +19,6 @@ class RedshopModelShipping_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public $_copydata = null;
 
 	public $sectionCondition = null;
@@ -28,8 +26,6 @@ class RedshopModelShipping_detail extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 

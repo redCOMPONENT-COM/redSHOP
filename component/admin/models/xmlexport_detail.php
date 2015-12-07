@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminXmlHelper');
 
 class RedshopModelXmlexport_detail extends RedshopModel
@@ -18,11 +17,9 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public function __construct()
 	{
 		parent::__construct();
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);

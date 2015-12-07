@@ -16,7 +16,6 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public $_copydata = null;
 
 	public $names = array();
@@ -24,8 +23,6 @@ class RedshopModelTemplate_detail extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 

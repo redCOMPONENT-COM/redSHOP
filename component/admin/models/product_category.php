@@ -13,13 +13,6 @@ JLoader::load('RedshopHelperAdminExtra_field');
 
 class RedshopModelProduct_category extends RedshopModel
 {
-	public function __construct()
-	{
-		parent::__construct();
-
-
-	}
-
 	public function getProductlist()
 	{
 		$pid = JRequest::getVar('cid', array(), 'post', 'array');

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
 
-
 class RedshopModelMass_discount_detail extends RedshopModel
 {
 	public $_id = null;
@@ -19,12 +18,9 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public $_shoppers = null;
 
-
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 

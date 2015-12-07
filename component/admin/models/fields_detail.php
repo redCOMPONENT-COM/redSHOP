@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminImages');
 
@@ -19,14 +18,11 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public $_data = null;
 
-
 	public $_fielddata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
-
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -101,8 +97,6 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$db = JFactory::getDbo();
-		$row = $this->getTable();
 		$field_cid = $data['cid'][0];
 
 		if (!$field_cid)
@@ -110,21 +104,7 @@ class RedshopModelFields_detail extends RedshopModel
 			$data['ordering'] = $this->MaxOrdering();
 		}
 
-		if (!$row->bind($data))
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
+		return parent::store($data);
 	}
 
 	public function field_save($id, $post)
