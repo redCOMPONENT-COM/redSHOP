@@ -50,8 +50,7 @@ class RedshopModelSample_catalog extends RedshopModel
 
 	public function getsample($sample)
 	{
-		$query = 'SELECT * FROM #__redshop_catalog_colour as c left join ' . #__redshop_ .
-			'catalog_sample as s on s.sample_id=c.sample_id WHERE colour_id in (' . $sample . ')';
+		$query = 'SELECT * FROM #__redshop_catalog_colour as c left join #__redshop_catalog_sample as s on s.sample_id=c.sample_id WHERE colour_id in (' . $sample . ')';
 		$this->_db->setQuery($query);
 		$sample_data = $this->_db->loadObjectlist();
 

@@ -103,8 +103,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 	public function getProductInfo($productid = 0)
 	{
-		$query = 'SELECT product_name as text,product_id as value FROM ' . #__redshop_ .
-			'product WHERE published = 1 and product_id in   (' . $productid . ')';
+		$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id in   (' . $productid . ')';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
 

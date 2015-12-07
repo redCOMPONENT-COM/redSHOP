@@ -178,8 +178,7 @@ class RedshopModelRating_detail extends RedshopModel
 
 	public function getuserslist()
 	{
-		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . #__redshop_ .
-			'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
+		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,#__redshop_users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
