@@ -31,9 +31,7 @@ class Tableshipping_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__extensions';
-
-		parent::__construct($this->_table_prefix, 'extension_id', $db);
+		parent::__construct('#__extensions', 'extension_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

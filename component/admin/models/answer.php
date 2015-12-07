@@ -18,7 +18,6 @@ class RedshopModelAnswer extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -29,7 +28,7 @@ class RedshopModelAnswer extends RedshopModel
 		$app = JFactory::getApplication();
 		$this->_context = 'question_id';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('parent_id', 0, '', 'array');
 		$this->setId((int) $array[0]);
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
@@ -85,7 +84,7 @@ class RedshopModelAnswer extends RedshopModel
 
 	public function getProduct()
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
+		$query = "SELECT * FROM #__redshop_product ";
 		$list = $this->_data = $this->_getList($query);
 
 		return $list;
@@ -107,7 +106,7 @@ class RedshopModelAnswer extends RedshopModel
 		}
 		$orderby = $this->_buildContentOrderBy();
 
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+		$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 			. "WHERE q.parent_id='" . $this->_id . "' "
 			. $where
 			. $orderby;

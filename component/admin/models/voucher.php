@@ -18,7 +18,6 @@ class RedshopModelVoucher extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -29,7 +28,7 @@ class RedshopModelVoucher extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$this->_context = 'voucher_id';
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -73,7 +72,7 @@ class RedshopModelVoucher extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = ' SELECT distinct(v.voucher_id),v.* FROM ' . $this->_table_prefix . 'product_voucher v' . $orderby;
+		$query = ' SELECT distinct(v.voucher_id),v.* FROM #__redshop_product_voucher v' . $orderby;
 
 		return $query;
 	}

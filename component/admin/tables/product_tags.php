@@ -21,9 +21,9 @@ class Tableproduct_tags extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'product_tags', 'tags_id', $db);
+
+		parent::__construct('#__redshop_product_tags', 'tags_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

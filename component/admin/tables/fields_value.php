@@ -21,9 +21,9 @@ class Tablefields_value extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'fields_value', 'value_id', $db);
+
+		parent::__construct('#__redshop_fields_value', 'value_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

@@ -84,19 +84,18 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$db = JFactory::getDbo();
 		$row = $this->getTable('catalog');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($db->getErrorMsg());
+			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($db->getErrorMsg());
+			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -106,7 +105,6 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$db = JFactory::getDbo();
 		$layout = JRequest::getVar('layout');
 
 		if (count($cid))
@@ -115,11 +113,11 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 			$query = 'DELETE FROM #__redshop_catalog WHERE catalog_id IN ( ' . $cids . ' )';
 
-			$db->setQuery($query);
+			$this->_db->setQuery($query);
 
-			if (!$db->execute())
+			if (!$this->_db->execute())
 			{
-				$this->setError($db->getErrorMsg());
+				$this->setError($this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -130,7 +128,6 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
-		$db = JFactory::getDbo();
 		$layout = JRequest::getVar('layout');
 
 		if (count($cid))
@@ -138,15 +135,15 @@ class RedshopModelCatalog_detail extends RedshopModel
 			$cids = implode(',', $cid);
 
 
-			$query = 'UPDATE #__redshop_catalog'
+			$query = 'UPDATE ' . $this->_table_prefix . 'catalog'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE catalog_id IN ( ' . $cids . ' )';
 
-			$db->setQuery($query);
+			$this->_db->setQuery($query);
 
-			if (!$db->execute())
+			if (!$this->_db->execute())
 			{
-				$this->setError($db->getErrorMsg());
+				$this->setError($this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -161,6 +158,6 @@ class RedshopModelCatalog_detail extends RedshopModel
 		$query = 'SELECT * FROM #__redshop_catalog_colour  WHERE sample_id=' . $sample_id;
 		$db->setQuery($query);
 
-		return $db->loadObjectlist();
+		return $this->_db->loadObjectlist();
 	}
 }

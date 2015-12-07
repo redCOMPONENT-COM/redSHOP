@@ -18,7 +18,6 @@ class RedshopModelMass_discount extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -30,7 +29,7 @@ class RedshopModelMass_discount extends RedshopModel
 
 		$this->_context = 'mass_discount_id';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -73,7 +72,7 @@ class RedshopModelMass_discount extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = ' SELECT * FROM ' . $this->_table_prefix . 'mass_discount ' . $orderby;
+		$query = ' SELECT * FROM #__redshop_mass_discount ' . $orderby;
 
 		return $query;
 	}

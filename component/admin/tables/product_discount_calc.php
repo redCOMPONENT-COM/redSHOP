@@ -29,9 +29,9 @@ class Tableproduct_discount_calc extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'product_discount_calc', 'id', $db);
+
+		parent::__construct('#__redshop_product_discount_calc', 'id', $db);
 	}
 
 	public function bind($array, $ignore = '')
@@ -59,7 +59,7 @@ class Tableproduct_discount_calc extends JTable
 		$converted_area_end = $this->area_end * $unit * $unit;
 
 		$query = "SELECT *
-					FROM `" . $this->_table_prefix . "product_discount_calc`
+					FROM `#__redshop_product_discount_calc`
 					WHERE product_id = " . (int) $this->product_id . " AND (" . (int) $converted_area_start . "
 					BETWEEN `area_start_converted`
 					AND `area_end_converted` || " . (int) $converted_area_end . "

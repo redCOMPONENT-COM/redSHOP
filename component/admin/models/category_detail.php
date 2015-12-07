@@ -24,13 +24,12 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -87,8 +86,8 @@ class RedshopModelCategory_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT c.*,p.category_parent_id FROM ' . $this->_table_prefix . 'category as c left join '
-				. $this->_table_prefix . 'category_xref as p ON p.category_child_id=c.category_id  WHERE category_id = "'
+			$query = 'SELECT c.*,p.category_parent_id FROM #__redshop_category as c left join '
+				. '#__redshop_category_xref as p ON p.category_child_id=c.category_id  WHERE category_id = "'
 				. $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -184,7 +183,7 @@ class RedshopModelCategory_detail extends RedshopModel
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
 
-			$query = "UPDATE " . $this->_table_prefix . "category set category_thumb_image = '',category_full_image = ''  where category_id ="
+			$query = "UPDATE #__redshop_category set category_thumb_image = '',category_full_image = ''  where category_id ="
 				. $row->category_id;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -239,7 +238,7 @@ class RedshopModelCategory_detail extends RedshopModel
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_back_image']);
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_back_image']);
 
-			$query = "UPDATE " . $this->_table_prefix . "category set category_back_full_image = ''  where category_id =" . $row->category_id;
+			$query = "UPDATE #__redshop_category set category_back_full_image = ''  where category_id =" . $row->category_id;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -282,7 +281,7 @@ class RedshopModelCategory_detail extends RedshopModel
 				$parentcat = $data['category_parent_id'];
 			}
 
-			$query = 'INSERT INTO ' . $this->_table_prefix . 'category_xref(category_parent_id,category_child_id) VALUES ("'
+			$query = 'INSERT INTO #__redshop_category_xref(category_parent_id,category_child_id) VALUES ("'
 				. $parentcat . '","' . $newcatid . '");';
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -300,7 +299,7 @@ class RedshopModelCategory_detail extends RedshopModel
 				$parentcat = $data['category_parent_id'];
 			}
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'category_xref SET category_parent_id= "' . $parentcat
+			$query = 'UPDATE #__redshop_category_xref SET category_parent_id= "' . $parentcat
 				. '"  WHERE category_child_id = "' . $newcatid . '" ';
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -370,8 +369,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$query = 'SELECT count( * ) as ctotal,c.category_name
-						FROM `' . $this->_table_prefix . 'category_xref` as cx LEFT JOIN `' . $this->_table_prefix
-				. 'category` as c ON c.category_id = "' . $cid[$i] . '"
+						FROM `#__redshop_category_xref` as cx LEFT JOIN `#__redshop_category` as c ON c.category_id = "' . $cid[$i] . '"
 						WHERE `category_parent_id` = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($query);
 			$childs = $this->_db->loadObject();
@@ -384,7 +382,7 @@ class RedshopModelCategory_detail extends RedshopModel
 				break;
 			}
 
-			$q_image = 'SELECT category_thumb_image,category_full_image FROM ' . $this->_table_prefix . 'category WHERE category_id = "' . $cid[$i] . '" ';
+			$q_image = 'SELECT category_thumb_image,category_full_image FROM #__redshop_category WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_image);
 			$catimages = $this->_db->loadObject();
 
@@ -404,15 +402,15 @@ class RedshopModelCategory_detail extends RedshopModel
 				@unlink($full_image_path);
 			}
 
-			$q_product = 'DELETE FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id = "' . $cid[$i] . '" ';
+			$q_product = 'DELETE FROM #__redshop_product_category_xref WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_product);
 			$this->_db->execute();
 
-			$q_child = 'DELETE FROM ' . $this->_table_prefix . 'category_xref WHERE category_child_id = "' . $cid[$i] . '" ';
+			$q_child = 'DELETE FROM #__redshop_category_xref WHERE category_child_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_child);
 			$this->_db->execute();
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'category WHERE category_id = "' . $cid[$i] . '" ';
+			$query = 'DELETE FROM #__redshop_category WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
@@ -427,7 +425,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'category'
+			$query = 'UPDATE #__redshop_category'
 				. ' SET published = "' . intval($publish) . '" '
 				. ' WHERE category_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -445,7 +443,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function getcategories()
 	{
-		$query = 'SELECT category_id as value,category_name as text FROM ' . $this->_table_prefix . 'category  WHERE published=1';
+		$query = 'SELECT category_id as value,category_name as text FROM #__redshop_category  WHERE published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -503,7 +501,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function updateorder($oprand, $cat_id = 0)
 	{
-		$q = "UPDATE " . $this->_table_prefix . "category ";
+		$q = "UPDATE #__redshop_category ";
 		$q .= "SET ordering=ordering" . $oprand . "1 ";
 
 		if ($cat_id)
@@ -519,7 +517,7 @@ class RedshopModelCategory_detail extends RedshopModel
 	{
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
-		$q = "SELECT ordering,category_parent_id FROM " . $this->_table_prefix . "category," . $this->_table_prefix . "category_xref ";
+		$q = "SELECT ordering,category_parent_id FROM #__redshop_category,#__redshop_category_xref ";
 		$q .= "WHERE category_id='" . $cid . "' ";
 		$q .= "AND category_child_id='" . $cid . "' ";
 		$this->_db->setQuery($q);
@@ -527,10 +525,10 @@ class RedshopModelCategory_detail extends RedshopModel
 		$currentpos = $cat->ordering;
 		$category_parent_id = $cat->category_parent_id;
 
-		$q = "SELECT ordering," . $this->_table_prefix . "category.category_id FROM " . $this->_table_prefix . "category, "
-			. $this->_table_prefix . "category_xref ";
-		$q .= "WHERE " . $this->_table_prefix . "category_xref.category_parent_id='" . $category_parent_id . "' ";
-		$q .= "AND " . $this->_table_prefix . "category_xref.category_child_id=" . $this->_table_prefix . "category.category_id ";
+		$q = "SELECT ordering,#__redshop_category.category_id FROM #__redshop_category, "
+			. "#__redshop_category_xref ";
+		$q .= "WHERE #__redshop_category_xref.category_parent_id='" . $category_parent_id . "' ";
+		$q .= "AND #__redshop_category_xref.category_child_id=#__redshop_category.category_id ";
 		$q .= "AND ordering='" . intval($currentpos - 1) . "'";
 		$this->_db->setQuery($q);
 		$cat = $this->_db->loadObject();
@@ -540,13 +538,13 @@ class RedshopModelCategory_detail extends RedshopModel
 
 		if ($currentpos > $morder)
 		{
-			$q = "UPDATE " . $this->_table_prefix . "category ";
+			$q = "UPDATE #__redshop_category ";
 			$q .= "SET ordering=ordering-1 ";
 			$q .= "WHERE category_id='" . $cid . "'";
 			$this->_db->setQuery($q);
 			$this->_db->execute();
 
-			$q = "UPDATE " . $this->_table_prefix . "category ";
+			$q = "UPDATE #__redshop_category ";
 			$q .= "SET ordering=ordering+1 ";
 			$q .= "WHERE category_id='" . $pred . "' ";
 			$this->_db->setQuery($q);
@@ -559,7 +557,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 
-		$q = "SELECT ordering,category_parent_id FROM " . $this->_table_prefix . "category," . $this->_table_prefix . "category_xref ";
+		$q = "SELECT ordering,category_parent_id FROM #__redshop_category,#__redshop_category_xref ";
 		$q .= "WHERE category_id='" . $cid . "' ";
 		$q .= "AND category_child_id='" . $cid . "' ";
 		$this->_db->setQuery($q);
@@ -567,10 +565,10 @@ class RedshopModelCategory_detail extends RedshopModel
 		$currentpos = $cat->ordering;
 		$category_parent_id = $cat->category_parent_id;
 
-		$q = "SELECT ordering," . $this->_table_prefix . "category.category_id FROM " . $this->_table_prefix . "category, "
-			. $this->_table_prefix . "category_xref ";
-		$q .= "WHERE " . $this->_table_prefix . "category_xref.category_parent_id='" . $category_parent_id . "' ";
-		$q .= "AND " . $this->_table_prefix . "category_xref.category_child_id=" . $this->_table_prefix . "category.category_id ";
+		$q = "SELECT ordering,#__redshop_category.category_id FROM #__redshop_category, "
+			. "#__redshop_category_xref ";
+		$q .= "WHERE #__redshop_category_xref.category_parent_id='" . $category_parent_id . "' ";
+		$q .= "AND #__redshop_category_xref.category_child_id=#__redshop_category.category_id ";
 		$q .= "AND ordering='" . intval($currentpos + 1) . "'";
 		$this->_db->setQuery($q);
 		$cat = $this->_db->loadObject();
@@ -580,13 +578,13 @@ class RedshopModelCategory_detail extends RedshopModel
 
 		if ($currentpos < $morder)
 		{
-			$q = "UPDATE " . $this->_table_prefix . "category ";
+			$q = "UPDATE #__redshop_category ";
 			$q .= "SET ordering=ordering+1 ";
 			$q .= "WHERE category_id='" . $cid . "' ";
 			$this->_db->setQuery($q);
 			$this->_db->execute();
 
-			$q = "UPDATE " . $this->_table_prefix . "category ";
+			$q = "UPDATE #__redshop_category ";
 			$q .= "SET ordering=ordering-1 ";
 			$q .= "WHERE category_id='" . $succ . "'";
 			$this->_db->setQuery($q);
@@ -596,7 +594,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function getmaxminOrder($type)
 	{
-		$q = "SELECT " . $type . "(ordering) as morder FROM " . $this->_table_prefix . "category";
+		$q = "SELECT " . $type . "(ordering) as morder FROM #__redshop_category";
 
 		$this->_db->setQuery($q);
 		$cat = $this->_db->loadResult();
@@ -606,8 +604,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function getProductCompareTemplate()
 	{
-		$query = "SELECT ts.template_section as text, ts.template_id as value FROM `" . $this->_table_prefix
-			. "template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
+		$query = "SELECT ts.template_section as text, ts.template_id as value FROM `#__redshop_template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -618,13 +615,13 @@ class RedshopModelCategory_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'category WHERE category_id IN ( ' . $cids . ' )';
+			$query = 'SELECT * FROM #__redshop_category WHERE category_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$copydata = $this->_db->loadObjectList();
 
 			for ($i = 0, $in = count($copydata); $i < $in; $i++)
 			{
-				$query = 'SELECT category_parent_id FROM ' . $this->_table_prefix . 'category_xref '
+				$query = 'SELECT category_parent_id FROM #__redshop_category_xref '
 					. 'WHERE category_child_id="' . $copydata[$i]->category_id . '" ';
 				$this->_db->setQuery($query);
 				$category_parent_id = $this->_db->loadResult();

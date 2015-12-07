@@ -24,15 +24,12 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 		$this->_order_functions = new order_functions;
@@ -931,7 +928,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$extra_field = new extra_field;
 		$Redconfiguration = new Redconfiguration;
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
+		$query = 'SELECT * FROM #__redshop_users_info '
 			. 'WHERE address_type like "ST" '
 			. 'AND user_id = ' . (int) $user_id . ' '
 			. 'AND users_info_id = ' . (int) $shippingadd_id;

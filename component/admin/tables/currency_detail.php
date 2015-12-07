@@ -19,9 +19,9 @@ class Tablecurrency_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'currency', 'currency_id', $db);
+
+		parent::__construct('#__redshop_currency', 'currency_id', $db);
 	}
 
 	public function bind($array, $ignore = '')
@@ -40,7 +40,7 @@ class Tablecurrency_detail extends JTable
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT currency_id,currency_code  FROM " . $this->_table_prefix . "currency"
+		$q = "SELECT currency_id,currency_code  FROM #__redshop_currency"
 			. " WHERE currency_code = " . $db->quote($this->currency_code)
 			. " AND currency_id <>  " . (int) $this->currency_id;
 

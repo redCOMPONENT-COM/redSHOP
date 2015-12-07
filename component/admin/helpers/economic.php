@@ -17,10 +17,6 @@ JLoader::load('RedshopHelperAdminStockroom');
 
 class economic
 {
-	public $_table_prefix = null;
-
-	public $_db = null;
-
 	public $_producthelper = null;
 
 	public $_shippinghelper = null;
@@ -33,9 +29,6 @@ class economic
 
 	public function __construct()
 	{
-		$db                     = JFactory::getDbo();
-		$this->_table_prefix    = '#__redshop_';
-		$this->_db              = $db;
 		$this->_producthelper   = new producthelper;
 		$this->_shippinghelper  = new shipping;
 		$this->_redhelper       = new redhelper;
@@ -1085,12 +1078,12 @@ class economic
 		}
 
 		$bookinvoice_date = strtotime($eco['invoiceDate']);
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
+		$query = 'UPDATE #__redshop_orders '
 			. 'SET bookinvoice_date = ' . $db->quote($bookinvoice_date) . ' '
 			. 'WHERE order_id = ' . (int) $orderdetail->order_id;
 
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 
 		$InvoiceNumber = $this->_dispatcher->trigger('updateInvoiceDate', array($eco));
 
@@ -1212,39 +1205,41 @@ class economic
 	{
 		$db = JFactory::getDbo();
 
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
+		$query = 'UPDATE #__redshop_orders '
 			. 'SET invoice_no = ' . $db->quote($invoice_no) . ' '
 			. 'WHERE order_id = ' . (int) $order_id ;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 	}
 
 	public function updateBookInvoice($order_id = 0)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
+		$db = JFactory::getDbo();
+		$query = 'UPDATE #__redshop_orders '
 			. 'SET is_booked="1" '
 			. 'WHERE order_id = ' . (int) $order_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 	}
 
 	public function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
+		$db = JFactory::getDbo();
+		$query = 'UPDATE #__redshop_orders '
 			. 'SET bookinvoice_number = ' . (int) $bookinvoice_number . ' '
 			. 'WHERE order_id = ' . (int) $order_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 	}
 
 	public function getProductByNumber($product_number = '')
 	{
 		$db = JFactory::getDbo();
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product '
+		$query = 'SELECT * FROM #__redshop_product '
 			. 'WHERE product_number = ' . $db->quote($product_number);
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
 		return $result;
 	}

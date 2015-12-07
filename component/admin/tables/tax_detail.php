@@ -27,9 +27,7 @@ class Tabletax_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
-
-		parent::__construct($this->_table_prefix . 'tax_rate', 'tax_rate_id', $db);
+		parent::__construct('#__redshop_tax_rate', 'tax_rate_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

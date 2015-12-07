@@ -97,6 +97,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 

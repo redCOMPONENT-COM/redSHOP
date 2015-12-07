@@ -18,7 +18,6 @@ class RedshopModelZipcode extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -30,7 +29,7 @@ class RedshopModelZipcode extends RedshopModel
 
 		$this->_context = 'zipcode_id';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -75,9 +74,9 @@ class RedshopModelZipcode extends RedshopModel
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = 'SELECT z . * , c.country_name, s.state_name '
-			. ' FROM `' . $this->_table_prefix . 'zipcode` AS z '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON z.country_code = c.country_3_code '
-			. ' LEFT JOIN ' . $this->_table_prefix . 'state AS s ON z.state_code = s.state_2_code '
+			. ' FROM `#__redshop_zipcode` AS z '
+			. 'LEFT JOIN #__redshop_country AS c ON z.country_code = c.country_3_code '
+			. ' LEFT JOIN #__redshop_state AS s ON z.state_code = s.state_2_code '
 			. ' AND c.country_id = s.country_id '
 			. ' WHERE 1 =1 '
 			. $orderby;
@@ -100,7 +99,7 @@ class RedshopModelZipcode extends RedshopModel
 
 	public function getCountryName($country_id)
 	{
-		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
+		$query = "SELECT  c.country_name from #__redshop_country AS c where c.country_id=" . $country_id;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();

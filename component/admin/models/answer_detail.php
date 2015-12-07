@@ -49,11 +49,10 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$db = JFactory::getDbo();
 		$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 			. "WHERE q.question_id=" . $this->_id;
-		$db->setQuery($query);
-		$this->_data = $db->loadObject();
+		$this->_db->setQuery($query);
+		$this->_data = $this->_db->loadObject();
 
 		return (boolean) $this->_data;
 	}

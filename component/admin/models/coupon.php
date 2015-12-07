@@ -18,7 +18,6 @@ class RedshopModelCoupon extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -28,7 +27,7 @@ class RedshopModelCoupon extends RedshopModel
 
 		$app = JFactory::getApplication();
 		$this->_context = 'coupon_id';
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
@@ -111,7 +110,7 @@ class RedshopModelCoupon extends RedshopModel
 			}
 		}
 		$orderby = $this->_buildContentOrderBy();
-		$query = "SELECT distinct(c.coupon_id),c.* FROM " . $this->_table_prefix . "coupons c "
+		$query = "SELECT distinct(c.coupon_id),c.* FROM #__redshop_coupons c "
 			. $where
 			. $orderby;
 

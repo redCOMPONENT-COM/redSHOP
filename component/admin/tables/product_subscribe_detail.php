@@ -29,9 +29,9 @@ class Tableproduct_subscribe_detail extends JTable
 
 	public function __construct(& $db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'product_subscribe_detail', 'product_subscribe_id', $db);
+
+		parent::__construct('#__redshop_product_subscribe_detail', 'product_subscribe_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

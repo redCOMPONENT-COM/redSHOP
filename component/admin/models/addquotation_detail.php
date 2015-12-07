@@ -23,14 +23,11 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -523,7 +520,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			$and .= ' AND ui.users_info_id= ' . (int) $user_info_id . ' ';
 		}
 
-		$query = 'SELECT *,CONCAT(ui.firstname," ",ui.lastname) AS text FROM ' . $this->_table_prefix . 'users_info AS ui '
+		$query = 'SELECT *,CONCAT(ui.firstname," ",ui.lastname) AS text FROM #__redshop_users_info AS ui '
 			. 'WHERE 1=1 '
 			. $and;
 		$this->_db->setQuery($query);
