@@ -18,13 +18,12 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -117,7 +116,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_import AS x "
+		$query = "SELECT x.* FROM #__redshop_xml_import AS x "
 			. "WHERE x.xmlimport_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
@@ -369,7 +368,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_import_log '
+			$query = 'DELETE FROM #__redshop_xml_import_log '
 				. 'WHERE xmlimport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
@@ -380,7 +379,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_import '
+			$query = 'DELETE FROM #__redshop_xml_import '
 				. 'WHERE xmlimport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
@@ -401,7 +400,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'xml_import '
+			$query = 'UPDATE #__redshop_xml_import '
 				. ' SET auto_sync = ' . intval($publish)
 				. ' WHERE xmlimport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -429,7 +428,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = ' UPDATE ' . $this->_table_prefix . 'xml_import '
+			$query = ' UPDATE #__redshop_xml_import '
 				. ' SET published = ' . intval($publish)
 				. ' WHERE xmlimport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);

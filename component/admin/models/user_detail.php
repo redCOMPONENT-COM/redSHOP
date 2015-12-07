@@ -22,7 +22,6 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_pagination = null;
 
@@ -35,7 +34,7 @@ class RedshopModelUser_detail extends RedshopModel
 		$app = JFactory::getApplication();
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$this->_context = 'order_id';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
@@ -73,7 +72,7 @@ class RedshopModelUser_detail extends RedshopModel
 		if (empty($this->_data))
 		{
 			$this->_uid = 0;
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
+			$query = 'SELECT * FROM #__redshop_users_info AS uf '
 				. 'LEFT JOIN #__users as u on u.id = uf.user_id '
 				. 'WHERE users_info_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
@@ -140,7 +139,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 			if ($shipping)
 			{
-				$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
+				$query = 'SELECT * FROM #__redshop_users_info AS uf '
 					. 'LEFT JOIN #__users as u on u.id = uf.user_id '
 					. 'WHERE users_info_id="' . $info_id . '" ';
 				$this->_db->setQuery($query);
@@ -238,7 +237,7 @@ class RedshopModelUser_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_users_info WHERE users_info_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -258,7 +257,7 @@ class RedshopModelUser_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'users_info '
+			$query = 'UPDATE #__redshop_users_info '
 				. 'SET approved=' . intval($publish) . ' '
 				. 'WHERE user_id IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query);
@@ -302,7 +301,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function _buildUserorderQuery()
 	{
-		$query = "SELECT * FROM `" . $this->_table_prefix . "orders` "
+		$query = "SELECT * FROM `#__redshop_orders` "
 			. "WHERE `user_id`='" . $this->_uid . "' "
 			. "ORDER BY order_id DESC ";
 

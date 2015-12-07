@@ -22,7 +22,6 @@ class RedshopModelAttributeprices extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -33,7 +32,7 @@ class RedshopModelAttributeprices extends RedshopModel
 
 		$this->_context = 'price_id';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
@@ -90,15 +89,15 @@ class RedshopModelAttributeprices extends RedshopModel
 		if ($this->_section == "property")
 		{
 			$field = "ap.property_name ";
-			$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
+			$q = 'LEFT JOIN #__redshop_product_attribute_property AS ap ON p.section_id = ap.property_id ';
 		}
 		else
 		{
 			$field = "ap.subattribute_color_name AS property_name ";
-			$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
+			$q = 'LEFT JOIN #__redshop_product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
 		}
-		$query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' FROM ' . $this->_table_prefix . 'product_attribute_price AS p '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group AS g ON p.shopper_group_id = g.shopper_group_id '
+		$query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' FROM #__redshop_product_attribute_price AS p '
+			. 'LEFT JOIN #__redshop_shopper_group AS g ON p.shopper_group_id = g.shopper_group_id '
 			. $q
 			. 'WHERE p.section_id="' . $this->_sectionid . '" '
 			. 'AND p.section = "' . $this->_section . '" ';

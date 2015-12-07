@@ -19,13 +19,12 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public $_shoppers = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -55,7 +54,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_mass_discount WHERE mass_discount_id = ' . $this->_id;
 
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -135,7 +134,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 		for ($i = 0; $i < count($arr_diff); $i++)
 		{
-			$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $arr_diff[$i] . '" ';
+			$query = 'UPDATE #__redshop_product SET product_on_sale="0" WHERE product_id="' . $arr_diff[$i] . '" ';
 
 			$this->_db->setQuery($query);
 
@@ -173,7 +172,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 					($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
 					$productData->product_price - ($data['discount_amount']);
 				$p_price = $producthelper->productPriceRound($p_price);
-				$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="'
+				$query = 'UPDATE #__redshop_product SET product_on_sale="1" , discount_price="'
 					. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
 					. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
 				$this->_db->setQuery($query);
@@ -213,7 +212,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 			for ($p = 0; $p < count($product_Ids); $p++)
 			{
-				$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
+				$query = 'UPDATE #__redshop_product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 
 				$this->_db->setQuery($query);
 
@@ -256,7 +255,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 						($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
 						$data['discount_amount'];
 					$p_price = $producthelper->productPriceRound($p_price);
-					$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="'
+					$query = 'UPDATE #__redshop_product SET product_on_sale="1" , discount_price="'
 						. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
 						. $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 
@@ -301,7 +300,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 				for ($p = 0; $p < count($product_Ids); $p++)
 				{
-					$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
+					$query = 'UPDATE #__redshop_product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 					$this->_db->setQuery($query);
 
 					if (!$this->_db->execute())
@@ -346,7 +345,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 					if ($productData->product_on_sale != 1)
 					{
 						$p_price = $producthelper->productPriceRound($p_price);
-						$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="' .
+						$query = 'UPDATE #__redshop_product SET product_on_sale="1" , discount_price="' .
 							$p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
 							. $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 						$this->_db->setQuery($query);
@@ -385,7 +384,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id in (' . $cids . ') ';
+			$query = 'SELECT * FROM #__redshop_mass_discount WHERE mass_discount_id in (' . $cids . ') ';
 
 			$this->_db->setQuery($query);
 			$massDList = $this->_db->loadObjectList();
@@ -422,7 +421,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_mass_discount WHERE mass_discount_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -494,7 +493,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1';
+		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM #__redshop_manufacturer  WHERE published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -502,7 +501,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function GetProductmanufacturer($id)
 	{
-		$query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product   WHERE manufacturer_id="' . $id . '" ';
+		$query = 'SELECT product_id FROM #__redshop_product   WHERE manufacturer_id="' . $id . '" ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -512,13 +511,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 	{
 		if ($d != '')
 		{
-			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix
-				. 'product WHERE published = 1 and product_id in   (' . $d . ')';
+			$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id in   (' . $d . ')';
 		}
 		else
 		{
-			$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix
-				. 'product WHERE published = 1 and product_id =""';
+			$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id =""';
 		}
 
 		$this->_db->setQuery($query);
@@ -528,7 +525,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function GetProductList()
 	{
-		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
+		$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

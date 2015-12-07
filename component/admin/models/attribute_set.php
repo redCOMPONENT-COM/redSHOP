@@ -18,7 +18,6 @@ class RedshopModelAttribute_set extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -29,7 +28,7 @@ class RedshopModelAttribute_set extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$this->_context = 'attribute_set_id';
-		$this->_table_prefix = '#__redshop_';
+
 
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
@@ -75,7 +74,7 @@ class RedshopModelAttribute_set extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = 'SELECT distinct(a.attribute_set_id),a.* FROM ' . $this->_table_prefix . 'attribute_set AS a '
+		$query = 'SELECT distinct(a.attribute_set_id),a.* FROM #__redshop_attribute_set AS a '
 			. 'WHERE 1=1 '
 			. $orderby;
 

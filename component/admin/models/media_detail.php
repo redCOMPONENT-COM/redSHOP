@@ -15,7 +15,6 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_mediadata = null;
 
@@ -24,7 +23,7 @@ class RedshopModelMedia_detail extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -52,7 +51,7 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'media '
+			$query = 'SELECT * FROM #__redshop_media '
 				. 'WHERE media_id = "' . $this->_id . '" '
 				. 'order by section_id';
 			$this->_db->setQuery($query);
@@ -116,7 +115,7 @@ class RedshopModelMedia_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$q = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE media_id IN ( ' . $cids . ' )';
+			$q = 'SELECT * FROM #__redshop_media  WHERE media_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($q);
 			$this->_data = $this->_db->loadObjectList();
 
@@ -139,12 +138,12 @@ class RedshopModelMedia_detail extends RedshopModel
 
 				if ($mediadata->media_section == 'manufacturer')
 				{
-					$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
+					$query = 'DELETE FROM #__redshop_media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
 					$this->_db->setQuery($query);
 					$this->_db->execute();
 				}
 
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
+				$query = 'DELETE FROM #__redshop_media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
 				$this->_db->setQuery($query);
 
 				if (!$this->_db->execute())
@@ -165,7 +164,7 @@ class RedshopModelMedia_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'media'
+			$query = 'UPDATE #__redshop_media'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE media_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -259,7 +258,7 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		if ($media_id && $media_section)
 		{
-			$query = "SELECT * FROM " . $this->_table_prefix . "media "
+			$query = "SELECT * FROM #__redshop_media "
 				. "WHERE `section_id`='" . $section_id . "' "
 				. "AND `media_section` = '" . $media_section . "' "
 				. "AND `media_id` = '" . $media_id . "'";
@@ -273,7 +272,7 @@ class RedshopModelMedia_detail extends RedshopModel
 					switch ($media_section)
 					{
 						case "product":
-							$query = "UPDATE `" . $this->_table_prefix . "product` "
+							$query = "UPDATE `#__redshop_product` "
 								. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
 								. "WHERE `product_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);
@@ -286,7 +285,7 @@ class RedshopModelMedia_detail extends RedshopModel
 							}
 							break;
 						case "property":
-							$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` "
+							$query = "UPDATE `#__redshop_product_attribute_property` "
 								. "SET `property_main_image` = '" . $rs->media_name . "' "
 								. "WHERE `property_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);
@@ -299,7 +298,7 @@ class RedshopModelMedia_detail extends RedshopModel
 							}
 							break;
 						case "subproperty":
-							$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` "
+							$query = "UPDATE `#__redshop_product_subattribute_color` "
 								. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
 								. "WHERE `subattribute_color_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);

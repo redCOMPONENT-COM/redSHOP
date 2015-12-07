@@ -37,9 +37,9 @@ class Tableorder_payment extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'order_payment', 'payment_order_id', $db);
+
+		parent::__construct('#__redshop_order_payment', 'payment_order_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

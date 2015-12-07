@@ -25,8 +25,8 @@ class Tablestockimage_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
-		parent::__construct($this->_table_prefix . 'stockroom_amount_image', 'stock_amount_id', $db);
+
+		parent::__construct('#__redshop_stockroom_amount_image', 'stock_amount_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

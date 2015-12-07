@@ -22,10 +22,6 @@ JLoader::load('RedshopHelperAdminImages');
 
 class redshopMail
 {
-	public $_table_prefix = null;
-
-	public $db = null;
-
 	public $_carthelper = null;
 
 	public $_redhelper = null;
@@ -34,10 +30,6 @@ class redshopMail
 
 	public function __construct()
 	{
-		$this->_db = JFactory::getDbo();
-
-		$this->_table_prefix = '#__redshop_';
-
 		$this->_carthelper      = new rsCarthelper;
 		$this->_redhelper       = new redhelper;
 		$this->_order_functions = new order_functions;
@@ -1376,6 +1368,8 @@ class redshopMail
 
 	public function sendNewsletterConfirmationMail($subscription_id)
 	{
+		$db = JFactory::getDbo();
+
 		if (NEWSLETTER_CONFIRMATION)
 		{
 			$config   = JFactory::getConfig();
@@ -1400,12 +1394,12 @@ class redshopMail
 				return false;
 			}
 
-			$query = "SELECT * FROM " . $this->_table_prefix . "newsletter_subscription " .
+			$query = "SELECT * FROM #__redshop_newsletter_subscription " .
 				"WHERE subscription_id = " . (int) $subscription_id;
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			$list      = $this->_db->loadObject();
+			$list      = $db->loadObject();
 
 			$link      = '<a href="' . $url . 'index.php?option=com_redshop&view=newsletter&sid=' . $subscription_id . '">' .
 				JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
@@ -1686,6 +1680,7 @@ class redshopMail
 
 	public function sendCatalogRequest($catalog = array())
 	{
+		$db = JFactory::getDbo();
 		$mailinfo = $this->getMailtemplate(0, "catalog");
 		$data_add = "";
 		$subject = "";
@@ -1706,14 +1701,14 @@ class redshopMail
 		$from = $config->get('mailfrom');
 		$fromname = $config->get('fromname');
 
-		$query = "SELECT * FROM  " . $this->_table_prefix . "media "
+		$query = "SELECT * FROM  #__redshop_media "
 			. "WHERE media_section='catalog' "
 			. "AND media_type='document' "
 			. "AND section_id = " . (int) $catalog->catalog_id . " "
 			. "AND published = 1 ";
 
-		$this->_db->setQuery($query);
-		$catalog_data = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$catalog_data = $db->loadObjectlist();
 		$attachment = array();
 
 		for ($p = 0; $p < count($catalog_data); $p++)

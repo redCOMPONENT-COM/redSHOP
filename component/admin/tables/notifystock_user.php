@@ -25,8 +25,8 @@ class Tablenotifystock_user extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
-		parent::__construct($this->_table_prefix . 'notifystock_users', 'id', $db);
+
+		parent::__construct('#__redshop_notifystock_users', 'id', $db);
 	}
 
 	public function bind($array, $ignore = '')

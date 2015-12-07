@@ -20,7 +20,6 @@ class RedshopModelPrices extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -31,7 +30,7 @@ class RedshopModelPrices extends RedshopModel
 
 		$this->_context = 'price';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
@@ -91,9 +90,9 @@ class RedshopModelPrices extends RedshopModel
 	{
 		$query = ' SELECT p.*, '
 			. ' g.shopper_group_name, prd.product_name '
-			. ' FROM ' . $this->_table_prefix . 'product_price as p '
-			. ' LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
-			. ' LEFT JOIN ' . $this->_table_prefix . 'product as prd ON p.product_id = prd.product_id '
+			. ' FROM #__redshop_product_price as p '
+			. ' LEFT JOIN #__redshop_shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
+			. ' LEFT JOIN #__redshop_product as prd ON p.product_id = prd.product_id '
 			. 'WHERE p.product_id = \'' . $this->_prodid . '\' ';
 
 		return $query;

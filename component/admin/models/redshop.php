@@ -12,12 +12,11 @@ defined('_JEXEC') or die;
 
 class RedshopModelRedshop extends RedshopModel
 {
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 		$this->_filteroption = 3;
 	}
 
@@ -243,8 +242,8 @@ class RedshopModelRedshop extends RedshopModel
 
 	public function getNewcustomers()
 	{
-		$this->_table_prefix = '#__redshop_';
-		$custquery = "SELECT *  FROM " . $this->_table_prefix . "users_info ORDER BY users_info_id DESC LIMIT 0, 5";
+
+		$custquery = "SELECT *  FROM #__redshop_users_info ORDER BY users_info_id DESC LIMIT 0, 5";
 		$this->_db->setQuery($custquery);
 
 		return $this->_db->loadObjectlist();
@@ -263,8 +262,8 @@ class RedshopModelRedshop extends RedshopModel
 
 	public function getUser($user_id)
 	{
-		$this->_table_prefix = '#__';
-		$userquery = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
+		#__redshop_ = '#__';
+		$userquery = "SELECT name  FROM #__redshop_users where id=" . $user_id;
 		$this->_db->setQuery($userquery);
 
 		return $this->_db->loadObject();
@@ -272,8 +271,8 @@ class RedshopModelRedshop extends RedshopModel
 
 	public function gettotalOrder($id = 0)
 	{
-		$this->_table_prefix = '#__redshop_';
-		$userquery = "SELECT SUM(order_total) AS order_total, count(*) AS tot_order FROM " . $this->_table_prefix . "orders "
+
+		$userquery = "SELECT SUM(order_total) AS order_total, count(*) AS tot_order FROM #__redshop_orders "
 			. "WHERE `user_info_id`='" . $id . "' ";
 		$this->_db->setQuery($userquery);
 
@@ -282,10 +281,10 @@ class RedshopModelRedshop extends RedshopModel
 
 	public function gettotalAmount($user_id)
 	{
-		$this->_table_prefix = '#__redshop_';
+
 		$query = 'SELECT  SUM(o.order_total) AS order_total '
-			. 'FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id =uf.user_id'
+			. 'FROM #__redshop_orders AS o '
+			. 'LEFT JOIN #__redshop_users_info as uf ON o.user_id =uf.user_id'
 			. ' AND address_type LIKE "BT" '
 			. 'WHERE o.user_id = ' . $user_id . ' and  (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S")';
 		$this->_db->setQuery($query);
@@ -295,9 +294,9 @@ class RedshopModelRedshop extends RedshopModel
 
 	public function getavgAmount($user_id)
 	{
-		$this->_table_prefix = '#__redshop_';
+
 		$query = 'SELECT  (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
-			. 'FROM ' . $this->_table_prefix . 'orders AS o '
+			. 'FROM #__redshop_orders AS o '
 			. 'WHERE o.user_id =' . $user_id . ' and (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
 		$this->_db->setQuery($query);
 
@@ -306,8 +305,8 @@ class RedshopModelRedshop extends RedshopModel
 
 	public function getUserinfo($user_id)
 	{
-		$this->_table_prefix = '#__redshop_';
-		$userquery = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix .
+
+		$userquery = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . #__redshop_ .
 			"users_info where address_type='BT' and user_id=" . $user_id;
 		$this->_db->setQuery($userquery);
 

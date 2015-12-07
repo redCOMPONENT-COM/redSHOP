@@ -16,7 +16,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_copydata = null;
 
@@ -26,7 +25,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -57,7 +56,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_manufacturer WHERE manufacturer_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -142,7 +141,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -160,7 +159,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->_table_prefix . 'manufacturer'
+			$query = 'UPDATE #__redshop_manufacturer'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE manufacturer_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -182,7 +181,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
+			$query = 'SELECT * FROM #__redshop_manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
@@ -209,8 +208,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function TemplateData()
 	{
-		$query = "SELECT template_id as value,template_name as text FROM " . $this->_table_prefix
-			. "template WHERE template_section ='manufacturer_products' and published=1";
+		$query = "SELECT template_id as value,template_name as text FROM #__redshop_template WHERE template_section ='manufacturer_products' and published=1";
 		$this->_db->setQuery($query);
 		$this->_templatedata = $this->_db->loadObjectList();
 
@@ -219,7 +217,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function getMediaId($mid)
 	{
-		$query = 'SELECT media_id,media_name FROM ' . $this->_table_prefix . 'media '
+		$query = 'SELECT media_id,media_name FROM #__redshop_media '
 			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
 		$this->_db->setQuery($query);
 
@@ -265,7 +263,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	 */
 	public function MaxOrdering()
 	{
-		$query = "SELECT (max(ordering)+1) FROM " . $this->_table_prefix . "manufacturer";
+		$query = "SELECT (max(ordering)+1) FROM #__redshop_manufacturer";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();

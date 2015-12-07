@@ -18,7 +18,6 @@ class RedshopModelTax extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_tax_group_id = null;
 
@@ -32,7 +31,7 @@ class RedshopModelTax extends RedshopModel
 
 		$this->_context = 'tax_rate_id';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
@@ -90,8 +89,8 @@ class RedshopModelTax extends RedshopModel
 	public function _buildQuery()
 	{
 		$query = ' SELECT tr.*,tg.tax_group_name  '
-			. ' FROM ' . $this->_table_prefix . 'tax_rate as tr'
-			. ' LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg ON tr.tax_group_id = tg.tax_group_id '
+			. ' FROM #__redshop_tax_rate as tr'
+			. ' LEFT JOIN #__redshop_tax_group as tg ON tr.tax_group_id = tg.tax_group_id '
 			. 'WHERE tg.tax_group_id = \'' . $this->_tax_group_id . '\' ';
 
 		return $query;

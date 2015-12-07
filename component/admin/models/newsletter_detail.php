@@ -16,12 +16,11 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -49,7 +48,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_newsletter WHERE newsletter_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -105,7 +104,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_newsletter WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -125,7 +124,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'newsletter'
+			$query = 'UPDATE #__redshop_newsletter'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -149,7 +148,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter '
+			$query = 'SELECT * FROM #__redshop_newsletter '
 				. 'WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$copydata = $this->_db->loadObjectList();
@@ -167,7 +166,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			$row = $this->store($post);
 
 			// Copy subscriber of newsletters
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter_subscription '
+			$query = 'SELECT * FROM #__redshop_newsletter_subscription '
 				. 'WHERE newsletter_id IN ( ' . $copydata[$i]->newsletter_id . ' )';
 			$this->_db->setQuery($query);
 			$subscriberdata = $this->_db->loadObjectList();
@@ -192,7 +191,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function gettemplates()
 	{
-		$query = 'SELECT template_id AS value,template_name AS text FROM ' . $this->_table_prefix . 'template '
+		$query = 'SELECT template_id AS value,template_name AS text FROM #__redshop_template '
 			. 'WHERE template_section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);
@@ -202,7 +201,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function getnewslettertexts()
 	{
-		$query = 'SELECT text_name,text_desc FROM ' . $this->_table_prefix . 'textlibrary '
+		$query = 'SELECT text_name,text_desc FROM #__redshop_textlibrary '
 			. 'WHERE section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);
@@ -219,7 +218,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			$and .= "AND n.newsletter_id='" . $newsletter_id . "' ";
 		}
 
-		$query = 'SELECT n.*,CONCAT(n.name," (",n.subject,")") AS text FROM ' . $this->_table_prefix . 'newsletter AS n '
+		$query = 'SELECT n.*,CONCAT(n.name," (",n.subject,")") AS text FROM #__redshop_newsletter AS n '
 			. 'WHERE 1=1 '
 			. $and;
 
@@ -239,7 +238,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 		for ($d = 0; $d < count($data); $d++)
 		{
-			$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
+			$query = "SELECT COUNT(*) AS total FROM #__redshop_newsletter_tracker "
 				. "WHERE newsletter_id='" . $data[$d]->newsletter_id . "' ";
 			$this->_db->setQuery($query);
 			$totalresult = $this->_db->loadResult();
@@ -281,7 +280,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function getReadNewsletter($newsletter_id)
 	{
-		$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
+		$query = "SELECT COUNT(*) AS total FROM #__redshop_newsletter_tracker "
 			. "WHERE `newsletter_id`='" . $newsletter_id . "' "
 			. "AND `read`='1' ";
 

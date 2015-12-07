@@ -19,7 +19,6 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_copydata = null;
 
@@ -27,7 +26,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -55,7 +54,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id="' . $this->_id . '" ';
+			$query = 'SELECT * FROM #__redshop_shipping_rate WHERE shipping_rate_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -168,7 +167,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id  IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_shipping_rate WHERE shipping_rate_id  IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -188,7 +187,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 		$and .= 'AND product_id IN (' . $d . ')';
 
-		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product '
+		$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product '
 			. 'WHERE published=1 '
 			. $and;
 		$this->_db->setQuery($query);
@@ -198,7 +197,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public function GetProductList()
 	{
-		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
+		$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -206,7 +205,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public function GetCategoryList()
 	{
-		$query = 'SELECT category_name as text,category_id as value FROM ' . $this->_table_prefix . 'category WHERE published = 1';
+		$query = 'SELECT category_name as text,category_id as value FROM #__redshop_category WHERE published = 1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -214,8 +213,8 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public function GetStateList($country_codes)
 	{
-		$query = 'SELECT s.state_name as text,s.state_2_code as value FROM ' . $this->_table_prefix . 'state AS s '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON c.country_id = s.country_id '
+		$query = 'SELECT s.state_name as text,s.state_2_code as value FROM #__redshop_state AS s '
+			. 'LEFT JOIN #__redshop_country AS c ON c.country_id = s.country_id '
 			. 'WHERE find_in_set( c.country_3_code, "' . $country_codes . '" ) '
 			. 'ORDER BY s.state_name ASC';
 		$this->_db->setQuery($query);
@@ -230,7 +229,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id IN ( ' . $cids . ' )';
+			$query = 'SELECT * FROM #__redshop_shipping_rate WHERE shipping_rate_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$copydata = $this->_db->loadObjectList();
 		}
@@ -274,7 +273,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public function getVatGroup()
 	{
-		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE
+		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `#__redshop_tax_group` as tg WHERE
 		`published` = 1 ORDER BY tax_group_id ASC";
 		$this->_db->setQuery($query);
 

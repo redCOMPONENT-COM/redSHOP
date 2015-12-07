@@ -27,11 +27,8 @@ if ($dosef == false)
 // ------------------  load language file - adjust as needed ----------------------------------------
 $shLangIso = shLoadPluginLanguage('com_redshop', $shLangIso, '_COM_SEF_SH_REDSHOP');
 
-// Getting the configuration
-if (!defined('TABLE_PREFIX'))
-{
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-}
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+
 
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminCategory');

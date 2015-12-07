@@ -20,7 +20,6 @@ class RedshopModelTax_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_tax_group_id = null;
 
@@ -28,7 +27,7 @@ class RedshopModelTax_detail extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -63,8 +62,8 @@ class RedshopModelTax_detail extends RedshopModel
 		if (empty($this->_data))
 		{
 			$query = ' SELECT tr.*,tg.tax_group_name  '
-				. ' FROM ' . $this->_table_prefix . 'tax_rate as tr'
-				. ' LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg ON tr.tax_group_id = tg.tax_group_id '
+				. ' FROM #__redshop_tax_rate as tr'
+				. ' LEFT JOIN #__redshop_tax_group as tg ON tr.tax_group_id = tg.tax_group_id '
 				. ' WHERE tr.tax_rate_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -123,7 +122,7 @@ class RedshopModelTax_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'tax_rate WHERE tax_rate_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_tax_rate WHERE tax_rate_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())

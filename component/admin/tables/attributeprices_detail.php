@@ -49,8 +49,8 @@ class Tableattributeprices_detail extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
-		parent::__construct($this->_table_prefix . 'product_attribute_price', 'price_id', $db);
+
+		parent::__construct('#__redshop_product_attribute_price', 'price_id', $db);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Tableattributeprices_detail extends JTable
 	 */
 	public function check()
 	{
-		$query = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
+		$query = 'SELECT price_id FROM #__redshop_product_attribute_price WHERE shopper_group_id = "'
 			. $this->shopper_group_id . '" AND section_id = ' . (int) $this->section_id
 			. ' AND price_quantity_start <= ' . (int) $this->price_quantity_start
 			. ' AND price_quantity_end >= ' . (int) $this->price_quantity_start;
@@ -68,7 +68,7 @@ class Tableattributeprices_detail extends JTable
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
 
-		$query_end = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
+		$query_end = 'SELECT price_id FROM #__redshop_product_attribute_price WHERE shopper_group_id = "'
 			. $this->shopper_group_id . '" AND section_id = ' . (int) $this->section_id
 			. ' AND price_quantity_start <= ' . (int) $this->price_quantity_end
 			. ' AND price_quantity_end >= ' . (int) $this->price_quantity_end;

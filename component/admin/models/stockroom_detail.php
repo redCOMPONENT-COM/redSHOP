@@ -16,7 +16,6 @@ class RedshopModelStockroom_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_copydata = null;
 
@@ -24,7 +23,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -54,7 +53,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_stockroom WHERE stockroom_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -116,7 +115,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query_product = 'DELETE FROM ' . $this->_table_prefix . 'product_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
+			$query_product = 'DELETE FROM #__redshop_product_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_product);
 
 			if (!$this->_db->execute())
@@ -127,7 +126,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 			}
 
 			// Delete stock of products attribute stock
-			$query_product_attr = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
+			$query_product_attr = 'DELETE FROM #__redshop_product_attribute_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_product_attr);
 
 			if (!$this->_db->execute())
@@ -138,7 +137,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 			}
 
 			// Delete stockroom
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -158,7 +157,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'stockroom'
+			$query = 'UPDATE #__redshop_stockroom'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -180,7 +179,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'stockroom'
+			$query = 'UPDATE #__redshop_stockroom'
 				. ' SET `show_in_front` = ' . intval($publish)
 				. ' WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -202,7 +201,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
+			$query = 'SELECT * FROM #__redshop_stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
@@ -226,7 +225,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 
 	public function getStockRoomList()
 	{
-		$query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';
+		$query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM #__redshop_stockroom AS s ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 

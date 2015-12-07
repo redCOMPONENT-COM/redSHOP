@@ -20,13 +20,12 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$this->_parent_id = JRequest::getVar('parent_id');
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -53,7 +52,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+		$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 			. "WHERE q.question_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
@@ -63,7 +62,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 	public function getProduct()
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
+		$query = "SELECT * FROM #__redshop_product ";
 		$list = $this->_getList($query);
 
 		return $list;
@@ -132,7 +131,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 	 */
 	public function MaxOrdering()
 	{
-		$query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question "
+		$query = "SELECT (MAX(ordering)+1) FROM #__redshop_customer_question "
 			. "WHERE parent_id='" . $this->_parent_id . "' ";
 		$this->_db->setQuery($query);
 
@@ -151,7 +150,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question '
+			$query = 'DELETE FROM #__redshop_customer_question '
 				. 'WHERE question_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
@@ -178,7 +177,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'customer_question '
+			$query = 'UPDATE #__redshop_customer_question '
 				. ' SET published = ' . intval($publish)
 				. ' WHERE question_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);

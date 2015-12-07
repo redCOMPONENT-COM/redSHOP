@@ -20,12 +20,11 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_sectionid = JRequest::getVar('section_id', 0, '', 'int');
@@ -60,17 +59,17 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 			if ($this->_section == "property")
 			{
 				$field = "ap.property_name ";
-				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
+				$q = 'LEFT JOIN #__redshop_product_attribute_property AS ap ON p.section_id = ap.property_id ';
 			}
 			else
 			{
 				$field = "ap.subattribute_color_name AS property_name ";
-				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
+				$q = 'LEFT JOIN #__redshop_product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
 			}
 
 			$query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' '
-				. 'FROM ' . $this->_table_prefix . 'product_attribute_price as p '
-				. 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
+				. 'FROM #__redshop_product_attribute_price as p '
+				. 'LEFT JOIN #__redshop_shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
 				. $q
 				. 'WHERE p.price_id = ' . $this->_id;
 			$this->_db->setQuery($query);
@@ -113,13 +112,13 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 		if ($this->_section == "property")
 		{
 			$q = 'SELECT * '
-				. 'FROM ' . $this->_table_prefix . 'product_attribute_property AS ap '
+				. 'FROM #__redshop_product_attribute_property AS ap '
 				. 'WHERE property_id = ' . $propertyid;
 		}
 		else
 		{
 			$q = 'SELECT ap.subattribute_color_name AS property_name '
-				. 'FROM ' . $this->_table_prefix . 'product_subattribute_color AS ap '
+				. 'FROM #__redshop_product_subattribute_color AS ap '
 				. 'WHERE subattribute_color_id = ' . $propertyid;
 		}
 
@@ -162,7 +161,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price '
+			$query = 'DELETE FROM #__redshop_product_attribute_price '
 				. 'WHERE price_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 

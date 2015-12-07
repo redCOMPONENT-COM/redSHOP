@@ -25,9 +25,9 @@ class Tablesample_request extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'sample_request', 'request_id', $db);
+
+		parent::__construct('#__redshop_sample_request', 'request_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

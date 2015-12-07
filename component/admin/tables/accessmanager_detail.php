@@ -27,9 +27,9 @@ class Tableaccessmanager_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'accessmanager', 'id', $db);
+
+		parent::__construct('#__redshop_accessmanager', 'id', $db);
 	}
 
 	public function bind($array, $ignore = '')

@@ -19,7 +19,6 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_fielddata = null;
 
@@ -27,7 +26,7 @@ class RedshopModelFields_detail extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -57,7 +56,7 @@ class RedshopModelFields_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'fields  WHERE field_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_fields  WHERE field_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -194,13 +193,13 @@ class RedshopModelFields_detail extends RedshopModel
 
 			if ($value_id[$j] == "")
 			{
-				$query = "INSERT INTO " . $this->_table_prefix . "fields_value "
+				$query = "INSERT INTO #__redshop_fields_value "
 					. "(field_id,field_name,field_value) "
 					. "VALUE ( '" . $id . "','" . $filename . "','" . $extra_value[$j] . "' ) ";
 			}
 			else
 			{
-				$query = "UPDATE " . $this->_table_prefix . "fields_value "
+				$query = "UPDATE #__redshop_fields_value "
 					. "SET " . $set . " field_value='" . $extra_value[$j] . "' "
 					. "WHERE value_id='" . $value_id[$j] . "' ";
 			}
@@ -219,7 +218,7 @@ class RedshopModelFields_detail extends RedshopModel
 	public function field_delete($id, $field)
 	{
 		$id = implode(',', $id);
-		$query = 'DELETE FROM ' . $this->_table_prefix . 'fields_value WHERE ' . $field . ' IN ( ' . $id . ' )';
+		$query = 'DELETE FROM #__redshop_fields_value WHERE ' . $field . ' IN ( ' . $id . ' )';
 
 		$this->_db->setQuery($query);
 
@@ -237,7 +236,7 @@ class RedshopModelFields_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'fields WHERE field_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_fields WHERE field_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -248,7 +247,7 @@ class RedshopModelFields_detail extends RedshopModel
 			}
 
 			// 	remove fields_data
-			$query_field_data = 'DELETE FROM ' . $this->_table_prefix . 'fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
+			$query_field_data = 'DELETE FROM #__redshop_fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query_field_data);
 
 			if (!$this->_db->execute())
@@ -262,7 +261,7 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public function MaxOrdering()
 	{
-		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
+		$query = "SELECT (count(*)+1) FROM #__redshop_fields";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -276,7 +275,7 @@ class RedshopModelFields_detail extends RedshopModel
 	 */
 	public function checkFieldname($field_name, $field_id)
 	{
-		$query = "SELECT COUNT(*) AS cnt FROM " . $this->_table_prefix . "fields "
+		$query = "SELECT COUNT(*) AS cnt FROM #__redshop_fields "
 			. "WHERE field_name='" . $field_name . "' "
 			. "AND field_id!='" . $field_id . "' ";
 		$this->_db->setQuery($query);

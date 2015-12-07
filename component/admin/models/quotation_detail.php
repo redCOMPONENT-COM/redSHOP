@@ -24,7 +24,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_copydata = null;
 
@@ -32,7 +31,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -58,7 +57,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
+		$query = "SELECT q.* FROM #__redshop_quotation AS q "
 			. "WHERE q.quotation_id='" . $this->_id . "' ";
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
@@ -223,7 +222,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 			for ($i = 0; $i < count($items); $i++)
 			{
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
+				$query = 'DELETE FROM #__redshop_quotation_accessory_item '
 					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
 				$this->_db->setQuery($query);
 
@@ -234,7 +233,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 					return false;
 				}
 
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
+				$query = 'DELETE FROM #__redshop_quotation_attribute_item '
 					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
 				$this->_db->setQuery($query);
 
@@ -245,7 +244,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 					return false;
 				}
 
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
+				$query = 'DELETE FROM #__redshop_quotation_fields_data '
 					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
 				$this->_db->setQuery($query);
 
@@ -257,7 +256,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
+			$query = 'DELETE FROM #__redshop_quotation_item '
 				. 'WHERE quotation_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -268,7 +267,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE quotation_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_quotation WHERE quotation_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -286,7 +285,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 	{
 		$quotationHelper = new quotationHelper;
 
-		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
+		$query = 'DELETE FROM #__redshop_quotation_fields_data '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
 		$this->_db->setQuery($query);
 
@@ -297,7 +296,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			return false;
 		}
 
-		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
+		$query = 'DELETE FROM #__redshop_quotation_accessory_item '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' )';
 		$this->_db->setQuery($query);
 
@@ -308,7 +307,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			return false;
 		}
 
-		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
+		$query = 'DELETE FROM #__redshop_quotation_attribute_item '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' )';
 		$this->_db->setQuery($query);
 
@@ -319,7 +318,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			return false;
 		}
 
-		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
+		$query = 'DELETE FROM #__redshop_quotation_item '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' )';
 		$this->_db->setQuery($query);
 

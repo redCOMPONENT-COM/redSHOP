@@ -29,9 +29,9 @@ class Tableproduct_download extends JTable
 
 	public function __construct(& $db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'product_download', '', $db);
+
+		parent::__construct('#__redshop_product_download', '', $db);
 	}
 
 	public function bind($array, $ignore = '')
