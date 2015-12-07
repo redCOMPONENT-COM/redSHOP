@@ -26,7 +26,6 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public $_productlimit = null;
 
-	public $_table_prefix = null;
 
 	public $_template = null;
 
@@ -57,7 +56,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$params              = $app->getParams('com_redshop');
 
 		if ($params->get('manufacturerid') != "")
@@ -121,7 +120,7 @@ class RedshopModelManufacturers extends RedshopModel
 			$and .= " AND mn.manufacturer_id = " . (int) $this->_id . " ";
 		}
 
-		$query = "SELECT mn.* FROM " . $this->_table_prefix . "manufacturer AS mn "
+		$query = "SELECT mn.* FROM #__redshop_manufacturer AS mn "
 			. "WHERE mn.published = 1 "
 			. $and
 			. $orderby;
@@ -197,7 +196,7 @@ class RedshopModelManufacturers extends RedshopModel
 	public function getCategoryList()
 	{
 		$query = "SELECT DISTINCT(c.category_id) as value, c.category_name as text "
-			. "FROM " . $this->_table_prefix . "category AS c "
+			. "FROM #__redshop_category AS c "
 			. "LEFT JOIN #__redshop_product_category_xref  AS pcx ON c.category_id  = pcx.category_id "
 			. "LEFT JOIN #__redshop_product  AS p ON pcx.product_id = p.product_id  "
 			. "WHERE p.manufacturer_id = " . (int) $this->_id . " "
@@ -244,9 +243,9 @@ class RedshopModelManufacturers extends RedshopModel
 
 		$orderby = $this->_buildProductOrderBy($template_data);
 
-		$query = "SELECT DISTINCT(p.product_id),p.*, c.category_name, c.category_id FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON pc.category_id=c.category_id "
+		$query = "SELECT DISTINCT(p.product_id),p.*, c.category_name, c.category_id FROM #__redshop_product AS p "
+			. "LEFT JOIN #__redshop_product_category_xref AS pc ON p.product_id=pc.product_id "
+			. "LEFT JOIN #__redshop_category AS c ON pc.category_id=c.category_id "
 			. "WHERE p.published = 1 "
 			. "AND p.manufacturer_id = " . (int) $this->_id . " "
 			. "AND p.expired = 0 "
@@ -273,9 +272,9 @@ class RedshopModelManufacturers extends RedshopModel
 		}
 
 		$query = "SELECT DISTINCT(c.category_id), c.category_name,c.category_short_description,c.category_description "
-			. "FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON pc.category_id=c.category_id "
+			. "FROM #__redshop_product AS p "
+			. "LEFT JOIN #__redshop_product_category_xref AS pc ON p.product_id=pc.product_id "
+			. "LEFT JOIN #__redshop_category AS c ON pc.category_id=c.category_id "
 			. "WHERE p.published = 1 "
 			. "AND p.manufacturer_id = " . (int) $mid . " "
 			. "AND p.expired = 0 "

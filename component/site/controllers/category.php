@@ -29,7 +29,6 @@ class RedshopControllerCategory extends RedshopController
 		$option   = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
 		$db       = JFactory::getDbo();
-		$this->_table_prefix = "#__redshop_";
 
 		session_cache_limiter('public');
 
@@ -44,7 +43,7 @@ class RedshopControllerCategory extends RedshopController
 			return false;
 		}
 
-		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x "
+		$query = "SELECT x.* FROM #__redshop_xml_export AS x "
 			. "WHERE x.published=1 "
 			. "AND x.filename='" . $filename . "' ";
 		$db->setQuery($query);
@@ -54,9 +53,9 @@ class RedshopControllerCategory extends RedshopController
 		{
 			if (!$data->use_to_all_users && $_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR'])
 			{
-				$query = "SELECT x.*,xl.*,xi.* FROM " . $this->_table_prefix . "xml_export AS x "
-					. "LEFT JOIN " . $this->_table_prefix . "xml_export_log AS xl ON x.xmlexport_id=xl.xmlexport_id "
-					. "LEFT JOIN " . $this->_table_prefix . "xml_export_ipaddress AS xi ON x.xmlexport_id=xi.xmlexport_id "
+				$query = "SELECT x.*,xl.*,xi.* FROM #__redshop_xml_export AS x "
+					. "LEFT JOIN #__redshop_xml_export_log AS xl ON x.xmlexport_id=xl.xmlexport_id "
+					. "LEFT JOIN #__redshop_xml_export_ipaddress AS xi ON x.xmlexport_id=xi.xmlexport_id "
 					. "WHERE x.published=1 "
 					. "AND (x.filename=" . $db->quote((string) $filename) . " "
 					. "OR xl.xmlexport_filename=" . $db->quote((string) $filename) . ") "

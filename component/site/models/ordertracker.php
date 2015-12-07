@@ -22,14 +22,12 @@ class RedshopModelOrdertracker extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_template = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 	}
 }

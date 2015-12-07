@@ -22,13 +22,12 @@ class RedshopModelAccount_shipto extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 		$infoid              = JRequest::getInt('infoid');
 
 		$this->setId($infoid);
@@ -78,7 +77,7 @@ class RedshopModelAccount_shipto extends RedshopModel
 	{
 		if ($users_info_id)
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id = ' . (int) $users_info_id;
+			$query = 'SELECT * FROM #__redshop_users_info WHERE users_info_id = ' . (int) $users_info_id;
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObject();
 
@@ -87,7 +86,7 @@ class RedshopModelAccount_shipto extends RedshopModel
 
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id = ' . (int) $this->_id;
+			$query = 'SELECT * FROM #__redshop_users_info WHERE users_info_id = ' . (int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 

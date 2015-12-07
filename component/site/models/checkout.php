@@ -35,7 +35,6 @@ class RedshopModelCheckout extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $discount_type = null;
 
@@ -50,7 +49,7 @@ class RedshopModelCheckout extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 		$session             = JFactory::getSession();
 
 		$this->_carthelper      = new rsCarthelper;
@@ -1320,7 +1319,7 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmail = $giftcardmail[0];
 		}
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_item '
+		$query = 'SELECT * FROM #__redshop_order_item '
 			. 'WHERE order_id = ' . (int) $order_id . ' AND is_giftcard=1';
 		$this->_db->setQuery($query);
 		$orders = $this->_db->loadObjectList();
@@ -1449,7 +1448,7 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function shipaddress($users_info_id)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
+		$query = 'SELECT * FROM #__redshop_users_info '
 			. 'WHERE users_info_id = ' . (int) $users_info_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
@@ -1481,7 +1480,7 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$user          = JFactory::getUser();
 		$shopper_group = $this->_order_functions->getBillingAddress($user->id);
-		$query         = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND (FIND_IN_SET('" . (int) $shopper_group->shopper_group_id . "', shopper_group) OR shopper_group = '') ORDER BY ordering ASC";
+		$query         = "SELECT * FROM #__redshop_payment_method WHERE published = '1' AND (FIND_IN_SET('" . (int) $shopper_group->shopper_group_id . "', shopper_group) OR shopper_group = '') ORDER BY ordering ASC";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -1944,7 +1943,7 @@ class RedshopModelCheckout extends RedshopModel
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$db = JFactory::getDbo();
-		$query   = "SELECT coupon_value,percent_or_total FROM " . $this->_table_prefix . "coupons "
+		$query   = "SELECT coupon_value,percent_or_total FROM #__redshop_coupons "
 			. "WHERE coupon_id = " . (int) $cart['coupon_id'] . " "
 			. "AND coupon_code = " . $db->quote($cart['coupon_code']) . " LIMIT 0,1";
 		$db->setQuery($query);
@@ -1967,8 +1966,8 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function getCategoryNameByProductId($pid)
 	{
-		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
+		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
+			. "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id "
 			. "WHERE pcx.product_id = " . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
 
 		$this->_db->setQuery($query);
@@ -1994,7 +1993,7 @@ class RedshopModelCheckout extends RedshopModel
 				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
 				$transaction_voucher_id = 0;
 				$vouchertype[]          = 'v:' . $cart['voucher'][$i]['voucher_code'];
-				$sql                    = "UPDATE " . $this->_table_prefix . "product_voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
+				$sql                    = "UPDATE #__redshop_product_voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
 					. "WHERE voucher_id  = " . (int) $voucher_id;
 				$this->_db->setQuery($sql);
 				$this->_db->execute();
@@ -2061,7 +2060,7 @@ class RedshopModelCheckout extends RedshopModel
 				$coupontype[]          = 'c:' . $cart['coupon'][$i]['coupon_code'];
 
 				$rowcouponDetail = $this->getTable('coupon_detail');
-				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET coupon_left = coupon_left - " . (int) $coupon_volume . " "
+				$sql             = "UPDATE #__redshop_coupons SET coupon_left = coupon_left - " . (int) $coupon_volume . " "
 					. "WHERE coupon_id  = " . (int) $coupon_id;
 				$this->_db->setQuery($sql);
 				$this->_db->execute();
@@ -2362,7 +2361,7 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function deleteOrdernumberTrack()
 	{
-		$query = "TRUNCATE TABLE " . $this->_table_prefix . "ordernumber_track";
+		$query = "TRUNCATE TABLE #__redshop_ordernumber_track";
 
 		$this->_db->setQuery($query);
 
@@ -2382,7 +2381,7 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function getOrdernumberTrack()
 	{
-		$query = "SELECT trackdatetime FROM " . $this->_table_prefix . "ordernumber_track";
+		$query = "SELECT trackdatetime FROM #__redshop_ordernumber_track";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -2394,7 +2393,7 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function insertOrdernumberTrack()
 	{
-		$query_in = "INSERT INTO " . $this->_table_prefix . "ordernumber_track SET trackdatetime=now()";
+		$query_in = "INSERT INTO #__redshop_ordernumber_track SET trackdatetime=now()";
 		$this->_db->setQuery($query_in);
 
 		if (!$this->_db->execute())

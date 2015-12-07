@@ -25,7 +25,6 @@ class RedshopModelAccount extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -34,7 +33,7 @@ class RedshopModelAccount extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 	}
 
 	public function getuseraccountinfo($uid)
@@ -356,7 +355,7 @@ class RedshopModelAccount extends RedshopModel
 	public function editTag($post)
 	{
 		$db = JFactory::getDbo();
-		$query = "UPDATE " . $this->_table_prefix . "product_tags SET tags_name = "
+		$query = "UPDATE #__redshop_product_tags SET tags_name = "
 			. $db->quote($post['tags_name']) . ' WHERE tags_id = ' . (int) $post['tags_id'];
 		$db->setQuery($query);
 
@@ -371,8 +370,8 @@ class RedshopModelAccount extends RedshopModel
 	public function getCompare()
 	{
 		$user  = JFactory::getUser();
-		$query = "SELECT pc.compare_id,pc.user_id,p.* FROM " . $this->_table_prefix . "product_compare AS pc "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pc.product_id "
+		$query = "SELECT pc.compare_id,pc.user_id,p.* FROM #__redshop_product_compare AS pc "
+			. "LEFT JOIN #__redshop_product AS p ON p.product_id = pc.product_id "
 			. "WHERE user_id = " . (int) $user->id;
 
 		return $this->_getList($query);
@@ -388,7 +387,7 @@ class RedshopModelAccount extends RedshopModel
 
 		$user = JFactory::getUser();
 
-		$query = "DELETE FROM " . $this->_table_prefix . "product_compare "
+		$query = "DELETE FROM #__redshop_product_compare "
 			. "WHERE product_id = " . (int) $product_id . " AND user_id = " . (int) $user->id;
 		$this->_db->setQuery($query);
 
@@ -422,9 +421,9 @@ class RedshopModelAccount extends RedshopModel
 		// Get data from database if not than fetch from session
 		if ($user->id && $wishlist_id)
 		{
-			$query = "SELECT DISTINCT w.* ,p.* FROM " . $this->_table_prefix . "wishlist AS w "
-				. "LEFT JOIN " . $this->_table_prefix . "wishlist_product AS pw ON w.wishlist_id=pw.wishlist_id "
-				. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pw.product_id "
+			$query = "SELECT DISTINCT w.* ,p.* FROM #__redshop_wishlist AS w "
+				. "LEFT JOIN #__redshop_wishlist_product AS pw ON w.wishlist_id=pw.wishlist_id "
+				. "LEFT JOIN #__redshop_product AS p ON p.product_id = pw.product_id "
 				. "WHERE w.user_id = " . (int) $user->id . " "
 				. "AND w.wishlist_id = " . (int) $wishlist_id . " ";
 		}
@@ -439,7 +438,7 @@ class RedshopModelAccount extends RedshopModel
 			}
 
 			$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
-			$query = "SELECT DISTINCT p.* FROM " . $this->_table_prefix . "product AS p "
+			$query = "SELECT DISTINCT p.* FROM #__redshop_product AS p "
 				. "WHERE p.product_id IN (" . $prod_id . ")";
 		}
 
@@ -569,7 +568,7 @@ class RedshopModelAccount extends RedshopModel
 	public function getReserveDiscount()
 	{
 		$user            = JFactory::getUser();
-		$query           = "SELECT * FROM " . $this->_table_prefix . "coupons_transaction "
+		$query           = "SELECT * FROM #__redshop_coupons_transaction "
 			. "WHERE userid = " . (int) $user->id . " AND coupon_value > 0 limit 0,1 ";
 		$Data            = $this->_getList($query);
 		$remain_discount = 0;
@@ -579,7 +578,7 @@ class RedshopModelAccount extends RedshopModel
 			$remain_discount = $Data[0]->coupon_value;
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "product_voucher_transaction "
+		$query = "SELECT * FROM #__redshop_product_voucher_transaction "
 			. "WHERE user_id = " . (int) $user->id . " AND amount > 0 limit 0,1 ";
 		$this->_db->setQuery($query);
 		$Data = $this->_getList($query);
@@ -594,9 +593,9 @@ class RedshopModelAccount extends RedshopModel
 
 	public function getdownloadproductlist($user_id)
 	{
-		$query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd "
-			. "INNER JOIN " . $this->_table_prefix . "product AS p ON p.product_id=pd.product_id "
-			. "INNER JOIN " . $this->_table_prefix . "orders AS o ON o.order_id=pd.order_id "
+		$query = "SELECT pd.*,product_name FROM #__redshop_product_download AS pd "
+			. "INNER JOIN #__redshop_product AS p ON p.product_id=pd.product_id "
+			. "INNER JOIN #__redshop_orders AS o ON o.order_id=pd.order_id "
 			. "WHERE pd.user_id = " . (int) $user_id . " AND o.order_payment_status = 'Paid'";
 		$this->_db->setQuery($query);
 
@@ -606,7 +605,7 @@ class RedshopModelAccount extends RedshopModel
 	public function unused_coupon_amount($user_id, $coupone_code)
 	{
 		$db = JFactory::getDbo();
-		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE userid ='
+		$query = 'SELECT coupon_value FROM #__redshop_coupons_transaction WHERE userid ='
 			. (int) $user_id . ' AND coupon_code = ' . $db->quote($coupone_code);
 		$db->setQuery($query);
 

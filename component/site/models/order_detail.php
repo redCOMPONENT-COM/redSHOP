@@ -22,7 +22,6 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -30,7 +29,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 	}
 
 	/**
@@ -83,7 +82,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	 */
 	public function UpdateAnalytics_status($oid)
 	{
-		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = " . (int) $oid;
+		$query = "UPDATE  #__redshop_orders SET `analytics_status` = 1 WHERE order_id = " . (int) $oid;
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->execute())
@@ -164,7 +163,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
 		$order_payment_trans_id = $payment_transaction_id;
 
-		$payment_update = "UPDATE " . $this->_table_prefix . "order_payment "
+		$payment_update = "UPDATE #__redshop_order_payment "
 			. " SET order_payment_code  = " . $db->quote($order_payment_code) . ", "
 			. " order_payment_cardname  = " . $db->quote($order_payment_cardname) . ", "
 			. " order_payment_number  = " . $db->quote($order_payment_number) . ", "

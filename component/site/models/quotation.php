@@ -28,13 +28,11 @@ class RedshopModelQuotation extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 	}
 
 	public function &getData()
@@ -668,7 +666,7 @@ class RedshopModelQuotation extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT * FROM " . $this->_table_prefix . "users_info "
+		$q = "SELECT * FROM #__redshop_users_info "
 			. "WHERE user_email = " . $db->quote($email) . " "
 			. "AND address_type='BT' ";
 		$this->_db->setQuery($q);
