@@ -46,11 +46,13 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM #__redshop_newsletter WHERE newsletter_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -79,18 +81,20 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
+
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -100,16 +104,18 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
 			$query = 'DELETE FROM #__redshop_newsletter WHERE newsletter_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -120,6 +126,8 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -127,11 +135,11 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			$query = 'UPDATE #__redshop_newsletter'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE newsletter_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -142,6 +150,8 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function copy($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		$copydata = array();
 
 		if (count($cid))
@@ -150,8 +160,8 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 			$query = 'SELECT * FROM #__redshop_newsletter '
 				. 'WHERE newsletter_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-			$copydata = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$copydata = $db->loadObjectList();
 		}
 
 		for ($i = 0; $i < count($copydata); $i++)
@@ -168,8 +178,8 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			// Copy subscriber of newsletters
 			$query = 'SELECT * FROM #__redshop_newsletter_subscription '
 				. 'WHERE newsletter_id IN ( ' . $copydata[$i]->newsletter_id . ' )';
-			$this->_db->setQuery($query);
-			$subscriberdata = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$subscriberdata = $db->loadObjectList();
 
 			for ($j = 0; $j < count($subscriberdata); $j++)
 			{
@@ -191,26 +201,31 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function gettemplates()
 	{
+		$db = JFactory::getDbo();
+
 		$query = 'SELECT template_id AS value,template_name AS text FROM #__redshop_template '
 			. 'WHERE template_section="newsletter" '
 			. 'AND published=1';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getnewslettertexts()
 	{
+		$db = JFactory::getDbo();
+
 		$query = 'SELECT text_name,text_desc FROM #__redshop_textlibrary '
 			. 'WHERE section="newsletter" '
 			. 'AND published=1';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getNewsletterList($newsletter_id = 0)
 	{
+		$db = JFactory::getDbo();
 		$and = "";
 
 		if ($newsletter_id != 0)
@@ -222,14 +237,15 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			. 'WHERE 1=1 '
 			. $and;
 
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
 
 	public function getNewsletterTracker($newsletter_id = 0)
 	{
+		$db = JFactory::getDbo();
 		$data = $this->getNewsletterList($newsletter_id);
 
 		$return = array();
@@ -240,8 +256,8 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		{
 			$query = "SELECT COUNT(*) AS total FROM #__redshop_newsletter_tracker "
 				. "WHERE newsletter_id='" . $data[$d]->newsletter_id . "' ";
-			$this->_db->setQuery($query);
-			$totalresult = $this->_db->loadResult();
+			$db->setQuery($query);
+			$totalresult = $db->loadResult();
 
 			if (!$totalresult)
 			{
@@ -280,12 +296,13 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function getReadNewsletter($newsletter_id)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT COUNT(*) AS total FROM #__redshop_newsletter_tracker "
 			. "WHERE `newsletter_id`='" . $newsletter_id . "' "
 			. "AND `read`='1' ";
 
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
 		if (!$result)
 		{

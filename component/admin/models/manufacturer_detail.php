@@ -54,11 +54,13 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM #__redshop_manufacturer WHERE manufacturer_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -96,6 +98,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$order_functions = new order_functions;
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
@@ -113,7 +116,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -127,7 +130,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -137,16 +140,18 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
 			$query = 'DELETE FROM #__redshop_manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -156,17 +161,19 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 			$query = 'UPDATE #__redshop_manufacturer'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE manufacturer_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -176,14 +183,15 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function copy($cid = array())
 	{
+		$db = JFactory::getDbo();
 
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
 			$query = 'SELECT * FROM #__redshop_manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-			$this->_copydata = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$this->_copydata = $db->loadObjectList();
 		}
 
 		foreach ($this->_copydata as $cdata)
@@ -208,20 +216,24 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function TemplateData()
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT template_id as value,template_name as text FROM #__redshop_template WHERE template_section ='manufacturer_products' and published=1";
-		$this->_db->setQuery($query);
-		$this->_templatedata = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$this->_templatedata = $db->loadObjectList();
 
 		return $this->_templatedata;
 	}
 
 	public function getMediaId($mid)
 	{
+		$db = JFactory::getDbo();
+
 		$query = 'SELECT media_id,media_name FROM #__redshop_media '
 			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObject();
+		return $db->loadObject();
 	}
 
 	public function saveOrder(&$cid)
@@ -263,25 +275,28 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	 */
 	public function MaxOrdering()
 	{
-		$query = "SELECT (max(ordering)+1) FROM #__redshop_manufacturer";
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadResult();
+		$query = "SELECT (max(ordering)+1) FROM #__redshop_manufacturer";
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	public function move($direction)
 	{
+		$db = JFactory::getDbo();
 		$row = JTable::getInstance('manufacturer_detail', 'Table');
 
 		if (!$row->load($this->_id))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 		if (!$row->move($direction))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}

@@ -215,12 +215,13 @@ class RedshopModelOrder extends RedshopModel
 
 	public function updateDownloadSetting($did, $limit, $enddate)
 	{
+		$db = JFactory::getDbo();
 		$query = "UPDATE #__redshop_product_download "
 			. " SET `download_max` = " . $limit . " , `end_date` = " . $enddate . " "
 			. " WHERE download_id = '" . $did . "'";
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
 			return false;
 		}

@@ -49,13 +49,15 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM #__redshop_media '
 				. 'WHERE media_id = "' . $this->_id . '" '
 				. 'order by section_id';
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -86,18 +88,19 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -111,13 +114,15 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
 			$q = 'SELECT * FROM #__redshop_media  WHERE media_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($q);
-			$this->_data = $this->_db->loadObjectList();
+			$db->setQuery($q);
+			$this->_data = $db->loadObjectList();
 
 			foreach ($this->_data as $mediadata)
 			{
@@ -139,16 +144,16 @@ class RedshopModelMedia_detail extends RedshopModel
 				if ($mediadata->media_section == 'manufacturer')
 				{
 					$query = 'DELETE FROM #__redshop_media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
-					$this->_db->setQuery($query);
-					$this->_db->execute();
+					$db->setQuery($query);
+					$db->execute();
 				}
 
 				$query = 'DELETE FROM #__redshop_media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				if (!$this->_db->execute())
+				if (!$db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}
@@ -160,6 +165,8 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -167,11 +174,11 @@ class RedshopModelMedia_detail extends RedshopModel
 			$query = 'UPDATE #__redshop_media'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE media_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -256,14 +263,16 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")
 	{
+		$db = JFactory::getDbo();
+
 		if ($media_id && $media_section)
 		{
 			$query = "SELECT * FROM #__redshop_media "
 				. "WHERE `section_id`='" . $section_id . "' "
 				. "AND `media_section` = '" . $media_section . "' "
 				. "AND `media_id` = '" . $media_id . "'";
-			$this->_db->setQuery($query);
-			$rs = $this->_db->loadObject();
+			$db->setQuery($query);
+			$rs = $db->loadObject();
 
 			if (count($rs) > 0)
 			{
@@ -275,11 +284,11 @@ class RedshopModelMedia_detail extends RedshopModel
 							$query = "UPDATE `#__redshop_product` "
 								. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
 								. "WHERE `product_id`='" . $section_id . "' ";
-							$this->_db->setQuery($query);
+							$db->setQuery($query);
 
-							if (!$this->_db->execute())
+							if (!$db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError($db->getErrorMsg());
 
 								return false;
 							}
@@ -288,11 +297,11 @@ class RedshopModelMedia_detail extends RedshopModel
 							$query = "UPDATE `#__redshop_product_attribute_property` "
 								. "SET `property_main_image` = '" . $rs->media_name . "' "
 								. "WHERE `property_id`='" . $section_id . "' ";
-							$this->_db->setQuery($query);
+							$db->setQuery($query);
 
-							if (!$this->_db->execute())
+							if (!$db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError($db->getErrorMsg());
 
 								return false;
 							}
@@ -301,11 +310,11 @@ class RedshopModelMedia_detail extends RedshopModel
 							$query = "UPDATE `#__redshop_product_subattribute_color` "
 								. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
 								. "WHERE `subattribute_color_id`='" . $section_id . "' ";
-							$this->_db->setQuery($query);
+							$db->setQuery($query);
 
-							if (!$this->_db->execute())
+							if (!$db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError($db->getErrorMsg());
 
 								return false;
 							}
@@ -326,6 +335,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
@@ -342,7 +352,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}

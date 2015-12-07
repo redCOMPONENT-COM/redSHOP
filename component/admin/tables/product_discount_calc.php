@@ -51,6 +51,8 @@ class Tableproduct_discount_calc extends JTable
 	 */
 	public function check()
 	{
+		$db = JFactory::getDbo();
+
 		$producthelper = new producthelper;
 
 		$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
@@ -66,9 +68,9 @@ class Tableproduct_discount_calc extends JTable
 					BETWEEN `area_start_converted`
 					AND `area_end_converted` )";
 
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		$xid = intval($this->_db->loadResult());
+		$xid = intval($db->loadResult());
 
 		if ($xid)
 		{

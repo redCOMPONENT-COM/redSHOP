@@ -72,32 +72,36 @@ class RedshopModelNewslettersubscr extends RedshopModel
 
 	public function getnewslettername($nid)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT name FROM #__redshop_newsletter WHERE newsletter_id=' . $nid;
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function getnewsletters()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function importdata($nid, $name, $email)
 	{
+		$db = JFactory::getDbo();
+
 		if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))
 		{
 			$query = "INSERT INTO #__redshop_newsletter_subscription (subscription_id,user_id,newsletter_id,name,email)
 			VALUES ('','0','" . $nid . "','" . $name . "','" . $email . "' )";
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}

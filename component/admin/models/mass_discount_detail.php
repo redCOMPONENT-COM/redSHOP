@@ -52,12 +52,14 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM #__redshop_mass_discount WHERE mass_discount_id = ' . $this->_id;
 
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -91,13 +93,14 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$producthelper = new producthelper;
 
 		$row = $this->getTable('mass_discount_detail');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -136,11 +139,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 		{
 			$query = 'UPDATE #__redshop_product SET product_on_sale="0" WHERE product_id="' . $arr_diff[$i] . '" ';
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -175,11 +178,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 				$query = 'UPDATE #__redshop_product SET product_on_sale="1" , discount_price="'
 					. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
 					. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				if (!$this->_db->execute())
+				if (!$db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}
@@ -214,11 +217,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			{
 				$query = 'UPDATE #__redshop_product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				if (!$this->_db->execute())
+				if (!$db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}
@@ -259,11 +262,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 						. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
 						. $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 
-					if (!$this->_db->execute())
+					if (!$db->execute())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
@@ -301,11 +304,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 				for ($p = 0; $p < count($product_Ids); $p++)
 				{
 					$query = 'UPDATE #__redshop_product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 
-					if (!$this->_db->execute())
+					if (!$db->execute())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
@@ -348,11 +351,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 						$query = 'UPDATE #__redshop_product SET product_on_sale="1" , discount_price="' .
 							$p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
 							. $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
-						$this->_db->setQuery($query);
+						$db->setQuery($query);
 
-						if (!$this->_db->execute())
+						if (!$db->execute())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
@@ -367,7 +370,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -377,6 +380,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
 		$layout = JRequest::getVar('layout');
 		$producthelper = new producthelper;
 
@@ -386,8 +390,8 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 			$query = 'SELECT * FROM #__redshop_mass_discount WHERE mass_discount_id in (' . $cids . ') ';
 
-			$this->_db->setQuery($query);
-			$massDList = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$massDList = $db->loadObjectList();
 
 			for ($m = 0; $m < count($massDList); $m++)
 			{
@@ -422,11 +426,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			}
 
 			$query = 'DELETE FROM #__redshop_mass_discount WHERE mass_discount_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -493,22 +497,26 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function getmanufacturers()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM #__redshop_manufacturer  WHERE published=1';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function GetProductmanufacturer($id)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT product_id FROM #__redshop_product   WHERE manufacturer_id="' . $id . '" ';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function GetProductListshippingrate($d)
 	{
+		$db = JFactory::getDbo();
+
 		if ($d != '')
 		{
 			$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id in   (' . $d . ')';
@@ -518,16 +526,18 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1 and product_id =""';
 		}
 
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function GetProductList()
 	{
-		$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1';
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadObjectList();
+		$query = 'SELECT product_name as text,product_id as value FROM #__redshop_product WHERE published = 1';
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
 	}
 }

@@ -53,22 +53,23 @@ class Tableprices_detail extends JTable
 
 	public function check()
 	{
-		/**** check for valid name *****/
+		$db = JFactory::getDbo();
+
 		$query = 'SELECT price_id FROM #__redshop_product_price WHERE shopper_group_id = "'
 			. $this->shopper_group_id . '" AND product_id = ' . (int) $this->product_id
-			. ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_start)
-			. ' AND price_quantity_end >= ' . $this->_db->quote($this->price_quantity_start) . '';
+			. ' AND price_quantity_start <= ' . $db->quote($this->price_quantity_start)
+			. ' AND price_quantity_end >= ' . $db->quote($this->price_quantity_start) . '';
 
-		$this->_db->setQuery($query);
-		$xid = intval($this->_db->loadResult());
+		$db->setQuery($query);
+		$xid = intval($db->loadResult());
 
 		$query_end = 'SELECT price_id FROM #__redshop_product_price WHERE shopper_group_id = "'
 			. $this->shopper_group_id . '" AND product_id = ' . (int) $this->product_id
-			. ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_end)
-			. ' AND price_quantity_end >= ' . $this->_db->quote($this->price_quantity_end) . '';
+			. ' AND price_quantity_start <= ' . $db->quote($this->price_quantity_end)
+			. ' AND price_quantity_end >= ' . $db->quote($this->price_quantity_end) . '';
 
-		$this->_db->setQuery($query_end);
-		$xid_end = intval($this->_db->loadResult());
+		$db->setQuery($query_end);
+		$xid_end = intval($db->loadResult());
 
 		if (($xid || $xid_end) && (($xid != intval($this->price_id) && $xid != 0) || ($xid_end != intval($this->price_id) && $xid_end != 0)))
 		{
