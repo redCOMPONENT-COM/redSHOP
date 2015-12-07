@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminThumbnail');
 JLoader::load('RedshopHelperAdminCategory');

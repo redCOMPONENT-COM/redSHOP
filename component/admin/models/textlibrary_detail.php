@@ -9,22 +9,17 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelTextlibrary_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -54,7 +49,7 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_textlibrary WHERE textlibrary_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -83,34 +78,13 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 		return true;
 	}
 
-	public function store($data)
-	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
-	}
-
 	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_textlibrary WHERE textlibrary_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -130,7 +104,7 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'textlibrary'
+			$query = 'UPDATE #__redshop_textlibrary'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE textlibrary_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -152,7 +126,7 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE textlibrary_id IN ( ' . $cids . ' )';
+			$query = 'SELECT * FROM #__redshop_textlibrary WHERE textlibrary_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}

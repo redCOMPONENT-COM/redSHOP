@@ -390,4 +390,41 @@ class RedshopModel extends JModelLegacy
 
 		return md5($this->context . ':' . $id);
 	}
+
+	/**
+	 * Common method to store information
+	 *
+	 * @param   array  $data  Information to be stored
+	 *
+	 * @return  object         Table Store object
+	 */
+	public function store($data)
+	{
+		$db = JFactory::getDbo();
+
+		$row = $this->getTable();
+
+		if (!$row->bind($data))
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		if (!$row->check())
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		if (!$row->store())
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		return $row;
+	}
 }

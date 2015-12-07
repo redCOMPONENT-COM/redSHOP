@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminThumbnail');
 JLoader::load('RedshopHelperAdminImages');
 jimport('joomla.client.helper');
@@ -21,12 +20,10 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -66,7 +63,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'shopper_group '
+			$query = 'SELECT * FROM #__redshop_shopper_group '
 				. 'WHERE shopper_group_id = "' . $shoppergroup_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -174,25 +171,11 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			$data['shopper_group_logo'] = $destname;
 		}
 
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
+		$row = parent::store($data);
 
 		if ($isNew && NEW_SHOPPER_GROUP_GET_VALUE_FROM)
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_price '
+			$query = 'SELECT * FROM #__redshop_product_price '
 				. 'WHERE shopper_group_id="' . NEW_SHOPPER_GROUP_GET_VALUE_FROM . '" ';
 			$this->_db->setQuery($query);
 			$product_price = $this->_db->loadObjectlist();
@@ -217,7 +200,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 				}
 			}
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price '
+			$query = 'SELECT * FROM #__redshop_product_attribute_price '
 				. 'WHERE shopper_group_id="' . NEW_SHOPPER_GROUP_GET_VALUE_FROM . '" ';
 			$this->_db->setQuery($query);
 			$attribute_price = $this->_db->loadObjectlist();
@@ -252,7 +235,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'shopper_group '
+			$query = 'SELECT * FROM #__redshop_shopper_group '
 				. 'WHERE shopper_group_id IN (' . $cids . ') ';
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObjectlist();
@@ -267,7 +250,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product_price WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -277,7 +260,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product_attribute_price WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -287,7 +270,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'shopper_group WHERE shopper_group_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_shopper_group WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -306,7 +289,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->_table_prefix . 'shopper_group '
+			$query = 'UPDATE #__redshop_shopper_group '
 				. 'SET published = ' . intval($publish)
 				. ' WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -324,7 +307,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 	public function getVatGroup()
 	{
-		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ";
+		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `#__redshop_tax_group` as tg WHERE `published` = 1 ";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -332,7 +315,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer
+		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM #__redshop_manufacturer
 		WHERE published=1 ORDER BY `manufacturer_name`';
 		$this->_db->setQuery($query);
 

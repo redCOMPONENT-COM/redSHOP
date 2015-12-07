@@ -13,18 +13,11 @@ JLoader::load('RedshopHelperAdminExtra_field');
 
 class RedshopModelProduct_category extends RedshopModel
 {
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
-	}
-
 	public function getProductlist()
 	{
 		$pid = JRequest::getVar('cid', array(), 'post', 'array');
 		$pids = implode(",", $pid);
-		$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product  WHERE product_id IN(' . $pids . ')';
+		$query = 'SELECT product_id,product_name FROM #__redshop_product  WHERE product_id IN(' . $pids . ')';
 		$this->_db->setQuery($query);
 
 		if ($products = $this->_db->loadObjectlist('product_id'))
@@ -78,7 +71,7 @@ class RedshopModelProduct_category extends RedshopModel
 			{
 				if (count($this->getIdfromXref($pid[$i], $cat_id[$j])) <= 0)
 				{
-					$query = "INSERT INTO " . $this->_table_prefix . "product_category_xref "
+					$query = "INSERT INTO #__redshop_product_category_xref "
 						. "(`category_id`,`product_id`) VALUES ('" . $cat_id[$j] . "','" . $pid[$i] . "')";
 					$this->_db->setQuery($query);
 
@@ -101,7 +94,7 @@ class RedshopModelProduct_category extends RedshopModel
 
 		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
-			$query = "DELETE FROM " . $this->_table_prefix . "product_category_xref "
+			$query = "DELETE FROM #__redshop_product_category_xref "
 				. " WHERE product_id=" . $pid[$i] . " AND category_id IN (" . $cat_ids . ")";
 			$this->_db->setQuery($query);
 
@@ -116,7 +109,7 @@ class RedshopModelProduct_category extends RedshopModel
 
 	public function getIdfromXref($pid, $cid)
 	{
-		$query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product_category_xref '
+		$query = 'SELECT product_id FROM #__redshop_product_category_xref '
 			. ' WHERE product_id ="' . $pid . '" AND category_id="' . $cid . '"';
 		$this->_db->setQuery($query);
 

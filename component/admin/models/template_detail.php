@@ -16,8 +16,6 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_copydata = null;
 
 	public $names = array();
@@ -25,8 +23,6 @@ class RedshopModelTemplate_detail extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -58,7 +54,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'template WHERE template_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_template WHERE template_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -173,7 +169,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 		{
 			for ($i = 0, $in = count($cid); $i < $in; $i++)
 			{
-				$query = 'SELECT * FROM ' . $this->_table_prefix . 'template WHERE template_id = ' . $cid[$i];
+				$query = 'SELECT * FROM #__redshop_template WHERE template_id = ' . $cid[$i];
 				$this->_db->setQuery($query);
 				$rs = $this->_db->loadObject();
 
@@ -184,7 +180,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'template WHERE template_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_template WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -203,7 +199,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->_table_prefix . 'template'
+			$query = 'UPDATE #__redshop_template'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -225,7 +221,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'template WHERE template_id IN ( ' . $cids . ' )';
+			$query = 'SELECT * FROM #__redshop_template WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
@@ -255,7 +251,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 	public function availabletexts($section)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE published=1 AND section like "' . $section . '"';
+		$query = 'SELECT * FROM #__redshop_textlibrary WHERE published=1 AND section like "' . $section . '"';
 		$this->_db->setQuery($query);
 		$this->textdata = $this->_db->loadObjectList();
 
@@ -264,7 +260,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 	public function availableaddtocart($section)
 	{
-		$query = 'SELECT template_name FROM ' . $this->_table_prefix . 'template WHERE published=1 AND template_section = "' . $section . '"';
+		$query = 'SELECT template_name FROM #__redshop_template WHERE published=1 AND template_section = "' . $section . '"';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

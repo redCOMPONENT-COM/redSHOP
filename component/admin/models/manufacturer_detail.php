@@ -9,14 +9,11 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelManufacturer_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
-
-	public $_table_prefix = null;
 
 	public $_copydata = null;
 
@@ -25,8 +22,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -55,11 +50,13 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$query = 'SELECT * FROM #__redshop_manufacturer WHERE manufacturer_id = ' . $this->_id;
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -97,7 +94,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$order_functions = new order_functions;
+		$order_functions  = new order_functions;
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
@@ -105,49 +102,36 @@ class RedshopModelManufacturer_detail extends RedshopModel
 			$data['excluding_category_list'] = @ implode(',', $data['excluding_category_list']);
 		}
 
-		$row = $this->getTable();
-
 		if ($data['manufacturer_id'] == 0)
 		{
 			$data['ordering'] = $this->MaxOrdering();
 		}
 
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
-			if (!$row->excluding_category_list)
+			if (!$data['excluding_category_list'])
 			{
-				$row->excluding_category_list = '';
+				$data['excluding_category_list'] = '';
 			}
 		}
 
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
+		return parent::store($data);
 	}
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$query = 'DELETE FROM #__redshop_manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -157,17 +141,19 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->_table_prefix . 'manufacturer'
+			$query = 'UPDATE #__redshop_manufacturer'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE manufacturer_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -177,14 +163,15 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function copy($cid = array())
 	{
+		$db = JFactory::getDbo();
 
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-			$this->_copydata = $this->_db->loadObjectList();
+			$query = 'SELECT * FROM #__redshop_manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
+			$db->setQuery($query);
+			$this->_copydata = $db->loadObjectList();
 		}
 
 		foreach ($this->_copydata as $cdata)
@@ -209,21 +196,24 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function TemplateData()
 	{
-		$query = "SELECT template_id as value,template_name as text FROM " . $this->_table_prefix
-			. "template WHERE template_section ='manufacturer_products' and published=1";
-		$this->_db->setQuery($query);
-		$this->_templatedata = $this->_db->loadObjectList();
+		$db = JFactory::getDbo();
+
+		$query = "SELECT template_id as value,template_name as text FROM #__redshop_template WHERE template_section ='manufacturer_products' and published=1";
+		$db->setQuery($query);
+		$this->_templatedata = $db->loadObjectList();
 
 		return $this->_templatedata;
 	}
 
 	public function getMediaId($mid)
 	{
-		$query = 'SELECT media_id,media_name FROM ' . $this->_table_prefix . 'media '
-			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadObject();
+		$query = 'SELECT media_id,media_name FROM #__redshop_media '
+			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
+		$db->setQuery($query);
+
+		return $db->loadObject();
 	}
 
 	public function saveOrder(&$cid)
@@ -265,25 +255,28 @@ class RedshopModelManufacturer_detail extends RedshopModel
 	 */
 	public function MaxOrdering()
 	{
-		$query = "SELECT (max(ordering)+1) FROM " . $this->_table_prefix . "manufacturer";
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadResult();
+		$query = "SELECT (max(ordering)+1) FROM #__redshop_manufacturer";
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	public function move($direction)
 	{
+		$db = JFactory::getDbo();
 		$row = JTable::getInstance('manufacturer_detail', 'Table');
 
 		if (!$row->load($this->_id))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 		if (!$row->move($direction))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
