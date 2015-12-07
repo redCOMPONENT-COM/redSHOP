@@ -60,20 +60,21 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function storeShipping($data)
 	{
+		$db = JFactory::getDbo();
 		$data['address_type'] = 'BT';
 
 		$row = $this->getTable('user_detail');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -84,14 +85,14 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 		if (!$rowsh->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$rowsh->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return 0;
 		}
@@ -107,6 +108,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$extra_field = new extra_field;
 		$quotationHelper = new quotationHelper;
 		$producthelper = new producthelper;
@@ -133,7 +135,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -142,7 +144,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -204,14 +206,14 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 			if (!$rowitem->bind($quotation_item[$i]))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
 
 			if (!$rowitem->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -264,7 +266,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError($db->getErrorMsg());
 
 								return false;
 							}
@@ -303,7 +305,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -339,7 +341,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 								{
 									if (!$rowattitem->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										$this->setError($db->getErrorMsg());
 
 										return false;
 									}
@@ -373,7 +375,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 					{
 						if (!$rowaccitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
@@ -403,7 +405,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 					{
 						if (!$rowattitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
@@ -441,7 +443,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError($db->getErrorMsg());
 
 								return false;
 							}
@@ -478,7 +480,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -524,8 +526,8 @@ class RedshopModelAddquotation_detail extends RedshopModel
 		$query = 'SELECT *,CONCAT(ui.firstname," ",ui.lastname) AS text FROM #__redshop_users_info AS ui '
 			. 'WHERE 1=1 '
 			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$list = $db->loadObjectList();
 
 		return $list;
 	}

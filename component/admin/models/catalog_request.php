@@ -98,16 +98,18 @@ class RedshopModelCatalog_request extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
 			$query = 'DELETE FROM #__redshop_catalog_request WHERE catalog_user_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -119,6 +121,8 @@ class RedshopModelCatalog_request extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -126,11 +130,11 @@ class RedshopModelCatalog_request extends RedshopModel
 			$query = 'UPDATE #__redshop_catalog_request'
 				. ' SET block = ' . intval($publish)
 				. ' WHERE catalog_user_id 	 IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}

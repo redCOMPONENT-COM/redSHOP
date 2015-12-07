@@ -60,11 +60,13 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM #__redshop_attribute_set WHERE attribute_set_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -91,18 +93,19 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -112,6 +115,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
 		$producthelper = new producthelper;
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
@@ -137,28 +141,28 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				}
 
 				$attr_delete = 'DELETE FROM #__redshop_product_attribute WHERE attribute_id =' . $imagename->attribute_id;
-				$this->_db->setQuery($attr_delete);
+				$db->setQuery($attr_delete);
 
-				if (!$this->_db->execute())
+				if (!$db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 				}
 
 				$prop_delete = 'DELETE FROM #__redshop_product_attribute_property WHERE attribute_id =' . $imagename->attribute_id;
-				$this->_db->setQuery($prop_delete);
+				$db->setQuery($prop_delete);
 
-				if (!$this->_db->execute())
+				if (!$db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 				}
 			}
 
 			$query = 'DELETE FROM #__redshop_attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 			}
 		}
 
@@ -169,15 +173,16 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
+			$db = JFactory::getDbo();
 			$cids = implode(',', $cid);
 			$query = 'UPDATE #__redshop_attribute_set'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE attribute_set_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -188,24 +193,25 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function getattributes()
 	{
+		$db = JFactory::getDbo();
 		$attr = array();
 
 		if ($this->_id != 0)
 		{
-			$query = $this->_db->getQuery(true)
+			$query = $db->getQuery(true)
 				->select('*')
-				->from($this->_db->qn('#__redshop_product_attribute'))
+				->from($db->qn('#__redshop_product_attribute'))
 				->where('attribute_set_id = ' . (int) $this->_id)
 				->order('ordering');
-			$this->_db->setQuery($query);
-			$attr = $this->_db->loadObjectlist();
+			$db->setQuery($query);
+			$attr = $db->loadObjectlist();
 		}
 
 		$attribute_data = '';
 
 		for ($i = 0; $i < count($attr); $i++)
 		{
-			$db = $this->_db;
+			$db = $db;
 			$query = $db->getQuery(true);
 			$query->select('*')
 				->from($db->quoteName('#__redshop_product_attribute_property'))
@@ -250,7 +256,6 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function getattributelist($data)
 	{
-		$db = $this->_db;
 		$attribute_data = '';
 		$producthelper = new producthelper;
 		$attr = $producthelper->getProductAttribute(0, $data);
@@ -275,7 +280,6 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function getpropertylist($data)
 	{
-		$db = $this->_db;
 		$producthelper = new producthelper;
 
 		if (count($data))
@@ -295,6 +299,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteattr($cid = array())
 	{
+		$db = JFactory::getDbo();
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		if (count($cid))
@@ -322,22 +327,22 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$query = 'DELETE FROM #__redshop_product_attribute WHERE attribute_id IN ( ' . $cids . ' )';
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
 
 			$query = 'DELETE FROM #__redshop_product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -346,6 +351,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteprop($cid = array(), $image_name)
 	{
+		$db = JFactory::getDbo();
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		if (count($cid))
@@ -370,22 +376,22 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			}
 
 			$query = 'DELETE FROM #__redshop_product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
 			else
 			{
 				$query = 'DELETE FROM #__redshop_product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				if (!$this->_db->execute())
+				if (!$db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}
@@ -395,6 +401,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteattr_current($cid = array())
 	{
+		$db = JFactory::getDbo();
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		if (count($cid))
@@ -422,11 +429,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$query = 'DELETE FROM #__redshop_product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -447,18 +454,19 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function store_attr($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('product_attribute');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -468,18 +476,19 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function store_pro($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('attribute_property');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -492,18 +501,19 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	 */
 	public function store_sub($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('subattribute_property');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -513,6 +523,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function property_more_img($post, $main_img, $sub_img)
 	{
+		$db = JFactory::getDbo();
+
 		if ($main_img['name'] != '')
 		{
 			$filetype = strtolower(JFile::getExt($main_img['name']));
@@ -533,11 +545,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				$query = "UPDATE #__redshop_product_attribute_property SET property_main_image = '"
 					. $main_name . "' WHERE property_id ='" . $post['section_id'] . "' ";
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				if (!$this->_db->execute())
+				if (!$db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}
@@ -572,11 +584,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 					$query = "INSERT INTO #__redshop_media
 								(`media_id`,`media_name`,`media_section`,`section_id`,`media_type`,`media_mimetype`,`published`)
 								VALUES ('','" . $sub_name . "','property','" . $post['section_id'] . "','images','" . $sub_type . "','1') ";
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 
-					if (!$this->_db->execute())
+					if (!$db->execute())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
@@ -587,9 +599,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deletesubimage($mediaid)
 	{
+		$db = JFactory::getDbo();
+
 		$query = 'SELECT * FROM #__redshop_media  WHERE media_id = ' . $mediaid;
-		$this->_db->setQuery($query);
-		$imgdata = $this->_db->loadObject();
+		$db->setQuery($query);
+		$imgdata = $db->loadObject();
 
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $imgdata->media_name;
 
@@ -607,11 +621,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$query = 'DELETE FROM #__redshop_media WHERE media_id = ' . $mediaid;
 
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -621,6 +635,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function subattribute_color($post, $sub_img)
 	{
+		$db = JFactory::getDbo();
 		$num = count($sub_img['name']);
 
 		for ($i = 0; $i < $num; $i++)
@@ -673,11 +688,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 							$sub_name . "',`subattribute_id` = '" . $post['section_id'] . "' WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
 					}
 
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 
-					if (!$this->_db->execute())
+					if (!$db->execute())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
@@ -692,11 +707,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 						$post['property_sub_img_tmp'][$i] . "',`subattribute_id` = '" . $post['section_id'] . "'
 								WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
 
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 
-					if (!$this->_db->execute())
+					if (!$db->execute())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
@@ -707,24 +722,28 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function subattr_diff($subattr_id, $section_id)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT * FROM #__redshop_product_subattribute_color   WHERE subattribute_id = '
 			. $section_id . ' and subattribute_color_id NOT IN (\'' . $subattr_id . '\') ORDER BY subattribute_color_id ASC';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function get_subattrprop($subattr_id, $section_id)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT * FROM #__redshop_product_subattribute_color   WHERE subattribute_color_id IN (\''
 			. $subattr_id . '\') ORDER BY subattribute_color_id ASC';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function delsubattr_diff($subattr_diff)
 	{
+		$db = JFactory::getDbo();
+
 		foreach ($subattr_diff as $diff)
 		{
 			$sub_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $diff->subattribute_color_image;
@@ -736,11 +755,11 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$query = 'DELETE FROM #__redshop_product_subattribute_color  WHERE subattribute_color_id = "'
 				. $diff->subattribute_color_id . '"';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -790,6 +809,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removepropertyImage($pid)
 	{
+		$db = JFactory::getDbo();
+
 		$producthelper = new producthelper;
 
 		$image = $producthelper->getAttibuteProperty($pid);
@@ -812,9 +833,9 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		}
 
 		$query = "UPDATE `#__redshop_product_attribute_property` SET `property_image` = '' WHERE `property_id` = " . $pid;
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
 			return false;
 		}
@@ -824,6 +845,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removesubpropertyImage($pid)
 	{
+		$db = JFactory::getDbo();
 		$producthelper = new producthelper;
 		$image = $producthelper->getAttibuteSubProperty($pid);
 		$image = $image[0];
@@ -844,9 +866,9 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$query = "UPDATE `#__redshop_product_subattribute_color` SET `subattribute_color_image` = ''
 		WHERE `subattribute_color_id` = " . $pid;
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
 			return false;
 		}
@@ -893,6 +915,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function save_product_attribute_price($product_attribute_price, $section)
 	{
+		$db = JFactory::getDbo();
+
 		// Create array for attribute price for property and subproperty section
 		$attribute['section_id'] = $product_attribute_price->section_id;
 		$attribute['section'] = $section;
@@ -908,14 +932,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		// Bind and save data into 'attributeprices_detail'
 		if (!$row->bind($attribute))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -934,12 +958,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function copy($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 			$query = 'SELECT * FROM #__redshop_attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-			$copydata = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$copydata = $db->loadObjectList();
 
 			for ($i = 0; $i < count($copydata); $i++)
 			{
@@ -954,8 +980,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				// Fetch attributes from the attribute set ID
 				$query = 'SELECT * FROM #__redshop_product_attribute  WHERE `attribute_set_id` = '
 					. $copydata[$i]->attribute_set_id . ' ';
-				$this->_db->setQuery($query);
-				$product_attributes = $this->_db->loadObjectList();
+				$db->setQuery($query);
+				$product_attributes = $db->loadObjectList();
 
 				$attribute_set_id = $row->attribute_set_id;
 
@@ -977,14 +1003,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 						// Bind and save data into 'product_attribute'
 						if (!$row->bind($attribute))
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
 
 						if (!$row->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
@@ -993,13 +1019,13 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 						$query = 'SELECT * FROM #__redshop_product_attribute_property  WHERE `attribute_id` = '
 							. $product_attribute->attribute_id . ' ';
-						$this->_db->setQuery($query);
-						$product_attributes_properties = $this->_db->loadObjectList();
+						$db->setQuery($query);
+						$product_attributes_properties = $db->loadObjectList();
 
 						$query = 'SELECT * FROM `#__redshop_product_attribute_property` WHERE `attribute_id` = "'
 							. $product_attribute->attribute_id . '" ';
-						$this->_db->setQuery($query);
-						$att_property = $this->_db->loadObjectList();
+						$db->setQuery($query);
+						$att_property = $db->loadObjectList();
 
 						$attribute_id = $product_attribute->attribute_id;
 
@@ -1062,14 +1088,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 								// Bind and save data into 'product_attribute_property'
 								if (!$row->bind($attribute_properties))
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
 
 								if (!$row->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -1092,8 +1118,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 								// Attribute piggy bank price for property
 								$query = 'SELECT * FROM #__redshop_product_attribute_price   WHERE `section_id` = '
 									. $product_attributes_property->property_id . ' AND `section`="property" ';
-								$this->_db->setQuery($query);
-								$product_attribute_prices = $this->_db->loadObjectList();
+								$db->setQuery($query);
+								$product_attribute_prices = $db->loadObjectList();
 
 								if (count($product_attribute_prices))
 								{
@@ -1107,8 +1133,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 								// Attribute stock quantity for property
 								$query = 'SELECT * FROM #__redshop_product_attribute_stockroom_xref   WHERE `section_id` = '
 									. $product_attributes_property->property_id . ' AND `section`="property" ';
-								$this->_db->setQuery($query);
-								$product_attribute_stockquantities = $this->_db->loadObjectList();
+								$db->setQuery($query);
+								$product_attribute_stockquantities = $db->loadObjectList();
 
 								if (count($product_attribute_stockquantities))
 								{
@@ -1122,8 +1148,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 								// Fetch attributes from the attribute set ID
 								$query = 'SELECT * FROM #__redshop_product_subattribute_color  WHERE `subattribute_id` = '
 									. $product_attributes_property->property_id . ' ';
-								$this->_db->setQuery($query);
-								$product_sub_attributes_properties = $this->_db->loadObjectList();
+								$db->setQuery($query);
+								$product_sub_attributes_properties = $db->loadObjectList();
 
 								$subattribute_id = $product_attributes_property->property_id;
 
@@ -1186,14 +1212,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 										// Bind and save data into 'subattribute_property'
 										if (!$row->bind($sub_attribute_properties))
 										{
-											$this->setError($this->_db->getErrorMsg());
+											$this->setError($db->getErrorMsg());
 
 											return false;
 										}
 
 										if (!$row->store())
 										{
-											$this->setError($this->_db->getErrorMsg());
+											$this->setError($db->getErrorMsg());
 
 											return false;
 										}
@@ -1215,8 +1241,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 										}
 										// Attribute piggy bank price for Subproperty
 										$query = 'SELECT * FROM #__redshop_product_attribute_price   WHERE `section_id` = ' . $product_sub_attributes_property->subattribute_color_id . ' AND `section`="subproperty"  ';
-										$this->_db->setQuery($query);
-										$product_subattribute_prices = $this->_db->loadObjectList();
+										$db->setQuery($query);
+										$product_subattribute_prices = $db->loadObjectList();
 
 										if (count($product_subattribute_prices))
 										{
@@ -1229,8 +1255,8 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 										// Attribute stock quantity for property
 										$query = 'SELECT * FROM #__redshop_product_attribute_stockroom_xref   WHERE `section_id` = ' . $product_sub_attributes_property->subattribute_color_id . ' AND `section`="subproperty" ';
-										$this->_db->setQuery($query);
-										$product_attribute_stockquantities = $this->_db->loadObjectList();
+										$db->setQuery($query);
+										$product_attribute_stockquantities = $db->loadObjectList();
 
 										if (count($product_attribute_stockquantities))
 										{
@@ -1278,13 +1304,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function copyadditionalImage($data)
 	{
+		$db = JFactory::getDbo();
 		$rowmedia = $this->getTable('media_detail');
 
 		$data['media_id '] = 0;
 
 		if (!$rowmedia->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -1295,7 +1322,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		if (!$rowmedia->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -1318,9 +1345,10 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function GetimageInfo($id, $type)
 	{
+		$db = JFactory::getDbo();
 		$image_media = 'SELECT * FROM #__redshop_media WHERE section_id = "' . $id . '" AND media_section = "' . $type . '" ';
-		$this->_db->setQuery($image_media);
+		$db->setQuery($image_media);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 }

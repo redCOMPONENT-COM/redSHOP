@@ -50,12 +50,13 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function getTotal()
 	{
+		$db = JFactory::getDbo();
 		$query = $this->_buildQuerycount();
 
 		if (empty($this->_total))
 		{
-			$this->_db->setQuery($query);
-			$this->_total = $this->_db->loadResult();
+			$db->setQuery($query);
+			$this->_total = $db->loadResult();
 		}
 
 		return $this->_total;
@@ -146,6 +147,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable("fields_detail");
 		$groupings = array();
 		$conditions = array();
@@ -164,7 +166,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}
@@ -199,10 +201,11 @@ class RedshopModelAddressfields_listing extends RedshopModel
 
 	public function MaxOrdering()
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT (count(*)+1) FROM #__redshop_fields";
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	/**
@@ -214,18 +217,19 @@ class RedshopModelAddressfields_listing extends RedshopModel
 	 */
 	public function move($direction, $field_id)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable("fields_detail");
 
 		if (!$row->load($field_id))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->move($direction, 'field_section = ' . (int) $row->field_section))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}

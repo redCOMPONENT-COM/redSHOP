@@ -85,13 +85,15 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT c.*,p.category_parent_id FROM #__redshop_category as c left join '
 				. '#__redshop_category_xref as p ON p.category_child_id=c.category_id  WHERE category_id = "'
 				. $this->_id . '" ';
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -159,11 +161,12 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -189,8 +192,8 @@ class RedshopModelCategory_detail extends RedshopModel
 
 			$query = "UPDATE #__redshop_category set category_thumb_image = '',category_full_image = ''  where category_id ="
 				. $row->category_id;
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$db->setQuery($query);
+			$db->execute();
 		}
 
 		if (count($_FILES) > 0 && $_FILES['category_full_image']['name'] != "")
@@ -243,8 +246,8 @@ class RedshopModelCategory_detail extends RedshopModel
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_back_image']);
 
 			$query = "UPDATE #__redshop_category set category_back_full_image = ''  where category_id =" . $row->category_id;
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$db->setQuery($query);
+			$db->execute();
 		}
 
 		if (count($backfile) > 0 && $backfile['name'] != "")
@@ -267,14 +270,14 @@ class RedshopModelCategory_detail extends RedshopModel
 		// Upload back image end
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$data['category_id'])
 		{
-			$newcatid = $this->_db->insertid();
+			$newcatid = $db->insertid();
 
 			if (isset($_POST['category_parent_id']))
 			{
@@ -287,8 +290,8 @@ class RedshopModelCategory_detail extends RedshopModel
 
 			$query = 'INSERT INTO #__redshop_category_xref(category_parent_id,category_child_id) VALUES ("'
 				. $parentcat . '","' . $newcatid . '");';
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$db->setQuery($query);
+			$db->execute();
 		}
 		else
 		{
@@ -305,8 +308,8 @@ class RedshopModelCategory_detail extends RedshopModel
 
 			$query = 'UPDATE #__redshop_category_xref SET category_parent_id= "' . $parentcat
 				. '"  WHERE category_child_id = "' . $newcatid . '" ';
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$db->setQuery($query);
+			$db->execute();
 
 			// Sheking for the image at the updation time
 			if ($_FILES['category_full_image']['name'] != "")
@@ -353,7 +356,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 						if (!$accdetail->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
@@ -368,6 +371,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
 		$noError = true;
 
 		for ($i = 0; $i < count($cid); $i++)
@@ -375,8 +379,8 @@ class RedshopModelCategory_detail extends RedshopModel
 			$query = 'SELECT count( * ) as ctotal,c.category_name
 						FROM `#__redshop_category_xref` as cx LEFT JOIN `#__redshop_category` as c ON c.category_id = "' . $cid[$i] . '"
 						WHERE `category_parent_id` = "' . $cid[$i] . '" ';
-			$this->_db->setQuery($query);
-			$childs = $this->_db->loadObject();
+			$db->setQuery($query);
+			$childs = $db->loadObject();
 
 			if ($childs->ctotal > 0)
 			{
@@ -387,8 +391,8 @@ class RedshopModelCategory_detail extends RedshopModel
 			}
 
 			$q_image = 'SELECT category_thumb_image,category_full_image FROM #__redshop_category WHERE category_id = "' . $cid[$i] . '" ';
-			$this->_db->setQuery($q_image);
-			$catimages = $this->_db->loadObject();
+			$db->setQuery($q_image);
+			$catimages = $db->loadObject();
 
 			$cat_thumb_image = $catimages->category_thumb_image;
 			$cat_full_image = $catimages->category_full_image;
@@ -407,16 +411,16 @@ class RedshopModelCategory_detail extends RedshopModel
 			}
 
 			$q_product = 'DELETE FROM #__redshop_product_category_xref WHERE category_id = "' . $cid[$i] . '" ';
-			$this->_db->setQuery($q_product);
-			$this->_db->execute();
+			$db->setQuery($q_product);
+			$db->execute();
 
 			$q_child = 'DELETE FROM #__redshop_category_xref WHERE category_child_id = "' . $cid[$i] . '" ';
-			$this->_db->setQuery($q_child);
-			$this->_db->execute();
+			$db->setQuery($q_child);
+			$db->execute();
 
 			$query = 'DELETE FROM #__redshop_category WHERE category_id = "' . $cid[$i] . '" ';
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$db->setQuery($query);
+			$db->execute();
 
 		}
 
@@ -425,6 +429,8 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -432,11 +438,11 @@ class RedshopModelCategory_detail extends RedshopModel
 			$query = 'UPDATE #__redshop_category'
 				. ' SET published = "' . intval($publish) . '" '
 				. ' WHERE category_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -447,26 +453,28 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function getcategories()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT category_id as value,category_name as text FROM #__redshop_category  WHERE published=1';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function move($direction)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		if (!$row->load($this->_id))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->move($direction, ' category_id = ' . (int) $row->category_id . ' AND published >= 0 '))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -476,6 +484,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 		$groupings = array();
 
@@ -493,7 +502,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}
@@ -505,6 +514,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function updateorder($oprand, $cat_id = 0)
 	{
+		$db = JFactory::getDbo();
 		$q = "UPDATE #__redshop_category ";
 		$q .= "SET ordering=ordering" . $oprand . "1 ";
 
@@ -513,19 +523,20 @@ class RedshopModelCategory_detail extends RedshopModel
 			$q .= " WHERE ordering != 0 ";
 		}
 
-		$this->_db->setQuery($q);
-		$this->_db->execute();
+		$db->setQuery($q);
+		$db->execute();
 	}
 
 	public function orderup()
 	{
+		$db = JFactory::getDbo();
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 		$q = "SELECT ordering,category_parent_id FROM #__redshop_category,#__redshop_category_xref ";
 		$q .= "WHERE category_id='" . $cid . "' ";
 		$q .= "AND category_child_id='" . $cid . "' ";
-		$this->_db->setQuery($q);
-		$cat = $this->_db->loadObject();
+		$db->setQuery($q);
+		$cat = $db->loadObject();
 		$currentpos = $cat->ordering;
 		$category_parent_id = $cat->category_parent_id;
 
@@ -534,8 +545,8 @@ class RedshopModelCategory_detail extends RedshopModel
 		$q .= "WHERE #__redshop_category_xref.category_parent_id='" . $category_parent_id . "' ";
 		$q .= "AND #__redshop_category_xref.category_child_id=#__redshop_category.category_id ";
 		$q .= "AND ordering='" . intval($currentpos - 1) . "'";
-		$this->_db->setQuery($q);
-		$cat = $this->_db->loadObject();
+		$db->setQuery($q);
+		$cat = $db->loadObject();
 		$pred = $cat->category_id;
 
 		$morder = $this->getmaxminOrder('min');
@@ -545,27 +556,28 @@ class RedshopModelCategory_detail extends RedshopModel
 			$q = "UPDATE #__redshop_category ";
 			$q .= "SET ordering=ordering-1 ";
 			$q .= "WHERE category_id='" . $cid . "'";
-			$this->_db->setQuery($q);
-			$this->_db->execute();
+			$db->setQuery($q);
+			$db->execute();
 
 			$q = "UPDATE #__redshop_category ";
 			$q .= "SET ordering=ordering+1 ";
 			$q .= "WHERE category_id='" . $pred . "' ";
-			$this->_db->setQuery($q);
-			$this->_db->execute();
+			$db->setQuery($q);
+			$db->execute();
 		}
 	}
 
 	public function orderdown()
 	{
+		$db = JFactory::getDbo();
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 
 		$q = "SELECT ordering,category_parent_id FROM #__redshop_category,#__redshop_category_xref ";
 		$q .= "WHERE category_id='" . $cid . "' ";
 		$q .= "AND category_child_id='" . $cid . "' ";
-		$this->_db->setQuery($q);
-		$cat = $this->_db->loadObject();
+		$db->setQuery($q);
+		$cat = $db->loadObject();
 		$currentpos = $cat->ordering;
 		$category_parent_id = $cat->category_parent_id;
 
@@ -574,8 +586,8 @@ class RedshopModelCategory_detail extends RedshopModel
 		$q .= "WHERE #__redshop_category_xref.category_parent_id='" . $category_parent_id . "' ";
 		$q .= "AND #__redshop_category_xref.category_child_id=#__redshop_category.category_id ";
 		$q .= "AND ordering='" . intval($currentpos + 1) . "'";
-		$this->_db->setQuery($q);
-		$cat = $this->_db->loadObject();
+		$db->setQuery($q);
+		$cat = $db->loadObject();
 		$succ = $cat->category_id;
 
 		$morder = $this->getmaxminOrder('max');
@@ -585,50 +597,54 @@ class RedshopModelCategory_detail extends RedshopModel
 			$q = "UPDATE #__redshop_category ";
 			$q .= "SET ordering=ordering+1 ";
 			$q .= "WHERE category_id='" . $cid . "' ";
-			$this->_db->setQuery($q);
-			$this->_db->execute();
+			$db->setQuery($q);
+			$db->execute();
 
 			$q = "UPDATE #__redshop_category ";
 			$q .= "SET ordering=ordering-1 ";
 			$q .= "WHERE category_id='" . $succ . "'";
-			$this->_db->setQuery($q);
-			$this->_db->execute();
+			$db->setQuery($q);
+			$db->execute();
 		}
 	}
 
 	public function getmaxminOrder($type)
 	{
+		$db = JFactory::getDbo();
 		$q = "SELECT " . $type . "(ordering) as morder FROM #__redshop_category";
 
-		$this->_db->setQuery($q);
-		$cat = $this->_db->loadResult();
+		$db->setQuery($q);
+		$cat = $db->loadResult();
 
 		return $cat;
 	}
 
 	public function getProductCompareTemplate()
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT ts.template_section as text, ts.template_id as value FROM `#__redshop_template` as ts WHERE `published` = 1 AND `template_section`='compare_product'";
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function copy($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 			$query = 'SELECT * FROM #__redshop_category WHERE category_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-			$copydata = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$copydata = $db->loadObjectList();
 
 			for ($i = 0; $i < count($copydata); $i++)
 			{
 				$query = 'SELECT category_parent_id FROM #__redshop_category_xref '
 					. 'WHERE category_child_id="' . $copydata[$i]->category_id . '" ';
-				$this->_db->setQuery($query);
-				$category_parent_id = $this->_db->loadResult();
+				$db->setQuery($query);
+				$category_parent_id = $db->loadResult();
 
 				$post = array();
 				$newwidth = THUMB_WIDTH;

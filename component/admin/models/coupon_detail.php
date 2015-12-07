@@ -49,11 +49,13 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM #__redshop_coupons WHERE coupon_id=' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -88,18 +90,19 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -108,16 +111,18 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
 			$query = 'DELETE FROM #__redshop_coupons WHERE coupon_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -128,14 +133,17 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 	public function getRemainingCouponAmount()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT coupon_value FROM #__redshop_coupons_transaction WHERE coupon_id =' . $this->_id;
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -143,11 +151,11 @@ class RedshopModelCoupon_detail extends RedshopModel
 			$query = 'UPDATE #__redshop_coupons'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE coupon_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -158,31 +166,34 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 	public function getuserslist()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,#__redshop_users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getproducts()
 	{
+		$db = JFactory::getDbo();
 		$product_id = JRequest::getVar('pid');
 
 		if ($product_id)
 		{
 			$query = 'SELECT product_id,product_name FROM #__redshop_product WHERE product_id =' . $product_id;
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			return $this->_db->loadObject();
+			return $db->loadObject();
 		}
 	}
 
 	public function getuserfullname2($uid)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT firstname,lastname,username FROM #__redshop_users_info as uf, #__users as u WHERE user_id="
 			. $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
-		$this->_db->setQuery($query);
-		$this->_username = $this->_db->loadObject();
+		$db->setQuery($query);
+		$this->_username = $db->loadObject();
 		$fullname = '';
 
 		if ($this->_username)
@@ -195,12 +206,13 @@ class RedshopModelCoupon_detail extends RedshopModel
 
 	public function checkduplicate($discount_code)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT count(*) as code from #__redshop_coupons"
 			. " LEFT JOIN #__redshop_product_voucher ON coupon_code=voucher_code"
 			. " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";
 
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 }

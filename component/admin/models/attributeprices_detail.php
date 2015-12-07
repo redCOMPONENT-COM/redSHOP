@@ -54,6 +54,8 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
 			if ($this->_section == "property")
@@ -72,8 +74,8 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 				. 'LEFT JOIN #__redshop_shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
 				. $q
 				. 'WHERE p.price_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -107,6 +109,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 	public function getPropertyName()
 	{
+		$db = JFactory::getDbo();
 		$propertyid = $this->_sectionid;
 
 		if ($this->_section == "property")
@@ -122,33 +125,34 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 				. 'WHERE subattribute_color_id = ' . $propertyid;
 		}
 
-		$this->_db->setQuery($q);
-		$rs = $this->_db->loadObject();
+		$db->setQuery($q);
+		$rs = $db->loadObject();
 
 		return $rs;
 	}
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->check())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -158,16 +162,18 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 			$query = 'DELETE FROM #__redshop_product_attribute_price '
 				. 'WHERE price_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}

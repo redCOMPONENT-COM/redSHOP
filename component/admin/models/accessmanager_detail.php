@@ -26,8 +26,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 		$section = JRequest::getVar('section');
 		$query = "SELECT a.* FROM #__redshop_accessmanager AS a "
 			. "WHERE a.section_name = " . $db->quote($section);
-		$this->_db->setQuery($query);
-		$this->_data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$this->_data = $db->loadObjectList();
 
 		return $this->_data;
 	}
@@ -73,14 +73,14 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 					{
 						if (!$row->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 
 							return false;
 						}
 					}
 					else
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
@@ -102,7 +102,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row1->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -116,7 +116,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row1->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -137,7 +137,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_amt->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -151,7 +151,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_amt->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -174,7 +174,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_img->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -189,7 +189,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_img->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -210,7 +210,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_imgd->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -225,7 +225,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							{
 								if (!$row_imgd->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
@@ -261,8 +261,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 					else
 					{
@@ -275,8 +275,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 
 					$child_section1 = "stockroom_listing";
@@ -291,8 +291,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section1)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 					else
 					{
@@ -305,8 +305,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = '" . $db->quote($child_section1)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 
 					$child_section2 = "stockimage";
@@ -321,8 +321,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section2)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 					else
 					{
@@ -336,8 +336,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = '" . $db->quote($child_section2)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 
 					$child_section3 = "stockimage_detail";
@@ -352,8 +352,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section3)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 					else
 					{
@@ -366,8 +366,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 							. " WHERE `section_name` = " . $db->quote($child_section3)
 							. " AND `gid` = " . (int) $row->gid;
 
-						$this->_db->setQuery($query);
-						$this->_db->execute();
+						$db->setQuery($query);
+						$db->execute();
 					}
 				}
 
@@ -379,8 +379,8 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 					. " WHERE `section_name` = " . $db->quote($row->section_name)
 					. " AND `gid` = " . (int) $row->gid;
 
-				$this->_db->setQuery($query);
-				$this->_db->execute();
+				$db->setQuery($query);
+				$db->execute();
 			}
 		}
 
@@ -398,9 +398,9 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 		$db = JFactory::getDbo();
 		$query = " SELECT count(*) FROM #__redshop_accessmanager "
 			. "WHERE `section_name` = " . $db->quote($section);
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function getGroup()

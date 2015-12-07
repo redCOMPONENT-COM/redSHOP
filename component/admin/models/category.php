@@ -162,10 +162,11 @@ class RedshopModelCategory extends RedshopModel
 
 	public function getProducts($cid)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT count(category_id) FROM #__redshop_product_category_xref WHERE category_id="' . $cid . '" ';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	/*
@@ -175,6 +176,7 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function assignTemplate($data)
 	{
+		$db = JFactory::getDbo();
 		$cid = $data['cid'];
 
 		$category_template = $data['category_template'];
@@ -185,11 +187,11 @@ class RedshopModelCategory extends RedshopModel
 			$query = 'UPDATE #__redshop_category'
 				. ' SET `category_template` = "' . intval($category_template) . '" '
 				. ' WHERE category_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -200,6 +202,7 @@ class RedshopModelCategory extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('category_detail');
 		$groupings = array();
 
@@ -217,7 +220,7 @@ class RedshopModelCategory extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}

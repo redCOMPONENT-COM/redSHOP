@@ -531,6 +531,7 @@ class RedshopModelConfiguration extends RedshopModel
 	 */
 	public function getCurrency($currency = "")
 	{
+		$db = JFactory::getDbo();
 		$where = "";
 
 		if ($currency)
@@ -539,75 +540,82 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getnewsletters()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getShopperGroupPrivate()
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
 			. " FROM #__redshop_shopper_group "
 			. " WHERE `shopper_group_customer_type` = '1'";
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function getShopperGroupCompany()
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
 			. " FROM #__redshop_shopper_group "
 			. " WHERE `shopper_group_customer_type` = '0'";
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function getVatGroup()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM #__redshop_tax_group as tg WHERE tg.published=1 ';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getnewsletter_content($newsletter_id)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM #__redshop_newsletter AS n '
 			. 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.template_id '
 			. 'WHERE n.published=1 '
 			. 'AND n.newsletter_id="' . $newsletter_id . '" ';
 
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
 
 	public function getProductIdList()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT * FROM #__redshop_product WHERE published=1';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function getnewsletterproducts_content()
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT nt.template_desc FROM #__redshop_template as nt '
 			. 'WHERE nt.template_section="newsletter_product" ';
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function newsletterEntry($data)
@@ -727,11 +735,12 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getOrderstatus()
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT order_status_code AS value, order_status_name AS text"
 			. "\n FROM #__redshop_order_status  where published = '1'";
 
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$list = $db->loadObjectList();
 
 		return $list;
 	}

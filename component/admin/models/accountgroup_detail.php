@@ -47,10 +47,11 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
+			$db = JFactory::getDbo();
 			$query = 'SELECT * FROM #__redshop_economic_accountgroup '
 				. 'WHERE accountgroup_id = ' . (int) $this->_id . ' ';
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -85,18 +86,19 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -106,6 +108,8 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			// Sanitise ids
@@ -114,11 +118,11 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 
 			$query = 'DELETE FROM #__redshop_economic_accountgroup '
 				. 'WHERE accountgroup_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -131,6 +135,8 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
+			$db = JFactory::getDbo();
+
 			// Sanitise ids
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
@@ -138,11 +144,11 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 			$query = 'UPDATE #__redshop_economic_accountgroup'
 				. ' SET published = ' . (int) $publish . ' '
 				. ' WHERE accountgroup_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}

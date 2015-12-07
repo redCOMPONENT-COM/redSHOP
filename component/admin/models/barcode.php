@@ -36,18 +36,19 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function save($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('barcode');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -55,9 +56,10 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function checkorder($barcode)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT order_id  FROM #__redshop_orders where barcode='" . $barcode . "'";
-		$this->_db->setQuery($query);
-		$order = $this->_db->loadObject();
+		$db->setQuery($query);
+		$order = $db->loadObject();
 
 		if (!$order)
 		{
@@ -69,33 +71,37 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function getLog($order_id)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT count(*) as log FROM #__redshop_orderbarcode_log where order_id=" . $order_id;
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObject();
+		return $db->loadObject();
 	}
 
 	public function getLogdetail($order_id)
 	{
+		$db = JFactory::getDbo();
 		$logquery = "SELECT *  FROM #__redshop_orderbarcode_log where order_id=" . $order_id;
-		$this->_db->setQuery($logquery);
+		$db->setQuery($logquery);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getUser($user_id)
 	{
+		$db = JFactory::getDbo();
 		$userquery = "SELECT name  FROM #__redshop_users where id=" . $user_id;
-		$this->_db->setQuery($userquery);
+		$db->setQuery($userquery);
 
-		return $this->_db->loadObject();
+		return $db->loadObject();
 	}
 
 	public function updateorderstatus($barcode, $order_id)
 	{
+		$db = JFactory::getDbo();
 		$update_query = "UPDATE #__redshop_orders SET order_status = 'S' where barcode='"
 			. $barcode . "' and order_id ='" . $order_id . "'";
-		$this->_db->setQuery($update_query);
-		$this->_db->execute();
+		$db->setQuery($update_query);
+		$db->execute();
 	}
 }
