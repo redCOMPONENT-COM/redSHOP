@@ -40,7 +40,7 @@ class RedshopControllerGiftcard_detail extends RedshopController
 
 		$showbuttons = JRequest::getVar('showbuttons');
 
-		$option = JRequest::getVar('option');
+
 
 		$model = $this->getModel('giftcard_detail');
 		$row = $model->store($post);
@@ -77,7 +77,7 @@ class RedshopControllerGiftcard_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -98,7 +98,7 @@ class RedshopControllerGiftcard_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -119,7 +119,7 @@ class RedshopControllerGiftcard_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -140,14 +140,14 @@ class RedshopControllerGiftcard_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$this->setRedirect('index.php?option=com_redshop&view=giftcard');
 	}
 
 	public function copy()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 

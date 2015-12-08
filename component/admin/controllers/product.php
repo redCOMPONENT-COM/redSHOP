@@ -273,7 +273,7 @@ class RedshopControllerProduct extends RedshopController
 
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');

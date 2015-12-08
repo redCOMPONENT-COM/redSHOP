@@ -39,7 +39,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 

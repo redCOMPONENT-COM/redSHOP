@@ -28,8 +28,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 	public $input;
 
-	public $option;
-
 	/**
 	 * Constructor to set the right model
 	 *
