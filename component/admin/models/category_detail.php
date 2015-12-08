@@ -169,9 +169,6 @@ class RedshopModelCategory_detail extends RedshopModel
 			return false;
 		}
 
-		// Storing image name in the database
-		$option = JRequest::getVar('option');
-
 		$filename = "";
 
 		// Get File name, tmp_name

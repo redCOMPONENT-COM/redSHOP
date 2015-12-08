@@ -15,7 +15,6 @@ class RedshopViewXmlimport_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$option    = JRequest::getVar('option');
 		$xmlhelper = new xmlHelper;
 		$document  = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));

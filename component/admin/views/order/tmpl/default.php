@@ -20,7 +20,7 @@ $app = JFactory::getApplication();
 
 $order_function = new order_functions;
 $config = new Redconfiguration;
-$option = JRequest::getVar('option');
+
 $lists = $this->lists;
 $model = $this->getModel('order');
 $redhelper = new redhelper;

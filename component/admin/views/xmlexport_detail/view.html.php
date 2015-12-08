@@ -18,7 +18,6 @@ class RedshopViewXmlexport_detail extends RedshopView
 		global $context;
 		$context      = 'xmlexport_id';
 
-		$option       = JRequest::getVar('option');
 		$layout       = JRequest::getVar('layout');
 		$xmlhelper    = new xmlHelper;
 		$session      = JFactory::getSession();

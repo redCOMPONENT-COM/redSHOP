@@ -21,7 +21,7 @@ class RedshopViewMedia_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$document = JFactory::getDocument();
 

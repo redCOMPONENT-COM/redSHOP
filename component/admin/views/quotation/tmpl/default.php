@@ -14,7 +14,7 @@ $quotationHelper = new quotationHelper;
 
 $config = new Redconfiguration;
 
-$option = JRequest::getVar('option');
+
 $lists = $this->lists;
 $model = $this->getModel('quotation');
 ?>
@@ -96,8 +96,6 @@ $model = $this->getModel('quotation');
 				$status = $quotationHelper->getQuotationStatusName($row->quotation_status);
 				if ($row->quotation_status == 5)
 				{
-//			$orderlink = JRoute::_( 'index.php?option='.$option.'&view=order_detail&task=edit&cid[]='.$row->order_id );
-//			$status .= " <a href='".$orderlink."'>(".JText::_('COM_REDSHOP_ORDER_ID')."-".$row->order_id." )</a>";
 					$status .= " (" . JText::_('COM_REDSHOP_ORDER_ID') . "-" . $row->order_id . " )";
 				}    ?>
 				<tr class="<?php echo "row$k"; ?>">

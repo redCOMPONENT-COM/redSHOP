@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option');
+
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
 JHTML::_('behavior.modal');

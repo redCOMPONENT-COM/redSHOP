@@ -26,7 +26,7 @@ class RedshopViewShopper_group_detail extends RedshopView
 		$shoppergroup = new shoppergroup;
 		$redhelper = new redhelper;
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/json.js');
