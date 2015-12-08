@@ -167,7 +167,6 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$url           = JURI::base();
 		$get           = JRequest::get('get');
-		$option        = JRequest::getVar('option');
 		$producthelper = new producthelper;
 
 		$property_id    = urldecode($get['property_id']);
@@ -270,7 +269,6 @@ class RedshopControllerProduct extends RedshopController
 		$cid           = JRequest::getInt('cid');
 		$user          = JFactory::getUser();
 		$Itemid        = JRequest::getVar('Itemid');
-		$option        = JRequest::getVar('option');
 		$ajaxvar       = JRequest::getVar('ajaxon');
 		$mywid         = JRequest::getVar('wid');
 
@@ -432,7 +430,7 @@ class RedshopControllerProduct extends RedshopController
 		// GetVariables
 		$cid = JRequest::getInt('cid');
 		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar('option');
+
 
 		$post = JRequest::get('post');
 

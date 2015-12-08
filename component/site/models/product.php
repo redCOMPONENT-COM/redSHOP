@@ -44,7 +44,6 @@ class RedshopModelProduct extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$option              = JRequest::getVar('option', 'com_redshop');
 		$pid                 = JRequest::getInt('pid', 0);
 
 		$GLOBALS['childproductlist'] = array();
@@ -220,7 +219,6 @@ class RedshopModelProduct extends RedshopModel
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
-		$option     = JRequest::getVar('option');
 		$Itemid     = JRequest::getVar('Itemid');
 		$mailbcc    = null;
 		$fromname   = $data['username'];
