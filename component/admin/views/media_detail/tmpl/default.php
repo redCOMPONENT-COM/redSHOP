@@ -21,7 +21,7 @@ jimport('joomla.filesystem.file');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$option = JRequest::getVar('option');
+
 
 $showbuttons = JRequest::getVar('showbuttons');
 $section_id = JRequest::getVar('section_id');

@@ -18,7 +18,7 @@ JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
 $redconfig = new Redconfiguration;
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('addorder_detail');
 $redhelper = new redhelper;
 
@@ -750,7 +750,6 @@ function validateUserDetail() {
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></td>
 					<td><?php
-						//					$linkupdate = JRoute::_( 'index.php?option='.$option.'&view=order&task=update_status&return=order_detail&order_id[]='. $this->detail->order_id );
 						echo $order_functions->getstatuslist('order_status', "", "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";
 						echo $order_functions->getpaymentstatuslist('order_payment_status', "", "class=\"inputbox\" size=\"1\" ");?>
@@ -779,7 +778,7 @@ if(!JRequest::getvar('ajaxtask')) {    ?>
 
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->order_id; ?>"/>
 <input type="hidden" name="task" value=""/>
-<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+<input type="hidden" name="option" value="com_redshop"/>
 <input type="hidden" name="view" value="addorder_detail"/>
 </form>
 	<div id="divCalc"></div>

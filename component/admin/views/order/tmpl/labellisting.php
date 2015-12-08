@@ -8,7 +8,7 @@
  */
 JLoader::load('RedshopHelperAdminShipping');
 $shippinghelper = new shipping;
-$option = JRequest::getVar('option');
+
 $download = JRequest::getVar('download');
 if ($download)
 {
