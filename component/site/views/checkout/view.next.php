@@ -22,7 +22,6 @@ class RedshopViewCheckout extends RedshopView
 		$order_functions = new order_functions;
 
 		$params  = $app->getParams('com_redshop');
-		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getInt('Itemid');
 		$issplit = JRequest::getBool('issplit');
 		$ccinfo  = JRequest::getInt('ccinfo');

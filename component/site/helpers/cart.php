@@ -921,7 +921,6 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
-		$option     = JRequest::getVar('option', 'com_redshop');
 		$Itemid     = $this->_redhelper->getCheckoutItemid();
 		$url        = JURI::base(true);
 		$mainview   = JRequest::getVar('view');

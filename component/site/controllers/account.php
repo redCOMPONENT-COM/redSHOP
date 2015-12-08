@@ -28,7 +28,7 @@ class RedshopControllerAccount extends RedshopController
 	{
 		$app    = JFactory::getApplication();
 		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar('option');
+
 		$post   = JRequest::get('post');
 		$model  = $this->getModel('account');
 
@@ -96,7 +96,7 @@ class RedshopControllerAccount extends RedshopController
 	 */
 	public function newsletterSubscribe()
 	{
-		$option = JRequest::getVar('option');
+
 		$Itemid = JRequest::getVar('Itemid');
 
 		$userhelper = new rsUserhelper;
@@ -114,7 +114,6 @@ class RedshopControllerAccount extends RedshopController
 	public function newsletterUnsubscribe()
 	{
 		$user       = JFactory::getUser();
-		$option     = JRequest::getVar('option');
 		$Itemid     = JRequest::getVar('Itemid');
 		$userhelper = new rsUserhelper;
 

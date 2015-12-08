@@ -28,7 +28,7 @@ class RedshopControllerCatalog extends RedshopController
 	{
 		$post   = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$model  = $this->getModel('catalog');
 		$post["registerDate"] = time();
 		$post["email"]        = $post["email_address"];
@@ -57,7 +57,7 @@ class RedshopControllerCatalog extends RedshopController
 	{
 		$post   = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$model  = $this->getModel('catalog');
 
 		if (isset($post["sample_code"]))

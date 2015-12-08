@@ -159,7 +159,6 @@ class RedshopModelCheckout extends RedshopModel
 
 		$post = JRequest::get('post');
 
-		$option     = JRequest::getVar('option', 'com_redshop');
 		$Itemid     = JRequest::getVar('Itemid');
 		$shop_id    = JRequest::getVar('shop_id');
 		$gls_mobile = JRequest::getVar('gls_mobile');
