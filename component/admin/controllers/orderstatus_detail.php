@@ -30,7 +30,7 @@ class RedshopControllerOrderstatus_detail extends RedshopController
 	public function save()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$redhelper = new redhelper;
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -58,7 +58,7 @@ class RedshopControllerOrderstatus_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -80,7 +80,7 @@ class RedshopControllerOrderstatus_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -102,7 +102,7 @@ class RedshopControllerOrderstatus_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -124,7 +124,7 @@ class RedshopControllerOrderstatus_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_ORDERSTATUS_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=orderstatus', $msg);
 	}

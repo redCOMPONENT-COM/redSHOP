@@ -42,7 +42,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$order_functions = new order_functions;
 		$shippinghelper = new shipping;
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['order_id'] = $cid [0];
 		$model = $this->getModel('addorder_detail');
@@ -226,7 +226,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
@@ -240,7 +240,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			JRequest::setVar('billisship', 0);
 		}
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$model = $this->getModel('addorder_detail');
 
 		if ($row = $model->storeShipping($post))
