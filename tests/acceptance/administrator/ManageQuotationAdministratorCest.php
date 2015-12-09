@@ -7,7 +7,7 @@
  */
 use \AcceptanceTester;
 /**
- * Class ManageMediaAdministratorCest
+ * Class ManageQuotationAdministratorCest
  *
  * @package  AcceptanceTester
  *
@@ -15,17 +15,17 @@ use \AcceptanceTester;
  *
  * @since    1.4
  */
-class ManageMediaAdministratorCest
+class ManageQuotationAdministratorCest
 {
 	/**
-	 * Function to Test Media Creation in Backend
+	 * Function to Test Quotation Creation in Backend
 	 *
 	 */
-	public function createMedia(AcceptanceTester $I, $scenario)
+	public function createQuotation(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Media creation in Administrator');
+		$I->wantTo('Test Quotation creation in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\MediaManagerJoomla3Steps($scenario);
-		$I->addMedia();
+		$I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
+		$I->addQuotation();
 	}
 }

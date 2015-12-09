@@ -7,7 +7,7 @@
  */
 use \AcceptanceTester;
 /**
- * Class ManageMediaAdministratorCest
+ * Class ManageOrderAdministratorCest
  *
  * @package  AcceptanceTester
  *
@@ -15,17 +15,17 @@ use \AcceptanceTester;
  *
  * @since    1.4
  */
-class ManageMediaAdministratorCest
+class ManageOrderAdministratorCest
 {
 	/**
-	 * Function to Test Media Creation in Backend
+	 * Function to Test Order Creation in Backend
 	 *
 	 */
-	public function createMedia(AcceptanceTester $I, $scenario)
+	public function createOrder(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Media creation in Administrator');
+		$I->wantTo('Test Order creation in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\MediaManagerJoomla3Steps($scenario);
-		$I->addMedia();
+		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I->addOrder();
 	}
 }
