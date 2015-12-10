@@ -53,9 +53,9 @@ else
 		<input type="hidden" name="lastname" value="<?php echo $lastname; ?>"/>
 		<input type="hidden" name="control" value="<?php echo $data['order_id']; ?>"/>
 		<input type="hidden" name="URL"
-		       value="<?php echo JURI::base(); ?>index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dotpay&orderid=<?php echo $data['order_id'] ?>"/>
+		       value="<?php echo JURI::base(); ?>index.php?option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=rs_payment_dotpay&orderid=<?php echo $data['order_id'] ?>"/>
 		<input type="hidden" name="URLC"
-		       value="<?php echo JURI::base(); ?>index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dotpay&orderid=<?php echo $data['order_id'] ?>"/>
+		       value="<?php echo JURI::base(); ?>index.php?option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=rs_payment_dotpay&orderid=<?php echo $data['order_id'] ?>"/>
 		<input type="hidden" name="country" value="<?php echo $country_code; ?>"/>
 		<input type="hidden" name="city" value="<?php echo $city; ?>"/>
 		<input type="hidden" name="postcode" value="<?php echo $zipcode; ?>"/>
