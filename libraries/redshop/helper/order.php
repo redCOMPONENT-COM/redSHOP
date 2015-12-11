@@ -311,4 +311,87 @@ class RedshopHelperOrder
 
 		return self::$payment[$orderId];
 	}
+
+	/**
+	 * Get Order shipping user information
+	 *
+	 * @param   integer  $order_id  Order Id
+	 *
+	 * @return  object   Order Shipping information object
+	 */
+	public function getOrderShippingUserInfo($order_id)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_order_users_info'))
+					->where($db->qn('address_type') . ' LIKE ' . $db->q('ST'))
+					->where($db->qn('order_id') . ' = ' . (int) $order_id);
+
+		$db->setQuery($query);
+
+		$orderShippingInfo = $db->loadObject();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		// Add extra field data in order shipping info object
+		$orderShippingInfo->fields = $this->getOrderShippingExtraFieldsData($orderShippingInfo->users_info_id);
+
+		return $orderShippingInfo;
+	}
+
+	/**
+	 * Get order shipping extra field information in array
+	 *
+	 * @param   integer  $orderUserInfoId  Order Info id
+	 *
+	 * @return  array    Extra Field name as a key of an array
+	 */
+	public function getOrderShippingExtraFieldsData($orderUserInfoId)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select($db->qn('f.field_name') . ',' . $db->qn('fd.data_txt'))
+					->from($db->qn('#__redshop_fields_data', 'fd'))
+					->where(
+						'(' . $db->qn('fd.section') . ' = 14 OR ' . $db->qn('section') . ' = 15)'
+					)
+					->where($db->qn('fd.itemid') . ' = ' . (int) $orderUserInfoId);
+
+		$query->leftJoin(
+			$db->qn('#__redshop_fields', 'f')
+			. ' ON ' . $db->qn('f.field_id') . '=' . $db->qn('fd.fieldid')
+		);
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+		$fields = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		$fieldsData = array();
+
+		if (!empty($fields))
+		{
+			foreach ($fields as $field)
+			{
+				$fieldsData[$field->field_name] = $field->data_txt;
+			}
+		}
+
+		return $fieldsData;
+	}
 }
