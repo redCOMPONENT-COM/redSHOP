@@ -20,7 +20,7 @@ class ManageTemplateAdministratorCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->name = $this->faker->bothify('ManageTemplateAdministratorCest ?##?');
+		$this->name = $this->faker->bothify('ManageTemplateAdministratorCest_?##?');
 		$this->section = 'Product';
 		$this->newName = 'Updated' . $this->name;
 	}
