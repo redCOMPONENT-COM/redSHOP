@@ -5010,7 +5010,6 @@ class producthelper
 					{
 						$attribute_table        = str_replace("{property_image_scroller}", "", $attribute_table);
 						$property_woscrollerdiv = "<div class='property_main_outer'>";
-						//$property_woscrollerdiv .= "<table border='0'>";
 					}
 
 					$property_scrollerdiv = "<table cellpadding='5' cellspacing='5'><tr>";
@@ -5216,47 +5215,51 @@ class producthelper
 
 					}
 
-					$tmp_array            = array(new stdClass);
-					$tmp_array [0]->value = 0;
-					$tmp_array [0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
-
-					$new_property      = array_merge($tmp_array, $property);
+					$properties = array_merge(
+						array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' '. urldecode($attributes[$a]->text))),
+						$property
+					);
 					$defaultpropertyId = array();
 					$chklist           = "";
 					$display_type      = $attributes[$a]->display_type;
 
+					// Init listing html-attributes
+					$chkListAttributes = array(
+						'attribute_name' => urldecode($attributes[$a]->attribute_name)
+					);
+
+					// Only add required html-attibute if needed.
+					if ($attributes[$a]->attribute_required)
+					{
+						$chkListAttributes['required'] = 'true';
+					}
+
+					// Prepare Javascript OnChange or OnClick function
+					$changePropertyDropdown = "changePropertyDropdown('" . $product_id . "','" . $accessory_id . "','" . $relproduct_id . "', '" . $attributes[$a]->value . "',this.value, '" . $mpw_thumb . "', '" . $mph_thumb . "');";
+
+					// Radio or Checkbox
 					if ($display_type == 'radio')
 					{
-						unset($new_property[0]);
+						unset($properties[0]);
 
-						$listType = ($attributes[$a]->allow_multiple_selection) ? 'checklist' : 'radiolist';
+						$attributeListType = ($attributes[$a]->allow_multiple_selection) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
 
-						$chklist = JHtml::_(
-							'redshopselect.' . $listType,
-							$new_property,
-							$propertyid . '[]',
-							array(
-								'cssClassSuffix' => ' no-group',
-								'attribute_name' => urldecode($attributes[$a]->attribute_name),
-								'required'       => $attributes[$a]->attribute_required,
-								'onClick'        => "javascript:changePropertyDropdown('" . $product_id . "','" . $accessory_id . "','" . $relproduct_id . "', '" . $attributes[$a]->value . "',this.value, '" . $mpw_thumb . "', '" . $mph_thumb . "');"
-							),
-							'value',
-							'text',
-							$selectedproperty,
-							$propertyid . '_'
-						);
+						$chkListAttributes['cssClassSuffix'] = ' no-group';
+						$chkListAttributes['onClick']        = "javascript:" . $changePropertyDropdown;
 					}
+					// Dropdown list
 					else
 					{
-						$scrollerFunction = "";
+						$attributeListType = 'select.genericlist';
+						$scrollerFunction  = '';
 
 						if ($imgAdded > 0 && strstr($attribute_table, "{property_image_scroller}"))
 						{
 							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
 						}
 
-						$chklist = JHTML::_('select.genericlist', $new_property, $propertyid . '[]', 'id="' . $propertyid . '"  class="inputbox" size="1" attribute_name="' . urldecode($attributes[$a]->attribute_name) . '" required="' . $attributes [$a]->attribute_required . '" onchange="javascript:' . $scrollerFunction . 'changePropertyDropdown(\'' . $product_id . '\',\'' . $accessory_id . '\',\'' . $relproduct_id . '\',\'' . $attributes [$a]->value . '\',this.value,\'' . $mpw_thumb . '\',\'' . $mph_thumb . '\');" ', 'value', 'text', $selectedproperty);
+						$chkListAttributes['id']       = $propertyid;
+						$chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
 
 						if ($selectedproperty)
 						{
@@ -5264,6 +5267,17 @@ class producthelper
 							$defaultpropertyId[] = $selectedproperty;
 						}
 					}
+
+					$chklist = JHTML::_(
+						$attributeListType,
+						$properties,
+						$propertyid . '[]',
+						$chkListAttributes,
+						'value',
+						'text',
+						$selectedproperty,
+						$propertyid . '_'
+					);
 
 					$lists ['property_id'] = $chklist;
 
@@ -5645,80 +5659,68 @@ class producthelper
 					}
 				}
 
-				$tmp_array           = array();
-				$tmp_array[0]        = new stdClass;
-				$tmp_array[0]->value = 0;
-				$tmp_array[0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . $displayPropertyName;
+				$subproperties = array_merge(
+					array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
+					$subproperty
+				);
+				$display_type = (isset($subproperty[0]->setdisplay_type)) ? $subproperty[0]->setdisplay_type : 'radio';
 
-				$new_subproperty = array_merge($tmp_array, $subproperty);
-				$chklist         = '';
-				$display_type = 'radio';
+				// Init listing html-attributes
+				$chkListAttributes = array(
+					'id' => $subpropertyid,
+					'subpropName' => $displayPropertyName
+				);
 
-				if (isset($subproperty[0]->setdisplay_type))
+				// Only add required html-attibute if needed.
+				if ($subproperty[0]->setrequire_selected)
 				{
-					$display_type = $subproperty[0]->setdisplay_type;
+					$chkListAttributes['required'] = 'true';
 				}
 
-				if ($display_type == 'radio')
+				$scrollerFunction = '';
+
+				if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
 				{
-					if ($subproperty[0]->setmulti_selected)
+					$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
+
+					if ('radio' == $display_type)
 					{
-						$display_type = 'checkbox';
-					}
-
-					for ($chk = 0; $chk < count($subproperty); $chk++)
-					{
-						$checked = "";
-
-						if (count($selectSubproperty) > 0)
-						{
-							if (in_array($subproperty[$chk]->value, $selectSubproperty))
-							{
-								$checked = "checked";
-							}
-						}
-						else
-						{
-							if ($subproperty[$chk]->setdefault_selected)
-							{
-								$checked = "checked";
-							}
-						}
-
-						$scrollerFunction = "";
-
-						if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
-						{
-							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
-						}
-
-						$chklist .= "<div class='attribute_multiselect_single'><input type='" . $display_type . "' "
-							. $checked . " value='" . $subproperty[$chk]->value . "' name='" . $subpropertyid
-							. "[]'  id='" . $subpropertyid . "' class='inputbox' onClick='javascript:" . $scrollerFunction
-							. "calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
-							. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
-							. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$chk]->value . "\");' />&nbsp;"
-							. $subproperty[$chk]->text . "</div>";
+						$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
 					}
 				}
+
+				// Prepare Javascript OnChange or OnClick function
+				$onChangeJSFunction = $scrollerFunction
+									. "calculateTotalPrice('" . $product_id . "','" . $relatedprd_id . "');"
+									. "displayAdditionalImage('" . $product_id . "','" . $accessory_id . "','" . $relatedprd_id . "','" . $property_id . "',this.value);";
+
+				// Radio or Checkbox
+				if ('radio' == $display_type)
+				{
+					unset($subproperties[0]);
+
+					$attributeListType = ($subproperty[0]->setmulti_selected) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
+
+					$chkListAttributes['cssClassSuffix'] = ' no-group';
+					$chkListAttributes['onClick']        = "javascript:" . $onChangeJSFunction;
+				}
+				// Dropdown list
 				else
 				{
-					$scrollerFunction = "";
-
-					if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
-					{
-						$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
-					}
-
-					$chklist = JHTML::_('select.genericlist', $new_subproperty, $subpropertyid . '[]', ' id="'
-						. $subpropertyid . '" class="inputbox" size="1" required="' . $subproperty[0]->setrequire_selected
-						. '" subpropName="' . $displayPropertyName . '"  onchange="javascript:' . $scrollerFunction
-						. 'calculateTotalPrice(\'' . $product_id . '\',\'' . $relatedprd_id . '\');displayAdditionalImage(\''
-						. $product_id . '\',\'' . $accessory_id . '\',\'' . $relatedprd_id . '\',\'' . $property_id
-						. '\',this.value);" ', 'value', 'text', $selectedsubproperty);
+					$attributeListType = 'select.genericlist';
+					$chkListAttributes['onchange'] = "javascript:" . $onChangeJSFunction;
 				}
 
-				$lists ['subproperty_id'] = $chklist;
+				$lists['subproperty_id'] = JHTML::_(
+					$attributeListType,
+					$subproperties,
+					$subpropertyid . '[]',
+					$chkListAttributes,
+					'value',
+					'text',
+					$selectedsubproperty,
+					$subpropertyid
+				);
 
 				if ($imgAdded == 0 || $isAjax == 1)
 				{
