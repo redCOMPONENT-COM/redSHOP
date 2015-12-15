@@ -58,10 +58,7 @@ class RedshopControllerCart extends RedshopController
 
 		$result = $this->_carthelper->addProductToCart($post);
 
-		if (is_bool($result) && $result)
-		{
-		}
-		else
+		if (!is_bool($result) || (is_bool($result) && !$result))
 		{
 			$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
@@ -89,7 +86,7 @@ class RedshopControllerCart extends RedshopController
 				// Directly redirect if error found
 				$app->redirect(
 					JRoute::_(
-						'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $prdItemid,
+						'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid=' . $post['category_id'] . '&Itemid=' . $prdItemid,
 						false
 					)
 				);
@@ -99,7 +96,7 @@ class RedshopControllerCart extends RedshopController
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 
-		if (isset($cart['AccessoryAsProduct']))
+		if (isset($cart['AccessoryAsProduct']) && $post['accessory_data'] != '')
 		{
 			$attArr = $cart['AccessoryAsProduct'];
 
@@ -122,18 +119,19 @@ class RedshopControllerCart extends RedshopController
 					for ($i = 0; $i < count($accessory_data); $i++)
 					{
 						$accessory = $producthelper->getProductAccessory($accessory_data[$i]);
-						$post = array();
-						$post['parent_accessory_product_id'] = $parent_accessory_productid;
-						$post['product_id']                  = $accessory[0]->child_product_id;
-						$post['quantity']                    = $acc_quantity_data[$i];
-						$post['category_id']                 = 0;
-						$post['sel_wrapper_id']              = 0;
-						$post['attribute_data']              = $acc_attribute_data[$i];
-						$post['property_data']               = $acc_property_data[$i];
-						$post['subproperty_data']            = $acc_subproperty_data[$i];
-						$post['accessory_id']                = $accessory_data[$i];
+						$cartData = array();
+						$cartData['parent_accessory_product_id'] = $parent_accessory_productid;
+						$cartData['product_id']                  = $accessory[0]->child_product_id;
+						$cartData['quantity']                    = $acc_quantity_data[$i];
+						$cartData['category_id']                 = 0;
+						$cartData['sel_wrapper_id']              = 0;
+						$cartData['attribute_data']              = $acc_attribute_data[$i];
+						$cartData['property_data']               = $acc_property_data[$i];
+						$cartData['subproperty_data']            = $acc_subproperty_data[$i];
+						$cartData['accessory_id']                = $accessory_data[$i];
 
-						$result = $this->_carthelper->addProductToCart($post);
+						$result = $this->_carthelper->addProductToCart($cartData);
+						$this->_carthelper->cartFinalCalculation();
 
 						$cart = $session->get('cart');
 
