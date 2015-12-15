@@ -58,6 +58,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
 		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see(strtolower($templateName), \TemplateManagerJoomla3Page::$firstResultRow);
 		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
@@ -80,6 +81,10 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeTemplateState($name, $state = 'unpublish')
 	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
+		$I->waitForElement(['link' => 'ID'], 30);
+		$I->click('ID');
 		$this->changeState(new \TemplateManagerJoomla3Page, $name, $state, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
 	}
 
@@ -119,6 +124,10 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteTemplate($name)
 	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
+		$I->waitForElement(['link' => 'ID'], 30);
+		$I->click('ID');
 		$this->delete(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
 	}
 }
