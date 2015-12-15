@@ -63,7 +63,7 @@ class ManageTemplateAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\TemplateManagerJoomla3Steps($scenario);
 		$I->changeTemplateState($this->newName);
-		$I->verifyState('unpublished', $I->getTemplateState($newName));
+		$I->verifyState('unpublished', $I->getTemplateState($this->newName));
 	}
 
 	/**
