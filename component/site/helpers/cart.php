@@ -3227,7 +3227,8 @@ class rsCarthelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			if (!isset($cartArr[$i]['giftcard_id']) || (isset($cartArr[$i]['giftcard_id']) && $cartArr[$i]['giftcard_id'] <= 0))
+			if (!isset($cartArr[$i]['giftcard_id'])
+				|| (isset($cartArr[$i]['giftcard_id']) && $cartArr[$i]['giftcard_id'] <= 0))
 			{
 				$product_id = $cartArr[$i]['product_id'];
 				$quantity   = $cartArr[$i]['quantity'];
@@ -3251,17 +3252,47 @@ class rsCarthelper
 					$price = $cartArr[$i]['discount_calc_price'];
 				}
 
-				$retAttArr = $this->_producthelper->makeAttributeCart($cartArr [$i] ['cart_attribute'], $product->product_id, $user_id, $price, $quantity);
+				// Only set price without vat for accessories as prododuct
+				$accessoryAsProdutWithoutVat = false;
+
+				// Accessory price fix during update
+				$accessoryAsProdut = RedshopHelperAccessory::getAccessoryAsProduct($cartArr['AccessoryAsProduct']);
+
+				if (isset($accessoryAsProdut->accessory)
+					&& isset($accessoryAsProdut->accessory[$cartArr[$i]['product_id']])
+					&& isset($cartArr[$i]['accessoryAsProductEligible']))
+				{
+					$accessoryAsProdutWithoutVat = '{without_vat}';
+
+					$accessoryPrice                        = (float) $accessoryAsProdut->accessory[$cartArr[$i]['product_id']]->newaccessory_price;
+					$price                                 = $this->_producthelper->productPriceRound($accessoryPrice);
+					$cartArr[$i]['product_price_excl_vat'] = $this->_producthelper->productPriceRound($accessoryPrice);
+				}
+
+				$retAttArr = $this->_producthelper->makeAttributeCart(
+					$cartArr[$i]['cart_attribute'],
+					(int) $product->product_id,
+					$user_id,
+					$price,
+					$quantity,
+					$accessoryAsProdutWithoutVat
+				);
+
+				$accessoryAsProductZero = (count($retAttArr[8]) == 0 && $price == 0 && $accessoryAsProdutWithoutVat);
 
 				// Product + attribute (price)
-				$getproprice = $retAttArr[1];
+				$getproprice = ($accessoryAsProductZero) ? 0 : $retAttArr[1];
 
 				// Product + attribute (VAT)
-				$getprotax                  = $retAttArr[2];
-				$product_old_price_excl_vat = $retAttArr[5];
+				$getprotax                  = ($accessoryAsProductZero) ? 0 : $retAttArr[2];
+				$product_old_price_excl_vat = ($accessoryAsProductZero) ? 0 : $retAttArr[5];
 
 				// Accessory calculation
-				$retAccArr = $this->_producthelper->makeAccessoryCart($cartArr [$i] ['cart_accessory'], $product->product_id, $user_id);
+				$retAccArr = $this->_producthelper->makeAccessoryCart(
+					$cartArr [$i] ['cart_accessory'],
+					$product->product_id,
+					$user_id
+				);
 
 				// Accessory + attribute (price)
 				$getaccprice = $retAccArr[1];
@@ -3278,22 +3309,18 @@ class rsCarthelper
 				{
 					if ($cartArr[$i]['wrapper_id'])
 					{
-						$wrapperArr    = $this->getWrapperPriceArr(array('product_id' => $cartArr[$i]['product_id'], 'wrapper_id' => $cartArr[$i]['wrapper_id']));
-						$wrapper_vat   = $wrapperArr['wrapper_vat'];
-						$wrapper_price = $wrapperArr['wrapper_price'];
+						$wrapperArr                 = $this->getWrapperPriceArr(array('product_id' => $cartArr[$i]['product_id'], 'wrapper_id' => $cartArr[$i]['wrapper_id']));
+						$wrapper_vat                = $wrapperArr['wrapper_vat'];
+						$wrapper_price              = $wrapperArr['wrapper_price'];
 						$product_old_price_excl_vat += $wrapper_price;
 					}
 				}
-
-				// END WRAPPER PRICE
 
 				$product_price          = $getaccprice + $getproprice + $getprotax + $getacctax + $wrapper_price + $wrapper_vat;
 				$product_vat            = ($getprotax + $getacctax + $wrapper_vat);
 				$product_price_excl_vat = ($getproprice + $getaccprice + $wrapper_price);
 
-				$product_type = $product->product_type;
-
-				if ($product_type == 'subscription')
+				if ($product->product_type == 'subscription')
 				{
 					if (isset($cartArr[$i]['subscription_id']) && $cartArr[$i]['subscription_id'] != "")
 					{
@@ -3333,6 +3360,8 @@ class rsCarthelper
 				$dispatcher->trigger('onBeforeLoginCartSession', array(&$cartArr, $i));
 			}
 		}
+
+		unset($cartArr[$idx]);
 
 		return $cartArr;
 	}
@@ -5947,17 +5976,20 @@ class rsCarthelper
 			$quantity = $data['quantity'];
 			$product_data = $this->_producthelper->getProductById($product_id);
 
+			// Handle individual accessory add to cart price
 			if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE
 				&& isset($data['parent_accessory_product_id'])
-				&& $data['parent_accessory_product_id'] != 0)
+				&& $data['parent_accessory_product_id'] != 0
+				&& isset($data['accessory_id']))
 			{
+				$cart[$idx]['accessoryAsProductEligible'] = $data['accessory_id'];
 				$accessoryInfo = $this->_producthelper->getProductAccessory($data['accessory_id']);
-				$product_data->product_price = $accessoryInfo[0]->accessory_price;
+				$product_data->product_price = $accessoryInfo[0]->newaccessory_price;
 
-				$tempdata = $this->_producthelper->getProductById($data['parent_accessory_product_id']);
-				$producttemplate = $redTemplate->getTemplate("product", $tempdata->product_template);
+				$tempdata           = $this->_producthelper->getProductById($data['parent_accessory_product_id']);
+				$producttemplate    = $redTemplate->getTemplate("product", $tempdata->product_template);
 				$accessory_template = $this->_producthelper->getAccessoryTemplate($producttemplate[0]->template_desc);
-				$data_add = $accessory_template->template_desc;
+				$data_add           = $accessory_template->template_desc;
 			}
 			else
 			{
@@ -6125,14 +6157,30 @@ class rsCarthelper
 			{
 				if (isset($data['accessory_data']))
 				{
-					$cart['AccessoryAsProduct'] = array($data['accessory_data'], $data['acc_quantity_data'], $data['acc_attribute_data'], $data['acc_property_data'], $data['acc_subproperty_data']);
+					// Append previously added accessories as products
+					if ($cart['AccessoryAsProduct'][0] != '')
+					{
+						$data['accessory_data']       = $cart['AccessoryAsProduct'][0] . '@@' . $data['accessory_data'];
+						$data['acc_quantity_data']    = $cart['AccessoryAsProduct'][1] . '@@' . $data['acc_quantity_data'];
+						$data['acc_attribute_data']   = $cart['AccessoryAsProduct'][2] . '@@' . $data['acc_attribute_data'];
+						$data['acc_property_data']    = $cart['AccessoryAsProduct'][3] . '@@' . $data['acc_property_data'];
+						$data['acc_subproperty_data'] = $cart['AccessoryAsProduct'][4] . '@@' . $data['acc_subproperty_data'];
+					}
+
+					$cart['AccessoryAsProduct'] = array(
+						$data['accessory_data'],
+						$data['acc_quantity_data'],
+						$data['acc_attribute_data'],
+						$data['acc_property_data'],
+						$data['acc_subproperty_data']
+					);
 				}
 
-				$generateAccessoryCart = array();
-				$data['accessory_data'] = "";
-				$data['acc_quantity_data'] = "";
-				$data['acc_attribute_data'] = "";
-				$data['acc_property_data'] = "";
+				$generateAccessoryCart        = array();
+				$data['accessory_data']       = "";
+				$data['acc_quantity_data']    = "";
+				$data['acc_attribute_data']   = "";
+				$data['acc_property_data']    = "";
 				$data['acc_subproperty_data'] = "";
 			}
 			else
@@ -6143,9 +6191,7 @@ class rsCarthelper
 				{
 					if (!$generateAccessoryCart)
 					{
-						$document = JFactory::getDocument();
-
-						return $document->getError();
+						return false;
 					}
 				}
 			}
@@ -6612,8 +6658,7 @@ class rsCarthelper
 
 						// Throw an error as first attribute is required
 						$msg      = urldecode($requied_attribute_name) . " " . JText::_('IS_REQUIRED');
-						$document = JFactory::getDocument();
-						$document->setError($msg);
+						JFactory::getApplication()->enqueueMessage($msg);
 
 						return false;
 					}
