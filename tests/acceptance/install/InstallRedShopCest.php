@@ -37,8 +37,7 @@ class InstallRedShopCest
 	 *
 	 * @param   AcceptanceTester  $I  Actor Class Object
 	 *
-	 * @depends testInstallJoomla
-	 *
+	 * @return void
 	 */
 	public function testInstallRedShopExtension(AcceptanceTester $I)
 	{
