@@ -1,86 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="plugin" group="redshop_payment" method="upgrade">
-    <name>PLG_RS_PAYMENT_GIROPAY</name>
-    <version>1.3.5</version>
-    <creationDate>April 2013</creationDate>
-    <author>redCOMPONENT.com</author>
-    <authorEmail>email@redcomponent.com</authorEmail>
-    <authorUrl>http://www.redcomponent.com</authorUrl>
-    <copyright>redCOMPONENT.com</copyright>
-    <license>GNU General Public License v2</license>
-    <description>This plugin enables standard GiroPay payments</description>
+	<name>PLG_RS_PAYMENT_GIROPAY</name>
+	<version>1.5</version>
+	<redshop>1.5</redshop>
+	<creationDate>April 2013</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_RS_PAYMENT_GIROPAY_DESC</description>
 
-    <files>
-        <filename plugin="rs_payment_giropay">rs_payment_giropay.php</filename>
-        <folder>rs_payment_giropay</folder>
-    </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_giropay.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_giropay.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_giropay.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_giropay.sys.ini</language>
-    </languages>
-    <config addfieldpath="/libraries/redshop/form/fields">
-        <fields name="params">
-            <fieldset name="basic">
-                <field name="payment_oprand" type="text" size="10" default="-" label="Payment operand"
-                       description="Payment Operand"/>
-                <field name="payment_price" type="text" size="30" default="" label="Payment price"
-                       description="Payment price"/>
-                <!--<param name="debug_mode" type="radio" default="1" label="Debug Mode: " description="Debug Mode" >
-                    <option value="1">Yes </option>
-                    <option value="0">No</option>
-                </param>-->
-                <field name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: "
-                       description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
-                </field>
-                <field name="merchant_id" type="text" default="" label="Giropay Merchant ID"
-                       description=" The Merchant ID you have received from Giropay."/>
-                <field name="project_id" type="text" default="" label="Giropay Project ID"
-                       description="The ID of the project by the dealer. This will possibly at several shops provided."/>
-                <field name="source_id" type="text" default="" label="Giropay Source ID"
-                       description="The Source ID you have received from Giropay.Identification of the shop system"/>
-                <field name="secret_password" type="text" default="" label="Giropay secret password"
-                       description="The Password you have created when create Project in GiroPay"/>
+	<files>
+		<filename plugin="rs_payment_giropay">rs_payment_giropay.php</filename>
+		<folder>rs_payment_giropay</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_giropay.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_giropay.sys.ini</language>
+	</languages>
+	<config addfieldpath="/libraries/redshop/form/fields">
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="merchant_id"
+					type="text"
+					default=""
+					label="PLG_RS_PAYMENT_GIROPAY_MERCHANT_ID_LABEL"
+					description="PLG_RS_PAYMENT_GIROPAY_MERCHANT_ID_DESC"
+				/>
+				<field
+					name="project_id"
+					type="text"
+					default=""
+					label="PLG_RS_PAYMENT_GIROPAY_PROJECT_ID_LABEL"
+					description="PLG_RS_PAYMENT_GIROPAY_PROJECT_ID_DESC"
+				/>
+				<field
+					name="source_id"
+					type="text"
+					default=""
+					label="PLG_RS_PAYMENT_GIROPAY_SOURCE_ID_LABEL"
+					description="PLG_RS_PAYMENT_GIROPAY_SOURCE_ID_DESC"
+				/>
+				<field
+					name="secret_password"
+					type="text"
+					default=""
+					label="PLG_RS_PAYMENT_GIROPAY_SECRET_PASSWORD_LABEL"
+					description="PLG_RS_PAYMENT_GIROPAY_SECRET_PASSWORD_DESC"
+				/>
 
-                <field name="verify_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
-                </field>
-                <field name="invalid_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
-                </field>
-                <field name="capture_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="S" label="Capture Payment Status"
-                       description="Select an capture status for capturing payment."></field>
-            </fieldset>
-            <fieldset name="advanced">
-                <field name="private_person" type="radio" default="1" label="Show on Private Person"
-                       description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="is_creditcard" type="hidden" default="0" value="0"/>
-                <field name="economic_payment_terms_id" type="text" default=""
-                       label="Enter E-conomic Payment Conditions ID"/>
-                <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
-                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0" label="Select Shopper Group"
-                       description="Displays the shopper groups"/>
-
-            </fieldset>
-        </fields>
-    </config>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="verify_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+					key_field="st_value"
+					value_field="st_title"
+					default="C"
+					label="PLG_RS_PAYMENT_GIROPAY_ORDER_STATUS"
+					description="PLG_RS_PAYMENT_GIROPAY_ORDER_STATUS_DESC">
+				</field>
+				<field
+					name="invalid_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+					key_field="st_value"
+					value_field="st_title"
+					default="P"
+					label="PLG_RS_PAYMENT_GIROPAY_ORDER_STATUS_FAIL"
+					description="PLG_RS_PAYMENT_GIROPAY_ORDER_STATUS_FAIL_DESC"
+				>
+				</field>
+				<field
+					name="capture_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+					key_field="st_value"
+					value_field="st_title"
+					default="S"
+					label="PLG_RS_PAYMENT_GIROPAY_CAPTURE_PAYMENT_STATUS"
+					description="PLG_RS_PAYMENT_GIROPAY_CAPTURE_PAYMENT_STATUS_DESC"
+				/>
+				<field
+					name="payment_oprand"
+					type="text"
+					class="input-large"
+					default="-"
+					label="PLG_RS_PAYMENT_GIROPAY_PAYMENT_OPERAND"
+					description="PLG_RS_PAYMENT_GIROPAY_PAYMENT_OPERAND_DESC"
+				/>
+				<field
+					name="payment_price"
+					type="text"
+					size="30"
+					default=""
+					label="PLG_RS_PAYMENT_GIROPAY_PAYMENT_PRICE"
+					description="PLG_RS_PAYMENT_GIROPAY_PAYMENT_PRICE_DESC"
+				/>
+				<field
+					name="payment_discount_is_percent"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_RS_PAYMENT_GIROPAY_DISCOUNT_TYPE"
+					description="PLG_RS_PAYMENT_GIROPAY_DISCOUNT_TYPE_DESC"
+				>
+					<option value="1">PLG_RS_PAYMENT_GIROPAY_PERCENTAGE</option>
+					<option value="0">PLG_RS_PAYMENT_GIROPAY_TOTAL</option>
+				</field>
+				<field
+					name="private_person"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_RS_PAYMENT_GIROPAY_PRIVATE_PERSON"
+					description="PLG_RS_PAYMENT_GIROPAY_PRIVATE_PERSON_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="business"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_RS_PAYMENT_GIROPAY_BUSINESS_PERSON"
+					description="PLG_RS_PAYMENT_GIROPAY_BUSINESS_PERSON_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="is_creditcard"
+					type="hidden"
+					default="0"
+					value="0"
+				/>
+				<field
+					name="economic_payment_terms_id"
+					type="text"
+					class="input-mini"
+					default=""
+					label="PLG_RS_PAYMENT_GIROPAY_ECONOMIC_CONDITION_ID"
+					description="PLG_RS_PAYMENT_GIROPAY_ECONOMIC_CONDITION_ID_DESC"
+				/>
+				<field
+					name="economic_design_layout"
+					type="text"
+					class="input-mini"
+					default=""
+					label="PLG_RS_PAYMENT_GIROPAY_ECONOMIC_LAYOUT_ID"
+					description="PLG_RS_PAYMENT_GIROPAY_ECONOMIC_LAYOUT_ID_DESC"
+				/>
+				<field
+					name="shopper_group_id"
+					type="shoppergrouplist"
+					default="0"
+					multiple="multiple"
+					label="PLG_RS_PAYMENT_GIROPAY_SHOPPER_GROUP"
+					description="PLG_RS_PAYMENT_GIROPAY_SHOPPER_GROUP_DESC"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
