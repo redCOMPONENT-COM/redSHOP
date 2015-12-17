@@ -230,7 +230,10 @@ class RedshopControllerCategory extends RedshopController
 		}
 
 		// In case someone has magic quotes on. Which they shouldn't as good practice.
-		set_magic_quotes_runtime(0);
+		if (version_compare(PHP_VERSION, '5.3.0', '<'))
+		{
+			set_magic_quotes_runtime(get_magic_quotes_runtime());
+		}
 
 		// We should check to ensure the file really exits to ensure feof does not get stuck in an infite loop, but we do so earlier on, so no need here.
 		$fp = fopen("$fil", "rb");
