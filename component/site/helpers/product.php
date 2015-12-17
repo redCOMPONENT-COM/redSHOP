@@ -5003,14 +5003,13 @@ class producthelper
 					$propertyid  = 'property_id_' . $commonid;
 
 					$imgAdded               = 0;
-					$selectedproperty       = 0;
+					$selectedProperty       = 0;
 					$property_woscrollerdiv = "";
 
 					if (strstr($attribute_table, "{property_image_without_scroller}"))
 					{
 						$attribute_table        = str_replace("{property_image_scroller}", "", $attribute_table);
 						$property_woscrollerdiv = "<div class='property_main_outer'>";
-						//$property_woscrollerdiv .= "<table border='0'>";
 					}
 
 					$property_scrollerdiv = "<table cellpadding='5' cellspacing='5'><tr>";
@@ -5030,14 +5029,14 @@ class producthelper
 						{
 							if (in_array($property[$i]->value, $selectProperty))
 							{
-								$selectedproperty = $property[$i]->value;
+								$selectedProperty = $property[$i]->value;
 							}
 						}
 						else
 						{
 							if ($property[$i]->setdefault_selected)
 							{
-								$selectedproperty = $property[$i]->value;
+								$selectedProperty = $property[$i]->value;
 							}
 						}
 
@@ -5073,7 +5072,7 @@ class producthelper
 						{
 							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[$i]->property_image))
 							{
-								$borderstyle = ($selectedproperty == $property[$i]->value) ? " 1px solid " : "";
+								$borderstyle = ($selectedProperty == $property[$i]->value) ? " 1px solid " : "";
 
 								$thumbUrl = RedShopHelperImages::getImagePath(
 											$property[$i]->property_image,
@@ -5216,56 +5215,68 @@ class producthelper
 
 					}
 
-					$tmp_array            = array(new stdClass);
-					$tmp_array [0]->value = 0;
-					$tmp_array [0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
+					$properties = array_merge(
+						array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' '. urldecode($attributes[$a]->text))),
+						$property
+					);
+					$defaultPropertyId = array();
+					$attDisplayType    = $attributes[$a]->display_type;
 
-					$new_property      = array_merge($tmp_array, $property);
-					$defaultpropertyId = array();
-					$chklist           = "";
-					$display_type      = $attributes[$a]->display_type;
+					// Init listing html-attributes
+					$chkListAttributes = array(
+						'attribute_name' => urldecode($attributes[$a]->attribute_name)
+					);
 
-					if ($display_type == 'radio')
+					// Only add required html-attibute if needed.
+					if ($attributes[$a]->attribute_required)
 					{
-						unset($new_property[0]);
-
-						$listType = ($attributes[$a]->allow_multiple_selection) ? 'checklist' : 'radiolist';
-
-						$chklist = JHtml::_(
-							'redshopselect.' . $listType,
-							$new_property,
-							$propertyid . '[]',
-							array(
-								'cssClassSuffix' => ' no-group',
-								'attribute_name' => urldecode($attributes[$a]->attribute_name),
-								'required'       => $attributes[$a]->attribute_required,
-								'onClick'        => "javascript:changePropertyDropdown('" . $product_id . "','" . $accessory_id . "','" . $relproduct_id . "', '" . $attributes[$a]->value . "',this.value, '" . $mpw_thumb . "', '" . $mph_thumb . "');"
-							),
-							'value',
-							'text',
-							$selectedproperty,
-							$propertyid . '_'
-						);
+						$chkListAttributes['required'] = 'true';
 					}
+
+					// Prepare Javascript OnChange or OnClick function
+					$changePropertyDropdown = "changePropertyDropdown('" . $product_id . "','" . $accessory_id . "','" . $relproduct_id . "', '" . $attributes[$a]->value . "',this.value, '" . $mpw_thumb . "', '" . $mph_thumb . "');";
+
+					// Radio or Checkbox
+					if ($attDisplayType == 'radio')
+					{
+						unset($properties[0]);
+
+						$attributeListType = ($attributes[$a]->allow_multiple_selection) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
+
+						$chkListAttributes['cssClassSuffix'] = ' no-group';
+						$chkListAttributes['onClick']        = "javascript:" . $changePropertyDropdown;
+					}
+					// Dropdown list
 					else
 					{
-						$scrollerFunction = "";
+						$attributeListType = 'select.genericlist';
+						$scrollerFunction  = '';
 
 						if ($imgAdded > 0 && strstr($attribute_table, "{property_image_scroller}"))
 						{
 							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
 						}
 
-						$chklist = JHTML::_('select.genericlist', $new_property, $propertyid . '[]', 'id="' . $propertyid . '"  class="inputbox" size="1" attribute_name="' . urldecode($attributes[$a]->attribute_name) . '" required="' . $attributes [$a]->attribute_required . '" onchange="javascript:' . $scrollerFunction . 'changePropertyDropdown(\'' . $product_id . '\',\'' . $accessory_id . '\',\'' . $relproduct_id . '\',\'' . $attributes [$a]->value . '\',this.value,\'' . $mpw_thumb . '\',\'' . $mph_thumb . '\');" ', 'value', 'text', $selectedproperty);
+						$chkListAttributes['id']       = $propertyid;
+						$chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
 
-						if ($selectedproperty)
+						if ($selectedProperty)
 						{
 							$subdisplay          = true;
-							$defaultpropertyId[] = $selectedproperty;
+							$defaultPropertyId[] = $selectedProperty;
 						}
 					}
 
-					$lists ['property_id'] = $chklist;
+					$lists['property_id'] = JHTML::_(
+						$attributeListType,
+						$properties,
+						$propertyid . '[]',
+						$chkListAttributes,
+						'value',
+						'text',
+						$selectedProperty,
+						$propertyid . '_'
+					);
 
 					$attribute_table .= "<input type='hidden' name='" . $hiddenattid . "[]' value='" . $attributes [$a]->value . "' />";
 
@@ -5331,9 +5342,9 @@ class producthelper
 
 					$displaySubproperty = "";
 
-					for ($selp = 0; $selp < count($defaultpropertyId); $selp++)
+					for ($selp = 0; $selp < count($defaultPropertyId); $selp++)
 					{
-						$displaySubproperty .= $this->replaceSubPropertyData($product_id, $accessory_id, $relproduct_id, $attributes[$a]->attribute_id, $defaultpropertyId[$selp], $subpropertydata, $layout, $selectSubproperty);
+						$displaySubproperty .= $this->replaceSubPropertyData($product_id, $accessory_id, $relproduct_id, $attributes[$a]->attribute_id, $defaultPropertyId[$selp], $subpropertydata, $layout, $selectSubproperty);
 					}
 
 					if ($subdisplay)
@@ -5645,80 +5656,68 @@ class producthelper
 					}
 				}
 
-				$tmp_array           = array();
-				$tmp_array[0]        = new stdClass;
-				$tmp_array[0]->value = 0;
-				$tmp_array[0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . $displayPropertyName;
+				$subproperties = array_merge(
+					array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
+					$subproperty
+				);
+				$attDisplayType = (isset($subproperty[0]->setdisplay_type)) ? $subproperty[0]->setdisplay_type : 'radio';
 
-				$new_subproperty = array_merge($tmp_array, $subproperty);
-				$chklist         = '';
-				$display_type = 'radio';
+				// Init listing html-attributes
+				$chkListAttributes = array(
+					'id'          => $subpropertyid,
+					'subpropName' => $displayPropertyName
+				);
 
-				if (isset($subproperty[0]->setdisplay_type))
+				// Only add required html-attibute if needed.
+				if ($subproperty[0]->setrequire_selected)
 				{
-					$display_type = $subproperty[0]->setdisplay_type;
+					$chkListAttributes['required'] = 'true';
 				}
 
-				if ($display_type == 'radio')
+				$scrollerFunction = '';
+
+				if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
 				{
-					if ($subproperty[0]->setmulti_selected)
+					$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
+
+					if ('radio' == $attDisplayType)
 					{
-						$display_type = 'checkbox';
-					}
-
-					for ($chk = 0; $chk < count($subproperty); $chk++)
-					{
-						$checked = "";
-
-						if (count($selectSubproperty) > 0)
-						{
-							if (in_array($subproperty[$chk]->value, $selectSubproperty))
-							{
-								$checked = "checked";
-							}
-						}
-						else
-						{
-							if ($subproperty[$chk]->setdefault_selected)
-							{
-								$checked = "checked";
-							}
-						}
-
-						$scrollerFunction = "";
-
-						if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
-						{
-							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
-						}
-
-						$chklist .= "<div class='attribute_multiselect_single'><input type='" . $display_type . "' "
-							. $checked . " value='" . $subproperty[$chk]->value . "' name='" . $subpropertyid
-							. "[]'  id='" . $subpropertyid . "' class='inputbox' onClick='javascript:" . $scrollerFunction
-							. "calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
-							. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
-							. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$chk]->value . "\");' />&nbsp;"
-							. $subproperty[$chk]->text . "</div>";
+						$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
 					}
 				}
+
+				// Prepare Javascript OnChange or OnClick function
+				$onChangeJSFunction = $scrollerFunction
+									. "calculateTotalPrice('" . $product_id . "','" . $relatedprd_id . "');"
+									. "displayAdditionalImage('" . $product_id . "','" . $accessory_id . "','" . $relatedprd_id . "','" . $property_id . "',this.value);";
+
+				// Radio or Checkbox
+				if ('radio' == $attDisplayType)
+				{
+					unset($subproperties[0]);
+
+					$attributeListType = ($subproperty[0]->setmulti_selected) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
+
+					$chkListAttributes['cssClassSuffix'] = ' no-group';
+					$chkListAttributes['onClick']        = "javascript:" . $onChangeJSFunction;
+				}
+				// Dropdown list
 				else
 				{
-					$scrollerFunction = "";
-
-					if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
-					{
-						$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
-					}
-
-					$chklist = JHTML::_('select.genericlist', $new_subproperty, $subpropertyid . '[]', ' id="'
-						. $subpropertyid . '" class="inputbox" size="1" required="' . $subproperty[0]->setrequire_selected
-						. '" subpropName="' . $displayPropertyName . '"  onchange="javascript:' . $scrollerFunction
-						. 'calculateTotalPrice(\'' . $product_id . '\',\'' . $relatedprd_id . '\');displayAdditionalImage(\''
-						. $product_id . '\',\'' . $accessory_id . '\',\'' . $relatedprd_id . '\',\'' . $property_id
-						. '\',this.value);" ', 'value', 'text', $selectedsubproperty);
+					$attributeListType = 'select.genericlist';
+					$chkListAttributes['onchange'] = "javascript:" . $onChangeJSFunction;
 				}
 
-				$lists ['subproperty_id'] = $chklist;
+				$lists['subproperty_id'] = JHTML::_(
+					$attributeListType,
+					$subproperties,
+					$subpropertyid . '[]',
+					$chkListAttributes,
+					'value',
+					'text',
+					$selectedsubproperty,
+					$subpropertyid
+				);
 
 				if ($imgAdded == 0 || $isAjax == 1)
 				{
@@ -5768,7 +5767,7 @@ class producthelper
 
 			if ($attributes[$a]->text != "" && count($property) > 0)
 			{
-				$selectedpropertyId = array();
+				$selectedPropertyId = array();
 				$proprice           = array();
 				$prooprand          = array();
 
@@ -5790,7 +5789,7 @@ class producthelper
 
 						$proprice[]           = $property[$i]->property_price;
 						$prooprand[]          = $property[$i]->oprand;
-						$selectedpropertyId[] = $property[$i]->property_id;
+						$selectedPropertyId[] = $property[$i]->property_id;
 					}
 				}
 
@@ -5798,17 +5797,17 @@ class producthelper
 				{
 					$proprice           = array($proprice[count($proprice) - 1]);
 					$prooprand          = array($prooprand[count($prooprand) - 1]);
-					$selectedpropertyId = array($selectedpropertyId[count($selectedpropertyId) - 1]);
+					$selectedPropertyId = array($selectedPropertyId[count($selectedPropertyId) - 1]);
 				}
 				// Add default selected Property price to product price
 				$default_priceArr  = $this->makeTotalPriceByOprand($product_showprice, $prooprand, $proprice);
 				$product_showprice = $default_priceArr[1];
 
-				for ($i = 0; $i < count($selectedpropertyId); $i++)
+				for ($i = 0; $i < count($selectedPropertyId); $i++)
 				{
 					$subproprice  = array();
 					$subprooprand = array();
-					$subproperty  = $this->getAttibuteSubProperty(0, $selectedpropertyId[$i]);
+					$subproperty  = $this->getAttibuteSubProperty(0, $selectedPropertyId[$i]);
 
 					for ($sp = 0; $sp < count($subproperty); $sp++)
 					{
@@ -6486,7 +6485,7 @@ class producthelper
 
 			if (count($attributes) > 0)
 			{
-				$selectedpropertyId    = 0;
+				$selectedPropertyId    = 0;
 				$selectedsubpropertyId = 0;
 
 				for ($a = 0; $a < count($attributes); $a++)
@@ -6506,8 +6505,8 @@ class producthelper
 
 						if (count($selectedId) > 0)
 						{
-							$selectedpropertyId = $selectedId[count($selectedId) - 1];
-							$subproperty        = $this->getAttibuteSubProperty(0, $selectedpropertyId);
+							$selectedPropertyId = $selectedId[count($selectedId) - 1];
+							$subproperty        = $this->getAttibuteSubProperty(0, $selectedPropertyId);
 							$selectedId         = array();
 
 							for ($sp = 0; $sp < count($subproperty); $sp++)
@@ -6528,7 +6527,7 @@ class producthelper
 
 				$preselected_attrib_img = $this->get_hidden_attribute_cartimage(
 					$product_id,
-					$selectedpropertyId,
+					$selectedPropertyId,
 					$selectedsubpropertyId
 				);
 
@@ -8659,7 +8658,7 @@ class producthelper
 	{
 		$selectedAccessory    = array();
 		$selectedAccessoryQua = array();
-		$selectedproperty     = array();
+		$selectedProperty     = array();
 		$selectedsubproperty  = array();
 
 		if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
@@ -8693,7 +8692,7 @@ class producthelper
 					{
 						if ($acc_property_data2[$ip] != "")
 						{
-							$selectedproperty[] = $acc_property_data2[$ip];
+							$selectedProperty[] = $acc_property_data2[$ip];
 						}
 					}
 				}
@@ -8728,14 +8727,14 @@ class producthelper
 			}
 		}
 
-		$ret = array($selectedAccessory, $selectedproperty, $selectedsubproperty, $selectedAccessoryQua);
+		$ret = array($selectedAccessory, $selectedProperty, $selectedsubproperty, $selectedAccessoryQua);
 
 		return $ret;
 	}
 
 	public function getSelectedAttributeArray($data = array())
 	{
-		$selectedproperty    = array();
+		$selectedProperty    = array();
 		$selectedsubproperty = array();
 
 		if (!empty($data['property_data']))
@@ -8750,7 +8749,7 @@ class producthelper
 				{
 					if ($acc_property_data1[$ip] != "")
 					{
-						$selectedproperty[] = $acc_property_data1[$ip];
+						$selectedProperty[] = $acc_property_data1[$ip];
 					}
 				}
 			}
@@ -8779,7 +8778,7 @@ class producthelper
 			}
 		}
 
-		$ret = array($selectedproperty, $selectedsubproperty);
+		$ret = array($selectedProperty, $selectedsubproperty);
 
 		return $ret;
 	}
@@ -8795,7 +8794,7 @@ class producthelper
 		$totalatt              = count($attributes);
 		$Id                    = $product_id;
 		$sec                   = "product";
-		$selectedpropertyId    = 0;
+		$selectedPropertyId    = 0;
 		$selectedsubpropertyId = 0;
 
 		for ($a = 0; $a < count($attributes); $a++)
@@ -8817,14 +8816,14 @@ class producthelper
 				{
 					if ($attributes[$a]->allow_multiple_selection)
 					{
-						$selectedpropertyId = implode(",", $selectedId);
+						$selectedPropertyId = implode(",", $selectedId);
 					}
 					else
 					{
-						$selectedpropertyId = $selectedId[count($selectedId) - 1];
+						$selectedPropertyId = $selectedId[count($selectedId) - 1];
 					}
 
-					$Id  = $selectedpropertyId;
+					$Id  = $selectedPropertyId;
 					$sec = "property";
 				}
 
@@ -10331,7 +10330,7 @@ class producthelper
 		return $filter_products;
 	}
 
-	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
+	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
 	{
 		$stockroomhelper            = new rsstockroomhelper;
 		$producDetail               = $this->getProductById($product_id);
@@ -10340,7 +10339,7 @@ class producthelper
 		$rsltdata['preorder']       = 0;
 		$rsltdata['preorder_stock'] = 0;
 
-		if ($selectedpropertyId)
+		if ($selectedPropertyId)
 		{
 			if ($selectedsubpropertyId)
 			{
@@ -10357,11 +10356,11 @@ class producthelper
 			else
 			{
 				// Count status for selected property
-				$stocksts = $stockroomhelper->isStockExists($selectedpropertyId, "property");
+				$stocksts = $stockroomhelper->isStockExists($selectedPropertyId, "property");
 
 				if (!$stocksts && (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes")))
 				{
-					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedpropertyId, "property");
+					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedPropertyId, "property");
 					$rsltdata['preorder']       = 1;
 					$rsltdata['preorder_stock'] = $prestocksts;
 				}
