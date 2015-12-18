@@ -22,6 +22,17 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="testMode"
+					type="radio"
+					default="1"
+					label="PLG_RS_PAYMENT_DOTPAY_TEST_MODE_LABEL"
+					description="PLG_RS_PAYMENT_DOTPAY_TEST_MODE_DESC"
+					class="btn-group"
+				>
+					<option value="1">JYES</option>
+			1		<option value="0">JNO</option>
+				</field>
+				<field
 					name="dotpay_customer_id"
 					type="text"
 					default=""
@@ -32,6 +43,7 @@
 					name="dotpay_pin"
 					type="text"
 					default=""
+					class="input-xlarge"
 					label="PLG_RS_PAYMENT_DOTPAY_PIN_LABEL"
 					description="PLG_RS_PAYMENT_DOTPAY_PIN_DESC"
 				/>
