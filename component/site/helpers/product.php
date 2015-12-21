@@ -10079,6 +10079,9 @@ class producthelper
 
 				$attribute_template = $this->getAttributeTemplate($tempdata_div_middle);
 
+				// Extra field display
+				$extraFieldName = $extra_field->getSectionFieldNameArray(1, 1, 1);
+
 				for ($r = 0; $r < count($related_product); $r++)
 				{
 					$related_template_data .= $tempdata_div_middle;
@@ -10210,6 +10213,9 @@ class producthelper
 
 					$related_template_data = $this->getProductOnSaleComment($related_product[$r], $related_template_data);
 					$related_template_data = $this->getSpecialProductComment($related_product[$r], $related_template_data);
+
+					//  Extra field display
+					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, 1);
 
 					// Related product attribute price list
 					$related_template_data = $this->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
