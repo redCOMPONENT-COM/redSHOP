@@ -3255,18 +3255,21 @@ class rsCarthelper
 				// Only set price without vat for accessories as prododuct
 				$accessoryAsProdutWithoutVat = false;
 
-				// Accessory price fix during update
-				$accessoryAsProdut = RedshopHelperAccessory::getAccessoryAsProduct($cartArr['AccessoryAsProduct']);
-
-				if (isset($accessoryAsProdut->accessory)
-					&& isset($accessoryAsProdut->accessory[$cartArr[$i]['product_id']])
-					&& isset($cartArr[$i]['accessoryAsProductEligible']))
+				if (isset($cartArr['AccessoryAsProduct']))
 				{
-					$accessoryAsProdutWithoutVat = '{without_vat}';
+					// Accessory price fix during update
+					$accessoryAsProdut = RedshopHelperAccessory::getAccessoryAsProduct($cartArr['AccessoryAsProduct']);
 
-					$accessoryPrice                        = (float) $accessoryAsProdut->accessory[$cartArr[$i]['product_id']]->newaccessory_price;
-					$price                                 = $this->_producthelper->productPriceRound($accessoryPrice);
-					$cartArr[$i]['product_price_excl_vat'] = $this->_producthelper->productPriceRound($accessoryPrice);
+					if (isset($accessoryAsProdut->accessory)
+						&& isset($accessoryAsProdut->accessory[$cartArr[$i]['product_id']])
+						&& isset($cartArr[$i]['accessoryAsProductEligible']))
+					{
+						$accessoryAsProdutWithoutVat = '{without_vat}';
+
+						$accessoryPrice                        = (float) $accessoryAsProdut->accessory[$cartArr[$i]['product_id']]->newaccessory_price;
+						$price                                 = $this->_producthelper->productPriceRound($accessoryPrice);
+						$cartArr[$i]['product_price_excl_vat'] = $this->_producthelper->productPriceRound($accessoryPrice);
+					}
 				}
 
 				$retAttArr = $this->_producthelper->makeAttributeCart(
