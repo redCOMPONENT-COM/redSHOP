@@ -36,9 +36,9 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function __construct()
 	{
-		global $context;
-
 		$app = JFactory::getApplication();
+
+		$this->context = 'com_redshop.' . $app->input->getCmd('view') . '.' . $app->input->getCmd('layout', 'default');
 
 		// @ToDo In fearure, when class Manufacturers extends RedshopModelList, replace filter_fields in constructor
 		$this->filter_fields_products = array(
@@ -71,15 +71,15 @@ class RedshopModelManufacturers extends RedshopModel
 
 		$this->setId($manid);
 
-		$limit = $app->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
+		$limit = $app->getUserStateFromRequest($this->context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
+		$this->setState($this->context . 'limit', $limit);
+		$this->setState($this->context . 'limitstart', $limitstart);
 	}
 
 	public function setId($id)
@@ -151,7 +151,7 @@ class RedshopModelManufacturers extends RedshopModel
 		}
 		else
 		{
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			$this->_data = $this->_getList($query, $this->getState($this->context . 'limitstart'), $this->getState($this->context . 'limit'));
 		}
 
 		return $this->_data;
@@ -188,7 +188,7 @@ class RedshopModelManufacturers extends RedshopModel
 	{
 		if (empty($this->_pagination))
 		{
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState($this->context . 'limitstart'), $this->getState($this->context . 'limit'));
 		}
 
 		return $this->_pagination;

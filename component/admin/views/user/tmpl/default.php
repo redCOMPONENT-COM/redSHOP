@@ -23,7 +23,7 @@ $model         = $this->getModel('user');
 		if (pressbutton == 'add')
 		{
 			<?php
-				$link = $redhelper->sslLink('index.php?option=com_redshop&view=user_detail');
+				$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=user_detail');
 			?>
 
 			window.location = '<?php echo $link;?>';
@@ -102,8 +102,9 @@ $model         = $this->getModel('user');
 				$row = $this->user [$i];
 				$row->id = $row->user_id;
 
-				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $row->id . '&cid[]=' . $row->users_info_id;
-				$link = $redhelper->sslLink($link);
+				$link = RedshopHelperUtility::getSSLLink(
+					'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $row->id . '&cid[]=' . $row->users_info_id
+				);
 
 				$iscompany = JText::_('COM_REDSHOP_USER_CUSTOMER');
 

@@ -23,9 +23,7 @@ $userId = (int) $user->id;
 JHtml::_('redshopjquery.framework');
 ?>
 <script language="javascript" type="text/javascript">
-
-
-	Joomla.submitbutton = submitbutton = function (pressbutton) {
+	Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton) {

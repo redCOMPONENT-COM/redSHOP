@@ -74,7 +74,7 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 
 				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 				$link_order = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
-				$link_order = $redhelper->sslLink($link_order);    ?>
+				$link_order = RedshopHelperUtility::getSSLLink($link_order);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<!-- <td style="display:none;"><?php echo JHTML::_('grid.id', $i, $row->id ); ?></td>-->

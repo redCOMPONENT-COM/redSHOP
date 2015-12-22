@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
         }
     });
 
-    jQuery('input[type="radio"]').click(function() {
+    jQuery('input[type="radio"][id^="shipping_rate_id"]').click(function() {
         if (checkPDinput(jQuery(this))) {
             inject_button(jQuery(this));
         } else {
@@ -20,7 +20,9 @@ jQuery(document).ready(function() {
         }
     });
 
-    jQuery('.moduleRowSelected').live('click', function(e) {
+	var body = jQuery('body');
+
+	body.on('click', '.moduleRowSelected', function(e) {
         if (jQuery('input[value="postdanmark_postdanmark"]', jQuery(this)).length > 0) {
             if (jQuery('#showMap_input').length === 0) {
                 inject_button(jQuery(this));
@@ -36,18 +38,18 @@ jQuery(document).ready(function() {
             jQuery('form#adminForm').submit();
         } else {
             e.preventDefault();
-            jQuery('#sp_info').after('<div class="pn_error" style="color: red; font-weight: normal; ">' + decodeURIComponent('Tryk venligst p%C3%A5 %22V%C3%A6lg udleveringssted%22 knappen for at v%C3%A6lge et afhentningssted.') + '</div>')
+            jQuery('#sp_info').after('<div class="pn_error" style="color: red; font-weight: normal; ">' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_PRESS_POINT_TO_DELIVERY') + '</div>')
         }
     });
 
-    jQuery('.map-button-save').live('click', function() {
+	body.on('click', '.map-button-save', function() {
 
         jQuery('.pn_error').remove();
 
         if (!jQuery('input[name="postdanmark_pickupLocation"]').is(':checked')) {
             if (jQuery('#error_checked_radio').length === 0) {
                 jQuery('.map_buttons')
-                    .before('<span id="error_checked_radio" style="color: red; position: absolute; left: 200px;">Please select one of the options.</span>');
+                    .before('<span id="error_checked_radio" style="color: red; position: absolute; left: 200px;">'+ Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_SELECT_ONE_OPTION') + '</span>');
             }
         } else {
             if (jQuery('#error_checked_radio').length > 0) {
@@ -88,7 +90,7 @@ jQuery(document).ready(function() {
         }
     });
 
-    jQuery('#mapSeachBox').live('keyup', function() {
+    body.on('keyup', '#mapSeachBox', function() {
         if (jQuery(this).val().length === 4) {
             var map = false;
             var postcode = jQuery(this).val();
@@ -101,7 +103,7 @@ jQuery(document).ready(function() {
                     'countryCode': 'DK'
                 },
                 function(response) {
-                    jQuery('#mapSeachBox').attr('placeholder', 'Indtast et andet postnummer:').removeAttr('disabled');
+                    jQuery('#mapSeachBox').attr('placeholder', Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_POSTAL_CODE')).removeAttr('disabled');
                     if (response.length > 0) {
                         service_points = jQuery.parseJSON(response);
                         if (startpoint) {
@@ -110,17 +112,17 @@ jQuery(document).ready(function() {
                         if (typeof service_points === 'object') {
                             refreshMap(service_points);
                         } else {
-                            jQuery('#sog_loader').replaceWith('<div style="color: red; font-weight: normal;">Indtast venligst et gyldigt postnummer.</div>');
+                            jQuery('#sog_loader').replaceWith('<div style="color: red; font-weight: normal;">' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALID_ZIP') + '</div>');
                         }
                     } else {
-                        jQuery('#sog_loader').replaceWith('<div style="color: red; font-weight: normal; ">Indtast venligst et gyldigt postnummer.</div>');
+                        jQuery('#sog_loader').replaceWith('<div style="color: red; font-weight: normal; ">' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALID_ZIP') + '</div>');
                     }
                 }
             );
         }
     });
 
-    jQuery('.map-button-close').live('click', function() {
+    body.on('click', '.map-button-close', function() {
         jQuery.magnificPopup.close();
     });
 });
@@ -130,7 +132,7 @@ function inject_button(el) {
     if (0 == jQuery('#sp_info').length) {
         map_contents = get_map_contents();
 
-        jQuery(el).next().after('<input type="button" onclick="showForm(\'showMap\')" value="' + decodeURIComponent('V%C3%A6lg udleveringssted') + '"  alt="#TB_inline?width=790&amp;inlineId=showMap" id="showMap_input" />' + '<input type="hidden" name="shop_id" id="shop_id_pacsoft" value="" />' + '<div id="sp_info">' + '<span id="sp_name"></span>' + '<span id="sp_address"></span>' + '</div>' + '<div id="sp_inputs">' + '<input type="hidden" name="service_point_id" value="" />' + '<input type="hidden" name="service_point_id_name" value="" />' + '<input type="hidden" name="service_point_id_address" value="" />' + '<input type="hidden" name="service_point_id_city" value="" />' + '<input type="hidden" name="service_point_id_postcode" value="" />' + '</div>' + map_contents);
+        jQuery(el).parent().after('<input type="button" class="btn btn-small" onclick="showForm(\'showMap\')" value="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT') + '"  alt="#TB_inline?width=790&amp;inlineId=showMap" id="showMap_input" />' + '<input type="hidden" name="shop_id" id="shop_id_pacsoft" value="" />' + '<div id="sp_info">' + '<span id="sp_name"></span>' + '<span id="sp_address"></span>' + '</div>' + '<div id="sp_inputs">' + '<input type="hidden" name="service_point_id" value="" />' + '<input type="hidden" name="service_point_id_name" value="" />' + '<input type="hidden" name="service_point_id_address" value="" />' + '<input type="hidden" name="service_point_id_city" value="" />' + '<input type="hidden" name="service_point_id_postcode" value="" />' + '</div>' + map_contents);
 
         getShippingZipcodeAjax();
     }
@@ -170,10 +172,10 @@ function getZipcodeAjax(postcode) {
                 if (typeof service_points === 'object') {
                     refreshMap(service_points);
                 } else {
-                    jQuery('#sog_loader').replaceWith('<div style="color: red; font-weight: normal;">Indtast venligst et gyldigt postnummer.</div>');
+                    jQuery('#sog_loader').replaceWith('<div style="color: red; font-weight: normal;">' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALUD_ZIP_CODE') + '</div>');
                 }
             } else {
-                jQuery('#sog_loader').replaceWith('<div style="color: red; font-weight: normal; ">Indtast venligst et gyldigt postnummer.</div>');
+                jQuery('#sog_loader').replaceWith('<div style="color: red; font-weight: normal; ">' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALUD_ZIP_CODE') + '</div>');
             }
         }
     );
@@ -181,35 +183,22 @@ function getZipcodeAjax(postcode) {
 
 function get_map_contents() {
     var map_contents = '<meta name="viewport" content="initial-scale=1.0, user-scalable=no">';
-    map_contents += '<link type="text/css" rel="stylesheet" href="' + redSHOP.RSConfig._('SITE_URL') + 'plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css">';
-    map_contents += '<script type="text/javascript" src="' + redSHOP.RSConfig._('SITE_URL') + 'plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js"></script>';
 
     map_contents += '<div id="showMap" class="white-popup mfp-hide">';
-    map_contents += '    <link rel="stylesheet" href="' + redSHOP.RSConfig._('SITE_URL') + 'plugins/redshop_shipping/postdanmark/includes/css/postdanmark_style.css" type="text/css" media="all">';
     map_contents += '    <span id="mapMessage"></span>';
-    map_contents += '    <input type="text" id="mapSeachBox" maxlength="4" placeholder="Indtast et andet postnummer:" />';
-    map_contents += '    <div class="closest" style="display: none; position: relative; top: 8px; cursor: pointer; float: right; padding: 2px 5px; font-weight:bold; border: 1px solid #000; background:#ccc;">';
-    map_contents += '        <span>';
-    map_contents += '            <span>Vis nærmeste</span>';
-    map_contents += '        </span>';
-    map_contents += '    </div>';
+    map_contents += '    <input type="text" id="mapSeachBox" maxlength="4" placeholder="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_POSTAL_CODE') + '" />';
     map_contents += '    <img src="' + redSHOP.RSConfig._('SITE_URL') + 'plugins/redshop_shipping/postdanmark/includes/images/postdanmark-logo.png" id="pd-logo"/>';
     map_contents += '    <div id="map_canvas" style="height: 350px; width: 780px; position: relative; margin-top: 20px;"></div>';
     map_contents += '    <div id="pickupLocations" class="pickupLocation-container">';
     map_contents += '        <div class="map_buttons">';
-    map_contents += '        <div class="closest" style="display: none; position: relative; left: 37%; cursor: pointer; float: left; padding: 2px 5px; font-weight:bold; border: 1px solid #ccc; background:#eee;">';
-    map_contents += '            <span>';
-    map_contents += '                <span>Vis nærmeste</span>';
-    map_contents += '            </span>';
-    map_contents += '        </div>       ';
     map_contents += '        <div class="map-button-save">';
     map_contents += '            <span>';
-    map_contents += '                <span>Ok</span>';
+    map_contents += '                <span>' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_OK') + '</span>';
     map_contents += '            </span>';
     map_contents += '        </div>';
     map_contents += '        <div class="map-button-close">';
     map_contents += '            <span>';
-    map_contents += '                <span>Fortryd</span>';
+    map_contents += '                <span>' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_CANCEL') + '</span>';
     map_contents += '            </span>';
     map_contents += '        </div>';
     map_contents += '    </div>';
@@ -218,12 +207,12 @@ function get_map_contents() {
     map_contents += '    <div class="map_buttons">';
     map_contents += '        <div class="map-button-save" style="margin-left: 10px;">';
     map_contents += '            <span>';
-    map_contents += '                <span>Ok</span>';
+    map_contents += '                <span>' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_OK') + '</span>';
     map_contents += '            </span>';
     map_contents += '        </div>';
     map_contents += '        <div class="map-button-close">';
     map_contents += '            <span>';
-    map_contents += '                <span>Fortryd</span>';
+    map_contents += '                <span>' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_CANCEL') + '</span>';
     map_contents += '            </span>';
     map_contents += '        </div>';
     map_contents += '    </div>';
@@ -255,7 +244,7 @@ function showForm(id) {
             showCloseBtn: false,
             callbacks: {
                 open: function() {
-                    //initMap(service_points.addresses, service_points.name, service_points.number, service_points.opening, service_points.close, service_points.opening_sat, service_points.close_sat, service_points.lat, service_points.lng, service_points.servicePointId);
+                    initMap(service_points.addresses, service_points.name, service_points.number, service_points.opening, service_points.close, service_points.opening_sat, service_points.close_sat, service_points.lat, service_points.lng, service_points.servicePointId);
                 }
             }
         }, 0);

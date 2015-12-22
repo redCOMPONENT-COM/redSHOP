@@ -97,6 +97,25 @@ abstract class RedshopViewCsv extends JViewLegacy
 			$i++;
 		}
 
+		$stream = $this->initFIle();
+
+		foreach ($csvLines as $line)
+		{
+			fputcsv($stream, $line, $this->delimiter, $this->enclosure);
+		}
+
+		fclose($stream);
+
+		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Init file
+	 *
+	 * @return resource
+	 */
+	public function initFIle()
+	{
 		// Get the file name
 		$fileName = $this->getFileName();
 		setlocale(LC_ALL, $this->localeEncoding);
@@ -118,14 +137,7 @@ abstract class RedshopViewCsv extends JViewLegacy
 			throw new RuntimeException('Failed to open the output stream');
 		}
 
-		foreach ($csvLines as $line)
-		{
-			fputcsv($stream, $line, $this->delimiter, $this->enclosure);
-		}
-
-		fclose($stream);
-
-		JFactory::getApplication()->close();
+		return $stream;
 	}
 
 	/**

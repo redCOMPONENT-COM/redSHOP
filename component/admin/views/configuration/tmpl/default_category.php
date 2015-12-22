@@ -8,9 +8,9 @@
  */
 defined('_JEXEC') or die;
 ?>
-<table class="admintable">
+<table class="admintable" width="100%">
 	<tr>
-		<td class="config_param"><?php echo JText::_('COM_REDSHOP_MAIN_CATEGORY_SETTINGS'); ?></td>
+		<td class="config_param" colspan="2"><?php echo JText::_('COM_REDSHOP_MAIN_CATEGORY_SETTINGS'); ?></td>
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">

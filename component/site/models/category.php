@@ -171,9 +171,14 @@ class RedshopModelCategory extends RedshopModel
 			$this->setState('list.direction', $direction);
 		}
 
-		$limit = 0;
+		$this->loadCategoryTemplate($categoryTemplate);
 
 		if (isset($this->_template[0]->template_desc)
+			&& strstr($this->_template[0]->template_desc, "{show_all_products_in_category}"))
+		{
+			$limit = 0;
+		}
+		elseif (isset($this->_template[0]->template_desc)
 			&& !strstr($this->_template[0]->template_desc, "{show_all_products_in_category}")
 			&& strstr($this->_template[0]->template_desc, "{pagination}")
 			&& strstr($this->_template[0]->template_desc, "perpagelimit:"))
@@ -184,12 +189,18 @@ class RedshopModelCategory extends RedshopModel
 		}
 		else
 		{
+			$limit = 0;
+
 			if ($this->_id)
 			{
-				$limit = 0;
 				$item = $app->getMenu()->getActive();
 
-				if ($item)
+				if (isset($this->_template[0]->template_desc) && strstr($this->_template[0]->template_desc, "{product_display_limit}"))
+				{
+					$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', 0, 'int');
+				}
+
+				if (!$limit && $item)
 				{
 					$limit = (int) $item->params->get('maxproduct', 0);
 				}
@@ -460,15 +471,15 @@ class RedshopModelCategory extends RedshopModel
 				}
 			}
 
-			$this->_product[0]->minprice = floor($min);
-			$this->_product[0]->maxprice = ceil($max);
+			$this->setState('minprice', floor($min));
+			$this->setState('maxprice', ceil($max));
 			$this->setMaxMinProductPrice(array(floor($min), ceil($max)));
 		}
 		elseif ($isSlider)
 		{
 			$newProduct = array();
 
-			for ($i = 0; $i < count($this->_product); $i++)
+			for ($i = 0, $cp = count($this->_product); $i < $cp; $i++)
 			{
 				$ProductPriceArr                 = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->sliderprice = $ProductPriceArr['product_price'];
@@ -479,8 +490,8 @@ class RedshopModelCategory extends RedshopModel
 				}
 			}
 
-			$this->_product = $newProduct;
-			$this->_total   = count($this->_product);
+			$this->_total   = count($newProduct);
+			$this->_product = array_slice($newProduct, $limitstart, $endlimit);
 		}
 		else
 		{
@@ -547,9 +558,6 @@ class RedshopModelCategory extends RedshopModel
 	public function getData()
 	{
 		$app = JFactory::getApplication();
-
-		global $context;
-
 		$endlimit   = $this->getState('list.limit');
 		$limitstart = $this->getState('list.start');
 		$layout     = JRequest::getVar('layout');
@@ -560,7 +568,6 @@ class RedshopModelCategory extends RedshopModel
 			$menu        = $app->getMenu();
 			$item        = $menu->getActive();
 			$endlimit    = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
-			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $endlimit, 5);
 			$this->_data = $this->_getList($query, $limitstart, $endlimit);
 
 			return $this->_data;
@@ -652,9 +659,15 @@ class RedshopModelCategory extends RedshopModel
 		return $alltemplate;
 	}
 
-	public function loadCategoryTemplate()
+	/**
+	 * Load Category Template
+	 *
+	 * @param   int  $category_template  Category template id
+	 *
+	 * @return  array|null
+	 */
+	public function loadCategoryTemplate($category_template = null)
 	{
-		$category_template = (int) $this->getState('category_template');
 		$redTemplate       = new Redtemplate;
 
 		$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
@@ -674,8 +687,7 @@ class RedshopModelCategory extends RedshopModel
 			}
 		}
 
-		$category_template_id = JRequest::getInt('category_template', $selected_template, '', 'int');
-		$this->_template      = $redTemplate->getTemplate($template_section, $category_template_id);
+		$this->_template      = $redTemplate->getTemplate($template_section, $selected_template);
 
 		return $this->_template;
 	}

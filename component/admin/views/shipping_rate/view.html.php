@@ -39,13 +39,20 @@ class RedshopViewShipping_rate extends RedshopView
 		$total          = $this->get('Total');
 		$pagination     = $this->get('Pagination');
 
-		$shippingpath     = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.xml';
-		$myparams         = new JRegistry($shipping->params, $shippingpath);
-		$is_shipper       = $myparams->get('is_shipper');
-		$shipper_location = $myparams->get('shipper_location');
+		// Load language file of the shipping plugin
+		JFactory::getLanguage()->load(
+			'plg_redshop_shipping_' . strtolower($shipping->element),
+			JPATH_ADMINISTRATOR
+		);
+
+		$plugin       = JPluginHelper::getPlugin($shipping->folder, $shipping->element);
+		$pluginParams = new JRegistry($plugin->params);
+
+		$is_shipper       = $pluginParams->get('is_shipper');
+		$shipper_location = $pluginParams->get('shipper_location');
 
 		$jtitle = ($shipper_location) ? JText::_('COM_REDSHOP_SHIPPING_LOCATION') : JText::_('COM_REDSHOP_SHIPPING_RATE');
-		JToolBarHelper::title($jtitle . ' <small><small>[ ' . $shipping->name . ' ]</small></small>', 'redshop_shipping_rates48');
+		JToolBarHelper::title($jtitle . ' <small><small>[ ' . JText::_($shipping->name) . ' ]</small></small>', 'redshop_shipping_rates48');
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
 

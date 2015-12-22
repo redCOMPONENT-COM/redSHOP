@@ -111,7 +111,10 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($helper->isredCRM())
 		{
-			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && ($post['payment_method_id'] == "rs_payment_banktransfer" || $post['payment_method_id'] == "rs_payment_banktransfer_discount"))
+			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($post['payment_method_id']);
+
+			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && $isBankTransferPaymentType)
 			{
 				$crmDebitorHelper = new crmDebitorHelper;
 
@@ -173,24 +176,35 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function updateGLSLocation()
 	{
-		$get = JRequest::get('get');
+		$app = JFactory::getApplication();
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
-		$values = new stdClass;
-		$values->zipcode = $get['zipcode'];
-
+		$usersInfoId = $app->input->getInt('users_info_id', 0);
+		$values = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
+		$values->zipcode = $app->input->get('zipcode', '');
 		$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
-		$ShopRespons = $ShopResponses[0];
 
-		$shopList = array();
-
-		for ($i = 0; $i < count($ShopRespons); $i++)
+		if ($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
 		{
-			$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
+			if (is_array($ShopResponses[0]))
+			{
+				$ShopRespons = $ShopResponses[0];
+				$shopList = array();
+
+				for ($i = 0, $c = count($ShopRespons); $i < $c; $i++)
+				{
+					$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
+				}
+
+				echo JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $ShopRespons[0]->shop_id);
+			}
+			else
+			{
+				echo $ShopResponses[0];
+			}
 		}
 
-		echo $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $ShopRespons[0]->shop_id);
-		exit;
+		$app->close();
 	}
 
 	/**
@@ -414,7 +428,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if (SHIPPING_METHOD_ENABLE)
 		{
-			$shipping_rate_id = JRequest::getVar('shipping_rate_id');
+			$shipping_rate_id = JFactory::getApplication()->input->getString('shipping_rate_id');
 			$shippingdetail   = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
 
 			if (count($shippingdetail) < 4)
@@ -520,7 +534,7 @@ class RedshopControllerCheckout extends RedshopController
 
 				if ($is_creditcard && !$is_redirected)
 				{
-					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid, false);
 					$msg  = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$this->setRedirect($link, $msg);
 				}

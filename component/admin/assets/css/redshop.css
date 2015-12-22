@@ -1,3 +1,9 @@
+fieldset.adminform textarea {
+	margin: 0 0 10px 0 !important;
+	width: 100% !important;
+	box-sizing: border-box;
+}
+
 /* product Finder */
 .select_box_parent {
 	cursor: pointer;
@@ -660,4 +666,18 @@ div.current select, div.current input, div.current textarea, div.current select 
 	height: 12px !important;
 	width: 12px !important;
 	background-repeat: no-repeat;
+}
+
+#toolbar #toolbar-print,
+#toolbar #toolbar-cancel {
+    float: right;
+}
+.tableHeader td, .tableHeader th{
+	padding: 4px 5px;
+	background-color: #cccccc !important;
+}
+
+/* Joomla 2.5.x template editor css fix */
+.isJ25 #editor .row-fluid{
+	clear: both;
 }

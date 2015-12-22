@@ -1,3 +1,8 @@
+// New registration functions
+jQuery(document).ready(function() {
+    billingIsShipping(document.getElementById('billisship'));
+});
+
 function validateInputNumber(objid)
 {
 	if(document.getElementById(objid) && (trim(document.getElementById(objid).value)=="" || isNaN(document.getElementById(objid).value) || document.getElementById(objid).value<=0))
@@ -484,12 +489,6 @@ function changeproductImage(product_id,imgPath,ahrefpath)
 	}
 }
 
-// New registration functions
-
-window.onload = function(){
-	billingIsShipping(document.getElementById('billisship'));
-}
-
 function billingIsShipping(obj)
 {
 	if(obj && obj.checked)
@@ -675,7 +674,6 @@ function showCompanyOrCustomer(obj)
 						{
 							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
 							document.getElementById('tblcompany_customer').innerHTML=textHtml;
-							initAjaxScripts(textHtml);
 						}
 						if(document.getElementById('tblprivate_customer'))
 						{
@@ -692,7 +690,6 @@ function showCompanyOrCustomer(obj)
 						{
 							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
 							document.getElementById('tblprivate_customer').innerHTML=textHtml;
-							initAjaxScripts(textHtml);
 						}
 					}
 					document.getElementById('tmpRegistrationDiv').innerHTML='';
@@ -706,17 +703,19 @@ function showCompanyOrCustomer(obj)
 	}
 }
 
-function initAjaxScripts(textHtml){
-	jQuery(textHtml).find('script').each(function(){
-		eval(jQuery(this).text());
-	});
-}
-
 function updateGLSLocation(zipcode)
 {
 	xmlhttp1=GetXmlHttpObject();
 	var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
-	url1 = url1 + "&zipcode=" + zipcode;
+	var users_info_id = '';
+	var propName = document.getElementsByName('users_info_id');
+	for(var p=0;p<propName.length;p++){
+		if(propName[p].checked){
+			users_info_id = propName[p].value;
+		}
+	}
+	url1 = url1 + "&zipcode=" + zipcode + '&users_info_id=' + users_info_id;
+
 	xmlhttp1.onreadystatechange=function()
 	{
 		if (xmlhttp1.readyState==4)
