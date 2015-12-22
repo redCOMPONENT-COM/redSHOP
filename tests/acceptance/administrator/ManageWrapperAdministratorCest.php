@@ -74,7 +74,7 @@ class ManageWrapperAdministratorCest
 	 *
 	 * @depends changeWrapperState
 	 */
-	public function deleteVoucher(AcceptanceTester $I, $scenario)
+	public function deleteWrapper(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Deletion of Wrapper in Administrator');
 		$I->doAdministratorLogin();
