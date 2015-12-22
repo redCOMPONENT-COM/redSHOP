@@ -19,6 +19,12 @@ class RedshopViewShipping_detail extends RedshopView
 		$lists  = array();
 		$detail = $this->get('data');
 
+		// Load language file of the shipping plugin
+		JFactory::getLanguage()->load(
+			'plg_redshop_shipping_' . strtolower($detail->element),
+			JPATH_ADMINISTRATOR
+		);
+
 		$isNew  = ($detail->extension_id < 1);
 		$text   = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 

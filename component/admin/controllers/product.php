@@ -17,16 +17,6 @@ class RedshopControllerProduct extends RedshopController
 		$this->setRedirect('index.php');
 	}
 
-	/*
-	 * select A Product Element
-	 */
-	public function element()
-	{
-		JRequest::setVar('layout', 'element');
-		JRequest::setVar('hidemainmenu', 1);
-		parent::display();
-	}
-
 	public function ins_product()
 	{
 		JRequest::setVar('layout', 'ins_product');

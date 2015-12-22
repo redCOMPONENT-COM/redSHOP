@@ -14,6 +14,7 @@ JLoader::import('redshop.library');
 $show_with_vat = trim($params->get('show_with_vat', 0));
 $button_text = trim($params->get('button_text', ''));
 $show_shipping_line = ($params->get('show_shipping_line', 0));
+$show_with_discount = ($params->get('show_with_discount', 0));
 
 $document = JFactory::getDocument();
 $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");

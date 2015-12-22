@@ -84,15 +84,18 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		}
 		catch ( Exception $exception )
 		{
-			print("<p><i>error msg in GetNearstParcelShops" . $exception->getMessage() . "</i></p>");
-			JError::raiseWarning(21, "GetNearstParcelShops:" . $exception->getMessage());
+			if ($exception->getMessage())
+			{
+				return "<p><i>" . $exception->getMessage() . "</i></p>";
+			}
+
+			return false;
 		}
 	}
 
 	function ShopArray($PakkeshopData)
 	{
 		$j              = 0;
-		$shippinghelper = new shipping;
 		$returnArr      = array();
 
 		for ($i = 0; $i < count($PakkeshopData); $i++)
@@ -190,7 +193,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		{
 			$rs                         = $ratelist[$i];
 			$shippingRate               = $rs->shipping_rate_value;
-			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
+			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d);
 			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber     = $rs->economic_displaynumber;
 			$shipping_rate_id           = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber);

@@ -444,16 +444,15 @@ class RedshopModelAccount extends RedshopModel
 		}
 
 		$MyWishlist    = $this->_getList($query);
-		$i             = 0;
 		$data          = "";
 		$mailbcc       = null;
 		$wishlist_body = $redshopMail->getMailtemplate(0, "mywishlist_mail");
+		$data_add = '';
 
 		if (count($wishlist_body) > 0)
 		{
 			$wishlist_body = $wishlist_body[0];
 			$data          = $wishlist_body->mail_body;
-			$subject       = $wishlist_body->mail_subject;
 
 			if (trim($wishlist_body->mail_bcc) != "")
 			{
@@ -537,12 +536,11 @@ class RedshopModelAccount extends RedshopModel
 		{
 			if (count($MyWishlist))
 			{
-				$link = JURI::root() . "index.php?tmpl=component&option=com_redshop&view=account&layout=mywishlist&mail=1";
+				$data_add = '';
 
 				foreach ($MyWishlist as $row)
 				{
 					$data_add .= '<div class="redProductWishlist">';
-					$thum_image = "";
 
 					$pname = $row->product_name;
 					$link  = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
@@ -550,19 +548,13 @@ class RedshopModelAccount extends RedshopModel
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, THUMB_WIDTH, THUMB_HEIGHT);
 					$data_add .= $thum_image;
 
-					$pname = "<div><a href='" . $link . "' >" . $pname . "</a></div>";
-					$data_add .= $pname;
-
-					$formatted_price = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
-
-					// For attribute price count
-					$price_add       = '<span id="pr_price">' . $formatted_price . '</span>';
-
-					$i++;
+					$data_add .= "<div><a href='" . $link . "' >" . $pname . "</a></div>";
 					$data_add .= '</div>';
 				}
 			}
 		}
+
+		$data_add = $redshopMail->imginmail($data_add);
 
 		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
 		{

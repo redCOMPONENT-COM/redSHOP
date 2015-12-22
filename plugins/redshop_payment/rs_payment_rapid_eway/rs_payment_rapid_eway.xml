@@ -1,88 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment"
-           method="upgrade">
-    <name>PLG_RS_PAYMENT_RAPID_EWAY</name>
-    <version>1.3.4</version>
-    <creationDate>April 2013</creationDate>
-    <author>redCOMPONENT.com</author>
-    <authorEmail>email@redcomponent.com</authorEmail>
-    <authorUrl>http://www.redcomponent.com</authorUrl>
-    <copyright>redCOMPONENT.com</copyright>
-    <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Eway Gateway payments
-    </description>
-
-    <files>
-        <filename plugin="rs_payment_rapid_eway">rs_payment_rapid_eway.php</filename>
-        <folder>rs_payment_rapid_eway</folder>
-    </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_rapid_eway.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_rapid_eway.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_rapid_eway.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_rapid_eway.sys.ini</language>
-    </languages>
-    <config addfieldpath="/administrator/components/com_redshop/elements">
-        <fields name="params">
-            <fieldset name="basic">
-                <field name="payment_oprand" type="text" size="10" default="-"
-                       label="Payment operand" description="Payment Operand"/>
-                <field name="payment_price" type="text" size="30" default=""
-                       label="Payment price" description="Payment price"/>
-                <field name="payment_discount_is_percent" type="radio" default="1"
-                       label="Discount Type: " description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
-                </field>
-                <field name="test_mode" type="radio" default="1"
-                       label="Test Mode: " description="TestMode On/Off">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="customer_id" type="text" default="" label="Customer ID :"
-                       description="Your eWAY Customer ID."/>
-                <field name="username" type="text" default="" label="UserName :"
-                       description=" Your eWAY Customer User Name."/>
-                <field name="password" type="text" default="" label="Password :"
-                       description=" Your eWAY Customer Password."/>
-                <field name="verify_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
-                </field>
-                <field name="invalid_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
-                </field>
-                <field type="spacer"/>
-                <field type="spacer"/>
-                <field type="spacer"/>
-            </fieldset>
-            <fieldset name="advanced">
-                <field name="private_person" type="radio" default="1"
-                       label="Show on Private Person" description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="business" type="radio" default="1" label="Show on Business"
-                       description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </field>
-                <field name="accepted_credict_card" type="creditcards" default="0" label="Select Credit Cards"
-                       description="Displays the selected category product"/>
-                <field name="is_creditcard" type="hidden" default="1" value="1"/>
-                <field name="is_redirected" type="hidden" default="1" value="1"/>
-                <field name="economic_payment_terms_id" type="text" default=""
-                       label="Enter E-conomic Payment Conditions ID"/>
-                <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
-                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
-                       label="Select Shopper Group" description="Displays the shopper groups"/>
-            </fieldset>
-        </fields>
-    </config>
+		   method="upgrade">
+	<name>PLG_RS_PAYMENT_RAPID_EWAY</name>
+	<version>1.5.0.6</version>
+	<redshop>1.5.0.6</redshop>
+	<creationDate>April 2013</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>http://www.redcomponent.com</authorUrl>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU General Public License v2</license>
+	<description>PLG_RS_PAYMENT_RAPID_EWAY_DESC</description>
+	<files>
+		<filename plugin="rs_payment_rapid_eway">rs_payment_rapid_eway.php</filename>
+		<folder>rs_payment_rapid_eway</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_rapid_eway.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_rapid_eway.sys.ini</language>
+	</languages>
+	<config addfieldpath="/libraries/redshop/form/fields">
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="payment_oprand" type="text" size="10" default="-"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_PAYMENT_OPRAND_LBL"/>
+				<field name="payment_price" type="text" size="30" default=""
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_PAYMENT_PRICE_LBL"/>
+				<field name="payment_discount_is_percent" type="radio" default="1"
+					   class="btn-group"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_PAYMENT_DISCOUNT_IS_PERCENT_LBL">
+					<option value="1">PLG_RS_PAYMENT_RAPID_EWAY_PERCENTAGE</option>
+					<option value="0">PLG_RS_PAYMENT_RAPID_EWAY_TOTAL</option>
+				</field>
+				<field name="test_mode" type="radio" default="1"
+					   class="btn-group btn-group-yesno"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_TEST_MODE_LBL"
+					   description="PLG_RS_PAYMENT_RAPID_EWAY_TEST_MODE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="APIKey" type="text"
+					   required="true"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_APIKEY_LBL"
+						description="PLG_RS_PAYMENT_RAPID_EWAY_APIKEY_DESC"/>
+				<field name="APIPassword" type="text"
+					   required="true"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_APIPASSWORD_LBL"/>
+				<field name="verify_status" type="sql"
+					   query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+					   key_field="st_value" value_field="st_title" default="C"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_VERIFY_STATUS_LBL"
+					   description="PLG_RS_PAYMENT_RAPID_EWAY_VERIFY_STATUS_DESC">
+				</field>
+				<field name="invalid_status" type="sql"
+					   query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+					   key_field="st_value" value_field="st_title" default="P"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_INVALID_STATUS_LBL"
+					   description="PLG_RS_PAYMENT_RAPID_EWAY_INVALID_STATUS_DESC">
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field name="private_person" type="radio" default="1"
+					   class="btn-group btn-group-yesno"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_PRIVATE_PERSON_LBL">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="business" type="radio" default="1"
+					   class="btn-group btn-group-yesno"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_BUSINESS_LBL">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="accepted_credict_card" type="creditcards" default="0"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_ACCEPTED_CREDICT_CARD_LBL"
+					   description="PLG_RS_PAYMENT_RAPID_EWAY_ACCEPTED_CREDICT_CARD_DESC"/>
+				<field name="is_creditcard" type="hidden" default="1" value="1"/>
+				<field name="is_redirected" type="hidden" default="1" value="1"/>
+				<field name="economic_payment_terms_id" type="text" default=""
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_ECONOMIC_PAYMENT_TERMS_ID_LBL"/>
+				<field name="economic_design_layout" type="text" default=""
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_ECONOMIC_DESIGN_LAYOUT_LBL"/>
+				<field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
+					   label="PLG_RS_PAYMENT_RAPID_EWAY_SHOPPER_GROUP_ID_LBL"
+					   description="PLG_RS_PAYMENT_RAPID_EWAY_SHOPPER_GROUP_ID_DESC"/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

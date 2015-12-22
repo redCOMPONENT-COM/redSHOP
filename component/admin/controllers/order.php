@@ -90,6 +90,9 @@ class RedshopControllerOrder extends RedshopController
 	 */
 	public function updateOrderStatus()
 	{
+		// Force disable error reporting to get clean ajax response
+		error_reporting(0);
+
 		$app             = JFactory::getApplication();
 		$serialized      = $app->getUserState("com_redshop.order.batch.postdata");
 		$post            = unserialize($serialized);
@@ -99,74 +102,15 @@ class RedshopControllerOrder extends RedshopController
 		// Change Order Status
 		$order_functions->orderStatusUpdate($orderId, $post);
 
-		// For shipped pdf generation
-		if ($post['order_status_all'] == "S" && $post['order_paymentstatus' . $orderId] == "Paid")
-		{
-			$pdfObj = RedshopHelperPdf::getInstance();
+		$response = array(
+			'message' => '<li class="success text-success">' . JText::sprintf('COM_REDSHOP_AJAX_ORDER_UPDATE_SUCCESS', $orderId) . '</li>'
+		);
 
-			$pdfObj->SetTitle('Shipped');
-			$pdfObj->SetMargins(20, 85, 20);
+		// Trigger when order status changed.
+		JPluginHelper::importPlugin('redshop_product');
+		JDispatcher::getInstance()->trigger('onAjaxOrderStatusUpdate', array($orderId, $post, &$response));
 
-			$font = 'times';
-			$pdfObj->setHeaderFont(array($font, '', 8));
-			$pdfObj->SetFont($font, "", 6);
-
-			$invoice = $order_functions->createShippedInvoicePdf($orderId);
-
-			// Writing Body area
-			$pdfObj->AddPage();
-			$pdfObj->WriteHTML($invoice, true, false, true, false, '');
-
-			$invoice_pdfName = 'shipped_' . $orderId;
-			$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-			ob_end_clean();
-			echo $orderId;
-		}
-
-		$app->close();
-	}
-
-	/**
-	 * Merge Shipping Information PDF
-	 *
-	 * @return  void  Set PDF path on the viewport
-	 */
-	public function mergeShippingPdf()
-	{
-		$app           = JFactory::getApplication();
-		$pdfLocation   = 'components/com_redshop/assets/document/invoice/';
-		$pdfRootPath   = JPATH_SITE . '/' . $pdfLocation;
-		$mergeOrderIds = $app->input->get('mergeOrderIds', array(), 'array');
-		JArrayHelper::toInteger($mergeOrderIds);
-
-		$pdf = RedshopHelperPdf::getPDFMerger();
-
-		for ($m = 0; $m < count($mergeOrderIds); $m++)
-		{
-			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
-
-			if (file_exists($pdfName))
-			{
-				$pdf->addPDF($pdfName, 'all');
-			}
-		}
-
-		$mergedPdfFile = 'shipped_' . rand() . '.pdf';
-
-		$pdf->merge('file', $pdfRootPath . $mergedPdfFile);
-
-		for ($m = 0; $m < count($mergeOrderIds); $m++)
-		{
-			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
-
-			if (file_exists($pdfName))
-			{
-				unlink($pdfName);
-			}
-		}
-
-		ob_end_clean();
-		echo JUri::root() . $pdfLocation . $mergedPdfFile;
+		echo json_encode($response);
 
 		$app->close();
 	}
@@ -177,6 +121,7 @@ class RedshopControllerOrder extends RedshopController
 		$bookInvoiceDate = $post ['bookInvoiceDate'];
 		$order_id = JRequest::getCmd('order_id');
 		$ecomsg = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
+		$msgType = 'warning';
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1)
@@ -188,12 +133,13 @@ class RedshopControllerOrder extends RedshopController
 			{
 				$redshopMail = new redshopMail;
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
+				$msgType = 'message';
 				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 
 		// End Economic
-		$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg, $msgType);
 	}
 
 	public function createInvoice()

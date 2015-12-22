@@ -20,7 +20,7 @@ class CategoryManagerJ3Page
 
 	public static $categoryName = "#category_name";
 
-	public static $categoryFilter = "//input[@id='category_main_filter']";
+	public static $categoryFilter = ['id' => 'category_main_filter'];
 
 	public static $categoryTemplateDropDown = "//div[@id='category_template_chzn']/a";
 

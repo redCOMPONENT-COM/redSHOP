@@ -9,9 +9,36 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelStockroom_listing extends RedshopModel
+/**
+ * Class RedshopModelStockroom_listing
+ *
+ * @since  1.5
+ */
+class RedshopModelStockroom_Listing extends RedshopModelList
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   1.5
+	 * @see     JController
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'p.product_number', 'product_number',
+				'p.product_name', 'product_name',
+				'stockroom_type', 'category_id',
+				'search_field', 'keyword'
+			);
+		}
+
+		parent::__construct($config);
+	}
+
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
@@ -33,6 +60,26 @@ class RedshopModelStockroom_listing extends RedshopModel
 		$id .= ':' . $this->getState('category_id');
 
 		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Get the columns for the csv file.
+	 *
+	 * @return  array  An associative array of column names as key and the title as value.
+	 */
+	public function getCsvColumns()
+	{
+		return array(
+			'stockroom_id' => JText::_('COM_REDSGOP_STOCKROOM_ID'),
+			'stockroom_name' => JText::_('COM_REDSHOP_STOCKROOM_NAME'),
+			'quantity' => JText::_('COM_REDSHOP_PRODUCT_QTY'),
+			'preorder_stock' => JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'),
+			'section_id' => JText::_('COM_REDSHOP_SECTION_ID'),
+			'stockroom_type' => JText::_('COM_REDSHOP_SECTION_TYPE'),
+			'product_id' => JText::_('COM_REDSHOP_PRODUCT_ID'),
+			'product_number' => JText::_('COM_REDSHOP_PRODUCT_SKU'),
+			'product_name' => JText::_('COM_REDSHOP_PRODUCT_NAME'),
+		);
 	}
 
 	/**
@@ -60,12 +107,18 @@ class RedshopModelStockroom_listing extends RedshopModel
 		parent::populateState($ordering, $direction);
 	}
 
-	public function _buildQuery()
+	/**
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 *
+	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 */
+	public function getListQuery()
 	{
 		$db = JFactory::getDbo();
 
 		// Initialize query
-		$query = $db->getQuery(true)->select('p.*');
+		$query = $db->getQuery(true)
+			->select('p.product_number, p.product_name, p.product_id');
 
 		$keyword = $this->getState('keyword');
 
@@ -87,15 +140,15 @@ class RedshopModelStockroom_listing extends RedshopModel
 		{
 			$query->select('asp.*, subattribute_color_id AS section_id')
 				->from($db->qn('#__redshop_product_subattribute_color', 'asp'))
-				->leftjoin(
+				->innerJoin(
 					$db->qn('#__redshop_product_attribute_property', 'ap')
 					. ' ON ' . $db->qn('asp.subattribute_id') . ' = ' . $db->qn('ap.property_id')
 				)
-				->leftjoin(
+				->innerJoin(
 					$db->qn('#__redshop_product_attribute', 'a')
 					. ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
 				)
-				->leftjoin(
+				->innerJoin(
 					$db->qn('#__redshop_product', 'p')
 					. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id')
 				)
@@ -105,11 +158,11 @@ class RedshopModelStockroom_listing extends RedshopModel
 		{
 			$query->select('ap.*, property_id AS section_id')
 				->from($db->qn('#__redshop_product_attribute_property', 'ap'))
-				->leftjoin(
+				->innerJoin(
 					$db->qn('#__redshop_product_attribute', 'a')
 					. ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
 				)
-				->leftjoin(
+				->innerJoin(
 					$db->qn('#__redshop_product', 'p')
 					. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id')
 				)
@@ -143,40 +196,67 @@ class RedshopModelStockroom_listing extends RedshopModel
 		return $query;
 	}
 
+	/**
+	 * Get stockrooms
+	 *
+	 * @return mixed
+	 */
 	public function getStockroom()
 	{
-		$query = 'SELECT * FROM #__redshop_stockroom WHERE published=1';
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__redshop_stockroom')
+			->where('published = 1');
 
-		return $this->_db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectlist();
 	}
 
-	public function getQuantity($stockroom_type, $sid, $pid)
+	/**
+	 * Get quantity
+	 *
+	 * @param   string  $stockroom_type  Stockroom type
+	 * @param   array   $pids            Sections ids
+	 *
+	 * @return mixed
+	 */
+	public function getQuantity($stockroom_type, $sid = '', $pids = array())
 	{
-		$product = " AND product_id='" . $pid . "' ";
-		$section = "";
-		$stock = "";
-		$table = "product";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*');
 
 		if ($stockroom_type != 'product')
 		{
-			$product = " AND section_id='" . $pid . "' ";
-			$section = " AND section = '" . $stockroom_type . "' ";
-			$table = "product_attribute";
+			$query->select('CONCAT_WS(' . $db->q('.') . ', sx.section_id, sx.stockroom_id) AS concat_id')
+				->from($db->qn('#__redshop_product_attribute_stockroom_xref', 'sx'))
+				->where('sx.section = ' . $db->q($stockroom_type));
+
+			if ($pids)
+			{
+				$query->where('sx.section_id IN (' . implode(',', (array) $pids) . ')');
+			}
 		}
-		if ($sid != 0)
+		else
 		{
-			$stock = "AND stockroom_id='" . $sid . "' ";
+			$query->select('CONCAT_WS(' . $db->q('.') . ', sx.product_id, sx.stockroom_id) AS concat_id')
+				->from($db->qn('#__redshop_product_stockroom_xref', 'sx'));
+
+			if ($pids)
+			{
+				$query->where('sx.product_id IN (' . implode(',', (array) $pids) . ')');
+			}
 		}
-		$query = "SELECT * FROM #__redshop_" . $table . "_stockroom_xref "
-			. "WHERE 1=1 "
-			. $stock
-			. $product . $section;
 
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$query->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON s.stockroom_id = sx.stockroom_id')
+			->where('s.published = 1');
 
-		return $list;
+		if ($sid)
+		{
+			$query->where('s.stockroom_id = ' . $db->q($sid));
+		}
+
+		return $db->setQuery($query)->loadObjectlist('concat_id');
 	}
 
 	public function storeStockroomQuantity($stockroom_type, $sid, $pid, $quantity = "", $preorder_stock = 0, $ordered_preorder = 0)
@@ -191,6 +271,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 			$section = " AND section = '" . $stockroom_type . "' ";
 			$table = "product_attribute";
 		}
+
 		$list = $this->getQuantity($stockroom_type, $sid, $pid);
 		$query = "";
 
@@ -242,6 +323,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 						{
 							$quantity = 0;
 						}
+
 						if ($stockroom_type != 'product')
 						{
 							$query = "INSERT INTO #__redshop_" . $table . "_stockroom_xref "
@@ -259,6 +341,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 				}
 			}
 		}
+
 		if ($query != "")
 		{
 			$this->_db->setQuery($query);
@@ -273,23 +356,12 @@ class RedshopModelStockroom_listing extends RedshopModel
 			$stockroom_data['preorder_stock'] = $preorder_stock;
 			JPluginHelper::importPlugin('redshop_product');
 			$dispatcher = JDispatcher::getInstance();
-			$data = $dispatcher->trigger('afterUpdateStock', array($stockroom_data));
+			$dispatcher->trigger('onAfterUpdateStock', array($stockroom_data));
 		}
-	}
-
-	public function getProductIdsfromCategoryid($cid)
-	{
-		$query = "SELECT product_id FROM #__redshop_product_category_xref "
-			. "WHERE category_id= " . $cid;
-		$this->_db->setQuery($query);
-		$this->_data = $this->_db->loadColumn();
-
-		return $this->_data;
 	}
 
 	public function ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid)
 	{
-		$query = "";
 		$product = " AND product_id='" . $pid . "' ";
 		$section = "";
 		$table = "product";

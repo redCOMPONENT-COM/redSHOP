@@ -17,15 +17,6 @@ defined('_JEXEC') or die;
 class RedShopHelperImages extends JObject
 {
 	/**
-	 * Protected! Use the getInstance
-	 */
-	protected function RedShopHelperImages()
-	{
-		// Parent Helper Construction
-		parent::__construct();
-	}
-
-	/**
 	 * Function cleanFileName.
 	 *
 	 * @param   string  $fileName  File name
@@ -436,7 +427,7 @@ class RedShopHelperImages extends JObject
 							"ordertxt" => array('ORDER', 'QUOTATION', 'STOCKROOM'),
 							"discounttxt" => array('DISCOUNT_MANAGEMENT', 'GIFTCARD', 'VOUCHER', 'COUPON_MANAGEMENT'),
 							"commtxt" => array('MAIL_CENTER', 'NEWSLETTER'),
-							"shippingtxt" => array('SHIPPING', 'SHIPPING_BOX', 'SHIPPING_DETAIL', 'WRAPPER'),
+							"shippingtxt" => array('SHIPPING', 'SHIPPING_BOX', 'SHIPPING_DETAIL_INSTALL', 'WRAPPER'),
 							"usertxt" => array('USER', 'SHOPPER_GROUP', 'ACCESS_MANAGER'),
 							"vattxt" => array('TAX_GROUP', 'CURRENCY', 'COUNTRY', 'STATE'),
 							"importtxt" => array('IMPORT_EXPORT', 'XML_IMPORT_EXPORT'),

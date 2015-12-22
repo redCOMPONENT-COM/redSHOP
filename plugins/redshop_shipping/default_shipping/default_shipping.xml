@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
 	<name>PLG_DEFAULT_SHIPPING</name>
-	<version>1.5.1</version>
+	<version>1.5.2</version>
+	<redshop>1.5.0.6</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
 	<copyright>redCOMPONENT.com</copyright>
@@ -13,10 +14,8 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_default_shipping.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_default_shipping.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_shipping_default_shipping.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.plg_redshop_shipping_default_shipping.sys.ini</language>
 	</languages>
-	<config addfieldpath="/administrator/components/com_redshop/elements">
+	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
 				<field
@@ -38,7 +37,8 @@
 				</field>
 				<field
 					name="extrafield_shipping"
-					type="extrafieldshipping"
+					type="extrafields"
+					field_section="19"
 					label="PLG_DEFAULT_SHIPPING_LABEL"
 					multiple="multiple"
 					description="PLG_DEFAULT_SHIPPING_DESCRIPTION"

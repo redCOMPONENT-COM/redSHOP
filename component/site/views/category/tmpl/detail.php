@@ -57,19 +57,7 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
-if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
-{
-	$endlimit = $this->state->get('list.limit');
-
-	if (strstr($template_desc, "{product_display_limit}"))
-	{
-		$endlimit = JRequest::getInt('limit', $endlimit, '', 'int');
-	}
-}
-else
-{
-	$endlimit = $this->state->get('list.limit');
-}
+$endlimit = $this->state->get('list.limit');
 
 $app = JFactory::getApplication();
 $router = $app->getRouter();
@@ -158,11 +146,15 @@ if (!$slide)
 
 	if (strstr($template_desc, '{returntocategory_link}') || strstr($template_desc, '{returntocategory_name}') || strstr($template_desc, '{returntocategory}'))
 	{
-		$parentid = $producthelper->getParentCategory($this->catid);
+		$parentid              = $producthelper->getParentCategory($this->catid);
+		$returncatlink         = '';
+		$returntocategory      = '';
+		$returntocategory_name = '';
 
 		if ($parentid != 0)
 		{
 			$categorylist     = $producthelper->getSection("category", $parentid);
+			$returntocategory_name = $categorylist->category_name;
 			$returncatlink    = JRoute::_(
 											"index.php?option=" . $this->option .
 											"&view=category&cid=" . $parentid .
@@ -171,19 +163,19 @@ if (!$slide)
 										);
 			$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '&nbsp;' . $categorylist->category_name . '</a>';
 		}
-		else
+		else if (DAFULT_RETURN_TO_CATEGORY_PREFIX)
 		{
-			$categorylist->category_name = DAFULT_RETURN_TO_CATEGORY_PREFIX;
+			$returntocategory_name = DAFULT_RETURN_TO_CATEGORY_PREFIX;
 			$returncatlink               = JRoute::_(
-														"index.php?option=" . $this->option .
-														"&view=category&manufacturer_id=" . $this->manufacturer_id .
-														"&Itemid=" . $this->itemid
-													);
+												"index.php?option=" . $this->option .
+												"&view=category&manufacturer_id=" . $this->manufacturer_id .
+												"&Itemid=" . $this->itemid
+											);
 			$returntocategory            = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '</a>';
 		}
 
 		$template_desc = str_replace("{returntocategory_link}", $returncatlink, $template_desc);
-		$template_desc = str_replace('{returntocategory_name}', $categorylist->category_name, $template_desc);
+		$template_desc = str_replace('{returntocategory_name}', $returntocategory_name, $template_desc);
 		$template_desc = str_replace("{returntocategory}", $returntocategory, $template_desc);
 	}
 
@@ -323,7 +315,7 @@ if (!$slide)
 			$row = $this->detail[$i];
 
 			// Filter categories based on Shopper group category ACL
-			$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
+			$checkcid = $objhelper->checkPortalCategoryPermission($row->category_id);
 			$sgportal = $objhelper->getShopperGroupPortal();
 			$portal   = 0;
 
@@ -332,7 +324,7 @@ if (!$slide)
 				$portal = $sgportal->shopper_group_portal;
 			}
 
-			if ('' == $checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+			if (!$checkcid && (PORTAL_SHOP == 1 || $portal == 1))
 			{
 				continue;
 			}
@@ -365,19 +357,20 @@ if (!$slide)
 
 			if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 			{
-				$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-				$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+				$categoryFullImage = $row->category_full_image;
+				$product_img       = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+				$linkimage         = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 			}
 			elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 			{
-				$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-				$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+				$categoryFullImage = CATEGORY_DEFAULT_IMAGE;
+				$product_img       = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+				$linkimage         = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 			}
 
 			if (CAT_IS_LIGHTBOX)
 			{
-				$cat_thumb = "<a class='modal' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $row->category_full_image .
-							"' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
+				$cat_thumb = "<a class='modal' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryFullImage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
 			}
 			else
 			{
@@ -1022,45 +1015,58 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$product_tmpl .= "<input type='hidden' name='slider_texpricemin' id='slider_texpricemin' value='" . $texpricemin . "' />";
 	$product_tmpl .= "<input type='hidden' name='slider_texpricemax' id='slider_texpricemax' value='" . $texpricemax . "' />";
 
-	$slidertag = "";
-
 	if (strstr($template_desc, "{show_all_products_in_category}"))
 	{
 		$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
 		$template_desc = str_replace("{pagination}", "", $template_desc);
 	}
 
-	$product_display_limit = '';
+	$limitBox = '';
+	$paginationList = '';
+	$usePerPageLimit = false;
+	$pagination = new JPagination($model->_total, $start, $endlimit);
+
+	if ($this->productPriceSliderEnable)
+	{
+		$pagination->setAdditionalUrlParam('texpricemin', $texpricemin);
+		$pagination->setAdditionalUrlParam('texpricemax', $texpricemax);
+	}
 
 	if (strstr($template_desc, "{pagination}"))
 	{
-		$pagination = new JPagination($model->_total, $start, $endlimit);
-		$slidertag  = $pagination->getPagesLinks();
-
-		if (strstr($template_desc, "{product_display_limit}"))
-		{
-			$slidertag     = "<form action='' method='post'> " . $pagination->getListFooter() . "</form>";
-			$template_desc = str_replace("{product_display_limit}", $slidertag, $template_desc);
-			$template_desc = str_replace("{pagination}", '', $template_desc);
-		}
-
-		$template_desc = str_replace("{pagination}", $slidertag, $template_desc);
+		$paginationList = $pagination->getPagesLinks();
+		$template_desc = str_replace("{pagination}", $paginationList, $template_desc);
 	}
-
-	$template_desc = str_replace("{product_display_limit}", "", $template_desc);
 
 	if (strstr($template_desc, "perpagelimit:"))
 	{
+		$usePerPageLimit = true;
 		$perpage       = explode('{perpagelimit:', $template_desc);
 		$perpage       = explode('}', $perpage[1]);
 		$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
 	}
 
-	$product_tmpl = "<div id='productlist'>" . $product_tmpl . "</div>" . "<div id='redcatpagination' style='display:none'>" . $slidertag . "</div>";
+	if (strstr($template_desc, "{product_display_limit}"))
+	{
+		if (!$usePerPageLimit)
+		{
+			$limitBox .= "<input type='hidden' name='texpricemin' value='" . $texpricemin . "' />";
+			$limitBox .= "<input type='hidden' name='texpricemax' value='" . $texpricemax . "' />";
+			$limitBox = "<form action='' method='post'> " . $limitBox . $pagination->getLimitBox() . "</form>";
+		}
+
+		$template_desc = str_replace("{product_display_limit}", $limitBox, $template_desc);
+	}
+
+	if ($this->productPriceSliderEnable)
+	{
+		$product_tmpl .= "<div id='redcatpagination' style='display:none'>" . $paginationList . "</div>";
+		$product_tmpl .= '<div id="redPageLimit" style="display:none">' . $limitBox . "</div>";
+	}
 
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
 	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
-	$template_desc = str_replace($template_product, $product_tmpl, $template_desc);
+	$template_desc = str_replace($template_product, "<div id='productlist'>" . $product_tmpl . "</div>", $template_desc);
 }
 
 if (!$slide)

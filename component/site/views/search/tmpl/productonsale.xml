@@ -6,7 +6,7 @@
         </message>
     </layout>
 
-    <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+    <fields name="params" addfieldpath="/libraries/redshop/form/fields">
         <fieldset name="basic">
             <field name="template_id" type="template" default="0" label="COM_REDSHOP_SELECT_TEMPLATE"
                        description="COM_REDSHOP_SEARCH_RESULT_DISPALY_IN_SELECTED_CATEGORY_TEMPLATE"/>

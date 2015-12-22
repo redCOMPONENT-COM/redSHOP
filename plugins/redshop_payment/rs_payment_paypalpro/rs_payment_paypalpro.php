@@ -44,7 +44,6 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 		// Set request-specific fields.
 		$paymentType      = urlencode($this->params->get("sales_auth_only"));
 
-		$debug_mode       = $this->params->get('debug_mode', 0);
 		$firstName        = urlencode($data['billinginfo']->firstname);
 		$lastName         = urlencode($data['billinginfo']->lastname);
 		$creditCardType   = urlencode($ccdata['creditcard_code']);
@@ -84,35 +83,37 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 		$transaction_id = $httpParsedResponseAr['TRANSACTIONID'];
 		$values = new stdClass;
 
-		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
+		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
-			$values->responsestatus = 'Success';
 
-			if ($debug_mode == 1)
-			{
-				$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
-			}
-			else
-			{
-				$message = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_PLACED');
-			}
+			$values->responsestatus = 'Success';
+			$message                = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_PLACED');
+			$messageType            = 'Success';
 		}
 		else
 		{
 			$values->responsestatus = 'Fail';
+			$message                = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
+			$messageType            = 'Error';
 
-			if ($debug_mode == 1)
+			// We are not placing order when card is success with warning from paypal
+			if ("SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 			{
-				$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
-			}
-			else
-			{
-				$message = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
+				$messageType = 'Warning';
 			}
 		}
 
+		if (1 == $this->params->get('debug_mode', 0)
+			&& ('Error' == $messageType || 'Warning' == $messageType))
+		{
+			$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
+		}
+
 		$values->transaction_id = $transaction_id;
-		$values->message = $message;
+		$values->message        = $message;
+
+		// Set response message
+		JFactory::getApplication()->enqueueMessage($message, $messageType);
 
 		return $values;
 	}
@@ -206,18 +207,28 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 		$httpParsedResponseAr = $this->PPHttpPost('DoCapture', $nvpStr);
 		$values = new stdClass;
 
-		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
+		if ("SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
+		{
+			$message                = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
+			$values->responsestatus = 'Fail';
+			$messageType            = 'Warning';
+		}
+		else if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
+			$message                = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
+			$messageType            = 'Success';
 		}
 		else
 		{
-			$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
+			$message                = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
 			$values->responsestatus = 'Fail';
+			$messageType            = 'Error';
 		}
 
 		$values->message = $message;
+
+		JFactory::getApplication()->enqueueMessage($message, $messageType);
 
 		return $values;
 	}

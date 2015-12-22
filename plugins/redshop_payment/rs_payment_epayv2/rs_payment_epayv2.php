@@ -55,6 +55,8 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		$uri            = JURI::getInstance();
 		$url            = $uri->root();
 		$user           = JFactory::getUser();
+		$app            = JFactory::getApplication();
+		$itemId         = $app->input->getInt('Itemid', 0);
 
 		$formdata = array(
 			'merchantnumber'  => $this->params->get("merchant_id"),
@@ -66,8 +68,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			'language'        => $this->params->get("language"),
 			'windowstate'     => $this->params->get("epay_window_state"),
 			'windowid'        => $this->params->get("windowid"),
-			'ownreceipt'      => $this->params->get("ownreceipt"),
-			'subscription'    => $this->params->get("epay_subscription")
+			'ownreceipt'      => $this->params->get("ownreceipt")
 		);
 
 		// Payment Group is an optional
@@ -76,16 +77,35 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$formdata['group'] = $this->params->get('payment_group');
 		}
 
+		// Epay will send email receipt to given email
+		if (trim($this->params->get('mailreceipt')))
+		{
+			$formdata['mailreceipt'] = $this->params->get('mailreceipt');
+		}
+
+		if ($cardTypes = $this->params->get('paymenttype'))
+		{
+			// Remove ALL keyword
+			$unsetIndex = array_search('ALL', $cardTypes);
+
+			if ($unsetIndex !== false)
+			{
+				unset($cardTypes[$unsetIndex]);
+			}
+
+			$formdata['paymenttype'] = implode(',', $cardTypes);
+		}
+
 		if ((int) $this->params->get('activate_callback', 0) == 1)
 		{
-			$formdata['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0';
-			$formdata['callbackurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1';
-			$formdata['accepturl']   = JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'];
+			$formdata['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0&Itemid=' . $itemId;
+			$formdata['callbackurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1&Itemid=' . $itemId;
+			$formdata['accepturl']   = JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'] . '&Itemid=' . $itemId;
 		}
 		else
 		{
-			$formdata['cancelurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0';
-			$formdata['accepturl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1';
+			$formdata['cancelurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0&Itemid=' . $itemId;
+			$formdata['accepturl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1&Itemid=' . $itemId;
 		}
 
 		// Create hash value to post

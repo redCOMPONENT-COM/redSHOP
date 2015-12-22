@@ -1878,29 +1878,4 @@ if ($this->detail->template_section == "stock_note")
 	}
 }
 
-// Shipment invoice Template Start
-if ($this->detail->template_section == "shippment_invoice_template")
-{
-	echo JHtml::_('tabs.panel', $title, 'shippment_invoice_template');    ?>
-	<table class="adminlist">
-		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('shipment_invoice'); ?></td>
-		</tr>
-	</table>
-	<?php
-	$shipment = $redtemplate->getInstallSectionTemplate("shippment_invoice_template", $setflag = True);
-	if ($shipment != "")
-	{
-		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
-			<tr>
-				<td>
-					<?php echo $shipment;?>
-				</td>
-			</tr>
-		</table>
-		<?php
-	}
-}
-
 echo JHtml::_('tabs.end');?>

@@ -82,7 +82,7 @@ $document = JFactory::getDocument();
 
 if (version_compare(JVERSION, '3.0', '>='))
 {
-	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")');
+	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true));
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
 }
 
@@ -147,8 +147,6 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 	JRequest::setVar('view', $view);
 }
 
-$document->addStyleDeclaration('fieldset.adminform textarea {margin: 0px 0px 10px 0px !important;width: 100% !important;}');
-
 RedshopConfig::script('SITE_URL', JURI::root());
 RedshopConfig::script('REDCURRENCY_SYMBOL', REDCURRENCY_SYMBOL);
 RedshopConfig::script('PRICE_SEPERATOR', PRICE_SEPERATOR);
@@ -197,7 +195,8 @@ if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task !
 		&& $view != 'xmlimport_detail' && $view != 'addquotation_detail'
 		&& $view != 'xmlexport_detail' && $task != 'element'  && $view != 'stockimage_detail'
 		&& $view != 'mass_discount_detail' && $view != 'supplier_detail'
-		&& $view != 'orderstatus_detail')
+		&& $view != 'orderstatus_detail'
+		&& 'component' != $app->input->get('tmpl'))
 	{
 		echo '<div style="float:left;width:19%; margin-right:1%;">';
 		JLoader::load('RedshopHelperAdminMenu');

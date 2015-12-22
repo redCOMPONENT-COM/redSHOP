@@ -56,6 +56,81 @@ class RedshopModelSearch extends RedshopModel
 		$layout = $app->getUserStateFromRequest($this->context . '.layout', 'layout', 'default');
 		$this->setState('layout', $layout);
 
+		$templateid = $app->getUserStateFromRequest($this->context . '.templateid', 'templateid', '');
+
+		$cid = 0;
+
+		if ($layout == 'newproduct')
+		{
+			$result = $item->query['template_id'];
+
+			if ($result != 0)
+			{
+				$templateid = $result;
+			}
+			else
+			{
+				$cid = $item->query['categorytemplate'];
+			}
+		}
+		elseif ($layout == 'productonsale')
+		{
+			$cid = $item->params->get('categorytemplate');
+		}
+
+		if ($layout == 'productonsale' || $layout == 'featuredproduct')
+		{
+			$result = $item->params->get('template_id');
+
+			if ($result != 0)
+			{
+				$templateid = $result;
+				$cid = 0;
+			}
+		}
+
+		if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER'))
+		{
+			$module        = JModuleHelper::getModule('redPRODUCTFILTER');
+			$module_params = new JRegistry($module->params);
+
+			if ($module_params->get('filtertemplate') != "")
+			{
+				$templateid = $module_params->get('filtertemplate');
+			}
+		}
+
+		$this->setState('templateid', $templateid);
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('c.category_template, t.*')
+			->from($db->qn('#__redshop_template', 't'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON t.template_id = c.category_template')
+			->where('t.template_section = ' . $db->q('category'))
+			->where('t.published = 1');
+
+		if ($cid != 0)
+		{
+			$query->where('c.category_id = ' . (int) $cid);
+		}
+
+		if ($templateid != 0)
+		{
+			$query->where('t.template_id = ' . (int) $templateid);
+		}
+
+		$templateDesc = null;
+
+		if ($template = $db->setQuery($query)->loadObject())
+		{
+			$redTemplate = new Redtemplate;
+			$templateDesc = $redTemplate->readtemplateFile($template->template_section, $template->template_name);
+		}
+
+		$this->setState('templateDesc', $templateDesc);
+		$limit = 0;
+
 		if ($module         = JModuleHelper::getModule('redshop_search'))
 		{
 			$module_params  = new JRegistry($module->params);
@@ -66,23 +141,30 @@ class RedshopModelSearch extends RedshopModel
 			$perpageproduct = 5;
 		}
 
-		if ($module)
+		if (!strstr($templateDesc, "{show_all_products_in_category}")
+			&& strstr($templateDesc, "{pagination}")
+			&& strstr($templateDesc, "perpagelimit:"))
 		{
-			$module_params  = new JRegistry($module->params);
-			$perpageproduct = $module_params->get('productperpage', 5);
-		}
-
-		if ($layout == 'default')
-		{
-			$limit = $perpageproduct;
-		}
-		elseif ($layout == 'productonsale')
-		{
-			$limit = $params->get('productlimit', 5);
+			$perpage = explode('{perpagelimit:', $templateDesc);
+			$perpage = explode('}', $perpage[1]);
+			$limit   = intval($perpage[0]);
 		}
 		else
 		{
-			$limit = $params->get('maxcategory', 5);
+			$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', $limit, 'int');
+
+			if (!$limit && $perpageproduct != 0 && $perpageproduct != '' && $layout == 'default')
+			{
+				$limit = $perpageproduct;
+			}
+			elseif (!$limit && $layout == 'productonsale')
+			{
+				$limit = $params->get('productlimit', 5);
+			}
+			elseif (!$limit)
+			{
+				$limit = MAXCATEGORY;
+			}
 		}
 
 		$productlimit = 0;
@@ -93,18 +175,16 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		$this->setState('productperpage', $perpageproduct);
-		$this->setState('limit', $limit);
+		$this->setState('list.limit', $limit);
 		$productlimit = $app->getUserStateFromRequest($this->context . '.productlimit', 'productlimit', $productlimit, 8);
 		$this->setState('productlimit', $productlimit);
 
-		$limitstart = $app->input->getInt('limitstart', 0);
-		$this->setState('limitstart', $limitstart);
+		$value = $app->input->get('limitstart', 0, 'int');
+		$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
+		$this->setState('list.start', $limitstart);
 
 		$keyword = $app->getUserStateFromRequest($this->context . '.keyword', 'keyword', '');
 		$this->setState('keyword', $keyword);
-
-		$templateid = $app->getUserStateFromRequest($this->context . '.templateid', 'templateid', '');
-		$this->setState('templateid', $templateid);
 	}
 
 	/**
@@ -133,6 +213,38 @@ class RedshopModelSearch extends RedshopModel
 	}
 
 	/**
+	 * Method to get the starting number of items for the data set.
+	 *
+	 * @return  integer  The starting number of items available in the data set.
+	 *
+	 * @since   1.5
+	 */
+	public function getStart()
+	{
+		$store = $this->getStoreId('getstart');
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		$start = $this->getState('list.start');
+		$limit = $this->getState('list.limit');
+		$total = $this->getTotal();
+
+		if ($start > $total - $limit)
+		{
+			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
+		}
+
+		// Add the total to the internal cache.
+		$this->cache[$store] = $start;
+
+		return $this->cache[$store];
+	}
+
+	/**
 	 * Method to get an array of data items.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
@@ -152,47 +264,19 @@ class RedshopModelSearch extends RedshopModel
 
 		$post = JRequest::get('POST');
 		$db = JFactory::getDbo();
-		$redTemplate = new Redtemplate;
-
 		$items = array();
-
 		$query = $this->_buildQuery($post);
-		$template = $this->getCategoryTemplet();
-		$countTmp = count($template);
+		$templateDesc = $this->getState('templateDesc');
 
-		for ($i = 0; $i < $countTmp; $i++)
+		if ($templateDesc)
 		{
-			$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
-		}
-
-		if ($countTmp > 0)
-		{
-			if (strstr($template[0]->template_desc, "{show_all_products_in_category}"))
+			if (strstr($templateDesc, "{show_all_products_in_category}"))
 			{
 				$db->setQuery($query);
 			}
-			elseif (strstr($template[0]->template_desc, "{pagination}"))
+			elseif (strstr($templateDesc, "{pagination}") || $this->getState('productlimit') > 0)
 			{
-				if (strstr($template[0]->template_desc, "perpagelimit:"))
-				{
-					$perpage = explode('{perpagelimit:', $template[0]->template_desc);
-					$perpage = explode('}', $perpage[1]);
-					$limit   = intval($perpage[0]);
-					$this->setState('limit', $limit);
-				}
-
-				if (strstr($template[0]->template_desc, "{product_display_limit}"))
-				{
-					$endlimit = $this->getProductPerPage();
-					$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
-					$this->setState('limit', $limit);
-				}
-
-				$db->setQuery($query, $this->getStart(), $this->getState('limit'));
-			}
-			elseif ($this->getState('productlimit') > 0)
-			{
-				$db->setQuery($query, $this->getStart(), $this->getState('limit'));
+				$db->setQuery($query, $this->getStart(), $this->getState('list.limit'));
 			}
 			else
 			{
@@ -233,57 +317,6 @@ class RedshopModelSearch extends RedshopModel
 		$this->cache[$store] = $items;
 
 		return $this->cache[$store];
-	}
-
-	public function getProductPerPage()
-	{
-		$app = JFactory::getApplication();
-		$redconfig   = $app->getParams();
-		$redTemplate = new Redtemplate;
-		$template    = $this->getCategoryTemplet();
-
-		for ($i = 0, $countTmpl = count($template); $i < $countTmpl; $i++)
-		{
-			$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
-		}
-
-		if (isset($template[0]->template_desc) && !strstr($template[0]->template_desc, "{show_all_products_in_category}")
-			&& strstr($template[0]->template_desc, "{pagination}")
-			&& strstr($template[0]->template_desc, "perpagelimit:"))
-		{
-			$perpage = explode('{perpagelimit:', $template[0]->template_desc);
-			$perpage = explode('}', $perpage[1]);
-			$limit   = intval($perpage[0]);
-		}
-		else
-		{
-			$productperpage = $this->getState('productperpage');
-
-			if ($productperpage != 0 && $productperpage != '')
-			{
-				$limit = $productperpage;
-			}
-			elseif ($this->_id)
-			{
-				$limit = intval($redconfig->get('maxproduct', 0));
-
-				if ($limit == 0)
-				{
-					$limit = $this->_maincat->products_per_page;
-				}
-			}
-			else
-			{
-				$limit = MAXCATEGORY;
-			}
-		}
-
-		if (strstr($template[0]->template_desc, "{product_display_limit}"))
-		{
-			$endlimit = JRequest::getInt('limit', 0, '', 'int');
-		}
-
-		return $limit;
 	}
 
 	/**
@@ -339,6 +372,7 @@ class RedshopModelSearch extends RedshopModel
 		$where = array();
 		$db = JFactory::getDbo();
 		$conditions = explode(' ', $conditions);
+		$hasCondition = false;
 
 		foreach ((array) $fields as $field)
 		{
@@ -350,6 +384,7 @@ class RedshopModelSearch extends RedshopModel
 
 				if ($condition != '')
 				{
+					$hasCondition = true;
 					$glueOneField[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
 				}
 			}
@@ -357,7 +392,14 @@ class RedshopModelSearch extends RedshopModel
 			$where[] = '(' . implode(' AND ', $glueOneField) . ')';
 		}
 
-		return '(' . implode(' ' . $glue . ' ', $where) . ')';
+		if ($hasCondition)
+		{
+			return '(' . implode(' ' . $glue . ' ', $where) . ')';
+		}
+		else
+		{
+			return '1 = 1';
+		}
 	}
 
 	/**
@@ -613,72 +655,6 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		return $query;
-	}
-
-	public function getCategoryTemplet()
-	{
-		$app = JFactory::getApplication();
-
-		$layout     = $this->getState('layout');
-		$templateid = $this->getState('templateid');
-
-		$menu   = $app->getMenu();
-		$item   = $menu->getActive();
-		$cid = 0;
-
-		if ($layout == 'newproduct')
-		{
-			$cid = $item->query['categorytemplate'];
-		}
-		elseif ($layout == 'productonsale')
-		{
-			$cid = $item->params->get('categorytemplate');
-		}
-
-		if ($layout == 'productonsale' || $layout == 'featuredproduct')
-		{
-			$templateid = $item->params->get('template_id');
-
-			if ($templateid != 0)
-			{
-				$cid = 0;
-			}
-
-			if ($templateid == 0 && $cid == 0)
-			{
-				$templateid = $this->getState('templateid');
-			}
-		}
-
-		if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER'))
-		{
-			$module        = JModuleHelper::getModule('redPRODUCTFILTER');
-			$module_params = new JRegistry($module->params);
-
-			if ($module_params->get('filtertemplate') != "")
-			{
-				$templateid = $module_params->get('filtertemplate');
-			}
-		}
-
-		$and = "";
-
-		if ($cid != 0)
-		{
-			$and .= " AND c.category_id = " . (int) $cid . " ";
-		}
-
-		if ($templateid != 0)
-		{
-			$and .= " AND t.template_id = " . (int) $templateid . " ";
-		}
-
-		$query = "SELECT c.category_template, t.* FROM #__redshop_template AS t "
-			. "LEFT JOIN #__redshop_category AS c ON t.template_id = c.category_template "
-			. "WHERE t.template_section='category' AND t.published=1 "
-			. $and;
-
-		return $this->_getList($query);
 	}
 
 	/**

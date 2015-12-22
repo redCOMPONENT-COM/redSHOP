@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <div id="config-document">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_CART_CHECKOUT'); ?></legend>
-		<table cellpadding="0" cellspacing="0" border="0">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 			<tr valign="top">
 				<td width="50%">
 					<?php echo $this->loadTemplate('cart_settings');?>

@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>1.5.0.5</version>
+    <version>1.5.0.6</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -58,7 +58,6 @@
         <files folder="component/admin">
             <folder>assets</folder>
             <folder>controllers</folder>
-            <folder>elements</folder>
             <folder>extras</folder>
             <folder>help</folder>
             <folder>helpers</folder>
@@ -95,5 +94,6 @@
         <plugin name="rs_payment_banktransfer" group="redshop_payment" />
         <plugin name="rs_payment_paypal" group="redshop_payment" />
         <plugin name="default_shipping" group="redshop_shipping" />
+        <plugin name="redshop" group="finder" />
     </plugins>
 </extension>
