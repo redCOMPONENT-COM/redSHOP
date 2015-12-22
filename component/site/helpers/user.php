@@ -1257,22 +1257,16 @@ class rsUserhelper
 		return $template_desc;
 	}
 
+	/**
+	 * Get captcha html table
+	 *
+	 * @return  string  HTML output to render captch.
+	 *
+	 * @deprecated 1.5 This function will be removed in 1.6 version. Please use RedshopLayoutHelper::render('registration.captcha') instead.
+	 */
 	public function getCaptchaTable()
 	{
-		$html = '';
-
-		if (SHOW_CAPTCHA)
-		{
-
-			$html .= '<table cellspacing="0" cellpadding="0" border="0" width="100%">';
-			$html .= '<tr><td>&nbsp;</td>
-						<td align="left"><img src="' . JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" /></td></tr>';
-			$html .= '<tr><td width="100" align="right"><label for="security_code">' . JText::_('COM_REDSHOP_SECURITY_CODE') . '</label></td>
-						<td><input class="inputbox" id="security_code" name="security_code" type="text" /></td></tr>';
-			$html .= '</table>';
-		}
-
-		return $html;
+		return RedshopLayoutHelper::render('registration.captcha');
 	}
 
 	/**
