@@ -81,11 +81,9 @@ $url = $uri->root();
 <form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<?php
-	$dashboard = JFactory::getApplication()->input->getInt('dashboard');
+	$options = array('startOffset' => 0, 'useCookie' => true);
 
-	$options = array('startOffset' => 0);
-
-	if ($dashboard)
+	if (JFactory::getApplication()->input->getInt('dashboard'))
 	{
 		// Temporary fix - due to joomla bug have to force this code. Need to remove after fix in Joomla.
 		JFactory::getDocument()->addScriptDeclaration('
