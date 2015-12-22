@@ -178,7 +178,7 @@ class ProductsCheckoutGiropayCest
 		$I->click(['xpath' => "//input[@value='Sicher anmelden']"]);
 
 		$I->waitForElement(['xpath' => "//input[@value='Weiter']"], 30);
-		$I->click(['xpath' => "//input[@value='Weiter']"], 30);
+		$I->click(['xpath' => "//input[@value='Weiter']"]);
 
 		$I->waitForElement(['xpath' => "//input[@name='ticket/tan']"], 30);
 		$I->fillField(['xpath' => "//input[@name='ticket/tan']"], $checkoutAccountDetail['tan']);
