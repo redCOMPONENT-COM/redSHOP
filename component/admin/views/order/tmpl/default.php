@@ -35,14 +35,20 @@ JPluginHelper::importPlugin('redshop_product');
 	}
 </style>
 <script language="javascript" type="text/javascript">
+	jQuery(document).ready(function($) {
+		jQuery( "#search" ).click(function(event) {
+			document.adminForm.task.value = '';
+		});
+
+		jQuery('#filter_by, #filter_payment_status, #filter_status').change(function(e){
+			document.adminForm.task.value = '';
+		});
+	});
+
 	Joomla.submitbutton = function (pressbutton)
 	{
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton)
-	{
 		var form = document.adminForm;
+
 		if (pressbutton)
 		{
 			form.task.value = pressbutton;
@@ -85,6 +91,7 @@ JPluginHelper::importPlugin('redshop_product');
 
 	resetfilter = function()
 	{
+		document.adminForm.task.value = '';
 		document.getElementById('filter').value='';
 		document.getElementById('filter_by').value='';
 		document.getElementById('filter_payment_status').value='';
