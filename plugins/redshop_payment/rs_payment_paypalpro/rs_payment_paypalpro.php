@@ -83,24 +83,25 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 		$transaction_id = $httpParsedResponseAr['TRANSACTIONID'];
 		$values = new stdClass;
 
-		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]))
+		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"])
+			|| "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
 
 			$values->responsestatus = 'Success';
 			$message                = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_PLACED');
 			$messageType            = 'Success';
-		}
-		else
-		{
-			$values->responsestatus = 'Fail';
-			$message                = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
-			$messageType            = 'Error';
 
 			// We are not placing order when card is success with warning from paypal
 			if ("SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 			{
 				$messageType = 'Warning';
 			}
+		}
+		else
+		{
+			$values->responsestatus = 'Fail';
+			$message                = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
+			$messageType            = 'Error';
 		}
 
 		if (1 == $this->params->get('debug_mode', 0)
