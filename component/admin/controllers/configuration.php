@@ -29,7 +29,11 @@ class RedshopControllerConfiguration extends RedshopController
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
-
+		
+		$app = JFactory::getApplication();
+		$selectedTabPosition = $app->input->get('selectedTabPosition');
+		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
+		
 		for ($p = 0; $p < $post['tot_prod']; $p++)
 		{
 			if ($post['prodmng' . $p] != "")
