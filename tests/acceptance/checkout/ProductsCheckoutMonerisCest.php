@@ -28,6 +28,9 @@ class ProductsCheckoutMonerisCest
 	public function MonerisPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Checkout on Front End with Moneris Payments Plugin');
+
+		$scenario->skip('@todo to be removed once REDSHOP-2732 gets fixed');
+
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_moneris/';
 		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
