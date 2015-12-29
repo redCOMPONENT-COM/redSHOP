@@ -28,6 +28,9 @@ class Products2CheckoutCest
 	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
+
+		$scenario->skip('@todo to be removed once REDSHOP-2731 gets fixed');
+
 		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
 		$I->doAdministratorLogin();
 		$pluginName = '2Checkout';
