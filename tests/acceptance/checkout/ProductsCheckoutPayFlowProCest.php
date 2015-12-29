@@ -122,9 +122,13 @@ class ProductsCheckoutPayFlowProCest
 		$I->fillField(['id' => "jform_params_merchant_password"], $password);
 
 		$I->click(['link' => 'Advanced']);
-		$I->click(['xpath' => "//li//label[text()='Visa']"]);
-		$I->click(['xpath' => "//li//label[text()='MasterCard']"]);
+		$I->wait(1);
+		$I->comment('I check option: VISA');
+		$I->checkOption(['id' => 'jform_params_accepted_credict_card0']);
+		$I->comment('I check option: Mastercard');
+		$I->checkOption(['id' => 'jform_params_accepted_credict_card1']);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+		$I->waitForElement(['id' => 'system-message-container'],60);
 		$I->see('successfully saved', ['id' => 'system-message-container']);
 	}
 
