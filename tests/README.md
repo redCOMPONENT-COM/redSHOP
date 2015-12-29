@@ -1,20 +1,6 @@
 Testing redSHOP
 ==========
 
-## Using codecept.phar
-
-Get codeception phar:
-
-```
-wget http://codeception.com/codecept.phar .
-```
-
-Build codeception testers classes:
-
-```
-php ./codecept.phar build
-```
-
 ## using composer to get Codeception
 
 Execute
@@ -22,6 +8,7 @@ Execute
 # You need to have Composer in your system, if not download it from here: https://getcomposer.org/
 composer update
 ```
+
 After that you will be able to run Codeception doing:
 
 ```
