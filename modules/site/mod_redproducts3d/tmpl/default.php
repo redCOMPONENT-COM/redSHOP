@@ -40,7 +40,7 @@ if ($enableMouseOverEffects == 'yes')
 }
 
 $data = "";
-for ($i = 0; $i < count($rows); $i++)
+for ($i = 0, $in = count($rows); $i < $in; $i++)
 {
 	$row  = $rows[$i];
 	$path = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
