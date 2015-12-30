@@ -118,7 +118,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
 		$qid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$redshopMail = new redshopMail;
 			$redshopMail->sendAskQuestionMail($cid[$i]);
