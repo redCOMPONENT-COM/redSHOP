@@ -98,7 +98,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		$j              = 0;
 		$returnArr      = array();
 
-		for ($i = 0; $i < count($PakkeshopData); $i++)
+		for ($i = 0, $in = count($PakkeshopData); $i < $in; $i++)
 		{
 			$shopNUmber           = $PakkeshopData[$i]->Number;
 			$CompanyName          = $PakkeshopData[$i]->CompanyName;
@@ -136,7 +136,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 	{
 		$opningTime = Array();
 
-		for ($i = 0; $i < count($Weekday); $i++)
+		for ($i = 0, $in = count($Weekday); $i < $in; $i++)
 		{
 			if ($Weekday[$i]->day == 'Monday')
 			{
