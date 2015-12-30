@@ -135,7 +135,7 @@ class redhelper
 			$diff_ship = array_diff($data, $plg_ship_elm);
 			sort($diff_ship);
 
-			for ($i = 0; $i < count($diff_ship); $i++)
+			for ($i = 0, $in = count($diff_ship); $i < $in; $i++)
 			{
 				$query = "DELETE  FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($diff_ship[$i]);
 				$this->_db->setQuery($query);
@@ -315,7 +315,7 @@ class redhelper
 
 	public function convertLanguageString($arr)
 	{
-		for ($i = 0; $i < count($arr); $i++)
+		for ($i = 0, $in = count($arr); $i < $in; $i++)
 		{
 			$txt   = $arr[$i]->text;
 			$ltext = JText::_($txt);
@@ -332,7 +332,7 @@ class redhelper
 
 		$tmpArray = array();
 
-		for ($i = 0; $i < count($arr); $i++)
+		for ($i = 0, $in = count($arr); $i < $in; $i++)
 		{
 			$txt            = $arr[$i]->text;
 			$val            = $arr[$i]->value;
@@ -495,7 +495,7 @@ class redhelper
 		$prodctcat = $this->_db->loadObjectList();
 		$catflag   = false;
 
-		for ($i = 0; $i < count($prodctcat); $i++)
+		for ($i = 0, $in = count($prodctcat); $i < $in; $i++)
 		{
 			$cid            = $prodctcat[$i]->category_id;
 			$shoppercatdata = $this->getShopperGroupCategory($cid);
