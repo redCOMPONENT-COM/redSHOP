@@ -11,17 +11,17 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_cielo extends JPlugin
+class plgRedshop_paymentCielo extends JPlugin
 {
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	public function onPrePayment_rs_payment_cielo($element, $data)
+	public function onPrePayment_Cielo($element, $data)
 	{
 		$session       = JFactory::getSession();
 		$ccdata        = $session->get('ccdata');
 
-		if ($element != 'rs_payment_cielo')
+		if ($element != 'cielo')
 		{
 			return;
 		}
@@ -56,7 +56,7 @@ class plgRedshop_paymentrs_payment_cielo extends JPlugin
 		$order_payment_expire_year  = $ccdata['order_payment_expire_year'];
 		$formaPagamento             = 1;
 
-		include JPATH_SITE . '/plugins/redshop_payment/rs_payment_cielo/rs_payment_cielo/includes/include.php';
+		include JPATH_SITE . '/plugins/redshop_payment/cielo/cielo/includes/include.php';
 
 		$Pedido = new Pedido;
 
@@ -176,7 +176,7 @@ class plgRedshop_paymentrs_payment_cielo extends JPlugin
 		return $values;
 	}
 
-	public function onCapture_Paymentrs_payment_cielo($element, $data)
+	public function onCapture_PaymentCielo($element, $data)
 	{
 		JLoader::load('RedshopHelperAdminOrder');
 
@@ -187,7 +187,7 @@ class plgRedshop_paymentrs_payment_cielo extends JPlugin
 		$cielo_loja_chave = $this->params->get('cielo_loja_chave', '');
 
 		// Add request-specific fields to the request string.
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_cielo/includes/include.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/cielo/includes/include.php';
 		include $paymentpath;
 
 		$objResposta = null;
