@@ -82,7 +82,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage,60,'.alert-success');
 		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, '.alert-success');
-		$I->click(['link' => 'ID']);
 		$I->see($updatedName, \UserManagerJoomla3Page::$firstResultRow);
 		$I->click(['link' => 'ID']);
 	}
