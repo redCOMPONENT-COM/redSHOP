@@ -86,7 +86,7 @@ class RedshopModelStatistic extends RedshopModel
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
 
-				for ($i = 0; $i < count($rs); $i++)
+				for ($i = 0, $in = count($rs); $i < $in; $i++)
 				{
 					if ($this->_filteroption == 2)
 					{
@@ -139,7 +139,7 @@ class RedshopModelStatistic extends RedshopModel
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
 
-				for ($i = 0; $i < count($rs); $i++)
+				for ($i = 0, $in = count($rs); $i < $in; $i++)
 				{
 					if ($this->_filteroption == 2)
 					{
@@ -189,7 +189,7 @@ class RedshopModelStatistic extends RedshopModel
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
 
-				for ($i = 0; $i < count($rs); $i++)
+				for ($i = 0, $in = count($rs); $i < $in; $i++)
 				{
 					if ($this->_filteroption == 2)
 					{
@@ -241,7 +241,7 @@ class RedshopModelStatistic extends RedshopModel
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
 
-				for ($i = 0; $i < count($rs); $i++)
+				for ($i = 0, $in = count($rs); $i < $in; $i++)
 				{
 					if ($this->_filteroption == 2)
 					{
@@ -411,7 +411,7 @@ class RedshopModelStatistic extends RedshopModel
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
 
-				for ($i = 0; $i < count($rs); $i++)
+				for ($i = 0, $in = count($rs); $i < $in; $i++)
 				{
 					if ($this->_filteroption == 2)
 					{
@@ -465,7 +465,7 @@ class RedshopModelStatistic extends RedshopModel
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
 
-				for ($i = 0; $i < count($rs); $i++)
+				for ($i = 0, $in = count($rs); $i < $in; $i++)
 				{
 					if ($this->_filteroption == 2)
 					{
@@ -520,7 +520,7 @@ class RedshopModelStatistic extends RedshopModel
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
 
-				for ($i = 0; $i < count($rs); $i++)
+				for ($i = 0, $in = count($rs); $i < $in; $i++)
 				{
 					if ($this->_filteroption == 2)
 					{
@@ -572,7 +572,7 @@ class RedshopModelStatistic extends RedshopModel
 				$this->_db->setQuery($q);
 				$rs = $this->_db->loadObjectList();
 
-				for ($i = 0; $i < count($rs); $i++)
+				for ($i = 0, $in = count($rs); $i < $in; $i++)
 				{
 					if ($this->_filteroption == 2)
 					{
