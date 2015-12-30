@@ -76,8 +76,15 @@ class plgEconomicEconomic extends JPlugin
 		{
 			try
 			{
+				$soapUrl = 'https://soap.reviso.com/api1/?WSDL';
+
+				if ('economic' == $this->params->get('accountType', 'economic'))
+				{
+					$soapUrl = 'https://api.e-conomic.com/secure/api1/?WSDL';
+				}
+
 				$this->client = new SoapClient(
-					'https://soap.reviso.com/api1/?WSDL',
+					$soapUrl,
 					array(
 						"trace" => 1,
 						"exceptions" => 1,
