@@ -314,7 +314,7 @@ JPluginHelper::importPlugin('redshop_product');
 					{
 						$stockroom_list = $stockroomhelper->getStockroom(substr_replace($stockroom_id, "", -1));
 
-						for ($s = 0; $s < count($stockroom_list); $s++)
+						for ($s = 0, $sn = count($stockroom_list); $s < $sn; $s++)
 						{
 							echo $stockroom_list[$s]->stockroom_name;
 							echo "<br>";

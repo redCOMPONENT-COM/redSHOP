@@ -77,7 +77,7 @@ $images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 
 				<?php if (count($images) > 0) : ?>
 					<?php
-						for ($i = 0; $i < count($images); $i++)
+						for ($i = 0, $in = count($images); $i < $in; $i++)
 						{
 							$image = $images[$i];
 							$thumb = $image->subattribute_color_image;
