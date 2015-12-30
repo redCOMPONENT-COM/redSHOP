@@ -683,7 +683,7 @@ class Cron
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			// Subscription renewal mail
 			$redshopMail->sendSubscriptionRenewalMail($data[$i]);

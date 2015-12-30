@@ -763,7 +763,7 @@ class rsUserhelper
 		$this->_db->setQuery($query);
 		$jusers = $this->_db->loadObjectList();
 
-		for ($i = 0; $i < count($jusers); $i++)
+		for ($i = 0, $in = count($jusers); $i < $in; $i++)
 		{
 			$name = explode(" ", $jusers[$i]->name);
 
@@ -915,7 +915,7 @@ class rsUserhelper
 			$private_template[0]->template_id   = 0;
 		}
 
-		for ($i = 0; $i < count($private_template); $i++)
+		for ($i = 0, $in = count($private_template); $i < $in; $i++)
 		{
 			if (strstr($template_desc, "{private_billing_template:" . $private_template[$i]->template_name . "}"))
 			{
@@ -942,7 +942,7 @@ class rsUserhelper
 			$company_template[0]->template_id   = 0;
 		}
 
-		for ($i = 0; $i < count($company_template); $i++)
+		for ($i = 0, $in = count($company_template); $i < $in; $i++)
 		{
 			if (strstr($template_desc, "{company_billing_template:" . $company_template[$i]->template_name . "}"))
 			{

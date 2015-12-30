@@ -77,7 +77,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$quotationProducts = $quotationHelper->getQuotationProduct($post['quotation_id']);
 
-		for ($q = 0; $q < count($quotationProducts); $q++)
+		for ($q = 0, $qn = count($quotationProducts); $q < $qn; $q++)
 		{
 			$model->addtocart($quotationProducts[$q]);
 		}
