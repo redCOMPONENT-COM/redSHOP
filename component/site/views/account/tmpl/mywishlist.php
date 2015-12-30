@@ -164,7 +164,7 @@ if ($mail == 0)
 						{
 							$parentid = 0;
 
-				for ($c = 0; $c < count($childproducts); $c++)
+				for ($c = 0, $cn = count($childproducts); $c < $cn; $c++)
 				{
 					if ($childproducts[$c]->product_parent_id == 0)
 					{
