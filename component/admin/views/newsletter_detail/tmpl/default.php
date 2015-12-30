@@ -123,7 +123,7 @@ $option = JRequest::getVar('option');
 				<table class="admintable">
 					<?php
 					//Geeting the Text library texts for the newsletter section
-					for ($i = 0; $i < count($tags); $i++)
+					for ($i = 0, $in = count($tags); $i < $in; $i++)
 					{
 						?>
 						<tr>
