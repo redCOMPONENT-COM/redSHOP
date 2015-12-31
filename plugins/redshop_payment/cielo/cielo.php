@@ -9,15 +9,22 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('redshop.library');
-
 class plgRedshop_paymentCielo extends JPlugin
 {
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
 	public function onPrePayment_Cielo($element, $data)
 	{
+		$app = JFactory::getApplication();
 		$session       = JFactory::getSession();
 		$ccdata        = $session->get('ccdata');
 
@@ -26,152 +33,108 @@ class plgRedshop_paymentCielo extends JPlugin
 			return;
 		}
 
-		// Store number
-		$cielo_loja_id = $this->params->get('cielo_loja_id', '');
+		$cart = $session->get('cart');
 
-		// Key
-		$cielo_loja_chave = $this->params->get('cielo_loja_chave', '');
+		$order                 = new stdClass;
+		$order->OrderNumber    = $data['order_number'];
+		$order->SoftDescriptor = $app->input->getString('customer_note');
 
-		// Auto capture
-		$capturarAutomaticamente = $this->params->get('capturarAutomaticamente', '');
-		$indicadorAutorizacao    = $this->params->get('indicadorAutorizacao', '');
-		$tentarAutenticar        = $this->params->get('tentarAutenticar', '');
-		$debug_mode              = $this->params->get('debug_mode', 0);
-		$tipoParcelamento        = $this->params->get('tipoParcelamento', '');
+		$order->Cart                  = new stdClass;
 
-		if ($capturarAutomaticamente == 1)
+		if ($data['odiscount'] > 0)
 		{
-			$capturarAutomaticamente = "true";
+			$order->Cart->Discount        = new stdClass;
+			$order->Cart->Discount->Type  = 'Amount';
+			$order->Cart->Discount->Value = $data['odiscount'] * 100;
+		}
+
+		$order->Cart->Items                 = array();
+
+		for ($i = 0; $i < $cart['idx']; $i++)
+		{
+			$itemId = $cart[$i]['product_id'];
+			$item = RedshopHelperProduct::getProductById($itemId);
+
+			$order->Cart->Items[$i]              = new stdClass;
+			$order->Cart->Items[$i]->Name        = $item->product_name;
+			$order->Cart->Items[$i]->Description = $item->product_s_desc;
+			$order->Cart->Items[$i]->UnitPrice   = $cart[$i]['product_price'];
+			$order->Cart->Items[$i]->Quantity    = $cart[$i]['quantity'];
+			$order->Cart->Items[$i]->Type        = 'Payment';
+			$order->Cart->Items[$i]->Sku         = $item->product_number;
+		}
+
+		$order->Shipping       = new stdClass;
+		$order->Shipping->Type = 'Free';
+
+		if ($data['order_shipping'] > 0)
+		{
+			$order->Shipping->Type = 'Correios';
+		}
+
+		$order->Shipping->SourceZipCode = $this->params->get('sourceZipCode');
+		$order->Shipping->TargetZipCode = $data['shippinginfo']->zipcode;
+
+		$order->Shipping->Address             = new stdClass;
+		$order->Shipping->Address->Street     = $data['shippinginfo']->address;
+		$order->Shipping->Address->Number     = '';
+		$order->Shipping->Address->Complement = '';
+		$order->Shipping->Address->District   = '';
+		$order->Shipping->Address->City       = $data['shippinginfo']->city;
+		$order->Shipping->Address->State      = $data['shippinginfo']->state_2_code;
+
+		$order->Shipping->Services              = array();
+		$order->Shipping->Services[0]           = new stdClass;
+		$order->Shipping->Services[0]->Name     = 'Shipping';
+		$order->Shipping->Services[0]->Price    = $data['order_shipping'] * 100;
+		$order->Shipping->Services[0]->DeadLine = 15;
+
+		$order->Payment                 = new stdClass;
+		$order->Payment->BoletoDiscount = 0;
+		$order->Payment->DebitDiscount  = 0;
+
+		$order->Customer           = new stdClass;
+		$order->Customer->Identity = $data['billinginfo']->users_info_id;
+		$order->Customer->FullName = $data['billinginfo']->firstname . ' ' . $data['billinginfo']->lastname;
+		$order->Customer->Email    = $data['billinginfo']->user_email;
+		$order->Customer->Phone    = $data['billinginfo']->phone;
+
+		$order->Options                   = new stdClass;
+		$order->Options->AntifraudEnabled = false;
+
+		$curl = curl_init();
+
+		curl_setopt($curl, CURLOPT_URL, 'https://cieloecommerce.cielo.com.br/api/public/v1/orders');
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($order));
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+		    'MerchantId: ' . $this->params->get('merchantId'),
+		    'Content-Type: application/json'
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+
+		$json = json_decode($response);
+
+		$values = new stdClass;
+
+		if ($json->Settings)
+		{
+			$values->responsestatus = 'Success';
+			$message                = JText::_('PLG_REDSHOP_PAYMENT_CIELO_ORDER_PLACED');
 		}
 		else
 		{
-			$capturarAutomaticamente = "false";
+			$values->responsestatus = 'Fail';
+			$message                = $json->Message . ' ' . JText::_('PLG_REDSHOP_PAYMENT_CIELO_ORDER_NOT_PLACED');
 		}
 
-		// Get Credit card Information
-		$creditcard_code            = strtolower($ccdata['creditcard_code']);
-		$order_payment_number       = substr($ccdata['order_payment_number'], 0, 20);
-		$credit_card_code           = substr($ccdata['credit_card_code'], 0, 4);
-		$order_payment_expire_month = substr($ccdata['order_payment_expire_month'], 0, 2);
-		$order_payment_expire_year  = $ccdata['order_payment_expire_year'];
-		$formaPagamento             = 1;
-
-		include JPATH_SITE . '/plugins/redshop_payment/cielo/cielo/includes/include.php';
-
-		$Pedido = new Pedido;
-
-		$Pedido->formaPagamentoBandeira = $creditcard_code;
-
-		if ($formaPagamento != "A" && $formaPagamento != "1")
-		{
-			$Pedido->formaPagamentoProduto  = $tipoParcelamento;
-			$Pedido->formaPagamentoParcelas = $formaPagamento;
-		}
-		else
-		{
-			$Pedido->formaPagamentoProduto  = $formaPagamento;
-			$Pedido->formaPagamentoParcelas = 1;
-		}
-
-		$Pedido->dadosEcNumero = $cielo_loja_id;
-		$Pedido->dadosEcChave  = $cielo_loja_chave;
-		$Pedido->capturar      = $capturarAutomaticamente;
-		$Pedido->autorizar     = $indicadorAutorizacao;
-
-		$Pedido->dadosPortadorNumero = $order_payment_number;
-		$Pedido->dadosPortadorVal    = $order_payment_expire_year
-			. str_pad($order_payment_expire_month, 2, "0", STR_PAD_LEFT);
-
-		// Checks if Code of safety was entered correctly and adjusts the indicator
-		if ($credit_card_code == null || $credit_card_code == "")
-		{
-			$Pedido->dadosPortadorInd = "0";
-		}
-		elseif ($Pedido->formaPagamentoBandeira == "mastercard")
-		{
-			$Pedido->dadosPortadorInd = "1";
-		}
-		else
-		{
-			$Pedido->dadosPortadorInd = "1";
-		}
-
-		$Pedido->dadosPortadorCodSeg = $credit_card_code;
-		$Pedido->dadosPedidoNumero   = $data['order_number'];
-
-		// Assign Amount
-		$Pedido->dadosPedidoValor = 1000;
-
-		if ($tentarAutenticar == "sim")
-		{
-			$objResposta = $Pedido->RequisicaoTransacao(true);
-		}
-		else
-		{
-			$objResposta    = $Pedido->RequisicaoTid();
-			$Pedido->tid    = $objResposta->tid;
-			$Pedido->pan    = $objResposta->pan;
-			$Pedido->status = $objResposta->status;
-			$objResposta    = $Pedido->RequisicaoAutorizacaoPortador();
-		}
-
-		$Pedido->tid    = $objResposta->tid;
-		$Pedido->pan    = $objResposta->pan;
-		$Pedido->status = $objResposta->status;
-
-		// Serialized Request for Guard on SESSION
-		$StrPedido = $Pedido->ToString();
-		$_SESSION["pedidos"]->append($StrPedido);
-
-		// Rescues the last request made ​​SESSION
-		$ultimoPedido = $_SESSION["pedidos"]->count();
-
-		$ultimoPedido--;
-
-		$Pedido->FromString($_SESSION["pedidos"]->offsetGet($ultimoPedido));
-
-		// Consultation locates the transao
-		$objResposta = $Pedido->RequisicaoConsulta();
-
-		if ($capturarAutomaticamente == "true")
-		{
-			$message = $objResposta->captura->mensagem;
-		}
-		else
-		{
-			$message = $objResposta->autorizacao->mensagem;
-		}
-
-		// Actualization status
-		$Pedido->status = $objResposta->status;
-
-		$Pedido->tid = $objResposta->tid;
-
-		if ($Pedido->status == '4' || $Pedido->status == '6')
-		{
-			if ($debug_mode == "0")
-			{
-				$message = 'Success';
-			}
-
-			$values['responsestatus'] = 'Success';
-		}
-		else
-		{
-			if ($debug_mode == "0")
-			{
-				$message = 'Fail';
-			}
-
-			$values['responsestatus'] = 'Fail';
-		}
-
-		$values['message']        = $message;
-		$values['transaction_id'] = (string) $objResposta->tid;
-
-		$values = (object) $values;
-
-		unset($_SESSION["pedidos"]);
+		$values->transaction_id = '';
+		$values->message        = $message;
 
 		return $values;
 	}
