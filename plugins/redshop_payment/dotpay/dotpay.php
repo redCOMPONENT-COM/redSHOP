@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     RedSHOP
- * @subpackage  Plugin
+ * @package     RedSHOP.Plugins
+ * @subpackage  DotPay
  *
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,57 +9,60 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperHelper');
-
-class PlgRedshop_PaymentDotpay extends JPlugin
+/**
+ * DotPay payment gateway
+ *
+ * @package     Redshop.Plugins
+ * @subpackage  DotPay
+ * @since       1.5
+ */
+class PlgRedshop_PaymentDotpay extends RedshopPayment
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Method to setup the payment form and send to gateway
 	 *
-	 * @var    boolean
-	 * @since  3.1
+	 * @param   string  $element    Plugin Name
+	 * @param   array   $orderInfo  Order Information
+	 *
+	 * @return  void
 	 */
-	protected $autoloadLanguage = true;
-
-	/**
-	 * Plugin method with the same name as the event will be called automatically.
-	 */
-	public function onPrePayment($element, $data)
+	public function onPrePayment($element, $orderInfo)
 	{
 		if ($element != 'dotpay')
 		{
 			return;
 		}
 
-		$formInput = $this->preparePaymentInput($data);
-
-		echo $this->preparePaymentForm($data, $formInput);
+		echo $this->renderPaymentForm($orderInfo);
 	}
 
-	private function preparePaymentInput($data)
+	/**
+	 * Prepare Payment Input
+	 *
+	 * @param   array  $orderInfo  Order Information
+	 *
+	 * @return  array  Payment Gateway for parameters
+	 */
+	protected function preparePaymentInput($orderInfo)
 	{
 		$inputs = array(
 				'id'          => $this->params->get("customerId"),
-				'amount'      => $data['carttotal'],
+				'amount'      => $orderInfo['carttotal'],
 				'currency'    => CURRENCY_CODE,
-				'description' => 'Payment for order ' . $data['order_id'],
+				'description' => 'Payment for order ' . $orderInfo['order_id'],
 				'lang'        => $this->getLang(),
 				'type'        => 0,
-				'firstname'   => $data['billinginfo']->firstname,
-				'lastname'    => $data['billinginfo']->lastname,
-				'email'       => $data['billinginfo']->user_email,
-				'control'     => $data['order_id'],
-				'url'         => $this->getReturnUrl($data['order_id']),
-				'urlc'        => $this->getNotifyUrl($data['order_id']),
-				'city'        => $data['billinginfo']->city,
-				'postcode'    => $data['billinginfo']->zipcode,
-				'phone'       => $data['billinginfo']->phone,
-				'country'     => $data['billinginfo']->country_code,
-				'street'      => $data['billinginfo']->address,
+				'firstname'   => $orderInfo['billinginfo']->firstname,
+				'lastname'    => $orderInfo['billinginfo']->lastname,
+				'email'       => $orderInfo['billinginfo']->user_email,
+				'control'     => $orderInfo['order_id'],
+				'url'         => $this->getReturnUrl($orderInfo['order_id']),
+				'urlc'        => $this->getNotifyUrl($orderInfo['order_id']),
+				'city'        => $orderInfo['billinginfo']->city,
+				'postcode'    => $orderInfo['billinginfo']->zipcode,
+				'phone'       => $orderInfo['billinginfo']->phone,
+				'country'     => $orderInfo['billinginfo']->country_code,
+				'street'      => $orderInfo['billinginfo']->address,
 				'street_n1'   => '',
 				'api_version' => 'dev'
 			);
@@ -67,19 +70,14 @@ class PlgRedshop_PaymentDotpay extends JPlugin
 		return $inputs;
 	}
 
-	private function preparePaymentForm($data, $formInput)
-	{
-		return RedshopLayoutHelper::render(
-				'form',
-				array(
-					'data' => $data,
-					'formInput' => $formInput,
-					'params'    => $this->params
-				),
-				__DIR__ . '/layouts'
-			);
-	}
-
+	/**
+	 * Handle payment status notification
+	 *
+	 * @param   string  $element  Payment Name
+	 * @param   array   $request  Reqest Array
+	 *
+	 * @return  object  Order Status information object
+	 */
 	public function onNotifyPaymentDotpay($element, $request)
 	{
 		if ($element != 'dotpay')
@@ -115,7 +113,7 @@ class PlgRedshop_PaymentDotpay extends JPlugin
 		}
 
 		$transactionId = $input->post->getString('operation_number');
-		$orderId = $input->post->getInt('control');
+		$orderId       = $input->post->getInt('control');
 
 		// Set order status based DotPay post notification.
 		switch($input->post->get('operation_status'))
@@ -146,25 +144,12 @@ class PlgRedshop_PaymentDotpay extends JPlugin
 	}
 
 	/**
-	 * Get Payment Language
+	 * Method to verify signature
 	 *
-	 * @return  string  Language Code
+	 * @param   object   $post  JInput object for post data
+	 *
+	 * @return  boolean         True on validate signature
 	 */
-	private function getLang()
-	{
-		return substr(JFactory::getLanguage()->getTag(), 0, 2);
-	}
-
-	private function getNotifyUrl($orderId)
-	{
-		return JURI::base() . 'index.php?option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=dotpay&orderid=' . $orderId;
-	}
-
-	private function getReturnUrl($orderId)
-	{
-		return JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $orderId;
-	}
-
 	private function isSignatureValidated($post)
 	{
 		$string = $this->params->get('pin') .
@@ -193,18 +178,5 @@ class PlgRedshop_PaymentDotpay extends JPlugin
 		{
 			return true;
 		}
-	}
-
-	private function setStatus($orderId, $transactionId, $status, $paymentStatus, $message, $log)
-	{
-		$values = new stdClass;
-		$values->transaction_id            = $transactionId;
-		$values->order_id                  = $orderId;
-		$values->order_status_code         = $status;
-		$values->order_payment_status_code = $paymentStatus;
-		$values->log                       = $log;
-		$values->msg                       = $message;
-
-		return $values;
 	}
 }
