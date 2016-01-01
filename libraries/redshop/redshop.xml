@@ -23,6 +23,7 @@
 		<folder>layout</folder>
 		<folder>layouts</folder>
 		<folder>model</folder>
+		<folder>payment</folder>
 		<folder>toolbar</folder>
 		<folder>view</folder>
 		<filename>index.html</filename>
