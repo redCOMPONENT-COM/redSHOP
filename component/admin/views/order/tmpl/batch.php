@@ -21,6 +21,7 @@ $orderIds   = implode(',', $postdata['cid']);
 		<ul id="loopLog" class="nav nav-list">&nbsp;</ul>
 	</fieldset>
 </div>
+<a href="index.php?option=com_redshop&view=order">Back to Order List</a>
 <script type="text/javascript">
 window.addEvent('domready', function() {
 	// declare JavaScript Aarray
