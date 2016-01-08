@@ -577,16 +577,46 @@ class RedshopControllerProduct extends RedshopController
 	 * @access public
 	 * @return void
 	 */
-	public function removecompare()
+	public function removeCompare()
 	{
-		$input = JFactory::getApplication()->input;
+		$session = JFactory::getSession();
+		$input   = JFactory::getApplication()->input;
 
-		// Initiallize variable
-		$model = $this->getModel('product');
-		$model->removeCompare($input->getInt('id', 0));
+		$productId   = $input->getInt('id', 0);
+		$compareList = $session->get('compare_product');
+
+		if (!$compareList)
+		{
+			return;
+		}
+
+		$tmpCompareList = array();
+
+		if ($productId)
+		{
+			$idx = (int) $compareList['idx'];
+
+			for ($i = 0; $i < $idx; $i++)
+			{
+				if ($compareList[$i]['product_id'] != $productId)
+				{
+					$tmpCompareList[] = $compareList[$i];
+				}
+			}
+
+			$tmpCompareList['idx'] = count($tmpCompareList);
+		}
+
+		$compareList = $tmpCompareList;
+
+		$session->set('compare_product', $compareList);
+
 		$Itemid = $input->getInt('Itemid', 0);
-		$msg = JText::_("COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY");
-		$this->setRedirect(JRoute::_("index.php?option=com_redshop&view=product&layout=compare&Itemid=" . $Itemid, false), $msg);
+
+		$this->setRedirect(
+			JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid, false),
+			JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY')
+		);
 	}
 
 	/**

@@ -59,7 +59,7 @@ else
 
 $template = str_replace('{compare_product_heading}', $pagetitle, $template);
 
-if (isset($compare['idx']))
+if (isset($compare['idx']) && $compare['idx'] > 0)
 {
 	if ($compare['idx'] == 1)
 	{
@@ -83,6 +83,11 @@ if (isset($compare['idx']))
 	$template = str_replace('{compare_product_heading}', $pagetitle, $template);
 	$template = str_replace('{returntocategory_name}', JText::_("COM_REDSHOP_GO_BACK"), $template);
 	$template = str_replace('{returntocategory_link}', $returnlink, $template);
+
+	$removeAll = '<a class="remove" href="' . JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&tmpl=component&Itemid=' . $this->itemId . '">'
+				. JText::_('COM_REDSHOP_REMOVE_ALL_PRODUCT_FROM_COMPARE_LIST')
+			. '</a>';
+	$template = str_replace('{remove_all}', $removeAll, $template);
 
 	// Make extrafield object..
 	$field    = new extraField;
@@ -113,7 +118,7 @@ if (isset($compare['idx']))
 		$div_end = "</div>";
 
 		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
-		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&id=' . $product->product_id . '&Itemid=' . $this->itemId);
+		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&id=' . $product->product_id . '&Itemid=' . $this->itemId . '&tmpl=component';
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperAdminShipping');
@@ -472,46 +471,6 @@ class RedshopModelProduct extends RedshopModel
 		$compare_product[$idx]["category_id"] = (int) $data["cid"];
 
 		$compare_product['idx'] = $idx + 1;
-		$session->set('compare_product', $compare_product);
-
-		return true;
-	}
-
-	public function removeCompare($product_id)
-	{
-		$session         = JFactory::getSession();
-		$compare_product = $session->get('compare_product');
-
-		if (!$compare_product)
-		{
-			return;
-		}
-
-		$tmp_array = array();
-		$idx       = (int) ($compare_product['idx']);
-		$tmp_i     = 0;
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			if ($compare_product[$i]["product_id"] != $product_id)
-			{
-				$tmp_array[] = $compare_product[$i];
-			}
-			else
-			{
-				$tmp_i++;
-			}
-		}
-
-		$idx -= $tmp_i;
-
-		if ($idx < 0)
-		{
-			$idx = 0;
-		}
-
-		$compare_product        = $tmp_array;
-		$compare_product['idx'] = $idx;
 		$session->set('compare_product', $compare_product);
 
 		return true;
