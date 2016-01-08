@@ -59,12 +59,13 @@ else
 
 $template = str_replace('{compare_product_heading}', $pagetitle, $template);
 
-if (isset($compare['idx']) && $compare['idx'] == 1)
+if (isset($compare['idx']))
 {
-	$template = JText::_('COM_REDSHOP_ADD_ONE_MORE_PRODUCT_TO_COMPARE');
-}
-elseif (isset($compare['idx']) && $compare['idx'] > 1)
-{
+	if ($compare['idx'] == 1)
+	{
+		JLog::add(JText::_('COM_REDSHOP_ADD_ONE_MORE_PRODUCT_TO_COMPARE'), JLog::NOTICE);
+	}
+
 	$returnlink = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $compare[$compare['idx'] - 1]["category_id"] . "&Itemid=" . $this->itemId);
 
 	if ($print)
