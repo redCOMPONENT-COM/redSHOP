@@ -509,109 +509,78 @@ class RedshopControllerProduct extends RedshopController
 	 * @access public
 	 * @return product compare list through ajax
 	 */
-	public function addtocompare()
+	public function addToCompare()
 	{
-		ob_clean();
+		$app = JFactory::getApplication();
+		$item = new stdClass;
 
-		$producthelper = new producthelper;
+		$item->productId  = $app->input->getInt('pid', null);
+		$item->categoryId = $app->input->getInt('cid', null);
 
-		// GetVariables
-		$post = JRequest::get('REQUEST');
+		$compare = new RedshopProductCompare();
 
-		$pid = null;
+		//ob_clean();
 
-		if (isset($post['pid']))
+		try
 		{
-			$pid = (int) $post['pid'];
-		}
-
-		// Initiallize variable
-		$model = $this->getModel('product');
-
-		if ($post['cmd'] == 'add')
-		{
-			$checkCompare = $model->checkComparelist($pid);
-
-			$countCompare = $model->checkComparelist(0);
-
-			if ($countCompare < PRODUCT_COMPARE_LIMIT)
+			if ($app->input->getCmd('cmd') == 'add')
 			{
-				if ($checkCompare)
-				{
-					if ($model->addtocompare($post))
-					{
-						$Message = "1`";
-					}
-					else
-					{
-						$Message = "1`" . JText::_('COM_REDSHOP_ERROR_ADDING_PRODUCT_TO_COMPARE');
-					}
-				}
-				else
-				{
-					$Message = JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_COMPARE');
-				}
-
-				$Message .= $producthelper->makeCompareProductDiv();
-				echo $Message;
+				//$compare->deleteItem();
+				$compare->addItem($item);
 			}
-			else
+			elseif ($app->input->getCmd('cmd') == 'remove')
 			{
-				$Message = "0`" . JText::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE');
-				echo $Message;
+				$compare->deleteItem($item);
 			}
+
+			$response = array(
+				'success' => true,
+				'html' => $compare->getAjaxResponse(),
+				'total' => $compare->getItemsTotal()
+			);
 		}
-		elseif ($post['cmd'] == 'remove')
+		catch (Exception $e)
 		{
-			$model->removeCompare($pid);
-			$Message = "1`" . $producthelper->makeCompareProductDiv();
-			echo $Message;
+			$response = array(
+				'success' => false,
+				'message' => $e->getMessage(),
+				'html' => $compare->getAjaxResponse(),
+				'total' => $compare->getItemsTotal()
+			);
 		}
 
-		exit;
+		echo json_encode($response);
+
+		$app->close();
 	}
 
 	/**
-	 * remove compare function
+	 * Remove compare from product list
 	 *
 	 * @access public
 	 * @return void
 	 */
 	public function removeCompare()
 	{
-		$session = JFactory::getSession();
-		$input   = JFactory::getApplication()->input;
+		$app = JFactory::getApplication();
+		$item = new stdClass;
 
-		$productId   = $input->getInt('id', 0);
-		$compareList = $session->get('compare_product');
+		$item->productId  = $app->input->getInt('pid', 0);
+		$item->categoryId = $app->input->getInt('cid', 0);
 
-		if (!$compareList)
+		$compare = new RedshopProductCompare();
+
+		if ($item->productId)
 		{
-			return;
+			$compare->deleteItem($item);
+		}
+		// Remove All
+		else
+		{
+			$compare->deleteItem();
 		}
 
-		$tmpCompareList = array();
-
-		if ($productId)
-		{
-			$idx = (int) $compareList['idx'];
-
-			for ($i = 0; $i < $idx; $i++)
-			{
-				if ($compareList[$i]['product_id'] != $productId)
-				{
-					$tmpCompareList[] = $compareList[$i];
-				}
-			}
-
-			$tmpCompareList['idx'] = count($tmpCompareList);
-		}
-
-		$compareList = $tmpCompareList;
-
-		$session->set('compare_product', $compareList);
-
-		$Itemid = $input->getInt('Itemid', 0);
+		$Itemid = $app->input->getInt('Itemid', 0);
 
 		$this->setRedirect(
 			JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid, false),

@@ -1,6 +1,59 @@
+// Only define the redSHOP namespace if not defined.
+redSHOP = window.redSHOP || {};
+
+redSHOP.addToCompare = function(ele){
+
+	var data = ele.val().split('.');
+
+	if (data.length <= 1)
+	{
+		data = ele.attr('value').split('.');
+	}
+
+	var productId = data[0],
+		categoryId = data[1];
+
+	var command = (ele.is(":checked")) ? 'add' : 'remove';
+
+	jQuery.ajax({
+		url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare',
+		type: 'POST',
+		dataType: 'json',
+		data: {cmd: command, pid: productId, cid: categoryId},
+		complete: function(xhr, textStatus) {
+		},
+		success: function(data, textStatus, xhr) {
+
+			if (data.success === true)
+			{
+				jQuery('#divCompareProduct').html(data.html);
+				jQuery('#mod_compareproduct').html(data.total);
+			}
+			else
+			{
+				jQuery('#divCompareProduct').html(data.message + '<br />' + data.html);
+				jQuery('#mod_compareproduct').html(data.total);
+			}
+
+			jQuery('a[id^="removeCompare"]').click(function(event) {
+		    	redSHOP.addToCompare(jQuery(this));
+		    });
+		},
+		error: function(xhr, textStatus, errorThrown) {
+			//called when there is an error
+		}
+	});
+};
+
 // New registration functions
 jQuery(document).ready(function() {
     billingIsShipping(document.getElementById('billisship'));
+
+    redSHOP.addToCompare(jQuery('[id^="rsProductCompareChk"]'));
+
+    jQuery('[id^="rsProductCompareChk"]').click(function(event) {
+    	redSHOP.addToCompare(jQuery(this));
+    });
 });
 
 function validateInputNumber(objid)
@@ -187,55 +240,6 @@ function getShippingrate()
 				{
 					document.getElementById('spnTotal').innerHTML = response[1];
 				}
-			}
-		}
-	};
-	xmlhttp.open("GET",url,true);
-	xmlhttp.send(null);
-}
-
-function add_to_compare(pid,cid,cmd)
-{
-
-
-	xmlhttp=GetXmlHttpObject();
-	var chked = document.getElementById('chk'+cid+pid);
-
-	if(chked == null)
-	{
-	  var cmd = cmd;
-
-	} else
-	{
-	 if(cmd=="remove")
-		chked.checked = false;
-     if(chked.checked)
-		var cmd = 'add';
-	else
-		var cmd = 'remove';
-
-   }
-
-
-
-	var args = 'pid='+pid+'&cmd='+cmd+'&cid='+cid+'&sid='+Math.random();
-	var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare&'+args;
-
-	xmlhttp.onreadystatechange=function(){
-		if (xmlhttp.readyState==4)
-		{
-			response = xmlhttp.responseText.split('`');
-			if(response[0]==0)
-			{
-				alert(response[1]);
-				chked.checked = false;
-			}
-			else
-			{
-				if(document.getElementById('divCompareProduct'))
-					document.getElementById('divCompareProduct').innerHTML = response[1];
-				if(document.getElementById('mod_compareproduct'))
-					document.getElementById('mod_compareproduct').innerHTML = response[2];
 			}
 		}
 	};
