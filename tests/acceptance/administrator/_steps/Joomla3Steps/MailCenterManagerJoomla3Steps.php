@@ -62,6 +62,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
 		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see($mailName);
 		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
@@ -84,6 +85,9 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeMailState($name, $state = 'unpublish')
 	{
+		$I = $this;
+		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
+		$I->click(['link' => 'ID']);
 		$this->changeState(new \MailCenterManagerJoomla3Page, $name, $state, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 
@@ -123,6 +127,9 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteMailTemplate($name)
 	{
+		$I = $this;
+		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
+		$I->click(['link' => 'ID']);
 		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 }
