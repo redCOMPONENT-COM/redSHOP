@@ -7,7 +7,7 @@
  */
 use \AcceptanceTester;
 /**
- * Class ProductsCheckoutMonerisCest
+ * Class ProductsCheckoutGiropayCest
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ use \AcceptanceTester;
  *
  * @since    1.4
  */
-class ProductsCheckoutMonerisCest
+class ProductsCheckoutGiropayCest
 {
 	/**
 	 * Test to Verify the Payment Plugin
@@ -25,29 +25,28 @@ class ProductsCheckoutMonerisCest
 	 *
 	 * @return void
 	 */
-	public function MonerisPaymentPlugin(AcceptanceTester $I, $scenario)
+	public function testGiropayPaymentPlugin(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Checkout on Front End with Moneris Payments Plugin');
-
-		$scenario->skip('@todo to be removed once REDSHOP-2732 gets fixed');
-
+		$I->wantTo('Test Product Checkout on Front End with Giro Payment Plugin');
 		$I->doAdministratorLogin();
-		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_moneris/';
+		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_giropay/';
 		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
-			"storeID" => "store1",
-			"debitCardNumber" => "5454545454545454",
-			"apiToken"	=> "yesguy",
-			"cvv" => "1234",
-			"cardExpiryMonth" => '2',
-			"cardExpiryYear" => '2016',
-			"shippingAddress" => "some place on earth",
-			"customerName" => 'Testing Customer'
+			"merchatID" => "3615728",
+			"projectID" => "16949",
+			"projectPassphrase" => "6NxTcPNMj3DK",
+			"bankCode" => "12345679",
+			"BIC" => "TESTDETT421",
+			"loginName" => "sepatest1",
+			"pin" => "12345",
+			"tan" => "123456",
 		);
-		$I->enablePlugin('Moneris Payments');
-		$this->updateMonerisPlugin($I, $checkoutAccountInformation['storeID'], $checkoutAccountInformation['apiToken']);
+		$I->enablePlugin('GiroPay Payment');
+		$this->updateGiropayPlugin($I, $checkoutAccountInformation['merchatID'], $checkoutAccountInformation['projectID'], $checkoutAccountInformation['projectPassphrase']);
 		$I->doAdministratorLogout();
+		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+
 		$customerInformation = array(
 			"email" => "test@test" . rand() . ".com",
 			"firstName" => "Tester",
@@ -94,47 +93,41 @@ class ProductsCheckoutMonerisCest
 
 		}
 
-		$this->checkoutProductWithMonerisPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+		$this->checkoutProductWithGiropayPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
+
 	}
 
 	/**
-	 * Function to update Moneris Payment Plugin
-
-	 * @param   AcceptanceTester  $I         Actor Class Object
-	 * @param   String            $storeId   Store ID for API
-	 * @param   String            $apiToken  ApiToken for Plugin
+	 * Function to Update the Payment Plugin
+	 *
+	 * @param   AcceptanceTester  $I                 Actor Class Object
+	 * @param   String            $merchantId        Id of API
+	 * @param   String            $projectId         Project ID
+	 * @param   String            $secretPassphrase  secret pass phrase for the plugin
 	 *
 	 * @return void
 	 */
-	private function updateMonerisPlugin(AcceptanceTester $I, $storeId, $apiToken)
+	private function updateGiropayPlugin(AcceptanceTester $I, $merchantId, $projectId, $secretPassphrase)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->searchForItem('Moneris Payments');
+		$I->searchForItem('GiroPay Payment');
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('Moneris Payments'), 30);
-		$I->checkExistenceOf('Moneris Payments');
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('GiroPay Payment'), 30);
+		$I->checkExistenceOf('GiroPay Payment');
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['xpath' => "//li//label[text()='Visa']"]);
-		$I->click(['xpath' => "//li//label[text()='Visa']"]);
-		$I->click(['xpath' => "//li//label[text()='MasterCard']"]);
-		$I->fillField(['id' => "jform_params_moneris_store_id"], $storeId);
-		$I->fillField(['id' => "jform_params_moneris_test_store_id"], $storeId);
-		$I->fillField(['id' => "jform_params_moneris_api_token"], $apiToken);
-		$I->fillField(['id' => "jform_params_moneris_test_api_token"], $apiToken);
-		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_creditcard_code_chzn']/a"]);
-		$I->waitForElement(['xpath' => "//li[contains(text(), 'No')]"],10);
-		$I->click(['xpath' => "//li[contains(text(), 'No')]"]);
-		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/a"]);
-		$I->waitForElement(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/div/ul//li[contains(text(), 'No')]"],10);
-		$I->click(['xpath' => "//div[@id='jform_params_moneris_check_avs_chzn']/div/ul//li[contains(text(), 'No')]"]);
+		$I->waitForElement(['id' => "jform_params_merchant_id"], 30);
+		$I->fillField(['id' => "jform_params_merchant_id"], $merchantId);
+		$I->fillField(['id' => "jform_params_project_id"], $projectId);
+		$I->fillField(['id' => "jform_params_secret_password"], $secretPassphrase);
+
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
 		$I->see('successfully saved', ['id' => 'system-message-container']);
 	}
 
 	/**
-	 * Function to Test Checkout Process of a Product using the Moneris Payment Plugin
+	 * Function to Test Checkout Process of a Product using the Giropay Payment Plugin
 	 *
 	 * @param   AcceptanceTester  $I                      Actor Class Object
 	 * @param   String            $scenario               Scenario Variable
@@ -146,7 +139,7 @@ class ProductsCheckoutMonerisCest
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithMonerisPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	private function checkoutProductWithGiropayPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage('/index.php?option=com_redshop');
 		$I->waitForElement(['id' => "redshopcomponent"], 30);
@@ -169,19 +162,30 @@ class ProductsCheckoutMonerisCest
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
 		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
-		$I->click(['xpath' => "//div[@id='rs_payment_moneris']//label//input"]);
+		$I->click(['xpath' => "//div[@id='rs_payment_giropay']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement(['id' => "order_payment_name"], 10);
-		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
-		$I->fillField(['id' => "order_payment_number"], $checkoutAccountDetail['debitCardNumber']);
-		$I->fillField(['id' => "credit_card_code"], $checkoutAccountDetail['cvv']);
-		$I->click(['xpath' => "//input[@value='MC']"]);
-		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
-		$I->see('Order placed', "//div[@class='alert alert-success']");
+		$I->waitForElement(['id' => "edit-bankcode"], 30);
+		$I->fillField(['id' => "edit-bankcode"], $checkoutAccountDetail['bankCode']);
+		$I->click(['id' => "edit-submit"]);
+
+		$I->waitForElement(['xpath' => "//input[@name='account/addition[@name=benutzerkennung]']"], 30);
+		$I->fillField(['xpath' => "//input[@name='account/addition[@name=benutzerkennung]']"], $checkoutAccountDetail['loginName']);
+		$I->fillField(['xpath' => "//input[@name='ticket/pin']"], $checkoutAccountDetail['pin']);
+		$I->click(['xpath' => "//input[@value='Sicher anmelden']"]);
+
+		$I->waitForElement(['xpath' => "//input[@value='Weiter']"], 30);
+		$I->click(['xpath' => "//input[@value='Weiter']"]);
+
+		$I->waitForElement(['xpath' => "//input[@name='ticket/tan']"], 30);
+		$I->fillField(['xpath' => "//input[@name='ticket/tan']"], $checkoutAccountDetail['tan']);
+		$I->click(['xpath' => "//input[@value='Jetzt bezahlen']"]);
+
+		$I->waitForText('Die giropay-Zahlung wurde erfolgreich durchgeführt.', 30, ['xpath' => "//span[@class='sf-text']"]);
+		$I->see('Die giropay-Zahlung wurde erfolgreich durchgeführt.', ['xpath' => "//span[@class='sf-text']"]);
+		$I->click(['xpath' => "//div[@class='buttonWrap hideOnMobile']//input[@name='back2MerchantButton']"]);
 	}
 }

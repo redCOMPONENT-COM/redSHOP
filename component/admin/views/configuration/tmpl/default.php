@@ -15,11 +15,26 @@ $url = $uri->root();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
+		// Find the position of selected tab
+		var allTabsNames = document.querySelectorAll('dt.tabs a');
+		var selectedTabName  = document.querySelectorAll('dt.tabs.open a');
+		for (var i=0; i < allTabsNames.length; i++) {
+			if (selectedTabName[0].innerHTML === allTabsNames[i].innerHTML) {
+				var selectedTabPosition = i;
+				break;
+			}
+		}
+
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
 		if (pressbutton == 'save' || pressbutton == 'apply') {
+			if (pressbutton == 'save')
+				form.selectedTabPosition.value = 0;
+			else
+				form.selectedTabPosition.value = selectedTabPosition;
+
 			var obj = form.economic_integration;
 
 			var sel_discount_flag = false;
@@ -82,8 +97,8 @@ $url = $uri->root();
       enctype="multipart/form-data">
 	<?php
 	$dashboard = JFactory::getApplication()->input->getInt('dashboard');
-
-	$options = array('startOffset' => 0);
+	$app = JFactory::getApplication();
+	$options = array('startOffset' => $app->getUserState('com_redshop.configuration.selectedTabPosition'));
 
 	if ($dashboard)
 	{
@@ -104,11 +119,13 @@ $url = $uri->root();
 	}
 
 	echo JHtml::_('tabs.start', 'pane', $options);
+	$app->setUserState('com_redshop.configuration.selectedTabPosition', null);
 	$output = '';
 	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'general');
 	?>
 	<input type="hidden" name="view" value="configuration"/>
 	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="selectedTabPosition" value=""/>
 	<?php
 	echo $this->loadTemplate('general');
 	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_USER'), 'user');

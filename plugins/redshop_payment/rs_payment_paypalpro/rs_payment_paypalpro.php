@@ -54,7 +54,7 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 		$padDateMonth     = urlencode(str_pad($expDateMonth, 2, '0', STR_PAD_LEFT));
 
 		$expDateYear      = urlencode($ccdata['order_payment_expire_year']);
-		$cvv2Number       = urlencode($creditCardType);
+		$cvv2Number       = urlencode($ccdata['credit_card_code']);
 		$address1         = urlencode($data['billinginfo']->address);
 		$city             = urlencode($data['billinginfo']->city);
 		$state            = urlencode($data['billinginfo']->state_code);
@@ -83,18 +83,13 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 		$transaction_id = $httpParsedResponseAr['TRANSACTIONID'];
 		$values = new stdClass;
 
-		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]))
+		if ("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"])
+			|| "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
 		{
 
 			$values->responsestatus = 'Success';
 			$message                = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_PLACED');
 			$messageType            = 'Success';
-		}
-		else
-		{
-			$values->responsestatus = 'Fail';
-			$message                = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
-			$messageType            = 'Error';
 
 			// We are not placing order when card is success with warning from paypal
 			if ("SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
@@ -102,18 +97,24 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 				$messageType = 'Warning';
 			}
 		}
+		else
+		{
+			$values->responsestatus = 'Fail';
+			$message                = JText::_('PLG_RS_PAYMENT_PAYPALPRO_ORDER_NOT_PLACED');
+			$messageType            = 'Error';
+		}
 
+		// Set response message only for Error or Warning
 		if (1 == $this->params->get('debug_mode', 0)
 			&& ('Error' == $messageType || 'Warning' == $messageType))
 		{
 			$message = urldecode($httpParsedResponseAr["L_ERRORCODE0"] . ' <br>' . $httpParsedResponseAr["L_SHORTMESSAGE0"] . ' <br>' . $httpParsedResponseAr["L_LONGMESSAGE0"]);
+
+			JFactory::getApplication()->enqueueMessage($message, $messageType);
 		}
 
 		$values->transaction_id = $transaction_id;
 		$values->message        = $message;
-
-		// Set response message
-		JFactory::getApplication()->enqueueMessage($message, $messageType);
 
 		return $values;
 	}
