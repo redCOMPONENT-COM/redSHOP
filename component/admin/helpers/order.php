@@ -1610,18 +1610,10 @@ class order_functions
 		{
 			// Getting the order details
 			$orderdetail = $this->getOrderDetails($order_id);
-
-			// Getting user details
-			$query = "SELECT uf.firstname, uf.lastname, IFNULL( u.email , uf.`user_email`) AS email
-				FROM #__redshop_users_info AS uf
-				LEFT JOIN #__users AS u ON uf.user_id = u.id
-				WHERE uf.user_id = " . (int) $rows[0]->user_id . "
-				AND uf.`address_type` = 'BT'";
-			$db->setQuery($query);
-			$userdetail = $db->loadObject();
+			$userdetail  = $this->getOrderBillingUserInfo($order_id);
 
 			$userfullname = $userdetail->firstname . " " . $userdetail->lastname;
-			$useremail = $userdetail->email;
+			$useremail    = $userdetail->email;
 
 			$i = 0;
 
