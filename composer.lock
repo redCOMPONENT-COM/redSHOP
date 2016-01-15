@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "fe8fde1ceed9e981d5da9a13c0ecf6f821fcee92"
+                "reference": "75c5cfc44626403787f6ebfa2fb7f7f402f74a8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/fe8fde1ceed9e981d5da9a13c0ecf6f821fcee92",
-                "reference": "fe8fde1ceed9e981d5da9a13c0ecf6f821fcee92",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/75c5cfc44626403787f6ebfa2fb7f7f402f74a8e",
+                "reference": "75c5cfc44626403787f6ebfa2fb7f7f402f74a8e",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2016-01-15 12:28:04"
+            "time": "2016-01-15 12:52:52"
         }
     ],
     "packages-dev": [
