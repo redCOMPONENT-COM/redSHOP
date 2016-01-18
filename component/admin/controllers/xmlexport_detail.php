@@ -136,7 +136,7 @@ function setChildElement()
 	$uarray = array();
 	$columns = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
 
-	for ($i = 0; $i < count($columns); $i++)
+	for ($i = 0, $in = count($columns); $i < $in; $i++)
 	{
 		if (trim($post[$columns[$i]->Field]) != "")
 		{

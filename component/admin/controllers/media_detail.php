@@ -368,13 +368,13 @@ class RedshopControllerMedia_Detail extends RedshopController
 					$name = explode('.', $bulkfile['name']);
 					$scan = scandir($target);
 
-					for ($i = 2; $i < count($scan); $i++)
+					for ($i = 2, $in = count($scan); $i < $in; $i++)
 					{
 						if (is_dir($target . '/' . $scan[$i]))
 						{
 							$newscan = scandir($target . '/' . $scan[$i]);
 
-							for ($j = 2; $j < count($newscan); $j++)
+							for ($j = 2, $jn = count($newscan); $j < $jn; $j++)
 							{
 								$filenewtype = strtolower(JFile::getExt($newscan[$j]));
 								$btsrc = $target . '/' . $scan[$i] . '/' . $newscan[$j];

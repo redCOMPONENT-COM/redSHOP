@@ -394,7 +394,7 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 
 					$accessory_product = $this->lists['categroy_accessory_product'];
 
-					for ($f = 0; $f < count($accessory_product); $f++)
+					for ($f = 0, $fn = count($accessory_product); $f < $fn; $f++)
 					{
 						$accessory_main_price = 0;
 						if ($accessory_product[$f]->product_id && $accessory_product[$f]->accessory_id)

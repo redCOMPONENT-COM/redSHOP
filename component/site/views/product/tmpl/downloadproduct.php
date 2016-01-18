@@ -95,7 +95,7 @@ if (isset ($tid) && $tid != "")
 							</td>
 						</tr>
 						<?php
-						for ($i = 0; $i < count($addtional_downloaddata); $i++)
+						for ($i = 0, $in = count($addtional_downloaddata); $i < $in; $i++)
 						{
 							$additionalid   = $addtional_downloaddata [$i]->id;
 							$additionalname = $addtional_downloaddata [$i]->name;

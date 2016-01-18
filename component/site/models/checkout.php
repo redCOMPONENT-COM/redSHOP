@@ -746,7 +746,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$medianame = $this->_producthelper->getProductMediaName($rowitem->product_id);
 
-				for ($j = 0; $j < count($medianame); $j++)
+				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
 					$product_serial_number = $this->_producthelper->getProdcutSerialNumber($rowitem->product_id);
 					$this->_producthelper->insertProductDownload($rowitem->product_id, $user->id, $rowitem->order_id, $medianame[$j]->media_name, $product_serial_number->serial_number);
@@ -786,7 +786,7 @@ class RedshopModelCheckout extends RedshopModel
 				$setSubpropEqual = true;
 				$attArr          = $cart [$i] ['cart_accessory'];
 
-				for ($a = 0; $a < count($attArr); $a++)
+				for ($a = 0, $an = count($attArr); $a < $an; $a++)
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
@@ -804,7 +804,7 @@ class RedshopModelCheckout extends RedshopModel
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
-					for ($j = 0; $j < count($attchildArr); $j++)
+					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
 						$prooprand     = array();
 						$proprice      = array();
@@ -917,7 +917,7 @@ class RedshopModelCheckout extends RedshopModel
 							$accessory_price    = $accessory_priceArr[1];
 						}
 
-						for ($t = 0; $t < count($propArr); $t++)
+						for ($t = 0, $tn = count($propArr); $t < $tn; $t++)
 						{
 							$subprooprand  = array();
 							$subproprice   = array();
@@ -978,7 +978,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$attchildArr = $cart [$i] ['cart_attribute'];
 
-				for ($j = 0; $j < count($attchildArr); $j++)
+				for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 				{
 					$propArr       = $attchildArr[$j]['attribute_childs'];
 					$totalProperty = count($propArr);
@@ -1668,7 +1668,7 @@ class RedshopModelCheckout extends RedshopModel
 		// Establish card type
 		$cardType = -1;
 
-		for ($i = 0; $i < count($cards); $i++)
+		for ($i = 0, $in = count($cards); $i < $in; $i++)
 		{
 			// See if it is this card (ignoring the case of the string)
 			if (strtolower($cardname) == strtolower($cards [$i] ['name']))
@@ -1767,7 +1767,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$PrefixValid = false;
 
-		for ($i = 0; $i < count($prefix); $i++)
+		for ($i = 0, $in = count($prefix); $i < $in; $i++)
 		{
 			$exp = '/^' . $prefix [$i] . '/';
 
@@ -1791,7 +1791,7 @@ class RedshopModelCheckout extends RedshopModel
 		$LengthValid = false;
 		$lengths     = explode(',', $cards[$cardType]['length']);
 
-		for ($j = 0; $j < count($lengths); $j++)
+		for ($j = 0, $jn = count($lengths); $j < $jn; $j++)
 		{
 			if (strlen($cardNo) == $lengths [$j])
 			{

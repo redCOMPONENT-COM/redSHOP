@@ -73,7 +73,7 @@ if ($this->params->get('show_page_heading', 1))
 		</tr>
 		<?php    $order_item_name = array();
 
-		for ($j = 0; $j < count($OrderProducts); $j++)
+		for ($j = 0, $jn = count($OrderProducts); $j < $jn; $j++)
 		{
 			$order_item_name[$j] = $OrderProducts[$j]->order_item_name;
 		}

@@ -35,7 +35,7 @@ if (count($paymentmethod) == 1)
 	<?php
 	if (count($paymentmethod) > 0)
 	{
-		for ($p = 0; $p < count($paymentmethod); $p++)
+		for ($p = 0, $pn = count($paymentmethod); $p < $pn; $p++)
 		{
 			$paymentparams = new JRegistry($paymentmethod[$p]->params);
 

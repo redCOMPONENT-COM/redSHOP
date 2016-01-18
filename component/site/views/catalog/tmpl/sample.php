@@ -43,7 +43,7 @@ if ($this->params->get('show_page_heading', 1))
 		$catalog_sample = $model->getCatalogSampleList();
 		$saple_data     = "";
 
-		for ($k = 0; $k < count($catalog_sample); $k++)
+		for ($k = 0, $kn = count($catalog_sample); $k < $kn; $k++)
 		{
 			$saple_data .= $catalog_sample[$k]->sample_name . "<br>";
 
@@ -52,7 +52,7 @@ if ($this->params->get('show_page_heading', 1))
 			$saple_data .= "<table cellpadding='0' border='0' cellspacing='0'><tr>";
 			$saple_check = "<tr>";
 
-			for ($c = 0; $c < count($catalog_colour); $c++)
+			for ($c = 0, $cn = count($catalog_colour); $c < $cn; $c++)
 			{
 				$saple_data .= "<td style='padding-right:2px;'>";
 

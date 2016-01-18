@@ -649,7 +649,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 		$product_id_list = $this->getProductIdList();
 
-		for ($i = 0; $i < count($product_id_list); $i++)
+		for ($i = 0, $in = count($product_id_list); $i < $in; $i++)
 		{
 			$product_id = $product_id_list[$i]->product_id;
 
@@ -840,7 +840,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$db->setQuery($q);
 		$list = $db->loadObjectList();
 
-		for ($i = 0; $i < count($list); $i++)
+		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
 			$data = $list[$i];
 

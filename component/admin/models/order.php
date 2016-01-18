@@ -248,7 +248,7 @@ class RedshopModelOrder extends RedshopModel
 
 		$ordersInfo = $this->getOrdersDetail($cid);
 
-		for ($i = 0; $i < count($ordersInfo); $i++)
+		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
@@ -260,7 +260,7 @@ class RedshopModelOrder extends RedshopModel
 
 				$totalWeight = 0;
 
-				for ($c = 0; $c < count($orderproducts); $c++)
+				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
 					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
 					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
@@ -308,7 +308,7 @@ class RedshopModelOrder extends RedshopModel
 
 				$row = array_merge($row, $userDetail);
 
-				for ($i = 0; $i < count($row); $i++)
+				for ($i = 0, $in = count($row); $i < $in; $i++)
 				{
 					$row[$i] = utf8_decode($row[$i]);
 				}
@@ -346,7 +346,7 @@ class RedshopModelOrder extends RedshopModel
 
 		$ordersInfo = $this->getOrdersDetail($cid);
 
-		for ($i = 0; $i < count($ordersInfo); $i++)
+		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
@@ -358,7 +358,7 @@ class RedshopModelOrder extends RedshopModel
 
 				$totalWeight = 0;
 
-				for ($c = 0; $c < count($orderproducts); $c++)
+				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
 					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
 					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
@@ -372,7 +372,7 @@ class RedshopModelOrder extends RedshopModel
 				$extraFieldData = $extraField->getSectionFieldList(19, 1);
 				$extraInfo      = array();
 
-				for ($j = 0; $j < count($extraFieldData); $j++)
+				for ($j = 0, $jn = count($extraFieldData); $j < $jn; $j++)
 				{
 					$extraFieldResult = $extraField->getSectionFieldDataList($extraFieldData[$j]->field_id, 19, $ordersInfo[$i]->order_id);
 
@@ -399,7 +399,7 @@ class RedshopModelOrder extends RedshopModel
 
 				$row = array_merge($row, $extraInfo, $rowAppend);
 
-				for ($i = 0; $i < count($row); $i++)
+				for ($i = 0, $in = count($row); $i < $in; $i++)
 				{
 					$row[$i] = utf8_decode($row[$i]);
 				}

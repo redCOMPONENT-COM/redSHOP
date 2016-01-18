@@ -148,7 +148,7 @@ class RedshopControllerProduct extends RedshopController
 
 		$response = "";
 
-		for ($i = 0; $i < count($propid); $i++)
+		for ($i = 0, $in = count($propid); $i < $in; $i++)
 		{
 			$property_id = $propid[$i];
 			$response .= $producthelper->replaceSubPropertyData($product_id, $accessory_id, $relatedprd_id, $attribute_id, $property_id, $subatthtml, $isAjaxBox, $subpropid);
@@ -283,7 +283,7 @@ class RedshopControllerProduct extends RedshopController
 			$post['view']       = JRequest::getVar('view');
 			$post['task']       = JRequest::getVar('task');
 
-			for ($i = 0; $i < count($row_data); $i++)
+			for ($i = 0, $in = count($row_data); $i < $in; $i++)
 			{
 				$field_name = $row_data[$i]->field_name;
 
@@ -321,7 +321,7 @@ class RedshopControllerProduct extends RedshopController
 
 			$proname = $producthelper->getProductById($post['product_id']);
 
-			for ($i = 0; $i < count($row_data); $i++)
+			for ($i = 0, $in = count($row_data); $i < $in; $i++)
 			{
 				$field_name = $row_data[$i]->field_name;
 
@@ -445,7 +445,7 @@ class RedshopControllerProduct extends RedshopController
 
 		$tagnames = explode(" ", $tagnames);
 
-		for ($i = 0; $i < count($tagnames); $i++)
+		for ($i = 0, $in = count($tagnames); $i < $in; $i++)
 		{
 			$tagname = $tagnames[$i];
 

@@ -59,7 +59,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$stockroomhelper = new rsstockroomhelper;
 			$producthelper = new producthelper;
 
-			for ($i = 0; $i < count($orderItem); $i++)
+			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{
 				$quantity = $orderItem[$i]->quantity;
 				$productData = $producthelper->getProductById($orderItem[$i]->product_id);
@@ -158,7 +158,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$subtotal_excl_vat = 0;
 
-		for ($i = 0; $i < count($orderItem); $i++)
+		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
 			$subtotal_excl_vat = $subtotal_excl_vat + ($orderItem[$i]->prdexclprice * $orderItem[$i]->quantity);
 		}
