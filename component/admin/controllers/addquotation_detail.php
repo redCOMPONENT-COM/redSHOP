@@ -129,7 +129,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 		$response = "";
 
-		for ($i = 0; $i < count($propid); $i++)
+		for ($i = 0, $in = count($propid); $i < $in; $i++)
 		{
 			$property_id = $propid[$i];
 			$response .= $model->replaceSubPropertyData($product_id, $accessory_id, $attribute_id, $property_id, $user_id, $unique_id);

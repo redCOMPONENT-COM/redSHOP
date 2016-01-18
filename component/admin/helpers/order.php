@@ -204,7 +204,7 @@ class order_functions
 		$content_products = array();
 		$qty = 0;
 
-		for ($c = 0; $c < count($orderproducts); $c++)
+		for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 		{
 			$product_id[] = $orderproducts [$c]->product_id;
 			$qty += $orderproducts [$c]->product_quantity;
@@ -221,7 +221,7 @@ class order_functions
 
 			if (count($orderAccItemdata) > 0)
 			{
-				for ($a = 0; $a < count($orderAccItemdata); $a++)
+				for ($a = 0, $an = count($orderAccItemdata); $a < $an; $a++)
 				{
 					$accessory_quantity = $orderAccItemdata[$a]->product_quantity;
 					$acc_sql = "SELECT weight FROM #__redshop_product WHERE product_id = "
@@ -557,7 +557,7 @@ class order_functions
 				$economic = new economic;
 				$oid = explode(",", $order_id);
 
-				for ($i = 0; $i < count($oid); $i++)
+				for ($i = 0, $in = count($oid); $i < $in; $i++)
 				{
 					if (isset($oid[$i]) && $oid[$i] != 0 && $oid[$i] != "")
 					{
@@ -691,7 +691,7 @@ class order_functions
 
 		$tot_status_change = @explode(",", $this->_customorderstatuslist[0]->value);
 
-		for ($t = 0; $t < count($tot_status_change); $t++)
+		for ($t = 0, $tn = count($tot_status_change); $t < $tn; $t++)
 		{
 			$this->_customorderstatuslist[$t]->value = $tot_status_change[$t];
 			$this->_customorderstatuslist[$t]->text = $this->getOrderStatusTitle($tot_status_change[$t]);
@@ -879,7 +879,7 @@ class order_functions
 
 				$orderproducts = $this->getOrderItemDetail($order_id);
 
-				for ($i = 0; $i < count($orderproducts); $i++)
+				for ($i = 0, $in = count($orderproducts); $i < $in; $i++)
 				{
 					$prodid = $orderproducts[$i]->product_id;
 					$prodqty = $orderproducts[$i]->stockroom_quantity;
@@ -1071,7 +1071,7 @@ class order_functions
 
 		$spilt_payment_amount = 0;
 
-		for ($i = 0; $i < count($list); $i++)
+		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
 			if ($list[$i]->order_payment_amount > 0)
 			{
@@ -1901,7 +1901,7 @@ class order_functions
 			$arr_discount = explode('@', $row->discount_type);
 			$discount_type = '';
 
-			for ($d = 0; $d < count($arr_discount); $d++)
+			for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 			{
 				if ($arr_discount [$d])
 				{
@@ -2221,7 +2221,7 @@ class order_functions
 		{
 			$orderproducts = $this->getOrderItemDetail($order_id);
 
-			for ($j = 0; $j < count($orderproducts); $j++)
+			for ($j = 0, $jn = count($orderproducts); $j < $jn; $j++)
 			{
 				$prodid = $orderproducts[$j]->product_id;
 				$prodqty = $orderproducts[$j]->stockroom_quantity;

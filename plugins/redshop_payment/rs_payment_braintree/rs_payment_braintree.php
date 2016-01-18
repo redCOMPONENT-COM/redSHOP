@@ -293,7 +293,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		$cart_quantity = 0;
 
-		for ($i = 0; $i < count($orderitem); $i++)
+		for ($i = 0, $in = count($orderitem); $i < $in; $i++)
 		{
 			$cart_quantity += $orderitem[$i]->product_quantity;
 		}

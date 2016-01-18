@@ -141,7 +141,7 @@ class shipping
 					{
 						$where = 'AND ( ';
 
-						for ($c = 0; $c < count($categorydata); $c++)
+						for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 						{
 							$where .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -346,7 +346,7 @@ class shipping
 				{
 					$where = 'AND ( ';
 
-					for ($c = 0; $c < count($categorydata); $c++)
+					for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 					{
 						$where .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -474,7 +474,7 @@ class shipping
 			{
 				$cwhere = ' ( ';
 
-				for ($c = 0; $c < count($categorydata); $c++)
+				for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 				{
 					$cwhere .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -507,7 +507,7 @@ class shipping
 
 		$whereShippingVolume = "";
 
-		for ($g = 0; $g < count($volumeShipping); $g++)
+		for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 		{
 			$length = $volumeShipping[$g]['length'];
 			$width  = $volumeShipping[$g]['width'];
@@ -594,7 +594,7 @@ class shipping
 
 			$userzip_len = ($this->strposa($zip, $numbers) !== false) ? ($this->strposa($zip, $numbers)) : strlen($zip);
 
-			for ($i = 0; $i < count($shippingrate); $i++)
+			for ($i = 0, $in = count($shippingrate); $i < $in; $i++)
 			{
 				$flag             = false;
 				$tmp_shippingrate = $shippingrate[$i];
@@ -810,7 +810,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -913,7 +913,7 @@ class shipping
 
 				if ($categorydata)
 				{
-					for ($c = 0; $c < count($categorydata); $c++)
+					for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 					{
 						$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 					}
@@ -1416,7 +1416,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -1528,7 +1528,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -1683,7 +1683,7 @@ class shipping
 			$db->setQuery($sel);
 			$categorydata = $db->loadObjectList();
 
-			for ($c = 0; $c < count($categorydata); $c++)
+			for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 			{
 				$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 			}

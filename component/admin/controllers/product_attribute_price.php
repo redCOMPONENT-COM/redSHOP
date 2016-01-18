@@ -36,7 +36,7 @@ class RedshopControllerProduct_attribute_price extends RedshopController
 		$price_quantity_end = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
 		$price_id = JRequest::getVar('price_id', array(), 'post', 'array');
 
-		for ($i = 0; $i < count($price); $i++)
+		for ($i = 0, $in = count($price); $i < $in; $i++)
 		{
 			$sql = "SELECT count(*) FROM  #__redshop_product_attribute_price  WHERE section_id='" . $section_id . "' AND section= '"
 				. $section . "' AND price_id = '" . $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";

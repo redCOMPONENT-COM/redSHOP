@@ -128,7 +128,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		echo "Subscriber Full Name,Newsletter,Email Id\n";
 		$data = $model->getnewslettersbsc();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$subname = $model->getuserfullname($data[$i]->user_id);
 
@@ -176,7 +176,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		echo '"email","name","enabled"';
 		echo "\n";
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			echo '"' . $data[$i]->email . '","';
 
