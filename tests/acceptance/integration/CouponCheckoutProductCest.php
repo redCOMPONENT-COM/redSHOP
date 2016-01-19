@@ -20,7 +20,7 @@ class CouponCheckoutProductCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->couponCode = $this->faker->bothify('Coupon Code ?##?');
+		$this->couponCode = $this->faker->bothify('CouponCheckoutProductCest ?##?');
 		$this->couponValueIn = 'Total';
 		$this->couponValue = '10';
 		$this->couponType = 'Globally';
@@ -129,6 +129,19 @@ class CouponCheckoutProductCest
 		$I->click(['id' => 'coupon_button']);
 		$I->waitForText("The discount code is valid", 10, '.alert-success');
 		$I->see("The discount code is valid", '.alert-success');
+		$temp = $I->grabTextFrom(['xpath' => "(//table[@class='cart_calculations']//tbody//tr//td[2])[1]"]);
+		$amount = explode(',', $temp);
+		$actual = explode(' ', $amount[0]);
+		$subTotal = $actual[1];
+		$temp = $I->grabTextFrom(['xpath' => "(//table[@class='cart_calculations']//tbody//tr//td[2])[2]"]);
+		$amount = explode(',', $temp);
+		$actual = explode(' ', $amount[0]);
+		$discount = $actual[1];
+		$temp = $I->grabTextFrom(['xpath' => "//span[@id='spnTotal']"]);
+		$amount = explode(',', $temp);
+		$actual = explode(' ', $amount[0]);
+		$finalTotal = $actual[1];
+		$I->verifyTotals($subTotal, $discount, $finalTotal);
 	}
 
 	/**
