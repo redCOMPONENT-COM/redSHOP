@@ -77,6 +77,8 @@ class RedshopControllerUser_detail extends RedshopController
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
+		$app = JFactory::getApplication();
+		$delete_joomla_users = $app->input->get('delete_joomla_users');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -85,7 +87,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		$model = $this->getModel('user_detail');
 
-		if (!$model->delete($cid))
+		if (!$model->delete($cid, $delete_joomla_users))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
