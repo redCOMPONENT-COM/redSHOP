@@ -18,25 +18,50 @@ defined('_JEXEC') or die;
  */
 class RedshopProductCompare implements Countable
 {
-	// Array stores the list of items in the cart:
+	/**
+	 * Stores the compare items information
+	 *
+	 * @var  array
+	 */
 	public $compare = array();
 
+	/**
+	 * Items whcih will be added in compare list
+	 *
+	 * @var  object
+	 */
 	protected $item = null;
 
+	/**
+	 * Item unique key for compare list array
+	 *
+	 * @var  string
+	 */
 	protected $key = null;
 
-	// Constructor just sets the object up for usage:
+	/**
+	 * Intialize compare array and store the information from session
+	 */
 	public function __construct()
 	{
 		$this->compare = JFactory::getSession()->get('product.compare', array());
 	}
 
-	// Returns a Boolean indicating if the cart is empty:
+	/**
+	 * Returns a Boolean indicating if the compare items is empty
+	 *
+	 * @return  boolean
+	 */
 	public function isEmpty()
 	{
 		return (empty($this->compare['items']));
 	}
 
+	/**
+	 * Prepare unique key for compare list array
+	 *
+	 * @return string Unique Key for compare array
+	 */
 	public function setKey()
 	{
 		$this->key = $this->item->productId;
@@ -55,6 +80,11 @@ class RedshopProductCompare implements Countable
 		return $this->key;
 	}
 
+	/**
+	 * Check the new item is valid or not
+	 *
+	 * @return  boolean  Check the product is from same category or not based on config.
+	 */
 	protected function validItem()
 	{
 		return (
@@ -63,7 +93,15 @@ class RedshopProductCompare implements Countable
 		);
 	}
 
-	// Adds a new item to the cart:
+	/**
+	 * Adds a new item to the session
+	 *
+	 * @param   object  $item  Compare Item info
+	 *
+	 * @throws  exception Throw exception if not valid items and not unique keys
+	 *
+	 * @return  void
+	 */
 	public function addItem($item)
 	{
 		$this->item = $item;
@@ -101,7 +139,13 @@ class RedshopProductCompare implements Countable
 		$this->updateSession();
 	}
 
-	// Removes an item from the cart:
+	/**
+	 * Removes an item from the list
+	 *
+	 * @param   object  $item  Item object to delete - Null if want to remove All
+	 *
+	 * @return  void
+	 */
 	public function deleteItem($item = null)
 	{
 		if (!is_object($item))
@@ -125,6 +169,11 @@ class RedshopProductCompare implements Countable
 		$this->updateSession();
 	}
 
+	/**
+	 * Find key from given item
+	 *
+	 * @return  string  Key matched
+	 */
 	protected function findItemKey()
 	{
 		$filtered = array_keys(array_filter($this->getItems(), array($this, 'isKeyMatch'), ARRAY_FILTER_USE_KEY));
@@ -137,17 +186,33 @@ class RedshopProductCompare implements Countable
 		return null;
 	}
 
+	/**
+	 * Check the key for having product id
+	 *
+	 * @param   string   $key  Item key
+	 *
+	 * @return  boolean
+	 */
 	protected function isKeyMatch($key)
 	{
 		return (is_integer(strpos($key, $this->item->productId . '.')));
 	}
 
-	// Required by Countable:
+	/**
+	 * Count compare Items
+	 *
+	 * @return  integer  Total items
+	 */
 	public function count()
 	{
 		return count($this->compare['items']);
 	}
 
+	/**
+	 * Update items info in session
+	 *
+	 * @return  void
+	 */
 	public function updateSession()
 	{
 		$this->compare['total'] = $this->count();
@@ -155,21 +220,46 @@ class RedshopProductCompare implements Countable
 		JFactory::getSession()->set('product.compare', $this->compare);
 	}
 
+	/**
+	 * Get compare items array
+	 *
+	 * @return  array  Items info
+	 */
 	public function getItems()
 	{
-		return $this->compare['items'];
+		if (isset($this->compare['items']))
+		{
+			return $this->compare['items'];
+		}
+
+		return array();
 	}
 
+	/**
+	 * Get total of items in array
+	 *
+	 * @return  integer  Total number of items
+	 */
 	public function getItemsTotal()
 	{
 		return (int) $this->compare['total'];
 	}
 
+	/**
+	 * Get category id stored in compare list
+	 *
+	 * @return  integer  Category Id
+	 */
 	public function getCategoryId()
 	{
 		return (int) $this->compare['category'];
 	}
 
+	/**
+	 * Build AJAX response html
+	 *
+	 * @return  string  HTML for ajax response
+	 */
 	public function getAjaxResponse()
 	{
 		return RedshopLayoutHelper::render(
@@ -178,6 +268,14 @@ class RedshopProductCompare implements Countable
 		);
 	}
 
+	/**
+	 * Get item key using product id and/or category id
+	 *
+	 * @param   integer   $productId    Product Id
+	 * @param   integer   $categoryId   Category Id
+	 *
+	 * @return  string    Matched Item key
+	 */
 	public function getItemKey($productId, $categoryId = 0)
 	{
 		$this->item = new stdClass;

@@ -247,19 +247,6 @@ function getShippingrate()
 	xmlhttp.send(null);
 }
 
-function compare()
-{
-	var total = 0;
-	if(document.getElementById('totalCompareProduct'))
-		total = document.getElementById('totalCompareProduct').innerHTML;
-	if(total < 2)
-	{
-		alert('Add 2 or More Products to Compare');
-	}
-	else
-		document.frmCompare.submit();
-}
-
 function expand_collapse(atag,pid)
 {
 	if(atag)
