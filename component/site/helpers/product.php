@@ -7020,12 +7020,9 @@ class producthelper
 			if (strstr($data_add, '{' . $prefix . 'compare_product_div}'))
 			{
 				$div                 = $this->makeCompareProductDiv();
-				$compare_product_div = "<form name='frmCompare' method='post' action='"
-					. JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid) . "' >";
-				$compare_product_div .= "<a href='javascript:compare();' >" . JText::_('COM_REDSHOP_COMPARE')
+				$compare_product_div = "<a href='" . JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid) . "' >" . JText::_('COM_REDSHOP_COMPARE')
 					. "</a><br />";
 				$compare_product_div .= "<div id='divCompareProduct'>" . $div . "</div>";
-				$compare_product_div .= "</form>";
 				$data_add = str_replace("{compare_product_div}", $compare_product_div, $data_add);
 			}
 
