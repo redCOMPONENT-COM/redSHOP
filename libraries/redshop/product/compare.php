@@ -44,7 +44,14 @@ class RedshopProductCompare implements Countable
 	 */
 	public function __construct()
 	{
-		$this->compare = JFactory::getSession()->get('product.compare', array());
+		$this->compare = JFactory::getSession()->get(
+			'product.compare',
+			array(
+				'items'    => array(),
+				'total'    => 0,
+				'category' => 0
+			)
+		);
 	}
 
 	/**
