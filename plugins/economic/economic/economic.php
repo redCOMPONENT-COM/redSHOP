@@ -1168,14 +1168,14 @@ class plgEconomicEconomic extends JPlugin
 
 			if ($d['eco_prd_number'] != '')
 			{
-				$newProductNumber = $this->client->Product_UpdateFromData(array('data' => $prdinfo))->Product_UpdateFromDataResult;
+				$prdinfo['BarCode'] = $this->productGetBarCode($Handle);
+
+				return $this->client->Product_UpdateFromData(array('data' => $prdinfo))->Product_UpdateFromDataResult;
 			}
 			else
 			{
-				$newProductNumber = $this->client->Product_CreateFromData(array('data' => $prdinfo))->Product_CreateFromDataResult;
+				return $this->client->Product_CreateFromData(array('data' => $prdinfo))->Product_CreateFromDataResult;
 			}
-
-			return $newProductNumber;
 		}
 		catch (Exception $exception)
 		{
@@ -1184,6 +1184,36 @@ class plgEconomicEconomic extends JPlugin
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
 				JError::raiseWarning(21, "storeProduct:" . $exception->getMessage());
+			}
+			else
+			{
+				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
+			}
+		}
+	}
+
+	/**
+	 * Get product barcode information from e-conomic product
+	 *
+	 * @param   object  $productHandle  Product Number Handle
+	 *
+	 * @return  string  Barcode
+	 */
+	protected function productGetBarCode($productHandle)
+	{
+		try
+		{
+			return $this->client->Product_GetBarCode(
+								array('productHandle' => $productHandle)
+							)->Product_GetBarCodeResult;
+		}
+		catch (Exception $e)
+		{
+			print("<p><i>ProductGetBarCode:" . $exception->getMessage() . "</i></p>");
+
+			if (DETAIL_ERROR_MESSAGE_ON)
+			{
+				JError::raiseWarning(21, "Product_GetBarCode:" . $exception->getMessage());
 			}
 			else
 			{
