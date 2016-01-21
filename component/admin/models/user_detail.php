@@ -239,23 +239,25 @@ class RedshopModelUser_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 			$query_default = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
-			$query_custom  = 'DELETE FROM ' . '#__users WHERE id IN (
-											SELECT user_id FROM '
-											. $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )
-										)';
 
 			if ($delete_joomla_users == 'yes')
 			{
+				$query_custom = 'SELECT user_id FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
 				$this->_db->setQuery($query_custom);
-				if (!$this->_db->execute())
-				{
-					$this->setError($this->_db->getErrorMsg());
+				$juser_ids = $this->_db->loadRowList();
 
-					return false;
+				foreach ($juser_ids as $juser_id) {
+					if (!JFactory::getUser($juser_id[0])->delete())
+					{
+						$this->setError($this->_db->getErrorMsg());
+
+						return false;
+					}
 				}
 			}
 
 			$this->_db->setQuery($query_default);
+
 			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
