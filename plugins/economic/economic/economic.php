@@ -1172,10 +1172,8 @@ class plgEconomicEconomic extends JPlugin
 
 				return $this->client->Product_UpdateFromData(array('data' => $prdinfo))->Product_UpdateFromDataResult;
 			}
-			else
-			{
-				return $this->client->Product_CreateFromData(array('data' => $prdinfo))->Product_CreateFromDataResult;
-			}
+
+			return $this->client->Product_CreateFromData(array('data' => $prdinfo))->Product_CreateFromDataResult;
 		}
 		catch (Exception $exception)
 		{
