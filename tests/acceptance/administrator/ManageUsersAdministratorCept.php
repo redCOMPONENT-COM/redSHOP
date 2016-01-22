@@ -25,5 +25,5 @@ $I->addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $la
 $I->searchUser($firstName);
 $I->editUser($firstName, $updateFirstName);
 $I->searchUser($updateFirstName);
-$I->deleteUser($updateFirstName);
+$I->deleteUser($updateFirstName, true);
 $I->searchUser($updateFirstName, 'Delete');
