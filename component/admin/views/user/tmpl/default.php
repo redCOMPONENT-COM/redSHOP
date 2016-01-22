@@ -34,7 +34,7 @@ $model         = $this->getModel('user');
 		) {
 			if ((pressbutton == 'remove') && confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'); ?>"))
 			{
-				form.delete_joomla_users.value = "yes";
+				form.delete_joomla_users.value = true;
 			}
 			form.view.value = "user_detail";
 		}
@@ -166,5 +166,5 @@ $model         = $this->getModel('user');
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists ['order']; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists ['order_Dir']; ?>"/>
-	<input type="hidden" name="delete_joomla_users" value="no"/>
+	<input type="hidden" name="delete_joomla_users"/>
 </form>
