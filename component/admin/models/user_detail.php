@@ -233,7 +233,7 @@ class RedshopModelUser_detail extends RedshopModel
 		return $reduser;
 	}
 
-	public function delete($cid = array(), $delete_joomla_users)
+	public function delete($delete_joomla_users, $cid = array())
 	{
 		if (count($cid))
 		{
