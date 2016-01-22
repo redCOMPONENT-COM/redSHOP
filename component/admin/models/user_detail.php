@@ -233,14 +233,14 @@ class RedshopModelUser_detail extends RedshopModel
 		return $reduser;
 	}
 
-	public function delete($cid = array(), $delete_joomla_users = 'no')
+	public function delete($cid = array(), $delete_joomla_users)
 	{
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 			$query_default = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
 
-			if ($delete_joomla_users == 'yes')
+			if ($delete_joomla_users)
 			{
 				$query_custom = 'SELECT user_id FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
 				$this->_db->setQuery($query_custom);
