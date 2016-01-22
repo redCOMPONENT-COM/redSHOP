@@ -87,7 +87,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		$model = $this->getModel('user_detail');
 
-		if (!$model->delete($delete_joomla_users, $cid))
+		if (!$model->delete($cid, $delete_joomla_users))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
