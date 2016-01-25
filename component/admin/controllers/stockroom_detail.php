@@ -143,7 +143,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 			$totalprd = count($prd);
 			$responcemsg = '';
 
-			for ($i = 0; $i < count($prd); $i++)
+			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
 				$ecoProductNumber = $economic->importStockFromEconomic($prd[$i]);

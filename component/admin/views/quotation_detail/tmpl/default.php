@@ -242,7 +242,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 			<?php
 			$unq = 1;
 
-			for ($i = 0; $i < count($quotation_item); $i++)
+			for ($i = 0, $in = count($quotation_item); $i < $in; $i++)
 			{
 				$quo = $quotation_item[$i];
 

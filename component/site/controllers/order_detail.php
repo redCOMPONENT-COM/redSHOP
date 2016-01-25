@@ -361,7 +361,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 			$orderItem = $this->_order_functions->getOrderItemDetail($orderId);
 
-			for ($i = 0; $i < count($orderItem); $i++)
+			for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 			{
 				$row = (array) $orderItem[$i];
 

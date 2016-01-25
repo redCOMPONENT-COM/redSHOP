@@ -89,7 +89,7 @@ if ($this->params->get("is_test"))
 	$formdata['test'] = 1;
 }
 
-for ($p = 0; $p < count($order_items); $p++)
+for ($p = 0, $pn = count($order_items); $p < $pn; $p++)
 {
 	// Price conversion
 	$product_item_price          = $currencyClass->convert($order_items[$p]->product_item_price, '', $this->params->get("dibs_currency"));

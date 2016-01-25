@@ -31,7 +31,7 @@ class RedshopViewShipping extends RedshopView
 		// Load language files
 		$shippings  = $this->get('Data');
 
-		for ($l = 0; $l < count($shippings); $l++)
+		for ($l = 0, $ln = count($shippings); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_shipping_' . strtolower($shippings[$l]->element);
 			$language->load($extension, JPATH_ADMINISTRATOR);

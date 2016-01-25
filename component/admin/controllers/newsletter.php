@@ -88,7 +88,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		$responcemsg = "";
 
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$subscriber = $model->getNewsletterSubscriber($newsletter_id, $cid[$i]);
 			$responcemsg .= "<div>" . $incNo . ": " . $subscriber->name . "( " . $subscriber->email . " ) -> ";

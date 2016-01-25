@@ -28,7 +28,7 @@ $title = $returnstring[1];
 
 $data = "";
 $rowdata = array();
-for ($i = 0; $i < count($querystring); $i++)
+for ($i = 0, $in = count($querystring); $i < $in; $i++)
 {
 	$rowdata[] = "['" . $querystring[$i]->xdata . "'," . $querystring[$i]->ydata . "]";
 }
