@@ -57,40 +57,8 @@ class CouponCheckoutProductCest
 			"phone" => "8787878787"
 		);
 
-		$randomNumber = rand(10, 1000);
-
-		if (($randomNumber % 2) == 1)
-		{
-			$productRandomizer = rand(10, 1000);
-
-			if (($productRandomizer % 2) == 1)
-			{
-				$productName = 'redSLIDER';
-			}
-			else
-			{
-				$productName = 'redCOOKIE';
-			}
-
-			$categoryName = 'Events and Forms';
-
-		}
-		else
-		{
-			$productRandomizer = rand(10, 1000);
-
-			if (($productRandomizer % 2) == 1)
-			{
-				$productName = 'redSHOP';
-			}
-			else
-			{
-				$productName = 'redITEM';
-			}
-
-			$categoryName = 'CCK and e-Commerce';
-
-		}
+		$productName = 'redCOOKIE';
+		$categoryName = 'Events and Forms';
 
 		$this->checkoutProductWithCouponCode($I, $scenario, $customerInformation, $customerInformation, $productName, $categoryName, $this->couponCode);
 		$I->doAdministratorLogin();
@@ -129,19 +97,9 @@ class CouponCheckoutProductCest
 		$I->click(['id' => 'coupon_button']);
 		$I->waitForText("The discount code is valid", 10, '.alert-success');
 		$I->see("The discount code is valid", '.alert-success');
-		$temp = $I->grabTextFrom(['xpath' => "(//table[@class='cart_calculations']//tbody//tr//td[2])[1]"]);
-		$amount = explode(',', $temp);
-		$actual = explode(' ', $amount[0]);
-		$subTotal = $actual[1];
-		$temp = $I->grabTextFrom(['xpath' => "(//table[@class='cart_calculations']//tbody//tr//td[2])[2]"]);
-		$amount = explode(',', $temp);
-		$actual = explode(' ', $amount[0]);
-		$discount = $actual[1];
-		$temp = $I->grabTextFrom(['xpath' => "//span[@id='spnTotal']"]);
-		$amount = explode(',', $temp);
-		$actual = explode(' ', $amount[0]);
-		$finalTotal = $actual[1];
-		$I->verifyTotals($subTotal, $discount, $finalTotal);
+		$I->see("$ 24,00", ['class' => "lc-subtotal"]);
+		$I->see("$ 10,00", ['class' => "lc-discount"]);
+		$I->see("$ 14,00", ['class' => "lc-total"]);
 	}
 
 	/**
