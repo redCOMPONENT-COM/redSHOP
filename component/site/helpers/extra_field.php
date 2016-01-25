@@ -274,7 +274,7 @@ class extraField
 
 		$ex_field = '';
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$type = $row_data[$i]->field_type;
 
@@ -338,7 +338,7 @@ class extraField
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$checked = '';
 
@@ -358,7 +358,7 @@ class extraField
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$checked = '';
 
@@ -379,7 +379,7 @@ class extraField
 
 					$ex_field .= '<select class="' . $row_data[$i]->field_class . ' ' . $class . '"    name="' . $row_data[$i]->field_name . '"   id="' . $row_data[$i]->field_name . '">';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$selected = '';
 
@@ -401,7 +401,7 @@ class extraField
 
 					$ex_field .= '<select class="' . $row_data[$i]->field_class . ' ' . $class . '"   multiple size=10 name="' . $row_data[$i]->field_name . '[]">';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$selected = '';
 
@@ -530,7 +530,7 @@ class extraField
 		$ex_field       = '';
 		$ex_field_title = '';
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$type = $row_data[$i]->field_type;
 			$asterisk = $row_data[$i]->required > 0 ? '* ' : '';
@@ -623,7 +623,7 @@ class extraField
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							$checked = '';
 
@@ -641,7 +641,7 @@ class extraField
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							$checked = '';
 
@@ -661,7 +661,7 @@ class extraField
 						$ex_field .= '<div class="userfield_input"><select name="extrafields' . $product_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
 						$ex_field .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							if ($field_chk[$c]->field_value != "" && $field_chk[$c]->field_value != "-" && $field_chk[$c]->field_value != "0" && $field_chk[$c]->field_value != "select")
 							{
@@ -685,7 +685,7 @@ class extraField
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafields' . $product_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							$selected = '';
 
@@ -758,7 +758,7 @@ class extraField
 						$chk_data  = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<table><tr>';
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							$ex_field .= '<td><div class="userfield_input"><img id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" class="pointer imgClass_' . $product_id . '" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $field_chk[$c]->field_name . '" title="' . $field_chk[$c]->field_value . '" alt="' . $field_chk[$c]->field_value . '" onclick="javascript:setProductUserFieldImage(\'' . $row_data[$i]->field_name . '\',\'' . $product_id . '\',\'' . $field_chk[$c]->field_value . '\',this);"/></div></td>';
 						}
@@ -812,7 +812,7 @@ class extraField
 								$ex_field .= '' . $asterisk . $row_data[$i]->field_title . ' : <select name="extrafields' . $product_id . '[]" id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '" ' . $req . ' >';
 								$ex_field .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 
-								for ($c = 0; $c < count($mainsplit_date_extra); $c++)
+								for ($c = 0, $cn = count($mainsplit_date_extra); $c < $cn; $c++)
 								{
 									if ($mainsplit_date_extra[$c] != "")
 									{
@@ -871,7 +871,7 @@ class extraField
 
 		$row_data = self::$extraFieldDisplay[$field_section][$field_name];
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$type                = $row_data[$i]->field_type;
 			$published           = $row_data[$i]->published;
@@ -890,8 +890,8 @@ class extraField
 				$search     = "{" . $row_data[$i]->field_name . "}";
 			}
 
-			if (count($data_value) != 0 
-				&& $published 
+			if (count($data_value) != 0
+				&& $published
 				&& ($field_show_in_front || JFactory::getApplication()->isAdmin()))
 			{
 				$displayvalue = '';
@@ -919,7 +919,7 @@ class extraField
 						$chk_data  = @explode(",", $data_value->data_txt);
 						$tmparr    = array();
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							if (@in_array(urlencode($field_chk[$c]->field_value), $chk_data))
 							{
@@ -1004,7 +1004,7 @@ class extraField
 
 						$displayvalue = '';
 
-						for ($c = 0; $c < count($document_value); $c++)
+						for ($c = 0, $cn = count($document_value); $c < $cn; $c++)
 						{
 							if (@in_array($document_value[$c]->value_id, $chk_data))
 							{

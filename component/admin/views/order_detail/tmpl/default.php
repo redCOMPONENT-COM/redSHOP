@@ -369,7 +369,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 $arr_discount_type = array();
 $arr_discount = explode('@', $this->detail->discount_type);
 $discount_type = '';
-for ($d = 0; $d < count($arr_discount); $d++)
+for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 {
 	if ($arr_discount[$d])
 	{
@@ -444,7 +444,7 @@ if (!$discount_type)
 $ordervolume = 0;
 $cart = array();
 $subtotal_excl_vat = 0;
-for ($i = 0; $i < count($products); $i++)
+for ($i = 0, $in = count($products); $i < $in; $i++)
 {
 	$cart[$i]['product_id'] = $products[$i]->product_id;
 	$cart[$i]['quantity'] = $products[$i]->product_quantity;

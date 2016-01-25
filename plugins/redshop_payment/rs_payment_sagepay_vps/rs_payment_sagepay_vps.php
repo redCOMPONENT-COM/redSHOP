@@ -195,7 +195,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		$response = explode(chr(10), $rawresponse);
 
 		// Tokenise the response
-		for ($i = 0; $i < count($response); $i++)
+		for ($i = 0, $in = count($response); $i < $in; $i++)
 		{
 			// Find position of first "=" character
 			$splitAt = strpos($response[$i], "=");

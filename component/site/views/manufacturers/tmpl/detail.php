@@ -72,7 +72,7 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 
 	if ($template_middle != "")
 	{
-		for ($i = 0; $i < count($category); $i++)
+		for ($i = 0, $in = count($category); $i < $in; $i++)
 		{
 			$cart_mdata .= $template_middle;
 			$catlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category[$i]->category_id . '&manufacturer_id=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
@@ -93,7 +93,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	$thum_image  = "";
 	$media_image = $producthelper->getAdditionMediaImage($row->manufacturer_id, "manufacturer");
 
-	for ($m = 0; $m < count($media_image); $m++)
+	for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 	{
 		if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 		{

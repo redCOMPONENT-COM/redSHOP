@@ -494,7 +494,7 @@ class RedshopModelSearch extends RedshopModel
 			$rows = $this->_db->loadObjectList();
 			$article = array();
 
-			for ($j = 0; $j < count($rows); $j++)
+			for ($j = 0, $jn = count($rows); $j < $jn; $j++)
 			{
 				if ($rows[$j]->sectionid != 0 && $rows[$j]->catid != 0)
 				{

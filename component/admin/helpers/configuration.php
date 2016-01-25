@@ -1529,7 +1529,7 @@ class Redconfiguration
 		$i            = 0;
 		$prev_country = '';
 
-		for ($j = 0; $j < count($states); $j++)
+		for ($j = 0, $jn = count($states); $j < $jn; $j++)
 		{
 			$state          = $states[$j];
 			$country_3_code = $state->country_3_code;

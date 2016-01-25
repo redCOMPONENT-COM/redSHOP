@@ -359,7 +359,7 @@ class RedshopModelProduct extends RedshopModel
 		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
 		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
 
-		for ($k = 0; $k < count($row_data); $k++)
+		for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
 		{
 			$myfield                        = "productuserfield_" . $k;
 			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
@@ -588,7 +588,7 @@ class RedshopModelProduct extends RedshopModel
 		$producthelper = new producthelper;
 		$info          = $producthelper->getChildProduct($parentid);
 
-		for ($i = 0; $i < count($info); $i++)
+		for ($i = 0, $in = count($info); $i < $in; $i++)
 		{
 			if ($childid != $info[$i]->product_id)
 			{

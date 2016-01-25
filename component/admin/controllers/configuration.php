@@ -30,6 +30,10 @@ class RedshopControllerConfiguration extends RedshopController
 	{
 		$post = JRequest::get('post');
 
+		$app = JFactory::getApplication();
+		$selectedTabPosition = $app->input->get('selectedTabPosition');
+		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
+
 		for ($p = 0; $p < $post['tot_prod']; $p++)
 		{
 			if ($post['prodmng' . $p] != "")
@@ -282,7 +286,7 @@ class RedshopControllerConfiguration extends RedshopController
 	{
 		$thumb_folder = array('product', 'category', 'manufacturer', 'product_attributes', 'property', 'subcolor', 'wrapper', 'shopperlogo');
 
-		for ($i = 0; $i < count($thumb_folder); $i++)
+		for ($i = 0, $in = count($thumb_folder); $i < $in; $i++)
 		{
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . $thumb_folder[$i] . '/thumb';
 
