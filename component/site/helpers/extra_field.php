@@ -333,7 +333,7 @@ class extraField
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$checked = '';
 
@@ -353,7 +353,7 @@ class extraField
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data  = @explode(",", $data_value->data_txt);
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$checked = '';
 
@@ -374,7 +374,7 @@ class extraField
 
 					$inputField = '<select class="' . $row_data[$i]->field_class . ' ' . $class . '"    name="' . $row_data[$i]->field_name . '"   id="' . $row_data[$i]->field_name . '">';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$selected = '';
 
@@ -396,7 +396,7 @@ class extraField
 
 					$inputField = '<select class="' . $row_data[$i]->field_class . ' ' . $class . '"   multiple size=10 name="' . $row_data[$i]->field_name . '[]">';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$selected = '';
 
