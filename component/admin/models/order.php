@@ -306,12 +306,7 @@ class RedshopModelOrder extends RedshopModel
 					);
 				}
 
-				$row = array_merge($row, $userDetail);
-
-				for ($i = 0, $in = count($row); $i < $in; $i++)
-				{
-					$row[$i] = utf8_decode($row[$i]);
-				}
+				$row = array_map('utf8_decode', array_merge($row, $userDetail));
 
 				// Output CSV line
 				fputcsv($outputCsv, $row);
