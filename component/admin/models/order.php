@@ -262,8 +262,8 @@ class RedshopModelOrder extends RedshopModel
 
 				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
-					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
+					$weight      = (float) $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * (float)$orderproducts[$c]->product_quantity);
 				}
 
 				$parceltype = 'A';
@@ -306,12 +306,7 @@ class RedshopModelOrder extends RedshopModel
 					);
 				}
 
-				$row = array_merge($row, $userDetail);
-
-				for ($i = 0, $in = count($row); $i < $in; $i++)
-				{
-					$row[$i] = utf8_decode($row[$i]);
-				}
+				$row = array_map('utf8_decode', array_merge($row, $userDetail));
 
 				// Output CSV line
 				fputcsv($outputCsv, $row);
@@ -360,8 +355,8 @@ class RedshopModelOrder extends RedshopModel
 
 				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
-					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
+					$weight      = (float) $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * (float) $orderproducts[$c]->product_quantity);
 				}
 
 				// Initialize row
@@ -452,13 +447,6 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function getProductWeight($productId)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_product'))
-				->where($db->qn('product_id') . ' = ' . (int) $productId);
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return RedshopHelperProduct::getProductById($productId)->weight;
 	}
 }

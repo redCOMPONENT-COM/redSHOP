@@ -7,7 +7,7 @@
  */
 use \AcceptanceTester;
 /**
- * Class CouponCheckoutProductCest
+ * Class VoucherCheckoutProductCest
  *
  * @package  AcceptanceTester
  *
@@ -15,36 +15,33 @@ use \AcceptanceTester;
  *
  * @since    1.4
  */
-class CouponCheckoutProductCest
+class VoucherCheckoutProductCest
 {
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->couponCode = $this->faker->bothify('CouponCheckoutProductCest ?##?');
-		$this->couponValueIn = 'Total';
-		$this->couponValue = '10';
-		$this->couponType = 'Globally';
-		$this->couponLeft = '10';
+		$this->randomVoucherCode = $this->faker->bothify('VoucherCheckoutProductCest ?##?');
+		$this->voucherAmount = 10;
+		$this->voucherCount = $this->faker->numberBetween(99, 999);
 	}
 
 	/**
-	 * Test to Verify the Payment Plugin
+	 * Test to Verify the Voucher Checkout
 	 *
 	 * @param   AcceptanceTester  $I         Actor Class Object
 	 * @param   String            $scenario  Scenario Variable
 	 *
 	 * @return void
 	 */
-	public function testProductsCouponFrontEnd(AcceptanceTester $I, $scenario)
+	public function testProductsVoucherFrontEnd(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
 
 		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
 		$I->doAdministratorLogin();
 
-		$this->createCoupon($I, $scenario);
-		$I->doAdministratorLogout();
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->doAdministratorLogout();
 		$customerInformation = array(
 			"email" => "test@test" . rand() . ".com",
 			"firstName" => "Tester",
@@ -56,17 +53,15 @@ class CouponCheckoutProductCest
 			"state" => "Karnataka",
 			"phone" => "8787878787"
 		);
-
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
-
-		$this->checkoutProductWithCouponCode($I, $scenario, $customerInformation, $customerInformation, $productName, $categoryName, $this->couponCode);
-		$I->doAdministratorLogin();
-		$this->deleteCoupon($I, $scenario);
+		$this->createVoucher($I, $scenario, $productName);
+		$this->checkoutProductWithVoucherCode($I, $scenario, $customerInformation, $customerInformation, $productName, $categoryName, $this->randomVoucherCode);
+		$this->deleteVoucher($I, $scenario);
 	}
 
 	/**
-	 * Function to Test Checkout Process of a Product using the Coupon Code
+	 * Function to Test Checkout Process of a Product using the Voucher Code
 	 *
 	 * @param   AcceptanceTester  $I               Actor Class Object
 	 * @param   String            $scenario        Scenario Variable
@@ -74,11 +69,11 @@ class CouponCheckoutProductCest
 	 * @param   Array             $shipmentDetail  Shipping Address Detail
 	 * @param   string            $productName     Name of the Product
 	 * @param   string            $categoryName    Name of the Category
-	 * @param   string            $couponCode      Code for the Coupon
+	 * @param   string            $voucherCode     Code for the Coupon
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWithCouponCode(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms', $couponCode)
+	private function checkoutProductWithVoucherCode(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms', $voucherCode)
 	{
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv,30);
@@ -93,7 +88,7 @@ class CouponCheckoutProductCest
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
 		$I->checkForPhpNoticesOrWarnings();
 		$I->seeElement(['link' => $productName]);
-		$I->fillField(['id' => 'coupon_input'], $couponCode);
+		$I->fillField(['id' => 'coupon_input'], $voucherCode);
 		$I->click(['id' => 'coupon_button']);
 		$I->waitForText("The discount code is valid", 10, '.alert-success');
 		$I->see("The discount code is valid", '.alert-success');
@@ -103,29 +98,40 @@ class CouponCheckoutProductCest
 	}
 
 	/**
-	 * Function to Test Coupon Creation in Backend
+	 * Function to Test Voucher Creation in Backend
 	 *
 	 */
-	private function createCoupon(AcceptanceTester $I, $scenario)
+	private function createVoucher(AcceptanceTester $I, $scenario, $productName = 'redCOOKIE')
 	{
-		$I->wantTo('Test Coupon creation in Administrator');
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Coupon');
-		$I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft);
-		$I->searchCoupon($this->couponCode);
+		$I->wantTo('Test Voucher creation in Administrator');
+		$I->doAdministratorLogin();
+		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+		$I->amOnPage(\VoucherManagerPage::$URL);
+		$I->click("ID");
+		$I->click('New');
+		$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
+		$I->fillField(\VoucherManagerPage::$voucherCode, $this->randomVoucherCode);
+		$I->fillField(\VoucherManagerPage::$voucherAmount, $this->voucherAmount);
+		$I->fillField(['id' => 's2id_autogen1'], $productName);
+		$I->waitForElement(['xpath' => "//div[@class='select2-result-label']"], 30);
+		$I->click(['xpath' => "//div[@class='select2-result-label']"]);
+		$I->fillField(\VoucherManagerPage::$voucherLeft, $this->voucherCount);
+		$I->click('Save & Close');
+		$I->see("Voucher details saved", '.alert-success');
+		$I->click("ID");
+		$I->see($this->randomVoucherCode, \VoucherManagerPage::$voucherResultRow);
+		$I->click("ID");
 	}
 
 	/**
-	 * Function to Test Coupon Deletion
+	 * Function to Test Voucher Deletion
 	 *
 	 */
-	private function deleteCoupon(AcceptanceTester $I, $scenario)
+	private function deleteVoucher(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Deletion of Coupon in Administrator');
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete a Coupon');
-		$I->deleteCoupon($this->couponCode);
-		$I->searchCoupon($this->couponCode, 'Delete');
+		$I->wantTo('Deletion of Voucher in Administrator');
+		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+		$I->deleteVoucher($this->randomVoucherCode);
 	}
 
 }

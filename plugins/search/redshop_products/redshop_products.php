@@ -9,16 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminConfiguration');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperUser');
-
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
 
 class plgSearchRedshop_products extends JPlugin
 {
@@ -33,6 +26,12 @@ class plgSearchRedshop_products extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
+
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+		JLoader::load('RedshopHelperAdminConfiguration');
+		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration->defineDynamicVars();
+
 		$this->loadLanguage();
 	}
 
@@ -122,7 +121,7 @@ class plgSearchRedshop_products extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text = $db->Quote('%' . $text . '%', false);
+				$text = $db->Quote('%' . $db->escape($text, true) . '%', false);
 
 				// Also search in Extra Field Data
 				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
@@ -150,7 +149,7 @@ class plgSearchRedshop_products extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->Quote('%' . $word . '%', false);
+					$word = $db->Quote('%' . $db->escape($word, true) . '%', false);
 
 					$ors = array();
 					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;

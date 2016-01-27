@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" client="site" type="plugin" group="search" method="upgrade">
 	<name>PLG_SEARCH_REDSHOP_PRODUCTS_NAME</name>
-	<version>1.5</version>
+	<version>1.5.3</version>
 	<redshop>1.5</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
