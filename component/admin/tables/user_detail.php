@@ -59,7 +59,7 @@ class Tableuser_detail extends JTable
 
 	public $veis_status = null;
 
-	public function Tableuser_detail(& $db)
+	public function __construct(& $db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
