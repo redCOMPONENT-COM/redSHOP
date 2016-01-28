@@ -18,7 +18,7 @@ class RedshopViewAnswer_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$producthelper = new producthelper;
-		$option = JRequest::getVar('option');
+
 
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_ANSWER') );

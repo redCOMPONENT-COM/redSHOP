@@ -19,8 +19,6 @@ $user->usertype = $usertype[0];
 $user->gid = $user->groups[$user->usertype];
 $quicklink_icon = explode(",", QUICKLINK_ICON);
 $new_arr = RedShopHelperImages::geticonarray();
-$option = JRequest::getCmd('option');
-
 ?>
 <script type="text/javascript">
 	window.addEvent('domready', function () {

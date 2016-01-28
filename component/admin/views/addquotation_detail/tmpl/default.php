@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$option  = JRequest::getVar('option');
 $billing = $this->billing;
 
 if ($this->detail->user_id < 0)
@@ -466,7 +465,7 @@ if (!JRequest::getvar('ajaxtask'))
 		</tbody>
 	</table>
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="addquotation_detail"/>
 </form>
 <div id="divCalc"></div>

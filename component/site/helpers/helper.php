@@ -256,9 +256,8 @@ class redhelper
 		}
 
 		$input = JFactory::getApplication()->input;
-		$option = $input->getCmd('option', '');
 
-		if ($option != 'com_redshop')
+		if ($input->getCmd('option', '') != 'com_redshop')
 		{
 			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{

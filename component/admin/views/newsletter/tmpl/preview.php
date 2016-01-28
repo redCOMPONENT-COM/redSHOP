@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 $post = JRequest::get('post');
 
-$option = JRequest::getVar('option');
+
 $filter = JRequest::getVar('filter');
 $number_order = JRequest::getVar('number_order', '');
 $model = $this->getModel('newsletter');
@@ -57,7 +57,7 @@ else
 	}
 </script>
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<input type="hidden" name="view" value="newsletter"/>
 	<input type="hidden" name="task" value="send_newsletter_preview"/>
 	<input type="hidden" name="newsletter_id" value="<?php if ($cid[0] != "") echo $cid[0];

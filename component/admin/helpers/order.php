@@ -727,7 +727,7 @@ class order_functions
 		$tmpl = JRequest::getVar('tmpl');
 		$newstatus = JRequest::getVar('status');
 		$paymentstatus = JRequest::getVar('order_paymentstatus');
-		$option = JRequest::getVar('option');
+
 		$return = JRequest::getVar('return');
 
 		$customer_note = JRequest::getVar('customer_note', '', 'request', 'string', JREQUEST_ALLOWRAW);
@@ -946,9 +946,9 @@ class order_functions
 
 		if ($return == 'order')
 		{
-			if ($option == 'com_redcrm')
+			if (JFactory::getApplication()->input->getCmd('option') == 'com_redcrm')
 			{
-				$app->redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->redirect('index.php?option=com_redcrm&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
 			}
 			else
 			{
@@ -1125,7 +1125,7 @@ class order_functions
 	{
 		$db = JFactory::getDbo();
 		$helper = new redhelper;
-		$option = JRequest::getVar('option');
+
 
 		$user = JFactory::getUser();
 

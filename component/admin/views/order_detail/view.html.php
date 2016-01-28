@@ -25,7 +25,7 @@ class RedshopViewOrder_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = new order_functions;

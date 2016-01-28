@@ -28,7 +28,7 @@ class RedshopViewMass_discount_detail extends RedshopView
 
 		$product_category = new product_category;
 
-		$option = JRequest::getVar('option');
+
 
 		$isNew = ($detail->mass_discount_id < 1);
 

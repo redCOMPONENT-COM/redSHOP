@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 $producthelper = new producthelper;
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $filter = JRequest::getVar('filter');
 $model = $this->getModel('giftcard');
 ?>
@@ -36,22 +36,9 @@ $model = $this->getModel('giftcard');
 	}
 
 </script>
-<form action="<?php
-echo 'index.php?option=' . $option;
-?>"
+<form action="index.php?option=com_redshop"
       method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<!--<table width="100%">
-	<tr>
-		<td valign="top" align="left" class="key">
-			<?php echo JText::_('COM_REDSHOP_USER_FILTER' ); ?>:
-				<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>" onchange="document.adminForm.submit();">
-			<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO' ); ?></button>
-			<button onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET' ); ?></button>
-		</td>
-	</tr>
-</table>
--->
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>

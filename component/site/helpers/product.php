@@ -4420,8 +4420,7 @@ class producthelper
 
 						if (count($manufacturer) > 0)
 						{
-							$man_url          = JRoute::_('index.php?option='
-								. $option . '&view=manufacturers&layout=products&mid='
+							$man_url          = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid='
 								. $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
 							$manufacturerLink = "<a href='" . $man_url . "'>" . JText::_("VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 							$accessory_div    = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $accessory_div);
@@ -5854,7 +5853,6 @@ class producthelper
 		$user_id         = 0;
 		$url             = JURI::base();
 		$stockroomhelper = new rsstockroomhelper;
-		$option          = 'com_redshop';
 		$Itemid          = JRequest::getInt('Itemid');
 
 		$product = $this->getProductById($product_id);
@@ -9152,7 +9150,6 @@ class producthelper
 	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
 		$url                 = JURI::base();
-		$option              = JRequest::getVar('option');
 		$product             = $this->getProductById($product_id);
 		$redhelper           = new redhelper;
 		$aHrefImageResponse  = '';
@@ -9291,7 +9288,6 @@ class producthelper
 		$redTemplate     = new Redtemplate ();
 		$stockroomhelper = new rsstockroomhelper;
 		$url             = JURI::base();
-		$option          = JRequest::getVar('option');
 		$redhelper       = new redhelper;
 
 		if ($accessory_id != 0)
@@ -10060,7 +10056,6 @@ class producthelper
 		$redhelper        = new redhelper;
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
-		$option           = 'com_redshop';
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
 
 		if (count($related_template) > 0)

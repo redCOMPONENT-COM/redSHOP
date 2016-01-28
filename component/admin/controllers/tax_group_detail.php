@@ -30,7 +30,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 	public function save()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 
 		$model = $this->getModel('tax_group_detail');
 
@@ -48,7 +48,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -84,7 +84,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -107,7 +107,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -130,7 +130,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
