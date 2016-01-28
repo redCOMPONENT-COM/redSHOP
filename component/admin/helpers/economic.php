@@ -31,7 +31,7 @@ class economic
 
 	public $_dispatcher = null;
 
-	public function economic()
+	public function __construct()
 	{
 		$db                     = JFactory::getDbo();
 		$this->_table_prefix    = '#__redshop_';
