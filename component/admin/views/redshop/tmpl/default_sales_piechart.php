@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 
 $user = JFactory::getUser();
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('redshop');
 
 $data = "[]";
@@ -60,7 +60,7 @@ if (is_array($rowdata))
 </script>
 
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="chartform" id="chartForm">
+<form action="index.php?option=com_redshop" method="post" name="chartform" id="chartForm">
 	<div id="editcell">
 
 		<table class="adminlist" width="100%">

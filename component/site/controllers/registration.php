@@ -33,7 +33,6 @@ class RedshopControllerRegistration extends RedshopController
 	{
 		$app    = JFactory::getApplication();
 		$post   = JRequest::get('post');
-		$option = JRequest::getCmd('option');
 		$Itemid = JRequest::getInt('Itemid', 0);
 
 		$prodhelperobj = new producthelper;

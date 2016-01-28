@@ -53,7 +53,7 @@ class RedshopControllerCategory_detail extends RedshopController
 			$post["category_more_template"] = implode(",", $post["category_more_template"]);
 		}
 
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['category_id'] = $cid [0];
 		$model = $this->getModel('category_detail');
@@ -83,7 +83,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -113,7 +113,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -135,7 +135,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -157,14 +157,14 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function orderup()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$model = $this->getModel('category_detail');
 		$model->orderup();
@@ -175,7 +175,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function orderdown()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$model = $this->getModel('category_detail');
 		$model->orderdown();
@@ -186,7 +186,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
@@ -202,7 +202,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function copy()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$model = $this->getModel('category_detail');
 

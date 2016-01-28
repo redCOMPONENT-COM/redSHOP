@@ -26,7 +26,7 @@ class RedshopControllerNewsletter extends RedshopController
 	public function send_newsletter()
 	{
 		$session = JFactory::getSession();
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$userid = JRequest::getVar('userid', array(0), 'post', 'array');

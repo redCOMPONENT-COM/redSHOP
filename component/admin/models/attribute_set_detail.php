@@ -114,7 +114,6 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function delete($cid = array())
 	{
 		$producthelper = new producthelper;
-		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		if (count($cid))
 		{
@@ -296,7 +295,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteattr($cid = array())
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		if (count($cid))
 		{
@@ -347,7 +346,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteprop($cid = array(), $image_name)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		if (count($cid))
 		{
@@ -396,7 +395,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteattr_current($cid = array())
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		if (count($cid))
 		{

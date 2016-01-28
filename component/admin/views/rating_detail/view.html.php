@@ -14,7 +14,7 @@ class RedshopViewRating_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+
 		$userslist = JRequest::getVar('userslist');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_RATING_MANAGEMENT_DETAIL'), 'redshop_rating48');

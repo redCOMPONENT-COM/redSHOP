@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -32,7 +32,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 	}
 
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<div class="filterItem">
 			<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>

@@ -35,7 +35,7 @@ class RedshopControllerShipping_detail extends RedshopController
 	{
 		$post = JRequest::get('post');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$option = JRequest::getVar('option');
+
 		$model = $this->getModel('shipping_detail');
 		$row = $model->store($post);
 
@@ -60,7 +60,7 @@ class RedshopControllerShipping_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$this->setRedirect('index.php?option=com_redshop&view=shipping');
 	}
 }

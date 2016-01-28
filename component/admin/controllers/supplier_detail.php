@@ -31,7 +31,7 @@ class RedshopControllerSupplier_detail extends RedshopController
 		$post = JRequest::get('post', JREQUEST_ALLOWRAW);
 		$supplier_desc = JRequest::getVar('supplier_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["supplier_desc"] = $supplier_desc;
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -54,7 +54,7 @@ class RedshopControllerSupplier_detail extends RedshopController
 	public function remove()
 	{
 
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -76,7 +76,7 @@ class RedshopControllerSupplier_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -98,7 +98,7 @@ class RedshopControllerSupplier_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -120,14 +120,14 @@ class RedshopControllerSupplier_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=supplier', $msg);
 	}
 
 	public function copy()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 

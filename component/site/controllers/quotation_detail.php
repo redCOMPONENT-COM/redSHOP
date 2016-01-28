@@ -32,7 +32,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function updatestatus()
 	{
 		$post   = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$Itemid = JRequest::getVar('Itemid');
 		$encr   = JRequest::getVar('encr');
 		$model = $this->getModel('quotation_detail');
@@ -61,7 +61,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 */
 	public function checkout()
 	{
-		$option = JRequest::getVar('option');
+
 		$Itemid = JRequest::getVar('Itemid');
 		$post   = JRequest::get('post');
 		$encr   = JRequest::getVar('encr');

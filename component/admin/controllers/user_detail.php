@@ -35,7 +35,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$post = JRequest::get('post');
 
 		$model = $this->getModel('user_detail');
@@ -74,7 +74,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
 
@@ -105,7 +105,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -127,7 +127,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -149,7 +149,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$info_id = JRequest::getVar('info_id', '', 'request', 'string');
 
@@ -171,7 +171,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function order()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$user_id = JRequest::getVar('user_id', 0, 'request', 'string');
 		$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id);
 	}

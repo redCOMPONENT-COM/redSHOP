@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option');
+
 $uri = JURI::getInstance();
 $url = $uri->root();
 $comment = JRequest::getVar('filter');

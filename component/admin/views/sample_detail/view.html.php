@@ -14,7 +14,7 @@ class RedshopViewSample_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
 

@@ -14,7 +14,7 @@ class RedshopViewSample_catalog extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+
 
 		$uri = JFactory::getURI();
 

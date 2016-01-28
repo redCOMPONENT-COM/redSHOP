@@ -337,19 +337,19 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
-		$this->setRedirect('index.php?option=' . $option);
+
+		$this->setRedirect('index.php?option=com_redshop');
 	}
 
 	public function resetTemplate()
 	{
 		$model = $this->getModel('configuration');
-		$option = JRequest::getVar('option');
+
 
 		$model->resetTemplate();
 
 		$msg = JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET');
-		$this->setRedirect('index.php?option=' . $option, $msg);
+		$this->setRedirect('index.php?option=com_redshop', $msg);
 	}
 
 	public function resetTermsCondition()

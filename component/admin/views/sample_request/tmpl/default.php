@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 $config = new Redconfiguration;
-$option = JRequest::getVar('option');
+
 
 JHTMLBehavior::modal();
 ?>
@@ -37,7 +37,7 @@ JHTMLBehavior::modal();
 		form.submit();
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist table table-striped">
 			<thead>
@@ -93,7 +93,7 @@ JHTMLBehavior::modal();
 				<td><?php echo  $row->email; ?></td>
 				<td align="center"><?php echo $config->convertDateFormat($row->registerdate); ?></td>
 				<td align="center"><a class="modal"
-				                      href="index.php?tmpl=component&option=<?php echo $option; ?>&amp;view=sample_catalog&amp;cid[]=<?php echo $row->request_id; ?>&amp;showbuttons=1"
+				                      href="index.php?tmpl=component&option=com_redshop&amp;view=sample_catalog&amp;cid[]=<?php echo $row->request_id; ?>&amp;showbuttons=1"
 				                      rel="{handler: 'iframe', size: {x: 400, y: 400}}" title="">
 						<?php echo JText::_('COM_REDSHOP_DETAIL'); ?></a>
 				</td>

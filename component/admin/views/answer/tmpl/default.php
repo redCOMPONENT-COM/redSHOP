@@ -11,7 +11,7 @@ JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 $config = new Redconfiguration;
 
-$option = JRequest::getVar('option');
+
 $filter = JRequest::getVar('filter');
 $lists = $this->lists;
 $ordering = ($this->lists['order'] == 'ordering');

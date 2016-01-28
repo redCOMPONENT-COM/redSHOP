@@ -34,7 +34,6 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['accountgroup_id'] = $cid [0];
 		$model = $this->getModel('accountgroup_detail');
@@ -61,14 +60,12 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
 	}
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -89,8 +86,6 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -111,7 +106,6 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)

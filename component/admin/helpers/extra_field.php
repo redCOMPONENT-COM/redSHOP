@@ -36,7 +36,7 @@ class extra_field
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
 		$db     = JFactory::getDbo();
-		$option = JRequest::getVar('option');
+
 		$uri    = JURI::getInstance();
 		$url    = $uri->root();
 		$q      = "SELECT * FROM #__redshop_fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
@@ -533,7 +533,7 @@ class extra_field
 	{
 		$db = JFactory::getDbo();
 
-		$option = JRequest::getVar('option');
+
 
 		$q = "SELECT * FROM #__redshop_fields "
 			. "WHERE field_section IN (" . (int) $field_section . ") "

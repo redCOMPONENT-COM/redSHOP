@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * wishlist Controller.
  *
@@ -127,7 +126,7 @@ function savewishlist()
 		$post   = array();
 		$mydel  = JRequest::getVar('mydel');
 		$model  = $this->getModel("wishlist");
-		$option = JRequest::getVar('option');
+
 		$Itemid = JRequest::getVar('Itemid');
 		$post['wishlist_id'] = JRequest::getVar('wishlist_id');
 
