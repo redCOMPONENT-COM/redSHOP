@@ -238,7 +238,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			$plugin = $element;
 		}
 
-		$option            = JRequest::getVar('option');
 		$Itemid            = JRequest::getVar('Itemid');
 		$ccinfo            = JRequest::getVar('ccinfo');
 		$order_id          = JRequest::getVar('order_id');
