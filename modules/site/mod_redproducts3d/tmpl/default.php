@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 $Itemid = JRequest::getInt('Itemid');
-$option = 'com_redshop';
 
 $document = JFactory::getDocument();
 JHTML::script('modules/mod_redproducts3d/js/redproduct360.js');

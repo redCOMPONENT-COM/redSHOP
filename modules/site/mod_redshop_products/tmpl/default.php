@@ -16,7 +16,6 @@ $url = $uri->root();
 
 $Itemid = JRequest::getInt('Itemid');
 $user   = JFactory::getUser();
-$option = 'com_redshop';
 
 $document = JFactory::getDocument();
 $document->addStyleSheet('modules/mod_redshop_products/css/products.css');

@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$option = JRequest::getCmd('option');
 JLoader::import('redshop.library');
 
-if ($option != 'com_redshop')
+if (JRequest::getCmd('option') != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 	JLoader::load('RedshopHelperAdminConfiguration');

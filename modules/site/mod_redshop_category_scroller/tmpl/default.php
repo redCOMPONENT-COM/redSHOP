@@ -21,7 +21,6 @@ $url = $uri->root();
 
 $Itemid = JRequest::getInt('Itemid');
 $user   = JFactory::getUser();
-$option = 'com_redshop';
 
 JHtml::_('redshopjquery.framework');
 $document = JFactory::getDocument();
