@@ -27,7 +27,6 @@ class RedshopViewConfiguration extends RedshopView
 	{
 		$db = JFactory::getDbo();
 
-		$option   = JRequest::getVar('option');
 		$document = JFactory::getDocument();
 		$layout   = JRequest::getVar('layout');
 

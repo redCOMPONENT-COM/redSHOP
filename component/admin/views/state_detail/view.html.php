@@ -32,7 +32,7 @@ class RedshopViewState_detail extends RedshopView
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$app->redirect('index.php?option=' . $option, $msg);
+			$app->redirect('index.php?option=com_redshop', $msg);
 		}
 
 		$text      = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
