@@ -1380,7 +1380,6 @@ class redshopMail
 		{
 			$config   = JFactory::getConfig();
 			$url      = JURI::root();
-			$option   = JRequest::getVar('option', '', 'request');
 			$mailbcc  = null;
 			$mailinfo = $this->getMailtemplate(0, "newsletter_confirmation");
 
@@ -1494,7 +1493,6 @@ class redshopMail
 		$producthelper = new producthelper;
 		$uri           = JURI::getInstance();
 		$url           = $uri->root();
-		$option        = JRequest::getVar('option');
 		$subject       = "";
 		$data_add      = "";
 		$mailbcc       = null;
