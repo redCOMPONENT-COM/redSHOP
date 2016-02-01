@@ -13,7 +13,6 @@ $app = JFactory::getApplication();
 $user = JFactory::getUser();
 $email = JRequest::getString('email');
 $name = JRequest::getString('name');
-$option = JRequest::getCmd('option');
 $Itemid = JRequest::getInt('Itemid');
 $newsletteritemid = $params->get('redirectpage');
 

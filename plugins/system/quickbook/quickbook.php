@@ -38,11 +38,10 @@ class plgSystemQuickbook extends JPlugin
 	public function onBeforeRender()
 	{
 		$app        = JFactory::getApplication();
-		$option     = $app->input->getCmd('option', '');
 		$control    = $app->input->getCmd('control', false);
 		$secretWord = $app->input->getCmd('secret', false);
 
-		if ($option == 'com_redshop'
+		if ($app->input->getCmd('option', '') == 'com_redshop'
 			&& $secretWord === $this->params->get('secretWord')
 			&& $control)
 		{

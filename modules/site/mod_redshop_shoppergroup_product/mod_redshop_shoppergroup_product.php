@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-$option = JRequest::getCmd('option');
 $image                    = trim($params->get('image', 0));
 $show_price               = trim($params->get('show_price', 0));
 $thumbwidth               = trim($params->get('thumbwidth', 100));
@@ -22,7 +21,7 @@ $show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
 $show_desc                = trim($params->get('show_desc', 1));
 $show_vat                 = trim($params->get('show_vat', 1));
 
-if ($option != 'com_redshop')
+if (JRequest::getCmd('option') != 'com_redshop')
 {
 	// Getting the configuration
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
