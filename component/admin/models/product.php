@@ -38,9 +38,8 @@ class RedshopModelProduct extends RedshopModel
 		{
 			$input = JFactory::getApplication()->input;
 			$view = $input->getString('view', '');
-			$option = $input->getString('option', '');
 			$layout = $input->getString('layout', 'none');
-			$this->context = strtolower($option . '.' . $view . '.' . $this->getName() . '.' . $layout);
+			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
 		parent::__construct($config);
