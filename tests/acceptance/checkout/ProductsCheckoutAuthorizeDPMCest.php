@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ProductsCheckoutAuthorizeDPMCest
  *
@@ -62,8 +62,39 @@ class ProductsCheckoutAuthorizeDPMCest
 			"state" => "Karnataka",
 			"phone" => "8787878787"
 		);
-		$productName = 'redCOOKIE';
-		$categoryName = 'Events and Forms';
+
+		$randomNumber = rand(10, 1000);
+		if (($randomNumber % 2) == 1)
+		{
+			$productRandomizer = rand(10, 1000);
+
+			if (($productRandomizer % 2) == 1)
+			{
+				$productName = 'redSLIDER';
+			}
+			else
+			{
+				$productName = 'redCOOKIE';
+			}
+
+			$categoryName = 'Events and Forms';
+		}
+		else
+		{
+			$productRandomizer = rand(10, 1000);
+
+			if (($productRandomizer % 2) == 1)
+			{
+				$productName = 'redSHOP';
+			}
+			else
+			{
+				$productName = 'redITEM';
+			}
+
+			$categoryName = 'CCK and e-Commerce';
+		}
+
 		$this->checkoutProductWithAuthorizeDPMPayment($I, $scenario, $customerInformation, $customerInformation, $checkoutAccountInformation, $productName, $categoryName);
 	}
 
@@ -83,11 +114,11 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchForItem('Authorize Direct Post Method');
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize Direct Post Method'), 30);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize Direct Post Method'), 60);
 		$I->checkExistenceOf('Authorize Direct Post Method');
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['id' => "jform_params_access_id"], 30);
+		$I->waitForElement(['id' => "jform_params_access_id"], 60);
 		$I->fillField(['id' => "jform_params_access_id"], $accessId);
 		$I->fillField(['id' => "jform_params_transaction_id"], $transactionKey);
 		$I->fillField(['id' => "jform_params_md5_key"], $md5Key);
@@ -115,14 +146,14 @@ class ProductsCheckoutAuthorizeDPMCest
 	private function checkoutProductWithAuthorizeDPMPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage('/index.php?option=com_redshop');
-		$I->waitForElement(['id' => "redshopcomponent"], 30);
+		$I->waitForElement(['id' => "redshopcomponent"], 60);
 		$I->checkForPhpNoticesOrWarnings();
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 60);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->waitForText("Product has been added to your cart.", 60, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
 		$I->checkForPhpNoticesOrWarnings();
@@ -137,17 +168,17 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
 		$I->click(['xpath' => "//div[@id='rs_payment_authorize_dpm']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement(['id' => "order_payment_name"], 10);
+		$I->waitForElement(['id' => "order_payment_name"], 60);
 		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
 		$I->fillField(['id' => "order_payment_number"], $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField(['id' => "credit_card_code"], $checkoutAccountDetail['cvv']);
 		$I->click(['xpath' => "//input[@value='VISA']"]);
 		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('This transaction has been approved.', 15, ['xpath' => "//td"]);
+		$I->waitForText('This transaction has been approved.', 60, ['xpath' => "//td"]);
 		$I->see('This transaction has been approved.', ['xpath' => "//td"]);
 	}
 }
