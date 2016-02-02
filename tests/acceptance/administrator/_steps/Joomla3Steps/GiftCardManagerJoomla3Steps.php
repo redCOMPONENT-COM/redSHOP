@@ -41,7 +41,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
 		$I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
 		$I->click('Save & Close');
-		$I->see('Gift Card Saved', '.alert-success');
+		$I->see('Item successfully saved.', '.alert-success');
 		$I->click(['link' => 'ID']);
 		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
 		$I->click(['link' => 'ID']);
@@ -67,7 +67,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\GiftCardManagerPage::$giftCardName);
 		$I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
 		$I->click('Save & Close');
-		$I->see('Gift Card Saved', '.alert-success');
+		$I->see('Item successfully saved.', '.alert-success');
 		$I->see($newCardName, \GiftCardManagerPage::$giftCardResultRow);
 		$I->click(['link' => 'ID']);
 	}
@@ -81,7 +81,13 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCard($cardName = 'Sample Card')
 	{
-		$this->delete(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, \GiftCardManagerPage::$firstResult);
+		$I = $this;
+		$I->amOnPage(\GiftCardManagerPage::$URL);
+		$I->click(['link' => 'ID']);
+		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
+		$I->click(\GiftCardManagerPage::$firstResult);
+		$I->click('Delete');
+		$I->dontSee($cardName, \GiftCardManagerPage::$giftCardResultRow);
 	}
 
 	/**
