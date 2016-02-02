@@ -401,7 +401,7 @@ class RedShopHelperImages extends JObject
 	{
 		$icon_array = array("products" => array('product', 'category', 'manufacturer', 'media'),
 							"orders" => array('order', 'quotation', 'stockroom'),
-							"discounts" => array('discount', 'giftcard', 'voucher', 'coupon'),
+							"discounts" => array('discount', 'giftcards', 'voucher', 'coupon'),
 							"communications" => array('mail', 'newsletter'),
 							"shippings" => array('shipping', 'shipping_box', 'shipping_detail', 'wrapper'),
 							"users" => array('user', 'shopper_group', 'accessmanager'),
