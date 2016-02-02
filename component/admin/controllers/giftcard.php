@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerGiftcard extends RedshopController
+/**
+ * The giftcard detail controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller.Giftcard
+ * @since       1.6
+ */
+class RedshopControllerGiftcard extends RedshopControllerForm
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
 }
