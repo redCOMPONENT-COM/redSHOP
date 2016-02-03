@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperAdminShipping');
@@ -401,118 +400,6 @@ class RedshopModelProduct extends RedshopModel
 		$list = $this->_db->loadObject();
 
 		return $list;
-	}
-
-	public function checkComparelist($product_id)
-	{
-		$session         = JFactory::getSession();
-		$compare_product = $session->get('compare_product');
-		$cid             = JRequest::getInt('cid');
-		$catid           = isset($compare_product[0]['category_id']) ? $compare_product[0]['category_id'] : 0;
-
-		if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
-		{
-			unset($compare_product);
-			$compare['idx'] = 0;
-		}
-
-		if ($product_id != 0)
-		{
-			if (!isset($compare_product) || !$compare_product)
-			{
-				// Return true to store product in compare product cart.
-				return true;
-			}
-			else
-			{
-				$idx = (int) ($compare_product['idx']);
-
-				for ($i = 0; $i < $idx; $i++)
-				{
-					if ($compare_product[$i]["product_id"] == $product_id)
-					{
-						// Return false if product is already in compare product cart
-						return false;
-					}
-				}
-
-				return true;
-			}
-		}
-
-		// If function is called for total product in cart than return no of product in cart*/
-		return isset($compare_product['idx']) ? (int) ($compare_product['idx']) : 0;
-	}
-
-	public function addtocompare($data)
-	{
-		$session         = JFactory::getSession();
-		$compare_product = $session->get('compare_product');
-
-		if (!$compare_product)
-		{
-			$compare_product        = array();
-			$compare_product['idx'] = 0;
-
-			$session->set('compare_product', $compare_product);
-			$compare_product = $session->get('compare_product');
-		}
-
-		$idx = (int) ($compare_product['idx']);
-
-		if (PRODUCT_COMPARISON_TYPE == 'category' && (!isset($compare_product[0]["category_id"]) || $compare_product[0]["category_id"] != $data["cid"]))
-		{
-			unset($compare_product);
-			$idx = 0;
-		}
-
-		$compare_product[$idx]["product_id"]  = (int) $data["pid"];
-		$compare_product[$idx]["category_id"] = (int) $data["cid"];
-
-		$compare_product['idx'] = $idx + 1;
-		$session->set('compare_product', $compare_product);
-
-		return true;
-	}
-
-	public function removeCompare($product_id)
-	{
-		$session         = JFactory::getSession();
-		$compare_product = $session->get('compare_product');
-
-		if (!$compare_product)
-		{
-			return;
-		}
-
-		$tmp_array = array();
-		$idx       = (int) ($compare_product['idx']);
-		$tmp_i     = 0;
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			if ($compare_product[$i]["product_id"] != $product_id)
-			{
-				$tmp_array[] = $compare_product[$i];
-			}
-			else
-			{
-				$tmp_i++;
-			}
-		}
-
-		$idx -= $tmp_i;
-
-		if ($idx < 0)
-		{
-			$idx = 0;
-		}
-
-		$compare_product        = $tmp_array;
-		$compare_product['idx'] = $idx;
-		$session->set('compare_product', $compare_product);
-
-		return true;
 	}
 
 	/**

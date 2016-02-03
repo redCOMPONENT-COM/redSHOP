@@ -7018,12 +7018,9 @@ class producthelper
 			if (strstr($data_add, '{' . $prefix . 'compare_product_div}'))
 			{
 				$div                 = $this->makeCompareProductDiv();
-				$compare_product_div = "<form name='frmCompare' method='post' action='"
-					. JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid) . "' >";
-				$compare_product_div .= "<a href='javascript:compare();' >" . JText::_('COM_REDSHOP_COMPARE')
+				$compare_product_div = "<a href='" . JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid) . "' >" . JText::_('COM_REDSHOP_COMPARE')
 					. "</a><br />";
 				$compare_product_div .= "<div id='divCompareProduct'>" . $div . "</div>";
-				$compare_product_div .= "</form>";
 				$data_add = str_replace("{compare_product_div}", $compare_product_div, $data_add);
 			}
 
@@ -7034,11 +7031,24 @@ class producthelper
 					$category_id = $this->getCategoryProduct($product_id);
 				}
 
-				$chked           = $this->checkcompareproduct($product_id);
-				$compare_product = "<input type='checkbox' id='chk" . $category_id . $product_id . "' " . $chked
-					. " onClick='add_to_compare(" . $product_id . "," . $category_id . ")'>"
-					. JText::_("COM_REDSHOP_ADD_TO_COMPARE");
-				$data_add        = str_replace("{" . $prefix . "compare_products_button}", $compare_product, $data_add);
+				$compareButton = new stdClass;
+				$compareButton->text = JText::_("COM_REDSHOP_ADD_TO_COMPARE");
+				$compareButton->value = $product_id . '.' . $category_id;
+
+				$compareButtonAttributes = array(
+					'cssClassSuffix' => ' no-group'
+				);
+
+				$compare_product = JHTML::_(
+						'redshopselect.checklist',
+						array($compareButton),
+						'rsProductCompareChk',
+						$compareButtonAttributes,
+						'value',
+						'text',
+						(new RedshopProductCompare)->getItemKey($product_id)
+					);
+				$data_add = str_replace("{" . $prefix . "compare_products_button}", $compare_product, $data_add);
 			}
 		}
 		else
@@ -8516,31 +8526,6 @@ class producthelper
 		return $price;
 	}
 
-	/*
-	 * 	return checked if product is in session of compare product cart else blank
-	 */
-
-	public function checkcompareproduct($product_id)
-	{
-		$compare_product = $this->_session->get('compare_product');
-
-		if ($product_id != 0)
-		{
-			if (!$compare_product)
-				return "";
-			else
-			{
-				$idx = (int) ($compare_product['idx']);
-
-				for ($i = 0; $i < $idx; $i++)
-					if ($compare_product[$i]["product_id"] == $product_id)
-						return "checked";
-
-				return "";
-			}
-		}
-	}
-
 	public function makeCompareProductDiv()
 	{
 		$Itemid          = JRequest::getVar('Itemid');
@@ -9080,6 +9065,11 @@ class producthelper
 			. "AND t.published=1";
 		$this->_db->setQuery($query);
 		$tmp_name = $this->_db->loadResult();
+
+		if ($tmp_name == '')
+		{
+			$tmp_name = COMPARE_TEMPLATE_ID;
+		}
 
 		return $tmp_name;
 	}
