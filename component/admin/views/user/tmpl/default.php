@@ -32,6 +32,10 @@ $model         = $this->getModel('user');
 		else if (
 			(pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish') || (pressbutton == 'remove') || (pressbutton == 'copy')
 		) {
+			if ((pressbutton == 'remove') && confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'); ?>"))
+			{
+				form.delete_joomla_users.value = true;
+			}
 			form.view.value = "user_detail";
 		}
 		try {
@@ -162,4 +166,5 @@ $model         = $this->getModel('user');
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists ['order']; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists ['order_Dir']; ?>"/>
+	<input type="hidden" name="delete_joomla_users"/>
 </form>
