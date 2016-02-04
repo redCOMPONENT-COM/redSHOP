@@ -54,6 +54,13 @@ jQuery(document).ready(function() {
     jQuery('[id^="rsProductCompareChk"]').click(function(event) {
     	redSHOP.addToCompare(jQuery(this));
     });
+
+    // Hide some checkout view stuff
+    jQuery('#divPrivateTemplateId').hide();
+    jQuery('#divCompanyTemplateId').hide();
+
+    // Click public or private registration form function
+    showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
 });
 
 function validateInputNumber(objid)
@@ -601,97 +608,61 @@ function searchByPhone()
 
 function showCompanyOrCustomer(obj)
 {
-	if(obj)
+	if(!obj)
 	{
-		if(obj.value==1)	// For Company
-		{
-			if(document.getElementById('divCompanyTemplateId'))
-			{
-				template_id = parseInt(document.getElementById('divCompanyTemplateId').innerHTML);
-			}
-			if(document.getElementById('is_company'))
-			{
-				document.getElementById('is_company').value='1';
-			}
-			if(document.getElementById('company_registrationintro'))
-			{
-				document.getElementById('company_registrationintro').style.display='';
-			}
-			if(document.getElementById('customer_registrationintro'))
-			{
-				document.getElementById('customer_registrationintro').style.display='none';
-			}
-		}
-		else	// For Customer
-		{
-			if(document.getElementById('divPrivateTemplateId'))
-			{
-				template_id = parseInt(document.getElementById('divPrivateTemplateId').innerHTML);
-			}
-			if(document.getElementById('is_company'))
-			{
-				document.getElementById('is_company').value='0';
-			}
-			if(document.getElementById('company_registrationintro'))
-			{
-				document.getElementById('company_registrationintro').style.display='none';
-			}
-			if(document.getElementById('customer_registrationintro'))
-			{
-				document.getElementById('customer_registrationintro').style.display='';
-			}
-		}
-		if (window.XMLHttpRequest)
-	  	{// code for IE7+, Firefox, Chrome, Opera, Safari
-	  		xmlhttp=new XMLHttpRequest();
-	  	}
-		else
-		{// code for IE6, IE5
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				if(xmlhttp.responseText!="")
-				{
-					if(document.getElementById('tmpRegistrationDiv'))
-					{
-						document.getElementById('tmpRegistrationDiv').innerHTML=xmlhttp.responseText;
-					}
-					if(obj.value==1)
-					{
-						if(document.getElementById('tblcompany_customer'))
-						{
-							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
-							document.getElementById('tblcompany_customer').innerHTML=textHtml;
-						}
-						if(document.getElementById('tblprivate_customer'))
-						{
-							document.getElementById('tblprivate_customer').innerHTML='';
-						}
-					}
-					else
-					{
-						if(document.getElementById('tblcompany_customer'))
-						{
-							document.getElementById('tblcompany_customer').innerHTML='';
-						}
-						if(document.getElementById('tblprivate_customer'))
-						{
-							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
-							document.getElementById('tblprivate_customer').innerHTML=textHtml;
-						}
-					}
-					document.getElementById('tmpRegistrationDiv').innerHTML='';
-				}
-			}
-		}
-		var linktocontroller = "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
-		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
-		xmlhttp.open("GET",linktocontroller,true);
-		xmlhttp.send(null);
+		return false;
 	}
+
+	// For Company
+	if(obj.value == 1)
+	{
+		template_id = parseInt(jQuery('#divCompanyTemplateId').html());
+
+		jQuery('#is_company').val('1');
+		jQuery('#company_registrationintro').show();
+		jQuery('#customer_registrationintro').hide();
+		jQuery('#exCompanyFieldST').show();
+		jQuery('#exCustomerFieldST').hide();
+	}
+	// For Customer
+	else
+	{
+		template_id = parseInt(jQuery('#divPrivateTemplateId').html());
+
+		jQuery('#is_company').val('0');
+		jQuery('#company_registrationintro').hide();
+		jQuery('#customer_registrationintro').show();
+		jQuery('#exCompanyFieldST').hide();
+		jQuery('#exCustomerFieldST').show();
+	}
+
+	var linktocontroller = "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
+		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
+
+	jQuery.ajax({
+		url: linktocontroller,
+		type: 'GET'
+	})
+	.done(function(response) {
+
+		jQuery('#tmpRegistrationDiv').html(response);
+
+		if(obj.value==1)
+		{
+			jQuery('#tblcompany_customer').html(jQuery('#ajaxRegistrationDiv').html());
+			jQuery('#tblprivate_customer').html('');
+		}
+		else
+		{
+			jQuery('#tblprivate_customer').html(jQuery('#ajaxRegistrationDiv').html());
+			jQuery('#tblcompany_customer').html('');
+		}
+
+		jQuery('#tmpRegistrationDiv').html('');
+	})
+	.fail(function() {
+		console.warn("error");
+	});
 }
 
 function updateGLSLocation(zipcode)
