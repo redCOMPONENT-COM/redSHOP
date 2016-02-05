@@ -147,5 +147,7 @@ class ProductsCheckoutAuthorizeCest
 		$I->click(['id' => "checkout_final"]);
 		$I->waitForText('Order placed', 60, ['xpath' => "//div[@class='alert alert-success']"]);
 		$I->see('Order placed', "//div[@class='alert alert-success']");
+		$I->doAdministratorLogin();
+		$I->uninstallExtension('Authorize Payments', true);
 	}
 }
