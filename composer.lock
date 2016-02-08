@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0a13ef04382bd1c3f3c5f4423b51862d",
-    "content-hash": "783a13f714d613e2c4bc667c9a5e0916",
+    "hash": "ce2c567188a770f142d86775d733cbcd",
+    "content-hash": "c6413d2c69070d8f2bf4886dccd61fe5",
     "packages": [
         {
             "name": "joomla-projects/joomla-browser",
@@ -708,16 +708,16 @@
         },
         {
             "name": "joomla-projects/selenium-server-standalone",
-            "version": "v2.47.1",
+            "version": "v2.50.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/selenium-server-standalone.git",
-                "reference": "ee9d37f7bab058c010a9109803e23d6198329d22"
+                "reference": "864e7afc441d8b4eae24b775edb085fc3ea8da64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/selenium-server-standalone/zipball/ee9d37f7bab058c010a9109803e23d6198329d22",
-                "reference": "ee9d37f7bab058c010a9109803e23d6198329d22",
+                "url": "https://api.github.com/repos/joomla-projects/selenium-server-standalone/zipball/864e7afc441d8b4eae24b775edb085fc3ea8da64",
+                "reference": "864e7afc441d8b4eae24b775edb085fc3ea8da64",
                 "shasum": ""
             },
             "bin": [
@@ -740,7 +740,7 @@
                 "selenium",
                 "testing"
             ],
-            "time": "2015-09-30 10:26:45"
+            "time": "2016-02-03 16:06:58"
         },
         {
             "name": "knplabs/github-api",
@@ -2217,16 +2217,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "49ff736bd5d41f45240cec77b44967d76e0c3d25"
+                "reference": "1289d16209491b584839022f29257ad859b8532d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/49ff736bd5d41f45240cec77b44967d76e0c3d25",
-                "reference": "49ff736bd5d41f45240cec77b44967d76e0c3d25",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/1289d16209491b584839022f29257ad859b8532d",
+                "reference": "1289d16209491b584839022f29257ad859b8532d",
                 "shasum": ""
             },
             "require": {
@@ -2238,7 +2238,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2272,7 +2272,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-20 09:19:13"
+            "time": "2016-01-20 09:13:37"
         },
         {
             "name": "symfony/process",
