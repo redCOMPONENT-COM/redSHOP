@@ -270,8 +270,8 @@ class RoboFile extends \Robo\Tasks
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/checkout/')
-			->run()
-			->stopOnFail();
+			->run();
+			// ->stopOnFail();
 
         $this->taskCodecept()
              ->arg('--steps')
