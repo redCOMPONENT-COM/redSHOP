@@ -119,22 +119,17 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 		return $values;
 	}
 
-	public function PPHttpPost($methodName_, $nvpStr_)
+	public function PPHttpPost($methodName, $nvpStr_)
 	{
-		$api_username = $this->params->get('api_username', '');
-		$api_password = $this->params->get('api_password', '');
-		$api_signature = $this->params->get('api_signature', '');
-
 		// Set up your API credentials, PayPal end point, and API version.
-		$API_UserName = urlencode($api_username);
-		$API_Password = urlencode($api_password);
-		$API_Signature = urlencode($api_signature);
-		$API_method = urlencode('DoDirectPayment');
+		$API_UserName  = urlencode($this->params->get('api_username', ''));
+		$API_Password  = urlencode($this->params->get('api_password', ''));
+		$API_Signature = urlencode($this->params->get('api_signature', ''));
 
 		$API_Endpoint = "https://api-3t.paypal.com/nvp";
-		$apiurl = $this->params->get('is_test', '');
+		$isTest       = $this->params->get('is_test', '');
 
-		if ($apiurl)
+		if ($isTest)
 		{
 			$API_Endpoint = "https://api-3t.sandbox.paypal.com/nvp";
 		}
@@ -164,7 +159,7 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 
 		if (!$httpResponse)
 		{
-			exit(JText::sprintf('PLG_RS_PAYMENT_PAYPALPRO_METHOD_FAILED', $methodName_, $ch, $ch));
+			exit(JText::sprintf('PLG_RS_PAYMENT_PAYPALPRO_METHOD_FAILED', $methodName, $ch, $ch));
 		}
 
 		// Extract the response details.
@@ -193,8 +188,8 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 	public function onCapture_Paymentrs_payment_paypalpro($element, $data)
 	{
 		// Set request-specific fields.
-		$authorizationID = urlencode($this->params->get('api_username'));
-		$amount = urlencode($data['order_amount']);
+		$authorizationID = $data['order_transactionid'];
+		$amount          = urlencode($data['order_amount']);
 
 		// Or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
 		$currency         = urlencode(CURRENCY_CODE);
@@ -206,6 +201,7 @@ class PlgRedshop_Paymentrs_Payment_Paypalpro extends JPlugin
 
 		// Execute the API operation; see the PPHttpPost function above.
 		$httpParsedResponseAr = $this->PPHttpPost('DoCapture', $nvpStr);
+
 		$values = new stdClass;
 
 		if ("SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"]))
