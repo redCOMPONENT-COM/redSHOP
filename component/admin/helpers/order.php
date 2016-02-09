@@ -607,16 +607,16 @@ class order_functions
 		}
 	}
 
+	/**
+	 * Get order status list
+	 *
+	 * @deprecated  1.6  Use RedshopHelperOrder::getOrderStatusList() instead
+	 *
+	 * @return  array  Order status list
+	 */
 	public function getOrderStatus()
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT order_status_code AS value, order_status_name AS text " . "FROM #__redshop_order_status " . "where published='1' ";
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
-		$this->_orderstatuslist = $list;
-
-		return $list;
+		return RedshopHelperOrder::getOrderStatusList();
 	}
 
 	public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')

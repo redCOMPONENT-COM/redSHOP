@@ -17,6 +17,13 @@ defined('_JEXEC') or die;
 class RedshopHelperOrder
 {
 	/**
+	 * All the published status code
+	 *
+	 * @var  null
+	 */
+	protected static $allStatus = null;
+
+	/**
 	 * Generate Invoice number in chronological order
 	 *
 	 * @param   integer  $orderId  Order Id
@@ -172,5 +179,44 @@ class RedshopHelperOrder
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
+	}
+
+	/**
+	 * Get all the order status code information list
+	 *
+	 * @return  array  Order Status info
+	 */
+	public static function getOrderStatusList()
+	{
+		if (!empty(self::$allStatus))
+		{
+			return self::$allStatus;
+		}
+
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select(
+						array(
+							$db->qn('order_status_code', 'value'),
+							$db->qn('order_status_name', 'text')
+						)
+					)
+					->from($db->qn('#__redshop_order_status'))
+					->where($db->qn('published') . ' = ' . $db->q('1'));
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+		self::$allStatus = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		return self::$allStatus;
 	}
 }
