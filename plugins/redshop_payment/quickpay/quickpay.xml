@@ -31,6 +31,16 @@
 					description="PLG_REDSHOP_PAYMENT_QUICKPAY_MERCHANT_ID_DESC"
 				/>
 				<field
+					name="privateKey"
+					type="password"
+					default=""
+					required="true"
+					class="input-xlarge"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PRIVATE_KEY_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PRIVATE_KEY_DESC"
+				/>
+				<field type="spacer" name="privateKeySpacer" hr="true" />
+				<field
 					name="agreementId"
 					type="text"
 					default=""
@@ -48,6 +58,26 @@
 					label="PLG_REDSHOP_PAYMENT_QUICKPAY_APIKEY_LABEL"
 					description="PLG_REDSHOP_PAYMENT_QUICKPAY_APIKEY_DESC"
 				/>
+				<field type="spacer" name="PaymentWindowKeySpacer" hr="true" />
+				<field
+					name="apiAgreementId"
+					type="text"
+					default=""
+					required="true"
+					class="input-mini validate-numeric"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_API_AGREEMENT_ID_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_API_AGREEMENT_ID_DESC"
+				/>
+				<field
+					name="apiUserKey"
+					type="password"
+					default=""
+					required="true"
+					class="input-xlarge"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_USER_APIKEY_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_USER_APIKEY_DESC"
+				/>
+				<field type="spacer" name="apiKeySpacer" hr="true" />
 				<field
 					name="useOrderId"
 					type="radio"
@@ -94,6 +124,17 @@
 					<option value="!sofort">Sofort</option>
 					<option value="!viabill">ViaBill</option>
 					<option value="!paii">Paii</option>
+				</field>
+				<field
+					name="refund"
+					type="radio"
+					default="0"
+					class="btn-group btn-group-yesno"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_REFUND_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_REFUND_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
