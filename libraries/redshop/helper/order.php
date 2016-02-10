@@ -17,11 +17,53 @@ defined('_JEXEC') or die;
 class RedshopHelperOrder
 {
 	/**
+	 * Order Info
+	 *
+	 * @var  array
+	 */
+	protected static $orderInfo = array();
+
+	/**
 	 * All the published status code
 	 *
 	 * @var  null
 	 */
 	protected static $allStatus = null;
+
+	/**
+	 * Get order information from order id.
+	 *
+	 * @param   integer   $orderId  Order Id
+	 * @param   boolean   $force    Force to get order information from DB instead of cache.
+	 *
+	 * @return  object    Order Information Object
+	 */
+	public static function getOrderDetail($orderId, $force = false)
+	{
+		if (array_key_exists($orderId, self::$orderInfo) && !$force)
+		{
+			return self::$orderInfo[$orderId];
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_orders'))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+
+		// Set the query and load the result.
+		self::$orderInfo[$orderId] = $db->setQuery($query, 0, 1)->loadObject();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		return self::$orderInfo[$orderId];
+	}
 
 	/**
 	 * Generate Invoice number in chronological order
