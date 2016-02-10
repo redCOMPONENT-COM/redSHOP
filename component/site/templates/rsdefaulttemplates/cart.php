@@ -76,7 +76,7 @@
 				<!-- {if vat} -->
 				<tr>
 					<td>{vat_lbl}</td>
-					<td width="100">{tax}</td>
+					<td width="100" class="lc-vat">{tax}</td>
 				</tr>
 				<!-- {vat end if} -->
 				<!-- {if payment_discount}-->
