@@ -143,8 +143,7 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 		}
 
 		if ($operation->pending
-				|| $operation->qp_status_code != 20000
-				|| $operation->aq_status_code != 20000)
+				|| $operation->qp_status_code != 20000)
 		{
 			return $this->setStatus(
 				$orderId,
@@ -167,7 +166,7 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 						$orderId,
 						$transactionId,
 						$this->params->get('verify_status', ''),
-						'Unpaid',
+						'Paid',
 						$operation->qp_status_msg . '<br />' . $operation->aq_status_msg,
 						JText::_('PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENT_SUCCESS_LOG')
 					);
@@ -245,8 +244,7 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 			$operation = $operations[count($operations) - 1];
 
 			if ($operation->pending
-				|| $operation->qp_status_code != 20000
-				|| $operation->aq_status_code != 20000)
+				|| $operation->qp_status_code != 20000)
 			{
 				$message                = $operation->qp_status_msg . '<br />' . $operation->aq_status_msg;
 				$values->responsestatus = 'Fail';
