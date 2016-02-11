@@ -124,9 +124,9 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 
 		if (strlen((int) $zipcode) == 4)
 		{
-			$url = "http://api.postnord.com/wsp/rest/BusinessLocationLocator"
-				. "/Logistics/ServicePointService_1.0/findNearestByAddress.json?"
-				. "consumerId=" . $this->params->get('consumerId')
+			$url = "https://api2.postnord.com/rest/businesslocation/v1/servicepoint/findNearestByAddress.json?"
+				. 'returntype=json'
+				. "&apikey=" . $this->params->get('consumerId')
 				. "&countryCode=" . trim($countryCode)
 				. "&postalCode=" . trim($zipcode)
 				. "&numberOfServicePoints=12";
