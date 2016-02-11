@@ -3,6 +3,8 @@ redSHOP = window.redSHOP || {};
 
 redSHOP.addToCompare = function(ele){
 
+	if (!ele.length) {return;}
+
 	var data = ele.val().split('.');
 
 	if (data.length <= 1)
