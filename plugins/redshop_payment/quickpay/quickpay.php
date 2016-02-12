@@ -66,7 +66,10 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 			'autocapture'     => $this->params->get("autoCapture")
 		);
 
-		$paymentMethods = $this->params->get("paymentMethods");
+		$paymentMethods = array_merge(
+			$this->params->get('paymentMethods', array()),
+			$this->params->get('paymentMethodsExlude', array())
+		);
 
 		if (!empty($paymentMethods))
 		{
