@@ -108,6 +108,31 @@
 					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENTMETHODS_LABEL"
 					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENTMETHODS_DESC"
 				>
+					<option value="american-express">American Express</option>
+					<option value="dankort">Dankort</option>
+					<option value="diners">Diners Club</option>
+					<option value="edankort">eDankort</option>
+					<option value="fbg1886">Forbrugsforeningen af 1886</option>
+					<option value="jcb">JCB (3D)</option>
+					<option value="maestro">Maestro debit card 3D (only)</option>
+					<option value="mastercard">Mastercard (3D)</option>
+					<option value="mastercard-debet">Mastercard debet card (3D)</option>
+					<option value="mobilepay">MobilePay Online</option>
+					<option value="visa">Visa</option>
+					<option value="visa-electron">Visa debet (former Visa Electron)</option>
+					<option value="paypal">PayPal</option>
+					<option value="sofort">Sofort</option>
+					<option value="viabill">ViaBill</option>
+					<option value="paii">Paii</option>
+				</field>
+				<field
+					name="paymentMethodsExlude"
+					type="list"
+					default=""
+					multiple="multiple"
+					label="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENTMETHODS_EXCLUDE_LABEL"
+					description="PLG_REDSHOP_PAYMENT_QUICKPAY_PAYMENTMETHODS_EXCLUDE_DESC"
+				>
 					<option value="!american-express">American Express</option>
 					<option value="!dankort">Dankort</option>
 					<option value="!diners">Diners Club</option>
