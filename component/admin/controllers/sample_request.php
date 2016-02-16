@@ -19,7 +19,7 @@ class RedshopControllerSample_request extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -41,7 +41,7 @@ class RedshopControllerSample_request extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -63,7 +63,7 @@ class RedshopControllerSample_request extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 

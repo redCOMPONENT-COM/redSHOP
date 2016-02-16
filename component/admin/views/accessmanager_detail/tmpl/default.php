@@ -10,8 +10,6 @@ JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
 $config = new Redconfiguration;
-
-$option = JRequest::getVar('option');
 $section = JRequest::getVar('section');
 $view = JRequest::getVar('view');
 
@@ -27,7 +25,7 @@ $view = JRequest::getVar('view');
 	}
 </script>
 <form name="adminForm" id="adminForm" method="post" action="index.php">
-	<input type="hidden" name="option" value="<?php echo $option ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="<?php echo $view ?>"/>
 	<input type="hidden" name="section" value="<?php echo $section ?>"/>
 	<input type="hidden" name="task" value=""/>

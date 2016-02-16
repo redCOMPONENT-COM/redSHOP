@@ -135,7 +135,7 @@ class redhelper
 			$diff_ship = array_diff($data, $plg_ship_elm);
 			sort($diff_ship);
 
-			for ($i = 0; $i < count($diff_ship); $i++)
+			for ($i = 0, $in = count($diff_ship); $i < $in; $i++)
 			{
 				$query = "DELETE  FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($diff_ship[$i]);
 				$this->_db->setQuery($query);
@@ -283,9 +283,8 @@ class redhelper
 		}
 
 		$input = JFactory::getApplication()->input;
-		$option = $input->getCmd('option', '');
 
-		if ($option != 'com_redshop')
+		if ($input->getCmd('option', '') != 'com_redshop')
 		{
 			$result = $this->getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
 
@@ -338,7 +337,7 @@ class redhelper
 
 	public function convertLanguageString($arr)
 	{
-		for ($i = 0; $i < count($arr); $i++)
+		for ($i = 0, $in = count($arr); $i < $in; $i++)
 		{
 			$txt   = $arr[$i]->text;
 			$ltext = JText::_($txt);
@@ -355,7 +354,7 @@ class redhelper
 
 		$tmpArray = array();
 
-		for ($i = 0; $i < count($arr); $i++)
+		for ($i = 0, $in = count($arr); $i < $in; $i++)
 		{
 			$txt            = $arr[$i]->text;
 			$val            = $arr[$i]->value;
@@ -423,6 +422,90 @@ class redhelper
 		return null;
 	}
 
+	/**
+	 * Check permission for Categories shopper group can access or can't access
+	 *
+	 * @param   number  $cid  category id that need to be checked
+	 *
+	 * @return boolean
+	 */
+	public function checkPortalCategoryPermission($cid = 0)
+	{
+		static $categories = array();
+
+		if (array_key_exists($cid, $categories))
+		{
+			return true;
+		}
+
+		$user = JFactory::getUser();
+		$userHelper = new rsUserhelper;
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+
+		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		{
+			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
+			{
+				$categories = explode(',', $shopperGroupData[0]->shopper_group_categories);
+
+				if (array_search((int) $cid, $categories) !== false)
+				{
+					return true;
+				}
+			}
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('shopper_group_id')
+			->from($db->qn('#__redshop_shopper_group'))
+			->where('FIND_IN_SET(' . $db->quote($cid) . ', shopper_group_categories)')
+			->where('shopper_group_id != ' . (int) $shopperGroupId);
+
+		if ($db->setQuery($query)->loadResult())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
+	 * Check permission for Products shopper group can accesss or can't access
+	 *
+	 * @param   number  $pid  Product id that need to be checked
+	 *
+	 * @return boolean
+	 */
+	public function checkPortalProductPermission($pid = 0)
+	{
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+
+		$query->select("cx.category_id")
+			->from($db->qn("#__redshop_product", "p"))
+			->join("LEFT", $db->qn("#__redshop_product_category_xref", "cx") . " ON p.product_id=cx.product_id")
+			->where($db->qn("p.product_id") . "=" . (int) $pid);
+
+		$this->_db->setQuery($query);
+
+		$prodctcat = $this->_db->loadColumn();
+
+		foreach ($prodctcat as $key => $cid)
+		{
+			$checkPermission = $this->checkPortalCategoryPermission($cid);
+
+			if (!$checkPermission)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public function getShopperGroupProductCategory($pid = 0)
 	{
 		$user = JFactory::getUser();
@@ -434,7 +517,7 @@ class redhelper
 		$prodctcat = $this->_db->loadObjectList();
 		$catflag   = false;
 
-		for ($i = 0; $i < count($prodctcat); $i++)
+		for ($i = 0, $in = count($prodctcat); $i < $in; $i++)
 		{
 			$cid            = $prodctcat[$i]->category_id;
 			$shoppercatdata = $this->getShopperGroupCategory($cid);
@@ -958,38 +1041,19 @@ class redhelper
 		return $message;
 	}
 
-	public function getsslLink($link, $applySSL)
-	{
-		$uri = JURI::getInstance($link);
-
-		if ($applySSL)
-		{
-			$uri->setScheme('https');
-		}
-		else
-		{
-			$uri->setScheme('http');
-		}
-
-		$link = JFilterOutput::cleanText($uri->toString());
-
-		return $link;
-	}
-
+	/**
+	 * SSL link
+	 *
+	 * @param   string   $link      Link
+	 * @param   integer  $applySSL  Apply ssl or not.
+	 *
+	 * @deprecated 1.6   Use RedshopHelperUtility::getSslLink($link, $applySSL) instead
+	 *
+	 * @return  string              Converted string
+	 */
 	public function sslLink($link, $applySSL = 1)
 	{
-		if (!SSL_ENABLE_IN_BACKEND || $applySSL == 0)
-		{
-			return $link;
-		}
-		else
-		{
-			$url  = JURI::base();
-			$link = $url . $link;
-			$link = $this->getsslLink($link, $applySSL);
-		}
-
-		return $link;
+		return RedshopHelperUtility::getSSLLink($link, $applySSL);
 	}
 
 	public function getEconomicAccountGroup($accountgroup_id = 0, $front = 0)

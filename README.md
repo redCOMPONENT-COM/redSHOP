@@ -13,6 +13,64 @@ Please follow the next steps in order to release a new version of redSHOP.
 
 - Execute component_packager.xml PHING file to generate the main component package (includes 1 module and 2 plugins).
 
+## Using Gulp build system
+
+Before you can run any Gulp command you need to:
+
+- download and install NodeJS https://nodejs.org/download/
+- install npm: `sudo npm install`
+- install Gulp: `npm install --save gulp-install`
+- install joomla-gulp-release: `sudo npm install --save-dev joomla-gulp-release`
+
+### Following tasks and switches are available:
+#### Setup gulp config file. Copy and rename `gulp-config.sample.json` file into `gulp-config.json`
+
+> Version and other information can be set in `gulp-config.json` file.
+
+#### To Release `component` and create `.zip` file
+
+> Use this command to release component. Version and other information can be set in `gulp-config.json` file.
+
+    gulp release:component
+
+#### To Release `modules` and create `.zip` file
+
+    gulp release:modules
+
+#### To Release `plugins` and create `.zip` file
+
+    gulp release:plugins
+
+#### To Release `packages` and create `.zip` file
+
+    gulp release:packages
+
+_or_
+
+    gulp release:packages --folder ./individual_package_dir
+
+
+This command is to release the extensions.
+
+    gulp release:extensions
+
+
+This command will read the base directory and create zip files for each of the folder.
+
+#### === Switches ===
+Pass an argument to choose different folder
+
+    --folder {source direcory}  Default: "./plugins"
+
+Pass an argument to change suffix for extension
+
+    --suffix {text of suffix}   Default: "plg_"
+
+#### Example Usage:
+
+	 gulp release:extensions --folder ./modules --suffix ext_
+
+
 ### Languages & translation
 - Move the language files to the translations repository: https://github.com/redCOMPONENT-COM/translations/tree/master/redSHOP/source
 - Check in 24hours that Transifex was able to get the new translation strings adding them to the .ini resource files

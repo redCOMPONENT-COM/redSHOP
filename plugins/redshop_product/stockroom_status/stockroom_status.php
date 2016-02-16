@@ -120,6 +120,8 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 			$mailFrom = $app->get('mailfrom');
 			$fromName = $app->get('fromname');
 			$replyTo = trim($this->params->get('replyTo', ''));
+			$redshopMail = new redshopMail;
+			$message = $redshopMail->imginmail($message);
 
 			if ($replyTo != '')
 			{

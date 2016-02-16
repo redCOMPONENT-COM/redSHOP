@@ -2,21 +2,13 @@
 /**
  * Braintree Credit Card Verification Result
  *
- * @package    Braintree
- * @subpackage Result
- * @copyright  2010 Braintree Payment Solutions
- */
-
-/**
- * Braintree Credit Card Verification Result
- *
  * This object is returned as part of an Error Result; it provides
  * access to the credit card verification data from the gateway
  *
  *
  * @package    Braintree
  * @subpackage Result
- * @copyright  2010 Braintree Payment Solutions
+ * @copyright  2014 Braintree, a division of PayPal, Inc.
  *
  * @property-read string $avsErrorResponseCode
  * @property-read string $avsPostalCodeResponseCode
@@ -27,67 +19,76 @@
  */
 class Braintree_Result_CreditCardVerification
 {
-	// Status
-	const FAILED = 'failed';
-	const GATEWAY_REJECTED = 'gateway_rejected';
-	const PROCESSOR_DECLINED = 'processor_declined';
-	const VERIFIED = 'verified';
+    // Status
+    const FAILED                   = 'failed';
+    const GATEWAY_REJECTED         = 'gateway_rejected';
+    const PROCESSOR_DECLINED       = 'processor_declined';
+    const VERIFIED                 = 'verified';
 
-	private $_attributes;
-	private $_avsErrorResponseCode;
-	private $_avsPostalCodeResponseCode;
-	private $_avsStreetAddressResponseCode;
-	private $_cvvResponseCode;
-	private $_gatewayRejectionReason;
-	private $_status;
+    private $_attributes;
+    private $_avsErrorResponseCode;
+    private $_avsPostalCodeResponseCode;
+    private $_avsStreetAddressResponseCode;
+    private $_cvvResponseCode;
+    private $_gatewayRejectionReason;
+    private $_status;
 
-	/**
-	 * @ignore
-	 */
-	public function  __construct($attributes)
-	{
-		$this->_initializeFromArray($attributes);
-	}
+    /**
+     * @ignore
+     */
+    public function  __construct($attributes)
+    {
+        $this->_initializeFromArray($attributes);
+    }
 
-	/**
-	 * initializes instance properties from the keys/values of an array
-	 * @ignore
-	 * @access protected
-	 *
-	 * @param <type> $aAttribs array of properties to set - single level
-	 *
-	 * @return none
-	 */
-	private function _initializeFromArray($attributes)
-	{
-		$this->_attributes = $attributes;
+    /**
+     * initializes instance properties from the keys/values of an array
+     * @ignore
+     * @access protected
+     * @param <type> $aAttribs array of properties to set - single level
+     * @return none
+     */
+    private function _initializeFromArray($attributes)
+    {
+        if(isset($attributes['riskData']))
+        {
+            $attributes['riskData'] = Braintree_RiskData::factory($attributes['riskData']);
+        }
 
-		foreach ($attributes AS $name => $value)
-		{
-			$varName = "_$name";
-			$this->$varName = $value;
-			// $this->$varName = Braintree_Util::delimiterToCamelCase($value, '_');
-		}
-	}
+        $this->_attributes = $attributes;
+        foreach($attributes AS $name => $value) {
+            $varName = "_$name";
+            $this->$varName = $value;
+        }
+    }
 
-	/**
-	 *
-	 * @ignore
-	 */
-	public function  __get($name)
-	{
-		$varName = "_$name";
+    /**
+     *
+     * @ignore
+     */
+    public function  __get($name)
+    {
+        $varName = "_$name";
+        return isset($this->$varName) ? $this->$varName : null;
+    }
 
-		return isset($this->$varName) ? $this->$varName : null;
-	}
+    /**
+     * returns a string representation of the customer
+     * @return string
+     */
+    public function  __toString()
+    {
+        return __CLASS__ . '[' .
+                Braintree_Util::attributesToString($this->_attributes) .']';
+    }
 
-	/**
-	 * returns a string representation of the customer
-	 * @return string
-	 */
-	public function  __toString()
-	{
-		return __CLASS__ . '[' .
-			Braintree_Util::attributesToString($this->_attributes) . ']';
-	}
+    public static function allStatuses()
+    {
+        return array(
+            Braintree_Result_creditCardVerification::FAILED,
+            Braintree_Result_creditCardVerification::GATEWAY_REJECTED,
+            Braintree_Result_creditCardVerification::PROCESSOR_DECLINED,
+            Braintree_Result_creditCardVerification::VERIFIED,
+        );
+    }
 }

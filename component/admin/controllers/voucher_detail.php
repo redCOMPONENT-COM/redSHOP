@@ -36,7 +36,7 @@ class RedshopControllerVoucher_detail extends RedshopController
 	{
 		$app = JFactory::getApplication();
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post['start_date'] = strtotime($post['start_date']);
 
@@ -81,7 +81,7 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -103,7 +103,7 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -125,7 +125,7 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -147,7 +147,7 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=voucher', $msg);
 	}

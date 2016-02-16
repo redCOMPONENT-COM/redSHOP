@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('xmlimport_detail');
 $uri = JURI::getInstance();
 $url = $uri->root();

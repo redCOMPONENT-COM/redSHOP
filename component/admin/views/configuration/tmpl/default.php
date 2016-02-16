@@ -10,18 +10,31 @@ defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 
-$option = JRequest::getVar('option');
-
 $uri = JURI::getInstance();
 $url = $uri->root();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
+		// Find the position of selected tab
+		var allTabsNames = document.querySelectorAll('dt.tabs a');
+		var selectedTabName  = document.querySelectorAll('dt.tabs.open a');
+		for (var i=0; i < allTabsNames.length; i++) {
+			if (selectedTabName[0].innerHTML === allTabsNames[i].innerHTML) {
+				var selectedTabPosition = i;
+				break;
+			}
+		}
+
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
 		if (pressbutton == 'save' || pressbutton == 'apply') {
+			if (pressbutton == 'save')
+				form.selectedTabPosition.value = 0;
+			else
+				form.selectedTabPosition.value = selectedTabPosition;
+
 			var obj = form.economic_integration;
 
 			var sel_discount_flag = false;
@@ -80,26 +93,39 @@ $url = $uri->root();
 		form.submit();
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<?php
-	$dashboard = JRequest::getVar('dashboard');
+	$dashboard = JFactory::getApplication()->input->getInt('dashboard');
+	$app = JFactory::getApplication();
+	$options = array('startOffset' => $app->getUserState('com_redshop.configuration.selectedTabPosition'));
 
-	if ($dashboard == 1)
+	if ($dashboard)
 	{
-		$offset = 9;
-	}
-	else
-	{
-		$offset = 0;
+		// Temporary fix - due to joomla bug have to force this code. Need to remove after fix in Joomla.
+		JFactory::getDocument()->addScriptDeclaration('
+			window.addEvent("domready", function(){
+				$$("dl#pane.tabs").each(function(tabs){
+					new JTabs(tabs, {"display": 12,"useStorage": false,"titleSelector": "dt.tabs","descriptionSelector": "dd.tabs"});
+				});
+			});
+		');
+
+		// Permenant fix - will work after joomla bug fix
+		$options = array(
+			'startOffset' => 12,
+			'useCookie'   => false
+		);
 	}
 
-	echo JHtml::_('tabs.start', 'pane', array('startOffset' => $offset));
+	echo JHtml::_('tabs.start', 'pane', $options);
+	$app->setUserState('com_redshop.configuration.selectedTabPosition', null);
 	$output = '';
 	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'general');
 	?>
 	<input type="hidden" name="view" value="configuration"/>
 	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="selectedTabPosition" value=""/>
 	<?php
 	echo $this->loadTemplate('general');
 	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_USER'), 'user');
@@ -131,7 +157,7 @@ $url = $uri->root();
 	echo JHtml::_('tabs.end');
 	?>
 	<input type="hidden" name="cid" value="1"/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 </form>
 <script type="text/javascript">
 	function cleardata() {

@@ -28,7 +28,6 @@ class RedshopControllerLogin extends RedshopController
 	{
 		$username     = JRequest::getVar('username', '', 'method', 'username');
 		$password     = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
-		$option       = JRequest::getVar('option');
 		$Itemid       = JRequest::getVar('Itemid');
 		$returnitemid = JRequest::getVar('returnitemid');
 		$mywishlist   = JRequest::getVar('mywishlist');

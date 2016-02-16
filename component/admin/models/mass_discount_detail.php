@@ -133,7 +133,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			$change_product = true;
 		}
 
-		for ($i = 0; $i < count($arr_diff); $i++)
+		for ($i = 0, $in = count($arr_diff); $i < $in; $i++)
 		{
 			$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $arr_diff[$i] . '" ';
 
@@ -163,7 +163,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			$arr_diff = $discount_product;
 		}
 
-		for ($i = 0; $i < count($arr_diff); $i++)
+		for ($i = 0, $in = count($arr_diff); $i < $in; $i++)
 		{
 			$productData = $producthelper->getProductById($arr_diff[$i]);
 
@@ -207,11 +207,11 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			$change_category = true;
 		}
 
-		for ($i = 0; $i < count($arr_diff); $i++)
+		for ($i = 0, $in = count($arr_diff); $i < $in; $i++)
 		{
 			$product_Ids = $producthelper->getProductCategory($arr_diff[$i]);
 
-			for ($p = 0; $p < count($product_Ids); $p++)
+			for ($p = 0, $pn = count($product_Ids); $p < $pn; $p++)
 			{
 				$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 
@@ -241,12 +241,12 @@ class RedshopModelMass_discount_detail extends RedshopModel
 		{
 			$arr_diff = $category_id;
 		}
-		for ($i = 0; $i < count($arr_diff); $i++)
+		for ($i = 0, $in = count($arr_diff); $i < $in; $i++)
 		{
 
 			$product_Ids = $producthelper->getProductCategory($arr_diff[$i]);
 
-			for ($p = 0; $p < count($product_Ids); $p++)
+			for ($p = 0, $pn = count($product_Ids); $p < $pn; $p++)
 			{
 				$productData = $producthelper->getProductById($product_Ids[$p]->product_id);
 
@@ -293,13 +293,13 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			$change_manufacturer = true;
 		}
 
-		for ($i = 0; $i < count($manu_arr_diff); $i++)
+		for ($i = 0, $in = count($manu_arr_diff); $i < $in; $i++)
 		{
 			if ($manu_arr_diff[$i] > 0)
 			{
 				$product_Ids = $this->GetProductmanufacturer($manu_arr_diff[$i]);
 
-				for ($p = 0; $p < count($product_Ids); $p++)
+				for ($p = 0, $pn = count($product_Ids); $p < $pn; $p++)
 				{
 					$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 					$this->_db->setQuery($query);
@@ -330,13 +330,13 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			$manu_arr_diff = $manufacturer_id;
 		}
 
-		for ($i = 0; $i < count($manu_arr_diff); $i++)
+		for ($i = 0, $in = count($manu_arr_diff); $i < $in; $i++)
 		{
 			if ($manu_arr_diff[$i] > 0)
 			{
 				$product_Ids = $this->GetProductmanufacturer($manu_arr_diff[$i]);
 
-				for ($p = 0; $p < count($product_Ids); $p++)
+				for ($p = 0, $pn = count($product_Ids); $p < $pn; $p++)
 				{
 					$productData = $producthelper->getProductById($product_Ids[$p]->product_id);
 					$p_price = ($data['discount_type'] == 1) ?
@@ -390,7 +390,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$massDList = $this->_db->loadObjectList();
 
-			for ($m = 0; $m < count($massDList); $m++)
+			for ($m = 0, $mn = count($massDList); $m < $mn; $m++)
 			{
 				if (!empty($massDList[$m]->discount_product))
 				{
@@ -399,7 +399,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 				$categoryArr = explode(',', $massDList[$m]->category_id);
 
-				for ($c = 0; $c < count($categoryArr); $c++)
+				for ($c = 0, $cn = count($categoryArr); $c < $cn; $c++)
 				{
 					if ((int) $categoryArr[$c])
 					{

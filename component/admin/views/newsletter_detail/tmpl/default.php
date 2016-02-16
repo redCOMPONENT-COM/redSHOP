@@ -12,7 +12,6 @@ $editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $model = $this->getModel('newsletter_detail');
-$option = JRequest::getVar('option');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -83,7 +82,7 @@ $option = JRequest::getVar('option');
 							?>
 							<span style="width:10%;">
 					<a class="modal"
-					   href="index.php?tmpl=component&option=<?php echo $option ?>&view=template_detail&task=edit&showbuttons=1&cid[]=<?php echo $this->detail->template_id; ?>"
+					   href="index.php?tmpl=component&option=com_redshop&view=template_detail&task=edit&showbuttons=1&cid[]=<?php echo $this->detail->template_id; ?>"
 					   rel="{handler: 'iframe', size: {x: 900, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATE'); ?>
 					</a>
@@ -123,7 +122,7 @@ $option = JRequest::getVar('option');
 				<table class="admintable">
 					<?php
 					//Geeting the Text library texts for the newsletter section
-					for ($i = 0; $i < count($tags); $i++)
+					for ($i = 0, $in = count($tags); $i < $in; $i++)
 					{
 						?>
 						<tr>

@@ -193,7 +193,7 @@ class rsUserhelper
 		{
 			if (REGISTER_METHOD == 1 || $data['user_id'] < 0)
 			{
-				$reduser = new statsClass;
+				$reduser = new stdClass;
 				$reduser->id = $data['user_id'];
 
 				return $reduser;
@@ -202,7 +202,7 @@ class rsUserhelper
 
 		if ($app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id']))
 		{
-			$reduser = new statsClass;
+			$reduser = new stdClass;
 			$reduser->id = $data['user_id'];
 
 			return $reduser;
@@ -763,7 +763,7 @@ class rsUserhelper
 		$this->_db->setQuery($query);
 		$jusers = $this->_db->loadObjectList();
 
-		for ($i = 0; $i < count($jusers); $i++)
+		for ($i = 0, $in = count($jusers); $i < $in; $i++)
 		{
 			$name = explode(" ", $jusers[$i]->name);
 
@@ -915,7 +915,7 @@ class rsUserhelper
 			$private_template[0]->template_id   = 0;
 		}
 
-		for ($i = 0; $i < count($private_template); $i++)
+		for ($i = 0, $in = count($private_template); $i < $in; $i++)
 		{
 			if (strstr($template_desc, "{private_billing_template:" . $private_template[$i]->template_name . "}"))
 			{
@@ -942,7 +942,7 @@ class rsUserhelper
 			$company_template[0]->template_id   = 0;
 		}
 
-		for ($i = 0; $i < count($company_template); $i++)
+		for ($i = 0, $in = count($company_template); $i < $in; $i++)
 		{
 			if (strstr($template_desc, "{company_billing_template:" . $company_template[$i]->template_name . "}"))
 			{
@@ -1076,8 +1076,16 @@ class rsUserhelper
 		$template_desc = str_replace("{zipcode}", '<input class="inputbox required"  type="text" name="zipcode" id="zipcode" size="32" maxlength="10" value="' . @$post['zipcode'] . '" onblur="return autoFillCity(this.value,\'BT\');" />', $template_desc);
 		$template_desc = str_replace("{city_lbl}", JText::_('COM_REDSHOP_CITY'), $template_desc);
 		$template_desc = str_replace("{city}", '<input class="inputbox required" type="text" name="city" ' . $read_only . ' id="city" value="' . @$post['city'] . '" size="32" maxlength="250" />', $template_desc);
+
+		// Allow phone number to be optional using template tags.
+		$phoneIsRequired = ((boolean) strstr($template_desc, '{phone_optional}')) ? '' : 'required';
+		$template_desc = str_replace("{phone_optional}",'', $template_desc);
+		$template_desc = str_replace(
+			"{phone}",
+			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . @$post ["phone"] . '" onblur="return searchByPhone(this.value,\'BT\');" />',
+			$template_desc
+		);
 		$template_desc = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
-		$template_desc = str_replace("{phone}", '<input class="inputbox required" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . @$post ["phone"] . '" onblur="return searchByPhone(this.value,\'BT\');" />', $template_desc);
 
 		$template_desc = str_replace("{country_txtid}", "div_country_txt", $template_desc);
 		$template_desc = str_replace("{country_style}", $countrystyle, $template_desc);
@@ -1249,22 +1257,16 @@ class rsUserhelper
 		return $template_desc;
 	}
 
+	/**
+	 * Get captcha html table
+	 *
+	 * @return  string  HTML output to render captch.
+	 *
+	 * @deprecated 1.5 This function will be removed in 1.6 version. Please use RedshopLayoutHelper::render('registration.captcha') instead.
+	 */
 	public function getCaptchaTable()
 	{
-		$html = '';
-
-		if (SHOW_CAPTCHA)
-		{
-
-			$html .= '<table cellspacing="0" cellpadding="0" border="0" width="100%">';
-			$html .= '<tr><td>&nbsp;</td>
-						<td align="left"><img src="' . JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" /></td></tr>';
-			$html .= '<tr><td width="100" align="right"><label for="security_code">' . JText::_('COM_REDSHOP_SECURITY_CODE') . '</label></td>
-						<td><input class="inputbox" id="security_code" name="security_code" type="text" /></td></tr>';
-			$html .= '</table>';
-		}
-
-		return $html;
+		return RedshopLayoutHelper::render('registration.captcha');
 	}
 
 	/**
@@ -1324,6 +1326,18 @@ class rsUserhelper
 		$shopper_group_manufactures = $shopperGroupdata[0]->shopper_group_manufactures;
 
 		return $shopper_group_manufactures;
+	}
+
+	/**
+	 * Display an error message
+	 *
+	 * @param   string  $error  Error message
+	 *
+	 * @return  void
+	 */
+	public function setError($error)
+	{
+		JFactory::getApplication()->enqueueMessage($error, 'error');
 	}
 }
 

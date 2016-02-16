@@ -412,7 +412,7 @@ class RedshopModelImport extends RedshopModel
 
 								if (is_array($image_name))
 								{
-									for ($i = 0; $i < count($image_name); $i++)
+									for ($i = 0, $in = count($image_name); $i < $in; $i++)
 									{
 										if (trim($image_name[$i]) != "")
 										{
@@ -438,7 +438,7 @@ class RedshopModelImport extends RedshopModel
 
 								if (is_array($image_name))
 								{
-									for ($i = 0; $i < count($image_name); $i++)
+									for ($i = 0, $in = count($image_name); $i < $in; $i++)
 									{
 										if (trim($image_name[$i]) != "")
 										{
@@ -464,7 +464,7 @@ class RedshopModelImport extends RedshopModel
 
 								if (is_array($image_name))
 								{
-									for ($i = 0; $i < count($image_name); $i++)
+									for ($i = 0, $in = count($image_name); $i < $in; $i++)
 									{
 										if (trim($image_name[$i]) != "")
 										{
@@ -492,7 +492,7 @@ class RedshopModelImport extends RedshopModel
 
 									if (is_array($image_name))
 									{
-										for ($i = 0; $i < count($image_name); $i++)
+										for ($i = 0, $in = count($image_name); $i < $in; $i++)
 										{
 											if (trim($image_name[$i]) != "")
 											{
@@ -543,85 +543,14 @@ class RedshopModelImport extends RedshopModel
 									}
 								}
 
-								if (isset($rawdata['extra_fields']))
+								// Product Extra Field Import
+								$extraFieldColumns = $this->getExtraFieldNames($rawdata);
+
+								if (count($extraFieldColumns) > 0)
 								{
-									$extraFields = json_decode(str_replace('_EE_', '"', $rawdata['extra_fields']));
-
-									foreach ($extraFields as $extraField)
+									foreach ($extraFieldColumns as $fieldkey)
 									{
-										if (!$extraField->field_title)
-										{
-											continue;
-										}
-
-										$query = $db->getQuery(true)
-											->select('field_id')
-											->from($db->qn('#__redshop_fields'))
-											->where($db->qn('field_section') . ' = 1')
-											->where('field_name = ' . $db->q($extraField->field_name));
-										$db->setQuery($query);
-
-										if ($fieldId = $db->loadResult())
-										{
-											$extraField->field_id = $fieldId;
-											$db->updateObject('#__redshop_fields', $extraField, 'field_id');
-										}
-										else
-										{
-											unset($extraField->field_id);
-
-											if ($db->insertObject('#__redshop_fields', $extraField, 'field_id'))
-											{
-												$fieldId = $extraField->field_id;
-											}
-										}
-
-										if (isset($extraField->data))
-										{
-											$query = $db->getQuery(true)
-												->select('data_id')
-												->from($db->qn('#__redshop_fields_data'))
-												->where('section = 1')
-												->where($db->qn('fieldid') . ' = ' . $db->quote($fieldId))
-												->where($db->qn('itemid') . ' = ' . $db->quote($product_id));
-											$extraField->data->fieldid = $fieldId;
-											$extraField->data->itemid = $product_id;
-
-											if ($dataId = $db->setQuery($query)->loadResult())
-											{
-												$extraField->data->data_id = $dataId;
-												$db->updateObject('#__redshop_fields_data', $extraField->data, 'data_id');
-											}
-											else
-											{
-												unset($extraField->data->data_id);
-												$db->insertObject('#__redshop_fields_data', $extraField->data);
-											}
-										}
-
-										if (isset($extraField->values) && is_array($extraField->values))
-										{
-											foreach ($extraField->values as $oneValue)
-											{
-												$query = $db->getQuery(true)
-													->select('value_id')
-													->from($db->qn('#__redshop_fields_value'))
-													->where($db->qn('field_id') . ' = ' . $db->quote($fieldId))
-													->where('field_name = ' . $db->q($oneValue->field_name));
-												$oneValue->field_id = $fieldId;
-
-												if ($valueId = $db->setQuery($query)->loadResult())
-												{
-													$oneValue->value_id = $valueId;
-													$db->updateObject('#__redshop_fields_value', $oneValue, 'value_id');
-												}
-												else
-												{
-													unset($oneValue->value_id);
-													$db->insertObject('#__redshop_fields_value', $oneValue);
-												}
-											}
-										}
+										$this->importProductExtrafieldData($fieldkey, $rawdata, $product_id);
 									}
 								}
 
@@ -664,7 +593,7 @@ class RedshopModelImport extends RedshopModel
 								$db->setQuery($query);
 								$db->execute();
 
-								for ($i = 0; $i < count($categoryArr); $i++)
+								for ($i = 0, $in = count($categoryArr); $i < $in; $i++)
 								{
 									if ($category)
 									{
@@ -707,7 +636,7 @@ class RedshopModelImport extends RedshopModel
 							{
 								$accessory_products = explode("###", $rawdata['accessory_products']);
 
-								for ($i = 0; $i < count($accessory_products); $i++)
+								for ($i = 0, $in = count($accessory_products); $i < $in; $i++)
 								{
 									$accids = explode("~", $accessory_products[$i]);
 									$accessory_product_sku = $accids[0];
@@ -796,7 +725,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (is_array($section_images))
 							{
-								for ($s = 0; $s < count($section_images); $s++)
+								for ($s = 0, $sn = count($section_images); $s < $sn; $s++)
 								{
 									if (trim($section_images[$s]) != "")
 									{
@@ -864,7 +793,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (is_array($section_video))
 							{
-								for ($s = 0; $s < count($section_video); $s++)
+								for ($s = 0, $sn = count($section_video); $s < $sn; $s++)
 								{
 									if (trim($section_video[$s]) != "")
 									{
@@ -922,7 +851,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (is_array($section_document))
 							{
-								for ($s = 0; $s < count($section_document); $s++)
+								for ($s = 0, $sn = count($section_document); $s < $sn; $s++)
 								{
 									if (trim($section_document[$s]) != "")
 									{
@@ -980,7 +909,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (is_array($section_download))
 							{
-								for ($s = 0; $s < count($section_download); $s++)
+								for ($s = 0, $sn = count($section_download); $s < $sn; $s++)
 								{
 									if (trim($section_download[$s]) != "")
 									{
@@ -1255,7 +1184,7 @@ class RedshopModelImport extends RedshopModel
 										{
 											$mainstock_split = explode("#", $mainstock);
 
-											for ($r = 0; $r < count($mainstock_split); $r++)
+											for ($r = 0, $rn = count($mainstock_split); $r < $rn; $r++)
 											{
 												if ($mainstock_split[$r] != "")
 												{
@@ -1428,7 +1357,7 @@ class RedshopModelImport extends RedshopModel
 												{
 													$mainstock_split = explode("#", $mainstock);
 
-													for ($r = 0; $r < count($mainstock_split); $r++)
+													for ($r = 0, $rn = count($mainstock_split); $r < $rn; $r++)
 													{
 														if ($mainstock_split[$r] != "")
 														{
@@ -2718,7 +2647,7 @@ class RedshopModelImport extends RedshopModel
 			}
 		}
 
-		for ($v = 0; $v < count($vmcatarr); $v++)
+		for ($v = 0, $vn = count($vmcatarr); $v < $vn; $v++)
 		{
 			$query = "SELECT category_parent_id from #__vm_category_xref "
 				. "WHERE category_child_id = '" . $vmcatarr[$v] . "' ";
@@ -2822,7 +2751,7 @@ class RedshopModelImport extends RedshopModel
 
 		$k = 0;
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			if ($data[$i]->address_type == "BT")
 			{
@@ -3180,7 +3109,7 @@ class RedshopModelImport extends RedshopModel
 		$db = JFactory::getDbo();
 
 		// Vmproduct loop for product inter realtion
-		for ($v = 0; $v < count($vmproarr); $v++)
+		for ($v = 0, $vn = count($vmproarr); $v < $vn; $v++)
 		{
 			$redparent = $redproarr[$v];
 			$query = "SELECT `related_products` FROM `#__vm_product_relations` WHERE `product_id`= '" . $vmproarr[$v] . "'";
@@ -3191,7 +3120,7 @@ class RedshopModelImport extends RedshopModel
 			{
 				$vmrel = explode("|", $vmrel);
 
-				for ($i = 0; $i < count($vmrel); $i++)
+				for ($i = 0, $in = count($vmrel); $i < $in; $i++)
 				{
 					$vmrelpro = $vmrel[$i];
 
@@ -3267,6 +3196,33 @@ class RedshopModelImport extends RedshopModel
 		}
 
 		return $row;
+	}
+
+	/**
+	 * Get Extra Field Names
+	 *
+	 * @param   array  $keyProducts  Array key products
+	 *
+	 * @return  array
+	 */
+	public function getExtraFieldNames($keyProducts)
+	{
+		$extraFieldNames = array();
+
+		if (is_array($keyProducts))
+		{
+			$pattern = '/rs_/';
+
+			foreach ($keyProducts as $key => $value)
+			{
+				if (preg_match($pattern, $key))
+				{
+					$extraFieldNames[] = $key;
+				}
+			}
+		}
+
+		return $extraFieldNames;
 	}
 
 	/**

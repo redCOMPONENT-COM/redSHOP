@@ -238,7 +238,6 @@ class RedshopModelAccount extends RedshopModel
 		$db = JFactory::getDbo();
 
 		$Itemid      = $app->input->getInt('Itemid', 0);
-		$option      = $app->input->getCmd('option', '');
 		$wishlist_id = $app->input->getInt('wishlist_id', 0);
 		$pid         = $app->input->getInt('pid', 0);
 
@@ -286,7 +285,6 @@ class RedshopModelAccount extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$Itemid = $app->input->getInt('Itemid', 0);
-		$option = $app->input->getCmd('option', '');
 		$tagid  = $app->input->getInt('tagid', 0);
 
 		if ($this->removeTags($tagid))
@@ -383,7 +381,6 @@ class RedshopModelAccount extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$Itemid     = JRequest::getVar('Itemid');
-		$option     = JRequest::getVar('option');
 		$product_id = JRequest::getVar('pid', 0, '', 'int');
 
 		$user = JFactory::getUser();
@@ -447,6 +444,7 @@ class RedshopModelAccount extends RedshopModel
 		$data          = "";
 		$mailbcc       = null;
 		$wishlist_body = $redshopMail->getMailtemplate(0, "mywishlist_mail");
+		$data_add = '';
 
 		if (count($wishlist_body) > 0)
 		{
@@ -552,6 +550,8 @@ class RedshopModelAccount extends RedshopModel
 				}
 			}
 		}
+
+		$data_add = $redshopMail->imginmail($data_add);
 
 		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
 		{

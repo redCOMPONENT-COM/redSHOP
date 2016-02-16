@@ -178,7 +178,13 @@ class RedshopControllerOrder_detail extends RedshopController
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = JDispatcher::getInstance();
 
-		$results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
+		$results = $dispatcher->trigger(
+			'onNotifyPayment' . $request['payment_plugin'],
+			array(
+				$request['payment_plugin'],
+				$request
+			)
+		);
 
 		$msg = $results[0]->msg;
 
@@ -191,14 +197,22 @@ class RedshopControllerOrder_detail extends RedshopController
 			$order_id = $results[0]->order_id;
 		}
 
+		// Change Order Status based on resutls
 		$objOrder->changeorderstatus($results[0]);
+
 		$model     = $this->getModel('order_detail');
 		$resetcart = $model->resetcart();
 
 		/*
 		 * Plugin will trigger onAfterNotifyPayment
 		 */
-		$dispatcher->trigger('onAfterNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $order_id));
+		$dispatcher->trigger(
+			'onAfterNotifyPayment' . $request['payment_plugin'],
+			array(
+				$request['payment_plugin'],
+				$order_id
+			)
+		);
 
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
@@ -211,7 +225,6 @@ class RedshopControllerOrder_detail extends RedshopController
 			$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id);
 			$this->setRedirect($redirect_url, $msg);
 		}
-
 	}
 
 	/**
@@ -348,7 +361,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 			$orderItem = $this->_order_functions->getOrderItemDetail($orderId);
 
-			for ($i = 0; $i < count($orderItem); $i++)
+			for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 			{
 				$row = (array) $orderItem[$i];
 
@@ -416,5 +429,29 @@ class RedshopControllerOrder_detail extends RedshopController
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get order payament status using ajax
+	 */
+	public function AjaxOrderPaymentStatusCheck()
+	{
+		$app = JFactory::getApplication();
+
+		$orderId = $app->input->post->getInt('id');
+
+		$orderPaymentStatus = RedshopHelperOrder::getOrderDetail($orderId)->order_payment_status;
+
+		$status = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
+
+		if ($orderPaymentStatus == 'Paid')
+		{
+			$status = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
+		}
+
+		ob_clean();
+		echo $status;
+
+		$app->close();
 	}
 }

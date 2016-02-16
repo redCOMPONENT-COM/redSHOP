@@ -29,40 +29,38 @@ class JFormFieldProducts extends JFormField
 
 	protected function getInput()
 	{
-		$doc = JFactory::getDocument();
-		$name = $this->name;
-		$fieldName = $this->name; //$this->control_name.'['.$name.']';
+		$name      = $this->name;
+		$fieldName = $this->name;
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
 		$product = JTable::getInstance('product_detail', 'Table');
-		$value = $this->value;
-		if ($value)
+
+		if ($this->value)
 		{
-			$product->load($value);
+			$product->load($this->value);
 		}
 		else
 		{
 			$product->product_name = JText::_('COM_REDSHOP_SELECT_A_PRODUCT');
 		}
 
-		$js = "
-		function jSelectProduct(id, title, object) {
-			document.getElementById(object + '_id').value = id;
-			document.getElementById(object + '_name').value = title;
-			window.parent.SqueezeBox.close();
-		}";
-		$doc->addScriptDeclaration($js);
+		JFactory::getDocument()->addScriptDeclaration("
+			function jSelectProduct(id, title, object) {
+				document.getElementById(object + '_id').value = id;
+				document.getElementById(object + '_name').value = title;
+				window.parent.SqueezeBox.close();
+			}
+		");
 
-		$link = 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . $name;
+		$link = 'index.php?option=com_redshop&amp;view=product&amp;layout=element&amp;tmpl=component&amp;object=' . $name;
 
 		JHTML::_('behavior.modal', 'a.modal');
-		$html = "\n" . '<div style="float: left;"><input style="background: #ffffff;" type="text" id="' . $name . '_name" value="' . htmlspecialchars($product->product_name, ENT_QUOTES, 'UTF-8') . '" disabled="disabled" /></div>';
-		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="' . JText::_('COM_REDSHOP_SELECT_A_PRODUCT') . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">' . JText::_('COM_REDSHOP_Select') . '</a></div></div>' . "\n";
-		$html .= "\n" . '<input type="hidden" id="' . $name . '_id" name="' . $fieldName . '" value="' . (int) $value . '" />';
+
+		$html = '<div style="float: left;"><input style="background: #ffffff;" type="text" id="' . $name . '_name" value="' . htmlspecialchars($product->product_name, ENT_QUOTES, 'UTF-8') . '" disabled="disabled" /></div>';
+		$html .= '<div class="button2-left"><div class="blank"><a class="modal btn btn-primary" title="' . JText::_('COM_REDSHOP_SELECT_A_PRODUCT') . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">' . JText::_('COM_REDSHOP_Select') . '</a></div></div>' . "\n";
+		$html .= '<input type="hidden" id="' . $name . '_id" name="' . $fieldName . '" value="' . (int) $this->value . '" />';
 
 		return $html;
 	}
 }
-
-?>

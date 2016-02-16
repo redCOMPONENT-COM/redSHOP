@@ -172,7 +172,7 @@ class RedshopModelSearch extends RedshopModel
 					$query->select(
 						array(
 							$db->qn('product_id', 'id'),
-							$db->qn('product_name', 'text')
+							'CONCAT(' . $db->qn('product_name'). ', " (", ' . $db->qn('product_number') . ', ")") as text'
 						)
 					)
 						->from($db->qn('#__redshop_product'))
@@ -185,7 +185,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					$db->qn('p.product_name', 'text'),
+					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 					$db->qn('p.supplier_id'),
 					$db->qn('p.product_volume', 'volume')
 				)
@@ -205,7 +205,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					$db->qn('p.product_name', 'text')
+					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text'
 				)
 			)
 				->from($db->qn('#__redshop_product', 'p'))
@@ -311,7 +311,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('product_id', 'id'),
-					$db->qn('product_name', 'text'),
+					'CONCAT(' . $db->qn('product_name'). ', " (", ' . $db->qn('product_number') . ', ")") as text',
 					$db->qn('product_number', 'value_number')
 				)
 			)
@@ -323,7 +323,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					$db->qn('p.product_name', 'text'),
+					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 					$db->qn('p.product_number', 'value_number')
 				)
 			)
@@ -342,7 +342,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					$db->qn('p.product_name', 'text')
+					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 				)
 			)
 				->from($db->qn('#__redshop_product', 'p'))
@@ -354,7 +354,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					$db->qn('p.product_name', 'text'),
+					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 					$db->qn('p.product_number', 'value_number'),
 					$db->qn('p.product_price', 'price')
 				)
@@ -383,7 +383,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					$db->qn('p.product_name', 'text'),
+					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 					$db->qn('p.product_number', 'value_number'),
 					$db->qn('p.product_price', 'price')
 				)
@@ -494,7 +494,7 @@ class RedshopModelSearch extends RedshopModel
 			$rows = $this->_db->loadObjectList();
 			$article = array();
 
-			for ($j = 0; $j < count($rows); $j++)
+			for ($j = 0, $jn = count($rows); $j < $jn; $j++)
 			{
 				if ($rows[$j]->sectionid != 0 && $rows[$j]->catid != 0)
 				{

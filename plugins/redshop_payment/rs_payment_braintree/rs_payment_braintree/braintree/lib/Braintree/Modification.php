@@ -1,16 +1,23 @@
 <?php
-class Braintree_Modification extends Braintree
+class Braintree_Modification extends Braintree_Base
 {
-	protected function _initialize($attributes)
-	{
-		$this->_attributes = $attributes;
-	}
+    protected function _initialize($attributes)
+    {
+        $this->_attributes = $attributes;
 
-	public static function factory($attributes)
-	{
-		$instance = new self;
-		$instance->_initialize($attributes);
+        $addOnArray = array();
+        if (isset($attributes['addOns'])) {
+            foreach ($attributes['addOns'] AS $addOn) {
+                $addOnArray[] = Braintree_addOn::factory($addOn);
+            }
+        }
+        $this->_attributes['addOns'] = $addOnArray;
+    }
 
-		return $instance;
-	}
+    public static function factory($attributes)
+    {
+        $instance = new self();
+        $instance->_initialize($attributes);
+        return $instance;
+    }
 }

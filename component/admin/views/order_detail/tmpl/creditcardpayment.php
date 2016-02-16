@@ -118,7 +118,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 
 						<table width="100%" border="0" cellspacing="2" cellpadding="2">
 							<tr>
-								<?php for ($i = 0; $i < count($accepted_cc_list); $i++)
+								<?php for ($i = 0, $in = count($accepted_cc_list); $i < $in; $i++)
 								{
 									$cc_img = $cc_list[$accepted_cc_list[$i]]->img;
 									?>
@@ -128,7 +128,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 								<?php } ?>
 							</tr>
 							<tr>
-								<?php for ($i = 0; $i < count($accepted_cc_list); $i++)
+								<?php for ($i = 0, $in = count($accepted_cc_list); $i < $in; $i++)
 								{
 									$value = $accepted_cc_list[$i];
 									$checked = "";
@@ -330,7 +330,10 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 }
 else
 {
-	if ($plugin == "rs_payment_banktransfer" || $plugin == "rs_payment_banktransfer_discount")
+	// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+	$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($plugin);
+
+	if ($isBankTransferPaymentType)
 	{
 		JFactory::getApplication()->redirect(
 			'index.php?option=com_redshop&view=order_detail&task=checkoutnext&payment_plugin=' . $plugin . '&order_id='

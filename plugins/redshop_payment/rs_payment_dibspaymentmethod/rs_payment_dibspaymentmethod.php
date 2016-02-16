@@ -49,18 +49,16 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$order_id       = $request['orderid'];
 		$transact       = $request['transact'];
 		$amount         = $request['amount'];
+		$status         = $request['status'];
 		$currency       = $this->params->get("dibs_currency");
 		$verify_status  = $this->params->get('verify_status', '');
 		$invalid_status = $this->params->get('invalid_status', '');
 
-		$db       = JFactory::getDbo();
-		$request  = JRequest::get('request');
+		$db = JFactory::getDbo();
 
 		JPlugin::loadLanguage('com_redshop');
 
-		$order_id = $request['orderid'];
-		$status   = $request['status'];
-		$values   = new stdClass;
+		$values = new stdClass;
 
 		if (isset($request['transact']))
 		{
@@ -92,7 +90,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 	{
 		$db            = JFactory::getDbo();
 		$res           = false;
-		$query         = "SELECT COUNT(*) `qty` FROM #__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$query         = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 

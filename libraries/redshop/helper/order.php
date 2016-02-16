@@ -17,6 +17,55 @@ defined('_JEXEC') or die;
 class RedshopHelperOrder
 {
 	/**
+	 * Order Info
+	 *
+	 * @var  array
+	 */
+	protected static $orderInfo = array();
+
+	/**
+	 * All the published status code
+	 *
+	 * @var  null
+	 */
+	protected static $allStatus = null;
+
+	/**
+	 * Get order information from order id.
+	 *
+	 * @param   integer   $orderId  Order Id
+	 * @param   boolean   $force    Force to get order information from DB instead of cache.
+	 *
+	 * @return  object    Order Information Object
+	 */
+	public static function getOrderDetail($orderId, $force = false)
+	{
+		if (array_key_exists($orderId, self::$orderInfo) && !$force)
+		{
+			return self::$orderInfo[$orderId];
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_orders'))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+
+		// Set the query and load the result.
+		self::$orderInfo[$orderId] = $db->setQuery($query, 0, 1)->loadObject();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		return self::$orderInfo[$orderId];
+	}
+
+	/**
 	 * Generate Invoice number in chronological order
 	 *
 	 * @param   integer  $orderId  Order Id
@@ -62,7 +111,13 @@ class RedshopHelperOrder
 
 			$firstInvoiceNo = (int) FIRST_INVOICE_NUMBER;
 
-			$number = $maxInvoiceNo + $firstInvoiceNo + 1;
+			// It will apply only for the first number ideally!
+			if ($maxInvoiceNo <= $firstInvoiceNo)
+			{
+				$maxInvoiceNo += $firstInvoiceNo;
+			}
+
+			$number = $maxInvoiceNo + 1;
 
 			self::updateInvoiceNumber($number, $orderId);
 
@@ -166,5 +221,44 @@ class RedshopHelperOrder
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
+	}
+
+	/**
+	 * Get all the order status code information list
+	 *
+	 * @return  array  Order Status info
+	 */
+	public static function getOrderStatusList()
+	{
+		if (!empty(self::$allStatus))
+		{
+			return self::$allStatus;
+		}
+
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select(
+						array(
+							$db->qn('order_status_code', 'value'),
+							$db->qn('order_status_name', 'text')
+						)
+					)
+					->from($db->qn('#__redshop_order_status'))
+					->where($db->qn('published') . ' = ' . $db->q('1'));
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+		self::$allStatus = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		return self::$allStatus;
 	}
 }

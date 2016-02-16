@@ -471,15 +471,15 @@ class RedshopModelCategory extends RedshopModel
 				}
 			}
 
-			$this->_product[0]->minprice = floor($min);
-			$this->_product[0]->maxprice = ceil($max);
+			$this->setState('minprice', floor($min));
+			$this->setState('maxprice', ceil($max));
 			$this->setMaxMinProductPrice(array(floor($min), ceil($max)));
 		}
 		elseif ($isSlider)
 		{
 			$newProduct = array();
 
-			for ($i = 0; $i < count($this->_product); $i++)
+			for ($i = 0, $cp = count($this->_product); $i < $cp; $i++)
 			{
 				$ProductPriceArr                 = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->sliderprice = $ProductPriceArr['product_price'];
@@ -490,8 +490,8 @@ class RedshopModelCategory extends RedshopModel
 				}
 			}
 
-			$this->_product = $newProduct;
-			$this->_total   = count($this->_product);
+			$this->_total   = count($newProduct);
+			$this->_product = array_slice($newProduct, $limitstart, $endlimit);
 		}
 		else
 		{
@@ -806,7 +806,7 @@ class RedshopModelCategory extends RedshopModel
 
 			$tag = '';
 
-			for ($f = 0; $f < count($rs_filters); $f++)
+			for ($f = 0, $fn = count($rs_filters); $f < $fn; $f++)
 			{
 				$tmp_tag = $app->getUserStateFromRequest($context . 'tag' . $rs_filters[$f], 'tag' . $rs_filters[$f], '');
 
@@ -840,7 +840,7 @@ class RedshopModelCategory extends RedshopModel
 						{
 							$i = 1;
 
-							for ($t = 1; $t < count($tag); $t++)
+							for ($t = 1, $tn = count($tag); $t < $tn; $t++)
 							{
 								$finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
 								$finder_where[] = " at" . $t . ".tag_id = " . (int) $tag[$t] . " ";

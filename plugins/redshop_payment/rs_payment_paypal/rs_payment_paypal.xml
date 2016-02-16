@@ -2,7 +2,7 @@
 <extension version="2.5.0" type="plugin" group="redshop_payment"
 		   method="upgrade">
 	<name>PLG_RS_PAYMENT_PAYPAL</name>
-	<version>1.5.0.6</version>
+	<version>1.5.1.1</version>
 	<redshop>1.5.0.6</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -23,8 +23,6 @@
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="payment_oprand" type="text" size="10" default="-"
-					   label="PLG_RS_PAYMENT_PAYPAL_PAYMENT_OPRAND_LBL"/>
 				<field name="debug_mode" type="radio" default="1" label="PLG_RS_PAYMENT_PAYPAL_DEBUG_MODE_LBL"
 					   class="btn-group btn-group-yesno">
 					<option value="1">JYES</option>
@@ -86,6 +84,17 @@
 				</field>
 				<field name="auto_return_url" type="text" default=""
 					   label="PLG_RS_PAYMENT_PAYPAL_AUTO_RETURN_URL_LBL" size="60"/>
+				<field name="payment_oprand" type="text" size="10" default="-"
+					 label="PLG_RS_PAYMENT_PAYPAL_PAYMENT_OPRAND_LBL"/>
+				<field name="payment_price" type="text" size="30" default=""
+				 label="PLG_RS_PAYMENT_PAYPAL_PAYMENT_PRICE_LBL"/>
+				<field name="payment_discount_is_percent" type="radio" default="1"
+				 class="btn-group"
+				 label="PLG_RS_PAYMENT_PAYPAL_PAYMENT_IS_PERCENTAGE_LBL"
+				 description="PLG_RS_PAYMENT_PAYPAL_PAYMENT_IS_PERCENTAGE_DESC">
+					<option value="1">PLG_RS_PAYMENT_PAYPAL_PAYMENT_PERCENTAGE</option>
+					<option value="0">PLG_RS_PAYMENT_PAYPAL_PAYMENT_TOTAL</option>
+				</field>
 				<field name="private_person" type="radio" default="1"
 					   class="btn-group btn-group-yesno"
 					   label="PLG_RS_PAYMENT_PAYPAL_PRIVATE_PERSON_LBL">

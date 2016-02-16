@@ -35,7 +35,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$quotationHelper = new quotationHelper;
 		$post = JRequest::get('post');
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['quotation_id'] = $cid [0];
@@ -120,7 +120,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -141,7 +141,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function deleteitem()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$qitemid = JRequest::getVar('qitemid', 0, 'request', 'int');
 		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
 
@@ -158,7 +158,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
@@ -167,7 +167,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 	{
 		$adminproducthelper = new adminproducthelper;
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel('quotation_detail');

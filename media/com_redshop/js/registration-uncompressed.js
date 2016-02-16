@@ -51,6 +51,7 @@ if(typeof(window['jQuery']) != "undefined")
 
 		}, '');
 
+		jQuery.validator.messages.required = Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED');
 		rs("#adminForm").validate({
 
 			rules: {
@@ -104,8 +105,7 @@ if(typeof(window['jQuery']) != "undefined")
 					zipcode: true
 				},
 				phone: {
-					//required: true,
-					phone:true
+					phone: rs('#phone').hasClass('required')
 				},
 				termscondition: {
 					required: function (){if(!document.getElementById("termscondition") | (document.getElementById("termscondition") && rs("#termscondition").is(":checked"))) {return false;}else {  return true;}}
@@ -114,7 +114,6 @@ if(typeof(window['jQuery']) != "undefined")
 			},
 			ignore:"#adminForm input:not(:visible)",
 			messages: {
-				required: Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED'),
 				company_name:Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'),
 				firstname: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME'),
 				lastname: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME'),

@@ -30,7 +30,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 	public function save()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
 
@@ -62,7 +62,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -85,7 +85,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');

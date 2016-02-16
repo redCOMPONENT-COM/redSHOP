@@ -159,7 +159,6 @@ class RedshopModelCheckout extends RedshopModel
 
 		$post = JRequest::get('post');
 
-		$option     = JRequest::getVar('option', 'com_redshop');
 		$Itemid     = JRequest::getVar('Itemid');
 		$shop_id    = JRequest::getVar('shop_id');
 		$gls_mobile = JRequest::getVar('gls_mobile');
@@ -262,14 +261,18 @@ class RedshopModelCheckout extends RedshopModel
 
 		$cart = $this->_carthelper->modifyDiscount($cart);
 
-		$paymentinfo = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
-		$paymentinfo = $paymentinfo[0];
+		// Get Payment information
+		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentMethod = $paymentMethod[0];
 
-		$paymentparams                            = new JRegistry($paymentinfo->params);
-		$paymentinfo                              = new stdclass;
-		$paymentinfo->payment_price               = $paymentparams->get('payment_price', '');
-		$paymentinfo->payment_oprand              = $paymentparams->get('payment_oprand', '');
-		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
+		// Se payment method plugin params
+		$paymentMethod->params = new JRegistry($paymentMethod->params);
+
+		// Prepare payment Information Object for calculations
+		$paymentInfo                              = new stdclass;
+		$paymentInfo->payment_price               = $paymentMethod->params->get('payment_price', '');
+		$paymentInfo->payment_oprand              = $paymentMethod->params->get('payment_oprand', '');
+		$paymentInfo->payment_discount_is_percent = $paymentMethod->params->get('payment_discount_is_percent', '');
 
 		if (PAYMENT_CALCULATION_ON == 'subtotal')
 		{
@@ -280,7 +283,7 @@ class RedshopModelCheckout extends RedshopModel
 			$paymentAmount = $cart ['total'];
 		}
 
-		$paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentinfo, $cart ['total']);
+		$paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
 		$cart['total'] = $paymentArray[0];
 		$cart          = $session->set('cart', $cart);
 		$cart          = $session->get('cart');
@@ -315,47 +318,21 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$order_total = $order_total / 2;
 		}
+
 		JRequest::setVar('order_ship', $order_shipping [3]);
-		$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
-		$paymentmethod = $paymentmethod[0];
-		$mainelement   = $paymentmethod->element;
 
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
+		$paymentElementName = $paymentMethod->element;
+
+		// Check for bank transfer payment type plugin - suffixed using `rs_payment_banktransfer`
+		$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($paymentMethod->element);
+
+		if ($isBankTransferPaymentType || $paymentMethod->element == "rs_payment_eantransfer")
 		{
-			$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod->element);
-			$paymentmethod = $paymentmethod[0];
-			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
-
-			$paymentparams = new JRegistry($paymentmethod->params);
-
-			$order_main_status = $paymentparams->get('verify_status', '');
-
-
-			if ($paymentmethod->element != "rs_payment_banktransfer" && $paymentmethod->element != "rs_payment_banktransfer_discount" && $paymentmethod->element != "rs_payment_eantransfer")
-			{
-				$paymentmethod->element = substr($paymentmethod->element, 0, -1);
-			}
-
+			$order_status        = $paymentMethod->params->get('verify_status', '');
+			$order_paymentstatus = trim("Unpaid");
 		}
 
-
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount" || $paymentmethod->element == "rs_payment_eantransfer")
-		{
-			$order_status = $order_main_status;
-
-			if ($issplit)
-			{
-				$order_paymentstatus = trim("Partial Paid");
-			}
-			else
-			{
-				$order_paymentstatus = trim("Unpaid");
-			}
-
-			$order_status_full = $this->_order_functions->getOrderStatusTitle($order_main_status);
-		}
-
-		$paymentmethod->element = $mainelement;
+		$paymentMethod->element = $paymentElementName;
 
 		$payment_amount = 0;
 
@@ -371,15 +348,13 @@ class RedshopModelCheckout extends RedshopModel
 			$payment_oprand = $cart['payment_oprand'];
 		}
 
-		$xmlpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
-		$params  = new JRegistry($paymentmethod->params, $xmlpath);
-
-		$economic_payment_terms_id = $params->get('economic_payment_terms_id');
-		$economic_design_layout    = $params->get('economic_design_layout');
-		$is_creditcard             = $params->get('is_creditcard', '');
-		$is_redirected             = $params->get('is_redirected', 0);
+		$economic_payment_terms_id = $paymentMethod->params->get('economic_payment_terms_id');
+		$economic_design_layout    = $paymentMethod->params->get('economic_design_layout');
+		$is_creditcard             = $paymentMethod->params->get('is_creditcard', '');
+		$is_redirected             = $paymentMethod->params->get('is_redirected', 0);
 
 		JRequest::setVar('payment_status', $order_paymentstatus);
+
 		$d['order_shipping']         = $order_shipping [3];
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 		$timestamp                   = time();
@@ -450,7 +425,7 @@ class RedshopModelCheckout extends RedshopModel
 			$values['order_total']    = $order_total;
 			$values['order_subtotal'] = $order_subtotal;
 			$values["order_id"]       = $app->input->get('order_id', $row->order_id);
-			$values['payment_plugin'] = $paymentmethod->element;
+			$values['payment_plugin'] = $paymentMethod->element;
 			$values['odiscount']      = $odiscount;
 			$paymentResponses         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 			$paymentResponse          = $paymentResponses[0];
@@ -460,7 +435,13 @@ class RedshopModelCheckout extends RedshopModel
 				$d ["order_payment_trans_id"] = $paymentResponse->transaction_id;
 				$order_status_log             = $paymentResponse->message;
 				$order_status                 = 'C';
-				$order_paymentstatus          = 'Paid';
+
+				if (!isset($paymentResponse->paymentStatus))
+				{
+					$paymentResponse->paymentStatus = 'Paid';
+				}
+
+				$order_paymentstatus = $paymentResponse->paymentStatus;
 			}
 			else
 			{
@@ -478,11 +459,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($order_total <= 0)
 		{
-			$paymentpath       = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
-			$paymentparams     = new JRegistry($paymentmethod->params);
-			$order_main_status = $paymentparams->get('verify_status', '');
-
-			$order_status        = $order_main_status;
+			$order_status        = $paymentMethod->params->get('verify_status', '');
 			$order_paymentstatus = 'Paid';
 		}
 
@@ -768,7 +745,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$medianame = $this->_producthelper->getProductMediaName($rowitem->product_id);
 
-				for ($j = 0; $j < count($medianame); $j++)
+				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
 					$product_serial_number = $this->_producthelper->getProdcutSerialNumber($rowitem->product_id);
 					$this->_producthelper->insertProductDownload($rowitem->product_id, $user->id, $rowitem->order_id, $medianame[$j]->media_name, $product_serial_number->serial_number);
@@ -808,7 +785,7 @@ class RedshopModelCheckout extends RedshopModel
 				$setSubpropEqual = true;
 				$attArr          = $cart [$i] ['cart_accessory'];
 
-				for ($a = 0; $a < count($attArr); $a++)
+				for ($a = 0, $an = count($attArr); $a < $an; $a++)
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
@@ -826,7 +803,7 @@ class RedshopModelCheckout extends RedshopModel
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
-					for ($j = 0; $j < count($attchildArr); $j++)
+					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
 						$prooprand     = array();
 						$proprice      = array();
@@ -939,7 +916,7 @@ class RedshopModelCheckout extends RedshopModel
 							$accessory_price    = $accessory_priceArr[1];
 						}
 
-						for ($t = 0; $t < count($propArr); $t++)
+						for ($t = 0, $tn = count($propArr); $t < $tn; $t++)
 						{
 							$subprooprand  = array();
 							$subproprice   = array();
@@ -1000,7 +977,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$attchildArr = $cart [$i] ['cart_attribute'];
 
-				for ($j = 0; $j < count($attchildArr); $j++)
+				for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 				{
 					$propArr       = $attchildArr[$j]['attribute_childs'];
 					$totalProperty = count($propArr);
@@ -1180,8 +1157,8 @@ class RedshopModelCheckout extends RedshopModel
 		$rowpayment->order_payment_ccv      = base64_encode($ccdata['credit_card_code']);
 		$rowpayment->order_payment_amount   = $order_total;
 		$rowpayment->order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
-		$rowpayment->order_payment_name     = $paymentmethod->name;
-		$rowpayment->payment_method_class   = $paymentmethod->element;
+		$rowpayment->order_payment_name     = $paymentMethod->name;
+		$rowpayment->payment_method_class   = $paymentMethod->element;
 		$rowpayment->order_payment_trans_id = $d ["order_payment_trans_id"];
 		$rowpayment->authorize_status       = "";
 
@@ -1195,7 +1172,7 @@ class RedshopModelCheckout extends RedshopModel
 		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = JDispatcher::getInstance();
-		$data       = $dispatcher->trigger('onAuthorizeStatus_' . $paymentmethod->element, array($paymentmethod->element, $order_id));
+		$data       = $dispatcher->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
 
 		$GLOBALS['shippingaddresses'] = $shippingaddresses;
 
@@ -1249,13 +1226,6 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
-		$checkOrderStatus = 1;
-
-		if ($paymentmethod->element == "rs_payment_banktransfer" || $paymentmethod->element == "rs_payment_banktransfer_discount")
-		{
-			$checkOrderStatus = 0;
-		}
-
 		if (isset($cart['extrafields_values']))
 		{
 			if (count($cart['extrafields_values']) > 0)
@@ -1276,8 +1246,8 @@ class RedshopModelCheckout extends RedshopModel
 			$economicdata['economic_payment_terms_id'] = $economic_payment_terms_id;
 			$economicdata['economic_design_layout']    = $economic_design_layout;
 			$economicdata['economic_is_creditcard']    = $is_creditcard;
-			$payment_name                              = $paymentmethod->element;
-			$paymentArr                                = explode("rs_payment_", $paymentmethod->element);
+			$payment_name                              = $paymentMethod->element;
+			$paymentArr                                = explode("rs_payment_", $paymentMethod->element);
 
 			if (count($paymentArr) > 0)
 			{
@@ -1290,6 +1260,8 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
+				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
+
 				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (is_file($bookinvoicepdf))
@@ -1298,8 +1270,6 @@ class RedshopModelCheckout extends RedshopModel
 				}
 			}
 		}
-
-		// End Economic
 
 		// Send the Order mail before payment
 		if (!ORDER_MAIL_AFTER || (ORDER_MAIL_AFTER && $row->order_payment_status == "Paid"))
@@ -1430,20 +1400,26 @@ class RedshopModelCheckout extends RedshopModel
 			$pdf->SetFont('times', '', 18);
 			$pdf->AddPage();
 			$pdfImage = "";
+			$mailImage = '';
 
-			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image) && $giftcardData->giftcard_image)
+			if ($giftcardData->giftcard_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image))
 			{
 				$pdfImage = '<img src="' . REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
+				$mailImage = '<img src="components/com_redshop/assets/images/giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
 			}
 
-			$giftcardmail_body = str_replace("{giftcard_image}", $pdfImage, $giftcardmail_body);
-			$pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
+			$pdfMailBody = $giftcardmail_body;
+			$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
+			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
+			$pdf->writeHTML($pdfMailBody, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
 			$g_pdfName = time();
 			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
 			$config              = JFactory::getConfig();
 			$from                = $config->get('mailfrom');
 			$fromname            = $config->get('fromname');
 			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
+
+			$giftcardmail_body = $this->_redshopMail->imginmail($giftcardmail_body);
 
 			JFactory::getMailer()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}
@@ -1691,7 +1667,7 @@ class RedshopModelCheckout extends RedshopModel
 		// Establish card type
 		$cardType = -1;
 
-		for ($i = 0; $i < count($cards); $i++)
+		for ($i = 0, $in = count($cards); $i < $in; $i++)
 		{
 			// See if it is this card (ignoring the case of the string)
 			if (strtolower($cardname) == strtolower($cards [$i] ['name']))
@@ -1790,7 +1766,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$PrefixValid = false;
 
-		for ($i = 0; $i < count($prefix); $i++)
+		for ($i = 0, $in = count($prefix); $i < $in; $i++)
 		{
 			$exp = '/^' . $prefix [$i] . '/';
 
@@ -1814,7 +1790,7 @@ class RedshopModelCheckout extends RedshopModel
 		$LengthValid = false;
 		$lengths     = explode(',', $cards[$cardType]['length']);
 
-		for ($j = 0; $j < count($lengths); $j++)
+		for ($j = 0, $jn = count($lengths); $j < $jn; $j++)
 		{
 			if (strlen($cardNo) == $lengths [$j])
 			{
@@ -2164,28 +2140,27 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$shipArr              = $this->calculateShipping($shipping_rate_id);
 			$cart['shipping']     = $shipArr['order_shipping_rate'];
-			$cart['shipping_vat'] = $shipArr['shipping_vat'];
+			$cart['shipping_vat'] = (!isset($shipArr['shipping_vat'])) ? 0 : $shipArr['shipping_vat'];
 		}
 
 		$cart = $this->_carthelper->modifyDiscount($cart);
 
-		$paymentinfo = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
-		$paymentinfo = $paymentinfo[0];
+		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentMethod = $paymentMethod[0];
 
-		$paymentpath                 = JPATH_SITE . '/plugins/redshop_payment/' . $paymentinfo->element . '.xml';
-		$paymentparams               = new JRegistry($paymentinfo->params);
-		$is_creditcard               = $paymentparams->get('is_creditcard', '');
-		$payment_oprand              = $paymentparams->get('payment_oprand', '');
-		$payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
-		$payment_price               = $paymentparams->get('payment_price', '');
-		$accepted_credict_card       = $paymentparams->get("accepted_credict_card");
+		$paymentMethod->params               = new JRegistry($paymentMethod->params);
+		$is_creditcard               = $paymentMethod->params->get('is_creditcard', '');
+		$payment_oprand              = $paymentMethod->params->get('payment_oprand', '');
+		$payment_discount_is_percent = $paymentMethod->params->get('payment_discount_is_percent', '');
+		$payment_price               = $paymentMethod->params->get('payment_price', '');
+		$accepted_credict_card       = $paymentMethod->params->get("accepted_credict_card");
 
-		$paymentinfo                              = new stdclass;
-		$paymentinfo->payment_price               = $payment_price;
-		$paymentinfo->is_creditcard               = $is_creditcard;
-		$paymentinfo->payment_oprand              = $payment_oprand;
-		$paymentinfo->payment_discount_is_percent = $payment_discount_is_percent;
-		$paymentinfo->accepted_credict_card       = $accepted_credict_card;
+		$paymentInfo                              = new stdclass;
+		$paymentInfo->payment_price               = $payment_price;
+		$paymentInfo->is_creditcard               = $is_creditcard;
+		$paymentInfo->payment_oprand              = $payment_oprand;
+		$paymentInfo->payment_discount_is_percent = $payment_discount_is_percent;
+		$paymentInfo->accepted_credict_card       = $accepted_credict_card;
 
 		if (PAYMENT_CALCULATION_ON == 'subtotal')
 		{
@@ -2196,7 +2171,7 @@ class RedshopModelCheckout extends RedshopModel
 			$paymentAmount = $cart ['total'];
 		}
 
-		$paymentArray   = $this->_carthelper->calculatePayment($paymentAmount, $paymentinfo, $cart ['total']);
+		$paymentArray   = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
 		$cart['total']  = $paymentArray[0];
 		$payment_amount = $paymentArray[1];
 

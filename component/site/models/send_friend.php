@@ -53,7 +53,6 @@ class RedshopModelSend_friend extends RedshopModel
 		$producthelper = new producthelper;
 		$redshopMail   = new redshopMail;
 		$url           = JURI::base();
-		$option        = JRequest::getVar('option');
 
 		$mailinfo = $redshopMail->getMailtemplate(0, "product");
 		$data_add = "";
@@ -87,6 +86,7 @@ class RedshopModelSend_friend extends RedshopModel
 		$rlink       = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id);
 		$product_url = "<a href=" . $rlink . ">" . $rlink . "</a>";
 		$data_add    = str_replace("{product_url}", $product_url, $data_add);
+		$data_add = $redshopMail->imginmail($data_add);
 
 		$config   = JFactory::getConfig();
 		$from     = $config->get('mailfrom');

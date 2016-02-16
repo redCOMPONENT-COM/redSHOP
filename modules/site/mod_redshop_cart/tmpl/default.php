@@ -60,7 +60,8 @@ if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_BACKGROUND))
 				'totalQuantity' => $count,
 				'cart' => $cart,
 				'showWithVat' => $show_with_vat,
-				'showShippingLine' => $show_shipping_line
+				'showShippingLine' => $show_shipping_line,
+				'showWithDiscount' => $show_with_discount
 			),
 			'components/com_redshop/layouts/'
 		);

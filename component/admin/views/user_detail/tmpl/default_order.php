@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$option = JRequest::getVar('option', '', 'request', 'string');    ?>
+    ?>
 <div id="editcell">
 	<table class="adminlist table table-striped">
 		<thead>

@@ -54,36 +54,30 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 	}
 
 	/**
-	 * Generates an HTML radio list.
-	 *
-	 * @param   array    $data       An array of objects
-	 * @param   string   $name       The value of the HTML name attribute
-	 * @param   string   $attribs    Additional HTML attributes for the <select> tag
-	 * @param   mixed    $optKey     The key that is selected
-	 * @param   string   $optText    The name of the object variable for the option value
-	 * @param   string   $selected   The name of the object variable for the option text
-	 * @param   boolean  $idtag      Value of the field id or null by default
-	 * @param   boolean  $translate  True if options will be translated
+	 * Generates an HTML output for radio or checkbox list.
 	 *
 	 * @return  string  HTML for the select list
 	 *
 	 * @since   1.5
 	 */
-	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
-		$translate = false)
+	protected static function prepareButtonList()
 	{
-		JHtml::_('redshopjquery.radiobutton');
+		list($type, $data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate) = func_get_args();
 
 		reset($data);
 
+		$cssClassSuffix = ' btn-group redRadioGroup';
+
 		if (is_array($attribs))
 		{
+			$cssClassSuffix = (isset($attribs['cssClassSuffix'])) ? $attribs['cssClassSuffix'] : ' btn-group redRadioGroup';
+
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
 		$id_text = $idtag ? $idtag : $name;
 
-		$html = '<fieldset class="radio btn-group redRadioGroup">';
+		$html = '<fieldset class="' . $type . $cssClassSuffix . '">';
 
 		foreach ($data as $i => $obj)
 		{
@@ -112,16 +106,80 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
 			}
 
-			$html .= '<input type="radio" id="' . $id . '" name="' . $name . '" value="'
+			$html .= '<input type="' . $type . '" id="' . $id . '" name="' . $name . '" value="'
 				. $k . '" ' . $extra . $attribs . ' />';
 
-			$html .= '<label class="radio" for="' . $id . '"' . ' id="' . $id . '-lbl" >'
+			$html .= '<label class="' . $type . '" for="' . $id . '"' . ' id="' . $id . '-lbl" >'
 				. $t . '</label>';
 		}
 
 		$html .= '</fieldset>';
 
 		return $html;
+	}
+
+	/**
+	 * Generates an HTML radio list.
+	 *
+	 * @param   array    $data       An array of objects
+	 * @param   string   $name       The value of the HTML name attribute
+	 * @param   string   $attribs    Additional HTML attributes for the <select> tag
+	 * @param   mixed    $optKey     The key that is selected
+	 * @param   string   $optText    The name of the object variable for the option value
+	 * @param   string   $selected   The name of the object variable for the option text
+	 * @param   boolean  $idtag      Value of the field id or null by default
+	 * @param   boolean  $translate  True if options will be translated
+	 *
+	 * @return  string  HTML for the select list
+	 *
+	 * @since   1.5
+	 */
+	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false, $translate = false, $classSuffix = ' btn-group redRadioGroup')
+	{
+		JHtml::_('redshopjquery.radiobutton');
+
+		return self::prepareButtonList(
+			'radio',
+			$data,
+			$name,
+			$attribs,
+			$optKey,
+			$optText,
+			$selected,
+			$idtag,
+			$translate
+		);
+	}
+
+	/**
+	 * Generates an HTML radio list.
+	 *
+	 * @param   array    $data       An array of objects
+	 * @param   string   $name       The value of the HTML name attribute
+	 * @param   string   $attribs    Additional HTML attributes for the <select> tag
+	 * @param   mixed    $optKey     The key that is selected
+	 * @param   string   $optText    The name of the object variable for the option value
+	 * @param   string   $selected   The name of the object variable for the option text
+	 * @param   boolean  $idtag      Value of the field id or null by default
+	 * @param   boolean  $translate  True if options will be translated
+	 *
+	 * @return  string  HTML for the select list
+	 *
+	 * @since   1.5
+	 */
+	public static function checkList($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false, $translate = false)
+	{
+		return self::prepareButtonList(
+			'checkbox',
+			$data,
+			$name,
+			$attribs,
+			$optKey,
+			$optText,
+			$selected,
+			$idtag,
+			$translate
+		);
 	}
 
 	/**

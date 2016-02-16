@@ -86,6 +86,14 @@ class RedshopModelRating_detail extends RedshopModel
 
 	public function store($data)
 	{
+		// Set email for existing joomla user
+		if (isset($data['userid']) && $data['userid'] > 0)
+		{
+			$user = JFactory::getUser($data['userid']);
+			$data['email']    = $user->email;
+			$data['username'] = $user->username;
+		}
+
 		$row = $this->getTable();
 
 		if (!$row->bind($data))

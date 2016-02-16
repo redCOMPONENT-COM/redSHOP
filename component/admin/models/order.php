@@ -39,6 +39,8 @@ class RedshopModelOrder extends RedshopModel
 		$id .= ':' . $this->getState('filter_by');
 		$id .= ':' . $this->getState('filter_status');
 		$id .= ':' . $this->getState('filter_payment_status');
+		$id .= ':' . $this->getState('filter_from_date');
+		$id .= ':' . $this->getState('filter_to_date');
 
 		return parent::getStoreId($id);
 	}
@@ -59,10 +61,14 @@ class RedshopModelOrder extends RedshopModel
 		$filter_payment_status = $this->getUserStateFromRequest($this->context . 'filter_payment_status', 'filter_payment_status', '', '');
 		$filter                = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
 		$filter_by             = $this->getUserStateFromRequest($this->context . 'filter_by', 'filter_by', '', '');
+		$filter_from_date     = $this->getUserStateFromRequest($this->context . 'filter_from_date', 'filter_from_date', '', '');
+		$filter_to_date       = $this->getUserStateFromRequest($this->context . 'filter_to_date', 'filter_to_date', '', '');
+
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);
 		$this->setState('filter_status', $filter_status);
-		$this->setState('filter_payment_status', $filter_payment_status);
+		$this->setState('filter_from_date', $filter_from_date);
+		$this->setState('filter_to_date', $filter_to_date);
 
 		parent::populateState($ordering, $direction);
 	}
@@ -77,6 +83,19 @@ class RedshopModelOrder extends RedshopModel
 		$filter_by             = $this->getState('filter_by');
 		$filter_status         = $this->getState('filter_status');
 		$filter_payment_status = $this->getState('filter_payment_status');
+		$filter_from_date     = $this->getState('filter_from_date');
+		$filter_to_date       = $this->getState('filter_to_date');
+
+		if ($filter_from_date)
+		{
+			$query->where($db->qn('o.cdate') . '>=' . strtotime($filter_from_date));
+		}
+
+		if ($filter_to_date)
+		{
+			// Adding 24 hours to the end date to consider whole end day
+			$query->where($db->qn('o.cdate') . ' <= ' . (strtotime($filter_to_date) + 24 * 3600));
+		}
 
 		if ($filter_status)
 		{
@@ -229,11 +248,11 @@ class RedshopModelOrder extends RedshopModel
 
 		$ordersInfo = $this->getOrdersDetail($cid);
 
-		for ($i = 0; $i < count($ordersInfo); $i++)
+		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
-			if (($details[0] == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
+			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
 				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
@@ -241,10 +260,10 @@ class RedshopModelOrder extends RedshopModel
 
 				$totalWeight = 0;
 
-				for ($c = 0; $c < count($orderproducts); $c++)
+				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
-					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
+					$weight      = (float) $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * (float)$orderproducts[$c]->product_quantity);
 				}
 
 				$parceltype = 'A';
@@ -287,7 +306,7 @@ class RedshopModelOrder extends RedshopModel
 					);
 				}
 
-				$row = array_merge($row, $userDetail);
+				$row = array_map('utf8_decode', array_merge($row, $userDetail));
 
 				// Output CSV line
 				fputcsv($outputCsv, $row);
@@ -320,25 +339,13 @@ class RedshopModelOrder extends RedshopModel
 		// Start the ouput
 		$outputCsv = fopen('php://output', 'w');
 
-		$column = array(
-			'Order_number',
-			'Quantity',
-			'Create_date',
-			'total_weight',
-			'reciever_firstName',
-			'reciever_lastname',
-			'Customer_note'
-		);
-
-		fputcsv($outputCsv, $column);
-
 		$ordersInfo = $this->getOrdersDetail($cid);
 
-		for ($i = 0; $i < count($ordersInfo); $i++)
+		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
 
-			if ($details[0] == 'plgredshop_shippingdefault_shipping_glsBusiness')
+			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
 				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
@@ -346,10 +353,10 @@ class RedshopModelOrder extends RedshopModel
 
 				$totalWeight = 0;
 
-				for ($c = 0; $c < count($orderproducts); $c++)
+				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
-					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
+					$weight      = (float) $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * (float) $orderproducts[$c]->product_quantity);
 				}
 
 				// Initialize row
@@ -360,7 +367,7 @@ class RedshopModelOrder extends RedshopModel
 				$extraFieldData = $extraField->getSectionFieldList(19, 1);
 				$extraInfo      = array();
 
-				for ($j = 0; $j < count($extraFieldData); $j++)
+				for ($j = 0, $jn = count($extraFieldData); $j < $jn; $j++)
 				{
 					$extraFieldResult = $extraField->getSectionFieldDataList($extraFieldData[$j]->field_id, 19, $ordersInfo[$i]->order_id);
 
@@ -386,6 +393,11 @@ class RedshopModelOrder extends RedshopModel
 				);
 
 				$row = array_merge($row, $extraInfo, $rowAppend);
+
+				for ($i = 0, $in = count($row); $i < $in; $i++)
+				{
+					$row[$i] = utf8_decode($row[$i]);
+				}
 
 				// Output CSV line
 				fputcsv($outputCsv, $row);
@@ -435,13 +447,6 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function getProductWeight($productId)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_product'))
-				->where($db->qn('product_id') . ' = ' . (int) $productId);
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return RedshopHelperProduct::getProductById($productId)->weight;
 	}
 }

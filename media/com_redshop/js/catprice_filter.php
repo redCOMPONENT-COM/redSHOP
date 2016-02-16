@@ -20,6 +20,7 @@ defined('_JEXEC') or die;
 			var ajaxMessage =  $('#ajaxcatMessage');//Caching ajaxMessage object
 			var redcatpagination =  $('#redcatpagination');
 			var oldredcatpagination =  $('#oldredcatpagination');
+			var oldRedPageLimit = $('#oldRedPageLimit');
 
 			//Resolve Mootools conflict
 			$.ui.slider.prototype.widgetEventPrefix = 'slider';
@@ -50,6 +51,7 @@ defined('_JEXEC') or die;
 						ajaxMessage.css({display:'none'});
 						products.html($("#productlist").html());
 						oldredcatpagination.html($("#redcatpagination").html());
+						oldRedPageLimit.html($('#redPageLimit').html())
 					});
 					// Start Code for fixes IE9 issue
 					$(this).parent("div").attr('style','');
