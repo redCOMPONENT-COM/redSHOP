@@ -118,9 +118,30 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_CART_CHECKOUT_ITEMID_LBL');?></label></span>
 						</td>
 						<td>
-							<input type="text" name="default_cart_checkout_itemid" id="default_cart_checkout_itemid"
-							       value="<?php if (DEFAULT_CART_CHECKOUT_ITEMID) echo DEFAULT_CART_CHECKOUT_ITEMID;
-							       else echo 1; ?>">
+							<?php
+							$site = JApplication::getInstance('site');
+							$menu = $site->getMenu();
+
+							// Get menu items - array filtered by access level of current user.
+							$menuItems = $menu->getItems(null, null);
+
+							// Build please select option for no itemid
+							$selectOption   = array();
+							$selectOption[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_PLEASE_SELECT'), 'id', 'title');
+
+							// Merge items to build select list.
+							$items = array_merge($selectOption, $menuItems);
+
+							echo JHTML::_(
+								'select.genericlist',
+								$items,
+								'default_cart_checkout_itemid',
+								'',
+								'id',
+								'title',
+								DEFAULT_CART_CHECKOUT_ITEMID
+							);
+						?>
 						</td>
 					</tr>
 					<tr>

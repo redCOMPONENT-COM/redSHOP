@@ -58,7 +58,7 @@ $formdata = array(
 	'forcecurrency'     => $this->params->get("dibs_forcecurrency")
 );
 
-for ($p = 0; $p < count($rs); $p++)
+for ($p = 0, $pn = count($rs); $p < $pn; $p++)
 {
 	$formdata['ordline' . ($p + 1) . '-1'] = $rs[$p]->product_id;
 	$formdata['ordline' . ($p + 1) . '-2'] = $rs[$p]->order_item_name;
@@ -72,7 +72,7 @@ if ($this->params->get("is_test") == "1")
 }
 
 $version            = "2";
-$dibsurl            = "https://payment.architrade.com/payment/start.pml";
+$dibsurl            = "https://payment.architrade.com/paymentweb/start.action";
 $currencyClass      = new CurrencyHelper;
 $formdata['amount'] = $currencyClass->convert($order_details[0]->order_total, '', $this->params->get("dibs_currency"));
 $formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
@@ -92,7 +92,7 @@ if ($formdata['flexlang'] == "Auto")
 		'Faroe Islands' => 'fo'
 	);
 
-	if ($lang != "" && isset($lang))
+	if (isset($lang) && $lang != '')
 	{
 		$formdata["lang"] = $lang;
 	}

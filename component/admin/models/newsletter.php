@@ -344,7 +344,7 @@ class RedshopModelNewsletter extends RedshopModel
 		$data = $this->_db->loadObjectlist();
 		$userid = array();
 
-		for ($d = 0; $d < count($data); $d++)
+		for ($d = 0, $dn = count($data); $d < $dn; $d++)
 		{
 			$userid[] = $data[$d]->user_id;
 		}
@@ -414,7 +414,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 		$product_id_list = $this->getProductIdList();
 
-		for ($i = 0; $i < count($product_id_list); $i++)
+		for ($i = 0, $in = count($product_id_list); $i < $in; $i++)
 		{
 			$product_id = $product_id_list[$i]->product_id;
 
@@ -462,36 +462,12 @@ class RedshopModelNewsletter extends RedshopModel
 		$texts = new text_library;
 		$content = $texts->replace_texts($content);
 
-		// If the template contains the images, then revising the path of the images,
-		// So the full URL goes with the mail, so images are visible in the mails.
-		$data1 = $data = $content;
-
-		preg_match_all("/\< *[img][^\>]*[.]*\>/i", $data, $matches);
-		$imagescurarray = array();
-
-		foreach ($matches[0] as $match)
-		{
-			preg_match_all("/(src|height|width)*= *[\"\']{0,1}([^\"\'\ \>]*)/i", $match, $m);
-			$images[] = array_combine($m[1], $m[2]);
-			$imagescur = array_combine($m[1], $m[2]);
-			$imagescurarray[] = $imagescur['src'];
-		}
-		$imagescurarray = array_unique($imagescurarray);
-
-		if ($imagescurarray)
-		{
-			foreach ($imagescurarray as $change)
-			{
-				if (strpos($change, 'http') === false)
-				{
-					$data1 = str_replace($change, $url . $change, $data1);
-				}
-			}
-		}
+		$redshopMail     = new redshopMail;
+		$data1 = $redshopMail->imginmail($content);
 
 		$retsubscriberid = array();
 
-		for ($j = 0; $j < count($cid); $j++)
+		for ($j = 0, $jn = count($cid); $j < $jn; $j++)
 		{
 			$subscriberinfo = $this->subscribersinfo($cid[$j]);
 

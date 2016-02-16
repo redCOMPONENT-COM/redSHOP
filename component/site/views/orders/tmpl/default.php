@@ -78,7 +78,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$order_item_name = array();
 
-		for ($j = 0; $j < count($prolist); $j++)
+		for ($j = 0, $jn = count($prolist); $j < $jn; $j++)
 		{
 			$order_item_name[$j] = $prolist[$j]->order_item_name;
 		}

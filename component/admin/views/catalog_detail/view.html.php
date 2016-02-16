@@ -21,7 +21,7 @@ class RedshopViewCatalog_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATALOG_MANAGEMENT_DETAIL'), 'redshop_catalogmanagement48');
 		$document = JFactory::getDocument();

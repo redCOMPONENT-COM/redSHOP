@@ -18,10 +18,8 @@ $quotationHelper = new quotationHelper;
 
 JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
-
 $redconfig       = new Redconfiguration;
 
-$option          = JRequest::getVar('option');
 $model           = $this->getModel('quotation_detail');
 
 $extra_field     = new extra_field;
@@ -242,7 +240,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 			<?php
 			$unq = 1;
 
-			for ($i = 0; $i < count($quotation_item); $i++)
+			for ($i = 0, $in = count($quotation_item); $i < $in; $i++)
 			{
 				$quo = $quotation_item[$i];
 
@@ -557,7 +555,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 <input type="hidden" name="user_info_id" value="<?php echo $quotation->user_info_id; ?>"/>
 <input type="hidden" name="quotation_email" value="<?php echo $quotation->user_email; ?>"/>
 <input type="hidden" name="task" value=""/>
-<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+<input type="hidden" name="option" value="com_redshop"/>
 <input type="hidden" name="view" value="quotation_detail"/>
 <input type="hidden" name="quotation_mdate" value="<?php echo time(); ?>"/>
 

@@ -74,6 +74,7 @@ class Plgredshop_Productstock_Notifyemail extends JPlugin
 						$message = str_replace("{stocknotify_intro_text}", JText::_('PLG_REDSHOP_PRODUCT_STOCK_NOTIFYEMAIL_NOTIFY_INTRO_TEXT'), $message);
 						$message = str_replace("{product_detail}", $productDetail, $message);
 						$mail_subject = str_replace("{product_name}", $productName, $mail_subject);
+						$message = $redshopMail->imginmail($message);
 						JFactory::getMailer()->sendMail(ADMINISTRATOR_EMAIL, SHOP_NAME, $userData[$u]->user_email, $mail_subject, $message, 1);
 					}
 

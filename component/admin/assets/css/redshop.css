@@ -676,3 +676,8 @@ div.current select, div.current input, div.current textarea, div.current select 
 	padding: 4px 5px;
 	background-color: #cccccc !important;
 }
+
+/* Joomla 2.5.x template editor css fix */
+.isJ25 #editor .row-fluid{
+	clear: both;
+}

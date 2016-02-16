@@ -9,11 +9,11 @@
 defined('_JEXEC') or die;
 $user = JFactory::getUser();
 $model = $this->getModel('statistic');
-$option = JRequest::getVar('option');
+
 $start = $this->pagination->limitstart;
 $end = $this->pagination->limit;
 ?>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table width="100%">
 			<tr>

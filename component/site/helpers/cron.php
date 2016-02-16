@@ -71,7 +71,7 @@ class Cron
 	{
 		$date        = JFactory::getDate();
 		$redshopMail = new redshopMail;
-		$fdate       = $date->format('%Y-%m-%d');
+		$fdate       = $date->format('Y-m-d');
 
 		$db = $db = JFactory::getDbo();
 
@@ -111,6 +111,7 @@ class Cron
 
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
+					$body = $redshopMail->imginmail($body);
 
 					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
@@ -163,6 +164,7 @@ class Cron
 					$body = str_replace("{days}", DISCOUNT_DURATION, $body);
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
+					$body = $redshopMail->imginmail($body);
 
 					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
@@ -227,6 +229,7 @@ class Cron
 						$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 						$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
+						$body = $redshopMail->imginmail($body);
 
 						$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
@@ -254,7 +257,7 @@ class Cron
 		$stockroomhelper = new rsstockroomhelper;
 		$db              = JFactory::getDbo();
 		$date            = JFactory::getDate();
-		$fdate           = $date->format('%Y-%m-%d');
+		$fdate           = $date->format('Y-m-d');
 
 		$query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
 		$db->setQuery($query);
@@ -341,6 +344,7 @@ class Cron
 					$token        = substr($better_token, 0, 10);
 					$body         = str_replace("{coupon_code}", $token, $body);
 					$body         = str_replace("{coupon_duration}", $valid_end_date, $body);
+					$body = $redshopMail->imginmail($body);
 					$sent         = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
@@ -391,6 +395,7 @@ class Cron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
+					$body = $redshopMail->imginmail($body);
 					$sent           = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
@@ -425,6 +430,7 @@ class Cron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
+					$body = $redshopMail->imginmail($body);
 					$sent           = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
@@ -445,7 +451,7 @@ class Cron
 		$redshopMail = new redshopMail;
 		$today       = time();
 
-		$fdate = $date->format('%Y-%m-%d');
+		$fdate = $date->format('Y-m-d');
 
 		$db = $db = JFactory::getDbo();
 
@@ -484,6 +490,7 @@ class Cron
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
+					$body = $redshopMail->imginmail($body);
 
 					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
@@ -525,6 +532,7 @@ class Cron
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
+					$body = $redshopMail->imginmail($body);
 
 					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
@@ -577,6 +585,7 @@ class Cron
 					$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
 					$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
+					$body = $redshopMail->imginmail($body);
 
 					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
@@ -642,6 +651,7 @@ class Cron
 						$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
 						$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
+						$body = $redshopMail->imginmail($body);
 
 						$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
@@ -673,7 +683,7 @@ class Cron
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			// Subscription renewal mail
 			$redshopMail->sendSubscriptionRenewalMail($data[$i]);

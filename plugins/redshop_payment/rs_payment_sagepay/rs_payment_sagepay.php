@@ -31,7 +31,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_sagepay($element, $request)
+	public function onNotifyPaymentrs_payment_sagepay($element, $request)
 	{
 		if ($element != 'rs_payment_sagepay')
 		{
@@ -44,8 +44,9 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		{
 			ob_end_flush();
 		}
+
 		// Now decode the Crypt field and extract the results
-		$strDecoded     = $this->simpleXor($this->Base64Decode($strCrypt), $this->params->get("sagepay_encryptpass"));
+		$strDecoded     = self::decryptAes($strCrypt, $this->params->get("sagepay_encryptpass"));
 		$responsevalues = $this->getToken($strDecoded);
 
 		$debug_mode     = $this->params->get("debug_mode");
@@ -163,7 +164,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		return;
 	}
 
-	function requestPost($url, $data)
+	public function requestPost($url, $data)
 	{
 		ob_clean();
 		ob_get_clean();
@@ -221,7 +222,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		curl_close($curlSession);
 
 		// Tokenized the response
-		for ($i = 0; $i < count($response); $i++)
+		for ($i = 0, $in = count($response); $i < $in; $i++)
 		{
 			// Find position of first "=" character
 			$splitAt = strpos($response[$i], "=");
@@ -234,7 +235,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		return $output;
 	}
 
-	function getToken($thisString)
+	public function getToken($thisString)
 	{
 		// List the possible tokens
 		$Tokens = array(
@@ -279,7 +280,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		sort($resultArray);
 
 		// Go through the result array, getting the token values
-		for ($i = 0; $i < count($resultArray); $i++)
+		for ($i = 0, $in = count($resultArray); $i < $in; $i++)
 		{
 			// Get the start point of the value
 			$valueStart = $resultArray[$i]->start + strlen($resultArray[$i]->token) + 1;
@@ -300,56 +301,141 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		return $output;
 	}
 
-	function base64Encode($plain)
+	/**
+	 * Encrypt a string ready to send to SagePay using encryption key.
+	 *
+	 * @param  string  $string  The unencrypyted string.
+	 * @param  string  $key     The encryption key.
+	 *
+	 * @return string The encrypted string.
+	 */
+	static public function encryptAes($string, $key)
 	{
-		// Initialise output variable
-		$output = "";
+	    // AES encryption, CBC blocking with PKCS5 padding then HEX encoding.
+	    // Add PKCS5 padding to the text to be encypted.
+	    $string = self::addPKCS5Padding($string);
 
-		// Do encoding
-		$output = base64_encode($plain);
+	    // Perform encryption with PHP's MCRYPT module.
+	    $crypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $string, MCRYPT_MODE_CBC, $key);
 
-		// Return the result
-		return $output;
+	    // Perform hex encoding and return.
+	    return "@" . strtoupper(bin2hex($crypt));
 	}
 
-	function base64Decode($scrambled)
+	/**
+     * Decode a returned string from SagePay.
+     *
+     * @param string $strIn         The encrypted String.
+     * @param string $password      The encyption password used to encrypt the string.
+     *
+     * @return string The unecrypted string.
+     * @throws SagepayApiException
+     */
+    static public function decryptAes($strIn, $password)
+    {
+        // HEX decoding then AES decryption, CBC blocking with PKCS5 padding.
+        // Use initialization vector (IV) set from $str_encryption_password.
+        $strInitVector = $password;
+
+        // Remove the first char which is @ to flag this is AES encrypted and HEX decoding.
+        $hex = substr($strIn, 1);
+
+        // Throw exception if string is malformed
+        if (!preg_match('/^[0-9a-fA-F]+$/', $hex))
+        {
+            throw new Exception('Invalid encryption string');
+        }
+        $strIn = pack('H*', $hex);
+
+        // Perform decryption with PHP's MCRYPT module.
+        $string = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $password, $strIn, MCRYPT_MODE_CBC, $strInitVector);
+
+        return self::removePKCS5Padding($string);
+    }
+
+    /**
+     * Remove PKCS5 Padding from a string.
+     *
+     * @param string $input The decrypted string.
+     *
+     * @return string String without the padding.
+     * @throws SagepayApiException
+     */
+    static protected function removePKCS5Padding($input)
+    {
+        $blockSize = 16;
+        $padChar = ord($input[strlen($input) - 1]);
+
+        /* Check for PadChar is less then Block size */
+        if ($padChar > $blockSize)
+        {
+            throw new Exception('Invalid encryption string');
+        }
+        /* Check by padding by character mask */
+        if (strspn($input, chr($padChar), strlen($input) - $padChar) != $padChar)
+        {
+            throw new Exception('Invalid encryption string');
+        }
+
+        $unpadded = substr($input, 0, (-1) * $padChar);
+
+        /* Chech result for printable characters */
+        if (preg_match('/[[:^print:]]/', $unpadded))
+        {
+            throw new Exception('Invalid encryption string');
+        }
+
+        return $unpadded;
+    }
+
+	/**
+	 * PHP's mcrypt does not have built in PKCS5 Padding, so we use this.
+	 *
+	 * @param string $input The input string.
+	 *
+	 * @return string The string with padding.
+	 */
+	static public function addPKCS5Padding($input)
 	{
-		// Initialise output variable
-		$output = "";
+	    $blockSize = 16;
+	    $padd = "";
 
-		// Fix plus to space conversion issue
-		$scrambled = str_replace(" ", "+", $scrambled);
+	    // Pad input to an even block size boundary.
+	    $length = $blockSize - (strlen($input) % $blockSize);
+	    for ($i = 1; $i <= $length; $i++)
+	    {
+	        $padd .= chr($length);
+	    }
 
-		// Do encoding
-		$output = base64_decode($scrambled);
-
-		// Return the result
-		return $output;
+	    return $input . $padd;
 	}
 
-	function simpleXor($InString, $Key)
+	 /**
+	 * Convert a data array to a query string ready to post.
+	 *
+	 * @param  array   $data        The data array.
+	 * @param  string  $delimeter   Delimiter used in query string
+	 * @param  boolean $urlencoded  If true encode the final query string
+	 *
+	 * @return string The array as a string.
+	 */
+	static public function arrayToQueryString(array $data, $delimiter = '&', $urlencoded = false)
 	{
-		// Initialize key array
-		$KeyList = array();
+	    $queryString = '';
+	    $delimiterLength = strlen($delimiter);
 
-		// Initialize out variable
-		$output = "";
+	    // Parse each value pairs and concate to query string
+	    foreach ($data as $name => $value)
+	    {
+	        // Apply urlencode if it is required
+	        if ($urlencoded)
+	        {
+	            $value = urlencode($value);
+	        }
+	        $queryString .= $name . '=' . $value . $delimiter;
+	    }
 
-		// Convert $Key into array of ASCII values
-		for ($i = 0; $i < strlen($Key); $i++)
-		{
-			$KeyList[$i] = ord(substr($Key, $i, 1));
-		}
-
-		// Step through string a character at a time
-		for ($i = 0; $i < strlen($InString); $i++)
-		{
-			// Get ASCII code from string, get ASCII code from key (loop through with MOD), XOR the two, get the character from the result
-			// % is MOD (modulus), ^ is XOR
-			$output .= chr(ord(substr($InString, $i, 1)) ^ ($KeyList[$i % strlen($Key)]));
-		}
-
-		// Return the result
-		return $output;
+	    // remove the last delimiter
+	    return substr($queryString, 0, -1 * $delimiterLength);
 	}
 }

@@ -66,7 +66,7 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 		{
 			$rs = $ratelist[$i];
 			$shippingRate 			 	= $rs->shipping_rate_value;
-			$rs->shipping_rate_value 	= $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
+			$rs->shipping_rate_value 	= $shippinghelper->applyVatOnShippingRate($rs, $d);
 			$shippingVatRate		 	= $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber		= $rs->economic_displaynumber;
 			$shipping_rate_id 			= $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . "|" . $economic_displaynumber);

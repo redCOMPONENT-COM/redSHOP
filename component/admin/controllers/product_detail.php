@@ -28,8 +28,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 	public $input;
 
-	public $option;
-
 	/**
 	 * Constructor to set the right model
 	 *
@@ -132,7 +130,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
-		if (is_array($post['product_category']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
+		if (is_array($post['product_category'])
+			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
 		{
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
@@ -220,11 +219,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 		else
 		{
-			$row->product_id = $post ['product_id'];
-			$msg = $model->getError();
-
-			$this->app->enqueueMessage($msg, 'error');
-
+			$this->app->enqueueMessage($model->getError(), 'error');
 			$this->input->set('view', 'product_detail');
 			$this->input->set('layout', 'default');
 			$this->input->set('hidemainmenu', 1);

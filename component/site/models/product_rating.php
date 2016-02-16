@@ -142,6 +142,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 		$data_add = str_replace("{title}", $data['title'], $data_add);
 		$data_add = str_replace("{comment}", $data['comment'], $data_add);
 		$data_add = str_replace("{username}", $data['username'], $data_add);
+		$data_add = $redshopMail->imginmail($data_add);
 
 		if (ADMINISTRATOR_EMAIL != "")
 		{

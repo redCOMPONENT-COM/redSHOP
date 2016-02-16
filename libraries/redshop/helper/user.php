@@ -16,7 +16,26 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperUser
 {
+	/**
+	 * Shopper Group information
+	 *
+	 * @var  array
+	 */
 	protected static $userShopperGroupData = array();
+
+	/**
+	 * Shopper Group information
+	 *
+	 * @var  array
+	 */
+	protected static $shopperGroupData = array();
+
+	/**
+	 * Users Info
+	 *
+	 * @var  array
+	 */
+	protected static $redshopUserInfo = array();
 
 	/**
 	 * Get redshop user information
@@ -25,18 +44,21 @@ class RedshopHelperUser
 	 * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
 	 * @param   int     $userInfoId      Id redshop user
 	 * @param   bool    $useAddressType  Select user info relate with address type
+	 * @param   bool    $force           Force to get user infromation from DB instead of cache
 	 *
 	 * @return  object  Redshop user information
 	 */
-	public static function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0, $useAddressType = true)
+	public static function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0, $useAddressType = true, $force = false)
 	{
-		if ($userId == 0)
+		if (0 == $userId && 0 == $userInfoId)
 		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
+			$userId     = JFactory::getUser()->id;
+			$auth       = JFactory::getSession()->get('auth');
+			$userInfoId = $auth['users_info_id'];
 		}
 
-		if (!$userId)
+		// If both is not set return, as we also have silent user creating where joomla user id is not set
+		if (!$userId && !$userInfoId)
 		{
 			return array();
 		}
@@ -51,16 +73,20 @@ class RedshopHelperUser
 		}
 
 		$key = $userId . '.' . $addressType . '.' . $userInfoId;
-		static $redshopUserInfo = array();
 
-		if (!array_key_exists($key, $redshopUserInfo))
+		if (!array_key_exists($key, self::$redshopUserInfo) || $force)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select(array('sh.*', 'u.*'))
 				->from($db->qn('#__redshop_users_info', 'u'))
-				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
-				->where('u.user_id = ' . (int) $userId);
+				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id');
+
+			// Not necessory that all user is registed with joomla id. We have silent user creation too.
+			if ($userId)
+			{
+				$query->where('u.user_id = ' . (int) $userId);
+			}
 
 			if ($useAddressType)
 			{
@@ -72,10 +98,10 @@ class RedshopHelperUser
 				$query->where('u.users_info_id = ' . (int) $userInfoId);
 			}
 
-			$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
+			self::$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
 		}
 
-		return $redshopUserInfo[$key];
+		return self::$redshopUserInfo[$key];
 	}
 
 	/**
@@ -214,5 +240,28 @@ class RedshopHelperUser
 		}
 
 		return array();
+	}
+
+	/**
+	 * Get Shopper Group Data using shopper group id
+	 *
+	 * @param   int  $id  Shopper Group Id
+	 *
+	 * @return mixed
+	 */
+	public static function getShopperGroupDataById($id)
+	{
+		if (!array_key_exists($id, self::$shopperGroupData))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+						->select('sg.*')
+						->from($db->qn('#__redshop_shopper_group', 'sg'))
+						->where('sg.shopper_group_id = ' . (int) $id);
+			$db->setQuery($query);
+			self::$shopperGroupData[$id] = $db->loadObject();
+		}
+
+		return self::$shopperGroupData[$id];
 	}
 }

@@ -93,7 +93,9 @@ if ($this->params->get('show_page_heading', 1))
 					<td>
 						<table class="admintable" cellpadding="0" cellspacing="0" border="0" width="100%">
 							<tr>
-								<td align="left"><?php    echo $userhelper->getCaptchaTable();    ?></td>
+								<td align="left">
+								<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
+								</td>
 							</tr>
 						</table>
 					</td>

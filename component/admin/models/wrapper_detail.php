@@ -166,11 +166,11 @@ class RedshopModelWrapper_detail extends RedshopModel
 		$id = str_replace('[]', '', $name);
 		$html = "<select class='inputbox' size='10' " . $multiple . " name='" . $name . "' id='" . $id . "'>";
 
-		for ($i = 0; $i < count($list); $i++)
+		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
 			$selected = '';
 
-			for ($j = 0; $j < count($sellist); $j++)
+			for ($j = 0, $jn = count($sellist); $j < $jn; $j++)
 			{
 				if ($sellist[$j] == $list[$i]->$displayid)
 				{

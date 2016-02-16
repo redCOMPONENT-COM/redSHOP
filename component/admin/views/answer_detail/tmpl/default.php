@@ -13,7 +13,7 @@ JHTML::_('behavior.modal');
 JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('answer_detail');
 $editor = JFactory::getEditor();
 $uri = JURI::getInstance();

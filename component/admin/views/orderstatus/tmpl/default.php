@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $redhelper = new redhelper;
 ?>
 <script language="javascript" type="text/javascript">
@@ -19,10 +19,11 @@ $redhelper = new redhelper;
 			form.task.value = pressbutton;
 		}
 
-		if (pressbutton == 'add') {
-			<?php      $link = 'index.php?option=com_redshop&view=orderstatus_detail';
-							 $link = $redhelper->sslLink($link);
-			   ?>
+		if (pressbutton == 'add')
+		{
+			<?php
+				$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=orderstatus_detail');
+			?>
 			window.location = '<?php echo $link;?>';
 			return;
 		}
@@ -39,7 +40,7 @@ $redhelper = new redhelper;
 		form.submit();
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist table table-striped">
 			<thead>
@@ -72,8 +73,7 @@ $redhelper = new redhelper;
 			{
 				$row = $this->orderstatus[$i];
 				$row->id = $row->order_status_id;
-				$link = 'index.php?option=com_redshop&view=orderstatus_detail&task=edit&cid[]=' . $row->order_status_id;
-				$link = $redhelper->sslLink($link);
+				$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=orderstatus_detail&task=edit&cid[]=' . $row->order_status_id);
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
 				?>

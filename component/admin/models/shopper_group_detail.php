@@ -197,7 +197,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$product_price = $this->_db->loadObjectlist();
 
-			for ($i = 0; $i < count($product_price); $i++)
+			for ($i = 0, $in = count($product_price); $i < $in; $i++)
 			{
 				$product_data = (array) $product_price[$i];
 				$product_data['price_id'] = 0;
@@ -222,7 +222,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$attribute_price = $this->_db->loadObjectlist();
 
-			for ($i = 0; $i < count($attribute_price); $i++)
+			for ($i = 0, $in = count($attribute_price); $i < $in; $i++)
 			{
 				$attribute_data = (array) $attribute_price[$i];
 				$attribute_data['price_id'] = 0;
@@ -257,7 +257,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObjectlist();
 
-			for ($i = 0; $i < count($list); $i++)
+			for ($i = 0, $in = count($list); $i < $in; $i++)
 			{
 				$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $list[$i]->shopper_group_logo;
 

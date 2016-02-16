@@ -25,7 +25,7 @@ class RedshopControllerOrder extends RedshopController
 		$invoiceLink = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'invoice/' . $invoicePdf . '.pdf';
 		$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_INVOICE_LINK', $invoiceLink, $invoicePdf . '.pdf'));
 
-		for ($i = 0; $i < count($mypost); $i++)
+		for ($i = 0, $in = count($mypost); $i < $in; $i++)
 		{
 			if (file_exists(JPATH_COMPONENT_SITE . "/assets/labels/label_" . $mypost[$i] . ".pdf"))
 			{
@@ -39,7 +39,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
@@ -226,7 +226,7 @@ class RedshopControllerOrder extends RedshopController
 		$db->setQuery($sql);
 		$no_products = $db->loadObjectList();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$product_count [] = $no_products [$i]->noproduct;
 		}
@@ -249,7 +249,7 @@ class RedshopControllerOrder extends RedshopController
 
 		echo "Order Total\n";
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$billing_info = $order_function->getOrderBillingUserInfo($data [$i]->order_id);
 
@@ -354,7 +354,7 @@ class RedshopControllerOrder extends RedshopController
 		$db->setQuery($sql);
 		$no_products = $db->loadObjectList();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$product_count [] = $no_products [$i]->noproduct;
 		}
@@ -373,7 +373,7 @@ class RedshopControllerOrder extends RedshopController
 
 		echo "Shipping Cost,Order Total\n";
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$shipping_address = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
 
@@ -462,7 +462,7 @@ class RedshopControllerOrder extends RedshopController
 
 		$download_id_arr = $post ['download_id'];
 
-		for ($i = 0; $i < count($download_id_arr); $i++)
+		for ($i = 0, $in = count($download_id_arr); $i < $in; $i++)
 		{
 			$download_id = $download_id_arr [$i];
 

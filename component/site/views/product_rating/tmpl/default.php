@@ -10,30 +10,23 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-
-if ($this->params->get('show_page_heading', 1))
-{
+?>
+<?php if (!$app->input->getInt('rate', 0)) : ?>
+	<?php if ($this->params->get('show_page_heading', 1)) : ?>
+		<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+			<?php echo $this->escape($this->productInfo->product_name); ?>
+		</div>
+	<?php endif; ?>
+	<?php
+		$displayData = array(
+			'form' => $this->form,
+			'modal' => 1,
+			'product_id' => $this->productId
+		);
+		echo RedshopLayoutHelper::render('product.product_rating', $displayData);
 	?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-		<?php echo $this->escape($this->productinfo->product_name); ?>
-	</div>
-<?php
-}
-
-if (!$app->input->getInt('rate', 0))
-{
-	$displayData = array(
-		'form' => $this->form,
-		'modal' => 1,
-		'product_id' => $this->productId
-	);
-	echo RedshopLayoutHelper::render('product.product_rating', $displayData);
-}
-else
-{
-	?>
+<?php else : ?>
 	<script>
-		setTimeout("window.parent.redBOX.close();", 5000);
+		setTimeout("window.parent.location.reload(); window.parent.redBOX.close();", 5000);
 	</script>
-<?php
-}
+<?php endif; ?>

@@ -35,13 +35,6 @@ else
 	$template_desc .= "<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
 }
 
-$endlimit = count($this->detail);
-
-if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
-{
-	$endlimit = $model->getProductPerPage();
-}
-
 if ($this->params->get('show_page_heading', 0))
 {
 	if (!$this->catid)
@@ -137,7 +130,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$row = $this->detail[$i];
 
 		// Filter categories based on Shopper group category ACL
-		$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
+		$checkcid = $objhelper->checkPortalCategoryPermission($row->category_id);
 		$sgportal = $objhelper->getShopperGroupPortal();
 		$portal   = 0;
 
@@ -146,7 +139,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$portal = $sgportal->shopper_group_portal;
 		}
 
-		if ('' == $checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+		if (!$checkcid && (PORTAL_SHOP == 1 || $portal == 1))
 		{
 			continue;
 		}

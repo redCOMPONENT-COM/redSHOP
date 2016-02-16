@@ -72,11 +72,11 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 
 		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
 
-		for ($i = 0; $i < count($ratelist); $i++)
+		for ($i = 0, $in = count($ratelist); $i < $in; $i++)
 		{
 			$rs                         = $ratelist[$i];
 			$shippingRate               = $rs->shipping_rate_value;
-			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
+			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d);
 			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber     = $rs->economic_displaynumber;
 			$shipping_rate_id           = $shippinghelper->encryptShipping(__CLASS__ . "|" . JText::_($shipping->name) . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber . '|' . $rs->deliver_type);
@@ -124,9 +124,9 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 
 		if (strlen((int) $zipcode) == 4)
 		{
-			$url = "http://api.postnord.com/wsp/rest/BusinessLocationLocator"
-				. "/Logistics/ServicePointService_1.0/findNearestByAddress.json?"
-				. "consumerId=" . $this->params->get('consumerId')
+			$url = "https://api2.postnord.com/rest/businesslocation/v1/servicepoint/findNearestByAddress.json?"
+				. 'returntype=json'
+				. "&apikey=" . $this->params->get('consumerId')
 				. "&countryCode=" . trim($countryCode)
 				. "&postalCode=" . trim($zipcode)
 				. "&numberOfServicePoints=12";

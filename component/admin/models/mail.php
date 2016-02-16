@@ -46,7 +46,7 @@ class RedshopModelMail extends RedshopModel
 	 */
 	protected function populateState($ordering = 'm.mail_id', $direction = '')
 	{
-		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', 0);
+		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
 		$filter_section = $this->getUserStateFromRequest($this->context . 'filter_section', 'filter_section', 0);
 
 		$this->setState('filter', $filter);

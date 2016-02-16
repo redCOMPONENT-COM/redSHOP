@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('newsletter');
 ?>
 <script language="javascript" type="text/javascript">
@@ -32,9 +32,7 @@ $model = $this->getModel('newsletter');
 	}
 </script>
 
-<form action="<?php
-echo 'index.php?option=' . $option;
-?>" method="post"
+<form action="index.php?option=com_redshop" method="post"
       name="adminForm" id="adminForm">
 	<div id="editcell">
 		<div class="filterItem">

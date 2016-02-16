@@ -45,11 +45,17 @@ class RedshopHelperPdf
 	 */
 	public static function getInstance($client = 'tcpdf', $options = array())
 	{
-		$className = strtoupper($client);
+		$className = $client;
 
 		if (!class_exists($className))
 		{
 			JLoader::import(strtolower($client) . '.library');
+
+			// If in library use namespace or difference class - we can set right class here
+			if (defined(strtoupper($client) . '_LIBRARY_CLASS'))
+			{
+				$className = constant(strtoupper($client) . '_LIBRARY_CLASS');
+			}
 		}
 
 		if (class_exists($className))
@@ -69,9 +75,14 @@ class RedshopHelperPdf
 				$options['format'] = 'A5';
 			}
 
-			if (JLoader::import('helper.' . strtolower($className), JPATH_REDSHOP_LIBRARY))
+			if (!isset($options['helper']))
 			{
-				$className = 'RedshopHelper' . $className;
+				$options['helper'] = $client;
+			}
+
+			if (JLoader::import('helper.' . strtolower($options['helper']), JPATH_REDSHOP_LIBRARY))
+			{
+				$className = 'RedshopHelper' . $options['helper'];
 			}
 
 			return new $className($options['orientation'], $options['unit'], $options['format']);

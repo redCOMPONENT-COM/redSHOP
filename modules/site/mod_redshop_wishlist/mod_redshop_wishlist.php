@@ -31,7 +31,7 @@ if (MY_WISHLIST)
 
 	if (count($wishlists) > 0 && $user->id != 0)
 	{
-		for ($i = 0; $i < count($wishlists); $i++)
+		for ($i = 0, $in = count($wishlists); $i < $in; $i++)
 		{
 			$sql = "SELECT DISTINCT wp.* ,p.* "
 				. "FROM  #__redshop_product as p "

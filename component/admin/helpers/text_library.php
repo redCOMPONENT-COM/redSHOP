@@ -38,7 +38,7 @@ class text_library
 		$result = array();
 		$textdata = $this->getTextLibraryData();
 
-		for ($i = 0; $i < count($textdata); $i++)
+		for ($i = 0, $in = count($textdata); $i < $in; $i++)
 		{
 			$result[] = $textdata[$i]->text_name;
 		}
@@ -50,7 +50,7 @@ class text_library
 	{
 		$textdata = $this->getTextLibraryData();
 
-		for ($i = 0; $i < count($textdata); $i++)
+		for ($i = 0, $in = count($textdata); $i < $in; $i++)
 		{
 			$textname = "{" . $textdata[$i]->text_name . "}";
 			$textreplace = $textdata[$i]->text_field;

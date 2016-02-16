@@ -61,12 +61,12 @@
 				<tbody>
 				<tr class="tdborder">
 					<td><b>{product_subtotal_excl_vat_lbl}:</b></td>
-					<td width="100">{product_subtotal_excl_vat}</td>
+					<td width="100" class="lc-subtotal">{product_subtotal_excl_vat}</td>
 				</tr>
 				<!-- {if discount}-->
 				<tr class="tdborder">
 					<td>{discount_lbl}</td>
-					<td width="100">{discount}</td>
+					<td width="100" class="lc-discount">{discount}</td>
 				</tr>
 				<!-- {discount end if} -->
 				<tr>
@@ -76,7 +76,7 @@
 				<!-- {if vat} -->
 				<tr>
 					<td>{vat_lbl}</td>
-					<td width="100">{tax}</td>
+					<td width="100" class="lc-vat">{tax}</td>
 				</tr>
 				<!-- {vat end if} -->
 				<!-- {if payment_discount}-->
@@ -90,7 +90,7 @@
 						<div class="singleline"><strong>{total_lbl}:</strong></div>
 					</td>
 					<td width="100">
-						<div class="singleline">{total}</div>
+						<div class="singleline lc-total">{total}</div>
 					</td>
 				</tr>
 				</tbody>

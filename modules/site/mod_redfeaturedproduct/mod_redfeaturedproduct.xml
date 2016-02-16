@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDFEATUREDPRODUCT</name>
-	<version>1.5.1</version>
+	<version>1.5.2</version>
     <redshop>1.5</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -131,22 +131,6 @@
 					default="700"
 				/>
 
-				<field
-					name="product_title_max_chars"
-					type="text"
-					size="10"
-					label="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_MAX_CHARS"
-					description="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_MAX_CHARS"
-					default="20"
-				/>
-				<field
-					name="product_title_end_suffix"
-					type="text"
-					size="10"
-					label="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_END_SUFFIX"
-					description="MOD_REDFEATUREDPRODUCT_PRODUCT_TITLE_END_SUFFIX"
-					default="...."
-				/>
 				<field
 					name="show_discountpricelayout"
 					type="radio"

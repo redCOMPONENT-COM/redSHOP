@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $producthelper = new producthelper;
 ?>
 <script language="javascript" type="text/javascript">
@@ -43,7 +43,7 @@ $producthelper = new producthelper;
 	</div>
 	<div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_ATTRIBUTE_PRICE'); ?></div>
 </fieldset>
-<form action="<?php echo 'index.php?tmpl=component&option=' . $option; ?>" method="post" name="adminForm"
+<form action="index.php?tmpl=component&option=com_redshop" method="post" name="adminForm"
       id="adminForm">
 	<div id="editcell">
 		<table class="adminlist table table-striped" width="100%">

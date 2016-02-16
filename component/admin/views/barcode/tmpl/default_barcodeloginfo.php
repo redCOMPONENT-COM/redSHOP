@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
-$option = JRequest::getVar('option');
+
 $url = JURI::base();
 $model = $this->getModel('barcode');
 

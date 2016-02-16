@@ -441,7 +441,7 @@ function redshopBuildRoute(&$query)
 					{
 						$cats = array_reverse($cats);
 
-						for ($x = 0; $x < count($cats); $x++)
+						for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 						{
 							$cat        = $cats[$x];
 							$segments[] = JFilterOutput::stringURLSafe($cat->category_name);
