@@ -38,6 +38,20 @@ class RedshopHelperOrder
 	protected static $allStatus = null;
 
 	/**
+	 * Order shipping user Info
+	 *
+	 * @var  array
+	 */
+	protected static $orderShippingInfo = array();
+
+	/**
+	 * Order shipping user Info
+	 *
+	 * @var  array
+	 */
+	protected static $orderShippingExtraFieldData = array();
+
+	/**
 	 * Get order information from order id.
 	 *
 	 * @param   integer   $orderId  Order Id
@@ -315,23 +329,26 @@ class RedshopHelperOrder
 	/**
 	 * Get Order shipping user information
 	 *
-	 * @param   integer  $order_id  Order Id
+	 * @param   integer  $orderId  Order Id
 	 *
 	 * @return  object   Order Shipping information object
 	 */
-	public function getOrderShippingUserInfo($order_id)
+	public function getOrderShippingUserInfo($orderId, $force = false)
 	{
+		if (array_key_exists($orderId, self::$orderShippingInfo) && !$force)
+		{
+			return self::$orderShippingInfo[$orderId];
+		}
+
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 					->select('*')
 					->from($db->qn('#__redshop_order_users_info'))
 					->where($db->qn('address_type') . ' LIKE ' . $db->q('ST'))
-					->where($db->qn('order_id') . ' = ' . (int) $order_id);
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
-		$db->setQuery($query);
-
-		$orderShippingInfo = $db->loadObject();
+		$orderShippingInfo = $db->setQuery($query, 0, 1)->loadObject();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -343,6 +360,8 @@ class RedshopHelperOrder
 
 		// Add extra field data in order shipping info object
 		$orderShippingInfo->fields = $this->getOrderShippingExtraFieldsData($orderShippingInfo->users_info_id);
+
+		self::$orderShippingInfo[$orderId] = $orderShippingInfo;
 
 		return $orderShippingInfo;
 	}
@@ -356,6 +375,11 @@ class RedshopHelperOrder
 	 */
 	public function getOrderShippingExtraFieldsData($orderUserInfoId)
 	{
+		if (array_key_exists($orderUserInfoId, self::$orderShippingExtraFieldData) && !$force)
+		{
+			return self::$orderShippingExtraFieldData[$orderUserInfoId];
+		}
+
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 					->select($db->qn('f.field_name') . ',' . $db->qn('fd.data_txt'))
@@ -371,8 +395,7 @@ class RedshopHelperOrder
 		);
 
 		// Set the query and load the result.
-		$db->setQuery($query);
-		$fields = $db->loadObjectList();
+		$fields = $db->setQuery($query)->loadObjectList();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -391,6 +414,8 @@ class RedshopHelperOrder
 				$fieldsData[$field->field_name] = $field->data_txt;
 			}
 		}
+
+		self::$orderShippingExtraFieldData[$orderUserInfoId] = $fieldsData;
 
 		return $fieldsData;
 	}
