@@ -175,7 +175,7 @@ class Redtemplate
 
 		$re = self::$templatesArray[$section . '_' . $tid . '_' . $name];
 
-		for ($i = 0; $i < count($re); $i++)
+		for ($i = 0, $in = count($re); $i < $in; $i++)
 		{
 			$re[$i]->template_desc = $this->readtemplateFile($re[$i]->template_section, $re[$i]->template_name);
 		}

@@ -58,7 +58,7 @@ class xmlcron
 		$db->setQuery($query);
 		$exportlist = $db->loadObjectlist();
 
-		for ($i = 0; $i < count($exportlist); $i++)
+		for ($i = 0, $in = count($exportlist); $i < $in; $i++)
 		{
 			$db = JFactory::getDbo();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_export_log AS xl "
@@ -94,7 +94,7 @@ class xmlcron
 		$db->setQuery($query);
 		$importlist = $db->loadObjectlist();
 
-		for ($i = 0; $i < count($importlist); $i++)
+		for ($i = 0, $in = count($importlist); $i < $in; $i++)
 		{
 			$db = JFactory::getDbo();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_import_log AS xl "

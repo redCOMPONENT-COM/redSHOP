@@ -89,7 +89,7 @@ $arr_discount_type = array();
 $arr_discount      = explode('@', $OrdersDetail->discount_type);
 $discount_type     = '';
 
-for ($d = 0; $d < count($arr_discount); $d++)
+for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 {
 	if ($arr_discount[$d])
 	{

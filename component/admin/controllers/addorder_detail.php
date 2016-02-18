@@ -35,7 +35,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$order_functions = order_functions::getInstance();
 		$shippinghelper = shipping::getInstance();
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['order_id'] = $cid [0];
 		$model = $this->getModel('addorder_detail');
@@ -52,7 +52,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$stockroomhelper = rsstockroomhelper::getInstance();
 			$producthelper = producthelper::getInstance();
 
-			for ($i = 0; $i < count($orderItem); $i++)
+			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{
 				$quantity = $orderItem[$i]->quantity;
 				$productData = $producthelper->getProductById($orderItem[$i]->product_id);
@@ -151,7 +151,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$subtotal_excl_vat = 0;
 
-		for ($i = 0; $i < count($orderItem); $i++)
+		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
 			$subtotal_excl_vat = $subtotal_excl_vat + ($orderItem[$i]->prdexclprice * $orderItem[$i]->quantity);
 		}
@@ -219,7 +219,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
@@ -233,7 +233,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			JRequest::setVar('billisship', 0);
 		}
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$model = $this->getModel('addorder_detail');
 
 		if ($row = $model->storeShipping($post))

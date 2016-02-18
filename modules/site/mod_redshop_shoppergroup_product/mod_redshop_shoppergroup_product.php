@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-$option = JRequest::getCmd('option');
 $image                    = trim($params->get('image', 0));
 $show_price               = trim($params->get('show_price', 0));
 $thumbwidth               = trim($params->get('thumbwidth', 100));
@@ -21,6 +20,14 @@ $show_addtocart           = trim($params->get('show_addtocart', 1));
 $show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
 $show_desc                = trim($params->get('show_desc', 1));
 $show_vat                 = trim($params->get('show_vat', 1));
+
+if (JRequest::getCmd('option') != 'com_redshop')
+{
+	// Getting the configuration
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+	$Redconfiguration = Redconfiguration::getInstance();
+	$Redconfiguration->defineDynamicVars();
+}
 
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';

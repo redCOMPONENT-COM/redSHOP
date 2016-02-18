@@ -160,7 +160,7 @@ class shipping
 					{
 						$where = 'AND ( ';
 
-						for ($c = 0; $c < count($categorydata); $c++)
+						for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 						{
 							$where .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -223,7 +223,7 @@ class shipping
 
 				if ($shippingrate->apply_vat == 1)
 				{
-					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
+					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $d);
 					$addVat = $productHelper->taxexempt_addtocart($user_id);
 
 					if (!empty($result) && $addVat)
@@ -365,7 +365,7 @@ class shipping
 				{
 					$where = 'AND ( ';
 
-					for ($c = 0; $c < count($categorydata); $c++)
+					for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 					{
 						$where .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -427,7 +427,7 @@ class shipping
 
 				if ($shippingrate->apply_vat == 1)
 				{
-					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
+					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $d);
 					$addVat = $productHelper->taxexempt_addtocart($user_id);
 
 					if (!empty($result) && $addVat)
@@ -493,7 +493,7 @@ class shipping
 			{
 				$cwhere = ' ( ';
 
-				for ($c = 0; $c < count($categorydata); $c++)
+				for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 				{
 					$cwhere .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -526,7 +526,7 @@ class shipping
 
 		$whereShippingVolume = "";
 
-		for ($g = 0; $g < count($volumeShipping); $g++)
+		for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 		{
 			$length = $volumeShipping[$g]['length'];
 			$width  = $volumeShipping[$g]['width'];
@@ -613,7 +613,7 @@ class shipping
 
 			$userzip_len = ($this->strposa($zip, $numbers) !== false) ? ($this->strposa($zip, $numbers)) : strlen($zip);
 
-			for ($i = 0; $i < count($shippingrate); $i++)
+			for ($i = 0, $in = count($shippingrate); $i < $in; $i++)
 			{
 				$flag             = false;
 				$tmp_shippingrate = $shippingrate[$i];
@@ -776,15 +776,23 @@ class shipping
 		return $result;
 	}
 
-	public function applyVatOnShippingRate($shippingrate = array(), $user_id)
+	/**
+	 * Apply VAT on shipping rate
+	 *
+	 * @param   object   $shippingrate  Shipping Rate information
+	 * @param   array    $data          Shipping Rate user information from cart or checkout selection.
+	 *
+	 * @return  object   Shipping Rate
+	 */
+	public function applyVatOnShippingRate($shippingrate = array(), $data)
 	{
 		$productHelper     = producthelper::getInstance();
 		$shipping_rate_vat = $shippingrate->shipping_rate_value;
 
 		if ($shippingrate->apply_vat == 1)
 		{
-			$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-			$addVat = $productHelper->taxexempt_addtocart($user_id);
+			$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $data);
+			$addVat = $productHelper->taxexempt_addtocart($data['user_id']);
 
 			if (!empty($result) && $addVat)
 			{
@@ -821,7 +829,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -924,7 +932,7 @@ class shipping
 
 				if ($categorydata)
 				{
-					for ($c = 0; $c < count($categorydata); $c++)
+					for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 					{
 						$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 					}
@@ -1041,24 +1049,30 @@ class shipping
 		}
 	}
 
-	public function getShippingVatRates($shipping_tax_group_id, $user_id = 0)
+	/**
+	 * Get shipping vat rates based on either billing or shipping user
+	 *
+	 * @param   tax    $shipping_tax_group_id  Shipping Default Tax Gorup ID
+	 * @param   array  $data                   Shipping User Information array
+	 *
+	 * @return  object Shipping VAT rates
+	 */
+	public function getShippingVatRates($shipping_tax_group_id, $data = array())
 	{
-		$productHelper = producthelper::getInstance();
-		$user          = JFactory::getUser();
-		$session       = JFactory::getSession();
-		$db            = JFactory::getDbo();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
+		$db  = JFactory::getDbo();
 		$and = '';
-		$q2 = '';
+		$q2  = '';
 
-		if ($user_id)
+		if (!empty($data))
 		{
-			$userdata = $productHelper->getUserInformation($user_id);
+			if ('BT' == CALCULATE_VAT_ON)
+			{
+				$userdata = RedshopHelperUser::getUserInformation($data['user_id'], 'BT', 0, true, true);
+			}
+			else
+			{
+				$userdata = RedshopHelperUser::getUserInformation(0, '', $data['users_info_id'], false);
+			}
 
 			if (count($userdata) > 0)
 			{
@@ -1077,7 +1091,7 @@ class shipping
 				 *  VAT_BASED_ON = 1 // customer mode
 				 *  VAT_BASED_ON = 2 // EU mode
 				 */
-				if (VAT_BASED_ON != 2 && VAT_BASED_ON != 1)
+				if (0 == VAT_BASED_ON)
 				{
 					$userdata->country_code = DEFAULT_VAT_COUNTRY;
 					$userdata->state_code   = DEFAULT_VAT_STATE;
@@ -1091,6 +1105,7 @@ class shipping
 		}
 		else
 		{
+			$session                = JFactory::getSession();
 			$auth                   = $session->get('auth');
 			$users_info_id          = $auth['users_info_id'];
 			$userdata               = new stdClass;
@@ -1420,7 +1435,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -1532,7 +1547,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -1687,7 +1702,7 @@ class shipping
 			$db->setQuery($sel);
 			$categorydata = $db->loadObjectList();
 
-			for ($c = 0; $c < count($categorydata); $c++)
+			for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 			{
 				$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 			}

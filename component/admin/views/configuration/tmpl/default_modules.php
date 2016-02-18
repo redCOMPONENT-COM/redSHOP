@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 //JHTML::_ ( 'behavior.tooltip' );
 JHTMLBehavior::modal();
 
-$option = JRequest::getVar('option');
+
 
 $uri = JURI::getInstance();
 $url = $uri->root();

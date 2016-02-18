@@ -23,7 +23,6 @@ class RedshopViewFields_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$extra_field = extra_field::getInstance();
-		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL'), 'redshop_fields48');
 

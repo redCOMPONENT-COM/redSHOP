@@ -11,7 +11,7 @@ $producthelper = producthelper::getInstance();
 $redconfig = Redconfiguration::getInstance();
 
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 
 ?>
@@ -37,7 +37,7 @@ $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 	}
 
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist">
 			<thead>

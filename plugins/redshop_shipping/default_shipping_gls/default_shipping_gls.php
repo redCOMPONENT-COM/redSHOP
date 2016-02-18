@@ -97,7 +97,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		$j              = 0;
 		$returnArr      = array();
 
-		for ($i = 0; $i < count($PakkeshopData); $i++)
+		for ($i = 0, $in = count($PakkeshopData); $i < $in; $i++)
 		{
 			$shopNUmber           = $PakkeshopData[$i]->Number;
 			$CompanyName          = $PakkeshopData[$i]->CompanyName;
@@ -135,7 +135,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 	{
 		$opningTime = Array();
 
-		for ($i = 0; $i < count($Weekday); $i++)
+		for ($i = 0, $in = count($Weekday); $i < $in; $i++)
 		{
 			if ($Weekday[$i]->day == 'Monday')
 			{
@@ -192,7 +192,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		{
 			$rs                         = $ratelist[$i];
 			$shippingRate               = $rs->shipping_rate_value;
-			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
+			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d);
 			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber     = $rs->economic_displaynumber;
 			$shipping_rate_id           = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber);

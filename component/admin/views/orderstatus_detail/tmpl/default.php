@@ -16,10 +16,11 @@ $redhelper = redhelper::getInstance();
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			<?php      $link = 'index.php?option=com_redshop&view=orderstatus';
-					   $link = $redhelper->sslLink($link,0);
-			?>
+		if (pressbutton == 'cancel')
+		{
+		<?php
+			$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=orderstatus',0);
+		?>
 			window.location = '<?php echo $link;?>';
 			return;
 		}

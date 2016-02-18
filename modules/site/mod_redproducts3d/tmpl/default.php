@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 $Itemid = JRequest::getInt('Itemid');
-$option = 'com_redshop';
 
 $document = JFactory::getDocument();
 JHTML::script('modules/mod_redproducts3d/js/redproduct360.js');
@@ -40,7 +39,7 @@ if ($enableMouseOverEffects == 'yes')
 }
 
 $data = "";
-for ($i = 0; $i < count($rows); $i++)
+for ($i = 0, $in = count($rows); $i < $in; $i++)
 {
 	$row  = $rows[$i];
 	$path = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';

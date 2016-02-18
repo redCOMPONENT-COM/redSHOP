@@ -153,7 +153,7 @@ class CurrencyHelper
 				$currencies = $xml->Cube->Cube->Cube;
 
 				// Loop through the Currency List
-				for ($i = 0; $i < count($currencies); $i++)
+				for ($i = 0, $in = count($currencies); $i < $in; $i++)
 				{
 					$currNode = $currencies[$i]->attributes();
 					$currency[(string) $currNode->currency] = (string) $currNode->rate;

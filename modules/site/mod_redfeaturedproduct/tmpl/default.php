@@ -126,9 +126,7 @@ if (count($list) > 0)
 									<?php
 									if ($params->get('show_product_name', 1))
 									{
-										$pname = $Redconfiguration->maxchar($row->product_name, $params->get('product_title_max_chars', "10"), $params->get('product_title_end_suffix', "...."));
-
-										echo "<a href=\"" . $link . "\" title=\"" . $row->product_name . "\">" . $pname . "</a>";
+										echo "<div class=\"mod_redproducts_title\"><a href=\"" . $link . "\" title=\"" . $row->product_name . "\">" . $row->product_name . "</a></div>";
 									}
 
 									if (!$row->not_for_sale && $params->get('show_price', 1))

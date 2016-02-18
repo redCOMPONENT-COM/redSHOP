@@ -169,7 +169,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		$quotation_item = $data['quotation_item'];
 
-		for ($i = 0; $i < count($quotation_item); $i++)
+		for ($i = 0, $in = count($quotation_item); $i < $in; $i++)
 		{
 			if (array_key_exists("quotation_item_id", $quotation_item[$i]))
 			{
@@ -214,7 +214,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 			$items = $quotationHelper->getQuotationProduct($cids);
 
-			for ($i = 0; $i < count($items); $i++)
+			for ($i = 0, $in = count($items); $i < $in; $i++)
 			{
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_accessory_item '
 					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
@@ -335,7 +335,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$QuotationTax         = 0;
 		$quotationItems       = $quotationHelper->getQuotationProduct($QuotationData->quotation_id);
 
-		for ($q = 0; $q < count($quotationItems); $q++)
+		for ($q = 0, $qn = count($quotationItems); $q < $qn; $q++)
 		{
 			$QuotationSubTotal += ($quotationItems[$q]->product_excl_price * $quotationItems[$q]->product_quantity);
 			$QuotationTax += ($quotationItems[$q]->product_final_price - $quotationItems[$q]->product_excl_price) * $quotationItems[$q]->product_quantity;
@@ -388,7 +388,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		// Set Order Item Info
 		$qitemdata = $this->getTable('quotation_item_detail');
 
-		for ($i = 0; $i < count($item); $i++)
+		for ($i = 0, $in = count($item); $i < $in; $i++)
 		{
 			$product_id = $item[$i]->product_id;
 			$quantity = $item[$i]->quantity;
@@ -448,7 +448,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			{
 				$attArr = $generateAccessoryCart;
 
-				for ($a = 0; $a < count($attArr); $a++)
+				for ($a = 0, $an = count($attArr); $a < $an; $a++)
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
@@ -464,7 +464,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
-					for ($j = 0; $j < count($attchildArr); $j++)
+					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
@@ -490,7 +490,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
 
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 						{
 							$section_vat = 0;
 
@@ -526,7 +526,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 								}
 							}
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 							{
 								$section_vat = 0;
 
@@ -602,7 +602,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			{
 				$attArr = $generateAttributeCart;
 
-				for ($j = 0; $j < count($attArr); $j++)
+				for ($j = 0, $jn = count($attArr); $j < $jn; $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
@@ -627,7 +627,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 					$propArr = $attArr[$j]['attribute_childs'];
 
-					for ($k = 0; $k < count($propArr); $k++)
+					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
 						$section_vat = 0;
 
@@ -665,7 +665,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 						$subpropArr = $propArr[$k]['property_childs'];
 
-						for ($l = 0; $l < count($subpropArr); $l++)
+						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 						{
 							$section_vat = 0;
 
@@ -727,7 +727,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$QuotationTax         = 0;
 		$quotationItems       = $quotationHelper->getQuotationProduct($QuotationData->quotation_id);
 
-		for ($q = 0; $q < count($quotationItems); $q++)
+		for ($q = 0, $qn = count($quotationItems); $q < $qn; $q++)
 		{
 			$QuotationSubTotal += ($quotationItems[$q]->product_excl_price * $quotationItems[$q]->product_quantity);
 			$QuotationTax += ($quotationItems[$q]->product_final_price - $quotationItems[$q]->product_excl_price) * $quotationItems[$q]->product_quantity;

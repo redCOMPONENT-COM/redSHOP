@@ -34,9 +34,8 @@ class RedshopModelProduct extends RedshopModel
 		{
 			$input = JFactory::getApplication()->input;
 			$view = $input->getString('view', '');
-			$option = $input->getString('option', '');
 			$layout = $input->getString('layout', 'none');
-			$this->context = strtolower($option . '.' . $view . '.' . $this->getName() . '.' . $layout);
+			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
 		parent::__construct($config);
@@ -209,7 +208,7 @@ class RedshopModelProduct extends RedshopModel
 
 		if ($search_field != 'pa.property_number')
 		{
-			for ($k = 0; $k < count($arr_keyword); $k++)
+			for ($k = 0, $kn = count($arr_keyword); $k < $kn; $k++)
 			{
 				if ($k == 0)
 				{
@@ -295,7 +294,7 @@ class RedshopModelProduct extends RedshopModel
 		{
 			$product = array();
 
-			for ($i = 0; $i < count($product_stock); $i++)
+			for ($i = 0, $in = count($product_stock); $i < $in; $i++)
 			{
 				$product[] = $product_stock[$i]->product_id;
 			}
@@ -374,7 +373,7 @@ class RedshopModelProduct extends RedshopModel
 		$str = array();
 		$sec = explode(',', $section);
 
-		for ($t = 0; $t < count($sec); $t++)
+		for ($t = 0, $tn = count($sec); $t < $tn; $t++)
 		{
 			$inArr[] = "'" . $sec[$t] . "'";
 		}
@@ -384,7 +383,7 @@ class RedshopModelProduct extends RedshopModel
 		$this->_db->setQuery($q);
 		$fields = $this->_db->loadObjectlist();
 
-		for ($i = 0; $i < count($fields); $i++)
+		for ($i = 0, $in = count($fields); $i < $in; $i++)
 		{
 			if (strstr($template, "{" . $fields[$i]->field_name . "}"))
 			{
@@ -409,7 +408,7 @@ class RedshopModelProduct extends RedshopModel
 			$dbname = implode(",", $str);
 			$field = extra_field::getInstance();
 
-			for ($t = 0; $t < count($sec); $t++)
+			for ($t = 0, $tn = count($sec); $t < $tn; $t++)
 			{
 				$list_field[] = $field->list_all_field($sec[$t], $product_id, $dbname);
 			}
@@ -537,7 +536,7 @@ class RedshopModelProduct extends RedshopModel
 
 		$orderarray = array();
 
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			// Set product id as key AND order as value
 			$orderarray[$cid[$i]] = $order[$i];

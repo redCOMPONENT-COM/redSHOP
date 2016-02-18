@@ -95,7 +95,7 @@ JText::script('COM_REDSHOP_DELETE');
 								<?php
 									$accessory_product = $this->lists['accessory_product'];
 
-									for ($f = 0; $f < count($accessory_product); $f++)
+									for ($f = 0, $fn = count($accessory_product); $f < $fn; $f++)
 									{
 										$accessory_main_price = 0;
 

@@ -61,7 +61,7 @@ class RedshopViewOrder_detail extends RedshopView
 			$template_middle = $template_edata[0];
 
 			$middle_data = '';
-			for ($p = 0; $p < count($products); $p++)
+			for ($p = 0, $pn = count($products); $p < $pn; $p++)
 			{
 				$middle_data .= $template_middle;
 

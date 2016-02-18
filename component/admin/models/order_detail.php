@@ -130,7 +130,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			{
 				$economic = economic::getInstance();
 
-				for ($i = 0; $i < count($cid); $i++)
+				for ($i = 0, $in = count($cid); $i < $in; $i++)
 				{
 					$orderdata = $this->getTable('order_detail');
 					$orderdata->load($cid[$i]);
@@ -142,7 +142,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$db = JFactory::getDbo();
 			$order_item = $order_functions->getOrderItemDetail($cids);
 
-			for ($i = 0; $i < count($order_item); $i++)
+			for ($i = 0, $in = count($order_item); $i < $in; $i++)
 			{
 				$quntity = $order_item[$i]->product_quantity;
 
@@ -209,11 +209,11 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			$quotation = $quotationHelper->getQuotationwithOrder($cids);
 
-			for ($q = 0; $q < count($quotation); $q++)
+			for ($q = 0, $qn = count($quotation); $q < $qn; $q++)
 			{
 				$quotation_item = $quotationHelper->getQuotationProduct($quotation[$q]->quotation_id);
 
-				for ($j = 0; $j < count($quotation_item); $j++)
+				for ($j = 0, $jn = count($quotation_item); $j < $jn; $j++)
 				{
 					$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
 						. 'WHERE quotation_item_id=' . $quotation_item[$j]->quotation_item_id;
@@ -284,7 +284,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$user_id = $orderdata->user_id;
 
-		for ($i = 0; $i < count($item); $i++)
+		for ($i = 0, $in = count($item); $i < $in; $i++)
 		{
 			$product_id = $item[$i]->product_id;
 			$product_excl_price = $item[$i]->prdexclprice;
@@ -351,7 +351,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			{
 				$medianame = $producthelper->getProductMediaName($product_id);
 
-				for ($j = 0; $j < count($medianame); $j++)
+				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "product_download "
 						. "(product_id, user_id, order_id, end_date, download_max, download_id, file_name) "
@@ -375,7 +375,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			{
 				$attArr = $generateAccessoryCart;
 
-				for ($a = 0; $a < count($attArr); $a++)
+				for ($a = 0, $an = count($attArr); $a < $an; $a++)
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
@@ -391,7 +391,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
-					for ($j = 0; $j < count($attchildArr); $j++)
+					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
@@ -417,7 +417,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
 
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 						{
 							$section_vat = 0;
 
@@ -453,7 +453,7 @@ class RedshopModelOrder_detail extends RedshopModel
 								}
 							}
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 							{
 								$section_vat = 0;
 
@@ -531,7 +531,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			{
 				$attArr = $generateAttributeCart;
 
-				for ($j = 0; $j < count($attArr); $j++)
+				for ($j = 0, $jn = count($attArr); $j < $jn; $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
@@ -556,7 +556,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 					$propArr = $attArr[$j]['attribute_childs'];
 
-					for ($k = 0; $k < count($propArr); $k++)
+					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
 						$section_vat = 0;
 
@@ -593,7 +593,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 						$subpropArr = $propArr[$k]['property_childs'];
 
-						for ($l = 0; $l < count($subpropArr); $l++)
+						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 						{
 							$section_vat = 0;
 
@@ -800,7 +800,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$OrderItems = $order_functions->getOrderItemDetail($order_id);
 		$totalTax = $product_tax * $quantity;
 
-		for ($i = 0; $i < count($OrderItems); $i++)
+		for ($i = 0, $in = count($OrderItems); $i < $in; $i++)
 		{
 			if ($order_item_id != $OrderItems[$i]->order_item_id)
 			{
@@ -867,11 +867,11 @@ class RedshopModelOrder_detail extends RedshopModel
 		$attArr = $order_functions->getOrderItemAttributeDetail($order_item_id, 0, "attribute");
 
 		/** my attribute save in table start */
-		for ($j = 0; $j < count($attArr); $j++)
+		for ($j = 0, $jn = count($attArr); $j < $jn; $j++)
 		{
 			$propArr = $order_functions->getOrderItemAttributeDetail($order_item_id, 0, "property", $attArr[$j]->section_id);
 
-			for ($k = 0; $k < count($propArr); $k++)
+			for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 			{
 				$propitemdata = $this->getTable('order_attribute_item');
 				$propitemdata->load($propArr[$k]->order_att_item_id);
@@ -888,7 +888,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 				$subpropArr = $order_functions->getOrderItemAttributeDetail($order_item_id, 0, "subproperty", $propitemdata->section_id);
 
-				for ($l = 0; $l < count($subpropArr); $l++)
+				for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 				{
 					$subpropitemdata = $this->getTable('order_attribute_item');
 					$subpropitemdata->load($subpropArr[$l]->order_att_item_id);
@@ -923,7 +923,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		}
 		$subtotal = 0;
 
-		for ($i = 0; $i < count($OrderItems); $i++)
+		for ($i = 0, $in = count($OrderItems); $i < $in; $i++)
 		{
 			if ($order_item_id != $OrderItems[$i]->order_item_id)
 			{
@@ -1005,7 +1005,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$subtotal = 0;
 		$subtotal_excl_vat = 0;
 
-		for ($i = 0; $i < count($OrderItems); $i++)
+		for ($i = 0, $in = count($OrderItems); $i < $in; $i++)
 		{
 			if ($order_item_id != $OrderItems[$i]->order_item_id)
 			{

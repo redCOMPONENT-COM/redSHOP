@@ -55,7 +55,7 @@ if ($user->id)
 		}
 	};
 </script>
-<form name="productRatingForm" action="<?php echo JRoute::_('index.php?option=com_redshop&view=product_rating', false); ?>" method="post"
+<form name="productRatingForm" action="" method="post"
 	  id="productRatingForm" class="form-validate form-vertical">
 	<table cellpadding="3" cellspacing="3" border="0" width="100%">
 		<tr>
@@ -142,6 +142,8 @@ if ($user->id)
 			<td colspan="2"><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_FOOTER_TEXT'); ?></td>
 		</tr>
 	</table>
+	<input type="hidden" name="option" value="com_redshop"/>
+	<input type="hidden" name="view" value="product_rating"/>
 	<input type="hidden" name="task" id="task" value=""/>
 	<input type="hidden" name="modal" value="<?php echo $displayData['modal']; ?>"/>
 	<input type="hidden" name="product_id" value="<?php echo $product_id ?>"/>

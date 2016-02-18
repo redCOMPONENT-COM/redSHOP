@@ -146,7 +146,7 @@ switch ($view)
 					{
 						$cats = array_reverse($cats);
 
-						for ($x = 0; $x < count($cats); $x++)
+						for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 						{
 							$cat     = $cats[$x];
 							$title[] = str_replace(".", "", $cat->category_name);
@@ -243,7 +243,7 @@ switch ($view)
 						{
 							$cats = array_reverse($cats);
 
-							for ($x = 0; $x < count($cats); $x++)
+							for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 							{
 								$cat     = $cats[$x];
 								$title[] = $cat->category_name;

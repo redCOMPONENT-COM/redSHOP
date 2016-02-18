@@ -13,32 +13,27 @@ class leftmenu
 {
 	public function  __construct()
 	{
-		$view      = JRequest::getVar('view');
-		$redhelper = redhelper::getInstance();
-		$cnt       = 6;
+		$view         = JRequest::getVar('view');
+		$stockCounter = 6;
 
-		if (USE_STOCKROOM)
+		if (!USE_STOCKROOM)
 		{
-			$counter = $cnt + 1;
-		}
-		else
-		{
-			$counter = $cnt;
+			$stockCounter--;
 		}
 
-		$acocnt = 10;
+		$accessCounter = 0;
 
-		if (ENABLE_BACKENDACCESS)
+		if (!ENABLE_BACKENDACCESS)
 		{
-			$acocnt = 11;
+			$accessCounter--;
 		}
 
+		$economicCounter = 0;
 		$ecoIsenable = JPluginHelper::isEnabled('economic');
-		$ecocnt      = 19;
 
-		if (ECONOMIC_INTEGRATION && $ecoIsenable)
+		if (!ECONOMIC_INTEGRATION || !$ecoIsenable)
 		{
-			$ecocnt = 20;
+			$economicCounter--;
 		}
 
 		switch ($view)
@@ -83,166 +78,162 @@ class leftmenu
 			case "stockroom":
 			case "stockroom_listing":
 			case "stockimage":
-				$selected = $cnt;
+				$selected = 6;
 				break;
 
 			case "supplier":
 			case "supplier_detail":
-				$selected = $counter;
+				$selected = $stockCounter + 7;
 				break;
 
 			case "discount":
-				$selected = $counter + 1;
+				$selected = $stockCounter + 8;
 				break;
 
+			case "giftcards":
 			case "giftcard":
-			case "giftcard_detail":
-				$selected = $counter + 2;
+				$selected = $stockCounter + 9;
 				break;
 
 			case "voucher":
-				$selected = $counter + 3;
+				$selected = $stockCounter + 10;
 				break;
 
 			case "coupon":
 			case "coupon_detail":
-				$selected = $counter + 4;
+				$selected = $stockCounter + 11;
 				break;
 
 			case "mail":
-				$selected = $counter + 5;
+				$selected = $stockCounter + 12;
 				break;
 
 			case "newsletter":
 			case "newslettersubscr":
-				$selected = $counter + 6;
+				$selected = $stockCounter + 13;
 				break;
 
 			case "shipping":
 			case "shipping_rate":
-				$selected = $counter + 7;
+				$selected = $stockCounter + 14;
 				break;
 
 			case "shipping_box":
-				$selected = $counter + 8;
+				$selected = $stockCounter + 15;
 				break;
 
 			case "shipping_detail":
-				$selected = $counter + 9;
+				$selected = $stockCounter + 16;
 				break;
 
 			case "wrapper":
-				$selected = $counter + 10;
+				$selected = $stockCounter + 17;
 				break;
 
 			case "user":
 			case "shopper_group":
-				$selected = $counter + 11;
+				$selected = $stockCounter + 18;
 				break;
 
 			case "accessmanager":
 			case 'accessmanager_detail':
-				$selected = $counter + $acocnt + 1;
+				$selected = $stockCounter + 19;
 				break;
 
 			case "tax_group":
 			case "tax_group_detail":
 			case "tax":
-				$selected = $counter + $acocnt + 2;
+				$selected = $stockCounter + $accessCounter + 20;
 				break;
 
 			case "currency":
 			case "currency_detail":
-				$selected = $counter + $acocnt + 3;
+				$selected = $stockCounter + $accessCounter + 21;
 				break;
 
 			case "country":
 			case "country_detail":
-				$selected = $counter + $acocnt + 4;
+				$selected = $stockCounter + $accessCounter + 22;
 				break;
 
 			case "state":
 			case "state_detail":
-				$selected = $counter + $acocnt + 5;
+				$selected = $stockCounter + $accessCounter + 23;
 				break;
 
 			case "zipcode":
 			case "zipcode_detail":
-				$selected = $counter + $acocnt + 6;
+				$selected = $stockCounter + $accessCounter + 24;
 				break;
 
 			case "importexport":
 			case "import":
 			case "export":
 			case "vmimport":
-				$selected = $counter + $acocnt + 7;
+				$selected = $stockCounter + $accessCounter + 25;
 				break;
 
 			case "xmlimport":
 			case "xmlexport":
-				$selected = $counter + $acocnt + 8;
+				$selected = $stockCounter + $accessCounter + 26;
 				break;
 
 			case "fields":
 			case "addressfields_listing":
-				$selected = $counter + $acocnt + 9;
+				$selected = $stockCounter + $accessCounter + 27;
 				break;
 
 			case "template":
-				$selected = $counter + $acocnt + 10;
+				$selected = $stockCounter + $accessCounter + 28;
 				break;
 
 			case "textlibrary":
-				$selected = $counter + $acocnt + 11;
+				$selected = $stockCounter + $accessCounter + 29;
 				break;
 
 			case "catalog":
 			case "catalog_request":
-				$selected = $counter + $acocnt + 12;
+				$selected = $stockCounter + $accessCounter + 30;
 				break;
 
 			case "sample":
 			case "sample_request":
-				$selected = $counter + $acocnt + 13;
+				$selected = $stockCounter + $accessCounter + 31;
 				break;
 
 			case "producttags":
 			case "producttags_detail":
-				$selected = $counter + $acocnt + 14;
+				$selected = $stockCounter + $accessCounter + 32;
 				break;
 
 			case "attribute_set":
 			case "attribute_set_detail":
-				$selected = $counter + $acocnt + 15;
-				break;
-
-			case "integration":
-				$selected = $counter + $acocnt + 16;
+				$selected = $stockCounter + $accessCounter + 33;
 				break;
 
 			case "question":
 			case "question_detail":
 			case "answer":
 			case "answer_detail":
-				$selected = $counter + $acocnt + 17;
+				$selected = $stockCounter + $accessCounter + 34;
 				break;
 
 			case "rating":
-				$selected = $counter + $acocnt + 18;
+				$selected = $stockCounter + $accessCounter + 35;
 				break;
 
 			case "accountgroup":
 			case "accountgroup_detail":
-				$selected = $counter + $acocnt + 19;
+				$selected = $stockCounter + $accessCounter + 36;
 				break;
 
 			case "statistic":
-				$selected = $counter + $acocnt + $ecocnt;
+				$selected = $stockCounter + $accessCounter + $economicCounter + 37;
 				break;
 
 			case "configuration":
 			case 'update':
-				$selected = $counter + $acocnt + $ecocnt + 1;
+				$selected = $stockCounter + $accessCounter + $economicCounter + 38;
 				break;
 
 			default:
@@ -298,7 +289,7 @@ class leftmenu
 		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=order', 'COM_REDSHOP_ORDER_LISTING');
-			echo $this->generateMenuItem($redhelper->sslLink('index.php?option=com_redshop&view=addorder_detail'), 'COM_REDSHOP_ADD_ORDER');
+			echo $this->generateMenuItem(RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'), 'COM_REDSHOP_ADD_ORDER');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=order&layout=labellisting', 'COM_REDSHOP_DOWNLOAD_LABEL');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=orderstatus', 'COM_REDSHOP_ORDERSTATUS_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=opsearch', 'COM_REDSHOP_PRODUCT_ORDER_SEARCH');
@@ -356,8 +347,8 @@ class leftmenu
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_GIFTCARD'), 'COM_REDSHOP_GIFTCARD'); ?>
 		<table class="adminlist">
 			<?php
-			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcard', 'COM_REDSHOP_GIFTCARD_LISTING');
-			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcard_detail', 'COM_REDSHOP_ADD_GIFTCARD');
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcards', 'COM_REDSHOP_GIFTCARD_LISTING');
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcard&task=giftcard.edit', 'COM_REDSHOP_ADD_GIFTCARD');
 			?>
 		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_VOUCHER'), 'COM_REDSHOP_VOUCHER'); ?>
@@ -555,10 +546,6 @@ class leftmenu
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=attribute_set', 'COM_REDSHOP_ATTRIBUTE_SET_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=attribute_set_detail', 'COM_REDSHOP_ADD_ATTRIBUTE_SET');
 			?>
-		</table>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_INTEGRATION'), 'COM_REDSHOP_INTEGRATION'); ?>
-		<table class="adminlist">
-			<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=integration&task=googlebase', 'COM_REDSHOP_GOOGLEBASE'); ?>
 		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_CUSTOMER_INPUT');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUESTION'), 'COM_REDSHOP_QUESTION'); ?>

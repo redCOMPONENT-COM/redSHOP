@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$option = JRequest::getVar('option');
 $Redconfiguration = Redconfiguration::getInstance();?>
 <script language="javascript" type="text/javascript">
 
@@ -35,7 +34,7 @@ $Redconfiguration = Redconfiguration::getInstance();?>
 		form.submit();
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist table table-striped">
 			<thead>

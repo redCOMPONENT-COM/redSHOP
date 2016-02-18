@@ -57,7 +57,7 @@ if (!$user->id)
 		$myproductid = '';
 		$count_no_user_field = 0;
 
-		for ($p = 0; $p < count($rows); $p++)
+		for ($p = 0, $pn = count($rows); $p < $pn; $p++)
 		{
 			for ($ui = 0; $ui < count($userfieldArr); $ui++)
 			{
@@ -112,7 +112,7 @@ else
 		$count_no_user_field = 0;
 		display_products($rows);
 
-		for ($p = 0; $p < count($rows); $p++)
+		for ($p = 0, $pn = count($rows); $p < $pn; $p++)
 		{
 			for ($ui = 0; $ui < count($userfieldArr); $ui++)
 			{
@@ -149,7 +149,7 @@ else
 		// Send mail link
 		echo "<table>";
 
-		for ($j = 0; $j < count($wishlists); $j++)
+		for ($j = 0, $jn = count($wishlists); $j < $jn; $j++)
 		{
 			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
 			$del_wishlist  = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
@@ -180,7 +180,7 @@ function display_products($rows)
 
 	if (count($template) <= 0)
 	{
-		for ($i = 0; $i < count($rows); $i++)
+		for ($i = 0, $in = count($rows); $i < $in; $i++)
 		{
 			$row = $rows[$i];
 
@@ -261,7 +261,7 @@ function display_products($rows)
 		$totattid = '';
 		$totcount_no_user_field = '';
 
-		for ($i = 0; $i < count($rows); $i++)
+		for ($i = 0, $in = count($rows); $i < $in; $i++)
 		{
 			$row           = $rows[$i];
 			$wishlist_data = $template_d2[0];
@@ -325,7 +325,7 @@ function display_products($rows)
 						{
 							$parentid = 0;
 
-							for ($c = 0; $c < count($childproducts); $c++)
+							for ($c = 0, $cn = count($childproducts); $c < $cn; $c++)
 							{
 								if ($childproducts[$c]->product_parent_id == 0)
 								{

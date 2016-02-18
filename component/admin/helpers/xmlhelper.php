@@ -98,7 +98,7 @@ class xmlHelper
 						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "product_stockroom_xref";
 						$this->_db->setQuery($q);
 						$cat = $this->_db->loadObjectList();
-						for ($i = 0; $i < count($cat); $i++)
+						for ($i = 0, $in = count($cat); $i < $in; $i++)
 						{
 							if ($cat[$i]->Field == "quantity")
 							{
@@ -111,7 +111,7 @@ class xmlHelper
 						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "fields_data";
 						$this->_db->setQuery($q);
 						$cat = $this->_db->loadObjectList();
-						for ($i = 0; $i < count($cat); $i++)
+						for ($i = 0, $in = count($cat); $i < $in; $i++)
 						{
 							if ($cat[$i]->Field != "user_email" && $cat[$i]->Field != "section")
 							{
@@ -125,7 +125,7 @@ class xmlHelper
 						$this->_db->setQuery($q);
 						$cat = $this->_db->loadObjectList();
 
-						for ($i = 0; $i < count($cat); $i++)
+						for ($i = 0, $in = count($cat); $i < $in; $i++)
 						{
 							if ($cat[$i]->Field == "category_name")
 							{
@@ -171,7 +171,7 @@ class xmlHelper
 						$this->_db->setQuery($q);
 						$cat = $this->_db->loadObjectList();
 
-						for ($i = 0; $i < count($cat); $i++)
+						for ($i = 0, $in = count($cat); $i < $in; $i++)
 						{
 							if ($cat[$i]->Field == "manufacturer_name")
 							{
@@ -212,7 +212,7 @@ class xmlHelper
 
 		$cols = array_merge($cols, $catcol);
 
-		for ($i = 0; $i < count($cols); $i++)
+		for ($i = 0, $in = count($cols); $i < $in; $i++)
 		{
 			if (strtoupper($cols[$i]->Key) == "PRI")
 			{
@@ -234,7 +234,7 @@ class xmlHelper
 		{
 			$field = explode(";", $xmlfiletag);
 
-			for ($i = 0; $i < count($field); $i++)
+			for ($i = 0, $in = count($field); $i < $in; $i++)
 			{
 				$value = explode("=", $field[$i]);
 
@@ -258,7 +258,7 @@ class xmlHelper
 		{
 			$field = explode(";", $xmlfiletag);
 
-			for ($i = 0; $i < count($field); $i++)
+			for ($i = 0, $in = count($field); $i < $in; $i++)
 			{
 				$value[$i] = explode("=", $field[$i]);
 			}
@@ -353,7 +353,7 @@ class xmlHelper
 		$section = $xmlexportdata->section_type;
 		$columns = $this->getSectionColumnList($section, "orderdetail");
 
-		for ($i = 0; $i < count($columns); $i++)
+		for ($i = 0, $in = count($columns); $i < $in; $i++)
 		{
 			$tag = $this->getXMLFileTag($columns[$i]->Field, $xmlexportdata->xmlexport_filetag);
 
@@ -394,7 +394,7 @@ class xmlHelper
 
 				$columns = $this->getSectionColumnList($section, "stockdetail");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$tag = $this->getXMLFileTag($columns[$i]->Field, $xmlexportdata->xmlexport_stocktag);
 
@@ -406,7 +406,7 @@ class xmlHelper
 
 				$columns = $this->getSectionColumnList($section, "prdextrafield");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$tag = $this->getXMLFileTag($columns[$i]->Field, $xmlexportdata->xmlexport_prdextrafieldtag);
 
@@ -421,7 +421,7 @@ class xmlHelper
 
 				$columns = $this->getSectionColumnList($section, "billingdetail");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$tag = $this->getXMLFileTag($columns[$i]->Field, $xmlexportdata->xmlexport_billingtag);
 
@@ -433,7 +433,7 @@ class xmlHelper
 
 				$columns = $this->getSectionColumnList($section, "shippingdetail");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$tag = $this->getXMLFileTag($columns[$i]->Field, $xmlexportdata->xmlexport_shippingtag);
 
@@ -445,7 +445,7 @@ class xmlHelper
 
 				$columns = $this->getSectionColumnList($section, "orderitem");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$tag = $this->getXMLFileTag($columns[$i]->Field, $xmlexportdata->xmlexport_orderitemtag);
 
@@ -479,7 +479,7 @@ class xmlHelper
 
 		$xml_document .= "<" . $xmlexportdata->parent_name . ">";
 
-		for ($i = 0; $i < count($datalist); $i++)
+		for ($i = 0, $in = count($datalist); $i < $in; $i++)
 		{
 			$product_id = 0;
 
@@ -538,7 +538,7 @@ class xmlHelper
 				{
 					$xml_itemdocument .= "<" . $xmlexportdata->orderitem_element_name . "s>";
 
-					for ($j = 0; $j < count($orderItemlist); $j++)
+					for ($j = 0, $jn = count($orderItemlist); $j < $jn; $j++)
 					{
 						$xml_itemdocument .= "<$xmlexportdata->orderitem_element_name>";
 
@@ -563,7 +563,7 @@ class xmlHelper
 				{
 					$xml_stockdocument .= "<" . $xmlexportdata->stock_element_name . "s>";
 
-					for ($j = 0; $j < count($stocklist); $j++)
+					for ($j = 0, $jn = count($stocklist); $j < $jn; $j++)
 					{
 						$xml_stockdocument .= "<$xmlexportdata->stock_element_name>";
 
@@ -588,7 +588,7 @@ class xmlHelper
 				{
 					$xml_prdextradocument .= "<" . $xmlexportdata->prdextrafield_element_name . "s>";
 
-					for ($j = 0; $j < count($prdextrafieldlist); $j++)
+					for ($j = 0, $jn = count($prdextrafieldlist); $j < $jn; $j++)
 					{
 						$xml_prdextradocument .= "<$xmlexportdata->prdextrafield_element_name>";
 
@@ -674,7 +674,7 @@ class xmlHelper
 							$this->_db->setQuery($query);
 							$list = $this->_db->loadObject();
 
-							for ($k = 0; $k < count($list); $k++)
+							for ($k = 0, $kn = count($list); $k < $kn; $k++)
 							{
 								if ($list->max_del_time == 1 && $list->max_del_time < 2)
 								{
@@ -767,7 +767,7 @@ class xmlHelper
 		$xml_document = "<?xml version='1.0' encoding='utf-8'?>";
 		$xml_document .= "<" . $xmlimportdata->element_name . "s>";
 
-		for ($i = 0; $i < count($datalist); $i++)
+		for ($i = 0, $in = count($datalist); $i < $in; $i++)
 		{
 			$xml_document .= "<" . $xmlimportdata->element_name . ">";
 
@@ -781,7 +781,7 @@ class xmlHelper
 					{
 						$xml_document .= "<" . $prop . ">";
 
-						for ($j = 0; $j < count($subdatalist); $j++)
+						for ($j = 0, $jn = count($subdatalist); $j < $jn; $j++)
 						{
 							$childelement = substr($prop, 0, -1);
 							$xml_document .= "<" . $childelement . ">";
@@ -1081,7 +1081,7 @@ class xmlHelper
 		switch ($xmlimportdata->section_type)
 		{
 			case "product":
-				for ($i = 0; $i < count($datalist); $i++)
+				for ($i = 0, $in = count($datalist); $i < $in; $i++)
 				{
 					$oldproduct_number = $datalist[$i]['product_number'];
 					$update = false;
@@ -1143,7 +1143,7 @@ class xmlHelper
 							}
 							elseif (count($value) > 0)
 							{
-								for ($j = 0; $j < count($value); $j++)
+								for ($j = 0, $jn = count($value); $j < $jn; $j++)
 								{
 									if ($key == $xmlimportdata->stock_element_name)
 									{
@@ -1354,7 +1354,7 @@ class xmlHelper
 								{
 									if (is_array($value))
 									{
-										for ($j = 0; $j < count($value); $j++)
+										for ($j = 0, $jn = count($value); $j < $jn; $j++)
 										{
 											if ($key == $xmlimportdata->stock_element_name)
 											{
@@ -1493,7 +1493,7 @@ class xmlHelper
 				}
 				break;
 			case "order":
-				for ($i = 0; $i < count($datalist); $i++)
+				for ($i = 0, $in = count($datalist); $i < $in; $i++)
 				{
 					$oldorder_number = $datalist[$i]['order_number'];
 					$update = false;
@@ -1524,7 +1524,7 @@ class xmlHelper
 							{
 								if ($key == $xmlimportdata->orderitem_element_name)
 								{
-									for ($j = 0; $j < count($value); $j++)
+									for ($j = 0, $jn = count($value); $j < $jn; $j++)
 									{
 										if (isset($value[$j]['order_item_sku']))
 										{
@@ -1643,7 +1643,7 @@ class xmlHelper
 									{
 										if ($key == $xmlimportdata->orderitem_element_name)
 										{
-											for ($j = 0; $j < count($value); $j++)
+											for ($j = 0, $jn = count($value); $j < $jn; $j++)
 											{
 												if (isset($value[$j]['order_item_sku']))
 												{

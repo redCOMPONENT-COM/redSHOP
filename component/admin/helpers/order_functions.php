@@ -219,7 +219,7 @@ class order_functions
 		$content_products = array();
 		$qty = 0;
 
-		for ($c = 0; $c < count($orderproducts); $c++)
+		for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 		{
 			$product_id[] = $orderproducts [$c]->product_id;
 			$qty += $orderproducts [$c]->product_quantity;
@@ -236,7 +236,7 @@ class order_functions
 
 			if (count($orderAccItemdata) > 0)
 			{
-				for ($a = 0; $a < count($orderAccItemdata); $a++)
+				for ($a = 0, $an = count($orderAccItemdata); $a < $an; $a++)
 				{
 					$accessory_quantity = $orderAccItemdata[$a]->product_quantity;
 					$acc_sql = "SELECT weight FROM #__redshop_product WHERE product_id = "
@@ -572,7 +572,7 @@ class order_functions
 				$economic = economic::getInstance();
 				$oid = explode(",", $order_id);
 
-				for ($i = 0; $i < count($oid); $i++)
+				for ($i = 0, $in = count($oid); $i < $in; $i++)
 				{
 					if (isset($oid[$i]) && $oid[$i] != 0 && $oid[$i] != "")
 					{
@@ -622,16 +622,16 @@ class order_functions
 		}
 	}
 
+	/**
+	 * Get order status list
+	 *
+	 * @deprecated  1.6  Use RedshopHelperOrder::getOrderStatusList() instead
+	 *
+	 * @return  array  Order status list
+	 */
 	public function getOrderStatus()
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT order_status_code AS value, order_status_name AS text " . "FROM #__redshop_order_status " . "where published='1' ";
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
-		$this->_orderstatuslist = $list;
-
-		return $list;
+		return RedshopHelperOrder::getOrderStatusList();
 	}
 
 	public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
@@ -706,7 +706,7 @@ class order_functions
 
 		$tot_status_change = @explode(",", $this->_customorderstatuslist[0]->value);
 
-		for ($t = 0; $t < count($tot_status_change); $t++)
+		for ($t = 0, $tn = count($tot_status_change); $t < $tn; $t++)
 		{
 			$this->_customorderstatuslist[$t]->value = $tot_status_change[$t];
 			$this->_customorderstatuslist[$t]->text = $this->getOrderStatusTitle($tot_status_change[$t]);
@@ -742,7 +742,7 @@ class order_functions
 		$tmpl = JRequest::getVar('tmpl');
 		$newstatus = JRequest::getVar('status');
 		$paymentstatus = JRequest::getVar('order_paymentstatus');
-		$option = JRequest::getVar('option');
+
 		$return = JRequest::getVar('return');
 
 		$customer_note = JRequest::getVar('customer_note', '', 'request', 'string', JREQUEST_ALLOWRAW);
@@ -894,7 +894,7 @@ class order_functions
 
 				$orderproducts = $this->getOrderItemDetail($order_id);
 
-				for ($i = 0; $i < count($orderproducts); $i++)
+				for ($i = 0, $in = count($orderproducts); $i < $in; $i++)
 				{
 					$prodid = $orderproducts[$i]->product_id;
 					$prodqty = $orderproducts[$i]->stockroom_quantity;
@@ -961,9 +961,9 @@ class order_functions
 
 		if ($return == 'order')
 		{
-			if ($option == 'com_redcrm')
+			if (JFactory::getApplication()->input->getCmd('option') == 'com_redcrm')
 			{
-				$app->redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->redirect('index.php?option=com_redcrm&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
 			}
 			else
 			{
@@ -1086,7 +1086,7 @@ class order_functions
 
 		$spilt_payment_amount = 0;
 
-		for ($i = 0; $i < count($list); $i++)
+		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
 			if ($list[$i]->order_payment_amount > 0)
 			{
@@ -1140,7 +1140,6 @@ class order_functions
 	{
 		$db = JFactory::getDbo();
 		$helper = redhelper::getInstance();
-		$option = JRequest::getVar('option');
 
 		$user = JFactory::getUser();
 
@@ -1215,14 +1214,24 @@ class order_functions
 		return $list;
 	}
 
-	public function getOrderBillingUserInfo($order_id)
+	/**
+	 * Get Order Billing information
+	 *
+	 * @param   integer  $orderId  order id
+	 *
+	 * @return  object   Billing Information
+	 */
+	public function getOrderBillingUserInfo($orderId)
 	{
 		$db = JFactory::getDbo();
 
 		$helper = redhelper::getInstance();
 
-		$query = 'SELECT * FROM #__redshop_order_users_info ' . 'WHERE address_type LIKE "BT" '
-			. 'AND order_id = ' . (int) $order_id;
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_order_users_info'))
+					->where($db->qn('address_type') . ' LIKE ' . $db->q('BT'))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 		if ($helper->isredCRM())
 		{
@@ -1231,11 +1240,20 @@ class order_functions
 				. 'LEFT JOIN #__redcrm_order as co ON co.order_id = oui.order_id '
 				. 'LEFT JOIN #__redcrm_contact_persons as cp ON cp.person_id  = co.person_id '
 				. 'LEFT JOIN #__redcrm_debitors as cd ON cd.users_info_id = co.debitor_id ' . 'WHERE oui.address_type LIKE "BT" '
-				. 'AND oui.order_id = ' . (int) $order_id;
+				. 'AND oui.order_id = ' . (int) $orderId;
 		}
 
-		$db->setQuery($query);
+		// Set the query and load the result.
+		$db->setQuery($query, 0, 1);
 		$list = $db->loadObject();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
 
 		return $list;
 	}
@@ -1606,18 +1624,10 @@ class order_functions
 		{
 			// Getting the order details
 			$orderdetail = $this->getOrderDetails($order_id);
-
-			// Getting user details
-			$query = "SELECT uf.firstname, uf.lastname, IFNULL( u.email , uf.`user_email`) AS email
-				FROM #__redshop_users_info AS uf
-				LEFT JOIN #__users AS u ON uf.user_id = u.id
-				WHERE uf.user_id = " . (int) $rows[0]->user_id . "
-				AND uf.`address_type` = 'BT'";
-			$db->setQuery($query);
-			$userdetail = $db->loadObject();
+			$userdetail  = $this->getOrderBillingUserInfo($order_id);
 
 			$userfullname = $userdetail->firstname . " " . $userdetail->lastname;
-			$useremail = $userdetail->email;
+			$useremail    = $userdetail->email;
 
 			$i = 0;
 
@@ -1752,7 +1762,10 @@ class order_functions
 
 		if ($is_creditcard == 0)
 		{
-			if ($values['payment_plugin'] == "rs_payment_banktransfer"|| $values['payment_plugin'] == "rs_payment_banktransfer_discount")
+			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($values['payment_plugin']);
+
+			if ($isBankTransferPaymentType)
 			{
 				$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
 			}
@@ -1901,7 +1914,7 @@ class order_functions
 			$arr_discount = explode('@', $row->discount_type);
 			$discount_type = '';
 
-			for ($d = 0; $d < count($arr_discount); $d++)
+			for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 			{
 				if ($arr_discount [$d])
 				{
@@ -2221,7 +2234,7 @@ class order_functions
 		{
 			$orderproducts = $this->getOrderItemDetail($order_id);
 
-			for ($j = 0; $j < count($orderproducts); $j++)
+			for ($j = 0, $jn = count($orderproducts); $j < $jn; $j++)
 			{
 				$prodid = $orderproducts[$j]->product_id;
 				$prodqty = $orderproducts[$j]->stockroom_quantity;

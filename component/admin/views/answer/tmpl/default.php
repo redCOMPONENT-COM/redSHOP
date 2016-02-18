@@ -10,7 +10,7 @@
 $producthelper = producthelper::getInstance();
 $config = Redconfiguration::getInstance();
 
-$option = JRequest::getVar('option');
+
 $filter = JRequest::getVar('filter');
 $lists = $this->lists;
 $ordering = ($this->lists['order'] == 'ordering');

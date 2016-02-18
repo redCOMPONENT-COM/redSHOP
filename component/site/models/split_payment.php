@@ -54,7 +54,6 @@ class RedshopModelSplit_payment extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 		$post            = JRequest::get('post');
-		$option          = JRequest::getVar('option');
 		$Itemid          = JRequest::getVar('Itemid');
 		$task            = JRequest::getVar('task');
 		$user            = JFactory::getUser();
@@ -116,7 +115,7 @@ class RedshopModelSplit_payment extends RedshopModel
 			if (!$validpayment[0])
 			{
 				$msg  = $validpayment[1];
-				$link = 'index.php?option=' . $option
+				$link = 'index.php?option=com_redshop'
 					. '&view=split_payment&Itemid=' . $Itemid
 					. '&ccinfo=' . $ccinfo
 					. '&payment_method_id=' . $payment_method_id

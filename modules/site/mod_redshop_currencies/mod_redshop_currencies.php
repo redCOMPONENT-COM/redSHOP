@@ -27,7 +27,7 @@ if ($currencies)
 	$currenciess = $db->loadObjectList();
 }
 
-for ($i = 0; $i < count($currenciess); $i++)
+for ($i = 0, $in = count($currenciess); $i < $in; $i++)
 {
 	$currencies[$currenciess[$i]->currency_code] = $currenciess[$i]->currency_name;
 }

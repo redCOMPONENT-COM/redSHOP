@@ -16,7 +16,7 @@ class RedshopViewQuotation_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$quotationHelper = quotationHelper::getInstance();
-		$option = JRequest::getVar('option');
+
 		$layout = JRequest::getVar('layout', 'default');
 
 		$document = JFactory::getDocument();

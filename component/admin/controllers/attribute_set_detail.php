@@ -37,7 +37,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 	{
 		$post = JRequest::get('post');
 
-		$option = JRequest::getVar('option');
+
 
 		$model = $this->getModel('attribute_set_detail');
 
@@ -62,7 +62,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -84,7 +84,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -106,7 +106,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -128,7 +128,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
@@ -421,7 +421,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function copy()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$model = $this->getModel('attribute_set_detail');
 

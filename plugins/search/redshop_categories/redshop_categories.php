@@ -9,10 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomlplugin.plugin');
-
 JLoader::import('redshop.library');
-
 
 class plgSearchRedshop_categories extends JPlugin
 {
@@ -104,7 +101,7 @@ class plgSearchRedshop_categories extends JPlugin
 		{
 			case 'exact':
 
-				$text = $db->q('%' . $text . '%', false);
+				$text = $db->q('%' . $db->escape($text, true) . '%', false);
 
 				$where = array();
 				$where[] = $db->qn('category_name') . ' LIKE ' . $text;
@@ -123,7 +120,7 @@ class plgSearchRedshop_categories extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->q('%' . $word . '%', false);
+					$word = $db->q('%' . $db->escape($word, true) . '%', false);
 
 					$where = array();
 					$where[] = $db->qn('category_name') . ' LIKE ' . $word;

@@ -215,7 +215,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 			$xmlfiletag = $data['xmlfiletag'];
 			$updatefiletag = (isset($data['updatefiletag'])) ? $data['updatefiletag'] : array();
 
-			for ($i = 0; $i < count($xmlfiletag); $i++)
+			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
 				$xmltag = trim($data[$xmlfiletag[$i]]);
 				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
@@ -232,7 +232,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 			$xmlfiletag = $data['xmlbillingtag'];
 			$updatefiletag = (isset($data['updatebillingtag'])) ? $data['updatebillingtag'] : array();
 
-			for ($i = 0; $i < count($xmlfiletag); $i++)
+			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
 				$xmltag = trim($data["bill_" . $xmlfiletag[$i]]);
 				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
@@ -249,7 +249,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 			$xmlfiletag = $data['xmlshippingtag'];
 			$updatefiletag = (isset($data['updateshippingtag'])) ? $data['updateshippingtag'] : array();
 
-			for ($i = 0; $i < count($xmlfiletag); $i++)
+			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
 				$xmltag = trim($data["shipp_" . $xmlfiletag[$i]]);
 				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
@@ -266,7 +266,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 			$xmlfiletag = $data['xmlitemtag'];
 			$updatefiletag = (isset($data['updateitemtag'])) ? $data['updateitemtag'] : array();
 
-			for ($i = 0; $i < count($xmlfiletag); $i++)
+			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
 				$xmltag = trim($data["item_" . $xmlfiletag[$i]]);
 				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
@@ -283,7 +283,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 			$xmlfiletag = $data['xmlstocktag'];
 			$updatefiletag = (isset($data['updatestocktag'])) ? $data['updatestocktag'] : array();
 
-			for ($i = 0; $i < count($xmlfiletag); $i++)
+			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
 				$xmltag = trim($data["stock_" . $xmlfiletag[$i]]);
 				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
@@ -300,7 +300,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 			$xmlfiletag = $data['xmlprdextrafieldtag'];
 			$updatefiletag = (isset($data['updateprdexttag'])) ? $data['updateprdexttag'] : array();
 
-			for ($i = 0; $i < count($xmlfiletag); $i++)
+			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
 				$xmltag = trim($data["prdext_" . $xmlfiletag[$i]]);
 				$updatetag = (isset($updatefiletag[$i]) && $updatefiletag[$i] == 1) ? 1 : 0;
@@ -357,7 +357,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			for ($i = 0; $i < count($cid); $i++)
+			for ($i = 0, $in = count($cid); $i < $in; $i++)
 			{
 				$result = $xmlhelper->getXMLImportInfo($cid[$i]);
 				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import/" .$result->filename;

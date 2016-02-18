@@ -9,7 +9,6 @@
 
 $order_function = order_functions::getInstance();
 
-$option = JRequest::getVar('option');
 $config = Redconfiguration::getInstance();
 $model = $this->getModel('newslettersubscr');
 ?>
@@ -47,7 +46,7 @@ $model = $this->getModel('newslettersubscr');
 	}
 </script>
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<div class="filterItem">
 			<div class="btn-wrapper input-append">

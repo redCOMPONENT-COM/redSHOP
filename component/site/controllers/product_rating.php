@@ -180,6 +180,6 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 			$app->enqueueMessage($model->getError(), 'warning');
 		}
 
-		$this->setRedirect(JRoute::_($link, false));
+		$this->setRedirect($link);
 	}
 }

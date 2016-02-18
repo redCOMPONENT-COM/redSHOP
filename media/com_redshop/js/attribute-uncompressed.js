@@ -6,6 +6,56 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
+redSHOP.filterExtraFieldName = function(name){
+	name = reverseString(name);
+	return reverseString(name.substr(name.indexOf("_") + 1));
+};
+
+redSHOP.collectExtraFields = function(extraField, productId){
+
+	var field = {
+		name: extraField.id.replace('_' + productId, ''),
+		value: jQuery(extraField).val()
+	};
+
+	switch(extraField.type)
+	{
+		case 'checkbox':
+		case 'radio':
+
+			field.name = redSHOP.filterExtraFieldName(extraField.id);
+			field.value = jQuery('[id^='+field.name+']:checked').val();
+
+		break;
+	}
+
+	return field;
+};
+
+redSHOP.updateCartExtraFields = function(extraFields, productId, formName){
+
+	jQuery.each(extraFields, function(index, extraField) {
+
+		var field = redSHOP.collectExtraFields(extraField, productId);
+
+		jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+	});
+};
+
+redSHOP.updateAjaxCartExtraFields = function(extraFields, productId){
+
+	var extraFieldPost = [];
+
+	jQuery.each(extraFields, function(index, extraField) {
+
+		var field = redSHOP.collectExtraFields(extraField, productId);
+
+		extraFieldPost.push(field.name + '=' + field.value);
+	});
+
+	return extraFieldPost;
+};
+
 // open modal box
 window.addEvent('domready', function () {
 
@@ -1926,120 +1976,32 @@ function getElementsByClassName(xx) {
 
 function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_id, frmUserfieldName) {
 
-	var str = '';
-	var elem = "";
-
-	if (document.getElementById(frmUserfieldName)) {
-		elem = document.getElementById(frmUserfieldName).elements;
-	}
-
-	if (product_id == 0 || product_id == "") {
+	if (product_id == 0 || product_id == "")
+	{
 		return false;
 	}
 
-	var arrcheckbox = new Array();
-	var fieldname = new Array();
-	var arSelected = new Array();
-	var fieldNamefrmId = "";
+	redSHOP.updateCartExtraFields(
+		jQuery('#' + frmUserfieldName + ' :input:not(:button, :hidden)'),
+		product_id,
+		'#' + frmCartName
+	);
 
-	for (var i = 0; i < elem.length; i++) {
-		if (elem[i].type == "checkbox" && elem != "" || elem[i].type == "radio" && elem != "") {
-			if (elem[i].checked == true) {
-				arrcheckbox[i] = elem[i].value;
-				fieldname[i] = elem[i].name;
-				var elements = document.getElementById(frmCartName).elements;
-				fieldNamefrmId = reverseString(elem[i].id);
-				fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_") + 1));
-				for (var j = 0; j < elements.length; j++) {
-//					if(elem[i].name == elements[j].name)
-					if (fieldNamefrmId == elements[j].name) {
-						var strval = elements[j].value;
+	jQuery('#requiedAttribute').val(jQuery('#' + frmCartName + ' [name=requiedAttribute]').attr('reattribute'));
 
-						if (strval.search(arrcheckbox[i]) == -1) {
-							if (elements[j].value != "")
-								elements[j].value += ",";
-							elements[j].value += arrcheckbox[i];
-						}
-					}
-				}
-			}
-		} else if (elem[i].type == "select-one") {
-			arrcheckbox[i] = elem[i].value;
-			fieldname[i] = elem[i].name;
-			var elements = document.getElementById(frmCartName).elements;
-			for (var j = 0; j < elements.length; j++) {
-				fieldNamefrmId = elem[i].id;
-				//if(elem[i].name == elements[j].name)
-				if (fieldNamefrmId == elements[j].name) {
-					var strval = elements[j].value;
-					if (strval.search(arrcheckbox[i]))
-						elements[j].value += arrcheckbox[i];
-				}
-			}
-		} else if (elem[i].type == "select-multiple") {
-			var ob = elem[i];
-			elements = document.getElementById(frmCartName).elements;
+	jQuery('#requiedProperty').val(jQuery('#' + frmCartName + ' [name=requiedProperty]').attr('reproperty'));
 
-			for (var t = 0; t < ob.options.length; t++) {
-				if (ob.options[ t ].selected) {
-					for (var j = 0; j < elements.length; j++) {
-						fieldNamefrmId = elem[i].id;
-						//if(elem[i].name == elements[j].name)
-						if (fieldNamefrmId == elements[j].name) {
-							var strval = elements[j].value;
-							if (strval.search(String(ob.options[ t ].value)) == -1) {
-								if (elements[j].value != "")
-									elements[j].value += ",";
-								elements[j].value += (String(ob.options[ t ].value));
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	var cal_el = RedgetElementsByClassName('calendar');
-
-	var cal_fieldNamefrmId = "";
-	for (cal_i = 0; cal_i < cal_el.length; cal_i++) {
-		// do stuff here with myEls[i]
-		var calImgId = cal_el[cal_i].id;
-		arr = calImgId.split("_img");
-		n = arr.length;
-		var calName = arr[0];
-		if (calName != "" && calName.search(frmCartName)) {
-			if (document.getElementById(calName).value != "") {
-				cal_fieldNamefrmId = reverseString(calName);
-				cal_fieldNamefrmId = reverseString(cal_fieldNamefrmId.substr(cal_fieldNamefrmId.indexOf("_") + 1));
-				//			if(document.getElementById(cal_fieldNamefrmId))
-				//			document.getElementById(cal_fieldNamefrmId).value = document.getElementById(calName).value;
-				var frm_name = String(frmCartName);
-				var elements = document.getElementById(frm_name).elements;
-				var cfieldName = String(cal_fieldNamefrmId + '_' + product_id);
-
-				for (var j = 0; j < elements.length; j++) {
-					if (cal_fieldNamefrmId == elements[j].name) {
-						elements[j].value = document.getElementById(cfieldName).value;
-					}
-				}
-			}
-		}
-	}
-	if (document.getElementById(frmCartName) && document.getElementById('requiedAttribute')) {
-		document.getElementById('requiedAttribute').value = document.getElementById(frmCartName).requiedAttribute.getAttribute('reattribute');
-	}
-	if (document.getElementById(frmCartName) && document.getElementById('requiedProperty')) {
-		document.getElementById('requiedProperty').value = document.getElementById(frmCartName).requiedProperty.getAttribute('reproperty');
-	}
-	if (giftcard_id == 0) {
+	if (giftcard_id == 0)
+	{
 		//get selected attribute,property,subproperty data and total price
 		calculateTotalPrice(product_id, relatedprd_id);
 	}
 
 	//set selected attribute,property,subproperty data and total price to Add to cart form
 	if (!setAddtocartForm(frmCartName, product_id))
+	{
 		return false;
+	}
 
 	return true;
 }
@@ -2330,16 +2292,14 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 			}
 		}
 		else if (!extrafields[ex].value && extrafields[ex].type == 'hidden') {
-			imgfieldNamefrmId = reverseString(extrafields[ex].id);
-			imgfieldNamefrmId = reverseString(imgfieldNamefrmId.substr(imgfieldNamefrmId.indexOf("_") + 1));
+			imgfieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 			extrafieldNames += imgfieldNamefrmId; 	// make Id as Name
 			if ((extrafields.length - 1) != ex) {
 				extrafieldNames += ',';
 			}
 		}
 		else if (extrafields[ex].type == 'checkbox') {
-			fieldNamefrmId = reverseString(extrafields[ex].id);
-			fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_") + 1));
+			fieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 
 			if (previousfieldName != "" && previousfieldName != fieldNamefrmId && chk_flag == false) {
 				extrafieldNames += previousfieldName + ",";
@@ -2361,8 +2321,7 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 		}
 		else if (extrafields[ex].type == 'radio') {
 
-			rdo_fieldNamefrmId = reverseString(extrafields[ex].id);
-			rdo_fieldNamefrmId = reverseString(rdo_fieldNamefrmId.substr(rdo_fieldNamefrmId.indexOf("_") + 1));
+			rdo_fieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 
 			if (rdo_previousfieldName != "" && rdo_previousfieldName != rdo_fieldNamefrmId && rdo_flag == false) {
 				extrafieldNames += rdo_previousfieldName + ",";
@@ -2382,8 +2341,7 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 		}
 		else if (extrafields[ex].type == 'select-multiple') {
 
-			selmulti_fieldNamefrmId = reverseString(extrafields[ex].id);
-			selmulti_fieldNamefrmId = reverseString(selmulti_fieldNamefrmId.substr(selmulti_fieldNamefrmId.indexOf("_") + 1));
+			selmulti_fieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 
 			if (extrafields[ex].value) {
 				continue;
@@ -2411,8 +2369,7 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 
 		if (calName != "") {
 			if (document.getElementById(calName).value == "") {
-				cal_fieldNamefrmId = reverseString(calName);
-				cal_fieldNamefrmId = reverseString(cal_fieldNamefrmId.substr(cal_fieldNamefrmId.indexOf("_") + 1));
+				cal_fieldNamefrmId = redSHOP.filterExtraFieldName(calName);
 				extrafieldNames += "," + cal_fieldNamefrmId + ",";
 			}
 		}
@@ -2542,47 +2499,16 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 {
 	var frm = document.getElementById(frmCartName);
 
-	var proid = 0;
-	var priceval = 0;
-	var mainpri = 0;
-	var proppri = 0;
-	var attpric = 0;
-	var accpric = 0;
-	var propcartid = 0;
-	var subpropcartid = 0;
-	var wrapperdata = "";
-	var accdata = "";
-	var attdata = "";
-	var subattdata = "";
-	var qty = 1;
 	var id = '';
 	var set = false;
-	// calculator variables
-	var calHeight = 0, calWidth = 0;
 
-	// get multiple extra fields attributes
-	var extrafields = document.getElementsByName('extrafields' + product_id + '[]');
-
-	// intialize defaults
-	var extrafieldName = "";
-	var extrafieldVal = "";
-	var extrafieldpost = "";
-
-	var previousfieldName = "";
-	var fieldNamefrmId = "";
-	var chk_flag = false;
-	var rdo_previousfieldName = "";
-	var rdo_fieldNamefrmId = "";
-	var rdo_flag = false;
-
-	var selmulti_fieldNamefrmId = "";
-
-	var ret = userfieldValidation("extrafields" + product_id);
-	if (!ret) {
+	if (!userfieldValidation("extrafields" + product_id))
+	{
 		return false;
 	}
-	var requiedAttribute = document.getElementById(frmCartName).requiedAttribute.value;
-	var requiedProperty = document.getElementById(frmCartName).requiedProperty.value;
+
+	var requiedAttribute = jQuery('#' + frmCartName + ' [name=requiedAttribute]').val();
+	var requiedProperty = jQuery('#' + frmCartName + ' [name=requiedProperty]').val();
 
 	if (requiedAttribute != 0 && requiedAttribute != "") {
 		alert(requiedAttribute);
@@ -2593,126 +2519,14 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 		return false;
 	}
 
+	extraFieldPost = redSHOP.updateAjaxCartExtraFields(
+						jQuery('[name^="extrafields' + product_id + '"]'),
+						product_id
+					).join('&');
 
-	for (var ex = 0; ex < extrafields.length; ex++) {
-
-		if (extrafields[ex].type == 'checkbox') {
-			fieldNamefrmId = reverseString(extrafields[ex].id);
-			fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_") + 1));
-			if (previousfieldName != "" && previousfieldName != fieldNamefrmId && extrafieldVal != "") {
-				extrafieldpost += "&" + previousfieldName + "=" + extrafieldVal;
-			}
-			if (previousfieldName != fieldNamefrmId) {
-				extrafieldVal = "";
-				previousfieldName = fieldNamefrmId;
-			}
-			if (extrafields[ex].checked) {
-				if (extrafieldVal != "")
-					extrafieldVal += ",";
-				extrafieldVal += extrafields[ex].value;
-			}
-			if (ex == (extrafields.length - 1) && extrafieldVal != "") {
-				extrafieldpost += "&" + fieldNamefrmId + "=" + extrafieldVal;
-			}
-			if (ex < (extrafields.length - 1)) {
-				if ((extrafields[ex + 1].type != 'checkbox') && extrafieldVal != "")
-					extrafieldpost += "&" + fieldNamefrmId + "=" + extrafieldVal;
-			}
-		}
-		else if (extrafields[ex].type == 'radio') {
-
-			rdo_fieldNamefrmId = reverseString(extrafields[ex].id);
-			rdo_fieldNamefrmId = reverseString(rdo_fieldNamefrmId.substr(rdo_fieldNamefrmId.indexOf("_") + 1));
-
-			if (rdo_previousfieldName != "" && rdo_previousfieldName != rdo_fieldNamefrmId && rdo_flag == false) {
-				extrafieldpost += "&" + rdo_previousfieldName + "=" + extrafieldVal;
-			}
-
-			if (rdo_previousfieldName != rdo_fieldNamefrmId) {
-				extrafieldVal = "";
-				rdo_previousfieldName = rdo_fieldNamefrmId;
-				rdo_flag = false;
-				if (extrafields[ex].checked || rdo_flag == true) {
-					rdo_flag = true;
-					extrafieldpost += "&" + rdo_previousfieldName + "=" + extrafields[ex].value;
-					continue;
-				}
-			}
-			else {
-				if (extrafields[ex].checked || rdo_flag == true) {
-					rdo_flag = true;
-					extrafieldpost += "&" + rdo_fieldNamefrmId + "=" + extrafields[ex].value;
-					continue;
-				}
-			}
-		}
-		else if (extrafields[ex].type == 'select-multiple') {
-			var ob = extrafields[ex];
-			extrafieldVal = "";
-			selmulti_fieldNamefrmId = reverseString(extrafields[ex].id);
-			selmulti_fieldNamefrmId = reverseString(selmulti_fieldNamefrmId.substr(selmulti_fieldNamefrmId.indexOf("_") + 1));
-			for (var t = 0; t < ob.options.length; t++) {
-				if (ob.options[ t ].selected) {
-					var strval = extrafieldVal;
-					if (strval.search(String(ob.options[ t ].value)) == -1) {
-						if (extrafieldVal != "")
-							extrafieldVal += ",";
-						extrafieldVal += (String(ob.options[ t ].value));
-					}
-				}
-			}
-
-			if (extrafieldVal) {
-				extrafieldpost += "&" + selmulti_fieldNamefrmId + "=" + extrafieldVal;
-			}
-		} else if (extrafields[ex].type == 'hidden') {
-			imgfieldNamefrmId = reverseString(extrafields[ex].id);
-			imgfieldNamefrmId = reverseString(imgfieldNamefrmId.substr(imgfieldNamefrmId.indexOf("_") + 1));
-
-			extrafieldName = imgfieldNamefrmId; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
-			extrafieldpost += "&" + extrafieldName + "=" + extrafieldVal;
-			extrafieldVal = "";
-		}
-		else {
-			if (extrafields[ex].id.search('ajax') != -1) {
-				var tmpName = extrafields[ex].id.split('ajax');
-				var cal_fieldNamefrmId = "";
-				cal_fieldNamefrmId = reverseString(tmpName[1]);
-				cal_fieldNamefrmId = reverseString(cal_fieldNamefrmId.substr(cal_fieldNamefrmId.indexOf("_") + 1));
-
-				extrafields[ex].id = cal_fieldNamefrmId;
-			}
-
-
-			extrafieldName = extrafields[ex].id; 	// make Id as Name
-			extrafieldVal = encodeURIComponent(extrafields[ex].value);	// get extra field value
-			extrafieldpost += "&" + extrafieldName + "=" + extrafieldVal;
-		}
-	}
-	var cal_el = RedgetElementsByClassName('calendar');
-
-	var cal_fieldNamefrmId = "";
-	for (cal_i = 0; cal_i < cal_el.length; cal_i++) {
-		// do stuff here with myEls[i]
-		var calImgId = cal_el[cal_i].id;
-
-		arr = calImgId.split("_img");
-		n = arr.length;
-		var calName = arr[0];
-
-		if (calName != "" && calName.search(product_id)) {
-			if (document.getElementById(calName).value != "") {
-				cal_fieldNamefrmId = reverseString(calName);
-				cal_fieldNamefrmId = reverseString(cal_fieldNamefrmId.substr(cal_fieldNamefrmId.indexOf("_") + 1));
-				extrafieldpost += "&" + cal_fieldNamefrmId + "=" + document.getElementById(calName).value;
-			}
-		}
-	}
-	// End
 	var subscription_data = "";
-	if (document.getElementById('hidden_subscription_id')) {
 
+	if (document.getElementById('hidden_subscription_id')) {
 		subId = document.getElementById('hidden_subscription_id').value;
 		if (subId == 0 || subId == "") {
 			alert(Joomla.JText._('COM_REDSHOP_SELECT_SUBSCRIPTION_PLAN'));
@@ -2720,6 +2534,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 		}
 		subscription_data = "&subscription_id=" + subId;
 	}
+
 	if (document.getElementById('giftcard_id')) {
 		id = "&giftcard_id=" + product_id;
 
@@ -2741,7 +2556,6 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 	params = params + "&attribute_data=" + frm.attribute_data.value;
 	params = params + "&property_data=" + frm.property_data.value;
 	params = params + "&subproperty_data=" + frm.subproperty_data.value;
-//	params = params + "&attribute_price="+frm.attribute_price.value;
 	params = params + "&requiedAttribute=" + frm.requiedAttribute.value;
 	params = params + "&requiedProperty=" + frm.requiedProperty.value;
 	params = params + "&accessory_data=" + frm.accessory_data.value;
@@ -2750,12 +2564,13 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 	params = params + "&acc_property_data=" + frm.acc_property_data.value;
 	params = params + "&acc_subproperty_data=" + frm.acc_subproperty_data.value;
 	params = params + "&accessory_price=" + frm.accessory_price.value;
+
 	if (document.getElementById("wrapper_check") && document.getElementById("wrapper_check").checked) {
 		params = params + "&sel_wrapper_id=" + frm.sel_wrapper_id.value;
 	}
+
 	params = params + "&quantity=" + frm.quantity.value;
 	params = params + "&hidden_attribute_cartimage=" + frm.hidden_attribute_cartimage.value;
-
 
 	if (document.getElementById('calc_height')) {
 		params = params + "&calcHeight=" + frm.calcHeight.value;
@@ -2775,7 +2590,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 	// pdc extra data
 	params = params + "&pdcextraid=" + frm.pdcextraid.value;
 
-	params = params + subscription_data + extrafieldpost;
+	params = params + subscription_data + '&' + extraFieldPost;
 
 	// Setting up redSHOP JavaScript Add to cart trigger
 	if (redShopJsTrigger.length > 0)
@@ -2783,8 +2598,8 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 		for(var g = 0, n = redShopJsTrigger.length; g < n; g++)
 		{
 			new redShopJsTrigger[g](arguments);
-		};
-	};
+		}
+	}
 
 	/*
 	 * getExtraParamsArray is a global JS variable to set additional add to cart parameters
@@ -2797,7 +2612,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 		{
 			params += '&' + key + '=' + getExtraParamsArray[key];
 		}
-	};
+	}
 
 	request.open("POST", redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=cart&task=add&tmpl=component", false);
 	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -2821,7 +2636,6 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 			}
 
 			// cart module
-
 			if (document.getElementById('mod_cart_total') && responce[1]) {
 				document.getElementById('mod_cart_total').innerHTML = responce[1];
 			}
@@ -2852,7 +2666,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 					var options = {url: newurl, handler: 'html', size: {x: parseInt(redSHOP.RSConfig._('AJAX_BOX_WIDTH')), y: parseInt(redSHOP.RSConfig._('AJAX_BOX_HEIGHT'))}, htmldata: responcebox, onOpen: function () {
 						if (redSHOP.RSConfig._('AJAX_CART_DISPLAY_TIME') > 0) {
 							var fn = function () {
-								this.close()
+								this.close();
 							}.bind(this).delay(redSHOP.RSConfig._('AJAX_CART_DISPLAY_TIME'));
 						}
 					}};
@@ -2995,33 +2809,11 @@ function productalladdprice(my) {
 					//continue;
 					return false;
 				}
-				else {
-					//return submitAjaxwishlistCartdetail('addtocart_prd_'+mainpro_id[i],mainpro_id[i], 0, 0,totatt[i],0,totcount_no_user_field[i]);
-
-				}
-
-				if (i == (mainpro_id.length - 1)) {
-					//wishList=2;
-					//for(var j=0;j<=i;j++)
-					//{
-//
-//							return	submitAjaxwishlistCartdetail('addtocart_prd_'+mainpro_id[j],mainpro_id[j], 0, 0,totatt[j],0,totcount_no_user_field[j]);
-//						//alert('addtocart_prd_'+mainpro_id[j]);
-//						}
-
-
-				}
-
-
 			}
-
-
 		}
 	}
 
 	submitAjaxwishlistCartdetail('addtocart_prd_' + mainpro_id[0], mainpro_id[0], 0, 0, totatt[0], 0, totcount_no_user_field[0], my);
-
-
 }
 
 
@@ -3047,10 +2839,6 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 	var set = false;
 	// calculator variables
 	var calHeight = 0, calWidth = 0;
-
-
-	// get multiple extra fields attributes
-	var extrafields = document.getElementsByName('extrafields' + product_id + '[]');
 
 	// intialize defaults
 	var extrafieldName = "";
@@ -3082,129 +2870,11 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 		return false;
 	}
 
+	extraFieldPost = redSHOP.updateAjaxCartExtraFields(
+						jQuery('[name^="extrafields' + product_id + '"]'),
+						product_id
+					).join('&');
 
-	for (var ex = 0; ex < extrafields.length; ex++) {
-
-		if (extrafields[ex].type == 'checkbox') {
-			fieldNamefrmId = reverseString(extrafields[ex].id);
-			fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_") + 1));
-			if (previousfieldName != "" && previousfieldName != fieldNamefrmId && extrafieldVal != "") {
-				extrafieldpost += "&" + previousfieldName + "=" + extrafieldVal;
-			}
-			if (previousfieldName != fieldNamefrmId) {
-				extrafieldVal = "";
-				previousfieldName = fieldNamefrmId;
-			}
-			if (extrafields[ex].checked) {
-				if (extrafieldVal != "")
-					extrafieldVal += ",";
-				extrafieldVal += extrafields[ex].value;
-			}
-			if (ex == (extrafields.length - 1) && extrafieldVal != "") {
-				extrafieldpost += "&" + fieldNamefrmId + "=" + extrafieldVal;
-			}
-			if (ex < (extrafields.length - 1)) {
-				if ((extrafields[ex + 1].type != 'checkbox') && extrafieldVal != "")
-					extrafieldpost += "&" + fieldNamefrmId + "=" + extrafieldVal;
-			}
-		}
-		else if (extrafields[ex].type == 'radio') {
-
-			rdo_fieldNamefrmId = reverseString(extrafields[ex].id);
-			rdo_fieldNamefrmId = reverseString(rdo_fieldNamefrmId.substr(rdo_fieldNamefrmId.indexOf("_") + 1));
-
-			if (rdo_previousfieldName != "" && rdo_previousfieldName != rdo_fieldNamefrmId && rdo_flag == false) {
-				extrafieldpost += "&" + rdo_previousfieldName + "=" + extrafieldVal;
-			}
-
-			if (rdo_previousfieldName != rdo_fieldNamefrmId) {
-				extrafieldVal = "";
-				rdo_previousfieldName = rdo_fieldNamefrmId;
-				rdo_flag = false;
-				if (extrafields[ex].checked || rdo_flag == true) {
-					rdo_flag = true;
-					extrafieldpost += "&" + rdo_previousfieldName + "=" + extrafields[ex].value;
-					continue;
-				}
-			}
-			else {
-				if (extrafields[ex].checked || rdo_flag == true) {
-					rdo_flag = true;
-					extrafieldpost += "&" + rdo_fieldNamefrmId + "=" + extrafields[ex].value;
-					continue;
-				}
-			}
-		}
-		else if (extrafields[ex].type == 'select-multiple') {
-			var ob = extrafields[ex];
-			extrafieldVal = "";
-			selmulti_fieldNamefrmId = reverseString(extrafields[ex].id);
-			selmulti_fieldNamefrmId = reverseString(selmulti_fieldNamefrmId.substr(selmulti_fieldNamefrmId.indexOf("_") + 1));
-			for (var t = 0; t < ob.options.length; t++) {
-				if (ob.options[ t ].selected) {
-					var strval = extrafieldVal;
-					if (strval.search(String(ob.options[ t ].value)) == -1) {
-						if (extrafieldVal != "")
-							extrafieldVal += ",";
-						extrafieldVal += (String(ob.options[ t ].value));
-					}
-				}
-			}
-
-			if (extrafieldVal) {
-				extrafieldpost += "&" + selmulti_fieldNamefrmId + "=" + extrafieldVal;
-			}
-		} else if (extrafields[ex].type == 'hidden') {
-			imgfieldNamefrmId = reverseString(extrafields[ex].id);
-			imgfieldNamefrmId = reverseString(imgfieldNamefrmId.substr(imgfieldNamefrmId.indexOf("_") + 1));
-
-			extrafieldName = imgfieldNamefrmId; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
-			extrafieldpost += "&" + extrafieldName + "=" + extrafieldVal;
-			extrafieldVal = "";
-		} else if (extrafields[ex].type == 'text') {
-
-			extrafieldName = extrafields[ex].id; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
-			extrafieldpost += "&" + extrafieldName + "=" + extrafieldVal;
-
-		}
-		else {
-			if (extrafields[ex].id.search('ajax') != -1) {
-				var tmpName = extrafields[ex].id.split('ajax');
-				var cal_fieldNamefrmId = "";
-				cal_fieldNamefrmId = reverseString(tmpName[1]);
-				cal_fieldNamefrmId = reverseString(cal_fieldNamefrmId.substr(cal_fieldNamefrmId.indexOf("_") + 1));
-
-				extrafields[ex].id = cal_fieldNamefrmId;
-			}
-
-
-			extrafieldName = extrafields[ex].id; 	// make Id as Name
-			extrafieldVal = extrafields[ex].value;	// get extra field value
-			extrafieldpost += "&" + extrafieldName + "=" + extrafieldVal;
-		}
-	}
-	var cal_el = RedgetElementsByClassName('calendar');
-
-	var cal_fieldNamefrmId = "";
-	for (cal_i = 0; cal_i < cal_el.length; cal_i++) {
-		// do stuff here with myEls[i]
-		var calImgId = cal_el[cal_i].id;
-
-		arr = calImgId.split("_img");
-		n = arr.length;
-		var calName = arr[0];
-
-		if (calName != "" && calName.search(product_id)) {
-			if (document.getElementById(calName).value != "") {
-				cal_fieldNamefrmId = reverseString(calName);
-				cal_fieldNamefrmId = reverseString(cal_fieldNamefrmId.substr(cal_fieldNamefrmId.indexOf("_") + 1));
-				extrafieldpost += "&" + cal_fieldNamefrmId + "=" + document.getElementById(calName).value;
-			}
-		}
-	}
-	// End
 	var subscription_data = "";
 
 	if (document.getElementById('hidden_subscription_id')) {
@@ -3273,7 +2943,7 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 	// pdc extra data
 	params = params + "&pdcextraid=" + frm.pdcextraid.value;
 
-	params = params + subscription_data + extrafieldpost;
+	params = params + subscription_data + '&' + extraFieldPost;
 
 	// Setting up redSHOP JavaScript Add to cart trigger
 	if (redShopJsTrigger.length > 0)
@@ -3413,8 +3083,7 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 	for (var ex = 0; ex < extrafields.length; ex++) {
 
 		if (extrafields[ex].type == 'checkbox') {
-			fieldNamefrmId = reverseString(extrafields[ex].id);
-			fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_") + 1));
+			fieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 			if (previousfieldName != "" && previousfieldName != fieldNamefrmId && extrafieldVal != "") {
 				extrafieldpost += "&" + previousfieldName + "=" + extrafieldVal;
 			}
@@ -3437,8 +3106,7 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 		}
 		else if (extrafields[ex].type == 'radio') {
 
-			rdo_fieldNamefrmId = reverseString(extrafields[ex].id);
-			rdo_fieldNamefrmId = reverseString(rdo_fieldNamefrmId.substr(rdo_fieldNamefrmId.indexOf("_") + 1));
+			rdo_fieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 
 			if (rdo_previousfieldName != "" && rdo_previousfieldName != rdo_fieldNamefrmId && rdo_flag == false) {
 				extrafieldpost += "&" + rdo_previousfieldName + "=" + extrafieldVal;
@@ -3466,8 +3134,7 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 		else if (extrafields[ex].type == 'select-multiple') {
 			var ob = extrafields[ex];
 			extrafieldVal = "";
-			selmulti_fieldNamefrmId = reverseString(extrafields[ex].id);
-			selmulti_fieldNamefrmId = reverseString(selmulti_fieldNamefrmId.substr(selmulti_fieldNamefrmId.indexOf("_") + 1));
+			selmulti_fieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 			for (var t = 0; t < ob.options.length; t++) {
 				if (ob.options[ t ].selected) {
 					var strval = extrafieldVal;
@@ -3484,8 +3151,7 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 			}
 		} else if (extrafields[ex].type == 'hidden') {
 
-			imgfieldNamefrmId = reverseString(extrafields[ex].id);
-			imgfieldNamefrmId = reverseString(imgfieldNamefrmId.substr(imgfieldNamefrmId.indexOf("_") + 1));
+			imgfieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 
 			extrafieldName = imgfieldNamefrmId; 	// make Id as Name
 			extrafieldVal = extrafields[ex].value;	// get extra field value
@@ -3502,8 +3168,7 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 			if (extrafields[ex].id.search('ajax') != -1) {
 				var tmpName = extrafields[ex].id.split('ajax');
 				var cal_fieldNamefrmId = "";
-				cal_fieldNamefrmId = reverseString(tmpName[1]);
-				cal_fieldNamefrmId = reverseString(cal_fieldNamefrmId.substr(cal_fieldNamefrmId.indexOf("_") + 1));
+				cal_fieldNamefrmId = redSHOP.filterExtraFieldName(tmpName[1]);
 
 				extrafields[ex].id = cal_fieldNamefrmId;
 			}
@@ -3529,8 +3194,7 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 
 		if (calName != "" && calName.search(product_id)) {
 			if (document.getElementById(calName).value != "") {
-				cal_fieldNamefrmId = reverseString(calName);
-				cal_fieldNamefrmId = reverseString(cal_fieldNamefrmId.substr(cal_fieldNamefrmId.indexOf("_") + 1));
+				cal_fieldNamefrmId = redSHOP.filterExtraFieldName(calName);
 				extrafieldpost += "&" + cal_fieldNamefrmId + "=" + document.getElementById(calName).value;
 			}
 		}

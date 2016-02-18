@@ -28,7 +28,7 @@ class RedshopControllerShipping extends RedshopController
 			$db->setQuery($query);
 			$shipping = $db->loadObjectList();
 
-			for ($i = 0; $i < count($shipping); $i++)
+			for ($i = 0, $in = count($shipping); $i < $in; $i++)
 			{
 				$shipping_nshortname = (strlen($shipping[$i]->name) > 15) ? substr($shipping[$i]->name, 0, 15) : $shipping[$i]->name;
 				$shipping_number = $shipping_nshortname . ' ' . $shipping[$i]->shipping_rate_id;

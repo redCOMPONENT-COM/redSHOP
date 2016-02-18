@@ -68,7 +68,7 @@ class product_category
 		$db->setQuery($q);
 		$cats = $db->loadObjectList();
 
-		for ($x = 0; $x < count($cats); $x++)
+		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 		{
 			$cat = $cats[$x];
 			$child_id = $cat->category_child_id;
@@ -195,7 +195,7 @@ class product_category
 
 		$cats = $db->loadObjectList();
 
-		for ($x = 0; $x < count($cats); $x++)
+		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 		{
 			$cat = $cats[$x];
 			$parent_id = $cat->category_child_id;

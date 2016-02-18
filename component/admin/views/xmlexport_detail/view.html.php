@@ -17,7 +17,6 @@ class RedshopViewXmlexport_detail extends RedshopView
 		global $context;
 		$context      = 'xmlexport_id';
 
-		$option       = JRequest::getVar('option');
 		$layout       = JRequest::getVar('layout');
 		$xmlhelper    = new xmlHelper;
 		$session      = JFactory::getSession();
@@ -126,7 +125,7 @@ class RedshopViewXmlexport_detail extends RedshopView
 				break;
 		}
 
-		for ($i = 0; $i < count($columns); $i++)
+		for ($i = 0, $in = count($columns); $i < $in; $i++)
 		{
 			$tmpVal = $xmlhelper->getXMLFileTag($columns[$i]->Field, $dbfield);
 			$colvalue[] = $tmpVal[0];

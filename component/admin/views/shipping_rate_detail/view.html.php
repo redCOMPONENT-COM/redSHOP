@@ -25,7 +25,7 @@ class RedshopViewShipping_rate_detail extends RedshopView
 		$id = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 		$shipping = $shippinghelper->getShippingMethodById($id);
 
-		$option = JRequest::getVar('option');
+
 
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/common.js');

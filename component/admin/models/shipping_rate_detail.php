@@ -235,7 +235,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 			$copydata = $this->_db->loadObjectList();
 		}
 
-		for ($i = 0; $i < count($copydata); $i++)
+		for ($i = 0, $in = count($copydata); $i < $in; $i++)
 		{
 			$row = $this->getTable();
 

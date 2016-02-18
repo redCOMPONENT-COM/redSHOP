@@ -301,7 +301,7 @@ if (!class_exists('redproductScroller'))
 
 			$cid = array();
 
-			for ($i = 0; $i < count($hierachy); $i++)
+			for ($i = 0, $in = count($hierachy); $i < $in; $i++)
 			{
 				$cid[] = $hierachy[$i]->category_id;
 			}

@@ -9,7 +9,6 @@
 
 JHTMLBehavior::modal();
 
-$option = JRequest::getVar('option', '', 'request', 'string');
 $producthelper = producthelper::getInstance();
 $model = $this->getModel('product');
 

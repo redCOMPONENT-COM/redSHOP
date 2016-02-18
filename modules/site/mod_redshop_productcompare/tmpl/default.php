@@ -14,7 +14,6 @@ $url = $uri->root();
 $producthelper = producthelper::getInstance();
 $redhelper = redhelper::getInstance();
 
-$option = JRequest::getCmd('option');
 $Itemid = JRequest::getInt('Itemid');
 $cid = JRequest::getInt('cid');
 if (COMARE_PRODUCTS == 1)

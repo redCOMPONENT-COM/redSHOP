@@ -38,7 +38,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 		$body = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["body"] = $body;
 
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -67,7 +67,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$val = 0;
@@ -108,14 +108,14 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=newsletter', $msg);
 	}
 
 	public function copy()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$model = $this->getModel('newsletter_detail');
 

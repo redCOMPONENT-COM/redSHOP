@@ -171,7 +171,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 		if (count($cid))
 		{
-			for ($i = 0; $i < count($cid); $i++)
+			for ($i = 0, $in = count($cid); $i < $in; $i++)
 			{
 				$query = 'SELECT * FROM ' . $this->_table_prefix . 'template WHERE template_id = ' . $cid[$i];
 				$this->_db->setQuery($query);

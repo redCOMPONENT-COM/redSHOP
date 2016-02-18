@@ -60,7 +60,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 			<?php    $tags = $extra_field->getSectionFieldList(14, 1);
 			if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 			else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
-			for ($i = 0; $i < count($tags); $i++)
+			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
 				echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
 			}    ?>
@@ -71,7 +71,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 			<?php    $tags = $extra_field->getSectionFieldList(15, 1);
 			if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 			else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
-			for ($i = 0; $i < count($tags); $i++)
+			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
 				echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
 			}    ?>
@@ -91,7 +91,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 			<?php    $tags = $extra_field->getSectionFieldList(14, 1);
 			if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 			else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
-			for ($i = 0; $i < count($tags); $i++)
+			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
 				echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
 			}    ?>
@@ -102,7 +102,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 			<?php    $tags = $extra_field->getSectionFieldList(15, 1);
 			if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 			else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
-			for ($i = 0; $i < count($tags); $i++)
+			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
 				echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
 			}    ?>

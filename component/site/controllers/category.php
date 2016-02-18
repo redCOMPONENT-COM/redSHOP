@@ -26,7 +26,6 @@ class RedshopControllerCategory extends RedshopController
 	 */
 	public function download()
 	{
-		$option   = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
 		$db       = JFactory::getDbo();
 		$this->_table_prefix = "#__redshop_";
@@ -229,8 +228,11 @@ class RedshopControllerCategory extends RedshopController
 			exit;
 		}
 
-		// In case someone has magic quotes on. Which they shouldn't as good practice.
-		set_magic_quotes_runtime(0);
+		if (version_compare(PHP_VERSION, '5.3.0', '<'))
+		{
+			// Disable magic quotes for older version of php
+			set_magic_quotes_runtime(0);
+		}
 
 		// We should check to ensure the file really exits to ensure feof does not get stuck in an infite loop, but we do so earlier on, so no need here.
 		$fp = fopen("$fil", "rb");
@@ -284,7 +286,6 @@ class RedshopControllerCategory extends RedshopController
 	public function generateXMLExportFile()
 	{
 		$app          = JFactory::getApplication();
-		$option       = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$xmlexport_id = JRequest::getInt('xmlexport_id');
 
 		if ($xmlexport_id)

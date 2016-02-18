@@ -35,8 +35,6 @@ class RedshopViewProduct_Detail extends RedshopView
 
 	public $dispatcher;
 
-	public $option;
-
 	/**
 	 * Execute and display a template script.
 	 *

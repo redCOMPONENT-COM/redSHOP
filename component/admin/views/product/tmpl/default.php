@@ -21,9 +21,7 @@ $userId = (int) $user->id;
 JHtml::_('redshopjquery.framework');
 ?>
 <script language="javascript" type="text/javascript">
-
-
-	Joomla.submitbutton = submitbutton = function (pressbutton) {
+	Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton) {
@@ -304,7 +302,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 		<td>
 			<?php $listedincats = $model->listedincats($row->product_id);
-			for ($j = 0; $j < count($listedincats); $j++)
+			for ($j = 0, $jn = count($listedincats); $j < $jn; $j++)
 			{
 				echo $cat = $listedincats[$j]->category_name . "<br />";
 			}

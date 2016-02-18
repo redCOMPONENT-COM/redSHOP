@@ -23,7 +23,7 @@ $model         = $this->getModel('user');
 		if (pressbutton == 'add')
 		{
 			<?php
-				$link = $redhelper->sslLink('index.php?option=com_redshop&view=user_detail');
+				$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=user_detail');
 			?>
 
 			window.location = '<?php echo $link;?>';
@@ -32,6 +32,10 @@ $model         = $this->getModel('user');
 		else if (
 			(pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish') || (pressbutton == 'remove') || (pressbutton == 'copy')
 		) {
+			if ((pressbutton == 'remove') && confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'); ?>"))
+			{
+				form.delete_joomla_users.value = true;
+			}
 			form.view.value = "user_detail";
 		}
 		try {
@@ -102,8 +106,9 @@ $model         = $this->getModel('user');
 				$row = $this->user [$i];
 				$row->id = $row->user_id;
 
-				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $row->id . '&cid[]=' . $row->users_info_id;
-				$link = $redhelper->sslLink($link);
+				$link = RedshopHelperUtility::getSSLLink(
+					'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $row->id . '&cid[]=' . $row->users_info_id
+				);
 
 				$iscompany = JText::_('COM_REDSHOP_USER_CUSTOMER');
 
@@ -161,4 +166,5 @@ $model         = $this->getModel('user');
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists ['order']; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists ['order_Dir']; ?>"/>
+	<input type="hidden" name="delete_joomla_users"/>
 </form>

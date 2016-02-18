@@ -45,7 +45,7 @@ class plgredshop_shippingself_pickup extends JPlugin
 
 		if (count($shipping_location) > 0)
 		{
-			for ($i = 0; $i < count($shipping_location); $i++)
+			for ($i = 0, $in = count($shipping_location); $i < $in; $i++)
 			{
 				$rs = $shipping_location[$i];
 				$shipping_rate_id = $shippinghelper->encryptShipping(

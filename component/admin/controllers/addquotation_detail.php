@@ -26,7 +26,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 		$post = JRequest::get('post');
 		$adminproducthelper = adminProductHelper::getInstance();
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['quotation_id'] = $cid [0];
 		$model = $this->getModel('addquotation_detail');
@@ -107,7 +107,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
@@ -127,7 +127,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 		$response = "";
 
-		for ($i = 0; $i < count($propid); $i++)
+		for ($i = 0, $in = count($propid); $i < $in; $i++)
 		{
 			$property_id = $propid[$i];
 			$response .= $model->replaceSubPropertyData($product_id, $accessory_id, $attribute_id, $property_id, $user_id, $unique_id);

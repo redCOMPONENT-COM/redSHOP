@@ -146,11 +146,15 @@ if (!$slide)
 
 	if (strpos($template_desc, '{returntocategory_link}') !== false || strpos($template_desc, '{returntocategory_name}') !== false || strpos($template_desc, '{returntocategory}') !== false)
 	{
-		$parentid = $producthelper->getParentCategory($this->catid);
+		$parentid              = $producthelper->getParentCategory($this->catid);
+		$returncatlink         = '';
+		$returntocategory      = '';
+		$returntocategory_name = '';
 
 		if ($parentid != 0)
 		{
 			$categorylist     = $producthelper->getSection("category", $parentid);
+			$returntocategory_name = $categorylist->category_name;
 			$returncatlink    = JRoute::_(
 											"index.php?option=" . $this->option .
 											"&view=category&cid=" . $parentid .
@@ -159,19 +163,19 @@ if (!$slide)
 										);
 			$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '&nbsp;' . $categorylist->category_name . '</a>';
 		}
-		else
+		else if (DAFULT_RETURN_TO_CATEGORY_PREFIX)
 		{
-			$categorylist->category_name = DAFULT_RETURN_TO_CATEGORY_PREFIX;
+			$returntocategory_name = DAFULT_RETURN_TO_CATEGORY_PREFIX;
 			$returncatlink               = JRoute::_(
-														"index.php?option=" . $this->option .
-														"&view=category&manufacturer_id=" . $this->manufacturer_id .
-														"&Itemid=" . $this->itemid
-													);
+												"index.php?option=" . $this->option .
+												"&view=category&manufacturer_id=" . $this->manufacturer_id .
+												"&Itemid=" . $this->itemid
+											);
 			$returntocategory            = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '</a>';
 		}
 
 		$template_desc = str_replace("{returntocategory_link}", $returncatlink, $template_desc);
-		$template_desc = str_replace('{returntocategory_name}', $categorylist->category_name, $template_desc);
+		$template_desc = str_replace('{returntocategory_name}', $returntocategory_name, $template_desc);
 		$template_desc = str_replace("{returntocategory}", $returntocategory, $template_desc);
 	}
 
@@ -264,10 +268,8 @@ if (!$slide)
 		{
 			$comparediv           = $producthelper->makeCompareProductDiv();
 			$compareUrl           = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid);
-			$compare_product_div  = "<form name='frmCompare' method='post' action='" . $compareUrl . "' >";
-			$compare_product_div .= "<a href='javascript:compare();' >" . JText::_('COM_REDSHOP_COMPARE') . "</a>";
+			$compare_product_div = '<a href="' . $compareUrl . '">' . JText::_('COM_REDSHOP_COMPARE') . '</a>';
 			$compare_product_div .= "<div id='divCompareProduct'>" . $comparediv . "</div>";
-			$compare_product_div .= "</form>";
 		}
 
 		$template_desc = str_replace("{compare_product_div}", $compare_product_div, $template_desc);
@@ -312,7 +314,7 @@ if (!$slide)
 			$row = $this->detail[$i];
 
 			// Filter categories based on Shopper group category ACL
-			$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
+			$checkcid = $objhelper->checkPortalCategoryPermission($row->category_id);
 			$sgportal = $objhelper->getShopperGroupPortal();
 			$portal   = 0;
 
@@ -321,7 +323,7 @@ if (!$slide)
 				$portal = $sgportal->shopper_group_portal;
 			}
 
-			if ('' == $checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+			if (!$checkcid && (PORTAL_SHOP == 1 || $portal == 1))
 			{
 				continue;
 			}
@@ -354,19 +356,20 @@ if (!$slide)
 
 			if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 			{
-				$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-				$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+				$categoryFullImage = $row->category_full_image;
+				$product_img       = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+				$linkimage         = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 			}
 			elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 			{
-				$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-				$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+				$categoryFullImage = CATEGORY_DEFAULT_IMAGE;
+				$product_img       = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+				$linkimage         = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 			}
 
 			if (CAT_IS_LIGHTBOX)
 			{
-				$cat_thumb = "<a class='modal' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $row->category_full_image .
-							"' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
+				$cat_thumb = "<a class='modal' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryFullImage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
 			}
 			else
 			{

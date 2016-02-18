@@ -109,7 +109,10 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($helper->isredCRM())
 		{
-			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && ($post['payment_method_id'] == "rs_payment_banktransfer" || $post['payment_method_id'] == "rs_payment_banktransfer_discount"))
+			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($post['payment_method_id']);
+
+			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && $isBankTransferPaymentType)
 			{
 				$crmDebitorHelper = new crmDebitorHelper;
 
@@ -423,7 +426,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if (SHIPPING_METHOD_ENABLE)
 		{
-			$shipping_rate_id = JRequest::getVar('shipping_rate_id');
+			$shipping_rate_id = JFactory::getApplication()->input->getString('shipping_rate_id');
 			$shippingdetail   = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
 
 			if (count($shippingdetail) < 4)
@@ -529,7 +532,7 @@ class RedshopControllerCheckout extends RedshopController
 
 				if ($is_creditcard && !$is_redirected)
 				{
-					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid, false);
 					$msg  = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$this->setRedirect($link, $msg);
 				}

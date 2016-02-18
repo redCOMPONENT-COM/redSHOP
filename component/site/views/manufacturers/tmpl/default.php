@@ -121,7 +121,7 @@ if ($this->detail && $template_middle != "")
 				$thum_image  = "";
 				$media_image = $producthelper->getAdditionMediaImage($row->manufacturer_id, "manufacturer");
 
-				for ($m = 0; $m < count($media_image); $m++)
+				for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 				{
 					if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 					{

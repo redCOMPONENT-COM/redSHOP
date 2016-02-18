@@ -27,8 +27,6 @@ class RedshopControllerAccount extends RedshopController
 	public function editTag()
 	{
 		$app    = JFactory::getApplication();
-		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar('option');
 		$post   = JRequest::get('post');
 		$model  = $this->getModel('account');
 
@@ -41,7 +39,7 @@ class RedshopControllerAccount extends RedshopController
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid);
+		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $app->input->getInt('Itemid'));
 	}
 
 	/**
@@ -96,14 +94,14 @@ class RedshopControllerAccount extends RedshopController
 	 */
 	public function newsletterSubscribe()
 	{
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-
 		$userhelper = rsUserHelper::getInstance();
 		$userhelper->newsletterSubscribe(0, array(), 1);
 
-		$msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
-		$this->setRedirect("index.php?option=com_redshop&view=account&Itemid=" . $Itemid, $msg);
+		$Itemid = JFactory::getApplication()->input->getInt('Itemid');
+		$this->setRedirect(
+			"index.php?option=com_redshop&view=account&Itemid=" . $Itemid,
+			JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS')
+		);
 	}
 
 	/**
@@ -114,8 +112,7 @@ class RedshopControllerAccount extends RedshopController
 	public function newsletterUnsubscribe()
 	{
 		$user       = JFactory::getUser();
-		$option     = JRequest::getVar('option');
-		$Itemid     = JRequest::getVar('Itemid');
+		$Itemid     = JFactory::getApplication()->input->getInt('Itemid');
 		$userhelper = rsUserHelper::getInstance();
 
 		$userhelper->newsletterUnsubscribe($user->email);

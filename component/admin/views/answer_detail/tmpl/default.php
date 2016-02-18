@@ -12,7 +12,7 @@ JHTML::_('behavior.modal');
 
 $producthelper = producthelper::getInstance();
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('answer_detail');
 $editor = JFactory::getEditor();
 $uri = JURI::getInstance();

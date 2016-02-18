@@ -29,7 +29,6 @@ class RedshopControllerNewsletter extends RedshopController
 	{
 		$post             = JRequest::get('post');
 		$model            = $this->getModel('newsletter');
-		$option           = JRequest::getVar('option');
 		$Itemid           = JRequest::getVar('Itemid');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
 		$menu             = JFactory::getApplication()->getMenu();
@@ -87,7 +86,6 @@ class RedshopControllerNewsletter extends RedshopController
 		$post  = JRequest::get('get');
 		$model = $this->getModel('newsletter');
 
-		$option           = JRequest::getVar('option');
 		$Itemid           = JRequest::getVar('Itemid');
 		$email            = JRequest::getVar('email1');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');

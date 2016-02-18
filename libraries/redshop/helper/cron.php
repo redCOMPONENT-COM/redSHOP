@@ -74,7 +74,7 @@ class RedshopHelperCron
 	{
 		$date        = JFactory::getDate();
 		$redshopMail = redshopMail::getInstance();
-		$fdate       = $date->format('%Y-%m-%d');
+		$fdate       = $date->format('Y-m-d');
 
 		$db = $db = JFactory::getDbo();
 
@@ -260,7 +260,7 @@ class RedshopHelperCron
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$db              = JFactory::getDbo();
 		$date            = JFactory::getDate();
-		$fdate           = $date->format('%Y-%m-%d');
+		$fdate           = $date->format('Y-m-d');
 
 		$query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
 		$db->setQuery($query);
@@ -454,7 +454,7 @@ class RedshopHelperCron
 		$redshopMail = redshopMail::getInstance();
 		$today       = time();
 
-		$fdate = $date->format('%Y-%m-%d');
+		$fdate = $date->format('Y-m-d');
 
 		$db = $db = JFactory::getDbo();
 
@@ -686,7 +686,7 @@ class RedshopHelperCron
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			// Subscription renewal mail
 			$redshopMail->sendSubscriptionRenewalMail($data[$i]);

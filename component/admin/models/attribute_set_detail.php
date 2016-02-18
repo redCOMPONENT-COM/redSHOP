@@ -111,7 +111,6 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function delete($cid = array())
 	{
 		$producthelper = producthelper::getInstance();
-		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		if (count($cid))
 		{
@@ -201,7 +200,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$attribute_data = '';
 
-		for ($i = 0; $i < count($attr); $i++)
+		for ($i = 0, $in = count($attr); $i < $in; $i++)
 		{
 			$db = $this->_db;
 			$query = $db->getQuery(true);
@@ -222,7 +221,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			$display_type = $attr[$i]->display_type;
 			$ordering = $attr[$i]->ordering;
 
-			for ($j = 0; $j < count($prop); $j++)
+			for ($j = 0, $jn = count($prop); $j < $jn; $j++)
 			{
 				$query = $db->getQuery(true);
 				$query->select('*')
@@ -253,7 +252,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		$producthelper = producthelper::getInstance();
 		$attr = $producthelper->getProductAttribute(0, $data);
 
-		for ($i = 0; $i < count($attr); $i++)
+		for ($i = 0, $in = count($attr); $i < $in; $i++)
 		{
 			$query = $db->getQuery(true);
 			$query->select('*')
@@ -293,7 +292,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteattr($cid = array())
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		if (count($cid))
 		{
@@ -344,7 +343,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteprop($cid = array(), $image_name)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		if (count($cid))
 		{
@@ -393,7 +392,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function deleteattr_current($cid = array())
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		if (count($cid))
 		{
@@ -756,7 +755,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		{
 			$attributes = $producthelper->getProductAttribute(0, $this->_id);
 
-			for ($i = 0; $i < count($attributes); $i++)
+			for ($i = 0, $in = count($attributes); $i < $in; $i++)
 			{
 				$query = "DELETE FROM `" . $this->_table_prefix . "product_attribute` WHERE `attribute_id` = " . $attributes[$i]->attribute_id;
 				$database->setQuery($query);
@@ -765,7 +764,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				{
 					$property = $producthelper->getAttibuteProperty(0, $attributes[$i]->attribute_id);
 
-					for ($j = 0; $j < count($property); $j++)
+					for ($j = 0, $jn = count($property); $j < $jn; $j++)
 					{
 						$query = "DELETE FROM `" . $this->_table_prefix . "product_attribute_property` WHERE `property_id` = "
 							. $property[$j]->property_id;
@@ -939,7 +938,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$copydata = $this->_db->loadObjectList();
 
-			for ($i = 0; $i < count($copydata); $i++)
+			for ($i = 0, $in = count($copydata); $i < $in; $i++)
 			{
 				$post = array();
 

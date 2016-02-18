@@ -148,7 +148,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 		$user_id = $row->user_id;
 		$item = $data['order_item'];
 
-		for ($i = 0; $i < count($item); $i++)
+		for ($i = 0, $in = count($item); $i < $in; $i++)
 		{
 			$product_id = $item[$i]->product_id;
 			$quantity = $item[$i]->quantity;
@@ -226,7 +226,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			{
 				$attArr = $generateAccessoryCart;
 
-				for ($a = 0; $a < count($attArr); $a++)
+				for ($a = 0, $an = count($attArr); $a < $an; $a++)
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
@@ -242,7 +242,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
-					for ($j = 0; $j < count($attchildArr); $j++)
+					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
@@ -268,7 +268,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
 
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 						{
 							$section_vat = 0;
 
@@ -305,7 +305,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 								}
 							}
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 							{
 								$section_vat = 0;
 
@@ -382,7 +382,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			{
 				$attArr = $generateAttributeCart;
 
-				for ($j = 0; $j < count($attArr); $j++)
+				for ($j = 0, $jn = count($attArr); $j < $jn; $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
@@ -407,7 +407,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 					$propArr = $attArr[$j]['attribute_childs'];
 
-					for ($k = 0; $k < count($propArr); $k++)
+					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
 						$section_vat = 0;
 
@@ -445,7 +445,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 						$subpropArr = $propArr[$k]['property_childs'];
 
-						for ($l = 0; $l < count($subpropArr); $l++)
+						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 						{
 							$section_vat = 0;
 
@@ -556,7 +556,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			$commonid = $prefix . $product_id . '_' . $accessory_id . '_' . $attribute_id . '_' . $property_id;
 			$subpropertyid = 'subproperty_id_' . $commonid;
 
-			for ($i = 0; $i < count($subproperty); $i++)
+			for ($i = 0, $in = count($subproperty); $i < $in; $i++)
 			{
 				$attributes_subproperty_vat = 0;
 
@@ -607,14 +607,14 @@ class RedshopModelAddquotation_detail extends RedshopModel
 					$chklist .= "<br /><input type='" . $display_type . "' value='" . $subproperty[$chk]->value
 						. "' name='" . $subpropertyid . "[]'  id='" . $subpropertyid
 						. "' class='inputbox' onchange='javascript:calculateOfflineTotalPrice(\""
-						. $uniqueid . "\");' />&nbsp;" . $subproperty[$chk]->text;
+						. $uniqueid . "\", true);' />&nbsp;" . $subproperty[$chk]->text;
 				}
 			}
 			else
 			{
 				$chklist = JHTML::_('select.genericlist', $new_subproperty, $subpropertyid . '[]', ' id="'
 					. $subpropertyid . '" class="inputbox" size="1" onchange="javascript:calculateOfflineTotalPrice(\''
-					. $uniqueid . '\');" ', 'value', 'text', '');
+					. $uniqueid . '\', true);" ', 'value', 'text', '');
 			}
 
 			$lists ['subproperty_id'] = $chklist;

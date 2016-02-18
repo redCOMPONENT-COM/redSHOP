@@ -119,8 +119,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<?php
-							// Create JApplicationSite instance to get all menu
-							$site = new JApplicationSite;
+							$site = JApplication::getInstance('site');
 							$menu = $site->getMenu();
 
 							// Get menu items - array filtered by access level of current user.

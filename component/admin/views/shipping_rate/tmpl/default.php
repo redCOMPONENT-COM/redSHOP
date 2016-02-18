@@ -8,7 +8,7 @@
  */
 
 $producthelper = producthelper::getInstance();
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $bool = true;
 $shippname = JText::_('COM_REDSHOP_SHIPPING_RATE_NAME');
 if ($this->shipper_location)
@@ -40,7 +40,7 @@ if ($this->shipper_location)
 	}
 
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist table table-striped">
 			<thead>

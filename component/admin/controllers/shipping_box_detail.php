@@ -34,7 +34,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 	{
 		$post = JRequest::get('post');
 
-		$option = JRequest::getVar('option');
+
 
 		$model = $this->getModel('shipping_box_detail');
 		$row = $model->store($post);
@@ -60,7 +60,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -81,7 +81,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -102,7 +102,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -123,7 +123,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}

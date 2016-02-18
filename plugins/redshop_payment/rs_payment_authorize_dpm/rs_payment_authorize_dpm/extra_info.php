@@ -52,7 +52,7 @@ $sim = new AuthorizeNetSIM_Form(
 );
 
 $hidden_fields = $sim->getHiddenFieldString();
-$post_url      = ($is_test ? "https://test.authorize.net/gateway/transact.dll" : "https://secure.authorize.net/gateway/transact.dll");
+$post_url      = ($is_test ? "https://test.authorize.net/gateway/transact.dll" : "https://secure2.authorize.net/gateway/transact.dll");
 
 echo "<h3>" . JText::_('PLG_RS_PAYMENT_AUTHORIZE_DPM_MESSAGE') . "</h3>";
 echo '

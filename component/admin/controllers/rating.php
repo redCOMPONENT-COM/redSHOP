@@ -33,7 +33,7 @@ class RedshopControllerRating extends RedshopController
 	 */
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -50,7 +50,7 @@ class RedshopControllerRating extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	/**
@@ -62,7 +62,7 @@ class RedshopControllerRating extends RedshopController
 	 */
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -79,7 +79,7 @@ class RedshopControllerRating extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class RedshopControllerRating extends RedshopController
 	 */
 	public function fv_publish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -108,7 +108,7 @@ class RedshopControllerRating extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	/**
@@ -120,7 +120,7 @@ class RedshopControllerRating extends RedshopController
 	 */
 	public function fv_unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -137,6 +137,6 @@ class RedshopControllerRating extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 }

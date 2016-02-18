@@ -16,7 +16,6 @@ $url = $uri->root();
 
 $Itemid = JRequest::getInt('Itemid');
 $user   = JFactory::getUser();
-$option = 'com_redshop';
 
 $document = JFactory::getDocument();
 $document->addStyleSheet('modules/mod_redshop_products/css/products.css');
@@ -37,7 +36,7 @@ echo "<div class=\"mod_redshop_products_wrapper\">";
 
 $moduleId = "mod_" . $module->id;
 
-for ($i = 0; $i < count($rows); $i++)
+for ($i = 0, $in = count($rows); $i < $in; $i++)
 {
 	$row = $rows[$i];
 

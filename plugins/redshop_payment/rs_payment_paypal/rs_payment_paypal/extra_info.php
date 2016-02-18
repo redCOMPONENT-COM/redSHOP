@@ -116,7 +116,7 @@ for ($i = 0, $countItems = count($items); $i < $countItems; $i++)
 
 	$item                                   = $items[$i];
 	$tax                                    = ($item->product_final_price / $item->product_quantity) - $item->product_item_price;
-	$paypalCartItems["item_name_" . $index] = strip_tags(str_replace('"', "'", $item->order_item_name));
+	$paypalCartItems["item_name_" . $index] = strip_tags(str_replace('"', "'", $item->order_item_name) . ' (' . $item->order_item_sku . ')');
 	$paypalCartItems["quantity_" . $index]  = $item->product_quantity;
 	$paypalCartItems["amount_" . $index]    = round(
 		$currencyClass->convert(

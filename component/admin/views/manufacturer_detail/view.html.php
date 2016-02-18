@@ -24,7 +24,7 @@ class RedshopViewManufacturer_detail extends RedshopView
 
 		$uri = JFactory::getURI();
 		$document = JFactory::getDocument();
-		$option = JRequest::getVar('option');
+
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$this->setLayout('default');
 

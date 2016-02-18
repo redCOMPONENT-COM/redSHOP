@@ -59,4 +59,19 @@ class AcceptanceHelper extends \Codeception\Module
 	{
 		$this->assertEquals($expected, $actual, "Page " . $page . " Contains PHP Notices and Warnings");
 	}
+
+	/**
+	 * Function to Verify the Discount while Checking out a product using Vouchers, Gift Cards, Coupon Codes
+	 *
+	 * @param   String  $actual    Actual Amount
+	 * @param   String  $discount  Discount Amount
+	 * @param   String  $total     Total After Discount
+	 *
+	 * @return void
+	 */
+	public function verifyTotals($actual, $discount, $total)
+	{
+		$expectedTotal = $actual - $discount;
+		$this->assertEquals($expectedTotal, $total, "Final Total is equal to expected total After Applying discount");
+	}
 }

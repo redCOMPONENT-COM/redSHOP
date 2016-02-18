@@ -8,7 +8,7 @@
 	<authorUrl>www.redcomponent.com</authorUrl>
 	<copyright>Copyright (C) 2012 - 2015 redCOMPONENT.com. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later, see LICENSE.</license>
-	<version>1.5.0.5.1</version>
+	<version>1.6</version>
 	<description>LIB_REDSHOP_LIBRARY_DESC</description>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.lib_redshop.ini</language>
@@ -23,6 +23,8 @@
 		<folder>layout</folder>
 		<folder>layouts</folder>
 		<folder>model</folder>
+		<folder>payment</folder>
+		<folder>product</folder>
 		<folder>toolbar</folder>
 		<folder>view</folder>
 		<filename>index.html</filename>

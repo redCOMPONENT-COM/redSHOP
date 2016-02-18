@@ -58,11 +58,11 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 
 		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
 
-		for ($i = 0; $i < count($ratelist); $i++)
+		for ($i = 0, $in = count($ratelist); $i < $in; $i++)
 		{
 			$rs                      = $ratelist[$i];
 			$shippingRate            = $rs->shipping_rate_value;
-			$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
+			$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d);
 			$shippingVatRate         = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber  = $rs->economic_displaynumber;
 			$shipping_rate_id        = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber . '|' . $rs->deliver_type);

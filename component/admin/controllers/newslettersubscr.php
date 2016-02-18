@@ -21,7 +21,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 	public function importdata()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$file = JRequest::getVar('file', 'array', 'files', 'array');
 
 		$success = false;

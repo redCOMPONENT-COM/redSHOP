@@ -34,7 +34,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 	{
 		$session = JFactory::getSession();
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['xmlexport_id'] = $cid [0];
@@ -133,7 +133,7 @@ function setChildElement()
 	$uarray = array();
 	$columns = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
 
-	for ($i = 0; $i < count($columns); $i++)
+	for ($i = 0, $in = count($columns); $i < $in; $i++)
 	{
 		if (trim($post[$columns[$i]->Field]) != "")
 		{
@@ -173,7 +173,7 @@ function setChildElement()
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -194,7 +194,7 @@ function setChildElement()
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$session = JFactory::getSession();
 		$session->set('childelement', null);
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_EDITING_CANCELLED');
@@ -209,7 +209,7 @@ function setChildElement()
 	 */
 	public function auto_syncpublish()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -236,7 +236,7 @@ function setChildElement()
 	 */
 	public function auto_syncunpublish()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -263,7 +263,7 @@ function setChildElement()
 	 */
 	public function usetoallpublish()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -290,7 +290,7 @@ function setChildElement()
 	 */
 	public function usetoallunpublish()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -317,7 +317,7 @@ function setChildElement()
 	 */
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -344,7 +344,7 @@ function setChildElement()
 	 */
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)

@@ -40,7 +40,7 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 		$currency_name = JRequest::getVar('currency_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["currency_name"] = $currency_name;
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['currency_id'] = $cid [0];
 		$model = $this->getModel('currency_detail');
@@ -67,14 +67,14 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=currency', $msg);
 	}
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 

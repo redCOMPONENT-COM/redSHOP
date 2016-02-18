@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
-$option = JRequest::getVar('option');
+
 $section_type = JRequest::getVar('section_type');
 $parentsection = JRequest::getVar('parentsection');
 $model = $this->getModel('xmlexport_detail');

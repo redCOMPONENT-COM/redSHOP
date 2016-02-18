@@ -57,7 +57,7 @@ class adminproducthelper
 		{
 			$accessorylist .= "<tr><th>" . JText::_('COM_REDSHOP_ACCESSORY_PRODUCT') . "</th></tr>";
 
-			for ($a = 0; $a < count($accessory); $a++)
+			for ($a = 0, $an = count($accessory); $a < $an; $a++)
 			{
 				$ac_id = $accessory [$a]->child_product_id;
 				$c_p_data = $producthelper->getProductById($ac_id);
@@ -123,7 +123,7 @@ class adminproducthelper
 
 		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
-		for ($a = 0; $a < count($attributes); $a++)
+		for ($a = 0, $an = count($attributes); $a < $an; $a++)
 		{
 			$property = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
@@ -134,7 +134,7 @@ class adminproducthelper
 
 				$propertyid = 'property_id_' . $commonid;
 
-				for ($i = 0; $i < count($property); $i++)
+				for ($i = 0, $in = count($property); $i < $in; $i++)
 				{
 					$attributes_property_vat = 0;
 
@@ -241,7 +241,7 @@ class adminproducthelper
 			$warray[0]->wrapper_name = JText::_('COM_REDSHOP_SELECT');
 			$commonid = $product_id . $uniqueid;
 
-			for ($i = 0; $i < count($wrapper); $i++)
+			for ($i = 0, $in = count($wrapper); $i < $in; $i++)
 			{
 				$wrapper_vat = 0;
 
@@ -355,7 +355,7 @@ class adminproducthelper
 			$ratearr = array();
 			$r = 0;
 
-			for ($s = 0; $s < count($shippingmethod); $s++)
+			for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
 			{
 				if (isset($shippingrate[$s]) === false)
 				{
@@ -369,7 +369,7 @@ class adminproducthelper
 
 				if (count($rate) > 0)
 				{
-					for ($i = 0; $i < count($rate); $i++)
+					for ($i = 0, $in = count($rate); $i < $in; $i++)
 					{
 						$displayrate = ($rate[$i]->rate > 0) ? " (" . $producthelper->getProductFormattedPrice($rate[$i]->rate) . " )" : "";
 						$ratearr[$r] = new stdClass;

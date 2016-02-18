@@ -62,7 +62,7 @@ else // If user logged in than display this code.
 		$wish_products = $this->wish_products;
 
 		// Send mail link
-		for ($j = 0; $j < count($wishlists); $j++)
+		for ($j = 0, $jn = count($wishlists); $j < $jn; $j++)
 		{
 			$rows  = $wish_products[$wishlists[$j]->wishlist_id];
 			$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlists[$j]->wishlist_id;
@@ -87,7 +87,7 @@ function display_products($rows)
 
 	$producthelper = producthelper::getInstance();
 
-	for ($i = 0; $i < count($rows); $i++)
+	for ($i = 0, $in = count($rows); $i < $in; $i++)
 	{
 		$row           = $rows[$i];
 		$Itemid        = $this->redHelper->getItemid($row->product_id);

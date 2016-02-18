@@ -19,6 +19,20 @@ defined('_JEXEC') or die;
 class RedshopModelExport extends RedshopModel
 {
 	/**
+	 * Contains product extrafield data
+	 *
+	 * @var  array
+	 */
+	public static $productExtraFieldsData = array();
+
+	/**
+	 * Product Extrafields Name
+	 *
+	 * @var  array
+	 */
+	public static $productExtraFields = array();
+
+	/**
 	 * Get export data
 	 *
 	 * @return  void
@@ -155,10 +169,21 @@ class RedshopModelExport extends RedshopModel
 				'download_alternattext')
 		);
 
-		if ($export_product_extra_field = $jInput->getInt('export_product_extra_field', 0))
+		// Product extra fields data
+		if ($exportProductExtraField = $jInput->getInt('export_product_extra_field', 0))
 		{
-			$headers = array_merge($headers, array('extra_fields'));
+			// Load all product extrafield information
+			self::getProductExtraFields();
+
+			$fieldHeader = array_keys(self::$productExtraFields);
+
+			// Append Extra Fields name in header
+			$headers = array_merge(
+				$headers,
+				$fieldHeader
+			);
 		}
+
 
 		$export = array();
 
@@ -305,55 +330,16 @@ class RedshopModelExport extends RedshopModel
 				$oneProduct->download_alternattext = implode("#", $downloadArr['alternate_text']);
 			}
 
-			// Product extra fields data
-			if ($export_product_extra_field)
+			if ($exportProductExtraField)
 			{
-				$query->clear()
-					->select('f.*')
-					->from($db->qn('#__redshop_fields', 'f'))
-					->leftJoin($db->qn('#__redshop_fields_data', 'fd') . ' ON fd.fieldid = f.field_id')
-					->where('fd.itemid = ' . (int) $oneProduct->product_id)
-					->where('fd.section = 1')
-					->order('f.field_id asc');
-
-				if ($fields = $db->setQuery($query)->loadObjectList('field_id'))
+				foreach ($fieldHeader as $extraFieldName)
 				{
-					$query->clear()
-						->select('fd.*')
-						->from($db->qn('#__redshop_fields_data', 'fd'))
-						->where('fd.itemid = ' . (int) $oneProduct->product_id)
-						->where('fd.section = 1');
+					$oneProduct->$extraFieldName = '';
 
-					if ($fieldsData = $db->setQuery($query)->loadObjectList())
+					if (isset(self::$productExtraFieldsData[(int) $oneProduct->product_id][$extraFieldName]))
 					{
-						foreach ($fieldsData as $fieldData)
-						{
-							$fields[$fieldData->fieldid]->data = $fieldData;
-						}
+						$oneProduct->$extraFieldName = self::$productExtraFieldsData[(int) $oneProduct->product_id][$extraFieldName]->data_txt;
 					}
-
-					$query->clear()
-						->select('fv.*')
-						->from($db->qn('#__redshop_fields_value', 'fv'))
-						->leftJoin($db->qn('#__redshop_fields_data', 'fd') . ' ON fd.fieldid = fv.field_id')
-						->where('fd.itemid = ' . (int) $oneProduct->product_id)
-						->where('fd.section = 1')
-						->order('fv.value_id ASC');
-
-					if ($fieldValue = $db->setQuery($query)->loadObjectList())
-					{
-						foreach ($fieldValue as $oneValue)
-						{
-							if (!isset($fields[$oneValue->field_id]->values))
-							{
-								$fields[$oneValue->field_id]->values = array();
-							}
-
-							$fields[$oneValue->field_id]->values[] = $oneValue;
-						}
-					}
-
-					$oneProduct->extra_fields = str_replace('"', '_EE_', json_encode($fields));
 				}
 			}
 
@@ -385,7 +371,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			for ($c = 0; $c < count($cur); $c++)
+			for ($c = 0, $cn = count($cur); $c < $cn; $c++)
 			{
 				$row = $cur[$c];
 				$row = (array) $row;
@@ -474,7 +460,7 @@ class RedshopModelExport extends RedshopModel
 				$isrecrm = true;
 			}
 
-			for ($i = 0; $i < count($cur); $i++)
+			for ($i = 0, $in = count($cur); $i < $in; $i++)
 			{
 				if ($i == 0)
 				{
@@ -526,7 +512,7 @@ class RedshopModelExport extends RedshopModel
 							$db->setQuery($sel_arrtibute_stock);
 							$fetch_arrtibute_stock = $db->loadObjectList();
 
-							for ($h = 0; $h < count($fetch_arrtibute_stock); $h++)
+							for ($h = 0, $hn = count($fetch_arrtibute_stock); $h < $hn; $h++)
 							{
 								$main_attribute_stock .= $fetch_arrtibute_stock[$h]->stockroom_id . ":" . $fetch_arrtibute_stock[$h]->quantity . "#";
 							}
@@ -588,7 +574,7 @@ class RedshopModelExport extends RedshopModel
 								$db->setQuery($sel_arrtibute_stock_sub);
 								$fetch_arrtibute_stock_sub = $db->loadObjectList();
 
-								for ($b = 0; $b < count($fetch_arrtibute_stock_sub); $b++)
+								for ($b = 0, $bn = count($fetch_arrtibute_stock_sub); $b < $bn; $b++)
 								{
 									$main_attribute_stock_sub .= $fetch_arrtibute_stock_sub[$b]->stockroom_id . ":" . $fetch_arrtibute_stock_sub[$b]->quantity . "#";
 								}
@@ -663,7 +649,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($manufacturers) > 0)
 		{
-			for ($e = 0; $e < count($manufacturers); $e++)
+			for ($e = 0, $en = count($manufacturers); $e < $en; $e++)
 			{
 				$row = $manufacturers[$e];
 				$row = (array) $row;
@@ -737,7 +723,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			for ($r = 0; $r < count($cur); $r++)
+			for ($r = 0, $rn = count($cur); $r < $rn; $r++)
 			{
 				$row = $cur[$r];
 				$row = (array) $row;
@@ -1090,7 +1076,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			for ($s = 0; $s < count($cur); $s++)
+			for ($s = 0, $sn = count($cur); $s < $sn; $s++)
 			{
 				$row = $cur[$s];
 				$row = (array) $row;
@@ -1190,7 +1176,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($product) > 0)
 		{
-			for ($e = 0; $e < count($product); $e++)
+			for ($e = 0, $en = count($product); $e < $en; $e++)
 			{
 				$row = $product[$e];
 				$row = (array) $row;
@@ -1353,7 +1339,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($attributes) > 0)
 		{
-			for ($f = 0; $f < count($attributes); $f++)
+			for ($f = 0, $fn = count($attributes); $f < $fn; $f++)
 			{
 				$row    = $attributes[$f];
 				$row    = (array) $row;
@@ -1420,5 +1406,41 @@ class RedshopModelExport extends RedshopModel
 		$db->setQuery($query);
 
 		return $db->loadObjectlist();
+	}
+
+	/**
+	 * Get product extrafields data
+	 *
+	 * @return  object  Extrafields info and product data
+	 */
+	public static function getProductExtraFields()
+	{
+		if (empty(self::$productExtraFields))
+		{
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+					->select('f.*, fd.*')
+					->from($db->qn('#__redshop_fields', 'f'))
+					->leftJoin($db->qn('#__redshop_fields_data', 'fd') . ' ON fd.fieldid = f.field_id')
+					->where('fd.section = 1')
+					->order('f.field_id asc');
+
+			$fields = $db->setQuery($query)->loadObjectList();
+
+			for ($i = 0, $n = count($fields); $i < $n; $i++)
+			{
+				$field = $fields[$i];
+
+				self::$productExtraFields[$field->field_name] = $field->field_name;
+				self::$productExtraFieldsData[$field->itemid][$field->field_name] = $field;
+			}
+		}
+
+		$return         = new stdClass;
+		$return->fields = array_keys(self::$productExtraFields);
+		$return->data   = self::$productExtraFieldsData;
+
+		return $return;
 	}
 }

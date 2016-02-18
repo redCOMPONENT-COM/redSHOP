@@ -254,7 +254,7 @@ else
 
 		$data_add = "";
 
-		for ($i = 0; $i < count($detail); $i++)
+		for ($i = 0, $in = count($detail); $i < $in; $i++)
 		{
 			$data_add .= $template_desc;
 			$gid  = $detail[$i]->giftcard_id;

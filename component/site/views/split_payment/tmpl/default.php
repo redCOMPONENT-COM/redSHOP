@@ -63,7 +63,7 @@ $is_creditcard = 0;
 
 			$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 
-			for ($p = 0; $p < count($paymentmethod); $p++)
+			for ($p = 0, $pn = count($paymentmethod); $p < $pn; $p++)
 			{
 				$paymentpath = $adminpath . '/helpers/payments/' . $paymentmethod[$p]->plugin . '/' . $paymentmethod[$p]->plugin . '.php';
 				include_once $paymentpath;

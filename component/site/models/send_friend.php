@@ -51,7 +51,6 @@ class RedshopModelSend_friend extends RedshopModel
 		$producthelper = producthelper::getInstance();
 		$redshopMail   = redshopMail::getInstance();
 		$url           = JURI::base();
-		$option        = JRequest::getVar('option');
 
 		$mailinfo = $redshopMail->getMailtemplate(0, "product");
 		$data_add = "";

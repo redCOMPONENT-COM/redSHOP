@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getCmd('option', 'com_redshop', 'request', 'string');
 $import_start = JRequest::getInt('import_start', 0);
 $import_end = JRequest::getInt('import_end', 10);
 if (isset($post['import_start']))

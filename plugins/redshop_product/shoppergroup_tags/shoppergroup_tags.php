@@ -45,7 +45,7 @@ class PlgRedshop_ProductShopperGroup_Tags extends JPlugin
 
 		if (count($start_shoppergroup) == count($end_shoppergroup) && count($start_shoppergroup) > 0 && count($end_shoppergroup) > 0)
 		{
-			for ($r = 0; $r < count($start_shoppergroup); $r++)
+			for ($r = 0, $rn = count($start_shoppergroup); $r < $rn; $r++)
 			{
 				$main_substr = substr($template, $start_shoppergroup[$r], ($end_shoppergroup[$r] - $start_shoppergroup[$r]));
 				$main_substr_pos = strpos($main_substr, "::");

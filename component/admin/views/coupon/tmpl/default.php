@@ -10,7 +10,7 @@ $producthelper = producthelper::getInstance();
 
 $order_functions = order_functions::getInstance();
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('coupon');
 $url = JURI::base();
 ?>
@@ -40,7 +40,7 @@ $url = JURI::base();
 		form.submit();
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table width="100%">
 			<tr>

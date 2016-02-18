@@ -188,7 +188,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 		else
 		{
-			$host = 'secure.authorize.net';
+			$host = 'secure2.authorize.net';
 		}
 
 		$url = "https://$host:443/gateway/transact.dll";
@@ -354,7 +354,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 		else
 		{
-			$host = 'secure.authorize.net';
+			$host = 'secure2.authorize.net';
 		}
 
 		$url = "https://$host:443/gateway/transact.dll";

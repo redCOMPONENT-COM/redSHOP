@@ -29,7 +29,7 @@ class RedshopViewCheckout extends RedshopView
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 
-		for ($l = 0; $l < count($payment_lang_list); $l++)
+		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
@@ -39,7 +39,7 @@ class RedshopViewCheckout extends RedshopView
 		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
 		$base_dir        = JPATH_ADMINISTRATOR;
 
-		for ($l = 0; $l < count($shippingPlugins); $l++)
+		for ($l = 0, $ln = count($shippingPlugins); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_shipping_' . $shippingPlugins[$l]->element;
 			$language->load($extension, $base_dir);

@@ -21,7 +21,7 @@ jimport('joomla.filesystem.file');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$option = JRequest::getVar('option');
+
 
 $showbuttons = JRequest::getVar('showbuttons');
 $section_id = JRequest::getVar('section_id');
@@ -80,7 +80,7 @@ if ($showbuttons)
 			history.go(-1);
 		}
 
-		Joomla.submitbutton =  submitbutton = function (pressbutton) {
+		Joomla.submitbutton = function (pressbutton) {
 
 			var form = document.adminForm;
 
@@ -93,18 +93,32 @@ if ($showbuttons)
 			if (form.bulk.value == 0)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true ); ?>");
+
+				return false;
+			}
+			else if (form.file.value == '' && form.media_bank_image.value == '' && form.hdn_download_file.value == '')
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
+
+				return false;
 			}
 			else if (form.media_type.value == 0)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true ); ?>");
+
+				return false;
 			}
 			else if (form.media_section.value == 0)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true ); ?>");
+
+				return false;
 			}
 			else if (form.section_id.value == '' && form.media_section.value != 'media')
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true ); ?>");
+
+				return false;
 			}
 			else
 			{
@@ -113,7 +127,7 @@ if ($showbuttons)
 		}
 	</script>
 
-	<form onsubmit="javascript:return false;" action="<?php echo JRoute::_($this->request_url) ?>" method="post"
+	<form action="<?php echo JRoute::_($this->request_url) ?>" method="post"
 	      name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 	<div class="col50" id="media_data">
@@ -218,36 +232,44 @@ if ($showbuttons)
 			<fieldset id="media_bank">
 				<table>
 					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_MEDIA_BANK');?></td>
-						<td><?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
+						<td width="2%"><?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
 							<div class="button2-left">
-								<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
-								                      rel="{handler: 'iframe', size: {x: 1050, y: 450}}">Image</a>
-									<!--<a class="modal" title="Image" href="<?php echo $ilink;?>" rel="{handler: 'iframe', size: {x: 490, y: 400}}">Image</a>
-		--></div>
+								<div class="image">
+									<a class="modal"
+										title="Image" href="<?php echo $ilink; ?>"
+										rel="{handler: 'iframe', size: {x: 1050, y: 450}}">
+										<?php echo JText::_('COM_REDSHOP_IMAGE'); ?>
+									</a>
+								</div>
 							</div>
 							<div id="image_dis">
 								<img src="" id="image_display" style="display:none;" border="0" width="200"/>
 								<input type="hidden" name="media_bank_image" id="media_bank_image"/>
 							</div>
 						</td>
+						<td><?php echo JText::_('COM_REDSHOP_MEDIA_BANK');?></td>
 					</tr>
-					<?php if ($media_section == 'product')
-					{ ?>
+					<?php if ($media_section == 'product') : ?>
 						<tr>
-							<td><?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER');?></td>
-							<td><?php $down_ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'); ?>
+							<td width="2%">
+								<?php $down_ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'); ?>
 								<div class="button2-left">
-									<div class="image"><a class="modal" title="Image" href="<?php echo $down_ilink; ?>"
-									                      rel="{handler: 'iframe', size: {x: 950, y: 450}}"><?php echo JText::_('COM_REDSHOP_FILE'); ?></a>
+									<div class="image">
+										<a class="modal"
+											title="Image"
+											href="<?php echo $down_ilink; ?>"
+											rel="{handler: 'iframe', size: {x: 950, y: 450}}">
+											<?php echo JText::_('COM_REDSHOP_FILE'); ?>
+										</a>
 									</div>
 								</div>
 								<div id='selected_file'></div>
 								<input type="hidden" name="hdn_download_file" id="hdn_download_file"/>
 								<input type="hidden" name="hdn_download_file_path" id="hdn_download_file_path"/>
 							</td>
+							<td><?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER');?></td>
 						</tr>
-					<?php } ?>
+					<?php endif; ?>
 				</table>
 			</fieldset>
 			<?php if ($this->detail->media_id == 0)

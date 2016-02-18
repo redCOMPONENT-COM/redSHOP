@@ -1246,6 +1246,14 @@ class Com_RedshopInstallerScript
 			);
 		}
 
+		if (version_compare($this->getOldParam('version'), '1.5.0.5.3', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_SITE . '/components/com_redshop/assets/download/product/.htaccess'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '1.5.0.5', '<='))
 		{
 			array_push(

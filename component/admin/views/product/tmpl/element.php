@@ -7,11 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 JHTMLBehavior::modal();
-$app = JFactory::getApplication();
-$productobj = producthelper::getInstance();
-$model = $this->getModel('product');
+
+$model       = $this->getModel('product');
 $category_id = $this->state->get('category_id', 0);
+
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -30,7 +31,7 @@ $category_id = $this->state->get('category_id', 0);
 	}
 </script>
 <form
-	action="<?php echo 'index.php?option=com_redshop&view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
+	action="<?php echo 'index.php?option=com_redshop&view=product&amp;layout=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
 	method="post" name="adminForm" id="adminForm">
 
 	<div class="filterItem">
@@ -59,9 +60,6 @@ $category_id = $this->state->get('category_id', 0);
 			<tr>
 				<th width="5">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
-				</th>
-				<th width="20">
-					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -106,9 +104,6 @@ $category_id = $this->state->get('category_id', 0);
 						<?php echo $this->pagination->getRowOffset($i); ?>
 					</td>
 					<td>
-						<?php echo JHTML::_('grid.id', $i, $row->id); ?>
-					</td>
-					<td>
 						<a style="cursor: pointer;"
 						   onclick="window.parent.jSelectProduct('<?php echo $row->product_id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""), $row->product_name); ?>', '<?php echo JRequest::getVar('object'); ?>');">
 							<?php echo $row->product_name; ?></a>
@@ -122,7 +117,7 @@ $category_id = $this->state->get('category_id', 0);
 
 					<td>
 						<?php $listedincats = $model->listedincats($row->product_id);
-						for ($j = 0; $j < count($listedincats); $j++)
+						for ($j = 0, $jn = count($listedincats); $j < $jn; $j++)
 						{
 							echo $cat = $listedincats[$j]->category_name . "<br />";
 						}
@@ -158,9 +153,6 @@ $category_id = $this->state->get('category_id', 0);
 		</table>
 	</div>
 
-	<input type="hidden" name="view" value="product"/>
-	<input type="hidden" name="task" value="element"/>
-	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>

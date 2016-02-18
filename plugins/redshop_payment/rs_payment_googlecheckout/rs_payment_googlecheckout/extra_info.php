@@ -71,7 +71,7 @@ $currency = "USD";
 $cart = new GoogleCart($merchant_id, $merchant_key, $server_type, $currency);
 
 // Add product items
-for ($p = 0; $p < count($rs); $p++)
+for ($p = 0, $pn = count($rs); $p < $pn; $p++)
 {
 	$item_price = $currencyClass->convert($rs [$p]->product_item_price, '', $currency_code);
 

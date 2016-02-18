@@ -124,3 +124,8 @@
 .mod_redsavedprice{
 	font-size: 11px;
 }
+.red_product-skin-produkter div.mod_redproducts_title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

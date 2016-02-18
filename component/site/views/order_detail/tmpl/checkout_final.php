@@ -72,7 +72,7 @@ if ($order->order_total > 0 && !USE_AS_CATALOG)
 
 		$cart_quantity = 0;
 
-		for ($i = 0; $i < count($orderitem); $i++)
+		for ($i = 0, $in = count($orderitem); $i < $in; $i++)
 		{
 			$cart_quantity += $orderitem[$i]->product_quantity;
 		}

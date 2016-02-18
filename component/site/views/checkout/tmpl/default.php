@@ -230,7 +230,7 @@ else
 								<td align="left">
 									<fieldset class="adminform">
 										<legend><?php echo JText::_('COM_REDSHOP_CAPTCHA');?></legend>
-										<?php    echo $userhelper->getCaptchaTable();    ?>
+										<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
 									</fieldset>
 								</td>
 							</tr>

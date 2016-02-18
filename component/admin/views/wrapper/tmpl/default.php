@@ -11,7 +11,7 @@ $producthelper = producthelper::getInstance();
 
 $showall = JRequest::getVar('showall', '0');
 $tmpl = '';
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $uri = JURI::getInstance();
 $url = $uri->root();?>
 <script language="javascript" type="text/javascript">

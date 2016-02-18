@@ -622,7 +622,7 @@ class plgredshop_shippingups extends JPlugin
 		$count = 0;
 		$ship_postage = array();
 
-		for ($t = 0; $t < count($matchedchild); $t++)
+		for ($t = 0, $tn = count($matchedchild); $t < $tn; $t++)
 		{
 			$matched_childname = $matchedchild[$t]->name();
 			$currNode = $matchedchild[$t];
@@ -712,7 +712,7 @@ class plgredshop_shippingups extends JPlugin
 			$convert = false;
 		}
 
-		for ($i = 0; $i < count($ship_postage); $i++)
+		for ($i = 0, $in = count($ship_postage); $i < $in; $i++)
 		{
 			$ratevalue = $ship_postage[$i]['Rate'];
 			$ServiceName = $ship_postage[$i]['ServiceName'];

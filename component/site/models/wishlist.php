@@ -60,7 +60,7 @@ class RedshopModelWishlist extends RedshopModel
 			$whislists     = $this->getUserWishlist();
 			$wish_products = array();
 
-			for ($i = 0; $i < count($whislists); $i++)
+			for ($i = 0, $in = count($whislists); $i < $in; $i++)
 			{
 				$sql = "SELECT DISTINCT wp.* ,p.* "
 					. "FROM  #__redshop_product as p "
@@ -186,7 +186,7 @@ class RedshopModelWishlist extends RedshopModel
 
 				for ($si = 1; $si <= $_SESSION["no_of_prod"]; $si++)
 				{
-					for ($k = 0; $k < count($row_data); $k++)
+					for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
 					{
 						$myfield = "productuserfield_" . $k;
 
@@ -225,7 +225,7 @@ class RedshopModelWishlist extends RedshopModel
 		$db         = JFactory::getDbo();
 		$product_id = JRequest::getInt('product_id');
 
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$query = "SELECT wishlist_product_id FROM " . $this->_table_prefix . "wishlist_product "
 				. " WHERE wishlist_id=" . (int) $cid[$i] . " AND product_id=" . (int) $product_id;

@@ -29,7 +29,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function updatestatus()
 	{
 		$post   = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$Itemid = JRequest::getVar('Itemid');
 		$encr   = JRequest::getVar('encr');
 		$model = $this->getModel('quotation_detail');
@@ -58,7 +58,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 	 */
 	public function checkout()
 	{
-		$option = JRequest::getVar('option');
+
 		$Itemid = JRequest::getVar('Itemid');
 		$post   = JRequest::get('post');
 		$encr   = JRequest::getVar('encr');
@@ -74,7 +74,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$quotationProducts = $quotationHelper->getQuotationProduct($post['quotation_id']);
 
-		for ($q = 0; $q < count($quotationProducts); $q++)
+		for ($q = 0, $qn = count($quotationProducts); $q < $qn; $q++)
 		{
 			$model->addtocart($quotationProducts[$q]);
 		}
