@@ -2763,24 +2763,17 @@ class producthelper
 
 		foreach ($menuItems as $oneMenuItem)
 		{
-			$test = true;
-
-			foreach ($values as $key => $value)
+			if (!$helper->checkMenuQuery($oneMenuItem, $values))
 			{
-				if (!$helper->checkMenuQuery($oneMenuItem, array($key => $value)))
-				{
-					$test = false;
-					break;
-				}
+				break;
 			}
 
-			if ($sectionName != '' && $test)
+			if ($sectionName != '')
 			{
 				if ($sectionId != 0)
 				{
 					if ($oneMenuItem->params->get($sectionName) != $sectionId)
 					{
-						$test = false;
 						break;
 					}
 				}
@@ -2788,16 +2781,12 @@ class producthelper
 				{
 					if ($oneMenuItem->params->get($sectionName, false) !== false)
 					{
-						$test = false;
 						break;
 					}
 				}
 			}
 
-			if ($test)
-			{
-				return $oneMenuItem;
-			}
+			return $oneMenuItem;
 		}
 
 		return null;
