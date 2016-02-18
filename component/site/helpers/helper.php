@@ -225,23 +225,18 @@ class redhelper
 		static $itemAssociation = array();
 		$serializeItem = serialize($queryItems);
 
-		if (isset($itemAssociation[$serializeItem]))
-		{
-			return $itemAssociation[$serializeItem];
-		}
-
-		foreach ($this->getRedshopMenuItems() as $oneMenuItem)
-		{
-			if ($this->checkMenuQuery($oneMenuItem, $queryItems))
-			{
-				$itemAssociation[$serializeItem] = $oneMenuItem->id;
-				break;
-			}
-		}
-
-		if (!isset($itemAssociation[$serializeItem]))
+		if (!array_key_exists($serializeItem, $itemAssociation))
 		{
 			$itemAssociation[$serializeItem] = false;
+
+			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+			{
+				if ($this->checkMenuQuery($oneMenuItem, $queryItems))
+				{
+					$itemAssociation[$serializeItem] = $oneMenuItem->id;
+					break;
+				}
+			}
 		}
 
 		return $itemAssociation[$serializeItem];
@@ -293,7 +288,7 @@ class redhelper
 				return $result;
 			}
 
-			$result = $this->getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
+			$result = $this->getRedShopMenuItem(array('option' => 'com_redshop'));
 
 			if ($result)
 			{
