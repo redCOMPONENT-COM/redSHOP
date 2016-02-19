@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
         if (checkPDinput(jQuery(this))) {
             inject_button(jQuery(this));
         } else {
-            jQuery('#showMap_input, #sp_info, #sp_inputs, #showMap').remove();
+            jQuery('#showMap_input, #sp_info, #sp_inputs, #showMap, #postdanmark_html_inject').remove();
         }
     });
 
@@ -132,7 +132,9 @@ function inject_button(el) {
     if (0 == jQuery('#sp_info').length) {
         map_contents = get_map_contents();
 
-        jQuery(el).parent().after('<input type="button" class="btn btn-small" onclick="showForm(\'showMap\')" value="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT') + '"  alt="#TB_inline?width=790&amp;inlineId=showMap" id="showMap_input" />' + '<input type="hidden" name="shop_id" id="shop_id_pacsoft" value="" />' + '<div id="sp_info">' + '<span id="sp_name"></span>' + '<span id="sp_address"></span>' + '</div>' + '<div id="sp_inputs">' + '<input type="hidden" name="service_point_id" value="" />' + '<input type="hidden" name="service_point_id_name" value="" />' + '<input type="hidden" name="service_point_id_address" value="" />' + '<input type="hidden" name="service_point_id_city" value="" />' + '<input type="hidden" name="service_point_id_postcode" value="" />' + '</div>' + map_contents);
+        jQuery(el).parent().after(
+            '<div id="postdanmark_html_inject"><input type="button" class="btn btn-small" onclick="showForm(\'showMap\')" value="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT') + '"  alt="#TB_inline?width=790&amp;inlineId=showMap" id="showMap_input" />' + '<input type="hidden" name="shop_id" id="shop_id_pacsoft" value="" />' + '<div id="sp_info">' + '<span id="sp_name"></span>' + '<span id="sp_address"></span>' + '</div>' + '<div id="sp_inputs">' + '<input type="hidden" name="service_point_id" value="" />' + '<input type="hidden" name="service_point_id_name" value="" />' + '<input type="hidden" name="service_point_id_address" value="" />' + '<input type="hidden" name="service_point_id_city" value="" />' + '<input type="hidden" name="service_point_id_postcode" value="" />' + '</div>' + map_contents + '</div>'
+        );
 
         getShippingZipcodeAjax();
     }
