@@ -19,6 +19,8 @@ use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
+use PayPal\Api\Authorization;
+use PayPal\Api\Capture;
 
 class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 {
@@ -80,11 +82,18 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$postalcode = $data['billinginfo']->zipcode;
 		$cvv        = $ccdata['credit_card_code'];
 
+		$cardType = strtolower($ccdata['creditcard_code']);
+
+		if ('mc' == $cardType)
+		{
+			$cardType = 'mastercard';
+		}
+
 		// CreditCard
 		// A resource representing a credit card that can be
 		// used to fund a payment.
 		$card = new CreditCard();
-		$card->setType(strtolower($ccdata['creditcard_code']))
+		$card->setType($cardType)
 			->setNumber($ccdata['order_payment_number'])
 			->setExpireMonth($ccdata['order_payment_expire_month'])
 			->setExpireYear($ccdata['order_payment_expire_year'])
@@ -153,7 +162,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$transaction = new Transaction();
 		$transaction->setAmount($amount)
 			->setItemList($itemList)
-			->setDescription(SHOP_NAME . ' Order No: ' . $data['order_number'])
+			->setDescription(SHOP_NAME . ' Order No ' . $data['order_number'])
 			->setInvoiceNumber(uniqid());
 
 
@@ -173,25 +182,36 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		{
 			$payment->create($apiContext);
 
-			$return->transaction_id = $payment->id;
-			$return->responsestatus = 'Success';
+			$return->transaction_id = $payment->getId();
 
-			$app->enqueueMessage($return->message, 'success');
+			if ('created' == $payment->getState()
+				|| 'approved' == $payment->getState())
+			{
+				$return->responsestatus = 'Success';
+				$return->message = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_AUTHORIZE_SUCCESS');
 
-			echo "<pre>";
-			print_r($payment);
-			echo "</pre>";
+				if ('sale' == $payment->getIntent())
+				{
+					$return->message = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CAPTURE_SUCCESS');
+				}
+
+				$app->enqueueMessage($return->message, 'message');
+			}
+			else
+			{
+				$return->responsestatus = 'Fail';
+				$return->message        = JText::sprintf('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL', '');
+			}
 		}
 		catch (Exception $ex)
 		{
-			echo "<pre>";
-			print_r($ex);
-			echo "</pre>";
-			/*RedshopPaypalResultPrinter::printError('Create Payment Using Credit Card. If 500 Exception, try creating a new Credit Card using <a href="https://ppmts.custhelp.com/app/answers/detail/a_id/750">Step 4, on this link</a>, and using it.', 'Payment', null, $request, $ex);*/
-			die;
+			$return->responsestatus = 'Fail';
+			$return->message        = JText::sprintf(
+				'PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL',
+				implode('<br />', $this->parsePaypalException($ex))
+			);
 		}
 
-		die;
 		return $return;
 	}
 
@@ -205,7 +225,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$authorizeStatus = 'Authorized';
 
 		// If directly captured then set status to 'Captured'
-		if ((boolean) $this->params->get('directCapture', 0))
+		if ('sale' == $this->params->get('paymentIntent'))
 		{
 			$authorizeStatus = 'Captured';
 		}
@@ -222,7 +242,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	}
 
 	/**
-	 * This method will be trigger on order status change to capture order ammount.
+	 * This method will be trigger on order status change to capture order amount.
 	 *
 	 * @param   string  $element  Name of plugin
 	 * @param   array   $data     Order Information array
@@ -241,68 +261,85 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$app = JFactory::getApplication();
 		$db  = JFactory::getDbo();
 
-		// Include PaypalCreditcard Library
-		require_once JPATH_SITE . '/plugins/redshop_payment/paypalcreditcard/library/QuickBooks.php';
+		$apiContext       = $this->loadFramework();
+		$payment          = Payment::get($transactionId, $apiContext);
+
+		if ('sale' == $payment->getIntent())
+		{
+			$app->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_IS_SALE'), 'warning');
+
+			return;
+		}
+
+		$transactions     = $payment->getTransactions();
+		$relatedResources = $transactions[0]->getRelatedResources();
+		$authorization    = $relatedResources[0]->getAuthorization();
+		$authorization    = Authorization::get($authorization->getId(), $apiContext);
 
 		$return = new stdClass;
 
-		/*
-		* If you want to log requests/responses to a database,
-		* you can provide a database DSN-style connection string here
-		* Example: $dsn = 'mysql://root:@localhost/paypalcreditcards_merchantservice';
-		* No, we don't want. We will do it by our own in redSHOP.
-		*/
-		$dsn = null;
-
-		// As we are using HOSTED model so it is required.
-		$pathToCertificate = $this->params->get('certifiedPemFile', null);
-
-		// This is your login ID that Intuit assignes you during the application
-		$appLogin         = $this->params->get('appLogin', null);
-		$connectionTicket = $this->params->get('connectionTicket');
-
-		// Create an instance of the MerchantService object
-		$qbms = new QuickBooks_MerchantService(
-			$dsn,
-			$pathToCertificate,
-			$appLogin,
-			$connectionTicket
-		);
-
-		// Set Test environment based on backend setting
-		$qbms->useTestEnvironment((boolean) $this->params->get('isTest', 1));
-
-		// If you want to see the full XML input/output, you can turn on debug mode
-		$qbms->useDebugMode((boolean) $this->params->get('isDebug', 1));
-
-		$Transaction = QuickBooks_MerchantService_Transaction::unserialize($transactionId);
-
-		if ($Transaction = $qbms->capture($Transaction, $data['order_amount']))
+		try
 		{
-			$transactionId = $Transaction->serialize();
+			$amount = new Amount();
+			$amount->setCurrency(CURRENCY_CODE)
+				->setTotal($data['order_total']);
 
-			// Update transaction string
-			$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_order_payment'))
-					->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($transactionId))
-					->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
+			// Capture
+			$capture = new Capture();
+			$capture->setAmount($amount);
 
-			// Set the query and execute the update.
-			$db->setQuery($query)->execute();
+			// Perform a capture
+			$getCapture    = $authorization->capture($capture, $apiContext);
+			$transactionId = $getCapture->getId();
 
-			$return->responsestatus = 'Success';
-			$return->message        = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_CAPTURE_SUCCESS');
+			if ('approved' == $getCapture->getState())
+			{
+				// Update transaction string
+				$query = $db->getQuery(true)
+						->update($db->qn('#__redshop_order_payment'))
+						->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($transactionId))
+						->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
 
-			$app->enqueueMessage($return->message, 'success');
+				// Set the query and execute the update.
+				$db->setQuery($query)->execute();
+
+				$return->responsestatus = 'Success';
+				$return->message        = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CAPTURE_SUCCESS');
+
+				$app->enqueueMessage($return->message, 'message');
+			}
 		}
-		else
+		catch (Exception $ex)
 		{
 			$return->responsestatus = 'Fail';
-			$return->message        = $qbms->errorNumber() . ': ' . $qbms->errorMessage();
+			$return->message        = JText::sprintf(
+				'PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL',
+				implode('<br />', $this->parsePaypalException($ex))
+			);
 
 			$app->enqueueMessage($return->message, 'error');
 		}
 
 		return $return;
+	}
+
+	private function parsePaypalException($ex)
+	{
+		$data = json_decode($ex->getData());
+
+		$errorMessage = array();
+		$errorMessage[] = $data->name;
+
+		if (isset($data->details))
+		{
+			foreach ($data->details as $detail)
+			{
+				$errorMessage[] = $detail->field . ': ' . $detail->issue;
+			}
+		}
+
+		$errorMessage[] = $data->message . ' ' . $data->information_link;
+
+		return $errorMessage;
 	}
 }
