@@ -26,8 +26,7 @@ class plgSearchRedshop_products extends JPlugin
 		parent::__construct($subject, $config);
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		JLoader::load('RedshopHelperAdminConfiguration');
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 		$Redconfiguration->defineDynamicVars();
 
 		$this->loadLanguage();

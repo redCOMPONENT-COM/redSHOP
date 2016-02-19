@@ -4090,7 +4090,7 @@ class producthelper
 			return array();
 		}
 
-		$redTemplate     = new Redtemplate ();
+		$redTemplate     = Redtemplate::getInstance();
 		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
 
 		if (!$this->_ajaxdetail_templatedata)
@@ -4880,7 +4880,7 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$redTemplate     = new Redtemplate ();
+		$redTemplate     = Redtemplate::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$chktagArr['chkvat'] = $chktag = $this->getApplyattributeVatOrNot($data_add);
@@ -9289,8 +9289,8 @@ class producthelper
 
 	public function displayAdditionalImage($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $property_id = 0, $subproperty_id = 0, $main_imgwidth = 0, $main_imgheight = 0, $redview = "", $redlayout = "")
 	{
-		$redshopconfig   = new Redconfiguration ();
-		$redTemplate     = new Redtemplate ();
+		$redshopconfig   = Redconfiguration::getInstance();
+		$redTemplate     = Redtemplate::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$url             = JURI::base();
 		$redhelper       = redhelper::getInstance();
@@ -10447,7 +10447,7 @@ class producthelper
 
 		if (strstr($data_add, "{product_availability_date}"))
 		{
-			$redshopconfig = new Redconfiguration ();
+			$redshopconfig = Redconfiguration::getInstance();
 			$product       = $this->getProductById($product_id);
 
 			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $stockStatusArray['preorder'])

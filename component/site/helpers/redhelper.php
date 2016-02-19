@@ -433,7 +433,7 @@ class redhelper
 		}
 
 		$user = JFactory::getUser();
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserhelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))

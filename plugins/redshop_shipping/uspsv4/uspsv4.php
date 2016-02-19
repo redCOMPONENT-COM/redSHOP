@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * USPS Shipping plugins
@@ -526,9 +523,9 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 	 */
 	public function onListRates(&$d)
 	{
-		$shippinghelper = new shipping;
-		$producthelper  = new producthelper;
-		$redconfig      = new Redconfiguration;
+		$shippinghelper = shipping::getInstance();
+		$producthelper  = producthelper::getInstance();
+		$redconfig      = Redconfiguration::getInstance();
 		$shipping       = $shippinghelper->getShippingMethodByClass(self::SHIPPING_NAME);
 
 		$db = JFactory::getDbo();

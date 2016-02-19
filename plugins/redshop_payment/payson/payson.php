@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 
 require_once 'library/paysonapi.php';
 
@@ -39,8 +38,8 @@ class plgRedshop_PaymentPayson extends JPlugin
 		}
 
 		$app           = JFactory::getApplication();
-		$currencyClass = new CurrencyHelper;
-		$orderHelper   = new order_functions;
+		$currencyClass = CurrencyHelper::getInstance();
+		$orderHelper   = order_functions::getInstance();
 
 		$agentID         = $this->params->get('agentID');
 		$md5Key          = $this->params->get('md5Key');
@@ -115,7 +114,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 			);
 		}
 
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 		$shippingInfo = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $data['order']->ship_method_id)));
 
 		$orderItems[] = new OrderItem(
@@ -186,7 +185,6 @@ class plgRedshop_PaymentPayson extends JPlugin
 		}
 
 		$app         = JFactory::getApplication();
-		$orderHelper = new order_functions;
 		$orderId     = $app->input->getInt('orderid');
 		$values      = new stdClass;
 

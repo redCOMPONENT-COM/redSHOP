@@ -8,6 +8,9 @@
 
 defined('_JEXEC') or die;
 
+JLoader::discover('', JPATH_SITE . '/components/com_redshop/helpers', false);
+JLoader::discover('', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
+
 /**
  * Script file of redSHOP component
  *

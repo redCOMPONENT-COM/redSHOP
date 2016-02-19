@@ -326,7 +326,7 @@ class RedshopModelCart extends RedshopModel
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher    = JDispatcher::getInstance();
-		$productHelper = new producthelper;
+		$productHelper = producthelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$user          = JFactory::getUser();

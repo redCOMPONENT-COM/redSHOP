@@ -61,11 +61,7 @@ class RedshopTableGiftcard extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		JLoader::load('RedshopHelperProduct');
-		JLoader::load('RedshopHelperAdminImages');
-		JLoader::load('RedshopHelperAdminEconomic');
-
-		$productHelper = new producthelper;
+		$productHelper = producthelper::getInstance();
 
 		// Get input
 		$app = JFactory::getApplication();
@@ -113,7 +109,7 @@ class RedshopTableGiftcard extends JTable
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic                  = new economic;
+			$economic                  = economic::getInstance();
 
 			$giftdata                  = new stdClass;
 			$giftdata->product_id      = $this->giftcard_id;

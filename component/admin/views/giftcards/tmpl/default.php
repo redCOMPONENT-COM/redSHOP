@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.modal');
 
 // Create product Helper object
-$productHelper = new producthelper;
+$productHelper = producthelper::getInstance();
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
