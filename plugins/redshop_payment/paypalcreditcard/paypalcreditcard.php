@@ -33,21 +33,6 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   11.1
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * This method will be triggered on before placing order to authorize or charge credit card
 	 *
 	 * Example of return parameters:
@@ -282,7 +267,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		{
 			$amount = new Amount();
 			$amount->setCurrency(CURRENCY_CODE)
-				->setTotal($data['order_total']);
+				->setTotal($data['order_amount']);
 
 			// Capture
 			$capture = new Capture();
@@ -292,7 +277,8 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$getCapture    = $authorization->capture($capture, $apiContext);
 			$transactionId = $getCapture->getId();
 
-			if ('approved' == $getCapture->getState())
+			if ('approved' == $getCapture->getState()
+				|| 'completed' == $getCapture->getState())
 			{
 				// Update transaction string
 				$query = $db->getQuery(true)
