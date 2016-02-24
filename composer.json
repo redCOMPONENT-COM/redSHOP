@@ -15,6 +15,6 @@
         "fzaninotto/faker": "^1.5",
         "cloudinary/cloudinary_php": "1.1.1",
         "knplabs/github-api": "1.4.12",
-        "joomla-projects/selenium-server-standalone": "v2.47.1"
+        "joomla-projects/selenium-server-standalone": "v2.52.0"
     }
 }
