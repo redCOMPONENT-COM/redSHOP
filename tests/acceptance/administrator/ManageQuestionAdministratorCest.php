@@ -32,6 +32,7 @@ class ManageQuestionAdministratorCest
 	 */
 	public function createQuestion(AcceptanceTester $I, $scenario)
 	{
+		$scenario->skip('@fixme: temporarily skiped due to REDSHOP-2811');
 		$I->wantTo('Test Question creation in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\QuestionManagerJoomla3Steps($scenario);
