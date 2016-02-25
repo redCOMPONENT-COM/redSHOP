@@ -77,7 +77,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		}
 
 		$session         = JFactory::getSession();
-		$redirect_ccdata = $session->get('redirect_ccdata');
+		$redirect_ccdata = $session->get('ccdata');
 
 		// Additional Customer Data
 		$user_id    = $data['billinginfo']->user_id;
