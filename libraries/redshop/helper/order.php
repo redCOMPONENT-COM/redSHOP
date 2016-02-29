@@ -333,7 +333,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Order Shipping information object
 	 */
-	public function getOrderShippingUserInfo($orderId, $force = false)
+	public static function getOrderShippingUserInfo($orderId, $force = false)
 	{
 		if (array_key_exists($orderId, self::$orderShippingInfo) && !$force)
 		{
@@ -359,7 +359,7 @@ class RedshopHelperOrder
 		}
 
 		// Add extra field data in order shipping info object
-		$orderShippingInfo->fields = $this->getOrderShippingExtraFieldsData($orderShippingInfo->users_info_id);
+		$orderShippingInfo->fields = self::getOrderShippingExtraFieldsData($orderShippingInfo->users_info_id);
 
 		self::$orderShippingInfo[$orderId] = $orderShippingInfo;
 
@@ -373,7 +373,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array    Extra Field name as a key of an array
 	 */
-	public function getOrderShippingExtraFieldsData($orderUserInfoId)
+	public static function getOrderShippingExtraFieldsData($orderUserInfoId)
 	{
 		if (array_key_exists($orderUserInfoId, self::$orderShippingExtraFieldData) && !$force)
 		{

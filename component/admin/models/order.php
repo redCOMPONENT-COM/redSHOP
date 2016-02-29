@@ -255,7 +255,7 @@ class RedshopModelOrder extends RedshopModel
 			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
-				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
+				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
 				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
 				$totalWeight = 0;
@@ -348,7 +348,7 @@ class RedshopModelOrder extends RedshopModel
 			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
-				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
+				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
 				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
 				$totalWeight = 0;

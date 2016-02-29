@@ -57,7 +57,7 @@ if ($order->order_total > 0 && !USE_AS_CATALOG)
 			}
 		}
 
-		$shippingaddresses = $order_functions->getOrderShippingUserInfo($order->order_id);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
 
 		if (isset($shippingaddresses))
 		{

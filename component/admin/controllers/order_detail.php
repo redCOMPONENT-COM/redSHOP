@@ -422,7 +422,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		$userbillinginfo = $order_functions->getOrderBillingUserInfo($request['order_id']);
 
-		$shippingaddresses = $order_functions->getOrderShippingUserInfo($request['order_id']);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($request['order_id']);
 
 		if (isset($shippingaddresses))
 		{
