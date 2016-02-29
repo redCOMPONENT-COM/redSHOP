@@ -1602,12 +1602,12 @@ class producthelper
 
 		$default_tax_amount 		= $this->getProductTax($product_id, $product_price, $user_id, 1);
 		$tax_amount 				= $this->getProductTax($product_id, $product_price, $user_id);
-		$product_price_exluding_vat = $product_price;
+		$product_price_exluding_vat = $newproductprice;
 		$product_price_incl_vat     = $default_tax_amount + $product_price_exluding_vat;
 
 		if ($applytax)
 		{
-			$product_price = $tax_amount + $product_price;
+			$product_price = $tax_amount + $newproductprice;
 		}
 
 		if ($product_price < 0)
