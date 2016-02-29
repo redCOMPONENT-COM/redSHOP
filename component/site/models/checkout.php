@@ -478,7 +478,7 @@ class RedshopModelCheckout extends RedshopModel
 		$row->encr_key             = $random_gen_enc_key;
 		$row->split_payment        = $issplit;
 		$row->discount_type        = $this->discount_type;
-		$row->order_id             = $app->input->get('order_id', 0);
+		$row->order_id             = $app->input->getInt('order_id', 0);
 		$row->barcode              = $order_functions->barcode_randon_number(12, 0);
 
 		if (!$row->store())
