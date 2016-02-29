@@ -521,7 +521,7 @@ class economic
 		if ($orderdetail->is_booked == 0 && !$orderdetail->invoice_no)
 		{
 			$user_billinginfo  = $this->_order_functions->getOrderBillingUserInfo($order_id);
-			$user_shippinginfo = $this->_order_functions->getOrderShippingUserInfo($order_id);
+			$user_shippinginfo = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 			$orderitem         = $this->_order_functions->getOrderItemDetail($order_id);
 
 			$eco['shop_name']                 = SHOP_NAME;

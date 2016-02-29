@@ -262,7 +262,7 @@ class RedshopControllerOrder extends RedshopController
 				echo '';
 			}
 
-			$shipping_info = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
+			$shipping_info = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
 
 			echo str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname) . " ,";
 			echo str_replace(",", " ", utf8_decode($shipping_info->address)) . " ,";
@@ -369,7 +369,7 @@ class RedshopControllerOrder extends RedshopController
 
 		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
-			$shipping_address = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
+			$shipping_address = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
 
 			echo $data [$i]->order_id . ",";
 			echo $data [$i]->firstname . " " . $data [$i]->lastname . ",";

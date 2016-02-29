@@ -118,7 +118,7 @@ class order_functions
 			$values["order_id"] = $order_id;
 			$values["order_transactionid"] = $result->order_payment_trans_id;
 			$values["order_amount"] = $orderdetail->order_total + $result->order_transfee;
-			$values['shippinginfo'] = $this->getOrderShippingUserInfo($order_id);
+			$values['shippinginfo'] = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 			$values['billinginfo'] = $this->getOrderBillingUserInfo($order_id);
 			$values["order_userid"] = $values['billinginfo']->user_id;
 
@@ -176,7 +176,7 @@ class order_functions
 		$producthelper             = new producthelper;
 		$orderproducts             = $this->getOrderItemDetail($order_id);
 		$billingInfo               = $this->getOrderBillingUserInfo($order_id);
-		$shippingInfo              = $this->getOrderShippingUserInfo($order_id);
+		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 		$shippinghelper            = new shipping;
 		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($order_details->ship_method_id);
 
@@ -1347,35 +1347,18 @@ class order_functions
 		return $list;
 	}
 
+	/**
+	 * Order Shipping User info
+	 *
+	 * @param   integer  $order_id  Order Id
+	 *
+	 * @deprecated 1.6   Use RedshopHelperOrder::getOrderShippingUserInfo($orderId) instead
+	 *
+	 * @return  object   Order Shipping Information object
+	 */
 	public function getOrderShippingUserInfo($order_id)
 	{
-		$db = JFactory::getDbo();
-		$helper = new redhelper;
-
-		if ($helper->isredCRM())
-		{
-			$order = $this->getOrderDetails($order_id);
-			$crmDebitorHelper = new crmDebitorHelper;
-
-			/*
-			 * get shippinginfo for redCRM
-			 */
-			$crmusers = $crmDebitorHelper->getShippingInfo(0, $order->user_info_id);
-
-			if (count($crmusers) > 0)
-			{
-				$crmusers = $crmusers[0];
-
-				return $crmusers;
-			}
-		}
-
-		$query = 'SELECT * FROM #__redshop_order_users_info ' . 'WHERE address_type LIKE "ST" '
-			. 'AND order_id = ' . (int) $order_id;
-		$db->setQuery($query);
-		$list = $db->loadObject();
-
-		return $list;
+		return RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 	}
 
 	public function getUserFullname($user_id)
@@ -1740,7 +1723,7 @@ class order_functions
 
 		$task = JRequest::getVar('task');
 
-		if ($shippingaddress = $this->getOrderShippingUserInfo($row->order_id))
+		if ($shippingaddress = RedshopHelperOrder::getOrderShippingUserInfo($row->order_id))
 		{
 			$shippingaddress->country_2_code = $redconfig->getCountryCode2($shippingaddress->country_code);
 			$shippingaddress->state_2_code = $redconfig->getCountryCode2($shippingaddress->state_code);
@@ -1962,7 +1945,7 @@ class order_functions
 			$maildata = $carthelper->replaceBillingAddress($maildata, $userdetail);
 
 			// Get ShippingAddress From order Users info
-			$shippingaddresses = $this->getOrderShippingUserInfo($order_id);
+			$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 
 			if (count($shippingaddresses) <= 0)
 			{
