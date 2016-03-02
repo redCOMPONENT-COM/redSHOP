@@ -89,11 +89,11 @@ class plgEconomicEconomic extends JPlugin
 						"trace" => 1,
 						"exceptions" => 1,
 						"stream_context" => stream_context_create(
-							[
-								"http" => [
+							array(
+								"http" => array(
 									"header" => "X-EconomicAppIdentifier: " . self::getAppIdentifier()
-								]
-							]
+								)
+							)
 						)
 					)
 				);
