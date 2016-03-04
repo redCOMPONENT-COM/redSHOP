@@ -61,8 +61,6 @@ class RedshopPaypalPayment extends JPlugin
 
 		require_once $composerAutoload;
 
-		require_once __DIR__ . '/common.php';
-
 		return $this->getApiContext();
 	}
 
