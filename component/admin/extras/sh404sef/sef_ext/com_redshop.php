@@ -76,7 +76,6 @@ $category_id    = isset($category_id) ? @$category_id : null;
 $manufacture_id = isset($manufacture_id) ? @$manufacture_id : null;
 $remove         = isset($remove) ? @$remove : null;
 $Treeid         = isset($Treeid) ? @$Treeid : null;
-$tid            = isset($tid) ? @$tid : null;
 $print          = isset($print) ? @$print : null;
 $protalid       = isset($protalid) ? @$protalid : 0;
 
@@ -284,8 +283,6 @@ switch ($view)
 			elseif ($layout == 'downloadproduct')
 			{
 				$title[] = $layout;
-
-				shRemoveFromGETVarsList('tid');
 			}
 			else
 			{

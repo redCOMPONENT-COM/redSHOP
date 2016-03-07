@@ -13,7 +13,7 @@ $Redconfiguration = Redconfiguration::getInstance();
 $order_functions  = order_functions::getInstance();
 $order_items      = $order_functions->getOrderItemDetail($data['order_id']);
 $session          = JFactory::getSession();
-$ccdata           = $session->get('redirect_ccdata');
+$ccdata           = $session->get('ccdata');
 $app              = JFactory::getApplication();
 $Itemid           = $app->input->getInt('Itemid');
 

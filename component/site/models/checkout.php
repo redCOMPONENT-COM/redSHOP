@@ -231,7 +231,6 @@ class RedshopModelCheckout extends RedshopModel
 			$app->redirect('index.php?option=com_redshop&Itemid=' . $Itemid, $msg);
 		}
 
-		$ccdata           = $session->get('ccdata');
 		$shipping_rate_id = '';
 
 		if ($cart['free_shipping'] != 1)
@@ -249,6 +248,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
 		}
 
+
 		$cart = $this->_carthelper->modifyDiscount($cart);
 
 		// Get Payment information
@@ -263,14 +263,11 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentInfo->payment_price               = $paymentMethod->params->get('payment_price', '');
 		$paymentInfo->payment_oprand              = $paymentMethod->params->get('payment_oprand', '');
 		$paymentInfo->payment_discount_is_percent = $paymentMethod->params->get('payment_discount_is_percent', '');
+		$paymentAmount = $cart ['total'];
 
 		if (PAYMENT_CALCULATION_ON == 'subtotal')
 		{
 			$paymentAmount = $cart ['product_subtotal'];
-		}
-		else
-		{
-			$paymentAmount = $cart ['total'];
 		}
 
 		$paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
@@ -281,9 +278,6 @@ class RedshopModelCheckout extends RedshopModel
 		$order_shipping    = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
 		$order_status      = 'P';
 		$order_status_full = $this->_order_functions->getOrderStatusTitle('P');
-
-		// Start code to track duplicate order number checking
-		$order_number = $this->getOrdernumber();
 
 		$order_subtotal = $cart ['product_subtotal'];
 		$cdiscount      = $cart ['coupon_discount'];
@@ -349,63 +343,16 @@ class RedshopModelCheckout extends RedshopModel
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 		$timestamp                   = time();
 
-		// Get the IP Address
-		if (!empty ($_SERVER ['REMOTE_ADDR']))
-		{
-			$ip = $_SERVER ['REMOTE_ADDR'];
-		}
-		else
-		{
-			$ip = 'unknown';
-		}
-
-		$row = $this->getTable('order_detail');
-
-		if (!$row->bind($post))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		$shippingVatRate = 0;
-
-		if (array_key_exists(6, $order_shipping))
-			$shippingVatRate = $order_shipping [6];
-
-		$random_gen_enc_key      = $this->_order_functions->random_gen_enc_key(35);
-		$users_info_id           = $billingaddresses->users_info_id;
-		$row->user_id            = $user->id;
-		$row->order_number       = $order_number;
-		$row->user_info_id       = $users_info_id;
-		$row->order_total        = $order_total;
-		$row->order_subtotal     = $order_subtotal;
-		$row->order_tax          = $order_tax;
-		$row->tax_after_discount = $tax_after_discount;
-		$row->order_tax_details  = '';
-		$row->analytics_status   = 0;
-		$row->order_shipping     = $order_shipping [3];
-		$row->order_shipping_tax = $shippingVatRate;
-		$row->coupon_discount    = $cdiscount;
-		$row->shop_id            = $shop_id;
-		$row->customer_message   = $customer_message;
-		$row->referral_code      = $referral_code;
-		$db                      = JFactory::getDbo();
-
 		$dispatcher = JDispatcher::getInstance();
 
 		$order_status_log = '';
 
 		// For credit card payment gateway page will redirect to order detail page from plugin
-		if ($is_creditcard == 1 && $is_redirected == 1)
-		{
-			$redirect_ccdata = $session->set('redirect_ccdata', $ccdata);
-		}
-
 		if ($is_creditcard == 1 && $is_redirected == 0 && $cart['total'] > 0)
 		{
-			JPluginHelper::importPlugin('redshop_payment');
+			$order_number = $order_functions->generateOrderNumber();
 
+			JPluginHelper::importPlugin('redshop_payment');
 
 			$values['order_shipping'] = $d['order_shipping'];
 			$values['order_number']   = $order_number;
@@ -414,7 +361,7 @@ class RedshopModelCheckout extends RedshopModel
 			$values['billinginfo']    = $d['billingaddress'];
 			$values['order_total']    = $order_total;
 			$values['order_subtotal'] = $order_subtotal;
-			$values["order_id"]       = $app->input->get('order_id', $row->order_id);
+			$values["order_id"]       = $app->input->get('order_id', 0);
 			$values['payment_plugin'] = $paymentMethod->element;
 			$values['odiscount']      = $odiscount;
 			$paymentResponses         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
@@ -442,10 +389,56 @@ class RedshopModelCheckout extends RedshopModel
 
 					return false;
 				}
-
 			}
-
 		}
+
+		// Get the IP Address
+		if (!empty ($_SERVER ['REMOTE_ADDR']))
+		{
+			$ip = $_SERVER ['REMOTE_ADDR'];
+		}
+		else
+		{
+			$ip = 'unknown';
+		}
+
+		$row = $this->getTable('order_detail');
+
+		if (!$row->bind($post))
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		$shippingVatRate = 0;
+
+		if (array_key_exists(6, $order_shipping))
+		{
+			$shippingVatRate = $order_shipping [6];
+		}
+
+		// Start code to track duplicate order number checking
+		$order_number = $this->getOrdernumber();
+
+		$random_gen_enc_key      = $this->_order_functions->random_gen_enc_key(35);
+		$users_info_id           = $billingaddresses->users_info_id;
+		$row->user_id            = $user->id;
+		$row->order_number       = $order_number;
+		$row->user_info_id       = $users_info_id;
+		$row->order_total        = $order_total;
+		$row->order_subtotal     = $order_subtotal;
+		$row->order_tax          = $order_tax;
+		$row->tax_after_discount = $tax_after_discount;
+		$row->order_tax_details  = '';
+		$row->analytics_status   = 0;
+		$row->order_shipping     = $order_shipping [3];
+		$row->order_shipping_tax = $shippingVatRate;
+		$row->coupon_discount    = $cdiscount;
+		$row->shop_id            = $shop_id;
+		$row->customer_message   = $customer_message;
+		$row->referral_code      = $referral_code;
+		$db                      = JFactory::getDbo();
 
 		if ($order_total <= 0)
 		{
@@ -460,10 +453,6 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// For barcode generation
-		$barcode_code = $order_functions->barcode_randon_number(12, 0);
-
-		// End
-
 		$row->order_discount       = $odiscount;
 		$row->order_discount_vat   = $odiscount_vat;
 		$row->payment_discount     = $payment_amount;
@@ -479,8 +468,8 @@ class RedshopModelCheckout extends RedshopModel
 		$row->encr_key             = $random_gen_enc_key;
 		$row->split_payment        = $issplit;
 		$row->discount_type        = $this->discount_type;
-		$row->order_id             = JRequest::getVar('order_id', $row->order_id);
-		$row->barcode              = $barcode_code;
+		$row->order_id             = $app->input->getInt('order_id', 0);
+		$row->barcode              = $order_functions->barcode_randon_number(12, 0);
 
 		if (!$row->store())
 		{
@@ -1118,6 +1107,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		$rowpayment->order_id          = $order_id;
 		$rowpayment->payment_method_id = $payment_method_id;
+
+		$ccdata = $session->get('ccdata');
 
 		if (!isset($ccdata['creditcard_code']))
 		{
@@ -2371,8 +2362,8 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function getOrdernumberTrack()
 	{
-		$query = "SELECT trackdatetime FROM " . $this->_table_prefix . "ordernumber_track";
-		$this->_db->setQuery($query);
+		$query = "SELECT trackdatetime FROM #__redshop_ordernumber_track";
+		$this->_db->setQuery($query, 0, 1);
 
 		return $this->_db->loadResult();
 	}

@@ -22,7 +22,7 @@ $objOrder         = order_functions::getInstance();
 $objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
 $session          = JFactory::getSession();
-$redirect_ccdata  = $session->get('redirect_ccdata');
+$redirect_ccdata  = $session->get('ccdata');
 
 $app              = JFactory::getApplication();
 $Itemid           = $app->input->getInt('Itemid', 0);
