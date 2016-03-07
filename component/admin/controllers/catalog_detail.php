@@ -29,7 +29,7 @@ class RedshopControllerCatalog_detail extends RedshopController
 	{
 		$post = JRequest::get('post');
 
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -53,7 +53,7 @@ class RedshopControllerCatalog_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -76,7 +76,7 @@ class RedshopControllerCatalog_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED');
 
 		$this->setRedirect('index.php?option=com_redshop&view=catalog', $msg);

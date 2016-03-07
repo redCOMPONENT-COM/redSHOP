@@ -159,7 +159,7 @@ if (count($images))
 	echo '<div style="clear:both"><br><br><b>' . JText::_('COM_REDSHOP_ADDITIONAL_IMAGES') . '</b></div>';
 	$more_images = '';
 
-	for ($i = 0; $i < count($images); $i++)
+	for ($i = 0, $in = count($images); $i < $in; $i++)
 	{
 		$image = $images[$i];
 		$thumb = $image->media_name;

@@ -361,7 +361,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 			$orderItem = $this->_order_functions->getOrderItemDetail($orderId);
 
-			for ($i = 0; $i < count($orderItem); $i++)
+			for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 			{
 				$row = (array) $orderItem[$i];
 
@@ -429,5 +429,29 @@ class RedshopControllerOrder_detail extends RedshopController
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get order payament status using ajax
+	 */
+	public function AjaxOrderPaymentStatusCheck()
+	{
+		$app = JFactory::getApplication();
+
+		$orderId = $app->input->post->getInt('id');
+
+		$orderPaymentStatus = RedshopHelperOrder::getOrderDetail($orderId)->order_payment_status;
+
+		$status = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
+
+		if ($orderPaymentStatus == 'Paid')
+		{
+			$status = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
+		}
+
+		ob_clean();
+		echo $status;
+
+		$app->close();
 	}
 }

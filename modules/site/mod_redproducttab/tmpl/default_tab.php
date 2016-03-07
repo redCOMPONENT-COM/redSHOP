@@ -8,12 +8,20 @@
  */
 
 defined('_JEXEC') or die;
+
+$itemClass      = '';
+$containerClass = '';
+
+if (version_compare(JVERSION, '3.0', '<'))
+{
+	$itemClass      = 'left1';
+	$containerClass = 'clearfix';
+}
 ?>
-<table border="0" cellpadding="2" cellspacing="2" width="100%">
-	<tr>
-		<?php foreach ($rows as $row): ?>
-			<td>
-			<?php
+<div class="row <?php echo $containerClass; ?>">
+	<?php foreach ($rows as $row): ?>
+		<div class="span3 <?php echo $itemClass; ?>">
+		<?php
 			$category_id = $row->category_id;
 			$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
 
@@ -28,14 +36,18 @@ defined('_JEXEC') or die;
 
 			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 
-			if ($image)
-			{
-				$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
-				echo "<div>" . $thum_image . "</div>";
-			}
+			?>
+			<?php if ($image) : ?>
+				<div>
+					<?php echo $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight); ?>
+				</div>
+			<?php endif; ?>
 
-			echo "<a href=\"" . $link . "\">" . $row->product_name . "</a><br>";
+			<p>
+				<a href="<?php echo $link; ?>"><?php echo $row->product_name; ?></a>
+			</p>
 
+			<?php
 			if (!$row->not_for_sale && $show_price && !USE_AS_CATALOG)
 			{
 				$product_price          = $producthelper->getProductPrice($row->product_id);
@@ -53,37 +65,44 @@ defined('_JEXEC') or die;
 						$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
 					}
 
-					$disply_text = "<div class=\"mod_redshop_products_price\">" . $product_price_dis . "</div>";
-
-					if ($row->product_on_sale && $product_price_discount > 0)
+					if ($row->product_on_sale
+						&& ($product_price_discount > 0 && $product_price > $product_price_discount))
 					{
-						if ($product_price > $product_price_discount)
+						if ($show_discountpricelayout)
 						{
-							$disply_text = "";
-							$s_price     = $product_price - $product_price_discount;
+							echo '<div id="mod_redoldprice" class="mod_redoldprice">'
+									. '<span style="text-decoration:line-through">'
+										. $producthelper->getProductFormattedPrice($product_price)
+									. '</span>'
+								. '</div>';
 
-							if ($show_discountpricelayout)
-							{
-								echo "<div id=\"mod_redoldprice\" class=\"mod_redoldprice\"><span style=\"text-decoration:line-through;\">" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
-								$product_price = $product_price_discount;
-								echo "<div id=\"mod_redmainprice\" class=\"mod_redmainprice\">" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-								echo "<div id=\"mod_redsavedprice\" class=\"mod_redsavedprice\">" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
-							}
-							else
-							{
-								$product_price = $product_price_discount;
-								echo "<div class=\"mod_redshop_products_price\">" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
-							}
+							echo '<div id="mod_redmainprice" class="mod_redmainprice">'
+									. $producthelper->getProductFormattedPrice($product_price_discount)
+								. '</div>';
+
+							echo '<div id="mod_redsavedprice" class="mod_redsavedprice">'
+									. JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED')
+									. ' '
+									. $producthelper->getProductFormattedPrice($product_price - $product_price_discount)
+								. '</div>';
+						}
+						else
+						{
+							echo '<div class="mod_redshop_products_price">'
+									. $producthelper->getProductFormattedPrice($product_price_discount)
+								. '</div>';
 						}
 					}
-
-					echo $disply_text;
+					else
+					{
+						echo '<div class="mod_redshop_products_price">' . $product_price_dis . '</div>';
+					}
 				}
 			}
 
 			if ($show_readmore)
 			{
-				echo "<br><a href=\"" . $link . "\">" . JText::_('COM_REDSHOP_TXT_READ_MORE') . "</a>&nbsp;";
+				echo "<br><a href=\"" . $link . "\">" . JText::_('MOD_REDPRODUCTTAB_SHOW_READ_MORE') . "</a>&nbsp;";
 			}
 
 			if ($show_addtocart)
@@ -148,8 +167,7 @@ defined('_JEXEC') or die;
 				$addtocart = $producthelper->replaceCartTemplate($row->product_id, $category_id, 0, 0, "", false, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id);
 				echo "<div class=\"mod_redshop_products_addtocart\">" . $addtocart . $hidden_userfield . "</div>";
 			}
-
-		endforeach;
 			?>
-	</tr>
-</table>
+		</div>
+	<?php endforeach; ?>
+</div>

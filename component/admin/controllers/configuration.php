@@ -30,6 +30,10 @@ class RedshopControllerConfiguration extends RedshopController
 	{
 		$post = JRequest::get('post');
 
+		$app = JFactory::getApplication();
+		$selectedTabPosition = $app->input->get('selectedTabPosition');
+		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
+
 		for ($p = 0; $p < $post['tot_prod']; $p++)
 		{
 			if ($post['prodmng' . $p] != "")
@@ -239,9 +243,6 @@ class RedshopControllerConfiguration extends RedshopController
 			}
 			else
 			{
-				// Handle .htaccess file generation
-				$model->handleHtaccess($post['product_download_root']);
-
 				if ($model->store($post))
 				{
 					$msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
@@ -285,7 +286,7 @@ class RedshopControllerConfiguration extends RedshopController
 	{
 		$thumb_folder = array('product', 'category', 'manufacturer', 'product_attributes', 'property', 'subcolor', 'wrapper', 'shopperlogo');
 
-		for ($i = 0; $i < count($thumb_folder); $i++)
+		for ($i = 0, $in = count($thumb_folder); $i < $in; $i++)
 		{
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . $thumb_folder[$i] . '/thumb';
 
@@ -336,19 +337,19 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
-		$this->setRedirect('index.php?option=' . $option);
+
+		$this->setRedirect('index.php?option=com_redshop');
 	}
 
 	public function resetTemplate()
 	{
 		$model = $this->getModel('configuration');
-		$option = JRequest::getVar('option');
+
 
 		$model->resetTemplate();
 
 		$msg = JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET');
-		$this->setRedirect('index.php?option=' . $option, $msg);
+		$this->setRedirect('index.php?option=com_redshop', $msg);
 	}
 
 	public function resetTermsCondition()

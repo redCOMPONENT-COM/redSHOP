@@ -1,3 +1,70 @@
+// Only define the redSHOP namespace if not defined.
+redSHOP = window.redSHOP || {};
+
+redSHOP.addToCompare = function(ele){
+
+	if (!ele.length) {return;}
+
+	var data = ele.val().split('.');
+
+	if (data.length <= 1)
+	{
+		data = ele.attr('value').split('.');
+	}
+
+	var productId = data[0],
+		categoryId = data[1];
+
+	var command = (ele.is(":checked")) ? 'add' : 'remove';
+
+	jQuery.ajax({
+		url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare',
+		type: 'POST',
+		dataType: 'json',
+		data: {cmd: command, pid: productId, cid: categoryId},
+		complete: function(xhr, textStatus) {
+		},
+		success: function(data, textStatus, xhr) {
+
+			if (data.success === true)
+			{
+				jQuery('#divCompareProduct').html(data.html);
+				jQuery('#mod_compareproduct').html(data.total);
+			}
+			else
+			{
+				jQuery('#divCompareProduct').html(data.message + '<br />' + data.html);
+				jQuery('#mod_compareproduct').html(data.total);
+			}
+
+			jQuery('a[id^="removeCompare"]').click(function(event) {
+		    	redSHOP.addToCompare(jQuery(this));
+		    });
+		},
+		error: function(xhr, textStatus, errorThrown) {
+			//called when there is an error
+		}
+	});
+};
+
+// New registration functions
+jQuery(document).ready(function() {
+    billingIsShipping(document.getElementById('billisship'));
+
+    redSHOP.addToCompare(jQuery('[id^="rsProductCompareChk"]'));
+
+    jQuery('[id^="rsProductCompareChk"]').click(function(event) {
+    	redSHOP.addToCompare(jQuery(this));
+    });
+
+    // Hide some checkout view stuff
+    jQuery('#divPrivateTemplateId').hide();
+    jQuery('#divCompanyTemplateId').hide();
+
+    // Click public or private registration form function
+    showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
+});
+
 function validateInputNumber(objid)
 {
 	if(document.getElementById(objid) && (trim(document.getElementById(objid).value)=="" || isNaN(document.getElementById(objid).value) || document.getElementById(objid).value<=0))
@@ -187,68 +254,6 @@ function getShippingrate()
 	};
 	xmlhttp.open("GET",url,true);
 	xmlhttp.send(null);
-}
-
-function add_to_compare(pid,cid,cmd)
-{
-
-
-	xmlhttp=GetXmlHttpObject();
-	var chked = document.getElementById('chk'+cid+pid);
-
-	if(chked == null)
-	{
-	  var cmd = cmd;
-
-	} else
-	{
-	 if(cmd=="remove")
-		chked.checked = false;
-     if(chked.checked)
-		var cmd = 'add';
-	else
-		var cmd = 'remove';
-
-   }
-
-
-
-	var args = 'pid='+pid+'&cmd='+cmd+'&cid='+cid+'&sid='+Math.random();
-	var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare&'+args;
-
-	xmlhttp.onreadystatechange=function(){
-		if (xmlhttp.readyState==4)
-		{
-			response = xmlhttp.responseText.split('`');
-			if(response[0]==0)
-			{
-				alert(response[1]);
-				chked.checked = false;
-			}
-			else
-			{
-				if(document.getElementById('divCompareProduct'))
-					document.getElementById('divCompareProduct').innerHTML = response[1];
-				if(document.getElementById('mod_compareproduct'))
-					document.getElementById('mod_compareproduct').innerHTML = response[2];
-			}
-		}
-	};
-	xmlhttp.open("GET",url,true);
-	xmlhttp.send(null);
-}
-
-function compare()
-{
-	var total = 0;
-	if(document.getElementById('totalCompareProduct'))
-		total = document.getElementById('totalCompareProduct').innerHTML;
-	if(total < 2)
-	{
-		alert('Add 2 or More Products to Compare');
-	}
-	else
-		document.frmCompare.submit();
 }
 
 function expand_collapse(atag,pid)
@@ -484,12 +489,6 @@ function changeproductImage(product_id,imgPath,ahrefpath)
 	}
 }
 
-// New registration functions
-
-window.onload = function(){
-	billingIsShipping(document.getElementById('billisship'));
-}
-
 function billingIsShipping(obj)
 {
 	if(obj && obj.checked)
@@ -611,104 +610,60 @@ function searchByPhone()
 
 function showCompanyOrCustomer(obj)
 {
-	if(obj)
+	if(!obj)
 	{
-		if(obj.value==1)	// For Company
-		{
-			if(document.getElementById('divCompanyTemplateId'))
-			{
-				template_id = parseInt(document.getElementById('divCompanyTemplateId').innerHTML);
-			}
-			if(document.getElementById('is_company'))
-			{
-				document.getElementById('is_company').value='1';
-			}
-			if(document.getElementById('company_registrationintro'))
-			{
-				document.getElementById('company_registrationintro').style.display='';
-			}
-			if(document.getElementById('customer_registrationintro'))
-			{
-				document.getElementById('customer_registrationintro').style.display='none';
-			}
-		}
-		else	// For Customer
-		{
-			if(document.getElementById('divPrivateTemplateId'))
-			{
-				template_id = parseInt(document.getElementById('divPrivateTemplateId').innerHTML);
-			}
-			if(document.getElementById('is_company'))
-			{
-				document.getElementById('is_company').value='0';
-			}
-			if(document.getElementById('company_registrationintro'))
-			{
-				document.getElementById('company_registrationintro').style.display='none';
-			}
-			if(document.getElementById('customer_registrationintro'))
-			{
-				document.getElementById('customer_registrationintro').style.display='';
-			}
-		}
-		if (window.XMLHttpRequest)
-	  	{// code for IE7+, Firefox, Chrome, Opera, Safari
-	  		xmlhttp=new XMLHttpRequest();
-	  	}
-		else
-		{// code for IE6, IE5
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				if(xmlhttp.responseText!="")
-				{
-					if(document.getElementById('tmpRegistrationDiv'))
-					{
-						document.getElementById('tmpRegistrationDiv').innerHTML=xmlhttp.responseText;
-					}
-					if(obj.value==1)
-					{
-						if(document.getElementById('tblcompany_customer'))
-						{
-							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
-							document.getElementById('tblcompany_customer').innerHTML=textHtml;
-							initAjaxScripts(textHtml);
-						}
-						if(document.getElementById('tblprivate_customer'))
-						{
-							document.getElementById('tblprivate_customer').innerHTML='';
-						}
-					}
-					else
-					{
-						if(document.getElementById('tblcompany_customer'))
-						{
-							document.getElementById('tblcompany_customer').innerHTML='';
-						}
-						if(document.getElementById('tblprivate_customer'))
-						{
-							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
-							document.getElementById('tblprivate_customer').innerHTML=textHtml;
-							initAjaxScripts(textHtml);
-						}
-					}
-					document.getElementById('tmpRegistrationDiv').innerHTML='';
-				}
-			}
-		}
-		var linktocontroller = "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
-		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
-		xmlhttp.open("GET",linktocontroller,true);
-		xmlhttp.send(null);
+		return false;
 	}
-}
 
-function initAjaxScripts(textHtml){
-	jQuery(textHtml).find('script').each(function(){
-		eval(jQuery(this).text());
+	// For Company
+	if(obj.value == 1)
+	{
+		template_id = parseInt(jQuery('#divCompanyTemplateId').html());
+
+		jQuery('#is_company').val('1');
+		jQuery('#company_registrationintro').show();
+		jQuery('#customer_registrationintro').hide();
+		jQuery('#exCompanyFieldST').show();
+		jQuery('#exCustomerFieldST').hide();
+	}
+	// For Customer
+	else
+	{
+		template_id = parseInt(jQuery('#divPrivateTemplateId').html());
+
+		jQuery('#is_company').val('0');
+		jQuery('#company_registrationintro').hide();
+		jQuery('#customer_registrationintro').show();
+		jQuery('#exCompanyFieldST').hide();
+		jQuery('#exCustomerFieldST').show();
+	}
+
+	var linktocontroller = "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
+		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
+
+	jQuery.ajax({
+		url: linktocontroller,
+		type: 'GET'
+	})
+	.done(function(response) {
+
+		jQuery('#tmpRegistrationDiv').html(response);
+
+		if(obj.value==1)
+		{
+			jQuery('#tblcompany_customer').html(jQuery('#ajaxRegistrationDiv').html());
+			jQuery('#tblprivate_customer').html('');
+		}
+		else
+		{
+			jQuery('#tblprivate_customer').html(jQuery('#ajaxRegistrationDiv').html());
+			jQuery('#tblcompany_customer').html('');
+		}
+
+		jQuery('#tmpRegistrationDiv').html('');
+	})
+	.fail(function() {
+		console.warn("error");
 	});
 }
 

@@ -34,14 +34,14 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$mailCenterManagerPage = new \MailCenterManagerJoomla3Page;
 		$I->verifyNotices(false, $this->checkForNotices(), 'Mail Center Manager Page');
 		$I->click('New');
-		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName, 30);
+		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName,30);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailName, $mailName);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailSubject, $mailSubject);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailBcc, $mailBcc);
 		$I->click(\MailCenterManagerJoomla3Page::$mailSectionDropDown);
 		$I->click($mailCenterManagerPage->mailSection($mailSection));
 		$I->click('Save & Close');
-		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage, 60, '.alert-success');
+		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage,60,'.alert-success');
 		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
@@ -62,13 +62,14 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
 		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see($mailName);
 		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
-		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName, 30);
+		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName,30);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailName, $newMailName);
 		$I->click('Save & Close');
-		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage, 30, '.alert-success');
+		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage,30,'.alert-success');
 		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
 		$I->see($newMailName);
 		$I->click(['link' => 'ID']);
@@ -84,6 +85,9 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeMailState($name, $state = 'unpublish')
 	{
+		$I = $this;
+		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
+		$I->click(['link' => 'ID']);
 		$this->changeState(new \MailCenterManagerJoomla3Page, $name, $state, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 
@@ -123,6 +127,9 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteMailTemplate($name)
 	{
+		$I = $this;
+		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
+		$I->click(['link' => 'ID']);
 		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 }

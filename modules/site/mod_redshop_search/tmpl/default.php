@@ -30,8 +30,10 @@ if ($modsearchitemid != "")
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $Itemid); ?>" method="post"
-      name="redSHOPSEARCH">
+<form
+	action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $Itemid); ?>"
+	method="get"
+    name="redSHOPSEARCH">
 	<div class="product_search">
 		<?php if ($showProductsearchtitle == 'yes'): ?>
 			<div class="product_search_title">
@@ -117,7 +119,15 @@ if ($enableAjaxsearch)
 			if (document.getElementById('search_type'))
 			{
 				var searchType = document.getElementById('search_type');
-				urlArg[i++] = 'search_type=' + searchType.options[searchType.selectedIndex].value;
+
+				if ('hidden' == searchType.type)
+				{
+					urlArg[i++] = 'search_type=' + searchType.value;
+				}
+				else
+				{
+					urlArg[i++] = 'search_type=' + searchType.options[searchType.selectedIndex].value;
+				}
 			}
 
 			if (document.getElementById('category_id'))

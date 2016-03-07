@@ -8,13 +8,13 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $model = $this->getModel('category');
 $category_main_filter = JRequest::getVar('category_main_filter');
 $ordering = ($this->lists['order'] == 'c.ordering');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = submitbutton = function (pressbutton) {
+	Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -68,7 +68,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<table width="100%" cellpadding="1" cellspacing="1" border="0">
 		<tr>
 			<td colspan="2" valign="top" align="left" class="key" width="30%">

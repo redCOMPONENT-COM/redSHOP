@@ -22,15 +22,10 @@ class plgSystemRedlightbox_slideshow extends JPlugin
             return;
         }
 
-        $view = JRequest::getCmd('view');
-        if ($view != 'product')
+        if (JRequest::getCmd('view') != 'product')
         {
             return;
         }
-
-        // Requests
-        $option = JRequest::getCmd('option');
-        $tmpl = JRequest::getCmd('tmpl');
 
         // Assign paths
         $sitePath = JPATH_SITE;
@@ -42,7 +37,8 @@ class plgSystemRedlightbox_slideshow extends JPlugin
             return;
         }
 
-        if ($option == "com_redshop" && $tmpl != "component")
+        if (JRequest::getCmd('option') == "com_redshop"
+            && JRequest::getCmd('tmpl') != "component")
         {
             $document = JFactory::getDocument();
             $headerstuff = $document->getHeadData();

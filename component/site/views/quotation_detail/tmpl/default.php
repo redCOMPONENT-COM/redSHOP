@@ -287,7 +287,7 @@ if (count($template_sdata) > 0)
 $cart_mdata        = '';
 $subtotal_excl_vat = 0;
 
-for ($i = 0; $i < count($quotationProducts); $i++)
+for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 {
 	$cart_mdata .= $template_middle;
 	$wrapper_name = "";

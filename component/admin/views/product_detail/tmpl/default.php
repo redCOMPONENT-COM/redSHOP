@@ -9,15 +9,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.html.tabs');
-
 JHTMLBehavior::modal();
-$url = JURI::getInstance()->root();
-
-$stockroom_id = $this->input->getInt('stockroom_id', null);
-$now = JFactory::getDate();
-$model = $this->getModel('product_detail');
-$showbuttons = $this->input->getBool('showbuttons', false);
-
 ?>
 
 <script type="text/javascript">
@@ -125,7 +117,7 @@ $showbuttons = $this->input->getBool('showbuttons', false);
 	}
 </script>
 
-<?php if ($showbuttons) : ?>
+<?php if ($this->input->getBool('showbuttons', false)) : ?>
 	<fieldset>
 		<div style="float: right">
 			<button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
@@ -287,11 +279,6 @@ echo JHtml::_('tabs.end');
 ?>
 
 <div class="clr"></div>
-
-<?php if ($stockroom_id) : ?>
-	<input type="hidden" name="stockroom_id" value="<?php echo $stockroom_id; ?>"/>
-<?php endif; ?>
-
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->product_id; ?>"/>
 <input type="hidden" name="product_id" id="product_id" value="<?php echo $this->detail->product_id; ?>"/>
 
@@ -351,7 +338,7 @@ echo JHtml::_('tabs.end');
 
 	function jimage_insert(main_path, fid, fsec) {
 
-		var path_url = "<?php echo $url;?>";
+		var path_url = "<?php echo JURI::getInstance()->root();?>";
 		var propimg;
 
 		if (!fid && !fsec) {

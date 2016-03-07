@@ -20,7 +20,7 @@ class RedshopViewStockroom_detail extends RedshopView
 
 		$lists = array();
 		$uri = JFactory::getURI();
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$model = $this->getModel('stockroom_detail');
 
 		if ($layout == 'importstock')

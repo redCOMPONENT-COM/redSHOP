@@ -27,7 +27,7 @@ $config = new Redconfiguration;
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$option = JRequest::getVar('option');
+
 $tmpl = JRequest::getVar('tmpl');
 $model = $this->getModel('order_detail');
 $session = JFactory::getSession();
@@ -78,7 +78,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 <tbody>
 <tr>
 	<td colspan="2">
-		<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+		<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 			<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed">
 				<tbody>
 				<tr class="tableHeader">
@@ -202,7 +202,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 				</tr>
 				</tbody>
 			</table>
-			<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="view" value="order"/>
 			<input type="hidden" name="task" value="update_status"/>
 			<input type="hidden" name="return" value="order_detail"/>
@@ -369,7 +369,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 $arr_discount_type = array();
 $arr_discount = explode('@', $this->detail->discount_type);
 $discount_type = '';
-for ($d = 0; $d < count($arr_discount); $d++)
+for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 {
 	if ($arr_discount[$d])
 	{
@@ -444,7 +444,7 @@ if (!$discount_type)
 $ordervolume = 0;
 $cart = array();
 $subtotal_excl_vat = 0;
-for ($i = 0; $i < count($products); $i++)
+for ($i = 0, $in = count($products); $i < $in; $i++)
 {
 	$cart[$i]['product_id'] = $products[$i]->product_id;
 	$cart[$i]['quantity'] = $products[$i]->product_quantity;
@@ -484,7 +484,7 @@ for ($i = 0; $i < count($products); $i++)
 			<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 				<tr>
 					<td>
-						<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
+						<form action="index.php?option=com_redshop" method="post"
 						      name="itemForm<?php echo $order_item_id; ?>">
 							<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped" width="100%">
 								<tr>
@@ -565,7 +565,7 @@ for ($i = 0; $i < count($products); $i++)
 							<input type="hidden" name="order_item_id" value="<?php echo $order_item_id; ?>">
 							<input type="hidden" name="return" value="order_detail"/>
 							<input type="hidden" name="isproduct" value="1"/>
-							<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+							<input type="hidden" name="option" value="com_redshop"/>
 							<?php if ($tmpl)
 							{ ?>
 								<input type="hidden" name="tmpl" value="<?php echo $tmpl; ?>"/>
@@ -582,7 +582,7 @@ for ($i = 0; $i < count($products); $i++)
 							if (count($downloadarray) > 0)
 							{
 								?>
-								<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
+								<form action="index.php?option=com_redshop" method="post"
 								      name="download_token<?php echo $order_item_id; ?>">
 									<table cellpadding="0" cellspacing="0" border="0">
 										<?php
@@ -670,7 +670,7 @@ for ($i = 0; $i < count($products); $i++)
 												<input type="button" name="update"
 												       value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 												       onclick="document.download_token<?php echo $order_item_id; ?>.submit();">
-												<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+												<input type="hidden" name="option" value="com_redshop"/>
 												<input type="hidden" name="view" value="order"/>
 												<input type="hidden" name="task" value="download_token"/>
 												<input type="hidden" name="product_id"
@@ -787,7 +787,7 @@ $session->set('cart', $cart); ?>
 					</strong>
 				</td>
 				<td align="right" width="35%">
-					<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
+					<form action="index.php?option=com_redshop" method="post"
 					      name="update_discount<?php echo $order_id; ?>">
 						<div class="input-prepend input-append">
 							<span class="add-on"><?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?></span>
@@ -813,7 +813,7 @@ $session->set('cart', $cart); ?>
 				<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'); ?>:</strong>
 				</td>
 				<td align="right" width="35%">
-					<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
+					<form action="index.php?option=com_redshop" method="post"
 					      name="special_discount<?php echo $order_id; ?>">
 						<div class="input-prepend input-append">
 							<span class="add-on"><?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?></span>
@@ -883,7 +883,7 @@ $session->set('cart', $cart); ?>
 </tr>
 <tr>
 	<td>
-		<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminFormAdd" id="adminFormAdd">
+		<form action="index.php?option=com_redshop" method="post" name="adminFormAdd" id="adminFormAdd">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist table table-condensed table-striped">
 				<tr>
 					<th width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
@@ -981,7 +981,7 @@ $session->set('cart', $cart); ?>
 { ?>
 	<tr>
 		<td>
-			<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="updateshippingrate"
+			<form action="index.php?option=com_redshop" method="post" name="updateshippingrate"
 			      id="updateshippingrate">
 				<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed">
 					<tr>

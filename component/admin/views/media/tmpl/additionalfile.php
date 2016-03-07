@@ -119,7 +119,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 				$additionalfiles = $this->getModel('media')->getAdditionalFiles($mediaId);
 				$k = 0;
 
-				for ($i = 0; $i < count($additionalfiles); $i++)
+				for ($i = 0, $in = count($additionalfiles); $i < $in; $i++)
 				{
 					$filename = $additionalfiles[$i]->name;
 					$fileId = $additionalfiles[$i]->id;
