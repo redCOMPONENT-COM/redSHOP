@@ -7,7 +7,7 @@
 	method="upgrade"
 >
 	<name>PLG_REDSHOP_PAYMENT_STRIPE</name>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<redshop>1.5.0.6</redshop>
 	<creationDate>March 2015</creationDate>
 	<author>redCOMPONENT.com</author>

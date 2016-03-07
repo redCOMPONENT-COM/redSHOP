@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_SAGEPAY</name>
-    <version>1.5.2</version>
+    <version>1.5.3</version>
     <redshop>1.5.0.6</redshop>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
@@ -51,7 +51,7 @@
                        label="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_VENDOREMAIL_LBL" description="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_VENDOREMAIL_DESC"/>
                 <field name="sagepay_encryptpass" type="text" default=""
                        label="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_ENCRYPTPASS_LBL"/>
-                <field name="sagepay_protocol" type="text" default="2.23"
+                <field name="sagepay_protocol" type="text" default="3.00"
                        label="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_PROTOCOL_LBL"/>
                 <field name="sagepay_transactiontype" type="text" default="PAYMENT"
                        label="PLG_RS_PAYMENT_SAGEPAY_SAGEPAY_TRANSACTIONTYPE_LBL"/>

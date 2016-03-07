@@ -15,7 +15,6 @@ class RedshopViewXmlimport_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$option    = JRequest::getVar('option');
 		$xmlhelper = new xmlHelper;
 		$document  = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
@@ -95,7 +94,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 			$cols    = array();
 			$columns = $xmlhelper->getSectionColumnList($detail->section_type);
 
-			for ($i = 0; $i < count($columns); $i++)
+			for ($i = 0, $in = count($columns); $i < $in; $i++)
 			{
 				$cols[$i] = new stdClass();
 				$cols[$i]->value = $columns[$i]->Field;
@@ -108,7 +107,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 			$op[0]->text  = JText::_('COM_REDSHOP_SELECT');
 			$columns      = array_merge($op, $cols);
 
-			for ($i = 0; $i < count($xmlfiletag); $i++)
+			for ($i = 0, $in = count($xmlfiletag); $i < $in; $i++)
 			{
 				$colvalue               = $xmlhelper->getXMLFileTag($xmlfiletag[$i], $detail->xmlimport_filetag);
 				$updatefiletag[$i]      = $colvalue[1];
@@ -120,7 +119,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 				$cols    = array();
 				$columns = $xmlhelper->getSectionColumnList($detail->section_type, "billingdetail");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
@@ -129,7 +128,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 
 				$columns = array_merge($op, $cols);
 
-				for ($i = 0; $i < count($xmlbillingtag); $i++)
+				for ($i = 0, $in = count($xmlbillingtag); $i < $in; $i++)
 				{
 					$colvalue                            = $xmlhelper->getXMLFileTag($xmlbillingtag[$i], $detail->xmlimport_billingtag);
 					$updatebillingtag[$i]                = $colvalue[1];
@@ -144,7 +143,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 				$cols    = array();
 				$columns = $xmlhelper->getSectionColumnList($detail->section_type, "shippingdetail");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
@@ -153,7 +152,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 
 				$columns = array_merge($op, $cols);
 
-				for ($i = 0; $i < count($xmlshippingtag); $i++)
+				for ($i = 0, $in = count($xmlshippingtag); $i < $in; $i++)
 				{
 					$colvalue                              = $xmlhelper->getXMLFileTag($xmlshippingtag[$i], $detail->xmlimport_shippingtag);
 					$updateshippingtag[$i]                 = $colvalue[1];
@@ -168,7 +167,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 				$cols    = array();
 				$columns = $xmlhelper->getSectionColumnList($detail->section_type, "orderitem");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
@@ -177,7 +176,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 
 				$columns = array_merge($op, $cols);
 
-				for ($i = 0; $i < count($xmlitemtag); $i++)
+				for ($i = 0, $in = count($xmlitemtag); $i < $in; $i++)
 				{
 					$colvalue                         = $xmlhelper->getXMLFileTag($xmlitemtag[$i], $detail->xmlimport_orderitemtag);
 					$updateitemtag[$i]                = $colvalue[1];
@@ -192,7 +191,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 				$cols    = array();
 				$columns = $xmlhelper->getSectionColumnList($detail->section_type, "stockdetail");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
@@ -200,7 +199,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 
 				$columns = array_merge($op, $cols);
 
-				for ($i = 0; $i < count($xmlstocktag); $i++)
+				for ($i = 0, $in = count($xmlstocktag); $i < $in; $i++)
 				{
 					$colvalue                           = $xmlhelper->getXMLFileTag($xmlstocktag[$i], $detail->xmlimport_stocktag);
 					$updatestocktag[$i]                 = $colvalue[1];
@@ -215,7 +214,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 				$cols    = array();
 				$columns = $xmlhelper->getSectionColumnList($detail->section_type, "prdextrafield");
 
-				for ($i = 0; $i < count($columns); $i++)
+				for ($i = 0, $in = count($columns); $i < $in; $i++)
 				{
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
@@ -223,7 +222,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 
 				$columns = array_merge($op, $cols);
 
-				for ($i = 0; $i < count($xmlprdextrafieldtag); $i++)
+				for ($i = 0, $in = count($xmlprdextrafieldtag); $i < $in; $i++)
 				{
 					$colvalue                                    = $xmlhelper->getXMLFileTag($xmlprdextrafieldtag[$i], $detail->xmlimport_prdextrafieldtag);
 					$updateprdexttag[$i]                         = $colvalue[1];

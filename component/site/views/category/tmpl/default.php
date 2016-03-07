@@ -35,13 +35,6 @@ else
 	$template_desc .= "<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
 }
 
-$endlimit = count($this->detail);
-
-if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
-{
-	$endlimit = $model->getProductPerPage();
-}
-
 if ($this->params->get('show_page_heading', 0))
 {
 	if (!$this->catid)

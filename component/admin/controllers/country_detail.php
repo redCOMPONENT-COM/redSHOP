@@ -38,7 +38,7 @@ class RedshopControllerCountry_detail extends RedshopController
 
 		$country_name = JRequest::getVar('country_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["country_name"] = $country_name;
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['country_id'] = $cid [0];
 		$model = $this->getModel('country_detail');
@@ -65,14 +65,14 @@ class RedshopControllerCountry_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_COUNTRY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=country', $msg);
 	}
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 

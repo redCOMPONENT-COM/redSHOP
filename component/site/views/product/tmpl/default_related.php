@@ -32,7 +32,7 @@ if (count($relptemplate) > 0)
 
 	$attribute_template = $producthelper->getAttributeTemplate($tempdata_div_middle);
 	/************************************************************ **********************************************/
-	for ($r = 0; $r < count($related_product); $r++)
+	for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 	{
 		$related_template_data .= $tempdata_div_middle;
 

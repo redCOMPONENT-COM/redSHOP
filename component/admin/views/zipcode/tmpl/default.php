@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $filter = JRequest::getVar('filter');
 
 ?>
@@ -33,7 +33,7 @@ $filter = JRequest::getVar('filter');
 	}
 </script>
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
+<form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>

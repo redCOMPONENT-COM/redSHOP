@@ -34,7 +34,7 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\PluginManagerJoomla3Page::$pluginSearch, $pluginName);
 		$I->click(\PluginManagerJoomla3Page::$searchButton);
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName),30);
 		$I->seeElement(\PluginManagerJoomla3Page::$searchResultRow);
 		$I->see($pluginName, \PluginManagerJoomla3Page::$searchResultRow);
 		$I->click(\PluginManagerJoomla3Page::$firstCheck);
@@ -57,15 +57,15 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\PluginManagerJoomla3Page::$pluginSearch, 'Paypal');
 		$I->click(\PluginManagerJoomla3Page::$searchButton);
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('Paypal'), 30);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('Paypal'),30);
 		$I->seeElement(\PluginManagerJoomla3Page::$searchResultRow);
 		$I->see('Paypal', \PluginManagerJoomla3Page::$searchResultRow);
 		$I->click(\PluginManagerJoomla3Page::$firstCheck);
 		$I->click('Edit');
-		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$payPalBusinessAccountEmail, 30);
+		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$payPalBusinessAccountEmail,30);
 		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalBusinessAccountEmail, $businessUserEmail);
 		$I->click(\PayPalPluginManagerJoomla3Page::$payPalUseField);
 		$I->click("Save & Close");
-		$I->see(\PayPalPluginManagerJoomla3Page::$pluginSuccessSavedMessage, '.alert-success');
+		$I->see(\PayPalPluginManagerJoomla3Page::$pluginSuccessSavedMessage,'.alert-success');
 	}
 }

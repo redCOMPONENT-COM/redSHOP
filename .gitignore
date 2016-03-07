@@ -44,11 +44,16 @@ vendor/*
 tests/vendor/*
 
 # Test related files
-/tests/system/servers/configdef.php
-/tests/system/webdriver/tests/logs/
-/tests/acceptance.suite.yml
+tests/system/servers/configdef.php
+tests/system/webdriver/tests/logs/
+tests/acceptance.suite.yml
 codecept.phar
 tests/*/*Tester.php
+selenium.log
+tests/_output
+tests/joomla-cms3
+selenium-server-standalone.jar
+tests/_support/_generated/*
 
 # Never ignore
 !.gitignore

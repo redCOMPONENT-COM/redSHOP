@@ -26,12 +26,12 @@ class GlobalConfigurationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\GlobalConfigurationManagerJoomla3Page::$URL);
-		$I->waitForText(\GlobalConfigurationManagerJoomla3Page::$pageTitle, 10, 'h1');
+		$I->waitForText(\GlobalConfigurationManagerJoomla3Page::$pageTitle,10,'h1');
 		$I->click(\GlobalConfigurationManagerJoomla3Page::$serverLink);
 		$I->waitForElement(\GlobalConfigurationManagerJoomla3Page::$errorReportingDropDown);
 		$I->click(\GlobalConfigurationManagerJoomla3Page::$errorReportingDropDown);
 		$I->click(\GlobalConfigurationManagerJoomla3Page::$errorReporting);
 		$I->click('Save & Close');
-		$I->waitForText(\GlobalConfigurationManagerJoomla3Page::$successMessage, 10, '.alert-success');
+		$I->waitForText(\GlobalConfigurationManagerJoomla3Page::$successMessage,10,'.alert-success');
 	}
 }

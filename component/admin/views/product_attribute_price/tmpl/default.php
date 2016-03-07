@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-$option = JRequest::getVar('option', '', 'request', 'string');?>
+?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 		{
@@ -18,7 +18,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 			form.submit();
 		}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm2" id="adminForm2">
+<form action="index.php?option=com_redshop" method="post" name="adminForm2" id="adminForm2">
 	<div id="editcell">
 		<table class="adminlist table table-striped" width="100%">
 			<thead>

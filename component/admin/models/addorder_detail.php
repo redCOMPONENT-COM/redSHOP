@@ -337,7 +337,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if ($shipp_users_info_id != 0)
 			{
-				for ($o = 0; $o < count($shippingaddresses); $o++)
+				for ($o = 0, $on = count($shippingaddresses); $o < $on; $o++)
 				{
 					if ($shippingaddresses[$o]->users_info_id == $shipp_users_info_id)
 					{
@@ -355,7 +355,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$user_id = $row->user_id;
 		$item = $postdata['order_item'];
 
-		for ($i = 0; $i < count($item); $i++)
+		for ($i = 0, $in = count($item); $i < $in; $i++)
 		{
 			$product_id = $item[$i]->product_id;
 			$quantity = $item[$i]->quantity;
@@ -443,7 +443,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			{
 				$medianame = $producthelper->getProductMediaName($product_id);
 
-				for ($j = 0; $j < count($medianame); $j++)
+				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
 					$product_serial_number = $producthelper->getProdcutSerialNumber($product_id);
 					$producthelper->insertProductDownload(
@@ -465,7 +465,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			{
 				$attArr = $generateAccessoryCart;
 
-				for ($a = 0; $a < count($attArr); $a++)
+				for ($a = 0, $an = count($attArr); $a < $an; $a++)
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
@@ -481,7 +481,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
-					for ($j = 0; $j < count($attchildArr); $j++)
+					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
@@ -507,7 +507,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
 
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 						{
 							$section_vat = 0;
 
@@ -544,7 +544,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 								}
 							}
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 							{
 								$section_vat = 0;
 
@@ -621,7 +621,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			{
 				$attArr = $generateAttributeCart;
 
-				for ($j = 0; $j < count($attArr); $j++)
+				for ($j = 0, $jn = count($attArr); $j < $jn; $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
@@ -646,7 +646,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 					$propArr = $attArr[$j]['attribute_childs'];
 
-					for ($k = 0; $k < count($propArr); $k++)
+					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
 						$section_vat = 0;
 
@@ -683,7 +683,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 						$subpropArr = $propArr[$k]['property_childs'];
 
-						for ($l = 0; $l < count($subpropArr); $l++)
+						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 						{
 							$section_vat = 0;
 

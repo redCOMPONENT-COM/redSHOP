@@ -24,7 +24,7 @@ $objOrder         = new order_functions;
 $objconfiguration = new Redconfiguration;
 $user             = JFactory::getUser();
 $session          = JFactory::getSession();
-$redirect_ccdata  = $session->get('redirect_ccdata');
+$redirect_ccdata  = $session->get('ccdata');
 
 $app              = JFactory::getApplication();
 $Itemid           = $app->input->getInt('Itemid', 0);
@@ -54,7 +54,7 @@ $sim = new AuthorizeNetSIM_Form(
 );
 
 $hidden_fields = $sim->getHiddenFieldString();
-$post_url      = ($is_test ? "https://test.authorize.net/gateway/transact.dll" : "https://secure.authorize.net/gateway/transact.dll");
+$post_url      = ($is_test ? "https://test.authorize.net/gateway/transact.dll" : "https://secure2.authorize.net/gateway/transact.dll");
 
 echo "<h3>" . JText::_('PLG_RS_PAYMENT_AUTHORIZE_DPM_MESSAGE') . "</h3>";
 echo '

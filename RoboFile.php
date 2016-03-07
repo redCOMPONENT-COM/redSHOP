@@ -75,7 +75,7 @@ class RoboFile extends \Robo\Tasks
      *
      * @return mixed
      */
-    public function prepareSiteForSystemTests()
+    public function prepareSiteForSystemTests($use_htaccess = 0)
     {
         // Get Joomla Clean Testing sites
         if (is_dir('tests/joomla-cms3'))
@@ -83,9 +83,25 @@ class RoboFile extends \Robo\Tasks
             $this->taskDeleteDir('tests/joomla-cms3')->run();
         }
 
-        $this->_exec('git clone -b staging --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms3');
-        $this->say('Joomla CMS site created at tests/joomla-cms3');
-    }
+		$version = 'staging';
+
+		/*
+		 * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
+		 * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
+		 */
+		$version = '3.4.4';
+
+		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms3");
+
+		$this->say("Joomla CMS ($version) site created at tests/joomla-cms3");
+
+		// Optionally uses Joomla default htaccess file
+		if ($use_htaccess == 1)
+		{
+			$this->_copy('tests/joomla-cms3/htaccess.txt', 'tests/joomla-cms3/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms3/,g" --in-place tests/joomla-cms3/.htaccess');
+		}
+	}
 
     /**
      * Executes Selenium System Tests in your machine
@@ -95,23 +111,22 @@ class RoboFile extends \Robo\Tasks
      * @return mixed
      */
     public function runTest($options = [
-        'test'         => null,
+        'test'          => null,
         'suite'         => 'acceptance',
         'selenium_path' => null
     ])
     {
-        if (!$options['selenium_path'])
-        {
-            $this->getSelenium();
-        }
-
         $this->getComposer();
 
         $this->taskComposerInstall()->run();
 
-        if (!'api' == $options['suite'])
-        {
-            $this->runSelenium($options['selenium_path']);
+		if (isset($options['suite']) && 'api' === $options['suite'])
+		{
+			// Do not launch selenium when running API tests
+		}
+		else
+		{
+			$this->runSelenium();
 
             $this->taskWaitForSeleniumStandaloneServer()
                  ->run()
@@ -156,6 +171,46 @@ class RoboFile extends \Robo\Tasks
 
         $pathToTestFile = 'tests/' . $options['suite'] . '/' . $options['test'];
 
+		//loading the class to display the methods in the class
+		require 'tests/' . $options['suite'] . '/' . $options['test'];
+
+
+		//logic to fetch the class name from the file name
+		$fileName = explode("/", $options['test']);
+		$className = explode(".", $fileName[1]);
+
+		//if the selected file is cest only than we will give the option to execute individual methods, we don't need this in cept file
+		$i = 1;
+		if (strripos($className[0], 'cest'))
+		{
+			$class_methods = get_class_methods($className[0]);
+			$this->say('[' . $i . '] ' . 'All');
+			$methods[$i] = 'All';
+			$i++;
+			foreach ($class_methods as $method_name)
+			{
+
+				$reflect = new ReflectionMethod($className[0], $method_name);
+				if(!$reflect->isConstructor())
+				{
+					if ($reflect->isPublic())
+					{
+						$this->say('[' . $i . '] ' . $method_name);
+						$methods[$i] = $method_name;
+						$i++;
+					}
+				}
+			}
+			$this->say('');
+			$methodNumber = $this->ask('Please choose the method in the test that you would want to run...');
+			$method = $methods[$methodNumber];
+		}
+
+		if(isset($method) && $method != 'All')
+		{
+			$pathToTestFile = $pathToTestFile . ':' . $method;
+		}
+
         $this->taskCodecept()
              ->test($pathToTestFile)
              ->arg('--steps')
@@ -172,24 +227,17 @@ class RoboFile extends \Robo\Tasks
     /**
      * Function to Run tests in a Group
      *
-     * @param   array  $options  Array of options
-     *
      * @return void
      */
-    public function runTests($options = ['selenium_path' => null])
+    public function runTests($use_htaccess = 0)
     {
-        $this->prepareSiteForSystemTests();
-
-        if (!$options['selenium_path'])
-        {
-            $this->getSelenium();
-        }
+        $this->prepareSiteForSystemTests($use_htaccess);
 
         $this->getComposer();
 
         $this->taskComposerInstall()->run();
 
-        $this->runSelenium($options['selenium_path']);
+        $this->runSelenium();
 
         $this->taskWaitForSeleniumStandaloneServer()
              ->run()
@@ -210,16 +258,37 @@ class RoboFile extends \Robo\Tasks
         $this->taskCodecept()
              ->arg('--steps')
              ->arg('--debug')
+             ->arg('--tap')
              ->arg('--fail-fast')
              ->arg('tests/acceptance/administrator/')
              ->run()
              ->stopOnFail();
 
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/checkout/')
+			->run();
+			// ->stopOnFail();
+
+        $this->taskCodecept()
+             ->arg('--steps')
+             ->arg('--debug')
+             ->arg('--tap')
+             ->arg('--fail-fast')
+             ->arg('tests/acceptance/uninstall/')
+             ->run()
+             ->stopOnFail();
+
+        $this->say('preparing for update test');
+        $this->getDevelop();
         $this->taskCodecept()
              ->arg('--steps')
              ->arg('--debug')
              ->arg('--fail-fast')
-             ->arg('tests/acceptance/uninstall/')
+             ->arg('tests/acceptance/update/')
              ->run()
              ->stopOnFail();
 
@@ -237,24 +306,6 @@ class RoboFile extends \Robo\Tasks
         $this->taskCheckRoboFileVersion($this->version)
              ->run()
              ->stopOnFail();
-    }
-
-    /**
-     * Downloads Selenium Standalone Server
-     *
-     * @return void
-     */
-    private function getSelenium()
-    {
-        if (!file_exists('selenium-server-standalone.jar'))
-        {
-            $this->say('Downloading Selenium Server, this may take a while.');
-            $this->_exec('curl'
-                         . ' -sS'
-                         . ' --retry 3 --retry-delay 5'
-                         . ' http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar'
-                         . ' > selenium-server-standalone.jar');
-        }
     }
 
     /**
@@ -290,13 +341,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function runSelenium($path = null)
     {
-        if (!$path)
-        {
-            $path = 'selenium-server-standalone.jar';
-        }
-
-        // Running Selenium server
-        $this->_exec("java -jar $path >> selenium.log 2>&1 &");
+        $this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
     }
 
     public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $GithubToken, $repoOwner, $repo, $pull)
@@ -343,5 +388,17 @@ class RoboFile extends \Robo\Tasks
                     );
             }
         }
+    }
+
+    private function getDevelop()
+    {
+        // Get current develop branch of the extension for Extension update test
+        if (is_dir('tests/develop'))
+        {
+            $this->taskDeleteDir('tests/develop')->run();
+        }
+
+        $this->_exec('git clone -b develop --single-branch --depth 1 git@github.com:redCOMPONENT-COM/redSHOP.git tests/develop');
+        $this->say('Downloaded Develop Branch for Update test');
     }
 }

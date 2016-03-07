@@ -34,13 +34,13 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$verifyName = '{' . $textTagName . '}';
 		$I->verifyNotices(false, $this->checkForNotices(), 'Text Library  Manager Page');
 		$I->click('New');
-		$I->waitForElement(\TextLibraryManagerJoomla3Page::$textTagName, 30);
+		$I->waitForElement(\TextLibraryManagerJoomla3Page::$textTagName,30);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagName, $textTagName);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagDescription, $textTagDescription);
 		$I->click(\TextLibraryManagerJoomla3Page::$sectionDropDown);
 		$I->click($textLibraryManagerPage->section($textTagSection));
 		$I->click('Save & Close');
-		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, 60, '.alert-success');
+		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');
 		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
 		$I->click(['link' => 'ID']);
 		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
@@ -65,10 +65,10 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
 		$I->click(\TextLibraryManagerJoomla3Page::$firstResult);
 		$I->click('Edit');
-		$I->waitForElement(\TextLibraryManagerJoomla3Page::$textTagName, 30);
+		$I->waitForElement(\TextLibraryManagerJoomla3Page::$textTagName,30);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagName, $newTextTagName);
 		$I->click('Save & Close');
-		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, 60, '.alert-success');
+		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');
 		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
 		$I->see($newVerifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
 		$I->click(['link' => 'ID']);

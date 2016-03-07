@@ -28,7 +28,7 @@ class RedshopViewWrapper_detail extends RedshopView
 		$lists = array();
 		$detail = $this->get('data');
 		$model = $this->getModel('wrapper_detail');
-		$option = JRequest::getVar('option');
+
 		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$isNew = ($detail->wrapper_id < 1);

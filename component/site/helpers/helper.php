@@ -135,7 +135,7 @@ class redhelper
 			$diff_ship = array_diff($data, $plg_ship_elm);
 			sort($diff_ship);
 
-			for ($i = 0; $i < count($diff_ship); $i++)
+			for ($i = 0, $in = count($diff_ship); $i < $in; $i++)
 			{
 				$query = "DELETE  FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($diff_ship[$i]);
 				$this->_db->setQuery($query);
@@ -214,6 +214,35 @@ class redhelper
 	}
 
 	/**
+	 * Get RedShop Menu Item
+	 *
+	 * @param   array  $queryItems  Values query
+	 *
+	 * @return mixed
+	 */
+	public function getRedShopMenuItem($queryItems)
+	{
+		static $itemAssociation = array();
+		$serializeItem = serialize($queryItems);
+
+		if (!array_key_exists($serializeItem, $itemAssociation))
+		{
+			$itemAssociation[$serializeItem] = false;
+
+			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+			{
+				if ($this->checkMenuQuery($oneMenuItem, $queryItems))
+				{
+					$itemAssociation[$serializeItem] = $oneMenuItem->id;
+					break;
+				}
+			}
+		}
+
+		return $itemAssociation[$serializeItem];
+	}
+
+	/**
 	 * Get Item Id
 	 *
 	 * @param   int  $productId   Product Id
@@ -225,55 +254,45 @@ class redhelper
 	{
 		if ($categoryId)
 		{
-			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+			$result = $this->getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId));
+
+			if ($result)
 			{
-				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId)))
-				{
-					return $oneMenuItem->id;
-				}
+				return $result;
 			}
 		}
 
 		if ($productId)
 		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('category_id')
-				->from($db->qn('#__redshop_product_category_xref', 'cx'))
-				->where('product_id = ' . (int) $productId);
-			$db->setQuery($query);
+			$product = RedshopHelperProduct::getProductById($productId);
 
-			if ($categories = $db->loadColumn())
+			if ($product && is_array($product->categories))
 			{
-				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+				$result = $this->getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category', 'cid' => $product->categories));
+
+				if ($result)
 				{
-					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categories)))
-					{
-						return $oneMenuItem->id;
-					}
+					return $result;
 				}
 			}
 		}
 
 		$input = JFactory::getApplication()->input;
-		$option = $input->getCmd('option', '');
 
-		if ($option != 'com_redshop')
+		if ($input->getCmd('option', '') != 'com_redshop')
 		{
-			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+			$result = $this->getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
+
+			if ($result)
 			{
-				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category')))
-				{
-					return $oneMenuItem->id;
-				}
+				return $result;
 			}
 
-			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+			$result = $this->getRedShopMenuItem(array('option' => 'com_redshop'));
+
+			if ($result)
 			{
-				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop')))
-				{
-					return $oneMenuItem->id;
-				}
+				return $result;
 			}
 		}
 
@@ -291,22 +310,20 @@ class redhelper
 	{
 		if ($categoryId)
 		{
-			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			$result = $this->getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $categoryId));
+
+			if ($result)
 			{
-				if (self::checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $categoryId)))
-				{
-					return $oneMenuItem->id;
-				}
+				return $result;
 			}
 		}
 		else
 		{
-			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			$result = $this->getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
+
+			if ($result)
 			{
-				if (self::checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category')))
-				{
-					return $oneMenuItem->id;
-				}
+				return $result;
 			}
 		}
 
@@ -315,7 +332,7 @@ class redhelper
 
 	public function convertLanguageString($arr)
 	{
-		for ($i = 0; $i < count($arr); $i++)
+		for ($i = 0, $in = count($arr); $i < $in; $i++)
 		{
 			$txt   = $arr[$i]->text;
 			$ltext = JText::_($txt);
@@ -332,7 +349,7 @@ class redhelper
 
 		$tmpArray = array();
 
-		for ($i = 0; $i < count($arr); $i++)
+		for ($i = 0, $in = count($arr); $i < $in; $i++)
 		{
 			$txt            = $arr[$i]->text;
 			$val            = $arr[$i]->value;
@@ -495,7 +512,7 @@ class redhelper
 		$prodctcat = $this->_db->loadObjectList();
 		$catflag   = false;
 
-		for ($i = 0; $i < count($prodctcat); $i++)
+		for ($i = 0, $in = count($prodctcat); $i < $in; $i++)
 		{
 			$cid            = $prodctcat[$i]->category_id;
 			$shoppercatdata = $this->getShopperGroupCategory($cid);
@@ -1019,38 +1036,19 @@ class redhelper
 		return $message;
 	}
 
-	public function getsslLink($link, $applySSL)
-	{
-		$uri = JURI::getInstance($link);
-
-		if ($applySSL)
-		{
-			$uri->setScheme('https');
-		}
-		else
-		{
-			$uri->setScheme('http');
-		}
-
-		$link = JFilterOutput::cleanText($uri->toString());
-
-		return $link;
-	}
-
+	/**
+	 * SSL link
+	 *
+	 * @param   string   $link      Link
+	 * @param   integer  $applySSL  Apply ssl or not.
+	 *
+	 * @deprecated 1.6   Use RedshopHelperUtility::getSslLink($link, $applySSL) instead
+	 *
+	 * @return  string              Converted string
+	 */
 	public function sslLink($link, $applySSL = 1)
 	{
-		if (!SSL_ENABLE_IN_BACKEND || $applySSL == 0)
-		{
-			return $link;
-		}
-		else
-		{
-			$url  = JURI::base();
-			$link = $url . $link;
-			$link = $this->getsslLink($link, $applySSL);
-		}
-
-		return $link;
+		return RedshopHelperUtility::getSSLLink($link, $applySSL);
 	}
 
 	public function getEconomicAccountGroup($accountgroup_id = 0, $front = 0)

@@ -711,7 +711,7 @@ class producthelper
 
 		$str = array();
 
-		for ($i = 0; $i < count($filedname); $i++)
+		for ($i = 0, $in = count($filedname); $i < $in; $i++)
 		{
 			if ($categorypage == 1)
 			{
@@ -1331,7 +1331,7 @@ class producthelper
 				$quaboxarr       = array_merge(array(), array_unique($quaboxarr));
 				sort($quaboxarr);
 
-				for ($q = 0; $q < count($quaboxarr); $q++)
+				for ($q = 0, $qn = count($quaboxarr); $q < $qn; $q++)
 				{
 					if (intVal($quaboxarr[$q]) && intVal($quaboxarr[$q]) != 0)
 					{
@@ -2290,7 +2290,7 @@ class producthelper
 		$this->_db->setQuery($query);
 		$cat = $this->_db->loadObjectList();
 
-		for ($i = 0; $i < count($cat); $i++)
+		for ($i = 0, $in = count($cat); $i < $in; $i++)
 		{
 			$usetoall .= " OR FIND_IN_SET(" . (int) $cat[$i]->category_id . ",category_id) ";
 		}
@@ -2315,7 +2315,7 @@ class producthelper
 	{
 		$pathway_items = array();
 
-		for ($i = 0; $i < count($category); $i++)
+		for ($i = 0, $in = count($category); $i < $in; $i++)
 		{
 			$item            = new stdClass;
 			$item->name      = $category[$i]['category_name'];
@@ -2652,7 +2652,7 @@ class producthelper
 		{
 			$custompathway[count($custompathway) - 1]->link = '';
 
-			for ($j = 0; $j < count($custompathway); $j++)
+			for ($j = 0, $jn = count($custompathway); $j < $jn; $j++)
 			{
 				$pathway->addItem($custompathway[$j]->name, $custompathway[$j]->link);
 			}
@@ -2763,24 +2763,17 @@ class producthelper
 
 		foreach ($menuItems as $oneMenuItem)
 		{
-			$test = true;
-
-			foreach ($values as $key => $value)
+			if (!$helper->checkMenuQuery($oneMenuItem, $values))
 			{
-				if (!$helper->checkMenuQuery($oneMenuItem, array($key => $value)))
-				{
-					$test = false;
-					break;
-				}
+				break;
 			}
 
-			if ($sectionName != '' && $test)
+			if ($sectionName != '')
 			{
 				if ($sectionId != 0)
 				{
 					if ($oneMenuItem->params->get($sectionName) != $sectionId)
 					{
-						$test = false;
 						break;
 					}
 				}
@@ -2788,16 +2781,12 @@ class producthelper
 				{
 					if ($oneMenuItem->params->get($sectionName, false) !== false)
 					{
-						$test = false;
 						break;
 					}
 				}
 			}
 
-			if ($test)
-			{
-				return $oneMenuItem;
-			}
+			return $oneMenuItem;
 		}
 
 		return null;
@@ -2993,9 +2982,9 @@ class producthelper
 			$returnArr    = $this->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
 			$userFieldTag = $returnArr[1];
 
-			for ($i = 0; $i < count($userFieldTag); $i++)
+			for ($i = 0, $in = count($userFieldTag); $i < $in; $i++)
 			{
-				for ($j = 0; $j < count($userfield); $j++)
+				for ($j = 0, $jn = count($userfield); $j < $jn; $j++)
 				{
 					if ($userfield[$j]->field_name == $userFieldTag[$i])
 					{
@@ -3004,7 +2993,7 @@ class producthelper
 							$files    = explode(",", $userfield[$j]->data_txt);
 							$data_txt = "";
 
-							for ($f = 0; $f < count($files); $f++)
+							for ($f = 0, $fn = count($files); $f < $fn; $f++)
 							{
 								$u_link = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
 								$data_txt .= "<a href='" . $u_link . "' target='_blank'>" . $files[$f] . "</a> ";
@@ -3012,14 +3001,14 @@ class producthelper
 
 							if (trim($data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->field_title . " : " . $data_txt;
+								$resultArr[] = $userfield[$j]->field_title . " : " . stripslashes($data_txt);
 							}
 						}
 						else
 						{
 							if (trim($userfield[$j]->data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->field_title . " : " . $userfield[$j]->data_txt;
+								$resultArr[] = $userfield[$j]->field_title . " : " . stripslashes($userfield[$j]->data_txt);
 							}
 						}
 					}
@@ -3077,7 +3066,7 @@ class producthelper
 		{
 			$tmpArr = explode('}', $template_middle);
 
-			for ($i = 0; $i < count($tmpArr); $i++)
+			for ($i = 0, $in = count($tmpArr); $i < $in; $i++)
 			{
 				$val   = strpbrk($tmpArr[$i], "{");
 				$value = str_replace("{", "", $val);
@@ -3100,7 +3089,7 @@ class producthelper
 
 		$tmp = array();
 
-		for ($i = 0; $i < count($userfields); $i++)
+		for ($i = 0, $in = count($userfields); $i < $in; $i++)
 		{
 			if (!in_array($userfields[$i], $userfields_lbl))
 			{
@@ -3147,9 +3136,9 @@ class producthelper
 
 		$resultArr = array();
 
-		for ($i = 0; $i < count($userFieldTag); $i++)
+		for ($i = 0, $in = count($userFieldTag); $i < $in; $i++)
 		{
-			for ($j = 0; $j < count($row_data); $j++)
+			for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 			{
 				if (array_key_exists($userFieldTag[$i], $cart[$id]) && $cart[$id][$userFieldTag[$i]])
 				{
@@ -3187,7 +3176,7 @@ class producthelper
 
 		$resultArr = array();
 
-		for ($j = 0; $j < count($row_data); $j++)
+		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
 			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
 
@@ -3222,7 +3211,7 @@ class producthelper
 
 		$resultArr = array();
 
-		for ($j = 0; $j < count($row_data); $j++)
+		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
 			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
 
@@ -3252,7 +3241,7 @@ class producthelper
 		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			if (array_key_exists($row_data[$i]->field_name, $cart[$id]) && $cart[$id][$row_data[$i]->field_name])
 			{
@@ -3546,7 +3535,7 @@ class producthelper
 		$stockroomhelper        = new rsstockroomhelper;
 		$subproperty_with_stock = array();
 
-		for ($p = 0; $p < count($subproperty); $p++)
+		for ($p = 0, $pn = count($subproperty); $p < $pn; $p++)
 		{
 			$isStock = $stockroomhelper->isStockExists($subproperty[$p]->subattribute_color_id, $section = "subproperty");
 
@@ -3630,7 +3619,7 @@ class producthelper
 
 		if ($data_add != "")
 		{
-			for ($i = 0; $i < count($attribute_template); $i++)
+			for ($i = 0, $in = count($attribute_template); $i < $in; $i++)
 			{
 				if (strstr($data_add, "{" . $displayname . ":" . $attribute_template[$i]->template_name . "}"))
 				{
@@ -3683,21 +3672,13 @@ class producthelper
 			$groupby = " GROUP BY a.child_product_id";
 		}
 
-		if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
-		{
-			$switchquery = ", IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-				. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) AS newaccessory_price ";
-		}
-		else
-		{
-			$switchquery = ", CASE a.oprand "
-				. "WHEN '+' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-				. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) + accessory_price "
-				. "WHEN '-' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-				. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) - accessory_price "
-				. "WHEN '=' THEN accessory_price "
-				. "END AS newaccessory_price ";
-		}
+		$switchquery = ", CASE a.oprand "
+			. "WHEN '+' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
+			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) + accessory_price "
+			. "WHEN '-' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
+			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) - accessory_price "
+			. "WHEN '=' THEN accessory_price "
+			. "END AS newaccessory_price ";
 
 		$mainpricequery = "IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
 			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) AS accessory_main_price ";
@@ -3733,7 +3714,7 @@ class producthelper
 
 		if ($data_add != "")
 		{
-			for ($i = 0; $i < count($cart_template); $i++)
+			for ($i = 0, $in = count($cart_template); $i < $in; $i++)
 			{
 				if (strstr($data_add, "{form_addtocart:" . $cart_template[$i]->template_name . "}"))
 				{
@@ -3769,7 +3750,7 @@ class producthelper
 
 		if ($data_add != "")
 		{
-			for ($i = 0; $i < count($acc_template); $i++)
+			for ($i = 0, $in = count($acc_template); $i < $in; $i++)
 			{
 				if (strstr($data_add, "{accessory_template:" . $acc_template[$i]->template_name . "}"))
 				{
@@ -3794,7 +3775,7 @@ class producthelper
 		$template      = $redTemplate->getTemplate("related_product");
 		$template_data = array();
 
-		for ($i = 0; $i < count($template); $i++)
+		for ($i = 0, $in = count($template); $i < $in; $i++)
 		{
 			if (strstr($data_add, "{related_product:" . $template[$i]->template_name . "}"))
 			{
@@ -3861,7 +3842,7 @@ class producthelper
 
 				$relatedArr = array();
 
-				for ($i = 0; $i < count($list); $i++)
+				for ($i = 0, $in = count($list); $i < $in; $i++)
 				{
 					if ($list[$i]->product_id == $product_id)
 					{
@@ -3961,7 +3942,7 @@ class producthelper
 	{
 		$setEqual = true;
 
-		for ($i = 0; $i < count($oprandArr); $i++)
+		for ($i = 0, $in = count($oprandArr); $i < $in; $i++)
 		{
 			$oprand   = $oprandArr[$i];
 			$subprice = $priceArr[$i];
@@ -4092,7 +4073,7 @@ class producthelper
 			$default_ajaxdetail_templatedata = array();
 			$ajaxdetail_template             = $redTemplate->getTemplate("ajax_cart_detail_box");
 
-			for ($i = 0; $i < count($ajaxdetail_template); $i++)
+			for ($i = 0, $in = count($ajaxdetail_template); $i < $in; $i++)
 			{
 				if (strstr($producttemplate[0]->template_desc, "{ajaxdetail_template:" . $ajaxdetail_template[$i]->template_name . "}"))
 				{
@@ -4298,7 +4279,7 @@ class producthelper
 
 				$accessory_div_middle = $acctemplate_data[0];
 
-				for ($a = 0; $a < count($accessory); $a++)
+				for ($a = 0, $an = count($accessory); $a < $an; $a++)
 				{
 					$ac_id    = $accessory [$a]->child_product_id;
 					$c_p_data = $this->getProductById($ac_id);
@@ -4428,8 +4409,7 @@ class producthelper
 
 						if (count($manufacturer) > 0)
 						{
-							$man_url          = JRoute::_('index.php?option='
-								. $option . '&view=manufacturers&layout=products&mid='
+							$man_url          = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid='
 								. $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
 							$manufacturerLink = "<a href='" . $man_url . "'>" . JText::_("VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 							$accessory_div    = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $accessory_div);
@@ -4452,7 +4432,8 @@ class producthelper
 
 					if (!strstr($accessory_div, "{without_vat}"))
 					{
-						$accessorypricelist = $this->getAccessoryPrice($product_id,
+						$accessorypricelist = $this->getAccessoryPrice(
+							$product_id,
 							$accessory[$a]->newaccessory_price,
 							$accessory[$a]->accessory_main_price
 						);
@@ -4673,7 +4654,7 @@ class producthelper
 			$cart_template   = array();
 			$attribute_table = "";
 
-			for ($a = 0; $a < count($attributes); $a++)
+			for ($a = 0, $an = count($attributes); $a < $an; $a++)
 			{
 				$attribute_table .= $attribute_template->template_desc;
 
@@ -4702,7 +4683,7 @@ class producthelper
 
 					$property_data = "";
 
-					for ($i = 0; $i < count($property); $i++)
+					for ($i = 0, $in = count($property); $i < $in; $i++)
 					{
 						$property_data .= $property_template;
 
@@ -4986,7 +4967,7 @@ class producthelper
 		{
 			$attribute_table = "<span id='attribute_ajax_span'>";
 
-			for ($a = 0; $a < count($attributes); $a++)
+			for ($a = 0, $an = count($attributes); $a < $an; $a++)
 			{
 				$subdisplay = false;
 
@@ -5010,14 +4991,13 @@ class producthelper
 					$propertyid  = 'property_id_' . $commonid;
 
 					$imgAdded               = 0;
-					$selectedproperty       = 0;
+					$selectedProperty       = 0;
 					$property_woscrollerdiv = "";
 
 					if (strstr($attribute_table, "{property_image_without_scroller}"))
 					{
 						$attribute_table        = str_replace("{property_image_scroller}", "", $attribute_table);
 						$property_woscrollerdiv = "<div class='property_main_outer'>";
-						//$property_woscrollerdiv .= "<table border='0'>";
 					}
 
 					$property_scrollerdiv = "<table cellpadding='5' cellspacing='5'><tr>";
@@ -5031,20 +5011,20 @@ class producthelper
 						. " = new ImageScroller(\"isFlowersFrame" . $commonid . "\", \"isFlowersImageRow"
 						. $commonid . "\");";
 
-					for ($i = 0; $i < count($property); $i++)
+					for ($i = 0, $in = count($property); $i < $in; $i++)
 					{
 						if (count($selectProperty) > 0)
 						{
 							if (in_array($property[$i]->value, $selectProperty))
 							{
-								$selectedproperty = $property[$i]->value;
+								$selectedProperty = $property[$i]->value;
 							}
 						}
 						else
 						{
 							if ($property[$i]->setdefault_selected)
 							{
-								$selectedproperty = $property[$i]->value;
+								$selectedProperty = $property[$i]->value;
 							}
 						}
 
@@ -5080,7 +5060,7 @@ class producthelper
 						{
 							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[$i]->property_image))
 							{
-								$borderstyle = ($selectedproperty == $property[$i]->value) ? " 1px solid " : "";
+								$borderstyle = ($selectedProperty == $property[$i]->value) ? " 1px solid " : "";
 
 								$thumbUrl = RedShopHelperImages::getImagePath(
 											$property[$i]->property_image,
@@ -5223,58 +5203,68 @@ class producthelper
 
 					}
 
-					$tmp_array            = array(new stdClass);
-					$tmp_array [0]->value = 0;
-					$tmp_array [0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
+					$properties = array_merge(
+						array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' '. urldecode($attributes[$a]->text))),
+						$property
+					);
+					$defaultPropertyId = array();
+					$attDisplayType    = $attributes[$a]->display_type;
 
-					$new_property      = array_merge($tmp_array, $property);
-					$defaultpropertyId = array();
-					$chklist           = "";
-					$display_type      = $attributes[$a]->display_type;
+					// Init listing html-attributes
+					$chkListAttributes = array(
+						'attribute_name' => urldecode($attributes[$a]->attribute_name)
+					);
 
-					if ($attributes[$a]->allow_multiple_selection)
+					// Only add required html-attibute if needed.
+					if ($attributes[$a]->attribute_required)
 					{
-						$display_type = 'checkbox';
+						$chkListAttributes['required'] = 'true';
 					}
 
-					if ($display_type == 'checkbox' || $display_type == 'radio')
+					// Prepare Javascript OnChange or OnClick function
+					$changePropertyDropdown = "changePropertyDropdown('" . $product_id . "','" . $accessory_id . "','" . $relproduct_id . "', '" . $attributes[$a]->value . "',this.value, '" . $mpw_thumb . "', '" . $mph_thumb . "');";
+
+					// Radio or Checkbox
+					if ($attDisplayType == 'radio')
 					{
-						unset($new_property[0]);
+						unset($properties[0]);
 
-						$htmlAttr = 'attribute_name="' . urldecode($attributes[$a]->attribute_name) . '"'
-									. ' required="' . $attributes [$a]->attribute_required . '"'
-									. ' onClick="javascript:changePropertyDropdown(\'' . $product_id . '\',\'' . $accessory_id . '\',\'' . $relproduct_id . '\',\'' . $attributes [$a]->value . '\',this.value,\'' . $mpw_thumb . '\',\'' . $mph_thumb . '\');"';
+						$attributeListType = ($attributes[$a]->allow_multiple_selection) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
 
-						$chklist = JHtml::_(
-							'select.radiolist',
-							$new_property,
-							$propertyid . '[]',
-							$htmlAttr,
-							'value',
-							'text',
-							$selectedproperty,
-							$propertyid . '_'
-						);
+						$chkListAttributes['cssClassSuffix'] = ' no-group';
+						$chkListAttributes['onClick']        = "javascript:" . $changePropertyDropdown;
 					}
+					// Dropdown list
 					else
 					{
-						$scrollerFunction = "";
+						$attributeListType = 'select.genericlist';
+						$scrollerFunction  = '';
 
 						if ($imgAdded > 0 && strstr($attribute_table, "{property_image_scroller}"))
 						{
 							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
 						}
 
-						$chklist = JHTML::_('select.genericlist', $new_property, $propertyid . '[]', 'id="' . $propertyid . '"  class="inputbox" size="1" attribute_name="' . urldecode($attributes[$a]->attribute_name) . '" required="' . $attributes [$a]->attribute_required . '" onchange="javascript:' . $scrollerFunction . 'changePropertyDropdown(\'' . $product_id . '\',\'' . $accessory_id . '\',\'' . $relproduct_id . '\',\'' . $attributes [$a]->value . '\',this.value,\'' . $mpw_thumb . '\',\'' . $mph_thumb . '\');" ', 'value', 'text', $selectedproperty);
+						$chkListAttributes['id']       = $propertyid;
+						$chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
 
-						if ($selectedproperty)
+						if ($selectedProperty)
 						{
 							$subdisplay          = true;
-							$defaultpropertyId[] = $selectedproperty;
+							$defaultPropertyId[] = $selectedProperty;
 						}
 					}
 
-					$lists ['property_id'] = $chklist;
+					$lists['property_id'] = JHTML::_(
+						$attributeListType,
+						$properties,
+						$propertyid . '[]',
+						$chkListAttributes,
+						'value',
+						'text',
+						$selectedProperty,
+						$propertyid . '_'
+					);
 
 					$attribute_table .= "<input type='hidden' name='" . $hiddenattid . "[]' value='" . $attributes [$a]->value . "' />";
 
@@ -5340,9 +5330,9 @@ class producthelper
 
 					$displaySubproperty = "";
 
-					for ($selp = 0; $selp < count($defaultpropertyId); $selp++)
+					for ($selp = 0; $selp < count($defaultPropertyId); $selp++)
 					{
-						$displaySubproperty .= $this->replaceSubPropertyData($product_id, $accessory_id, $relproduct_id, $attributes[$a]->attribute_id, $defaultpropertyId[$selp], $subpropertydata, $layout, $selectSubproperty);
+						$displaySubproperty .= $this->replaceSubPropertyData($product_id, $accessory_id, $relproduct_id, $attributes[$a]->attribute_id, $defaultPropertyId[$selp], $subpropertydata, $layout, $selectSubproperty);
 					}
 
 					if ($subdisplay)
@@ -5485,7 +5475,7 @@ class producthelper
 
 				$subprop_Arry = array();
 
-				for ($i = 0; $i < count($subproperty); $i++)
+				for ($i = 0, $in = count($subproperty); $i < $in; $i++)
 				{
 					if (count($selectSubproperty) > 0)
 					{
@@ -5654,80 +5644,68 @@ class producthelper
 					}
 				}
 
-				$tmp_array           = array();
-				$tmp_array[0]        = new stdClass;
-				$tmp_array[0]->value = 0;
-				$tmp_array[0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . $displayPropertyName;
+				$subproperties = array_merge(
+					array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
+					$subproperty
+				);
+				$attDisplayType = (isset($subproperty[0]->setdisplay_type)) ? $subproperty[0]->setdisplay_type : 'radio';
 
-				$new_subproperty = array_merge($tmp_array, $subproperty);
-				$chklist         = '';
-				$display_type = 'radio';
+				// Init listing html-attributes
+				$chkListAttributes = array(
+					'id'          => $subpropertyid,
+					'subpropName' => $displayPropertyName
+				);
 
-				if (isset($subproperty[0]->setdisplay_type))
+				// Only add required html-attibute if needed.
+				if ($subproperty[0]->setrequire_selected)
 				{
-					$display_type = $subproperty[0]->setdisplay_type;
+					$chkListAttributes['required'] = 'true';
 				}
 
-				if ($subproperty[0]->setmulti_selected)
-				{
-					$display_type = 'checkbox';
-				}
+				$scrollerFunction = '';
 
-				if ($display_type == 'checkbox' || $display_type == 'radio')
+				if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
 				{
-					for ($chk = 0; $chk < count($subproperty); $chk++)
+					$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
+
+					if ('radio' == $attDisplayType)
 					{
-						$checked = "";
-
-						if (count($selectSubproperty) > 0)
-						{
-							if (in_array($subproperty[$chk]->value, $selectSubproperty))
-							{
-								$checked = "checked";
-							}
-						}
-						else
-						{
-							if ($subproperty[$chk]->setdefault_selected)
-							{
-								$checked = "checked";
-							}
-						}
-
-						$scrollerFunction = "";
-
-						if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
-						{
-							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
-						}
-
-						$chklist .= "<div class='attribute_multiselect_single'><input type='" . $display_type . "' "
-							. $checked . " value='" . $subproperty[$chk]->value . "' name='" . $subpropertyid
-							. "[]'  id='" . $subpropertyid . "' class='inputbox' onClick='javascript:" . $scrollerFunction
-							. "calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
-							. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
-							. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$chk]->value . "\");' />&nbsp;"
-							. $subproperty[$chk]->text . "</div>";
+						$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
 					}
 				}
+
+				// Prepare Javascript OnChange or OnClick function
+				$onChangeJSFunction = $scrollerFunction
+									. "calculateTotalPrice('" . $product_id . "','" . $relatedprd_id . "');"
+									. "displayAdditionalImage('" . $product_id . "','" . $accessory_id . "','" . $relatedprd_id . "','" . $property_id . "',this.value);";
+
+				// Radio or Checkbox
+				if ('radio' == $attDisplayType)
+				{
+					unset($subproperties[0]);
+
+					$attributeListType = ($subproperty[0]->setmulti_selected) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
+
+					$chkListAttributes['cssClassSuffix'] = ' no-group';
+					$chkListAttributes['onClick']        = "javascript:" . $onChangeJSFunction;
+				}
+				// Dropdown list
 				else
 				{
-					$scrollerFunction = "";
-
-					if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
-					{
-						$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
-					}
-
-					$chklist = JHTML::_('select.genericlist', $new_subproperty, $subpropertyid . '[]', ' id="'
-						. $subpropertyid . '" class="inputbox" size="1" required="' . $subproperty[0]->setrequire_selected
-						. '" subpropName="' . $displayPropertyName . '"  onchange="javascript:' . $scrollerFunction
-						. 'calculateTotalPrice(\'' . $product_id . '\',\'' . $relatedprd_id . '\');displayAdditionalImage(\''
-						. $product_id . '\',\'' . $accessory_id . '\',\'' . $relatedprd_id . '\',\'' . $property_id
-						. '\',this.value);" ', 'value', 'text', $selectedsubproperty);
+					$attributeListType = 'select.genericlist';
+					$chkListAttributes['onchange'] = "javascript:" . $onChangeJSFunction;
 				}
 
-				$lists ['subproperty_id'] = $chklist;
+				$lists['subproperty_id'] = JHTML::_(
+					$attributeListType,
+					$subproperties,
+					$subpropertyid . '[]',
+					$chkListAttributes,
+					'value',
+					'text',
+					$selectedsubproperty,
+					$subpropertyid
+				);
 
 				if ($imgAdded == 0 || $isAjax == 1)
 				{
@@ -5771,17 +5749,17 @@ class producthelper
 			return $product_showprice;
 		}
 
-		for ($a = 0; $a < count($attributes); $a++)
+		for ($a = 0, $an = count($attributes); $a < $an; $a++)
 		{
 			$property = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
 			if ($attributes[$a]->text != "" && count($property) > 0)
 			{
-				$selectedpropertyId = array();
+				$selectedPropertyId = array();
 				$proprice           = array();
 				$prooprand          = array();
 
-				for ($i = 0; $i < count($property); $i++)
+				for ($i = 0, $in = count($property); $i < $in; $i++)
 				{
 					if ($property[$i]->setdefault_selected)
 					{
@@ -5799,7 +5777,7 @@ class producthelper
 
 						$proprice[]           = $property[$i]->property_price;
 						$prooprand[]          = $property[$i]->oprand;
-						$selectedpropertyId[] = $property[$i]->property_id;
+						$selectedPropertyId[] = $property[$i]->property_id;
 					}
 				}
 
@@ -5807,17 +5785,17 @@ class producthelper
 				{
 					$proprice           = array($proprice[count($proprice) - 1]);
 					$prooprand          = array($prooprand[count($prooprand) - 1]);
-					$selectedpropertyId = array($selectedpropertyId[count($selectedpropertyId) - 1]);
+					$selectedPropertyId = array($selectedPropertyId[count($selectedPropertyId) - 1]);
 				}
 				// Add default selected Property price to product price
 				$default_priceArr  = $this->makeTotalPriceByOprand($product_showprice, $prooprand, $proprice);
 				$product_showprice = $default_priceArr[1];
 
-				for ($i = 0; $i < count($selectedpropertyId); $i++)
+				for ($i = 0, $in = count($selectedPropertyId); $i < $in; $i++)
 				{
 					$subproprice  = array();
 					$subprooprand = array();
-					$subproperty  = $this->getAttibuteSubProperty(0, $selectedpropertyId[$i]);
+					$subproperty  = $this->getAttibuteSubProperty(0, $selectedPropertyId[$i]);
 
 					for ($sp = 0; $sp < count($subproperty); $sp++)
 					{
@@ -5864,7 +5842,6 @@ class producthelper
 		$user_id         = 0;
 		$url             = JURI::base();
 		$stockroomhelper = new rsstockroomhelper;
-		$option          = 'com_redshop';
 		$Itemid          = JRequest::getInt('Itemid');
 
 		$product = $this->getProductById($product_id);
@@ -6002,7 +5979,7 @@ class producthelper
 				$qselect = "<select name='quantity' id='quantity" . $product_id . "'  OnChange='calculateTotalPrice("
 					. $product_id . ",0);'>";
 
-				for ($q = 0; $q < count($quaboxarr); $q++)
+				for ($q = 0, $qn = count($quaboxarr); $q < $qn; $q++)
 				{
 					if (intVal($quaboxarr[$q]) && intVal($quaboxarr[$q]) != 0)
 					{
@@ -6414,7 +6391,7 @@ class producthelper
 			$requiredattribute = $this->getProductAttribute($product_id, 0, 0, 1, 1);
 			$requiredattribute = array_merge($requiredattribute, $attributes_set);
 
-			for ($i = 0; $i < count($requiredattribute); $i++)
+			for ($i = 0, $in = count($requiredattribute); $i < $in; $i++)
 			{
 				$totrequiredatt .= JText::_('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') . " "
 					. urldecode($requiredattribute[$i]->attribute_name) . "\n";
@@ -6422,7 +6399,7 @@ class producthelper
 
 			$requiredproperty = $this->getAttibuteProperty(0, 0, $product_id, 0, 1);
 
-			for ($y = 0; $y < count($requiredproperty); $y++)
+			for ($y = 0, $yn = count($requiredproperty); $y < $yn; $y++)
 			{
 				$totrequiredprop .= JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . " "
 					. urldecode($requiredproperty[$y]->property_name) . "\n";
@@ -6495,17 +6472,17 @@ class producthelper
 
 			if (count($attributes) > 0)
 			{
-				$selectedpropertyId    = 0;
+				$selectedPropertyId    = 0;
 				$selectedsubpropertyId = 0;
 
-				for ($a = 0; $a < count($attributes); $a++)
+				for ($a = 0, $an = count($attributes); $a < $an; $a++)
 				{
 					$selectedId = array();
 					$property   = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id, $product_id);
 
 					if ($attributes[$a]->text != "" && count($property) > 0)
 					{
-						for ($i = 0; $i < count($property); $i++)
+						for ($i = 0, $in = count($property); $i < $in; $i++)
 						{
 							if ($property[$i]->setdefault_selected)
 							{
@@ -6515,8 +6492,8 @@ class producthelper
 
 						if (count($selectedId) > 0)
 						{
-							$selectedpropertyId = $selectedId[count($selectedId) - 1];
-							$subproperty        = $this->getAttibuteSubProperty(0, $selectedpropertyId);
+							$selectedPropertyId = $selectedId[count($selectedId) - 1];
+							$subproperty        = $this->getAttibuteSubProperty(0, $selectedPropertyId);
 							$selectedId         = array();
 
 							for ($sp = 0; $sp < count($subproperty); $sp++)
@@ -6537,7 +6514,7 @@ class producthelper
 
 				$preselected_attrib_img = $this->get_hidden_attribute_cartimage(
 					$product_id,
-					$selectedpropertyId,
+					$selectedPropertyId,
 					$selectedsubpropertyId
 				);
 
@@ -6720,7 +6697,7 @@ class producthelper
 					$qselect = "<select name='quantity' id='quantity" . $product_id
 						. "'  OnChange='calculateTotalPrice(" . $product_id . "," . $relproduct_id . ");'>";
 
-					for ($q = 0; $q < count($quaboxarr); $q++)
+					for ($q = 0, $qn = count($quaboxarr); $q < $qn; $q++)
 					{
 						if (intVal($quaboxarr[$q]) && intVal($quaboxarr[$q]) != 0)
 						{
@@ -7030,12 +7007,9 @@ class producthelper
 			if (strstr($data_add, '{' . $prefix . 'compare_product_div}'))
 			{
 				$div                 = $this->makeCompareProductDiv();
-				$compare_product_div = "<form name='frmCompare' method='post' action='"
-					. JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid) . "' >";
-				$compare_product_div .= "<a href='javascript:compare();' >" . JText::_('COM_REDSHOP_COMPARE')
+				$compare_product_div = "<a href='" . JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid) . "' >" . JText::_('COM_REDSHOP_COMPARE')
 					. "</a><br />";
 				$compare_product_div .= "<div id='divCompareProduct'>" . $div . "</div>";
-				$compare_product_div .= "</form>";
 				$data_add = str_replace("{compare_product_div}", $compare_product_div, $data_add);
 			}
 
@@ -7046,11 +7020,24 @@ class producthelper
 					$category_id = $this->getCategoryProduct($product_id);
 				}
 
-				$chked           = $this->checkcompareproduct($product_id);
-				$compare_product = "<input type='checkbox' id='chk" . $category_id . $product_id . "' " . $chked
-					. " onClick='add_to_compare(" . $product_id . "," . $category_id . ")'>"
-					. JText::_("COM_REDSHOP_ADD_TO_COMPARE");
-				$data_add        = str_replace("{" . $prefix . "compare_products_button}", $compare_product, $data_add);
+				$compareButton = new stdClass;
+				$compareButton->text = JText::_("COM_REDSHOP_ADD_TO_COMPARE");
+				$compareButton->value = $product_id . '.' . $category_id;
+
+				$compareButtonAttributes = array(
+					'cssClassSuffix' => ' no-group'
+				);
+
+				$compare_product = JHTML::_(
+						'redshopselect.checklist',
+						array($compareButton),
+						'rsProductCompareChk',
+						$compareButtonAttributes,
+						'value',
+						'text',
+						(new RedshopProductCompare)->getItemKey($product_id)
+					);
+				$data_add = str_replace("{" . $prefix . "compare_products_button}", $compare_product, $data_add);
 			}
 		}
 		else
@@ -7083,7 +7070,7 @@ class producthelper
 		{
 			$displayaccessory .= "<div class='checkout_accessory_static'>" . JText::_("COM_REDSHOP_ACCESSORY") . "</div>";
 
-			for ($i = 0; $i < count($attArr); $i++)
+			for ($i = 0, $in = count($attArr); $i < $in; $i++)
 			{
 				$acc_vat = 0;
 
@@ -7111,7 +7098,7 @@ class producthelper
 					. $displayPrice . "</div>";
 				$attchildArr = $attArr[$i]['accessory_childs'];
 
-				for ($j = 0; $j < count($attchildArr); $j++)
+				for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 				{
 					$prooprand      = array();
 					$proprice       = array();
@@ -7138,7 +7125,7 @@ class producthelper
 							. urldecode($attchildArr[$j]['attribute_name']) . ":</div>";
 					}
 
-					for ($k = 0; $k < count($propArr); $k++)
+					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
 						$property_price = $propArr[$k]['property_price'];
 						$acc_vat        = 0;
@@ -7189,7 +7176,7 @@ class producthelper
 							. urldecode($propArr[$k]['property_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
 						$subpropArr = $propArr[$k]['property_childs'];
 
-						for ($l = 0; $l < count($subpropArr); $l++)
+						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 						{
 							$acc_vat           = 0;
 							$acc_subpropvat    = 0;
@@ -7250,7 +7237,7 @@ class producthelper
 						$accessory_vat_price = $accessory_vatArr[1];
 					}
 
-					for ($t = 0; $t < count($propArr); $t++)
+					for ($t = 0, $tn = count($propArr); $t < $tn; $t++)
 					{
 						$subElementArr = $propArr[$t]['property_childs'];
 
@@ -7347,7 +7334,7 @@ class producthelper
 		$isStock         = $stockroomhelper->isStockExists($product_id);
 		$isPreorderStock = $stockroomhelper->isPreorderStockExists($product_id);
 
-		for ($i = 0; $i < count($attArr); $i++)
+		for ($i = 0, $in = count($attArr); $i < $in; $i++)
 		{
 			$prooprand      = array();
 			$proprice       = array();
@@ -7374,7 +7361,7 @@ class producthelper
 					. ":</div>";
 			}
 
-			for ($k = 0; $k < count($propArr); $k++)
+			for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 			{
 				$att_vat = 0;
 
@@ -7440,7 +7427,7 @@ class producthelper
 						. urldecode($subpropArr[0]['subattribute_color_title']) . "</div>";
 				}
 
-				for ($l = 0; $l < count($subpropArr); $l++)
+				for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 				{
 					$att_vat = 0;
 
@@ -7517,7 +7504,7 @@ class producthelper
 				$productOldprice   = $accessory_oldpriceArr[1];
 			}
 
-			for ($t = 0; $t < count($propArr); $t++)
+			for ($t = 0, $tn = count($propArr); $t < $tn; $t++)
 			{
 				$subElementArr             = $propArr[$t]['property_childs'];
 				$selectedAttributs[$sel++] = $attArr[$i]['attribute_id'];
@@ -7591,7 +7578,7 @@ class producthelper
 			$displayaccessory .= "<div class='checkout_accessory_static'>"
 				. JText::_("COM_REDSHOP_ACCESSORY") . ":</div>";
 
-			for ($i = 0; $i < count($orderItemdata); $i++)
+			for ($i = 0, $in = count($orderItemdata); $i < $in; $i++)
 			{
 				$accessory_quantity = " [" . JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " "
 					. $orderItemdata[$i]->product_quantity . "] ";
@@ -7642,7 +7629,7 @@ class producthelper
 
 		if (count($orderItemAttdata) > 0)
 		{
-			for ($i = 0; $i < count($orderItemAttdata); $i++)
+			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
 			{
 				$attribute            = $this->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
 				$hide_attribute_price = 0;
@@ -7666,7 +7653,7 @@ class producthelper
 				// Initialize attribute calculated price
 				$propertyCalculatedPriceSum = $orderItemdata[0]->product_item_old_price;
 
-				for ($p = 0; $p < count($orderPropdata); $p++)
+				for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
 				{
 					$property_price = $orderPropdata[$p]->section_price;
 
@@ -7903,7 +7890,7 @@ class producthelper
 		{
 			$displayaccessory .= "<div class='checkout_accessory_static'>" . JText::_("COM_REDSHOP_ACCESSORY") . ":</div>";
 
-			for ($i = 0; $i < count($Itemdata); $i++)
+			for ($i = 0, $in = count($Itemdata); $i < $in; $i++)
 			{
 				$displayaccessory .= "<div class='checkout_accessory_title'>" . urldecode($Itemdata[$i]->accessory_item_name) . " ";
 
@@ -7956,7 +7943,7 @@ class producthelper
 
 		if (count($ItemAttdata) > 0)
 		{
-			for ($i = 0; $i < count($ItemAttdata); $i++)
+			for ($i = 0, $in = count($ItemAttdata); $i < $in; $i++)
 			{
 				$displayattribute .= "<div class='checkout_attribute_title'>"
 					. urldecode($ItemAttdata[$i]->section_name) . "</div>";
@@ -7967,7 +7954,7 @@ class producthelper
 					$ItemAttdata[$i]->section_id
 				);
 
-				for ($p = 0; $p < count($propdata); $p++)
+				for ($p = 0, $pn = count($propdata); $p < $pn; $p++)
 				{
 					$displayattribute .= "<div class='checkout_attribute_price'>"
 						. urldecode($propdata[$p]->section_name) . " ";
@@ -8061,7 +8048,7 @@ class producthelper
 		$shopperprodata = $this->_db->loadObjectList();
 		$aclProduct     = array();
 
-		for ($i = 0; $i < count($shopperprodata); $i++)
+		for ($i = 0, $in = count($shopperprodata); $i < $in; $i++)
 		{
 			$aclProduct[] = $shopperprodata[$i]->product_id;
 		}
@@ -8528,31 +8515,6 @@ class producthelper
 		return $price;
 	}
 
-	/*
-	 * 	return checked if product is in session of compare product cart else blank
-	 */
-
-	public function checkcompareproduct($product_id)
-	{
-		$compare_product = $this->_session->get('compare_product');
-
-		if ($product_id != 0)
-		{
-			if (!$compare_product)
-				return "";
-			else
-			{
-				$idx = (int) ($compare_product['idx']);
-
-				for ($i = 0; $i < $idx; $i++)
-					if ($compare_product[$i]["product_id"] == $product_id)
-						return "checked";
-
-				return "";
-			}
-		}
-	}
-
 	public function makeCompareProductDiv()
 	{
 		$Itemid          = JRequest::getVar('Itemid');
@@ -8628,7 +8590,7 @@ class producthelper
 
 		$str = array();
 
-		for ($h = 0; $h < count($tmp1); $h++)
+		for ($h = 0, $hn = count($tmp1); $h < $hn; $h++)
 		{
 			$word = explode("}", $tmp1[$h]);
 
@@ -8668,7 +8630,7 @@ class producthelper
 	{
 		$selectedAccessory    = array();
 		$selectedAccessoryQua = array();
-		$selectedproperty     = array();
+		$selectedProperty     = array();
 		$selectedsubproperty  = array();
 
 		if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
@@ -8676,7 +8638,7 @@ class producthelper
 			$accessory_data    = explode("@@", $data['accessory_data']);
 			$acc_quantity_data = explode("@@", $data['acc_quantity_data']);
 
-			for ($i = 0; $i < count($accessory_data); $i++)
+			for ($i = 0, $in = count($accessory_data); $i < $in; $i++)
 			{
 				if ($accessory_data[$i] != "")
 				{
@@ -8690,7 +8652,7 @@ class producthelper
 		{
 			$acc_property_data = explode('@@', $data['acc_property_data']);
 
-			for ($i = 0; $i < count($acc_property_data); $i++)
+			for ($i = 0, $in = count($acc_property_data); $i < $in; $i++)
 			{
 				$acc_property_data1 = explode('##', $acc_property_data[$i]);
 
@@ -8702,7 +8664,7 @@ class producthelper
 					{
 						if ($acc_property_data2[$ip] != "")
 						{
-							$selectedproperty[] = $acc_property_data2[$ip];
+							$selectedProperty[] = $acc_property_data2[$ip];
 						}
 					}
 				}
@@ -8713,7 +8675,7 @@ class producthelper
 		{
 			$acc_subproperty_data = explode('@@', $data['acc_subproperty_data']);
 
-			for ($i = 0; $i < count($acc_subproperty_data); $i++)
+			for ($i = 0, $in = count($acc_subproperty_data); $i < $in; $i++)
 			{
 				$acc_subproperty_data1 = @explode('##', $acc_subproperty_data[$i]);
 
@@ -8737,14 +8699,14 @@ class producthelper
 			}
 		}
 
-		$ret = array($selectedAccessory, $selectedproperty, $selectedsubproperty, $selectedAccessoryQua);
+		$ret = array($selectedAccessory, $selectedProperty, $selectedsubproperty, $selectedAccessoryQua);
 
 		return $ret;
 	}
 
 	public function getSelectedAttributeArray($data = array())
 	{
-		$selectedproperty    = array();
+		$selectedProperty    = array();
 		$selectedsubproperty = array();
 
 		if (!empty($data['property_data']))
@@ -8759,7 +8721,7 @@ class producthelper
 				{
 					if ($acc_property_data1[$ip] != "")
 					{
-						$selectedproperty[] = $acc_property_data1[$ip];
+						$selectedProperty[] = $acc_property_data1[$ip];
 					}
 				}
 			}
@@ -8788,7 +8750,7 @@ class producthelper
 			}
 		}
 
-		$ret = array($selectedproperty, $selectedsubproperty);
+		$ret = array($selectedProperty, $selectedsubproperty);
 
 		return $ret;
 	}
@@ -8804,17 +8766,17 @@ class producthelper
 		$totalatt              = count($attributes);
 		$Id                    = $product_id;
 		$sec                   = "product";
-		$selectedpropertyId    = 0;
+		$selectedPropertyId    = 0;
 		$selectedsubpropertyId = 0;
 
-		for ($a = 0; $a < count($attributes); $a++)
+		for ($a = 0, $an = count($attributes); $a < $an; $a++)
 		{
 			$selectedId = array();
 			$property   = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
 			if ($attributes[$a]->text != "" && count($property) > 0)
 			{
-				for ($i = 0; $i < count($property); $i++)
+				for ($i = 0, $in = count($property); $i < $in; $i++)
 				{
 					if ($property[$i]->setdefault_selected)
 					{
@@ -8826,14 +8788,14 @@ class producthelper
 				{
 					if ($attributes[$a]->allow_multiple_selection)
 					{
-						$selectedpropertyId = implode(",", $selectedId);
+						$selectedPropertyId = implode(",", $selectedId);
 					}
 					else
 					{
-						$selectedpropertyId = $selectedId[count($selectedId) - 1];
+						$selectedPropertyId = $selectedId[count($selectedId) - 1];
 					}
 
-					$Id  = $selectedpropertyId;
+					$Id  = $selectedPropertyId;
 					$sec = "property";
 				}
 
@@ -9093,6 +9055,11 @@ class producthelper
 		$this->_db->setQuery($query);
 		$tmp_name = $this->_db->loadResult();
 
+		if ($tmp_name == '')
+		{
+			$tmp_name = COMPARE_TEMPLATE_ID;
+		}
+
 		return $tmp_name;
 	}
 
@@ -9106,7 +9073,7 @@ class producthelper
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
 
-		for ($i = 0; $i < count($rows); $i++)
+		for ($i = 0, $in = count($rows); $i < $in; $i++)
 		{
 			$ppCat = $pCat = '';
 			$row   = $rows[$i];
@@ -9162,7 +9129,6 @@ class producthelper
 	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
 		$url                 = JURI::base();
-		$option              = JRequest::getVar('option');
 		$product             = $this->getProductById($product_id);
 		$redhelper           = new redhelper;
 		$aHrefImageResponse  = '';
@@ -9301,7 +9267,6 @@ class producthelper
 		$redTemplate     = new Redtemplate ();
 		$stockroomhelper = new rsstockroomhelper;
 		$url             = JURI::base();
-		$option          = JRequest::getVar('option');
 		$redhelper       = new redhelper;
 
 		if ($accessory_id != 0)
@@ -9437,7 +9402,7 @@ class producthelper
 
 		$val_prodadd = count($media_image);
 
-		for ($m = 0; $m < count($media_image); $m++)
+		for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 		{
 			$thumb   = $media_image [$m]->media_name;
 			$alttext = $this->getAltText('product', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
@@ -9579,7 +9544,7 @@ class producthelper
 			}
 			else
 			{
-				for ($m = 0; $m < count($media_image); $m++)
+				for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 				{
 					$thumb   = $media_image [$m]->media_name;
 					$alttext = $this->getAltText('property', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
@@ -9703,7 +9668,7 @@ class producthelper
 			//Display Sub-Property Number
 			$media_image = $this->getAdditionMediaImage($subproperty_id, "subproperty");
 
-			for ($m = 0; $m < count($media_image); $m++)
+			for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 			{
 				$thumb   = $media_image [$m]->media_name;
 				$alttext = $this->getAltText('subproperty', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
@@ -10029,7 +9994,7 @@ class producthelper
 
 		if (count($fieldArray) > 0)
 		{
-			for ($i = 0; $i < count($fieldArray); $i++)
+			for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 			{
 				$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 17, $productid);
 
@@ -10070,7 +10035,6 @@ class producthelper
 		$redhelper        = new redhelper;
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
-		$option           = 'com_redshop';
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
 
 		if (count($related_template) > 0)
@@ -10089,7 +10053,7 @@ class producthelper
 
 				$attribute_template = $this->getAttributeTemplate($tempdata_div_middle);
 
-				for ($r = 0; $r < count($related_product); $r++)
+				for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 				{
 					$related_template_data .= $tempdata_div_middle;
 
@@ -10256,14 +10220,14 @@ class producthelper
 
 		$k = 0;
 
-		for ($i = 0; $i < count($attributes); $i++)
+		for ($i = 0, $in = count($attributes); $i < $in; $i++)
 		{
 			$attribute      = $attributes[$i];
 			$attribute_name = $attribute->text;
 			$attribute_id   = $attribute->value;
 			$propertys      = $this->getAttibuteProperty(0, $attribute_id);
 
-			for ($p = 0; $p < count($propertys); $p++)
+			for ($p = 0, $pn = count($propertys); $p < $pn; $p++)
 			{
 				$property = $propertys[$p];
 
@@ -10277,7 +10241,7 @@ class producthelper
 
 				$subpropertys = $this->getAttibuteSubProperty(0, $property_id);
 
-				for ($s = 0; $s < count($subpropertys); $s++)
+				for ($s = 0, $sn = count($subpropertys); $s < $sn; $s++)
 				{
 					$subproperty = $subpropertys[$s];
 
@@ -10313,7 +10277,7 @@ class producthelper
 		$stockroomhelper = new rsstockroomhelper;
 		$filter_products = array();
 
-		for ($s = 0; $s < count($products); $s++)
+		for ($s = 0, $sn = count($products); $s < $sn; $s++)
 		{
 			$product = $products[$s];
 			$pid     = $product->product_id;
@@ -10340,7 +10304,7 @@ class producthelper
 		return $filter_products;
 	}
 
-	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
+	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedPropertyId = 0, $selectedsubpropertyId = 0)
 	{
 		$stockroomhelper            = new rsstockroomhelper;
 		$producDetail               = $this->getProductById($product_id);
@@ -10349,7 +10313,7 @@ class producthelper
 		$rsltdata['preorder']       = 0;
 		$rsltdata['preorder_stock'] = 0;
 
-		if ($selectedpropertyId)
+		if ($selectedPropertyId)
 		{
 			if ($selectedsubpropertyId)
 			{
@@ -10366,11 +10330,11 @@ class producthelper
 			else
 			{
 				// Count status for selected property
-				$stocksts = $stockroomhelper->isStockExists($selectedpropertyId, "property");
+				$stocksts = $stockroomhelper->isStockExists($selectedPropertyId, "property");
 
 				if (!$stocksts && (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes")))
 				{
-					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedpropertyId, "property");
+					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedPropertyId, "property");
 					$rsltdata['preorder']       = 1;
 					$rsltdata['preorder_stock'] = $prestocksts;
 				}
@@ -10515,7 +10479,7 @@ class producthelper
 		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$user_fields = $cart['extrafields_values'][$row_data[$i]->field_name];
 
@@ -10539,7 +10503,7 @@ class producthelper
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 
-		for ($j = 0; $j < count($row_data); $j++)
+		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
 			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $order->order_id);
 

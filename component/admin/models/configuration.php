@@ -649,7 +649,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 		$product_id_list = $this->getProductIdList();
 
-		for ($i = 0; $i < count($product_id_list); $i++)
+		for ($i = 0, $in = count($product_id_list); $i < $in; $i++)
 		{
 			$product_id = $product_id_list[$i]->product_id;
 
@@ -738,9 +738,13 @@ class RedshopModelConfiguration extends RedshopModel
 		return $list;
 	}
 
-	/*
-	 * handle .htaccess file for download product
-	 * @param: product download root path
+	/**
+	 * Handle .htaccess file for Downloadble Product root folder
+	 *
+	 * @param   string  $product_download_root  Path to the downloadable product root folder
+	 *
+	 * @deprecated  1.6      This method is deprecated and not used anywhere
+	 * @return      boolean  Return true on success
 	 */
 	public function handleHtaccess($product_download_root)
 	{
@@ -836,7 +840,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$db->setQuery($q);
 		$list = $db->loadObjectList();
 
-		for ($i = 0; $i < count($list); $i++)
+		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
 			$data = $list[$i];
 

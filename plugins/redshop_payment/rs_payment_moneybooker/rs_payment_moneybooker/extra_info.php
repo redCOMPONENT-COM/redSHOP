@@ -11,14 +11,13 @@ $uri    = JURI::getInstance();
 $url    = $uri->root();
 $user   = JFactory::getUser();
 $db     = JFactory::getDbo();
-$option = JRequest::getVar('option');
 $user   = JFactory::getUser();
 ?>
 <form action="https://www.moneybookers.com/app/payment.pl" method="post" id="frmmoneybooker" name="frmmoneybooker">
 	<input type="hidden" name="pay_to_email" value="<?php echo $this->params->get("pay_to_email") ?>"/>
 	<input type="hidden" name="transaction_id" value="<?php echo $data['order_id'] ?>"/>
 	<input type="hidden" name="return_url"
-	       value="<?php echo JURI::base() ?>index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_moneybooker&orderid=<?php echo $data['order_id'] ?>">
+	       value="<?php echo JURI::base() ?>index.php?option=com_redshop&view=order_detail&layout=receipt&oid=<?php echo $data['order_id'] ?>">
 	<input type="hidden" name="cancel_url"
 	       value="<?php echo JURI::base() ?>index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_moneybooker&orderid=<?php echo $data['order_id'] ?>">
 	<input type="hidden" name="status_url"

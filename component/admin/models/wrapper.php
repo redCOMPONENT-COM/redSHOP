@@ -96,7 +96,7 @@ class RedshopModelWrapper extends RedshopModel
 				. "WHERE product_id = " . $this->_productid;
 			$cat = $this->_getList($query);
 
-			for ($i = 0; $i < count($cat); $i++)
+			for ($i = 0, $in = count($cat); $i < $in; $i++)
 			{
 				$and .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
 			}

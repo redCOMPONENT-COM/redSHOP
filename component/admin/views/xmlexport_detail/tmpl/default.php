@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('xmlexport_detail');
 
 $orderstyle = "none";

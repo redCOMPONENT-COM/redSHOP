@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $shipping_data = $this->order_functions->getShippingAddress($this->detail->user_id);
 
 $addlink = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=0');

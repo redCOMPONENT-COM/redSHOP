@@ -169,9 +169,6 @@ class RedshopModelCategory_detail extends RedshopModel
 			return false;
 		}
 
-		// Storing image name in the database
-		$option = JRequest::getVar('option');
-
 		$filename = "";
 
 		// Get File name, tmp_name
@@ -329,7 +326,7 @@ class RedshopModelCategory_detail extends RedshopModel
 			$product_category = new product_category;
 			$product_list = $product_category->getCategoryProductList($newcatid);
 
-			for ($p = 0; $p < count($product_list); $p++)
+			for ($p = 0, $pn = count($product_list); $p < $pn; $p++)
 			{
 				$product_id = $product_list[$p]->id;
 
@@ -371,7 +368,7 @@ class RedshopModelCategory_detail extends RedshopModel
 	{
 		$noError = true;
 
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$query = 'SELECT count( * ) as ctotal,c.category_name
 						FROM `' . $this->_table_prefix . 'category_xref` as cx LEFT JOIN `' . $this->_table_prefix
@@ -482,7 +479,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		$groupings = array();
 
 		// Update ordering values
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$row->load((int) $cid[$i]);
 
@@ -626,7 +623,7 @@ class RedshopModelCategory_detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$copydata = $this->_db->loadObjectList();
 
-			for ($i = 0; $i < count($copydata); $i++)
+			for ($i = 0, $in = count($copydata); $i < $in; $i++)
 			{
 				$query = 'SELECT category_parent_id FROM ' . $this->_table_prefix . 'category_xref '
 					. 'WHERE category_child_id="' . $copydata[$i]->category_id . '" ';

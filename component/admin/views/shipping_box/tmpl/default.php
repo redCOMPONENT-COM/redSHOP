@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-$option = JRequest::getVar('option');
+
 $producthelper = new producthelper;
 ?>
 <script language="javascript" type="text/javascript">
@@ -31,7 +31,7 @@ $producthelper = new producthelper;
 	}
 
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist table table-striped">
 			<thead>

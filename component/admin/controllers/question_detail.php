@@ -33,7 +33,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 		$post = JRequest::get('post');
 		$question = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["question"] = $question;
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['question_id'] = $cid [0];
@@ -71,7 +71,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -92,7 +92,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 
 	public function removeanswer()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
 		$qid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -114,11 +114,11 @@ class RedshopControllerQuestion_detail extends RedshopController
 
 	public function sendanswer()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
 		$qid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$redshopMail = new redshopMail;
 			$redshopMail->sendAskQuestionMail($cid[$i]);
@@ -130,7 +130,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
@@ -143,7 +143,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 	 */
 	public function orderup()
 	{
-		$option = JRequest::getVar('option');
+
 		$model = $this->getModel('question_detail');
 		$model->orderup();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -158,7 +158,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 	 */
 	public function orderdown()
 	{
-		$option = JRequest::getVar('option');
+
 		$model = $this->getModel('question_detail');
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -173,7 +173,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 

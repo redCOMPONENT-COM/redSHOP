@@ -891,9 +891,9 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 						$serviceName = str_replace(" Military", "", $serviceName);
 						$serviceName = str_replace(" DPO", "", $serviceName);
 
-						if (in_array($serviceName, $usps_ship_active))
+						if ($this->containsString($serviceName, $usps_ship_active))
 						{
-							$ship_service[$count] = $serviceName;
+							$ship_service[$count] = (string) $postage->MailService;
 							$ship_postage[$count] = (string) $postage->Rate;
 
 							if (preg_match('/%$/', USPS_HANDLINGFEE))
@@ -923,9 +923,9 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 							$serviceName = str_replace("&lt;sup&gt;&#174;&lt;/sup&gt;", "", $serviceName);
 							$serviceName = str_replace("&lt;sup&gt;&#8482;&lt;/sup&gt;", "", $serviceName);
 
-							if (in_array($serviceName, $usps_intl_active))
+							if ($this->containsString($serviceName, $usps_intl_active))
 							{
-								$ship_service[$count] = $serviceName;
+								$ship_service[$count] = (string) $service->SvcDescription;
 								$ship_postage[$count] = (string) $service->Postage;
 								$ship_commit[$count] = (string) $service->SvcCommitments;
 								$ship_weight[$count] = (string) $service->MaxWeight;
@@ -982,6 +982,32 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 	}
 
 	/**
+	 * Find substring from an array values - similar to in_array but finds as substrings.
+	 *
+	 * @param   string  $needle    String which needs to match
+	 * @param   array   $haystack  Array from it needs to find.
+	 *
+	 * @return  boolean  True if string matches.
+	 */
+	public function containsString($needle, $haystack)
+	{
+		if ($needle == null)
+		{
+			return false;
+		}
+
+		foreach ($haystack as $h)
+		{
+			if (strstr($h, $needle) !== false)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get country name
 	 *
 	 * @param   integer  $country3Code  3 digit country code
@@ -992,16 +1018,14 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 	{
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
-
-		// $db    = $this->getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
+					->select('country_name')
 					->from($db->qn('#__redshop_country'))
 					->where($db->qn('country_3_code') . ' = ' . $db->q($country3Code));
 
 		// Set the query and load the result.
-		$db->setQuery($query);
-		$country = $db->loadObject();
+		$db->setQuery($query, 0, 1);
+		$countryName = $db->loadResult();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -1011,6 +1035,6 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 			return null;
 		}
 
-		return $country->country_name;
+		return $countryName;
 	}
 }

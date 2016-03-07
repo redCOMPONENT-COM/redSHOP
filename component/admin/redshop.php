@@ -82,7 +82,7 @@ $document = JFactory::getDocument();
 
 if (version_compare(JVERSION, '3.0', '>='))
 {
-	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")');
+	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true));
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
 }
 
@@ -189,7 +189,7 @@ if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task !
 		&& $view != "shopper_group_detail" && $view != "sample_detail" && $view != "attributeprices"
 		&& $view != "attributeprices_detail" && $view != "prices_detail" && $view != "wrapper_detail"
 		&& $view != "tax_group_detail" && $view != "addorder_detail" && $view != "tax_detail"
-		&& $view != "coupon_detail" && $view != "giftcard_detail" && $view != "attribute_set_detail"
+		&& $view != "coupon_detail" && $view != "giftcard" && $view != "attribute_set_detail"
 		&& $view != 'shipping_box_detail' && $view != 'quotation_detail'
 		&& $view != 'question_detail' && $view != 'answer_detail'
 		&& $view != 'xmlimport_detail' && $view != 'addquotation_detail'

@@ -36,20 +36,20 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$customFieldsManagerPage = new \CustomFieldManagerJoomla3Page;
 		$I->verifyNotices(false, $this->checkForNotices(), 'Fields Manager Page');
 		$I->click('New');
-		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
+		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldName, $name);
 		$I->click(\CustomFieldManagerJoomla3Page::$fieldTypeDropDown);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTypeSearchField, $type);
-		$I->waitForElement($customFieldsManagerPage->fieldType($type), 60);
+		$I->waitForElement($customFieldsManagerPage->fieldType($type),60);
 		$I->click($customFieldsManagerPage->fieldType($type));
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $title);
 		$I->click(\CustomFieldManagerJoomla3Page::$fieldSectionDropDown);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearchField, $section);
-		$I->waitForElement($customFieldsManagerPage->fieldSection($section), 60);
+		$I->waitForElement($customFieldsManagerPage->fieldSection($section),60);
 		$I->click($customFieldsManagerPage->fieldSection($section));
 		$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
 		$I->click('Save & Close');
-		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
+		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 
 		if ($type == "Check box")
 		{
@@ -77,10 +77,10 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click(\CustomFieldManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
-		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
+		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $updatedTitle);
 		$I->click('Save & Close');
-		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
+		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 		$I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click(['link' => 'ID']);
 	}

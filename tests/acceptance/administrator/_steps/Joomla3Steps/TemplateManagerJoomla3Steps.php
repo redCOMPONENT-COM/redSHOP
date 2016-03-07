@@ -32,12 +32,12 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$templateManagerPage = new \TemplateManagerJoomla3Page;
 		$I->verifyNotices(false, $this->checkForNotices(), 'Template Manager Page');
 		$I->click('New');
-		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName, 30);
+		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName,30);
 		$I->fillField(\TemplateManagerJoomla3Page::$templateName, $templateName);
 		$I->click(\TemplateManagerJoomla3Page::$templateSectionDropDown);
 		$I->click($templateManagerPage->templateSection($templateSection));
 		$I->click('Save & Close');
-		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage, 60, '.alert-success');
+		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,'.alert-success');
 		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, '.alert-success');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
@@ -58,13 +58,14 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
 		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see(strtolower($templateName), \TemplateManagerJoomla3Page::$firstResultRow);
 		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
-		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName, 30);
+		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName,30);
 		$I->fillField(\TemplateManagerJoomla3Page::$templateName, $templateUpdatedName);
 		$I->click('Save & Close');
-		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage, 60, '.alert-success');
+		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,'.alert-success');
 		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, '.alert-success');
 		$I->see($templateUpdatedName, \TemplateManagerJoomla3Page::$firstResultRow);
 		$I->click(['link' => 'ID']);
@@ -80,6 +81,10 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeTemplateState($name, $state = 'unpublish')
 	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
+		$I->waitForElement(['link' => 'ID'], 30);
+		$I->click('ID');
 		$this->changeState(new \TemplateManagerJoomla3Page, $name, $state, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
 	}
 
@@ -119,6 +124,10 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteTemplate($name)
 	{
+		$I = $this;
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
+		$I->waitForElement(['link' => 'ID'], 30);
+		$I->click('ID');
 		$this->delete(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
 	}
 }

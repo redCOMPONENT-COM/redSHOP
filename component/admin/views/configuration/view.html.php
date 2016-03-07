@@ -27,7 +27,6 @@ class RedshopViewConfiguration extends RedshopView
 	{
 		$db = JFactory::getDbo();
 
-		$option   = JRequest::getVar('option');
 		$document = JFactory::getDocument();
 		$layout   = JRequest::getVar('layout');
 
@@ -55,7 +54,7 @@ class RedshopViewConfiguration extends RedshopView
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 
-		for ($l = 0; $l < count($payment_lang_list); $l++)
+		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
@@ -397,7 +396,7 @@ class RedshopViewConfiguration extends RedshopView
 		$db->setQuery($q);
 		$menuitemlist = $db->loadObjectList();
 
-		for ($i = 0; $i < count($menuitemlist); $i++)
+		for ($i = 0, $in = count($menuitemlist); $i < $in; $i++)
 		{
 			$menuitem[$i + 1]        = new stdClass;
 			$menuitem[$i + 1]->value = $menuitemlist[$i]->id;
@@ -500,7 +499,7 @@ class RedshopViewConfiguration extends RedshopView
 		$i            = 0;
 		$prev_country = '';
 
-		for ($j = 0; $j < count($states); $j++)
+		for ($j = 0, $jn = count($states); $j < $jn; $j++)
 		{
 			$state          = $states[$j];
 			$country_3_code = $state->country_3_code;

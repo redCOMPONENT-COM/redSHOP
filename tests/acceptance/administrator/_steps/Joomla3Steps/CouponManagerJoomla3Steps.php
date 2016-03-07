@@ -44,7 +44,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CouponManagerJ3Page::$couponTypeDropDown);
 		$I->click($couponManagerPage->couponType($couponType));
 		$I->click('Save & Close');
-		$I->waitForText('Coupon Management', 10, 'h1');
+		$I->waitForText('Coupon Management',10,'h1');
 		$I->see('Coupon Management', 'h1');
 		$I->see('Coupon detail saved', '.alert-success');
 		$I->click(['link' => 'ID']);
@@ -72,7 +72,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CouponManagerJ3Page::$couponCode, 20);
 		$I->fillField(\CouponManagerJ3Page::$couponCode, $newCouponCode);
 		$I->click('Save & Close');
-		$I->waitForText('Coupon Management', 10, 'h1');
+		$I->waitForText('Coupon Management',10,'h1');
 		$I->see('Coupon detail saved', '.alert-success');
 		$I->see($newCouponCode, \CouponManagerJ3Page::$firstResultRow);
 		$I->click(['link' => 'ID']);

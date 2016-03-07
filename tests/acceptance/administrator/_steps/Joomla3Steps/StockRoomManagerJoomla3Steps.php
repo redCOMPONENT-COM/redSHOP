@@ -31,11 +31,11 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Stock Room Manager Page');
 		$I->click('New');
-		$I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName, 30);
+		$I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName,30);
 		$I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $name);
 		$I->fillField(\StockRoomManagerJoomla3Page::$minimumStockAmount, $minAmount);
 		$I->click('Save & Close');
-		$I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, '.alert-success');
+		$I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage,60, '.alert-success');
 		$I->see(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, '.alert-success');
 		$I->click(['link' => 'ID']);
 		$I->see($name, \StockRoomManagerJoomla3Page::$firstResultRow);
@@ -59,10 +59,10 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\StockRoomManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->verifyNotices(false, $this->checkForNotices(), 'Stock Room Edit View Manager Page');
-		$I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName, 30);
+		$I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName,30);
 		$I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $newName);
 		$I->click('Save & Close');
-		$I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, '.alert-success');
+		$I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage,60, '.alert-success');
 		$I->see(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, '.alert-success');
 		$I->see($newName, \StockRoomManagerJoomla3Page::$firstResultRow);
 		$I->click(['link' => 'ID']);

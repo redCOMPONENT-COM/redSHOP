@@ -189,7 +189,7 @@ $stockrooms = $model->StockRoomList();
 						$calc_data = $model->getDiscountCalcData();
 
 						// ToDo: This should be in view.html.php?
-						for ($i = 0; $i < count($calc_data); $i++)
+						for ($i = 0, $in = count($calc_data); $i < $in; $i++)
 						{
 							// Calculation UNIT.
 							$lists = array();
@@ -269,7 +269,7 @@ $stockrooms = $model->StockRoomList();
 					<?php
 						$calc_data = $model->getDiscountCalcDataExtra();
 
-						for ($i = 0; $i < count($calc_data); $i++)
+						for ($i = 0, $in = count($calc_data); $i < $in; $i++)
 						{
 							// Calculation UNIT.
 							$options = array();

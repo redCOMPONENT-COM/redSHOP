@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('newsletter');
 $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 $newsletter_id = JRequest::getVar('newsletter_id');
@@ -72,7 +72,7 @@ $newsletter_id = JRequest::getVar('newsletter_id');
 		xmlhttp.send(null);
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div>
 		<fieldset>
 			<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_SEND_LOG');?></legend>
