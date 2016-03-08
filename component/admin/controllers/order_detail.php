@@ -420,7 +420,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 
-		$userbillinginfo = $order_functions->getOrderBillingUserInfo($request['order_id']);
+		$userbillinginfo = RedshopHelperOrder::getOrderBillingUserInfo($request['order_id']);
 
 		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($request['order_id']);
 

@@ -520,7 +520,7 @@ class economic
 
 		if ($orderdetail->is_booked == 0 && !$orderdetail->invoice_no)
 		{
-			$user_billinginfo  = $this->_order_functions->getOrderBillingUserInfo($order_id);
+			$user_billinginfo  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 			$user_shippinginfo = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 			$orderitem         = $this->_order_functions->getOrderItemDetail($order_id);
 
@@ -1115,7 +1115,7 @@ class economic
 			{
 				if ((ECONOMIC_INVOICE_DRAFT == 2 && $orderdetail->order_status == BOOKING_ORDER_STATUS) || $checkOrderStatus == 0 || $rmaCRMOrder == 1)
 				{
-					$user_billinginfo = $this->_order_functions->getOrderBillingUserInfo($order_id);
+					$user_billinginfo = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 
 					if ($user_billinginfo->is_company == 0 || (!$user_billinginfo->ean_number && $user_billinginfo->is_company == 1))
 					{

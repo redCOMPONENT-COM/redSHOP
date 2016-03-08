@@ -245,7 +245,7 @@ class RedshopControllerOrder extends RedshopController
 
 		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
-			$billing_info = $order_function->getOrderBillingUserInfo($data [$i]->order_id);
+			$billing_info = RedshopHelperOrder::getOrderBillingUserInfo($data [$i]->order_id);
 
 			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
 
