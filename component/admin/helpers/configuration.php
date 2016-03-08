@@ -619,6 +619,7 @@ class Redconfiguration
 						"SHOP_NAME"                                    => $d["shop_name"],
 						"COUPONS_ENABLE"                               => $d["coupons_enable"],
 						"VOUCHERS_ENABLE"                              => $d["vouchers_enable"],
+						"APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT"        => $d["apply_voucher_coupon_already_discount"],
 						"SPLITABLE_PAYMENT"                            => $d["splitable_payment"],
 						"SHOW_CAPTCHA"                                 => $d["show_captcha"],
 						"SHOW_EMAIL_VERIFICATION"                      => $d["show_email_verification"],
