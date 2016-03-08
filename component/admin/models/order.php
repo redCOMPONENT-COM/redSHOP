@@ -256,7 +256,7 @@ class RedshopModelOrder extends RedshopModel
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
 				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
-				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
+				$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
 				$totalWeight = 0;
 
@@ -349,7 +349,7 @@ class RedshopModelOrder extends RedshopModel
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
 				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
-				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
+				$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
 				$totalWeight = 0;
 

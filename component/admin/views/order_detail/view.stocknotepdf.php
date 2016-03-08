@@ -84,7 +84,7 @@ class RedshopViewOrder_detail extends RedshopView
 		$html_template = str_replace("{product_name_lbl}", JText::_('COM_REDSHOP_PRODUCT_NAME'), $html_template);
 		$html_template = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $html_template);
 		$html_template = str_replace("{product_quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY'), $html_template);
-		$billing = $order_functions->getOrderBillingUserInfo($detail->order_id);
+		$billing = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
 		$html_template = $carthelper->replaceBillingAddress($html_template, $billing);
 		$shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
 		$html_template = $carthelper->replaceShippingAddress($html_template, $shipping);
