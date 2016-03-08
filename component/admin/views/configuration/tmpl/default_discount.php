@@ -70,4 +70,17 @@ defined('_JEXEC') or die;
 			?>
 		</td>
 	</tr>
+	<tr>
+		<td width="100" align="right" class="key">
+		<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT_LBL'); ?>">
+		<label for="name">
+			<?php
+			echo JText::_('COM_REDSHOP_APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT_LBL');
+			?></label></span></td>
+		<td><?php
+			echo $this->lists ['apply_voucher_coupon_already_discount'];
+			?>
+		</td>
+	</tr>
 </table>
