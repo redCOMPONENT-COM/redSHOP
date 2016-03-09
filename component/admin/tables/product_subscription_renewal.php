@@ -19,9 +19,9 @@ class Tableproduct_subscription_renewal extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'subscription_renewal', 'renewal_id', $db);
+
+		parent::__construct('#__redshop_subscription_renewal', 'renewal_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

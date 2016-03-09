@@ -9,22 +9,17 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelShipping_box_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -56,7 +51,7 @@ class RedshopModelShipping_box_detail extends RedshopModel
 
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'shipping_boxes WHERE shipping_box_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_shipping_boxes WHERE shipping_box_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -86,27 +81,6 @@ class RedshopModelShipping_box_detail extends RedshopModel
 		return true;
 	}
 
-	public function store($data)
-	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
-	}
-
 	public function delete($cid = array())
 	{
 		$red_template = new Redtemplate;
@@ -115,7 +89,7 @@ class RedshopModelShipping_box_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_boxes WHERE shipping_box_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_shipping_boxes WHERE shipping_box_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -134,7 +108,7 @@ class RedshopModelShipping_box_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->_table_prefix . 'shipping_boxes'
+			$query = 'UPDATE #__redshop_shipping_boxes'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE shipping_box_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);

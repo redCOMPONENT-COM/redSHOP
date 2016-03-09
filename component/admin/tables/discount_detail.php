@@ -29,9 +29,9 @@ class Tablediscount_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'discount', 'discount_id', $db);
+
+		parent::__construct('#__redshop_discount', 'discount_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

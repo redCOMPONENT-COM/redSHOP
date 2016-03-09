@@ -9,20 +9,15 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelNewslettersubscr_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -50,12 +45,14 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
-			$query = 'SELECT ns.*,uf.firstname FROM ' . $this->_table_prefix . 'newsletter_subscription as ns left join '
-				. $this->_table_prefix . 'users_info as uf on  ns.user_id = uf.user_id  WHERE ns.subscription_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$query = 'SELECT ns.*,uf.firstname FROM #__redshop_newsletter_subscription as ns left join '
+				. '#__redshop_users_info as uf on  ns.user_id = uf.user_id  WHERE ns.subscription_id = ' . $this->_id;
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -83,39 +80,20 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 		return true;
 	}
 
-	public function store($data)
-	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
-	}
-
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'newsletter_subscription WHERE subscription_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$query = 'DELETE FROM #__redshop_newsletter_subscription WHERE subscription_id IN ( ' . $cids . ' )';
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -126,18 +104,20 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'newsletter_subscription'
+			$query = 'UPDATE #__redshop_newsletter_subscription'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE subscription_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -148,27 +128,30 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 
 	public function getuserlist()
 	{
-		$query = 'SELECT user_id as value,firstname as text FROM ' . $this->_table_prefix
-			. 'users_info as rdu, #__users as u WHERE  rdu.user_id=u.id AND rdu.address_type LIKE "BT"';
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadObjectlist();
+		$query = 'SELECT user_id as value,firstname as text FROM #__redshop_users_info as rdu, #__users as u WHERE  rdu.user_id=u.id AND rdu.address_type LIKE "BT"';
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
 	}
 
 	public function getnewsletters()
 	{
-		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadObjectlist();
+		$query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
 	}
 
 	public function getuserfullname2($uid)
 	{
-		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix
-			. "users_info as uf LEFT JOIN #__users as u ON (uf.user_id=u.id) WHERE user_id='" . $uid . "' AND uf.address_type like 'BT'";
-		$this->_db->setQuery($query);
-		$this->_username = $this->_db->loadObject();
+		$db = JFactory::getDbo();
+		$query = "SELECT firstname,lastname,username FROM #__redshop_users_info as uf LEFT JOIN #__users as u ON (uf.user_id=u.id) WHERE user_id='" . $uid . "' AND uf.address_type like 'BT'";
+		$db->setQuery($query);
+		$this->_username = $db->loadObject();
 
 		if (count($this->_username) > 0)
 		{
@@ -186,6 +169,7 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 
 	public function getnewslettersbsc($subsc = array())
 	{
+		$db = JFactory::getDbo();
 		$where = "";
 
 		if (count($subsc) > 0)
@@ -195,32 +179,33 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 		}
 
 		$query = 'SELECT ns.*,ns.name as subscribername,n.name'
-			. ' FROM ' . $this->_table_prefix . 'newsletter_subscription as ns,' . $this->_table_prefix
-			. 'newsletter as n WHERE ns.newsletter_id=n.newsletter_id '
+			. ' FROM #__redshop_newsletter_subscription as ns,#__redshop_newsletter as n WHERE ns.newsletter_id=n.newsletter_id '
 			. $where;
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getuserfullname($uid)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT uf.firstname,uf.lastname,IFNULL(u.email,uf.user_email)  as email FROM "
-			. $this->_table_prefix . "users_info as uf LEFT JOIN #__users as u ON uf.user_id = u.id WHERE uf.user_id='"
+			. "#__redshop_users_info as uf LEFT JOIN #__users as u ON uf.user_id = u.id WHERE uf.user_id='"
 			. $uid . "' and uf.address_type like 'BT'";
 
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObject();
+		return $db->loadObject();
 	}
 
 	public function getUserFromEmail($email)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "users_info AS uf "
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM #__redshop_users_info AS uf "
 			. "WHERE uf.address_type='BT' "
 			. "AND uf.user_email='" . $email . "' ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		$db->setQuery($query);
+		$list = $db->loadObject();
 
 		return $list;
 	}

@@ -22,7 +22,6 @@ class RedshopModelSearch extends RedshopModel
 
 	public $_product = null;
 
-	public $_table_prefix = null;
 
 	public $_template = null;
 
@@ -34,7 +33,7 @@ class RedshopModelSearch extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 
 		$id = JRequest::getVar('id', 0);
 
@@ -439,25 +438,25 @@ class RedshopModelSearch extends RedshopModel
 		{
 			if ($this->_media_section == 'product')
 			{
-				$query = "SELECT product_id as id,product_name as value FROM " . $this->_table_prefix . "product  WHERE product_name like '%" .
+				$query = "SELECT product_id as id,product_name as value FROM #__redshop_product  WHERE product_name like '%" .
 					$this->_search . "%'";
 			}
 			elseif ($this->_media_section == 'category')
 			{
-				$query = "SELECT category_id as id,category_name as value FROM " . $this->_table_prefix . "category  WHERE category_name like '" .
+				$query = "SELECT category_id as id,category_name as value FROM #__redshop_category  WHERE category_name like '" .
 					$this->_search . "%'";
 
 			}
 			else
 			{
-				$query = "SELECT catalog_id  as id,catalog_name	 as value FROM " . $this->_table_prefix . "catalog  WHERE catalog_name like '" .
+				$query = "SELECT catalog_id  as id,catalog_name	 as value FROM #__redshop_catalog  WHERE catalog_name like '" .
 					$this->_search . "%' AND published = 1";
 			}
 		}
 		elseif ($this->_alert == 'voucher')
 		{
-			$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , "
-				. $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $this->_voucher_id
+			$query = "SELECT cp.product_id as value,p.product_name as text FROM #__redshop_product as p , "
+				. "#__redshop_product_voucher_xref as cp  WHERE cp.voucher_id=" . $this->_voucher_id
 				. " and cp.product_id=p.product_id ";
 			$this->_db->setQuery($query);
 			$this->_productdata = $this->_db->loadObjectList();
@@ -480,8 +479,8 @@ class RedshopModelSearch extends RedshopModel
 				$where = " and p.product_name like '%" . $this->_search . "%'";
 			}
 
-			$query = "SELECT distinct p.product_id as id,p.product_name as value FROM " . $this->_table_prefix . "product as p left join   "
-				. $this->_table_prefix . "product_voucher_xref as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
+			$query = "SELECT distinct p.product_id as id,p.product_name as value FROM #__redshop_product as p left join   "
+				. "#__redshop_product_voucher_xref as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
 
 		}
 		elseif ($this->_alert == 'termsarticle')
@@ -529,7 +528,7 @@ class RedshopModelSearch extends RedshopModel
 		elseif ($this->_user == 1)
 		{
 			$query = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
-			$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
+			$query .= " FROM #__redshop_users_info as uf , #__users as u ";
 			$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
 				$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
 
@@ -539,7 +538,7 @@ class RedshopModelSearch extends RedshopModel
 			if ($this->_iscompany == 0)
 			{
 				$query = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
-				$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
+				$query .= " FROM #__redshop_users_info as uf , #__users as u ";
 				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
 					$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
 				$query .= " AND uf.is_company = " . $this->_iscompany . "";
@@ -548,7 +547,7 @@ class RedshopModelSearch extends RedshopModel
 			if ($this->_iscompany == 1)
 			{
 				$query = "SELECT u.id as id,concat(uf.company_name,' (', u.username,')') as value , u.email as volume ";
-				$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
+				$query .= " FROM #__redshop_users_info as uf , #__users as u ";
 				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.company_name like '" .
 					$this->_search . "%') and (uf.address_type like 'BT') ";
 				$query .= " AND uf.is_company = " . $this->_iscompany . "";
@@ -558,7 +557,7 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$query = "SELECT uf.user_id AS id, CONCAT(uf.firstname,' ', uf.lastname, IF(u.username!='', CONCAT( ' (',u.username,')'), '' ))
 			AS value, uf.user_email AS value_number "
-				. "FROM " . $this->_table_prefix . "users_info AS uf "
+				. "FROM #__redshop_users_info AS uf "
 				. "LEFT JOIN #__users AS u ON uf.user_id=u.id "
 				. "WHERE (u.username LIKE '" . $this->_search . "%' "
 				. "OR uf.firstname LIKE '" . $this->_search . "%' "
@@ -568,8 +567,7 @@ class RedshopModelSearch extends RedshopModel
 		}
 		elseif ($this->_products == 1)
 		{
-			$query = "SELECT product_id as id,product_name as value, product_number as value_number FROM " .
-				$this->_table_prefix . "product  WHERE product_name like '%" . $this->_search . "%'";
+			$query = "SELECT product_id as id,product_name as value, product_number as value_number FROM #__redshop_product  WHERE product_name like '%" . $this->_search . "%'";
 		}
 		elseif ($this->_related == 1)
 		{
@@ -578,7 +576,7 @@ class RedshopModelSearch extends RedshopModel
 			if ($this->_product_id != 0)
 			{
 				$query = "SELECT related_id "
-					. "FROM " . $this->_table_prefix . "product_related "
+					. "FROM #__redshop_product_related "
 					. "WHERE product_id='" . $this->_product_id . "' ";
 				$this->_db->setQuery($query);
 				$related = $this->_db->loadColumn();
@@ -589,7 +587,7 @@ class RedshopModelSearch extends RedshopModel
 			}
 
 			$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number "
-				. "FROM " . $this->_table_prefix . "product as p "
+				. "FROM #__redshop_product as p "
 				. "WHERE (p.product_name LIKE '" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%') "
 				. $and
 				. " LIMIT 0,50 ";
@@ -604,7 +602,7 @@ class RedshopModelSearch extends RedshopModel
 			}
 
 			$query = "SELECT p.product_id AS id,p.product_name AS value "
-				. "FROM " . $this->_table_prefix . "product as p "
+				. "FROM #__redshop_product as p "
 				. "WHERE p.product_name LIKE '" . $this->_search . "%' "
 				. $and
 				. " LIMIT 0,50 ";
@@ -613,14 +611,13 @@ class RedshopModelSearch extends RedshopModel
 		elseif ($this->_navigator == 1)
 		{
 			$where = " and (p.product_name like '%" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
-			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " .
-				$this->_table_prefix . "product as p WHERE 1=1 and p.published = 1 " . $where;
+			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM #__redshop_product as p WHERE 1=1 and p.published = 1 " . $where;
 		}
 		else
 		{
 			if ($this->_product_id != 0)
 			{
-				$where = " and p.product_id not in (select child_product_id from " . $this->_table_prefix . "product_accessory where product_id=" .
+				$where = " and p.product_id not in (select child_product_id from #__redshop_product_accessory where product_id=" .
 					$this->_product_id . ") and p.product_id!=" . $this->_product_id . " and (p.product_name like '%" .
 					$this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
 			}
@@ -629,10 +626,7 @@ class RedshopModelSearch extends RedshopModel
 				$where = " and (p.product_name like '%" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
 			}
 
-			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " .
-				$this->_table_prefix . "product as p left join   " . $this->_table_prefix . "product_accessory as cp on cp.product_id=p.product_id
-				WHERE 1=1 " . $where;
-
+			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM #__redshop_product as p left join   #__redshop_product_accessory as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
 		}
 
 		return $query;

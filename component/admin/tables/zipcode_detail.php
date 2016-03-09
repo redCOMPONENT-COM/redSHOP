@@ -23,9 +23,7 @@ class Tablezipcode_detail extends JTable
 
 	public function __construct(& $db)
 	{
-		$this->_table_prefix = '#__redshop_';
-
-		parent::__construct($this->_table_prefix . 'zipcode', 'zipcode_id', $db);
+		parent::__construct('#__redshop_zipcode', 'zipcode_id', $db);
 	}
 
 	public function bind($array, $ignore = '')
@@ -44,7 +42,7 @@ class Tablezipcode_detail extends JTable
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT *  FROM " . $this->_table_prefix . "zipcode"
+		$q = "SELECT *  FROM #__redshop_zipcode"
 			. " WHERE zipcode = " . $db->quote($this->zipcode)
 			. " AND zipcode_id !=  " . (int) $this->zipcode_id
 			. " AND country_code =" . $db->quote($this->country_code);

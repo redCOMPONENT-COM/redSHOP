@@ -55,12 +55,12 @@ class order_functions
 		$db->execute();
 
 		$query = 'TRUNCATE TABLE `#__redshop_product_download`';
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 
 		$query = 'TRUNCATE TABLE `#__redshop_product_download_log`';
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 	}
 
 	/*

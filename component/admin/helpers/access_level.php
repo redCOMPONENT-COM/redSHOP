@@ -11,22 +11,13 @@ defined('_JEXEC') or die;
 
 class Redaccesslevel
 {
-	/**
-	 * define default path
-	 *
-	 */
-	public function __construct()
-	{
-		$this->_table_prefix = '#__redshop_';
-	}
-
 	public function checkaccessofuser($group_id)
 	{
 		$app = JFactory::getApplication();
 
 
 		$db = JFactory::getDbo();
-		$query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
+		$query = "SELECT  section_name FROM #__redshop_accessmanager"
 			. " WHERE `view`=1 and `gid` = " . (int) $group_id;
 		$db->setQuery($query);
 		$access_section = $db->loadColumn();
@@ -105,7 +96,7 @@ class Redaccesslevel
 			$view = "coupon";
 		}
 
-		$query = "SELECT view  FROM " . $this->_table_prefix . "accessmanager"
+		$query = "SELECT view  FROM #__redshop_accessmanager"
 			. " WHERE `section_name` = " . $db->quote($view) . " AND `gid` = " . (int) $group_id;
 
 		$db->setQuery($query);
@@ -163,7 +154,7 @@ class Redaccesslevel
 			$view = "coupon";
 		}
 
-		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
+		$query = "SELECT *  FROM  #__redshop_accessmanager"
 			. " WHERE `section_name` = " . $db->quote(str_replace('_detail', '', $view))
 			. " AND `gid` = " . (int) $group_id;
 		$db->setQuery($query);
@@ -216,7 +207,7 @@ class Redaccesslevel
 		}
 
 		// Tax_group_detail
-		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
+		$query = "SELECT *  FROM  #__redshop_accessmanager"
 			. " WHERE `section_name` = " . $db->quote(str_replace('_detail', '', $view))
 			. " AND `gid` = " . (int) $group_id;
 
@@ -268,7 +259,7 @@ class Redaccesslevel
 			$view = "coupon";
 		}
 
-		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
+		$query = "SELECT *  FROM  #__redshop_accessmanager"
 			. " WHERE `section_name` = " . $db->quote(str_replace('_detail', '', $view))
 			. " AND `gid` = " . (int) $group_id;
 		$db->setQuery($query);

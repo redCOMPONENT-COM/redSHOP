@@ -61,9 +61,9 @@ class Tableuser_detail extends JTable
 
 	public function __construct(& $db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'users_info', 'users_info_id', $db);
+
+		parent::__construct('#__redshop_users_info', 'users_info_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

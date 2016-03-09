@@ -2,7 +2,6 @@
 global $defaultarray;
 $defaultarray = array();
 $defaultarray["administrator_email"] = ADMINISTRATOR_EMAIL;
-$defaultarray["table_prefix"] = TABLE_PREFIX;
 $defaultarray["shop_country"] = SHOP_COUNTRY;
 $defaultarray["default_shipping_country"] = DEFAULT_SHIPPING_COUNTRY;
 $defaultarray["welcome_msg"] = WELCOME_MSG;

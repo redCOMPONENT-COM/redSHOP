@@ -33,9 +33,7 @@ class Tablestockroom_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
-
-		parent::__construct($this->_table_prefix . 'stockroom', 'stockroom_id', $db);
+		parent::__construct('#__redshop_stockroom', 'stockroom_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

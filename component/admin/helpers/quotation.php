@@ -17,16 +17,6 @@ JLoader::load('RedshopHelperHelper');
 
 class quotationHelper
 {
-	public $_data = null;
-	public $_table_prefix = null;
-	public $_db = null;
-
-	public function __construct()
-	{
-		$this->_db = JFactory::getDbo();
-		$this->_table_prefix = '#__redshop_';
-	}
-
 	public function getQuotationStatusList()
 	{
 		$status = array();
@@ -68,6 +58,7 @@ class quotationHelper
 
 	public function getQuotationProduct($quotation_id = 0, $quotation_item_id = 0)
 	{
+		$db = JFactory::getDbo();
 		$and = "";
 
 		if ($quotation_id != 0)
@@ -84,36 +75,35 @@ class quotationHelper
 			$and .= "AND quotation_item_id = " . (int) $quotation_item_id . " ";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "quotation_item "
+		$query = "SELECT * FROM #__redshop_quotation_item "
 			. "WHERE 1=1 "
 			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
 
 	public function getQuotationDetail($quotation_id)
 	{
-		$query = "SELECT q.*,q.user_email AS quotation_email,u.* FROM " . $this->_table_prefix . "quotation AS q "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS u ON u.user_id=q.user_id AND u.address_type Like 'BT' "
+		$db = JFactory::getDbo();
+		$query = "SELECT q.*,q.user_email AS quotation_email,u.* FROM #__redshop_quotation AS q "
+			. "LEFT JOIN #__redshop_users_info AS u ON u.user_id=q.user_id AND u.address_type Like 'BT' "
 			. "WHERE q.quotation_id = " . (int) $quotation_id;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		$db->setQuery($query);
+		$list = $db->loadObject();
 
 		return $list;
 	}
 
 	public function generateQuotationNumber()
 	{
-		/* Generated a unique quotation number */
-		$query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation ";
-		$this->_db->setQuery($query);
-		$maxId = $this->_db->loadResult();
+		$db = JFactory::getDbo();
+		$query = "SELECT COUNT(quotation_id) FROM #__redshop_quotation ";
+		$db->setQuery($query);
+		$maxId = $db->loadResult();
 
-		$number = $maxId + 1;
-
-		return $number;
+		return $maxId + 1;
 	}
 
 	/**
@@ -150,6 +140,7 @@ class quotationHelper
 
 	public function getQuotationUserList()
 	{
+		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
 		$and = "";
 
@@ -158,12 +149,12 @@ class quotationHelper
 			$and = " AND q.user_id = " . (int) $user->id . " ";
 		}
 
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
+		$query = "SELECT q.* FROM #__redshop_quotation AS q "
 			. "WHERE 1=1 "
 			. $and
 			. "ORDER BY quotation_cdate DESC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
@@ -208,7 +199,7 @@ class quotationHelper
 	public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
 	{
 		$db = JFactory::getDbo();
-		$sql = "INSERT INTO " . $this->_table_prefix . "quotation_fields_data "
+		$sql = "INSERT INTO #__redshop_quotation_fields_data "
 			. "(fieldid,data_txt,quotation_item_id,section) "
 			. "VALUE (" . (int) $field_id . "," . $db->quote($value) . "," . (int) $quotation_item_id . "," . $db->quote($section_id) . ")";
 		$db->setQuery($sql);
@@ -217,11 +208,12 @@ class quotationHelper
 
 	public function getQuotationUserfield($quotation_item_id)
 	{
-		$q = "SELECT qf.*,f.* FROM " . $this->_table_prefix . "quotation_fields_data AS qf "
-			. "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=qf.fieldid "
+		$db = JFactory::getDbo();
+		$q = "SELECT qf.*,f.* FROM #__redshop_quotation_fields_data AS qf "
+			. "LEFT JOIN #__redshop_fields AS f ON f.field_id=qf.fieldid "
 			. "WHERE quotation_item_id = " . (int) $quotation_item_id;
-		$this->_db->setQuery($q);
-		$row_data = $this->_db->loadObjectlist();
+		$db->setQuery($q);
+		$row_data = $db->loadObjectlist();
 
 		return $row_data;
 	}
@@ -234,8 +226,8 @@ class quotationHelper
 		$db = JFactory::getDbo();
 
 		$sql = "SELECT fd.*,f.field_title,f.field_type,f.field_name "
-			. "FROM " . $this->_table_prefix . "quotation_fields_data AS fd "
-			. "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid "
+			. "FROM #__redshop_quotation_fields_data AS fd "
+			. "LEFT JOIN #__redshop_fields AS f ON f.field_id=fd.fieldid "
 			. "WHERE fd.quotation_item_id= " . (int) $quotation_item_id . " AND fd.section = " . $db->quote($section_id);
 		$db->setQuery($sql);
 		$userfield = $db->loadObjectlist();
@@ -288,11 +280,12 @@ class quotationHelper
 
 	public function updateQuotationwithOrder($quotation_id, $order_id)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'quotation '
+		$db = JFactory::getDbo();
+		$query = 'UPDATE #__redshop_quotation '
 			. 'SET order_id = ' . (int) $order_id . ' '
 			. 'WHERE quotation_id = ' . (int) $quotation_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 		$this->updateQuotationStatus($quotation_id, 5);
 
 		return true;
@@ -300,6 +293,7 @@ class quotationHelper
 
 	public function getQuotationwithOrder($order_id = 0)
 	{
+		$db = JFactory::getDbo();
 		$and = "";
 
 		if ($order_id != 0)
@@ -311,18 +305,19 @@ class quotationHelper
 			$and = " AND q.order_id IN (" . implode(',', $order_id) . ") ";
 		}
 
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
+		$query = "SELECT q.* FROM #__redshop_quotation AS q "
 			. "WHERE 1=1 "
 			. $and
 			. "ORDER BY quotation_cdate DESC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
 
 	public function getQuotationItemAccessoryDetail($quotation_item_id = 0)
 	{
+		$db = JFactory::getDbo();
 		$and = "";
 
 		if ($quotation_item_id != 0)
@@ -330,11 +325,11 @@ class quotationHelper
 			$and .= " AND quotation_item_id = " . (int) $quotation_item_id . " ";
 		}
 
-		$query = "SELECT * FROM  " . $this->_table_prefix . "quotation_accessory_item "
+		$query = "SELECT * FROM  #__redshop_quotation_accessory_item "
 			. "WHERE 1=1 "
 			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
@@ -354,7 +349,7 @@ class quotationHelper
 			$and .= " AND parent_section_id = " . (int) $parent_section_id . " ";
 		}
 
-		$query = "SELECT * FROM  " . $this->_table_prefix . "quotation_attribute_item "
+		$query = "SELECT * FROM  #__redshop_quotation_attribute_item "
 			. "WHERE is_accessory_att = " . (int) $is_accessory . " "
 			. "AND section = " . $db->quote($section) . " "
 			. $and;

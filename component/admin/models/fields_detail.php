@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminImages');
 
@@ -19,15 +18,11 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_fielddata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -55,11 +50,13 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'fields  WHERE field_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$query = 'SELECT * FROM #__redshop_fields  WHERE field_id = ' . $this->_id;
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -100,7 +97,6 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$row = $this->getTable();
 		$field_cid = $data['cid'][0];
 
 		if (!$field_cid)
@@ -108,25 +104,12 @@ class RedshopModelFields_detail extends RedshopModel
 			$data['ordering'] = $this->MaxOrdering();
 		}
 
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
+		return parent::store($data);
 	}
 
 	public function field_save($id, $post)
 	{
+		$db = JFactory::getDbo();
 		$extra_field = new extra_field;
 		$value_id = array();
 		$extra_name = array();
@@ -194,22 +177,22 @@ class RedshopModelFields_detail extends RedshopModel
 
 			if ($value_id[$j] == "")
 			{
-				$query = "INSERT INTO " . $this->_table_prefix . "fields_value "
+				$query = "INSERT INTO #__redshop_fields_value "
 					. "(field_id,field_name,field_value) "
 					. "VALUE ( '" . $id . "','" . $filename . "','" . $extra_value[$j] . "' ) ";
 			}
 			else
 			{
-				$query = "UPDATE " . $this->_table_prefix . "fields_value "
+				$query = "UPDATE #__redshop_fields_value "
 					. "SET " . $set . " field_value='" . $extra_value[$j] . "' "
 					. "WHERE value_id='" . $value_id[$j] . "' ";
 			}
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -218,14 +201,15 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public function field_delete($id, $field)
 	{
+		$db = JFactory::getDbo();
 		$id = implode(',', $id);
-		$query = 'DELETE FROM ' . $this->_table_prefix . 'fields_value WHERE ' . $field . ' IN ( ' . $id . ' )';
+		$query = 'DELETE FROM #__redshop_fields_value WHERE ' . $field . ' IN ( ' . $id . ' )';
 
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -233,27 +217,29 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'fields WHERE field_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$query = 'DELETE FROM #__redshop_fields WHERE field_id IN ( ' . $cids . ' )';
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
 
 			// 	remove fields_data
-			$query_field_data = 'DELETE FROM ' . $this->_table_prefix . 'fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
-			$this->_db->setQuery($query_field_data);
+			$query_field_data = 'DELETE FROM #__redshop_fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
+			$db->setQuery($query_field_data);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 			}
 		}
 
@@ -262,10 +248,12 @@ class RedshopModelFields_detail extends RedshopModel
 
 	public function MaxOrdering()
 	{
-		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadResult();
+		$query = "SELECT (count(*)+1) FROM #__redshop_fields";
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	/**
@@ -276,11 +264,13 @@ class RedshopModelFields_detail extends RedshopModel
 	 */
 	public function checkFieldname($field_name, $field_id)
 	{
-		$query = "SELECT COUNT(*) AS cnt FROM " . $this->_table_prefix . "fields "
+		$db = JFactory::getDbo();
+
+		$query = "SELECT COUNT(*) AS cnt FROM #__redshop_fields "
 			. "WHERE field_name='" . $field_name . "' "
 			. "AND field_id!='" . $field_id . "' ";
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadResult();
+		$db->setQuery($query);
+		$result = $db->loadResult();
 
 		return (boolean) $result;
 	}

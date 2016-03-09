@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminXmlHelper');
 
 class RedshopModelXmlexport_detail extends RedshopModel
@@ -18,13 +17,10 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -50,7 +46,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x "
+		$query = "SELECT x.* FROM #__redshop_xml_export AS x "
 			. "WHERE x.xmlexport_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
@@ -139,13 +135,13 @@ class RedshopModelXmlexport_detail extends RedshopModel
 			{
 				if ($xmlexport_ip_id[$i] != 0)
 				{
-					$query = "UPDATE " . $this->_table_prefix . "xml_export_ipaddress "
+					$query = "UPDATE #__redshop_xml_export_ipaddress "
 						. "SET access_ipaddress='" . $access_ipaddress[$i] . "' "
 						. "WHERE xmlexport_ip_id='" . $xmlexport_ip_id[$i] . "' ";
 				}
 				else
 				{
-					$query = "INSERT INTO " . $this->_table_prefix . "xml_export_ipaddress "
+					$query = "INSERT INTO #__redshop_xml_export_ipaddress "
 						. "(xmlexport_id, access_ipaddress) "
 						. "VALUES "
 						. "('" . $row->xmlexport_id . "', '" . $access_ipaddress[$i] . "') ";
@@ -189,7 +185,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_log '
+			$query = 'DELETE FROM #__redshop_xml_export_log '
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
@@ -200,7 +196,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress '
+			$query = 'DELETE FROM #__redshop_xml_export_ipaddress '
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
@@ -211,7 +207,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export '
+			$query = 'DELETE FROM #__redshop_xml_export '
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
@@ -228,7 +224,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 	public function deleteIpAddress($xmlexport_ip_id = 0)
 	{
-		$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress '
+		$query = 'DELETE FROM #__redshop_xml_export_ipaddress '
 			. 'WHERE xmlexport_ip_id IN (' . $xmlexport_ip_id . ')';
 		$this->_db->setQuery($query);
 
@@ -248,7 +244,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'xml_export '
+			$query = 'UPDATE #__redshop_xml_export '
 				. ' SET auto_sync = ' . intval($publish)
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -270,7 +266,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'xml_export '
+			$query = 'UPDATE #__redshop_xml_export '
 				. ' SET use_to_all_users = ' . intval($publish)
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -298,7 +294,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = ' UPDATE ' . $this->_table_prefix . 'xml_export '
+			$query = ' UPDATE #__redshop_xml_export '
 				. ' SET published = ' . intval($publish)
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -316,7 +312,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 	public function getCategoryList()
 	{
-		$query = 'SELECT category_name AS text,category_id AS value FROM ' . $this->_table_prefix . 'category '
+		$query = 'SELECT category_name AS text,category_id AS value FROM #__redshop_category '
 			. 'WHERE published=1 ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();

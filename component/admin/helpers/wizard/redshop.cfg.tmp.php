@@ -61,7 +61,6 @@ $temparray["new_shopper_group_get_value_from"] = NEW_SHOPPER_GROUP_GET_VALUE_FRO
 $temparray["default_portal_logo"] = DEFAULT_PORTAL_LOGO;
 $temparray["default_portal_logo_tmp"] = DEFAULT_PORTAL_LOGO;
 $temparray["administrator_email"] = ADMINISTRATOR_EMAIL;
-$temparray["table_prefix"] = TABLE_PREFIX;
 $temparray["shop_country"] = SHOP_COUNTRY;
 $temparray["default_shipping_country"] = DEFAULT_SHIPPING_COUNTRY;
 $temparray["welcome_msg"] = WELCOME_MSG;

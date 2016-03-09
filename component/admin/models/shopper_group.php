@@ -18,7 +18,6 @@ class RedshopModelShopper_group extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -30,7 +29,7 @@ class RedshopModelShopper_group extends RedshopModel
 
 		$this->_context = 'shopper_group_id';
 
-		$this->_table_prefix = '#__redshop_';
+
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0) ? (floor($limitstart / $limit) * $limit) : 0;
@@ -74,7 +73,7 @@ class RedshopModelShopper_group extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = 'SELECT DISTINCT(s.shopper_group_id),s.* FROM ' . $this->_table_prefix . 'shopper_group AS s '
+		$query = 'SELECT DISTINCT(s.shopper_group_id),s.* FROM #__redshop_shopper_group AS s '
 			. $orderby;
 
 		return $query;

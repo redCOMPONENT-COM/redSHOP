@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelDiscount_detail extends RedshopModel
 {
 	public $_id = null;
@@ -18,13 +17,9 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public $_shoppers = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -52,21 +47,22 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
 		$layout = JRequest::getVar('layout');
 
 		if (empty($this->_data))
 		{
 			if (isset($layout) && $layout == 'product')
 			{
-				$query = 'SELECT * FROM ' . $this->_table_prefix . 'discount_product WHERE discount_product_id = ' . $this->_id;
+				$query = 'SELECT * FROM #__redshop_discount_product WHERE discount_product_id = ' . $this->_id;
 			}
 			else
 			{
-				$query = 'SELECT * FROM ' . $this->_table_prefix . 'discount WHERE discount_id = ' . $this->_id;
+				$query = 'SELECT * FROM #__redshop_discount WHERE discount_id = ' . $this->_id;
 			}
 
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -102,29 +98,30 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('discount_detail');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		// Remove Relation With Shoppers
-		$sdel = "DELETE FROM " . $this->_table_prefix . "discount_shoppers WHERE discount_id = " . $row->discount_id;
-		$this->_db->setQuery($sdel);
+		$sdel = "DELETE FROM #__redshop_discount_shoppers WHERE discount_id = " . $row->discount_id;
+		$db->setQuery($sdel);
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -134,6 +131,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
 		$layout = JRequest::getVar('layout');
 
 		if (count($cid))
@@ -142,18 +140,18 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 			if (isset($layout) && $layout == 'product')
 			{
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'discount_product WHERE discount_product_id IN ( ' . $cids . ' )';
+				$query = 'DELETE FROM #__redshop_discount_product WHERE discount_product_id IN ( ' . $cids . ' )';
 			}
 			else
 			{
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'discount WHERE discount_id IN ( ' . $cids . ' )';
+				$query = 'DELETE FROM #__redshop_discount WHERE discount_id IN ( ' . $cids . ' )';
 			}
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -164,6 +162,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
 		$layout = JRequest::getVar('layout');
 
 		if (count($cid))
@@ -172,22 +171,22 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 			if (isset($layout) && $layout == 'product')
 			{
-				$query = 'UPDATE ' . $this->_table_prefix . 'discount_product'
+				$query = 'UPDATE #__redshop_discount_product'
 					. ' SET published = ' . intval($publish)
 					. ' WHERE discount_product_id IN ( ' . $cids . ' )';
 			}
 			else
 			{
-				$query = 'UPDATE ' . $this->_table_prefix . 'discount'
+				$query = 'UPDATE #__redshop_discount'
 					. ' SET published = ' . intval($publish)
 					. ' WHERE discount_id IN ( ' . $cids . ' )';
 			}
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -198,9 +197,10 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function &getShoppers()
 	{
-		$query = 'SELECT shopper_group_id as value,shopper_group_name as text FROM ' . $this->_table_prefix . 'shopper_group WHERE published = 1';
-		$this->_db->setQuery($query);
-		$this->_shoppers = $this->_db->loadObjectList();
+		$db = JFactory::getDbo();
+		$query = 'SELECT shopper_group_id as value,shopper_group_name as text FROM #__redshop_shopper_group WHERE published = 1';
+		$db->setQuery($query);
+		$this->_shoppers = $db->loadObjectList();
 
 		return $this->_shoppers;
 	}
@@ -244,6 +244,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function saveShoppers($did, $sids)
 	{
+		$db = JFactory::getDbo();
 		$layout = JRequest::getVar('layout');
 
 		foreach ($sids as $sid)
@@ -257,9 +258,9 @@ class RedshopModelDiscount_detail extends RedshopModel
 				$query = "INSERT INTO #__redshop_discount_shoppers VALUES('" . $did . "','" . $sid . "')";
 			}
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
 				return false;
 			}
@@ -270,29 +271,30 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 	public function storeDiscountProduct($data)
 	{
+		$db = JFactory::getDbo();
 		$dprow = $this->getTable('discount_product');
 
 		if (!$dprow->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$dprow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		// 	Remove Relation With Shoppers
-		$del = "DELETE FROM " . $this->_table_prefix . "discount_product_shoppers WHERE discount_product_id = " . $dprow->discount_product_id;
-		$this->_db->setQuery($del);
+		$del = "DELETE FROM #__redshop_discount_product_shoppers WHERE discount_product_id = " . $dprow->discount_product_id;
+		$db->setQuery($del);
 
-		if (!$this->_db->execute())
+		if (!$db->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}

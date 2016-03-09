@@ -17,12 +17,10 @@ class RedshopModelStockimage_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
+
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -50,7 +48,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom_amount_image AS si '
+			$query = 'SELECT * FROM #__redshop_stockroom_amount_image AS si '
 				. 'WHERE stock_amount_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -128,7 +126,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 
 			for ($i = 0, $in = count($cid); $i < $in; $i++)
 			{
-				$query = 'SELECT stock_amount_image FROM ' . $this->_table_prefix . 'stockroom_amount_image AS si '
+				$query = 'SELECT stock_amount_image FROM #__redshop_stockroom_amount_image AS si '
 					. 'WHERE stock_amount_id="' . $cid[$i] . '" ';
 				$this->_db->setQuery($query);
 				$stock_amount_image = $this->_db->loadResult();
@@ -139,7 +137,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'stockroom_amount_image '
+			$query = 'DELETE FROM #__redshop_stockroom_amount_image '
 				. 'WHERE stock_amount_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -172,7 +170,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 
 	public function getStockRoomList()
 	{
-		$query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';
+		$query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM #__redshop_stockroom AS s ';
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 

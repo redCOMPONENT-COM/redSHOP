@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelCatalog_request extends RedshopModel
 {
 	public $_data = null;
@@ -17,8 +16,6 @@ class RedshopModelCatalog_request extends RedshopModel
 	public $_total = null;
 
 	public $_pagination = null;
-
-	public $_table_prefix = null;
 
 	public $_context = null;
 
@@ -28,7 +25,6 @@ class RedshopModelCatalog_request extends RedshopModel
 
 		$app = JFactory::getApplication();
 		$this->_context = 'catalog_user_id';
-		$this->_table_prefix = '#__redshop_';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
@@ -79,7 +75,7 @@ class RedshopModelCatalog_request extends RedshopModel
 
 		$orderby = $this->_buildContentOrderBy();
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_request ' . $where . $orderby;
+		$query = 'SELECT * FROM #__redshop_catalog_request ' . $where . $orderby;
 
 		return $query;
 	}
@@ -99,16 +95,18 @@ class RedshopModelCatalog_request extends RedshopModel
 
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_request WHERE catalog_user_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$query = 'DELETE FROM #__redshop_catalog_request WHERE catalog_user_id IN ( ' . $cids . ' )';
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -120,18 +118,20 @@ class RedshopModelCatalog_request extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'catalog_request'
+			$query = 'UPDATE #__redshop_catalog_request'
 				. ' SET block = ' . intval($publish)
 				. ' WHERE catalog_user_id 	 IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}

@@ -13,22 +13,14 @@ JHTML::_('behavior.tooltip');
 
 class text_library
 {
-	public  $_data = null;
-	public  $_table_prefix = null;
-	public  $_db = null;
-
-	public function __construct()
-	{
-		$this->_table_prefix = '#__redshop_';
-		$this->_db = JFactory::getDbo();
-	}
-
 	public function getTextLibraryData()
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "textlibrary "
+		$db = JFactory::getDbo();
+
+		$query = "SELECT * FROM #__redshop_textlibrary "
 			. "WHERE published=1 ";
-		$this->_db->setQuery($query);
-		$textdata = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$textdata = $db->loadObjectlist();
 
 		return $textdata;
 	}

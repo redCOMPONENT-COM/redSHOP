@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
@@ -21,13 +20,9 @@ class RedshopModelMail_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -56,11 +51,13 @@ class RedshopModelMail_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'mail WHERE mail_id = ' . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$query = 'SELECT * FROM #__redshop_mail WHERE mail_id = ' . $this->_id;
+			$db->setQuery($query);
+			$this->_data = $db->loadObject();
 
 			return (boolean) $this->_data;
 		}
@@ -90,39 +87,20 @@ class RedshopModelMail_detail extends RedshopModel
 		return true;
 	}
 
-	public function store($data)
-	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
-	}
-
 	public function delete($cid = array())
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'mail WHERE mail_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$query = 'DELETE FROM #__redshop_mail WHERE mail_id IN ( ' . $cids . ' )';
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -133,18 +111,20 @@ class RedshopModelMail_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
+		$db = JFactory::getDbo();
+
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'mail'
+			$query = 'UPDATE #__redshop_mail'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE mail_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -155,12 +135,14 @@ class RedshopModelMail_detail extends RedshopModel
 
 	public function mail_section()
 	{
+		$db = JFactory::getDbo();
+
 		$query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM '
-			. $this->_table_prefix . 'order_status  where published=1';
+			. '#__redshop_order_status  where published=1';
 
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function order_statusHtml($order_status)

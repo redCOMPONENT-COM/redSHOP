@@ -32,8 +32,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 	public $data = null;
 
-	public $table_prefix = null;
-
 	public $attribute_data = null;
 
 	public $copydata = null;
@@ -49,7 +47,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->table_prefix = '#__redshop_';
 		$this->app          = JFactory::getApplication();
 		$this->input        = $this->app->input;
 		$array              = $this->input->get('cid', array(0), 'array');
@@ -304,7 +301,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				unlink($unlink_path);
 			}
 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'media
+			$query = 'DELETE FROM #__redshop_media
 					  WHERE media_name = "' . $data['old_image'] . '"
 					  AND media_section = "product" AND section_id = "' . $row->product_id . '" ';
 			$this->_db->setQuery($query);
@@ -493,7 +490,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if ($row->product_full_image != "")
 			{
 				$media_id = 0;
-				$query = "SELECT * FROM " . $this->table_prefix . "media AS m "
+				$query = "SELECT * FROM #__redshop_media AS m "
 					. "WHERE media_name='" . $data['old_image'] . "' "
 					. "AND media_section='product' ";
 				$this->_db->setQuery($query);
@@ -536,7 +533,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			$prodid = $data['product_id'];
 			$cids = implode(",", $data['product_category']);
-			$query = "SELECT category_id,ordering FROM " . $this->table_prefix . "product_category_xref
+			$query = "SELECT category_id,ordering FROM #__redshop_product_category_xref
 					  WHERE product_id='" . $prodid . "'
 					  AND category_id IN(" . $cids . ")";
 			$categories = $this->_getList($query);
@@ -547,7 +544,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$catorder[$categories[$g]->category_id] = $categories[$g]->ordering;
 			}
 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_category_xref WHERE product_id="' . $prodid . '" ';
+			$query = 'DELETE FROM #__redshop_product_category_xref WHERE product_id="' . $prodid . '" ';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -571,13 +568,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 			else
 			{
-				$queryorder = "SELECT max(ordering)  FROM " . $this->table_prefix . "product_category_xref WHERE  category_id ='" . $cat . "' ";
+				$queryorder = "SELECT max(ordering)  FROM #__redshop_product_category_xref WHERE  category_id ='" . $cat . "' ";
 				$this->_db->setQuery($queryorder);
 				$result = $this->_db->loadResult();
 				$ordering = $result + 1;
 			}
 
-			$query = 'INSERT INTO ' . $this->table_prefix . 'product_category_xref(category_id,product_id,ordering)
+			$query = 'INSERT INTO #__redshop_product_category_xref(category_id,product_id,ordering)
 					  VALUES ("' . $cat . '","' . $prodid . '","' . $ordering . '")';
 			$this->_db->setQuery($query);
 
@@ -603,7 +600,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$category_array = array_diff($oldcategory, $data['product_category']);
 		}
 
-		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE " . $where_cat_discount . " ORDER BY mass_discount_id desc limit 0,1";
+		$sel = "SELECT * FROM #__redshop_mass_discount WHERE " . $where_cat_discount . " ORDER BY mass_discount_id desc limit 0,1";
 		$this->_db->setQuery($sel);
 		$mass_discount = $this->_db->loadObject();
 
@@ -612,7 +609,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->updateproductdiscount($mass_discount, $row);
 		}
 
-		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE FIND_IN_SET('" . $row->manufacturer_id .
+		$sel = "SELECT * FROM #__redshop_mass_discount WHERE FIND_IN_SET('" . $row->manufacturer_id .
 			"',manufacturer_id) ORDER BY mass_discount_id desc limit 0,1";
 		$this->_db->setQuery($sel);
 		$mass_discount = $this->_db->loadObject();
@@ -636,7 +633,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					return false;
 				}
 
-				$query = "DELETE FROM " . $this->table_prefix . "product_stockroom_xref "
+				$query = "DELETE FROM #__redshop_product_stockroom_xref "
 					. "WHERE product_id = '" . $product_id . "' and  stockroom_id ='" . $data['stockroom_id'][$i] . "'";
 				$this->_db->setQuery($query);
 
@@ -691,7 +688,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		$query_rel_del = 'DELETE FROM ' . $this->table_prefix . 'product_related ' . 'WHERE product_id IN ( ' . $row->product_id . ' )';
+		$query_rel_del = 'DELETE FROM #__redshop_product_related ' . 'WHERE product_id IN ( ' . $row->product_id . ' )';
 		$this->_db->setQuery($query_rel_del);
 
 		if (!$this->_db->execute())
@@ -710,7 +707,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$ordering_related++;
 				$related_id = $related_data;
 				$product_id = $row->product_id;
-				$query_related = 'INSERT INTO ' . $this->table_prefix . 'product_related(related_id,product_id,ordering)
+				$query_related = 'INSERT INTO #__redshop_product_related(related_id,product_id,ordering)
 								  VALUES ("' . $related_id . '","' . $product_id . '","' . $ordering_related . '")';
 				$this->_db->setQuery($query_related);
 
@@ -724,7 +721,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		// Discount calculator start
-		$query = "DELETE FROM `" . $this->table_prefix . "product_discount_calc` WHERE product_id='" . $row->product_id . "' ";
+		$query = "DELETE FROM `#__redshop_product_discount_calc` WHERE product_id='" . $row->product_id . "' ";
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -795,7 +792,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		// Discount calculator add extra data
-		$query = "DELETE FROM `" . $this->table_prefix . "product_discount_calc_extra` WHERE product_id='" . $row->product_id . "' ";
+		$query = "DELETE FROM `#__redshop_product_discount_calc_extra` WHERE product_id='" . $row->product_id . "' ";
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -851,7 +848,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$sub_cond = "";
 		}
 
-		$subscription_query = "DELETE FROM `" . $this->table_prefix . "product_subscription`" . "WHERE product_id=" . $row->product_id . $sub_cond;
+		$subscription_query = "DELETE FROM `#__redshop_product_subscription`" . "WHERE product_id=" . $row->product_id . $sub_cond;
 		$this->_db->setQuery($subscription_query);
 		$this->_db->execute();
 
@@ -964,7 +961,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						($row->product_price - ($row->product_price * $mass_discount->discount_amount / 100)) :
 						$mass_discount->discount_amount;
 
-			$query = 'UPDATE ' . $this->table_prefix . 'product SET product_on_sale="1" '
+			$query = 'UPDATE #__redshop_product SET product_on_sale="1" '
 				. ', discount_price="' . $p_price . '" , discount_stratdate="' . $mass_discount->discount_startdate . '" '
 				. ', discount_enddate="' . $mass_discount->discount_enddate . '" WHERE product_id="' . $row->product_id . '" ';
 			$this->_db->setQuery($query);
@@ -999,7 +996,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			$query = 'SELECT count( `product_id` ) AS total, `product_parent_id`
-						FROM `' . $this->table_prefix . 'product`
+						FROM `#__redshop_product`
 						WHERE `product_parent_id`
 						IN ( ' . $cids . ' )
 						GROUP BY `product_parent_id`';
@@ -1024,7 +1021,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			$image_query = 'SELECT pa.attribute_id,pap.property_image
-							FROM ' . $this->table_prefix . 'product_attribute as pa,' . $this->table_prefix . 'product_attribute_property as pap
+							FROM #__redshop_product_attribute as pa,#__redshop_product_attribute_property as pap
 							WHERE pa.product_id IN( ' . $cids . ') and pa.attribute_id = pap.attribute_id';
 			$this->_db->setQuery($image_query);
 			$property_image = $this->_db->loadObjectlist();
@@ -1045,7 +1042,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 
 				// Subattribute delete
-				$subattr_delete = 'DELETE FROM ' . $this->table_prefix . 'product_subattribute_color  WHERE subattribute_id ="' .
+				$subattr_delete = 'DELETE FROM #__redshop_product_subattribute_color  WHERE subattribute_id ="' .
 					$imagename->property_id . '" ';
 				$this->_db->setQuery($subattr_delete);
 
@@ -1054,7 +1051,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$this->setError($this->_db->getErrorMsg());
 				}
 
-				$attr_delete = 'DELETE FROM ' . $this->table_prefix . 'product_attribute WHERE attribute_id ="' . $imagename->attribute_id . '" ';
+				$attr_delete = 'DELETE FROM #__redshop_product_attribute WHERE attribute_id ="' . $imagename->attribute_id . '" ';
 				$this->_db->setQuery($attr_delete);
 
 				if (!$this->_db->execute())
@@ -1062,7 +1059,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$this->setError($this->_db->getErrorMsg());
 				}
 
-				$prop_delete = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id ="' . $imagename->attribute_id . '" ';
+				$prop_delete = 'DELETE FROM #__redshop_product_attribute_property WHERE attribute_id ="' . $imagename->attribute_id . '" ';
 				$this->_db->setQuery($prop_delete);
 
 				if (!$this->_db->execute())
@@ -1077,7 +1074,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 								   p.product_back_thumb_image,
 								   p.product_preview_image,
 								   p.product_preview_back_image
-							FROM ' . $this->table_prefix . 'product as p
+							FROM #__redshop_product as p
 							WHERE p.product_id IN( ' . $cids . ')';
 			$this->_db->setQuery($image_query);
 			$product_image = $this->_db->loadObjectlist();
@@ -1122,7 +1119,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product WHERE product_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product WHERE product_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -1130,7 +1127,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->setError($this->_db->getErrorMsg());
 			}
 
-			$query_related = 'DELETE FROM ' . $this->table_prefix . 'product_accessory WHERE product_id IN ( ' . $cids . ' )';
+			$query_related = 'DELETE FROM #__redshop_product_accessory WHERE product_id IN ( ' . $cids . ' )';
 
 			$this->_db->setQuery($query_related);
 
@@ -1139,7 +1136,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->setError($this->_db->getErrorMsg());
 			}
 
-			$query_related = 'DELETE FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $cids . ' )';
+			$query_related = 'DELETE FROM #__redshop_product_related WHERE product_id IN ( ' . $cids . ' )';
 
 			$this->_db->setQuery($query_related);
 
@@ -1148,7 +1145,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->setError($this->_db->getErrorMsg());
 			}
 
-			$query_media = 'DELETE FROM ' . $this->table_prefix . 'media WHERE section_id IN ( ' . $cids . ' ) AND media_section = "product"';
+			$query_media = 'DELETE FROM #__redshop_media WHERE section_id IN ( ' . $cids . ' ) AND media_section = "product"';
 			$this->_db->setQuery($query_media);
 
 			if (!$this->_db->execute())
@@ -1157,7 +1154,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			// Remove product category xref relation
-			$query_relation = 'DELETE FROM ' . $this->table_prefix . 'product_category_xref WHERE product_id IN ( ' . $cids . ' ) ';
+			$query_relation = 'DELETE FROM #__redshop_product_category_xref WHERE product_id IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query_relation);
 
 			if (!$this->_db->execute())
@@ -1175,7 +1172,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			// Remove product tags relation
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_tags_xref  WHERE product_id IN ( ' . $cids . ' ) ';
+			$query = 'DELETE FROM #__redshop_product_tags_xref  WHERE product_id IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -1184,7 +1181,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			// Remove product wishlist relation
-			$query = 'DELETE FROM ' . $this->table_prefix . 'wishlist_product  WHERE product_id IN ( ' . $cids . ' ) ';
+			$query = 'DELETE FROM #__redshop_wishlist_product  WHERE product_id IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -1193,7 +1190,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			// Remove product compare relation
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_compare  WHERE product_id IN ( ' . $cids . ' ) ';
+			$query = 'DELETE FROM #__redshop_product_compare  WHERE product_id IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -1202,7 +1199,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			// Remove fields_data relation
-			$query = 'DELETE FROM ' . $this->table_prefix . 'fields_data  WHERE itemid IN ( ' . $cids . ' ) ';
+			$query = 'DELETE FROM #__redshop_fields_data  WHERE itemid IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -1227,7 +1224,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'UPDATE ' . $this->table_prefix . 'product'
+			$query = 'UPDATE #__redshop_product'
 				. ' SET published = "' . intval($publish) . '" '
 				. ' WHERE product_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -1259,24 +1256,24 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product WHERE product_id IN ( ' . $cids . ' )';
+			$query = 'SELECT * FROM #__redshop_product WHERE product_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$this->copydata = $this->_db->loadObjectList();
 		}
 
 		foreach ($this->copydata as $pdata)
 		{
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product_price WHERE product_id IN ( ' . $pdata->product_id . ' )';
+			$query = 'SELECT * FROM #__redshop_product_price WHERE product_id IN ( ' . $pdata->product_id . ' )';
 			$this->_db->setQuery($query);
 			$productpricedata = $this->_db->loadObjectList();
 
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'media WHERE media_section = "product" AND section_id IN ( ' . $pdata->product_id . ' )';
+			$query = 'SELECT * FROM #__redshop_media WHERE media_section = "product" AND section_id IN ( ' . $pdata->product_id . ' )';
 			$this->_db->setQuery($query);
 			$mediadata = $this->_db->loadObjectList();
 
 			if (!$postMorePriority)
 			{
-				$query = 'SELECT category_id FROM ' . $this->table_prefix . 'product_category_xref
+				$query = 'SELECT category_id FROM #__redshop_product_category_xref
 					  WHERE product_id IN ( ' . $pdata->product_id . ' )';
 				$this->_db->setQuery($query);
 				$categorydata = $this->_db->loadObjectList();
@@ -1287,7 +1284,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$copycategory[$i] = $categorydata[$i]->category_id;
 				}
 
-				$query = 'SELECT stockroom_id,quantity FROM ' . $this->table_prefix . 'product_stockroom_xref
+				$query = 'SELECT stockroom_id,quantity FROM #__redshop_product_stockroom_xref
 					  WHERE product_id IN ( ' . $pdata->product_id . ' )';
 				$this->_db->setQuery($query);
 				$stockroomdata = $this->_db->loadObjectList();
@@ -1300,7 +1297,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$copyquantity[$i] = $stockroomdata[$i]->quantity;
 				}
 
-				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_accessory WHERE product_id IN ( ' . $pdata->product_id . ' )';
+				$query = 'SELECT * FROM #__redshop_product_accessory WHERE product_id IN ( ' . $pdata->product_id . ' )';
 				$this->_db->setQuery($query);
 				$accessorydata = $this->_db->loadObjectList();
 				$copyaccessory = array();
@@ -1551,14 +1548,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function copyProductAttribute($cid, $product_id)
 	{
 		$query = 'SELECT attribute_id,`attribute_id`,`attribute_name`,`attribute_required`, `ordering`
-				  FROM ' . $this->table_prefix . 'product_attribute
+				  FROM #__redshop_product_attribute
 				  WHERE product_id IN ( ' . $cid . ' ) order by ordering asc';
 		$this->_db->setQuery($query);
 		$attribute = $this->_db->loadObjectList();
 
 		for ($att = 0; $att < count($attribute); $att++)
 		{
-			$query = 'INSERT INTO ' . $this->table_prefix . 'product_attribute (attribute_name,
+			$query = 'INSERT INTO #__redshop_product_attribute (attribute_name,
 																				attribute_required,
 																				allow_multiple_selection,
 																				hide_attribute_price,
@@ -1582,7 +1579,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			$attribute_id = $this->_db->insertid();
-			$query = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_property`
+			$query = 'SELECT * FROM `#__redshop_product_attribute_property`
 					  WHERE `attribute_id` = "' . $attribute[$att]->attribute_id . '" order by ordering asc';
 			$this->_db->setQuery($query);
 			$att_property = $this->_db->loadObjectList();
@@ -1636,7 +1633,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$this->copyadditionalImage($mImages);
 				}
 
-				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
+				$query = 'SELECT * FROM #__redshop_product_subattribute_color
 						  WHERE `subattribute_id` =  "' . $att_property[$prop]->property_id . '" order by ordering asc';
 				$this->_db->setQuery($query);
 				$subatt_property = $this->_db->loadObjectList();
@@ -1691,7 +1688,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function gettax()
 	{
-		$query = 'SELECT tax_rate_id as value,tax_rate as text FROM ' . $this->table_prefix . 'tax_rate ';
+		$query = 'SELECT tax_rate_id as value,tax_rate as text FROM #__redshop_tax_rate ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -1704,7 +1701,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->table_prefix . 'manufacturer
+		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM #__redshop_manufacturer
 				  WHERE published=1 ORDER BY `manufacturer_name`';
 		$this->_db->setQuery($query);
 
@@ -1718,7 +1715,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getsupplier()
 	{
-		$query = 'SELECT supplier_id as value,supplier_name as text FROM ' . $this->table_prefix . 'supplier ';
+		$query = 'SELECT supplier_id as value,supplier_name as text FROM #__redshop_supplier ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -1731,7 +1728,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getproductcats()
 	{
-		$query = 'SELECT category_id FROM ' . $this->table_prefix . 'product_category_xref  WHERE product_id="' . $this->id . '" ';
+		$query = 'SELECT category_id FROM #__redshop_product_category_xref  WHERE product_id="' . $this->id . '" ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadColumn();
@@ -1745,7 +1742,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function catin_sefurl()
 	{
 		$query = 'SELECT c.category_id as value, c.category_name as text
-				  FROM ' . $this->table_prefix . 'product_category_xref as pcf, ' . $this->table_prefix . 'category as c
+				  FROM #__redshop_product_category_xref as pcf, #__redshop_category as c
 				  WHERE pcf.product_id="' . $this->id . '" AND pcf.category_id=c.category_id';
 		$this->_db->setQuery($query);
 
@@ -1761,7 +1758,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getPropertyImages($property_id)
 	{
-		$query = "SELECT * FROM " . $this->table_prefix . "product_attribute_property as p, " . $this->table_prefix . "media AS m
+		$query = "SELECT * FROM #__redshop_product_attribute_property as p, #__redshop_media AS m
 				  WHERE m.section_id = p.property_id  and m.media_section='property' and media_type='images'
 				  AND p.property_id = '" . $property_id . "'  and m.published = 1 order by m.ordering,m.media_id asc";
 		$this->_db->setQuery($query);
@@ -1778,7 +1775,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getSubpropertyImages($subproperty_id)
 	{
-		$query = "SELECT * FROM " . $this->table_prefix . "product_subattribute_color as p, " . $this->table_prefix . "media AS m
+		$query = "SELECT * FROM #__redshop_product_subattribute_color as p, #__redshop_media AS m
 				  WHERE m.section_id = p.subattribute_color_id  and m.media_section='subproperty' and media_type='images'
 				  AND p.subattribute_color_id = '" . $subproperty_id . "'  and m.published = 1 order by m.ordering,m.media_id asc";
 		$this->_db->setQuery($query);
@@ -1795,7 +1792,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getPropertyMainImage($property_id)
 	{
-		$query = "SELECT * FROM " . $this->table_prefix . "product_attribute_property as p
+		$query = "SELECT * FROM #__redshop_product_attribute_property as p
 				  WHERE p.property_id = '" . $property_id . "' ORDER BY p.property_id ASC  ";
 		$this->_db->setQuery($query);
 
@@ -1811,8 +1808,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getSubAttributeColor($property_id)
 	{
-		$query = "SELECT * FROM " . $this->table_prefix . "product_attribute_property AS p,
-				 " . $this->table_prefix . "product_subattribute_color AS m
+		$query = "SELECT * FROM #__redshop_product_attribute_property AS p,
+				 #__redshop_product_subattribute_color AS m
 				  WHERE m.subattribute_id = p.property_id and p.property_id = '" . $property_id . "' ";
 		$this->_db->setQuery($query);
 
@@ -1828,7 +1825,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getParentProduct($product_id)
 	{
-		$query = "SELECT product_name FROM " . $this->table_prefix . "product
+		$query = "SELECT product_name FROM #__redshop_product
 				  WHERE product_id = '" . $product_id . "'   ";
 		$this->_db->setQuery($query);
 
@@ -1844,7 +1841,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		if ($this->id != 0)
 		{
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute WHERE product_id="' . $this->id . '" ORDER BY ordering ASC';
+			$query = 'SELECT * FROM #__redshop_product_attribute WHERE product_id="' . $this->id . '" ORDER BY ordering ASC';
 
 			$this->_db->setQuery($query);
 			$attr = $this->_db->loadObjectlist();
@@ -1852,7 +1849,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			for ($i = 0, $in = count($attr); $i < $in; $i++)
 			{
-				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id ="'
+				$query = 'SELECT * FROM #__redshop_product_attribute_property WHERE attribute_id ="'
 					. $attr[$i]->attribute_id . '" ORDER BY ordering ASC';
 
 				$this->_db->setQuery($query);
@@ -1868,7 +1865,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				for ($j = 0, $jn = count($prop); $j < $jn; $j++)
 				{
-					$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color WHERE subattribute_id ="'
+					$query = 'SELECT * FROM #__redshop_product_subattribute_color WHERE subattribute_id ="'
 						. $prop[$j]->property_id . '" ORDER BY ordering ASC';
 					$this->_db->setQuery($query);
 					$subprop = $this->_db->loadObjectlist();
@@ -1897,14 +1894,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getattributelist($data)
 	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute WHERE product_id="' . $data . '" ORDER BY attribute_id ASC';
+		$query = 'SELECT * FROM #__redshop_product_attribute WHERE product_id="' . $data . '" ORDER BY attribute_id ASC';
 		$this->_db->setQuery($query);
 		$attr = $this->_db->loadObjectlist();
 		$attribute_data = '';
 
 		for ($i = 0, $in = count($attr); $i < $in; $i++)
 		{
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id ="'
+			$query = 'SELECT * FROM #__redshop_product_attribute_property WHERE attribute_id ="'
 				. $attr[$i]->attribute_id . '" ORDER BY property_id ASC';
 			$this->_db->setQuery($query);
 			$prop = $this->_db->loadObjectlist();
@@ -1930,7 +1927,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (count($data))
 		{
 			$cids = implode(',', $data);
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
+			$query = 'SELECT * FROM #__redshop_product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 			$prop = $this->_db->loadObjectlist();
 		}
@@ -1970,7 +1967,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_attribute WHERE attribute_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product_attribute WHERE attribute_id IN ( ' . $cids . ' )';
 
 			$this->_db->setQuery($query);
 
@@ -1981,7 +1978,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
 
 			$this->_db->setQuery($query);
 
@@ -2027,7 +2024,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -2039,7 +2036,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			else
 			{
 				// Changed 5 feb
-				$query = 'DELETE FROM ' . $this->table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
+				$query = 'DELETE FROM #__redshop_product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
 				$this->_db->setQuery($query);
 
 				if (!$this->_db->execute())
@@ -2086,7 +2083,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
 
 			$this->_db->setQuery($query);
 
@@ -2114,7 +2111,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (count($cid))
 		{
-			$image_query = 'SELECT property_image FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cid . ' )';
+			$image_query = 'SELECT property_image FROM #__redshop_product_attribute_property WHERE attribute_id IN ( ' . $cid . ' )';
 			$this->_db->setQuery($image_query);
 			$prop = $this->_db->loadObjectlist();
 		}
@@ -2220,7 +2217,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						 cp.accessory_price as price,
 						 cp.oprand,
 						 p.product_price as normal_price
-				  FROM " . $this->table_prefix . "product as p , " . $this->table_prefix . "product_accessory as cp
+				  FROM #__redshop_product as p , #__redshop_product_accessory as cp
 				  WHERE cp.product_id='" . $product_id . "' and cp.child_product_id=p.product_id ";
 		$this->_db->setQuery($query);
 		$productdata = $this->_db->loadObjectList();
@@ -2238,7 +2235,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function related_product_data($product_id)
 	{
 		$query = "SELECT cp.related_id as value,p.product_name as text
-				  FROM " . $this->table_prefix . "product as p , " . $this->table_prefix . "product_related as cp
+				  FROM #__redshop_product as p , #__redshop_product_related as cp
 				  WHERE cp.product_id='" . $product_id . "' and cp.related_id=p.product_id order by cp.ordering asc";
 		$this->_db->setQuery($query);
 		$productdata = $this->_db->loadObjectList();
@@ -2277,7 +2274,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					JFile::upload($main_src, $main_dest);
 
-					$query = "UPDATE " . $this->table_prefix . "product_subattribute_color SET subattribute_color_image = '" . $main_name .
+					$query = "UPDATE #__redshop_product_subattribute_color SET subattribute_color_image = '" . $main_name .
 						"' WHERE subattribute_color_id ='" . $post['section_id'] . "' ";
 					$this->_db->setQuery($query);
 
@@ -2294,7 +2291,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					JFile::upload($main_src, $main_dest);
 
-					$query = "UPDATE " . $this->table_prefix . "product_attribute_property SET property_main_image = '" . $main_name
+					$query = "UPDATE #__redshop_product_attribute_property SET property_main_image = '" . $main_name
 						. "' WHERE property_id ='" . $post['section_id'] . "' ";
 					$this->_db->setQuery($query);
 
@@ -2368,7 +2365,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function deletesubimage($mediaid)
 	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'media  WHERE media_id = ' . $mediaid;
+		$query = 'SELECT * FROM #__redshop_media  WHERE media_id = ' . $mediaid;
 		$this->_db->setQuery($query);
 		$imgdata = $this->_db->loadObject();
 
@@ -2385,7 +2382,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			unlink($tsrc);
 		}
 
-		$query = 'DELETE FROM ' . $this->table_prefix . 'media WHERE media_id = "' . $mediaid . '" ';
+		$query = 'DELETE FROM #__redshop_media WHERE media_id = "' . $mediaid . '" ';
 
 		$this->_db->setQuery($query);
 
@@ -2483,7 +2480,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function subattr_diff($subattr_id, $section_id)
 	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
+		$query = 'SELECT * FROM #__redshop_product_subattribute_color
 				  WHERE subattribute_id = "' . $section_id . '"
 				  AND subattribute_color_id NOT IN (\'' . $subattr_id . '\')
 				  ORDER BY subattribute_color_id ASC';
@@ -2501,7 +2498,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function get_subattrprop($subattr_id)
 	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
+		$query = 'SELECT * FROM #__redshop_product_subattribute_color
 				  WHERE subattribute_color_id IN (\'' . $subattr_id . '\')
 				  ORDER BY subattribute_color_id ASC';
 		$this->_db->setQuery($query);
@@ -2527,7 +2524,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				unlink($sub_dest);
 			}
 
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "' .
+			$query = 'DELETE FROM #__redshop_product_subattribute_color  WHERE subattribute_color_id = "' .
 				$diff->subattribute_color_id . '"';
 			$this->_db->setQuery($query);
 
@@ -2587,7 +2584,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		/* Get all the fields based on the limits */
 		$query = "SELECT a.*, p.product_name
-			FROM #__redproductfinder_associations a, " . $this->table_prefix . "product p
+			FROM #__redproductfinder_associations a, #__redshop_product p
 			WHERE a.product_id = p.product_id
 			ORDER BY a.ordering";
 		$this->_db->setQuery($query);
@@ -2896,7 +2893,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$database = JFactory::getDbo();
 
-		$q = "SELECT * FROM " . $this->table_prefix . "stockroom WHERE published = 1";
+		$q = "SELECT * FROM #__redshop_stockroom WHERE published = 1";
 		$database->setQuery($q);
 		$arrStockrooms = $database->loadObjectList();
 
@@ -2915,7 +2912,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$database = JFactory::getDbo();
 
-		$q = "SELECT `quantity` FROM `" . $this->table_prefix . "product_stockroom_xref`
+		$q = "SELECT `quantity` FROM `#__redshop_product_stockroom_xref`
 			  WHERE `product_id` = '" . $pid . "'
 			  AND `stockroom_id` = '" . $sid . "' ";
 		$database->setQuery($q);
@@ -2937,7 +2934,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$database = JFactory::getDbo();
 
-		$q = "SELECT `quantity` FROM `" . $this->table_prefix . "product_attribute_stockroom_xref`
+		$q = "SELECT `quantity` FROM `#__redshop_product_attribute_stockroom_xref`
 			  WHERE `section_id` = '" . $pid . "'
 			  AND `stockroom_id` = '" . $sid . "'
 			  AND section = '" . $section . "'";
@@ -2961,7 +2958,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$database = JFactory::getDbo();
 
 		$q = "SELECT `preorder_stock`, `ordered_preorder`
-			  FROM `" . $this->table_prefix . "product_attribute_stockroom_xref`
+			  FROM `#__redshop_product_attribute_stockroom_xref`
 			  WHERE `section_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "'
 			  AND section = '" . $section . "'";
 		$database->setQuery($q);
@@ -2982,7 +2979,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$database = JFactory::getDbo();
 
-		$q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `" . $this->table_prefix . "product_stockroom_xref`
+		$q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `#__redshop_product_stockroom_xref`
 		WHERE `product_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' ";
 		$database->setQuery($q);
 		$preorder_stock_data = $database->loadObjectList();
@@ -3001,7 +2998,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function SaveStockroom($pid, $post)
 	{
 		$database = JFactory::getDbo();
-		$query = "DELETE FROM " . $this->table_prefix . "product_stockroom_xref"
+		$query = "DELETE FROM #__redshop_product_stockroom_xref"
 			. "\n  WHERE product_id = '" . $pid . "' ";
 
 		$database->setQuery($query);
@@ -3037,7 +3034,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			for ($i = 0, $in = count($attributes); $i < $in; $i++)
 			{
-				$query = "DELETE FROM `" . $this->table_prefix . "product_attribute` WHERE `attribute_id` = '"
+				$query = "DELETE FROM `#__redshop_product_attribute` WHERE `attribute_id` = '"
 					. $attributes[$i]->attribute_id . "' ";
 				$database->setQuery($query);
 
@@ -3047,13 +3044,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					for ($j = 0, $jn = count($property); $j < $jn; $j++)
 					{
-						$query = "DELETE FROM `" . $this->table_prefix . "product_attribute_property` WHERE `property_id` = '"
+						$query = "DELETE FROM `#__redshop_product_attribute_property` WHERE `property_id` = '"
 							. $property[$j]->property_id . "' ";
 						$database->setQuery($query);
 
 						if ($database->execute())
 						{
-							$query = "DELETE FROM `" . $this->table_prefix . "product_subattribute_color` WHERE `subattribute_id` = '"
+							$query = "DELETE FROM `#__redshop_product_subattribute_color` WHERE `subattribute_id` = '"
 								. $property[$j]->property_id . "' ";
 							$database->setQuery($query);
 							$database->execute();
@@ -3075,7 +3072,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function removepropertyImage($pid)
 	{
-		$query = "SELECT property_image  FROM `" . $this->table_prefix . "product_attribute_property` WHERE  property_id = '" . $pid . "' ";
+		$query = "SELECT property_image  FROM `#__redshop_product_attribute_property` WHERE  property_id = '" . $pid . "' ";
 		$this->_db->setQuery($query);
 		$image = $this->_db->LoadObject();
 		$imagename = $image->property_image;
@@ -3094,7 +3091,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			unlink($imagesrcphy);
 		}
 
-		$query = "UPDATE `" . $this->table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = '" . $pid . "' ";
+		$query = "UPDATE `#__redshop_product_attribute_property` SET `property_image` = '' WHERE `property_id` = '" . $pid . "' ";
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->execute())
@@ -3115,7 +3112,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function removesubpropertyImage($pid)
 	{
 		$query = "SELECT subattribute_color_image
-				  FROM `" . $this->table_prefix . "product_subattribute_color`
+				  FROM `#__redshop_product_subattribute_color`
 				  WHERE  subattribute_color_id = '" . $pid . "' ";
 		$this->_db->setQuery($query);
 		$image = $this->_db->LoadObject();
@@ -3135,7 +3132,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			unlink($imagesrcphy);
 		}
 
-		$query = "UPDATE `" . $this->table_prefix . "product_subattribute_color`
+		$query = "UPDATE `#__redshop_product_subattribute_color`
 				  SET `subattribute_color_image` = ''
 				  WHERE `subattribute_color_id` = '" . $pid . "' ";
 		$this->_db->setQuery($query);
@@ -3176,7 +3173,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$stock = "AND stockroom_id='" . $sid . "' ";
 		}
 
-		$query = "SELECT * FROM " . $this->table_prefix . $table . "_stockroom_xref
+		$query = "SELECT * FROM #__redshop_" . $table . "_stockroom_xref
 				  WHERE 1=1 " . $stock . $product . $section;
 
 		$this->_db->setQuery($query);
@@ -3211,7 +3208,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			{
 				if ($quantity == "" && USE_BLANK_AS_INFINITE)
 				{
-					$query = "DELETE FROM " . $this->table_prefix . $table . "_stockroom_xref
+					$query = "DELETE FROM #__redshop_" . $table . "_stockroom_xref
 							  WHERE stockroom_id='" . $post['stockroom_id'][$i] . "' " . $product . $section;
 					$this->_db->setQuery($query);
 					$this->_db->execute();
@@ -3226,7 +3223,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					}
 					else
 					{
-						$query = "UPDATE " . $this->table_prefix . $table . "_stockroom_xref
+						$query = "UPDATE #__redshop_" . $table . "_stockroom_xref
 								  SET quantity='" . $quantity . "' , preorder_stock= '" . $preorder_stock . "'
 								  WHERE stockroom_id='" . $sid . "'" . $product . $section;
 						$this->_db->setQuery($query);
@@ -3294,7 +3291,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getVatGroup()
 	{
-		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->table_prefix . "tax_group` as tg
+		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `#__redshop_tax_group` as tg
 				  WHERE `published` = 1
 				  ORDER BY tax_group_id ASC";
 		$this->_db->setQuery($query);
@@ -3335,7 +3332,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if ($order >= 0)
 				{
 					// Update ordering.
-					$query = 'UPDATE ' . $this->table_prefix . 'product_category_xref
+					$query = 'UPDATE #__redshop_product_category_xref
 					 		  SET ordering = ' . (int) $i . '
 					 		  WHERE product_id=' . $productid . '
 					 		  AND category_id = ' . $category_id_my;
@@ -3361,11 +3358,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$cid = $this->input->post->get('cid', array(), 'array');
 		$cid = $cid[0];
 
-		$q = "SELECT ordering,category_id," . $this->table_prefix . "product.product_id
-			  FROM " . $this->table_prefix . "product," . $this->table_prefix . "product_category_xref ";
-		$q .= "WHERE " . $this->table_prefix . "product_category_xref.product_id='" . $cid . "' ";
-		$q .= "AND " . $this->table_prefix . "product_category_xref.category_id='" . $category_id_my . "' ";
-		$q .= "AND " . $this->table_prefix . "product_category_xref.product_id = " . $this->table_prefix . "product.product_id";
+		$q = "SELECT ordering,category_id,#__redshop_product.product_id
+			  FROM #__redshop_product,#__redshop_product_category_xref ";
+		$q .= "WHERE #__redshop_product_category_xref.product_id='" . $cid . "' ";
+		$q .= "AND #__redshop_product_category_xref.category_id='" . $category_id_my . "' ";
+		$q .= "AND #__redshop_product_category_xref.product_id = #__redshop_product.product_id";
 		echo '<br/>';
 
 		$this->_db->setQuery($q);
@@ -3374,24 +3371,24 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$currentpos = $cat->ordering;
 		$category_id = $cat->category_id;
 
-		$q = "SELECT " . $this->table_prefix . "product.product_id
-			  FROM " . $this->table_prefix . "product, " . $this->table_prefix . "product_category_xref ";
-		$q .= "WHERE " . $this->table_prefix . "product_category_xref.category_id='" . $category_id . "' ";
-		$q .= "AND " . $this->table_prefix . "product_category_xref.product_id=" . $this->table_prefix . "product.product_id
+		$q = "SELECT #__redshop_product.product_id
+			  FROM #__redshop_product, #__redshop_product_category_xref ";
+		$q .= "WHERE #__redshop_product_category_xref.category_id='" . $category_id . "' ";
+		$q .= "AND #__redshop_product_category_xref.product_id=#__redshop_product.product_id
 			   AND category_id= '" . $category_id_my . "' ";
-		$q .= "AND " . $this->table_prefix . "product_category_xref.ordering='" . intval($currentpos - 1) . "'";
+		$q .= "AND #__redshop_product_category_xref.ordering='" . intval($currentpos - 1) . "'";
 		$this->_db->setQuery($q);
 		$cat = $this->_db->loadObject();
 
 		$pred = $cat->product_id;
 
-		$q = "UPDATE " . $this->table_prefix . "product_category_xref ";
+		$q = "UPDATE #__redshop_product_category_xref ";
 		$q .= "SET ordering=ordering-1 ";
 		$q .= "WHERE product_id='" . $cid . "' AND ordering >1 AND category_id = '" . $category_id_my . "' ";
 		$this->_db->setQuery($q);
 		$this->_db->execute();
 
-		$q = "UPDATE " . $this->table_prefix . "product_category_xref ";
+		$q = "UPDATE #__redshop_product_category_xref ";
 		$q .= "SET ordering=ordering+1 ";
 		$q .= "WHERE product_id='" . $pred . "' AND category_id = '" . $category_id_my . "' ";
 		$this->_db->setQuery($q);
@@ -3409,33 +3406,33 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$cid = $this->input->post->get('cid', array(), 'array');
 		$cid = $cid[0];
 
-		$q = "SELECT ordering,category_id," . $this->table_prefix . "product.product_id
-			  FROM " . $this->table_prefix . "product," . $this->table_prefix . "product_category_xref ";
-		$q .= "WHERE " . $this->table_prefix . "product_category_xref.product_id='" . $cid . "' ";
-		$q .= "AND " . $this->table_prefix . "product_category_xref.category_id='" . $category_id_my . "' ";
-		$q .= "AND " . $this->table_prefix . "product_category_xref.product_id = " . $this->table_prefix . "product.product_id";
+		$q = "SELECT ordering,category_id,#__redshop_product.product_id
+			  FROM #__redshop_product,#__redshop_product_category_xref ";
+		$q .= "WHERE #__redshop_product_category_xref.product_id='" . $cid . "' ";
+		$q .= "AND #__redshop_product_category_xref.category_id='" . $category_id_my . "' ";
+		$q .= "AND #__redshop_product_category_xref.product_id = #__redshop_product.product_id";
 		$this->_db->setQuery($q);
 		$cat = $this->_db->loadObject();
 		$currentpos = $cat->ordering;
 		$category_id = $cat->category_id;
 
-		$q = "SELECT ordering," . $this->table_prefix . "product.product_id
-			  FROM " . $this->table_prefix . "product, " . $this->table_prefix . "product_category_xref ";
-		$q .= "WHERE " . $this->table_prefix . "product_category_xref.category_id='" . $category_id . "' ";
-		$q .= "AND " . $this->table_prefix . "product_category_xref.product_id=" . $this->table_prefix . "product.product_id
+		$q = "SELECT ordering,#__redshop_product.product_id
+			  FROM #__redshop_product, #__redshop_product_category_xref ";
+		$q .= "WHERE #__redshop_product_category_xref.category_id='" . $category_id . "' ";
+		$q .= "AND #__redshop_product_category_xref.product_id=#__redshop_product.product_id
 			   AND category_id= '" . $category_id_my . "'";
 		$q .= "AND ordering='" . intval($currentpos + 1) . "'";
 		$this->_db->setQuery($q);
 		$cat = $this->_db->loadObject();
 		$succ = $cat->product_id;
 
-		$q = "UPDATE " . $this->table_prefix . "product_category_xref ";
+		$q = "UPDATE #__redshop_product_category_xref ";
 		$q .= "SET ordering=ordering+1 ";
 		$q .= "WHERE product_id='" . $cid . "' AND category_id = '" . $category_id_my . "'  ";
 		$this->_db->setQuery($q);
 		$this->_db->execute();
 
-		$q = "UPDATE " . $this->table_prefix . "product_category_xref ";
+		$q = "UPDATE #__redshop_product_category_xref ";
 		$q .= "SET ordering=ordering-1 ";
 		$q .= "WHERE product_id='" . $succ . "' AND category_id = '" . $category_id_my . "' ";
 		$this->_db->setQuery($q);
@@ -3449,7 +3446,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getDiscountCalcData()
 	{
-		$query = "SELECT * FROM `" . $this->table_prefix . "product_discount_calc`
+		$query = "SELECT * FROM `#__redshop_product_discount_calc`
 				  WHERE product_id = '" . $this->id . "' ORDER BY area_start ";
 
 		return $this->_getList($query);
@@ -3462,7 +3459,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getDiscountCalcDataExtra()
 	{
-		$query = "SELECT * FROM `" . $this->table_prefix . "product_discount_calc_extra`
+		$query = "SELECT * FROM `#__redshop_product_discount_calc_extra`
 				  WHERE product_id = '" . $this->id . "' ORDER BY option_name ";
 
 		return $this->_getList($query);
@@ -3475,7 +3472,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getSubscription()
 	{
-		$query = "SELECT * FROM `" . $this->table_prefix . "product_subscription`
+		$query = "SELECT * FROM `#__redshop_product_subscription`
 				  WHERE product_id = '" . $this->id . "' order by subscription_id";
 
 		return $this->_getList($query);
@@ -3488,7 +3485,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getSubscriptionrenewal()
 	{
-		$query = "SELECT * FROM `" . $this->table_prefix . "subscription_renewal`
+		$query = "SELECT * FROM `#__redshop_subscription_renewal`
 				  WHERE product_id ='" . $this->id . "' ";
 
 		return $this->_getList($query);
@@ -3501,7 +3498,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getAttributeSetList()
 	{
-		$query = "SELECT attribute_set_id as value,	attribute_set_name as text FROM `" . $this->table_prefix . "attribute_set`
+		$query = "SELECT attribute_set_id as value,	attribute_set_name as text FROM `#__redshop_attribute_set`
 				  WHERE published  = 1";
 		$this->_db->setQuery($query);
 
@@ -3528,7 +3525,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$usedCond = " AND is_used=0";
 		}
 
-		$query = "SELECT * FROM `" . $this->table_prefix . "product_serial_number`
+		$query = "SELECT * FROM `#__redshop_product_serial_number`
 				  WHERE product_id = '" . $this->id . "' " . $usedCond;
 		$this->_db->setQuery($query);
 
@@ -3544,7 +3541,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function deleteProdcutSerialNumbers($serial_id)
 	{
-		$query = "DELETE FROM " . $this->table_prefix . "product_serial_number
+		$query = "DELETE FROM #__redshop_product_serial_number
 				  WHERE serial_id = '" . $serial_id . "'";
 		$this->_db->setQuery($query);
 
@@ -3566,7 +3563,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function GetimageInfo($id, $type)
 	{
-		$image_media = 'SELECT * FROM ' . $this->table_prefix . 'media
+		$image_media = 'SELECT * FROM #__redshop_media
 						WHERE section_id = "' . $id . '"
 						AND media_section = "' . $type . '" ';
 		$this->_db->setQuery($image_media);
@@ -3643,7 +3640,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copyAttributeSetAttribute($attribute_set_id, $product_id)
 	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute WHERE attribute_set_id ="' . $attribute_set_id . '" ';
+		$query = 'SELECT * FROM #__redshop_product_attribute WHERE attribute_set_id ="' . $attribute_set_id . '" ';
 		$this->_db->setQuery($query);
 		$attribute = $this->_db->loadObjectList();
 
@@ -3662,7 +3659,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$attrow = $this->store_attr($attpost);
 			$attribute_id = $attrow->attribute_id;
 
-			$query = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_property`
+			$query = 'SELECT * FROM `#__redshop_product_attribute_property`
 					  WHERE `attribute_id` = "' . $attribute[$att]->attribute_id . '" ';
 			$this->_db->setQuery($query);
 			$att_property = $this->_db->loadObjectList();
@@ -3752,7 +3749,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$this->copyadditionalImage($mImages);
 				}
 
-				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
+				$query = 'SELECT * FROM #__redshop_product_subattribute_color
 						  WHERE `subattribute_id` =  "' . $att_property[$prop]->property_id . '" ';
 				$this->_db->setQuery($query);
 				$subatt_property = $this->_db->loadObjectList();
@@ -3863,7 +3860,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function GetStockroomData($section_id, $name)
 	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute_stockroom_xref
+		$query = 'SELECT * FROM #__redshop_product_attribute_stockroom_xref
 				  WHERE `section_id` =  "' . $section_id . '"
 				  AND section="' . $name . '" ';
 		$this->_db->setQuery($query);
@@ -3885,7 +3882,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function insertProductStock($product_id, $stockroom_id, $quantiy = 0, $preorder_stock = 0, $ordered_preorder = 0)
 	{
-		$query = 'INSERT INTO ' . $this->table_prefix . 'product_stockroom_xref (product_id,stockroom_id,quantity,preorder_stock,ordered_preorder)
+		$query = 'INSERT INTO #__redshop_product_stockroom_xref (product_id,stockroom_id,quantity,preorder_stock,ordered_preorder)
 				  VALUE("' . $product_id . '","' . $stockroom_id . '","' . $quantiy . '","' . $preorder_stock . '","' . $ordered_preorder . '")';
 		$this->_db->setQuery($query);
 
@@ -3924,7 +3921,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function InsertStockroom($section_id, $name, $stockroom_id, $quantiy, $preorder_stock, $ordered_preorder)
 	{
-		$query = 'INSERT INTO ' . $this->table_prefix . 'product_attribute_stockroom_xref
+		$query = 'INSERT INTO #__redshop_product_attribute_stockroom_xref
 				  (section_id,section,stockroom_id,quantity,preorder_stock, ordered_preorder)
 				  VALUES ("' . $section_id . '",
 						  "' . $name . '",
@@ -3954,7 +3951,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function GetAttributepriceData($section_id, $name)
 	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute_price
+		$query = 'SELECT * FROM #__redshop_product_attribute_price
 				  WHERE `section_id` =  "' . $section_id . '" and section="' . $name . '" ';
 		$this->_db->setQuery($query);
 
@@ -4121,7 +4118,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		for ($j = 0, $jn = count($subproperty); $j < $jn; $j++)
 		{
-			$query = "DELETE FROM `" . $this->table_prefix . "product_subattribute_color`
+			$query = "DELETE FROM `#__redshop_product_subattribute_color`
 					  WHERE `subattribute_id` = '" . $subattribute_id . "'
 					  AND subattribute_color_id= '" . $subproperty[$j]->subattribute_color_id . "'";
 			$this->_db->setQuery($query);
@@ -4170,7 +4167,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		for ($j = 0, $jn = count($property); $j < $jn; $j++)
 		{
 			$property_id = $property[$j]->property_id;
-			$query = "DELETE FROM `" . $this->table_prefix . "product_attribute_property`
+			$query = "DELETE FROM `#__redshop_product_attribute_property`
 					  WHERE `attribute_id`='" . $attribute_id . "'
 					  AND `property_id` = '" . $property[$j]->property_id . "' ";
 			$this->_db->setQuery($query);
@@ -4245,7 +4242,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		for ($i = 0, $in = count($attributes); $i < $in; $i++)
 		{
-			$query = "DELETE FROM `" . $this->table_prefix . "product_attribute`
+			$query = "DELETE FROM `#__redshop_product_attribute`
 					  WHERE " . $and . " and `attribute_id` = '" . $attributes[$i]->attribute_id . "' ";
 			$this->_db->setQuery($query);
 
@@ -4329,7 +4326,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (count($vpnArray) > 0)
 		{
 			$strVPN = "'" . implode("','", $vpnArray) . "'";
-			$query = "SELECT COUNT(product_number) FROM `" . $this->table_prefix . "product` "
+			$query = "SELECT COUNT(product_number) FROM `#__redshop_product` "
 				. "WHERE product_number IN (" . $strVPN . ") ";
 			$this->_db->setQuery($query);
 			$there = $this->_db->loadResult();
@@ -4340,14 +4337,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 
 			$query = "SELECT ap.property_number AS number "
-				. "FROM " . $this->table_prefix . "product_attribute_property AS ap "
-				. "LEFT JOIN " . $this->table_prefix . "product_attribute AS a ON a.attribute_id=ap.attribute_id "
+				. "FROM #__redshop_product_attribute_property AS ap "
+				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
 				. "WHERE a.product_id!='" . $product_id . "' "
 				. "AND ap.property_number IN (" . $strVPN . ") "
 				. "UNION "
-				. "SELECT sp.subattribute_color_number AS number FROM " . $this->table_prefix . "product_subattribute_color AS sp "
-				. "LEFT JOIN " . $this->table_prefix . "product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
-				. "LEFT JOIN " . $this->table_prefix . "product_attribute AS a ON a.attribute_id=ap.attribute_id "
+				. "SELECT sp.subattribute_color_number AS number FROM #__redshop_product_subattribute_color AS sp "
+				. "LEFT JOIN #__redshop_product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
+				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
 				. "WHERE a.product_id!='" . $product_id . "' "
 				. "AND sp.subattribute_color_number IN (" . $strVPN . ") ";
 
@@ -4477,7 +4474,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$table = "product_attribute";
 		}
 
-		$query = "UPDATE " . $this->table_prefix . $table . "_stockroom_xref
+		$query = "UPDATE #__redshop_" . $table . "_stockroom_xref
 				  SET preorder_stock='0' , ordered_preorder= '0'
 				  WHERE stockroom_id='" . $sid . "'" . $product . $section;
 
@@ -4499,7 +4496,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function update_attr_property_image($property_id, $property_image, $property_main_image)
 	{
-		$query = "UPDATE " . $this->table_prefix . "product_attribute_property
+		$query = "UPDATE #__redshop_product_attribute_property
 				  SET property_image='" . $property_image . "' , property_main_image= '" . $property_main_image . "'
 				  WHERE property_id='" . $property_id . "'";
 		$this->_db->setQuery($query);
@@ -4516,7 +4513,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function update_subattr_image($subproperty_id, $subattribute_color_image)
 	{
-		$query = "UPDATE " . $this->table_prefix . "product_subattribute_color
+		$query = "UPDATE #__redshop_product_subattribute_color
 				  SET subattribute_color_image='" . $subattribute_color_image . "'
 				  WHERE subattribute_color_id='" . $subproperty_id . "'";
 		$this->_db->setQuery($query);
@@ -4535,7 +4532,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function copyDiscountCalcdata($old_product_id, $new_product_id, $discount_calc_method)
 	{
 		$producthelper = new producthelper;
-		$query = "SELECT * FROM `" . $this->table_prefix . "product_discount_calc`
+		$query = "SELECT * FROM `#__redshop_product_discount_calc`
 				  WHERE product_id='" . $old_product_id . "' ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
@@ -4595,7 +4592,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		// Discount calc extra data
-		$query_extra = "Select * FROM `" . $this->table_prefix . "product_discount_calc_extra` WHERE product_id='" . $old_product_id . "' ";
+		$query_extra = "Select * FROM `#__redshop_product_discount_calc_extra` WHERE product_id='" . $old_product_id . "' ";
 		$this->_db->setQuery($query_extra);
 		$list_extra = $this->_db->loadObjectList();
 

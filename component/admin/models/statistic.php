@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 class RedshopModelStatistic extends RedshopModel
 {
-	public $_table_prefix = null;
 
 	public $_startdate = null;
 
@@ -42,7 +41,7 @@ class RedshopModelStatistic extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 
 		$this->_startdate = strtotime(JRequest::getVar('startdate'));
 		$this->_enddate = strtotime(JRequest::getVar('enddate'));
@@ -60,7 +59,7 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT pv.created_date '
-			. 'FROM ' . $this->_table_prefix . 'pageviewer AS pv '
+			. 'FROM #__redshop_pageviewer AS pv '
 			. 'WHERE pv.section="product" '
 			. 'ORDER BY pv.created_date ASC ';
 		$this->_db->setQuery($query);
@@ -68,8 +67,8 @@ class RedshopModelStatistic extends RedshopModel
 
 		$query = 'SELECT FROM_UNIXTIME(pv.created_date,"' . $formate . '") AS viewdate '
 			. ', p.product_id, p.product_name, p.product_price, count(*) AS visited '
-			. 'FROM ' . $this->_table_prefix . 'pageviewer AS pv '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=pv.section_id '
+			. 'FROM #__redshop_pageviewer AS pv '
+			. 'LEFT JOIN #__redshop_product p ON p.product_id=pv.section_id '
 			. 'WHERE pv.section="product" AND pv.section_id!=0 ';
 		$query1 = ' GROUP BY pv.section_id '
 			. 'ORDER BY visited desc ';
@@ -114,7 +113,7 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT cdate '
-			. 'FROM ' . $this->_table_prefix . 'order_item '
+			. 'FROM #__redshop_order_item '
 
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
@@ -122,8 +121,8 @@ class RedshopModelStatistic extends RedshopModel
 
 		$query = 'SELECT count(oi.product_id) AS totalproduct, FROM_UNIXTIME(oi.cdate,"' . $formate . '") AS viewdate '
 			. ', p.product_id, p.product_name, p.product_price '
-			. 'FROM ' . $this->_table_prefix . 'order_item as oi '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=oi.product_id ';
+			. 'FROM #__redshop_order_item as oi '
+			. 'LEFT JOIN #__redshop_product p ON p.product_id=oi.product_id ';
 		$query1 = ' GROUP BY oi.product_id '
 			. 'ORDER BY totalproduct desc ';
 		$this->_bestsallers = $this->_getList($query . $query1);
@@ -167,14 +166,14 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT publish_date '
-			. 'FROM ' . $this->_table_prefix . 'product '
+			. 'FROM #__redshop_product '
 			. 'ORDER BY publish_date ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
 		$query = 'SELECT product_id,product_name,product_price '
 			. ', DATE_FORMAT(publish_date,"' . $formate . '") AS viewdate '
-			. 'FROM ' . $this->_table_prefix . 'product ';
+			. 'FROM #__redshop_product ';
 		$query1 = ' ORDER BY publish_date desc ';
 		$this->_newproducts = $this->_getList($query . $query1);
 
@@ -217,15 +216,15 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT cdate '
-			. 'FROM ' . $this->_table_prefix . 'orders '
+			. 'FROM #__redshop_orders '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
 		$query = 'SELECT uf.firstname, uf.lastname,o.order_id, o.order_total '
 			. ', FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate '
-			. 'FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
+			. 'FROM #__redshop_orders AS o '
+			. 'LEFT JOIN #__redshop_users_info as uf ON o.user_id=uf.user_id '
 			. 'AND address_type LIKE "BT" ';
 		$query1 = ' ORDER BY cdate desc ';
 		$this->_neworders = $this->_getList($query . $query1);
@@ -270,15 +269,15 @@ class RedshopModelStatistic extends RedshopModel
 		$result = array();
 
 		$query = 'SELECT cdate '
-			. 'FROM ' . $this->_table_prefix . 'orders '
+			. 'FROM #__redshop_orders '
 			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
 		$query = 'SELECT FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, SUM(o.order_total) AS turnover '
-			. 'FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
+			. 'FROM #__redshop_orders AS o '
+			. 'LEFT JOIN #__redshop_users_info as uf ON o.user_id=uf.user_id '
 			. 'WHERE uf.address_type="BT" and (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
 		$quesry1 = ' GROUP BY 1  ORDER BY o.cdate ';
 		$this->_turnover = $this->_getList($query . $quesry1);
@@ -385,15 +384,15 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT cdate '
-			. 'FROM ' . $this->_table_prefix . 'orders '
+			. 'FROM #__redshop_orders '
 			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
 		$query = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, MAX(o.order_total) AS order_total '
-			. 'FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
+			. 'FROM #__redshop_orders AS o '
+			. 'LEFT JOIN #__redshop_users_info as uf ON o.user_id=uf.user_id '
 			. 'AND address_type LIKE "BT" '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
 		$query1 = ' GROUP by o.user_id '
@@ -439,15 +438,15 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT cdate '
-			. 'FROM ' . $this->_table_prefix . 'orders '
+			. 'FROM #__redshop_orders '
 			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
 		$query = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate, SUM(o.order_total) AS order_total '
-			. 'FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
+			. 'FROM #__redshop_orders AS o '
+			. 'LEFT JOIN #__redshop_users_info as uf ON o.user_id=uf.user_id '
 			. 'AND address_type LIKE "BT" '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
 		$query1 = ' GROUP by o.user_id '
@@ -493,7 +492,7 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT cdate '
-			. 'FROM ' . $this->_table_prefix . 'orders '
+			. 'FROM #__redshop_orders '
 			. 'WHERE order_status = "C" OR order_status = "PR" OR order_status = "S" '
 			. 'ORDER BY cdate ASC ';
 		$this->_db->setQuery($query);
@@ -501,8 +500,8 @@ class RedshopModelStatistic extends RedshopModel
 
 		$query = 'SELECT firstname,lastname, FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate '
 			. ', COUNT(o.user_id) AS totalorder '
-			. 'FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id=uf.user_id '
+			. 'FROM #__redshop_orders AS o '
+			. 'LEFT JOIN #__redshop_users_info as uf ON o.user_id=uf.user_id '
 			. 'AND address_type LIKE "BT" '
 			. 'WHERE (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
 		$query1 = ' GROUP BY o.user_id '
@@ -548,14 +547,14 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT created_date '
-			. 'FROM ' . $this->_table_prefix . 'pageviewer '
+			. 'FROM #__redshop_pageviewer '
 			. 'ORDER BY created_date ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
 		$query = 'SELECT section, section_id, count(*) as totalpage '
 			. ', FROM_UNIXTIME(created_date,"' . $formate . '") AS viewdate '
-			. 'FROM ' . $this->_table_prefix . 'pageviewer '
+			. 'FROM #__redshop_pageviewer '
 			. 'WHERE section_id != 0 ';
 		$query1 = ' GROUP BY `section`,`section_id` '
 			. 'ORDER BY totalpage DESC ';
@@ -600,19 +599,19 @@ class RedshopModelStatistic extends RedshopModel
 		$formate = $this->getDateFormate();
 		$result = array();
 		$query = 'SELECT created_date '
-			. 'FROM ' . $this->_table_prefix . 'siteviewer '
+			. 'FROM #__redshop_siteviewer '
 			. 'ORDER BY created_date ASC ';
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
 		$query = 'SELECT COUNT(*) AS viewer '
-			. 'FROM ' . $this->_table_prefix . 'siteviewer ';
+			. 'FROM #__redshop_siteviewer ';
 		$this->siteviewer = $this->_getList($query);
 
 		if ($this->_filteroption && $mindate != "" && $mindate != 0)
 		{
 			$query = 'SELECT FROM_UNIXTIME(created_date,"' . $formate . '") AS viewdate '
-				. 'FROM ' . $this->_table_prefix . 'siteviewer ';
+				. 'FROM #__redshop_siteviewer ';
 
 			while ($mindate < strtotime($today))
 			{
@@ -747,19 +746,19 @@ class RedshopModelStatistic extends RedshopModel
 		switch ($section)
 		{
 			case "product":
-				$query = 'SELECT product_name AS sname, product_id AS id FROM ' . $this->_table_prefix . 'product '
+				$query = 'SELECT product_name AS sname, product_id AS id FROM #__redshop_product '
 					. 'WHERE product_id = ' . $sectionid;
 				$this->_db->setQuery($query);
 				$return = $this->_db->loadObject();
 				break;
 			case "category":
-				$query = 'SELECT category_name AS sname, category_id AS id FROM ' . $this->_table_prefix . 'category '
+				$query = 'SELECT category_name AS sname, category_id AS id FROM #__redshop_category '
 					. 'WHERE category_id = ' . $sectionid;
 				$this->_db->setQuery($query);
 				$return = $this->_db->loadObject();
 				break;
 			case "manufacturers":
-				$query = 'SELECT manufacturer_name AS sname, manufacturer_id AS id FROM ' . $this->_table_prefix . 'manufacturer '
+				$query = 'SELECT manufacturer_name AS sname, manufacturer_id AS id FROM #__redshop_manufacturer '
 					. 'WHERE manufacturer_id = ' . $sectionid;
 				$this->_db->setQuery($query);
 				$return = $this->_db->loadObject();

@@ -9,20 +9,15 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelProducttags_detail extends RedshopModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -52,7 +47,7 @@ class RedshopModelProducttags_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_tags WHERE tags_id = ' . $this->_id;
+			$query = 'SELECT * FROM #__redshop_product_tags WHERE tags_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -107,7 +102,7 @@ class RedshopModelProducttags_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags WHERE tags_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_product_tags WHERE tags_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -118,7 +113,7 @@ class RedshopModelProducttags_detail extends RedshopModel
 			}
 			else
 			{
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags_xref WHERE tags_id IN ( ' . $cids . ' )';
+				$query = 'DELETE FROM #__redshop_product_tags_xref WHERE tags_id IN ( ' . $cids . ' )';
 				$this->_db->setQuery($query);
 
 				if (!$this->_db->execute())
@@ -139,7 +134,7 @@ class RedshopModelProducttags_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'product_tags'
+			$query = 'UPDATE #__redshop_product_tags'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE tags_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);

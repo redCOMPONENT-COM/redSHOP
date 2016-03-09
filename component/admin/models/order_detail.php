@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCart');
 JLoader::load('RedshopHelperAdminExtra_field');
@@ -25,15 +24,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_copydata = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
@@ -101,26 +97,6 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			return (boolean) $this->_data;
 		}
-		return true;
-	}
-
-	public function store($data)
-	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
 
 		return true;
 	}
@@ -164,19 +140,19 @@ class RedshopModelOrder_detail extends RedshopModel
 				}
 
 				$producthelper->makeAttributeOrder($order_item[$i]->order_item_id, 0, $order_item[$i]->product_id, 1);
-				$query = "DELETE FROM `" . $this->_table_prefix . "order_attribute_item` "
+				$query = "DELETE FROM `#__redshop_order_attribute_item` "
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
 				$this->_db->setQuery($query);
 				$this->_db->execute();
 
 
-				$query = "DELETE FROM `" . $this->_table_prefix . "order_acc_item` "
+				$query = "DELETE FROM `#__redshop_order_acc_item` "
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
 				$this->_db->setQuery($query);
 				$this->_db->execute();
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'orders WHERE order_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_orders WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -186,7 +162,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_item WHERE order_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_order_item WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -195,7 +171,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 				return false;
 			}
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_payment WHERE order_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_order_payment WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -205,7 +181,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_users_info WHERE order_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_order_users_info WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -223,7 +199,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 				for ($j = 0, $jn = count($quotation_item); $j < $jn; $j++)
 				{
-					$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
+					$query = 'DELETE FROM #__redshop_quotation_fields_data '
 						. 'WHERE quotation_item_id=' . $quotation_item[$j]->quotation_item_id;
 					$this->_db->setQuery($query);
 
@@ -235,7 +211,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					}
 				}
 
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
+				$query = 'DELETE FROM #__redshop_quotation_item '
 					. 'WHERE quotation_id=' . $quotation[$q]->quotation_id;
 				$this->_db->setQuery($query);
 
@@ -247,7 +223,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				}
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE order_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_quotation WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -264,8 +240,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	public function getProducts($order_id)
 	{
 		$query = "SELECT DISTINCT( p.product_id ) as value,p.product_name as text,oi.order_id FROM "
-			. $this->_table_prefix . "product as p ," . $this->_table_prefix
-			. "order_item as oi WHERE  oi.product_id != p.product_id AND oi.order_id = " . $order_id;
+			. "#__redshop_product as p ,#__redshop_order_item as oi WHERE  oi.product_id != p.product_id AND oi.order_id = " . $order_id;
 		$this->_db->setQuery($query);
 		$products = $this->_db->loadObjectlist();
 
@@ -361,7 +336,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
-					$sql = "INSERT INTO " . $this->_table_prefix . "product_download "
+					$sql = "INSERT INTO #__redshop_product_download "
 						. "(product_id, user_id, order_id, end_date, download_max, download_id, file_name) "
 						. "VALUES('" . $product_id . "', '" . $user_id . "', '" . $this->_id . "', "
 						. "'" . (time() + (PRODUCT_DOWNLOAD_DAYS * 23 * 59 * 59)) . "', '" . PRODUCT_DOWNLOAD_LIMIT . "', "
@@ -707,7 +682,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Update stock room
 		$stockroomhelper->manageStockAmount($productid, $orderitemdata->product_quantity, $orderitemdata->stockroom_id);
 
-		$query = "DELETE FROM `" . $this->_table_prefix . "order_item` WHERE `order_item_id` = " . $order_item_id;
+		$query = "DELETE FROM `#__redshop_order_item` WHERE `order_item_id` = " . $order_item_id;
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->execute())
@@ -721,12 +696,12 @@ class RedshopModelOrder_detail extends RedshopModel
 			$this->updateAttributeItem($order_item_id, $orderitemdata->product_quantity, $orderitemdata->stockroom_id);
 
 			// Update Attribute stock room
-			$query = "DELETE FROM `" . $this->_table_prefix . "order_attribute_item` "
+			$query = "DELETE FROM `#__redshop_order_attribute_item` "
 				. "WHERE `order_item_id` = " . $order_item_id;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
-			$query = "DELETE FROM `" . $this->_table_prefix . "order_acc_item` "
+			$query = "DELETE FROM `#__redshop_order_acc_item` "
 				. "WHERE `order_item_id` = " . $order_item_id;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -1156,7 +1131,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	{
 		$database = JFactory::getDbo();
 		$sql = "SELECT log.*,order_status_name "
-			. " FROM " . $this->_table_prefix . "order_status_log AS log , " . $this->_table_prefix . "order_status ros"
+			. " FROM #__redshop_order_status_log AS log , #__redshop_order_status ros"
 			. " WHERE log.order_id=" . $order_id . " AND log.order_status=ros.order_status_code";
 		$database->setQuery($sql);
 
@@ -1169,7 +1144,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$db = JFactory::getDbo();
 
 		$query = "SELECT * "
-			. " FROM " . $this->_table_prefix . "product_subscription"
+			. " FROM #__redshop_product_subscription"
 			. " WHERE "
 			. " product_id = " . $product_id . " And subscription_id = " . $subscription_id;
 		$db->setQuery($query);
@@ -1182,7 +1157,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 		$query = "SELECT * "
-			. " FROM " . $this->_table_prefix . "product_subscribe_detail"
+			. " FROM #__redshop_product_subscribe_detail"
 			. " WHERE "
 			. " order_item_id = " . $order_item_id;
 		$db->setQuery($query);
@@ -1195,7 +1170,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 		$query = "SELECT * "
-			. " FROM " . $this->_table_prefix . "order_payment  "
+			. " FROM #__redshop_order_payment  "
 			. " WHERE "
 			. " order_id = " . $order_id
 			. " AND  payment_method_class='rs_payment_localcreditcard'";
@@ -1253,7 +1228,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$order_payment_expire = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
 		$order_payment_trans_id = $payment_transaction_id;
 
-		$payment_update = "UPDATE " . $this->_table_prefix . "order_payment "
+		$payment_update = "UPDATE #__redshop_order_payment "
 			. " SET order_payment_code  = '" . $order_payment_code . "' ,"
 			. " order_payment_cardname  = '" . $order_payment_cardname . "' ,"
 			. " order_payment_number  = '" . $order_payment_number . "' ,"

@@ -27,9 +27,7 @@ class Tabletransaction_coupon_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
-
-		parent::__construct($this->_table_prefix . 'coupons_transaction', 'transaction_coupon_id', $db);
+		parent::__construct('#__redshop_coupons_transaction', 'transaction_coupon_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

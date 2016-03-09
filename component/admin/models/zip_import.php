@@ -25,7 +25,6 @@ class RedshopModelZip_import extends RedshopModel
 
 	public $_pagination = null;
 
-	public $_table_prefix = null;
 
 	public $_table = null;
 

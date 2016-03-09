@@ -21,7 +21,6 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_configpath = null;
 
@@ -33,7 +32,7 @@ class RedshopModelConfiguration extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
+
 
 		$this->Redconfiguration = new Redconfiguration;
 
@@ -539,7 +538,7 @@ class RedshopModelConfiguration extends RedshopModel
 			$where = " WHERE currency_code IN ('" . $currency . "')";
 		}
 
-		$query = 'SELECT currency_code as value, currency_name as text FROM ' . $this->_table_prefix . 'currency' . $where . ' ORDER BY currency_name ASC';
+		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -547,7 +546,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getnewsletters()
 	{
-		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
+		$query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -556,7 +555,7 @@ class RedshopModelConfiguration extends RedshopModel
 	public function getShopperGroupPrivate()
 	{
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
-			. " FROM " . $this->_table_prefix . "shopper_group "
+			. " FROM #__redshop_shopper_group "
 			. " WHERE `shopper_group_customer_type` = '1'";
 		$this->_db->setQuery($query);
 
@@ -566,7 +565,7 @@ class RedshopModelConfiguration extends RedshopModel
 	public function getShopperGroupCompany()
 	{
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
-			. " FROM " . $this->_table_prefix . "shopper_group "
+			. " FROM #__redshop_shopper_group "
 			. " WHERE `shopper_group_customer_type` = '0'";
 		$this->_db->setQuery($query);
 
@@ -575,8 +574,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getVatGroup()
 	{
-		$query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM ' . $this->_table_prefix
-			. 'tax_group as tg WHERE tg.published=1 ';
+		$query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM #__redshop_tax_group as tg WHERE tg.published=1 ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -584,8 +582,8 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getnewsletter_content($newsletter_id)
 	{
-		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM ' . $this->_table_prefix . 'newsletter AS n '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'template AS nt ON n.template_id=nt.template_id '
+		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM #__redshop_newsletter AS n '
+			. 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.template_id '
 			. 'WHERE n.published=1 '
 			. 'AND n.newsletter_id="' . $newsletter_id . '" ';
 
@@ -597,7 +595,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getProductIdList()
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product WHERE published=1';
+		$query = 'SELECT * FROM #__redshop_product WHERE published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -605,7 +603,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getnewsletterproducts_content()
 	{
-		$query = 'SELECT nt.template_desc FROM ' . $this->_table_prefix . 'template as nt '
+		$query = 'SELECT nt.template_desc FROM #__redshop_template as nt '
 			. 'WHERE nt.template_section="newsletter_product" ';
 		$this->_db->setQuery($query);
 
@@ -706,7 +704,7 @@ class RedshopModelConfiguration extends RedshopModel
 		// Replacing the tags with the values
 		$name = explode('@', $to);
 
-		$query = "INSERT INTO `" . $this->_table_prefix . "newsletter_tracker` "
+		$query = "INSERT INTO `#__redshop_newsletter_tracker` "
 			. "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  "
 			. "VALUES ('', '" . $newsletter_id . "', '0', '" . $name . "', '0',0, '" . $today . "')";
 		$db->setQuery($query);
@@ -730,7 +728,7 @@ class RedshopModelConfiguration extends RedshopModel
 	public function getOrderstatus()
 	{
 		$query = "SELECT order_status_code AS value, order_status_name AS text"
-			. "\n FROM " . $this->_table_prefix . "order_status  where published = '1'";
+			. "\n FROM #__redshop_order_status  where published = '1'";
 
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();

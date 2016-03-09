@@ -114,7 +114,6 @@ define('ACCESSORY_PRODUCT_DESC_END_SUFFIX', '');
 define('ACCESSORY_PRODUCT_TITLE_MAX_CHARS', '0');
 define('ACCESSORY_PRODUCT_TITLE_END_SUFFIX', '');
 define('ADDTOCART_BACKGROUND', 'laegikurven.jpg');
-define('TABLE_PREFIX', 'redshop');
 define('SPLIT_DELIVERY_COST', '2');
 define('TIME_DIFF_SPLIT_DELIVERY', '2');
 define('NEWS_MAIL_FROM', 'info@yourstore.com');

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
@@ -20,19 +19,13 @@ class RedshopModelTax_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
 	public $_tax_group_id = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
-
 		$array = JRequest::getVar('cid', 0, '', 'array');
-
-
 		$_tax_group_id = JRequest::getVar('tax_group_id', 0, '');
 		$this->setId((int) $array[0], $_tax_group_id);
 
@@ -63,8 +56,8 @@ class RedshopModelTax_detail extends RedshopModel
 		if (empty($this->_data))
 		{
 			$query = ' SELECT tr.*,tg.tax_group_name  '
-				. ' FROM ' . $this->_table_prefix . 'tax_rate as tr'
-				. ' LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg ON tr.tax_group_id = tg.tax_group_id '
+				. ' FROM #__redshop_tax_rate as tr'
+				. ' LEFT JOIN #__redshop_tax_group as tg ON tr.tax_group_id = tg.tax_group_id '
 				. ' WHERE tr.tax_rate_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
@@ -96,34 +89,13 @@ class RedshopModelTax_detail extends RedshopModel
 		return true;
 	}
 
-	public function store($data)
-	{
-		$row = $this->getTable();
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return true;
-	}
-
 	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'tax_rate WHERE tax_rate_id IN ( ' . $cids . ' )';
+			$query = 'DELETE FROM #__redshop_tax_rate WHERE tax_rate_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())

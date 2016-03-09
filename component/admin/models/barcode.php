@@ -23,7 +23,6 @@ class RedshopModelBarcode extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public $_loglist = null;
 
@@ -32,7 +31,7 @@ class RedshopModelBarcode extends RedshopModel
 		parent::__construct();
 
 		$app = JFactory::getApplication();
-		$this->_table_prefix = '#__redshop_';
+
 	}
 
 	public function save($data)
@@ -56,7 +55,7 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function checkorder($barcode)
 	{
-		$query = "SELECT order_id  FROM " . $this->_table_prefix . "orders where barcode='" . $barcode . "'";
+		$query = "SELECT order_id  FROM #__redshop_orders where barcode='" . $barcode . "'";
 		$this->_db->setQuery($query);
 		$order = $this->_db->loadObject();
 
@@ -70,7 +69,7 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function getLog($order_id)
 	{
-		$query = "SELECT count(*) as log FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
+		$query = "SELECT count(*) as log FROM #__redshop_orderbarcode_log where order_id=" . $order_id;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObject();
@@ -78,7 +77,7 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function getLogdetail($order_id)
 	{
-		$logquery = "SELECT *  FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
+		$logquery = "SELECT *  FROM #__redshop_orderbarcode_log where order_id=" . $order_id;
 		$this->_db->setQuery($logquery);
 
 		return $this->_db->loadObjectlist();
@@ -86,9 +85,7 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function getUser($user_id)
 	{
-
-		$this->_table_prefix = '#__';
-		$userquery = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
+		$userquery = "SELECT name  FROM #__redshop_users where id=" . $user_id;
 		$this->_db->setQuery($userquery);
 
 		return $this->_db->loadObject();
@@ -96,7 +93,7 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function updateorderstatus($barcode, $order_id)
 	{
-		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
+		$update_query = "UPDATE #__redshop_orders SET order_status = 'S' where barcode='"
 			. $barcode . "' and order_id ='" . $order_id . "'";
 		$this->_db->setQuery($update_query);
 		$this->_db->execute();

@@ -23,9 +23,9 @@ class Tableproduct_discount_calc_extra extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'product_discount_calc_extra', 'pdcextra_id', $db);
+
+		parent::__construct('#__redshop_product_discount_calc_extra', 'pdcextra_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

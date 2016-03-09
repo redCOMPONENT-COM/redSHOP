@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminMail');
 
 class RedshopModelAnswer_detail extends RedshopModel
@@ -20,13 +19,10 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 		$this->_parent_id = JRequest::getVar('parent_id');
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -53,7 +49,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+		$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 			. "WHERE q.question_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
@@ -63,7 +59,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 	public function getProduct()
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
+		$query = "SELECT * FROM #__redshop_product ";
 		$list = $this->_getList($query);
 
 		return $list;
@@ -100,6 +96,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 	 */
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('question_detail');
 
 		if (!$data['question_id'])
@@ -109,14 +106,14 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -132,11 +129,12 @@ class RedshopModelAnswer_detail extends RedshopModel
 	 */
 	public function MaxOrdering()
 	{
-		$query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question "
+		$db = JFactory::getDbo();
+		$query = "SELECT (MAX(ordering)+1) FROM #__redshop_customer_question "
 			. "WHERE parent_id='" . $this->_parent_id . "' ";
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	/**
@@ -149,15 +147,16 @@ class RedshopModelAnswer_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
+			$db = JFactory::getDbo();
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question '
+			$query = 'DELETE FROM #__redshop_customer_question '
 				. 'WHERE question_id IN (' . $cids . ')';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -176,16 +175,17 @@ class RedshopModelAnswer_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
+			$db = JFactory::getDbo();
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'customer_question '
+			$query = 'UPDATE #__redshop_customer_question '
 				. ' SET published = ' . intval($publish)
 				. ' WHERE question_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -202,6 +202,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 	 */
 	public function saveorder($cid = array(), $order)
 	{
+		$db = JFactory::getDbo();
 		$row = $this->getTable('question_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
@@ -221,7 +222,7 @@ class RedshopModelAnswer_detail extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 
 					return false;
 				}

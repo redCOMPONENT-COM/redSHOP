@@ -127,16 +127,4 @@ defined('_JEXEC') or die;
 		</td>
 		<td><?php echo $this->lists ['use_encoding'];?></td>
 	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_TABLE_PREFIX'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_TABLE_PREFIX'); ?>">
-			<label for="name"><?php echo JText::_('COM_REDSHOP_TABLE_PREFIX');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="table_prefix" id="table_prefix" value="<?php echo TABLE_PREFIX; ?>"
-			       readonly="readonly">
-		</td>
-	</tr>
-	</tr>
 </table>
