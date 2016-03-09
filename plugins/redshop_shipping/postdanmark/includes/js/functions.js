@@ -32,13 +32,13 @@ jQuery(document).ready(function() {
         }
     });
 
-    jQuery('input[name="checkoutnext"]').click(function(e) {
+    jQuery('input[name="checkoutnext"], input[name="checkout_final"]').click(function(e) {
         jQuery('.pn_error').remove();
         if (validate_postdanmark()) {
             jQuery('form#adminForm').submit();
         } else {
-            e.preventDefault();
             jQuery('#sp_info').after('<div class="pn_error" style="color: red; font-weight: normal; ">' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_PRESS_POINT_TO_DELIVERY') + '</div>')
+            e.preventDefault();
         }
     });
 
