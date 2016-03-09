@@ -126,17 +126,16 @@ class RedshopModelUser extends RedshopModel
 		return $query;
 	}
 
+	/**
+	 * Customer Total sales
+	 *
+	 * @param   integer  $uid  User Information id
+	 *
+	 * @deprecated  1.6     Use RedshopHelperUser::totalSales($uid) instead.
+	 * @return      float   Total Sales of customer
+	 */
 	public function customertotalsales($uid)
 	{
-		$query = 'SELECT SUM(order_total) FROM #__redshop_orders WHERE user_id=' . $uid;
-		$this->_db->setQuery($query);
-		$re = $this->_db->loadResult();
-
-		if (!$re)
-		{
-			$re = 0;
-		}
-
-		return $re;
+		return RedshopHelperUser::totalSales($uid);
 	}
 }
