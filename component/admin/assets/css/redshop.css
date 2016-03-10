@@ -593,7 +593,7 @@ div.current label, div.current span.faux-label {
 	}
 
 div.current select, div.current input, div.current textarea, div.current select {
-	margin: 0 !important;
+	margin: 0 3px 0 0 !important;
 	float: none !important;
 }
 .arrowimg {
@@ -680,4 +680,12 @@ div.current select, div.current input, div.current textarea, div.current select 
 /* Joomla 2.5.x template editor css fix */
 .isJ25 #editor .row-fluid{
 	clear: both;
+}
+
+span.hasTooltip{
+	margin-left: 5px;
+}
+
+div.controls{
+	display: inline-block;
 }
