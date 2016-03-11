@@ -4296,14 +4296,18 @@ class rsCarthelper
 					$tmpsubtotal = $pSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 				}
 
+				if (!APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT)
+				{
+					$tmpsubtotal = $this->calcAlreadyDiscount($tmpsubtotal, $cart);
+				}
+
 				if ($dis_type == 0)
 				{
 					$avgVAT = 1;
 
 					if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 					{
-						$productVAT = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
-						$avgVAT = $cart['product_subtotal'] / $cart['product_subtotal_excl_vat'];
+						$avgVAT = $tmpsubtotal / $cart['product_subtotal_excl_vat'];
 					}
 
 					$couponValue = $avgVAT * $coupon->coupon_value;
@@ -4376,6 +4380,7 @@ class rsCarthelper
 						}
 						break;
 
+					case 1:
 					default:
 						$couponArr = array();
 						$oldarr    = array();
@@ -4489,6 +4494,11 @@ class rsCarthelper
 					$p_quantity = $voucher->voucher_left;
 				}
 
+				if (!APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT)
+				{
+					$product_price = $this->calcAlreadyDiscount($product_price, $cart);
+				}
+
 				if ($dis_type == 0)
 				{
 					$voucher->total *= $p_quantity;
@@ -4600,6 +4610,28 @@ class rsCarthelper
 		{
 			return $return;
 		}
+	}
+
+	public function calcAlreadyDiscount($tmpsubtotal, $cart)
+	{
+		$idx = 0;
+
+		if (isset($cart['idx']))
+		{
+			$idx  = $cart['idx'];
+		}
+
+		for ($i = 0; $i < $idx; $i++)
+		{
+			$product = $this->_producthelper->getProductById($cart[$i]['product_id']);
+
+			if ($product->product_price > $cart[$i]['product_price_excl_vat'])
+			{
+				$tmpsubtotal = $tmpsubtotal - $cart[$i]['product_price'];
+			}
+		}
+
+		return $tmpsubtotal;
 	}
 
 	public function rs_multi_array_key_exists($needle, $haystack)
