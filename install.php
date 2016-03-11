@@ -1218,6 +1218,14 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
+		if (version_compare($this->getOldParam('version'), '1.6', '>='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '1.5.0.5.3', '<='))
 		{
 			array_push(
