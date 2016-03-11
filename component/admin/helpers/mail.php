@@ -529,12 +529,13 @@ class redshopMail
 			$pdfObj->WriteHTML($message, true, false, true, false, '');
 		}
 
-		$invoice_pdfName = "multiprintorder". round(microtime(true) * 1000);
+		$invoice_pdfName = "multiprintorder" . round(microtime(true) * 1000);
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-		
-		$store_files = array('index.html', ''.$invoice_pdfName.'.pdf');
-		foreach( glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file ) {
-			if( !in_array(basename($file), $store_files) ) {
+		$store_files = array('index.html', ''. $invoice_pdfName . '.pdf');
+		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) 
+		{
+			if (!in_array(basename($file), $store_files)) 
+			{
 		    		unlink($file);
 			}
 		}
