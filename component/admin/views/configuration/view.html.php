@@ -194,9 +194,11 @@ class RedshopViewConfiguration extends RedshopView
 		defined('REQUIRED_VAT_NUMBER') ? REQUIRED_VAT_NUMBER : define('REQUIRED_VAT_NUMBER', '1');
 		$lists['required_vat_number'] = JHTML::_('redshopselect.booleanlist', 'required_vat_number', 'class="inputbox" ', REQUIRED_VAT_NUMBER);
 
-		$lists['coupons_enable']           = JHTML::_('redshopselect.booleanlist', 'coupons_enable', 'class="inputbox" ', COUPONS_ENABLE);
-		$lists['vouchers_enable']          = JHTML::_('redshopselect.booleanlist', 'vouchers_enable', 'class="inputbox" ', VOUCHERS_ENABLE);
-		$lists['manufacturer_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'manufacturer_mail_enable', 'class="inputbox" ', MANUFACTURER_MAIL_ENABLE);
+		$lists['coupons_enable']             = JHTML::_('redshopselect.booleanlist', 'coupons_enable', 'class="inputbox" ', COUPONS_ENABLE);
+		$lists['vouchers_enable']            = JHTML::_('redshopselect.booleanlist', 'vouchers_enable', 'class="inputbox" ', VOUCHERS_ENABLE);
+		$lists['manufacturer_mail_enable']   = JHTML::_('redshopselect.booleanlist', 'manufacturer_mail_enable', 'class="inputbox" ', MANUFACTURER_MAIL_ENABLE);
+
+		$lists['apply_voucher_coupon_already_discount'] = JHTML::_('redshopselect.booleanlist', 'apply_voucher_coupon_already_discount', 'class="inputbox" ', APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT);
 
 		defined('SUPPLIER_MAIL_ENABLE') ? SUPPLIER_MAIL_ENABLE : define('SUPPLIER_MAIL_ENABLE', '0');
 		defined('COMPARE_PRODUCT_THUMB_WIDTH') ? COMPARE_PRODUCT_THUMB_WIDTH : define('COMPARE_PRODUCT_THUMB_WIDTH', '70');
