@@ -532,6 +532,7 @@ class redshopMail
 		$invoice_pdfName = "multiprintorder" . round(microtime(true) * 1000);
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 		$store_files = array('index.html', ''. $invoice_pdfName . '.pdf');
+		
 		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) 
 		{
 			if (!in_array(basename($file), $store_files)) 
