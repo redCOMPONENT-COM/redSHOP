@@ -48,6 +48,7 @@ JText::script('COM_REDSHOP_ADD_SUB_ATTRIBUTE');
 JText::script('COM_REDSHOP_PARAMETER');
 JText::script('COM_REDSHOP_PROPERTY_NUMBER');
 JText::script('COM_REDSHOP_DO_WANT_TO_DELETE');
+JText::script('COM_REDSHOP_ALERT_PRESELECTED_CHECK');
 ?>
 
 <div class="row-fluid mainTableAttributes" id="mainTableAttributes">
