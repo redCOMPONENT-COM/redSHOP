@@ -3987,7 +3987,9 @@ class rsCarthelper
 					{
 						$cardinfo = '<div id="divcardinfo_' . $oneMethod->name . '">';
 
-						if ($checked != "" && ONESTEP_CHECKOUT_ENABLE)
+						$cart = JFactory::getSession()->get('cart');
+
+						if ($checked != "" && ONESTEP_CHECKOUT_ENABLE  && $cart['total'] > 0)
 						{
 							$cardinfo .= $this->replaceCreditCardInformation($oneMethod->name);
 						}
