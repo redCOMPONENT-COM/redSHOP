@@ -104,7 +104,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		if ($send == 1)
 		{
-			if ($model->sendQuotationMail($row->quotation_id))
+			if ($model->sendQuotationMail($row->quotation_id) && JFactory::getConfig()->get('mailonline') == 1)
 			{
 				$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
 			}
