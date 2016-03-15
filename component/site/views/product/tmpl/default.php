@@ -1526,7 +1526,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$fullname  = $reviews[$j]->firstname . " " . $reviews[$j]->lastname;
 			$starimage = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
 
-			$reviews_data1 = str_replace("{fullname}", $fullname, $reviews_template);
+			$reviews_data1 = str_replace("{fullname}", ($fullname != " ")?($fullname):($reviews[$j]->username), $reviews_template);
 			$reviews_data1 = str_replace("{email}", $reviews[$j]->email, $reviews_data1);
 			$reviews_data1 = str_replace("{company_name}", $reviews[$j]->company_name, $reviews_data1);
 			$reviews_data1 = str_replace("{title}", $reviews [$j]->title, $reviews_data1);
