@@ -14,8 +14,8 @@ $addlink = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&sh
 ?>
 <div id="editcell">
 
-	<div align="right"><a href="<?php echo $addlink; ?>" class="btn btn-success"
-	                      style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_ADD');?></a></div>
+	<div align="right"><input type="submit" name="add_shipping" value="<?php echo JText::_('COM_REDSHOP_ADD');?>" onclick="Joomla.submitbutton('apply');" class="btn btn-success"
+	                      style="text-decoration: none;" /></div>
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
