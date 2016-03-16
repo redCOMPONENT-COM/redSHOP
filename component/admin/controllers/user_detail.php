@@ -60,8 +60,15 @@ class RedshopControllerUser_detail extends RedshopController
 			if ($apply == 1)
 			{
 				$link = RedshopHelperUtility::getSSLLink(
-						'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
+					'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
+				);
+				
+				if (isset($_POST['add_shipping']) )
+				{
+					$link = RedshopHelperUtility::getSSLLink(
+						'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $row->users_info_id . '&cid[]=0'
 					);
+				}
 			}
 			else
 			{
