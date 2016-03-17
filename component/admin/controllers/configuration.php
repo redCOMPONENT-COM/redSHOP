@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,6 +26,59 @@ class RedshopControllerConfiguration extends RedshopController
 		$this->save(1);
 	}
 
+	/**
+	 * Collect Items from array using specific prefix
+	 *
+	 * @param   array   $array   Array from which needs to collects items based ok keys.
+	 * @param   string  $prefix  Key prefix which needs to be filtered.
+	 *
+	 * @return  array   Array of values which is collected using prefix.
+	 */
+	protected function collectItemsUsingPrefix($array, $prefix)
+	{
+		$keys = array_keys($array);
+
+		$values = array_filter($keys, function($value) use ($prefix) {
+			return preg_match("/$prefix\d/", $value);
+		});
+
+		array_walk(
+			$values,
+			function(&$value, $key, $array) {
+				$value = $array[$value];
+			},
+			$array
+		);
+
+		return $values;
+	}
+
+	/**
+	 * Collect quick icons list values
+	 *
+	 * @return  string  Comma seperated quick icon names
+	 */
+	protected function collectQuickIcons()
+	{
+		$post = JRequest::get('post');
+
+		$iconList = array_merge(
+			$this->collectItemsUsingPrefix($post, 'prodmng'),
+			$this->collectItemsUsingPrefix($post, 'ordermng'),
+			$this->collectItemsUsingPrefix($post, 'distmng'),
+			$this->collectItemsUsingPrefix($post, 'commmng'),
+			$this->collectItemsUsingPrefix($post, 'impmng'),
+			$this->collectItemsUsingPrefix($post, 'vatmng'),
+			$this->collectItemsUsingPrefix($post, 'custmng'),
+			$this->collectItemsUsingPrefix($post, 'altmng'),
+			$this->collectItemsUsingPrefix($post, 'usermng'),
+			$this->collectItemsUsingPrefix($post, 'shippingmng'),
+			$this->collectItemsUsingPrefix($post, 'accmng')
+		);
+
+		return implode(',', $iconList);
+	}
+
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -34,156 +87,7 @@ class RedshopControllerConfiguration extends RedshopController
 		$selectedTabPosition = $app->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
 
-		for ($p = 0; $p < $post['tot_prod']; $p++)
-		{
-			if ($post['prodmng' . $p] != "")
-			{
-				$selected_prod[] = $post['prodmng' . $p];
-			}
-		}
-
-		if (count($selected_prod) > 0)
-		{
-			$quicklink_icon = implode(",", $selected_prod);
-		}
-
-		for ($p = 0; $p < $post['tot_ord']; $p++)
-		{
-			if ($post['ordermng' . $p] != "")
-			{
-				$selected_ord[] = $post['ordermng' . $p];
-			}
-		}
-
-		if (count($selected_ord) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_ord);
-		}
-
-		for ($p = 0; $p < $post['tot_dist']; $p++)
-		{
-			if ($post['distmng' . $p] != "")
-			{
-				$selected_dist[] = $post['distmng' . $p];
-			}
-		}
-
-		if (count($selected_dist) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_dist);
-		}
-
-		for ($p = 0; $p < $post['tot_comm']; $p++)
-		{
-			if ($post['commmng' . $p] != "")
-			{
-				$selected_comm[] = $post['commmng' . $p];
-			}
-		}
-
-		if (count($selected_comm) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_comm);
-		}
-
-		for ($p = 0; $p < $post['tot_imp']; $p++)
-		{
-			if ($post['impmng' . $p] != "")
-			{
-				$selected_imp[] = $post['impmng' . $p];
-			}
-		}
-
-		if (count($selected_imp) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_imp);
-		}
-
-		for ($p = 0; $p < $post['tot_vat']; $p++)
-		{
-			if ($post['vatmng' . $p] != "")
-			{
-				$selected_vat[] = $post['vatmng' . $p];
-			}
-		}
-
-		if (count($selected_vat) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_vat);
-		}
-
-
-		for ($p = 0; $p < $post['tot_cust']; $p++)
-		{
-			if ($post['custmng' . $p] != "")
-			{
-				$selected_cust[] = $post['custmng' . $p];
-			}
-		}
-
-		if (count($selected_cust) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_cust);
-
-		}
-
-		for ($p = 0; $p < $post['tot_alt']; $p++)
-		{
-			if ($post['altmng' . $p] != "")
-			{
-				$selected_alt[] = $post['altmng' . $p];
-			}
-		}
-
-		if (count($selected_alt) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_alt);
-		}
-
-		for ($p = 0; $p < $post['tot_user']; $p++)
-		{
-			if ($post['usermng' . $p] != "")
-			{
-				$selected_user[] = $post['usermng' . $p];
-			}
-		}
-
-		if (count($selected_user) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_user);
-
-		}
-
-		for ($p = 0; $p < $post['tot_shipping']; $p++)
-		{
-			if ($post['shippingmng' . $p] != "")
-			{
-				$selected_shipping[] = $post['shippingmng' . $p];
-			}
-		}
-
-		if (count($selected_shipping) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_shipping);
-
-		}
-
-		for ($p = 0; $p < $post['tot_acc']; $p++)
-		{
-			if ($post['accmng' . $p] != "")
-			{
-				$selected_acc[] = $post['accmng' . $p];
-			}
-		}
-
-		if (count($selected_acc) > 0)
-		{
-			$quicklink_icon .= "," . implode(",", $selected_acc);
-		}
-
-		$quicklink_icon;
-
-		$post['quicklink_icon'] = $quicklink_icon;
+		$post['quicklink_icon'] = $this->collectQuickIcons();
 
 		$post['custom_previous_link'] = JRequest::getVar('custom_previous_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
@@ -201,29 +105,46 @@ class RedshopControllerConfiguration extends RedshopController
 			$post['administrator_email'] = implode(",", $post['administrator_email']);
 		}
 
-		$msg = null;
-		$model = $this->getModel('configuration');
-		$country_list = JRequest::getVar('country_list', array(), 'array');
+		$msg                   = null;
+		$model                 = $this->getModel('configuration');
 		$newsletter_test_email = JRequest::getVar('newsletter_test_email');
 
-		$i = 0;
-		$country_listCode = '';
+		$post['country_list'] = implode(',', $app->input->post->get('country_list', array(), 'ARRAY'));
 
-		if ($country_list)
+		if (!isset($post['default_vat_state']))
 		{
-			foreach ($country_list as $key => $value)
-			{
-				$country_listCode .= $value;
-				$i++;
-
-				if ($i < count($country_list))
-				{
-					$country_listCode .= ',';
-				}
-			}
+			$post['default_vat_state'] = '';
 		}
 
-		$post['country_list'] = $country_listCode;
+		if (!isset($post['write_review_is_lightbox']))
+		{
+			$post['write_review_is_lightbox'] = '';
+		}
+
+		if (!isset($post['splitable_payment']))
+		{
+			$post['splitable_payment'] = 0;
+		}
+
+		if (!isset($post['splitable_payment']))
+		{
+			$post['splitable_payment'] = 0;
+		}
+
+		if (!isset($post['seo_page_short_description']))
+		{
+			$post['seo_page_short_description'] = 0;
+		}
+
+		if (!isset($post['seo_page_short_description_category']))
+		{
+			$post['seo_page_short_description_category'] = 0;
+		}
+
+		if (!isset($post['allow_multiple_discount']))
+		{
+			$post['allow_multiple_discount'] = 0;
+		}
 
 		if (isset($post['product_download_root']))
 		{
