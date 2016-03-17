@@ -312,7 +312,7 @@ class RedshopViewConfiguration extends RedshopView
 		defined('RATING_REVIEW_LOGIN_REQUIRED') ? RATING_REVIEW_LOGIN_REQUIRED : define('RATING_REVIEW_LOGIN_REQUIRED', '1');
 
 		$lists['rating_review_login_required'] = JHTML::_('redshopselect.booleanlist', 'rating_review_login_required',
-			'class="inputbox" size="1"', RATING_REVIEW_LOGIN_REQUIRED
+			'class="inputbox" size="1"', Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')
 		);
 
 		$product_comparison   = array();

@@ -84,7 +84,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="administrator_email" id="administrator_email"
-			       value="<?php echo ADMINISTRATOR_EMAIL; ?>">
+			       value="<?php echo Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'); ?>">
 		</td>
 	</tr>
 
