@@ -450,6 +450,20 @@ class RedshopModelConfiguration extends RedshopModel
 			return false;
 		}
 
+		// Temporary new way to save config
+		$config = Redshop::getConfig();
+
+		try
+		{
+			$config->save(new JRegistry($this->_configdata));
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Write data to file
 		if (!$this->configurationWrite())
 		{
