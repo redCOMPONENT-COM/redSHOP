@@ -33,6 +33,13 @@ abstract class Redshop
 	protected static $config;
 
 	/**
+	 * Component manifest
+	 *
+	 * @var  SimpleXMLElement
+	 */
+	protected static $manifest;
+
+	/**
 	 * Gets the current redSHOP configuration
 	 *
 	 * @return  RedshopHelperConfig
@@ -45,5 +52,39 @@ abstract class Redshop
 		}
 
 		return static::$config;
+	}
+
+	/**
+	 * Gets the redSHOP manifest
+	 *
+	 * @return  SimpleXMLElement
+	 */
+	public static function getManifest()
+	{
+		if (null === static::$manifest)
+		{
+			$manifestFile = JPATH_ADMINISTRATOR . '/components/' . self::$component . '/redshop.xml';
+
+			if (file_exists($manifestFile))
+			{
+				static::$manifest = simplexml_load_file($manifestFile);
+			}
+			else
+			{
+				throw new Exception('Unable to find redSHOP manifest file.');
+			}
+		}
+
+		return static::$manifest;
+	}
+
+	/**
+	 * Gets the redSHOP version
+	 *
+	 * @return  string
+	 */
+	public static function getVersion()
+	{
+		return (string) static::getManifest()->version;
 	}
 }
