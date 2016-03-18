@@ -33,8 +33,8 @@ defined('_JEXEC') or die;
 		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="thumb_width" id="thumb_width" value="<?php echo THUMB_WIDTH; ?>">
-			<input type="text" name="thumb_height" id="thumb_height" value="<?php echo THUMB_HEIGHT; ?>">
+			<input type="text" name="thumb_width" id="thumb_width" value="<?php echo $this->config->get('THUMB_WIDTH'); ?>">
+			<input type="text" name="thumb_height" id="thumb_height" value="<?php echo $this->config->get('THUMB_HEIGHT'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -44,8 +44,8 @@ defined('_JEXEC') or die;
 		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT_TWO');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="thumb_width_2" id="thumb_width_2" value="<?php echo THUMB_WIDTH_2; ?>">
-			<input type="text" name="thumb_height_2" id="thumb_height_2" value="<?php echo THUMB_HEIGHT_2; ?>">
+			<input type="text" name="thumb_width_2" id="thumb_width_2" value="<?php echo $this->config->get('THUMB_WIDTH_2'); ?>">
+			<input type="text" name="thumb_height_2" id="thumb_height_2" value="<?php echo $this->config->get('THUMB_HEIGHT_2'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -55,8 +55,8 @@ defined('_JEXEC') or die;
 		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT_THREE');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="thumb_width_3" id="thumb_width_3" value="<?php echo THUMB_WIDTH_3; ?>">
-			<input type="text" name="thumb_height_3" id="thumb_height_3" value="<?php echo THUMB_HEIGHT_3; ?>">
+			<input type="text" name="thumb_width_3" id="thumb_width_3" value="<?php echo $this->config->get('THUMB_WIDTH_3'); ?>">
+			<input type="text" name="thumb_height_3" id="thumb_height_3" value="<?php echo $this->config->get('THUMB_HEIGHT_3'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -76,9 +76,9 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="category_product_thumb_width" id="category_product_thumb_width"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH; ?>">
+			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH'); ?>">
 			<input type="text" name="category_product_thumb_height" id="category_product_thumb_height"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT; ?>">
+			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -89,9 +89,9 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="category_product_thumb_width_2" id="category_product_thumb_width_2"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH_2; ?>">
+			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH_2'); ?>">
 			<input type="text" name="category_product_thumb_height_2" id="category_product_thumb_height_2"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT_2; ?>">
+			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -102,9 +102,9 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="category_product_thumb_width_3" id="category_product_thumb_width_3"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH_3; ?>">
+			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH_3'); ?>">
 			<input type="text" name="category_product_thumb_height_3" id="category_product_thumb_height_3"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT_3; ?>">
+			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3'); ?>">
 		</td>
 	</tr>
 	<tr>

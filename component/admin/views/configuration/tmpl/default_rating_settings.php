@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 						<label for="name"><?php echo JText::_('COM_REDSHOP_RATING_DONE_MSG');?></label></span>
 							</td>
 							<td>
-								<input type="text" name="rating_msg" id="rating_msg" value="<?php echo RATING_MSG; ?>"
+								<input type="text" name="rating_msg" id="rating_msg" value="<?php echo $this->config->get('RATING_MSG'); ?>"
 								       size="50">
 							</td>
 						</tr>
@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 							</td>
 							<td>
 								<input type="text" name="favoured_reviews" id="favoured_reviews"
-								       value="<?php echo FAVOURED_REVIEWS; ?>">
+								       value="<?php echo $this->config->get('FAVOURED_REVIEWS'); ?>">
 							</td>
 						</tr>
 						<tr>

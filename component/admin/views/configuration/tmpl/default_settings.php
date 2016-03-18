@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="shop_name" id="shop_name" value="<?php echo SHOP_NAME; ?>">
+			<input type="text" name="shop_name" id="shop_name" value="<?php echo $this->config->get('SHOP_NAME'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -73,7 +73,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php echo JText::_('COM_REDSHOP_WELCOME_MESSAGE');?></label>
 		</td>
 		<td>
-			<input type="text" name="welcome_msg" id="welcome_msg" value="<?php echo WELCOME_MSG; ?>">
+			<input type="text" name="welcome_msg" id="welcome_msg" value="<?php echo $this->config->get('WELCOME_MSG'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -134,7 +134,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php echo JText::_('COM_REDSHOP_TABLE_PREFIX');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="table_prefix" id="table_prefix" value="<?php echo TABLE_PREFIX; ?>"
+			<input type="text" name="table_prefix" id="table_prefix" value="<?php echo $this->config->get('TABLE_PREFIX'); ?>"
 			       readonly="readonly">
 		</td>
 	</tr>

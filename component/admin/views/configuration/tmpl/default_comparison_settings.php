@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 							</td>
 							<td>
 								<input type="text" name="product_compare_limit" id="product_compare_limit"
-								       value="<?php echo PRODUCT_COMPARE_LIMIT; ?>">
+								       value="<?php echo $this->config->get('PRODUCT_COMPARE_LIMIT'); ?>">
 							</td>
 						</tr>
 						<tr>
@@ -64,9 +64,9 @@ defined('_JEXEC') or die;
 							</td>
 							<td>
 								<input type="text" name="compare_product_thumb_width" id="compare_product_thumb_width"
-								       value="<?php echo COMPARE_PRODUCT_THUMB_WIDTH; ?>">
+								       value="<?php echo $this->config->get('COMPARE_PRODUCT_THUMB_WIDTH'); ?>">
 								<input type="text" name="compare_product_thumb_height" id="compare_product_thumb_height"
-								       value="<?php echo COMPARE_PRODUCT_THUMB_HEIGHT; ?>">
+								       value="<?php echo $this->config->get('COMPARE_PRODUCT_THUMB_HEIGHT'); ?>">
 							</td>
 					</table>
 				</fieldset>
