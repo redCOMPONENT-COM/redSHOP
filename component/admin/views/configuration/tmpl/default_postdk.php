@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 			</span>
 		</td>
 		<td><input type="text" name="postdk_customer_no" id="postdk_customer_no"
-		           value="<?php echo POSTDK_CUSTOMER_NO; ?>"></td>
+		           value="<?php echo $this->config->get('POSTDK_CUSTOMER_NO'); ?>"></td>
 	</tr>
 	<tr>
 		<td class="key">
@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
 			</label>
 		</td>
 		<td><input type="password" name="postdk_customer_password" id="postdk_customer_password"
-		           value="<?php echo POSTDK_CUSTOMER_PASSWORD; ?>"></td>
+		           value="<?php echo $this->config->get('POSTDK_CUSTOMER_PASSWORD'); ?>"></td>
 	</tr>
 	<tr>
 		<td class="key">
@@ -49,7 +49,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_REDSHOP_POSTDANMARK_ADDRESS_LBL');?>
 			</span>
 		</td>
-		<td><input type="text" name="postdk_address" id="postdk_address" value="<?php echo POSTDANMARK_ADDRESS; ?>">
+		<td><input type="text" name="postdk_address" id="postdk_address" value="<?php echo $this->config->get('POSTDANMARK_ADDRESS'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die;
 			</span>
 		</td>
 		<td><input type="text" name="postdk_postalcode" id="postdk_postalcode"
-		           value="<?php echo POSTDANMARK_POSTALCODE; ?>"></td>
+		           value="<?php echo $this->config->get('POSTDANMARK_POSTALCODE'); ?>"></td>
 	</tr>
 	<tr>
 		<td class="key">

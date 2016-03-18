@@ -44,9 +44,9 @@ defined('_JEXEC') or die;
 					for="default_stockroom"><?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKAMOUNT_IMAGE_THUMB_WIDTH_HEIGHT_LBL');?></label></span>
 							</td>
 							<td><input type="text" name="default_stockamount_thumb_width"
-							           value="<?php echo DEFAULT_STOCKAMOUNT_THUMB_WIDTH; ?>"/>
+							           value="<?php echo $this->config->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'); ?>"/>
 								<input type="text" name="default_stockamount_thumb_height"
-								       value="<?php echo DEFAULT_STOCKAMOUNT_THUMB_HEIGHT; ?>"/></td>
+								       value="<?php echo $this->config->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'); ?>"/></td>
 						</tr>
 					</table>
 				</fieldset>
