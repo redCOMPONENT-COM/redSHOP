@@ -43,8 +43,10 @@ class StockImageManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\StockImageManagerJoomla3Page::$stockImageSuccessMessage,60,'.alert-success');
 		$I->see(\StockImageManagerJoomla3Page::$stockImageSuccessMessage,'.alert-success');
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($imageToolTip, \StockImageManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -60,6 +62,7 @@ class StockImageManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StockImageManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($imageToolTip, \StockImageManagerJoomla3Page::$firstResultRow);
 		$I->click(\StockImageManagerJoomla3Page::$selectFirst);
@@ -71,6 +74,7 @@ class StockImageManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\StockImageManagerJoomla3Page::$stockImageSuccessMessage,60, '.alert-success');
 		$I->see(\StockImageManagerJoomla3Page::$stockImageSuccessMessage, '.alert-success');
 		$I->see($updateToolTip, \StockImageManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 

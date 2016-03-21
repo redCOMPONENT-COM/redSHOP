@@ -45,9 +45,11 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,'.alert-success');
 		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage, '.alert-success');
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 

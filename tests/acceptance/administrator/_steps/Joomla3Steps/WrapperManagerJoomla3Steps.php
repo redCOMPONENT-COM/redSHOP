@@ -41,6 +41,7 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage,60,'.alert-success');
 		$I->see(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage, '.alert-success');
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
@@ -59,6 +60,7 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\WrapperManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
@@ -70,6 +72,7 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage,60,'.alert-success');
 		$I->see(\WrapperManagerJoomla3Page::$wrapperCreateSuccessMessage, '.alert-success');
 		$I->see($newName, \WrapperManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 

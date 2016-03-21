@@ -43,9 +43,12 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage,60,'.alert-success');
 		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($mailName);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -61,6 +64,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see($mailName);
@@ -72,6 +76,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage,30,'.alert-success');
 		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
 		$I->see($newMailName);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -87,6 +92,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$this->changeState(new \MailCenterManagerJoomla3Page, $name, $state, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
@@ -129,6 +135,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}

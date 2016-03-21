@@ -38,6 +38,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,'.alert-success');
 		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, '.alert-success');
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see(strtolower($templateName), \TemplateManagerJoomla3Page::$firstResultRow);
@@ -56,6 +57,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see(strtolower($templateName), \TemplateManagerJoomla3Page::$firstResultRow);
