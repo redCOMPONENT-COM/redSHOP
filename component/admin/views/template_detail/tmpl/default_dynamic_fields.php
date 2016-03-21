@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -1748,7 +1748,7 @@ if ($this->detail->template_section == "billing_template")
 				if (count($available) == 0) echo JTEXT::_("COM_REDSHOP_PRIVATE_BILLING_TEMPLATE");
 				for ($i = 0, $in = count($available); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{private_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('PRIVATE_BILLING_TEMPLATE') . '</div>';
+					echo '<div style="margin-left:10px;">{private_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>
@@ -1758,7 +1758,7 @@ if ($this->detail->template_section == "billing_template")
 				if (count($available) == 0) echo JTEXT::_("COM_REDSHOP_COMPANY_BILLING_TEMPLATE");
 				for ($i = 0, $in = count($available); $i < $in; $i++)
 				{
-					echo '<div style="margin-left:10px;">{company_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('COMPANY_BILLING_TEMPLATE') . '</div>';
+					echo '<div style="margin-left:10px;">{company_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE') . '</div>';
 				}    ?>
 			</td>
 		</tr>

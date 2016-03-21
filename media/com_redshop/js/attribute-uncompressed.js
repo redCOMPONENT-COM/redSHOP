@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -254,6 +254,7 @@ function productaddprice(product_id, relatedprd_id)
 	};
 
 	request.open("GET", url, true);
+	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.send(null);
 }
 
@@ -459,6 +460,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 	};
 
 	request.open("GET", url, true);
+	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.send(null);
 }
 
@@ -1683,6 +1685,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
 		}
 	};
 	request.open("GET", url, true);
+	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.send(null);
 }
 
@@ -1916,6 +1919,7 @@ function discountCalculation(proid) {
 	};
 
 	http.open("GET", redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=cart&task=discountCalculator&product_id=" + proid + "&calcHeight=" + calHeight + "&calcWidth=" + calWidth + "&calcDepth=" + calDepth + "&calcRadius=" + calRadius + "&calcUnit=" + calUnit + "&pdcextraid=" + pdcoptionid + "&tmpl=component", true);
+	http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	http.send(null);
 }
 
@@ -2433,11 +2437,6 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 
 		var detailurl = redSHOP.RSConfig._('SITE_URL') + "index.php?" + params;
 
-		/*var options = {url:detailurl,handler:'ajax',size: {x: 500, y: 600}};
-
-		 redBOX.initialize({});
-		 document.attbox = redBOX.open(null,options);*/
-
 		request.onreadystatechange = function () {
 			if (request.readyState == 4 && request.status == 200) {
 				var responce = request.responseText;
@@ -2475,6 +2474,7 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 			}
 		};
 		request.open("POST", detailurl, true);
+		request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		request.send(params);
 	}
 
@@ -2616,6 +2616,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 
 	request.open("POST", redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=cart&task=add&tmpl=component", false);
 	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 	var aj_flag = true;
 	request.onreadystatechange = function () {
@@ -2650,11 +2651,6 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 			// End
 			var newurl = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&pid=" + product_id + "&r_template=cartbox&tmpl=component";
 
-			/*var options = {url:newurl,handler:'ajax',size: {x: 500, y: 150}};
-
-			 redBOX.initialize({});
-			 document.ajaxbox = redBOX.open(null,options);*/
-
 			request_inner = getHTTPObject();
 
 			request_inner.onreadystatechange = function () {
@@ -2676,6 +2672,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 				}
 			};
 			request_inner.open("GET", newurl, true);
+			request_inner.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			request_inner.send(null);
 
 		}
@@ -2974,6 +2971,7 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 	else
 		request.open("POST", url, false);
 
+	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	request.setRequestHeader("Content-length", params.length);
 	request.setRequestHeader("Connection", "close");
@@ -3218,6 +3216,7 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 	else
 		request.open("POST", url, false);
 
+	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	request.setRequestHeader("Content-length", params.length);
 	request.setRequestHeader("Connection", "close");
@@ -3268,5 +3267,6 @@ function getStocknotify(product_id, property_id, subproperty_id) {
 
 	}
 	request.open("POST", url, true);
+	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.send(null);
 }

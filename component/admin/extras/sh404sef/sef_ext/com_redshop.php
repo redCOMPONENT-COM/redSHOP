@@ -3,7 +3,7 @@
  * @package     RedSHOP.sh404sef
  * @subpackage  sef_ext sh404sef
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -84,7 +84,6 @@ $category_id    = isset($category_id) ? @$category_id : null;
 $manufacture_id = isset($manufacture_id) ? @$manufacture_id : null;
 $remove         = isset($remove) ? @$remove : null;
 $Treeid         = isset($Treeid) ? @$Treeid : null;
-$tid            = isset($tid) ? @$tid : null;
 $print          = isset($print) ? @$print : null;
 $protalid       = isset($protalid) ? @$protalid : 0;
 
@@ -292,8 +291,6 @@ switch ($view)
 			elseif ($layout == 'downloadproduct')
 			{
 				$title[] = $layout;
-
-				shRemoveFromGETVarsList('tid');
 			}
 			else
 			{

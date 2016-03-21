@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -34,8 +34,6 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="250"
 							   value="<?php echo htmlspecialchars($this->detail->product_name); ?>"
 							/>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NAME'), JText::_('COM_REDSHOP_PRODUCT_NAME'), 'tooltip.png', '', '', false);
 						?>
@@ -57,8 +55,6 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="250"
 							   value="<?php echo $this->detail->product_number; ?>"
 							/>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false);
 						?>
@@ -73,8 +69,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['product_template']; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
@@ -135,8 +129,6 @@ $calendarFormat = '%d-%m-%Y';
 							)
 						);
 						?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PARENT_PRODUCT'), JText::_('COM_REDSHOP_PARENT_PRODUCT'), 'tooltip.png', '', '', false);
 						?>
@@ -151,8 +143,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['categories']; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
@@ -180,8 +170,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['manufacturers']; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MANUFACTURER'),
@@ -203,8 +191,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['supplier']; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SUPPLIER'), JText::_('COM_REDSHOP_SUPPLIER'), 'tooltip.png', '', '', false);
 						?>
@@ -266,8 +252,6 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->detail->product_price; ?>"
 							/>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'), JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'tooltip.png', '', '', false);
 						?>
@@ -282,8 +266,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['product_tax_group_id']; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'), JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'), 'tooltip.png', '', '', false);
 						?>
@@ -304,8 +286,6 @@ $calendarFormat = '%d-%m-%Y';
 							   size="10"
 							   maxlength="10"
 							   value="<?php echo $this->detail->minimum_per_product_total;?>" />
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL'),
@@ -349,8 +329,6 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->detail->discount_price; ?>"
 							/>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'), JText::_('COM_REDSHOP_DISCOUNT_PRICE'), 'tooltip.png', '', '', false);
 						?>
@@ -424,8 +402,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['product_special']; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
@@ -447,8 +423,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['expired']; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED'),
@@ -470,8 +444,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['not_for_sale'];?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE'),
@@ -493,8 +465,6 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['preorder']; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREORDER'),
@@ -529,8 +499,6 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->detail->min_order_product_quantity; ?>"
 							/>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_ORDER_PRODUCT_QUANTITY'),
@@ -559,8 +527,6 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo @$this->detail->max_order_product_quantity; ?>"
 							/>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
@@ -632,8 +598,6 @@ $calendarFormat = '%d-%m-%Y';
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_volume); ?>"
 							/>
 						<?php echo DEFAULT_VOLUME_UNIT; ?>3
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
@@ -663,8 +627,6 @@ $calendarFormat = '%d-%m-%Y';
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_length); ?>"
 							/>
 						<?php echo DEFAULT_VOLUME_UNIT; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
@@ -693,8 +655,7 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_width); ?>"
 							/>
-						<?php echo DEFAULT_VOLUME_UNIT; ?></td>
-					<td>
+						<?php echo DEFAULT_VOLUME_UNIT; ?>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
@@ -724,8 +685,6 @@ $calendarFormat = '%d-%m-%Y';
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_height); ?>"
 							/>
 						<?php echo DEFAULT_VOLUME_UNIT; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'), JText::_('COM_REDSHOP_PRODUCT_HEIGHT'), 'tooltip.png', '', '', false);
 						?>
@@ -748,8 +707,6 @@ $calendarFormat = '%d-%m-%Y';
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_diameter); ?>"
 							/>
 						<?php echo DEFAULT_VOLUME_UNIT; ?>
-					</td>
-					<td>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'), JText::_('COM_REDSHOP_PRODUCT_DIAMETER'), 'tooltip.png', '', '', false);
 						?>
@@ -771,8 +728,7 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->weight); ?>"
 							/>
-						<?php echo DEFAULT_WEIGHT_UNIT; ?></td>
-					<td>
+						<?php echo DEFAULT_WEIGHT_UNIT; ?>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'), JText::_('COM_REDSHOP_WEIGHT_LBL'), 'tooltip.png', '', '', false);
 						?>

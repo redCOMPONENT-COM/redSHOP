@@ -144,6 +144,7 @@ define('WELCOME_MSG', 'Welcome to {shopname}');
 define('SHOP_NAME', 'Webshop');
 define('COUPONS_ENABLE', '1');
 define('VOUCHERS_ENABLE', '1');
+define('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT', '1');
 define('SPLITABLE_PAYMENT', '');
 define('SHOW_CAPTCHA', '0');
 define('SHOW_EMAIL_VERIFICATION', '0');

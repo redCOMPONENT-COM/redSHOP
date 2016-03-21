@@ -31,6 +31,19 @@ class PlgRedshop_ProductPostDanmark extends JPlugin
 			return;
 		}
 
+		$shippingHelper = new shipping;
+		$orderShippingInfo = explode(
+								"|",
+								$shippingHelper->decryptShipping(
+									str_replace(" ", "+", $orderResult->ship_method_id)
+								)
+							);
+
+		if ('plgredshop_shippingpostdanmark' != strtolower($orderShippingInfo[0]))
+		{
+			return;
+		}
+
 		$locationInfo = explode("|", trim($orderResult->shop_id));
 
 		if (count($locationInfo) <= 0)
