@@ -60,7 +60,7 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 		$shipping       = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$ratelist       = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
-		$countRate      = (count($ratelist) >= 1) ? 1 : 0;
+		$countRate      = count($ratelist);
 
 		for ($i = 0; $i < $countRate; $i++)
 		{

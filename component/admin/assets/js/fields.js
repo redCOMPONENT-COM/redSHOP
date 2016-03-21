@@ -214,5 +214,6 @@ function delete_accessory(accessory_id, category_id, child_product_id) {
     linktocontroller = linktocontroller + "&category_id=" + category_id;
     linktocontroller = linktocontroller + "&child_product_id=" + child_product_id;
     xmlhttp.open("GET", linktocontroller, true);
+    xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlhttp.send(null);
 }

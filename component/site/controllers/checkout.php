@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -479,13 +479,17 @@ class RedshopControllerCheckout extends RedshopController
 					return;
 				}
 
-				$errormsg = $this->setcreditcardInfo();
-
-				if ($errormsg != "")
+				// Skip checks for free cart
+				if ($cart['total'] > 0)
 				{
-					$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $errormsg);
+					$errormsg = $this->setcreditcardInfo();
 
-					return;
+					if ($errormsg != "")
+					{
+						$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $errormsg);
+
+						return;
+					}
 				}
 			}
 
@@ -695,18 +699,25 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function displaycreditcard()
 	{
+		$app        = JFactory::getApplication();
+		$cart       = JFactory::getSession()->get('cart');
 		$carthelper = new rsCarthelper;
-		$get = JRequest::get('get');
+
 		$creditcard = "";
 
-		$payment_method_id = $get['payment_method_id'];
-
-		if ($payment_method_id != "")
+		if ($cart['total'] > 0)
 		{
-			$creditcard = $carthelper->replaceCreditCardInformation($payment_method_id);
+			$paymentMethodId = $app->input->getCmd('payment_method_id');
+
+			if ($paymentMethodId != "")
+			{
+				$creditcard = $carthelper->replaceCreditCardInformation($paymentMethodId);
+			}
+
+			$creditcard = '<div id="creditcardinfo">' . $creditcard . '</div>';
 		}
 
-		$creditcard = '<div id="creditcardinfo">' . $creditcard . '</div>';
+		ob_clean();
 		echo $creditcard;
 		die();
 	}

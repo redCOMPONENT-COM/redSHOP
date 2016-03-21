@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,14 +92,14 @@ class order_functions
 
 		RedshopHelperOrder::generateInvoiceNumber($order_id);
 
-		$query = "SELECT p.element,op.order_transfee,op.order_payment_trans_id,op.order_payment_amount FROM #__extensions AS p " . "LEFT JOIN "
-			. "#__redshop_order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id = "
+		$query = "SELECT p.element,op.order_transfee,op.order_payment_trans_id,op.order_payment_amount, op.authorize_status FROM #__extensions AS p " . "LEFT JOIN "
+			. "#__redshop_order_payment AS op ON op.payment_method_class=p.element WHERE op.order_id = "
 			. (int) $order_id . " " . "AND p.folder='redshop_payment' ";
-		$db->setQuery($query);
-		$result = $db->loadObjectlist();
-		$authorize_status = $result[0]->authorize_status;
+		$result = $db->setQuery($query, 0, 1)->loadObject();
 
-		$paymentmethod = $this->getPaymentMethodInfo($result[0]->element);
+		$authorize_status = $result->authorize_status;
+
+		$paymentmethod = $this->getPaymentMethodInfo($result->element);
 		$paymentmethod = $paymentmethod[0];
 
 		// Getting the order details
@@ -111,18 +111,19 @@ class order_functions
 		$auth_type = $paymentparams->get('auth_type', '');
 		$order_status_code = $order_status_capture;
 
-		if ($order_status_capture == $newstatus && ($authorize_status == "Authorized" || $authorize_status == ""))
+		if ($order_status_capture == $newstatus
+			&& ($authorize_status == "Authorized" || $authorize_status == ""))
 		{
 			$values["order_number"] = $orderdetail->order_number;
 			$values["order_id"] = $order_id;
-			$values["order_transactionid"] = $result[0]->order_payment_trans_id;
-			$values["order_amount"] = $orderdetail->order_total + $result[0]->order_transfee;
-			$values["order_userid"] = $values['billinginfo']->user_id;
+			$values["order_transactionid"] = $result->order_payment_trans_id;
+			$values["order_amount"] = $orderdetail->order_total + $result->order_transfee;
 			$values['shippinginfo'] = $this->getOrderShippingUserInfo($order_id);
 			$values['billinginfo'] = $this->getOrderBillingUserInfo($order_id);
+			$values["order_userid"] = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$data = JDispatcher::getInstance()->trigger('onCapture_Payment' . $result[0]->element, array($result[0]->element, $values));
+			$data = JDispatcher::getInstance()->trigger('onCapture_Payment' . $result->element, array($result->element, $values));
 			$results = $data[0];
 
 			if (!empty($data))
@@ -145,14 +146,14 @@ class order_functions
 		{
 			$values["order_number"] = $orderdetail->order_number;
 			$values["order_id"] = $order_id;
-			$values["order_transactionid"] = $result[0]->order_payment_trans_id;
-			$values["order_amount"] = $orderdetail->order_total + $result[0]->order_transfee;
+			$values["order_transactionid"] = $result->order_payment_trans_id;
+			$values["order_amount"] = $orderdetail->order_total + $result->order_transfee;
 			$values["order_userid"] = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
 
 			// Get status and refund if capture/cancel if authorize (for quickpay only)
-			$data = JDispatcher::getInstance()->trigger('onStatus_Payment' . $result[0]->element, array($result[0]->element, $values));
+			$data = JDispatcher::getInstance()->trigger('onStatus_Payment' . $result->element, array($result->element, $values));
 			$results = $data[0];
 
 			if (!empty($data))

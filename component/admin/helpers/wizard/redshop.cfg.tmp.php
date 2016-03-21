@@ -19,6 +19,7 @@ $temparray["discount_type"] = DISCOUNT_TYPE;
 $temparray["discount_enable"] = DISCOUNT_ENABLE;
 $temparray["coupons_enable"] = COUPONS_ENABLE;
 $temparray["vouchers_enable"] = VOUCHERS_ENABLE;
+$temparray["apply_voucher_coupon_already_discount"] = APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT;
 $temparray["attribute_as_product_in_economic"] = ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC;
 $temparray["economic_book_invoice_number"] = ECONOMIC_BOOK_INVOICE_NUMBER;
 $temparray["days_mail1"] = DAYS_MAIL1;

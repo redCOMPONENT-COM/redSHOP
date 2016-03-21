@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,8 +20,6 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<?php echo $this->lists['append_to_global_seo']; ?>
-		</td>
-		<td>
 			<?php
 			echo JHtml::tooltip(
 				JText::_('COM_REDSHOP_TOOLTIP_APPEND_TO_GLOBAL_SEO_LBL'),
@@ -43,8 +41,6 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input class="text_area" type="text" name="pagetitle" id="pagetitle" size="75" value="<?php echo htmlspecialchars($this->detail->pagetitle); ?>"/>
-		</td>
-		<td>
 			<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PAGE_TITLE'), JText::_('COM_REDSHOP_PAGE_TITLE'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -57,8 +53,6 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input class="text_area" type="text" name="pageheading" id="pageheading" size="75" value="<?php echo $this->detail->pageheading; ?>"/>
-		</td>
-		<td>
 			<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PAGE_HEADING'), JText::_('COM_REDSHOP_PAGE_HEADING'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -71,8 +65,6 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input class="text_area" type="text" name="sef_url" id="sef_url" size="75" value="<?php echo $this->detail->sef_url; ?>"/>
-		</td>
-		<td>
 			<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SEF_URL'), JText::_('COM_REDSHOP_SEF_URL'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -118,8 +110,6 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<?php echo $this->lists['cat_in_sefurl']; ?>
-		</td>
-		<td>
 			<?php
 			echo JHtml::tooltip(
 				JText::_('COM_REDSHOP_TOOLTIP_SELECT_CATEGORY_TO_USEIN_SEF'),
