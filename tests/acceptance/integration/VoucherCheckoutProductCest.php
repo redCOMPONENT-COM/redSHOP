@@ -131,6 +131,7 @@ class VoucherCheckoutProductCest
 	{
 		$I->wantTo('Deletion of Voucher in Administrator');
 		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+		$scenario->skip('@todo: once REDSHOP-2845 will be fixed the following line needs to be updated');
 		$I->deleteVoucher($this->randomVoucherCode);
 	}
 
