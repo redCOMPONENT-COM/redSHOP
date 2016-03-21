@@ -22,18 +22,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	 */
 	public function checkForNotices()
 	{
-		$I = $this;
-		$result = $I->executeInSelenium(
-			function(\WebDriver $webdriver)
-			{
-				$haystack = strip_tags($webdriver->getPageSource());
-
-				return (bool) (stripos($haystack, "Notice:") || stripos($haystack, "Warning:"));
-
-			}
-		);
-
-		return $result;
+		$this->checkForPhpNoticesOrWarnings();
 	}
 
 	/**
