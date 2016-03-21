@@ -56,7 +56,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->click("ID");
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->waitForElement(['link' => $voucherCode], 60);
 		$I->click(\VoucherManagerPage::$voucherCheck);
 		$I->click("Edit");
