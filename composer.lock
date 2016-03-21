@@ -4,61 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7497d9e91f0d1b87f5f476970a37e66f",
-    "content-hash": "a7d98328f4a99dcbe8522dea990f07d8",
-    "packages": [
-        {
-            "name": "joomla-projects/joomla-browser",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "85ad670e2cf8141bea02f489a1dc88bbe96ea2c3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/85ad670e2cf8141bea02f489a1dc88bbe96ea2c3",
-                "reference": "85ad670e2cf8141bea02f489a1dc88bbe96ea2c3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "codegyre/robo": "^0.5.3",
-                "joomla-projects/robo": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Codeception\\Module\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Puneet Kala",
-                    "email": "puneet.kala@community.joomla.org"
-                },
-                {
-                    "name": "Javier Gomez",
-                    "email": "javier.gomez@community.joomla.org"
-                }
-            ],
-            "description": "joomla-browser Codeception Module",
-            "homepage": "https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception",
-            "keywords": [
-                "BDD",
-                "TDD",
-                "acceptance testing",
-                "joomla"
-            ],
-            "time": "2016-02-09 10:08:06"
-        }
-    ],
+    "hash": "0eb6c0ba0e8b170ecadc7b7271d3c74e",
+    "content-hash": "642d4a6220c68621702d108f52dac2b3",
+    "packages": [],
     "packages-dev": [
         {
             "name": "cloudinary/cloudinary_php",
@@ -721,6 +669,57 @@
                 "watching"
             ],
             "time": "2015-10-27 09:19:19"
+        },
+        {
+            "name": "joomla-projects/joomla-browser",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-projects/joomla-browser.git",
+                "reference": "85ad670e2cf8141bea02f489a1dc88bbe96ea2c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/85ad670e2cf8141bea02f489a1dc88bbe96ea2c3",
+                "reference": "85ad670e2cf8141bea02f489a1dc88bbe96ea2c3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "codegyre/robo": "^0.5.3",
+                "joomla-projects/robo": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Codeception\\Module\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Puneet Kala",
+                    "email": "puneet.kala@community.joomla.org"
+                },
+                {
+                    "name": "Javier Gomez",
+                    "email": "javier.gomez@community.joomla.org"
+                }
+            ],
+            "description": "joomla-browser Codeception Module",
+            "homepage": "https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception",
+            "keywords": [
+                "BDD",
+                "TDD",
+                "acceptance testing",
+                "joomla"
+            ],
+            "time": "2016-02-09 10:08:06"
         },
         {
             "name": "joomla-projects/selenium-server-standalone",
