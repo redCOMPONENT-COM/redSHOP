@@ -34,8 +34,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('New');
 		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName,30);
 		$I->fillField(\TemplateManagerJoomla3Page::$templateName, $templateName);
-		$I->click(\TemplateManagerJoomla3Page::$templateSectionDropDown);
-		$I->click($templateManagerPage->templateSection($templateSection));
+		$I->selectOptionInChosenById('template_section', $templateSection);
 		$I->click('Save & Close');
 		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,'.alert-success');
 		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, '.alert-success');
