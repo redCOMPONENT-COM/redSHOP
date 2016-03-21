@@ -41,9 +41,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(['id' => 'system-message-container'], 60);
 		$I->scrollTo(['css' => '.alert-success']);
 		$I->see("Voucher details saved", '.alert-success');
-		$I->click("ID");
 		$I->seeElement(['link' => $code]);
-		$I->click("ID");
 	}
 
 	/**
@@ -69,7 +67,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->scrollTo(['css' => '.alert-success']);
 		$I->see("Voucher details saved", '.alert-success');
 		$I->seeElement(['link' => $voucherNewCode]);
-		$I->click("ID");
 	}
 
 	/**
