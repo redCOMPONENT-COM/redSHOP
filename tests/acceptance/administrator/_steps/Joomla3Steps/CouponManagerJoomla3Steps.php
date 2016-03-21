@@ -44,12 +44,9 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CouponManagerJ3Page::$couponTypeDropDown);
 		$I->click($couponManagerPage->couponType($couponType));
 		$I->click('Save & Close');
-		$I->waitForText('Coupon Management',10,'h1');
-		$I->see('Coupon Management', 'h1');
+		$I->waitForElement(['id' => 'system-message-container'], 60);
 		$I->see('Coupon detail saved', '.alert-success');
-		$I->click(['link' => 'ID']);
-		$I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
-		$I->click(['link' => 'ID']);
+		$I->seeElement(['link' => $couponCode]);
 	}
 
 	/**
@@ -64,6 +61,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CouponManagerJ3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
 		$I->click(\CouponManagerJ3Page::$selectFirst);
@@ -72,10 +70,9 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CouponManagerJ3Page::$couponCode, 20);
 		$I->fillField(\CouponManagerJ3Page::$couponCode, $newCouponCode);
 		$I->click('Save & Close');
-		$I->waitForText('Coupon Management',10,'h1');
+		$I->waitForElement(['id' => 'system-message-container'], 60);
 		$I->see('Coupon detail saved', '.alert-success');
-		$I->see($newCouponCode, \CouponManagerJ3Page::$firstResultRow);
-		$I->click(['link' => 'ID']);
+		$I->seeElement(['link' => $newCouponCode]);
 	}
 
 	/**

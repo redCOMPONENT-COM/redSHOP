@@ -59,6 +59,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 
 		if ($functionName == 'Search')
@@ -70,6 +71,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 			$I->dontSee($searchItem, $resultRow);
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -87,11 +89,13 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($deleteItem, $resultRow);
 		$I->click($check);
 		$I->click('Delete');
 		$I->dontSee($deleteItem, $resultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -109,6 +113,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->waitForText($item, 30, $resultRow);
 		$I->see($item, $resultRow);
@@ -124,6 +129,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 			$result = 'unpublished';
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 
 		return $result;
@@ -144,6 +150,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->waitForText($item, 30, $resultRow);
 		$I->see($item, $resultRow);
@@ -158,6 +165,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 			$I->click("Publish");
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 
 	}

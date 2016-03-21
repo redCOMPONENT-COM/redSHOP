@@ -42,6 +42,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');
 		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
 		$I->click(['link' => 'ID']);
@@ -59,6 +60,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\TextLibraryManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$verifyName = '{' . $textTagName . '}';
 		$newVerifyName = '{' . $newTextTagName . '}';
@@ -71,6 +73,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');
 		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
 		$I->see($newVerifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 

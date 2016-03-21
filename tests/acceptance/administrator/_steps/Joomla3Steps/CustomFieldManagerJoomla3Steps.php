@@ -53,11 +53,14 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($type == "Check box")
 		{
+			$I->executeJS('window.scrollTo(0,0)');
 			$I->click(['link' => 'ID']);
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -82,6 +85,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 		$I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
