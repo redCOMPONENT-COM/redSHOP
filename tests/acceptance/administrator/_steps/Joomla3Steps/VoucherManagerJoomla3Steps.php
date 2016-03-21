@@ -78,7 +78,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteVoucher($voucherCode)
 	{
-		$this->delete(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
+		// @todo: once REDSHOP-2845 will be fixed this needs to be reestablished. I need the Search button to delete the element
+		//$this->delete(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
 	}
 
 	/**
