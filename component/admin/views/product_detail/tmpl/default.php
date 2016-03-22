@@ -38,6 +38,7 @@ JHTMLBehavior::modal();
 			}
 		};
 		request.open("GET", url, true);
+		request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		request.send(null);
 	}
 
