@@ -250,7 +250,7 @@ class RedshopModelOrder extends RedshopModel
 
 		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
-			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($ordersInfo[$i]->ship_method_id);
 
 			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
@@ -343,7 +343,7 @@ class RedshopModelOrder extends RedshopModel
 
 		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
-			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($ordersInfo[$i]->ship_method_id);
 
 			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{

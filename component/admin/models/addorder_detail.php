@@ -314,7 +314,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			JTable::addIncludePath(REDSHOP_ADMIN . '/tables');
 		}
 
-		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
+		$order_shipping = RedshopShippingRate::decrypt($row->ship_method_id);
 
 		$rowOrderStatus = $this->getTable('order_status_log');
 		$rowOrderStatus->order_id = $row->order_id;
