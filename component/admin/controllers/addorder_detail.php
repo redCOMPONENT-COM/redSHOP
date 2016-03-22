@@ -106,7 +106,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$order_total = $post['order_total'];
 
-		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $post['shipping_rate_id'])));
+		$order_shipping = RedshopShippingRate::decrypt($post['shipping_rate_id']);
 
 		if (count($order_shipping) > 4)
 		{
@@ -278,7 +278,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 	{
 		$shippinghelper = new shipping;
 		$get = JRequest::get('get');
-		$shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $get['shipping_rate_id'])));
+		$shipping = RedshopShippingRate::decrypt($get['shipping_rate_id']);
 		$order_shipping = 0;
 		$order_shipping_class = '';
 

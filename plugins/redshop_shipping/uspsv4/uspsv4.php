@@ -965,7 +965,18 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 						$delivary = $ship_commit[$i];
 					}
 
-					$shipping_rate_id           = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $ship_service[$i] . "|" . number_format($charge[$i], 2, '.', '') . "|" . $ship_service[$i] . "|single|0");
+					$shipping_rate_id = RedshopShippingRate::encrypt(
+											array(
+												__CLASS__,
+												$shipping->name,
+												$ship_service[$i],
+												number_format($charge[$i], 2, '.', ''),
+												$ship_service[$i],
+												'single',
+												'0'
+											)
+										);
+
 					$shippingrate[$rate]        = new stdClass;
 					$shippingrate[$rate]->text  = $ship_service[$i];
 					$shippingrate[$rate]->value = $shipping_rate_id;

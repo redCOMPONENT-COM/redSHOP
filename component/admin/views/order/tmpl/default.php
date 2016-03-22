@@ -392,7 +392,7 @@ JPluginHelper::importPlugin('redshop_product');
 			?>
 			</td>
 			<?php
-				$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
+				$details = RedshopShippingRate::decrypt($row->ship_method_id);
 
 				$shippingParams = new JRegistry;
 

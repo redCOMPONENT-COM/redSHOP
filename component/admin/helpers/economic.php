@@ -851,7 +851,7 @@ class economic
 	{
 		if ($ship_method_id != "")
 		{
-			$order_shipping = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $ship_method_id)));
+			$order_shipping = RedshopShippingRate::decrypt($ship_method_id);
 
 			if (count($order_shipping) > 5)
 			{

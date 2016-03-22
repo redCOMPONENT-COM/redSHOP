@@ -1013,7 +1013,7 @@ $session->set('cart', $cart); ?>
 							<?php echo $this->loadTemplate('shipping'); ?>
 						</td>
 					</tr>
-					<?php $details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $this->detail->ship_method_id)));
+					<?php $details = RedshopShippingRate::decrypt($this->detail->ship_method_id);
 					if (count($details) <= 1)
 					{
 						$details = explode("|", $row->ship_method_id);

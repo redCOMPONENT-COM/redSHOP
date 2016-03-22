@@ -83,7 +83,7 @@ if ($download)
 					<td align="center"><?php echo $row->order_number; ?></td>
 					<td align="center"><?php echo $row->cdate; ?></td>
 					<td align="center"><?php
-						$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
+						$details = RedshopShippingRate::decrypt($row->ship_method_id);
 						if (strstr($details[0], 'default_shipping'))
 						{
 							if (file_exists(JPATH_SITE . '/administrator/components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf'))

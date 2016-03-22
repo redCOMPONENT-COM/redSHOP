@@ -811,7 +811,7 @@ class rsCarthelper
 
 		if (SHIPPING_METHOD_ENABLE)
 		{
-			$details = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($row->ship_method_id);
 
 			if (count($details) <= 1)
 			{
