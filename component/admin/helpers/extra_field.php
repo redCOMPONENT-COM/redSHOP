@@ -922,8 +922,7 @@ class extra_field
 		$q = "SELECT * FROM #__redshop_fields "
 			. "WHERE field_section = " . (int) $section_id . " "
 			. "AND field_name = " . $db->quote($field_section) . " "
-			. "AND published=1 "
-			. "AND field_show_in_front=1 ";
+			. "AND published=1 ";
 		$db->setQuery($q);
 		$row_data = $db->loadObjectlist();
 		$ex_field = '';

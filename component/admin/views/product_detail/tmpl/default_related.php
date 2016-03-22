@@ -74,6 +74,7 @@ defined('_JEXEC') or die;
 				  document.adminForm.product_id.value +
 				  "&task=getChildProducts&tmpl=component&json=1";
 		xmlhttp.open("GET", url, true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 

@@ -78,6 +78,7 @@ defined('_JEXEC') or die;
 				}
 			}
 			xmlhttp.open("GET", url, true);
+			xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp.send(null);
 		}
 		else {

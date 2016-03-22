@@ -113,7 +113,7 @@ $new_arr = RedShopHelperImages::geticonarray();
 				echo    JHTML::_('image', REDSHOP_ADMIN_IMAGES_ABSPATH . $new_arr['discountimages'][$i], $text);
 				echo    "<span>
 							<input style='float:none;' type='checkbox' name='distmng$i' value=\"" . $new_arr['discounts'][$i] . "\" $checked >$text
-							<input type=\"hidden\" name=\"tot_ord\" value=\"" . count($new_arr['discounts']) . "\">
+							<input type=\"hidden\" name=\"tot_dist\" value=\"" . count($new_arr['discounts']) . "\">
 						</span>";
 				echo    "</a></div></div>";
 			}
