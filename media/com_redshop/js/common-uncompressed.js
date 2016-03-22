@@ -253,6 +253,7 @@ function getShippingrate()
 		}
 	};
 	xmlhttp.open("GET",url,true);
+	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
 }
 
@@ -604,6 +605,7 @@ function searchByPhone()
 		}
 		var linktocontroller = "index.php?option=com_redshop&view=registration&task=searchUserdetailByPhone&tmpl=component&phone="+value;
 		xmlhttp.open("GET",linktocontroller,true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 }
@@ -692,6 +694,7 @@ function updateGLSLocation(zipcode)
 		}
 	};
 	xmlhttp1.open("GET",url1,true);
+	xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp1.send(null);
 }
 function displaytextarea(obj)
@@ -775,6 +778,7 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 
@@ -914,6 +918,7 @@ function onestepCheckoutProcess(objectname,classname)
 		else
 			xmlhttp.open("POST", url, false);
 
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xmlhttp.send(params);
 	}
@@ -947,6 +952,7 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 	}
@@ -973,6 +979,7 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 	}
@@ -1015,6 +1022,7 @@ function autoFillCity(str,isShipping)
 		}
 		var linktocontroller = redSHOP.RSConfig._('SITE_URL')+"index.php?option=com_redshop&view=category&task=autofillcityname&tmpl=component&q="+str;
 		xmlhttp.open("GET",linktocontroller,true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 }

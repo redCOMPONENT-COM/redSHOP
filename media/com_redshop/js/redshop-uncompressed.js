@@ -31,7 +31,7 @@ redSHOP.RSConfig = {
  *
  * @type  {Boolean}
  */
-redSHOP.AjaxOrderPaymentStatusExecure = false;
+redSHOP.AjaxOrderPaymentStatusExecuted = false;
 
 /**
  * Update order payment status to DOM periodically if current status is unpaid.
@@ -58,12 +58,12 @@ redSHOP.AjaxOrderPaymentStatusCheck = function(){
 		jQuery('#order_payment_status').html(res);
 
 		// Make sure script is executed at least one time.
-		if (redSHOP.AjaxOrderPaymentStatusExecure)
+		if (redSHOP.AjaxOrderPaymentStatusExecuted)
 		{
 			setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 10000);
 		}
 
-		redSHOP.AjaxOrderPaymentStatusExecure = true;
+		redSHOP.AjaxOrderPaymentStatusExecuted = true;
 	})
 	.fail(function() {
 		console.log("error");

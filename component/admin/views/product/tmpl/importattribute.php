@@ -81,6 +81,7 @@ if (isset($post['import_end']))
 			}
 		};
 		xmlhttp.open("GET", url, true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 </script>
