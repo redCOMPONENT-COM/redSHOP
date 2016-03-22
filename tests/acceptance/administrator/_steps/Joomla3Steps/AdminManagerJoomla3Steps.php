@@ -165,6 +165,19 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		}
 
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+	}
+
+	/**
+	 * Filters an administrator list by searching for a given string
+	 *
+	 * @param   Object  $pageClass  Page Class on which we are performing the Operation
+	 * @param   String  $text  text to be searched to filter the administrator list
+	 */
+	public function filterListBySearching($pageClass, $text)
+	{
+		$I = $this;
+		$I->fillField($pageClass::$searchField, $text);
+		$I->pressKey($pageClass::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER); //=>''
+		$I->waitForElement(['link' => $text]);
 	}
 }
