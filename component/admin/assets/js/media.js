@@ -83,5 +83,6 @@ function mail_select(str) {
     var url = "index.php?tmpl=component&option=" + str.title + "&view=media_detail&task=mail_section&mail_order_status=" + str.value;
 
     xmlHttp.open("GET", url, true);
+    xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlHttp.send(null);
 }
