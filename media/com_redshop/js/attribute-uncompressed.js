@@ -258,6 +258,13 @@ function productaddprice(product_id, relatedprd_id)
 	request.send(null);
 }
 
+/**
+ * Initialize function store for trigger
+ *
+ * @type  {Array}
+ */
+redSHOP.onChangePropertyDropdown = [];
+
 function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribute_id, selectedproperty_id, mpw_thumb, mph_thumb)
 {
 	var allarg           = arguments;
@@ -454,24 +461,20 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 			displayAdditionalImage(product_id, accessory_id, relatedprd_id, property_id, 0);
 			calculateTotalPrice(product_id, relatedprd_id);
 
-			// trigger js function via redSHOP Product plugin
-			onchangePropertyDropdown(allarg);
+			// Setting up redSHOP JavaScript onChangePropertyDropdown trigger
+			if (redSHOP.onChangePropertyDropdown.length > 0)
+			{
+				for(var g = 0, n = redSHOP.onChangePropertyDropdown.length; g < n; g++)
+				{
+					new redSHOP.onChangePropertyDropdown[g](allarg, propArr);
+				}
+			}
 		}
 	};
 
 	request.open("GET", url, true);
 	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.send(null);
-}
-
-/**
- * This function can be override via redSHOP Plugin
- *
- * @params: orgarg  All the arguments array from the original function
- */
-function onchangePropertyDropdown(orgarg)
-{
-	return true;
 }
 
 function display_image(imgs, product_id, gethover)
