@@ -92,9 +92,8 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$this->changeState(new \MailCenterManagerJoomla3Page, $name, $state, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
+		$I->filterListBySearching(new \MailCenterManagerJoomla3Page, $name);
+		$I->changeState(new \MailCenterManagerJoomla3Page, $name, $state, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
