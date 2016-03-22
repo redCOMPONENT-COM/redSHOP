@@ -38,7 +38,7 @@ if (is_array($rowdata))
 
 <script language="javascript" type="text/javascript">
 	//Load the Visualization API and the piechart package.
-	google.load('visualization', '1', {'packages': ['corechart']});
+	google.load('visualization', '1.1', {'packages': ['corechart']});
 
 	//Set a callback to run when the Google Visualization API is loaded.
 	google.setOnLoadCallback(drawChart);
