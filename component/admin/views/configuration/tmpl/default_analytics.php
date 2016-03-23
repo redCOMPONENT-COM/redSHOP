@@ -17,6 +17,6 @@ defined('_JEXEC') or die;
 		<label for="google_ana_tracking"><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS_TRACKER_KEY'); ?></label>
 		</td>
 		<td><input type="text" name="google_ana_tracker" id="google_ana_tracker"
-		           value="<?php echo GOOGLE_ANA_TRACKER_KEY; ?>"></td>
+		           value="<?php echo $this->config->get('GOOGLE_ANA_TRACKER_KEY'); ?>"></td>
 	</tr>
 </table>

@@ -54,7 +54,7 @@ class PlgSystemRedSHOP extends JPlugin
 	{
 		if (class_exists('RedshopConfig'))
 		{
-			RedshopConfig::scriptDeclaration();
+			RedshopHelperConfig::scriptDeclaration();
 		}
 	}
 }

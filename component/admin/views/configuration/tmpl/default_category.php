@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_REDSHOP_MAXCATEGORY_LBL');?></span>
 		</td>
 		<td>
-			<input type="text" name="maxcategory" id="maxcategory" value="<?php echo MAXCATEGORY; ?>">
+			<input type="text" name="maxcategory" id="maxcategory" value="<?php echo $this->config->get('MAXCATEGORY'); ?>">
 		</td>
 	</tr>
 	<tr>

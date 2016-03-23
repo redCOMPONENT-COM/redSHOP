@@ -33,7 +33,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="clickatell_username"
 		           id="clickatell_username"
 		           value="<?php
-		           echo CLICKATELL_USERNAME;
+		           echo $this->config->get('CLICKATELL_USERNAME');
 		           ?>">
 		</td>
 	</tr>
@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 		<td><input type="password" name="clickatell_password"
 		           id="clickatell_password"
 		           value="<?php
-		           echo CLICKATELL_PASSWORD;
+		           echo $this->config->get('CLICKATELL_PASSWORD');
 		           ?>">
 		</td>
 	</tr>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die;
 			?></label></span></td>
 		<td><input type="text" name="clickatell_api_id" id="clickatell_api_id"
 		           value="<?php
-		           echo CLICKATELL_API_ID;
+		           echo $this->config->get('CLICKATELL_API_ID');
 		           ?>">
 		</td>
 	</tr>
