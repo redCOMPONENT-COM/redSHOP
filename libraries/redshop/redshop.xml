@@ -15,7 +15,6 @@
 		<language tag="en-GB">en-GB/en-GB.lib_redshop.sys.ini</language>
 	</languages>
 	<files>
-		<folder>config</folder>
 		<folder>controller</folder>
 		<folder>form</folder>
 		<folder>helper</folder>
@@ -30,6 +29,7 @@
 		<folder>view</folder>
 		<filename>index.html</filename>
 		<filename>library.php</filename>
+		<filename>redshop.php</filename>
 		<filename>redshop.xml</filename>
 	</files>
 </extension>

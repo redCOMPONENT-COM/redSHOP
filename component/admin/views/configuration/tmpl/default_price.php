@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php    echo JText::_('COM_REDSHOP_CURRENCY_SYMBOL');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="currency_symbol" id="currency_symbol" value="<?php echo REDCURRENCY_SYMBOL; ?>">
+			<input type="text" name="currency_symbol" id="currency_symbol" value="<?php echo $this->config->get('REDCURRENCY_SYMBOL'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -48,7 +48,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php    echo JText::_('COM_REDSHOP_PRICE_SEPERATOR_LBL');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="price_seperator" id="price_seperator" value="<?php echo PRICE_SEPERATOR; ?>">
+			<input type="text" name="price_seperator" id="price_seperator" value="<?php echo $this->config->get('PRICE_SEPERATOR'); ?>">
 		</td>
 	</tr>
 
@@ -60,7 +60,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="thousand_seperator" id="thousand_seperator"
-			       value="<?php echo THOUSAND_SEPERATOR; ?>">
+			       value="<?php echo $this->config->get('THOUSAND_SEPERATOR'); ?>">
 		</td>
 	</tr>
 
@@ -71,7 +71,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php echo JText::_('COM_REDSHOP_PRICE_DECIMAL_LBL');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="price_decimal" id="price_decimal" value="<?php echo PRICE_DECIMAL; ?>">
+			<input type="text" name="price_decimal" id="price_decimal" value="<?php echo $this->config->get('PRICE_DECIMAL'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -82,7 +82,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="calculation_price_decimal" id="calculation_price_decimal"
-			       value="<?php echo CALCULATION_PRICE_DECIMAL; ?>">
+			       value="<?php echo $this->config->get('CALCULATION_PRICE_DECIMAL'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -157,7 +157,7 @@ defined('_JEXEC') or die;
 		</span>
 		</td>
 		<td>
-			<input type="text" name="price_replacement" id="price_replacement" value="<?php echo PRICE_REPLACE; ?>">
+			<input type="text" name="price_replacement" id="price_replacement" value="<?php echo $this->config->get('PRICE_REPLACE'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -168,7 +168,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="price_replacement_url" id="price_replacement_url"
-			       value="<?php echo PRICE_REPLACE_URL; ?>">
+			       value="<?php echo $this->config->get('PRICE_REPLACE_URL'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -179,7 +179,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="zero_price_replacement" id="zero_price_replacement"
-			       value="<?php echo ZERO_PRICE_REPLACE; ?>">
+			       value="<?php echo $this->config->get('ZERO_PRICE_REPLACE'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -190,7 +190,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="zero_price_replacement_url" id="zero_price_replacement_url"
-			       value="<?php echo ZERO_PRICE_REPLACE_URL; ?>">
+			       value="<?php echo $this->config->get('ZERO_PRICE_REPLACE_URL'); ?>">
 		</td>
 	</tr>
 </table>

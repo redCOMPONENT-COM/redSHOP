@@ -147,13 +147,13 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 	JRequest::setVar('view', $view);
 }
 
-RedshopConfig::script('SITE_URL', JURI::root());
-RedshopConfig::script('REDCURRENCY_SYMBOL', REDCURRENCY_SYMBOL);
-RedshopConfig::script('PRICE_SEPERATOR', PRICE_SEPERATOR);
-RedshopConfig::script('CURRENCY_SYMBOL_POSITION', CURRENCY_SYMBOL_POSITION);
-RedshopConfig::script('PRICE_DECIMAL', PRICE_DECIMAL);
-RedshopConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
-RedshopConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
+RedshopHelperConfig::script('SITE_URL', JURI::root());
+RedshopHelperConfig::script('REDCURRENCY_SYMBOL', REDCURRENCY_SYMBOL);
+RedshopHelperConfig::script('PRICE_SEPERATOR', PRICE_SEPERATOR);
+RedshopHelperConfig::script('CURRENCY_SYMBOL_POSITION', CURRENCY_SYMBOL_POSITION);
+RedshopHelperConfig::script('PRICE_DECIMAL', PRICE_DECIMAL);
+RedshopHelperConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
+RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
 JText::script('COM_REDSHOP_IS_REQUIRED');
 
 $document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');

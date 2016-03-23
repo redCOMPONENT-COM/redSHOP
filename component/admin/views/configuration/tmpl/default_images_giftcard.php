@@ -21,9 +21,9 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_REDSHOP_GIFTCARD_THUMB_WIDTH_HEIGHT');?></label></span></td>
 		<td>
 			<input type="text" name="giftcard_thumb_width" id="giftcard_thumb_width"
-			       value="<?php echo GIFTCARD_THUMB_WIDTH; ?>">
+			       value="<?php echo $this->config->get('GIFTCARD_THUMB_WIDTH'); ?>">
 			<input type="text" name="giftcard_thumb_height" id="giftcard_thumb_height"
-			       value="<?php echo GIFTCARD_THUMB_HEIGHT; ?>">
+			       value="<?php echo $this->config->get('GIFTCARD_THUMB_HEIGHT'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -33,9 +33,9 @@ defined('_JEXEC') or die;
 			<label for="name"><?php echo JText::_('COM_REDSHOP_GIFTCARD_LIST_THUMB_WIDTH_HEIGHT');?></label></span></td>
 		<td>
 			<input type="text" name="giftcard_list_thumb_width" id="giftcard_list_thumb_width"
-			       value="<?php echo GIFTCARD_LIST_THUMB_WIDTH; ?>">
+			       value="<?php echo $this->config->get('GIFTCARD_LIST_THUMB_WIDTH'); ?>">
 			<input type="text" name="giftcard_list_thumb_height" id="giftcard_list_thumb_height"
-			       value="<?php echo GIFTCARD_LIST_THUMB_HEIGHT; ?>">
+			       value="<?php echo $this->config->get('GIFTCARD_LIST_THUMB_HEIGHT'); ?>">
 		</td>
 	</tr>
 	<tr>
