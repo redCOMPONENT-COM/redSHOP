@@ -61,10 +61,10 @@ $order_functions = new order_functions;
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JText::_('COM_REDSHOP_RATING_TITLE'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('COM_REDSHOP_RATING_TITLE'); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_RATING_USERNAME', 'userid', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -103,7 +103,7 @@ $order_functions = new order_functions;
 				if ($row->userid)
 					$username = $order_functions->getUserFullname($row->userid);
 				else
-					$username = "";
+					$username = $row->username;
 
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -113,14 +113,14 @@ $order_functions = new order_functions;
 					<td width="1%">
 						<?php echo JHTML::_('grid.id', $i, $row->id); ?>
 					</td>
-					<td width="15%">
-						<a href="<?php echo $prodlink; ?>"><?php echo  $row->product_name; ?></a>
-					</td>
 					<td width="35%">
 						<a href="<?php echo $link; ?>"><?php echo $title = substr($row->title, 0, 50); ?></a>
 					</td>
 					<td width="15%">
-						<?php if ($username != "") echo $username; ?>
+						<a href="<?php echo $prodlink; ?>"><?php echo  $row->product_name; ?></a>
+					</td>
+					<td width="15%">
+						<?php echo $username; ?>
 					</td>
 					<td width="15%">
 						<a href="<?php echo $link; ?>"><?php echo $config->convertDateFormat($row->time);    ?></a>
