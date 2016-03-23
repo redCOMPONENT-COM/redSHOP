@@ -65,7 +65,7 @@ class RedshopControllerUser_detail extends RedshopController
 				
 				$input = JFactory::getApplication()->input;
 				
-				if (isset($input->post->getCmd('add_shipping')))
+				if ($input->post->get('add_shipping') !== null)
 				{
 					$link = RedshopHelperUtility::getSSLLink(
 						'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $row->users_info_id . '&cid[]=0'
