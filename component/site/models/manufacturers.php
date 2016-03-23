@@ -163,7 +163,20 @@ class RedshopModelManufacturers extends RedshopModel
 		$app = JFactory::getApplication();
 		$layout  = $app->input->getCmd('layout', '');
 		$params = $app->getParams('com_redshop');
-		$order_by = urldecode($app->input->getString('order_by', ''));
+		
+		if ($app->input->getString('order_by', '') != null)
+		{
+			$order_by = urldecode($app->input->getString('order_by', ''));
+			$app->setUserState('com_redshop.manufacturers.default.order_state', $order_by);
+		}
+		elseif ($app->getUserState('com_redshop.manufacturers.default.order_state') != null)
+		{
+			$order_by = $app->getUserState('com_redshop.manufacturers.default.order_state');
+		}
+		else
+		{
+			$order_by = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+		}
 
 		if ($layout == 'products')
 		{
