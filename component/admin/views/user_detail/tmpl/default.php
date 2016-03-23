@@ -62,7 +62,7 @@ if ($this->pagination->limitstart > 0)
 			if ((form.firstname.value) == "") {
 				alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME', true );?>");
 			} else if (form.lastname.value == "") {
-				alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTTNAME', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME', true );?>");
 			} else {
 				submitform(pressbutton);
 			}
