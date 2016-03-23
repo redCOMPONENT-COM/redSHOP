@@ -103,7 +103,7 @@ $order_functions = new order_functions;
 				if ($row->userid)
 					$username = $order_functions->getUserFullname($row->userid);
 				else
-					$username = "";
+					$username = $row->username;
 
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -120,7 +120,7 @@ $order_functions = new order_functions;
 						<a href="<?php echo $prodlink; ?>"><?php echo  $row->product_name; ?></a>
 					</td>
 					<td width="15%">
-						<?php if ($username != "") echo $username; ?>
+						<?php echo $username; ?>
 					</td>
 					<td width="15%">
 						<a href="<?php echo $link; ?>"><?php echo $config->convertDateFormat($row->time);    ?></a>
