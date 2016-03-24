@@ -56,7 +56,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
 		$I->waitForElement(['link' => $voucherCode], 60);
 		$I->click(\VoucherManagerPage::$voucherCheck);
 		$I->click("Edit");
@@ -64,7 +63,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click('Save & Close');
 		$I->waitForElement(['id' => 'system-message-container'], 60);
-		$I->scrollTo(['css' => '.alert-success']);
 		$I->see("Voucher details saved", '.alert-success');
 		$I->seeElement(['link' => $voucherNewCode]);
 	}
@@ -78,8 +76,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteVoucher($voucherCode)
 	{
-		// @todo: once REDSHOP-2845 will be fixed this needs to be reestablished. I need the Search button to delete the element
-		//$this->delete(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
+		$this->delete(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
 	}
 
 	/**
@@ -92,7 +89,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeVoucherState($voucherCode, $state = 'unpublish')
 	{
-		$this->changeState(new \VoucherManagerPage, $voucherCode, $state, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
+		$I = $this;
+		$I->changeState(new \VoucherManagerPage, $voucherCode, $state, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
 	}
 
 	/**
