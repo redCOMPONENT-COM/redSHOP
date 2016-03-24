@@ -22,7 +22,7 @@ class ManageCountryAdministratorCest
 		$this->faker = Faker\Factory::create();
 		$this->countryName = $this->faker->bothify('Testing Country ?##?');
 		$this->newCountryName = 'New ' . $this->countryName;
-		$this->randomTwoCode = $this->faker->numberBetween(9, 99);
+		$this->randomTwoCode = $this->faker->numberBetween(10, 99);
 		$this->randomThreeCode = $this->faker->numberBetween(99, 999);
 		$this->randomCountry = $this->faker->bothify('Country ?##?');
 	}
