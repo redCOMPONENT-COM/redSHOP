@@ -33,6 +33,17 @@ $filter = JRequest::getVar('filter');
 </script>
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
+	<table width="100%">
+		<tr>
+			<td valign="top" class="key">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+						placeholder="<?php echo JText::_('COM_REDSHOP_CURRENCY_FILTER'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				</div>
+			</td>
+		</tr>
+	</table>
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
