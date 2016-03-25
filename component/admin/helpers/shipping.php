@@ -1061,7 +1061,7 @@ class shipping
 		$and = '';
 		$q2  = '';
 
-		if (!empty($data) && $data['user_id'] > 0 || $data['users_info_id'] > 0)
+		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
 		{
 			if ('BT' == CALCULATE_VAT_ON)
 			{
