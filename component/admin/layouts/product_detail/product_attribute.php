@@ -198,7 +198,7 @@ if ($data->lists['attributes'])
 						   value="<?php echo $property->ordering; ?>"/>
 				</div>
 				<div class="span2">
-					<label class="checkbox inline"><?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
+					<label class="checkbox inline" name="<?php echo $propPref; ?>[preselected]"><?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
 						<input type="checkbox" value="1"
 							   name="<?php echo $propPref; ?>[default_sel]"
 							<?php echo ($property->setdefault_selected == 1) ? 'checked="checked"' : ''; ?> />
