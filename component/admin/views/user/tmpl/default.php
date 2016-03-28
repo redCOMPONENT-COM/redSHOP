@@ -139,7 +139,7 @@ $model         = $this->getModel('user');
 					</td>
 					<td align="center" class="nowrap">
 						<?php
-							$totalsales = RedshopHelperUser::totalSales($row->user_id);
+							$totalsales = RedshopHelperUser::totalSales($row->users_info_id);
 							echo $producthelper->getProductFormattedPrice($totalsales);
 						?>
 					</td>
