@@ -5247,12 +5247,12 @@ class producthelper
 
 						$chkListAttributes['id']       = $propertyid;
 						$chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
+					}
 
-						if ($selectedProperty)
-						{
-							$subdisplay          = true;
-							$defaultPropertyId[] = $selectedProperty;
-						}
+					if ($selectedProperty)
+					{
+						$subdisplay          = true;
+						$defaultPropertyId[] = $selectedProperty;
 					}
 
 					$lists['property_id'] = JHTML::_(
