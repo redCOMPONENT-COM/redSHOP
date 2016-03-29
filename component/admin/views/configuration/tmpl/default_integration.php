@@ -18,6 +18,10 @@ defined('_JEXEC') or die;
 					<?php echo $this->loadTemplate('analytics');?>
 				</fieldset>
 				<fieldset class="adminform">
+					<legend><?php echo JText::_('COM_REDSHOP_CONFIG_GLS'); ?></legend>
+					<?php echo $this->loadTemplate('gls');?>
+				</fieldset>
+				<fieldset class="adminform">
 					<legend><?php echo JText::_('COM_REDSHOP_CLICKATELL'); ?></legend>
 					<?php echo $this->loadTemplate('clicktell');?>
 				</fieldset>
