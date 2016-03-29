@@ -207,5 +207,23 @@
 				$(this).find('img').attr('src', 'components/com_redshop/assets/images/arrow_d.png');
 			}
 		});
+		
+		$('dd.tabs:visible').on('click', '.checkbox.inline[name*="[preselected]"] input', function () {
+			if ($(this).parents('.attribute_table').find('.checkbox.inline input[name*="[allow_multiple_selection]"]').is(':checked') == true) {
+				return true;
+			}
+			else {
+				if ($(this).parents('.attribute_table').find('.checkbox.inline[name*="[preselected]"] input:checked').length > 1) {
+					alert(Joomla.JText._('COM_REDSHOP_ALERT_PRESELECTED_CHECK'));
+					return false;
+				}
+			}
+		}).on('click', '.checkbox.inline input[name*="[allow_multiple_selection]"]', function () {
+			if ($(this).is(':checked') == false) {
+				$(this).parents('.attribute_table').find('.checkbox.inline[name*="[preselected]"] input').each(function(index, el) {
+					$(el).prop('checked', false);
+				});
+			}
+		});
 	});
 })(jQuery);
