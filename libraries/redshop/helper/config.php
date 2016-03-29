@@ -73,6 +73,16 @@ class RedshopHelperConfig
 	}
 
 	/**
+	 * Check config file is exist
+	 *
+	 * @return  boolean  Returns TRUE if the file or directory specified by filename exists; FALSE otherwise.
+	 */
+	public function isExists()
+	{
+		return file_exists($this->getConfigurationFilePath());
+	}
+
+	/**
 	 * Default loading is trying to use the associated table
 	 *
 	 * @return  self
