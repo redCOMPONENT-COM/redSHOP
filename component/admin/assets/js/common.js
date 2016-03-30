@@ -22,6 +22,7 @@ function updateGLSLocation(zipcode) {
 		}
 	};
 	xmlhttp1.open("GET", url1, true);
+	xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp1.send(null);
 }
 
@@ -601,6 +602,7 @@ function displayProductDetailInfo(unique_id, newprice) {
 					}
 				}
 				newxmlhttp.open("GET", newurl, true);
+				newxmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 				newxmlhttp.send(null);
 			}
 
@@ -609,6 +611,7 @@ function displayProductDetailInfo(unique_id, newprice) {
 		}
 	}
 	xmlhttp.open("GET", url, true);
+	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
 }
 
@@ -713,6 +716,7 @@ function changeOfflinePropertyDropdown(product_id, accessory_id, attribute_id, u
 		}
 	}
 	xmlhttp.open("GET", url, true);
+	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
 }
 
@@ -809,6 +813,7 @@ function calculateOfflineShipping() {
 			}
 		}
 		xmlhttp.open("GET", url, true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 }
@@ -923,6 +928,7 @@ function getQuotationDetail(unqid) {
 		}
 	}
 	xmlhttp.open("GET", url, true);
+	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
 }
 
@@ -1143,5 +1149,6 @@ function getStateList() {
 	}
 
 	xmlhttp.open("GET", url, true);
+	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
 }

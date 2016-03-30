@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,54 +66,20 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 
 		reset($data);
 
-		$cssClassSuffix = ' btn-group redRadioGroup';
-
-		if (is_array($attribs))
-		{
-			$cssClassSuffix = (isset($attribs['cssClassSuffix'])) ? $attribs['cssClassSuffix'] : ' btn-group redRadioGroup';
-
-			$attribs = JArrayHelper::toString($attribs);
-		}
-
-		$id_text = $idtag ? $idtag : $name;
-
-		$html = '<fieldset class="' . $type . $cssClassSuffix . '">';
-
-		foreach ($data as $i => $obj)
-		{
-			$k = $obj->$optKey;
-			$t = $translate ? JText::_($obj->$optText) : $obj->$optText;
-			$id = (isset($obj->id) ? $obj->id : null);
-
-			$extra = '';
-			$id = $id ? $obj->id : $id_text . $k;
-
-			if (is_array($selected))
-			{
-				foreach ($selected as $val)
-				{
-					$k2 = is_object($val) ? $val->$optKey : $val;
-
-					if ($k == $k2)
-					{
-						$extra .= ' selected="selected" ';
-						break;
-					}
-				}
-			}
-			else
-			{
-				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
-			}
-
-			$html .= '<input type="' . $type . '" id="' . $id . '" name="' . $name . '" value="'
-				. $k . '" ' . $extra . $attribs . ' />';
-
-			$html .= '<label class="' . $type . '" for="' . $id . '"' . ' id="' . $id . '-lbl" >'
-				. $t . '</label>';
-		}
-
-		$html .= '</fieldset>';
+		$html = RedshopLayoutHelper::render(
+			'html.list',
+			array(
+				'type'      => $type,
+				'data'      => $data,
+				'name'      => $name,
+				'attribs'   => $attribs,
+				'optKey'    => $optKey,
+				'optText'   => $optText,
+				'selected'  => $selected,
+				'idtag'     => $idtag,
+				'translate' => $translate
+			)
+		);
 
 		return $html;
 	}

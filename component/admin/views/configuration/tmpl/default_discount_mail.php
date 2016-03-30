@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -79,7 +79,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="discoupon_duration"
 		           id="discoupon_duration"
 		           value="<?php
-		           echo DISCOUPON_DURATION;
+		           echo $this->config->get('DISCOUPON_DURATION');
 		           ?>">
 		</td>
 	</tr>
@@ -117,7 +117,7 @@ defined('_JEXEC') or die;
 			?></label></td>
 		<td><input type="text" name="discoupon_value" id="discoupon_value"
 		           value="<?php
-		           echo DISCOUPON_VALUE;
+		           echo $this->config->get('DISCOUPON_VALUE');
 		           ?>">
 		</td>
 	</tr>

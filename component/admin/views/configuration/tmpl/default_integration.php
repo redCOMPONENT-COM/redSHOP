@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -16,6 +16,10 @@ defined('_JEXEC') or die;
 				<fieldset class="adminform">
 					<legend><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS'); ?></legend>
 					<?php echo $this->loadTemplate('analytics');?>
+				</fieldset>
+				<fieldset class="adminform">
+					<legend><?php echo JText::_('COM_REDSHOP_CONFIG_GLS'); ?></legend>
+					<?php echo $this->loadTemplate('gls');?>
 				</fieldset>
 				<fieldset class="adminform">
 					<legend><?php echo JText::_('COM_REDSHOP_CLICKATELL'); ?></legend>

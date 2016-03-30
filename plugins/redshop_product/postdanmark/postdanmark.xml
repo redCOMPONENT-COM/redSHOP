@@ -2,9 +2,9 @@
 <extension version="2.5" type="plugin" group="redshop_product" method="upgrade">
 	<name>PLG_REDSHOP_PRODUCT_POSTDANMARK</name>
 	<author>redCOMPONENT.com</author>
-	<version>1.0.1</version>
+	<version>1.5</version>
     <redshop>1.5</redshop>
-	<creationDate>September 2014</creationDate>
+	<creationDate>March 2016</creationDate>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
 	<authorEmail>email@redcomponent.com</authorEmail>

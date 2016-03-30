@@ -253,6 +253,7 @@ function getShippingrate()
 		}
 	};
 	xmlhttp.open("GET",url,true);
+	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
 }
 
@@ -604,6 +605,7 @@ function searchByPhone()
 		}
 		var linktocontroller = "index.php?option=com_redshop&view=registration&task=searchUserdetailByPhone&tmpl=component&phone="+value;
 		xmlhttp.open("GET",linktocontroller,true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 }
@@ -692,6 +694,7 @@ function updateGLSLocation(zipcode)
 		}
 	};
 	xmlhttp1.open("GET",url1,true);
+	xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp1.send(null);
 }
 function displaytextarea(obj)
@@ -775,10 +778,11 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 
-		var params="";
+		var params=[];
 		var users_info_id=0;
 		var shipping_box_id = 0;
 		var shipping_rate_id="";
@@ -848,24 +852,22 @@ function onestepCheckoutProcess(objectname,classname)
 			Itemid = document.getElementById('onestepItemid').value;
 		}
 
-		params = params + "option=com_redshop&view=checkout&task=oneStepCheckoutProcess";
-		params = params + "&users_info_id=" + users_info_id;
-		params = params + "&shipping_box_id=" + shipping_box_id;
-		params = params + "&shipping_rate_id=" + shipping_rate_id;
-		params = params + "&payment_method_id=" + payment_method_id;
-		params = params + "&rate_template_id=" + rate_template_id;
-		params = params + "&cart_template_id=" + cart_template_id;
-		params = params + "&customer_note=" + unescape(customer_note);
-		params = params + "&requisition_number=" + requisition_number;
-		params = params + "&rs_customer_message_ta=" + rs_customer_message_ta;
-		params = params + "&txt_referral_code=" + txt_referral_code;
-		params = params + "&objectname=" + objectname;
-		params = params + "&Itemid=" + Itemid;
-		params = params + "&sid=" + Math.random();
+		params.push('option=com_redshop&view=checkout&task=oneStepCheckoutProcess');
+		params.push("users_info_id=" + users_info_id);
+		params.push("shipping_box_id=" + shipping_box_id);
+		params.push("shipping_rate_id=" + shipping_rate_id);
+		params.push("payment_method_id=" + payment_method_id);
+		params.push("rate_template_id=" + rate_template_id);
+		params.push("cart_template_id=" + cart_template_id);
+		params.push("customer_note=" + unescape(customer_note));
+		params.push("requisition_number=" + requisition_number);
+		params.push("rs_customer_message_ta=" + rs_customer_message_ta);
+		params.push("txt_referral_code=" + txt_referral_code);
+		params.push("objectname=" + objectname);
+		params.push("Itemid=" + Itemid);
+		params.push("sid=" + Math.random());
 
-		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&';
-		url = url + params;
-//		alert(url);
+		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component';
 
 		if(document.getElementById('divShippingRate') && (objectname=="users_info_id" || objectname=="shipping_box_id"))
 		{
@@ -914,8 +916,9 @@ function onestepCheckoutProcess(objectname,classname)
 		else
 			xmlhttp.open("POST", url, false);
 
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.send(params);
+		xmlhttp.send(params.join('&'));
 	}
 
 	if(document.getElementById('extrafield_payment'))
@@ -947,6 +950,7 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 	}
@@ -973,6 +977,7 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 	}
@@ -1015,6 +1020,7 @@ function autoFillCity(str,isShipping)
 		}
 		var linktocontroller = redSHOP.RSConfig._('SITE_URL')+"index.php?option=com_redshop&view=category&task=autofillcityname&tmpl=component&q="+str;
 		xmlhttp.open("GET",linktocontroller,true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 }

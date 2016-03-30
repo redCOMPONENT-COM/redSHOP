@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -61,7 +61,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="split_delivery_cost" id="split_delivery_cost"
-							       value="<?php echo SPLIT_DELIVERY_COST; ?>">
+							       value="<?php echo $this->config->get('SPLIT_DELIVERY_COST'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -72,7 +72,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="time_diff_split_delivery" id="time_diff_split_delivery"
-							       value="<?php echo TIME_DIFF_SPLIT_DELIVERY; ?>">
+							       value="<?php echo $this->config->get('TIME_DIFF_SPLIT_DELIVERY'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -83,7 +83,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="delivery_rule" id="delivery_rule"
-							       value="<?php echo DELIVERY_RULE; ?>">
+							       value="<?php echo $this->config->get('DELIVERY_RULE'); ?>">
 						</td>
 					</tr>
 
