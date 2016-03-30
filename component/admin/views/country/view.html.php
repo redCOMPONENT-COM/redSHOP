@@ -28,7 +28,8 @@ class RedshopViewCountry extends RedshopView
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
-
+		
+		$state		  = $this->get('State');
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'country_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
@@ -43,6 +44,7 @@ class RedshopViewCountry extends RedshopView
 		$this->fields       = $fields;
 		$this->lists        = $lists;
 		$this->request_url  = $uri->toString();
+		$this->filter       = $state->get('filter');
 
 		parent::display($tpl);
 	}
