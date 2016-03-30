@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,8 +60,17 @@ class RedshopControllerUser_detail extends RedshopController
 			if ($apply == 1)
 			{
 				$link = RedshopHelperUtility::getSSLLink(
-						'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
+					'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
+				);
+				
+				$input = JFactory::getApplication()->input;
+				
+				if ($input->post->get('add_shipping') != null)
+				{
+					$link = RedshopHelperUtility::getSSLLink(
+						'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $row->users_info_id . '&cid[]=0'
 					);
+				}
 			}
 			else
 			{

@@ -2,11 +2,11 @@
 <extension version="2.5" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_REDSHOP_NAME</name>
 	<author>redCOMPONENT</author>
-	<creationDate>February 2015</creationDate>
-	<copyright>Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.</copyright>
+	<creationDate>28 March 2016</creationDate>
+	<copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>
-	<version>1.5.0.1</version>
+	<version>1.5.0.2</version>
 	<redshop>1.5</redshop>
 	<description>PLG_SYSTEM_REDSHOP_DESCRIPTION</description>
 

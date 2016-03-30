@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -253,7 +253,7 @@ class RedshopControllerOrder extends RedshopController
 		{
 			$billing_info = $order_function->getOrderBillingUserInfo($data [$i]->order_id);
 
-			$details = explode("|", $shipping_helper->decryptShipping(str_replace(" ", "+", $data[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
 
 			echo $data [$i]->order_id . ",";
 			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";

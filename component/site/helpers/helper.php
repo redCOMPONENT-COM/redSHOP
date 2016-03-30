@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -912,7 +912,7 @@ class redhelper
 		$TemplateDetail    = $redTemplate->getTemplate("clicktell_sms_message");
 
 		$order_shipping_class = 0;
-		$order_shipping       = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
+		$order_shipping       = RedshopShippingRate::decrypt($orderData->ship_method_id);
 
 		if (isset($order_shipping[0]))
 		{
@@ -1007,7 +1007,7 @@ class redhelper
 	{
 		$shippinghelper  = new shipping;
 		$shipping_method = '';
-		$details         = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderData->ship_method_id)));
+		$details         = RedshopShippingRate::decrypt($orderData->ship_method_id);
 
 		if (count($details) > 1)
 		{

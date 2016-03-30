@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -178,7 +178,7 @@ class order_functions
 		$billingInfo               = $this->getOrderBillingUserInfo($order_id);
 		$shippingInfo              = $this->getOrderShippingUserInfo($order_id);
 		$shippinghelper            = new shipping;
-		$shippingRateDecryptDetail = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($order_details->ship_method_id);
 
 		// Get Shipping Delivery Type
 		$shippingDeliveryType = 1;
@@ -1994,7 +1994,7 @@ class order_functions
 			$search[] = "{order_detail_link}";
 			$replace[] = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
 
-			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderdetail->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($orderdetail->ship_method_id);
 
 			if (count($details) <= 1)
 			{
@@ -2137,7 +2137,7 @@ class order_functions
 		{
 			$shippinghelper = new shipping;
 			$order_details  = $this->getOrderDetails($order_id);
-			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+			$details        = RedshopShippingRate::decrypt($order_details->ship_method_id);
 
 			$shippingParams = new JRegistry(
 								JPluginHelper::getPlugin(

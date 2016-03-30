@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -250,7 +250,7 @@ class RedshopModelOrder extends RedshopModel
 
 		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
-			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($ordersInfo[$i]->ship_method_id);
 
 			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
@@ -300,7 +300,7 @@ class RedshopModelOrder extends RedshopModel
 					$userDetail = array(
 						$shippingDetails->firstname . ' ' . $shippingDetails->lastname,
 						substr($ordersInfo[$i]->customer_note, 0, 29),		// GLS only support max 29 characters
-						'36515',
+						Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
 						$billingDetails->user_email,
 						$userphoneArr[1]
 					);
@@ -343,7 +343,7 @@ class RedshopModelOrder extends RedshopModel
 
 		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
-			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($ordersInfo[$i]->ship_method_id);
 
 			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{

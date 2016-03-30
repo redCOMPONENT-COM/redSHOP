@@ -18,6 +18,7 @@ function showUserDetail() {
 
     xmlhttp.onreadystatechange = stateChanged;
     xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlhttp.send(null);
 }
 
@@ -41,6 +42,7 @@ function showquotationUserDetail() {
 
     xmlhttp.onreadystatechange = stateChanged;
     xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlhttp.send(null);
 }
 
@@ -61,6 +63,7 @@ function showGuestDetail() {
 
     xmlhttp.onreadystatechange = stateChanged;
     xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlhttp.send(null);
 }
 
@@ -116,6 +119,7 @@ function getShippinginfo(ship_id, is_company) {
         linktocontroller = linktocontroller + '&shippingadd_id=' + ship_id + '&is_company=' + is_company;
 
         xmlhttp.open("GET", linktocontroller, true);
+        xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         xmlhttp.send(null);
     }
 }

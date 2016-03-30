@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -72,9 +72,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 		<label for="name"><?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE_HEIGHT_WIDTH_TWO');?></label></span></td>
 					<td>
 						<input type="text" name="product_main_image_2" id="product_main_image_2"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_2; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_2'); ?>">
 						<input type="text" name="product_main_image_height_2" id="product_main_image_height_2"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_HEIGHT_2; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_HEIGHT_2'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -85,9 +85,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_main_image_3" id="product_main_image_3"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_3; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_3'); ?>">
 						<input type="text" name="product_main_image_height_3" id="product_main_image_height_3"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_HEIGHT_3; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_HEIGHT_3'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -117,10 +117,10 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_additional_image_2" id="product_additional_image_2"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_2; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_2'); ?>">
 						<input type="text" name="product_additional_image_height_2"
 						       id="product_additional_image_height_2"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -132,10 +132,10 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_additional_image_3" id="product_additional_image_3"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_3; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_3'); ?>">
 						<input type="text" name="product_additional_image_height_3"
 						       id="product_additional_image_height_3"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3'); ?>">
 					</td>
 				</tr>
 				<tr>

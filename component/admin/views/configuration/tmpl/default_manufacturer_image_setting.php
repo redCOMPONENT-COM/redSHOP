@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -39,9 +39,9 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_REDSHOP_MANUFACTURER_THUMB_WIDTH_HEIGHT');?>
 		</label></span></td>
 			<td><input type="text" name="manufacturer_thumb_width" id="manufacturer_thumb_width"
-			           value="<?php echo MANUFACTURER_THUMB_WIDTH; ?>">
+			           value="<?php echo $this->config->get('MANUFACTURER_THUMB_WIDTH'); ?>">
 				<input type="text" name="manufacturer_thumb_height" id="manufacturer_thumb_height"
-				       value="<?php echo MANUFACTURER_THUMB_HEIGHT; ?>">
+				       value="<?php echo $this->config->get('MANUFACTURER_THUMB_HEIGHT'); ?>">
 			</td>
 		</tr>
 		<tr>
@@ -53,9 +53,9 @@ defined('_JEXEC') or die;
 			?></span></td>
 			<td>
 				<input type="text" name="manufacturer_product_thumb_width" id="manufacturer_product_thumb_width"
-				       value="<?php echo MANUFACTURER_PRODUCT_THUMB_WIDTH; ?>">
+				       value="<?php echo $this->config->get('MANUFACTURER_PRODUCT_THUMB_WIDTH'); ?>">
 				<input type="text" name="manufacturer_product_thumb_height" id="manufacturer_product_thumb_height"
-				       value="<?php echo MANUFACTURER_PRODUCT_THUMB_HEIGHT; ?>">
+				       value="<?php echo $this->config->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT'); ?>">
 			</td>
 		</tr>
 		<tr>
@@ -65,9 +65,9 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_REDSHOP_MANUFACTURER_PRODUCT_THUMB_WIDTH_HEIGHT_TWO');?></span></td>
 			<td>
 				<input type="text" name="manufacturer_product_thumb_width_2" id="manufacturer_product_thumb_width_2"
-				       value="<?php echo MANUFACTURER_PRODUCT_THUMB_WIDTH_2; ?>">
+				       value="<?php echo $this->config->get('MANUFACTURER_PRODUCT_THUMB_WIDTH_2'); ?>">
 				<input type="text" name="manufacturer_product_thumb_height_2" id="manufacturer_product_thumb_height_2"
-				       value="<?php echo MANUFACTURER_PRODUCT_THUMB_HEIGHT_2; ?>">
+				       value="<?php echo $this->config->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT_2'); ?>">
 			</td>
 		</tr>
 		<tr>
@@ -79,9 +79,9 @@ defined('_JEXEC') or die;
 			</td>
 			<td>
 				<input type="text" name="manufacturer_product_thumb_width_3" id="manufacturer_product_thumb_width_3"
-				       value="<?php echo MANUFACTURER_PRODUCT_THUMB_WIDTH_3; ?>">
+				       value="<?php echo $this->config->get('MANUFACTURER_PRODUCT_THUMB_WIDTH_3'); ?>">
 				<input type="text" name="manufacturer_product_thumb_height_3" id="manufacturer_product_thumb_height_3"
-				       value="<?php echo MANUFACTURER_PRODUCT_THUMB_HEIGHT_3; ?>">
+				       value="<?php echo $this->config->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT_3'); ?>">
 			</td>
 		</tr>
 		<tr>

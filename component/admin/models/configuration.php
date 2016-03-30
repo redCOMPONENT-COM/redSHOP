@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -450,6 +450,22 @@ class RedshopModelConfiguration extends RedshopModel
 			return false;
 		}
 
+		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $this->_configdata);
+
+		// Temporary new way to save config
+		$config = Redshop::getConfig();
+
+		try
+		{
+			$config->save(new JRegistry($this->_configdata));
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Write data to file
 		if (!$this->configurationWrite())
 		{
@@ -519,6 +535,37 @@ class RedshopModelConfiguration extends RedshopModel
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Method to get the configuration data.
+	 *
+	 * This method will load the global configuration data straight from
+	 * RedshopConfig. If configuration data has been saved in the session, that
+	 * data will be merged into the original data, overwriting it.
+	 *
+	 * @return	object  An object containg all redshop config data.
+	 *
+	 * @since	1.6
+	 */
+	public function getData()
+	{
+		// Get the config data.
+		$config = Redshop::getConfig();
+		$data   = $config->toArray();
+
+		// Check for data in the session.
+		$temp = JFactory::getApplication()->getUserState('com_redshop.config.global.data');
+
+		// Merge in the session data.
+		if (!empty($temp))
+		{
+			$data = array_merge($data, $temp);
+		}
+
+		$object = new JRegistry($data);
+
+		return $object;
 	}
 
 	/*

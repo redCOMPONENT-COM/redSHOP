@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -1013,7 +1013,7 @@ $session->set('cart', $cart); ?>
 							<?php echo $this->loadTemplate('shipping'); ?>
 						</td>
 					</tr>
-					<?php $details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $this->detail->ship_method_id)));
+					<?php $details = RedshopShippingRate::decrypt($this->detail->ship_method_id);
 					if (count($details) <= 1)
 					{
 						$details = explode("|", $row->ship_method_id);

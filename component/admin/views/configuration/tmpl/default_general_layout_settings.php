@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -47,7 +47,7 @@ $url = $uri->root();
 		</td>
 		<td>
 			<input type="text" name="manufacturer_title_max_chars" id="manufacturer_title_max_chars"
-			       value="<?php echo MANUFACTURER_TITLE_MAX_CHARS; ?>">
+			       value="<?php echo $this->config->get('MANUFACTURER_TITLE_MAX_CHARS'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -58,7 +58,7 @@ $url = $uri->root();
 		</td>
 		<td>
 			<input type="text" name="manufacturer_title_end_suffix" id="manufacturer_title_end_suffix"
-			       value="<?php echo MANUFACTURER_TITLE_END_SUFFIX; ?>">
+			       value="<?php echo $this->config->get('MANUFACTURER_TITLE_END_SUFFIX'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -73,7 +73,7 @@ $url = $uri->root();
 		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_LBL');?></label></span>
 		</td>
 		<td>
-			<textarea name="media_allowed_mime_type" cols="5" rows="5"><?php echo MEDIA_ALLOWED_MIME_TYPE; ?></textarea>
+			<textarea name="media_allowed_mime_type" cols="5" rows="5"><?php echo $this->config->get('MEDIA_ALLOWED_MIME_TYPE'); ?></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -83,7 +83,7 @@ $url = $uri->root();
 		<label for="name"><?php echo JText::_('COM_REDSHOP_IMAGE_QUALITY_LBL');?></label></span>
 		</td>
 		<td><input type="text" name="image_quality_output" id="image_quality_output"
-		           value="<?php echo IMAGE_QUALITY_OUTPUT; ?>"/>
+		           value="<?php echo $this->config->get('IMAGE_QUALITY_OUTPUT'); ?>"/>
 		</td>
 	</tr>
 
