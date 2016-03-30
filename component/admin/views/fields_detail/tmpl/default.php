@@ -120,7 +120,6 @@ $url = $uri->root();
 
 	var manageFieldOptions = function(type){
 		type = parseInt(type);
-
 		jQuery('#field_data').hide();
 
 		if (jQuery.inArray(type, [3,11,13,6,4,5]) >= 0)
@@ -129,13 +128,13 @@ $url = $uri->root();
 
 			if (jQuery.inArray(type, [11,13]) >= 0)
 			{
-				jQuery('#divfieldText').hide();
-				jQuery('#divfieldFile').show();
+				jQuery('.divfieldText').hide();
+				jQuery('.divfieldFile').show();
 			}
 			else
 			{
-				jQuery('#divfieldText').show();
-				jQuery('#divfieldFile').hide();
+				jQuery('.divfieldText').show();
+				jQuery('.divfieldFile').hide();
 			}
 		}
 	};
@@ -338,7 +337,7 @@ $url = $uri->root();
 			</table>
 		</fieldset>
 	</div>
-	<div class="span6 col50" id="field_data">
+	<div class="span6 col50" id="field_data" class="hide">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_VALUE'); ?></legend>
 			<?php echo JText::_('COM_REDSHOP_USE_THE_TABLE_BELOW_TO_ADD_NEW_VALUES'); ?>
@@ -352,70 +351,77 @@ $url = $uri->root();
 					<th><?php echo JText::_('COM_REDSHOP_OPTION_VALUE'); ?></th>
 					<th>&nbsp;</th>
 				</tr>
-				<?php    if (count($this->lists['extra_data']) > 0)
-				{
-					for ($k = 0; $k < count($this->lists['extra_data']); $k++)
-					{
-						?>
+				<?php if (count($this->lists['extra_data']) > 0) : ?>
+					<?php for ($k = 0; $k < count($this->lists['extra_data']); $k++) : ?>
 						<tr>
 							<td>
-								<div id="divfieldText">
-									<input
-										type="text"
-										name="extra_name[]"
-									    value="<?php echo htmlentities($this->lists['extra_data'][$k]->field_name);?>"
-									    id="extra_name[]"
-									>
-								</div>
-								<div id="divfieldFile">
-									<input
-										type="file"
-										name="extra_name_file[]"
-								        id="extra_name_file[]">
-								</div>
+
+								<input
+									type="text"
+									class="divfieldText hide"
+									name="extra_name[]"
+									value="<?php echo htmlentities($this->lists['extra_data'][$k]->field_name);?>"
+								/>
+								<input
+									type="file"
+									class="divfieldFile hide pull-left"
+									name="extra_name_file[]"
+								/>
 							</td>
 							<td>
 								<input
-									type="text" name="extra_value[]"
-							        value="<?php echo $this->lists['extra_data'][$k]->field_value; ?>"
-							        id="extra_value[]"
-							    >
+									type="text"
+									name="extra_value[]"
+									value="<?php echo $this->lists['extra_data'][$k]->field_value; ?>"
+								/>
 								<input
 									type="hidden"
 								    value="<?php echo htmlentities($this->lists['extra_data'][$k]->value_id); ?>"
-								    name="value_id[]" id="value_id[]"
-								>
+								    name="value_id[]"
+								/>
 								<input value="Delete" onclick="deleteRow(this)" class="button" type="button"/>
 							</td>
 							<td>
-								<?php    if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '')
-								{ ?>
-									<img
-										src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"/>
-								<?php }?>
+							<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
+								<img
+									width="100"
+									height="100"
+									class="img-polaroid"
+									src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"
+								/>
+							<?php endif; ?>
 							</td>
 						</tr>
-					<?php
-					}
-				}
-				else
-				{
-					$k = 1;    ?>
+					<?php endfor; ?>
+				<?php else: ?>
+				<?php $k = 1; ?>
 					<tr>
 						<td>
-							<div id="divfieldText" style="<?php echo $style1; ?>"><input type="text" name="extra_name[]"
-							                                                             value="field_temp_opt_1"
-							                                                             id="extra_name[]"></div>
-							<div id="divfieldFile" style="<?php echo $style2; ?>"><input type="file"
-							                                                             name="extra_name_file[]"
-							                                                             id="extra_name_file[]"></div>
+							<input
+								type="text"
+								class="divfieldText hide"
+								name="extra_name[]"
+								value="field_temp_opt_1"
+							/>
+							<input
+								type="file"
+								class="divfieldFile hide"
+								name="extra_name_file[]"
+							/>
 						</td>
-						<td><input type="text" name="extra_value[]" id="extra_value[]"><input type="hidden"
-						                                                                      name="value_id[]"
-						                                                                      id="value_id[]"></td>
+						<td>
+							<input
+								type="text"
+								name="extra_value[]"
+							/>
+							<input
+								type="hidden"
+								name="value_id[]"
+							/>
+						</td>
 						<td>&nbsp;</td>
 					</tr>
-				<?php }    ?>
+				<?php endif; ?>
 			</table>
 		</fieldset>
 	</div>
@@ -440,8 +446,6 @@ $url = $uri->root();
 		</table>
 	</fieldset>
 </div>
-
-
 <div class="clr"></div>
 <input type="hidden" value="<?php echo $k; ?>" name="total_extra" id="total_extra">
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->field_id; ?>"/>
