@@ -49,7 +49,7 @@ class JFormFieldRedshopCategory extends JFormFieldList
 
 		if (!$this->multiple)
 		{
-			$options[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
+			$options[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
 		}
 
 		if (!self::$cache)
