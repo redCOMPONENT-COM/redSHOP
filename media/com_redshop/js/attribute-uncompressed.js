@@ -496,47 +496,29 @@ function display_image_add_out(img, product_id)
 
 function collectAttributes(product_id, accessory_id, relatedprd_id)
 {
-	var prefix;
-	var attrArr = new Array();
-	var allpropArr = new Array();
-	var tolallsubpropArr = new Array();
-	var mainprice = 0;
-	var price_without_vat = 0;
-	var old_price = 0;
-	var isStock = true;
-	var setPropEqual = true;
-	var setSubpropEqual = true;
-	var acc_error = "";
-	var subacc_error = "";
-	var layout = "";
+	var prefix,
+		attrArr           = new Array(),
+		allpropArr        = new Array(),
+		tolallsubpropArr  = new Array(),
+		mainprice         = 0,
+		price_without_vat = 0,
+		old_price         = 0,
+		isStock           = true,
+		setPropEqual      = true,
+		setSubpropEqual   = true,
+		acc_error         = "",
+		subacc_error      = "",
+		layout            = jQuery('#isAjaxBoxOpen').val(),
+		preorder          = jQuery('#product_preorder' + product_id).val(),
+		product_stock     = jQuery('#product_stock' + product_id).val(),
+		preorder_stock    = jQuery('#preorder_product_stock' + product_id).val(),
+		preprefix         = "",
+		myaccQuan         = 1;
 
-	var myaccQuan = 1;
-	if (document.getElementById("accquantity_" + product_id + "_" + accessory_id))
+	if (jQuery("#accquantity_" + product_id + "_" + accessory_id).length)
 	{
-		myaccQuan = document.getElementById("accquantity_" + product_id + "_" + accessory_id).value;
+		myaccQuan = jQuery("#accquantity_" + product_id + "_" + accessory_id).val();
 	}
-
-	if (document.getElementById('product_preorder' + product_id))
-	{
-		var preorder = document.getElementById('product_preorder' + product_id).value;
-	}
-
-	if (document.getElementById('product_stock' + product_id))
-	{
-		var product_stock = document.getElementById('product_stock' + product_id).value;
-	}
-
-	if (document.getElementById('preorder_product_stock' + product_id))
-	{
-		var preorder_stock = document.getElementById('preorder_product_stock' + product_id).value;
-	}
-
-	if (document.getElementById('isAjaxBoxOpen'))
-	{
-		layout = document.getElementById('isAjaxBoxOpen').value;
-	}
-
-	var preprefix = "";
 
 	if (layout == "viewajaxdetail")
 	{
@@ -545,64 +527,28 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 
 	if (accessory_id != 0)
 	{
-		prefix = preprefix + "acc_";
-
-		if (document.getElementById('accessory_id_' + product_id + '_' + accessory_id))
-		{
-			mainprice = parseFloat(document.getElementById('accessory_id_' + product_id + '_' + accessory_id).getAttribute('accessoryprice'));
-			price_without_vat = parseFloat(document.getElementById('accessory_id_' + product_id + '_' + accessory_id).getAttribute('accessorywithoutvatprice'));
-		}
-
-		old_price = mainprice;
-	}
-	else if (relatedprd_id != 0)
-	{
-		prefix = preprefix + "rel_";
-
-		if (document.getElementById('main_price' + product_id))
-		{
-			mainprice = parseFloat(document.getElementById('main_price' + product_id).value);
-		}
-
-		if (document.getElementById('product_price_excluding_price' + product_id))
-		{
-			price_without_vat = parseFloat(document.getElementById('product_price_excluding_price' + product_id).value);
-		}
-		else if (document.getElementById('product_price_no_vat' + product_id))
-		{
-			price_without_vat = parseFloat(document.getElementById('product_price_no_vat' + product_id).value);
-		}
-
-		if (document.getElementById('product_old_price' + product_id))
-		{
-			old_price = parseFloat(document.getElementById('product_old_price' + product_id).value);
-		}
+		prefix            = preprefix + "acc_";
+		mainprice         = parseFloat(jQuery('#accessory_id_' + product_id + '_' + accessory_id).attr('accessoryprice'));
+		price_without_vat = parseFloat(jQuery('#accessory_id_' + product_id + '_' + accessory_id).attr('accessorywithoutvatprice'));
+		old_price         = mainprice;
 	}
 	else
 	{
-		prefix = preprefix + "prd_";
+		prefix    = (relatedprd_id != 0) ? preprefix + "rel_" : preprefix + "prd_";
+		mainprice = parseFloat(jQuery('#main_price' + product_id).val());
+		old_price = parseFloat(jQuery('#product_old_price' + product_id).val());
 
-		if (document.getElementById('main_price' + product_id))
+		if (jQuery('#product_price_excluding_price' + product_id).length)
 		{
-			mainprice = parseFloat(document.getElementById('main_price' + product_id).value);
+			price_without_vat = parseFloat(jQuery('#product_price_excluding_price' + product_id).val());
 		}
-
-		if (document.getElementById('product_price_excluding_price' + product_id))
+		else if (jQuery('#product_price_no_vat' + product_id).length)
 		{
-			price_without_vat = parseFloat(document.getElementById('product_price_excluding_price' + product_id).value);
-		}
-		else if (document.getElementById('product_price_no_vat' + product_id))
-		{
-			price_without_vat = parseFloat(document.getElementById('product_price_no_vat' + product_id).value);
-		}
-
-		if (document.getElementById('product_old_price' + product_id))
-		{
-			old_price = parseFloat(document.getElementById('product_old_price' + product_id).value);
+			price_without_vat = parseFloat(jQuery('#product_price_no_vat' + product_id).val());
 		}
 	}
 
-	var commonid = prefix + product_id + '_' + accessory_id;
+	var commonid      = prefix + product_id + '_' + accessory_id;
 	var commonstockid = prefix + product_id;
 
 	if (document.getElementsByName('attribute_id_' + commonid + '[]'))
@@ -622,15 +568,8 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 
 	if (attrArr.length <= 0 && redSHOP.RSConfig._('AJAX_CART_BOX') == 1)
 	{
-		if (document.getElementById("requiedAttribute"))
-		{
-			acc_error = document.getElementById("requiedAttribute").value;
-		}
-
-		if (document.getElementById("requiedProperty"))
-		{
-			subacc_error = document.getElementById("requiedProperty").value;
-		}
+		acc_error = jQuery('#requiedAttribute').val();
+		subacc_error = jQuery('#requiedProperty').val();
 	}
 
 	for (var i = 0; i < attrArr.length; i++)
@@ -708,10 +647,16 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 				var stockElementId = 'property_id_' + commonid + '_stock' + property_id;
 				var preOrderstockElementId = 'property_id_' + commonid + '_preorderstock' + property_id;
 
-				// removing " redSHOP.RSConfig._('USE_STOCKROOM')==1 && " from below condition
-				if (document.getElementById(stockElementId) && document.getElementById(preOrderstockElementId) && isStock && accessory_id == 0)
+				if (jQuery('#' + stockElementId).length > 0
+					&& jQuery('#' + preOrderstockElementId).length > 0
+					&& isStock && accessory_id == 0)
 				{
-					isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, document.getElementById(preOrderstockElementId).value);
+					isStock = checkProductStockRoom(
+								jQuery('#' + stockElementId).val(),
+								commonstockid,
+								preorder,
+								jQuery('#' + preOrderstockElementId).val()
+							);
 				}
 
 				var subcommonid = prefix + product_id + '_' + accessory_id + '_' + attribute_id + '_' + property_id;
@@ -780,70 +725,24 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 
 	if (accessory_id != 0)
 	{
-		if (document.getElementById("acc_attribute_data"))
-		{
-			document.getElementById("acc_attribute_data").value = attrArr.join("##");
-		}
-
-		if (document.getElementById("acc_property_data"))
-		{
-			document.getElementById("acc_property_data").value = allpropArr.join("##");
-		}
-
-		if (document.getElementById("acc_subproperty_data")) {
-			document.getElementById("acc_subproperty_data").value = tolallsubpropArr.join("##");
-		}
-
-		if (document.getElementById("accessory_price"))
-		{
-			document.getElementById("accessory_price").value = mainprice;
-		}
-
-		if (document.getElementById("accessory_price_withoutvat"))
-		{
-			document.getElementById("accessory_price_withoutvat").value = price_without_vat;
-		}
+		jQuery('#acc_attribute_data').val(attrArr.join("##"));
+		jQuery('#acc_property_data').val(allpropArr.join("##"));
+		jQuery('#acc_subproperty_data').val(tolallsubpropArr.join("##"));
+		jQuery('#accessory_price').val(mainprice);
+		jQuery('#accessory_price_withoutvat').val(price_without_vat);
 	}
 	else
 	{
-		if (document.getElementById("attribute_data"))
-		{
-			document.getElementById("attribute_data").value = attrArr.join("##");
-		}
-
-		if (document.getElementById("property_data")) {
-			document.getElementById("property_data").value = allpropArr.join("##");
-		}
-
-		if (document.getElementById("subproperty_data"))
-		{
-			document.getElementById("subproperty_data").value = tolallsubpropArr.join("##");
-		}
-
-		if (document.getElementById("tmp_product_price"))
-		{
-			document.getElementById("tmp_product_price").value = mainprice;
-		}
-
-		if (document.getElementById("productprice_notvat"))
-		{
-			document.getElementById("productprice_notvat").value = price_without_vat;
-		}
-
-		if (document.getElementById("tmp_product_old_price"))
-		{
-			document.getElementById("tmp_product_old_price").value = old_price;
-		}
+		jQuery('#attribute_data').val(attrArr.join("##"));
+		jQuery('#property_data').val(allpropArr.join("##"));
+		jQuery('#subproperty_data').val(tolallsubpropArr.join("##"));
+		jQuery('#tmp_product_price').val(mainprice);
+		jQuery('#productprice_notvat').val(price_without_vat);
+		jQuery('#tmp_product_old_price').val(old_price);
 	}
 
-	if (document.getElementById("requiedAttribute"))
-	{
-		document.getElementById("requiedAttribute").value = acc_error;
-	}
-
-	if (document.getElementById("requiedProperty")) {
-		document.getElementById("requiedProperty").value = subacc_error;
-	}
+	jQuery('#requiedAttribute').val(acc_error);
+	jQuery('#requiedProperty').val(subacc_error);
 }
 
 /**
