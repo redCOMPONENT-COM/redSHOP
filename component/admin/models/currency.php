@@ -75,17 +75,22 @@ class RedshopModelCurrency extends RedshopModel
 
 	public function _buildQuery()
 	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
 		$filter = $this->getState('filter');
-		$where = '';
+
+		$query->select('distinct(c.currency_id)')
+			->select('c.*')
+			->from($db->qn('#__redshop_currency', 'c'));
 
 		if ($filter)
 		{
-			$where = " WHERE currency_name like '%" . $filter . "%' OR currency_code like '" . $filter . "%'";
+			$query->where($db->qn('c.currency_name') . 'LIKE ' . $db->q('%' . $filter . '%') . 'OR ' . $db->qn('c.currency_code') . 'LIKE ' . $db->q($filter . '%'));
 		}
-		
+
 		$orderby = $this->_buildContentOrderBy();
-		$query = "SELECT distinct(c.currency_id),c.*  FROM " . $this->_table_prefix . "currency c WHERE 1=1 "
-			. $where . $orderby;
+		$query->order($db->q($orderby));
 
 		return $query;
 	}
