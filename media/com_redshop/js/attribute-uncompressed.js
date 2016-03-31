@@ -342,28 +342,17 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 
 		for (var sp = 0; sp < propArr.length; sp++)
 		{
-			var spcommonid = commonid + '_' + propArr[sp];
+			var spCommonName = '[name="subproperty_id_' + commonid + '_' + propArr[sp] + '[]"]';
 
-			if (document.getElementsByName('subproperty_id_' + spcommonid + '[]'))
+			if (jQuery(spCommonName).length)
 			{
-				var subpropName = document.getElementsByName('subproperty_id_' + spcommonid + '[]');
-
-				for (var p = 0; p < subpropName.length; p++)
+				if ('radio' == jQuery(spCommonName).attr('type'))
 				{
-					if (subpropName[p].type == 'checkbox' || subpropName[p].type == 'radio')
-					{
-						if (subpropName[p].checked)
-						{
-							subpropArr[subsel_i++] = subpropName[p].value;
-						}
-					}
-					else
-					{
-						if (subpropName[p].selectedIndex)
-						{
-							subpropArr[subsel_i++] = subpropName[p].options[subpropName[p].selectedIndex].value;
-						}
-					}
+					subpropArr.push(jQuery(spCommonName + ':checked').val());
+				}
+				else
+				{
+					subpropArr.push(jQuery(spCommonName).val());
 				}
 			}
 		}
@@ -726,31 +715,22 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 				}
 
 				var subcommonid = prefix + product_id + '_' + accessory_id + '_' + attribute_id + '_' + property_id;
-				var subPropId = document.getElementById('subproperty_id_' + subcommonid);
-				if (subPropId)
+				var spCommonName = '[name="subproperty_id_' + subcommonid + '[]"]';
+
+				if (jQuery(spCommonName).length)
 				{
 					setSubpropertyImage(product_id, 'subproperty_id_' + subcommonid);
 					isSubproperty = true;
-					var subpropName = document.getElementsByName('subproperty_id_' + subcommonid + '[]');
-					seli = 0;
+
 					var subpropArr = new Array();
 
-					for (var sp = 0; sp < subpropName.length; sp++)
+					if ('radio' == jQuery(spCommonName).attr('type'))
 					{
-						if (subpropName[sp].type == 'checkbox' || subpropName[sp].type == 'radio')
-						{
-							if (subpropName[sp].checked && subpropName[sp].value)
-							{
-								subpropArr[seli++] = subpropName[sp].value;
-							}
-						}
-						else
-						{
-							if (subpropName[sp].selectedIndex && subpropName[sp].options[subpropName[sp].selectedIndex].value)
-							{
-								subpropArr[seli++] = subpropName[sp].options[subpropName[sp].selectedIndex].value;
-							}
-						}
+						subpropArr.push(jQuery(spCommonName + ':checked').val());
+					}
+					else
+					{
+						subpropArr.push(jQuery(spCommonName).val());
 					}
 
 					for (var sp = 0; sp < subpropArr.length; sp++)
@@ -764,8 +744,8 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 						}
 					}
 
-					if (subPropId.getAttribute('required') == 1 && subpropArr.length == 0) {
-						subacc_error += document.getElementById('subprop_lbl').innerHTML + " " + unescape(subPropId.getAttribute('subpropName')) + "\n";
+					if (jQuery(spCommonName).attr('required') == 1 && subpropArr.length == 0) {
+						subacc_error += jQuery('#subprop_lbl').html() + " " + unescape(jQuery(spCommonName).attr('subpropName')) + "\n";
 					}
 
 					/******Collect subproperty Price start*******/
@@ -785,11 +765,11 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 						price_without_vat = retSubArr[1];
 					}
 
-					allsubpropArr[p] = subpropArr.join("::");
+					allsubpropArr.push(subpropArr.join("::"));
 				}
 			}
 
-			tolallsubpropArr[i] = allsubpropArr.join(",,");
+			tolallsubpropArr.push(allsubpropArr.join(",,"));
 		}
 	}
 
