@@ -346,7 +346,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 
 			if (jQuery(spCommonName).length)
 			{
-				if ('radio' == jQuery(spCommonName).attr('type'))
+				if ('radio' == jQuery(spCommonName).attr('type') || 'checkbox' == jQuery(spCommonName).attr('type'))
 				{
 					subpropArr.push(jQuery(spCommonName + ':checked').val());
 				}
@@ -669,7 +669,7 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 
 					var subpropArr = new Array();
 
-					if ('radio' == jQuery(spCommonName).attr('type'))
+					if ('radio' == jQuery(spCommonName).attr('type') || 'checkbox' == jQuery(spCommonName).attr('type'))
 					{
 						subpropArr.push(jQuery(spCommonName + ':checked').val());
 					}
