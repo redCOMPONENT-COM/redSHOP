@@ -32,8 +32,7 @@ $filter = JRequest::getVar('filter');
 	}
 </script>
 
-<<<<<<< HEAD
-<form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
+<form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
 	<table width="100%">
 		<tr>
 			<td valign="top" class="key">
@@ -45,9 +44,6 @@ $filter = JRequest::getVar('filter');
 			</td>
 		</tr>
 	</table>
-=======
-<form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
->>>>>>> develop
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
