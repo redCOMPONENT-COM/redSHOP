@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -119,7 +119,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 				$additionalfiles = $this->getModel('media')->getAdditionalFiles($mediaId);
 				$k = 0;
 
-				for ($i = 0; $i < count($additionalfiles); $i++)
+				for ($i = 0, $in = count($additionalfiles); $i < $in; $i++)
 				{
 					$filename = $additionalfiles[$i]->name;
 					$fileId = $additionalfiles[$i]->id;

@@ -16,7 +16,6 @@ $url = $uri->root();
 
 $Itemid    = JRequest::getInt('Itemid');
 $user      = JFactory::getUser();
-$option    = 'com_redshop';
 $view      = JRequest::getCmd('view');
 $getoption = JRequest::getCmd('option');
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,6 @@ class RedshopControllerLogin extends RedshopController
 	{
 		$username     = JRequest::getVar('username', '', 'method', 'username');
 		$password     = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
-		$option       = JRequest::getVar('option');
 		$Itemid       = JRequest::getVar('Itemid');
 		$returnitemid = JRequest::getVar('returnitemid');
 		$mywishlist   = JRequest::getVar('mywishlist');

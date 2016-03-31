@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,6 @@ class RedshopControllerAccessmanager_detail extends RedshopController
 	{
 		$post = JRequest::get('post');
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
 		$model = $this->getModel('accessmanager_detail');
 		$section = JRequest::getVar('section', '', 'request', 'string');
 		$row = $model->store($post);
@@ -61,7 +60,6 @@ class RedshopControllerAccessmanager_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
 		$this->setRedirect('index.php?option=com_redshop&view=accessmanager', $msg);
 	}

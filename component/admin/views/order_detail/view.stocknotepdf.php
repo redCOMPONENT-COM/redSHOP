@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,7 +63,7 @@ class RedshopViewOrder_detail extends RedshopView
 			$template_middle = $template_edata[0];
 
 			$middle_data = '';
-			for ($p = 0; $p < count($products); $p++)
+			for ($p = 0, $pn = count($products); $p < $pn; $p++)
 			{
 				$middle_data .= $template_middle;
 

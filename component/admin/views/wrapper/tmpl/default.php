@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
@@ -12,7 +12,7 @@ $producthelper = new producthelper;
 
 $showall = JRequest::getVar('showall', '0');
 $tmpl = '';
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $uri = JURI::getInstance();
 $url = $uri->root();?>
 <script language="javascript" type="text/javascript">

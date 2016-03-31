@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -93,7 +93,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="vat_rate_after_discount"
 		           id="vat_rate_after_discount"
 		           value="<?php
-		           echo VAT_RATE_AFTER_DISCOUNT;
+		           echo $this->config->get('VAT_RATE_AFTER_DISCOUNT');
 		           ?>">
 		</td>
 	</tr>

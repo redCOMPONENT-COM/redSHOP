@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -134,7 +134,7 @@ class CurrencyHelper
 				$currencies = $xml->Cube->Cube->Cube;
 
 				// Loop through the Currency List
-				for ($i = 0; $i < count($currencies); $i++)
+				for ($i = 0, $in = count($currencies); $i < $in; $i++)
 				{
 					$currNode = $currencies[$i]->attributes();
 					$currency[(string) $currNode->currency] = (string) $currNode->rate;

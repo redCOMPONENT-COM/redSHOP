@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -19,8 +19,8 @@ defined('_JEXEC') or die;
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_WRAPPER_THUMB_WIDTH_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_WRAPPER_THUMB_WIDTH'); ?>">
 		<?php echo JText::_('COM_REDSHOP_DEFAULT_WRAPPER_THUMB_WIDTH_HEIGHT');?></span></td>
 		<td>
-			<input type="text" name="default_wrapper_thumb_width" value="<?php echo DEFAULT_WRAPPER_THUMB_WIDTH; ?>"/>
-			<input type="text" name="default_wrapper_thumb_height" value="<?php echo DEFAULT_WRAPPER_THUMB_HEIGHT; ?>"/>
+			<input type="text" name="default_wrapper_thumb_width" value="<?php echo $this->config->get('DEFAULT_WRAPPER_THUMB_WIDTH'); ?>"/>
+			<input type="text" name="default_wrapper_thumb_height" value="<?php echo $this->config->get('DEFAULT_WRAPPER_THUMB_HEIGHT'); ?>"/>
 		</td>
 	</tr>
 	<tr>

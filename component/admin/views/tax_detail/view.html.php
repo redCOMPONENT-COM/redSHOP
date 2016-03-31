@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,7 +83,7 @@ class RedshopViewTax_detail extends RedshopView
 		$i = 0;
 		$prev_country = '';
 
-		for ($j = 0; $j < count($states); $j++)
+		for ($j = 0, $jn = count($states); $j < $jn; $j++)
 		{
 			$state = $states[$j];
 

@@ -121,6 +121,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->click(['link' => 'ID']);
+		$I->waitForText($item, 30, $resultRow);
 		$I->see($item, $resultRow);
 		$text = $I->grabAttributeFrom($itemStatePath, 'onclick');
 
@@ -155,6 +156,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->click(['link' => 'ID']);
+		$I->waitForText($item, 30, $resultRow);
 		$I->see($item, $resultRow);
 		$I->click($check);
 

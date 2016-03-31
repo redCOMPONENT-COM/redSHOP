@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $filter = JRequest::getVar('filter');
 ?>
 <script language="javascript" type="text/javascript">
@@ -32,6 +32,7 @@ $filter = JRequest::getVar('filter');
 	}
 </script>
 
+<<<<<<< HEAD
 <form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
 	<table width="100%">
 		<tr>
@@ -44,6 +45,9 @@ $filter = JRequest::getVar('filter');
 			</td>
 		</tr>
 	</table>
+=======
+<form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
+>>>>>>> develop
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>

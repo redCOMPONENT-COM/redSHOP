@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,6 @@ class RedshopControllerRegistration extends RedshopController
 	{
 		$app    = JFactory::getApplication();
 		$post   = JRequest::get('post');
-		$option = JRequest::getCmd('option');
 		$Itemid = JRequest::getInt('Itemid', 0);
 
 		$prodhelperobj = new producthelper;

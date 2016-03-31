@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,7 +60,7 @@ class RedshopViewRedshop extends RedshopView
 		$this->turnover = $statsticmodel->getTotalTurnover();
 
 		$document = JFactory::getDocument();
-		$document->addScript('http://www.google.com/jsapi');
+		$document->addScript('https://www.google.com/jsapi');
 
 		$lists = array();
 		$option = array();

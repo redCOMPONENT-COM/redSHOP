@@ -61,7 +61,20 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			$shopper_shipping           = $shippingArr['shipping_rate'];
 			$shippingVatRate            = $shippingArr['shipping_vat'];
 			$default_shipping           = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_SHIPPING');
-			$shopper_shipping_id        = $shippinghelper->encryptShipping(__CLASS__ . "|" . JText::_($shipping->name) . "|" . $default_shipping . "|" . number_format($shopper_shipping, 2, '.', '') . "|" . $default_shipping . "|single|" . $shippingVatRate . "|0|1");
+			$shopper_shipping_id        = RedshopShippingRate::encrypt(
+											array(
+												__CLASS__,
+												JText::_($shipping->name),
+												$default_shipping,
+												number_format($shopper_shipping, 2, '.', ''),
+												$default_shipping,
+												'single',
+												$shippingVatRate,
+												'0',
+												'1'
+											)
+										);
+
 			$shippingrate[$rate]        = new stdClass;
 			$shippingrate[$rate]->text  = $default_shipping;
 			$shippingrate[$rate]->value = $shopper_shipping_id;
@@ -72,14 +85,26 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 
 		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
 
-		for ($i = 0; $i < count($ratelist); $i++)
+		for ($i = 0, $in = count($ratelist); $i < $in; $i++)
 		{
 			$rs                         = $ratelist[$i];
 			$shippingRate               = $rs->shipping_rate_value;
 			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d);
 			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber     = $rs->economic_displaynumber;
-			$shipping_rate_id           = $shippinghelper->encryptShipping(__CLASS__ . "|" . JText::_($shipping->name) . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber . '|' . $rs->deliver_type);
+			$shipping_rate_id           = RedshopShippingRate::encrypt(
+											array(
+												__CLASS__,
+												JText::_($shipping->name),
+												$rs->shipping_rate_name,
+												number_format($rs->shipping_rate_value, 2, '.', ''),
+												$rs->shipping_rate_id,
+												'single',
+												$shippingVatRate,
+												$economic_displaynumber,
+												$rs->deliver_type
+											)
+										);
 
 			$shippingrate[$rate]        = new stdClass;
 			$shippingrate[$rate]->text  = $rs->shipping_rate_name;
@@ -124,9 +149,9 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 
 		if (strlen((int) $zipcode) == 4)
 		{
-			$url = "http://api.postnord.com/wsp/rest/BusinessLocationLocator"
-				. "/Logistics/ServicePointService_1.0/findNearestByAddress.json?"
-				. "consumerId=" . $this->params->get('consumerId')
+			$url = "https://api2.postnord.com/rest/businesslocation/v1/servicepoint/findNearestByAddress.json?"
+				. 'returntype=json'
+				. "&apikey=" . $this->params->get('consumerId')
 				. "&countryCode=" . trim($countryCode)
 				. "&postalCode=" . trim($zipcode)
 				. "&numberOfServicePoints=12";

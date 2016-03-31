@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,7 +96,7 @@ class RedshopModelWrapper extends RedshopModel
 				. "WHERE product_id = " . $this->_productid;
 			$cat = $this->_getList($query);
 
-			for ($i = 0; $i < count($cat); $i++)
+			for ($i = 0, $in = count($cat); $i < $in; $i++)
 			{
 				$and .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
 			}

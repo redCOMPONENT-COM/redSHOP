@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,6 @@ class RedshopControllerAddressfields_listing extends RedshopController
 
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 		$model = $this->getModel('addressfields_listing');
@@ -48,7 +47,6 @@ class RedshopControllerAddressfields_listing extends RedshopController
 		$app = JFactory::getApplication();
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$option = JRequest::getVar('option');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$up = 1;
 
@@ -76,7 +74,6 @@ class RedshopControllerAddressfields_listing extends RedshopController
 
 		$app = JFactory::getApplication();
 
-		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$down = -1;

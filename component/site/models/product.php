@@ -3,12 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
@@ -44,7 +43,6 @@ class RedshopModelProduct extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$option              = JRequest::getVar('option', 'com_redshop');
 		$pid                 = JRequest::getInt('pid', 0);
 
 		$GLOBALS['childproductlist'] = array();
@@ -220,7 +218,6 @@ class RedshopModelProduct extends RedshopModel
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
-		$option     = JRequest::getVar('option');
 		$Itemid     = JRequest::getVar('Itemid');
 		$mailbcc    = null;
 		$fromname   = $data['username'];
@@ -359,7 +356,7 @@ class RedshopModelProduct extends RedshopModel
 		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
 		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
 
-		for ($k = 0; $k < count($row_data); $k++)
+		for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
 		{
 			$myfield                        = "productuserfield_" . $k;
 			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
@@ -403,118 +400,6 @@ class RedshopModelProduct extends RedshopModel
 		$list = $this->_db->loadObject();
 
 		return $list;
-	}
-
-	public function checkComparelist($product_id)
-	{
-		$session         = JFactory::getSession();
-		$compare_product = $session->get('compare_product');
-		$cid             = JRequest::getInt('cid');
-		$catid           = isset($compare_product[0]['category_id']) ? $compare_product[0]['category_id'] : 0;
-
-		if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
-		{
-			unset($compare_product);
-			$compare['idx'] = 0;
-		}
-
-		if ($product_id != 0)
-		{
-			if (!isset($compare_product) || !$compare_product)
-			{
-				// Return true to store product in compare product cart.
-				return true;
-			}
-			else
-			{
-				$idx = (int) ($compare_product['idx']);
-
-				for ($i = 0; $i < $idx; $i++)
-				{
-					if ($compare_product[$i]["product_id"] == $product_id)
-					{
-						// Return false if product is already in compare product cart
-						return false;
-					}
-				}
-
-				return true;
-			}
-		}
-
-		// If function is called for total product in cart than return no of product in cart*/
-		return isset($compare_product['idx']) ? (int) ($compare_product['idx']) : 0;
-	}
-
-	public function addtocompare($data)
-	{
-		$session         = JFactory::getSession();
-		$compare_product = $session->get('compare_product');
-
-		if (!$compare_product)
-		{
-			$compare_product        = array();
-			$compare_product['idx'] = 0;
-
-			$session->set('compare_product', $compare_product);
-			$compare_product = $session->get('compare_product');
-		}
-
-		$idx = (int) ($compare_product['idx']);
-
-		if (PRODUCT_COMPARISON_TYPE == 'category' && (!isset($compare_product[0]["category_id"]) || $compare_product[0]["category_id"] != $data["cid"]))
-		{
-			unset($compare_product);
-			$idx = 0;
-		}
-
-		$compare_product[$idx]["product_id"]  = (int) $data["pid"];
-		$compare_product[$idx]["category_id"] = (int) $data["cid"];
-
-		$compare_product['idx'] = $idx + 1;
-		$session->set('compare_product', $compare_product);
-
-		return true;
-	}
-
-	public function removeCompare($product_id)
-	{
-		$session         = JFactory::getSession();
-		$compare_product = $session->get('compare_product');
-
-		if (!$compare_product)
-		{
-			return;
-		}
-
-		$tmp_array = array();
-		$idx       = (int) ($compare_product['idx']);
-		$tmp_i     = 0;
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			if ($compare_product[$i]["product_id"] != $product_id)
-			{
-				$tmp_array[] = $compare_product[$i];
-			}
-			else
-			{
-				$tmp_i++;
-			}
-		}
-
-		$idx -= $tmp_i;
-
-		if ($idx < 0)
-		{
-			$idx = 0;
-		}
-
-		$compare_product        = $tmp_array;
-		$compare_product['idx'] = $idx;
-		$session->set('compare_product', $compare_product);
-
-		return true;
 	}
 
 	/**
@@ -588,7 +473,7 @@ class RedshopModelProduct extends RedshopModel
 		$producthelper = new producthelper;
 		$info          = $producthelper->getChildProduct($parentid);
 
-		for ($i = 0; $i < count($info); $i++)
+		for ($i = 0, $in = count($info); $i < $in; $i++)
 		{
 			if ($childid != $info[$i]->product_id)
 			{

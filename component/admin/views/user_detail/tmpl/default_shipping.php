@@ -3,19 +3,19 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $shipping_data = $this->order_functions->getShippingAddress($this->detail->user_id);
 
 $addlink = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=0');
 ?>
 <div id="editcell">
 
-	<div align="right"><a href="<?php echo $addlink; ?>" class="btn btn-success"
-	                      style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_ADD');?></a></div>
+	<div align="right"><input type="submit" name="add_shipping" value="<?php echo JText::_('COM_REDSHOP_ADD');?>" onclick="Joomla.submitbutton('apply');" class="btn btn-success"
+	                      style="text-decoration: none;" /></div>
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>

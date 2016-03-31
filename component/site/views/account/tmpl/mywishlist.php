@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -164,7 +164,7 @@ if ($mail == 0)
 						{
 							$parentid = 0;
 
-				for ($c = 0; $c < count($childproducts); $c++)
+				for ($c = 0, $cn = count($childproducts); $c < $cn; $c++)
 				{
 					if ($childproducts[$c]->product_parent_id == 0)
 					{

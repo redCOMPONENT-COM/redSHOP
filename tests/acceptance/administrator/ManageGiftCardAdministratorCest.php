@@ -79,6 +79,5 @@ class ManageGiftCardAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->deleteCard($this->newRandomCardName);
-		$I->searchCard($this->newRandomCardName, 'Delete');
 	}
 }

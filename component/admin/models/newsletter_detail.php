@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -155,7 +155,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			$copydata = $this->_db->loadObjectList();
 		}
 
-		for ($i = 0; $i < count($copydata); $i++)
+		for ($i = 0, $in = count($copydata); $i < $in; $i++)
 		{
 			$post['newsletter_id'] = 0;
 			$post['name'] = $this->renameToUniqueValue('name', $copydata[$i]->name);
@@ -172,7 +172,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$subscriberdata = $this->_db->loadObjectList();
 
-			for ($j = 0; $j < count($subscriberdata); $j++)
+			for ($j = 0, $jn = count($subscriberdata); $j < $jn; $j++)
 			{
 				$rowsubscr = $this->getTable('newslettersubscr_detail');
 				$rowsubscr->subscription_id = 0;
@@ -237,7 +237,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 		$qs = array();
 		$j = 0;
 
-		for ($d = 0; $d < count($data); $d++)
+		for ($d = 0, $dn = count($data); $d < $dn; $d++)
 		{
 			$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
 				. "WHERE newsletter_id='" . $data[$d]->newsletter_id . "' ";

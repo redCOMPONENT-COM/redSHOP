@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,7 +51,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		$body = JRequest::getVar('body', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["body"] = $body;
 
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['subscription_id'] = $cid [0];
 		$model = $this->getModel('newslettersubscr_detail');
@@ -86,7 +86,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -108,7 +108,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 	}
@@ -128,7 +128,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		echo "Subscriber Full Name,Newsletter,Email Id\n";
 		$data = $model->getnewslettersbsc();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$subname = $model->getuserfullname($data[$i]->user_id);
 
@@ -176,7 +176,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		echo '"email","name","enabled"';
 		echo "\n";
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			echo '"' . $data[$i]->email . '","';
 

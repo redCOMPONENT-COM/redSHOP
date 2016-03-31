@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -110,7 +110,7 @@ if ($template_middle != "")
 {
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 
-	for ($i = 0; $i < count($manufacturer_products); $i++)
+	for ($i = 0, $in = count($manufacturer_products); $i < $in; $i++)
 	{
 		$cart_mdata .= $template_middle;
 

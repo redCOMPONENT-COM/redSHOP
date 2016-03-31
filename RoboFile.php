@@ -171,6 +171,46 @@ class RoboFile extends \Robo\Tasks
 
         $pathToTestFile = 'tests/' . $options['suite'] . '/' . $options['test'];
 
+		//loading the class to display the methods in the class
+		require 'tests/' . $options['suite'] . '/' . $options['test'];
+
+
+		//logic to fetch the class name from the file name
+		$fileName = explode("/", $options['test']);
+		$className = explode(".", $fileName[1]);
+
+		//if the selected file is cest only than we will give the option to execute individual methods, we don't need this in cept file
+		$i = 1;
+		if (strripos($className[0], 'cest'))
+		{
+			$class_methods = get_class_methods($className[0]);
+			$this->say('[' . $i . '] ' . 'All');
+			$methods[$i] = 'All';
+			$i++;
+			foreach ($class_methods as $method_name)
+			{
+
+				$reflect = new ReflectionMethod($className[0], $method_name);
+				if(!$reflect->isConstructor())
+				{
+					if ($reflect->isPublic())
+					{
+						$this->say('[' . $i . '] ' . $method_name);
+						$methods[$i] = $method_name;
+						$i++;
+					}
+				}
+			}
+			$this->say('');
+			$methodNumber = $this->ask('Please choose the method in the test that you would want to run...');
+			$method = $methods[$methodNumber];
+		}
+
+		if(isset($method) && $method != 'All')
+		{
+			$pathToTestFile = $pathToTestFile . ':' . $method;
+		}
+
         $this->taskCodecept()
              ->test($pathToTestFile)
              ->arg('--steps')
@@ -230,8 +270,8 @@ class RoboFile extends \Robo\Tasks
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/checkout/')
-			->run()
-			->stopOnFail();
+			->run();
+			// ->stopOnFail();
 
         $this->taskCodecept()
              ->arg('--steps')

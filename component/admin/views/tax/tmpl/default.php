@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -12,7 +12,7 @@ $producthelper = new producthelper;
 $redconfig = new Redconfiguration;
 
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 
 ?>
@@ -38,7 +38,7 @@ $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 	}
 
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist">
 			<thead>

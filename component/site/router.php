@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  redSHOP
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -441,7 +441,7 @@ function redshopBuildRoute(&$query)
 					{
 						$cats = array_reverse($cats);
 
-						for ($x = 0; $x < count($cats); $x++)
+						for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 						{
 							$cat        = $cats[$x];
 							$segments[] = JFilterOutput::stringURLSafe($cat->category_name);

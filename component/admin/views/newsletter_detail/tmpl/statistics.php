@@ -3,11 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$option = JRequest::getVar('option');
+
 
 $newsid = JRequest::getInt('newsid', 0);
 $model = $this->getModel('newsletter_detail');
@@ -28,7 +28,7 @@ $title = $returnstring[1];
 
 $data = "";
 $rowdata = array();
-for ($i = 0; $i < count($querystring); $i++)
+for ($i = 0, $in = count($querystring); $i < $in; $i++)
 {
 	$rowdata[] = "['" . $querystring[$i]->xdata . "'," . $querystring[$i]->ydata . "]";
 }
@@ -65,7 +65,7 @@ $data .= "[$rowdata]";
 		}
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_STATISTICS_FILTER'); ?></legend>
 		<table class="admintable">
@@ -82,6 +82,6 @@ $data .= "[$rowdata]";
 	</fieldset>
 	<input type="hidden" name="view" value="newsletter_detail"/>
 	<input type="hidden" name="layout" value="statistics"/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="task" value=""/>
 </form>

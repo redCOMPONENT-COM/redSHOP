@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="product_download_limit" id="product_download_limit"
-			       value="<?php echo PRODUCT_DOWNLOAD_LIMIT; ?>">
+			       value="<?php echo $this->config->get('PRODUCT_DOWNLOAD_LIMIT'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="product_download_days" id="product_download_days"
-			       value="<?php echo PRODUCT_DOWNLOAD_DAYS; ?>">
+			       value="<?php echo $this->config->get('PRODUCT_DOWNLOAD_DAYS'); ?>">
 		</td>
 	</tr>
 	<tr>

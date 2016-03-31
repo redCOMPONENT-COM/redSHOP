@@ -31,9 +31,8 @@ class plgContentredshop_product extends JPlugin
 
 			$session = JFactory::getSession();
 			$post    = JRequest::get('POST');
-			$option  = JRequest::getCmd('option');
 
-			if ($option != 'com_redshop')
+			if (JRequest::getCmd('option') != 'com_redshop')
 			{
 				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 				JLoader::load('RedshopHelperAdminConfiguration');

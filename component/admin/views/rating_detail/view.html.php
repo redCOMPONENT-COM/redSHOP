@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ class RedshopViewRating_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+
 		$userslist = JRequest::getVar('userslist');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_RATING_MANAGEMENT_DETAIL'), 'redshop_rating48');

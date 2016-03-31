@@ -3,12 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
 
 /**
  * wishlist Controller.
@@ -127,7 +126,7 @@ function savewishlist()
 		$post   = array();
 		$mydel  = JRequest::getVar('mydel');
 		$model  = $this->getModel("wishlist");
-		$option = JRequest::getVar('option');
+
 		$Itemid = JRequest::getVar('Itemid');
 		$post['wishlist_id'] = JRequest::getVar('wishlist_id');
 

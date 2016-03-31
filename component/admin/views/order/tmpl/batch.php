@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,6 +21,7 @@ $orderIds   = implode(',', $postdata['cid']);
 		<ul id="loopLog" class="nav nav-list">&nbsp;</ul>
 	</fieldset>
 </div>
+<a class="btn" href="index.php?option=com_redshop&view=order"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_UPDATE_BACK_TO_ORDER_LIST');?></a>
 <script type="text/javascript">
 window.addEvent('domready', function() {
 	// declare JavaScript Aarray

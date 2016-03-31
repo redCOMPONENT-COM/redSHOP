@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $model = $this->getModel('category');
 $category_main_filter = JRequest::getVar('category_main_filter');
 $ordering = ($this->lists['order'] == 'c.ordering');
@@ -68,7 +68,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<table width="100%" cellpadding="1" cellspacing="1" border="0">
 		<tr>
 			<td colspan="2" valign="top" align="left" class="key" width="30%">

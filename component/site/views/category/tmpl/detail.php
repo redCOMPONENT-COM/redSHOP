@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -268,10 +268,8 @@ if (!$slide)
 		{
 			$comparediv           = $producthelper->makeCompareProductDiv();
 			$compareUrl           = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid);
-			$compare_product_div  = "<form name='frmCompare' method='post' action='" . $compareUrl . "' >";
-			$compare_product_div .= "<a href='javascript:compare();' >" . JText::_('COM_REDSHOP_COMPARE') . "</a>";
+			$compare_product_div = '<a href="' . $compareUrl . '">' . JText::_('COM_REDSHOP_COMPARE') . '</a>';
 			$compare_product_div .= "<div id='divCompareProduct'>" . $comparediv . "</div>";
-			$compare_product_div .= "</form>";
 		}
 
 		$template_desc = str_replace("{compare_product_div}", $compare_product_div, $template_desc);

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ class RedshopControllerProduct_price extends RedshopController
 		$price_quantity_end = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
 		$price_id = JRequest::getVar('price_id', array(), 'post', 'array');
 
-		for ($i = 0; $i < count($price); $i++)
+		for ($i = 0, $in = count($price); $i < $in; $i++)
 		{
 			$sql = "SELECT count(*) FROM  #__redshop_product_price  WHERE product_id='" . $product_id . "' AND price_id = '"
 				. $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";

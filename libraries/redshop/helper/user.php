@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,6 +36,13 @@ class RedshopHelperUser
 	 * @var  array
 	 */
 	protected static $redshopUserInfo = array();
+
+	/**
+	 * Total Sales of user
+	 *
+	 * @var  array
+	 */
+	protected static $totalSales = array();
 
 	/**
 	 * Get redshop user information
@@ -263,5 +270,47 @@ class RedshopHelperUser
 		}
 
 		return self::$shopperGroupData[$id];
+	}
+
+	/**
+	 * Total sale of customer
+	 *
+	 * @param   integer  $userInfoId  The user info id
+	 *
+	 * @return  float    Total Number of sale for user.
+	 */
+	public static function totalSales($userInfoId)
+	{
+		if (array_key_exists($userInfoId, self::$totalSales))
+		{
+			return self::$totalSales[$userInfoId];
+		}
+
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('SUM(order_total)')
+					->from($db->qn('#__redshop_orders'))
+					->where($db->qn('user_info_id') . ' = ' . (int) $userInfoId);
+
+		// Set the query and load the result.
+		$total = $db->setQuery($query)->loadResult();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		if (!$total)
+		{
+			$total = 0;
+		}
+
+		self::$totalSales[$userInfoId] = $total;
+
+		return $total;
 	}
 }

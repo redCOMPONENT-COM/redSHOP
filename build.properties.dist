@@ -9,7 +9,7 @@ comp.name=redshop
 package.dir=
 
 # Joomla version to include in the package name, when using packager xml files
-joomla.version=j3_and_j25
+joomla.version=j3
 
 # Testing Joomla site at a localhost folder. Only needed when using build.xml
 www.dir=

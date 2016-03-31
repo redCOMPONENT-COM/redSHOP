@@ -60,6 +60,7 @@ class WrapperManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\WrapperManagerJoomla3Page::$URL);
 		$I->click(['link' => 'ID']);
+		$I->click(['link' => 'ID']);
 		$I->see($name, \WrapperManagerJoomla3Page::$firstResultRow);
 		$I->click(\WrapperManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');

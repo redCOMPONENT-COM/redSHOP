@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,7 +51,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 			$post["max_del_time"] = $post["max_del_time"] * 7;
 		}
 
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['stockroom_id'] = $cid [0];
 		$post ['creation_date'] = strtotime($post ['creation_date']);
@@ -79,7 +79,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -100,14 +100,14 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function copy()
 	{
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$model = $this->getModel('stockroom_detail');
 
@@ -143,7 +143,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 			$totalprd = count($prd);
 			$responcemsg = '';
 
-			for ($i = 0; $i < count($prd); $i++)
+			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
 				$ecoProductNumber = $economic->importStockFromEconomic($prd[$i]);

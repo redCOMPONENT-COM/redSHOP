@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	public function save()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$model = $this->getModel('media_detail');
 
@@ -278,8 +278,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option
-							. '&view=media_detail&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
 							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg, 'warning'
 						);
 					}
@@ -318,8 +317,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer' && $post['oldmedia'] == "")
 				{
-					$this->setRedirect('index.php?tmpl=component&option=' . $option
-						. '&view=media&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
+					$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
 						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 					);
 				}
@@ -368,13 +366,13 @@ class RedshopControllerMedia_Detail extends RedshopController
 					$name = explode('.', $bulkfile['name']);
 					$scan = scandir($target);
 
-					for ($i = 2; $i < count($scan); $i++)
+					for ($i = 2, $in = count($scan); $i < $in; $i++)
 					{
 						if (is_dir($target . '/' . $scan[$i]))
 						{
 							$newscan = scandir($target . '/' . $scan[$i]);
 
-							for ($j = 2; $j < count($newscan); $j++)
+							for ($j = 2, $jn = count($newscan); $j < $jn; $j++)
 							{
 								$filenewtype = strtolower(JFile::getExt($newscan[$j]));
 								$btsrc = $target . '/' . $scan[$i] . '/' . $newscan[$j];
@@ -793,7 +791,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	public function remove()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -839,7 +837,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	public function publish()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -936,7 +934,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	public function unpublish()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -981,7 +979,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 	}
@@ -1014,7 +1012,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	public function saveorder()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
@@ -1063,7 +1061,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	public function orderup()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
@@ -1109,7 +1107,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	public function orderdown()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');

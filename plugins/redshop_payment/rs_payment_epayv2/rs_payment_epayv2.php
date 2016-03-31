@@ -68,7 +68,8 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			'language'        => $this->params->get("language"),
 			'windowstate'     => $this->params->get("epay_window_state"),
 			'windowid'        => $this->params->get("windowid"),
-			'ownreceipt'      => $this->params->get("ownreceipt")
+			'ownreceipt'      => $this->params->get("ownreceipt"),
+			'googletracker'   => $this->params->get('googletracker')
 		);
 
 		// Payment Group is an optional

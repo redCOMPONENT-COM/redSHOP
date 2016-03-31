@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,9 +26,8 @@ class RedshopModelDiscount extends RedshopModel
 		{
 			$input = JFactory::getApplication()->input;
 			$view = $input->getString('view', '');
-			$option = $input->getString('option', '');
 			$layout = $input->getString('layout', 'none');
-			$this->context = strtolower($option . '.' . $view . '.' . $this->getName() . '.' . $layout);
+			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
 		parent::__construct($config);

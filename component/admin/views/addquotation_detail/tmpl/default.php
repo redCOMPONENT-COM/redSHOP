@@ -3,14 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$option  = JRequest::getVar('option');
 $billing = $this->billing;
 
 if ($this->detail->user_id < 0)
@@ -466,7 +465,7 @@ if (!JRequest::getvar('ajaxtask'))
 		</tbody>
 	</table>
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="addquotation_detail"/>
 </form>
 <div id="divCalc"></div>

@@ -120,9 +120,10 @@ function setImportSectionType() {
     }
     var url = 'index.php?tmpl=component&option=com_redshop&view=xmlimport_detail&task=edit';
     url = url + preurl + "&sid=" + Math.random();
-    //	alert(url);
+
     xmlhttp.onreadystatechange = stateChanged;
     xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlhttp.send(null);
 }
 
@@ -179,6 +180,7 @@ function deleteRow(r, IpId) {
 
         tbhttp = GetXmlHttpObject();
         tbhttp.open("GET", url, true);
+        tbhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         tbhttp.send(null);
     }
 }

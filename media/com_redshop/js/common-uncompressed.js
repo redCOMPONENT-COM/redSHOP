@@ -1,6 +1,68 @@
+// Only define the redSHOP namespace if not defined.
+redSHOP = window.redSHOP || {};
+
+redSHOP.addToCompare = function(ele){
+
+	if (!ele.length) {return;}
+
+	var data = ele.val().split('.');
+
+	if (data.length <= 1)
+	{
+		data = ele.attr('value').split('.');
+	}
+
+	var productId = data[0],
+		categoryId = data[1];
+
+	var command = (ele.is(":checked")) ? 'add' : 'remove';
+
+	jQuery.ajax({
+		url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare',
+		type: 'POST',
+		dataType: 'json',
+		data: {cmd: command, pid: productId, cid: categoryId},
+		complete: function(xhr, textStatus) {
+		},
+		success: function(data, textStatus, xhr) {
+
+			if (data.success === true)
+			{
+				jQuery('#divCompareProduct').html(data.html);
+				jQuery('#mod_compareproduct').html(data.total);
+			}
+			else
+			{
+				jQuery('#divCompareProduct').html(data.message + '<br />' + data.html);
+				jQuery('#mod_compareproduct').html(data.total);
+			}
+
+			jQuery('a[id^="removeCompare"]').click(function(event) {
+		    	redSHOP.addToCompare(jQuery(this));
+		    });
+		},
+		error: function(xhr, textStatus, errorThrown) {
+			//called when there is an error
+		}
+	});
+};
+
 // New registration functions
 jQuery(document).ready(function() {
     billingIsShipping(document.getElementById('billisship'));
+
+    redSHOP.addToCompare(jQuery('[id^="rsProductCompareChk"]'));
+
+    jQuery('[id^="rsProductCompareChk"]').click(function(event) {
+    	redSHOP.addToCompare(jQuery(this));
+    });
+
+    // Hide some checkout view stuff
+    jQuery('#divPrivateTemplateId').hide();
+    jQuery('#divCompanyTemplateId').hide();
+
+    // Click public or private registration form function
+    showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
 });
 
 function validateInputNumber(objid)
@@ -191,69 +253,8 @@ function getShippingrate()
 		}
 	};
 	xmlhttp.open("GET",url,true);
+	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
-}
-
-function add_to_compare(pid,cid,cmd)
-{
-
-
-	xmlhttp=GetXmlHttpObject();
-	var chked = document.getElementById('chk'+cid+pid);
-
-	if(chked == null)
-	{
-	  var cmd = cmd;
-
-	} else
-	{
-	 if(cmd=="remove")
-		chked.checked = false;
-     if(chked.checked)
-		var cmd = 'add';
-	else
-		var cmd = 'remove';
-
-   }
-
-
-
-	var args = 'pid='+pid+'&cmd='+cmd+'&cid='+cid+'&sid='+Math.random();
-	var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare&'+args;
-
-	xmlhttp.onreadystatechange=function(){
-		if (xmlhttp.readyState==4)
-		{
-			response = xmlhttp.responseText.split('`');
-			if(response[0]==0)
-			{
-				alert(response[1]);
-				chked.checked = false;
-			}
-			else
-			{
-				if(document.getElementById('divCompareProduct'))
-					document.getElementById('divCompareProduct').innerHTML = response[1];
-				if(document.getElementById('mod_compareproduct'))
-					document.getElementById('mod_compareproduct').innerHTML = response[2];
-			}
-		}
-	};
-	xmlhttp.open("GET",url,true);
-	xmlhttp.send(null);
-}
-
-function compare()
-{
-	var total = 0;
-	if(document.getElementById('totalCompareProduct'))
-		total = document.getElementById('totalCompareProduct').innerHTML;
-	if(total < 2)
-	{
-		alert('Add 2 or More Products to Compare');
-	}
-	else
-		document.frmCompare.submit();
 }
 
 function expand_collapse(atag,pid)
@@ -604,103 +605,68 @@ function searchByPhone()
 		}
 		var linktocontroller = "index.php?option=com_redshop&view=registration&task=searchUserdetailByPhone&tmpl=component&phone="+value;
 		xmlhttp.open("GET",linktocontroller,true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 }
 
 function showCompanyOrCustomer(obj)
 {
-	if(obj)
+	if(!obj)
 	{
-		if(obj.value==1)	// For Company
-		{
-			if(document.getElementById('divCompanyTemplateId'))
-			{
-				template_id = parseInt(document.getElementById('divCompanyTemplateId').innerHTML);
-			}
-			if(document.getElementById('is_company'))
-			{
-				document.getElementById('is_company').value='1';
-			}
-			if(document.getElementById('company_registrationintro'))
-			{
-				document.getElementById('company_registrationintro').style.display='';
-			}
-			if(document.getElementById('customer_registrationintro'))
-			{
-				document.getElementById('customer_registrationintro').style.display='none';
-			}
-		}
-		else	// For Customer
-		{
-			if(document.getElementById('divPrivateTemplateId'))
-			{
-				template_id = parseInt(document.getElementById('divPrivateTemplateId').innerHTML);
-			}
-			if(document.getElementById('is_company'))
-			{
-				document.getElementById('is_company').value='0';
-			}
-			if(document.getElementById('company_registrationintro'))
-			{
-				document.getElementById('company_registrationintro').style.display='none';
-			}
-			if(document.getElementById('customer_registrationintro'))
-			{
-				document.getElementById('customer_registrationintro').style.display='';
-			}
-		}
-		if (window.XMLHttpRequest)
-	  	{// code for IE7+, Firefox, Chrome, Opera, Safari
-	  		xmlhttp=new XMLHttpRequest();
-	  	}
-		else
-		{// code for IE6, IE5
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				if(xmlhttp.responseText!="")
-				{
-					if(document.getElementById('tmpRegistrationDiv'))
-					{
-						document.getElementById('tmpRegistrationDiv').innerHTML=xmlhttp.responseText;
-					}
-					if(obj.value==1)
-					{
-						if(document.getElementById('tblcompany_customer'))
-						{
-							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
-							document.getElementById('tblcompany_customer').innerHTML=textHtml;
-						}
-						if(document.getElementById('tblprivate_customer'))
-						{
-							document.getElementById('tblprivate_customer').innerHTML='';
-						}
-					}
-					else
-					{
-						if(document.getElementById('tblcompany_customer'))
-						{
-							document.getElementById('tblcompany_customer').innerHTML='';
-						}
-						if(document.getElementById('tblprivate_customer'))
-						{
-							var textHtml = document.getElementById('ajaxRegistrationDiv').innerHTML;
-							document.getElementById('tblprivate_customer').innerHTML=textHtml;
-						}
-					}
-					document.getElementById('tmpRegistrationDiv').innerHTML='';
-				}
-			}
-		}
-		var linktocontroller = "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
-		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
-		xmlhttp.open("GET",linktocontroller,true);
-		xmlhttp.send(null);
+		return false;
 	}
+
+	// For Company
+	if(obj.value == 1)
+	{
+		template_id = parseInt(jQuery('#divCompanyTemplateId').html());
+
+		jQuery('#is_company').val('1');
+		jQuery('#company_registrationintro').show();
+		jQuery('#customer_registrationintro').hide();
+		jQuery('#exCompanyFieldST').show();
+		jQuery('#exCustomerFieldST').hide();
+	}
+	// For Customer
+	else
+	{
+		template_id = parseInt(jQuery('#divPrivateTemplateId').html());
+
+		jQuery('#is_company').val('0');
+		jQuery('#company_registrationintro').hide();
+		jQuery('#customer_registrationintro').show();
+		jQuery('#exCompanyFieldST').hide();
+		jQuery('#exCustomerFieldST').show();
+	}
+
+	var linktocontroller = "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
+		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
+
+	jQuery.ajax({
+		url: linktocontroller,
+		type: 'GET'
+	})
+	.done(function(response) {
+
+		jQuery('#tmpRegistrationDiv').html(response);
+
+		if(obj.value==1)
+		{
+			jQuery('#tblcompany_customer').html(jQuery('#ajaxRegistrationDiv').html());
+			jQuery('#tblprivate_customer').html('');
+		}
+		else
+		{
+			jQuery('#tblprivate_customer').html(jQuery('#ajaxRegistrationDiv').html());
+			jQuery('#tblcompany_customer').html('');
+		}
+
+		jQuery('#tmpRegistrationDiv').html('');
+	})
+	.fail(function() {
+		console.warn("error");
+	});
 }
 
 function updateGLSLocation(zipcode)
@@ -728,6 +694,7 @@ function updateGLSLocation(zipcode)
 		}
 	};
 	xmlhttp1.open("GET",url1,true);
+	xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp1.send(null);
 }
 function displaytextarea(obj)
@@ -811,10 +778,11 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 
-		var params="";
+		var params=[];
 		var users_info_id=0;
 		var shipping_box_id = 0;
 		var shipping_rate_id="";
@@ -884,24 +852,22 @@ function onestepCheckoutProcess(objectname,classname)
 			Itemid = document.getElementById('onestepItemid').value;
 		}
 
-		params = params + "option=com_redshop&view=checkout&task=oneStepCheckoutProcess";
-		params = params + "&users_info_id=" + users_info_id;
-		params = params + "&shipping_box_id=" + shipping_box_id;
-		params = params + "&shipping_rate_id=" + shipping_rate_id;
-		params = params + "&payment_method_id=" + payment_method_id;
-		params = params + "&rate_template_id=" + rate_template_id;
-		params = params + "&cart_template_id=" + cart_template_id;
-		params = params + "&customer_note=" + unescape(customer_note);
-		params = params + "&requisition_number=" + requisition_number;
-		params = params + "&rs_customer_message_ta=" + rs_customer_message_ta;
-		params = params + "&txt_referral_code=" + txt_referral_code;
-		params = params + "&objectname=" + objectname;
-		params = params + "&Itemid=" + Itemid;
-		params = params + "&sid=" + Math.random();
+		params.push('option=com_redshop&view=checkout&task=oneStepCheckoutProcess');
+		params.push("users_info_id=" + users_info_id);
+		params.push("shipping_box_id=" + shipping_box_id);
+		params.push("shipping_rate_id=" + shipping_rate_id);
+		params.push("payment_method_id=" + payment_method_id);
+		params.push("rate_template_id=" + rate_template_id);
+		params.push("cart_template_id=" + cart_template_id);
+		params.push("customer_note=" + unescape(customer_note));
+		params.push("requisition_number=" + requisition_number);
+		params.push("rs_customer_message_ta=" + rs_customer_message_ta);
+		params.push("txt_referral_code=" + txt_referral_code);
+		params.push("objectname=" + objectname);
+		params.push("Itemid=" + Itemid);
+		params.push("sid=" + Math.random());
 
-		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&';
-		url = url + params;
-//		alert(url);
+		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component';
 
 		if(document.getElementById('divShippingRate') && (objectname=="users_info_id" || objectname=="shipping_box_id"))
 		{
@@ -950,8 +916,9 @@ function onestepCheckoutProcess(objectname,classname)
 		else
 			xmlhttp.open("POST", url, false);
 
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.send(params);
+		xmlhttp.send(params.join('&'));
 	}
 
 	if(document.getElementById('extrafield_payment'))
@@ -983,6 +950,7 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 	}
@@ -1009,6 +977,7 @@ function onestepCheckoutProcess(objectname,classname)
 				}
 			};
 			xmlhttp1.open("GET",url1,true);
+			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xmlhttp1.send(null);
 		}
 	}
@@ -1051,6 +1020,7 @@ function autoFillCity(str,isShipping)
 		}
 		var linktocontroller = redSHOP.RSConfig._('SITE_URL')+"index.php?option=com_redshop&view=category&task=autofillcityname&tmpl=component&q="+str;
 		xmlhttp.open("GET",linktocontroller,true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 }

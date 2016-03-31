@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="catalog_reminder_1"
 		           id="catalog_reminder_1"
 		           value="<?php
-		           echo CATALOG_REMINDER_1;
+		           echo $this->config->get('CATALOG_REMINDER_1');
 		           ?>">
 		</td>
 	</tr>
@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="catalog_reminder_2"
 		           id="catalog_reminder_2"
 		           value="<?php
-		           echo CATALOG_REMINDER_2;
+		           echo $this->config->get('CATALOG_REMINDER_2');
 		           ?>">
 		</td>
 	</tr>
@@ -55,7 +55,7 @@ defined('_JEXEC') or die;
 		</label></span></td>
 		<td><input type="text" name="discount_duration" id="discount_duration"
 		           value="<?php
-		           echo DISCOUNT_DURATION;
+		           echo $this->config->get('DISCOUNT_DURATION');
 		           ?>">
 		</td>
 	</tr>
@@ -71,7 +71,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="discount_percentage"
 		           id="discount_percentage"
 		           value="<?php
-		           echo DISCOUNT_PERCENTAGE;
+		           echo $this->config->get('DISCOUNT_PERCENTAGE');
 		           ?>">
 		</td>
 	</tr>
@@ -86,7 +86,7 @@ defined('_JEXEC') or die;
 		</label></span></td>
 		<td><input type="text" name="catalog_days" id="catalog_days"
 		           value="<?php
-		           echo CATALOG_DAYS;
+		           echo $this->config->get('CATALOG_DAYS');
 		           ?>">
 		</td>
 	</tr>

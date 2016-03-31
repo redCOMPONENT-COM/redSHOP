@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class Redaccesslevel
 	{
 		$app = JFactory::getApplication();
 
-		$option = JRequest::getVar('option');
+
 		$db = JFactory::getDbo();
 		$query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
 			. " WHERE `view`=1 and `gid` = " . (int) $group_id;
@@ -62,7 +62,7 @@ class Redaccesslevel
 	{
 		$app = JFactory::getApplication();
 
-		$option = JRequest::getVar('option');
+
 		$db = JFactory::getDbo();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")

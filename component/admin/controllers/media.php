@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -120,7 +120,7 @@ class RedshopControllerMedia extends RedshopController
 
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
+
 		$section_id = JRequest::getVar('section_id');
 		$section_name = JRequest::getVar('section_name');
 		$media_section = JRequest::getVar('media_section');
@@ -146,8 +146,7 @@ class RedshopControllerMedia extends RedshopController
 
 		if (isset($section_id))
 		{
-			$this->setRedirect('index.php?tmpl=component&option='
-				. $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&section_name=' . $section_name
 				. '&media_section=' . $media_section, $msg
 			);

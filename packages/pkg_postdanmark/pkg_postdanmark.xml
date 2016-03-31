@@ -2,9 +2,9 @@
 <extension type="package" version="2.5" method="upgrade">
 	<name>PKG_POSTDANMARK</name>
 	<author>redCOMPONENT.com</author>
-	<creationDate>May 2015</creationDate>
+	<creationDate>March 2016</creationDate>
 	<packagename>postdanmark</packagename>
-	<version>1.0.0</version>
+	<version>1.5</version>
 	<redshop>1.5</redshop>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redweb.dk</authorUrl>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ if (count($relptemplate) > 0)
 
 	$attribute_template = $producthelper->getAttributeTemplate($tempdata_div_middle);
 	/************************************************************ **********************************************/
-	for ($r = 0; $r < count($related_product); $r++)
+	for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 	{
 		$related_template_data .= $tempdata_div_middle;
 

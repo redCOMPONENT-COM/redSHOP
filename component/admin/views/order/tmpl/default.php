@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperProduct');
@@ -20,7 +20,7 @@ $app = JFactory::getApplication();
 
 $order_function = new order_functions;
 $config = new Redconfiguration;
-$option = JRequest::getVar('option');
+
 $lists = $this->lists;
 $model = $this->getModel('order');
 $redhelper = new redhelper;
@@ -314,7 +314,7 @@ JPluginHelper::importPlugin('redshop_product');
 					{
 						$stockroom_list = $stockroomhelper->getStockroom(substr_replace($stockroom_id, "", -1));
 
-						for ($s = 0; $s < count($stockroom_list); $s++)
+						for ($s = 0, $sn = count($stockroom_list); $s < $sn; $s++)
 						{
 							echo $stockroom_list[$s]->stockroom_name;
 							echo "<br>";
@@ -392,7 +392,7 @@ JPluginHelper::importPlugin('redshop_product');
 			?>
 			</td>
 			<?php
-				$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
+				$details = RedshopShippingRate::decrypt($row->ship_method_id);
 
 				$shippingParams = new JRegistry;
 

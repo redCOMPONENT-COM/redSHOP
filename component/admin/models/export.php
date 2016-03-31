@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -373,7 +373,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			for ($c = 0; $c < count($cur); $c++)
+			for ($c = 0, $cn = count($cur); $c < $cn; $c++)
 			{
 				$row = $cur[$c];
 				$row = (array) $row;
@@ -462,7 +462,7 @@ class RedshopModelExport extends RedshopModel
 				$isrecrm = true;
 			}
 
-			for ($i = 0; $i < count($cur); $i++)
+			for ($i = 0, $in = count($cur); $i < $in; $i++)
 			{
 				if ($i == 0)
 				{
@@ -514,7 +514,7 @@ class RedshopModelExport extends RedshopModel
 							$db->setQuery($sel_arrtibute_stock);
 							$fetch_arrtibute_stock = $db->loadObjectList();
 
-							for ($h = 0; $h < count($fetch_arrtibute_stock); $h++)
+							for ($h = 0, $hn = count($fetch_arrtibute_stock); $h < $hn; $h++)
 							{
 								$main_attribute_stock .= $fetch_arrtibute_stock[$h]->stockroom_id . ":" . $fetch_arrtibute_stock[$h]->quantity . "#";
 							}
@@ -576,7 +576,7 @@ class RedshopModelExport extends RedshopModel
 								$db->setQuery($sel_arrtibute_stock_sub);
 								$fetch_arrtibute_stock_sub = $db->loadObjectList();
 
-								for ($b = 0; $b < count($fetch_arrtibute_stock_sub); $b++)
+								for ($b = 0, $bn = count($fetch_arrtibute_stock_sub); $b < $bn; $b++)
 								{
 									$main_attribute_stock_sub .= $fetch_arrtibute_stock_sub[$b]->stockroom_id . ":" . $fetch_arrtibute_stock_sub[$b]->quantity . "#";
 								}
@@ -651,7 +651,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($manufacturers) > 0)
 		{
-			for ($e = 0; $e < count($manufacturers); $e++)
+			for ($e = 0, $en = count($manufacturers); $e < $en; $e++)
 			{
 				$row = $manufacturers[$e];
 				$row = (array) $row;
@@ -725,7 +725,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			for ($r = 0; $r < count($cur); $r++)
+			for ($r = 0, $rn = count($cur); $r < $rn; $r++)
 			{
 				$row = $cur[$r];
 				$row = (array) $row;
@@ -1078,7 +1078,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			for ($s = 0; $s < count($cur); $s++)
+			for ($s = 0, $sn = count($cur); $s < $sn; $s++)
 			{
 				$row = $cur[$s];
 				$row = (array) $row;
@@ -1178,7 +1178,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($product) > 0)
 		{
-			for ($e = 0; $e < count($product); $e++)
+			for ($e = 0, $en = count($product); $e < $en; $e++)
 			{
 				$row = $product[$e];
 				$row = (array) $row;
@@ -1341,7 +1341,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($attributes) > 0)
 		{
-			for ($f = 0; $f < count($attributes); $f++)
+			for ($f = 0, $fn = count($attributes); $f < $fn; $f++)
 			{
 				$row    = $attributes[$f];
 				$row    = (array) $row;
