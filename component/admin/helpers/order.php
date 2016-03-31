@@ -1044,22 +1044,30 @@ class order_functions
 		return $list;
 	}
 
+	/**
+	 * Get Order Payment Detail
+	 *
+	 * @param   integer  $order_id          Order Id
+	 * @param   integer  $payment_order_id  Payment order id
+	 *
+	 * @deprecated 1.5   Use RedshopHelperOrder::getPaymentInfo instead
+	 *
+	 * @return  array    order payment info
+	 */
 	public function getOrderPaymentDetail($order_id, $payment_order_id = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$and = '';
-
-		if ($payment_order_id != 0)
+		if (!$payment_order_id)
 		{
-			$and = ' AND payment_order_id = ' . (int) $payment_order_id . ' ';
+			return array(RedshopHelperOrder::getPaymentInfo($order_id));
 		}
+		else
+		{
+			$db = JFactory::getDbo();
+			$query = 'SELECT * FROM #__redshop_order_payment WHERE payment_order_id = ' . (int) $payment_order_id;
+			$db->setQuery($query);
 
-		$query = 'SELECT * FROM #__redshop_order_payment ' . 'WHERE order_id = ' . (int) $order_id . ' ' . $and;
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		return $list;
+			return $db->loadObjectlist();
+		}
 	}
 
 	public function getOrderPartialPayment($order_id)
