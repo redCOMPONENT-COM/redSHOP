@@ -183,7 +183,7 @@ class RedshopProductCompare implements Countable
 	 */
 	protected function findItemKey()
 	{
-		$filtered = array_keys(array_filter($this->getItems(), array($this, 'isKeyMatch'), ARRAY_FILTER_USE_KEY));
+		$filtered = array_keys(array_filter(array_keys($this->getItems()), array($this, 'isKeyMatch')));
 
 		if (!empty($filtered))
 		{

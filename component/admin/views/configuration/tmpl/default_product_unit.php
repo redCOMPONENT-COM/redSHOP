@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php echo JText::_('COM_REDSHOP_UNIT_DECIMAL_LBL');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="unit_decimal" id="unit_decimal" value="<?php echo UNIT_DECIMAL; ?>">
+			<input type="text" name="unit_decimal" id="unit_decimal" value="<?php echo $this->config->get('UNIT_DECIMAL'); ?>">
 		</td>
 	</tr>
 </table>

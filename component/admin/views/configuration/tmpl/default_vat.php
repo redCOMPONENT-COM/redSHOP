@@ -93,7 +93,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="vat_rate_after_discount"
 		           id="vat_rate_after_discount"
 		           value="<?php
-		           echo VAT_RATE_AFTER_DISCOUNT;
+		           echo $this->config->get('VAT_RATE_AFTER_DISCOUNT');
 		           ?>">
 		</td>
 	</tr>

@@ -8,14 +8,13 @@
 	<authorUrl>www.redcomponent.com</authorUrl>
 	<copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later, see LICENSE.</license>
-	<version>1.6</version>
+	<version>1.6.1</version>
 	<description>LIB_REDSHOP_LIBRARY_DESC</description>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.lib_redshop.ini</language>
 		<language tag="en-GB">en-GB/en-GB.lib_redshop.sys.ini</language>
 	</languages>
 	<files>
-		<folder>config</folder>
 		<folder>controller</folder>
 		<folder>form</folder>
 		<folder>helper</folder>
@@ -25,10 +24,12 @@
 		<folder>model</folder>
 		<folder>payment</folder>
 		<folder>product</folder>
+		<folder>shipping</folder>
 		<folder>toolbar</folder>
 		<folder>view</folder>
 		<filename>index.html</filename>
 		<filename>library.php</filename>
+		<filename>redshop.php</filename>
 		<filename>redshop.xml</filename>
 	</files>
 </extension>

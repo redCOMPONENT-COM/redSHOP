@@ -65,7 +65,7 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<input type="text" name="related_product_desc_max_chars" id="related_product_desc_max_chars"
-							       value="<?php echo RELATED_PRODUCT_DESC_MAX_CHARS; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_DESC_MAX_CHARS'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -78,7 +78,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="related_product_desc_end_suffix"
 							       id="related_product_desc_end_suffix"
-							       value="<?php echo RELATED_PRODUCT_DESC_END_SUFFIX; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_DESC_END_SUFFIX'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -91,7 +91,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="related_product_short_desc_max_chars"
 							       id="related_product_short_desc_max_chars"
-							       value="<?php echo RELATED_PRODUCT_SHORT_DESC_MAX_CHARS; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -104,7 +104,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="related_product_short_desc_end_suffix"
 							       id="related_product_short_desc_end_suffix"
-							       value="<?php echo RELATED_PRODUCT_SHORT_DESC_END_SUFFIX; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -117,7 +117,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="related_product_title_max_chars"
 							       id="related_product_title_max_chars"
-							       value="<?php echo RELATED_PRODUCT_TITLE_MAX_CHARS; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_TITLE_MAX_CHARS'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -130,7 +130,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="related_product_title_end_suffix"
 							       id="related_product_title_end_suffix"
-							       value="<?php echo RELATED_PRODUCT_TITLE_END_SUFFIX; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_TITLE_END_SUFFIX'); ?>">
 						</td>
 					</tr>
 				</table>
@@ -150,9 +150,9 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<input type="text" name="related_product_thumb_width" id="related_product_thumb_width"
-							       value="<?php echo RELATED_PRODUCT_THUMB_WIDTH; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_THUMB_WIDTH'); ?>">
 							<input type="text" name="related_product_thumb_height" id="related_product_thumb_height"
-							       value="<?php echo RELATED_PRODUCT_THUMB_HEIGHT; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_THUMB_HEIGHT'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -164,9 +164,9 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<input type="text" name="related_product_thumb_width_2" id="related_product_thumb_width_2"
-							       value="<?php echo RELATED_PRODUCT_THUMB_WIDTH_2; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_THUMB_WIDTH_2'); ?>">
 							<input type="text" name="related_product_thumb_height_2" id="related_product_thumb_height_2"
-							       value="<?php echo RELATED_PRODUCT_THUMB_HEIGHT_2; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_THUMB_HEIGHT_2'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -178,9 +178,9 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<input type="text" name="related_product_thumb_width_3" id="related_product_thumb_width_3"
-							       value="<?php echo RELATED_PRODUCT_THUMB_WIDTH_3; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_THUMB_WIDTH_3'); ?>">
 							<input type="text" name="related_product_thumb_height_3" id="related_product_thumb_height_3"
-							       value="<?php echo RELATED_PRODUCT_THUMB_HEIGHT_3; ?>">
+							       value="<?php echo $this->config->get('RELATED_PRODUCT_THUMB_HEIGHT_3'); ?>">
 						</td>
 					</tr>
 				</table>

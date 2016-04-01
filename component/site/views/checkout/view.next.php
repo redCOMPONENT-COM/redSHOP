@@ -45,7 +45,7 @@ class RedshopViewCheckout extends RedshopView
 		}
 
 		$shipping_rate_id = JRequest::getString('shipping_rate_id');
-		$shippingdetail   = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
+		$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
 
 		if (count($shippingdetail) < 4)
 		{

@@ -90,7 +90,7 @@ defined('_JEXEC') or die;
 							type="text"
 							name="first_invoice_number"
 							id="first_invoice_number"
-						    value="<?php echo FIRST_INVOICE_NUMBER; ?>"
+						    value="<?php echo $this->config->get('FIRST_INVOICE_NUMBER'); ?>"
 						>
 					</td>
 				</tr>
@@ -110,7 +110,7 @@ defined('_JEXEC') or die;
 							type="text"
 							name="invoice_number_template"
 							id="invoice_number_template"
-						    value="<?php echo INVOICE_NUMBER_TEMPLATE; ?>"
+						    value="<?php echo $this->config->get('INVOICE_NUMBER_TEMPLATE'); ?>"
 						>
 					</td>
 				</tr>
@@ -130,7 +130,7 @@ defined('_JEXEC') or die;
 							type="text"
 							name="real_invoice_number_template"
 							id="real_invoice_number_template"
-						    value="<?php echo REAL_INVOICE_NUMBER_TEMPLATE; ?>"
+						    value="<?php echo $this->config->get('REAL_INVOICE_NUMBER_TEMPLATE'); ?>"
 						>
 					</td>
 				</tr>

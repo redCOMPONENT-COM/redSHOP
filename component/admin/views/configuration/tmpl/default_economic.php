@@ -77,7 +77,7 @@ echo JText::_('COM_REDSHOP_ECONMOMIC_TAX_ZONE_LBL' );
 		<td><input type="text" name="economic_invoice_layoutid_vat"
 			id="economic_invoice_layoutid_vat"
 			value="<?php
-			echo ECONOMIC_INVOICE_LAYOUTID_VAT;
+			echo $this->config->get('ECONOMIC_INVOICE_LAYOUTID_VAT');
 			?>"
 			size="32">
 		</td>

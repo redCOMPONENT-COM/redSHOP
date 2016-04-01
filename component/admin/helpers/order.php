@@ -178,7 +178,7 @@ class order_functions
 		$billingInfo               = $this->getOrderBillingUserInfo($order_id);
 		$shippingInfo              = $this->getOrderShippingUserInfo($order_id);
 		$shippinghelper            = new shipping;
-		$shippingRateDecryptDetail = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($order_details->ship_method_id);
 
 		// Get Shipping Delivery Type
 		$shippingDeliveryType = 1;
@@ -1044,22 +1044,30 @@ class order_functions
 		return $list;
 	}
 
+	/**
+	 * Get Order Payment Detail
+	 *
+	 * @param   integer  $order_id          Order Id
+	 * @param   integer  $payment_order_id  Payment order id
+	 *
+	 * @deprecated 1.5   Use RedshopHelperOrder::getPaymentInfo instead
+	 *
+	 * @return  array    order payment info
+	 */
 	public function getOrderPaymentDetail($order_id, $payment_order_id = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$and = '';
-
-		if ($payment_order_id != 0)
+		if (!$payment_order_id)
 		{
-			$and = ' AND payment_order_id = ' . (int) $payment_order_id . ' ';
+			return array(RedshopHelperOrder::getPaymentInfo($order_id));
 		}
+		else
+		{
+			$db = JFactory::getDbo();
+			$query = 'SELECT * FROM #__redshop_order_payment WHERE payment_order_id = ' . (int) $payment_order_id;
+			$db->setQuery($query);
 
-		$query = 'SELECT * FROM #__redshop_order_payment ' . 'WHERE order_id = ' . (int) $order_id . ' ' . $and;
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		return $list;
+			return $db->loadObjectlist();
+		}
 	}
 
 	public function getOrderPartialPayment($order_id)
@@ -1994,7 +2002,7 @@ class order_functions
 			$search[] = "{order_detail_link}";
 			$replace[] = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
 
-			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $orderdetail->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($orderdetail->ship_method_id);
 
 			if (count($details) <= 1)
 			{
@@ -2137,7 +2145,7 @@ class order_functions
 		{
 			$shippinghelper = new shipping;
 			$order_details  = $this->getOrderDetails($order_id);
-			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+			$details        = RedshopShippingRate::decrypt($order_details->ship_method_id);
 
 			$shippingParams = new JRegistry(
 								JPluginHelper::getPlugin(
