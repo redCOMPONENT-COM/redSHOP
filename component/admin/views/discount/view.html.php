@@ -47,7 +47,7 @@ class RedshopViewDiscount extends RedshopView
 		$pagination = $this->get('Pagination');
 
 		$spgrpdis_filter = $state->get('spgrpdis_filter');
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 		$shopper_groups = $userhelper->getShopperGroupList();
 
 		$temps = array();

@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminConfiguration');
 
 class PlgRedshop_Paymentrs_Payment_Paymill extends JPlugin
 {
@@ -93,8 +91,6 @@ class PlgRedshop_Paymentrs_Payment_Paymill extends JPlugin
 		$document->addScript(JURI::base() . 'plugins/redshop_payment/rs_payment_paymill/rs_payment_paymill/js/BrandDetection.js');
 		$document->addScript(JURI::base() . 'plugins/redshop_payment/rs_payment_paymill/rs_payment_paymill/js/paymill.js');
 		$document->addStyleSheet(JURI::base() . 'plugins/redshop_payment/rs_payment_paymill/rs_payment_paymill/css/paymill_styles.css');
-		JLoader::load('RedshopHelperHelper');
-		JLoader::load('RedshopHelperCart');
 
 		$request = JRequest::get('request');
 
@@ -192,7 +188,7 @@ class PlgRedshop_Paymentrs_Payment_Paymill extends JPlugin
 
 		$paymill_private_key = $this->params->get('paymill_private_key', '0');
 		$environment = $this->params->get('environment', 'sandbox');
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$orderDetails = $order_functions->getOrderDetails($data['order_id']);
 		$order_amount = number_format($orderDetails->order_total, 2, '.', '') * 100;
 		$Itemid = $app->input->getInt('Itemid', 0);

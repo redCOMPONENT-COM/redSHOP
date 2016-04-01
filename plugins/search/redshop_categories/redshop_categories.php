@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
 
 class plgSearchRedshop_categories extends JPlugin
 {
@@ -163,7 +162,7 @@ class plgSearchRedshop_categories extends JPlugin
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$return    = array();
 
 		foreach ($rows as $key => $row)

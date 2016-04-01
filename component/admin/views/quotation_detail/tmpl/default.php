@@ -10,19 +10,17 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-JLoader::load('RedshopHelperProduct');
-$producthelper   = new producthelper;
+$producthelper   = producthelper::getInstance();
 
-JLoader::load('RedshopHelperAdminQuotation');
-$quotationHelper = new quotationHelper;
+$quotationHelper = quotationHelper::getInstance();
 
-JLoader::load('RedshopHelperAdminOrder');
-$order_functions = new order_functions;
-$redconfig       = new Redconfiguration;
+$order_functions = order_functions::getInstance();
+
+$redconfig       = Redconfiguration::getInstance();
 
 $model           = $this->getModel('quotation_detail');
 
-$extra_field     = new extra_field;
+$extra_field     = extra_field::getInstance();
 $quotation       = $this->quotation;
 
 $uri             = JURI::getInstance();

@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgRedshop_paymentrs_payment_braintree extends JPlugin
 {
@@ -52,9 +50,9 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 	public function getCredicardForm($element, $data)
 	{
-		$objOrder         = new order_functions;
-		$objconfiguration = new Redconfiguration;
-		$carthelper       = new rsCarthelper;
+		$objOrder         = order_functions::getInstance();
+		$objconfiguration = Redconfiguration::getInstance();
+		$carthelper       = rsCarthelper::getInstance();
 		$user             = JFactory::getUser();
 		$user_id          = $user->id;
 		$jInput = JFactory::getApplication()->input;
@@ -225,8 +223,8 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 	public function getOrderAndCcdata($element, $data)
 	{
 		$session         = JFactory::getSession();
-		$order_functions = new order_functions;
-		$configobj       = new Redconfiguration;
+		$order_functions = order_functions::getInstance();
+		$configobj       = Redconfiguration::getInstance();
 
 		if ($element != 'rs_payment_braintree')
 		{
@@ -314,7 +312,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 	public function onAfterCreditcardInfo($element, $data)
 	{
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		if ($element != 'rs_payment_braintree')
 		{

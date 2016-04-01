@@ -9,17 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperUser');
 
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Class checkoutModelcheckout
@@ -53,12 +43,12 @@ class RedshopModelCheckout extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$session             = JFactory::getSession();
 
-		$this->_carthelper      = new rsCarthelper;
-		$this->_userhelper      = new rsUserhelper;
-		$this->_shippinghelper  = new shipping;
-		$this->_producthelper   = new producthelper;
-		$this->_order_functions = new order_functions;
-		$this->_redshopMail     = new redshopMail;
+		$this->_carthelper      = rsCarthelper::getInstance();
+		$this->_userhelper      = rsUserHelper::getInstance();
+		$this->_shippinghelper  = shipping::getInstance();
+		$this->_producthelper   = producthelper::getInstance();
+		$this->_order_functions = order_functions::getInstance();
+		$this->_redshopMail     = redshopMail::getInstance();
 
 		$user = JFactory::getUser();
 		$cart = $session->get('cart');
@@ -150,12 +140,12 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 
-		$redconfig       = new Redconfiguration;
-		$quotationHelper = new quotationHelper;
-		$stockroomhelper = new rsstockroomhelper;
-		$helper          = new redhelper;
-		$shippinghelper  = new shipping;
-		$order_functions = new order_functions;
+		$redconfig       = Redconfiguration::getInstance();
+		$quotationHelper = quotationHelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
+		$helper          = redhelper::getInstance();
+		$shippinghelper  = shipping::getInstance();
+		$order_functions = order_functions::getInstance();
 
 		$post = JRequest::get('post');
 
@@ -198,7 +188,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$order_paymentstatus = 'Unpaid';
-		$objshipping         = new shipping;
+		$objshipping         = shipping::getInstance();
 
 		$users_info_id    = JRequest::getInt('users_info_id');
 		$thirdparty_email = JRequest::getVar('thirdparty_email');
@@ -1231,7 +1221,7 @@ class RedshopModelCheckout extends RedshopModel
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
-			$economic = new economic;
+			$economic = economic::getInstance();
 
 			$economicdata['split_payment']             = $issplit;
 			$economicdata['economic_payment_terms_id'] = $economic_payment_terms_id;
@@ -2120,7 +2110,7 @@ class RedshopModelCheckout extends RedshopModel
 		$user_id  = $user->id;
 		$usersess = $session->get('rs_user');
 		$userArr  = $this->_producthelper->getVatUserinfo($user_id);
-		$redHelper = new redhelper;
+		$redHelper = redhelper::getInstance();
 
 		$usersess['rs_user_info_id'] = $users_info_id;
 		unset($cart['shipping']);
@@ -2403,7 +2393,7 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function getOrdernumber()
 	{
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$trackid_time    = $this->getOrdernumberTrack();
 
 		if ($trackid_time != "")

@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Class productModelproduct
@@ -62,7 +58,7 @@ class RedshopModelProduct extends RedshopModel
 		$and = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = new rsUserhelper;
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -93,7 +89,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getData()
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		if (empty ($this->_data))
 		{
@@ -113,7 +109,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getProductTemplate()
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		if (empty ($this->_template))
 		{
@@ -213,8 +209,8 @@ class RedshopModelProduct extends RedshopModel
 			return false;
 		}
 
-		$producthelper = new producthelper;
-		$redshopMail   = new redshopMail;
+		$producthelper = producthelper::getInstance();
+		$redshopMail   = redshopMail::getInstance();
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
@@ -338,7 +334,7 @@ class RedshopModelProduct extends RedshopModel
 	public function addtowishlist2session($data)
 	{
 		ob_clean();
-		$extraField = new extraField;
+		$extraField = extraField::getInstance();
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
 
@@ -470,7 +466,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$info          = $producthelper->getChildProduct($parentid);
 
 		for ($i = 0, $in = count($info); $i < $in; $i++)

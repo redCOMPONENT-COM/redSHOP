@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
 
 class modProMenuHelper
 {
@@ -311,7 +310,7 @@ class modProMenuHelper
 		$list_css_class = "mm123",
 		$highlighted_style = "font-style:italic;", $shopper_group_id = 0)
 	{
-		$objhelper              = new redhelper;
+		$objhelper              = redhelper::getInstance();
 		$parent_selected        = $params->get('redshop_category', '');
 		$parent_selected_remove = $params->get('redshop_category_remove', '');
 

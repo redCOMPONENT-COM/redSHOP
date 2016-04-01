@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminXmlHelper');
 
 class RedshopModelXmlimport_detail extends RedshopModel
 {

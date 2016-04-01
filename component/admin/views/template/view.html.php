@@ -37,7 +37,7 @@ class RedshopViewTemplate extends RedshopView
 		$templates  = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$redtemplate = new Redtemplate;
+		$redtemplate = Redtemplate::getInstance();
 		$optionsection = $redtemplate->getTemplateSections();
 
 		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'template_section',

@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.utilities.simplexml');
 
-JLoader::load('RedshopHelperAdminConfiguration');
 
 /**
  * price converter
@@ -29,6 +28,26 @@ class CurrencyHelper
 	public $info_address = 'http://www.ecb.int/stats/eurofxref/';
 
 	public $supplier = 'European Central Bank';
+
+	protected static $instance = null;
+
+	/**
+	 * Returns the CurrencyHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  CurrencyHelper  The CurrencyHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new CurrencyHelper;
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * Initializes the global currency converter array
@@ -165,8 +184,6 @@ class CurrencyHelper
 	 */
 	public function convert($amountA, $currA = '', $currB = '')
 	{
-		$config = new Redconfiguration;
-
 		$session = JFactory::getSession();
 
 		// Global $vendor_currency is DEFAULT!

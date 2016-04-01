@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
 
 class RedshopViewFields_detail extends RedshopView
 {
@@ -23,8 +22,7 @@ class RedshopViewFields_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$extra_field = new extra_field;
-
+		$extra_field = extra_field::getInstance();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL'), 'redshop_fields48');
 
@@ -55,7 +53,7 @@ class RedshopViewFields_detail extends RedshopView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$redtemplate = new Redtemplate;
+		$redtemplate = Redtemplate::getInstance();
 		$optiontype = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
 

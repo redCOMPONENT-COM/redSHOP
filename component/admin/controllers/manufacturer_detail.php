@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
 
 class RedshopControllerManufacturer_detail extends RedshopController
 {
@@ -49,7 +48,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 		if ($row = $model->store($post))
 		{
-			$field = new extra_field;
+			$field = extra_field::getInstance();
 			$field->extra_field_save($post, "10", $row->manufacturer_id);
 
 			$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');

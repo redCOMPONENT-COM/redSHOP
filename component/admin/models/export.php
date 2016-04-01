@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperProduct');
 
 /**
  * Class Model Export
@@ -443,7 +441,7 @@ class RedshopModelExport extends RedshopModel
 	 */
 	private function loadAttributes()
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$db = JFactory::getDbo();
 		$query = "SELECT * FROM `#__redshop_product` ORDER BY product_id asc ";
@@ -454,7 +452,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			$redhelper = new redhelper;
+			$redhelper = redhelper::getInstance();
 			$isrecrm = false;
 
 			if ($redhelper->isredCRM())
@@ -779,8 +777,8 @@ class RedshopModelExport extends RedshopModel
 	 */
 	private function loadFields()
 	{
-		$extra_field   = new extra_field;
-		$producthelper = new producthelper;
+		$extra_field   = extra_field::getInstance();
+		$producthelper = producthelper::getInstance();
 		$db            = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')

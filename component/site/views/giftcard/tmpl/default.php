@@ -12,12 +12,11 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-JLoader::load('RedshopHelperExtra_field');
 
-$producthelper = new producthelper;
-$objhelper     = new redhelper;
-$extraField    = new extraField;
-$redTemplate   = new Redtemplate;
+$producthelper = producthelper::getInstance();
+$objhelper     = redhelper::getInstance();
+$extraField    = extraField::getInstance();
+$redTemplate   = Redtemplate::getInstance();
 
 $model     = $this->getModel('giftcard');
 $url       = JURI::base();

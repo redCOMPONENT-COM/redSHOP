@@ -10,10 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperProduct');
 
 /**
  * Class quotationModelquotation
@@ -52,7 +48,7 @@ class RedshopModelQuotation extends RedshopModel
 
 	public function _loadData()
 	{
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$user            = JFactory::getUser();
 
 		if ($user->id)
@@ -90,9 +86,9 @@ class RedshopModelQuotation extends RedshopModel
 	public function store($data, $post)
 	{
 		$this->_loadData();
-		$quotationHelper = new quotationHelper;
-		$producthelper   = new producthelper;
-		$extra_field     = new extra_field;
+		$quotationHelper = quotationHelper::getInstance();
+		$producthelper   = producthelper::getInstance();
+		$extra_field     = extra_field::getInstance();
 		$user            = JFactory::getUser();
 		$user_id         = 0;
 		$user_info_id    = 0;
@@ -450,8 +446,8 @@ class RedshopModelQuotation extends RedshopModel
 
 	public function usercreate($data)
 	{
-		$redshopMail     = new redshopMail;
-		$order_functions = new order_functions;
+		$redshopMail     = redshopMail::getInstance();
+		$order_functions = order_functions::getInstance();
 		$Itemid          = JRequest::getVar('Itemid');
 		$app = JFactory::getApplication();
 
@@ -625,7 +621,7 @@ class RedshopModelQuotation extends RedshopModel
 			}
 		}
 
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$user          = JFactory::getUser();
@@ -658,7 +654,7 @@ class RedshopModelQuotation extends RedshopModel
 
 	public function sendQuotationMail($quotaion_id)
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$send        = $redshopMail->sendQuotationMail($quotaion_id);
 
 		return $send;

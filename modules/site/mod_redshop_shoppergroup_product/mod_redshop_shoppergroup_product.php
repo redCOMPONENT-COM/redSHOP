@@ -25,15 +25,9 @@ if (JRequest::getCmd('option') != 'com_redshop')
 {
 	// Getting the configuration
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	JLoader::load('RedshopHelperAdminConfiguration');
-	$Redconfiguration = new Redconfiguration;
+	$Redconfiguration = Redconfiguration::getInstance();
 	$Redconfiguration->defineDynamicVars();
 }
-
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperExtra_field');
 
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';

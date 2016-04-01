@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminMail');
 
 
 class RedshopControllerQuestion_detail extends RedshopController
@@ -120,7 +119,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
-			$redshopMail = new redshopMail;
+			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendAskQuestionMail($cid[$i]);
 		}
 

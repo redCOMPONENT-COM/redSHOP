@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_PaymentQuickbook extends JPlugin
 {

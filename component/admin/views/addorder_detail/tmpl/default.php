@@ -11,16 +11,13 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 JHTML::_('behavior.calendar');
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper;
-JLoader::load('RedshopHelperAdminOrder');
-$order_functions = new order_functions;
-$redconfig = new Redconfiguration;
+$producthelper = producthelper::getInstance();
+$order_functions = order_functions::getInstance();
+$redconfig = Redconfiguration::getInstance();
 
 
 $model = $this->getModel('addorder_detail');
-$redhelper = new redhelper;
+$redhelper = redhelper::getInstance();
 
 $billing = $this->billing;
 $shipping = $this->shipping;

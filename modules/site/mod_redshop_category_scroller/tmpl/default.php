@@ -10,11 +10,6 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminImages');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -31,11 +26,9 @@ JHtml::script('com_redshop/redbox.js', false, true);
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 
-$config = new Redconfiguration;
-$config->defineDynamicVars();
-
-$producthelper = new producthelper;
-$redhelper     = new redhelper;
+$config = Redconfiguration::getInstance();
+$producthelper = producthelper::getInstance();
+$redhelper     = redhelper::getInstance();
 
 $view      = JRequest::getCmd('view', 'category');
 $module_id = "mod_" . $module->id;

@@ -14,7 +14,6 @@ class leftmenu
 	public function  __construct()
 	{
 		$view         = JRequest::getVar('view');
-		$redhelper    = new redhelper;
 		$stockCounter = 0;
 
 		if (!USE_STOCKROOM)

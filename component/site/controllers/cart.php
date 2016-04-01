@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
 
 /**
  * Cart Controller.
@@ -30,7 +28,7 @@ class RedshopControllerCart extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_carthelper = new rsCarthelper;
+		$this->_carthelper = rsCarthelper::getInstance();
 	}
 
 	/**
@@ -44,8 +42,8 @@ class RedshopControllerCart extends RedshopController
 		$post                       = JRequest::get('post');
 		$parent_accessory_productid = $post['product_id'];
 		$Itemid                     = JRequest::getInt('Itemid');
-		$producthelper              = new producthelper;
-		$redhelper                  = new redhelper;
+		$producthelper              = producthelper::getInstance();
+		$redhelper                  = redhelper::getInstance();
 		$Itemid                     = $redhelper->getCartItemid();
 		$model                      = $this->getModel('cart');
 
@@ -237,7 +235,7 @@ class RedshopControllerCart extends RedshopController
 
 	public function modifyCalculation($cart)
 	{
-		$producthelper            = new producthelper;
+		$producthelper            = producthelper::getInstance();
 		$calArr                   = $this->_carthelper->calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
 		$session                  = JFactory::getSession();
@@ -336,7 +334,7 @@ class RedshopControllerCart extends RedshopController
 		$session   = JFactory::getSession();
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
@@ -372,7 +370,7 @@ class RedshopControllerCart extends RedshopController
 		$session   = JFactory::getSession();
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
@@ -406,7 +404,7 @@ class RedshopControllerCart extends RedshopController
 	{
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
@@ -432,7 +430,7 @@ class RedshopControllerCart extends RedshopController
 	{
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
@@ -452,7 +450,7 @@ class RedshopControllerCart extends RedshopController
 	public function empty_cart()
 	{
 		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
@@ -479,7 +477,7 @@ class RedshopControllerCart extends RedshopController
 		$post        = JRequest::get('post');
 		$cartElement = $post['cart_index'];
 		$Itemid      = JRequest::getInt('Itemid');
-		$redhelper   = new redhelper;
+		$redhelper   = redhelper::getInstance();
 		$Itemid      = $redhelper->getCartItemid();
 		$model       = $this->getModel('cart');
 
@@ -538,8 +536,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function getShippingrate()
 	{
-		JLoader::load('RedshopHelperAdminShipping');
-		$shipping = new shipping;
+				$shipping = shipping::getInstance();
 		echo $shipping->getShippingrate_calc();
 		exit;
 	}

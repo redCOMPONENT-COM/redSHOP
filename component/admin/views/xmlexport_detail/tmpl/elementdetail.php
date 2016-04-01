@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-JLoader::load('RedshopHelperAdminXmlHelper');
 
 
 $section_type = JRequest::getVar('section_type');

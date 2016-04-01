@@ -9,11 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperHelper');
-
 class rsUserhelper
 {
 	public $_session = null;
@@ -25,6 +20,26 @@ class rsUserhelper
 	protected static $shopperGroupData = array();
 
 	protected static $userInfo = array();
+
+	protected static $instance = null;
+
+	/**
+	 * Returns the rsUserHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  rsUserHelper  The rsUserHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new rsUserHelper;
+		}
+
+		return self::$instance;
+	}
 
 	public function __construct()
 	{
@@ -475,9 +490,9 @@ class rsUserhelper
 
 	public function storeRedshopUser($data, $user_id = 0, $admin = 0)
 	{
-		$redshopMail = new redshopMail;
-		$extra_field = new extra_field;
-		$helper      = new redhelper;
+		$redshopMail = redshopMail::getInstance();
+		$extra_field = extra_field::getInstance();
+		$helper      = redhelper::getInstance();
 
 		$data['user_email']   = $data['email'] = $data['email1'];
 		$data['name']         = $name = $data['firstname'];
@@ -579,7 +594,7 @@ class rsUserhelper
 		// Update user info id
 		if (ECONOMIC_INTEGRATION)
 		{
-			$economic         = new economic;
+			$economic         = economic::getInstance();
 			$original_info_id = $row->users_info_id;
 
 			if ($isNew)
@@ -700,7 +715,7 @@ class rsUserhelper
 
 	public function storeRedshopUserShipping($data)
 	{
-		$extra_field = new extra_field;
+		$extra_field = extra_field::getInstance();
 
 		$rowShip = JTable::getInstance('user_detail', 'Table');
 
@@ -843,7 +858,7 @@ class rsUserhelper
 
 		if (NEWSLETTER_CONFIRMATION && $sendmail)
 		{
-			$redshopMail = new redshopMail;
+			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendNewsletterConfirmationMail($row->subscription_id);
 		}
 
@@ -874,7 +889,7 @@ class rsUserhelper
 				. $and;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
-			$redshopMail = new redshopMail;
+			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendNewsletterCancellationMail($email);
 		}
 
@@ -883,7 +898,7 @@ class rsUserhelper
 
 	public function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		$billingisshipping = "";
 
@@ -1032,7 +1047,7 @@ class rsUserhelper
 
 	public function replaceBillingCommonFields($template_desc, $post = array(), $lists)
 	{
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 
 		$ajax                  = (isset($lists['isAjax']) && $lists['isAjax'] == 1) ? 1 : 0;
 		$countryarray          = $Redconfiguration->getCountryList(@$post, "country_code", "BT");
@@ -1175,8 +1190,8 @@ class rsUserhelper
 
 	public function getShippingTable($post = array(), $is_company = 0, $lists)
 	{
-		$Redconfiguration  = new Redconfiguration;
-		$redTemplate       = new Redtemplate;
+		$Redconfiguration  = Redconfiguration::getInstance();
+		$redTemplate       = Redtemplate::getInstance();
 		$shipping_template = $redTemplate->getTemplate("shipping_template");
 
 		if (count($shipping_template) > 0 && $shipping_template[0]->template_desc != "")

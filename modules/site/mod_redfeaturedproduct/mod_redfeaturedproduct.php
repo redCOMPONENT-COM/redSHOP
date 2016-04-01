@@ -11,10 +11,6 @@ defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminCategory');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminImages');
 
 $thumbWidth = $params->get('thumbwidth', "100");
 $thumbHeight = $params->get('thumbheight', "100");

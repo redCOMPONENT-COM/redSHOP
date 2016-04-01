@@ -12,13 +12,10 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-JLoader::load('RedshopHelperAdminCategory');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
 
-$config = new Redconfiguration;
-$producthelper = new producthelper;
-$redhelper = new redhelper;
+$config = Redconfiguration::getInstance();
+$producthelper = producthelper::getInstance();
+$redhelper = redhelper::getInstance();
 
 $url = JURI::base();
 $Itemid = JRequest::getInt('Itemid');
@@ -28,8 +25,8 @@ $user = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 
-$redTemplate = new Redtemplate;
-$extraField = new extraField;
+$redTemplate = Redtemplate::getInstance();
+$extraField = extraField::getInstance();
 $template = $redTemplate->getTemplate("wishlist_template");
 $wishlist_data1 = $template[0]->template_desc;
 $returnArr = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
@@ -173,12 +170,12 @@ else
 function display_products($rows)
 {
 	$url           = JURI::base();
-	$extraField    = new extraField;
+	$extraField    = extraField::getInstance();
 	$session       = JFactory::getSession();
-	$producthelper = new producthelper;
-	$redhelper     = new redhelper;
-	$config        = new Redconfiguration;
-	$redTemplate   = new Redtemplate;
+	$producthelper = producthelper::getInstance();
+	$redhelper     = redhelper::getInstance();
+	$config        = Redconfiguration::getInstance();
+	$redTemplate   = Redtemplate::getInstance();
 	$template      = $redTemplate->getTemplate("wishlist_template");
 
 	if (count($template) <= 0)

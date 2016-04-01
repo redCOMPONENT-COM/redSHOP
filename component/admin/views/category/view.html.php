@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewCategory extends RedshopView
 {
@@ -30,7 +29,7 @@ class RedshopViewCategory extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'folder redshop_categories48');
 		JToolbarHelper::addNew();

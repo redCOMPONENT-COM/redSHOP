@@ -14,7 +14,7 @@ class RedshopViewAttribute_set_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 
 		$db = JFactory::getDbo();

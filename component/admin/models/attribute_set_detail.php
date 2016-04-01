@@ -9,13 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelAttribute_set_detail extends RedshopModel
 {
@@ -113,7 +110,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if (count($cid))
 		{
@@ -252,7 +249,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		$db = $this->_db;
 		$attribute_data = '';
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$attr = $producthelper->getProductAttribute(0, $data);
 
 		for ($i = 0, $in = count($attr); $i < $in; $i++)
@@ -276,7 +273,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function getpropertylist($data)
 	{
 		$db = $this->_db;
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if (count($data))
 		{
@@ -435,7 +432,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function property_image_list($cid)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if (count($cid))
 		{
@@ -752,7 +749,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function  attribute_empty()
 	{
 		$database = JFactory::getDbo();
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if ($this->_id)
 		{
@@ -790,7 +787,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removepropertyImage($pid)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$image = $producthelper->getAttibuteProperty($pid);
 		$image = $image[0];
@@ -824,7 +821,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removesubpropertyImage($pid)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$image = $producthelper->getAttibuteSubProperty($pid);
 		$image = $image[0];
 		$imagename = $image->subattribute_color_image;

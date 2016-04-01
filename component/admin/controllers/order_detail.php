@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminProduct');
 
 class RedshopControllerOrder_detail extends RedshopController
 {
@@ -89,8 +86,8 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function neworderitem()
 	{
-		$adminproducthelper = new adminproducthelper;
-		$stockroomhelper = new rsstockroomhelper;
+		$adminproducthelper = adminProductHelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$post = JRequest::get('post');
 		$tmpl = "";
 
@@ -177,7 +174,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		$model = $this->getModel('order_detail');
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$orderItem = $order_functions->getOrderItemDetail($cid[0]);
 
 		if (count($orderItem) == 1 && $orderItem[0]->order_item_id == $post['order_item_id'])
@@ -384,7 +381,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function displayProductItemInfo()
 	{
-		$adminproducthelper = new adminproducthelper;
+		$adminproducthelper = adminProductHelper::getInstance();
 		$get = JRequest::get('get');
 
 		$product_id = $get['product'];
@@ -402,12 +399,10 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
-		JLoader::load('RedshopHelperAdminOrder');
-		JLoader::load('RedshopHelperAdminConfiguration');
 
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 		$model = $this->getModel('order_detail');
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		$request = JRequest::get('request');
 
@@ -512,8 +507,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$app = JFactory::getApplication();
 		$request = JRequest::get('request');
 
-		JLoader::load('RedshopHelperOrder');
-		$objOrder = new order_functions;
+		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = JDispatcher::getInstance();
@@ -528,7 +522,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function send_invoicemail()
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 
 
 		$cid = JRequest::getVar('cid', array(0), 'get', 'array');
@@ -560,7 +554,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	 */
 	public function resendOrderMail()
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 
 		$input   = JFactory::getApplication()->input;
 		$orderId = $input->getInt('orderid');

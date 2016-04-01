@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperHelper');
 
 class RedshopViewSearch extends RedshopView
 {
@@ -99,7 +98,7 @@ class RedshopViewSearch extends RedshopView
 			}
 		}
 
-		$redHelper = new redhelper;
+		$redHelper = redhelper::getInstance();
 		$order_data            = $redHelper->getOrderByList();
 		$getorderby            = JRequest::getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
@@ -123,17 +122,14 @@ class RedshopViewSearch extends RedshopView
 		{
 			$app = JFactory::getApplication();
 
-			JLoader::load('RedshopHelperProduct');
-			JLoader::load('RedshopHelperExtra_field');
-			JLoader::load('RedshopHelperAdminText_library');
 
 			$dispatcher       = JDispatcher::getInstance();
-			$redTemplate      = new Redtemplate;
-			$Redconfiguration = new Redconfiguration;
-			$producthelper    = new producthelper;
-			$extraField       = new extraField;
+			$redTemplate      = Redtemplate::getInstance();
+			$Redconfiguration = Redconfiguration::getInstance();
+			$producthelper    = producthelper::getInstance();
+			$extraField       = extraField::getInstance();
 			$texts            = new text_library;
-			$stockroomhelper  = new rsstockroomhelper;
+			$stockroomhelper  = rsstockroomhelper::getInstance();
 
 			$Itemid         = JRequest::getInt('Itemid');
 			$search_type    = JRequest::getCmd('search_type');
@@ -320,6 +316,7 @@ class RedshopViewSearch extends RedshopView
 			}
 
 			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
+			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
 			$total_product = $model->getTotal();
@@ -405,7 +402,11 @@ class RedshopViewSearch extends RedshopView
 				$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
 				$data_add = $producthelper->getJcommentEditor($this->search[$i], $data_add);
 
-				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add, 1);
+				if ($extraFieldsForCurrentTemplate)
+				{
+					$data_add = $extraField->extra_field_display(1, $this->search[$i]->product_id, $extraFieldsForCurrentTemplate, $data_add, 1);
+				}
+
 				$data_add = str_replace("{product_s_desc}", $pro_s_desc, $data_add);
 				$data_add = str_replace("{product_desc}", $pro_desc, $data_add);
 				$data_add = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewNewsletter extends RedshopView
 {

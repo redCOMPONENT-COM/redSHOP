@@ -41,9 +41,9 @@ class RedshopViewWizard extends RedshopView
 
 		$uri         = JFactory::getURI();
 		$db          = JFactory::getDbo();
-		$redhelper   = new redhelper;
-		$config      = new Redconfiguration;
-		$extra_field = new extra_field;
+		$redhelper   = redhelper::getInstance();
+		$config      = Redconfiguration::getInstance();
+		$extra_field = extra_field::getInstance();
 		$model       = $this->getModel();
 		$document    = JFactory::getDocument();
 
