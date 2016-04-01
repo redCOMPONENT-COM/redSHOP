@@ -148,12 +148,12 @@ class RedshopControllerOrder extends RedshopController
 		{
 			$order_id = JRequest::getCmd('order_id');
 			$order_function = new order_functions;
-			$paymentInfo = $order_function->getOrderPaymentDetail($order_id);
+			$paymentInfo = RedshopHelperOrder::getPaymentInfo($order_id);
 
-			if (count($paymentInfo) > 0)
+			if ($paymentInfo)
 			{
-				$payment_name = $paymentInfo[0]->payment_method_class;
-				$paymentArr = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+				$payment_name = $paymentInfo->payment_method_class;
+				$paymentArr = explode("rs_payment_", $paymentInfo->payment_method_class);
 
 				if (count($paymentArr) > 0)
 				{
@@ -161,15 +161,9 @@ class RedshopControllerOrder extends RedshopController
 				}
 
 				$economicdata['economic_payment_method'] = $payment_name;
-				$paymentmethod = $order_function->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
-
-				if (count($paymentmethod) > 0)
-				{
-					$paymentparams = new JRegistry($paymentmethod[0]->params);
-					$economicdata['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-					$economicdata['economic_design_layout'] = $paymentparams->get('economic_design_layout');
-					$economicdata['economic_is_creditcard'] = $paymentparams->get('is_creditcard');
-				}
+				$economicdata['economic_payment_terms_id'] = $paymentInfo->plugin->params->get('economic_payment_terms_id');
+				$economicdata['economic_design_layout'] = $paymentInfo->plugin->params->get('economic_design_layout');
+				$economicdata['economic_is_creditcard'] = $paymentInfo->plugin->params->get('is_creditcard');
 			}
 
 			$economic = new economic;
@@ -253,7 +247,7 @@ class RedshopControllerOrder extends RedshopController
 		{
 			$billing_info = $order_function->getOrderBillingUserInfo($data [$i]->order_id);
 
-			$details = explode("|", $shipping_helper->decryptShipping(str_replace(" ", "+", $data[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
 
 			echo $data [$i]->order_id . ",";
 			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";

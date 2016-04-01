@@ -1224,6 +1224,11 @@ class Com_RedshopInstallerScript
 				$files,
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php'
 			);
+
+			array_push(
+				$folders,
+				JPATH_LIBRARIES . '/redshop/config'
+			);
 		}
 
 		if (version_compare($this->getOldParam('version'), '1.5.0.5.3', '<='))

@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="colour_sample_remainder_1"
 		           id="colour_sample_remainder_1"
 		           value="<?php
-		           echo COLOUR_SAMPLE_REMAINDER_1;
+		           echo $this->config->get('COLOUR_SAMPLE_REMAINDER_1');
 		           ?>">
 		</td>
 	</tr>
@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="colour_sample_remainder_2"
 		           id="colour_sample_remainder_2"
 		           value="<?php
-		           echo COLOUR_SAMPLE_REMAINDER_2;
+		           echo $this->config->get('COLOUR_SAMPLE_REMAINDER_2');
 		           ?>">
 		</td>
 	</tr>
@@ -57,7 +57,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="colour_sample_remainder_3"
 		           id="colour_sample_remainder_3"
 		           value="<?php
-		           echo COLOUR_SAMPLE_REMAINDER_3;
+		           echo $this->config->get('COLOUR_SAMPLE_REMAINDER_3');
 		           ?>">
 		</td>
 	</tr>
@@ -73,7 +73,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="colour_coupon_duration"
 		           id="colour_coupon_duration"
 		           value="<?php
-		           echo COLOUR_COUPON_DURATION;
+		           echo $this->config->get('COLOUR_COUPON_DURATION');
 		           ?>">
 		</td>
 	</tr>
@@ -89,7 +89,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="colour_discount_percentage"
 		           id="colour_discount_percentage"
 		           value="<?php
-		           echo COLOUR_DISCOUNT_PERCENTAGE;
+		           echo $this->config->get('COLOUR_DISCOUNT_PERCENTAGE');
 		           ?>">
 		</td>
 	</tr>
@@ -105,7 +105,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="colour_sample_days"
 		           id="colour_sample_days"
 		           value="<?php
-		           echo COLOUR_SAMPLE_DAYS;
+		           echo $this->config->get('COLOUR_SAMPLE_DAYS');
 		           ?>">
 		</td>
 	</tr>

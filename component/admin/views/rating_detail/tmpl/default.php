@@ -134,6 +134,11 @@ $productHelper = new producthelper;
 							$uname->text = $model->getuserfullname2($this->detail->userid);
 							$uname->value = $this->detail->userid;
 						}
+						else
+						{
+							$uname->text = '(guest)';
+							$uname->value = 0;
+						}
 
 						echo JHTML::_('redshopselect.search', $uname, 'userid',
 							array(

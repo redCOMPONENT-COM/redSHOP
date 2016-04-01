@@ -73,16 +73,19 @@ redSHOP.AjaxOrderPaymentStatusCheck = function(){
 // Write script here to execute on page load - dom ready.
 jQuery(document).ready(function($) {
 
-	if (jQuery('#order_payment_status').length > 0)
+	if (jQuery(location).attr('search').match(/&layout=receipt/))
 	{
-		// Execure first time after 1 second.
-		setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 1000);
+		if (jQuery('#order_payment_status').length > 0)
+		{
+			// Execure first time after 1 second.
+			setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 1000);
 
-		// Then run second time after 10 second.
-		setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 10000);
-	}
-	else
-	{
-		console.warn('Make sure you add #order_payment_status ID in order receipt template');
+			// Then run second time after 10 second.
+			setTimeout('redSHOP.AjaxOrderPaymentStatusCheck()', 10000);
+		}
+		else
+		{
+			console.warn('Make sure you add #order_payment_status ID in order receipt template');
+		}
 	}
 });

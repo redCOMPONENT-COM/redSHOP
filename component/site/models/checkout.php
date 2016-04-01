@@ -285,7 +285,7 @@ class RedshopModelCheckout extends RedshopModel
 		$cart          = $session->set('cart', $cart);
 		$cart          = $session->get('cart');
 
-		$order_shipping    = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
+		$order_shipping    = RedshopShippingRate::decrypt($shipping_rate_id);
 		$order_status      = 'P';
 		$order_status_full = $this->_order_functions->getOrderStatusTitle('P');
 
@@ -2099,7 +2099,7 @@ class RedshopModelCheckout extends RedshopModel
 		$order_shipping_rate = 0;
 		$shippingVatRate     = 0;
 		$shipArr             = array();
-		$order_shipping      = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
+		$order_shipping      = RedshopShippingRate::decrypt($shipping_rate_id);
 
 		if (isset($order_shipping[3]))
 		{

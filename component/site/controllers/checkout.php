@@ -429,7 +429,7 @@ class RedshopControllerCheckout extends RedshopController
 		if (SHIPPING_METHOD_ENABLE)
 		{
 			$shipping_rate_id = JFactory::getApplication()->input->getString('shipping_rate_id');
-			$shippingdetail   = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
+			$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
 
 			if (count($shippingdetail) < 4)
 			{

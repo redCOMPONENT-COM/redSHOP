@@ -47,7 +47,7 @@ class JFormFieldCertificate extends JFormFieldText
 	protected function getInput()
 	{
 		JText::script('PLG_REDSHOP_PAYMENT_QUICKBOOK_CERTIFICATE_TEXT_REQUIRED');
-		RedshopConfig::script('SITE_URL', JUri::root());
+		RedshopHelperConfig::script('SITE_URL', JUri::root());
 
 		// Get system plugin params if available else return an error
 		$quickBookSystem = JPluginHelper::getPlugin('system', 'quickbook');
@@ -59,7 +59,7 @@ class JFormFieldCertificate extends JFormFieldText
 		}
 
 		// Set redshop config javascript header
-		RedshopConfig::scriptDeclaration();
+		RedshopHelperConfig::scriptDeclaration();
 
 		$html[] = '<div class="input-append">';
 
