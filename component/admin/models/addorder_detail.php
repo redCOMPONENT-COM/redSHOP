@@ -254,11 +254,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$adminproducthelper = new adminproducthelper;
 		$stockroomhelper = new rsstockroomhelper;
 
-		// For barcode generation
-		$barcode_code = $order_functions->barcode_randon_number(12, 0);
-
-		$postdata['barcode'] = $barcode_code;
-
 		$row = $this->getTable('order_detail');
 
 		if (!$row->bind($postdata))

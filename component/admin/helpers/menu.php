@@ -66,7 +66,6 @@ class leftmenu
 			case "orderstatus":
 			case "orderstatus_detail":
 			case "opsearch":
-			case "barcode":
 
 				$selected = 4;
 				break;
@@ -294,8 +293,6 @@ class leftmenu
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=order&layout=labellisting', 'COM_REDSHOP_DOWNLOAD_LABEL');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=orderstatus', 'COM_REDSHOP_ORDERSTATUS_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=opsearch', 'COM_REDSHOP_PRODUCT_ORDER_SEARCH');
-			echo $this->generateMenuItem('index.php?option=com_redshop&view=barcode', 'COM_REDSHOP_BARCODE');
-			echo $this->generateMenuItem('index.php?option=com_redshop&view=barcode&layout=barcode_order', 'COM_REDSHOP_BARCODE_ORDER');
 			?>
 		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUOTATION'), 'COM_REDSHOP_QUOTATION'); ?>

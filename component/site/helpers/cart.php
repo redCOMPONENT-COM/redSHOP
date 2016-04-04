@@ -2728,9 +2728,6 @@ class rsCarthelper
 		$product_name         = "";
 		$product_price        = "";
 		$subtotal_excl_vat    = $cartArr[1];
-		$barcode_code         = $row->barcode;
-		$img_url              = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
-		$bar_replace          = '<img alt="" src="' . $img_url . '">';
 
 		$total_excl_vat       = $subtotal_excl_vat + ($row->order_shipping - $row->order_shipping_tax) - ($row->order_discount - $row->order_discount_vat);
 		$sub_total_vat        = $row->order_tax + $row->order_shipping_tax;
