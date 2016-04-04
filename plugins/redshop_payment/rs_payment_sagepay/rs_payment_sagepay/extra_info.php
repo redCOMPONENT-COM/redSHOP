@@ -137,6 +137,8 @@ else
 	);
 }
 
+$crypt_variables['language'] = $this->params->get('language', 'en');
+
 $strCrypt = '';
 
 if ($strEncryptionPassword != null)

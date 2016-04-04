@@ -69,6 +69,12 @@ class RedshopViewCategory extends RedshopView
 		if (!$this->catid && $layout == 'detail')
 		{
 			$this->catid = $params->get('cid');
+
+			if (!$this->catid)
+			{
+				throw new InvalidArgumentException(JText::_('COM_REDSHOP_CATEGORY_NOT_FOUND'), 404);
+			}
+
 			$this->setLayout('detail');
 		}
 
