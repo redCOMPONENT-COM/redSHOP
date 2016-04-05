@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -538,9 +538,18 @@ class redshopMail
 			$pdfObj->WriteHTML($message, true, false, true, false, '');
 		}
 
-		$invoice_pdfName = "multiprintorder";
+		$invoice_pdfName = "multiprintorder" . round(microtime(true) * 1000);
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-
+		$store_files = array('index.html', '' . $invoice_pdfName . '.pdf');
+		
+		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) 
+		{
+			if (!in_array(basename($file), $store_files)) 
+			{
+				unlink($file);
+			}
+		}
+		
 		return $invoice_pdfName;
 	}
 

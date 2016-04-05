@@ -19,6 +19,9 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 	$lang = JFactory::getLanguage();
 	$lang->load('lib_redshop', JPATH_SITE);
 
+	// Load redSHOP factory file
+	JLoader::import('redshop.redshop');
+
 	// Register library prefix
 	JLoader::registerPrefix('Redshop', JPATH_REDSHOP_LIBRARY);
 

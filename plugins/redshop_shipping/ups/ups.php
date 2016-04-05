@@ -775,29 +775,24 @@ class plgredshop_shippingups extends JPlugin
 				$charge += (UPS_HANDLING_FEE + $charge_fee);
 			}
 
-			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $ServiceName . "|" . number_format($charge, 2, '.', '') . "|" . $ServiceName . "|single|0");
+			$shipping_rate_id = RedshopShippingRate::encrypt(
+									array(
+										__CLASS__,
+										$shipping->name,
+										$ServiceName,
+										number_format($charge, 2, '.', ''),
+										$ServiceName,
+										'single',
+										'0'
+									)
+								);
+
 			$shippingrate[$rate] = new stdClass;
-			$shippingrate[$rate]->text = $ServiceName; //." ".JText::_('COM_REDSHOP_DELIVERY')." ".$value['GuaranteedDaysToDelivery'];
+			$shippingrate[$rate]->text = $ServiceName;
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate = $charge;
 			$shippingrate[$rate]->vat = 0;
 			$rate++;
-			// DELIVERY QUOTE
-			/*if (Show_Delivery_Days_Quote == 1) {
-				if( !empty($value['GuaranteedDaysToDelivery'])) {
-					$GuaranteedDaysToDelivery = "&nbsp;&nbsp;-&nbsp;&nbsp;".$value['GuaranteedDaysToDelivery']." ".JText::_('COM_REDSHOP_UPS_SHIPPING_GUARANTEED_DAYS');
-				}
-			}
-
-			if (Show_Delivery_ETA_Quote == 1) {
-				if( !empty($value['ScheduledDeliveryTime'])) {
-					$ScheduledDeliveryTime = "&nbsp;(ETA:&nbsp;".$value['ScheduledDeliveryTime'].")";
-				}
-			}
-
-			if (Show_Delivery_Warning == 1 && !empty($value['RatedShipmentWarning'])) {
-				$RatedShipmentWarning = "</label><br/>\n&nbsp;&nbsp;&nbsp;*&nbsp;<em>".$value['RatedShipmentWarning']."</em>\n";
-			}*/
 		}
 
 		return $shippingrate;

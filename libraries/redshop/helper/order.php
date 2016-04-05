@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,6 +16,13 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperOrder
 {
+	/**
+	 * Order Payment Information
+	 *
+	 * @var  array
+	 */
+	protected static $payment = array();
+
 	/**
 	 * Order Info
 	 *
@@ -260,5 +267,48 @@ class RedshopHelperOrder
 		}
 
 		return self::$allStatus;
+	}
+
+	/**
+	 * Get Order Payment Information
+	 *
+	 * @param   integer  $orderId  Order Id
+	 *
+	 * @return  object   Payment Information for orders
+	 */
+	public static function getPaymentInfo($orderId)
+	{
+		if (!in_array($orderId, self::$payment))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+						->select('*')
+						->from($db->qn('#__redshop_order_payment'))
+						->where($db->qn('order_id') . ' = ' . (int) $orderId);
+
+			// Set the query and load the result.
+			$db->setQuery($query, 0, 1);
+			self::$payment[$orderId] = $db->loadObject();
+
+			// Check for a database error.
+			if ($db->getErrorNum())
+			{
+				JError::raiseWarning(500, $db->getErrorMsg());
+
+				return null;
+			}
+
+			// Get plugin information
+			$plugin = JPluginHelper::getPlugin(
+						'redshop_payment',
+						self::$payment[$orderId]->payment_method_class
+					);
+			$plugin->params = new JRegistry($plugin->params);
+
+			// Set plugin information
+			self::$payment[$orderId]->plugin = $plugin;
+		}
+
+		return self::$payment[$orderId];
 	}
 }

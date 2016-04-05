@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-
+JHTMLBehavior::modal();
 JHTML::_('behavior.tooltip');
 $editor        = JFactory::getEditor();
 $uri           = JURI::getInstance();
@@ -131,7 +131,8 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 		<td><?php
 			$fileExists = false;
 
-			if ($this->detail->category_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
+			if ($this->detail->category_full_image
+				&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
 			{
 				$fileExists = true;
 			}
@@ -139,8 +140,11 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 			$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
 			$image_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $this->detail->category_full_image;    ?>
 			<div class="button2-left">
-				<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
-				                      rel="{handler: 'iframe', size: {x: 490, y: 400}}">Image</a></div>
+				<div class="image">
+					<a class="modal" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
+						<?php echo JText::_('COM_REDSHOP_IMAGE'); ?>
+					</a>
+				</div>
 			</div>
 			<div id="image_dis">
 				<?php if ($fileExists): ?>

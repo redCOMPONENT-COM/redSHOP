@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -638,6 +638,7 @@ class Redconfiguration
 						"SHOP_NAME"                                    => $d["shop_name"],
 						"COUPONS_ENABLE"                               => $d["coupons_enable"],
 						"VOUCHERS_ENABLE"                              => $d["vouchers_enable"],
+						"APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT"        => $d["apply_voucher_coupon_already_discount"],
 						"SPLITABLE_PAYMENT"                            => $d["splitable_payment"],
 						"SHOW_CAPTCHA"                                 => $d["show_captcha"],
 						"SHOW_EMAIL_VERIFICATION"                      => $d["show_email_verification"],
@@ -803,6 +804,7 @@ class Redconfiguration
 						"WATERMARK_MANUFACTURER_THUMB_IMAGE"           => $d["watermark_manufacturer_thumb_image"],
 						"WATERMARK_MANUFACTURER_IMAGE"                 => $d["watermark_manufacturer_image"],
 
+						'GLS_CUSTOMER_ID'                              => $d["gls_customer_id"],
 						'CLICKATELL_USERNAME'                          => $d["clickatell_username"],
 						'CLICKATELL_PASSWORD'                          => $d["clickatell_password"],
 						'CLICKATELL_API_ID'                            => $d["clickatell_api_id"],

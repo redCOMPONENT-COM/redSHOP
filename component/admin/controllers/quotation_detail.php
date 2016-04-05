@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -101,7 +101,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		if ($send == 1)
 		{
-			if ($model->sendQuotationMail($row->quotation_id))
+			if ($model->sendQuotationMail($row->quotation_id) && JFactory::getConfig()->get('mailonline') == 1)
 			{
 				$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
 			}

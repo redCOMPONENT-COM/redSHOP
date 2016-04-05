@@ -1220,7 +1220,12 @@ class Com_RedshopInstallerScript
 		if (version_compare($this->getOldParam('version'), '1.6', '<='))
 		{
 			array_push(
-				$files,
+				$folders,
+				JPATH_LIBRARIES . '/redshop/config'
+			);
+
+			array_push(
+				$files,				
 				JPATH_SITE . '/components/com_redshop/helpers/captcha.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
 				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
@@ -1245,7 +1250,8 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/update.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php'
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php'
 			);
 		}
 

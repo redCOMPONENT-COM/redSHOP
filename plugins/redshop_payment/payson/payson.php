@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -114,8 +114,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 			);
 		}
 
-		$shippinghelper = shipping::getInstance();
-		$shippingInfo = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $data['order']->ship_method_id)));
+		$shippingInfo = RedshopShippingRate::decrypt($data['order']->ship_method_id);
 
 		$orderItems[] = new OrderItem(
 			$shippingInfo[2],

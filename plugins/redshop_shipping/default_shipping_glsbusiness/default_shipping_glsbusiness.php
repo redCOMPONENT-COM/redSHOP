@@ -59,7 +59,7 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 		$shipping       = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$ratelist       = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
-		$countRate      = (count($ratelist) >= 1) ? 1 : 0;
+		$countRate      = count($ratelist);
 
 		for ($i = 0; $i < $countRate; $i++)
 		{
@@ -68,7 +68,19 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 			$rs->shipping_rate_value 	= $shippinghelper->applyVatOnShippingRate($rs, $d);
 			$shippingVatRate		 	= $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber		= $rs->economic_displaynumber;
-			$shipping_rate_id 			= $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . "|" . $economic_displaynumber);
+			$shipping_rate_id 			= RedshopShippingRate::encrypt(
+											array(
+												__CLASS__,
+												$shipping->name,
+												$rs->shipping_rate_name,
+												number_format($rs->shipping_rate_value, 2, '.', ''),
+												$rs->shipping_rate_id,
+												'single',
+												$shippingVatRate,
+												$economic_displaynumber
+											)
+										);
+
 			$shippingrate[$rate] = new stdClass;
 			$shippingrate[$rate]->text 	= $rs->shipping_rate_name;
 			$shippingrate[$rate]->value = $shipping_rate_id;

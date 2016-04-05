@@ -17,3 +17,4 @@
 	</div>
 	{manufacturer_loop_end}
 </div>
+<div class="pagination">{pagination}</div>

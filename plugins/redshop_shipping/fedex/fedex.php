@@ -489,7 +489,16 @@ class plgredshop_shippingfedex extends JPlugin
 							$Amount += $rateReply->RatedShipmentDetails[0]->EffectiveNetDiscount->Amount;
 						}
 
-						$shipping_rate_id        = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rateReply->ServiceType . "|" . number_format($Amount, 2, '.', '') . "|" . $shipping->name . "|single");
+						$shipping_rate_id = RedshopShippingRate::encrypt(
+											array(
+												__CLASS__,
+												$shipping->name,
+												$rateReply->ServiceType,
+												number_format($Amount, 2, '.', ''),
+												$shipping->name,
+												'single'
+											)
+										);
 
 						$shippingrate[$i] = new stdClass;
 						$shippingrate[$i]->text  = JText::_('PLG_REDSHOP_SHIPPING_' . $rateReply->ServiceType . '_LBL');

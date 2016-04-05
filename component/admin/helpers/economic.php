@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -865,7 +865,7 @@ class economic
 	{
 		if ($ship_method_id != "")
 		{
-			$order_shipping = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $ship_method_id)));
+			$order_shipping = RedshopShippingRate::decrypt($ship_method_id);
 
 			if (count($order_shipping) > 5)
 			{

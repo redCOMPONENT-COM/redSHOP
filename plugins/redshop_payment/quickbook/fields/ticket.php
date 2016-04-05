@@ -41,7 +41,7 @@ class JFormFieldTicket extends JFormFieldText
 	protected function getInput()
 	{
 		JText::script('PLG_REDSHOP_PAYMENT_QUICKBOOK_APP_ID_REQUIRED');
-		RedshopConfig::script('SITE_URL', JUri::root());
+		RedshopHelperConfig::script('SITE_URL', JUri::root());
 
 		// Get system plugin params if available else return an error
 		$quickBookSystem = JPluginHelper::getPlugin('system', 'quickbook');
@@ -63,7 +63,7 @@ class JFormFieldTicket extends JFormFieldText
 				);
 			}
 
-			RedshopConfig::script('SECRET_WORD', $this->secretWord);
+			RedshopHelperConfig::script('SECRET_WORD', $this->secretWord);
 		}
 
 		JFactory::getDocument()->addScript(JUri::root(true) . '/plugins/redshop_payment/quickbook/media/js/quickbook.js');

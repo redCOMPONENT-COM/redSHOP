@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -305,7 +305,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			JTable::addIncludePath(REDSHOP_ADMIN . '/tables');
 		}
 
-		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
+		$order_shipping = RedshopShippingRate::decrypt($row->ship_method_id);
 
 		$rowOrderStatus = $this->getTable('order_status_log');
 		$rowOrderStatus->order_id = $row->order_id;

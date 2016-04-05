@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -680,7 +680,15 @@ class shipping
 		return $rate . "`" . $total;
 	}
 
-	/******************New Function used in redshop 1.1**********************/
+	/**
+	 * Encrypt Shipping
+	 *
+	 * @param   string  $Str_Message  String to encrypt
+	 *
+	 * @deprecated 1.6  Use RedshopShippingRate::encrypt(array);
+	 *
+	 * @return  string  Encrypt shipping rate
+	 */
 	public function encryptShipping($Str_Message)
 	{
 		$Len_Str_Message       = strlen($Str_Message);
@@ -704,6 +712,15 @@ class shipping
 		return $result;
 	}
 
+	/**
+	 * Decrypt Shipping
+	 *
+	 * @param   string  $Str_Message  String to decrypt
+	 *
+	 * @deprecated 1.6  Use RedshopShippingRate::decrypt(string);
+	 *
+	 * @return  string  Encrypt shipping rate
+	 */
 	public function decryptShipping($Str_Message)
 	{
 		$Str_Message           = base64_decode($Str_Message);
@@ -1063,7 +1080,7 @@ class shipping
 		$and = '';
 		$q2  = '';
 
-		if (!empty($data))
+		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
 		{
 			if ('BT' == CALCULATE_VAT_ON)
 			{

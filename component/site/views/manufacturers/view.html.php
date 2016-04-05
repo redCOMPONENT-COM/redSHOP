@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -228,7 +228,20 @@ class RedshopViewManufacturers extends RedshopView
 		else
 		{
 			$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
-			$order_by_select = $app->input->getString('order_by', $filter_order);
+			
+			if ($app->input->getString('order_by', '') != null)
+			{
+				$order_by_select = $app->input->getString('order_by', '');
+			}
+			elseif ($app->getUserState('com_redshop.manufacturers.default.order_state') != null)
+			{
+				$order_by_select = $app->getUserState('com_redshop.manufacturers.default.order_state');
+			}
+			else
+			{
+				$order_by_select = $filter_order;
+			}
+			
 			$order_data      = $redhelper->getManufacturerOrderByList();
 		}
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -797,14 +797,16 @@ class producthelper
 	/**
 	 * Format Product Price
 	 *
-	 * @param   float    $product_price    Product price
+	 * @param   float    $productPrice    Product price
 	 * @param   boolean  $convert          Decide to conver price in Multi Currency
 	 * @param   float    $currency_symbol  Product Formatted Price
 	 *
 	 * @return  float                      Formatted Product Price
 	 */
-	public function getProductFormattedPrice($product_price, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
+	public function getProductFormattedPrice($productPrice, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
 	{
+		$CurrencyHelper  = CurrencyHelper::getInstance();
+
 		// Get Current Currency of SHOP
 		$session = JFactory::getSession();
 		/*
@@ -812,8 +814,7 @@ class producthelper
 		 */
 		if ($convert && $session->get('product_currency'))
 		{
-			$CurrencyHelper  = CurrencyHelper::getInstance();
-			$product_price = $CurrencyHelper->convert($product_price);
+			$productPrice = $CurrencyHelper->convert($productPrice);
 
 			if (CURRENCY_SYMBOL_POSITION == 'behind')
 			{
@@ -827,25 +828,27 @@ class producthelper
 
 		$price = '';
 
-		if (is_numeric($product_price))
+		if (is_numeric($productPrice))
 		{
+			$priceDecimal = (int) PRICE_DECIMAL;
+			$productPrice = (double) $productPrice;
+
 			if (CURRENCY_SYMBOL_POSITION == 'front')
 			{
 				$price = $currency_symbol
-					. number_format((double) $product_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+					. number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 			}
 			elseif (CURRENCY_SYMBOL_POSITION == 'behind')
 			{
-				$price = number_format((double) $product_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR)
-					. $currency_symbol;
-			}
+				$price = number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR)
+				$productPrice = $CurrencyHelper->convert($productPrice);
 			elseif (CURRENCY_SYMBOL_POSITION == 'none')
 			{
-				$price = number_format((double) $product_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+				$price = number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 			}
 			else
 			{
-				$price = $currency_symbol . number_format((double) $product_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+				$price = $currency_symbol . number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 			}
 		}
 
@@ -1347,7 +1350,7 @@ class producthelper
 		$cartform      = (count($cart_template) > 0) ? $cart_template->template_desc : "";
 		$qunselect     = 1;
 
-		if (strpos($cartform, "{addtocart_quantity_selectbox}") !== false)
+		if (strstr($cartform, "{addtocart_quantity_selectbox}"))
 		{
 			$product = $this->getProductById($product_id);
 
@@ -1594,6 +1597,18 @@ class producthelper
 				$newproductprice = 0;
 			}
 
+			$reg_price_tax = $this->getProductTax($row->product_id, $newproductprice, $user_id);
+
+			if ($applytax)
+			{
+				$reg_price = $row->product_price + $reg_price_tax;
+			}
+			else
+			{
+				$reg_price = $row->product_price;
+			}
+
+			$reg_price_tax   = $this->getProductTax($product_id, $row->product_price, $user_id);
 			$reg_price       = $row->product_price;
 			$formatted_price = $this->getProductFormattedPrice($reg_price);
 
@@ -5262,12 +5277,12 @@ class producthelper
 
 						$chkListAttributes['id']       = $propertyid;
 						$chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
+					}
 
-						if ($selectedProperty)
-						{
-							$subdisplay          = true;
-							$defaultPropertyId[] = $selectedProperty;
-						}
+					if ($selectedProperty)
+					{
+						$subdisplay          = true;
+						$defaultPropertyId[] = $selectedProperty;
 					}
 
 					$lists['property_id'] = JHTML::_(
