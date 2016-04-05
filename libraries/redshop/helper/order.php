@@ -278,7 +278,7 @@ class RedshopHelperOrder
 	 */
 	public static function getPaymentInfo($orderId)
 	{
-		if (!in_array($orderId, self::$payment))
+		if (!array_key_exists($orderId, self::$payment))
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
