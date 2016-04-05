@@ -16,6 +16,7 @@ JLoader::import('redshop.library');
 JLoader::import('joomla.html.parameter');
 JLoader::import('joomla.html.pagination');
 
+RedshopHelperCron::init();
 new statistic;
 
 // Helper object
