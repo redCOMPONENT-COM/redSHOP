@@ -841,7 +841,8 @@ class producthelper
 			elseif (CURRENCY_SYMBOL_POSITION == 'behind')
 			{
 				$price = number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR)
-				$productPrice = $CurrencyHelper->convert($productPrice);
+					. $currency_symbol;
+			}
 			elseif (CURRENCY_SYMBOL_POSITION == 'none')
 			{
 				$price = number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
