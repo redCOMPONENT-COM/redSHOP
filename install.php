@@ -1217,7 +1217,7 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
-		if (version_compare($this->getOldParam('version'), '1.6', '<='))
+		if (version_compare($this->getOldParam('version'), '1.6.1', '<='))
 		{
 			array_push(
 				$folders,
