@@ -27,7 +27,7 @@ class ManageAdministratorNoticesCest
 			'Media Manager' => '/administrator/index.php?option=com_redshop&view=media',
 			'Order Manager' => '/administrator/index.php?option=com_redshop&view=order',
 			'Discount Manager' => '/administrator/index.php?option=com_redshop&view=discount',
-			'Gift Card Manager' => '/administrator/index.php?option=com_redshop&view=giftcard',
+			'Gift Card Manager' => '/administrator/index.php?option=com_redshop&view=giftcards',
 			'Voucher Manager' => '/administrator/index.php?option=com_redshop&view=voucher',
 			'Coupon Manager' => '/administrator/index.php?option=com_redshop&view=coupon',
 			'Mail  Manager' => '/administrator/index.php?option=com_redshop&view=mail',
