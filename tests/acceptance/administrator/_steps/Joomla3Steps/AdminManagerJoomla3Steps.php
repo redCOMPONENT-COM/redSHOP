@@ -157,6 +157,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	public function filterListBySearching($text, $searchField = ['id' => 'filter'])
 	{
 		$I = $this;
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
