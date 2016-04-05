@@ -22,6 +22,11 @@ $show_desc      = trim($params->get('show_desc', 1));
 $thumbwidth     = trim($params->get('thumbwidth', 100));
 $thumbheight    = trim($params->get('thumbheight', 100));
 $layout         = $params->get('layout', 'default');
+$product_per_row     = $params->get('number_of_row');
+//var_dump($number_row); die('123');
+
+$document = JFactory::getDocument();
+$document->addStyleSheet("modules/mod_redproducttab/css/style.css");
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';

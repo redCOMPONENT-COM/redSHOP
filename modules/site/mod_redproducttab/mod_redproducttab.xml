@@ -14,6 +14,7 @@
         <filename>index.html</filename>
 		<filename>helper.php</filename>
         <folder>tmpl</folder>
+        <folder>css</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redproducttab.ini</language>
@@ -56,6 +57,21 @@
                 <field name="category" type="redshopcategory" multiple="true" size="40" label="MOD_REDPRODUCTTAB_ENTER_CATEGORY_LBL" description="MOD_REDPRODUCTTAB_ENTER_CATEGORY"/>
                 <field name="count" type="text" size="10" label="MOD_REDPRODUCTTAB_NUMBER_OF_PRODUCT"
                        description="MOD_REDPRODUCTTAB_NUMBER_OF_PRODUCT_DESC"/>
+                <field
+                    name="number_of_row"
+                    type="list"
+                    default="0"
+                    label="MOD_REDPRODUCTTAB_NUMBER_OF_ROW_LABEL"
+                    description="MOD_REDPRODUCTTAB_NUMBER_OF_ROW_DESC"
+                >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+
+                </field>
+
                 <field name="image" type="radio" default="0" label="MOD_REDPRODUCTTAB_SHOW_IMAGE"
                        class="btn-group btn-group-yesno"
                        description="MOD_REDPRODUCTTAB_SHOW_IMAGE_DESC">
