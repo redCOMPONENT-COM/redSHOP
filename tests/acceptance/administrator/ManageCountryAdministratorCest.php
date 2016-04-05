@@ -38,6 +38,7 @@ class ManageCountryAdministratorCest
 		$I = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Country');
 		$I->addCountry($this->countryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
+
 		$I->searchCountry($this->countryName);
 	}
 
