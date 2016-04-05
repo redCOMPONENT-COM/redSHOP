@@ -279,20 +279,7 @@ class RoboFile extends \Robo\Tasks
         $this->killSelenium();
     }
 
-    /**
-     * This function ensures that you have the latest version of RoboFile in your project.
-     * All redCOMPONENT RoboFiles are clones. All special needs for a project are stored in a robofile.yml file
-     *
-     * @return void
-     */
-    public function checkRoboFileVersion()
-    {
-        $this->taskCheckRoboFileVersion($this->version)
-             ->run()
-             ->stopOnFail();
-    }
-
-    /**
+	/**
      * Stops Selenium Standalone Server
      *
      * @return void
