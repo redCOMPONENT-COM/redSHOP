@@ -42,7 +42,7 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CountryManagerPage::$countryTwoCode, $twoCode);
 		$I->fillField(\CountryManagerPage::$country, $country);
 		$I->click('Save & Close');
-		$I->waitForText('Country Management',10,'h1');
+		$I->waitForText('Country Management',60,'h1');
 		$I->see('Country detail saved', ['id' => 'system-message-container']);
 		$I->filterListBySearching($countryName);
 		$I->seeElement(['link' => $countryName]);
@@ -61,7 +61,6 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
 		$I->filterListBySearching($countryName);
 		$I->click(['link' => $countryName]);
 		$I->waitForText('Country:', 60, ['css' => 'H1']);
