@@ -251,7 +251,10 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 //	for($m=0; $m<count($media_image); $m++)
 //	{
-	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
+
+	if (count($media_image)
+		&& $media_image[$m]->media_name
+		&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
 		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE, '0');
 		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE, '0');

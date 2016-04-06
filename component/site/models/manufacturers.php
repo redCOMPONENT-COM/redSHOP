@@ -163,7 +163,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$app = JFactory::getApplication();
 		$layout  = $app->input->getCmd('layout', '');
 		$params = $app->getParams('com_redshop');
-		
+
 		if ($app->input->getString('order_by', '') != null)
 		{
 			$order_by = urldecode($app->input->getString('order_by', ''));
@@ -184,11 +184,19 @@ class RedshopModelManufacturers extends RedshopModel
 		}
 		else
 		{
-			$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
-
 			if (in_array($order_by, $this->filter_fields_manufacturer))
 			{
 				$filter_order = $order_by;
+			}
+
+			// User can get not allowed order_by, when url contain Itemid from another view, so it need check here
+			elseif (in_array($params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD), $this->filter_fields_manufacturer))
+			{
+				$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+			}
+			else
+			{
+				$filter_order = DEFAULT_MANUFACTURER_ORDERING_METHOD;
 			}
 		}
 

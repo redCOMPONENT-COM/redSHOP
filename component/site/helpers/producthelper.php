@@ -1393,6 +1393,7 @@ class producthelper
 		$product_price_lbl                       = '';
 		$seoProductPrice                         = '';
 		$seoProductSavingPrice                   = '';
+		$product_old_price_excl_vat              = '';
 
 		$user = JFactory::getUser();
 
@@ -2863,6 +2864,7 @@ class producthelper
 	{
 		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$and = '';
 
 		if ($shopper_group_manufactures != "")
 		{
