@@ -101,30 +101,18 @@ class RedShopHelperImages extends JObject
 
 	public static function generateImages($file_path, $dest, $command = 'upload', $type, $width, $height, $proportional = USE_IMAGE_SIZE_SWAPPING)
 	{
-		$info = getimagesize($file_path);
 		$ret = false;
 
-		switch (strtolower($info['mime']))
+		switch (exif_imagetype($file_path))
 		{
-			case 'image/png':
-			case 'image/jpg':
-			case 'image/jpeg':
-			case 'image/gif':
+			// IMAGETYPE_GIF
+			case '1':
 
-				if (JFile::exists($dest) && !empty($dest))
-				{
-					mt_srand();
-					$rand1 = mt_rand(0, mt_getrandmax());
-					mt_srand();
-					$rand2 = mt_rand(0, mt_getrandmax());
-					mt_srand();
-					$rand3 = mt_rand(0, mt_getrandmax());
-					mt_srand();
-					$rand4 = mt_rand(0, mt_getrandmax());
+			// IMAGETYPE_JPEG
+			case '2':
 
-					$dest = $original_path . '/' . $data['image_name'] . '-' . $rand1 . $rand2 . $rand3 . $rand4
-						. '.' . JFile::getExt(strtolower($file['name']));
-				}
+			// IMAGETYPE_PNG
+			case '3':
 
 				// This method should be expanded to be useable for other purposes not just making thumbs
 				// But for now it just makes thumbs and proceed to the else part

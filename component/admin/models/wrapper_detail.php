@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelWrapper_detail extends RedshopModel
 {
@@ -219,7 +217,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 		if ($row->wrapper_id)
 		{
-			$productobj = new producthelper;
+			$productobj = producthelper::getInstance();
 			$wrapper = $productobj->getWrapper($row->product_id, $row->wrapper_id);
 
 			if (count($wrapper) > 0 && $wrapperimg != "")

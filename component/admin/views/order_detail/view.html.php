@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperHelper');
 
 class RedshopViewOrder_detail extends RedshopView
 {
@@ -28,8 +25,8 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$order_functions = new order_functions;
-		$redhelper = new redhelper;
+		$order_functions = order_functions::getInstance();
+		$redhelper = redhelper::getInstance();
 
 		$uri = JFactory::getURI();
 
@@ -90,7 +87,7 @@ class RedshopViewOrder_detail extends RedshopView
 			}
 
 			$this->setLayout($layout);
-			$Redconfiguration = new Redconfiguration;
+			$Redconfiguration = Redconfiguration::getInstance();
 
 			$countryarray = $Redconfiguration->getCountryList((array) $shipping);
 			$shipping->country_code = $countryarray['country_code'];

@@ -18,7 +18,6 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminShipping');
 
 class  plgredshop_shippingdefault_shipping extends JPlugin
 {
@@ -38,7 +37,7 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 		$shippingrate = array();
 		$rate = 0;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);

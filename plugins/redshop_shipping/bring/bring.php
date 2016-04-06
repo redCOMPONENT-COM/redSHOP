@@ -19,10 +19,6 @@ jimport('joomla.plugin.plugin');
  */
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCurrency');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperAdminConfiguration');
 
 /**
  * Class Plgredshop_Shippingbring
@@ -186,10 +182,10 @@ class Plgredshop_Shippingbring extends JPlugin
 	 */
 	public function onListRates(&$d)
 	{
-		$shippinghelper = new shipping;
-		$producthelper = new producthelper;
-		$currency = new CurrencyHelper;
-		$redconfig = new Redconfiguration;
+		$shippinghelper = shipping::getInstance();
+		$producthelper = producthelper::getInstance();
+		$currency = CurrencyHelper::getInstance();
+		$redconfig = Redconfiguration::getInstance();
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '/' . $this->classname . '.cfg.php';

@@ -13,16 +13,15 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
 
-JLoader::load('RedshopHelperAdminOrder');
-$order_function = new order_functions;
-$redconfig = new Redconfiguration;
-$producthelper = new producthelper;
-$carthelper = new rsCarthelper;
+$order_function = order_functions::getInstance();
+$redconfig = Redconfiguration::getInstance();
+$producthelper = producthelper::getInstance();
+$carthelper = rsCarthelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $print = JRequest::getInt('print');
 $document = JFactory::getDocument();
-$redTemplate = new Redtemplate;
+$redTemplate = Redtemplate::getInstance();
 
 $template_id = $this->params->get('template_id');
 $orderslist_template = $redTemplate->getTemplate("order_list", $template_id);

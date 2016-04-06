@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewSend_friend extends RedshopView
 {

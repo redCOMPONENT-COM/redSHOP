@@ -54,8 +54,6 @@ abstract class RedshopPayment extends JPlugin
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperAdminOrder');
-		JLoader::load('RedshopHelperHelper');
 	}
 
 	/**

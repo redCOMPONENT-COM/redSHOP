@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewManufacturer_detail extends RedshopView
 {
@@ -22,7 +21,6 @@ class RedshopViewManufacturer_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$uri = JFactory::getURI();
 		$document = JFactory::getDocument();
@@ -71,7 +69,7 @@ class RedshopViewManufacturer_detail extends RedshopView
 		);
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$field = new extra_field;
+		$field = extra_field::getInstance();
 
 		$list_field = $field->list_all_field(10, $detail->manufacturer_id);
 		$lists['extra_field'] = $list_field;

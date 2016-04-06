@@ -29,7 +29,7 @@ class RedshopViewOrders extends RedshopView
 		$this->setLayout($layout);
 
 		$params        = $app->getParams('com_redshop');
-		$prodhelperobj = new producthelper;
+		$prodhelperobj = producthelper::getInstance();
 		$prodhelperobj->generateBreadcrumb();
 
 		// Request variables

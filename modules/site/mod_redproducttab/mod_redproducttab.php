@@ -23,12 +23,7 @@ $thumbwidth     = trim($params->get('thumbwidth', 100));
 $thumbheight    = trim($params->get('thumbheight', 100));
 $layout         = $params->get('layout', 'default');
 
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminConfiguration');
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
 
 require_once __DIR__ . '/helper.php';
 

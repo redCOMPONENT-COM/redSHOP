@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperHelper');
 
 /**
  * Quotation Detail Controller.
@@ -37,8 +34,8 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$encr   = JRequest::getVar('encr');
 		$model = $this->getModel('quotation_detail');
 
-		$quotationHelper = new quotationHelper;
-		$redshopMail     = new redshopMail;
+		$quotationHelper = quotationHelper::getInstance();
+		$redshopMail     = redshopMail::getInstance();
 
 		// Update Status
 		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
@@ -66,10 +63,10 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$post   = JRequest::get('post');
 		$encr   = JRequest::getVar('encr');
 
-		$quotationHelper = new quotationHelper;
+		$quotationHelper = quotationHelper::getInstance();
 		$model           = $this->getModel('quotation_detail');
 		$session         = JFactory::getSession();
-		$redhelper       = new redhelper;
+		$redhelper       = redhelper::getInstance();
 
 		$cart = array();
 		$cart['idx'] = 0;

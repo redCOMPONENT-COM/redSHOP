@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminShopper');
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewShopper_group_detail extends RedshopView
 {
@@ -24,7 +22,7 @@ class RedshopViewShopper_group_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$shoppergroup = new shoppergroup;
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 
 
 

@@ -10,9 +10,9 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-$this->producthelper   = new producthelper;
-$this->order_functions = new order_functions;
-$this->config          = new Redconfiguration;
+$this->producthelper   = producthelper::getInstance();
+$this->order_functions = order_functions::getInstance();
+$this->config          = Redconfiguration::getInstance();
 $this->model           = $this->getModel('user_detail');
 $this->flag            = JRequest::getVar('flag', '', 'request', 'string');
 $this->shipping        = JRequest::getVar('shipping', '', 'request', 'string');

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminShopper');
 
 class RedshopViewAttributeprices_detail extends RedshopView
 {

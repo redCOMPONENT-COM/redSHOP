@@ -15,10 +15,6 @@ jimport('joomla.plugin.plugin');
  * Replaces textstring with link
  */
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperHelper');
 
 class plgContentredshop_product extends JPlugin
 {
@@ -35,8 +31,7 @@ class plgContentredshop_product extends JPlugin
 			if (JRequest::getCmd('option') != 'com_redshop')
 			{
 				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-				JLoader::load('RedshopHelperAdminConfiguration');
-				$Redconfiguration = new Redconfiguration;
+				$Redconfiguration = Redconfiguration::getInstance();
 				$Redconfiguration->defineDynamicVars();
 			}
 
@@ -54,9 +49,9 @@ class plgContentredshop_product extends JPlugin
 			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 
 			$module_id     = "plg_";
-			$producthelper = new producthelper;
-			$extraField    = new extraField;
-			$objhelper     = new redhelper;
+			$producthelper = producthelper::getInstance();
+			$extraField    = extraField::getInstance();
+			$objhelper     = redhelper::getInstance();
 			$lang          = JFactory::getLanguage();
 
 			// Or JPATH_ADMINISTRATOR if the template language file is only
@@ -70,7 +65,7 @@ class plgContentredshop_product extends JPlugin
 			$show_price = trim($red_params->get('show_price', 0));
 			$show_price_with_vat = trim($red_params->get('show_price_with_vat', 1));
 			$show_discountpricelayout = trim($red_params->get('show_discountpricelayout', 1));
-			$redTemplate = new Redtemplate;
+			$redTemplate = Redtemplate::getInstance();
 			$prtemplate_id = trim($red_params->get('product_template', 1));
 			$prtemplate1 = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
 			$prtemplate_default = $prtemplate1[0]->template_desc;

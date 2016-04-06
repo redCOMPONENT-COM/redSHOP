@@ -7,15 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
 
-$objOrder         = new order_functions;
-$objconfiguration = new Redconfiguration;
+$objOrder         = order_functions::getInstance();
+$objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
-$redhelper        = new redhelper;
+$redhelper        = redhelper::getInstance();
 $db               = JFactory::getDbo();
 $user             = JFActory::getUser();
 $task             = JRequest::getCmd('task');
@@ -37,7 +35,7 @@ $query = $db->getQuery(true)
 	->where('o.order_id = ' . $db->q($data['order_id']));
 $order_details = $db->setQuery($query)->loadObject();
 
-$currencyClass         = new CurrencyHelper;
+$currencyClass         = CurrencyHelper::getInstance();
 $sha_out_pass_phrase   = $this->params->get("sha_in_pass_phrase");
 $opreation_mode        = $this->params->get("opreation_mode");
 $currency              = $this->params->get("currency");

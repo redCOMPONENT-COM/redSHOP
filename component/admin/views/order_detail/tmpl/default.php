@@ -10,19 +10,14 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
 
-$producthelper = new producthelper;
-$carthelper = new rsCarthelper;
-$order_functions = new order_functions;
-$redhelper = new redhelper;
-$extra_field = new extra_field;
-$shippinghelper = new shipping;
-$config = new Redconfiguration;
+$producthelper = producthelper::getInstance();
+$carthelper = rsCarthelper::getInstance();
+$order_functions = order_functions::getInstance();
+$redhelper = redhelper::getInstance();
+$extra_field = extra_field::getInstance();
+$shippinghelper = shipping::getInstance();
+$config = Redconfiguration::getInstance();
 
 $uri = JURI::getInstance();
 $url = $uri->root();

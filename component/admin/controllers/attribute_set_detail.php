@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperAdminThumbnail');
-
 class RedshopControllerAttribute_set_detail extends RedshopController
 {
 	public function __construct($default = array())
@@ -40,8 +38,6 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$post = JRequest::get('post');
 
 
-
-		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('attribute_set_detail');
 

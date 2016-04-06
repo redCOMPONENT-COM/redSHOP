@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 {
@@ -81,7 +80,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$currencyID = "USD";
 		}
 
-		$currencyClass = new CurrencyHelper;
+		$currencyClass = CurrencyHelper::getInstance();
 
 		/*
 		As per the email error no need to remove shipping - tmp fix
@@ -273,7 +272,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$currencyID = "USD";
 		}
 
-		$currencyClass = new CurrencyHelper;
+		$currencyClass = CurrencyHelper::getInstance();
 		$order_amount = $currencyClass->convert($data['order_amount'], '', $currencyID);
 		$order_amount = urlencode(number_format($order_amount, 2));
 
@@ -351,7 +350,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$currencyID = "USD";
 		}
 
-		$currencyClass = new CurrencyHelper;
+		$currencyClass = CurrencyHelper::getInstance();
 		$order_amount = $currencyClass->convert($data['order_amount'], '', $currencyID);
 		$order_amount = urlencode(number_format($order_amount, 2));
 

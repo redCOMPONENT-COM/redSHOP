@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminMail');
 
 /**
  * Class send_friendModelsend_friend
@@ -50,8 +48,8 @@ class RedshopModelSend_friend extends RedshopModel
 
 	public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
 	{
-		$producthelper = new producthelper;
-		$redshopMail   = new redshopMail;
+		$producthelper = producthelper::getInstance();
+		$redshopMail   = redshopMail::getInstance();
 		$url           = JURI::base();
 
 		$mailinfo = $redshopMail->getMailtemplate(0, "product");

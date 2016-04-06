@@ -12,19 +12,6 @@ defined('_JEXEC') or die;
 global $my, $mosConfig_absolute_path;
 JLoader::import('redshop.library');
 
-global $Redconfiguration;
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-// Getting the configuration
-JLoader::load('RedshopHelperAdminCategory');
-
-// Get product helper
-JLoader::load('RedshopHelperProduct');
-
-// Get product helper
-JLoader::load('RedshopHelperHelper');
-
 $document = JFactory::getDocument();
 JHTML::script('com_redshop/redbox.js', false, true);
 JHtml::script('com_redshop/attribute.js', false, true);
@@ -360,8 +347,8 @@ if (!class_exists('redcategoryScroller'))
 
 		function ShowCategory($row, $i)
 		{
-			$producthelper = new producthelper;
-			$redhelper     = new redhelper;
+			$producthelper = producthelper::getInstance();
+			$redhelper     = redhelper::getInstance();
 
 			$category_id = intval(JRequest::getInt('cid', 0));
 

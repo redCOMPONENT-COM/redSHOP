@@ -15,7 +15,6 @@ $currencies = $params->get('product_currency', '');
 
 $currenciess = array();
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
 
 if ($currencies)
 {

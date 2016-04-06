@@ -30,10 +30,9 @@ class JFormFieldcurrency extends JFormField
 
 	protected function getInput()
 	{
-		JLoader::load('RedshopHelperCurrency');
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$CurrencyHelper = new CurrencyHelper;
+		$CurrencyHelper = CurrencyHelper::getInstance();
 
 		$CurrencyHelper->init();
 

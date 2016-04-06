@@ -33,7 +33,7 @@ class RedshopControllerProduct extends RedshopController
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic;
+			$economic = economic::getInstance();
 			$db = JFactory::getDbo();
 			$incNo = $cnt;
 			$query = 'SELECT p.* FROM #__redshop_product AS p '
@@ -92,7 +92,7 @@ class RedshopControllerProduct extends RedshopController
 
 		if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
 		{
-			$economic = new economic;
+			$economic = economic::getInstance();
 
 			$db = JFactory::getDbo();
 			$incNo = $cnt;
