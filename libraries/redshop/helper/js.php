@@ -103,7 +103,7 @@ class RedshopHelperJs
 		// Now looping to add dynamic vars into javascript stack
 		foreach ($dynamicVars as $key => $value)
 		{
-			RedshopConfig::script($key, $value);
+			RedshopHelperConfig::script($key, $value);
 		}
 
 		// Prepare language string to add in javascript store
