@@ -923,35 +923,16 @@ class Com_RedshopInstallerScript
 
 		$Redconfiguration->manageCFGFile($cfgarr);
 
-		// Store new config file using existing config file.
-		if (file_exists($cfgfile))
+		// Store new config file using existing config files.
+		try
 		{
-			$configData = JFile::read($cfgfile);
+			Redshop::getConfig()->loadLegacy();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			$config = Redshop::getConfig();
-
-			if (!$config->isExists())
-			{
-				preg_match_all("/define\('(.*)', '(.*)'\);/", $configData, $matches, PREG_OFFSET_CAPTURE, 3);
-
-				$configDataArray = array();
-
-				for ($i = 0, $ni = count($matches[1]); $i < $ni; $i++)
-				{
-					$configDataArray[$matches[1][$i][0]] = $matches[2][$i][0];
-				}
-
-				try
-				{
-					$config->save(new JRegistry($configDataArray));
-				}
-				catch (Exception $e)
-				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-					return false;
-				}
-			}
+			return false;
 		}
 	}
 
