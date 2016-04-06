@@ -18,9 +18,17 @@ if (version_compare(JVERSION, '3.0', '<'))
 	$containerClass = 'clearfix';
 }
 ?>
+<?php 
+$nb_row = $product_per_row;
+$j = 0;
+foreach ($rows as $row): 
+	$j++;
+	if($j%$nb_row == 1){ ?>
+
 <div class="row <?php echo $containerClass; ?>">
-	<?php foreach ($rows as $row): ?>
-		<div class="span3 <?php echo $itemClass; ?>">
+	<?php } ?>
+
+		<div class="span<?php echo (12/$product_per_row); ?> <?php echo $itemClass; ?>">
 		<?php
 			$category_id = $row->category_id;
 			$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
@@ -167,7 +175,11 @@ if (version_compare(JVERSION, '3.0', '<'))
 				$addtocart = $producthelper->replaceCartTemplate($row->product_id, $category_id, 0, 0, "", false, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id);
 				echo "<div class=\"mod_redshop_products_addtocart\">" . $addtocart . $hidden_userfield . "</div>";
 			}
+			
 			?>
-		</div>
-	<?php endforeach; ?>
+		</div>	
+		
+<?php if(($j%$nb_row == 0) || ($j == count($rows))) { ?>
 </div>
+<?php } ?>
+<?php endforeach; ?>
