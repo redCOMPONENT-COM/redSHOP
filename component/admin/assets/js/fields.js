@@ -10,29 +10,6 @@ function strpos(haystack, needle, offset) {
     return i === -1 ? false : i;
 }
 
-function field_select(value) {
-    if (value == 3 || value == 4 || value == 5 || value == 6 || value == 11 || value == 13) {
-        document.getElementById("field_data").style.display = "block";
-        if (value == 11 || value == 13) {
-            document.getElementById("divfieldFile").style.display = "block";
-            document.getElementById("divfieldText").style.display = "none";
-        } else {
-            document.getElementById("divfieldFile").style.display = "none";
-            document.getElementById("divfieldText").style.display = "block";
-        }
-    } else {
-        document.getElementById("field_data").style.display = "none";
-    }
-
-    if (value == 15) {
-        document.adminForm.field_section.disabled = true;
-        document.adminForm.field_section.options[8].selected = true;
-    } else {
-        document.adminForm.field_section.disabled = false;
-        document.adminForm.field_section.options[0].selected = true;
-    }
-}
-
 var f = 1;
 
 function addNewRow(tableRef) {
