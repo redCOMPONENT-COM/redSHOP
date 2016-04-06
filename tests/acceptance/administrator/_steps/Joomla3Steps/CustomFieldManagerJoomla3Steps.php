@@ -47,7 +47,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearchField, $section);
 		$I->waitForElement($customFieldsManagerPage->fieldSection($section),60);
 		$I->click($customFieldsManagerPage->fieldSection($section));
-		$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
+		//$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
 		$I->click('Save & Close');
 		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 
