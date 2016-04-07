@@ -41,7 +41,7 @@ class RedshopViewVoucher extends RedshopView
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		
+
 		$state = $this->get('State');
 		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' voucher_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -58,7 +58,7 @@ class RedshopViewVoucher extends RedshopView
 		$this->vouchers = $vouchers;
 		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
-		$this->filter      = $state->get('filter');
+		$this->filter = $state->get('filter');
 
 		parent::display($tpl);
 	}
