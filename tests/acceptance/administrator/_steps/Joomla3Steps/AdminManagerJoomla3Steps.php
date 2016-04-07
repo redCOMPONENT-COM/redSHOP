@@ -123,11 +123,12 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	/**
 	 * Function to change State of an Item in the Backend
 	 *
-	 * @param   Object  $pageClass  Page Class on which we are performing the Operation
-	 * @param   String  $item       Item which we are supposed to change
-	 * @param   String  $state      State for the Item
-	 * @param   String  $resultRow  Result row where we need to look for the item
-	 * @param   String  $check      Checkbox path for Selecting the Item
+	 * @param   Object  $pageClass    Page Class on which we are performing the Operation
+	 * @param   String  $item         Item which we are supposed to change
+	 * @param   String  $state        State for the Item
+	 * @param   String  $resultRow    Result row where we need to look for the item
+	 * @param   String  $check        Checkbox path for Selecting the Item
+	 * @param   String  $searchField  The locator for the search field
 	 *
 	 * @return void
 	 */
