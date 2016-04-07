@@ -32,8 +32,8 @@ class RedshopModelVoucher extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
@@ -74,16 +74,22 @@ class RedshopModelVoucher extends RedshopModel
 
 	public function _buildQuery()
 	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
 		$filter = $this->getState('filter');
-		$where = '';
-		
+
+		$query->select('distinct(v.voucher_id)')
+			->select('v.*')
+			->from($db->qn('#__redshop_product_voucher', 'v'));
+
 		if ($filter)
 		{
-			$where = " WHERE voucher_code like '%" . $filter . "%' ";
+			$query->where($db->qn('v.voucher_code') . 'LIKE ' . $db->q('%' . $filter . '%'));
 		}
-		
+
 		$orderby = $this->_buildContentOrderBy();
-		$query = ' SELECT distinct(v.voucher_id),v.* FROM ' . $this->_table_prefix . 'product_voucher v' .  $where . $orderby;
+		$query->order($db->q($orderby));
 
 		return $query;
 	}
