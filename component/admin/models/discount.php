@@ -49,7 +49,9 @@ class RedshopModelDiscount extends RedshopModel
 	protected function getStoreId($id = '')
 	{
 		$id .= ':' . $this->getState('spgrpdis_filter');
-
+		$id .= ':' . $this->getState('discount_type');
+		$id .= ':' . $this->getState('name_filter');
+		
 		return parent::getStoreId($id);
 	}
 
@@ -66,7 +68,11 @@ class RedshopModelDiscount extends RedshopModel
 	protected function populateState($ordering = 'discount_id', $direction = '')
 	{
 		$spgrpdis_filter = $this->getUserStateFromRequest($this->context . '.spgrpdis_filter', 'spgrpdis_filter', 0);
+		$discount_type   = $this->getUserStateFromRequest($this->context . '.discount_type', 'discount_type', 'select');
+		$name_filter     = $this->getUserStateFromRequest($this->context . '.name_filter', 'name_filter', '');
 		$this->setState('spgrpdis_filter', $spgrpdis_filter);
+		$this->setState('discount_type', $discount_type);
+		$this->setState('name_filter', $name_filter);
 		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		if ($layout == 'product')
@@ -79,9 +85,12 @@ class RedshopModelDiscount extends RedshopModel
 
 	public function _buildQuery()
 	{
+		$where = "";
 		$orderby = $this->_buildContentOrderBy();
 		$layout = JRequest::getVar('layout');
 		$spgrpdis_filter = $this->getState('spgrpdis_filter');
+		$discount_type = $this->getState('discount_type');
+		$name_filter = $this->getState('name_filter');
 
 		if (isset($layout) && $layout == 'product')
 		{
@@ -89,17 +98,25 @@ class RedshopModelDiscount extends RedshopModel
 		}
 		else
 		{
+			if ($name_filter)
+			{
+				$where .= " and d.name like '%" . $name_filter . "%' ";
+			}
+
+			if ($discount_type != 'select')
+			{
+				$where .= " and d.discount_type = '" . $discount_type . "' ";
+			}
+
+			$query = ' SELECT * FROM #__redshop_discount d WHERE 1=1 ' . $where . $orderby;
+
 			if ($spgrpdis_filter)
 			{
-				$where = " where ds.shopper_group_id = '" . $spgrpdis_filter . "' ";
+				$where .= " and ds.shopper_group_id = '" . $spgrpdis_filter . "' ";
 
-				$query = ' SELECT d.* FROM #__redshop_discount d left outer join #__redshop_discount_shoppers ds on d.discount_id=ds.discount_id '
+				$query = ' SELECT d.* FROM #__redshop_discount d left outer join #__redshop_discount_shoppers ds on d.discount_id=ds.discount_id WHERE 1=1 '
 					. $where
 					. $orderby;
-			}
-			else
-			{
-				$query = ' SELECT * FROM #__redshop_discount ' . $orderby;
 			}
 		}
 		return $query;
