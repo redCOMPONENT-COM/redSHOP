@@ -82,6 +82,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 			$detail->discount_id = 0;
 			$detail->discount_product_id = 0;
+			$detail->name = null;
 			$detail->condition = 0;
 			$detail->shopper_group_id = 0;
 			$detail->amount = 0;
