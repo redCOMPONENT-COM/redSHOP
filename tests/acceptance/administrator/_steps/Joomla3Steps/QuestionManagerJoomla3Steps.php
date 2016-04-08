@@ -39,18 +39,20 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\QuestionManagerJoomla3Page::$productNameSearchField, $productName);
 		$I->waitForElement($questionManagerPage->productName($productName),60);
 		$I->click($questionManagerPage->productName($productName));
+		$I->scrollTo(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
 		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->fillField(\QuestionManagerJoomla3Page::$question, $question);
 		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->click('Save & Close');
-		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,'.alert-success');
-		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage, '.alert-success');
+		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,['id' => 'system-message-container']);
+		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage,['id' => 'system-message-container']);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->click(['link' => 'ID']);
-		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+		$I->click('Reset');
+		$I->wait(1);
+		$I->fillField(['id' => 'filter'], $question);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $productName]);
+		$I->seeElement(['link' => $productName]);
 	}
 
 	/**
@@ -70,12 +72,13 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->waitForElement(\QuestionManagerJoomla3Page::$userPhone,30);
+		$I->scrollTo(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
 		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->fillField(\QuestionManagerJoomla3Page::$question, $updatedQuestion);
 		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->click('Save & Close');
-		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,'.alert-success');
-		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage, '.alert-success');
+		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,['id' => 'system-message-container']);
+		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage, ['id' => 'system-message-container']);
 		$I->see($updatedQuestion, \QuestionManagerJoomla3Page::$firstResultRow);
 		$I->click(['link' => 'ID']);
 	}
@@ -90,7 +93,24 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeQuestionState($question, $state = 'unpublish')
 	{
-		$this->changeState(new \QuestionManagerJoomla3Page, $question, $state, \QuestionManagerJoomla3Page::$firstResultRow, \QuestionManagerJoomla3Page::$selectFirst);
+		$I = $this;
+		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click('Reset');
+		$I->wait(1);
+		$I->fillField(['id' => 'filter'], $question);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->wait(1);
+		$I->checkOption(\QuestionManagerJoomla3Page::$selectFirst);
+
+		if ($state == 'unpublish')
+		{
+			$I->click("Unpublish");
+		}
+		else
+		{
+			$I->click("Publish");
+		}
 	}
 
 	/**
@@ -129,6 +149,17 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteQuestion($question)
 	{
-		$this->delete(new \QuestionManagerJoomla3Page, $question, \QuestionManagerJoomla3Page::$firstResultRow, \QuestionManagerJoomla3Page::$selectFirst);
+		$I = $this;
+		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click('Reset');
+		$I->wait(1);
+		$I->fillField(['id' => 'filter'], $question);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->wait(1);
+		$I->checkOption(\QuestionManagerJoomla3Page::$selectFirst);
+		$I->click('Delete');
+		$I->wait(1);
+		$I->dontSee($question, ['id' => 'adminform']);
 	}
 }

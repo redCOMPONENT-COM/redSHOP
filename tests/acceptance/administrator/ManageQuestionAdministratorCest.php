@@ -32,12 +32,10 @@ class ManageQuestionAdministratorCest
 	 */
 	public function createQuestion(AcceptanceTester $I, $scenario)
 	{
-		$scenario->skip('@fixme: temporarily skiped due to REDSHOP-2811');
 		$I->wantTo('Test Question creation in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\QuestionManagerJoomla3Steps($scenario);
 		$I->addQuestion($this->product, $this->userContactNumber, $this->question);
-		$I->searchQuestion($this->question);
 	}
 
 	/**
@@ -51,7 +49,6 @@ class ManageQuestionAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\QuestionManagerJoomla3Steps($scenario);
 		$I->editQuestion($this->question, $this->updatedQuestion);
-		$I->searchQuestion($this->updatedQuestion);
 	}
 
 	/**
@@ -64,8 +61,9 @@ class ManageQuestionAdministratorCest
 		$I->wantTo('Test if State of a Question gets Updated in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\QuestionManagerJoomla3Steps($scenario);
-		$I->changeQuestionState($this->updatedQuestion);
-		$I->verifyState('unpublished', $I->getQuestionState($this->updatedQuestion));
+		$I->changeQuestionState($this->updatedQuestion, 'unpublish');
+		$I->waitForText('Question Management', 60, ['css' => 'h1']);
+		$I->see('Question Detail Unpublished Successfully', ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -79,6 +77,5 @@ class ManageQuestionAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\QuestionManagerJoomla3Steps($scenario);
 		$I->deleteQuestion($this->updatedQuestion);
-		$I->searchQuestion($this->updatedQuestion, 'Delete');
 	}
 }
