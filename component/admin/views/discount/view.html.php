@@ -51,8 +51,8 @@ class RedshopViewDiscount extends RedshopView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $this->state->get('discount_type')
 		);
 		
-		$lists['order'] = $state->get('list.ordering');
-		$lists['order_Dir'] = $state->get('list.direction');
+		$lists['order'] = $this->state->get('list.ordering');
+		$lists['order_Dir'] = $this->state->get('list.direction');
 		$discounts = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
