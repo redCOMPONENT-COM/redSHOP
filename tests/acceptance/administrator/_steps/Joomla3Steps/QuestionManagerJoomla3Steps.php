@@ -67,6 +67,7 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
 		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
