@@ -113,9 +113,7 @@ class Cron
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 					$body = $redshopMail->imginmail($body);
 
-					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-
-					if ($sent == 1)
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
 						$q_update = "UPDATE #__redshop_catalog_request SET reminder_1 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
@@ -166,8 +164,6 @@ class Cron
 					$body = str_replace("{coupon_code}", $token, $body);
 					$body = $redshopMail->imginmail($body);
 
-					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
@@ -179,7 +175,7 @@ class Cron
 					$db->setQuery($sql);
 					$db->execute();
 
-					if ($sent == 1)
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
 						$q_update = "UPDATE #__redshop_catalog_request SET reminder_2 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
@@ -231,9 +227,7 @@ class Cron
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 						$body = $redshopMail->imginmail($body);
 
-						$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-
-						if ($sent == 1)
+						if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 						{
 							$q_update = "UPDATE #__redshop_catalog_request SET reminder_3 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 							$db->setQuery($q_update);
@@ -345,9 +339,8 @@ class Cron
 					$body         = str_replace("{coupon_code}", $token, $body);
 					$body         = str_replace("{coupon_duration}", $valid_end_date, $body);
 					$body = $redshopMail->imginmail($body);
-					$sent         = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
-					if ($sent == 1)
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
 						$couponItems                   = JTable::getInstance('coupon_detail', 'Table');
 						$couponItems->coupon_code      = $token;
@@ -396,10 +389,13 @@ class Cron
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
 					$body = $redshopMail->imginmail($body);
-					$sent           = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-					$q_update       = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
-					$db->setQuery($q_update);
-					$db->execute();
+
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
+					{
+						$q_update = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
+						$db->setQuery($q_update);
+						$db->execute();
+					}
 				}
 			}
 			elseif ($mail_detail->mail3_status == 0 && (DAYS_MAIL3 != 0 || DAYS_MAIL3 != '') && $total != 0)
@@ -431,10 +427,13 @@ class Cron
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
 					$body = $redshopMail->imginmail($body);
-					$sent           = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-					$q_update       = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
-					$db->setQuery($q_update);
-					$db->execute();
+
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
+					{
+						$q_update = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
+						$db->setQuery($q_update);
+						$db->execute();
+					}
 				}
 			}
 		}
@@ -492,9 +491,7 @@ class Cron
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 					$body = $redshopMail->imginmail($body);
 
-					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-
-					if ($sent == 1)
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
 						$q_update = "UPDATE #__redshop_sample_request SET reminder_1 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
@@ -534,9 +531,7 @@ class Cron
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 					$body = $redshopMail->imginmail($body);
 
-					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-
-					if ($sent == 1)
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
 						$q_update = "UPDATE #__redshop_sample_request SET reminder_2 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
@@ -587,8 +582,6 @@ class Cron
 					$body = str_replace("{coupon_code}", $token, $body);
 					$body = $redshopMail->imginmail($body);
 
-					$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
 
@@ -601,7 +594,7 @@ class Cron
 						$db->execute();
 					}
 
-					if ($sent == 1)
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
 						$q_update = "UPDATE #__redshop_sample_request SET reminder_3 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
@@ -653,9 +646,7 @@ class Cron
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 						$body = $redshopMail->imginmail($body);
 
-						$sent = JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
-
-						if ($sent == 1)
+						if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 						{
 							$q_update = "UPDATE #__redshop_sample_request SET reminder_coupon = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 							$db->setQuery($q_update);
