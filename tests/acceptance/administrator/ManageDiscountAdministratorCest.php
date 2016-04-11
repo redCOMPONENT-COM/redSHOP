@@ -73,11 +73,9 @@ class ManageDiscountAdministratorCest
 	 */
 	public function deleteDiscount(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Deletion of Discount in Administrator');
+		$I->wantToTest('Deletion of Discount in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete a Discount');
-
 		$I->deleteDiscount($this->discountName, $this->newAmount);
 		$I->dontSeeElement(['link' => $this->discountName]);
 	}
