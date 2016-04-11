@@ -17,6 +17,8 @@ class DiscountManagerJ3Page
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=discount';
 
+	public static $name = "//input[@id='name']";
+
 	public static $amount = "//input[@id='amount']";
 
 	public static $discountSuccessMessage = 'Discount Detail Saved';
