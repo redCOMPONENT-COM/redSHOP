@@ -257,7 +257,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_discount` (
 	PRIMARY KEY (`discount_id`),
 	KEY `idx_start_date` (`start_date`),
 	KEY `idx_end_date` (`end_date`),
-	KEY `idx_published` (`published`)
+	KEY `idx_published` (`published`),
+	KEY `idx_discount_name` (`name`)
 )
 	ENGINE =InnoDB
 	DEFAULT CHARSET =utf8
