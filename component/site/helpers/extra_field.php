@@ -350,22 +350,19 @@ class extraField
 
 				case self::TYPE_RADIO_BUTTON:
 
-					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-					$chk_data  = @explode(",", $data_value->data_txt);
+					$selectedValue = ($data_value) ? $data_value->data_txt : '';
 
-					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
-					{
-						$checked = '';
-
-						if (@in_array($field_chk[$c]->field_value, $chk_data))
-						{
-							$checked = ' checked="checked" ';
-						}
-
-						$inputField = '<input class="' . $row_data[$i]->field_class . ' ' . $class . '"   type="radio" ' . $checked . '  name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" value="' . $field_chk[$c]->field_value . '" />' . $field_chk[$c]->field_name . '<br />';
-					}
-
-					$inputField .= '<label for="' . $row_data[$i]->field_name . '" class="error">' . JText::_('COM_REDSHOP_PLEASE_SELECT_YOUR') . '&nbsp;' . $row_data[$i]->field_title . '</label>';
+					$inputField = JHTML::_(
+						'select.radiolist',
+						$this->getFieldValue($row_data[$i]->field_id),
+						$row_data[$i]->field_name,
+						array(
+							'class' => $row_data[$i]->field_class
+						),
+						'field_value',
+						'field_name',
+						$selectedValue
+					);
 					break;
                 case self::TYPE_SELECT_BOX_SINGLE:
 
