@@ -36,6 +36,20 @@ $model = $this->getModel('stockimage');
 
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
+		<table width="100%">
+			<tr>
+				<td valign="top" align="left" class="key">
+					<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
+					<div class="btn-wrapper input-append">
+						<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+							onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_FILTER'); ?>">
+						<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
+						<button class="btn" onclick="document.getElementById('filter').value='';this.form.submit();">
+							<?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+					</div>
+				</td>
+			</tr>
+		</table>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
