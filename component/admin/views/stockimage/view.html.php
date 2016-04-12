@@ -26,12 +26,14 @@ class RedshopViewStockimage extends RedshopView
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
-
+		
+		$state = $this->get('State');
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stock_amount_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
+		$this->filter        = $state->get('filter');
 
 		$data       = $this->get('Data');
 		$total      = $this->get('Total');
