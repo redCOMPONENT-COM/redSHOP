@@ -2794,7 +2794,7 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 		}
 	};
 
-	var url = redSHOP.RSConfig._('SITE_URL') + "index.php?" + params;
+	var url = redSHOP.RSConfig._('SITE_URL') + "index.php";
 
 	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent))
 		request.open("POST", url, true);
@@ -2808,15 +2808,11 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 
 	request.onreadystatechange = function () {
 		if (request.readyState < 4) {
-			if (document.getElementById("saveid") != '' && my == 1) {
-				document.getElementById("saveid").innerHTML = '<font size="1" color="red">Processing...</font>';
-			} else {
-				document.getElementById("allcart").innerHTML = '<font size="1" color="red">Processing...</font>';
-			}
 
+			jQuery('#saveid, #allcart').html('<font size="1" color="red">Processing...</font>');
 		}
-		if (request.readyState == 4) {
 
+		if (request.readyState == 4) {
 
 			var responce = request.responseText;
 
@@ -2838,37 +2834,32 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 				if (mainpro_id[d] != "") {
 					submitAjaxwishlistCartdetail('addtocart_prd_' + mainpro_id[d], mainpro_id[d], 0, 0, totatt[d], 0, totcount_no_user_field[d]);
 				}
-
 			} else if (my == 1) {
 				window.location = redSHOP.RSConfig._('SITE_URL') + "index.php?wishlist=1&option=com_redshop&view=login";
 			} else if (my == 2) {
 				return false;
 			} else {
 				window.location = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=cart";
-
 			}
-			document.getElementById("saveid").innerHTML = '';
-			document.getElementById("allcart").innerHTML = '';
+
+			jQuery("#saveid, #allcart").html('');
 
 			// cart module
-			if (document.getElementById('mod_cart_total') && responce[1]) {
-				document.getElementById('mod_cart_total').innerHTML = responce[1];
+			if (responce[1])
+			{
+				jQuery('#mod_cart_total').html(responce[1]);
 			}
-			if (document.getElementById('rs_promote_free_shipping_div') && responce[2]) {
-				document.getElementById('rs_promote_free_shipping_div').innerHTML = responce[2];
+
+			if (responce[2])
+			{
+				jQuery('#rs_promote_free_shipping_div').html(responce[2]);
 			}
-			if (document.getElementById('mod_cart_checkout_ajax')) {
-				document.getElementById('mod_cart_checkout_ajax').style.display = "";
-			}
-			var newurl = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&pid=" + product_id + "&r_template=cartbox&tmpl=component";
-			var options = {url: newurl, handler: 'ajax', size: {x: 500, y: 600}};
-			redBOX.initialize({});
-			redBOX.open(null, options);
+
+			jQuery('#mod_cart_checkout_ajax').hide();
 		}
 	};
-	request.send(url);
-	request.send(null);
 
+	request.send(params);
 }
 
 /***********************all wishlist product add in add to cart end*************************/
@@ -3052,7 +3043,6 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 			}
 		}
 	};
-	request.send(url);
 	request.send(params);
 }
 
@@ -3074,7 +3064,6 @@ function getStocknotify(product_id, property_id, subproperty_id) {
 		}
 
 	}
-	request.open("POST", url, true);
+	request.open("GET", url, true);
 	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-	request.send(null);
 }
