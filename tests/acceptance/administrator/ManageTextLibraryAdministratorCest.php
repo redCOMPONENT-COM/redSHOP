@@ -64,7 +64,6 @@ class ManageTextLibraryAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\TextLibraryManagerJoomla3Steps($scenario);
 		$I->changeTextLibraryState($this->newName);
-		$I->verifyState('unpublished', $I->getTextLibraryState($this->newName));
 	}
 
 	/**
@@ -78,6 +77,5 @@ class ManageTextLibraryAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\TextLibraryManagerJoomla3Steps($scenario);
 		$I->deleteText($this->newName);
-		$I->searchText($this->newName, 'Delete');
 	}
 }

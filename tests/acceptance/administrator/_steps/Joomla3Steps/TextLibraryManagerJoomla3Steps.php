@@ -29,7 +29,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function createText($textTagName = 'Testing Text Name', $textTagDescription = 'Testing Description', $textTagSection = 'Product')
 	{
 		$I = $this;
-		$I->amOnPage(\TextLibraryManagerJoomla3Page::$URL);
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
 		$textLibraryManagerPage = new \TextLibraryManagerJoomla3Page;
 		$verifyName = '{' . $textTagName . '}';
 		$I->verifyNotices(false, $this->checkForNotices(), 'Text Library  Manager Page');
@@ -43,9 +43,10 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');
 		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
-		$I->click(['link' => 'ID']);
+		$I->fillField(['id' => 'filter'], $textTagName);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $verifyName]);
+		$I->seeElement(['link' => $verifyName]);
 	}
 
 	/**
@@ -59,22 +60,29 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function editText($textTagName = 'Testing Text', $newTextTagName = 'Updating Testing')
 	{
 		$I = $this;
-		$I->amOnPage(\TextLibraryManagerJoomla3Page::$URL);
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
 		$verifyName = '{' . $textTagName . '}';
 		$newVerifyName = '{' . $newTextTagName . '}';
-		$I->see($verifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
+		$I->waitForText('Text Library Management', 60, ['css' => 'h1']);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->fillField(['id' => 'filter'], $textTagName);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $verifyName]);
+		$I->seeElement(['link' => $verifyName]);
 		$I->click(\TextLibraryManagerJoomla3Page::$firstResult);
 		$I->click('Edit');
 		$I->waitForElement(\TextLibraryManagerJoomla3Page::$textTagName,30);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagName, $newTextTagName);
 		$I->click('Save & Close');
-		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');
-		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
-		$I->see($newVerifyName, \TextLibraryManagerJoomla3Page::$textResultRow);
+		$I->waitForText('Text Library Detail Saved', 60, ['id' => 'system-message-container']);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+		$I->click('Reset');
+		$I->fillField(['id' => 'filter'], $newTextTagName);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $newVerifyName]);
+		$I->seeElement(['link' => $newVerifyName]);
+		$I->dontSeeElement(['link' => $verifyName]);
 	}
 
 	/**
@@ -101,23 +109,25 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeTextLibraryState($textTagName = 'Sample', $state = 'unpublish')
 	{
+		$I = $this;
 		$verifyName = '{' . $textTagName . '}';
-		$this->changeState(new \TextLibraryManagerJoomla3Page, $verifyName, $state, \TextLibraryManagerJoomla3Page::$textResultRow, \TextLibraryManagerJoomla3Page::$firstResult);
-	}
+ 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click('Reset');
+		$I->fillField(['id' => 'filter'], $textTagName);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $verifyName]);
 
-	/**
-	 * Function to get State of a Text Library
-	 *
-	 * @param   string  $textTagName  Name of the Text Tag for which we to get State
-	 *
-	 * @return string
-	 */
-	public function getTextLibraryState($textTagName)
-	{
-		$verifyName = '{' . $textTagName . '}';
-		$result = $this->getState(new \TextLibraryManagerJoomla3Page, $verifyName, \TextLibraryManagerJoomla3Page::$textResultRow, \TextLibraryManagerJoomla3Page::$textLibraryStatePath);
-
-		return $result;
+		if ($state == 'unpublish')
+		{
+			$I->click(['css' => "a[data-original-title='Unpublish Item']"], 0);
+			$I->waitForText('Text Library Detail UnPublished Successfully', 60, ['id' => 'system-message-container']);
+		}
+		else
+		{
+			$I->click(['css' => "a[data-original-title='Publish Item']"], 0);
+			$I->waitForText('Text Library Detail Published Successfully', 60, ['id' => 'system-message-container']);
+		}
 	}
 
 	/**
@@ -129,7 +139,18 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteText($textTagName)
 	{
+		$I = $this;
 		$verifyName = '{' . $textTagName . '}';
-		$this->delete(new \TextLibraryManagerJoomla3Page, $verifyName, \TextLibraryManagerJoomla3Page::$textResultRow, \TextLibraryManagerJoomla3Page::$firstResult);
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
+		$I->waitForText('Text Library Management', 60, ['css' => 'h1']);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click('Reset');
+		$I->fillField(['id' => 'filter'], $textTagName);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForText('Text Library Management', 60, ['css' => 'h1']);
+		$I->click(['css' => "input[name='checkall-toggle']"]);
+		$I->click('Delete');
+		$I->waitForText('Text Library Detail Deleted Successfully', 60, ['id' => 'system-message-container']);
+		$I->dontSeeElement(['link' => $verifyName]);
 	}
 }
