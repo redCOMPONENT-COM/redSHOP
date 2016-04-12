@@ -82,7 +82,7 @@ class RedshopModelStockimage extends RedshopModel
 
 		if ($filter)
 		{
-			$where = " WHERE stockroom_id='" . $filter . "' ";
+			$where = " WHERE si.stock_amount_image_tooltip LIKE '%" . $filter . "%' ";
 		}
 		$query = "SELECT * FROM " . $this->_table_prefix . "stockroom_amount_image AS si "
 			. "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id=si.stockroom_id "
