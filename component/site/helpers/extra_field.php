@@ -728,6 +728,13 @@ class extraField
 										this.disable();
 									},
 									onComplete :function(file,response){
+										var warningText = jQuery("#ol_' . $unique . '").contents().filter(function () {
+										    return this.nodeType === 3;
+										});
+										if (warningText !== null){
+											warningText.remove();
+										}
+										
 										jQuery("#ol_' . $unique . '").append(response);
 										var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function() {
 											return jQuery(this).find("span").text();
