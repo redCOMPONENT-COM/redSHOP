@@ -887,6 +887,10 @@ form#adminForm label.error {
 .error {
     margin-bottom: 0px !important;
 }
+.userfield_input li.error{
+    color: #ff0000;
+    list-style: none;
+}
 form#adminForm2 label.error {
     display: none;
 }
