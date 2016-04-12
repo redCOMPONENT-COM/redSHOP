@@ -16,8 +16,6 @@
 
 class TemplateManagerJoomla3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=template';
-
 	public static $templateName = "//input[@id='template_name']";
 
 	public static $templateSectionDropDown = "//div[@id='template_section_chzn']/a";
