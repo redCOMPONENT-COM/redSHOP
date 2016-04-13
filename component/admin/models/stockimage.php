@@ -33,7 +33,7 @@ class RedshopModelStockimage extends RedshopModel
 
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
