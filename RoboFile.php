@@ -248,6 +248,7 @@ class RoboFile extends \Robo\Tasks
              ->run()
              ->stopOnFail();
 
+		/*
 		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--debug')
@@ -256,6 +257,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('tests/acceptance/checkout/')
 			->run();
 			// ->stopOnFail();
+		*/
 
         $this->taskCodecept()
              ->arg('--steps')
