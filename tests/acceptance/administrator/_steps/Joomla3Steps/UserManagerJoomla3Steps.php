@@ -54,8 +54,10 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage,60,'.alert-success');
 		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, '.alert-success');
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -71,6 +73,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\UserManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
 		$I->click(\UserManagerJoomla3Page::$selectFirst);
@@ -83,6 +86,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage,60,'.alert-success');
 		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, '.alert-success');
 		$I->see($updatedName, \UserManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -111,6 +115,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\UserManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($name, \UserManagerJoomla3Page::$firstResultRow);
 		$I->click(\UserManagerJoomla3Page::$selectFirst);
@@ -126,6 +131,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		$I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->amOnPage('/administrator/index.php?option=com_users&view=users');
 		$I->searchForItem($name);

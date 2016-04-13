@@ -6,7 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace AcceptanceTester;
-use Codeception\Module\WebDriver;
 
 
 /**
@@ -63,15 +62,6 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerJ3Page::$URL);
-		$I->executeInSelenium(
-			function(\WebDriver $webdriver)
-			{
-				$host = $this->getConfig('host');
-				$webdriver->get($host . \StateManagerJ3Page::$URL);
-				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
-				$element->clear();
-			}
-		);
 		$I->fillField(\StateManagerJ3Page::$searchField, $stateName);
 		$I->click(\StateManagerJ3Page::$searchButton);
 		$I->click(\StateManagerJ3Page::$checkAll);
@@ -81,15 +71,6 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click("Save & Close");
 		$I->see('State detail saved', '.alert-success');
 		$I->amOnPage(\StateManagerJ3Page::$URL);
-		$I->executeInSelenium(
-			function(\WebDriver $webdriver)
-			{
-				$host = $this->getConfig('host');
-				$webdriver->get($host . \StateManagerJ3Page::$URL);
-				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
-				$element->clear();
-			}
-		);
 		$I->fillField(\StateManagerJ3Page::$searchField, $stateNewName);
 		$I->click(\StateManagerJ3Page::$searchButton);
 		$I->see($stateNewName, \StateManagerJ3Page::$stateResultRow);
@@ -106,15 +87,6 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerJ3Page::$URL);
-		$I->executeInSelenium(
-			function(\WebDriver $webdriver)
-			{
-				$host = $this->getConfig('host');
-				$webdriver->get($host . \StateManagerJ3Page::$URL);
-				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerJ3Page::$searchField));
-				$element->clear();
-			}
-		);
 		$I->fillField(\StateManagerJ3Page::$searchField, $stateName);
 		$I->click(\StateManagerJ3Page::$searchButton);
 		$I->see($stateName, \StateManagerJ3Page::$stateResultRow);

@@ -22,18 +22,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	 */
 	public function checkForNotices()
 	{
-		$I = $this;
-		$result = $I->executeInSelenium(
-			function(\WebDriver $webdriver)
-			{
-				$haystack = strip_tags($webdriver->getPageSource());
-
-				return (bool) (stripos($haystack, "Notice:") || stripos($haystack, "Warning:"));
-
-			}
-		);
-
-		return $result;
+		$this->checkForPhpNoticesOrWarnings();
 	}
 
 	/**
@@ -70,18 +59,15 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
-		$I->click(['link' => 'ID']);
 
 		if ($functionName == 'Search')
 		{
-			$I->see($searchItem, $resultRow);
+			$I->seeElement(['link' => $searchItem]);
 		}
 		else
 		{
-			$I->dontSee($searchItem, $resultRow);
+			$I->dontSeeElement(['link' => $searchItem]);
 		}
-
-		$I->click(['link' => 'ID']);
 	}
 
 	/**
@@ -98,12 +84,10 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
-		$I->click(['link' => 'ID']);
-		$I->see($deleteItem, $resultRow);
+		$I->filterListBySearching($deleteItem);
 		$I->click($check);
 		$I->click('Delete');
-		$I->dontSee($deleteItem, $resultRow);
-		$I->click(['link' => 'ID']);
+		$I->dontSeeElement(['link' => $deleteItem]);
 	}
 
 	/**
@@ -120,9 +104,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
-		$I->click(['link' => 'ID']);
-		$I->waitForText($item, 30, $resultRow);
-		$I->see($item, $resultRow);
+		$I->waitForElement(['link' => $item], 60);
 		$text = $I->grabAttributeFrom($itemStatePath, 'onclick');
 
 		if (strpos($text, 'unpublish') > 0)
@@ -135,29 +117,26 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 			$result = 'unpublished';
 		}
 
-		$I->click(['link' => 'ID']);
-
 		return $result;
 	}
 
 	/**
 	 * Function to change State of an Item in the Backend
 	 *
-	 * @param   Object  $pageClass  Page Class on which we are performing the Operation
-	 * @param   String  $item       Item which we are supposed to change
-	 * @param   String  $state      State for the Item
-	 * @param   String  $resultRow  Result row where we need to look for the item
-	 * @param   String  $check      Checkbox path for Selecting the Item
+	 * @param   Object  $pageClass    Page Class on which we are performing the Operation
+	 * @param   String  $item         Item which we are supposed to change
+	 * @param   String  $state        State for the Item
+	 * @param   String  $resultRow    Result row where we need to look for the item
+	 * @param   String  $check        Checkbox path for Selecting the Item
+	 * @param   String  $searchField  The locator for the search field
 	 *
 	 * @return void
 	 */
-	public function changeState($pageClass, $item, $state, $resultRow, $check)
+	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
-		$I->click(['link' => 'ID']);
-		$I->waitForText($item, 30, $resultRow);
-		$I->see($item, $resultRow);
+		$I->filterListBySearching($item, $searchField);
 		$I->click($check);
 
 		if ($state == 'unpublish')
@@ -168,8 +147,20 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		{
 			$I->click("Publish");
 		}
+	}
 
-		$I->click(['link' => 'ID']);
-
+	/**
+	 * Filters an administrator list by searching for a given string
+	 *
+	 * @param   Object  $pageClass  Page Class on which we are performing the Operation
+	 * @param   String  $text  text to be searched to filter the administrator list
+	 */
+	public function filterListBySearching($text, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text]);
 	}
 }
