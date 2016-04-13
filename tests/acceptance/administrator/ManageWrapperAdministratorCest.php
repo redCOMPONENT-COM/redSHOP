@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ManageWrapperAdministratorCest
  *
@@ -61,12 +61,22 @@ class ManageWrapperAdministratorCest
 	 */
 	public function changeWrapperState(AcceptanceTester $I, $scenario)
 	{
+		$I->am('administrator');
 		$I->wantTo('Test if State of a Wrapper gets Updated in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\WrapperManagerJoomla3Steps($scenario);
-		$I->changeWrapperState($this->newName);
-		$I->verifyState('unpublished', $I->getWrapperState($this->newName));
-
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
+		$I->waitForText('Wrapping Management', 60, ['css' => 'h1']);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->waitForElement(['link' => $this->newName],60);
+		$I->click(['xpath' => "//a[contains(text(), '$this->newName')]/ancestor::*[1]/preceding-sibling::*[1]/input"]);
+		$I->click('Unpublish');
+		$I->waitForText('Wrapping unpublished successfully',60, ['id' => 'system-message-container']);
+		$I->see('Wrapping unpublished successfully', ['id' => 'system-message-container']);
+		$I->click(['xpath' => "//a[contains(text(), '$this->newName')]/ancestor::*[1]/preceding-sibling::*[1]/input"]);
+		$I->click('Publish');
+		$I->waitForText('Wrapping published successfully',60, ['id' => 'system-message-container']);
+		$I->see('Wrapping published successfully', ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -76,10 +86,16 @@ class ManageWrapperAdministratorCest
 	 */
 	public function deleteWrapper(AcceptanceTester $I, $scenario)
 	{
+		$I->am('administrator');
 		$I->wantTo('Deletion of Wrapper in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\WrapperManagerJoomla3Steps($scenario);
-		$I->deleteWrapper($this->newName);
-		$I->searchWrapper($this->newName, 'Delete');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
+		$I->waitForText('Wrapping Management', 60, ['css' => 'h1']);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(['xpath' => "//a[contains(text(), '$this->newName')]/ancestor::*[1]/preceding-sibling::*[1]/input"]);
+		$I->click('Delete');
+		$I->waitForText('Wrapping detail deleted successfully',60, ['id' => 'system-message-container']);
+		$I->see('Wrapping detail deleted successfully', ['id' => 'system-message-container']);
+		$I->dontSeeElement(['link' => $this->newName]);
 	}
 }
