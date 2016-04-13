@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ProductCheckoutVatExemptUserCest
  *
@@ -59,7 +59,6 @@ class ProductCheckoutVatExemptUserCest
 
 		$I->wantTo('Test to Verify the Vat Integration with product checkout using Tax Exempt user');
 		$I->doAdministratorLogin();
-
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=tax_group');
 		$I->waitForText('VAT / Tax Group Management', 30, ['xpath' => "//h1"]);
 		$I->click("New");
@@ -86,6 +85,9 @@ class ProductCheckoutVatExemptUserCest
 		$I->amOnPage("/administrator/index.php?option=com_redshop&view=configuration");
 		$I->waitForText("Configuration", 30, ['xpath' => "//h1"]);
 		$I->click(["link" => "Price"]);
+		$I->executeJS("window.scrollTo(0, 900);");
+		// @todo: check why this is not working $I->scrollTo('#default_vat_country', 0, -200);
+		$I->wait(10);
 		$I->selectOptionInChosenByIdUsingJs("default_vat_country", $this->country);
 		$I->selectOptionInChosenByIdUsingJs("default_vat_state", $this->state);
 		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/a"]);
@@ -158,6 +160,9 @@ class ProductCheckoutVatExemptUserCest
 		$I->amOnPage("/administrator/index.php?option=com_redshop&view=configuration");
 		$I->waitForText("Configuration", 30, ['xpath' => "//h1"]);
 		$I->click(["link" => "Price"]);
+		$I->executeJS("window.scrollTo(0, 900);");
+		// @todo: check why this is not working $I->scrollTo('#default_vat_country', 0, -200);
+		$I->scrollTo(['id' => 'default_vat_country'], 0, -200);
 		$I->selectOptionInChosenByIdUsingJs("default_vat_country", "Select");
 		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/a"]);
 		$I->click(["xpath" => "//div[@id='default_vat_group_chzn']/div/ul/li[text() = 'Default']"]);
