@@ -30,13 +30,27 @@ class ManageWrapperAdministratorCest
 	 * Function to Test Wrapper Creation in Backend
 	 *
 	 */
-	public function createWrapper(AcceptanceTester $I, $scenario)
+	public function createWrapper(\AcceptanceTester\AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo('Test Wrapper creation in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\WrapperManagerJoomla3Steps($scenario);
-		$I->addWrapper($this->name, $this->price, $this->category);
-		$I->searchWrapper($this->name);
+
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
+		$I->waitForText('Wrapping Management', 60, ['css' => 'h1']);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->click('New');
+		$I->waitForElement(['xpath' => "//input[@id='wrapper_name']"],60);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->fillField(['xpath' => "//input[@id='wrapper_name']"], $this->name);
+		$I->fillField(['xpath' => "//input[@id='wrapper_price']"], $this->price);
+		$I->click("//div[@id='categoryid_chzn']/ul/li/input");
+		$I->click("//div[@id='categoryid_chzn']/div/ul/li[contains(text(), '" . $this->category . "')]");
+		$I->click('Save & Close');
+		$I->waitForText("Wrapping detail saved", 60, ['id' => 'system-message-container']);
+		$I->see("Wrapping detail saved", ['id' => 'system-message-container']);
+		$I->click('Reset');
+		$I->filterListBySearching($this->name);
+		$I->seeElement(['link' => $this->name]);
 	}
 
 	/**
@@ -44,14 +58,23 @@ class ManageWrapperAdministratorCest
 	 *
 	 * @depends createWrapper
 	 */
-	public function updateWrapper(AcceptanceTester $I, $scenario)
+	public function updateWrapper(\AcceptanceTester\AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo('Test if Wrapper gets updated in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\WrapperManagerJoomla3Steps($scenario);
-		$I->editWrapper($this->name, $this->newName);
-		$I->searchWrapper($this->newName);
-
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
+		$I->waitForText('Wrapping Management', 60, ['css' => 'h1']);
+		$I->click('Reset');
+		$I->filterListBySearching($this->name);
+		$I->click(['link' => $this->name]);
+		$I->waitForElement(['xpath' => "//input[@id='wrapper_name']"],60);
+		$I->fillField(['xpath' => "//input[@id='wrapper_name']"], $this->newName);
+		$I->click('Save & Close');
+		$I->waitForText("Wrapping detail saved", 60, ['id' => 'system-message-container']);
+		$I->click('Reset');
+		$I->filterListBySearching($this->newName);
+		$I->dontSeeElement(['link' => $this->name]);
+		$I->seeElement(['link' => $this->newName]);
 	}
 
 	/**
