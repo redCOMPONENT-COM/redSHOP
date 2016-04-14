@@ -43,6 +43,7 @@ class InstallRedShopCest
 	{
 		$I->wantTo('Install Extension');
 		$I->doAdministratorLogin();
+		$I->disableStatistics();
 		$I->wantTo('Install redSHOP');
 		$I->installExtensionFromFolder($I->getConfig('repo folder'));
 
