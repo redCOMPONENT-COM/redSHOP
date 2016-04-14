@@ -114,7 +114,7 @@ class RedshopModelWrapper extends RedshopModel
 		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w WHERE 1=1 '
 			. $and;
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'w.wrapper_id');
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'wrapper_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$query .= ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
