@@ -163,4 +163,54 @@ class RedshopControllerMedia extends RedshopController
 			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
+
+	/**
+	 * Select Media as Default
+	 *
+	 * @return  void
+	 */
+	public function setDefault()
+	{
+		$app = JFactory::getApplication();
+		$post = JRequest::get('post');
+		$section_id = JRequest::getVar('section_id');
+		$media_section = JRequest::getVar('media_section');
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
+		}
+
+		$model = $this->getModel('media_detail');
+
+		if (isset($cid[0]) && $cid[0] != 0)
+		{
+			if (!$model->defaultmedia($cid[0], $section_id, $media_section))
+			{
+				$msg = $model->getError();
+			}
+		}
+
+		if ($section_id)
+		{
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
+				. '&showbuttons=1&media_section=' . $media_section, $msg
+			);
+		}
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		{
+			$app->enqueueMessage($msg);
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+		}
+	}
 }
