@@ -56,6 +56,14 @@ class RedshopModelRating_detail extends RedshopModel
 				. $this->_id . ' and p.product_id = pr.product_id';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+			
+			if ($this->_data->username == null)
+			{
+				$query = 'SELECT username as us FROM '
+					. $this->_table_prefix . 'product_rating as p  WHERE p.rating_id = ' . $this->_id;
+				$this->_db->setQuery($query);
+				$this->_data->username = $this->_db->loadResult();
+			}
 
 			return (boolean) $this->_data;
 		}
