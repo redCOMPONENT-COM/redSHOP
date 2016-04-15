@@ -33,6 +33,8 @@ class MailCenterManagerJoomla3Page
 
 	public static $mailTemplateStatePath = "//div[@id='editcell']/table/tbody/tr/td[6]/a";
 
+	public static $searchField = ['id' => 'filter'];
+
 	/**
 	 * Function to get the path for Section
 	 *

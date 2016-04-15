@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ManageCountryAdministratorCest
  *
@@ -22,7 +22,7 @@ class ManageCountryAdministratorCest
 		$this->faker = Faker\Factory::create();
 		$this->countryName = $this->faker->bothify('Testing Country ?##?');
 		$this->newCountryName = 'New ' . $this->countryName;
-		$this->randomTwoCode = $this->faker->numberBetween(9, 99);
+		$this->randomTwoCode = $this->faker->numberBetween(10, 99);
 		$this->randomThreeCode = $this->faker->numberBetween(99, 999);
 		$this->randomCountry = $this->faker->bothify('Country ?##?');
 	}
@@ -38,6 +38,7 @@ class ManageCountryAdministratorCest
 		$I = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Country');
 		$I->addCountry($this->countryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
+
 		$I->searchCountry($this->countryName);
 	}
 
