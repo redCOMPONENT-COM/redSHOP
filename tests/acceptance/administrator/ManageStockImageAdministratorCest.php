@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ManageStockImageAdministratorCest
  *
@@ -20,23 +20,31 @@ class ManageStockImageAdministratorCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->tip = $this->faker->bothify('ManageStockImageAdministratorCest ?##?');
-		$this->newTip = 'Updated ' . $this->tip;
+		$this->imageTooltip = $this->faker->bothify('ManageStockImageAdministratorCest ?##?');
+		$this->newImageTooltip = 'Updated ' . $this->imageTooltip;
 		$this->quantity = '100';
-		$this->amount = 'Higher than';
 	}
 
 	/**
 	 * Function to Test Stock Images Creation in Backend
 	 *
 	 */
-	public function createStockImage(AcceptanceTester $I, $scenario)
+	public function createStockImage(AcceptanceTester $I)
 	{
 		$I->wantTo('Test Stock Image creation in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\StockImageManagerJoomla3Steps($scenario);
-		$I->addStockImage($this->tip, $this->amount, $this->quantity);
-		$I->searchStockImage($this->tip);
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=stockimage');
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->click('New');
+		$I->waitForText('Stock Amount Image', 60, ['css' => 'h1']);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->fillField(['id' => 'stock_amount_image_tooltip'], $this->imageTooltip);
+		$I->fillField(['id' => 'stock_quantity'], $this->quantity);
+		$I->selectOptionInChosenById('stock_option','Higher than');
+		$I->click('Save & Close');
+		$I->waitForText('Stock Amount Image saved',60, ['id' => 'system-message-container']);
+		$I->seeElement(['link' => $this->imageTooltip]);
 	}
 
 	/**
@@ -44,13 +52,24 @@ class ManageStockImageAdministratorCest
 	 *
 	 * @depends createStockImage
 	 */
-	public function updateStockImage(AcceptanceTester $I, $scenario)
+	public function updateStockImage(AcceptanceTester $I)
 	{
+		$I->am('administrator');
 		$I->wantTo('Test if Stock Image gets updated in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\StockImageManagerJoomla3Steps($scenario);
-		$I->editStockImage($this->tip, $this->newTip);
-		$I->searchStockImage($this->newTip);
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=stockimage');
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->waitForElement(['link' => $this->imageTooltip],60);
+		$I->click(['xpath' => "//a[contains(text(), '$this->imageTooltip')]/ancestor::*[1]/preceding-sibling::*[1]/input"]);
+		$I->click('Edit');
+		$I->waitForText('Stock Amount Image', 60, ['css' => 'h1']);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->fillField(['id' => 'stock_amount_image_tooltip'], $this->newImageTooltip);
+		$I->click('Save & Close');
+		$I->waitForText('Stock Amount Image saved',60, ['id' => 'system-message-container']);
+		$I->seeElement(['link' => $this->newImageTooltip]);
+		$I->dontSeeElement(['link' => $this->imageTooltip]);
+
 	}
 
 	/**
@@ -58,12 +77,16 @@ class ManageStockImageAdministratorCest
 	 *
 	 * @depends updateStockImage
 	 */
-	public function deleteStockImage(AcceptanceTester $I, $scenario)
+	public function deleteStockImage(AcceptanceTester $I)
 	{
-		$I->wantTo('Deletion of Stock Images in Administrator');
+		$I->am('administrator');
+		$I->wantToTest('Deletion of Stock Images in Administrator');
 		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\StockImageManagerJoomla3Steps($scenario);
-		$I->deleteStockImage($this->newTip);
-		$I->searchStockImage($this->newTip, 'Delete');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=stockimage');
+		$I->waitForText('Stock Image Management', 60, ['css' => 'h1']);
+		$I->click(['xpath' => "//a[contains(text(), '$this->newImageTooltip')]/ancestor::*[1]/preceding-sibling::*[1]/input"]);
+		$I->click('Delete');
+		$I->waitForText('Stock Image detail deleted successfully', 60, ['id' => 'system-message-container']);
+		$I->dontSeeElement(['link' => $this->newImageTooltip]);
 	}
 }

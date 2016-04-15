@@ -826,7 +826,7 @@ class RedshopControllerProduct extends RedshopController
 			// If Extension is not legal than don't upload file
 			if (!in_array(strtolower($fileExtension), $legalExts))
 			{
-				echo JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED');
+				echo '<li class="error">' . JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') . '</li>';
 
 				$app->close();
 			}
