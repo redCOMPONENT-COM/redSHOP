@@ -68,16 +68,16 @@ class RedshopViewGiftcard extends RedshopView
 		$title = JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 
 		JToolBarHelper::title($title, 'redshop_giftcard_48');
-		JToolBarHelper::apply();
-		JToolBarHelper::save();
+		JToolBarHelper::apply('giftcard.apply');
+		JToolBarHelper::save('giftcard.save');
 
 		if ($isNew)
 		{
-			JToolBarHelper::cancel();
+			JToolBarHelper::cancel('giftcard.cancel');
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+			JToolBarHelper::cancel('giftcard.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 	}
 }
