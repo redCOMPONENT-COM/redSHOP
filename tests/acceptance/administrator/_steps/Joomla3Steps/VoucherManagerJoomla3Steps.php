@@ -30,12 +30,18 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Page');
-		$I->click("ID");
+		$I->checkForPhpNoticesOrWarnings();
 		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager New');
+		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\VoucherManagerPage::$voucherCode, $code);
 		$I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
+
+		// @todo: we need a generic function to select options in a Select2 multiple option field
+		$I->fillField(['id' => 's2id_autogen1'], 'redCORE');
+		$I->waitForElement(['css' => 'span.select2-match'], 60);
+		$I->click(['css' => 'span.select2-match']);
+		// end of select2
+
 		$I->fillField(\VoucherManagerPage::$voucherLeft, $count);
 		$I->click('Save & Close');
 		$I->waitForElement(['id' => 'system-message-container'], 60);
