@@ -90,8 +90,12 @@ class RedshopModelAccount extends RedshopModel
 
 		if (empty($this->_data))
 		{
-			$query       = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $start, $limit);
+			$query = $this->_buildQuery();
+
+			if ($query != '')
+			{
+				$this->_data = $this->_getList($query, $start, $limit);
+			}
 		}
 
 		return $this->_data;
@@ -142,7 +146,7 @@ class RedshopModelAccount extends RedshopModel
 				else
 				{
 					// Add this code to send wishlist while user is not loged in ...
-					$prod_id = 0;
+					$productIds = array();
 
 					if (isset($_SESSION["no_of_prod"]))
 					{
@@ -150,16 +154,19 @@ class RedshopModelAccount extends RedshopModel
 						{
 							if ($_SESSION['wish_' . $add_i]->product_id != '')
 							{
-								$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id . ",";
+								$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
 							}
 						}
 
-						$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
+						$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
 					}
 
-					$query->select('p.*')
-						->from($db->quoteName('#__redshop_product', 'p'))
-						->where('p.product_id IN (' . substr_replace($prod_id, '', -1) . ')');
+					if (!empty($productIds))
+					{
+						$query->select('p.*')
+							->from($db->quoteName('#__redshop_product', 'p'))
+							->where('p.product_id IN (' . implode(',', $productIds) . ')');
+					}
 				}
 				break;
 			default:
@@ -196,7 +203,12 @@ class RedshopModelAccount extends RedshopModel
 		{
 			$query = $this->_buildQuery();
 
-			$this->_total = $this->_getListCount($query);
+			$this->_total = 0;
+
+			if ($query != '')
+			{
+				$this->_total = $this->_getListCount($query);
+			}
 		}
 
 		return $this->_total;
@@ -428,16 +440,16 @@ class RedshopModelAccount extends RedshopModel
 		else
 		{
 			// Add this code to send wishlist while user is not loged in ...
-			$prod_id = "";
+			$productIds = array();
 
 			for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
 			{
-				$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id . ",";
+				$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
 			}
 
-			$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
-			$query = "SELECT DISTINCT p.* FROM " . $this->_table_prefix . "product AS p "
-				. "WHERE p.product_id IN (" . $prod_id . ")";
+			$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
+			$query = "SELECT DISTINCT p.* FROM #__redshop_product AS p "
+				. "WHERE p.product_id IN (" . implode(',', $productIds) . ")";
 		}
 
 		$MyWishlist    = $this->_getList($query);
