@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class VoucherCheckoutProductCest
  *
@@ -107,7 +107,8 @@ class VoucherCheckoutProductCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
 		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->click("ID");
+		// @todo: fixme once REDSHOP-2845 will be fixed
+		// $I->click("ID");
 		$I->click('New');
 		$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 		$I->fillField(\VoucherManagerPage::$voucherCode, $this->randomVoucherCode);
@@ -117,10 +118,10 @@ class VoucherCheckoutProductCest
 		$I->click(['xpath' => "//div[@class='select2-result-label']"]);
 		$I->fillField(\VoucherManagerPage::$voucherLeft, $this->voucherCount);
 		$I->click('Save & Close');
+		$I->waitForElement(['id' => 'system-message-container'], 60);
+		$I->scrollTo(['css' => '.alert-success']);
 		$I->see("Voucher details saved", '.alert-success');
-		$I->click("ID");
-		$I->see($this->randomVoucherCode, \VoucherManagerPage::$voucherResultRow);
-		$I->click("ID");
+		$I->seeElement(['link' => $this->randomVoucherCode]);
 	}
 
 	/**
@@ -131,6 +132,7 @@ class VoucherCheckoutProductCest
 	{
 		$I->wantTo('Deletion of Voucher in Administrator');
 		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+		$scenario->skip('@todo: once REDSHOP-2845 will be fixed the following line needs to be updated');
 		$I->deleteVoucher($this->randomVoucherCode);
 	}
 

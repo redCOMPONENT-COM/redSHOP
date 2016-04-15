@@ -9,6 +9,14 @@ env:
     - REPO=redSHOP
 php:
   - 5.5
+  - 5.6
+  - 7.0
+addons:
+  firefox: "45.0.1"
+matrix:
+  allow_failures:
+    - php: 5.6
+    - php: 7.0
 before_script:
 - phpenv config-add .travis.ini
 - phpenv rehash

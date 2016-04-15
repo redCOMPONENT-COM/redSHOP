@@ -82,12 +82,12 @@ class RedshopModelVoucher extends RedshopModel
 		$query->select('distinct(v.voucher_id)')
 			->select('v.*')
 			->from($db->qn('#__redshop_product_voucher', 'v'));
-		
+
 		if ($filter)
 		{
 			$query->where($db->qn('v.voucher_code') . 'LIKE ' . $db->q('%' . $filter . '%'));
 		}
-		
+
 		$orderby = $this->_buildContentOrderBy();
 		$query->order($db->q($orderby));
 
