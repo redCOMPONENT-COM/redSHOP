@@ -156,7 +156,7 @@ class RedshopHelperConfig
 		$app = JFactory::getApplication();
 
 		// Attempt to make the file writeable if using FTP.
-		if (JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+		if (file_exists($file) && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(JText::_('LIB_REDSHOP_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
