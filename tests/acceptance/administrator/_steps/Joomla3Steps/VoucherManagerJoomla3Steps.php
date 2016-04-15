@@ -38,10 +38,10 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
 		$I->fillField(\VoucherManagerPage::$voucherLeft, $count);
 		$I->click('Save & Close');
+		$I->waitForElement(['id' => 'system-message-container'], 60);
+		$I->scrollTo(['css' => '.alert-success']);
 		$I->see("Voucher details saved", '.alert-success');
-		$I->click("ID");
-		$I->see($code, \VoucherManagerPage::$voucherResultRow);
-		$I->click("ID");
+		$I->seeElement(['link' => $code]);
 	}
 
 	/**
@@ -56,16 +56,15 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
-		$I->click("ID");
-		$I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
+		$I->waitForElement(['link' => $voucherCode], 60);
 		$I->click(\VoucherManagerPage::$voucherCheck);
 		$I->click("Edit");
 		$I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
 		$I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click('Save & Close');
+		$I->waitForElement(['id' => 'system-message-container'], 60);
 		$I->see("Voucher details saved", '.alert-success');
-		$I->see($voucherNewCode, \VoucherManagerPage::$voucherResultRow);
-		$I->click("ID");
+		$I->seeElement(['link' => $voucherNewCode]);
 	}
 
 	/**
@@ -90,7 +89,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeVoucherState($voucherCode, $state = 'unpublish')
 	{
-		$this->changeState(new \VoucherManagerPage, $voucherCode, $state, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
+		$I = $this;
+		$I->changeState(new \VoucherManagerPage, $voucherCode, $state, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
 	}
 
 	/**

@@ -36,9 +36,12 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
 		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,'.alert-success');
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($manufacturerName, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -54,6 +57,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see($manufacturerName, \ManufacturerManagerJoomla3Page::$firstResultRow);
@@ -67,6 +71,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
 		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, '.alert-success');
 		$I->see($updatedName, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -82,6 +87,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
@@ -96,6 +102,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->click("Publish");
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -111,6 +118,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 
 		if ($functionName == 'Search')
@@ -122,6 +130,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->dontSee($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 
@@ -136,6 +145,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		$text = $I->grabAttributeFrom(\ManufacturerManagerJoomla3Page::$manufacturerStatePath, 'onclick');
@@ -150,6 +160,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$result = 'unpublished';
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 
 		return $result;
@@ -166,12 +177,14 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
 		$I->click('Delete');
 		$I->dontSee($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
 }
