@@ -4,6 +4,14 @@ fieldset.adminform textarea {
 	box-sizing: border-box;
 }
 
+#redSHOPAdminContainer .form-horizontal .control-label{
+	width: 200px;
+}
+
+#redSHOPAdminContainer .form-horizontal .controls{
+	margin-left: 0;
+}
+
 /* product Finder */
 .select_box_parent {
 	cursor: pointer;
