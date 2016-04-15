@@ -725,6 +725,7 @@ class extraField
 										this.disable();
 									},
 									onComplete :function(file,response){
+										jQuery("#ol_' . $unique . ' li.error").remove();
 										jQuery("#ol_' . $unique . '").append(response);
 										var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function() {
 											return jQuery(this).find("span").text();
