@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ class extra_field
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
 		$db     = JFactory::getDbo();
-		$option = JRequest::getVar('option');
+
 		$uri    = JURI::getInstance();
 		$url    = $uri->root();
 		$q      = "SELECT * FROM #__redshop_fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
@@ -57,7 +57,7 @@ class extra_field
 			$ex_field = '<table class="admintable" border="0" >';
 		}
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$type = $row_data[$i]->field_type;
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
@@ -111,7 +111,7 @@ class extra_field
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$checked = (@in_array(urlencode($field_chk[$c]->field_value), $chk_data)) ? ' checked="checked" ' : '';
 						$extra_field_value .= '<input  class="' . $row_data[$i]->field_class . '" type="checkbox" ' . $required . $reqlbl . $errormsg . ' ' . $checked . ' name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" value="' . urlencode($field_chk[$c]->field_value) . '" />' . $field_chk[$c]->field_value . '<br />';
@@ -127,7 +127,7 @@ class extra_field
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$checked = (@in_array(urlencode($field_chk[$c]->field_value), $chk_data)) ? ' checked="checked" ' : '';
 						$extra_field_value .= '<input class="' . $row_data[$i]->field_class . '" type="radio" ' . $checked . ' ' . $required . $reqlbl . $errormsg . ' name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" value="' . urlencode($field_chk[$c]->field_value) . '" />' . $field_chk[$c]->field_value . '<br />';
@@ -144,7 +144,7 @@ class extra_field
 					$extra_field_value = '<select name="' . $row_data[$i]->field_name . '">';
 					$extra_field_value .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$selected = (isset($data_value->data_txt) && ($field_chk[$c]->field_value == $data_value->data_txt)) ? ' selected="selected" ' : '';
 						$extra_field_value .= '<option value="' . $field_chk[$c]->field_value . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_name . '</option>';
@@ -161,7 +161,7 @@ class extra_field
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<select multiple size=10 name="' . $row_data[$i]->field_name . '[]">';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$selected = (@in_array(urlencode($field_chk[$c]->field_value), $chk_data)) ? ' selected="selected" ' : '';
 						$extra_field_value .= '<option value="' . urlencode($field_chk[$c]->field_value) . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_name . '</option>';
@@ -180,7 +180,7 @@ class extra_field
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<select name="' . $row_data[$i]->field_name . '">';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$selected = (@in_array($field_chk[$c]->country_id, $chk_data)) ? ' selected="selected" ' : '';
 						$extra_field_value .= '<option value="' . $field_chk[$c]->country_id . '" ' . $selected . ' '
@@ -305,7 +305,7 @@ class extra_field
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<table><tr>';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						if (in_array($field_chk[$c]->value_id, $chk_data))
 						{
@@ -382,7 +382,7 @@ class extra_field
 					$extra_field_value = '<table>';
 					$c = 0;
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						$alt_text = '';
 						$str_image_link = '';
@@ -468,7 +468,7 @@ class extra_field
 
 					if (count($mainsplit_date_extra) > 0)
 					{
-						for ($k = 0; $k < count($mainsplit_date_extra); $k++)
+						for ($k = 0, $kn = count($mainsplit_date_extra); $k < $kn; $k++)
 						{
 							if ($mainsplit_date_extra[$k] != "")
 							{
@@ -533,7 +533,7 @@ class extra_field
 	{
 		$db = JFactory::getDbo();
 
-		$option = JRequest::getVar('option');
+
 
 		$q = "SELECT * FROM #__redshop_fields "
 			. "WHERE field_section IN (" . (int) $field_section . ") "
@@ -541,7 +541,7 @@ class extra_field
 		$db->setQuery($q);
 		$row_data = $db->loadObjectlist();
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$data_txt = '';
 
@@ -695,7 +695,7 @@ class extra_field
 			}
 			else
 			{
-				for ($h = 0; $h < count($sect); $h++)
+				for ($h = 0, $hn = count($sect); $h < $hn; $h++)
 				{
 					$list = $this->getSectionFieldDataList($row_data[$i]->field_id, $sect[$h], $section_id, $user_email);
 
@@ -731,7 +731,7 @@ class extra_field
 	{
 		$row_data = $this->getSectionFieldList($field_section);
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$required = $row_data[$i]->required;
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
@@ -753,7 +753,7 @@ class extra_field
 
 		$ex_field = '';
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$type = $row_data[$i]->field_type;
 			$extra_field_value = "";
@@ -793,7 +793,7 @@ class extra_field
 
 					$extra_field_value = '';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						if (@in_array($field_chk[$c]->field_value, $chk_data))
 						{
@@ -810,7 +810,7 @@ class extra_field
 
 					$extra_field_value = '';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						if (@in_array($field_chk[$c]->field_value, $chk_data))
 						{
@@ -827,7 +827,7 @@ class extra_field
 
 					$extra_field_value = '';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						if (@in_array($field_chk[$c]->field_value, $chk_data))
 						{
@@ -844,7 +844,7 @@ class extra_field
 
 					$extra_field_value = '';
 
-					for ($c = 0; $c < count($field_chk); $c++)
+					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
 						if (@in_array($field_chk[$c]->field_value, $chk_data))
 						{
@@ -922,14 +922,13 @@ class extra_field
 		$q = "SELECT * FROM #__redshop_fields "
 			. "WHERE field_section = " . (int) $section_id . " "
 			. "AND field_name = " . $db->quote($field_section) . " "
-			. "AND published=1 "
-			. "AND field_show_in_front=1 ";
+			. "AND published=1 ";
 		$db->setQuery($q);
 		$row_data = $db->loadObjectlist();
 		$ex_field = '';
 		$ex_field_title = '';
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$type = $row_data[$i]->field_type;
 			$asterisk = $row_data[$i]->required > 0 ? '* ' : '';
@@ -967,7 +966,7 @@ class extra_field
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							$checked = (@in_array($field_chk[$c]->field_value, $chk_data)) ? ' checked="checked" ' : '';
 							$ex_field .= '<div class="userfield_input"><input  class="' . $row_data[$i]->field_class . '" type="checkbox"  ' . $checked . ' name="extrafieldname' . $unique_id . '[]" id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" userfieldlbl="' . $row_data[$i]->field_title . '" value="' . $field_chk[$c]->field_value . '" ' . $req . ' />' . $field_chk[$c]->field_value . '</div>';
@@ -978,7 +977,7 @@ class extra_field
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							$checked = (@in_array($field_chk[$c]->field_value, $chk_data)) ? ' checked="checked" ' : '';
 							$ex_field .= '<div class="userfield_input"><input class="' . $row_data[$i]->field_class . '" type="radio" ' . $checked . ' name="extrafieldname' . $unique_id . '[]" userfieldlbl="' . $row_data[$i]->field_title . '"  id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" value="' . $field_chk[$c]->field_value . '" ' . $req . ' />' . $field_chk[$c]->field_value . '</div>';
@@ -991,7 +990,7 @@ class extra_field
 						$ex_field .= '<div class="userfield_input"><select name="extrafieldname' . $unique_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
 						$ex_field .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							if ($field_chk[$c]->field_value != "" && $field_chk[$c]->field_value != "-" && $field_chk[$c]->field_value != "0" && $field_chk[$c]->field_value != "select")
 							{
@@ -1008,7 +1007,7 @@ class extra_field
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafieldname' . $unique_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							$selected = (@in_array($field_chk[$c]->field_value, $chk_data)) ? ' selected="selected" ' : '';
 							$ex_field .= '<option value="' . $field_chk[$c]->field_value . '" ' . $selected . ' >' . $field_chk[$c]->field_value . '</option>';
@@ -1033,7 +1032,7 @@ class extra_field
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<table><tr>';
 
-						for ($c = 0; $c < count($field_chk); $c++)
+						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 						{
 							$ex_field .= '<td><div class="userfield_input"><img id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" class="pointer imgClass_' . $unique_id . '" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $field_chk[$c]->field_name . '" title="' . $field_chk[$c]->field_value . '" alt="' . $field_chk[$c]->field_value . '" onclick="javascript:setProductUserFieldImage(\'' . $row_data[$i]->field_name . '\',\'' . $unique_id . '\',\'' . $field_chk[$c]->field_value . '\',this);"/></div></td>';
 						}
@@ -1141,7 +1140,7 @@ class extra_field
 		$db->setQuery($query);
 		$list = $db->loadObjectList();
 
-		for ($i = 0; $i < count($list); $i++)
+		for ($i = 0, $in = count($list); $i < $in; $i++)
 		{
 			$sql = "INSERT INTO #__redshop_fields_data "
 				. "(fieldid, data_txt, itemid, section, alt_text, image_link, user_email) "

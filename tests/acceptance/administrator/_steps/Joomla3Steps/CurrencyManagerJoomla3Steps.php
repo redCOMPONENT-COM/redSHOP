@@ -34,11 +34,10 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $currencyName);
 		$I->fillField(\CurrencyManagerPage::$currencyCodeField, $currencyCode);
 		$I->click('Save & Close');
-		$I->see('Currency Management','h1');
-		$I->see('Currency detail saved', '.alert-success');
-		$I->click(['link' => 'ID']);
-		$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
-		$I->click(['link' => 'ID']);
+		$I->waitForText('Currency Management',60,'h1');
+		$I->see('Currency detail saved', ['id' => 'system-message-container']);
+		$I->filterListBySearching($currencyName);
+		$I->seeElement(['link' => $currencyName]);
 	}
 
 	/**
@@ -53,18 +52,15 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CurrencyManagerPage::$URL);
-		$I->click(['link' => 'ID']);
-		$I->see($currencyName, \CurrencyManagerPage::$currencyResultRow);
-		$I->click(\CurrencyManagerPage::$firstResult);
-		$I->click('Edit');
+		$I->filterListBySearching($currencyName);
+		$I->click(['link' => $currencyName]);
 		$I->waitForElement(\CurrencyManagerPage::$currencyNameField);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Currency Edit View');
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $newCurrencyName);
 		$I->click('Save & Close');
-		$I->see('Currency Management', 'h1');
-		$I->see($newCurrencyName, \CurrencyManagerPage::$currencyResultRow);
-		$I->click(['link' => 'ID']);
-
+		$I->waitForText('Currency Management',10,'h1');
+		$I->filterListBySearching($newCurrencyName);
+		$I->seeElement(['link' => $newCurrencyName]);
 	}
 
 	/**

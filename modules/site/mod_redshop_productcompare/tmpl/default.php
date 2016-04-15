@@ -18,7 +18,6 @@ $producthelper = new producthelper;
 JLoader::load('RedshopHelperHelper');
 $redhelper = new redhelper;
 
-$option = JRequest::getCmd('option');
 $Itemid = JRequest::getInt('Itemid');
 $cid = JRequest::getInt('cid');
 if (COMARE_PRODUCTS == 1)
@@ -156,6 +155,7 @@ else
 				window.location.reload(true);
 		};
 		xmlhttp.open("GET", url, true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 </script>

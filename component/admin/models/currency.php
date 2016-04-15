@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,9 +33,11 @@ class RedshopModelCurrency extends RedshopModel
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
+		$this->setState('filter', $filter);
 	}
 
 	public function getData()
@@ -73,9 +75,22 @@ class RedshopModelCurrency extends RedshopModel
 
 	public function _buildQuery()
 	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$filter = $this->getState('filter');
+
+		$query->select('distinct(c.currency_id)')
+			->select('c.*')
+			->from($db->qn('#__redshop_currency', 'c'));
+
+		if ($filter)
+		{
+			$query->where($db->qn('c.currency_name') . 'LIKE ' . $db->q('%' . $filter . '%') . 'OR ' . $db->qn('c.currency_code') . 'LIKE ' . $db->q($filter . '%'));
+		}
+
 		$orderby = $this->_buildContentOrderBy();
-		$query = "SELECT distinct(c.currency_id),c.*  FROM " . $this->_table_prefix . "currency c WHERE 1=1 "
-			. $orderby;
+		$query->order($db->q($orderby));
 
 		return $query;
 	}

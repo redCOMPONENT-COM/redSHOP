@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -148,7 +148,7 @@ class redshopMail
 
 		$cart_mdata           = '';
 
-		for ($i = 0; $i < count($rowitem); $i++)
+		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
 			$product          = $producthelper->getProductById($rowitem[$i]->product_id);
 			$manufacturerData = $producthelper->getSection("manufacturer", $product->manufacturer_id);
@@ -176,7 +176,7 @@ class redshopMail
 		$arr_discount = explode('@', $row->discount_type);
 		$discount_type = '';
 
-		for ($d = 0; $d < count($arr_discount); $d++)
+		for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 		{
 			if ($arr_discount[$d])
 			{
@@ -473,7 +473,7 @@ class redshopMail
 
 		$order_id = "";
 
-		for ($o = 0; $o < count($oid); $o++)
+		for ($o = 0, $on = count($oid); $o < $on; $o++)
 		{
 			$message              = "";
 			$order_id             = $oid[$o];
@@ -529,9 +529,18 @@ class redshopMail
 			$pdfObj->WriteHTML($message, true, false, true, false, '');
 		}
 
-		$invoice_pdfName = "multiprintorder";
+		$invoice_pdfName = "multiprintorder" . round(microtime(true) * 1000);
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-
+		$store_files = array('index.html', '' . $invoice_pdfName . '.pdf');
+		
+		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) 
+		{
+			if (!in_array(basename($file), $store_files)) 
+			{
+				unlink($file);
+			}
+		}
+		
 		return $invoice_pdfName;
 	}
 
@@ -557,7 +566,7 @@ class redshopMail
 		$arr_discount  = explode('@', $row->discount_type);
 		$discount_type = '';
 
-		for ($d = 0; $d < count($arr_discount); $d++)
+		for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 		{
 			if ($arr_discount[$d])
 			{
@@ -1088,7 +1097,7 @@ class redshopMail
 
 		$rowitem = $quotationHelper->getQuotationProduct($quotation_id);
 
-		for ($i = 0; $i < count($rowitem); $i++)
+		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
 			$product_id                   = $rowitem[$i]->product_id;
 			$product                      = $producthelper->getProductById($product_id);
@@ -1380,7 +1389,6 @@ class redshopMail
 		{
 			$config   = JFactory::getConfig();
 			$url      = JURI::root();
-			$option   = JRequest::getVar('option', '', 'request');
 			$mailbcc  = null;
 			$mailinfo = $this->getMailtemplate(0, "newsletter_confirmation");
 
@@ -1494,7 +1502,6 @@ class redshopMail
 		$producthelper = new producthelper;
 		$uri           = JURI::getInstance();
 		$url           = $uri->root();
-		$option        = JRequest::getVar('option');
 		$subject       = "";
 		$data_add      = "";
 		$mailbcc       = null;
@@ -1716,7 +1723,7 @@ class redshopMail
 		$catalog_data = $this->_db->loadObjectlist();
 		$attachment = array();
 
-		for ($p = 0; $p < count($catalog_data); $p++)
+		for ($p = 0, $pn = count($catalog_data); $p < $pn; $p++)
 		{
 			$attachment[] = REDSHOP_FRONT_DOCUMENT_RELPATH . 'catalog/' . $catalog_data[$p]->media_name;
 		}

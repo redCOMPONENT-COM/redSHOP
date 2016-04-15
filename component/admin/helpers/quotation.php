@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -190,7 +190,7 @@ class quotationHelper
 		$extra_field = new extra_field;
 		$row_data = $extra_field->getSectionFieldList($section_id, 1);
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			if (array_key_exists($row_data[$i]->field_name, $cart) && $cart[$row_data[$i]->field_name])
 			{
@@ -251,9 +251,9 @@ class quotationHelper
 			$returnArr = $producthelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
 			$userFieldTag = $returnArr[1];
 
-			for ($i = 0; $i < count($userFieldTag); $i++)
+			for ($i = 0, $in = count($userFieldTag); $i < $in; $i++)
 			{
-				for ($j = 0; $j < count($userfield); $j++)
+				for ($j = 0, $jn = count($userfield); $j < $jn; $j++)
 				{
 					if ($userfield[$j]->field_name == $userFieldTag[$i])
 					{
@@ -261,7 +261,7 @@ class quotationHelper
 						{
 							$files = explode(",", $userfield[$j]->data_txt);
 							$data_txt = "";
-							for ($f = 0; $f < count($files); $f++)
+							for ($f = 0, $fn = count($files); $f < $fn; $f++)
 							{
 								$u_link = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
 								$data_txt .= "<a href='" . $u_link . "'>" . $files[$f] . "</a> ";

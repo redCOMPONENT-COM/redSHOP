@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -287,7 +287,7 @@ if (count($template_sdata) > 0)
 $cart_mdata        = '';
 $subtotal_excl_vat = 0;
 
-for ($i = 0; $i < count($quotationProducts); $i++)
+for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 {
 	$cart_mdata .= $template_middle;
 	$wrapper_name = "";

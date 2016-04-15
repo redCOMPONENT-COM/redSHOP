@@ -3,11 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
-$option = JRequest::getVar('option');
+
 $url = JURI::base();
 $comment = JRequest::getVar('filter');
 $model = $this->getModel('catalog');
@@ -39,7 +39,7 @@ $model = $this->getModel('catalog');
 	}
 </script>
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell" style="background-color: ">
 		<table class="adminlist table table-striped">
 			<thead>
@@ -90,7 +90,7 @@ $model = $this->getModel('catalog');
 					<td align="center">
 						<?php $mediadetail = $model->MediaDetail($row->id);  ?>
 						<a class="modal"
-						   href="index.php?tmpl=component&option=<?php echo $option; ?>&amp;view=media&amp;section_id=<?php echo $row->id; ?>&amp;showbuttons=1&amp;media_section=catalog&amp;section_name=<?php echo $row->catalog_name; ?>"
+						   href="index.php?tmpl=component&option=com_redshop&amp;view=media&amp;section_id=<?php echo $row->id; ?>&amp;showbuttons=1&amp;media_section=catalog&amp;section_name=<?php echo $row->catalog_name; ?>"
 						   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
 								src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
 								alt="media">(<?php  echo count($mediadetail);?>)</a>

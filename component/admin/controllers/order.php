@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ class RedshopControllerOrder extends RedshopController
 		$invoiceLink = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'invoice/' . $invoicePdf . '.pdf';
 		$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_INVOICE_LINK', $invoiceLink, $invoicePdf . '.pdf'));
 
-		for ($i = 0; $i < count($mypost); $i++)
+		for ($i = 0, $in = count($mypost); $i < $in; $i++)
 		{
 			if (file_exists(JPATH_COMPONENT_SITE . "/assets/labels/label_" . $mypost[$i] . ".pdf"))
 			{
@@ -39,7 +39,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
@@ -148,12 +148,12 @@ class RedshopControllerOrder extends RedshopController
 		{
 			$order_id = JRequest::getCmd('order_id');
 			$order_function = new order_functions;
-			$paymentInfo = $order_function->getOrderPaymentDetail($order_id);
+			$paymentInfo = RedshopHelperOrder::getPaymentInfo($order_id);
 
-			if (count($paymentInfo) > 0)
+			if ($paymentInfo)
 			{
-				$payment_name = $paymentInfo[0]->payment_method_class;
-				$paymentArr = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+				$payment_name = $paymentInfo->payment_method_class;
+				$paymentArr = explode("rs_payment_", $paymentInfo->payment_method_class);
 
 				if (count($paymentArr) > 0)
 				{
@@ -161,15 +161,9 @@ class RedshopControllerOrder extends RedshopController
 				}
 
 				$economicdata['economic_payment_method'] = $payment_name;
-				$paymentmethod = $order_function->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
-
-				if (count($paymentmethod) > 0)
-				{
-					$paymentparams = new JRegistry($paymentmethod[0]->params);
-					$economicdata['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-					$economicdata['economic_design_layout'] = $paymentparams->get('economic_design_layout');
-					$economicdata['economic_is_creditcard'] = $paymentparams->get('is_creditcard');
-				}
+				$economicdata['economic_payment_terms_id'] = $paymentInfo->plugin->params->get('economic_payment_terms_id');
+				$economicdata['economic_design_layout'] = $paymentInfo->plugin->params->get('economic_design_layout');
+				$economicdata['economic_is_creditcard'] = $paymentInfo->plugin->params->get('is_creditcard');
 			}
 
 			$economic = new economic;
@@ -226,7 +220,7 @@ class RedshopControllerOrder extends RedshopController
 		$db->setQuery($sql);
 		$no_products = $db->loadObjectList();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$product_count [] = $no_products [$i]->noproduct;
 		}
@@ -249,11 +243,11 @@ class RedshopControllerOrder extends RedshopController
 
 		echo "Order Total\n";
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$billing_info = $order_function->getOrderBillingUserInfo($data [$i]->order_id);
 
-			$details = explode("|", $shipping_helper->decryptShipping(str_replace(" ", "+", $data[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
 
 			echo $data [$i]->order_id . ",";
 			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";
@@ -354,7 +348,7 @@ class RedshopControllerOrder extends RedshopController
 		$db->setQuery($sql);
 		$no_products = $db->loadObjectList();
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$product_count [] = $no_products [$i]->noproduct;
 		}
@@ -373,7 +367,7 @@ class RedshopControllerOrder extends RedshopController
 
 		echo "Shipping Cost,Order Total\n";
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$shipping_address = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
 
@@ -462,7 +456,7 @@ class RedshopControllerOrder extends RedshopController
 
 		$download_id_arr = $post ['download_id'];
 
-		for ($i = 0; $i < count($download_id_arr); $i++)
+		for ($i = 0, $in = count($download_id_arr); $i < $in; $i++)
 		{
 			$download_id = $download_id_arr [$i];
 

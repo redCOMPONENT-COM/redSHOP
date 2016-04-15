@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,7 +43,7 @@ class RedshopControllerProduct extends RedshopController
 			$totalprd = count($prd);
 			$responcemsg = '';
 
-			for ($i = 0; $i < count($prd); $i++)
+			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
 				$ecoProductNumber = $economic->createProductInEconomic($prd[$i]);
@@ -109,7 +109,7 @@ class RedshopControllerProduct extends RedshopController
 			$totalprd = count($list);
 			$responcemsg = '';
 
-			for ($i = 0; $i < count($list); $i++)
+			for ($i = 0, $in = count($list); $i < $in; $i++)
 			{
 				$incNo++;
 				$prdrow = new stdClass;
@@ -150,7 +150,7 @@ class RedshopControllerProduct extends RedshopController
 			$list = $db->loadObjectlist();
 			$totalprd = $totalprd + count($list);
 
-			for ($i = 0; $i < count($list); $i++)
+			for ($i = 0, $in = count($list); $i < $in; $i++)
 			{
 				$incNo++;
 				$prdrow = new stdClass;
@@ -200,7 +200,7 @@ class RedshopControllerProduct extends RedshopController
 		$pid = JRequest::getVar('pid', array(), 'post', 'array');
 		$price = JRequest::getVar('price', array(), 'post', 'array');
 
-		for ($i = 0; $i < count($pid); $i++)
+		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
 			$sql = "UPDATE #__redshop_product  SET product_price='" . $price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
 
@@ -217,7 +217,7 @@ class RedshopControllerProduct extends RedshopController
 		$pid = JRequest::getVar('pid', array(), 'post', 'array');
 		$discount_price = JRequest::getVar('discount_price', array(), 'post', 'array');
 
-		for ($i = 0; $i < count($pid); $i++)
+		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
 			$sql = "UPDATE #__redshop_product  SET discount_price='" . $discount_price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
 
@@ -239,7 +239,7 @@ class RedshopControllerProduct extends RedshopController
 
 		if (is_array($data_product))
 		{
-			for ($i = 0; $i < count($data_product); $i++)
+			for ($i = 0, $in = count($data_product); $i < $in; $i++)
 			{
 				echo $data_product[$i];
 			}
@@ -273,7 +273,7 @@ class RedshopControllerProduct extends RedshopController
 
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');

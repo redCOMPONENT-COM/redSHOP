@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -48,7 +48,7 @@ $ord_path = "/components/com_redshop/assets/images/";
 		</label></span></td>
 								<td><input type="text" name="news_from_name" id="news_from_name"
 								           value="<?php
-								           echo NEWS_FROM_NAME;
+								           echo $this->config->get('NEWS_FROM_NAME');
 								           ?>"
 								           size="50">
 								</td>
@@ -64,7 +64,7 @@ $ord_path = "/components/com_redshop/assets/images/";
 		</label></span></td>
 								<td><input type="text" name="news_mail_from" id="news_mail_from"
 								           value="<?php
-								           echo NEWS_MAIL_FROM;
+								           echo $this->config->get('NEWS_MAIL_FROM');
 								           ?>"
 								           size="50">
 								</td>
@@ -119,7 +119,7 @@ $ord_path = "/components/com_redshop/assets/images/";
 								</td>
 								<td width="70%">
 									<input type="text" name="newsletter_mail_chunk" id="newsletter_mail_chunk"
-									       value="<?php echo NEWSLETTER_MAIL_CHUNK; ?>" size="20" maxlength="3">
+									       value="<?php echo $this->config->get('NEWSLETTER_MAIL_CHUNK'); ?>" size="20" maxlength="3">
 								</td>
 							</tr>
 							<tr>
@@ -132,7 +132,7 @@ $ord_path = "/components/com_redshop/assets/images/";
 								</td>
 								<td width="70%">
 									<input type="text" name="newsletter_mail_pause_time" id="newsletter_mail_pause_time"
-									       value="<?php echo NEWSLETTER_MAIL_PAUSE_TIME; ?>" size="20" maxlength="3">
+									       value="<?php echo $this->config->get('NEWSLETTER_MAIL_PAUSE_TIME'); ?>" size="20" maxlength="3">
 								</td>
 							</tr>
 						</table>

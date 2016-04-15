@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$order_functions = new order_functions;
 		$shippinghelper = new shipping;
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['order_id'] = $cid [0];
 		$model = $this->getModel('addorder_detail');
@@ -59,7 +59,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$stockroomhelper = new rsstockroomhelper;
 			$producthelper = new producthelper;
 
-			for ($i = 0; $i < count($orderItem); $i++)
+			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{
 				$quantity = $orderItem[$i]->quantity;
 				$productData = $producthelper->getProductById($orderItem[$i]->product_id);
@@ -106,7 +106,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$order_total = $post['order_total'];
 
-		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $post['shipping_rate_id'])));
+		$order_shipping = RedshopShippingRate::decrypt($post['shipping_rate_id']);
 
 		if (count($order_shipping) > 4)
 		{
@@ -158,7 +158,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$subtotal_excl_vat = 0;
 
-		for ($i = 0; $i < count($orderItem); $i++)
+		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
 			$subtotal_excl_vat = $subtotal_excl_vat + ($orderItem[$i]->prdexclprice * $orderItem[$i]->quantity);
 		}
@@ -226,7 +226,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
@@ -240,7 +240,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			JRequest::setVar('billisship', 0);
 		}
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$model = $this->getModel('addorder_detail');
 
 		if ($row = $model->storeShipping($post))
@@ -278,7 +278,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 	{
 		$shippinghelper = new shipping;
 		$get = JRequest::get('get');
-		$shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $get['shipping_rate_id'])));
+		$shipping = RedshopShippingRate::decrypt($get['shipping_rate_id']);
 		$order_shipping = 0;
 		$order_shipping_class = '';
 

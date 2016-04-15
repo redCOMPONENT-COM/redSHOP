@@ -3,20 +3,20 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 JHTMLBehavior::modal();
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 $order_function = new order_functions;
 $config = new Redconfiguration;
 $productHelper = new producthelper;
 $redhelper = new redhelper;
 $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
+<form action="index.php?option=com_redshop" method="post"
       name="adminForm" id="adminForm">
 	<div id="editcell">
 		<?php if ($showbuttons != 1)

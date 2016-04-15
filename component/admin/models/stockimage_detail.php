@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -126,7 +126,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			for ($i = 0; $i < count($cid); $i++)
+			for ($i = 0, $in = count($cid); $i < $in; $i++)
 			{
 				$query = 'SELECT stock_amount_image FROM ' . $this->_table_prefix . 'stockroom_amount_image AS si '
 					. 'WHERE stock_amount_id="' . $cid[$i] . '" ';

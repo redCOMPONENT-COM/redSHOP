@@ -17,6 +17,7 @@ modules:
     enabled:
         - JoomlaBrowser
         - AcceptanceHelper
+        - Asserts
     config:
         JoomlaBrowser:
             url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
@@ -25,6 +26,7 @@ modules:
             restart: true
             capabilities:
               unexpectedAlertBehaviour: 'accept'
+              elementScrollBehavior: '1'
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             database host: 'localhost'             # place where the Application is Hosted #server Address

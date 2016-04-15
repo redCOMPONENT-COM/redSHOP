@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -189,7 +189,7 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 	// Start array to collect data to addItems
 	$analyticsData['addItem'] = array();
 
-	for ($k = 0; $k < count($orderitem); $k++)
+	for ($k = 0, $kn = count($orderitem); $k < $kn; $k++)
 	{
 		$orderaddItem = array();
 

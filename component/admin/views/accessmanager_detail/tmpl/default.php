@@ -3,15 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
 $config = new Redconfiguration;
-
-$option = JRequest::getVar('option');
 $section = JRequest::getVar('section');
 $view = JRequest::getVar('view');
 
@@ -27,7 +25,7 @@ $view = JRequest::getVar('view');
 	}
 </script>
 <form name="adminForm" id="adminForm" method="post" action="index.php">
-	<input type="hidden" name="option" value="<?php echo $option ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="<?php echo $view ?>"/>
 	<input type="hidden" name="section" value="<?php echo $section ?>"/>
 	<input type="hidden" name="task" value=""/>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperProduct');
@@ -304,7 +304,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 		<td>
 			<?php $listedincats = $model->listedincats($row->product_id);
-			for ($j = 0; $j < count($listedincats); $j++)
+			for ($j = 0, $jn = count($listedincats); $j < $jn; $j++)
 			{
 				echo $cat = $listedincats[$j]->category_name . "<br />";
 			}

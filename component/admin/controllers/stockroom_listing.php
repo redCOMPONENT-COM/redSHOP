@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class RedshopControllerStockroom_listing extends RedshopControllerAdmin
 		$preorder_stock = JRequest::getVar('preorder_stock', array(0), 'post', 'array');
 		$ordered_preorder = JRequest::getVar('ordered_preorder', array(0), 'post', 'array');
 
-		for ($i = 0; $i < count($sid); $i++)
+		for ($i = 0, $in = count($sid); $i < $in; $i++)
 		{
 			$model->storeStockroomQuantity($stockroom_type, $sid[$i], $pid[$i], $quantity[$i], $preorder_stock[$i], $ordered_preorder[$i]);
 		}

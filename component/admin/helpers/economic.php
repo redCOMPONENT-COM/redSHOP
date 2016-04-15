@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ class economic
 
 	public $_dispatcher = null;
 
-	public function economic()
+	public function __construct()
 	{
 		$db                     = JFactory::getDbo();
 		$this->_table_prefix    = '#__redshop_';
@@ -121,7 +121,7 @@ class economic
 
 				if (count($emailarray) > 1)
 				{
-					for ($i = 0; $i < count($emailarray); $i++)
+					for ($i = 0, $in = count($emailarray); $i < $in; $i++)
 					{
 						if ($debtorHandle[0]->Number == $emailarray[$i]->Number)
 						{
@@ -632,7 +632,7 @@ class economic
 			return;
 		}
 
-		for ($i = 0; $i < count($orderitem); $i++)
+		for ($i = 0, $in = count($orderitem); $i < $in; $i++)
 		{
 			$displaywrapper   = "";
 			$displayattribute = "";
@@ -758,7 +758,7 @@ class economic
 	 */
 	public function createInvoiceLineInEconomicAsProduct($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
-		for ($i = 0; $i < count($orderitem); $i++)
+		for ($i = 0, $in = count($orderitem); $i < $in; $i++)
 		{
 			$displaywrapper   = "";
 			$displayattribute = "";
@@ -851,7 +851,7 @@ class economic
 	{
 		if ($ship_method_id != "")
 		{
-			$order_shipping = explode("|", $this->_shippinghelper->decryptShipping(str_replace(" ", "+", $ship_method_id)));
+			$order_shipping = RedshopShippingRate::decrypt($ship_method_id);
 
 			if (count($order_shipping) > 5)
 			{
@@ -1259,7 +1259,7 @@ class economic
 		{
 			$displayaccessory .= "\n" . JText::_("COM_REDSHOP_ACCESSORY");
 
-			for ($i = 0; $i < count($orderItemdata); $i++)
+			for ($i = 0, $in = count($orderItemdata); $i < $in; $i++)
 			{
 				if (true)
 				{
@@ -1333,7 +1333,7 @@ class economic
 		{
 			$product = $this->_producthelper->getProductById($parent_section_id);
 
-			for ($i = 0; $i < count($orderItemAttdata); $i++)
+			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
 			{
 				$attribute            = $this->_producthelper->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
 				$hide_attribute_price = 0;
@@ -1346,7 +1346,7 @@ class economic
 				$displayattribute .= "\n" . urldecode($orderItemAttdata[$i]->section_name) . " : ";
 				$orderPropdata = $this->_order_functions->getOrderItemAttributeDetail($orderItem->order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
 
-				for ($p = 0; $p < count($orderPropdata); $p++)
+				for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
 				{
 					$property      = $this->_producthelper->getAttibuteProperty($orderPropdata[$p]->section_id);
 					$virtualNumber = "";
@@ -1445,7 +1445,7 @@ class economic
 
 	public function createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderAttitem)
 	{
-		for ($i = 0; $i < count($orderAttitem); $i++)
+		for ($i = 0, $in = count($orderAttitem); $i < $in; $i++)
 		{
 			$eco[$i]['invoiceHandle']    = $invoice_no;
 			$eco[$i]['order_item_id']    = $orderItem->order_item_id;

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -688,7 +688,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				$main_sal_sp = explode(",", JRequest::getVar('main_sel'));
 
-				for ($f = 0; $f < count($main_sal_sp); $f++)
+				for ($f = 0, $fn = count($main_sal_sp); $f < $fn; $f++)
 				{
 					if ($main_sal_sp[$f] != "")
 					{
@@ -705,7 +705,7 @@ class RedshopModelSearch extends RedshopModel
 						  LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id
 						  LEFT JOIN #__redshop_product_category_xref x ON x.product_id = a.product_id ";
 
-			for ($i = 0; $i < count($main_sal_type); $i++)
+			for ($i = 0, $in = count($main_sal_type); $i < $in; $i++)
 			{
 				if ($i != 0)
 				{
@@ -716,7 +716,7 @@ class RedshopModelSearch extends RedshopModel
 			$q .= "where ( ";
 			$dep_cond = array();
 
-			for ($i = 0; $i < count($main_sal_type); $i++)
+			for ($i = 0, $in = count($main_sal_type); $i < $in; $i++)
 			{
 				$chk_q = "";
 
@@ -746,7 +746,7 @@ class RedshopModelSearch extends RedshopModel
 			$q .= ") AND p.published = '1' AND x.category_id = " . (int) JRequest::getInt('cid', 0) . " order by p.product_name ";
 			$product = $this->_getList($q);
 
-			for ($i = 0; $i < count($product); $i++)
+			for ($i = 0, $in = count($product); $i < $in; $i++)
 			{
 				$lstproduct_id[] = $product[$i]->product_id;
 			}
@@ -826,7 +826,7 @@ class RedshopModelSearch extends RedshopModel
 
 					$products = array();
 
-					for ($i = 0; $i < count($product); $i++)
+					for ($i = 0, $in = count($product); $i < $in; $i++)
 					{
 						$products[] = $product[$i]->product_id;
 					}
@@ -860,7 +860,7 @@ class RedshopModelSearch extends RedshopModel
 				if (count($tags) > 0)
 				{
 					// Create the selection boxes
-					for ($t = 0; $t < count($tags); $t++)
+					for ($t = 0, $tn = count($tags); $t < $tn; $t++)
 					{
 						$type_id = explode('.', $tags[$t]->tag_id);
 
@@ -919,7 +919,7 @@ class RedshopModelSearch extends RedshopModel
 						if (count($tags) > 0)
 						{
 							// Create the selection boxes
-							for ($t = 0; $t < count($tags); $t++)
+							for ($t = 0, $tn = count($tags); $t < $tn; $t++)
 							{
 								if ($tags[$t]->tagid == $tag_id)
 								{
@@ -1054,7 +1054,7 @@ class RedshopModelSearch extends RedshopModel
 			$product  = $db->loadObjectList();
 			$products = array();
 
-			for ($i = 0; $i < count($product); $i++)
+			for ($i = 0, $in = count($product); $i < $in; $i++)
 			{
 				$products[] = $product[$i]->product_id;
 			}

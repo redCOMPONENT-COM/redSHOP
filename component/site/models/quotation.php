@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -211,7 +211,7 @@ class RedshopModelQuotation extends RedshopModel
 			{
 				$attArr = $data [$i] ['cart_accessory'];
 
-				for ($a = 0; $a < count($attArr); $a++)
+				for ($a = 0, $an = count($attArr); $a < $an; $a++)
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
@@ -227,7 +227,7 @@ class RedshopModelQuotation extends RedshopModel
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
-					for ($j = 0; $j < count($attchildArr); $j++)
+					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
@@ -254,7 +254,7 @@ class RedshopModelQuotation extends RedshopModel
 
 						$propArr = $attchildArr[$j]['attribute_childs'];
 
-						for ($k = 0; $k < count($propArr); $k++)
+						for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 						{
 							$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
 							$property_id = $propArr[$k]['property_id'];
@@ -286,7 +286,7 @@ class RedshopModelQuotation extends RedshopModel
 								}
 							}
 
-							for ($l = 0; $l < count($subpropArr); $l++)
+							for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 							{
 								$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
@@ -357,7 +357,7 @@ class RedshopModelQuotation extends RedshopModel
 			{
 				$attArr = $data [$i] ['cart_attribute'];
 
-				for ($j = 0; $j < count($attArr); $j++)
+				for ($j = 0, $jn = count($attArr); $j < $jn; $j++)
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
@@ -382,7 +382,7 @@ class RedshopModelQuotation extends RedshopModel
 
 					$propArr = $attArr[$j]['attribute_childs'];
 
-					for ($k = 0; $k < count($propArr); $k++)
+					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
 						$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
 						$property_id = $propArr[$k]['property_id'];
@@ -411,7 +411,7 @@ class RedshopModelQuotation extends RedshopModel
 
 						$subpropArr = $propArr[$k]['property_childs'];
 
-						for ($l = 0; $l < count($subpropArr); $l++)
+						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 						{
 							$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];

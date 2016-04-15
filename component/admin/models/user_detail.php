@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -233,13 +233,30 @@ class RedshopModelUser_detail extends RedshopModel
 		return $reduser;
 	}
 
-	public function delete($cid = array())
+	public function delete($cid = array(), $delete_joomla_users = false)
 	{
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$query_default = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
+
+			if ($delete_joomla_users)
+			{
+				$query_custom = 'SELECT user_id FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
+				$this->_db->setQuery($query_custom);
+				$juser_ids = $this->_db->loadRowList();
+
+				foreach ($juser_ids as $juser_id) {
+					if (!JFactory::getUser($juser_id[0])->delete())
+					{
+						$this->setError($this->_db->getErrorMsg());
+
+						return false;
+					}
+				}
+			}
+
+			$this->_db->setQuery($query_default);
 
 			if (!$this->_db->execute())
 			{

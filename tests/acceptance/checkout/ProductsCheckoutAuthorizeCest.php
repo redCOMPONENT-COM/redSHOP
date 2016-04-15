@@ -79,11 +79,11 @@ class ProductsCheckoutAuthorizeCest
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchForItem('Authorize Payments');
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize Payments'), 30);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName('Authorize Payments'), 60);
 		$I->checkExistenceOf('Authorize Payments');
 		$I->click(['id' => "cb0"]);
 		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
-		$I->waitForElement(['id' => "jform_params_access_id"], 30);
+		$I->waitForElement(['id' => "jform_params_access_id"], 60);
 		$I->fillField(['id' => "jform_params_access_id"], $accessId);
 		$I->fillField(['id' => "jform_params_transaction_id"], $transactionKey);
 		$I->click(['xpath' => "//div[@id='jform_params_is_test_chzn']/a"]);
@@ -113,14 +113,14 @@ class ProductsCheckoutAuthorizeCest
 	private function checkoutProductWithAuthorizePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage('/index.php?option=com_redshop');
-		$I->waitForElement(['id' => "redshopcomponent"], 30);
+		$I->waitForElement(['id' => "redshopcomponent"], 60);
 		$I->checkForPhpNoticesOrWarnings();
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 60);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->click(['xpath' => "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']"]);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+		$I->waitForText("Product has been added to your cart.", 60, '.alert-message');
 		$I->see("Product has been added to your cart.", '.alert-message');
 		$I->amOnPage('index.php?option=com_redshop&view=cart');
 		$I->checkForPhpNoticesOrWarnings();
@@ -135,17 +135,19 @@ class ProductsCheckoutAuthorizeCest
 		$I->waitForElement(['xpath' => "//legend[text() = 'Bill to information']"]);
 		$I->click(['xpath' => "//div[@id='rs_payment_authorize']//label//input"]);
 		$I->click("Checkout");
-		$I->waitForElement(['id' => "order_payment_name"], 10);
+		$I->waitForElement(['id' => "order_payment_name"], 60);
 		$I->fillField(['id' => "order_payment_name"], $checkoutAccountDetail['customerName']);
 		$I->fillField(['id' => "order_payment_number"], $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField(['id' => "credit_card_code"], $checkoutAccountDetail['cvv']);
 		$I->click(['xpath' => "//input[@value='VISA']"]);
 		$I->click(['xpath' => "//input[@value='Checkout: next step']"]);
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
-		$I->waitForText('Order placed', 15, ['xpath' => "//div[@class='alert alert-success']"]);
+		$I->waitForText('Order placed', 60, ['xpath' => "//div[@class='alert alert-success']"]);
 		$I->see('Order placed', "//div[@class='alert alert-success']");
+		$I->doAdministratorLogin();
+		$I->uninstallExtension('Authorize Payments', true);
 	}
 }

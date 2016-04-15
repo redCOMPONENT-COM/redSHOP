@@ -3,63 +3,81 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Giftcard detail view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       1.6
+ */
 class RedshopViewGiftcard extends RedshopView
 {
-	/**
-	 * The current user.
-	 *
-	 * @var  JUser
-	 */
-	public $user;
+	protected $form;
+
+	protected $item;
+
+	protected $state;
 
 	/**
-	 * The request url.
+	 * Display the view.
 	 *
-	 * @var  string
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
-	public $request_url;
-
 	public function display($tpl = null)
 	{
-		global $context;
+		// Initialise variables.
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
 
-		$document->setTitle(JText::_('COM_REDSHOP_GIFTCARD'));
+			return false;
+		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'giftcard_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists ['order'] = $filter_order;
-		$lists ['order_Dir'] = $filter_order_Dir;
-		$giftcard = $this->get('Data');
-		$total = $this->get('Total');
-		$pagination = $this->get('Pagination');
-
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->giftcard = $giftcard;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
-
+		$this->addToolbar();
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$isNew = ($this->item->giftcard_id < 1);
+
+		// Prepare text for title
+		$text = ($isNew) ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$title = JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+
+		JToolBarHelper::title($title, 'redshop_giftcard_48');
+		JToolBarHelper::apply();
+		JToolBarHelper::save();
+
+		if ($isNew)
+		{
+			JToolBarHelper::cancel();
+		}
+		else
+		{
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
 	}
 }

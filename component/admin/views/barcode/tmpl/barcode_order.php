@@ -3,11 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
-$option = JRequest::getVar('option');
+
 $url = JURI::base();
 
 $order_id = JRequest::getInt('order_id', 0);
@@ -23,7 +23,7 @@ $log = JRequest::getVar('log');
 </script>
 
 
-<form action="<?php echo 'index.php?option=' . $option; ?>&view=barcode" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop&view=barcode" method="post" name="adminForm" id="adminForm">
 	<div id="editcell" style="background-color: ">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_BARCODE'); ?></legend>

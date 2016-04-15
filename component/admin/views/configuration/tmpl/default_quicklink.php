@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -113,7 +113,7 @@ $new_arr = RedShopHelperImages::geticonarray();
 				echo    JHTML::_('image', REDSHOP_ADMIN_IMAGES_ABSPATH . $new_arr['discountimages'][$i], $text);
 				echo    "<span>
 							<input style='float:none;' type='checkbox' name='distmng$i' value=\"" . $new_arr['discounts'][$i] . "\" $checked >$text
-							<input type=\"hidden\" name=\"tot_ord\" value=\"" . count($new_arr['discounts']) . "\">
+							<input type=\"hidden\" name=\"tot_dist\" value=\"" . count($new_arr['discounts']) . "\">
 						</span>";
 				echo    "</a></div></div>";
 			}

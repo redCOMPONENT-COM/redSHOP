@@ -76,17 +76,24 @@ class plgEconomicEconomic extends JPlugin
 		{
 			try
 			{
+				$soapUrl = 'https://soap.reviso.com/api1/?WSDL';
+
+				if ('economic' == $this->params->get('accountType', 'economic'))
+				{
+					$soapUrl = 'https://api.e-conomic.com/secure/api1/?WSDL';
+				}
+
 				$this->client = new SoapClient(
-					'https://soap.reviso.com/api1/?WSDL',
+					$soapUrl,
 					array(
 						"trace" => 1,
 						"exceptions" => 1,
 						"stream_context" => stream_context_create(
-							[
-								"http" => [
+							array(
+								"http" => array(
 									"header" => "X-EconomicAppIdentifier: " . self::getAppIdentifier()
-								]
-							]
+								)
+							)
 						)
 					)
 				);
@@ -279,7 +286,7 @@ class plgEconomicEconomic extends JPlugin
 		}
 		else
 		{
-			for ($i = 0; $i < count($debtorGroupHandles); $i++)
+			for ($i = 0, $in = count($debtorGroupHandles); $i < $in; $i++)
 			{
 				if ($debtorGroupHandles[$i]->Number)
 				{
@@ -347,7 +354,7 @@ class plgEconomicEconomic extends JPlugin
 		}
 		else
 		{
-			for ($i = 0; $i < count($termofpayments); $i++)
+			for ($i = 0, $in = count($termofpayments); $i < $in; $i++)
 			{
 				if ($termofpayments[$i]->Id)
 				{
@@ -437,7 +444,7 @@ class plgEconomicEconomic extends JPlugin
 			}
 			else
 			{
-				for ($i = 0; $i < count($cashbook); $i++)
+				for ($i = 0, $in = count($cashbook); $i < $in; $i++)
 				{
 					if ($cashbook[$i]->Number)
 					{
@@ -509,7 +516,7 @@ class plgEconomicEconomic extends JPlugin
 		}
 		else
 		{
-			for ($i = 0; $i < count($termofpayments); $i++)
+			for ($i = 0, $in = count($termofpayments); $i < $in; $i++)
 			{
 				if ($termofpayments[$i]->Id)
 				{
@@ -868,7 +875,7 @@ class plgEconomicEconomic extends JPlugin
 
 		$productGroupHandles = $this->client->ProductGroup_GetAll()->ProductGroup_GetAllResult->ProductGroupHandle;
 
-		for ($i = 0; $i < count($productGroupHandles); $i++)
+		for ($i = 0, $in = count($productGroupHandles); $i < $in; $i++)
 		{
 			if (!$productGroupHandles[$i]->Number)
 			{
@@ -904,7 +911,7 @@ class plgEconomicEconomic extends JPlugin
 				return $debtors->Number;
 			}
 
-			for ($i = 0; $i < count($debtors); $i++)
+			for ($i = 0, $in = count($debtors); $i < $in; $i++)
 			{
 				$dbt[] = $debtors [$i]->Number;
 			}
@@ -941,7 +948,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if (is_array($invoice))
 			{
-				for ($i = 0; $i < count($invoice); $i++)
+				for ($i = 0, $in = count($invoice); $i < $in; $i++)
 				{
 					$inv[] = $invoice[$i]->Number;
 				}
@@ -990,7 +997,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if (is_array($current_invoice))
 			{
-				for ($i = 0; $i < count($current_invoice); $i++)
+				for ($i = 0, $in = count($current_invoice); $i < $in; $i++)
 				{
 					$cinv[] = $current_invoice[$i]->Id;
 				}
@@ -1059,7 +1066,7 @@ class plgEconomicEconomic extends JPlugin
 
 			if (is_array($unitall))
 			{
-				for ($i = 0; $i < count($unitall); $i++)
+				for ($i = 0, $in = count($unitall); $i < $in; $i++)
 				{
 					if ($unitall[$i]->Number)
 					{
@@ -1161,14 +1168,12 @@ class plgEconomicEconomic extends JPlugin
 
 			if ($d['eco_prd_number'] != '')
 			{
-				$newProductNumber = $this->client->Product_UpdateFromData(array('data' => $prdinfo))->Product_UpdateFromDataResult;
-			}
-			else
-			{
-				$newProductNumber = $this->client->Product_CreateFromData(array('data' => $prdinfo))->Product_CreateFromDataResult;
+				$prdinfo['BarCode'] = $this->productGetBarCode($Handle);
+
+				return $this->client->Product_UpdateFromData(array('data' => $prdinfo))->Product_UpdateFromDataResult;
 			}
 
-			return $newProductNumber;
+			return $this->client->Product_CreateFromData(array('data' => $prdinfo))->Product_CreateFromDataResult;
 		}
 		catch (Exception $exception)
 		{
@@ -1177,6 +1182,36 @@ class plgEconomicEconomic extends JPlugin
 			if (DETAIL_ERROR_MESSAGE_ON)
 			{
 				JError::raiseWarning(21, "storeProduct:" . $exception->getMessage());
+			}
+			else
+			{
+				JError::raiseWarning(21, JText::_('DETAIL_ERROR_MESSAGE_LBL'));
+			}
+		}
+	}
+
+	/**
+	 * Get product barcode information from e-conomic product
+	 *
+	 * @param   object  $productHandle  Product Number Handle
+	 *
+	 * @return  string  Barcode
+	 */
+	protected function productGetBarCode($productHandle)
+	{
+		try
+		{
+			return $this->client->Product_GetBarCode(
+								array('productHandle' => $productHandle)
+							)->Product_GetBarCodeResult;
+		}
+		catch (Exception $e)
+		{
+			print("<p><i>ProductGetBarCode:" . $exception->getMessage() . "</i></p>");
+
+			if (DETAIL_ERROR_MESSAGE_ON)
+			{
+				JError::raiseWarning(21, "Product_GetBarCode:" . $exception->getMessage());
 			}
 			else
 			{
@@ -1268,7 +1303,7 @@ class plgEconomicEconomic extends JPlugin
 
 				if (is_array($contacts))
 				{
-					for ($i = 0; $i < count($contacts); $i++)
+					for ($i = 0, $in = count($contacts); $i < $in; $i++)
 					{
 						if ($contacts[$i]->Id)
 						{
@@ -1715,7 +1750,7 @@ class plgEconomicEconomic extends JPlugin
 
 		try
 		{
-			for ($i = 0; $i < count($darray); $i++)
+			for ($i = 0, $in = count($darray); $i < $in; $i++)
 			{
 				$ProductHandle = new stdclass;
 				$ProductHandle->Number = $darray[$i]['product_number'];

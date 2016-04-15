@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,8 +27,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public $app;
 
 	public $input;
-
-	public $option;
 
 	/**
 	 * Constructor to set the right model

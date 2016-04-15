@@ -37,8 +37,8 @@
 				</field>
 				<field
 					name="merchant_id"
-					type="
-					text"
+					type="text"
+					required="true"
 					default=""
 					label="PLG_RS_PAYMENT_EPAYV2_PBS_MERCHANT_ID"
 					description="PLG_RS_PAYMENT_EPAYV2_PBS_MERCHANT_ID_DESC"
@@ -154,6 +154,13 @@
 					default="1,3,4,5"
 					label="PLG_RS_PAYMENT_EPAYV2_CARDTYPES"
 					description="PLG_RS_PAYMENT_EPAYV2_CARDTYPES_DESC"
+				/>
+				<field
+					name="googletracker"
+					type="text"
+					default=""
+					label="PLG_RS_PAYMENT_EPAYV2_GOOGLE_TRACKER"
+					description="PLG_RS_PAYMENT_EPAYV2_GOOGLE_TRACKER_DESC"
 				/>
 			</fieldset>
 			<fieldset name="advanced">

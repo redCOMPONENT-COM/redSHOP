@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,7 @@ class RedshopControllerTextlibrary_detail extends RedshopController
 		$text_field = JRequest::getVar('text_field', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["text_field"] = $text_field;
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -66,7 +66,7 @@ class RedshopControllerTextlibrary_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -88,14 +88,14 @@ class RedshopControllerTextlibrary_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=textlibrary', $msg);
 	}
 
 	public function copy()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 

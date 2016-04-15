@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,6 @@ class RedshopModelSend_friend extends RedshopModel
 		$producthelper = new producthelper;
 		$redshopMail   = new redshopMail;
 		$url           = JURI::base();
-		$option        = JRequest::getVar('option');
 
 		$mailinfo = $redshopMail->getMailtemplate(0, "product");
 		$data_add = "";

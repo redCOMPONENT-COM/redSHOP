@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,6 @@ class RedshopControllerNewsletter extends RedshopController
 	{
 		$post             = JRequest::get('post');
 		$model            = $this->getModel('newsletter');
-		$option           = JRequest::getVar('option');
 		$Itemid           = JRequest::getVar('Itemid');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
 		$menu             = JFactory::getApplication()->getMenu();
@@ -88,7 +87,6 @@ class RedshopControllerNewsletter extends RedshopController
 		$post  = JRequest::get('get');
 		$model = $this->getModel('newsletter');
 
-		$option           = JRequest::getVar('option');
 		$Itemid           = JRequest::getVar('Itemid');
 		$email            = JRequest::getVar('email1');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');

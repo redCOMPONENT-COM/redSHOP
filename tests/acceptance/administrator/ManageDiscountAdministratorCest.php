@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ManageDiscountAdministratorCest
  *
@@ -20,6 +20,7 @@ class ManageDiscountAdministratorCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
+		$this->discountName = $this->faker->bothify('ManageDiscountAdministratorCest discount ?##?');
 		$this->amount = $this->faker->numberBetween(100, 999);
 		$this->discountAmount = $this->faker->numberBetween(10, 100);
 		$this->newAmount = $this->faker->numberBetween(100, 999);
@@ -35,8 +36,7 @@ class ManageDiscountAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Discount');
-		$I->addDiscount($this->amount, $this->discountAmount);
-		$I->searchDiscount($this->amount);
+		$I->addDiscount($this->discountName, $this->amount, $this->discountAmount);
 	}
 
 	/**
@@ -50,8 +50,7 @@ class ManageDiscountAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
 		$I->wantTo('Update Existing Discount');
-		$I->editDiscount($this->amount, $this->newAmount);
-		$I->searchDiscount($this->newAmount);
+		$I->editDiscount($this->discountName, $this->amount, $this->newAmount);
 	}
 
 	/**
@@ -65,22 +64,19 @@ class ManageDiscountAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
 		$I->wantTo('Update Existing Discount');
-		$I->changeDiscountState($this->newAmount);
-		$I->verifyState('unpublished', $I->getDiscountState($this->newAmount));
+
+		$I->changeDiscountState($this->discountName, $this->newAmount);
 	}
 
 	/**
 	 * Function to Test Discount Deletion
-	 *
-	 * @depends changeDiscountState
 	 */
 	public function deleteDiscount(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Deletion of Discount in Administrator');
+		$I->wantToTest('Deletion of Discount in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete a Discount');
-		$I->deleteDiscount($this->newAmount);
-		$I->searchDiscount($this->newAmount, 'Delete');
+		$I->deleteDiscount($this->discountName, $this->newAmount);
+		$I->dontSeeElement(['link' => $this->discountName]);
 	}
 }

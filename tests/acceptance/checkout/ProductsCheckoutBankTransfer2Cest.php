@@ -104,6 +104,7 @@ class ProductsCheckoutBankTransfer2Cest
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(['id' => "termscondition"]);
 		$I->click(['id' => "checkout_final"]);
+		$I->waitForText('Order Receipt', 60, ['class' => 'componentheading']);
 		$I->see('Order Receipt', "//div[@class='componentheading']");
 	}
 }

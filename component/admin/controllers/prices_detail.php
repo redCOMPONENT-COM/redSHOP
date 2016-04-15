@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ class RedshopControllerPrices_detail extends RedshopController
 	public function save()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
+
 		$product_id = JRequest::getVar('product_id');
 		$price_quantity_start = JRequest::getVar('price_quantity_start');
 		$price_quantity_end = JRequest::getVar('price_quantity_end');
@@ -85,7 +85,7 @@ class RedshopControllerPrices_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
+
 		$product_id = JRequest::getVar('product_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -107,7 +107,7 @@ class RedshopControllerPrices_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
+
 		$product_id = JRequest::getVar('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');

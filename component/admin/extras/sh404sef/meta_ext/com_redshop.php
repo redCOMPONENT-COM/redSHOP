@@ -43,8 +43,6 @@ if ($dosef == false) return;
   if (isset($limitstart))  // V 1.2.4.r
     shRemoveFromGETVarsList('limitstart'); // limitstart can be zero
 
-  //$title[] = getMenuTitle($option, (isset($task) ? @$task : null));
-	//$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_SEARCH'];
 	$view = isset($view) ? @$view : null;
 	$cid = isset($cid) ? @$cid : null;
 	$mid = isset($mid) ? @$mid : null;

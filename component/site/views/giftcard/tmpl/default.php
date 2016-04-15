@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -255,7 +255,7 @@ else
 
 		$data_add = "";
 
-		for ($i = 0; $i < count($detail); $i++)
+		for ($i = 0, $in = count($detail); $i < $in; $i++)
 		{
 			$data_add .= $template_desc;
 			$gid  = $detail[$i]->giftcard_id;

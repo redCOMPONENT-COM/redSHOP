@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,13 +40,23 @@ class RedshopViewDiscount extends RedshopView
 		JToolBarHelper::unpublishList();
 
 		$uri = JFactory::getURI();
-		$state = $this->get('State');
-		$lists['order'] = $state->get('list.ordering');
-		$lists['order_Dir'] = $state->get('list.direction');
+		$this->state = $this->get('State');
+		
+		$optiontype = array();
+		$optiontype[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
+		$optiontype[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_PERCENTAGE'));
+		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_TOTAL'));
+
+		$lists['discount_type'] = JHTML::_('select.genericlist', $optiontype, 'discount_type',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $this->state->get('discount_type')
+		);
+		
+		$lists['order'] = $this->state->get('list.ordering');
+		$lists['order_Dir'] = $this->state->get('list.direction');
 		$discounts = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$spgrpdis_filter = $state->get('spgrpdis_filter');
+		$spgrpdis_filter = $this->state->get('spgrpdis_filter');
 		$userhelper = new rsUserhelper;
 		$shopper_groups = $userhelper->getShopperGroupList();
 

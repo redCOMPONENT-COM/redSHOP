@@ -61,6 +61,7 @@ $defaultarray["discount_type"] = DISCOUNT_TYPE;
 $defaultarray["discount_enable"] = DISCOUNT_ENABLE;
 $defaultarray["coupons_enable"] = COUPONS_ENABLE;
 $defaultarray["vouchers_enable"] = VOUCHERS_ENABLE;
+$defaultarray["apply_voucher_coupon_already_discount"] = APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT;
 $defaultarray["days_mail1"] = DAYS_MAIL1;
 $defaultarray["days_mail2"] = DAYS_MAIL2;
 $defaultarray["days_mail3"] = DAYS_MAIL3;

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ class RedshopViewOrder_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = new order_functions;
@@ -40,7 +40,7 @@ class RedshopViewOrder_detail extends RedshopView
 		$base_dir = JPATH_ADMINISTRATOR;
 		$language_tag = $language->getTag();
 
-		for ($l = 0; $l < count($payment_lang_list); $l++)
+		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
@@ -49,7 +49,7 @@ class RedshopViewOrder_detail extends RedshopView
 		// Load Shipping plugin language files
 		$shippingPlugins = JPluginHelper::getPlugin("redshop_shipping");
 
-		for ($l = 0; $l < count($shippingPlugins); $l++)
+		for ($l = 0, $ln = count($shippingPlugins); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_shipping_' . strtolower($shippingPlugins[$l]->name);
 			$language->load($extension, $base_dir);

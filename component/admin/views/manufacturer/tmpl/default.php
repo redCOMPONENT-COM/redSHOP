@@ -3,14 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $model = $this->getModel('manufacturer');
 $ordering = ($this->lists['order'] == 'm.ordering');
 ?>
@@ -36,9 +36,7 @@ $ordering = ($this->lists['order'] == 'm.ordering');
 	}
 
 </script>
-<form action="<?php
-echo 'index.php?option=' . $option;
-?>"
+<form action="index.php?option=com_redshop"
       method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table width="100%">
@@ -129,7 +127,7 @@ echo 'index.php?option=' . $option;
 					<td align="center">
 						<?php $media_id = $model->getMediaId($row->manufacturer_id);?>
 						<a class="modal"
-						   href="index.php?tmpl=component&option=<?php echo $option; ?>&amp;view=media_detail&amp;cid[]=<?php echo $media_id; ?>&amp;section_id=<?php echo $row->manufacturer_id; ?>&amp;showbuttons=1&amp;media_section=manufacturer&amp;section_name=<?php echo $row->manufacturer_name; ?>"
+						   href="index.php?tmpl=component&option=com_redshop&amp;view=media_detail&amp;cid[]=<?php echo $media_id; ?>&amp;section_id=<?php echo $row->manufacturer_id; ?>&amp;showbuttons=1&amp;media_section=manufacturer&amp;section_name=<?php echo $row->manufacturer_name; ?>"
 						   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
 								src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
 								alt="media"></a>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -232,7 +232,7 @@ else
 								<td align="left">
 									<fieldset class="adminform">
 										<legend><?php echo JText::_('COM_REDSHOP_CAPTCHA');?></legend>
-										<?php    echo $userhelper->getCaptchaTable();    ?>
+										<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
 									</fieldset>
 								</td>
 							</tr>

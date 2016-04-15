@@ -70,7 +70,19 @@ class Plgredshop_Shippingshipper extends JPlugin
 				$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d);
 				$shippingVatRate = $rs->shipping_rate_value - $shippingRateInt;
 				$economic_displaynumber = $rs->economic_displaynumber;
-				$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber);
+				$shipping_rate_id = RedshopShippingRate::encrypt(
+										array(
+											__CLASS__,
+											$shipping->name,
+											$rs->shipping_rate_name,
+											number_format($rs->shipping_rate_value, 2, '.', ''),
+											$rs->shipping_rate_id,
+											'single',
+											$shippingVatRate,
+											$economic_displaynumber
+										)
+									);
+
 				$oneShippingRate = new stdClass;
 				$oneShippingRate->text = $rs->shipping_rate_name;
 				$oneShippingRate->value = $shipping_rate_id;

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -38,7 +38,17 @@ $now = JFactory::getDate();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 			<table class="admintable">
-
+				<tr>
+					<td width="100" align="right" class="key">
+						<label for="name">
+							<?php echo JText::_('COM_REDSHOP_NAME'); ?>:
+						</label>
+					</td>
+					<td>
+						<input class="text_area" type="text" name="name" id="name" size="32" maxlength="250"
+						       value="<?php echo $this->detail->name; ?>"/>
+					</td>
+				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
