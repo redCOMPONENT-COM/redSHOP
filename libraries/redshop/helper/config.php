@@ -26,7 +26,12 @@ class RedshopHelperConfig
 	 */
 	protected static $jsStrings = array();
 
-	private static $isLoad = false;
+	/**
+	 * Check if script declaration of config js store is loaded or not.
+	 *
+	 * @var  boolean
+	 */
+	private static $isLoadScriptDeclaration = false;
 
 	/**
 	 * Configuration
@@ -70,6 +75,16 @@ class RedshopHelperConfig
 	protected function getConfigurationFilePath()
 	{
 		return JPATH_SITE . '/redshop/conf/config.php';
+	}
+
+	/**
+	 * Check config file is exist
+	 *
+	 * @return  boolean  Returns TRUE if the file or directory specified by filename exists; FALSE otherwise.
+	 */
+	public function isExists()
+	{
+		return file_exists($this->getConfigurationFilePath());
 	}
 
 	/**
@@ -141,7 +156,7 @@ class RedshopHelperConfig
 		$app = JFactory::getApplication();
 
 		// Attempt to make the file writeable if using FTP.
-		if (JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+		if (file_exists($file) && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(JText::_('LIB_REDSHOP_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
@@ -161,6 +176,84 @@ class RedshopHelperConfig
 		}
 
 		return true;
+	}
+
+	/**
+	 * Save new config file using legacy or legacy styled custom configuration files.
+	 *
+	 * @param   string  $configFile  Path to legacy styled configuration file
+	 *
+	 * @throws  exception  Throw invalid argument and exception if file is not exist and invalid.
+	 * @return  boolean    True on success
+	 */
+	public function loadLegacy($configFile = null)
+	{
+		if ($this->isExists())
+		{
+			return false;
+		}
+		// Check if custom file path is given and exist
+		if ($configFile && !file_exists($configFile))
+		{
+			throw new InvalidArgumentException(JText::sprintf('LIB_REDSHOP_FILE_IS_NOT_EXIST', $configFile));
+
+			return false;
+		}
+
+		// Priority to custom file given in method argument
+		if (!$configFile)
+		{
+			$legacyConfig = new Redconfiguration;
+
+			// Load from old version configuration
+			if (file_exists($legacyConfig->configPath))
+			{
+				$configFile = $legacyConfig->configPath;
+			}
+
+			// Check for distinct configuration file
+			else if (file_exists($legacyConfig->configDistPath))
+			{
+				$configFile = $legacyConfig->configDistPath;
+			}
+			else
+			{
+				throw new Exception(JText::_('LIB_REDSHOP_LEGACY_CONFIG_FILE_IS_NOT_EXIST'));
+
+				return false;
+			}
+		}
+
+		$configData = JFile::read($configFile);
+
+		preg_match_all("/define\('(.*)', '(.*)'\);/", $configData, $matches, PREG_OFFSET_CAPTURE, 3);
+
+		$configDataArray = array();
+
+		for ($i = 0, $ni = count($matches[1]); $i < $ni; $i++)
+		{
+			$configDataArray[$matches[1][$i][0]] = $matches[2][$i][0];
+		}
+
+		if (empty($configDataArray))
+		{
+			throw new Exception(JText::sprintf('LIB_REDSHOP_LEGACY_CONFIG_FILE_IS_NOT_VALID', $configFile));
+
+			return false;
+		}
+
+		try
+		{
+			$this->save(new JRegistry($configDataArray));
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
 	}
 
 	/**
@@ -192,7 +285,7 @@ class RedshopHelperConfig
 	 */
 	public static function scriptDeclaration()
 	{
-		if (self::$isLoad)
+		if (self::$isLoadScriptDeclaration)
 		{
 			return;
 		}
@@ -212,6 +305,6 @@ class RedshopHelperConfig
 				}
 			})();
 		');
-		self::$isLoad = true;
+		self::$isLoadScriptDeclaration = true;
 	}
 }
