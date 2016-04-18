@@ -268,6 +268,7 @@ class RoboFile extends \Robo\Tasks
              ->run()
              ->stopOnFail();
 
+		/* @todo: REDSHOP-2884
         $this->say('preparing for update test');
         $this->getDevelop();
         $this->taskCodecept()
@@ -277,6 +278,7 @@ class RoboFile extends \Robo\Tasks
              ->arg('tests/acceptance/update/')
              ->run()
              ->stopOnFail();
+		*/
 
         $this->killSelenium();
     }
