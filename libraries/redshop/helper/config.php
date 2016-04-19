@@ -226,7 +226,7 @@ class RedshopHelperConfig
 
 		$configData = JFile::read($configFile);
 
-		preg_match_all("/define\('(.*)', '(.*)'\);/", $configData, $matches, PREG_OFFSET_CAPTURE, 3);
+		preg_match_all("/define\('(.*)', (.*)\);/", $configData, $matches, PREG_OFFSET_CAPTURE, 3);
 
 		$configDataArray = array();
 
