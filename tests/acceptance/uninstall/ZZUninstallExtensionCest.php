@@ -35,6 +35,7 @@ class ZZUninstallExtensionCest
 		$I->click(['link' => 'Location']);
 		$I->click(\ExtensionManagerJoomla3Page::$firstCheck);
 		$I->click("Uninstall");
+		$I->acceptPopup();
 		$I->see('Uninstalling the component was successful', '#system-message-container');
 
 		$I->fillField('#filter_search', 'redSHOP');
