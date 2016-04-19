@@ -224,16 +224,10 @@ class RedshopHelperConfig
 			}
 		}
 
-		$configData = JFile::read($configFile);
+		require_once $configFile;
 
-		preg_match_all("/define\('(.*)', '(.*)'\);/", $configData, $matches, PREG_OFFSET_CAPTURE, 3);
-
-		$configDataArray = array();
-
-		for ($i = 0, $ni = count($matches[1]); $i < $ni; $i++)
-		{
-			$configDataArray[$matches[1][$i][0]] = $matches[2][$i][0];
-		}
+		$allDefinedConstants = get_defined_constants(true);
+		$configDataArray     = $allDefinedConstants['user'];
 
 		if (empty($configDataArray))
 		{
