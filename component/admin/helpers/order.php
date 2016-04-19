@@ -118,8 +118,8 @@ class order_functions
 			$values["order_id"] = $order_id;
 			$values["order_transactionid"] = $result->order_payment_trans_id;
 			$values["order_amount"] = $orderdetail->order_total + $result->order_transfee;
-			$values['shippinginfo'] = $this->getOrderShippingUserInfo($order_id);
-			$values['billinginfo'] = $this->getOrderBillingUserInfo($order_id);
+			$values['shippinginfo'] = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
+			$values['billinginfo'] = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 			$values["order_userid"] = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
@@ -175,8 +175,8 @@ class order_functions
 		$order_details             = $this->getOrderDetails($order_id);
 		$producthelper             = new producthelper;
 		$orderproducts             = $this->getOrderItemDetail($order_id);
-		$billingInfo               = $this->getOrderBillingUserInfo($order_id);
-		$shippingInfo              = $this->getOrderShippingUserInfo($order_id);
+		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
+		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 		$shippinghelper            = new shipping;
 		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($order_details->ship_method_id);
 
@@ -1210,47 +1210,17 @@ class order_functions
 	}
 
 	/**
-	 * Get Order Billing information
+	 * Order Billing User info
 	 *
-	 * @param   integer  $orderId  order id
+	 * @param   integer  $order_id  Order Id
 	 *
-	 * @return  object   Billing Information
+	 * @deprecated 1.6   Use RedshopHelperOrder::getOrderBillingUserInfo($orderId) instead
+	 *
+	 * @return  object   Order Billing Information object
 	 */
 	public function getOrderBillingUserInfo($orderId)
 	{
-		$db = JFactory::getDbo();
-
-		$helper = new redhelper;
-
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_order_users_info'))
-					->where($db->qn('address_type') . ' LIKE ' . $db->q('BT'))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
-
-		if ($helper->isredCRM())
-		{
-			$query = 'SELECT oui.*,cd.customer_number,IFNULL(cp.person_name ,CONCAT(oui.firstname," ",oui.lastname)) AS text FROM '
-				. '#__redshop_order_users_info as oui '
-				. 'LEFT JOIN #__redcrm_order as co ON co.order_id = oui.order_id '
-				. 'LEFT JOIN #__redcrm_contact_persons as cp ON cp.person_id  = co.person_id '
-				. 'LEFT JOIN #__redcrm_debitors as cd ON cd.users_info_id = co.debitor_id ' . 'WHERE oui.address_type LIKE "BT" '
-				. 'AND oui.order_id = ' . (int) $orderId;
-		}
-
-		// Set the query and load the result.
-		$db->setQuery($query, 0, 1);
-		$list = $db->loadObject();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-
-			return null;
-		}
-
-		return $list;
+		return RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 	}
 
 	public function getShippingAddress($user_id = 0)
@@ -1347,35 +1317,18 @@ class order_functions
 		return $list;
 	}
 
+	/**
+	 * Order Shipping User info
+	 *
+	 * @param   integer  $order_id  Order Id
+	 *
+	 * @deprecated 1.6   Use RedshopHelperOrder::getOrderShippingUserInfo($orderId) instead
+	 *
+	 * @return  object   Order Shipping Information object
+	 */
 	public function getOrderShippingUserInfo($order_id)
 	{
-		$db = JFactory::getDbo();
-		$helper = new redhelper;
-
-		if ($helper->isredCRM())
-		{
-			$order = $this->getOrderDetails($order_id);
-			$crmDebitorHelper = new crmDebitorHelper;
-
-			/*
-			 * get shippinginfo for redCRM
-			 */
-			$crmusers = $crmDebitorHelper->getShippingInfo(0, $order->user_info_id);
-
-			if (count($crmusers) > 0)
-			{
-				$crmusers = $crmusers[0];
-
-				return $crmusers;
-			}
-		}
-
-		$query = 'SELECT * FROM #__redshop_order_users_info ' . 'WHERE address_type LIKE "ST" '
-			. 'AND order_id = ' . (int) $order_id;
-		$db->setQuery($query);
-		$list = $db->loadObject();
-
-		return $list;
+		return RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 	}
 
 	public function getUserFullname($user_id)
@@ -1619,7 +1572,7 @@ class order_functions
 		{
 			// Getting the order details
 			$orderdetail = $this->getOrderDetails($order_id);
-			$userdetail  = $this->getOrderBillingUserInfo($order_id);
+			$userdetail  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 
 			$userfullname = $userdetail->firstname . " " . $userdetail->lastname;
 			$useremail    = $userdetail->email;
@@ -1732,7 +1685,7 @@ class order_functions
 
 		$order = $this->getOrderDetails($row->order_id);
 
-		if ($userbillinginfo = $this->getOrderBillingUserInfo($row->order_id))
+		if ($userbillinginfo = RedshopHelperOrder::getOrderBillingUserInfo($row->order_id))
 		{
 			$userbillinginfo->country_2_code = $redconfig->getCountryCode2($userbillinginfo->country_code);
 			$userbillinginfo->state_2_code = $redconfig->getCountryCode2($userbillinginfo->state_code);
@@ -1740,7 +1693,7 @@ class order_functions
 
 		$task = JRequest::getVar('task');
 
-		if ($shippingaddress = $this->getOrderShippingUserInfo($row->order_id))
+		if ($shippingaddress = RedshopHelperOrder::getOrderShippingUserInfo($row->order_id))
 		{
 			$shippingaddress->country_2_code = $redconfig->getCountryCode2($shippingaddress->country_code);
 			$shippingaddress->state_2_code = $redconfig->getCountryCode2($shippingaddress->state_code);
@@ -1937,7 +1890,7 @@ class order_functions
 			$replace [] = $discount_type;
 
 			// Changes to parse all tags same as order mail end
-			$userdetail = $this->getOrderBillingUserInfo($order_id);
+			$userdetail = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 
 			// For barcode
 			if (strstr($maildata, "{barcode}"))
@@ -1962,7 +1915,7 @@ class order_functions
 			$maildata = $carthelper->replaceBillingAddress($maildata, $userdetail);
 
 			// Get ShippingAddress From order Users info
-			$shippingaddresses = $this->getOrderShippingUserInfo($order_id);
+			$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 
 			if (count($shippingaddresses) <= 0)
 			{

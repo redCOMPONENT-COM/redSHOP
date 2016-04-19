@@ -42,7 +42,7 @@ if ($order->order_total > 0 && !USE_AS_CATALOG)
 		$adminpath        = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
-		$billingaddresses = $order_functions->getOrderBillingUserInfo($order->order_id);
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($order->order_id);
 
 		if (isset($billingaddresses))
 		{
@@ -57,7 +57,7 @@ if ($order->order_total > 0 && !USE_AS_CATALOG)
 			}
 		}
 
-		$shippingaddresses = $order_functions->getOrderShippingUserInfo($order->order_id);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
 
 		if (isset($shippingaddresses))
 		{

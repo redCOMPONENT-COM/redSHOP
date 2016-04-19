@@ -275,7 +275,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			}
 		}
 
-		$shippingaddresses = $order_functions->getOrderShippingUserInfo($order_id);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 
 		if (isset($shippingaddresses))
 		{
