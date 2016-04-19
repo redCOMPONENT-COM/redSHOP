@@ -38,6 +38,27 @@ class RedshopHelperOrder
 	protected static $allStatus = null;
 
 	/**
+	 * Order Billing user Info
+	 *
+	 * @var  array
+	 */
+	protected static $orderBillingInfo = array();
+
+	/**
+	 * Order Billing user Extra Field Info
+	 *
+	 * @var  array
+	 */
+	protected static $orderExtraFieldData = array();
+
+	/**
+	 * Order shipping user Info
+	 *
+	 * @var  array
+	 */
+	protected static $orderShippingInfo = array();
+
+	/**
 	 * Get order information from order id.
 	 *
 	 * @param   integer   $orderId  Order Id
@@ -310,5 +331,164 @@ class RedshopHelperOrder
 		}
 
 		return self::$payment[$orderId];
+	}
+
+	/**
+	 * Prepare Order Query
+	 *
+	 * @param   integer  $orderId  Order Information Id
+	 *
+	 * @return  object   Query Object
+	 */
+	public static function getOrderUserQuery($orderId)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_order_users_info'))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+
+		return $query;
+	}
+
+	/**
+	 * Get Order billing user information
+	 *
+	 * @param   integer  $orderId  Order Id
+	 *
+	 * @return  object   Order Billing information object
+	 */
+	public static function getOrderBillingUserInfo($orderId, $force = false)
+	{
+		if (array_key_exists($orderId, self::$orderBillingInfo) && !$force)
+		{
+			return self::$orderBillingInfo[$orderId];
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = self::getOrderUserQuery($orderId)->where($db->qn('address_type') . ' LIKE ' . $db->q('BT'));
+
+		$orderBillingInfo = $db->setQuery($query, 0, 1)->loadObject();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		// Add extra field data in order Billing info object
+		$orderBillingInfo->fields = self::getOrderExtraFieldsData($orderBillingInfo->users_info_id);
+
+		self::$orderBillingInfo[$orderId] = $orderBillingInfo;
+
+		return $orderBillingInfo;
+	}
+
+	/**
+	 * Get Order shipping user information
+	 *
+	 * @param   integer  $orderId  Order Id
+	 *
+	 * @return  object   Order Shipping information object
+	 */
+	public static function getOrderShippingUserInfo($orderId, $force = false)
+	{
+		if (array_key_exists($orderId, self::$orderShippingInfo) && !$force)
+		{
+			return self::$orderShippingInfo[$orderId];
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = self::getOrderUserQuery($orderId)->where($db->qn('address_type') . ' LIKE ' . $db->q('ST'));
+		$orderShippingInfo = $db->setQuery($query, 0, 1)->loadObject();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		// Add extra field data in order shipping info object
+		$orderShippingInfo->fields = self::getOrderExtraFieldsData($orderShippingInfo->users_info_id, 'shipping');
+
+		self::$orderShippingInfo[$orderId] = $orderShippingInfo;
+
+		return $orderShippingInfo;
+	}
+
+	/**
+	 * Get order Billing extra field information in array
+	 *
+	 * @param   integer  $orderUserInfoId  Order Info id
+	 *
+	 * @return  array    Extra Field name as a key of an array
+	 */
+	public static function getOrderExtraFieldsData($orderUserInfoId, $section = 'billing', $force = false)
+	{
+		$key = $section . '.' . $orderUserInfoId;
+
+		if (array_key_exists($key, self::$orderExtraFieldData) && !$force)
+		{
+			return self::$orderExtraFieldData[$key];
+		}
+
+		$privateSection = extraField::SECTION_PRIVATE_BILLING_ADDRESS;
+		$companySection = extraField::SECTION_COMPANY_BILLING_ADDRESS;
+
+		if ('shipping' == $section)
+		{
+			$privateSection = extraField::SECTION_PRIVATE_SHIPPING_ADDRESS;
+			$companySection = extraField::SECTION_COMPANY_SHIPPING_ADDRESS;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select($db->qn('f.field_name') . ',' . $db->qn('fd.data_txt'))
+					->from($db->qn('#__redshop_fields_data', 'fd'))
+					->where(
+						'('
+							. $db->qn('fd.section') . ' = ' . $privateSection
+							. ' OR '
+							. $db->qn('fd.section') . ' = ' . $companySection
+						. ')'
+					)
+					->where($db->qn('fd.itemid') . ' = ' . (int) $orderUserInfoId);
+
+		$query->leftJoin(
+			$db->qn('#__redshop_fields', 'f')
+			. ' ON ' . $db->qn('f.field_id') . '=' . $db->qn('fd.fieldid')
+		);
+
+		// Set the query and load the result.
+		$fields = $db->setQuery($query)->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		$fieldsData = array();
+
+		if (!empty($fields))
+		{
+			foreach ($fields as $field)
+			{
+				$fieldsData[$field->field_name] = $field->data_txt;
+			}
+		}
+
+		self::$orderExtraFieldData[$key] = $fieldsData;
+
+		return $fieldsData;
 	}
 }

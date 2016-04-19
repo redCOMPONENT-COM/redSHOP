@@ -67,8 +67,8 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$detail = $this->get('data');
 
-		$billing = $order_functions->getOrderBillingUserInfo($detail->order_id);
-		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
+		$billing = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
+		$shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
 
 		$task = JRequest::getVar('task');
 
