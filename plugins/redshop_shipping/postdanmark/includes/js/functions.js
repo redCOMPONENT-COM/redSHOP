@@ -1,3 +1,8 @@
+// Only define the redSHOP namespace if not defined.
+redSHOP = window.redSHOP || {};
+redSHOP.postDanmark = {};
+redSHOP.postDanmark.isMobile = (screen.width <= 480);
+
 var google, service_points;
 
 jQuery(document).ready(function() {
@@ -129,16 +134,64 @@ jQuery(document).ready(function() {
 
 
 function inject_button(el) {
-    if (0 == jQuery('#sp_info').length) {
-        map_contents = get_map_contents();
 
-        jQuery(el).parent().after(
-            '<div id="postdanmark_html_inject"><input type="button" class="btn btn-small" onclick="showForm(\'showMap\')" value="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT') + '"  alt="#TB_inline?width=790&amp;inlineId=showMap" id="showMap_input" />' + '<input type="hidden" name="shop_id" id="shop_id_pacsoft" value="" />' + '<div id="sp_info">' + '<span id="sp_name"></span>' + '<span id="sp_address"></span>' + '</div>' + '<div id="sp_inputs">' + '<input type="hidden" name="service_point_id" value="" />' + '<input type="hidden" name="service_point_id_name" value="" />' + '<input type="hidden" name="service_point_id_address" value="" />' + '<input type="hidden" name="service_point_id_city" value="" />' + '<input type="hidden" name="service_point_id_postcode" value="" />' + '</div>' + map_contents + '</div>'
-        );
+    // Is mobile
+    if (redSHOP.postDanmark.isMobile)
+    {
+        if (0 == jQuery('#postdanmark_html_inject').length) {
+            var mobileHtml = '<input name="shop_id" id="mapMobileSeachBox" type="hidden" placeholder="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_POSTAL_CODE') +'" maxlength="4">';
+            jQuery(el).parent().after(
+                '<div id="postdanmark_html_inject">' + mobileHtml + '</div>'
+            );
 
-        getShippingZipcodeAjax();
+            redSHOP.postDanmark.loadLocationMobile(el);
+        }
+    }
+    else
+    {
+        if (0 == jQuery('#sp_info').length) {
+            map_contents = get_map_contents();
+
+            jQuery(el).parent().after(
+                '<div id="postdanmark_html_inject"><input type="button" class="btn btn-small" onclick="showForm(\'showMap\')" value="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT') + '"  alt="#TB_inline?width=790&amp;inlineId=showMap" id="showMap_input" />' + '<input type="hidden" name="shop_id" id="shop_id_pacsoft" value="" />' + '<div id="sp_info">' + '<span id="sp_name"></span>' + '<span id="sp_address"></span>' + '</div>' + '<div id="sp_inputs">' + '<input type="hidden" name="service_point_id" value="" />' + '<input type="hidden" name="service_point_id_name" value="" />' + '<input type="hidden" name="service_point_id_address" value="" />' + '<input type="hidden" name="service_point_id_city" value="" />' + '<input type="hidden" name="service_point_id_postcode" value="" />' + '</div>' + map_contents + '</div>'
+            );
+
+            getShippingZipcodeAjax();
+        }
     }
 }
+
+redSHOP.postDanmark.loadLocationMobile = function(el){
+    jQuery("#mapMobileSeachBox").select2({
+      ajax: {
+        url: redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=checkout&task=getShippingInformation&tmpl=component&plugin=PostDanmark',
+        dataType: 'json',
+        delay: 250,
+        data: function (term, page) {
+          return {
+            zipcode: term,
+            countryCode: 'DK'
+          };
+        },
+        results: function (data, page) {
+            var results = [];
+
+            for (i = 0; i < data.addresses.length; i++)
+            {
+                var options = {};
+                options.id = data.servicePointId[i] + '|' + data.name[i] + '|' + data.addresses[i] + '|' + data.postalCode[i] + '|' + data.city[i];
+                options.text = data.name[i] + ' (' + data.servicePointId[i] + ')';
+
+                results.push(options);
+            }
+
+            return { results: results };
+        },
+        cache: true
+      },
+      minimumInputLength: 4
+    });
+};
 
 function refreshMap(service_points) {
     if (service_points.name.length > 0) {
