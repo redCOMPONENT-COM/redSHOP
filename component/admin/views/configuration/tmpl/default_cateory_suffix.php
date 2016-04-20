@@ -22,7 +22,7 @@ $link_path = "/components/com_redshop/assets/images/";
      <?php echo JText::_('COM_REDSHOP_RETURN_TO_CATEGORY_PREFIX');?>:</span></td>
 		<td>
 			<input type="text" name="return_to_category_prefix" id="return_to_category_prefix"
-			       value="<?php echo DAFULT_RETURN_TO_CATEGORY_PREFIX; ?>"/>
+			       value="<?php echo $this->config->get('DAFULT_RETURN_TO_CATEGORY_PREFIX'); ?>"/>
 		</td>
 	</tr>
 	<!-- next-previous link-->
@@ -33,7 +33,7 @@ $link_path = "/components/com_redshop/assets/images/";
      <?php echo JText::_('COM_REDSHOP_DAFULT_PREVIOUS_PREFIX_LBL');?>:</span></td>
 		<td>
 			<input type="text" name="default_previous_prefix" id="default_previous_prefix"
-			       value="<?php echo DAFULT_PREVIOUS_LINK_PREFIX; ?>"/>
+			       value="<?php echo $this->config->get('DAFULT_PREVIOUS_LINK_PREFIX'); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -43,7 +43,7 @@ $link_path = "/components/com_redshop/assets/images/";
      <?php echo JText::_('COM_REDSHOP_DAFULT_NEXT_SUFFIX_LBL'); ?>:</span></td>
 		<td>
 			<input type="text" name="default_next_suffix" id="default_next_suffix"
-			       value="<?php echo DAFULT_NEXT_LINK_SUFFIX; ?>"/>
+			       value="<?php echo $this->config->get('DAFULT_NEXT_LINK_SUFFIX'); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -53,7 +53,7 @@ $link_path = "/components/com_redshop/assets/images/";
         <?php echo JText::_('COM_REDSHOP_CUSTOM_PREVIOUS_LINK');?>:</span></td>
 		<td>
 			<input type="text" name="custom_previous_link" id="custom_previous_link"
-			       value="<?php echo CUSTOM_PREVIOUS_LINK_FIND; ?>"/>
+			       value="<?php echo $this->config->get('CUSTOM_PREVIOUS_LINK_FIND'); ?>"/>
 		</td>
 	</tr>
 
@@ -64,7 +64,7 @@ $link_path = "/components/com_redshop/assets/images/";
         <?php echo JText::_('COM_REDSHOP_CUSTOM_NEXT_LINK');?>:</span></td>
 		<td>
 			<input type="text" name="custom_next_link" id="custom_next_link"
-			       value="<?php echo CUSTOM_NEXT_LINK_FIND; ?>"/>
+			       value="<?php echo $this->config->get('CUSTOM_NEXT_LINK_FIND'); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -73,21 +73,22 @@ $link_path = "/components/com_redshop/assets/images/";
 			      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PREVIOUS_LINK_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PREVIOUS_LINK'); ?>">
         <?php echo JText::_('COM_REDSHOP_IMAGE_PREVIOUS_LINK');?>:</span></td>
 		<td>
+		<?php $imagePreviousLinkFind =  $this->config->get('IMAGE_PREVIOUS_LINK_FIND'); ?>
 			<div>
 				<div>
 					<input class="text_area" type="file" name="imgpre" id="imgpre" size="40"/>
 					<input type="hidden" name="image_previous_link" id="image_previous_link"
-					       value="<?php echo IMAGE_PREVIOUS_LINK_FIND; ?>"/>
+					       value="<?php echo $imagePreviousLinkFind; ?>"/>
 					<a href="#123"
-					   onclick="delimg('<?php echo IMAGE_PREVIOUS_LINK_FIND ?>','prvlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+					   onclick="delimg('<?php echo $imagePreviousLinkFind ?>','prvlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 				</div>
-				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . IMAGE_PREVIOUS_LINK_FIND))
+				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind))
 				{ ?>
 					<div id="prvlinkdiv">
-						<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_PREVIOUS_LINK_FIND; ?>"
-						   title="<?php echo IMAGE_PREVIOUS_LINK_FIND; ?>" rel="{handler: 'image', size: {}}"><img
-								alt="<?php echo IMAGE_PREVIOUS_LINK_FIND; ?>"
-								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_PREVIOUS_LINK_FIND; ?>"/></a>
+						<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
+						   title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
+								alt="<?php echo $imagePreviousLinkFind; ?>"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"/></a>
 					</div>
 				<?php } ?>
 			</div>
@@ -104,21 +105,22 @@ $link_path = "/components/com_redshop/assets/images/";
 				?>:
 </span></td>
 		<td>
+			<?php $imageNextLinkFind =  $this->config->get('IMAGE_NEXT_LINK_FIND'); ?>
 			<div>
 				<div>
 					<input class="text_area" type="file" name="imgnext" id="imgnext" size="40"/>
 					<input type="hidden" name="image_next_link" id="image_next_link"
-					       value="<?php echo IMAGE_NEXT_LINK_FIND; ?>"/>
+					       value="<?php echo $imageNextLinkFind; ?>"/>
 					<a href="#123"
-					   onclick="delimg('<?php echo IMAGE_NEXT_LINK_FIND ?>','nxtlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+					   onclick="delimg('<?php echo $imageNextLinkFind ?>','nxtlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 				</div>
-				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . IMAGE_NEXT_LINK_FIND))
+				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind))
 				{ ?>
 					<div id="nxtlinkdiv">
-					<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_NEXT_LINK_FIND; ?>"
-					   title="<?php echo IMAGE_NEXT_LINK_FIND; ?>" rel="{handler: 'image', size: {}}"><img
-							alt="<?php echo IMAGE_NEXT_LINK_FIND; ?>"
-							src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_NEXT_LINK_FIND; ?>"/></a>
+					<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
+					   title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
+							alt="<?php echo $imageNextLinkFind; ?>"
+							src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"/></a>
 					</div><?php } ?>
 			</div>
 		</td>
@@ -131,6 +133,4 @@ $link_path = "/components/com_redshop/assets/images/";
 		</td>
 		<td><?php echo $this->lists ['next_previous_link'];?></td>
 	</tr>
-	<!-- next-previous link End-->
-
 </table>

@@ -136,19 +136,6 @@ defined('_JEXEC') or die;
 		</td>
 		<td><?php echo $this->lists ['show_price'];?></td>
 	</tr>
-	<!--<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'SHOW_PRICE_SHOPPER_GROUP_LBL' ); ?>::<?php echo JText::_( 'COM_REDSHOP_TOOLTIP_SHOW_PRICE_SHOPPER_GROUP_LBL' ); ?>">
-		<label for="showprice"><?php echo JText::_ ( 'SHOW_PRICE_SHOPPER_GROUP_LBL' );?></label>
-		</td>
-		<td>
-		<?php
-			//echo $this->lists ['show_price_shopper_group_list'];
-			//echo $this->lists ['show_price_user_group_list'];
-		?>
-		</td>
-	</tr>
-	-->
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"

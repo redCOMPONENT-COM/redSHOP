@@ -62,7 +62,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<?php
-			$product_download_root = PRODUCT_DOWNLOAD_ROOT;
+			$product_download_root = $this->config->get('PRODUCT_DOWNLOAD_ROOT');
 			if (!is_dir($product_download_root))
 				$product_download_root = JPATH_ROOT . '/components/com_redshop/assets/download/product';
 

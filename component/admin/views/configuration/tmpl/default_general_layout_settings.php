@@ -135,7 +135,7 @@ $url = $uri->root();
 		<td>
 			<textarea class="text_area" type="text" name="cart_reservation_message"
 			          id="cart_reservation_message" rows="4"
-			          cols="40"/><?php echo stripslashes(CART_RESERVATION_MESSAGE); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('CART_RESERVATION_MESSAGE')); ?></textarea>
 		</td>
 	</tr>
 	<tr>
