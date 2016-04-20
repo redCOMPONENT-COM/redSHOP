@@ -50,6 +50,8 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	 */
 	public function onListRates(&$d)
 	{
+		JHtml::_('redshopjquery.select2', '#mapMobileSeachBox');
+
 		$shippinghelper = new shipping;
 		$shippingrate   = array();
 		$rate           = 0;
@@ -178,6 +180,8 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 				$close_sat   = array();
 				$lat         = array();
 				$lng         = array();
+				$city = array();
+				$postalCode = array();
 				$key         = 1;
 
 				if (!empty($points))
@@ -206,7 +210,7 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 							$addresses[] = $point_addr;
 							$name[]      = $point->name;
 
-							if (count($point->openingHours) > 0)
+							if (isset($point->openingHours) && count($point->openingHours) > 0)
 							{
 								$opening[] = $point->openingHours[0]->from1;
 								$close[]   = $point->openingHours[0]->to1;
@@ -221,6 +225,8 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 							$lat[]            = $point->coordinate->northing;
 							$lng[]            = $point->coordinate->easting;
 							$number[]         = $point->deliveryAddress->postalCode . ' ' . $point->deliveryAddress->city;
+							$city[]             = $point->deliveryAddress->city;
+							$postalCode[]       = $point->deliveryAddress->postalCode;
 							$servicePointId[] = $point->servicePointId;
 						}
 					}
@@ -237,18 +243,21 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 				$shopLocations['close_sat']   = $close_sat;
 				$shopLocations['lat']         = $lat;
 				$shopLocations['lng']         = $lng;
+				$shopLocations['city']        = $city;
+				$shopLocations['postalCode']  = $postalCode;
 
 				if (isset($servicePointId))
 				{
 					$shopLocations['servicePointId'] = $servicePointId;
 				}
 
+				ob_clean();
 				echo json_encode($shopLocations);
-
 			}
 			else
 			{
 				$shopLocations['error'] = JText::_('PLG_REDSHOP_SHIPPING_POSTDANMARK_NOT_ANSWER_FOR_CURRENT_ZIP');
+				ob_clean();
 				echo json_encode($shopLocations);
 			}
 		}

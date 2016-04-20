@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
 	<name>PLG_REDSHOP_SHIPPING_POSTDANMARK</name>
-	<version>1.5</version>
+	<version>1.5.1</version>
     <redshop>1.5</redshop>
-	<creationDate>March 2016</creationDate>
+	<creationDate>20 April 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
