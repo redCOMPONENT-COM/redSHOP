@@ -922,6 +922,18 @@ class Com_RedshopInstallerScript
 		}
 
 		$Redconfiguration->manageCFGFile($cfgarr);
+
+		// Store new config file using existing config files.
+		try
+		{
+			Redshop::getConfig()->loadLegacy();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
 	}
 
 	/**

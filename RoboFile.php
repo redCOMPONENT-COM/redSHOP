@@ -86,7 +86,7 @@ class RoboFile extends \Robo\Tasks
 		 * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
 		 * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
 		 */
-		$version = '3.4.8';
+		$version = '3.5.1';
 
 		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms3");
 
@@ -268,6 +268,7 @@ class RoboFile extends \Robo\Tasks
              ->run()
              ->stopOnFail();
 
+		/* @todo: REDSHOP-2884
         $this->say('preparing for update test');
         $this->getDevelop();
         $this->taskCodecept()
@@ -277,6 +278,7 @@ class RoboFile extends \Robo\Tasks
              ->arg('tests/acceptance/update/')
              ->run()
              ->stopOnFail();
+		*/
 
         $this->killSelenium();
     }

@@ -3083,8 +3083,8 @@ class rsCarthelper
 			$replace[] = JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
 		}
 
-		$billingaddresses  = $this->_order_functions->getOrderBillingUserInfo($order_id);
-		$shippingaddresses = $this->_order_functions->getOrderShippingUserInfo($order_id);
+		$billingaddresses  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 
 		$search [] = "{requisition_number}";
 		$replace[] = ($row->requisition_number) ? $row->requisition_number : "N/A";
