@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="product_expire_text" id="product_expire_text" rows="4"
-			          cols="40"/><?php echo stripslashes(PRODUCT_EXPIRE_TEXT); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('PRODUCT_EXPIRE_TEXT')); ?></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
 		<td>
 			<textarea class="text_area" type="text" name="category_frontpage_introtext"
 			          id="category_frontpage_introtext" rows="4"
-			          cols="40"/><?php echo stripslashes(CATEGORY_FRONTPAGE_INTROTEXT); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('CATEGORY_FRONTPAGE_INTROTEXT')); ?></textarea>
 		</td>
 	</tr>
 </table>
