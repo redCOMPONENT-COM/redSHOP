@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 			?></label></span></td>
 		<td><input type="text" name="days_mail1" id="days_mail1"
 		           value="<?php
-		           echo DAYS_MAIL1;
+		           echo $this->config->get('DAYS_MAIL1');
 		           ?>">
 		</td>
 	</tr>
@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
 			?></label></span></td>
 		<td><input type="text" name="days_mail2" id="days_mail2"
 		           value="<?php
-		           echo DAYS_MAIL2;
+		           echo $this->config->get('DAYS_MAIL2');
 		           ?>">
 		</td>
 	</tr>
@@ -64,7 +64,7 @@ defined('_JEXEC') or die;
 			?></label></span></td>
 		<td><input type="text" name="days_mail3" id="days_mail3"
 		           value="<?php
-		           echo DAYS_MAIL3;
+		           echo $this->config->get('DAYS_MAIL3');
 		           ?>">
 		</td>
 	</tr>

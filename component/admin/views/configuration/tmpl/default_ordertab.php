@@ -151,7 +151,7 @@ defined('_JEXEC') or die;
 								'redshopselect.booleanlist',
 								'invoice_number_for_free_order',
 								'',
-								INVOICE_NUMBER_FOR_FREE_ORDER
+								$this->config->get('INVOICE_NUMBER_FOR_FREE_ORDER')
 							);
 						?>
 					</td>

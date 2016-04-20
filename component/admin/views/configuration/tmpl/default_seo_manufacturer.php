@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 		<td><textarea class="text_area" type="text"
 		              name="seo_page_title_manufactur" id="seo_page_title_manufactur"
 		              rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_TITLE_MANUFACTUR);
+			echo stripslashes($this->config->get('SEO_PAGE_TITLE_MANUFACTUR'));
 			?></textarea>
 		</td>
 	</tr>
@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 		<td><textarea class="text_area" type="text"
 		              name="seo_page_heading_manufactur" id="seo_page_heading_manufactur"
 		              rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_HEADING_MANUFACTUR);
+			echo stripslashes($this->config->get('SEO_PAGE_HEADING_MANUFACTUR'));
 			?></textarea>
 		</td>
 	</tr>
@@ -51,7 +51,7 @@ defined('_JEXEC') or die;
 		<td><textarea class="text_area" type="text"
 		              name="seo_page_description_manufactur"
 		              id="seo_page_description_manufactur" rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_DESCRIPTION_MANUFACTUR);
+			echo stripslashes($this->config->get('SEO_PAGE_DESCRIPTION_MANUFACTUR'));
 			?></textarea>
 		</td>
 	</tr>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 		<td><textarea class="text_area" type="text"
 		              name="seo_page_keywords_manufactur" id="seo_page_keywords_manufactur"
 		              rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_KEYWORDS_MANUFACTUR);
+			echo stripslashes($this->config->get('SEO_PAGE_KEYWORDS_MANUFACTUR'));
 			?></textarea>
 		</td>
 	</tr>
@@ -81,7 +81,7 @@ defined('_JEXEC') or die;
 		<td><textarea class="text_area" type="text"
 		              name="seo_page_canonical_manufactur" id="seo_page_canonical_manufactur"
 		              rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_CANONICAL_MANUFACTUR);
+			echo stripslashes($this->config->get('SEO_PAGE_CANONICAL_MANUFACTUR'));
 			?></textarea>
 		</td>
 	</tr>
