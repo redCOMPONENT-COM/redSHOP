@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$quicklink_icon = explode(",", QUICKLINK_ICON);
+$quicklink_icon = explode(",", $this->config->get('QUICKLINK_ICON'));
 JLoader::load('RedshopHelperAdminImages');
 $new_arr = RedShopHelperImages::geticonarray();
 
