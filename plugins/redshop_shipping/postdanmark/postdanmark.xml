@@ -42,6 +42,17 @@
 					label="PLG_REDSHOP_SHIPPING_POSTDANMARK_CONSUMERID"
 					desc="PLG_REDSHOP_SHIPPING_POSTDANMARK_CONSUMERID_DESC"
 				/>
+				<field
+					name="useMap"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="PLG_DEFAULT_SHIPPING_USE_MAP_LABEL"
+					description="PLG_DEFAULT_SHIPPING_USE_MAP_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
