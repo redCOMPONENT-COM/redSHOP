@@ -123,7 +123,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 					                          ?>"
 					                          rel="{handler: 'image', size: {}}"><img height="40" width="40"
 					                                                                  alt="<?php
-					                                                                  echo PRODUCT_DEFAULT_IMAGE;
+					                                                                  echo Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					                                                                  ?>"
 					                                                                  src="<?php
 					                                                                  echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $watermarkImage;

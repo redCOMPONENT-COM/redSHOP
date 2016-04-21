@@ -29,7 +29,7 @@ JText::script('COM_REDSHOP_DELETE');
 		if (form.category_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_ITEM_MUST_HAVE_A_NAME', true ); ?>");
 		}
-		else if ((form.category_template.value == "0" || form.category_template.value == "" ) && !<?php echo CATEGORY_TEMPLATE;?>) {
+		else if ((form.category_template.value == "0" || form.category_template.value == "" ) && !<?php echo Redshop::getConfig()->get('CATEGORY_TEMPLATE');?>) {
 			alert("<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE', true ); ?>");
 		}
 		else {
