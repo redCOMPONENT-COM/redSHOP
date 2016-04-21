@@ -884,7 +884,6 @@ function onestepCheckoutProcess(objectname,classname)
 			{
 				txtresponse = xmlhttp.responseText;
 			    var arrResponse = txtresponse.split("`_`");
-				//document.getElementById('responceonestep').innerHTML = xmlhttp.responseText;
 			    document.getElementById('responceonestep').innerHTML = arrResponse[1];
 				if(arrResponse[2] && document.getElementById('mod_cart_total_value_ajax'))
 				{
@@ -911,11 +910,8 @@ function onestepCheckoutProcess(objectname,classname)
 				});
 			}
 		};
-		if(/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent))
-			xmlhttp.open("POST", url, true);
-		else
-			xmlhttp.open("POST", url, false);
 
+		xmlhttp.open("POST", url, true);
 		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xmlhttp.send(params.join('&'));
