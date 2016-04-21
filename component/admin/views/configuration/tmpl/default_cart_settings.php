@@ -68,7 +68,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="ajax_cart_display_time" id="ajax_cart_display_time"
-							       value="<?php echo AJAX_CART_DISPLAY_TIME; ?>">
+							       value="<?php echo Redshop::getConfig()->get('AJAX_CART_DISPLAY_TIME'); ?>">
 						</td>
 					</tr>
 					<tr>

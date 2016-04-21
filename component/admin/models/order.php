@@ -67,6 +67,7 @@ class RedshopModelOrder extends RedshopModel
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);
 		$this->setState('filter_status', $filter_status);
+		$this->setState('filter_payment_status', $filter_payment_status);
 		$this->setState('filter_from_date', $filter_from_date);
 		$this->setState('filter_to_date', $filter_to_date);
 
