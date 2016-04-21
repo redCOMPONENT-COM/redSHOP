@@ -347,6 +347,11 @@ $calendarFormat = '%d-%m-%Y';
 
 						if ($this->detail->discount_stratdate)
 						{
+							if ($startDateTimeStamp = strtotime($this->detail->discount_stratdate))
+							{
+								$this->detail->discount_stratdate = $startDateTimeStamp;
+							}
+
 							$sdate = date("d-m-Y", $this->detail->discount_stratdate);
 						}
 
@@ -374,6 +379,11 @@ $calendarFormat = '%d-%m-%Y';
 
 						if ($this->detail->discount_enddate)
 						{
+							if ($endDateTimeStamp = strtotime($this->detail->discount_enddate))
+							{
+								$this->detail->discount_enddate = $endDateTimeStamp;
+							}
+
 							$edate = date("d-m-Y", $this->detail->discount_enddate);
 						}
 
