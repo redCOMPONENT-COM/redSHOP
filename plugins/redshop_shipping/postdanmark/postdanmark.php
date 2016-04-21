@@ -50,8 +50,6 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	 */
 	public function onListRates(&$d)
 	{
-		JHtml::_('redshopjquery.select2', '#mapMobileSeachBox');
-
 		$shippinghelper = new shipping;
 		$shippingrate   = array();
 		$rate           = 0;
@@ -117,22 +115,39 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			$rate++;
 		}
 
-		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT');
-		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALUD_ZIP_CODE');
-		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_CANCEL');
-		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_OK');
-		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_POSTAL_CODE');
-		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALID_ZIP');
-		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_PRESS_POINT_TO_DELIVERY');
-		JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_SELECT_ONE_OPTION');
-		JHtml::_('redshopjquery.framework');
-		$document = JFactory::getDocument();
-		$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css');
-		$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/css/postdanmark_style.css');
-		$document->addScript('//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
-		$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/functions.js');
-		$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/map_functions.js');
-		$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js');
+		if (!empty($shippingrate))
+		{
+			JHtml::_('redshopjquery.framework');
+
+			// Load select2 for locations
+			JHtml::_('redshopjquery.select2', '#mapMobileSeachBox');
+
+			// Load redSHOP script
+			JHtml::script('com_redshop/redshop.js', false, true);
+			JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT');
+			JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALUD_ZIP_CODE');
+			JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_CANCEL');
+			JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_OK');
+			JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_POSTAL_CODE');
+			JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_VALID_ZIP');
+			JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_PRESS_POINT_TO_DELIVERY');
+			JText::script('PLG_REDSHOP_SHIPPING_POSTDANMARK_SELECT_ONE_OPTION');
+
+			$useMap = $this->params->get('useMap', 1);
+			RedshopHelperConfig::script('useMap', $useMap);
+
+			$document = JFactory::getDocument();
+			$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/css/postdanmark_style.css');
+			$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/functions.js');
+
+			if ($useMap)
+			{
+				$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css');
+				$document->addScript('//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
+				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/map_functions.js');
+				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js');
+			}
+		}
 
 		return $shippingrate;
 	}

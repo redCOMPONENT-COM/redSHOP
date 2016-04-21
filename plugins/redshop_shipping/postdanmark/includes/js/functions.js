@@ -6,6 +6,8 @@ redSHOP.postDanmark.isMobile = (screen.width <= 480);
 var google, service_points;
 
 jQuery(document).ready(function() {
+    redSHOP.postDanmark.useMap = (Boolean(parseInt(redSHOP.RSConfig._('USEMAP'))) && !redSHOP.postDanmark.isMobile);
+
     var postdanmark_input = jQuery('input[value="postdanmark_postdanmark"]');
     if (postdanmark_input.attr('checked') === 'checked' || postdanmark_input.attr('type') == 'hidden') {
         inject_button(jQuery('input[value="postdanmark_postdanmark"]').parent().parent());
@@ -136,18 +138,7 @@ jQuery(document).ready(function() {
 function inject_button(el) {
 
     // Is mobile
-    if (redSHOP.postDanmark.isMobile)
-    {
-        if (0 == jQuery('#postdanmark_html_inject').length) {
-            var mobileHtml = '<input name="shop_id" id="mapMobileSeachBox" type="hidden" placeholder="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_POSTAL_CODE') +'" maxlength="4">';
-            jQuery(el).parent().after(
-                '<div id="postdanmark_html_inject">' + mobileHtml + '</div>'
-            );
-
-            redSHOP.postDanmark.loadLocationMobile(el);
-        }
-    }
-    else
+    if (redSHOP.postDanmark.useMap)
     {
         if (0 == jQuery('#sp_info').length) {
             map_contents = get_map_contents();
@@ -157,6 +148,17 @@ function inject_button(el) {
             );
 
             getShippingZipcodeAjax();
+        }
+    }
+    else
+    {
+        if (0 == jQuery('#postdanmark_html_inject').length) {
+            var mobileHtml = '<input name="shop_id" id="mapMobileSeachBox" type="hidden" placeholder="' + Joomla.JText._('PLG_REDSHOP_SHIPPING_POSTDANMARK_ENTER_POSTAL_CODE') +'" maxlength="4">';
+            jQuery(el).parent().after(
+                '<div id="postdanmark_html_inject">' + mobileHtml + '</div>'
+            );
+
+            redSHOP.postDanmark.loadLocationMobile(el);
         }
     }
 }
@@ -178,9 +180,21 @@ redSHOP.postDanmark.loadLocationMobile = function(el){
 
             for (i = 0; i < data.addresses.length; i++)
             {
-                var options = {};
-                options.id = data.servicePointId[i] + '|' + data.name[i] + '|' + data.addresses[i] + '|' + data.postalCode[i] + '|' + data.city[i];
-                options.text = data.name[i] + ' (' + data.servicePointId[i] + ')';
+                var markup = '<div class="row-fluid">' +
+                     '<div class="span10">';
+                    markup += '<div>' + data.name[i] + '</div>';
+                    markup += '<div>' + data.city[i] + ' ' + data.postalCode[i] + '</div>';
+                    markup += '<div>' + data.addresses[i] + '</div>';
+                markup += '</div></div>';
+                var options = {
+                    'id'         : data.servicePointId[i] + '|' + data.name[i] + '|' + data.addresses[i] + '|' + data.postalCode[i] + '|' + data.city[i],
+                    'text'       : markup,
+                    'name'       : data.name[i],
+                    'poingId'    : data.servicePointId[i],
+                    'addresses'  : data.addresses[i],
+                    'postalCode' : data.postalCode[i],
+                    'city'       : data.city[i]
+                };
 
                 results.push(options);
             }
@@ -189,6 +203,8 @@ redSHOP.postDanmark.loadLocationMobile = function(el){
         },
         cache: true
       },
+      escapeMarkup: function (markup) { return markup; },
+      containerCssClass: "span4",
       minimumInputLength: 4
     });
 };
