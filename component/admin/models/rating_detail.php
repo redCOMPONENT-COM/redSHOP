@@ -49,13 +49,27 @@ class RedshopModelRating_detail extends RedshopModel
 
 	public function _loadData()
 	{
+		$query = $this->_db->getQuery(true);
+
 		if (empty($this->_data))
 		{
-			$query = 'SELECT p.*,u.name as username,pr.product_name FROM ' . $this->_table_prefix . 'product as pr, '
-				. $this->_table_prefix . 'product_rating as p  left join #__users as u on u.id=p.userid WHERE p.rating_id = '
-				. $this->_id . ' and p.product_id = pr.product_id';
+			$query->select(array('p.*', 'u.name', 'pr.product_name'))
+				->from(array($this->_db->qn('#__redshop_product', 'pr'), $this->_db->qn('#__redshop_product_rating', 'p')))
+				->join('LEFT', $this->_db->qn('#__users', 'u') . ' ON (' . $this->_db->qn('u.id') . ' = ' . $this->_db->qn('p.userid') . ')')
+				->where($this->_db->qn('p.rating_id') . ' = ' . $this->_db->q($this->_id))
+				->where($this->_db->qn('p.product_id') . ' = ' . $this->_db->qn('pr.product_id'));
+
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
+			if (!isset($this->_data->username))
+			{
+				$query->select('p.username')
+					->from($this->_db->qn('#__redshop_product_rating', 'p'))
+					->where($this->_db->qn('p.rating_id') . ' = ' . $this->_db->q($this->_id));
+				$this->_db->setQuery($query);
+				$this->_data->username = $this->_db->loadResult();
+			}
 
 			return (boolean) $this->_data;
 		}
