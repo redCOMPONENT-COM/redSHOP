@@ -139,16 +139,14 @@ class order_functions
 			}
 		}
 
-		// Refund Money while cancel the order
-		$refund_type = $paymentparams->get('refund', '0');
-
-		if ($newstatus == "X" && $refund_type == 1)
+		if (($newstatus == "X" || $newstatus == "R")
+			&& $paymentparams->get('refund', 0) == 1)
 		{
-			$values["order_number"] = $orderdetail->order_number;
-			$values["order_id"] = $order_id;
+			$values["order_number"]        = $orderdetail->order_number;
+			$values["order_id"]            = $order_id;
 			$values["order_transactionid"] = $result->order_payment_trans_id;
-			$values["order_amount"] = $orderdetail->order_total + $result->order_transfee;
-			$values["order_userid"] = $values['billinginfo']->user_id;
+			$values["order_amount"]        = $orderdetail->order_total + $result->order_transfee;
+			$values["order_userid"]        = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
 
