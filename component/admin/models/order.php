@@ -388,9 +388,9 @@ class RedshopModelOrder extends RedshopModel
 					'A',
 					'A',
 					$billingDetails->firstname . ' ' . $billingDetails->lastname,
-					$shippingDetails->customer_note,
+					$ordersInfo[$i]->customer_note,
 					'',
-					$ordersInfo[$i]->phone
+					$shippingDetails->phone
 				);
 
 				$row = array_merge($row, $extraInfo, $rowAppend);
