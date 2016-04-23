@@ -53,7 +53,7 @@ class RedshopModelRating_detail extends RedshopModel
 
 		if (empty($this->_data))
 		{
-			$query->select(array('p.*', 'u.name', 'pr.product_name'))
+			$query->select(array('p.*', 'IFNULL(u.name, p.username) AS username', 'pr.product_name'))
 				->from(array($this->_db->qn('#__redshop_product', 'pr'), $this->_db->qn('#__redshop_product_rating', 'p')))
 				->join('LEFT', $this->_db->qn('#__users', 'u') . ' ON (' . $this->_db->qn('u.id') . ' = ' . $this->_db->qn('p.userid') . ')')
 				->where($this->_db->qn('p.rating_id') . ' = ' . $this->_db->q($this->_id))
@@ -61,15 +61,6 @@ class RedshopModelRating_detail extends RedshopModel
 
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
-
-			if (!isset($this->_data->username))
-			{
-				$query->select('p.username')
-					->from($this->_db->qn('#__redshop_product_rating', 'p'))
-					->where($this->_db->qn('p.rating_id') . ' = ' . $this->_db->q($this->_id));
-				$this->_db->setQuery($query);
-				$this->_data->username = $this->_db->loadResult();
-			}
 
 			return (boolean) $this->_data;
 		}
