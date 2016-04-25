@@ -30,15 +30,13 @@ $productHelper = new producthelper;
 			alert("<?php echo JText::_('COM_REDSHOP_RATING_COMMENT_MUST_BE_FILLED', true ); ?>");
 			return false;
 		}
-		if (form.userid.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_USER', true ); ?>");
-			return false;
-		}
+		
 		if (form.product_id.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_PRODUCT', true ); ?>");
 			return false;
 		}
-		else {
+		else 
+		{
 			submitform(pressbutton);
 		}
 	}
@@ -131,13 +129,16 @@ $productHelper = new producthelper;
 
 						if (isset($this->detail->username))
 						{
-							$uname->text = $model->getuserfullname2($this->detail->userid);
+							if ($this->detail->userid == 0)
+							{
+								$uname->text = $this->detail->username;
+							}
+							else
+							{
+								$uname->text = $model->getuserfullname2($this->detail->userid);
+							}
+
 							$uname->value = $this->detail->userid;
-						}
-						else
-						{
-							$uname->text = '(guest)';
-							$uname->value = 0;
 						}
 
 						echo JHTML::_('redshopselect.search', $uname, 'userid',
