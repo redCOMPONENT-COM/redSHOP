@@ -180,13 +180,6 @@ class RedshopModelRedshop extends RedshopModel
 		$db->execute();
 
 
-		$query = "INSERT IGNORE INTO `#__redshop_product_rating`
-					(`rating_id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
-					VALUES (1, 1, 'super', 'Flot flot flot...', 64, 1262695786, 4, 1, 1)";
-		$db->setQuery($query);
-		$db->execute();
-
-
 		/* Get the current columns for redshop product related */
 		$q = "SHOW INDEX FROM #__redshop_product_related";
 		$db->setQuery($q);
