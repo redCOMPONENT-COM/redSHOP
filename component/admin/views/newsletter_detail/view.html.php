@@ -45,7 +45,7 @@ class RedshopViewNewsletter_detail extends RedshopView
 
 		if ($layout == "statistics")
 		{
-			$document->addScript('http://www.google.com/jsapi');
+			$document->addScript('//www.google.com/jsapi');
 			$text = "statistics";
 			JRequest::setVar('hidemainmenu', 1);
 			$this->setLayout($layout);
