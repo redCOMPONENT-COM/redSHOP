@@ -31,21 +31,15 @@ class RedshopViewOrder_detail extends RedshopView
 		<?php
 		}
 
-		$params = $app->getParams('com_redshop');
-
 		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
-		$user     = JFactory::getUser();
-		$session  = JFactory::getSession();
-		$order_id = $session->get('order_id');
-		$auth   = $session->get('auth');
-
-		$oid    = JRequest::getInt('oid', $order_id);
-		$encr   = JRequest::getString('encr', null);
-		$layout = JRequest::getCmd('layout');
-
-		$order_payment = $order_functions->getOrderPaymentDetail($order_id);
+		$user          = JFactory::getUser();
+		$session       = JFactory::getSession();
+		$auth          = $session->get('auth');
+		$orderId       = $app->input->getInt('oid', $session->get('order_id'));
+		$encr          = $app->input->getString('encr', null);
+		$order_payment = $order_functions->getOrderPaymentDetail($orderId);
 
 		if ($order_payment && count($order_payment))
 		{
@@ -59,7 +53,7 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$model = $this->getModel('order_detail');
 
-		$OrdersDetail = $order_functions->getOrderDetails($oid);
+		$OrdersDetail = $order_functions->getOrderDetails($orderId);
 
 		if ($user->id)
 		{
@@ -74,7 +68,7 @@ class RedshopViewOrder_detail extends RedshopView
 		{
 			if ($encr)
 			{
-				$authorization = $model->checkauthorization($oid, $encr);
+				$authorization = $model->checkauthorization($orderId, $encr);
 
 				if (!$authorization)
 				{
@@ -95,8 +89,8 @@ class RedshopViewOrder_detail extends RedshopView
 		}
 
 		$this->OrdersDetail = $OrdersDetail;
-		$this->user = $user;
-		$this->params = $params;
+		$this->user         = $user;
+		$this->params       = $app->getParams('com_redshop');
 
 		parent::display($tpl);
 	}
