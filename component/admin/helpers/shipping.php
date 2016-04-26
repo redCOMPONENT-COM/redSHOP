@@ -1387,8 +1387,13 @@ class shipping
 			{
 				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
 				{
-					$acc_id     = $cart[$i]['cart_accessory'][$a]['accessory_id'];
-					$acc_qty    = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
+					$acc_id  = $cart[$i]['cart_accessory'][$a]['accessory_id'];
+					$acc_qty = 1;
+
+					if (isset($cart[$i]['cart_accessory'][$a]['accessory_quantity']))
+					{
+						$acc_qty = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
+					}
 
 					if ($acc_data   = $productHelper->getProductById($acc_id))
 					{
