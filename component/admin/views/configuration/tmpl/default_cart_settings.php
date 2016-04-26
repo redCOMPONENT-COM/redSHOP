@@ -273,5 +273,5 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 			document.getElementById('quotationprice').style.display = "";
 		}
 	}
-	quote_price(<?php echo $this->config->get('DEFAULT_QUOTATION_MODE_PRE?>)');
+	quote_price(<?php echo $this->config->get('DEFAULT_QUOTATION_MODE_PRE'); ?>);
 </script>
