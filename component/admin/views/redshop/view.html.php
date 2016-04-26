@@ -60,7 +60,7 @@ class RedshopViewRedshop extends RedshopView
 		$this->turnover = $statsticmodel->getTotalTurnover();
 
 		$document = JFactory::getDocument();
-		$document->addScript('https://www.google.com/jsapi');
+		$document->addScript('//www.google.com/jsapi');
 
 		$lists = array();
 		$option = array();
