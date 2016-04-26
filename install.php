@@ -1234,7 +1234,8 @@ class Com_RedshopInstallerScript
 		{
 			array_push(
 				$files,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php'
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php',
+				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml'
 			);
 
 			array_push(
