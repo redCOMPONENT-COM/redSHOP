@@ -194,12 +194,20 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td>
 			<?php echo $this->pagination->getRowOffset($i); ?>
 		</td>
-		<td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
+		<td>
+			<?php echo @JHTML::_('grid.checkedout', $row, $i); ?>
+		</td>
 		<td>
 			<?php
 
-			$checkedOut = ((int) $row->checked_out !== 0 && (int) $row->checked_out === $userId);
-			if ($checkedOut)
+			$canCheckin = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $userId || $row->checked_out == 0;
+			?>
+			<?php if ($row->checked_out) : ?>
+				<?php $checkedOut = JFactory::getUser($row->checked_out); ?>
+				<?php echo JHtml::_('jgrid.checkedout', $i, $checkedOut->name, $row->checked_out_time, 'product.', $canCheckin); ?>
+			<?php endif; ?>
+			<?php
+			if ($canCheckin)
 			{
 				if (isset($row->children))
 				{
@@ -368,4 +376,5 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 <input type="hidden" name="boxchecked" value="0"/>
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+<?php echo JHtml::_('form.token'); ?>
 </form>

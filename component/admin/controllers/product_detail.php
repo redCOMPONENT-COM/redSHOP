@@ -201,7 +201,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
-			$link = '';
 
 			if ($apply == 2)
 			{
@@ -214,6 +213,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			}
 			else
 			{
+				$model->checkin($cid);
 				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 			}
 		}
@@ -317,7 +317,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public function cancel()
 	{
 		$model = $this->getModel('product_detail');
-		$model->checkin();
+		$recordId = JFactory::getApplication()->input->get('cid');
+		$model->checkin($recordId);
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
