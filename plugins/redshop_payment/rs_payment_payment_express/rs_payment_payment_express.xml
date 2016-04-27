@@ -94,7 +94,7 @@
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </field>
-               	<field name="is_creditcard" type="hidden" default="0" value="0"/>
+               	<field name="is_creditcard" type="hidden" default="1" value="1"/>
                 <field name="economic_payment_terms_id" type="text" default="2"
                        label="Enter E-conomic Payment Conditions ID"/>
                 <field name="economic_design_layout" type="text" default=""
