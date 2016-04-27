@@ -868,7 +868,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			echo JText::_('COM_REDSHOP_NO_FILE_SELECTED');
+			echo '<li class="error">' . JText::_('COM_REDSHOP_NO_FILE_SELECTED') . '</li>';
 		}
 
 		$app->close();
