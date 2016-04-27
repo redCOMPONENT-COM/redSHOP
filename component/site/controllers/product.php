@@ -814,8 +814,9 @@ class RedshopControllerProduct extends RedshopController
 		$productId = $app->input->getInt('product_id', 0);
 		$name       = $app->input->getCmd('mname', '') . '_' . $productId;
 
-		if ($uploadFileData = $app->input->files->get($name))
+		if ($app->input->files)
 		{
+			$uploadFileData = $app->input->files->get($name);
 			$fileExtension = JFile::getExt($uploadFileData['name']);
 			$fileName = RedShopHelperImages::cleanFileName($uploadFileData['name']);
 
