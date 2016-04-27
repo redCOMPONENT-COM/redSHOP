@@ -545,12 +545,12 @@ for ($i = 0, $in = count($products); $i < $in; $i++)
 									</td>
 									<td width="5%">
 										<img class="delete_item"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.png"
 										     title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 										     alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 										     onclick="if(confirm('<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_ORDER_ITEM'); ?>')) { document.itemForm<?php echo $order_item_id; ?>.task.value='delete_item';document.itemForm<?php echo $order_item_id; ?>.submit();}">
 										<img class="update_price"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.png"
 										     title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 										     alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 										     onclick="document.itemForm<?php echo $order_item_id; ?>.task.value='updateItem';document.itemForm<?php echo $order_item_id; ?>.submit();">
@@ -796,7 +796,7 @@ $session->set('cart', $cart); ?>
 								value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
 								size="10">
 							<span class="add-on"><label class="inline">&nbsp;<img class="update_price" align="absmiddle"
-								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.png"
 								title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								onclick="document.update_discount<?php echo $order_id; ?>.submit();"></label></span>
@@ -825,7 +825,7 @@ $session->set('cart', $cart); ?>
 							<span class="add-on">
 							<label class="inline">&nbsp;
 							<img class="update_price" align="absmiddle"
-								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.png"
 								title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								onclick="document.special_discount<?php echo $order_id; ?>.submit();">

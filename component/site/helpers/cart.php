@@ -941,7 +941,7 @@ class rsCarthelper
 		}
 		else
 		{
-			$delete_img = "defaultcross.jpg";
+			$delete_img = "defaultcross.png";
 		}
 
 		for ($i = 0; $i < $idx; $i++)
@@ -1427,7 +1427,7 @@ class rsCarthelper
 					}
 					else
 					{
-						$update_img = "defaultupdate.jpg";
+						$update_img = "defaultupdate.png";
 					}
 
 					$update_cart .= '<img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">';
@@ -1453,7 +1453,7 @@ class rsCarthelper
 				}
 				else
 				{
-					$delete_img = "defaultcross.jpg";
+					$delete_img = "defaultcross.png";
 				}
 
 				if ($mainview == 'checkout')

@@ -788,7 +788,7 @@ class Com_RedshopInstallerScript
 
 		if (!defined("REQUESTQUOTE_IMAGE"))
 		{
-			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.gif';
+			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.png';
 		}
 
 		if (!defined("REQUESTQUOTE_BACKGROUND"))
