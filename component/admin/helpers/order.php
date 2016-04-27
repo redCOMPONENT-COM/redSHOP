@@ -1537,7 +1537,6 @@ class order_functions
 
 	public function SendDownload($order_id = 0)
 	{
-		$db = JFactory::getDbo();
 		$config = new Redconfiguration;
 		$app = JFactory::getApplication();
 		$redshopMail = new redshopMail;
@@ -1545,7 +1544,6 @@ class order_functions
 		// Getting the order status changed template from mail center end
 		$MailFrom = $app->getCfg('mailfrom');
 		$FromName = $app->getCfg('fromname');
-		$SiteName = $app->getCfg('sitename');
 
 		$maildata = "";
 		$mailsubject = "";
@@ -1625,7 +1623,10 @@ class order_functions
 
 			if ($mailbody && $useremail != "")
 			{
-				JFactory::getMailer()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
+				if (!JFactory::getMailer()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc))
+				{
+					$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL'), 'error');
+				}
 			}
 		}
 
