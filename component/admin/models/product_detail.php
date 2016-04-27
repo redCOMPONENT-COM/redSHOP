@@ -4045,29 +4045,92 @@ class RedshopModelProduct_Detail extends RedshopModel
 	}
 
 	/**
-	 * Method to checkin/unlock the product_detail
+	 * Method to checkin a row.
 	 *
-	 * @access   public
+	 * @param   integer  $pk  The numeric id of the primary key.
 	 *
-	 * @return   boolean    True on success
+	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since    1.5
+	 * @since   1.6
 	 */
-	public function checkin()
+	public function checkin($pks = array())
 	{
-		if ($this->id)
-		{
-			$product_detail = $this->getTable('product_detail');
+		$pks = (array) $pks;
+		$table = $this->getTable('product_detail');
+		$count = 0;
 
-			if (!$product_detail->checkin($this->id))
+		if (empty($pks))
+		{
+			$pks = array((int) $this->getState($this->getName() . '.id'));
+		}
+
+		// Check in all items.
+		foreach ($pks as $pk)
+		{
+			if ($table->load($pk))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				if ($table->checked_out > 0)
+				{
+					if (!$this->doCheckIn($pk))
+					{
+						return false;
+					}
+
+					$count++;
+				}
+			}
+			else
+			{
+				$this->setError($table->getError());
 
 				return false;
 			}
 		}
 
-		return false;
+		return $count;
+	}
+
+	public function doCheckIn($pk = null)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($pk)
+		{
+			$user = JFactory::getUser();
+
+			// Get an instance of the row to checkin.
+			$table = $this->getTable('product_detail');
+
+			if (!$table->load($pk))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// If there is no checked_out or checked_out_time field, just return true.
+			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			{
+				return true;
+			}
+
+			// Check if this is the user having previously checked out the row.
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+
+				return false;
+			}
+
+			// Attempt to check the row in.
+			if (!$table->checkin($pk))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
