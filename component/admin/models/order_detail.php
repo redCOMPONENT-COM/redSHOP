@@ -1204,21 +1204,6 @@ class RedshopModelOrder_detail extends RedshopModel
 		return $db->loadObject();
 	}
 
-	public function send_downloadmail($oid)
-	{
-		$order_functions = new order_functions;
-
-		if ($order_functions->SendDownload($oid))
-		{
-			return true;
-		}
-
-		else
-		{
-			return false;
-		}
-	}
-
 	public function getvar($name)
 	{
 		global $_GET, $_POST;

@@ -345,7 +345,7 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select('*')
+					->select('*, `user_email` as email')
 					->from($db->qn('#__redshop_order_users_info'))
 					->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
