@@ -20,16 +20,13 @@
 	border: solid 1px #ccc;
 }
 
-.pane-sliders .panel h3 {
+.pane-sliders .panel h3, #dashboard-item {
 	background: #fafafa;
 	color: #666;
 	font-size: 1.182em;
 }
 
-h3#dashboard-item {
-	background: #fafafa;
-	color: #666;
-	font-size: 1.182em;
+#dashboard-item {
 	margin: 3px;
 	border: solid 1px #ccc;
 	padding-left: 5px;
