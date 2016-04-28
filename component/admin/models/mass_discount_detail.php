@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::load('RedshopHelperProduct');
 
+JLoader::load('RedshopHelperProduct');
 
 class RedshopModelMass_discount_detail extends RedshopModel
 {
@@ -521,14 +521,6 @@ class RedshopModelMass_discount_detail extends RedshopModel
 				. 'product WHERE published = 1 and product_id =""';
 		}
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
-	}
-
-	public function GetProductList()
-	{
-		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

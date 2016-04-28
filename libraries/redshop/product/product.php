@@ -18,9 +18,26 @@ defined('_JEXEC') or die;
  */
 class RedshopProduct
 {
-	protected $info = null;
+	/**
+	 * Static instance of product Object
+	 *
+	 * @var  array of object
+	 */
+	private static $objInstance = [];
 
-	public function __construct($id)
+	/**
+	 * Product Information
+	 *
+	 * @var  null
+	 */
+	protected $info;
+
+	/**
+	 * Protected product constructor. Must use getInstance() method.
+	 *
+	 * @param  integer  $id  Product Id
+	 */
+	protected function __construct($id)
 	{
 		if (!is_int($id))
 		{
@@ -38,18 +55,90 @@ class RedshopProduct
 		}
 	}
 
-	public function getId()
+	/**
+	 * Returns product instance
+	 *
+	 * @return  object  product Object
+	 */
+	public static function getInstance($id)
+	{
+		if (!array_key_exists($id, self::$objInstance))
+		{
+			self::$objInstance[$id] = new RedshopProduct($id);
+		}
+
+		return self::$objInstance[$id];
+	}
+
+	/**
+	 * Set variables in info
+	 *
+	 * @param  string  $name   Name of information property
+	 * @param  mixed   $value  Value of property
+	 */
+	public function __set($name, $value)
+	{
+		$this->info->$name = $value;
+	}
+
+	/**
+	 * Get product info property
+	 *
+	 * @param   string  $name  Name of property
+	 *
+	 * @return  mixed         value of property
+	 */
+	public function __get($name)
+	{
+		if (isset($this->info->$name))
+		{
+			return $this->info->$name;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Check for property exists
+	 *
+	 * @param   string   $name  Property name
+	 *
+	 * @return  boolean  True if property found
+	 */
+	public function __isset($name)
+	{
+		return property_exists($this->info, $name);
+	}
+
+	/**
+	 * Current product id
+	 *
+	 * @return  integer  Product Id
+	 */
+	public function id()
 	{
 		return (int) $this->info->product_id;
 	}
 
-	public function getName()
+	/**
+	 * Get product name
+	 *
+	 * @return  string  Product Name
+	 */
+	public function name()
 	{
 		return $this->info->product_name;
 	}
 
-	public function getPrice()
+	/**
+	 * Product Price
+	 *
+	 * @todo    Don't use - Under Development
+	 *
+	 * @return  float  Product final price
+	 */
+	public function price()
 	{
-		JLog::add('Don\'t use this function, still under developement.');
+		JLog::add('Don\'t use price() function from ' . __CLASS__ . ', still under developement.');
 	}
 }
