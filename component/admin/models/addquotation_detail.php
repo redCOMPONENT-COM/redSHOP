@@ -534,7 +534,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 	}
 
 
-	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $user_id, $uniqueid = "")
+	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $uniqueid = "")
 	{
 		$producthelper = new producthelper;
 

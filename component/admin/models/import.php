@@ -90,8 +90,6 @@ class RedshopModelImport extends RedshopModel
 	public function importdata()
 	{
 		ob_clean();
-		$thumb   = new thumbnail;
-		$obj_img = new thumbnail_images;
 		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
 
@@ -99,7 +97,6 @@ class RedshopModelImport extends RedshopModel
 		$new_line = JRequest::getVar('new_line');
 		$post = $session->get('ImportPost');
 
-		$files = $session->get('Importfile');
 		$file_name = $session->get('Importfilename');
 
 		/* Load the table model */
@@ -1636,8 +1633,6 @@ class RedshopModelImport extends RedshopModel
 						// Import users
 						if ($post['import'] == 'users')
 						{
-							$app = JFactory::getApplication();
-
 							// Get all shopper group information
 							$this->getShopperGroupInfo();
 
@@ -2275,7 +2270,6 @@ class RedshopModelImport extends RedshopModel
 
 			foreach ($data as $product_data)
 			{
-				$product_id = '';
 				$product_name = addslashes($product_data->product_name);
 				$product_s_desc = $product_data->product_s_desc;
 				$product_number = $product_data->product_sku;
@@ -2293,7 +2287,6 @@ class RedshopModelImport extends RedshopModel
 				$length = $product_data->product_length;
 				$height = $product_data->product_height;
 				$width = $product_data->product_width;
-				$product_unit = $product_data->product_unit;
 				$red_product_id = $product_data->rdp_product_id;
 				$red_product_full_image = $product_data->rdp_product_full_image;
 
@@ -2486,7 +2479,7 @@ class RedshopModelImport extends RedshopModel
 				}
 			}
 
-			$related_product = $this->related_product_sync($vmproarr, $redproarr);
+			$this->related_product_sync($vmproarr, $redproarr);
 			$category_total = $this->Category_sync($product_array);
 
 			JRequest::setVar('category_total', $category_total);
@@ -2834,8 +2827,6 @@ class RedshopModelImport extends RedshopModel
 	public function Orders_insert()
 	{
 		$db = JFactory::getDbo();
-
-		$producthelper = new producthelper;
 		$order_functions = new order_functions;
 
 		$query = "SELECT rui.users_info_id AS rui_users_info_id, vmo . * , rdo.vm_order_number AS rdo_order_number
@@ -3129,7 +3120,6 @@ class RedshopModelImport extends RedshopModel
 
 					if ($vmrelprokey != 0)
 					{
-						$vmrelvalue = $vmproarr[$vmrelprokey];
 						$redrelvalue = $redproarr[$vmrelprokey];
 
 						$query = "INSERT IGNORE INTO `#__redshop_product_related` (`related_id`, `product_id`) VALUES ('" . $redrelvalue . "', '" . $redparent . "')";
@@ -3295,7 +3285,6 @@ class RedshopModelImport extends RedshopModel
 		the application, as well as another 500msec added for rounding
 		error purposes. Also make sure this is never gonna be less than 0.*/
 		$php_max_exec = 20;
-		$minexectime = $php_max_exec;
 
 		list($usec, $sec) = explode(" ", microtime());
 		$micro_time = ((float) $usec + (float) $sec);

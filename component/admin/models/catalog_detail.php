@@ -50,8 +50,6 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$layout = JRequest::getVar('layout', 'default');
-
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog WHERE catalog_id=' . $this->_id;
@@ -67,8 +65,6 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 	public function _initData()
 	{
-		$layout = JRequest::getVar('layout', 'default');
-
 		if (empty($this->_data))
 		{
 			$detail = new stdClass;
@@ -109,8 +105,6 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$layout = JRequest::getVar('layout');
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -132,8 +126,6 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 	public function publish($cid = array(), $publish = 1)
 	{
-		$layout = JRequest::getVar('layout');
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);

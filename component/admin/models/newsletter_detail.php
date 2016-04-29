@@ -235,7 +235,6 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 		$return = array();
 		$qs = array();
-		$j = 0;
 
 		for ($d = 0, $dn = count($data); $d < $dn; $d++)
 		{

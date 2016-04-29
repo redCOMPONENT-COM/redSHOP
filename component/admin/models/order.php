@@ -238,9 +238,7 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function gls_export($cid)
 	{
-		$db          = JFactory::getDbo();
 		$orderHelper = new order_functions;
-		$shipping    = new shipping;
 
 		ob_clean();
 
@@ -330,9 +328,7 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function business_gls_export($cid)
 	{
-		$db          = JFactory::getDbo();
 		$orderHelper = new order_functions;
-		$shipping    = new shipping;
 		$extraField  = new extraField;
 
 		ob_clean();

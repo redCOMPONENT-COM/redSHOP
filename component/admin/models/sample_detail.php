@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelSample_detail extends RedshopModel
 {
 	public $_id = null;
@@ -107,7 +106,7 @@ class RedshopModelSample_detail extends RedshopModel
 			{
 				$h = 0;
 
-				foreach ($data["colour_id"] as $cp)
+				foreach ($data["colour_id"])
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "catalog_colour "
 						. "(sample_id,code_image,is_image) "
