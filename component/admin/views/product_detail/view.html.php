@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,8 +38,6 @@ class RedshopViewProduct_Detail extends RedshopView
 	public $producthelper;
 
 	public $dispatcher;
-
-	public $option;
 
 	/**
 	 * Execute and display a template script.
@@ -87,7 +85,7 @@ class RedshopViewProduct_Detail extends RedshopView
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
-			$app->redirect('index.php?option=com_redshop', $msg);
+			$app->redirect('index.php?option=com_redshop&view=product', $msg);
 		}
 
 		// Check redproductfinder is installed

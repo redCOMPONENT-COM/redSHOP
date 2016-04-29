@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -132,10 +132,10 @@ if ($flage) : ?>
 				</tr>
 				</tbody>
 			</table>
-			<input type="hidden" name="view" value="wishlist"/>
-			<input type="hidden" name="boxchecked" value=""/>
-			<input type="hidden" name="option" value="com_redshop"/>
-			<input type="hidden" name="task" value="savewishlist"/>
+			<input type="hidden" name="view" value="wishlist" />
+			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="option" value="com_redshop" />
+			<input type="hidden" name="task" value="savewishlist" />
 		</form>
 	</div>
 

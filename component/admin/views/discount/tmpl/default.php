@@ -3,13 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -30,13 +30,33 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 		form.submit();
 	}
+	
+	resetfilter = function()
+	{
+		document.getElementById('discount_type').value = 'select';
+		document.getElementById('name_filter').value = '';
+		document.getElementById('spgrpdis_filter').value = '0';
+		document.adminForm.submit();
+	}
 
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input type="text" name="name_filter" id="name_filter" value="<?php echo $this->state->get('name_filter'); ?>"
+					 onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_NAME'); ?>">
+				<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
+				<button class="btn" onclick="resetfilter();"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
+			</div>
+		</div>
 		<div class="filterItem">
 			<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
 			: <?php echo $this->lists ['shopper_group']; ?>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_DISCOUNT_TYPE'); ?>:
+			<?php echo $this->lists['discount_type']; ?>
 		</div>
 		<table class="adminlist table table-striped">
 			<thead>
@@ -46,6 +66,9 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+				</th>
+				<th>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_NAME', 'name', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_AMOUNT', 'amount', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -86,6 +109,11 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 					</td>
 					<td align="center">
 						<?php echo JHTML::_('grid.id', $i, $row->id); ?>
+					</td>
+					<td align="center">
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_DISCOUNT'); ?>">
+							<?php echo $row->name; ?>
+						</a>
 					</td>
 					<td align="center">
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_DISCOUNT'); ?>">

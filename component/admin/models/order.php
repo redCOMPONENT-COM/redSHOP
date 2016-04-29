@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,6 +67,7 @@ class RedshopModelOrder extends RedshopModel
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);
 		$this->setState('filter_status', $filter_status);
+		$this->setState('filter_payment_status', $filter_payment_status);
 		$this->setState('filter_from_date', $filter_from_date);
 		$this->setState('filter_to_date', $filter_to_date);
 
@@ -248,22 +249,22 @@ class RedshopModelOrder extends RedshopModel
 
 		$ordersInfo = $this->getOrdersDetail($cid);
 
-		for ($i = 0; $i < count($ordersInfo); $i++)
+		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
-			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($ordersInfo[$i]->ship_method_id);
 
 			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
-				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
-				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
+				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
+				$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
 				$totalWeight = 0;
 
-				for ($c = 0; $c < count($orderproducts); $c++)
+				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
-					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
+					$weight      = (float) $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * (float)$orderproducts[$c]->product_quantity);
 				}
 
 				$parceltype = 'A';
@@ -300,18 +301,13 @@ class RedshopModelOrder extends RedshopModel
 					$userDetail = array(
 						$shippingDetails->firstname . ' ' . $shippingDetails->lastname,
 						substr($ordersInfo[$i]->customer_note, 0, 29),		// GLS only support max 29 characters
-						'36515',
+						Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
 						$billingDetails->user_email,
 						$userphoneArr[1]
 					);
 				}
 
-				$row = array_merge($row, $userDetail);
-
-				for ($i = 0; $i < count($row); $i++)
-				{
-					$row[$i] = utf8_decode($row[$i]);
-				}
+				$row = array_map('utf8_decode', array_merge($row, $userDetail));
 
 				// Output CSV line
 				fputcsv($outputCsv, $row);
@@ -346,22 +342,22 @@ class RedshopModelOrder extends RedshopModel
 
 		$ordersInfo = $this->getOrdersDetail($cid);
 
-		for ($i = 0; $i < count($ordersInfo); $i++)
+		for ($i = 0, $in = count($ordersInfo); $i < $in; $i++)
 		{
-			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $ordersInfo[$i]->ship_method_id)));
+			$details = RedshopShippingRate::decrypt($ordersInfo[$i]->ship_method_id);
 
 			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
-				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
-				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
+				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
+				$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
 				$totalWeight = 0;
 
-				for ($c = 0; $c < count($orderproducts); $c++)
+				for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 				{
-					$weight      = $this->getProductWeight($orderproducts[$c]->product_id);
-					$totalWeight += ($weight * $orderproducts[$c]->product_quantity);
+					$weight      = (float) $this->getProductWeight($orderproducts[$c]->product_id);
+					$totalWeight += ($weight * (float) $orderproducts[$c]->product_quantity);
 				}
 
 				// Initialize row
@@ -372,7 +368,7 @@ class RedshopModelOrder extends RedshopModel
 				$extraFieldData = $extraField->getSectionFieldList(19, 1);
 				$extraInfo      = array();
 
-				for ($j = 0; $j < count($extraFieldData); $j++)
+				for ($j = 0, $jn = count($extraFieldData); $j < $jn; $j++)
 				{
 					$extraFieldResult = $extraField->getSectionFieldDataList($extraFieldData[$j]->field_id, 19, $ordersInfo[$i]->order_id);
 
@@ -392,14 +388,14 @@ class RedshopModelOrder extends RedshopModel
 					'A',
 					'A',
 					$billingDetails->firstname . ' ' . $billingDetails->lastname,
-					$shippingDetails->customer_note,
+					$ordersInfo[$i]->customer_note,
 					'',
-					$ordersInfo[$i]->phone
+					$shippingDetails->phone
 				);
 
 				$row = array_merge($row, $extraInfo, $rowAppend);
 
-				for ($i = 0; $i < count($row); $i++)
+				for ($i = 0, $in = count($row); $i < $in; $i++)
 				{
 					$row[$i] = utf8_decode($row[$i]);
 				}
@@ -452,13 +448,6 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function getProductWeight($productId)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_product'))
-				->where($db->qn('product_id') . ' = ' . (int) $productId);
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return RedshopHelperProduct::getProductById($productId)->weight;
 	}
 }

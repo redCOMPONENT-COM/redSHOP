@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -344,7 +344,7 @@ class RedshopModelNewsletter extends RedshopModel
 		$data = $this->_db->loadObjectlist();
 		$userid = array();
 
-		for ($d = 0; $d < count($data); $d++)
+		for ($d = 0, $dn = count($data); $d < $dn; $d++)
 		{
 			$userid[] = $data[$d]->user_id;
 		}
@@ -414,7 +414,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 		$product_id_list = $this->getProductIdList();
 
-		for ($i = 0; $i < count($product_id_list); $i++)
+		for ($i = 0, $in = count($product_id_list); $i < $in; $i++)
 		{
 			$product_id = $product_id_list[$i]->product_id;
 
@@ -467,7 +467,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 		$retsubscriberid = array();
 
-		for ($j = 0; $j < count($cid); $j++)
+		for ($j = 0, $jn = count($cid); $j < $jn; $j++)
 		{
 			$subscriberinfo = $this->subscribersinfo($cid[$j]);
 

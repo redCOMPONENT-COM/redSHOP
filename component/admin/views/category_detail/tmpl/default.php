@@ -3,13 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminImages');
-
+JHTMLBehavior::modal();
 JHTML::_('behavior.tooltip');
 $editor        = JFactory::getEditor();
 $uri           = JURI::getInstance();
@@ -17,6 +17,7 @@ $url           = $uri->root();
 JHTML::_('behavior.calendar');
 $producthelper = new producthelper;
 JText::script('COM_REDSHOP_DELETE');
+
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -28,7 +29,7 @@ JText::script('COM_REDSHOP_DELETE');
 		if (form.category_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_ITEM_MUST_HAVE_A_NAME', true ); ?>");
 		}
-		else if ((form.category_template.value == "0" || form.category_template.value == "" ) && !<?php echo CATEGORY_TEMPLATE;?>) {
+		else if ((form.category_template.value == "0" || form.category_template.value == "" ) && !<?php echo Redshop::getConfig()->get('CATEGORY_TEMPLATE');?>) {
 			alert("<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE', true ); ?>");
 		}
 		else {
@@ -132,7 +133,8 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 		<td><?php
 			$fileExists = false;
 
-			if ($this->detail->category_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
+			if ($this->detail->category_full_image
+				&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
 			{
 				$fileExists = true;
 			}
@@ -140,8 +142,11 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 			$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
 			$image_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $this->detail->category_full_image;    ?>
 			<div class="button2-left">
-				<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
-				                      rel="{handler: 'iframe', size: {x: 490, y: 400}}">Image</a></div>
+				<div class="image">
+					<a class="modal" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
+						<?php echo JText::_('COM_REDSHOP_IMAGE'); ?>
+					</a>
+				</div>
 			</div>
 			<div id="image_dis">
 				<?php if ($fileExists): ?>
@@ -394,7 +399,7 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 
 					$accessory_product = $this->lists['categroy_accessory_product'];
 
-					for ($f = 0; $f < count($accessory_product); $f++)
+					for ($f = 0, $fn = count($accessory_product); $f < $fn; $f++)
 					{
 						$accessory_main_price = 0;
 						if ($accessory_product[$f]->product_id && $accessory_product[$f]->accessory_id)

@@ -3,12 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getCmd('option', 'com_redshop', 'request', 'string');
 $import_start = JRequest::getInt('import_start', 0);
 $import_end = JRequest::getInt('import_end', 10);
 if (isset($post['import_start']))
@@ -82,6 +81,7 @@ if (isset($post['import_end']))
 			}
 		};
 		xmlhttp.open("GET", url, true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 </script>

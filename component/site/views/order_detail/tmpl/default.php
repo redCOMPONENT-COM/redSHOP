@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -94,7 +94,7 @@ $arr_discount_type = array();
 $arr_discount      = explode('@', $OrdersDetail->discount_type);
 $discount_type     = '';
 
-for ($d = 0; $d < count($arr_discount); $d++)
+for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 {
 	if ($arr_discount[$d])
 	{

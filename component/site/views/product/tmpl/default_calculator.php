@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,7 +65,7 @@ switch ($calcMethod)
 $pdc_extra_output = "";
 $pdc_extra_datas  = $rsCarthelper->getDiscountCalcDataExtra("", $this->data->product_id);
 
-for ($p = 0; $p < count($pdc_extra_datas); $p++)
+for ($p = 0, $pn = count($pdc_extra_datas); $p < $pn; $p++)
 {
 	$pdc_extra_data = $pdc_extra_datas[$p];
 	$option_name    = $pdc_extra_data->option_name;

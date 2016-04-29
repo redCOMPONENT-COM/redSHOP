@@ -11,7 +11,7 @@
  *
  * @package    RedSHOP.Backend
  *
- * @copyright  Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -147,13 +147,13 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 	JRequest::setVar('view', $view);
 }
 
-RedshopConfig::script('SITE_URL', JURI::root());
-RedshopConfig::script('REDCURRENCY_SYMBOL', REDCURRENCY_SYMBOL);
-RedshopConfig::script('PRICE_SEPERATOR', PRICE_SEPERATOR);
-RedshopConfig::script('CURRENCY_SYMBOL_POSITION', CURRENCY_SYMBOL_POSITION);
-RedshopConfig::script('PRICE_DECIMAL', PRICE_DECIMAL);
-RedshopConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
-RedshopConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
+RedshopHelperConfig::script('SITE_URL', JURI::root());
+RedshopHelperConfig::script('REDCURRENCY_SYMBOL', REDCURRENCY_SYMBOL);
+RedshopHelperConfig::script('PRICE_SEPERATOR', PRICE_SEPERATOR);
+RedshopHelperConfig::script('CURRENCY_SYMBOL_POSITION', CURRENCY_SYMBOL_POSITION);
+RedshopHelperConfig::script('PRICE_DECIMAL', PRICE_DECIMAL);
+RedshopHelperConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
+RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
 JText::script('COM_REDSHOP_IS_REQUIRED');
 
 $document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
@@ -189,7 +189,7 @@ if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task !
 		&& $view != "shopper_group_detail" && $view != "sample_detail" && $view != "attributeprices"
 		&& $view != "attributeprices_detail" && $view != "prices_detail" && $view != "wrapper_detail"
 		&& $view != "tax_group_detail" && $view != "addorder_detail" && $view != "tax_detail"
-		&& $view != "coupon_detail" && $view != "giftcard_detail" && $view != "attribute_set_detail"
+		&& $view != "coupon_detail" && $view != "giftcard" && $view != "attribute_set_detail"
 		&& $view != 'shipping_box_detail' && $view != 'quotation_detail'
 		&& $view != 'question_detail' && $view != 'answer_detail'
 		&& $view != 'xmlimport_detail' && $view != 'addquotation_detail'

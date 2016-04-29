@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -101,7 +101,7 @@ $cart      = $session->get('cart');
 				$shippingaddresses = $model->shippingaddresses();
 				$add_addlink = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
 
-				for ($i = 0; $i < count($shippingaddresses); $i++)
+				for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++)
 				{
 					if ($this->users_info_id != "")
 					{

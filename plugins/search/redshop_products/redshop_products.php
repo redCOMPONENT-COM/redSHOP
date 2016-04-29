@@ -9,16 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminConfiguration');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperUser');
-
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
 
 class plgSearchRedshop_products extends JPlugin
 {
@@ -33,6 +26,12 @@ class plgSearchRedshop_products extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
+
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+		JLoader::load('RedshopHelperAdminConfiguration');
+		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration->defineDynamicVars();
+
 		$this->loadLanguage();
 	}
 
@@ -75,26 +74,17 @@ class plgSearchRedshop_products extends JPlugin
 			}
 		}
 
-		$db = JFactory::getDbo();
-
-		// Load plugin params info
-		$pluginParams = $this->params;
-
-		$limit = $pluginParams->def('search_limit', 50);
-
-		$text  = trim($text);
+		$db      = JFactory::getDbo();
+		$text    = trim($text);
 
 		if ($text == '')
 		{
 			return array();
 		}
 
-		$section    = '';
-
-		if ($this->params->get('showSection'))
-		{
-			$section = JText::_('PLG_SEARCH_REDSHOP_PRODUCTS');
-		}
+		$section         = ($this->params->get('showSection')) ? JText::_('PLG_SEARCH_REDSHOP_PRODUCTS') : '';
+		$searchShortDesc = $this->params->get('searchShortDesc', 0);
+		$searchFullDesc  = $this->params->get('searchFullDesc', 0);
 
 		// Prepare Extra Field Query.
 		$extraQuery = $db->getQuery(true)
@@ -122,7 +112,7 @@ class plgSearchRedshop_products extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text = $db->Quote('%' . $text . '%', false);
+				$text = $db->Quote('%' . $db->escape($text, true) . '%', false);
 
 				// Also search in Extra Field Data
 				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
@@ -131,6 +121,16 @@ class plgSearchRedshop_products extends JPlugin
 				$wheres = array();
 				$wheres[] = $db->qn('product_name') . ' LIKE ' . $text;
 				$wheres[] = $db->qn('product_number') . ' LIKE ' . $text;
+
+				if ($searchShortDesc)
+				{
+					$wheres[] = $db->qn('product_s_desc') . ' LIKE ' . $text;
+				}
+
+				if ($searchFullDesc)
+				{
+					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $text;
+				}
 
 				$where = '('
 					. implode(' OR ', $wheres)
@@ -150,11 +150,21 @@ class plgSearchRedshop_products extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->Quote('%' . $word . '%', false);
+					$word = $db->Quote('%' . $db->escape($word, true) . '%', false);
 
 					$ors = array();
 					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;
 					$ors[] = $db->qn('product_number') . ' LIKE ' . $word;
+
+					if ($searchShortDesc)
+					{
+						$ors[] = $db->qn('product_s_desc') . ' LIKE ' . $word;
+					}
+
+					if ($searchFullDesc)
+					{
+						$ors[] = $db->qn('product_desc') . ' LIKE ' . $word;
+					}
 
 					$wheres[] = implode(' OR ', $ors);
 
@@ -213,7 +223,7 @@ class plgSearchRedshop_products extends JPlugin
 		$query->where($db->qn('published') . ' = 1');
 
 		// Set the query and load the result.
-		$db->setQuery($query, 0, $limit);
+		$db->setQuery($query, 0, $this->params->def('search_limit', 50));
 
 		try
 		{

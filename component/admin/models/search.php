@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -494,7 +494,7 @@ class RedshopModelSearch extends RedshopModel
 			$rows = $this->_db->loadObjectList();
 			$article = array();
 
-			for ($j = 0; $j < count($rows); $j++)
+			for ($j = 0, $jn = count($rows); $j < $jn; $j++)
 			{
 				if ($rows[$j]->sectionid != 0 && $rows[$j]->catid != 0)
 				{

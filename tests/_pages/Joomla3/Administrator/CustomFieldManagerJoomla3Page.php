@@ -39,7 +39,7 @@ class CustomFieldManagerJoomla3Page
 
 	public static $fieldStatePath = "//div[@id='editcell']/table/tbody/tr[1]/td[8]/a";
 
-	public static $optionValueField = "//input[@id='extra_value[]']";
+	public static $optionValueField = "//input[@name='extra_value[]']";
 
 	/**
 	 * Function to get the path for Field Type

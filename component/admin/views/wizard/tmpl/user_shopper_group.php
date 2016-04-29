@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -46,9 +46,7 @@ $url = $uri->root();
 			?></td>
 		<td><input type="text" name="default_portal_name"
 		           id="default_portal_name"
-		           value="<?php
-		           echo DEFAULT_PORTAL_NAME;
-		           ?>"/>
+		           value="<?php echo Redshop::getConfig()->get('DEFAULT_PORTAL_NAME'); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -71,18 +69,8 @@ $url = $uri->root();
 
 			?></td>
 	</tr>
-	<!--<tr>
-		<td width="100" align="right" class="key">
-		<?php
-		echo JText::_('COM_REDSHOP_SHOPPER_GROUP_DEFAULT_TAX_EXEMPT_LBL' );
-		?></td>
-		<td><?php
-		echo $this->lists ['shopper_group_default_tax_exempt'];
-
-		?></td>
-	</tr>
-	-->
 	<tr>
+		<?php $DEFAULT_PORTAL_LOGO =  Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO'); ?>
 		<td width="100" align="right" class="key">
 			<?php
 			echo JText::_('COM_REDSHOP_DEFAULT_PORTAL_LOGO_LBL');
@@ -92,25 +80,25 @@ $url = $uri->root();
 			            id="default_portal_logo" size="57"/> <input type="hidden"
 			                                                        name="default_portal_logo_tmp"
 			                                                        value="<?php
-			                                                        echo DEFAULT_PORTAL_LOGO;
+			                                                        echo $DEFAULT_PORTAL_LOGO;
 			                                                        ?>"/></div>
 			<?php
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO))
+			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO))
 			{
 				?>
 				<div><a class="modal"
 				        href="<?php
-				        echo REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO;
+				        echo REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO;
 				        ?>"
 				        title="<?php
-				        echo DEFAULT_PORTAL_LOGO;
+				        echo $DEFAULT_PORTAL_LOGO;
 				        ?>"
 				        rel="{handler: 'image', size: {}}"> <img width="100" height="100"
 				                                                 alt="<?php
-				                                                 echo DEFAULT_PORTAL_LOGO;
+				                                                 echo $DEFAULT_PORTAL_LOGO;
 				                                                 ?>"
 				                                                 src="<?php
-				                                                 echo REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO;
+				                                                 echo REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO;
 				                                                 ?>"/></a></div>
 			<?php
 			}

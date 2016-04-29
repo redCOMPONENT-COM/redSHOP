@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php    echo JText::_('COM_REDSHOP_CURRENCY_SYMBOL');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="currency_symbol" id="currency_symbol" value="<?php echo REDCURRENCY_SYMBOL; ?>">
+			<input type="text" name="currency_symbol" id="currency_symbol" value="<?php echo $this->config->get('REDCURRENCY_SYMBOL'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -48,7 +48,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php    echo JText::_('COM_REDSHOP_PRICE_SEPERATOR_LBL');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="price_seperator" id="price_seperator" value="<?php echo PRICE_SEPERATOR; ?>">
+			<input type="text" name="price_seperator" id="price_seperator" value="<?php echo $this->config->get('PRICE_SEPERATOR'); ?>">
 		</td>
 	</tr>
 
@@ -60,7 +60,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="thousand_seperator" id="thousand_seperator"
-			       value="<?php echo THOUSAND_SEPERATOR; ?>">
+			       value="<?php echo $this->config->get('THOUSAND_SEPERATOR'); ?>">
 		</td>
 	</tr>
 
@@ -71,7 +71,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php echo JText::_('COM_REDSHOP_PRICE_DECIMAL_LBL');?></label></span>
 		</td>
 		<td>
-			<input type="text" name="price_decimal" id="price_decimal" value="<?php echo PRICE_DECIMAL; ?>">
+			<input type="text" name="price_decimal" id="price_decimal" value="<?php echo $this->config->get('PRICE_DECIMAL'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -82,7 +82,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="calculation_price_decimal" id="calculation_price_decimal"
-			       value="<?php echo CALCULATION_PRICE_DECIMAL; ?>">
+			       value="<?php echo $this->config->get('CALCULATION_PRICE_DECIMAL'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -136,19 +136,6 @@ defined('_JEXEC') or die;
 		</td>
 		<td><?php echo $this->lists ['show_price'];?></td>
 	</tr>
-	<!--<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'SHOW_PRICE_SHOPPER_GROUP_LBL' ); ?>::<?php echo JText::_( 'COM_REDSHOP_TOOLTIP_SHOW_PRICE_SHOPPER_GROUP_LBL' ); ?>">
-		<label for="showprice"><?php echo JText::_ ( 'SHOW_PRICE_SHOPPER_GROUP_LBL' );?></label>
-		</td>
-		<td>
-		<?php
-			//echo $this->lists ['show_price_shopper_group_list'];
-			//echo $this->lists ['show_price_user_group_list'];
-		?>
-		</td>
-	</tr>
-	-->
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
@@ -157,7 +144,7 @@ defined('_JEXEC') or die;
 		</span>
 		</td>
 		<td>
-			<input type="text" name="price_replacement" id="price_replacement" value="<?php echo PRICE_REPLACE; ?>">
+			<input type="text" name="price_replacement" id="price_replacement" value="<?php echo $this->config->get('PRICE_REPLACE'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -168,7 +155,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="price_replacement_url" id="price_replacement_url"
-			       value="<?php echo PRICE_REPLACE_URL; ?>">
+			       value="<?php echo $this->config->get('PRICE_REPLACE_URL'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -179,7 +166,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="zero_price_replacement" id="zero_price_replacement"
-			       value="<?php echo ZERO_PRICE_REPLACE; ?>">
+			       value="<?php echo $this->config->get('ZERO_PRICE_REPLACE'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -190,7 +177,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="zero_price_replacement_url" id="zero_price_replacement_url"
-			       value="<?php echo ZERO_PRICE_REPLACE_URL; ?>">
+			       value="<?php echo $this->config->get('ZERO_PRICE_REPLACE_URL'); ?>">
 		</td>
 	</tr>
 </table>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -48,6 +48,7 @@ JText::script('COM_REDSHOP_ADD_SUB_ATTRIBUTE');
 JText::script('COM_REDSHOP_PARAMETER');
 JText::script('COM_REDSHOP_PROPERTY_NUMBER');
 JText::script('COM_REDSHOP_DO_WANT_TO_DELETE');
+JText::script('COM_REDSHOP_ALERT_PRESELECTED_CHECK');
 ?>
 
 <div class="row-fluid mainTableAttributes" id="mainTableAttributes">
@@ -197,7 +198,7 @@ if ($data->lists['attributes'])
 						   value="<?php echo $property->ordering; ?>"/>
 				</div>
 				<div class="span2">
-					<label class="checkbox inline"><?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
+					<label class="checkbox inline" name="<?php echo $propPref; ?>[preselected]"><?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
 						<input type="checkbox" value="1"
 							   name="<?php echo $propPref; ?>[default_sel]"
 							<?php echo ($property->setdefault_selected == 1) ? 'checked="checked"' : ''; ?> />

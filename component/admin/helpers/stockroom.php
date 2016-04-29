@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -542,7 +542,7 @@ class rsstockroomhelper
 		{
 			$list = $this->getStockroomAmountDetailList($section_id, $section);
 
-			for ($i = 0; $i < count($list); $i++)
+			for ($i = 0, $in = count($list); $i < $in; $i++)
 			{
 				if ($list[$i]->quantity < $quantity)
 				{
@@ -581,7 +581,7 @@ class rsstockroomhelper
 				if ($product_data->preorder == "yes" || ($product_data->preorder == "global" && ALLOW_PRE_ORDER)
 					|| ($product_data->preorder == "" && ALLOW_PRE_ORDER))
 				{
-					for ($i = 0; $i < count($preorder_list); $i++)
+					for ($i = 0, $in = count($preorder_list); $i < $in; $i++)
 					{
 						if ($preorder_list[$i]->preorder_stock < $quantity)
 						{
@@ -715,7 +715,7 @@ class rsstockroomhelper
 			$stockId = explode(",", $stockroom_id);
 			$stock_Qty = explode(",", $quantity);
 
-			for ($i = 0; $i < count($stockId); $i++)
+			for ($i = 0, $in = count($stockId); $i < $in; $i++)
 			{
 				if ($stockId[$i] != "" && $section_id != "" && $section_id != 0)
 				{
@@ -748,7 +748,7 @@ class rsstockroomhelper
 			{
 				$list = $this->getStockroomAmountDetailList($section_id, $section);
 
-				for ($i = 0; $i < count($list); $i++)
+				for ($i = 0, $in = count($list); $i < $in; $i++)
 				{
 					$productinstock .= "<div><span>" . $list[$i]->stockroom_name . "</span>:<span>" . $list[$i]->quantity . "</span></div>";
 				}

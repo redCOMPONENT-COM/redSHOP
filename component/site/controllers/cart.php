@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -116,7 +116,7 @@ class RedshopControllerCart extends RedshopController
 					$acc_property_data    = explode("@@", $data['acc_property_data']);
 					$acc_subproperty_data = explode("@@", $data['acc_subproperty_data']);
 
-					for ($i = 0; $i < count($accessory_data); $i++)
+					for ($i = 0, $in = count($accessory_data); $i < $in; $i++)
 					{
 						$accessory = $producthelper->getProductAccessory($accessory_data[$i]);
 						$cartData = array();
@@ -353,7 +353,15 @@ class RedshopControllerCart extends RedshopController
 		if ($valid)
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
-			$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
+			
+			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
+			{
+				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+			}
+			else
+			{
+				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
+			}
 		}
 		else
 		{
@@ -388,7 +396,15 @@ class RedshopControllerCart extends RedshopController
 			$this->_carthelper->cartFinalCalculation(false);
 
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $Itemid, false);
-			$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
+			
+			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
+			{
+				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+			}
+			else
+			{
+				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
+			}
 		}
 		else
 		{

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,23 +59,18 @@ class RedshopViewVoucher_detail extends RedshopView
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$model = $this->getModel('voucher_detail');
 
-		$products_list = $model->voucher_products_sel($detail->voucher_id);
-
-		if (count($products_list) > 0)
-		{
-			$result_container = $products_list;
-		}
-		else
-		{
-			$result_container = array();
-		}
-
-		$lists['voucher_product'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
-			array(
-				'select2.ajaxOptions' => array('typeField' => ', alert:"voucher", voucher_id:' . $detail->voucher_id),
-				'select2.options' => array('multiple' => true)
-			)
-		);
+		$lists['voucher_product'] = JHTML::_(
+									'redshopselect.search',
+									$model->voucher_products_sel($detail->voucher_id),
+									'container_product',
+									array(
+										'select2.ajaxOptions' => array(
+											'typeField' => ', alert:"voucher", voucher_id:' . $detail->voucher_id
+										),
+										'select2.options' => array('multiple' => true),
+										'list.attr' => array('required' => 'required')
+									)
+								);
 
 		$result = array();
 		$this->lists = $lists;

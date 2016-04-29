@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+
 $filter = JRequest::getVar('filter');
 ?>
 <script language="javascript" type="text/javascript">
@@ -32,7 +32,18 @@ $filter = JRequest::getVar('filter');
 	}
 </script>
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
+<form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
+	<table width="100%">
+		<tr>
+			<td valign="top" class="key">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+						placeholder="<?php echo JText::_('COM_REDSHOP_CURRENCY_FILTER'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				</div>
+			</td>
+		</tr>
+	</table>
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>

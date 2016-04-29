@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class RedshopViewFields_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$extra_field = new extra_field;
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL'), 'redshop_fields48');
 
@@ -68,10 +68,7 @@ class RedshopViewFields_detail extends RedshopView
 
 		$lists['required'] = JHTML::_('select.booleanlist', 'required', 'class="inputbox"', $detail->required);
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'field_type',
-			'class="inputbox" size="1" onchange="field_select(this.value)" ',
-			'value', 'text', $detail->field_type
-		);
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'field_type', '', 'value', 'text', $detail->field_type);
 
 		$disable = "";
 

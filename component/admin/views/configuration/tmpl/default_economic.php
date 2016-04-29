@@ -3,18 +3,17 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 $order_functions = new order_functions;
 $style = "none";
-if (ECONOMIC_INVOICE_DRAFT == 2)
+if ($this->config->get('ECONOMIC_INVOICE_DRAFT') == 2)
 {
 	$style = "";
 }
-defined('BOOKING_ORDER_STATUS') ? BOOKING_ORDER_STATUS : define('BOOKING_ORDER_STATUS', '0');
 ?>
 <table class="admintable">
 	<tr>
@@ -47,7 +46,7 @@ defined('BOOKING_ORDER_STATUS') ? BOOKING_ORDER_STATUS : define('BOOKING_ORDER_S
 			?>
 		</label></span></td>
 		<td><?php echo $this->lists ['economic_invoice_draft'];    ?>&nbsp;&nbsp;<span id="booking_order_status"
-		                                                                               style="display: <?php echo $style ?>;"><?php echo $order_functions->getstatuslist('booking_order_status', BOOKING_ORDER_STATUS, "class=\"inputbox\" size=\"1\" ");?></span>
+		                                                                               style="display: <?php echo $style ?>;"><?php echo $order_functions->getstatuslist('booking_order_status', $this->config->get('BOOKING_ORDER_STATUS'), "class=\"inputbox\" size=\"1\" ");?></span>
 		</td>
 	</tr>
 	<tr>
@@ -57,31 +56,6 @@ defined('BOOKING_ORDER_STATUS') ? BOOKING_ORDER_STATUS : define('BOOKING_ORDER_S
 		<label for="name"><?php echo JText::_('COM_REDSHOP_ECONOMIC_BOOK_INVOICE_NUMBER_LBL');?></label></span></td>
 		<td><?php echo $this->lists ['economic_book_invoice_number'];    ?></td>
 	</tr>
-	<?php /*?>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip" title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ECONMOMIC_TAX_ZONE_LBL' ); ?>::<?php echo JText::_('COM_REDSHOP_ECONMOMIC_TAX_ZONE_LBL' ); ?>">
-		<label for="name">
-<?php
-echo JText::_('COM_REDSHOP_ECONMOMIC_TAX_ZONE_LBL' );
-?>
-</label></td>
-		<td><?php
-		echo $this->lists ['economic_tax_zone'];
-		?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key"><?php
-		echo JText::_('COM_REDSHOP_ECONOMIC_INVOICE_LAYOUTID_VAT_LBL' );
-		?></td>
-		<td><input type="text" name="economic_invoice_layoutid_vat"
-			id="economic_invoice_layoutid_vat"
-			value="<?php
-			echo ECONOMIC_INVOICE_LAYOUTID_VAT;
-			?>"
-			size="32">
-		</td>
-	</tr><?php */?>
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"

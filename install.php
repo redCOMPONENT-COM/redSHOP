@@ -788,7 +788,7 @@ class Com_RedshopInstallerScript
 
 		if (!defined("REQUESTQUOTE_IMAGE"))
 		{
-			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.gif';
+			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.png';
 		}
 
 		if (!defined("REQUESTQUOTE_BACKGROUND"))
@@ -922,6 +922,18 @@ class Com_RedshopInstallerScript
 		}
 
 		$Redconfiguration->manageCFGFile($cfgarr);
+
+		// Store new config file using existing config files.
+		try
+		{
+			Redshop::getConfig()->loadLegacy();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
 	}
 
 	/**
@@ -1217,6 +1229,20 @@ class Com_RedshopInstallerScript
 	{
 		$folders = array();
 		$files   = array();
+
+		if (version_compare($this->getOldParam('version'), '1.6', '>='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php',
+				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml'
+			);
+
+			array_push(
+				$folders,
+				JPATH_LIBRARIES . '/redshop/config'
+			);
+		}
 
 		if (version_compare($this->getOldParam('version'), '1.5.0.5.3', '<='))
 		{

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -90,7 +90,7 @@ defined('_JEXEC') or die;
 							type="text"
 							name="first_invoice_number"
 							id="first_invoice_number"
-						    value="<?php echo FIRST_INVOICE_NUMBER; ?>"
+						    value="<?php echo $this->config->get('FIRST_INVOICE_NUMBER'); ?>"
 						>
 					</td>
 				</tr>
@@ -110,7 +110,7 @@ defined('_JEXEC') or die;
 							type="text"
 							name="invoice_number_template"
 							id="invoice_number_template"
-						    value="<?php echo INVOICE_NUMBER_TEMPLATE; ?>"
+						    value="<?php echo $this->config->get('INVOICE_NUMBER_TEMPLATE'); ?>"
 						>
 					</td>
 				</tr>
@@ -130,7 +130,7 @@ defined('_JEXEC') or die;
 							type="text"
 							name="real_invoice_number_template"
 							id="real_invoice_number_template"
-						    value="<?php echo REAL_INVOICE_NUMBER_TEMPLATE; ?>"
+						    value="<?php echo $this->config->get('REAL_INVOICE_NUMBER_TEMPLATE'); ?>"
 						>
 					</td>
 				</tr>
@@ -151,7 +151,7 @@ defined('_JEXEC') or die;
 								'redshopselect.booleanlist',
 								'invoice_number_for_free_order',
 								'',
-								INVOICE_NUMBER_FOR_FREE_ORDER
+								$this->config->get('INVOICE_NUMBER_FOR_FREE_ORDER')
 							);
 						?>
 					</td>

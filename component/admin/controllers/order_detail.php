@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$text_field = JRequest::getVar('text_field', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["text_field"] = $text_field;
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -60,7 +60,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -82,7 +82,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
@@ -99,7 +99,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$tmpl = $post['tmpl'];
 		}
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$order_item_id = JRequest::getVar('order_item_id', 0, 'post', '');
@@ -172,7 +172,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function delete_item()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel('order_detail');
@@ -205,7 +205,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function updateItem()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel('order_detail');
@@ -225,7 +225,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function update_discount()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel('order_detail');
@@ -245,7 +245,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function special_discount()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel('order_detail');
@@ -265,7 +265,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function update_shippingrates()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel('order_detail');
@@ -317,7 +317,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function updateBillingAdd()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['order_id'] = $cid[0];
@@ -346,30 +346,28 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function createpdf()
 	{
-		$view = $this->getView('order_detail', 'tcpdf');
+		$this->getView('order_detail', 'tcpdf');
 		parent::display();
 	}
 
 	public function createpdfstocknote()
 	{
-		$view = $this->getView('order_detail', 'stocknotepdf');
+		$this->getView('order_detail', 'stocknotepdf');
 		parent::display();
 	}
 
 	public function send_downloadmail()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'get', 'array');
+		$cid  = JRequest::getVar('cid', array(0), 'get', 'array');
 		$tmpl = JRequest::getVar('tmpl', '', 'request', 'string');
-		$model = $this->getModel('order_detail');
 
-		if ($model->send_downloadmail($cid[0]))
+		$order_functions = new order_functions;
+
+		$msg = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
+
+		if ($order_functions->SendDownload($cid[0]))
 		{
 			$msg = JText::_('COM_REDSHOP_DOWNLOAD_MAIL_HAS_BEEN_SENT');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
 		}
 
 		if ($tmpl)
@@ -420,9 +418,9 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 
-		$userbillinginfo = $order_functions->getOrderBillingUserInfo($request['order_id']);
+		$userbillinginfo = RedshopHelperOrder::getOrderBillingUserInfo($request['order_id']);
 
-		$shippingaddresses = $order_functions->getOrderShippingUserInfo($request['order_id']);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($request['order_id']);
 
 		if (isset($shippingaddresses))
 		{
@@ -530,7 +528,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$redshopMail = new redshopMail;
 
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'get', 'array');
 		$tmpl = JRequest::getVar('tmpl', '', 'request', 'string');
 

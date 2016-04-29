@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,7 +87,7 @@ $payment_template = "";
 $payment_template_desc = "";
 $templatelist = $redTemplate->getTemplate("redshop_payment");
 
-for ($i = 0; $i < count($templatelist); $i++)
+for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
 	if (strstr($onestep_template_desc, "{payment_template:" . $templatelist[$i]->template_name . "}"))
 	{
@@ -99,7 +99,7 @@ for ($i = 0; $i < count($templatelist); $i++)
 
 $templatelist = $redTemplate->getTemplate("checkout");
 
-for ($i = 0; $i < count($templatelist); $i++)
+for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
 	if (strstr($onestep_template_desc, "{checkout_template:" . $templatelist[$i]->template_name . "}"))
 	{
@@ -117,7 +117,7 @@ $shipping_template_desc = "";
 
 $templatelist = $redTemplate->getTemplate("shippingbox");
 
-for ($i = 0; $i < count($templatelist); $i++)
+for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
 	if (strstr($onestep_template_desc, "{shippingbox_template:" . $templatelist[$i]->template_name . "}"))
 	{
@@ -128,7 +128,7 @@ for ($i = 0; $i < count($templatelist); $i++)
 
 $templatelist = $redTemplate->getTemplate("redshop_shipping");
 
-for ($i = 0; $i < count($templatelist); $i++)
+for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 {
 	if (strstr($onestep_template_desc, "{shipping_template:" . $templatelist[$i]->template_name . "}"))
 	{
@@ -207,7 +207,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 			$shipp .= '<div><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
 		}
 
-		for ($i = 0; $i < count($shippingaddresses); $i++)
+		for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++)
 		{
 			$shipinfo = $shippingaddresses[$i];
 

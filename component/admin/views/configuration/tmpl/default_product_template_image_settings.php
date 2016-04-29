@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -60,9 +60,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_main_image" id="product_main_image"
-						       value="<?php echo PRODUCT_MAIN_IMAGE; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE'); ?>">
 						<input type="text" name="product_main_image_height" id="product_main_image_height"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_HEIGHT; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_HEIGHT'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -72,9 +72,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 		<label for="name"><?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE_HEIGHT_WIDTH_TWO');?></label></span></td>
 					<td>
 						<input type="text" name="product_main_image_2" id="product_main_image_2"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_2; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_2'); ?>">
 						<input type="text" name="product_main_image_height_2" id="product_main_image_height_2"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_HEIGHT_2; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_HEIGHT_2'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -85,9 +85,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_main_image_3" id="product_main_image_3"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_3; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_3'); ?>">
 						<input type="text" name="product_main_image_height_3" id="product_main_image_height_3"
-						       value="<?php echo PRODUCT_MAIN_IMAGE_HEIGHT_3; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_HEIGHT_3'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -103,9 +103,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_additional_image" id="product_additional_image"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE'); ?>">
 						<input type="text" name="product_additional_image_height" id="product_additional_image_height"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_HEIGHT; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -117,10 +117,10 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_additional_image_2" id="product_additional_image_2"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_2; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_2'); ?>">
 						<input type="text" name="product_additional_image_height_2"
 						       id="product_additional_image_height_2"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -132,10 +132,10 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_additional_image_3" id="product_additional_image_3"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_3; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_3'); ?>">
 						<input type="text" name="product_additional_image_height_3"
 						       id="product_additional_image_height_3"
-						       value="<?php echo PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -190,9 +190,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_hover_image_width" id="product_hover_image_width"
-						       value="<?php echo PRODUCT_HOVER_IMAGE_WIDTH; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_HOVER_IMAGE_WIDTH'); ?>">
 						<input type="text" name="product_hover_image_height" id="product_hover_image_height"
-						       value="<?php echo PRODUCT_HOVER_IMAGE_HEIGHT; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_HOVER_IMAGE_HEIGHT'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -213,9 +213,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 		<?php echo JText::_('COM_REDSHOP_ADDITIONAL_HOVER_IMAGE_WIDTH_HEIGHT');?></span></td>
 					<td>
 						<input type="text" name="additional_hover_image_width" id="additional_hover_image_width"
-						       value="<?php echo ADDITIONAL_HOVER_IMAGE_WIDTH; ?>">
+						       value="<?php echo $this->config->get('ADDITIONAL_HOVER_IMAGE_WIDTH'); ?>">
 						<input type="text" name="additional_hover_image_height" id="additional_hover_image_height"
-						       value="<?php echo ADDITIONAL_HOVER_IMAGE_HEIGHT; ?>">
+						       value="<?php echo $this->config->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -233,9 +233,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td>
 						<input type="text" name="product_preview_image_width" id="product_preview_image_width"
-						       value="<?php echo PRODUCT_PREVIEW_IMAGE_WIDTH; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_PREVIEW_IMAGE_WIDTH'); ?>">
 						<input type="text" name="product_preview_image_height" id="product_preview_image_height"
-						       value="<?php echo PRODUCT_PREVIEW_IMAGE_HEIGHT; ?>">
+						       value="<?php echo $this->config->get('PRODUCT_PREVIEW_IMAGE_HEIGHT'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -248,10 +248,10 @@ $ord_path = "/components/com_redshop/assets/images/";
 					<td>
 						<input type="text" name="category_product_preview_image_width"
 						       id="category_product_preview_image_width"
-						       value="<?php echo CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH; ?>">
+						       value="<?php echo $this->config->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH'); ?>">
 						<input type="text" name="category_product_preview_image_height"
 						       id="category_product_preview_image_height"
-						       value="<?php echo CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT; ?>">
+						       value="<?php echo $this->config->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT'); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -268,9 +268,9 @@ $ord_path = "/components/com_redshop/assets/images/";
 		</label></span></td>
 					<td>
 						<input type="text" name="attribute_scroller_thumb_width" id="attribute_scroller_thumb_width"
-						       value="<?php echo defined('ATTRIBUTE_SCROLLER_THUMB_WIDTH') ? ATTRIBUTE_SCROLLER_THUMB_WIDTH : '50'; ?>">
+						       value="<?php echo $this->config->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH', 50); ?>">
 						<input type="text" name="attribute_scroller_thumb_height" id="attribute_scroller_thumb_height"
-						       value="<?php echo defined('ATTRIBUTE_SCROLLER_THUMB_HEIGHT') ? ATTRIBUTE_SCROLLER_THUMB_HEIGHT : '50'; ?>">
+						       value="<?php echo $this->config->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT', 50); ?>">
 					</td>
 				</tr>
 				<tr>
@@ -280,7 +280,7 @@ $ord_path = "/components/com_redshop/assets/images/";
 			<label><?php echo JText::_('COM_REDSHOP_NOOF_THUMB_FOR_SCROLLER_LBL'); ?></label></span>
 					</td>
 					<td><input type="text" name="noof_thumb_for_scroller" id="noof_thumb_for_scroller"
-					           value="<?php echo NOOF_THUMB_FOR_SCROLLER; ?>"></td>
+					           value="<?php echo $this->config->get('NOOF_THUMB_FOR_SCROLLER'); ?>"></td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
@@ -290,7 +290,7 @@ $ord_path = "/components/com_redshop/assets/images/";
 					</td>
 					<td><input type="text" name="noof_subattrib_thumb_for_scroller"
 					           id="noof_subattrib_thumb_for_scroller"
-					           value="<?php echo NOOF_SUBATTRIB_THUMB_FOR_SCROLLER; ?>"></td>
+					           value="<?php echo $this->config->get('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER'); ?>"></td>
 				</tr>
 				<tr>
 					<td align="right" class="key">
@@ -298,23 +298,24 @@ $ord_path = "/components/com_redshop/assets/images/";
 			      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRE_ORDER_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRE_ORDER_IMAGE'); ?>">
 		<?php echo JText::_('COM_REDSHOP_PRE_ORDER_IMAGE_LBL');?>:</span></td>
 					<td>
+						<?php $preOrderImage = $this->config->get('PRE_ORDER_IMAGE'); ?>
 						<div>
 							<div>
 								<input class="text_area" type="file" name="file_pre_order_image"
 								       id="file_pre_order_image" size="40"/>
 								<input type="hidden" name="pre_order_image" id="pre_order_image"
-								       value="<?php echo PRE_ORDER_IMAGE; ?>"/>
+								       value="<?php echo $preOrderImage; ?>"/>
 								<a href="#123"
-								   onclick="delimg('<?php echo PRE_ORDER_IMAGE ?>','preorddiv','<?php echo $ord_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+								   onclick="delimg('<?php echo $preOrderImage ?>','preorddiv','<?php echo $ord_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 							</div>
-							<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . PRE_ORDER_IMAGE))
+							<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage))
 							{ ?>
 								<div id="preorddiv">
 									<a class="modal"
-									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . PRE_ORDER_IMAGE; ?>"
-									   title="<?php echo PRE_ORDER_IMAGE; ?>" rel="{handler: 'image', size: {}}">
-										<img alt="<?php echo PRE_ORDER_IMAGE; ?>"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . PRE_ORDER_IMAGE; ?>"/>
+									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $preOrderImage; ?>"
+									   title="<?php echo $preOrderImage; ?>" rel="{handler: 'image', size: {}}">
+										<img alt="<?php echo $preOrderImage; ?>"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $preOrderImage; ?>"/>
 									</a>
 								</div>
 							<?php } ?>

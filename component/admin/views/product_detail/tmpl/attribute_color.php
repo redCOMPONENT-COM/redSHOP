@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -77,7 +77,7 @@ $images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 
 				<?php if (count($images) > 0) : ?>
 					<?php
-						for ($i = 0; $i < count($images); $i++)
+						for ($i = 0, $in = count($images); $i < $in; $i++)
 						{
 							$image = $images[$i];
 							$thumb = $image->subattribute_color_image;

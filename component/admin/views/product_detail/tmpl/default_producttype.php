@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -136,7 +136,7 @@ $total_serial = count($productSerialDetail);
 							<td>
 								<a href='index.php?option=com_redshop&view=product_detail&task=deleteProdcutSerialNumbers&serial_id=<?php echo $serial_row->serial_id ?>&product_id=<?php echo $this->detail->product_id; ?>'><img
 									class="delete_item"
-									src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg"
+									src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.png"
 									title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 									alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"></a>
 							</td>

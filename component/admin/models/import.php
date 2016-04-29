@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -412,7 +412,7 @@ class RedshopModelImport extends RedshopModel
 
 								if (is_array($image_name))
 								{
-									for ($i = 0; $i < count($image_name); $i++)
+									for ($i = 0, $in = count($image_name); $i < $in; $i++)
 									{
 										if (trim($image_name[$i]) != "")
 										{
@@ -438,7 +438,7 @@ class RedshopModelImport extends RedshopModel
 
 								if (is_array($image_name))
 								{
-									for ($i = 0; $i < count($image_name); $i++)
+									for ($i = 0, $in = count($image_name); $i < $in; $i++)
 									{
 										if (trim($image_name[$i]) != "")
 										{
@@ -464,7 +464,7 @@ class RedshopModelImport extends RedshopModel
 
 								if (is_array($image_name))
 								{
-									for ($i = 0; $i < count($image_name); $i++)
+									for ($i = 0, $in = count($image_name); $i < $in; $i++)
 									{
 										if (trim($image_name[$i]) != "")
 										{
@@ -492,7 +492,7 @@ class RedshopModelImport extends RedshopModel
 
 									if (is_array($image_name))
 									{
-										for ($i = 0; $i < count($image_name); $i++)
+										for ($i = 0, $in = count($image_name); $i < $in; $i++)
 										{
 											if (trim($image_name[$i]) != "")
 											{
@@ -593,7 +593,7 @@ class RedshopModelImport extends RedshopModel
 								$db->setQuery($query);
 								$db->execute();
 
-								for ($i = 0; $i < count($categoryArr); $i++)
+								for ($i = 0, $in = count($categoryArr); $i < $in; $i++)
 								{
 									if ($category)
 									{
@@ -636,7 +636,7 @@ class RedshopModelImport extends RedshopModel
 							{
 								$accessory_products = explode("###", $rawdata['accessory_products']);
 
-								for ($i = 0; $i < count($accessory_products); $i++)
+								for ($i = 0, $in = count($accessory_products); $i < $in; $i++)
 								{
 									$accids = explode("~", $accessory_products[$i]);
 									$accessory_product_sku = $accids[0];
@@ -725,7 +725,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (is_array($section_images))
 							{
-								for ($s = 0; $s < count($section_images); $s++)
+								for ($s = 0, $sn = count($section_images); $s < $sn; $s++)
 								{
 									if (trim($section_images[$s]) != "")
 									{
@@ -793,7 +793,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (is_array($section_video))
 							{
-								for ($s = 0; $s < count($section_video); $s++)
+								for ($s = 0, $sn = count($section_video); $s < $sn; $s++)
 								{
 									if (trim($section_video[$s]) != "")
 									{
@@ -851,7 +851,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (is_array($section_document))
 							{
-								for ($s = 0; $s < count($section_document); $s++)
+								for ($s = 0, $sn = count($section_document); $s < $sn; $s++)
 								{
 									if (trim($section_document[$s]) != "")
 									{
@@ -909,7 +909,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (is_array($section_download))
 							{
-								for ($s = 0; $s < count($section_download); $s++)
+								for ($s = 0, $sn = count($section_download); $s < $sn; $s++)
 								{
 									if (trim($section_download[$s]) != "")
 									{
@@ -1184,7 +1184,7 @@ class RedshopModelImport extends RedshopModel
 										{
 											$mainstock_split = explode("#", $mainstock);
 
-											for ($r = 0; $r < count($mainstock_split); $r++)
+											for ($r = 0, $rn = count($mainstock_split); $r < $rn; $r++)
 											{
 												if ($mainstock_split[$r] != "")
 												{
@@ -1357,7 +1357,7 @@ class RedshopModelImport extends RedshopModel
 												{
 													$mainstock_split = explode("#", $mainstock);
 
-													for ($r = 0; $r < count($mainstock_split); $r++)
+													for ($r = 0, $rn = count($mainstock_split); $r < $rn; $r++)
 													{
 														if ($mainstock_split[$r] != "")
 														{
@@ -2647,7 +2647,7 @@ class RedshopModelImport extends RedshopModel
 			}
 		}
 
-		for ($v = 0; $v < count($vmcatarr); $v++)
+		for ($v = 0, $vn = count($vmcatarr); $v < $vn; $v++)
 		{
 			$query = "SELECT category_parent_id from #__vm_category_xref "
 				. "WHERE category_child_id = '" . $vmcatarr[$v] . "' ";
@@ -2751,7 +2751,7 @@ class RedshopModelImport extends RedshopModel
 
 		$k = 0;
 
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			if ($data[$i]->address_type == "BT")
 			{
@@ -3109,7 +3109,7 @@ class RedshopModelImport extends RedshopModel
 		$db = JFactory::getDbo();
 
 		// Vmproduct loop for product inter realtion
-		for ($v = 0; $v < count($vmproarr); $v++)
+		for ($v = 0, $vn = count($vmproarr); $v < $vn; $v++)
 		{
 			$redparent = $redproarr[$v];
 			$query = "SELECT `related_products` FROM `#__vm_product_relations` WHERE `product_id`= '" . $vmproarr[$v] . "'";
@@ -3120,7 +3120,7 @@ class RedshopModelImport extends RedshopModel
 			{
 				$vmrel = explode("|", $vmrel);
 
-				for ($i = 0; $i < count($vmrel); $i++)
+				for ($i = 0, $in = count($vmrel); $i < $in; $i++)
 				{
 					$vmrelpro = $vmrel[$i];
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,7 +65,7 @@ $is_creditcard = 0;
 
 			$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 
-			for ($p = 0; $p < count($paymentmethod); $p++)
+			for ($p = 0, $pn = count($paymentmethod); $p < $pn; $p++)
 			{
 				$paymentpath = $adminpath . '/helpers/payments/' . $paymentmethod[$p]->plugin . '/' . $paymentmethod[$p]->plugin . '.php';
 				include_once $paymentpath;

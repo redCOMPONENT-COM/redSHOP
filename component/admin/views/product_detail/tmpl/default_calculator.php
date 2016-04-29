@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -189,7 +189,7 @@ $stockrooms = $model->StockRoomList();
 						$calc_data = $model->getDiscountCalcData();
 
 						// ToDo: This should be in view.html.php?
-						for ($i = 0; $i < count($calc_data); $i++)
+						for ($i = 0, $in = count($calc_data); $i < $in; $i++)
 						{
 							// Calculation UNIT.
 							$lists = array();
@@ -269,7 +269,7 @@ $stockrooms = $model->StockRoomList();
 					<?php
 						$calc_data = $model->getDiscountCalcDataExtra();
 
-						for ($i = 0; $i < count($calc_data); $i++)
+						for ($i = 0, $in = count($calc_data); $i < $in; $i++)
 						{
 							// Calculation UNIT.
 							$options = array();

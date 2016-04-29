@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,7 +35,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$post = JRequest::get('post');
 
 		$model = $this->getModel('user_detail');
@@ -60,8 +60,17 @@ class RedshopControllerUser_detail extends RedshopController
 			if ($apply == 1)
 			{
 				$link = RedshopHelperUtility::getSSLLink(
-						'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
+					'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
+				);
+				
+				$input = JFactory::getApplication()->input;
+				
+				if ($input->post->get('add_shipping') != null)
+				{
+					$link = RedshopHelperUtility::getSSLLink(
+						'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $row->users_info_id . '&cid[]=0'
 					);
+				}
 			}
 			else
 			{
@@ -74,9 +83,11 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
+		$app = JFactory::getApplication();
+		$delete_joomla_users = $app->input->getBool('delete_joomla_users', false);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -85,7 +96,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		$model = $this->getModel('user_detail');
 
-		if (!$model->delete($cid))
+		if (!$model->delete($cid, $delete_joomla_users))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
@@ -105,7 +116,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -127,7 +138,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -149,7 +160,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$info_id = JRequest::getVar('info_id', '', 'request', 'string');
 
@@ -171,7 +182,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function order()
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$user_id = JRequest::getVar('user_id', 0, 'request', 'string');
 		$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id);
 	}

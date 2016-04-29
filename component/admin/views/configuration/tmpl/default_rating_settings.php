@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 						<label for="name"><?php echo JText::_('COM_REDSHOP_RATING_DONE_MSG');?></label></span>
 							</td>
 							<td>
-								<input type="text" name="rating_msg" id="rating_msg" value="<?php echo RATING_MSG; ?>"
+								<input type="text" name="rating_msg" id="rating_msg" value="<?php echo $this->config->get('RATING_MSG'); ?>"
 								       size="50">
 							</td>
 						</tr>
@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 							</td>
 							<td>
 								<input type="text" name="favoured_reviews" id="favoured_reviews"
-								       value="<?php echo FAVOURED_REVIEWS; ?>">
+								       value="<?php echo $this->config->get('FAVOURED_REVIEWS'); ?>">
 							</td>
 						</tr>
 						<tr>

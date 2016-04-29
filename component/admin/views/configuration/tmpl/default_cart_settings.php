@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -68,7 +68,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="ajax_cart_display_time" id="ajax_cart_display_time"
-							       value="<?php echo AJAX_CART_DISPLAY_TIME; ?>">
+							       value="<?php echo Redshop::getConfig()->get('AJAX_CART_DISPLAY_TIME'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -79,7 +79,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="cart_timeout" id="cart_timeout"
-							       value="<?php echo CART_TIMEOUT; ?>">
+							       value="<?php echo $this->config->get('CART_TIMEOUT'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -91,9 +91,9 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="ajax_detail_box_width" id="ajax_detail_box_width"
-							       value="<?php echo AJAX_DETAIL_BOX_WIDTH; ?>">
+							       value="<?php echo $this->config->get('AJAX_DETAIL_BOX_WIDTH'); ?>">
 							<input type="text" name="ajax_detail_box_height" id="ajax_detail_box_height"
-							       value="<?php echo AJAX_DETAIL_BOX_HEIGHT; ?>">
+							       value="<?php echo $this->config->get('AJAX_DETAIL_BOX_HEIGHT'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -105,9 +105,9 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="ajax_box_width" id="ajax_box_width"
-							       value="<?php echo AJAX_BOX_WIDTH; ?>">
+							       value="<?php echo $this->config->get('AJAX_BOX_WIDTH'); ?>">
 							<input type="text" name="ajax_box_height" id="ajax_box_height"
-							       value="<?php echo AJAX_BOX_HEIGHT; ?>">
+							       value="<?php echo $this->config->get('AJAX_BOX_HEIGHT'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -139,7 +139,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 								'',
 								'id',
 								'title',
-								DEFAULT_CART_CHECKOUT_ITEMID
+								$this->config->get('DEFAULT_CART_CHECKOUT_ITEMID')
 							);
 						?>
 						</td>
@@ -153,7 +153,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="allow_pre_order_message" id="allow_pre_order_message"
-							       value="<?php echo ALLOW_PRE_ORDER_MESSAGE; ?>">
+							       value="<?php echo $this->config->get('ALLOW_PRE_ORDER_MESSAGE'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -215,7 +215,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="default_quantity" id="default_quantity"
-							       value="<?php echo DEFAULT_QUANTITY; ?>">
+							       value="<?php echo $this->config->get('DEFAULT_QUANTITY'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -227,7 +227,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						<td>
 							<input type="text" name="default_quantity_selectbox_value"
 							       id="default_quantity_selectbox_value"
-							       value="<?php echo DEFAULT_QUANTITY_SELECTBOX_VALUE; ?>">
+							       value="<?php echo $this->config->get('DEFAULT_QUANTITY_SELECTBOX_VALUE'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -244,7 +244,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="continue_redirect_link" id="continue_redirect_link" size="50"
-							       value="<?php echo CONTINUE_REDIRECT_LINK; ?>">
+							       value="<?php echo $this->config->get('CONTINUE_REDIRECT_LINK'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -256,7 +256,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						</td>
 						<td>
 							<input type="text" name="minimum_order_total" id="minimum_order_total" size="20"
-							       value="<?php echo MINIMUM_ORDER_TOTAL; ?>">
+							       value="<?php echo $this->config->get('MINIMUM_ORDER_TOTAL'); ?>">
 						</td>
 					</tr>
 				</table>
@@ -273,5 +273,5 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 			document.getElementById('quotationprice').style.display = "";
 		}
 	}
-	quote_price(<?php echo DEFAULT_QUOTATION_MODE_PRE?>);
+	quote_price(<?php echo $this->config->get('DEFAULT_QUOTATION_MODE_PRE'); ?>);
 </script>

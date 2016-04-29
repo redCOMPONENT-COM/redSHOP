@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 		</label></span></td>
 		<td><textarea class="text_area" type="text" name="seo_page_title"
 		              id="seo_page_title" rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_TITLE);
+			echo stripslashes($this->config->get('SEO_PAGE_TITLE'));
 			?></textarea>
 		</td>
 	</tr>
@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 			?></label></span></td>
 		<td><textarea class="text_area" type="text" name="seo_page_heading"
 		              id="seo_page_heading" rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_HEADING);
+			echo stripslashes($this->config->get('SEO_PAGE_HEADING'));
 			?></textarea>
 		</td>
 	</tr>
@@ -51,7 +51,7 @@ defined('_JEXEC') or die;
 		<td><textarea class="text_area" type="text"
 		              name="seo_page_description" id="seo_page_description" rows="4"
 		              cols="40"/><?php
-			echo stripslashes(SEO_PAGE_DESCRIPTION);
+			echo stripslashes($this->config->get('SEO_PAGE_DESCRIPTION'));
 			?></textarea>
 		</td>
 	</tr>
@@ -65,7 +65,7 @@ defined('_JEXEC') or die;
 			?></label></span></td>
 		<td><textarea class="text_area" type="text" name="seo_page_keywords"
 		              id="seo_page_keywords" rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_KEYWORDS);
+			echo stripslashes($this->config->get('SEO_PAGE_KEYWORDS'));
 			?></textarea>
 		</td>
 	</tr>

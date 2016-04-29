@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 			</span>
 		</td>
 		<td><input type="text" name="postdk_customer_no" id="postdk_customer_no"
-		           value="<?php echo POSTDK_CUSTOMER_NO; ?>"></td>
+		           value="<?php echo $this->config->get('POSTDK_CUSTOMER_NO'); ?>"></td>
 	</tr>
 	<tr>
 		<td class="key">
@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
 			</label>
 		</td>
 		<td><input type="password" name="postdk_customer_password" id="postdk_customer_password"
-		           value="<?php echo POSTDK_CUSTOMER_PASSWORD; ?>"></td>
+		           value="<?php echo $this->config->get('POSTDK_CUSTOMER_PASSWORD'); ?>"></td>
 	</tr>
 	<tr>
 		<td class="key">
@@ -49,7 +49,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_REDSHOP_POSTDANMARK_ADDRESS_LBL');?>
 			</span>
 		</td>
-		<td><input type="text" name="postdk_address" id="postdk_address" value="<?php echo POSTDANMARK_ADDRESS; ?>">
+		<td><input type="text" name="postdk_address" id="postdk_address" value="<?php echo $this->config->get('POSTDANMARK_ADDRESS'); ?>">
 		</td>
 	</tr>
 	<tr>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die;
 			</span>
 		</td>
 		<td><input type="text" name="postdk_postalcode" id="postdk_postalcode"
-		           value="<?php echo POSTDANMARK_POSTALCODE; ?>"></td>
+		           value="<?php echo $this->config->get('POSTDANMARK_POSTALCODE'); ?>"></td>
 	</tr>
 	<tr>
 		<td class="key">
@@ -85,14 +85,14 @@ defined('_JEXEC') or die;
 				'class="inputbox"',
 				'value',
 				'text',
-				AUTO_GENERATE_LABEL
+				$this->config->get('AUTO_GENERATE_LABEL')
 			);
 
 			$order_functions = new order_functions;
 
 			echo $order_functions->getstatuslist(
 				'generate_label_on_status',
-				GENERATE_LABEL_ON_STATUS,
+				$this->config->get('GENERATE_LABEL_ON_STATUS'),
 				"class=\"inputbox\" size=\"1\" "
 			);
 			?>

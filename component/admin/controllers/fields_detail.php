@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,8 +59,8 @@ class RedshopControllerFields_detail extends RedshopController
 
 		if ($fieldexists)
 		{
-			$msg = JText::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST');
-			$this->setRedirect('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $cid[0], $msg);
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST'), 'error');
+			$this->setRedirect('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $cid[0]);
 
 			return;
 		}

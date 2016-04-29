@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,7 +95,7 @@ if (isset ($tid) && $tid != "")
 							</td>
 						</tr>
 						<?php
-						for ($i = 0; $i < count($addtional_downloaddata); $i++)
+						for ($i = 0, $in = count($addtional_downloaddata); $i < $in; $i++)
 						{
 							$additionalid   = $addtional_downloaddata [$i]->id;
 							$additionalname = $addtional_downloaddata [$i]->name;

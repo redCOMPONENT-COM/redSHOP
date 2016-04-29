@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -329,7 +329,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 
 	if (count($orderslist))
 	{
-		for ($j = 0; $j < count($orderslist); $j++)
+		for ($j = 0, $jn = count($orderslist); $j < $jn; $j++)
 		{
 			if ($j >= 5)
 			{
@@ -376,7 +376,7 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 
 		if (count($usercoupons))
 		{
-			for ($i = 0; $i < count($usercoupons); $i++)
+			for ($i = 0, $in = count($usercoupons); $i < $in; $i++)
 			{
 				$coupon_data .= $coupon_desc;
 				$unused_amount = $model->unused_coupon_amount($user->id, $usercoupons[$i]->coupon_code);
@@ -453,7 +453,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 
 	if (count($quotationlist))
 	{
-		for ($j = 0; $j < count($quotationlist); $j++)
+		for ($j = 0, $jn = count($quotationlist); $j < $jn; $j++)
 		{
 			if ($j >= 5)
 			{
@@ -519,7 +519,7 @@ if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_de
 
 	if (count($userDownloadProduct))
 	{
-		for ($j = 0; $j < count($userDownloadProduct); $j++)
+		for ($j = 0, $jn = count($userDownloadProduct); $j < $jn; $j++)
 		{
 			$serial_data .= $serial_desc;
 			$serial_data = str_replace('{product_name}', $userDownloadProduct[$j]->product_name, $serial_data);

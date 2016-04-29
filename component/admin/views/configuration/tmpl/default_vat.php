@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -93,7 +93,7 @@ defined('_JEXEC') or die;
 		<td><input type="text" name="vat_rate_after_discount"
 		           id="vat_rate_after_discount"
 		           value="<?php
-		           echo VAT_RATE_AFTER_DISCOUNT;
+		           echo $this->config->get('VAT_RATE_AFTER_DISCOUNT');
 		           ?>">
 		</td>
 	</tr>
@@ -130,7 +130,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="vat_introtext" id="vat_introtext" rows="4"
-			          cols="40"/><?php echo stripslashes(VAT_INTROTEXT); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('VAT_INTROTEXT')); ?></textarea>
 		</td>
 	</tr>
 
@@ -141,7 +141,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_REDSHOP_WITH_VAT_TEXT_INFO_LBL');?>:</span></td>
 		<td>
 			<textarea class="text_area" type="text" name="with_vat_text_info" id="with_vat_text_info" rows="4"
-			          cols="40"/><?php echo stripslashes(WITH_VAT_TEXT_INFO); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('WITH_VAT_TEXT_INFO')); ?></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -151,7 +151,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_REDSHOP_WITHOUT_VAT_TEXT_INFO_LBL');?>:</span></td>
 		<td>
 			<textarea class="text_area" type="text" name="without_vat_text_info" id="without_vat_text_info" rows="4"
-			          cols="40"/><?php echo stripslashes(WITHOUT_VAT_TEXT_INFO); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('WITHOUT_VAT_TEXT_INFO')); ?></textarea>
 		</td>
 	</tr>
 </table>

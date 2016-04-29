@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -17,6 +17,6 @@ defined('_JEXEC') or die;
 		<label for="google_ana_tracking"><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS_TRACKER_KEY'); ?></label>
 		</td>
 		<td><input type="text" name="google_ana_tracker" id="google_ana_tracker"
-		           value="<?php echo GOOGLE_ANA_TRACKER_KEY; ?>"></td>
+		           value="<?php echo $this->config->get('GOOGLE_ANA_TRACKER_KEY'); ?>"></td>
 	</tr>
 </table>

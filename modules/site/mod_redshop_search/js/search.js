@@ -22,6 +22,7 @@ function loadProducts(tid, mid) {
 	request = getHTTPObject();
 	request.onreadystatechange = sendProductData;
 	request.open("GET", base_url + "index.php?tmpl=component&option=com_redshop&view=search&task=loadProducts&taskid=" + tid + "&manufacture_id=" + mid, true);
+	request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	request.send(null);
 }
 // function is executed when var request state changes
@@ -38,4 +39,4 @@ function sendProductData() {
 		}
 	}
 }
- 
+

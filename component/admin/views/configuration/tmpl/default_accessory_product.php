@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -53,7 +53,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="accessory_product_desc_max_chars"
 							       id="accessory_product_desc_max_chars"
-							       value="<?php echo ACCESSORY_PRODUCT_DESC_MAX_CHARS; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="accessory_product_desc_end_suffix"
 							       id="accessory_product_desc_end_suffix"
-							       value="<?php echo ACCESSORY_PRODUCT_DESC_END_SUFFIX; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -79,7 +79,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="accessory_product_title_max_chars"
 							       id="accessory_product_title_max_chars"
-							       value="<?php echo ACCESSORY_PRODUCT_TITLE_MAX_CHARS; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -92,7 +92,7 @@ defined('_JEXEC') or die;
 						<td>
 							<input type="text" name="accessory_product_title_end_suffix"
 							       id="accessory_product_title_end_suffix"
-							       value="<?php echo ACCESSORY_PRODUCT_TITLE_END_SUFFIX; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX'); ?>">
 						</td>
 					</tr>
 				</table>
@@ -115,9 +115,9 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<input type="text" name="accessory_thumb_width" id="accessory_thumb_width"
-							       value="<?php echo ACCESSORY_THUMB_WIDTH; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH'); ?>">
 							<input type="text" name="accessory_thumb_height" id="accessory_thumb_height"
-							       value="<?php echo ACCESSORY_THUMB_HEIGHT; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -129,9 +129,9 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<input type="text" name="accessory_thumb_width_2" id="accessory_thumb_width_2"
-							       value="<?php echo ACCESSORY_THUMB_WIDTH_2; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH_2'); ?>">
 							<input type="text" name="accessory_thumb_height_2" id="accessory_thumb_height_2"
-							       value="<?php echo ACCESSORY_THUMB_HEIGHT_2; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT_2'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -143,9 +143,9 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<input type="text" name="accessory_thumb_width_3" id="accessory_thumb_width_3"
-							       value="<?php echo ACCESSORY_THUMB_WIDTH_3; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH_3'); ?>">
 							<input type="text" name="accessory_thumb_height_3" id="accessory_thumb_height_3"
-							       value="<?php echo ACCESSORY_THUMB_HEIGHT_3; ?>">
+							       value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT_3'); ?>">
 						</td>
 					</tr>
 				</table>

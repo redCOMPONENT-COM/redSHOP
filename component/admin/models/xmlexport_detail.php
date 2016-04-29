@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -133,7 +133,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 		$xmlexport_ip_id = $data['xmlexport_ip_id'];
 		$access_ipaddress = $data['access_ipaddress'];
 
-		for ($i = 0; $i < count($xmlexport_ip_id); $i++)
+		for ($i = 0, $in = count($xmlexport_ip_id); $i < $in; $i++)
 		{
 			if ($access_ipaddress[$i] != "")
 			{
@@ -178,7 +178,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 		{
 			$cids = implode(',', $cid);
 
-			for ($i = 0; $i < count($cid); $i++)
+			for ($i = 0, $in = count($cid); $i < $in; $i++)
 			{
 				$result = $xmlhelper->getXMLExportInfo($cid[$i]);
 				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" .$result->filename;

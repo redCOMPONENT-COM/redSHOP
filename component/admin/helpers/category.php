@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,7 +68,7 @@ class product_category
 		$db->setQuery($q);
 		$cats = $db->loadObjectList();
 
-		for ($x = 0; $x < count($cats); $x++)
+		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 		{
 			$cat = $cats[$x];
 			$child_id = $cat->category_child_id;
@@ -195,7 +195,7 @@ class product_category
 
 		$cats = $db->loadObjectList();
 
-		for ($x = 0; $x < count($cats); $x++)
+		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 		{
 			$cat = $cats[$x];
 			$parent_id = $cat->category_child_id;

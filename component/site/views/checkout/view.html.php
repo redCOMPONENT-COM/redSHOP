@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,6 @@ class RedshopViewCheckout extends RedshopView
 		$app = JFactory::getApplication();
 		$model     = $this->getModel('checkout');
 		$Itemid    = JRequest::getInt('Itemid');
-		$task      = JRequest::getCmd('task');
 		$user      = JFactory::getUser();
 		$redhelper = new redhelper;
 		$field     = new extraField;
@@ -31,7 +30,7 @@ class RedshopViewCheckout extends RedshopView
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 
-		for ($l = 0; $l < count($payment_lang_list); $l++)
+		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
@@ -41,7 +40,7 @@ class RedshopViewCheckout extends RedshopView
 		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
 		$base_dir        = JPATH_ADMINISTRATOR;
 
-		for ($l = 0; $l < count($shippingPlugins); $l++)
+		for ($l = 0, $ln = count($shippingPlugins); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_shipping_' . $shippingPlugins[$l]->element;
 			$language->load($extension, $base_dir);
@@ -137,6 +136,26 @@ class RedshopViewCheckout extends RedshopView
 			$shipping_rate_id = JRequest::getInt('shipping_rate_id');
 			$element          = JRequest::getCmd('payment_method_id');
 			$ccinfo           = JRequest::getInt('ccinfo');
+
+			if (!isset($cart['voucher_discount']))
+			{
+				$cart['voucher_discount'] = 0;
+			}
+
+			if (!isset($cart['coupon_discount']))
+			{
+				$cart['coupon_discount'] = 0;
+			}
+
+			if (!isset($cart['product_subtotal']))
+			{
+				$cart['product_subtotal'] = 0;
+			}
+
+			if (!isset($cart['total']))
+			{
+				$cart['total'] = 0;
+			}
 
 			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 			$subtotal       = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];

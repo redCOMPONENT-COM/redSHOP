@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -660,17 +660,17 @@ class RedshopModelCart extends RedshopModel
 	{
 		$attArr = $data['cart_accessory'];
 
-		for ($i = 0; $i < count($attArr); $i++)
+		for ($i = 0, $in = count($attArr); $i < $in; $i++)
 		{
 			$attchildArr = $attArr[$i]['accessory_childs'];
 
 			$attArr[$i]['accessory_quantity'] = $newquantity;
 
-			for ($j = 0; $j < count($attchildArr); $j++)
+			for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 			{
 				$propArr = $attchildArr[$j]['attribute_childs'];
 
-				for ($k = 0; $k < count($propArr); $k++)
+				for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
 
@@ -686,7 +686,7 @@ class RedshopModelCart extends RedshopModel
 
 					$subpropArr = $propArr[$k]['property_childs'];
 
-					for ($l = 0; $l < count($subpropArr); $l++)
+					for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 					{
 						$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
 
@@ -717,11 +717,11 @@ class RedshopModelCart extends RedshopModel
 	{
 		$attArr = $data['cart_attribute'];
 
-		for ($i = 0; $i < count($attArr); $i++)
+		for ($i = 0, $in = count($attArr); $i < $in; $i++)
 		{
 			$propArr = $attArr[$i]['attribute_childs'];
 
-			for ($k = 0; $k < count($propArr); $k++)
+			for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 			{
 				$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
 
@@ -737,7 +737,7 @@ class RedshopModelCart extends RedshopModel
 
 				$subpropArr = $propArr[$k]['property_childs'];
 
-				for ($l = 0; $l < count($subpropArr); $l++)
+				for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 				{
 					$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
 

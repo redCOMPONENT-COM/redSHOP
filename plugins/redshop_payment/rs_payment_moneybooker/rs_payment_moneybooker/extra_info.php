@@ -11,7 +11,6 @@ $uri    = JURI::getInstance();
 $url    = $uri->root();
 $user   = JFactory::getUser();
 $db     = JFactory::getDbo();
-$option = JRequest::getVar('option');
 $user   = JFactory::getUser();
 ?>
 <form action="https://www.moneybookers.com/app/payment.pl" method="post" id="frmmoneybooker" name="frmmoneybooker">

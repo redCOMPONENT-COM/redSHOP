@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -312,7 +312,7 @@ if ($this->redHelper->isredProductfinder())
 {
 	$associate_tag = $producthelper->getassociatetag($this->data->product_id);
 
-	for ($k = 0; $k < count($associate_tag); $k++)
+	for ($k = 0, $kn = count($associate_tag); $k < $kn; $k++)
 	{
 		if ($associate_tag[$k] != '')
 		{
@@ -561,7 +561,7 @@ $wrappertemplate = $this->redTemplate->getTemplate("wrapper_template");
 
 if (strstr($template_desc, "{wrapper_template:"))
 {
-	for ($w = 0; $w < count($wrappertemplate); $w++)
+	for ($w = 0, $wn = count($wrappertemplate); $w < $wn; $w++)
 	{
 		if (strstr($template_desc, "{wrapper_template:" . $wrappertemplate [$w]->template_name . "}"))
 		{
@@ -593,7 +593,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 			$wrapperimage_div .= "<table><tr>";
 
-			for ($i = 0; $i < count($wrapper); $i++)
+			for ($i = 0, $in = count($wrapper); $i < $in; $i++)
 			{
 				$wrapper_vat = 0;
 
@@ -811,14 +811,14 @@ $selectedsubpropertyId       = 0;
 
 if (count($attributes) > 0 && count($attribute_template) > 0)
 {
-	for ($a = 0; $a < count($attributes); $a++)
+	for ($a = 0, $an = count($attributes); $a < $an; $a++)
 	{
 		$selectedId = array();
 		$property   = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
 		if ($attributes[$a]->text != "" && count($property) > 0)
 		{
-			for ($i = 0; $i < count($property); $i++)
+			for ($i = 0, $in = count($property); $i < $in; $i++)
 			{
 				if ($property[$i]->setdefault_selected)
 				{
@@ -953,7 +953,7 @@ if (strstr($template_desc, $mpimg_tag))
 		$media_image = $producthelper->getAdditionMediaImage($this->data->product_id, "product");
 		$more_images = '';
 
-		for ($m = 0; $m < count($media_image); $m++)
+		for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 		{
 			$filename1 = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->media_name;
 
@@ -1117,7 +1117,7 @@ if (strstr($template_desc, "{more_documents}"))
 	$media_documents = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "document");
 	$more_doc        = '';
 
-	for ($m = 0; $m < count($media_documents); $m++)
+	for ($m = 0, $mn = count($media_documents); $m < $mn; $m++)
 	{
 		$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
 
@@ -1525,8 +1525,17 @@ if (strstr($template_desc, "{product_rating}"))
 		{
 			$fullname  = $reviews[$j]->firstname . " " . $reviews[$j]->lastname;
 			$starimage = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
+			
+			if ($fullname != " ")
+			{
+				$displayname = $fullname;
+			}
+			else
+			{
+				$displayname = $reviews[$j]->username;
+			}
 
-			$reviews_data1 = str_replace("{fullname}", $fullname, $reviews_template);
+			$reviews_data1 = str_replace("{fullname}", $displayname, $reviews_template);
 			$reviews_data1 = str_replace("{email}", $reviews[$j]->email, $reviews_data1);
 			$reviews_data1 = str_replace("{company_name}", $reviews[$j]->company_name, $reviews_data1);
 			$reviews_data1 = str_replace("{title}", $reviews [$j]->title, $reviews_data1);
@@ -1651,7 +1660,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 
 	if ($qmiddle != "")
 	{
-		for ($q = 0; $q < count($product_question); $q++)
+		for ($q = 0, $qn = count($product_question); $q < $qn; $q++)
 		{
 			$qloop = str_replace("{question}", $product_question [$q]->question, $qmiddle);
 			$qloop = str_replace("{question_date}", $config->convertDateFormat($product_question [$q]->question_date), $qloop);
@@ -1677,7 +1686,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 			$product_answer = $producthelper->getQuestionAnswer($product_question [$q]->question_id, 0, 1, 1);
 			$answerloop     = "";
 
-			for ($a = 0; $a < count($product_answer); $a++)
+			for ($a = 0, $an = count($product_answer); $a < $an; $a++)
 			{
 				$aloop = str_replace("{answer}", $product_answer [$a]->question, $amiddle);
 				$aloop = str_replace("{answer_date}", $config->convertDateFormat($product_answer [$a]->question_date), $aloop);

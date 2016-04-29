@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option');
+
 $editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 $user = JFactory::getUser();
@@ -30,15 +30,13 @@ $productHelper = new producthelper;
 			alert("<?php echo JText::_('COM_REDSHOP_RATING_COMMENT_MUST_BE_FILLED', true ); ?>");
 			return false;
 		}
-		if (form.userid.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_USER', true ); ?>");
-			return false;
-		}
+		
 		if (form.product_id.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_PRODUCT', true ); ?>");
 			return false;
 		}
-		else {
+		else 
+		{
 			submitform(pressbutton);
 		}
 	}
@@ -131,7 +129,15 @@ $productHelper = new producthelper;
 
 						if (isset($this->detail->username))
 						{
-							$uname->text = $model->getuserfullname2($this->detail->userid);
+							if ($this->detail->userid == 0)
+							{
+								$uname->text = $this->detail->username;
+							}
+							else
+							{
+								$uname->text = $model->getuserfullname2($this->detail->userid);
+							}
+
 							$uname->value = $this->detail->userid;
 						}
 

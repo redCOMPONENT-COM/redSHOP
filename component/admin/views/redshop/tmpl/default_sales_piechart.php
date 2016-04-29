@@ -3,14 +3,14 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 
 $user = JFactory::getUser();
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('redshop');
 
 $data = "[]";
@@ -38,7 +38,7 @@ if (is_array($rowdata))
 
 <script language="javascript" type="text/javascript">
 	//Load the Visualization API and the piechart package.
-	google.load('visualization', '1', {'packages': ['corechart']});
+	google.load('visualization', '1.1', {'packages': ['corechart']});
 
 	//Set a callback to run when the Google Visualization API is loaded.
 	google.setOnLoadCallback(drawChart);
@@ -60,7 +60,7 @@ if (is_array($rowdata))
 </script>
 
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="chartform" id="chartForm">
+<form action="index.php?option=com_redshop" method="post" name="chartform" id="chartForm">
 	<div id="editcell">
 
 		<table class="adminlist" width="100%">

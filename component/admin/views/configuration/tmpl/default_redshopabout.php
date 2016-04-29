@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -14,16 +14,6 @@ defined('_JEXEC') or die;
 		<tr valign="top">
 			<td>
 				<table width="100%" cellpadding="0" cellspacing="0">
-					<?php
-					/*<tr>
-						<td width="50%">
-							<fieldset class="adminform">
-							<legend><?php echo JText::_('COM_REDSHOP_REDSHOP_VERSION' ); ?></legend>
-								<?php echo $this->loadTemplate('redshop_version');?>
-							</fieldset>
-						</td>
-					</tr>*/
-					?>
 					<tr>
 						<td width="50%">
 							<fieldset class="adminform">

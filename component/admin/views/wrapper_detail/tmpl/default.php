@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTML::_('behavior.tooltip');
@@ -81,12 +81,8 @@ $producthelper = new producthelper;
 						    valign="top"><?php echo JText::_('COM_REDSHOP_WRAPPER_IMAGE');?></td>
 						<td><input class="text_area" type="file" name="wrapper_image" id="wrapper_image"/>
 							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WRAPPER_IMAGE'), JText::_('COM_REDSHOP_WRAPPER_IMAGE'), 'tooltip.png', '', '', false); ?>
-							<?php $wimage_path = 'wrapper/' . $this->detail->wrapper_image;
-							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $wimage_path))
-							{
-								?>
-								<!--				<div align="right" class="image"><img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH.$wimage_path;?>" alt="wrapper" title="Wrapper" border="0" width="200" /></div>-->
-							<?php }    ?>    </td>
+							<?php $wimage_path = 'wrapper/' . $this->detail->wrapper_image;?>
+						</td>
 					</tr>
 					<tr>
 						<td valign="top" align="right"
