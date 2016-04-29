@@ -29,7 +29,6 @@ class RedshopViewQuotation_detail extends RedshopView
 
 		$uri = JFactory::getURI();
 		$lists = array();
-		$model = $this->getModel();
 
 		if ($layout != 'default')
 		{
@@ -37,8 +36,6 @@ class RedshopViewQuotation_detail extends RedshopView
 		}
 
 		$detail = $this->get('data');
-		$redconfig = new Redconfiguration;
-
 		$isNew = ($detail->quotation_id < 1);
 		$userarr = $this->get('userdata');
 

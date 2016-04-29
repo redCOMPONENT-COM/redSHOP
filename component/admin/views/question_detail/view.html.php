@@ -19,8 +19,6 @@ class RedshopViewQuestion_detail extends RedshopView
 
 		$uri        = JFactory::getURI();
 		$lists      = array();
-		$model      = $this->getModel();
-
 		$detail     = $this->get('data');
 		$answers    = $this->get('answers');
 		$pagination = $this->get('Pagination');

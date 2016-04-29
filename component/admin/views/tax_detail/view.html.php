@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopViewTax_detail extends RedshopView
 {
 	public function display($tpl = null)
@@ -40,8 +39,6 @@ class RedshopViewTax_detail extends RedshopView
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
-
-		$model = $this->getModel('tax_detail');
 
 		$q = "SELECT  country_3_code as value,country_name as text from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);

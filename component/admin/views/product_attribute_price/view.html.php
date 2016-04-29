@@ -14,8 +14,6 @@ class RedshopViewProduct_attribute_price extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		global $context;
-
 		$db = JFactory::getDbo();
 
 		$section_id = JRequest::getVar('section_id');

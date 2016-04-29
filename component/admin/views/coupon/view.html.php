@@ -50,7 +50,6 @@ class RedshopViewCoupon extends RedshopView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		$coupons = $this->get('Data');
-		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();

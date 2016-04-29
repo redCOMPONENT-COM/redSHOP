@@ -22,8 +22,6 @@ class RedshopViewMass_discount extends RedshopView
 
 		$document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
 
-		$layout = JRequest::getVar('layout');
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT'), 'redshop_discountmanagmenet48');
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
@@ -36,7 +34,6 @@ class RedshopViewMass_discount extends RedshopView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$discounts  = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();

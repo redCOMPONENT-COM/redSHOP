@@ -122,8 +122,6 @@ class RedshopViewConfiguration extends RedshopView
 			'class="inputbox" ', $this->config->get('ACCESSORY_PRODUCT_IN_LIGHTBOX')
 		);
 
-		$show_price_user_group_list = explode(',', $this->config->get('SHOW_PRICE_USER_GROUP_LIST'));
-
 		$lists['webpack_enable_sms'] = JHTML::_('redshopselect.booleanlist', 'webpack_enable_sms', 'class="inputbox" size="1"', $this->config->get('WEBPACK_ENABLE_SMS'));
 		$lists['webpack_enable_email_track'] = JHTML::_('redshopselect.booleanlist', 'webpack_enable_email_track',
 			'class="inputbox" size="1"', $this->config->get('WEBPACK_ENABLE_EMAIL_TRACK')
@@ -284,7 +282,6 @@ class RedshopViewConfiguration extends RedshopView
 		$product_comparison[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_CATEGORY'));
 		$product_comparison[] = JHTML::_('select.option', 'global', JText::_('COM_REDSHOP_GLOBAL'));
 
-		$pagination                       = array(0 => array("value" => 0, "text" => "Joomla"), 1 => array("value" => 1, "text" => "Redshop"));
 		$lists['product_comparison_type'] = JHTML::_('select.genericlist', $product_comparison, 'product_comparison_type',
 			'class="inputbox" size="1"', 'value', 'text', $this->config->get('PRODUCT_COMPARISON_TYPE')
 		);

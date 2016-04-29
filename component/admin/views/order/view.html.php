@@ -14,18 +14,14 @@ class RedshopViewOrder extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$context = 'order_id';
-
 		JLoader::load('RedshopHelperAdminOrder');
 
 		$order_function = new order_functions;
 
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$model = $this->getModel('order');
 		$layout = JRequest::getVar('layout');
 
 		if ($layout == 'previewlog')
