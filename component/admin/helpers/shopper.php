@@ -117,8 +117,6 @@ class shoppergroup
 
 			if ($child_id != $cid)
 			{
-				$grouplist[] = $group;
-
 				for ($i = 0; $i < $level; $i++)
 				{
 					$html .= "&nbsp;&nbsp;&nbsp;";

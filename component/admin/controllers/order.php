@@ -426,11 +426,9 @@ class RedshopControllerOrder extends RedshopController
 	public function generateParcel()
 	{
 		$order_function = new order_functions;
-		$post = JRequest::get('post');
-		$specifiedSendDate = $post ['specifiedSendDate'];
 		$order_id = JRequest::getCmd('order_id');
 
-		$generate_label = $order_function->generateParcel($order_id, $specifiedSendDate);
+		$generate_label = $order_function->generateParcel($order_id);
 
 		if ($generate_label == "success")
 		{
