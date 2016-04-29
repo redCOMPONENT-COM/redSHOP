@@ -39,7 +39,7 @@ class RedshopControllerSupplier_detail extends RedshopController
 
 		$model = $this->getModel('supplier_detail');
 
-		if ($row = $model->store($post))
+		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_SAVED');
 		}
