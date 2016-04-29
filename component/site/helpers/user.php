@@ -226,7 +226,7 @@ class rsUserhelper
 
 		if ($countusername > 0)
 		{
-			JError::raiseWarning('', JText::_('USERNAME_ALREADY_EXISTS'));
+			JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
 
 			return false;
 		}
