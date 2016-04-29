@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,9 +72,9 @@ class RedshopModelProduct_category extends RedshopModel
 		$pid = JRequest::getVar('cid', array(), 'post', 'array');
 		$cat_id = JRequest::getVar('category_id');
 
-		for ($i = 0; $i < count($pid); $i++)
+		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
-			for ($j = 0; $j < count($cat_id); $j++)
+			for ($j = 0, $jn = count($cat_id); $j < $jn; $j++)
 			{
 				if (count($this->getIdfromXref($pid[$i], $cat_id[$j])) <= 0)
 				{
@@ -99,7 +99,7 @@ class RedshopModelProduct_category extends RedshopModel
 		$cat_id = JRequest::getVar('category_id', array(), 'post', 'array');
 		$cat_ids = implode(",", $cat_id);
 
-		for ($i = 0; $i < count($pid); $i++)
+		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "product_category_xref "
 				. " WHERE product_id=" . $pid[$i] . " AND category_id IN (" . $cat_ids . ")";

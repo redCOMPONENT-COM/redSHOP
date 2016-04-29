@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,7 @@ class RedshopViewShipping_rate_detail extends RedshopView
 		$id = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 		$shipping = $shippinghelper->getShippingMethodById($id);
 
-		$option = JRequest::getVar('option');
+
 
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/common.js');

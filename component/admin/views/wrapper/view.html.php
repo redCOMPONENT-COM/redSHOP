@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -50,9 +50,11 @@ class RedshopViewWrapper extends RedshopView
 		JToolBarHelper::unpublishList();
 
 		$context = 'wrapper_id';
-		$this->lists['order'] = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
+		$state = $this->get('State');
+		$this->lists['order'] = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'wrapper_id');
 		$this->lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
+		$this->filter = $state->get('filter');
+		
 		$this->user = JFactory::getUser();
 		$this->data = $data;
 		$this->product_id = $product_id;

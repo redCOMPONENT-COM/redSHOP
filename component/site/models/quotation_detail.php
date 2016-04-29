@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,7 +92,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$cart['reciver_email']       = '';
 			$cart['reciver_name']        = '';
 
-			for ($i = 0; $i < count($row_data); $i++)
+			for ($i = 0, $in = count($row_data); $i < $in; $i++)
 			{
 				$field_name              = $row_data[$i]->field_name;
 				$cart[$idx][$field_name] = $row_data[$i]->data_txt;
@@ -118,7 +118,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		$generateAccessoryCart = array();
 
-		for ($i = 0; $i < count($quotation_acc_data); $i++)
+		for ($i = 0, $in = count($quotation_acc_data); $i < $in; $i++)
 		{
 			$generateAccessoryCart[$i]['accessory_id']     = $quotation_acc_data[$i]->accessory_id;
 			$generateAccessoryCart[$i]['accessory_name']   = $quotation_acc_data[$i]->accessory_item_name;
@@ -202,7 +202,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		$cart['idx'] = $idx + 1;
 
-		for ($i = 0; $i < count($row_data); $i++)
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
 			$field_name              = $row_data[$i]->field_name;
 			$cart[$idx][$field_name] = $row_data[$i]->data_txt;

@@ -3,11 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$option = JRequest::getVar('option');
+
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -31,7 +31,7 @@ $option = JRequest::getVar('option');
 	}
 
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<div class="filterItem">
 			<div class="btn-wrapper input-append">

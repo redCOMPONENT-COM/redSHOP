@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ManageTemplateAdministratorCest
  *
@@ -20,9 +20,9 @@ class ManageTemplateAdministratorCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->name = $this->faker->bothify('ManageTemplateAdministratorCest_?##?');
+		$this->name = $this->faker->bothify('managetemplateadministratorcest_?##?');
 		$this->section = 'Product';
-		$this->newName = 'Updated' . $this->name;
+		$this->newName = 'updated' . $this->name;
 	}
 
 	/**

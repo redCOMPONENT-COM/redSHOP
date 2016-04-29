@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ class RedshopControllerNewsletter extends RedshopController
 	public function send_newsletter()
 	{
 		$session = JFactory::getSession();
-		$option = JRequest::getVar('option');
+
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$userid = JRequest::getVar('userid', array(0), 'post', 'array');
@@ -88,7 +88,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		$responcemsg = "";
 
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$subscriber = $model->getNewsletterSubscriber($newsletter_id, $cid[$i]);
 			$responcemsg .= "<div>" . $incNo . ": " . $subscriber->name . "( " . $subscriber->email . " ) -> ";

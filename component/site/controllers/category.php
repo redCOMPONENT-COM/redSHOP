@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,6 @@ class RedshopControllerCategory extends RedshopController
 	 */
 	public function download()
 	{
-		$option   = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
 		$db       = JFactory::getDbo();
 		$this->_table_prefix = "#__redshop_";
@@ -287,7 +286,6 @@ class RedshopControllerCategory extends RedshopController
 	public function generateXMLExportFile()
 	{
 		$app          = JFactory::getApplication();
-		$option       = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$xmlexport_id = JRequest::getInt('xmlexport_id');
 
 		if ($xmlexport_id)

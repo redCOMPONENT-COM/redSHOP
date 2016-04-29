@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,8 +35,10 @@ class RedshopModelWrapper extends RedshopModel
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
+		$this->setState('filter', $filter);
 
 		$product_id = JRequest::getVar('product_id');
 		$this->setProductId((int) $product_id);
@@ -96,15 +98,23 @@ class RedshopModelWrapper extends RedshopModel
 				. "WHERE product_id = " . $this->_productid;
 			$cat = $this->_getList($query);
 
-			for ($i = 0; $i < count($cat); $i++)
+			for ($i = 0, $in = count($cat); $i < $in; $i++)
 			{
 				$and .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
 			}
 		}
-		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w '
+		
+		$filter = $this->getState('filter');
+		
+		if ($filter)
+		{
+			$and .= " AND w.wrapper_name LIKE '%" . $filter . "%' ";
+		}
+		
+		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w WHERE 1=1 '
 			. $and;
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'w.wrapper_id');
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'wrapper_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$query .= ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);

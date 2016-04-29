@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ if ($order->order_total > 0 && !USE_AS_CATALOG)
 		$adminpath        = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
-		$billingaddresses = $order_functions->getOrderBillingUserInfo($order->order_id);
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($order->order_id);
 
 		if (isset($billingaddresses))
 		{
@@ -57,7 +57,7 @@ if ($order->order_total > 0 && !USE_AS_CATALOG)
 			}
 		}
 
-		$shippingaddresses = $order_functions->getOrderShippingUserInfo($order->order_id);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
 
 		if (isset($shippingaddresses))
 		{
@@ -74,7 +74,7 @@ if ($order->order_total > 0 && !USE_AS_CATALOG)
 
 		$cart_quantity = 0;
 
-		for ($i = 0; $i < count($orderitem); $i++)
+		for ($i = 0, $in = count($orderitem); $i < $in; $i++)
 		{
 			$cart_quantity += $orderitem[$i]->product_quantity;
 		}

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 		$post = JRequest::get('post');
 		$question = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["question"] = $question;
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['question_id'] = $cid [0];
@@ -70,7 +70,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 	public function remove()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -92,14 +92,14 @@ class RedshopControllerAnswer_detail extends RedshopController
 	public function cancel()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option', '', 'request', 'string');
+
 		$msg = JText::_('COM_REDSHOP_ANSWER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
+
 		$parent_id = JRequest::getVar('parent_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -121,7 +121,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
+
 		$parent_id = JRequest::getVar('parent_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -150,7 +150,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 	public function orderup()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option');
+
 		$model = $this->getModel('answer_detail');
 		$model->orderup();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -166,7 +166,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 	public function orderdown()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option');
+
 		$model = $this->getModel('answer_detail');
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -182,7 +182,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 	public function saveorder()
 	{
 		$parent_id = JRequest::getVar('parent_id');
-		$option = JRequest::getVar('option');
+
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 

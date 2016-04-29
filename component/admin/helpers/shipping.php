@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,7 +141,7 @@ class shipping
 					{
 						$where = 'AND ( ';
 
-						for ($c = 0; $c < count($categorydata); $c++)
+						for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 						{
 							$where .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -346,7 +346,7 @@ class shipping
 				{
 					$where = 'AND ( ';
 
-					for ($c = 0; $c < count($categorydata); $c++)
+					for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 					{
 						$where .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -474,7 +474,7 @@ class shipping
 			{
 				$cwhere = ' ( ';
 
-				for ($c = 0; $c < count($categorydata); $c++)
+				for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 				{
 					$cwhere .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
@@ -507,7 +507,7 @@ class shipping
 
 		$whereShippingVolume = "";
 
-		for ($g = 0; $g < count($volumeShipping); $g++)
+		for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 		{
 			$length = $volumeShipping[$g]['length'];
 			$width  = $volumeShipping[$g]['width'];
@@ -594,7 +594,7 @@ class shipping
 
 			$userzip_len = ($this->strposa($zip, $numbers) !== false) ? ($this->strposa($zip, $numbers)) : strlen($zip);
 
-			for ($i = 0; $i < count($shippingrate); $i++)
+			for ($i = 0, $in = count($shippingrate); $i < $in; $i++)
 			{
 				$flag             = false;
 				$tmp_shippingrate = $shippingrate[$i];
@@ -661,7 +661,15 @@ class shipping
 		return $rate . "`" . $total;
 	}
 
-	/******************New Function used in redshop 1.1**********************/
+	/**
+	 * Encrypt Shipping
+	 *
+	 * @param   string  $Str_Message  String to encrypt
+	 *
+	 * @deprecated 1.6  Use RedshopShippingRate::encrypt(array);
+	 *
+	 * @return  string  Encrypt shipping rate
+	 */
 	public function encryptShipping($Str_Message)
 	{
 		$Len_Str_Message       = strlen($Str_Message);
@@ -685,6 +693,15 @@ class shipping
 		return $result;
 	}
 
+	/**
+	 * Decrypt Shipping
+	 *
+	 * @param   string  $Str_Message  String to decrypt
+	 *
+	 * @deprecated 1.6  Use RedshopShippingRate::decrypt(string);
+	 *
+	 * @return  string  Encrypt shipping rate
+	 */
 	public function decryptShipping($Str_Message)
 	{
 		$Str_Message           = base64_decode($Str_Message);
@@ -810,7 +827,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -913,7 +930,7 @@ class shipping
 
 				if ($categorydata)
 				{
-					for ($c = 0; $c < count($categorydata); $c++)
+					for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 					{
 						$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 					}
@@ -1044,7 +1061,7 @@ class shipping
 		$and = '';
 		$q2  = '';
 
-		if (!empty($data))
+		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
 		{
 			if ('BT' == CALCULATE_VAT_ON)
 			{
@@ -1370,8 +1387,13 @@ class shipping
 			{
 				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
 				{
-					$acc_id     = $cart[$i]['cart_accessory'][$a]['accessory_id'];
-					$acc_qty    = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
+					$acc_id  = $cart[$i]['cart_accessory'][$a]['accessory_id'];
+					$acc_qty = 1;
+
+					if (isset($cart[$i]['cart_accessory'][$a]['accessory_quantity']))
+					{
+						$acc_qty = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
+					}
 
 					if ($acc_data   = $productHelper->getProductById($acc_id))
 					{
@@ -1416,7 +1438,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -1528,7 +1550,7 @@ class shipping
 		{
 			$whereShippingVolume .= " AND ( ";
 
-			for ($g = 0; $g < count($volumeShipping); $g++)
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
 			{
 				$length = $volumeShipping[$g]['length'];
 				$width  = $volumeShipping[$g]['width'];
@@ -1683,7 +1705,7 @@ class shipping
 			$db->setQuery($sel);
 			$categorydata = $db->loadObjectList();
 
-			for ($c = 0; $c < count($categorydata); $c++)
+			for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
 			{
 				$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 			}

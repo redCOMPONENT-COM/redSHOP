@@ -4,6 +4,14 @@ fieldset.adminform textarea {
 	box-sizing: border-box;
 }
 
+#redSHOPAdminContainer .form-horizontal .control-label{
+	width: 200px;
+}
+
+#redSHOPAdminContainer .form-horizontal .controls{
+	margin-left: 0;
+}
+
 /* product Finder */
 .select_box_parent {
 	cursor: pointer;
@@ -593,7 +601,7 @@ div.current label, div.current span.faux-label {
 	}
 
 div.current select, div.current input, div.current textarea, div.current select {
-	margin: 0 !important;
+	margin: 0 3px 0 0 !important;
 	float: none !important;
 }
 .arrowimg {
@@ -680,4 +688,12 @@ div.current select, div.current input, div.current textarea, div.current select 
 /* Joomla 2.5.x template editor css fix */
 .isJ25 #editor .row-fluid{
 	clear: both;
+}
+
+span.hasTooltip{
+	margin-left: 5px;
+}
+
+div.controls{
+	display: inline;
 }

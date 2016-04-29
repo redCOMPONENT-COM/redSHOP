@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -26,7 +26,7 @@ class RedshopViewOrder_detail extends RedshopView
 		$detail = $this->get('data');
 
 		$billing = $order_functions->getBillingAddress($detail->user_id);
-		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
+		$shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
 		if (!$shipping)
 		{
 			$shipping = $billing;

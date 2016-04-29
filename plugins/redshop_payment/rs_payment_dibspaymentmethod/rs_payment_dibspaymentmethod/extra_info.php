@@ -58,7 +58,7 @@ $formdata = array(
 	'forcecurrency'     => $this->params->get("dibs_forcecurrency")
 );
 
-for ($p = 0; $p < count($rs); $p++)
+for ($p = 0, $pn = count($rs); $p < $pn; $p++)
 {
 	$formdata['ordline' . ($p + 1) . '-1'] = $rs[$p]->product_id;
 	$formdata['ordline' . ($p + 1) . '-2'] = $rs[$p]->order_item_name;

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,7 +63,7 @@ class RedshopViewOrder_detail extends RedshopView
 			$template_middle = $template_edata[0];
 
 			$middle_data = '';
-			for ($p = 0; $p < count($products); $p++)
+			for ($p = 0, $pn = count($products); $p < $pn; $p++)
 			{
 				$middle_data .= $template_middle;
 
@@ -84,9 +84,9 @@ class RedshopViewOrder_detail extends RedshopView
 		$html_template = str_replace("{product_name_lbl}", JText::_('COM_REDSHOP_PRODUCT_NAME'), $html_template);
 		$html_template = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $html_template);
 		$html_template = str_replace("{product_quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY'), $html_template);
-		$billing = $order_functions->getOrderBillingUserInfo($detail->order_id);
+		$billing = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
 		$html_template = $carthelper->replaceBillingAddress($html_template, $billing);
-		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
+		$shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
 		$html_template = $carthelper->replaceShippingAddress($html_template, $shipping);
 		$html_template = str_replace("{requisition_number}", $detail->requisition_number, $html_template);
 		$html_template = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $html_template);

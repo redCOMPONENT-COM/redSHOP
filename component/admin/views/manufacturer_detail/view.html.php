@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ class RedshopViewManufacturer_detail extends RedshopView
 
 		$uri = JFactory::getURI();
 		$document = JFactory::getDocument();
-		$option = JRequest::getVar('option');
+
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$this->setLayout('default');
 

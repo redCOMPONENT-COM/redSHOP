@@ -14,7 +14,7 @@ JLoader::load('RedshopHelperHelper');
 $objOrder         = new order_functions;
 $objconfiguration = new Redconfiguration;
 $user             = JFactory::getUser();
-$shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
+$shipping_address = RedshopHelperOrder::getOrderShippingUserInfo($data['order_id']);
 
 $redhelper        = new redhelper;
 $db               = JFactory::getDbo();

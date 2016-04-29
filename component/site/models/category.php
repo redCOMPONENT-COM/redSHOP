@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -806,7 +806,7 @@ class RedshopModelCategory extends RedshopModel
 
 			$tag = '';
 
-			for ($f = 0; $f < count($rs_filters); $f++)
+			for ($f = 0, $fn = count($rs_filters); $f < $fn; $f++)
 			{
 				$tmp_tag = $app->getUserStateFromRequest($context . 'tag' . $rs_filters[$f], 'tag' . $rs_filters[$f], '');
 
@@ -840,7 +840,7 @@ class RedshopModelCategory extends RedshopModel
 						{
 							$i = 1;
 
-							for ($t = 1; $t < count($tag); $t++)
+							for ($t = 1, $tn = count($tag); $t < $tn; $t++)
 							{
 								$finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
 								$finder_where[] = " at" . $t . ".tag_id = " . (int) $tag[$t] . " ";

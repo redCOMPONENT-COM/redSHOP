@@ -116,7 +116,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 		}
 
 		$shippinghelper = new shipping;
-		$shippingInfo = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $data['order']->ship_method_id)));
+		$shippingInfo = RedshopShippingRate::decrypt($data['order']->ship_method_id);
 
 		$orderItems[] = new OrderItem(
 			$shippingInfo[2],

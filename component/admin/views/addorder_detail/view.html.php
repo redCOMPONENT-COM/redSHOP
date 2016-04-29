@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -50,7 +50,7 @@ class RedshopViewAddorder_detail extends RedshopView
 		$base_dir          = JPATH_ADMINISTRATOR;
 		$language_tag      = $language->getTag();
 
-		for ($l = 0; $l < count($payment_lang_list); $l++)
+		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
@@ -84,7 +84,7 @@ class RedshopViewAddorder_detail extends RedshopView
 
 			if ($shipping_users_info_id != 0)
 			{
-				for ($o = 0; $o < count($shippinginfo); $o++)
+				for ($o = 0, $on = count($shippinginfo); $o < $on; $o++)
 				{
 					if ($shippinginfo[$o]->users_info_id == $shipping_users_info_id)
 					{

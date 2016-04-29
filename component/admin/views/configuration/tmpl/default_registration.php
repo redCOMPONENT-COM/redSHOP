@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -80,7 +80,7 @@ defined('_JEXEC') or die;
 			$doc = JFactory::getDocument();
 
 			$article = JTable::getInstance('content');
-			$article_id = TERMS_ARTICLE_ID;
+			$article_id = $this->config->get('TERMS_ARTICLE_ID');
 			if ($article_id)
 			{
 				$article->load($article_id);
@@ -158,7 +158,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="welcomepage_introtext" id="welcomepage_introtext" rows="4"
-			          cols="40"/><?php echo stripslashes(WELCOMEPAGE_INTROTEXT); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('WELCOMEPAGE_INTROTEXT')); ?></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -169,7 +169,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="registration_introtext" id="registration_introtext" rows="4"
-			          cols="40"/><?php echo stripslashes(REGISTRATION_INTROTEXT); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('REGISTRATION_INTROTEXT')); ?></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -180,7 +180,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="registration_comp_introtext" id="registration_comp_introtext"
-			          rows="4" cols="40"/><?php echo stripslashes(REGISTRATION_COMPANY_INTROTEXT); ?></textarea>
+			          rows="4" cols="40"/><?php echo stripslashes($this->config->get('REGISTRATION_COMPANY_INTROTEXT')); ?></textarea>
 		</td>
 	</tr>
 </table>

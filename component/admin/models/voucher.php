@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,8 +33,10 @@ class RedshopModelVoucher extends RedshopModel
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
+		$this->setState('filter', $filter);
 	}
 
 	public function getData()
@@ -72,8 +74,22 @@ class RedshopModelVoucher extends RedshopModel
 
 	public function _buildQuery()
 	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$filter = $this->getState('filter');
+
+		$query->select('distinct(v.voucher_id)')
+			->select('v.*')
+			->from($db->qn('#__redshop_product_voucher', 'v'));
+
+		if ($filter)
+		{
+			$query->where($db->qn('v.voucher_code') . 'LIKE ' . $db->q('%' . $filter . '%'));
+		}
+
 		$orderby = $this->_buildContentOrderBy();
-		$query = ' SELECT distinct(v.voucher_id),v.* FROM ' . $this->_table_prefix . 'product_voucher v' . $orderby;
+		$query->order($db->q($orderby));
 
 		return $query;
 	}

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -91,8 +91,8 @@ class leftmenu
 				$selected = $stockCounter + 8;
 				break;
 
+			case "giftcards":
 			case "giftcard":
-			case "giftcard_detail":
 				$selected = $stockCounter + 9;
 				break;
 
@@ -348,8 +348,8 @@ class leftmenu
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_GIFTCARD'), 'COM_REDSHOP_GIFTCARD'); ?>
 		<table class="adminlist">
 			<?php
-			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcard', 'COM_REDSHOP_GIFTCARD_LISTING');
-			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcard_detail', 'COM_REDSHOP_ADD_GIFTCARD');
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcards', 'COM_REDSHOP_GIFTCARD_LISTING');
+			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcard&task=giftcard.edit', 'COM_REDSHOP_ADD_GIFTCARD');
 			?>
 		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_VOUCHER'), 'COM_REDSHOP_VOUCHER'); ?>

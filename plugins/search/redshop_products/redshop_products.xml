@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" client="site" type="plugin" group="search" method="upgrade">
 	<name>PLG_SEARCH_REDSHOP_PRODUCTS_NAME</name>
-	<version>1.5</version>
+	<version>1.5.4</version>
 	<redshop>1.5</redshop>
-	<creationDate>April 2013</creationDate>
+	<creationDate>13th April 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
@@ -33,6 +33,26 @@
 					class="btn-group btn-group-yesno"
 					description="PLG_SEARCH_REDSHOP_PRODUCTS_SHOW_SECTION_DESC"
 					label="PLG_SEARCH_REDSHOP_PRODUCTS_SHOW_SECTION_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+				<field name="searchShortDesc"
+					type="radio"
+					default="0"
+					class="btn-group btn-group-yesno"
+					description="PLG_SEARCH_REDSHOP_PRODUCTS_SEARCH_SHORT_DESCRIPTION_DESC"
+					label="PLG_SEARCH_REDSHOP_PRODUCTS_SEARCH_SHORT_DESCRIPTION_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+				<field name="searchFullDesc"
+					type="radio"
+					default="0"
+					class="btn-group btn-group-yesno"
+					description="PLG_SEARCH_REDSHOP_PRODUCTS_SEARCH_FULL_DESCRIPTION_DESC"
+					label="PLG_SEARCH_REDSHOP_PRODUCTS_SEARCH_FULL_DESCRIPTION_LABEL"
 				>
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>

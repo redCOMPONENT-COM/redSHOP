@@ -133,7 +133,7 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 		$arr_discount = explode('@', $row->discount_type);
 		$discount_type = '';
 
-		for ($d = 0; $d < count($arr_discount); $d++)
+		for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
 		{
 			if ($arr_discount[$d])
 			{
@@ -164,7 +164,7 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 
 		$body             = $redshopMail->imginmail($body);
 		$user             = JFactory::getUser();
-		$billingaddresses = $orderHelper->getOrderBillingUserInfo($orderId);
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$email            = $billingaddresses->user_email;
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$body             = $carthelper->replaceOrderTemplate($row, $body);
@@ -197,7 +197,7 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 
 		$pdf = RedshopHelperPdf::getPDFMerger();
 
-		for ($m = 0; $m < count($mergeOrderIds); $m++)
+		for ($m = 0, $mn = count($mergeOrderIds); $m < $mn; $m++)
 		{
 			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
 
@@ -211,7 +211,7 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 
 		$pdf->merge('file', $pdfRootPath . $mergedPdfFile);
 
-		for ($m = 0; $m < count($mergeOrderIds); $m++)
+		for ($m = 0, $mn = count($mergeOrderIds); $m < $mn; $m++)
 		{
 			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
 

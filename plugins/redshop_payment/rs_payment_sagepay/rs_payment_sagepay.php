@@ -222,7 +222,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		curl_close($curlSession);
 
 		// Tokenized the response
-		for ($i = 0; $i < count($response); $i++)
+		for ($i = 0, $in = count($response); $i < $in; $i++)
 		{
 			// Find position of first "=" character
 			$splitAt = strpos($response[$i], "=");
@@ -280,7 +280,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		sort($resultArray);
 
 		// Go through the result array, getting the token values
-		for ($i = 0; $i < count($resultArray); $i++)
+		for ($i = 0, $in = count($resultArray); $i < $in; $i++)
 		{
 			// Get the start point of the value
 			$valueStart = $resultArray[$i]->start + strlen($resultArray[$i]->token) + 1;

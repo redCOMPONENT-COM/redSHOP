@@ -382,7 +382,17 @@ class Plgredshop_Shippingbring extends JPlugin
 					$Displaycost = $currency->convert($bringProduct->AmountWithVAT, $currencyidentificationcode);
 				}
 
-				$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $product_name . "|" . number_format($cost + $vat, 2, '.', '') . "|" . $product_name . "|single|0");
+				$shipping_rate_id = RedshopShippingRate::encrypt(
+									array(
+										__CLASS__ ,
+										$shipping->name ,
+										$product_name ,
+										number_format($cost + $vat, 2, '.', '') ,
+										$product_name ,
+										'single',
+										'0'
+									)
+								);
 
 				$shippingrate[$rate] = new stdClass;
 				$shippingrate[$rate]->text = $product_name;

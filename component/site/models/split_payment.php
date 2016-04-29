@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,7 +55,6 @@ class RedshopModelSplit_payment extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 		$post            = JRequest::get('post');
-		$option          = JRequest::getVar('option');
 		$Itemid          = JRequest::getVar('Itemid');
 		$task            = JRequest::getVar('task');
 		$user            = JFactory::getUser();
@@ -117,7 +116,7 @@ class RedshopModelSplit_payment extends RedshopModel
 			if (!$validpayment[0])
 			{
 				$msg  = $validpayment[1];
-				$link = 'index.php?option=' . $option
+				$link = 'index.php?option=com_redshop'
 					. '&view=split_payment&Itemid=' . $Itemid
 					. '&ccinfo=' . $ccinfo
 					. '&payment_method_id=' . $payment_method_id

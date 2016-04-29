@@ -20,11 +20,6 @@ class RoboFile extends \Robo\Tasks
     use \redcomponent\robo\loadTasks;
 
     /**
-     * Current RoboFile version
-     */
-    private $version = '1.5';
-
-    /**
      * Hello World example task.
      *
      * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
@@ -73,6 +68,8 @@ class RoboFile extends \Robo\Tasks
     /**
      * Downloads and prepares a Joomla CMS site for testing
      *
+	 * @param   int  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+	 *
      * @return mixed
      */
     public function prepareSiteForSystemTests($use_htaccess = 0)
@@ -89,7 +86,7 @@ class RoboFile extends \Robo\Tasks
 		 * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
 		 * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
 		 */
-		$version = '3.4.4';
+		$version = '3.5.1';
 
 		$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms3");
 
@@ -110,17 +107,16 @@ class RoboFile extends \Robo\Tasks
      *
      * @return mixed
      */
-    public function runTest($options = [
-        'test'          => null,
-        'suite'         => 'acceptance',
-        'selenium_path' => null
+	public function runTest($opts = [
+		'test|t'	    => null,
+		'suite|s'	    => 'acceptance'
     ])
     {
         $this->getComposer();
 
         $this->taskComposerInstall()->run();
 
-		if (isset($options['suite']) && 'api' === $options['suite'])
+		if (isset($opts['suite']) && 'api' === $opts['suite'])
 		{
 			// Do not launch selenium when running API tests
 		}
@@ -136,13 +132,13 @@ class RoboFile extends \Robo\Tasks
         // Make sure to Run the Build Command to Generate AcceptanceTester
         $this->_exec("vendor/bin/codecept build");
 
-        if (!$options['test'])
+		if (!$opts['test'])
         {
             $this->say('Available tests in the system:');
 
             $iterator = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator(
-                    'tests/' . $options['suite'],
+                    'tests/' . $opts['suite'],
                     RecursiveDirectoryIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::SELF_FIRST);
 
@@ -166,19 +162,47 @@ class RoboFile extends \Robo\Tasks
 
             $this->say('');
             $testNumber     = $this->ask('Type the number of the test  in the list that you want to run...');
-            $options['test'] = $tests[$testNumber];
+			$opts['test'] = $tests[$testNumber];
         }
 
-        $pathToTestFile = 'tests/' . $options['suite'] . '/' . $options['test'];
+        $pathToTestFile = 'tests/' . $opts['suite'] . '/' . $opts['test'];
+
+		//loading the class to display the methods in the class
+		require 'tests/' . $opts['suite'] . '/' . $opts['test'];
+
+		$classes = Nette\Reflection\AnnotationsParser::parsePhp(file_get_contents($pathToTestFile));
+		$className = array_keys($classes)[0];
+
+		// If test is Cest, give the option to execute individual methods
+		if (strripos($className, 'cest'))
+		{
+			$testFile = new Nette\Reflection\ClassType($className);
+			$testMethods = $testFile->getMethods(ReflectionMethod::IS_PUBLIC);
+
+			foreach ($testMethods as $key => $method)
+			{
+				$this->say('[' . $key . '] ' . $method->name);
+			}
+
+			$this->say('');
+			$methodNumber = $this->askDefault('Choose the method in the test to run (hit ENTER for All)', 'All');
+
+			if($methodNumber != 'All')
+			{
+				$method = $testMethods[$methodNumber]->name;
+				$pathToTestFile = $pathToTestFile . ':' . $method;
+			}
+		}
 
         $this->taskCodecept()
              ->test($pathToTestFile)
              ->arg('--steps')
              ->arg('--debug')
+			->arg('--fail-fast')
              ->run()
              ->stopOnFail();
 
-        if (!'api' == $options['suite'])
+		if (!'api' == $opts['suite'])
         {
             $this->killSelenium();
         }
@@ -224,14 +248,16 @@ class RoboFile extends \Robo\Tasks
              ->run()
              ->stopOnFail();
 
+		/*
 		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/checkout/')
-			->run()
-			->stopOnFail();
+			->run();
+			// ->stopOnFail();
+		*/
 
         $this->taskCodecept()
              ->arg('--steps')
@@ -242,6 +268,7 @@ class RoboFile extends \Robo\Tasks
              ->run()
              ->stopOnFail();
 
+		/* @todo: REDSHOP-2884
         $this->say('preparing for update test');
         $this->getDevelop();
         $this->taskCodecept()
@@ -251,24 +278,12 @@ class RoboFile extends \Robo\Tasks
              ->arg('tests/acceptance/update/')
              ->run()
              ->stopOnFail();
+		*/
 
         $this->killSelenium();
     }
 
-    /**
-     * This function ensures that you have the latest version of RoboFile in your project.
-     * All redCOMPONENT RoboFiles are clones. All special needs for a project are stored in a robofile.yml file
-     *
-     * @return void
-     */
-    public function checkRoboFileVersion()
-    {
-        $this->taskCheckRoboFileVersion($this->version)
-             ->run()
-             ->stopOnFail();
-    }
-
-    /**
+	/**
      * Stops Selenium Standalone Server
      *
      * @return void
@@ -311,12 +326,10 @@ class RoboFile extends \Robo\Tasks
         {
             while (false !== ($errorSnapshot = readdir($handler)))
             {
-                // Avoid sending system files or html files
-                if ('.' === substr($errorSnapshot, 0, 1)
-                    || 'html' == substr($errorSnapshot, -4)
-                    || 'log' == substr($errorSnapshot, -3))
-                {
-                    continue;
+				// Avoid sending system files or html files
+				if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
+				{
+					continue;
                 }
 
                 $this->say('Uploading screenshots...');

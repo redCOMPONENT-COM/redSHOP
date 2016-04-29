@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,7 +49,20 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 			$shopper_shipping = $shippingArr['shipping_rate'];
 			$shippingVatRate = $shippingArr['shipping_vat'];
 			$default_shipping = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_SHIPPING');
-			$shopper_shipping_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $default_shipping . "|" . number_format($shopper_shipping, 2, '.', '') . "|" . $default_shipping . "|single|" . $shippingVatRate . "|0|1");
+			$shopper_shipping_id = RedshopShippingRate::encrypt(
+									array(
+										__CLASS__,
+										$shipping->name,
+										$default_shipping,
+										number_format($shopper_shipping, 2, '.', ''),
+										$default_shipping,
+										'single',
+										$shippingVatRate,
+										'0',
+										'1'
+									)
+								);
+
 			$shippingrate[$rate] = new stdClass;
 			$shippingrate[$rate]->text = $default_shipping;
 			$shippingrate[$rate]->value = $shopper_shipping_id;
@@ -59,14 +72,26 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 
 		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
 
-		for ($i = 0; $i < count($ratelist); $i++)
+		for ($i = 0, $in = count($ratelist); $i < $in; $i++)
 		{
 			$rs                      = $ratelist[$i];
 			$shippingRate            = $rs->shipping_rate_value;
 			$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d);
 			$shippingVatRate         = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber  = $rs->economic_displaynumber;
-			$shipping_rate_id        = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber . '|' . $rs->deliver_type);
+			$shipping_rate_id        = RedshopShippingRate::encrypt(
+										array(
+											__CLASS__ ,
+											$shipping->name ,
+											$rs->shipping_rate_name ,
+											number_format($rs->shipping_rate_value, 2, '.', '') ,
+											$rs->shipping_rate_id ,
+											'single',
+											$shippingVatRate,
+											$economic_displaynumber,
+											$rs->deliver_type
+										)
+									);
 
 			$shippingrate[$rate]        = new stdClass;
 			$shippingrate[$rate]->text  = $rs->shipping_rate_name;

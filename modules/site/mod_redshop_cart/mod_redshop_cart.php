@@ -3,12 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_cart
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-$option = JRequest::getCmd('option');
 JLoader::import('redshop.library');
 
 $show_with_vat = trim($params->get('show_with_vat', 0));
@@ -19,7 +18,7 @@ $show_with_discount = ($params->get('show_with_discount', 0));
 $document = JFactory::getDocument();
 $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
 
-if ($option != 'com_redshop')
+if (JRequest::getCmd('option') != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 	JLoader::load('RedshopHelperAdminConfiguration');

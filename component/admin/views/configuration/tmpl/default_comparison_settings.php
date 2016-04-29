@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 							</td>
 							<td>
 								<input type="text" name="product_compare_limit" id="product_compare_limit"
-								       value="<?php echo PRODUCT_COMPARE_LIMIT; ?>">
+								       value="<?php echo $this->config->get('PRODUCT_COMPARE_LIMIT'); ?>">
 							</td>
 						</tr>
 						<tr>
@@ -64,9 +64,9 @@ defined('_JEXEC') or die;
 							</td>
 							<td>
 								<input type="text" name="compare_product_thumb_width" id="compare_product_thumb_width"
-								       value="<?php echo COMPARE_PRODUCT_THUMB_WIDTH; ?>">
+								       value="<?php echo $this->config->get('COMPARE_PRODUCT_THUMB_WIDTH'); ?>">
 								<input type="text" name="compare_product_thumb_height" id="compare_product_thumb_height"
-								       value="<?php echo COMPARE_PRODUCT_THUMB_HEIGHT; ?>">
+								       value="<?php echo $this->config->get('COMPARE_PRODUCT_THUMB_HEIGHT'); ?>">
 							</td>
 					</table>
 				</fieldset>

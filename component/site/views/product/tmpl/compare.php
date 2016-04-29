@@ -3,69 +3,58 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-$url = JURI::base();
 
 // Get product helper
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
 
-$producthelper = new producthelper;
-
 $print  = $this->input->getBool('print', false);
-$user   = JFactory::getUser();
 
-$pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
-
-$config  = new Redconfiguration;
-$compare = $producthelper->getCompare();
-
+$producthelper   = new producthelper;
+$config          = new Redconfiguration;
 $stockroomhelper = new rsstockroomhelper;
+$compare         = new RedshopProductCompare;
+
+$compareCategoryId = $compare->getCategoryId();
 
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
-	$compare_product = $this->session->get('compare_product');
-	$catid           = isset($compare_product[0]['category_id']) ? $compare_product[0]['category_id'] : 0;
-	$cid             = $this->input->getInt('cid', null);
-
-	$template_id = $producthelper->getCategoryCompareTemplate($catid);
-
-	if ($template_id == "")
-	{
-		$compare_template = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
-	}
-	else
-	{
-		$compare_template = $this->redTemplate->getTemplate("compare_product", $template_id);
-	}
+	$compareTemplate = $this->redTemplate->getTemplate(
+		'compare_product',
+		$producthelper->getCategoryCompareTemplate($compareCategoryId)
+	);
 }
 else
 {
-	$compare_template = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
+	$compareTemplate = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
 }
 
-if (count($compare_template) > 0 && $compare_template[0]->template_desc != "")
+$template = "<div><span>{compare_product_heading}</span></div><div><a href=\"{returntocategory_link}\">{returntocategory_name}</a></div><table border=\"1\"><tbody><tr><th> </th><td align=\"center\">{expand_collapse}</td></tr><tr><th>Product Name</th><td>{product_name}</td></tr><tr><th>Image</th><td>{product_image}</td></tr><tr><th>Manufacturer</th><td>{manufacturer_name}</td></tr><tr><th>Discount Start <br /></th><td>{discount_start_date}</td></tr><tr><th>Discount End<br /></th><td>{discount_end_date}</td></tr><tr><th>Price</th><td>{product_price}</td></tr><tr><th>Short Desc<br /></th><td>{product_s_desc}</td></tr><tr><th>Desc</th><td>{product_desc}</td></tr><tr><th>Rating</th><td>{product_rating_summary}</td></tr><tr><th>Delivery Time</th><td>{product_delivery_time}</td></tr><tr><th>Product Number<br /></th><td>{product_number}</td></tr><tr><th>Stock<br /></th><td>{products_in_stock}</td></tr><tr><th>Stock<br /></th><td>{product_stock_amount_image}</td></tr><tr><th>Weight<br /></th><td>{product_weight}</td></tr><tr><th>Length<br /></th><td>{product_length}</td></tr><tr><th>Height<br /></th><td>{product_height}</td></tr><tr><th>Width<br /></th><td>{product_width}</td></tr><tr><th>Availability Date<br /></th><td>{product_availability_date}</td></tr><tr><th>Volume<br /></th><td>{product_volume}</td></tr><tr><th>Category<br /></th><td>{product_category}</td></tr><tr><th> </th><td>{remove}</td></tr><tr><th> </th><td>{add_to_cart}</td></tr></tbody></table>";
+
+if (count($compareTemplate) > 0 && $compareTemplate[0]->template_desc != "")
 {
-	$template = $compare_template[0]->template_desc;
-}
-else
-{
-	$template = "<div><span>{compare_product_heading}</span></div><div><a href=\"{returntocategory_link}\">{returntocategory_name}</a></div><table border=\"1\"><tbody><tr><th> </th><td align=\"center\">{expand_collapse}</td></tr><tr><th>Product Name</th><td>{product_name}</td></tr><tr><th>Image</th><td>{product_image}</td></tr><tr><th>Manufacturer</th><td>{manufacturer_name}</td></tr><tr><th>Discount Start <br /></th><td>{discount_start_date}</td></tr><tr><th>Discount End<br /></th><td>{discount_end_date}</td></tr><tr><th>Price</th><td>{product_price}</td></tr><tr><th>Short Desc<br /></th><td>{product_s_desc}</td></tr><tr><th>Desc</th><td>{product_desc}</td></tr><tr><th>Rating</th><td>{product_rating_summary}</td></tr><tr><th>Delivery Time</th><td>{product_delivery_time}</td></tr><tr><th>Product Number<br /></th><td>{product_number}</td></tr><tr><th>Stock<br /></th><td>{products_in_stock}</td></tr><tr><th>Stock<br /></th><td>{product_stock_amount_image}</td></tr><tr><th>Weight<br /></th><td>{product_weight}</td></tr><tr><th>Length<br /></th><td>{product_length}</td></tr><tr><th>Height<br /></th><td>{product_height}</td></tr><tr><th>Width<br /></th><td>{product_width}</td></tr><tr><th>Availability Date<br /></th><td>{product_availability_date}</td></tr><tr><th>Volume<br /></th><td>{product_volume}</td></tr><tr><th>Category<br /></th><td>{product_category}</td></tr><tr><th> </th><td>{remove}</td></tr><tr><th> </th><td>{add_to_cart}</td></tr></tbody></table>";
+	$template = $compareTemplate[0]->template_desc;
 }
 
+$pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 $template = str_replace('{compare_product_heading}', $pagetitle, $template);
 
-if (isset($compare['idx']) && $compare['idx'] == 1)
+$list = $compare->getItems();
+$total = $compare->getItemsTotal();
+
+if ($total > 0)
 {
-	$template = JText::_('COM_REDSHOP_ADD_ONE_MORE_PRODUCT_TO_COMPARE');
-}
-elseif (isset($compare['idx']) && $compare['idx'] > 1)
-{
-	$returnlink = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $compare[$compare['idx'] - 1]["category_id"] . "&Itemid=" . $this->itemId);
+	if ($total == 1)
+	{
+		JLog::add(JText::_('COM_REDSHOP_ADD_ONE_MORE_PRODUCT_TO_COMPARE'), JLog::NOTICE);
+	}
+
+	$returnlink = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $compareCategoryId . "&Itemid=" . $this->itemId);
 
 	if ($print)
 	{
@@ -73,7 +62,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 	}
 	else
 	{
-		$print_url = $url . "index.php?option=com_redshop&view=product&layout=compare&print=1&tmpl=component";
+		$print_url = JURI::base() . "index.php?option=com_redshop&view=product&layout=compare&print=1&tmpl=component";
 		$print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
 	}
 
@@ -83,21 +72,28 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 	$template = str_replace('{returntocategory_name}', JText::_("COM_REDSHOP_GO_BACK"), $template);
 	$template = str_replace('{returntocategory_link}', $returnlink, $template);
 
+	$removeAll = '<a class="remove" href="' . JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&tmpl=component&Itemid=' . $this->itemId . '">'
+				. JText::_('COM_REDSHOP_REMOVE_ALL_PRODUCT_FROM_COMPARE_LIST')
+			. '</a>';
+	$template = str_replace('{remove_all}', $removeAll, $template);
+
 	// Make extrafield object..
 	$field    = new extraField;
 
 	$product_tag = array();
 
-	if (count($compare_template) > 0)
+	if (count($compareTemplate) > 0)
 	{
-		$product_tag = $producthelper->product_tag($compare_template[0]->template_id, "1", $template);
+		$product_tag = $producthelper->product_tag($compareTemplate[0]->template_id, "1", $template);
 	}
 
-	for ($i = 0; $i < $compare['idx']; $i++)
-	{
-		$product = $producthelper->getProductById($compare[$i]["product_id"]);
+	$i = 0;
 
-		if ($i == ($compare['idx'] - 1))
+	foreach ($list as $data)
+	{
+		$product = RedshopHelperProduct::getProductById($data['item']->productId);
+
+		if ($i == ($total - 1))
 		{
 			$td_start = "";
 			$td_end   = "";
@@ -112,9 +108,6 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		$div_end = "</div>";
 
 		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
-		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&id=' . $product->product_id . '&Itemid=' . $this->itemId);
-
-		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 
 		$thumbUrl = RedShopHelperImages::getImagePath(
 							$product->product_full_image,
@@ -129,7 +122,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 		$expand = "<a href='javascript:void(0)' onClick='expand_collapse(this," . $product->product_id . ")' style='font-size:18px;text-decoration:none;' >-</a>";
 
-		if ($i != ($compare['idx'] - 1))
+		if ($i != ($total - 1))
 		{
 			$template = str_replace('{expand_collapse}', $expand . $td_end . '<td align="center">' . "{expand_collapse}", $template);
 		}
@@ -211,24 +204,24 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 		if (strstr($template, "{product_rating_summary}"))
 		{
-			$final_avgreview_data = $producthelper->getProductRating($compare[$i]["product_id"]);
+			$final_avgreview_data = $producthelper->getProductRating($data['item']->productId);
 			$template             = str_replace('{product_rating_summary}', $exp_div . $final_avgreview_data . $div_end . $td_end . $td_start . "{product_rating_summary}", $template);
 		}
 
 		if (strstr($template, "{products_in_stock}") || strstr($template, "{product_stock_amount_image}"))
 		{
-			$product_stock = $stockroomhelper->getStockAmountwithReserve($compare[$i]["product_id"]);
+			$product_stock = $stockroomhelper->getStockAmountwithReserve($data['item']->productId);
 			$template      = str_replace('{products_in_stock}', $exp_div . $product_stock . $div_end . $td_end . $td_start . "{products_in_stock}", $template);
 
-			$stockamountList  = $stockroomhelper->getStockAmountImage($compare[$i]["product_id"], "product", $product_stock);
+			$stockamountList  = $stockroomhelper->getStockAmountImage($data['item']->productId, "product", $product_stock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
 			{
 				$stockamountImage = '<a class="imgtooltip"><span>';
 				$stockamountImage .= '<div class="spnheader">' . JText::_('COM_REDSHOP_STOCK_AMOUNT') . '</div>';
-				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $compare[$i]["product_id"] . '">' . $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
-				$stockamountImage .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/' . $stockamountList[0]->stock_amount_image . '" width="150px" height="90px" alt="' . $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $compare[$i]["product_id"] . '" /></a>';
+				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $data['item']->productId . '">' . $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
+				$stockamountImage .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/' . $stockamountList[0]->stock_amount_image . '" width="150px" height="90px" alt="' . $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $data['item']->productId . '" /></a>';
 			}
 
 			$template = str_replace('{product_stock_amount_image}', $exp_div . $stockamountImage . $div_end . $td_end . $td_start . "{product_stock_amount_image}", $template);
@@ -236,7 +229,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 		if (strstr($template, "{product_delivery_time}"))
 		{
-			$product_delivery_time = $producthelper->getProductMinDeliveryTime($compare[$i]["product_id"]);
+			$product_delivery_time = $producthelper->getProductMinDeliveryTime($data['item']->productId);
 			$template              = str_replace('{product_delivery_time}', $exp_div . $product_delivery_time . $div_end . $td_end . $td_start . "{product_delivery_time}", $template);
 		}
 
@@ -254,15 +247,18 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 		if (strstr($template, "{product_category}"))
 		{
-			$category = $producthelper->getSection('category', $compare[$i]["category_id"]);
+			$category = $producthelper->getSection('category', $data['item']->categoryId);
 			$template = str_replace('{product_category}', $exp_div . $category->category_name . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
 
+		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $this->itemId . '&tmpl=component';
+
+		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 		$template = str_replace('{remove}', $exp_div . $remove . $div_end . $td_end . $td_start . "{remove}", $template);
 
 		if (strstr($template, "{add_to_cart}"))
 		{
-			$addtocart = $producthelper->replaceCartTemplate($compare[$i]["product_id"]);
+			$addtocart = $producthelper->replaceCartTemplate($data['item']->productId);
 			$template  = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
 		}
 
@@ -271,12 +267,20 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		{
 			$str = "'" . $product_tag[$tag] . "'";
 
-			if ($i != ($compare['idx'] - 1))
-				$template = str_replace('{' . $product_tag[$tag] . '}', $exp_div . '{' . $product_tag[$tag] . '}' . $div_end . $td_end . $td_start . '{addedext_tag}', $template);
+			if ($i != ($total - 1))
+			{
+				$template = str_replace(
+					'{' . $product_tag[$tag] . '}',
+					$exp_div . '{' . $product_tag[$tag] . '}' . $div_end . $td_end . $td_start . '{addedext_tag}',
+					$template
+				);
+			}
 
 			$template = $field->extra_field_display("1", $product->product_id, $str, $template);
 			$template = str_replace('{addedext_tag}', '{' . $product_tag[$tag] . '}', $template);
 		}
+
+		$i++;
 	}
 
 	$template = str_replace('{expand_collapse}', "", $template);

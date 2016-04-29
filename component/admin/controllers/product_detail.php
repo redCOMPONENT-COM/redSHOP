@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,8 +27,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public $app;
 
 	public $input;
-
-	public $option;
 
 	/**
 	 * Constructor to set the right model
@@ -203,7 +201,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
-			$link = '';
 
 			if ($apply == 2)
 			{
@@ -216,6 +213,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			}
 			else
 			{
+				$model->checkin($cid);
 				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 			}
 		}
@@ -319,7 +317,8 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public function cancel()
 	{
 		$model = $this->getModel('product_detail');
-		$model->checkin();
+		$recordId = JFactory::getApplication()->input->get('cid');
+		$model->checkin($recordId);
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}

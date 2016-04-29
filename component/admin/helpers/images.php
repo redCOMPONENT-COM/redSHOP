@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -401,7 +401,7 @@ class RedShopHelperImages extends JObject
 	{
 		$icon_array = array("products" => array('product', 'category', 'manufacturer', 'media'),
 							"orders" => array('order', 'quotation', 'stockroom'),
-							"discounts" => array('discount', 'giftcard', 'voucher', 'coupon'),
+							"discounts" => array('discount', 'giftcards', 'voucher', 'coupon'),
 							"communications" => array('mail', 'newsletter'),
 							"shippings" => array('shipping', 'shipping_box', 'shipping_detail', 'wrapper'),
 							"users" => array('user', 'shopper_group', 'accessmanager'),

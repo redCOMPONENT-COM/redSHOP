@@ -46,6 +46,7 @@ function select_dynamic_field(tpl_id, pr_id, sec1tion) {
     request.onreadystatechange = templateData;
 
     request.open("GET", setcrmprefix + "index.php?option=com_redshop&view=product&task=template&tmpl=component&json&template_id=" + tpl_id + "&product_id=" + pr_id + "&section=" + sec1tion + "&sid=" + Math.random(), true);
+    request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     request.send(null);
 }
 
@@ -54,6 +55,7 @@ function resetTermsCondition() {
         if (confirm("Are you sure you want to reset")) {
             request = getHTTPObject();
             request.open("GET", "index.php?option=com_redshop&view=configuration&task=resetTermsCondition&tmpl=component", true);
+            request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             request.send(null);
             return true;
         }
@@ -205,6 +207,7 @@ function validate(ind) {
         }
     }
     request.open("GET", "index.php?option=com_redshop&view=user_detail&task=validation&json=" + JSONstring, true);
+    request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     request.send(null);
 }
 
@@ -270,6 +273,7 @@ function mail_select(str) {
     request = getHTTPObject();
     request.onreadystatechange = mail_order_status;
     request.open("GET", "index.php?tmpl=component&option=com_redshop&view=mail_detail&task=mail_section&json=" + JSONstring, true);
+    request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     request.send(null);
 }
 
@@ -367,6 +371,7 @@ function removePropertyImage(image, task) {
         request = getHTTPObject();
         request.onreadystatechange = removeImageRes;
         request.open("GET", "index.php?tmpl=component&option=com_redshop&view=product_detail&task=remove" + task + "Image&pid=" + id, true);
+        request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         request.send(null);
     }
 }
@@ -477,6 +482,7 @@ function delimg(str, divname, spath, data_id) {
 
     var linktocontroller = "index.php?option=com_redshop&view=configuration&task=removeimg&imname=" + str + '&divname=' + divname + '&data_id=' + data_id + '&spath=' + spath;
     xmlhttp.open("GET", linktocontroller, true);
+    xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlhttp.send(null);
 }
 

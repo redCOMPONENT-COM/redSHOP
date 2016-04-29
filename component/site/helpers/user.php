@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -226,7 +226,7 @@ class rsUserhelper
 
 		if ($countusername > 0)
 		{
-			JError::raiseWarning('', JText::_('USERNAME_ALREADY_EXISTS'));
+			JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
 
 			return false;
 		}
@@ -763,7 +763,7 @@ class rsUserhelper
 		$this->_db->setQuery($query);
 		$jusers = $this->_db->loadObjectList();
 
-		for ($i = 0; $i < count($jusers); $i++)
+		for ($i = 0, $in = count($jusers); $i < $in; $i++)
 		{
 			$name = explode(" ", $jusers[$i]->name);
 
@@ -915,7 +915,7 @@ class rsUserhelper
 			$private_template[0]->template_id   = 0;
 		}
 
-		for ($i = 0; $i < count($private_template); $i++)
+		for ($i = 0, $in = count($private_template); $i < $in; $i++)
 		{
 			if (strstr($template_desc, "{private_billing_template:" . $private_template[$i]->template_name . "}"))
 			{
@@ -942,7 +942,7 @@ class rsUserhelper
 			$company_template[0]->template_id   = 0;
 		}
 
-		for ($i = 0; $i < count($company_template); $i++)
+		for ($i = 0, $in = count($company_template); $i < $in; $i++)
 		{
 			if (strstr($template_desc, "{company_billing_template:" . $company_template[$i]->template_name . "}"))
 			{
@@ -1257,22 +1257,16 @@ class rsUserhelper
 		return $template_desc;
 	}
 
+	/**
+	 * Get captcha html table
+	 *
+	 * @return  string  HTML output to render captch.
+	 *
+	 * @deprecated 1.5 This function will be removed in 1.6 version. Please use RedshopLayoutHelper::render('registration.captcha') instead.
+	 */
 	public function getCaptchaTable()
 	{
-		$html = '';
-
-		if (SHOW_CAPTCHA)
-		{
-
-			$html .= '<table cellspacing="0" cellpadding="0" border="0" width="100%">';
-			$html .= '<tr><td>&nbsp;</td>
-						<td align="left"><img src="' . JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" /></td></tr>';
-			$html .= '<tr><td width="100" align="right"><label for="security_code">' . JText::_('COM_REDSHOP_SECURITY_CODE') . '</label></td>
-						<td><input class="inputbox" id="security_code" name="security_code" type="text" /></td></tr>';
-			$html .= '</table>';
-		}
-
-		return $html;
+		return RedshopLayoutHelper::render('registration.captcha');
 	}
 
 	/**

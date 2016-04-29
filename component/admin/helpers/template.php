@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -155,7 +155,7 @@ class Redtemplate
 
 		$re = self::$templatesArray[$section . '_' . $tid . '_' . $name];
 
-		for ($i = 0; $i < count($re); $i++)
+		for ($i = 0, $in = count($re); $i < $in; $i++)
 		{
 			$re[$i]->template_desc = $this->readtemplateFile($re[$i]->template_section, $re[$i]->template_name);
 		}

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,8 +17,6 @@ class RedshopViewAccessmanager_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$producthelper = new producthelper;
-		$option = JRequest::getVar('option');
-
 		$section = JRequest::getVar('section');
 		$model = $this->getModel('accessmanager_detail');
 		$accessmanager = $model->getaccessmanager();

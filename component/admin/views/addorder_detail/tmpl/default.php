@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -18,7 +18,7 @@ JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
 $redconfig = new Redconfiguration;
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('addorder_detail');
 $redhelper = new redhelper;
 
@@ -59,6 +59,8 @@ else
 	$allowCompany = 'style="display:none;"';
 }
 $err = JRequest::getVar('err', '');
+
+$DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
 ?>
 <script type="text/javascript">
 var xmlhttp;
@@ -80,7 +82,7 @@ function addNewproductRow(tblid) {
 	var newTD7 = document.createElement('td');
 	var item = new Array();
 
-	newTD.innerHTML = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg" title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" alt="<?php echo JText::_('COM_REDSHOP_DELETE');?>">';
+	newTD.innerHTML = '<input type="button" value="<?php echo JText::_('COM_REDSHOP_REMOVE_PRODUCT')?>" class="btn btn-danger" onclick="deleteOfflineProductRow(' + rowCount + '); return false;" />';
 
 	newTD1.innerHTML = '<input type="text" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
 	newTD2.innerHTML = '';
@@ -90,7 +92,7 @@ function addNewproductRow(tblid) {
 	newTD4.align = 'right';
 	newTD5.innerHTML = '<div id="prdpriceproduct' + rowCount + '"></div><input name="productpriceproduct' + rowCount + '" id="productpriceproduct' + rowCount + '" type="hidden" value="0" />';
 	newTD5.align = 'right';
-	newTD6.innerHTML = '<input type="text" name="quantityproduct' + rowCount + '" id="quantityproduct' + rowCount + '" onchange="changeOfflineQuantityBox(\'product' + rowCount + '\');" value="1" size="<?php echo DEFAULT_QUANTITY;?>" maxlength="<?php echo DEFAULT_QUANTITY;?>" >';
+	newTD6.innerHTML = '<input type="text" name="quantityproduct' + rowCount + '" id="quantityproduct' + rowCount + '" onchange="changeOfflineQuantityBox(\'product' + rowCount + '\');" value="1" size="<?php echo $DEFAULT_QUANTITY;?>" maxlength="<?php echo $DEFAULT_QUANTITY;?>" >';
 	newTD7.innerHTML = '<div id="tdtotalprdproduct' + rowCount + '"></div><input name="subpriceproduct' + rowCount + '" id="subpriceproduct' + rowCount + '" type="hidden" value="0" /><input type="hidden" name="main_priceproduct' + rowCount + '" id="main_priceproduct' + rowCount + '" value="0" /><input type="hidden" name="tmp_product_priceproduct' + rowCount + '" id="tmp_product_priceproduct' + rowCount + '" value="0"><input type="hidden" name="product_vatpriceproduct' + rowCount + '" id="product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="tmp_product_vatpriceproduct' + rowCount + '" id="tmp_product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_dataproduct' + rowCount + '" id="wrapper_dataproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_vatpriceproduct' + rowCount + '" id="wrapper_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_dataproduct' + rowCount + '" id="accessory_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_attribute_dataproduct' + rowCount + '" id="acc_attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_property_dataproduct' + rowCount + '" id="acc_property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_subproperty_dataproduct' + rowCount + '" id="acc_subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_priceproduct' + rowCount + '" id="accessory_priceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_vatpriceproduct' + rowCount + '" id="accessory_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="attribute_dataproduct' + rowCount + '" id="attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="property_dataproduct' + rowCount + '" id="property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="subproperty_dataproduct' + rowCount + '" id="subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="requiedAttributeproduct' + rowCount + '" id="requiedAttributeproduct' + rowCount + '" value="0">';
 	newTD7.align = 'right';
 
@@ -142,7 +144,7 @@ submitbutton = function (pressbutton) {
 				return;
 			}
 		} else {
-			if (<?php echo SHIPPING_METHOD_ENABLE;?>) {
+			if (<?php echo Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE');?>) {
 				alert("<?php echo JText::_('SELECT_SHIPPING');?>");
 				return;
 			}
@@ -563,11 +565,6 @@ function validateUserDetail() {
 					<th align="left"><?php echo JText::_('COM_REDSHOP_ORDER_DETAILS'); ?></th>
 				</tr>
 				<tr>
-					<td align="right"><a class="btn btn-success"
-							href="javascript:addNewproductRow('tblproductRow');"><?php echo JText::_('COM_REDSHOP_NEW'); ?></a>
-					</td>
-				</tr>
-				<tr>
 					<td>
 						<table class="adminlist" id="tblproductRow" width="100%">
 							<tr>
@@ -611,8 +608,8 @@ function validateUserDetail() {
 									       value="0"/></td>
 								<td><input type="text" name="quantityproduct1" id="quantityproduct1"
 								           onchange="changeOfflineQuantityBox('product1');" value="1"
-								           size="<?php echo DEFAULT_QUANTITY; ?>"
-								           maxlength="<?php echo DEFAULT_QUANTITY; ?>"></td>
+								           size="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"
+								           maxlength="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"></td>
 								<td align="right">
 									<div id="tdtotalprdproduct1"></div>
 									<input name="subpriceproduct1" id="subpriceproduct1" type="hidden" value="0"/>
@@ -654,6 +651,11 @@ function validateUserDetail() {
 								</td>
 							</tr>
 						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><a class="btn btn-success"
+							href="javascript:addNewproductRow('tblproductRow');"><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?></a>
 					</td>
 				</tr>
 				<tr>
@@ -750,7 +752,6 @@ function validateUserDetail() {
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></td>
 					<td><?php
-						//					$linkupdate = JRoute::_( 'index.php?option='.$option.'&view=order&task=update_status&return=order_detail&order_id[]='. $this->detail->order_id );
 						echo $order_functions->getstatuslist('order_status', "", "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";
 						echo $order_functions->getpaymentstatuslist('order_payment_status', "", "class=\"inputbox\" size=\"1\" ");?>
@@ -779,7 +780,7 @@ if(!JRequest::getvar('ajaxtask')) {    ?>
 
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->order_id; ?>"/>
 <input type="hidden" name="task" value=""/>
-<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+<input type="hidden" name="option" value="com_redshop"/>
 <input type="hidden" name="view" value="addorder_detail"/>
 </form>
 	<div id="divCalc"></div>

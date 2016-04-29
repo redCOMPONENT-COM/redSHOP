@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,7 +22,6 @@ class RedshopViewCheckout extends RedshopView
 		$order_functions = new order_functions;
 
 		$params  = $app->getParams('com_redshop');
-		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getInt('Itemid');
 		$issplit = JRequest::getBool('issplit');
 		$ccinfo  = JRequest::getInt('ccinfo');
@@ -46,7 +45,7 @@ class RedshopViewCheckout extends RedshopView
 		}
 
 		$shipping_rate_id = JRequest::getString('shipping_rate_id');
-		$shippingdetail   = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
+		$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
 
 		if (count($shippingdetail) < 4)
 		{

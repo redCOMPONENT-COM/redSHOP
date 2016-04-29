@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -95,7 +95,7 @@ JText::script('COM_REDSHOP_DELETE');
 								<?php
 									$accessory_product = $this->lists['accessory_product'];
 
-									for ($f = 0; $f < count($accessory_product); $f++)
+									for ($f = 0, $fn = count($accessory_product); $f < $fn; $f++)
 									{
 										$accessory_main_price = 0;
 

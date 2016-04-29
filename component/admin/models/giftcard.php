@@ -3,90 +3,89 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelGiftcard extends RedshopModel
+/**
+ * Redshop giftcards Model
+ *
+ * @package     Redshop.Backend
+ * @subpackage  Models.Giftcards
+ * @since       1.6
+ */
+class RedshopModelGiftcard extends JModelAdmin
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Returns a Table object, always creating it
+	 *
+	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JTable  A database object
+	 *
+	 * @since   1.6
+	 */
+	public function getTable($type = 'Giftcard', $prefix = 'RedshopTable', $config = array())
 	{
-		parent::__construct();
+		return JTable::getInstance($type, $prefix, $config);
+	}
 
+	/**
+	 * Method to get the record form.
+	 *
+	 * @param   array    $data      Data for the form. [optional]
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   1.6
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm(
+			'com_redshop.giftcard',
+			'giftcard',
+			array(
+				'control' => 'jform',
+				'load_data' => $loadData
+			)
+		);
+
+		if (empty($form))
+		{
+			return false;
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
 		$app = JFactory::getApplication();
-		$this->_context = 'giftcard_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-	}
+		$data = $app->getUserState('com_redshop.edit.giftcard.data', array());
 
-	public function getData()
-	{
-		if (empty($this->_data))
+		if (empty($data))
 		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			$data = $this->getItem();
 		}
 
-		return $this->_data;
-	}
+		$this->preprocessData('com_redshop.giftcard', $data);
 
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
-	}
-
-	public function _buildQuery()
-	{
-		$orderby = $this->_buildContentOrderBy();
-		$query = "SELECT distinct(g.giftcard_id),g.* FROM " . $this->_table_prefix . "giftcard g WHERE 1=1" . $orderby;
-
-		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'giftcard_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
+		return $data;
 	}
 }
+
+

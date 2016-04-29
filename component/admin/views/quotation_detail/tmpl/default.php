@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -18,10 +18,8 @@ $quotationHelper = new quotationHelper;
 
 JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
-
 $redconfig       = new Redconfiguration;
 
-$option          = JRequest::getVar('option');
 $model           = $this->getModel('quotation_detail');
 
 $extra_field     = new extra_field;
@@ -242,7 +240,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 			<?php
 			$unq = 1;
 
-			for ($i = 0; $i < count($quotation_item); $i++)
+			for ($i = 0, $in = count($quotation_item); $i < $in; $i++)
 			{
 				$quo = $quotation_item[$i];
 
@@ -299,7 +297,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 						<a href="<?php echo $delete_itemlink; ?>"
 						   title="<?php echo JText::_('COM_REDSHOP_DELETE_QUOTATION_ITEM'); ?>">
 							<img class="delete_item"
-							     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg"
+							     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.png"
 							     title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 							     alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 							     onclick="submitbutton('deleteitem');">
@@ -326,8 +324,8 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 					                          value="<?php echo $quotation_item[$i]->product_quantity; ?>"
 					                          id="quantityp<?php echo $unq; ?>"
 					                          onchange="getQuotationDetail('p<?php echo $unq; ?>');"
-					                          size="<?php echo DEFAULT_QUANTITY; ?>"
-					                          maxlength="<?php echo DEFAULT_QUANTITY; ?>"/>
+					                          size="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"
+					                          maxlength="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"/>
 						<input type="hidden" name="hiddenqntp<?php echo $unq; ?>"
 						       value="<?php echo $quo->product_quantity; ?>"
 						       id="hiddenqntp<?php echo $unq; ?>"/></td>
@@ -517,7 +515,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 						name="taxpriceproduct1" id="taxpriceproduct1" type="hidden" value="0"/></td>
 				<td><input type="text" name="quantityproduct1" id="quantityproduct1" style="display: none;"
 				           onchange="changeOfflineQuantityBox('product1');" value="1"
-				           size="<?php echo DEFAULT_QUANTITY; ?>" maxlength="<?php echo DEFAULT_QUANTITY; ?>"></td>
+				           size="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>" maxlength="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"></td>
 				<td align="right">
 					<div id="tdtotalprdproduct1"></div>
 					<input name="subpriceproduct1" id="subpriceproduct1" type="hidden" value="0"/>
@@ -557,7 +555,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 <input type="hidden" name="user_info_id" value="<?php echo $quotation->user_info_id; ?>"/>
 <input type="hidden" name="quotation_email" value="<?php echo $quotation->user_email; ?>"/>
 <input type="hidden" name="task" value=""/>
-<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+<input type="hidden" name="option" value="com_redshop"/>
 <input type="hidden" name="view" value="quotation_detail"/>
 <input type="hidden" name="quotation_mdate" value="<?php echo time(); ?>"/>
 

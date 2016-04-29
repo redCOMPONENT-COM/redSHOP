@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option');
+
 $model = $this->getModel('newsletter');
 $cid = JRequest::getVar('cid', array(0), 'post', 'array');
 $newsletter_id = JRequest::getVar('newsletter_id');
@@ -69,10 +69,11 @@ $newsletter_id = JRequest::getVar('newsletter_id');
 			}
 		}
 		xmlhttp.open("GET", url, true);
+		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div>
 		<fieldset>
 			<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_SEND_LOG');?></legend>

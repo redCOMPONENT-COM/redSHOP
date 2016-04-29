@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ZZUninstallExtensionCest
  *
@@ -35,6 +35,7 @@ class ZZUninstallExtensionCest
 		$I->click(['link' => 'Location']);
 		$I->click(\ExtensionManagerJoomla3Page::$firstCheck);
 		$I->click("Uninstall");
+		$I->acceptPopup();
 		$I->see('Uninstalling the component was successful', '#system-message-container');
 
 		$I->fillField('#filter_search', 'redSHOP');
