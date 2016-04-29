@@ -346,13 +346,10 @@ class Redtemplate
 
 		$o = new stdClass;
 		$o->text = $string;
-		JPluginHelper::importPlugin('content');
-
-		$dispatcher = JDispatcher::getInstance();
-
 		$x = array();
 
-		$results = $dispatcher->trigger('onContentPrepare', array($context, &$o, &$x, 0));
+		JPluginHelper::importPlugin('content');
+		JDispatcher::getInstance()->trigger('onContentPrepare', array($context, &$o, &$x, 0));
 
 		return $o->text;
 	}

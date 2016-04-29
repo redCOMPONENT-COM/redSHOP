@@ -791,7 +791,7 @@ class redhelper
 			}
 
 			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
-			$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumbWidth, $thumbHeight, 1);
+			$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, 1);
 			$filename_path_info = pathinfo($filename);
 			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $filename_path_info['basename'];
 			ob_start();
@@ -873,7 +873,7 @@ class redhelper
 			else
 			{
 				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $section, $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING);
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
 				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $filename_path_info['basename'];
 			}

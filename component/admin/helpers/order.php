@@ -104,11 +104,8 @@ class order_functions
 
 		// Getting the order details
 		$orderdetail = $this->getOrderDetails($order_id);
-
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 		$paymentparams = new JRegistry($paymentmethod->params);
 		$order_status_capture = $paymentparams->get('capture_status', '');
-		$auth_type = $paymentparams->get('auth_type', '');
 		$order_status_code = $order_status_capture;
 
 		if ($order_status_capture == $newstatus
@@ -167,7 +164,7 @@ class order_functions
 		}
 	}
 
-	public function generateParcel($order_id, $specifiedSendDate)
+	public function generateParcel($order_id)
 	{
 		$db                        = JFactory::getDbo();
 		$order_details             = $this->getOrderDetails($order_id);
@@ -175,7 +172,6 @@ class order_functions
 		$orderproducts             = $this->getOrderItemDetail($order_id);
 		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
-		$shippinghelper            = new shipping;
 		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($order_details->ship_method_id);
 
 		// Get Shipping Delivery Type
@@ -190,10 +186,6 @@ class order_functions
 		$db->setQuery($sql);
 		$billingInfo->country_code = $db->loadResult();
 
-		$sql = "SELECT country_name FROM #__redshop_country WHERE country_2_code = " . $db->quote($billingInfo->country_code);
-		$db->setQuery($sql);
-		$country_name = $db->loadResult();
-
 		$sql = "SELECT country_2_code FROM #__redshop_country WHERE country_3_code = " . $db->quote($shippingInfo->country_code);
 		$db->setQuery($sql);
 		$shippingInfo->country_code = $db->loadResult();
@@ -205,7 +197,6 @@ class order_functions
 
 		for ($c = 0, $cn = count($orderproducts); $c < $cn; $c++)
 		{
-			$product_id[] = $orderproducts [$c]->product_id;
 			$qty += $orderproducts [$c]->product_quantity;
 			$content_products[] = $orderproducts[$c]->order_item_name;
 
@@ -256,8 +247,6 @@ class order_functions
 			$content_products_remark = " ";
 		}
 
-		// Total quantity
-		$total_qty = $qty;
 		$filter    = JFilterInput::getInstance();
 
 		// Filter name to remove special characters
@@ -355,7 +344,6 @@ class order_functions
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
 			$response = curl_exec($ch);
-			$error = curl_error($ch);
 			curl_close($ch);
 
 			$xmlResponse = JFactory::getXML($response, false)->val;
@@ -402,15 +390,10 @@ class order_functions
 	 */
 	public function changeorderstatus($data)
 	{
-		$helper = new redhelper;
-
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$db = JFactory::getDbo();
-
+		$helper   = new redhelper;
+		$db       = JFactory::getDbo();
 		$order_id = $data->order_id;
-
-		$pos = strpos(JURI::base(), 'plugins');
+		$pos      = strpos(JURI::base(), 'plugins');
 
 		if ($pos !== false)
 		{
@@ -456,7 +439,6 @@ class order_functions
 			$db->SetQuery($query);
 			$db->execute();
 
-			$statusmsg = $data->msg;
 			$query = "INSERT INTO  #__redshop_order_status_log set order_status = " . $db->quote($data->order_status_code)
 				. ", order_payment_status = " . $db->quote($data->order_payment_status_code) . ", date_changed = " . (int) time()
 				. ", order_id = " . (int) $order_id . ", customer_note = " . $db->quote($data->log);
@@ -497,7 +479,7 @@ class order_functions
 			JDispatcher::getInstance()->trigger('onAfterOrderStatusUpdate', array($this->getOrderDetails($order_id)));
 
 			// For Webpack Postdk Label Generation
-			$this->createWebPacklabel($order_id, '', $data->order_status_code, $data->order_payment_status_code);
+			$this->createWebPacklabel($order_id, $data->order_status_code, $data->order_payment_status_code);
 			$this->createBookInvoice($order_id, $data->order_status_code);
 
 			/**
@@ -561,7 +543,7 @@ class order_functions
 					if (isset($oid[$i]) && $oid[$i] != 0 && $oid[$i] != "")
 					{
 						$orderdata = $this->getOrderDetails($oid[$i]);
-						$invoiceHandle = $economic->renewInvoiceInEconomic($orderdata);
+						$economic->renewInvoiceInEconomic($orderdata);
 					}
 				}
 			}
@@ -730,7 +712,6 @@ class order_functions
 		$return = JRequest::getVar('return');
 
 		$customer_note = JRequest::getVar('customer_note', '', 'request', 'string', JREQUEST_ALLOWRAW);
-		$requisition_number = JRequest::getVar('requisition_number', '');
 		$oid = JRequest::getVar('order_id', array(), 'method', 'array');
 		$order_id = $oid[0];
 		$sendordermail = JRequest::getVar("order_sendordermail");
@@ -866,7 +847,7 @@ class order_functions
 				}
 			}
 
-			$this->createWebPacklabel($order_id, $specifiedSendDate, $newstatus, $paymentstatus);
+			$this->createWebPacklabel($order_id, $newstatus, $paymentstatus);
 		}
 
 		$this->updateOrderItemStatus($order_id, $product_id, $newstatus, $customer_note, $order_item_id);
@@ -989,7 +970,7 @@ class order_functions
 		return $list;
 	}
 
-	public function getUserOrderDetails($user_id = 0, $order_id = 0)
+	public function getUserOrderDetails($user_id = 0)
 	{
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
@@ -998,7 +979,6 @@ class order_functions
 		{
 			$user_id = $user->id;
 		}
-
 
 		$query = "SELECT * FROM #__redshop_orders " . "WHERE user_id = " . (int) $user_id . " ORDER BY `order_id` DESC";
 		$db->setQuery($query);
@@ -1419,7 +1399,7 @@ class order_functions
 		return $list;
 	}
 
-	function generateOrderNumber($p_length = '30')
+	function generateOrderNumber()
 	{
 		$db = JFactory::getDbo();
 
@@ -1636,7 +1616,7 @@ class order_functions
 	public function getDownloadProduct($order_id)
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT pd.*,product_name FROM #__redshop_product_download AS pd " . ","
+		$query = "SELECT pd.*,product_name FROM #__redshop_product_download AS pd ,"
 			. "#__redshop_product AS p "
 			. "WHERE pd.product_id=p.product_id "
 			. "AND order_id = " . (int) $order_id;
@@ -1782,7 +1762,6 @@ class order_functions
 				curl_setopt($ch, CURLOPT_TIMEOUT, 3);
 				curl_setopt($ch, CURLOPT_POST, 1);
 				curl_setopt($ch, CURLOPT_POSTFIELDS, "code='.$rand_barcode.'&encoding=EAN&scale=2&mode=png");
-				$result = curl_exec($ch);
 				curl_close($ch);
 			}
 
@@ -1830,7 +1809,6 @@ class order_functions
 		$carthelper      = new rsCarthelper;
 		$order_functions = new order_functions;
 		$redshopMail     = new redshopMail;
-		$shippinghelper  = new shipping;
 
 		$MailFrom = $app->getCfg('mailfrom');
 		$FromName = $app->getCfg('fromname');
@@ -2045,7 +2023,7 @@ class order_functions
 				}
 
 				$economicdata['split_payment'] = 0;
-				$invoiceHandle = $economic->createInvoiceInEconomic($order_id, $economicdata);
+				$economic->createInvoiceInEconomic($order_id, $economicdata);
 			}
 
 			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, ECONOMIC_INVOICE_DRAFT);
@@ -2053,7 +2031,7 @@ class order_functions
 			if (is_file($bookinvoicepdf))
 			{
 				$redshopMail = new redshopMail;
-				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 	}
@@ -2072,13 +2050,12 @@ class order_functions
 	 * Create PacSoft Label from Order Status Change functions
 	 *
 	 * @param   integer  $order_id           Order Information ID
-	 * @param   string   $specifiedSendDate  Label Create Date
 	 * @param   string   $order_status       Order Status Code
 	 * @param   string   $paymentstatus      Order Payment Status Code
 	 *
 	 * @return  void
 	 */
-	public function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
+	public function createWebPacklabel($order_id, $order_status, $paymentstatus)
 	{
 		// If PacSoft is not enable then return
 		if (!POSTDK_INTEGRATION)
@@ -2095,7 +2072,6 @@ class order_functions
 		// Only Execute this function for selected status match
 		if ($order_status == GENERATE_LABEL_ON_STATUS && $paymentstatus == "Paid")
 		{
-			$shippinghelper = new shipping;
 			$order_details  = $this->getOrderDetails($order_id);
 			$details        = RedshopShippingRate::decrypt($order_details->ship_method_id);
 
@@ -2115,7 +2091,7 @@ class order_functions
 
 			if ($allowPacsoftLabel && !$order_details->order_label_create)
 			{
-				$generate_label = $this->generateParcel($order_id, $specifiedSendDate);
+				$generate_label = $this->generateParcel($order_id);
 
 				if ($generate_label != "success")
 				{
@@ -2162,7 +2138,7 @@ class order_functions
 		if ($post['isPacsoft'])
 		{
 			// For Webpack Postdk Label Generation
-			$this->createWebPacklabel($order_id, "", $newstatus, $paymentstatus);
+			$this->createWebPacklabel($order_id, $newstatus, $paymentstatus);
 		}
 
 		if (CLICKATELL_ENABLE)

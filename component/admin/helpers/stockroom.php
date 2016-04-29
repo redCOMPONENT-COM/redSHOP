@@ -805,8 +805,6 @@ class rsstockroomhelper
 		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
-			$session_id = session_id();
-
 			$query = "SELECT SUM(qty) FROM #__redshop_cart "
 				. "WHERE product_id = " . (int) $section_id . " "
 				. "AND section = " . $db->quote($section);
@@ -993,7 +991,6 @@ class rsstockroomhelper
 		$producthelper = new producthelper;
 
 		$isStockExists = $this->isStockExists($product_id);
-		$isPreorderStockExists = '';
 
 		if ($totalatt > 0 && !$isStockExists)
 		{
@@ -1040,7 +1037,6 @@ class rsstockroomhelper
 		$producthelper = new producthelper;
 
 		$isStockExists = $this->isPreorderStockExists($product_id);
-		$isPreorderStockExists = '';
 
 		if ($totalatt > 0 && !$isStockExists)
 		{
