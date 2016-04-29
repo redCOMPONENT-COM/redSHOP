@@ -21,7 +21,6 @@ class RedshopViewXmlexport extends RedshopView
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
-		$model = $this->getModel('xmlexport');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT'), 'redshop_export48');
 		JToolbarHelper::addNew();
@@ -37,7 +36,6 @@ class RedshopViewXmlexport extends RedshopView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$data       = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->lists = $lists;
