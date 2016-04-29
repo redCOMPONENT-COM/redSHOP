@@ -276,7 +276,6 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function getpropertylist($data)
 	{
 		$db = $this->_db;
-		$producthelper = new producthelper;
 
 		if (count($data))
 		{
@@ -709,15 +708,6 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color   WHERE subattribute_id = '
 			. $section_id . ' and subattribute_color_id NOT IN (\'' . $subattr_id . '\') ORDER BY subattribute_color_id ASC';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
-	}
-
-	public function get_subattrprop($subattr_id, $section_id)
-	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color   WHERE subattribute_color_id IN (\''
-			. $subattr_id . '\') ORDER BY subattribute_color_id ASC';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

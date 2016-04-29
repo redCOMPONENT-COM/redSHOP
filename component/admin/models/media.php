@@ -232,8 +232,6 @@ class RedshopModelMedia extends RedshopModel
 							$tmp->type = @$info[2];
 							$tmp->mime = @$info['mime'];
 
-							$filesize = $mediaHelper->parseSize($tmp->size);
-
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
 								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);

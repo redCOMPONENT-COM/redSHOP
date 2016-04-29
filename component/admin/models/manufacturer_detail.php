@@ -228,8 +228,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function saveOrder(&$cid)
 	{
-		$app = JFactory::getApplication();
-
 		$db = JFactory::getDbo();
 		$row = $this->getTable();
 

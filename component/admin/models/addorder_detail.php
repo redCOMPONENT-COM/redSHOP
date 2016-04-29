@@ -250,7 +250,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$helper = new redhelper;
 		$producthelper = new producthelper;
 		$rsCarthelper = new rsCarthelper;
-		$shippinghelper = new shipping;
 		$adminproducthelper = new adminproducthelper;
 		$stockroomhelper = new rsstockroomhelper;
 
@@ -314,8 +313,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 			JTable::addIncludePath(REDSHOP_ADMIN . '/tables');
 		}
 
-		$order_shipping = RedshopShippingRate::decrypt($row->ship_method_id);
-
 		$rowOrderStatus = $this->getTable('order_status_log');
 		$rowOrderStatus->order_id = $row->order_id;
 		$rowOrderStatus->order_status = $row->order_status;
@@ -371,7 +368,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
 			$retAccArr = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory = $retAccArr[0];
-			$accessory_total_price = $retAccArr[1];
 			$accessory_vat_price = $retAccArr[2];
 
 			$wrapper_price = 0;
@@ -894,7 +890,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			$invoiceHandle = $economic->createInvoiceInEconomic($row->order_id, $economicdata);
+			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
@@ -907,7 +903,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				if (is_file($bookinvoicepdf))
 				{
-					$ret = $redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					$redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
