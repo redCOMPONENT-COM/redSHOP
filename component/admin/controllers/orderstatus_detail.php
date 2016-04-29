@@ -30,8 +30,6 @@ class RedshopControllerOrderstatus_detail extends RedshopController
 	public function save()
 	{
 		$post = JRequest::get('post');
-
-		$redhelper = new redhelper;
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post ['order_status_id'] = $cid[0];
