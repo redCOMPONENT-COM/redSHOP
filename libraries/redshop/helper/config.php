@@ -74,7 +74,7 @@ class RedshopHelperConfig
 	 */
 	protected function getConfigurationFilePath()
 	{
-		return JPATH_SITE . '/redshop/conf/config.php';
+		return JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.php';
 	}
 
 	/**
