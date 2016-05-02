@@ -105,8 +105,9 @@ class PaypalCest
 		$I->waitForElement("//span[text() = 'New customer? Please Provide Your Billing Information']",30);
 		$I->click("//span[text() = 'New customer? Please Provide Your Billing Information']");
 
-		$I->waitForElementVisible("#email1");
-		$I->fillField("#email1", $customerInformation['email']);
+		$I->wait(1);
+		$I->waitForElementVisible("//input[@id='email1']");
+		$I->fillField("//input[@id='email1']", $customerInformation['email']);
 		$I->fillField("//input[@id='firstname']", $customerInformation['firstName']);
 		$I->fillField("//input[@id='lastname']", $customerInformation['lastName']);
 		$I->fillField("//input[@id='address']", $customerInformation['address']);
@@ -129,8 +130,9 @@ class PaypalCest
 		$I->fillField("//input[@id='phone_ST']", $customerInformation['phone']);
 
 		$I->click("Proceed");
-		$I->waitForElement("//legend[text() = 'Bill to information']");
-		$I->click("//input[@id='rs_payment_paypal1']");
+
+		$I->waitForElement(['id' => 'rs_payment_paypal']);
+		$I->click(['id' => 'rs_payment_paypal']);
 		$I->click("Checkout");
 		$I->waitForElement(['link' => $productName],30);
 		$I->seeElement(['link' => $productName]);
@@ -138,8 +140,8 @@ class PaypalCest
 		$I->click("//input[@id='checkout_final']");
 		$I->click("//input[@id='loadLogin']");
 		$I->waitForElement("//input[@id='login_password']",30);
-		$I->fillField("//input[@id='login_email']", $payPalAccountDetail["email"]);
-		$I->fillField("//input[@id='login_password']", $payPalAccountDetail["password"]);
+		$I->fillField("//input[@id='login_email']", $payPalInformation["email"]);
+		$I->fillField("//input[@id='login_password']", $payPalInformation["password"]);
 		$I->click("//input[@id='privateDeviceCheckbox']");
 		$I->click("//input[@id='submitLogin']");
 		$I->waitForElement("//input[@id='continue_abovefold']",30);
