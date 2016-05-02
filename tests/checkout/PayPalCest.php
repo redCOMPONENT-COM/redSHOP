@@ -87,13 +87,56 @@ class PaypalCest
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
 
-		if ($sillyLogic % 2 == 0)
-		{
-			$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation, $productName, $categoryName);
-		}
-		else
-		{
-			$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation2, $productName, $categoryName);
-		}
+if ($sillyLogic % 2 == 0)
+{
+	$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation, $productName, $categoryName);
+}
+else
+{
+	$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation2, $productName, $categoryName);
+}
+
+
+		$I->amOnPage('/index.php?option=com_redshop');
+		$I->waitForElement("//div[@id='redshopcomponent']",30);
+		$I->checkForPhpNoticesOrWarnings();
+$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
+
+$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+
+		$I->click(['link' => $categoryName);
+		$I->waitForElement(['id' => 'redcatproducts'],30);
+		$I->click(['link' => $productName]);
+		$I->waitForElement("//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']", 30);
+		$I->click("//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']");
+		$I->waitForText("Product has been added to your cart.", 30, '.alert-message');
+		$I->see("Product has been added to your cart.", '.alert-message');
+		$I->amOnPage('index.php?option=com_redshop&view=cart');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->seeElement(['link' => $productName]);
+		$I->click(['xpath' => "//input[@value='Checkout']"]);
+		$I->waitForElement("//span[text() = 'New customer? Please Provide Your Billing Information']",30);
+		$I->click("//span[text() = 'New customer? Please Provide Your Billing Information']");
+		$this->addressInformation($addressDetail);
+		$this->shippingInformation($shipmentDetail);
+		$I->click("Proceed");
+		$I->waitForElement("//legend[text() = 'Bill to information']");
+		$I->click("//input[@id='rs_payment_paypal1']");
+		$I->click("Checkout");
+		$I->waitForElement(['link' => $productName],30);
+		$I->seeElement(['link' => $productName]);
+		$I->click("//input[@id='termscondition']");
+		$I->click("//input[@id='checkout_final']");
+		$I->click("//input[@id='loadLogin']");
+		$I->waitForElement("//input[@id='login_password']",30);
+		$I->fillField("//input[@id='login_email']", $payPalAccountDetail["email"]);
+		$I->fillField("//input[@id='login_password']", $payPalAccountDetail["password"]);
+		$I->click("//input[@id='privateDeviceCheckbox']");
+		$I->click("//input[@id='submitLogin']");
+		$I->waitForElement("//input[@id='continue_abovefold']",30);
+		$I->seeElement("//input[@id='continue_abovefold']");
+		$I->click("//input[@id='continue_abovefold']");
+		$I->waitForElement("//span[@title='You just completed your payment.']",30);
+		$I->seeElement("//span[@title='You just completed your payment.']");
 	}
 }
