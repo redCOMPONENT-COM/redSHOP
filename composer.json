@@ -11,7 +11,7 @@
         "joomla-projects/joomla-browser": "dev-develop",
         "codegyre/robo": "~0.5",
         "redcomponent/robo": "dev-master",
-        "redcomponent/teststatistics": "dev-master",
+        "redcomponent/teststatistics": "2.1",
         "fzaninotto/faker": "^1.5",
         "cloudinary/cloudinary_php": "1.1.1",
         "knplabs/github-api": "1.4.12",
