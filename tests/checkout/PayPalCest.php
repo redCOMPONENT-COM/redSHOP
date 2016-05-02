@@ -87,24 +87,11 @@ class PaypalCest
 		$productName = 'redCOOKIE';
 		$categoryName = 'Events and Forms';
 
-if ($sillyLogic % 2 == 0)
-{
-	$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation, $productName, $categoryName);
-}
-else
-{
-	$I->checkoutProductWithPayPalPayment($customerInformation, $customerInformation, $payPalInformation2, $productName, $categoryName);
-}
-
-
 		$I->amOnPage('/index.php?option=com_redshop');
 		$I->waitForElement("//div[@id='redshopcomponent']",30);
 		$I->checkForPhpNoticesOrWarnings();
-$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
 
-$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
-
-		$I->click(['link' => $categoryName);
+		$I->click(['link' => $categoryName]);
 		$I->waitForElement(['id' => 'redcatproducts'],30);
 		$I->click(['link' => $productName]);
 		$I->waitForElement("//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']", 30);
@@ -117,8 +104,30 @@ $productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement("//span[text() = 'New customer? Please Provide Your Billing Information']",30);
 		$I->click("//span[text() = 'New customer? Please Provide Your Billing Information']");
-		$this->addressInformation($addressDetail);
-		$this->shippingInformation($shipmentDetail);
+
+		$I->waitForElementVisible("#email1");
+		$I->fillField("#email1", $customerInformation['email']);
+		$I->fillField("//input[@id='firstname']", $customerInformation['firstName']);
+		$I->fillField("//input[@id='lastname']", $customerInformation['lastName']);
+		$I->fillField("//input[@id='address']", $customerInformation['address']);
+		$I->fillField("//input[@id='zipcode']", $customerInformation['postalCode']);
+		$I->fillField("//input[@id='city']", $customerInformation['city']);
+		$I->selectOption("//select[@id='country_code']", $customerInformation['country']);
+		$I->waitForElement("//select[@id='state_code']", 20);
+		$I->selectOption("//select[@id='state_code']", $customerInformation['state']);
+		$I->fillField("//input[@id='phone']", $customerInformation['phone']);
+
+		$I->waitForElement("//input[@id='firstname_ST']", 30);
+		$I->fillField("//input[@id='firstname_ST']", $customerInformation['firstName']);
+		$I->fillField("//input[@id='lastname_ST']", $customerInformation['lastName']);
+		$I->fillField("//input[@id='address_ST']", $customerInformation['address']);
+		$I->fillField("//input[@id='zipcode_ST']", $customerInformation['postalCode']);
+		$I->fillField("//input[@id='city_ST']", $customerInformation['city']);
+		$I->selectOption("//select[@id='country_code_ST']", $customerInformation['country']);
+		$I->waitForElement("//select[@id='state_code_ST']", 20);
+		$I->selectOption("//select[@id='state_code_ST']", $customerInformation['state']);
+		$I->fillField("//input[@id='phone_ST']", $customerInformation['phone']);
+
 		$I->click("Proceed");
 		$I->waitForElement("//legend[text() = 'Bill to information']");
 		$I->click("//input[@id='rs_payment_paypal1']");
