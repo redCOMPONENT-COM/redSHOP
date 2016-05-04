@@ -20,4 +20,4 @@
 	<!--  {product_loop_end} -->
 	</tbody>
 </table>
-{pagination}
+<div class="pagination">{pagination}</div>
