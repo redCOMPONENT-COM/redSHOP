@@ -283,7 +283,8 @@ class order_functions
 		}
 		else
 		{
-			$fproductCode = "P19DK";
+			// Post Danmark MyPack Home
+			$fproductCode = "PDK17";
 			$addon = "<addon adnid='DLV'></addon>";
 			$finaladdress1 = $address;
 			$finaladdress2 = "";
@@ -292,6 +293,8 @@ class order_functions
 		// When shipping delivery set to post office don't need to send DLV or POD addon.
 		if ($shippingDeliveryType == 0)
 		{
+			// Post Danmark MyPack Collect
+			$fproductCode = "P19DK";
 			$addon = "";
 		}
 
