@@ -71,26 +71,17 @@ class plgSearchRedshop_products extends JPlugin
 			}
 		}
 
-		$db = JFactory::getDbo();
-
-		// Load plugin params info
-		$pluginParams = $this->params;
-
-		$limit = $pluginParams->def('search_limit', 50);
-
-		$text  = trim($text);
+		$db      = JFactory::getDbo();
+		$text    = trim($text);
 
 		if ($text == '')
 		{
 			return array();
 		}
 
-		$section    = '';
-
-		if ($this->params->get('showSection'))
-		{
-			$section = JText::_('PLG_SEARCH_REDSHOP_PRODUCTS');
-		}
+		$section         = ($this->params->get('showSection')) ? JText::_('PLG_SEARCH_REDSHOP_PRODUCTS') : '';
+		$searchShortDesc = $this->params->get('searchShortDesc', 0);
+		$searchFullDesc  = $this->params->get('searchFullDesc', 0);
 
 		// Prepare Extra Field Query.
 		$extraQuery = $db->getQuery(true)
@@ -128,6 +119,16 @@ class plgSearchRedshop_products extends JPlugin
 				$wheres[] = $db->qn('product_name') . ' LIKE ' . $text;
 				$wheres[] = $db->qn('product_number') . ' LIKE ' . $text;
 
+				if ($searchShortDesc)
+				{
+					$wheres[] = $db->qn('product_s_desc') . ' LIKE ' . $text;
+				}
+
+				if ($searchFullDesc)
+				{
+					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $text;
+				}
+
 				$where = '('
 					. implode(' OR ', $wheres)
 					. $whereAppend
@@ -151,6 +152,16 @@ class plgSearchRedshop_products extends JPlugin
 					$ors = array();
 					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;
 					$ors[] = $db->qn('product_number') . ' LIKE ' . $word;
+
+					if ($searchShortDesc)
+					{
+						$ors[] = $db->qn('product_s_desc') . ' LIKE ' . $word;
+					}
+
+					if ($searchFullDesc)
+					{
+						$ors[] = $db->qn('product_desc') . ' LIKE ' . $word;
+					}
 
 					$wheres[] = implode(' OR ', $ors);
 
@@ -209,7 +220,7 @@ class plgSearchRedshop_products extends JPlugin
 		$query->where($db->qn('published') . ' = 1');
 
 		// Set the query and load the result.
-		$db->setQuery($query, 0, $limit);
+		$db->setQuery($query, 0, $this->params->def('search_limit', 50));
 
 		try
 		{

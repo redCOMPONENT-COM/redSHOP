@@ -210,7 +210,7 @@
 
         <property
                 name="joomla.version"
-                value="j3_and_j25"
+                value="j3"
                 override="true"/>
 
         <property

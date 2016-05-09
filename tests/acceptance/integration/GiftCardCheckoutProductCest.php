@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class GiftCardCheckoutProductCest
  *
@@ -132,6 +132,7 @@ class GiftCardCheckoutProductCest
 	private function fetchCouponCode(AcceptanceTester $I, $scenario)
 	{
 		$I->amOnPage(\CouponManagerJ3Page::$URL);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->click(\CouponManagerJ3Page::$selectFirst);
 		$couponCode = $I->grabTextFrom(['xpath' => "//div[@id='editcell']//table[2]//tbody/tr[1]//td[3]//a"]);

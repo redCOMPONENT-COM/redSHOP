@@ -41,12 +41,9 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\MailCenterManagerJoomla3Page::$mailSectionDropDown);
 		$I->click($mailCenterManagerPage->mailSection($mailSection));
 		$I->click('Save & Close');
-		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage,60,'.alert-success');
-		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
-		$I->click(['link' => 'ID']);
-		$I->click(['link' => 'ID']);
-		$I->see($mailName);
-		$I->click(['link' => 'ID']);
+		$I->waitForText('Mail template saved', 60, ['id' => 'system-message-container']);
+		$I->filterListBySearching($mailName);
+		$I->seeElement(['link' => $mailName]);
 	}
 
 	/**
@@ -61,18 +58,20 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click(['link' => 'ID']);
-		$I->click(['link' => 'ID']);
-		$I->see($mailName);
-		$I->click(\MailCenterManagerJoomla3Page::$selectFirst);
-		$I->click('Edit');
+		$I->filterListBySearching($mailName);
+		$I->waitForElement(['link' => $mailName],60);
+		$I->click(['link' => $mailName]);
 		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName,30);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailName, $newMailName);
 		$I->click('Save & Close');
-		$I->waitForText(\MailCenterManagerJoomla3Page::$mailSuccessMessage,30,'.alert-success');
-		$I->see(\MailCenterManagerJoomla3Page::$mailSuccessMessage, '.alert-success');
-		$I->see($newMailName);
-		$I->click(['link' => 'ID']);
+		$I->waitForText('Mail template saved', 60, ['id' => 'system-message-container']);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click('Reset');
+		$I->wait(1);
+		$I->fillField(['id' => 'filter'], $newMailName);
+		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $newMailName]);
+		$I->seeElement(['link' => $newMailName]);
 	}
 
 	/**
@@ -87,8 +86,11 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click(['link' => 'ID']);
-		$this->changeState(new \MailCenterManagerJoomla3Page, $name, $state, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
+		$I->waitForText('Mail Management', 60, ['css' => 'h1']);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click('Reset');
+		$I->wait(1);
+		$I->changeState(new \MailCenterManagerJoomla3Page, $name, $state, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -129,7 +131,6 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->click(['link' => 'ID']);
 		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
 	}
 }

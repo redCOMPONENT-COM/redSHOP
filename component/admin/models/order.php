@@ -66,6 +66,7 @@ class RedshopModelOrder extends RedshopModel
 		$this->setState('filter', $filter);
 		$this->setState('filter_by', $filter_by);
 		$this->setState('filter_status', $filter_status);
+		$this->setState('filter_payment_status', $filter_payment_status);
 		$this->setState('filter_from_date', $filter_from_date);
 		$this->setState('filter_to_date', $filter_to_date);
 
@@ -254,8 +255,8 @@ class RedshopModelOrder extends RedshopModel
 			if ((strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_gls') && $ordersInfo[$i]->shop_id != "")
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
-				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
-				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
+				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
+				$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
 				$totalWeight = 0;
 
@@ -347,8 +348,8 @@ class RedshopModelOrder extends RedshopModel
 			if (strtolower($details[0]) == 'plgredshop_shippingdefault_shipping_glsbusiness')
 			{
 				$orderproducts   = $orderHelper->getOrderItemDetail($ordersInfo[$i]->order_id);
-				$shippingDetails = $orderHelper->getOrderShippingUserInfo($ordersInfo[$i]->order_id);
-				$billingDetails  = $orderHelper->getOrderBillingUserInfo($ordersInfo[$i]->order_id);
+				$shippingDetails = RedshopHelperOrder::getOrderShippingUserInfo($ordersInfo[$i]->order_id);
+				$billingDetails  = RedshopHelperOrder::getOrderBillingUserInfo($ordersInfo[$i]->order_id);
 
 				$totalWeight = 0;
 
@@ -386,9 +387,9 @@ class RedshopModelOrder extends RedshopModel
 					'A',
 					'A',
 					$billingDetails->firstname . ' ' . $billingDetails->lastname,
-					$shippingDetails->customer_note,
+					$ordersInfo[$i]->customer_note,
 					'',
-					$ordersInfo[$i]->phone
+					$shippingDetails->phone
 				);
 
 				$row = array_merge($row, $extraInfo, $rowAppend);

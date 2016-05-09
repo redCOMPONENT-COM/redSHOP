@@ -347,6 +347,11 @@ $calendarFormat = '%d-%m-%Y';
 
 						if ($this->detail->discount_stratdate)
 						{
+							if ($startDateTimeStamp = strtotime($this->detail->discount_stratdate))
+							{
+								$this->detail->discount_stratdate = $startDateTimeStamp;
+							}
+
 							$sdate = date("d-m-Y", $this->detail->discount_stratdate);
 						}
 
@@ -374,6 +379,11 @@ $calendarFormat = '%d-%m-%Y';
 
 						if ($this->detail->discount_enddate)
 						{
+							if ($endDateTimeStamp = strtotime($this->detail->discount_enddate))
+							{
+								$this->detail->discount_enddate = $endDateTimeStamp;
+							}
+
 							$edate = date("d-m-Y", $this->detail->discount_enddate);
 						}
 
@@ -597,7 +607,7 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_volume); ?>"
 							/>
-						<?php echo DEFAULT_VOLUME_UNIT; ?>3
+						<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>3
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
@@ -626,7 +636,7 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_length); ?>"
 							/>
-						<?php echo DEFAULT_VOLUME_UNIT; ?>
+						<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
@@ -655,7 +665,7 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_width); ?>"
 							/>
-						<?php echo DEFAULT_VOLUME_UNIT; ?>
+						<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>
 						<?php
 						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
@@ -684,7 +694,7 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_height); ?>"
 							/>
-						<?php echo DEFAULT_VOLUME_UNIT; ?>
+						<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'), JText::_('COM_REDSHOP_PRODUCT_HEIGHT'), 'tooltip.png', '', '', false);
 						?>
@@ -706,7 +716,7 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_diameter); ?>"
 							/>
-						<?php echo DEFAULT_VOLUME_UNIT; ?>
+						<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'), JText::_('COM_REDSHOP_PRODUCT_DIAMETER'), 'tooltip.png', '', '', false);
 						?>
@@ -728,7 +738,7 @@ $calendarFormat = '%d-%m-%Y';
 							   maxlength="10"
 							   value="<?php echo $this->producthelper->redunitDecimal($this->detail->weight); ?>"
 							/>
-						<?php echo DEFAULT_WEIGHT_UNIT; ?>
+						<?php echo Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'); ?>
 						<?php
 						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'), JText::_('COM_REDSHOP_WEIGHT_LBL'), 'tooltip.png', '', '', false);
 						?>

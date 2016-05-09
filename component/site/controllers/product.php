@@ -811,8 +811,9 @@ class RedshopControllerProduct extends RedshopController
 		$productId = $app->input->getInt('product_id', 0);
 		$name       = $app->input->getCmd('mname', '') . '_' . $productId;
 
-		if ($uploadFileData = $app->input->files->get($name))
+		if ($app->input->files)
 		{
+			$uploadFileData = $app->input->files->get($name);
 			$fileExtension = JFile::getExt($uploadFileData['name']);
 			$fileName = RedShopHelperImages::cleanFileName($uploadFileData['name']);
 
@@ -823,7 +824,7 @@ class RedshopControllerProduct extends RedshopController
 			// If Extension is not legal than don't upload file
 			if (!in_array(strtolower($fileExtension), $legalExts))
 			{
-				echo JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED');
+				echo '<li class="error">' . JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED') . '</li>';
 
 				$app->close();
 			}
@@ -864,7 +865,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			echo JText::_('COM_REDSHOP_NO_FILE_SELECTED');
+			echo '<li class="error">' . JText::_('COM_REDSHOP_NO_FILE_SELECTED') . '</li>';
 		}
 
 		$app->close();

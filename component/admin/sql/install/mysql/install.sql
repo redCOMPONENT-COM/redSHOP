@@ -246,6 +246,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_customer_question` (
 
 CREATE TABLE IF NOT EXISTS `#__redshop_discount` (
 	`discount_id`     INT(11)        NOT NULL AUTO_INCREMENT,
+	`name`      	  VARCHAR(250)	 NOT NULL,
 	`amount`          INT(11)        NOT NULL,
 	`condition`       TINYINT(1)     NOT NULL DEFAULT '1',
 	`discount_amount` DECIMAL(10, 4) NOT NULL,
@@ -256,7 +257,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_discount` (
 	PRIMARY KEY (`discount_id`),
 	KEY `idx_start_date` (`start_date`),
 	KEY `idx_end_date` (`end_date`),
-	KEY `idx_published` (`published`)
+	KEY `idx_published` (`published`),
+	KEY `idx_discount_name` (`name`)
 )
 	ENGINE =InnoDB
 	DEFAULT CHARSET =utf8

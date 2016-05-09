@@ -28,9 +28,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$plugin = $element;
 		}
 
-		$app     = JFactory::getApplication();
 		$db      = JFactory::getDbo();
-		$user    = JFActory::getUser();
 		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 		$cart    = $session->get('cart');
@@ -191,7 +189,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$host = 'secure2.authorize.net';
 		}
 
-		$url = "https://$host:443/gateway/transact.dll";
+		$url = "https://$host/gateway/transact.dll";
 
 		$urlParts = parse_url($url);
 
@@ -253,7 +251,11 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 	public function onCapture_Paymentrs_payment_authorize($element, $data)
 	{
-		$objOrder      = order_functions::getInstance();
+		if ($element != 'rs_payment_authorize')
+		{
+			return;
+		}
+
 		$order_id      = $data['order_id'];
 		$tid           = $data['order_transactionid'];
 		$db            = JFactory::getDbo();
@@ -357,7 +359,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$host = 'secure2.authorize.net';
 		}
 
-		$url = "https://$host:443/gateway/transact.dll";
+		$url = "https://$host/gateway/transact.dll";
 		$urlParts = parse_url($url);
 		$poststring = substr($poststring, 0, -1);
 		$CR = curl_init();
@@ -379,7 +381,6 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 
 		$result = curl_exec($CR);
-		$error = curl_error($CR);
 		curl_close($CR);
 		$response_vars = explode('|', $result);
 		$x_response_code = $response_vars[0];
@@ -412,9 +413,6 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
-
 		// Update authorize_status
 		if ($this->params->get("auth_type") == "AUTH_ONLY")
 		{
@@ -425,6 +423,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$authorize_status = "Captured";
 		}
 
+		$db = JFactory::getDbo();
 		$query = "UPDATE `#__redshop_order_payment` SET  authorize_status = '"
 			. $authorize_status . "' where order_id = '" . $order_id . "'";
 		$db->setQuery($query);

@@ -85,14 +85,14 @@ defined('_JEXEC') or die;
 				'class="inputbox"',
 				'value',
 				'text',
-				AUTO_GENERATE_LABEL
+				$this->config->get('AUTO_GENERATE_LABEL')
 			);
 
 			$order_functions = order_functions::getInstance();
 
 			echo $order_functions->getstatuslist(
 				'generate_label_on_status',
-				GENERATE_LABEL_ON_STATUS,
+				$this->config->get('GENERATE_LABEL_ON_STATUS'),
 				"class=\"inputbox\" size=\"1\" "
 			);
 			?>

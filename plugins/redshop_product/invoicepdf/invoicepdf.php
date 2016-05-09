@@ -164,7 +164,7 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 
 		$body             = $redshopMail->imginmail($body);
 		$user             = JFactory::getUser();
-		$billingaddresses = $orderHelper->getOrderBillingUserInfo($orderId);
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$email            = $billingaddresses->user_email;
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$body             = $carthelper->replaceOrderTemplate($row, $body);

@@ -45,6 +45,16 @@ class RedshopControllerVoucher_detail extends RedshopController
 			$post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
 		}
 
+		if ('' == trim($post['voucher_code']))
+		{
+			$app->redirect('index.php?option=com_redshop&view=voucher_detail&task=edit&cid=' . $post ['voucher_id'], JText::_('COM_REDSHOP_VOUCHER_CODE_IS_EMPTY'));
+		}
+
+		if ('' == trim($post['container_product']))
+		{
+			$app->redirect('index.php?option=com_redshop&view=voucher_detail&task=edit&cid=' . $post ['voucher_id'], JText::_('COM_REDSHOP_VOUCHER_PRODUCT_IS_EMPTY'));
+		}
+
 		$post ['voucher_id'] = $cid[0];
 		$model = $this->getModel('voucher_detail');
 

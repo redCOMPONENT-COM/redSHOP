@@ -23,30 +23,31 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DEFAULT_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DEFAULT_IMAGE'); ?>">
 		<?php echo JText::_('COM_REDSHOP_CATEGORY_DEFAULT_IMAGE_LBL');?>:</span></td>
 		<td>
+			<?php $categoryDefaultImage = $this->config->get('CATEGORY_DEFAULT_IMAGE'); ?>
 			<div>
 				<div>
 					<input class="text_area" type="file" name="categoryImg" id="categoryImg" size="40"/>
 					<input type="hidden" name="category_default_image" id="category_default_image"
-					       value="<?php echo CATEGORY_DEFAULT_IMAGE; ?>"/>
+					       value="<?php echo $categoryDefaultImage; ?>"/>
 					<a href="#123"
-					   onclick="delimg('<?php echo CATEGORY_DEFAULT_IMAGE ?>','catdiv','<?php echo $cat_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+					   onclick="delimg('<?php echo $categoryDefaultImage ?>','catdiv','<?php echo $cat_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 				</div>
 
-				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . CATEGORY_DEFAULT_IMAGE))
+				<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $categoryDefaultImage))
 				{ ?>
 					<div id="catdiv">
 						<a class="modal" href="<?php
-						echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . CATEGORY_DEFAULT_IMAGE;
+						echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryDefaultImage;
 						?>"
 						   title="<?php
-						   echo CATEGORY_DEFAULT_IMAGE;
+						   echo $categoryDefaultImage;
 						   ?>"
 						   rel="{handler: 'image', size: {}}"><img height="40" width="40"
 						                                           alt="<?php
-						                                           echo CATEGORY_DEFAULT_IMAGE;
+						                                           echo $categoryDefaultImage;
 						                                           ?>"
 						                                           src="<?php
-						                                           echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . CATEGORY_DEFAULT_IMAGE;
+						                                           echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryDefaultImage;
 						                                           ?>"/></a></div>
 				<?php
 				}
@@ -60,32 +61,32 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 		      title="<?php echo JText::_('COM_REDSHOP_PRODUCT_DEFAULT_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DEFAULT_IMAGE_LBL'); ?>">
 		<?php echo JText::_('COM_REDSHOP_PRODUCT_DEFAULT_IMAGE_LBL');?>:</span></td>
 		<td>
-
+			<?php $productDefaultImage = $this->config->get('PRODUCT_DEFAULT_IMAGE'); ?>
 			<div>
 				<div>
 					<input class="text_area" type="file" name="productImg" id="productImg" size="40"/>
 					<input type="hidden" name="product_default_image" id="product_default_image"
-					       value="<?php echo PRODUCT_DEFAULT_IMAGE; ?>"/>
+					       value="<?php echo $productDefaultImage; ?>"/>
 					<a href="#123"
-					   onclick="delimg('<?php echo PRODUCT_DEFAULT_IMAGE ?>','proddiv','<?php echo $prod_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+					   onclick="delimg('<?php echo $productDefaultImage ?>','proddiv','<?php echo $prod_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 				</div>
 				<?php
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . PRODUCT_DEFAULT_IMAGE))
+				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productDefaultImage))
 				{
 					?>
 					<div id="proddiv"><a class="modal"
 					                     href="<?php
-					                     echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . PRODUCT_DEFAULT_IMAGE;
+					                     echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productDefaultImage;
 					                     ?>"
 					                     title="<?php
-					                     echo PRODUCT_DEFAULT_IMAGE;
+					                     echo $productDefaultImage;
 					                     ?>"
 					                     rel="{handler: 'image', size: {}}"><img height="40" width="40"
 					                                                             alt="<?php
-					                                                             echo PRODUCT_DEFAULT_IMAGE;
+					                                                             echo $productDefaultImage;
 					                                                             ?>"
 					                                                             src="<?php
-					                                                             echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . PRODUCT_DEFAULT_IMAGE;
+					                                                             echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productDefaultImage;
 					                                                             ?>"/></a></div>
 				<?php
 				}
@@ -99,32 +100,33 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_IMAGE'); ?>">
 	<?php echo JText::_('COM_REDSHOP_WATERMARK_IMAGE_LBL'); ?>:</span></td>
 		<td>
+			<?php $watermarkImage = $this->config->get('WATERMARK_IMAGE'); ?>
 			<div>
 				<div>
 
 					<input class="text_area" type="file" name="watermarkImg" id="watermarkImg" size="40"/>
 					<input type="hidden" name="watermark_image" id="watermark_image"
-					       value="<?php echo WATERMARK_IMAGE; ?>"/>
+					       value="<?php echo $watermarkImage; ?>"/>
 					<a href="#123"
-					   onclick="delimg('<?php echo WATERMARK_IMAGE ?>','prodwaterdiv','<?php echo $prod_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+					   onclick="delimg('<?php echo $watermarkImage ?>','prodwaterdiv','<?php echo $prod_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 				</div>
 				<?php
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . WATERMARK_IMAGE))
+				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $watermarkImage))
 				{
 					?>
 					<div id="prodwaterdiv"><a class="modal"
 					                          href="<?php
-					                          echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . WATERMARK_IMAGE;
+					                          echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $watermarkImage;
 					                          ?>"
 					                          title="<?php
-					                          echo WATERMARK_IMAGE;
+					                          echo $watermarkImage;
 					                          ?>"
 					                          rel="{handler: 'image', size: {}}"><img height="40" width="40"
 					                                                                  alt="<?php
-					                                                                  echo PRODUCT_DEFAULT_IMAGE;
+					                                                                  echo Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					                                                                  ?>"
 					                                                                  src="<?php
-					                                                                  echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . WATERMARK_IMAGE;
+					                                                                  echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $watermarkImage;
 					                                                                  ?>"/></a></div>
 				<?php
 				}
@@ -141,31 +143,32 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 			?>:
 		</td>
 		<td>
+			<?php $productOutofstockImage = $this->config->get('PRODUCT_OUTOFSTOCK_IMAGE'); ?>
 			<div>
 				<div>
 					<input class="text_area" type="file" name="productoutofstockImg" id="categoryImg" size="40"/>
 					<input type="hidden" name="product_outofstock_image" id="product_outofstock_image"
-					       value="<?php echo PRODUCT_OUTOFSTOCK_IMAGE; ?>"/>
+					       value="<?php echo $productOutofstockImage; ?>"/>
 					<a href="#123"
-					   onclick="delimg('<?php echo PRODUCT_OUTOFSTOCK_IMAGE ?>','prodstockdiv','<?php echo $prod_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+					   onclick="delimg('<?php echo $productOutofstockImage ?>','prodstockdiv','<?php echo $prod_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
 				</div>
 				<?php
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . PRODUCT_OUTOFSTOCK_IMAGE))
+				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productOutofstockImage))
 				{
 					?>
 					<div id="prodstockdiv"><a class="modal"
 					                          href="<?php
-					                          echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . PRODUCT_OUTOFSTOCK_IMAGE;
+					                          echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productOutofstockImage;
 					                          ?>"
 					                          title="<?php
-					                          echo PRODUCT_OUTOFSTOCK_IMAGE;
+					                          echo $productOutofstockImage;
 					                          ?>"
 					                          rel="{handler: 'image', size: {}}"><img height="40" width="40"
 					                                                                  alt="<?php
-					                                                                  echo PRODUCT_OUTOFSTOCK_IMAGE;
+					                                                                  echo $productOutofstockImage;
 					                                                                  ?>"
 					                                                                  src="<?php
-					                                                                  echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . PRODUCT_OUTOFSTOCK_IMAGE;
+					                                                                  echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productOutofstockImage;
 					                                                                  ?>"/></a></div>
 				<?php
 				}
@@ -182,14 +185,15 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 				?>:
 </span></td>
 		<td>
+			<?php $productDetailLightboxCloseBtnImage = $this->config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE'); ?>
 			<div>
 				<div>
 					<input class="text_area" type="file" name="imgslimbox" id="imgslimbox" size="40"/>
 					<input type="hidden" name="product_detail_lighbox_close_button_image"
 					       id="product_detail_lighbox_close_button_image"
-					       value="<?php echo PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE; ?>"/>
+					       value="<?php echo $productDetailLightboxCloseBtnImage; ?>"/>
 					<?php
-					$slimbox_image_path = REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE;
+					$slimbox_image_path = REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage;
 					?>
 				</div>
 				<?php  if (is_file($slimbox_image_path))
@@ -197,18 +201,17 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 					<div id="slimboximglinkdiv">
 					<div style='float:right'>
 						<a href="#123"
-						   onclick="delimg('<?php echo PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE ?>','slimboximglinkdiv','<?php echo $slimbox_img_path; ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a></span>
+						   onclick="delimg('<?php echo $productDetailLightboxCloseBtnImage ?>','slimboximglinkdiv','<?php echo $slimbox_img_path; ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a></span>
 					</div>
 					<div><a class="modal"
-					        href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'slimbox/' . PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE; ?>"
-					        title="<?php echo PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE; ?>"
+					        href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage; ?>"
+					        title="<?php echo $productDetailLightboxCloseBtnImage; ?>"
 					        rel="{handler: 'image', size: {}}"><img
-								alt="<?php echo PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE; ?>"
-								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'slimbox/' . PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE; ?>"/></a>
+								alt="<?php echo $productDetailLightboxCloseBtnImage; ?>"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage; ?>"/></a>
 					</div>
 					</div><?php } ?>
 			</div>
 		</td>
 	</tr>
-
 </table>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_producttab
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,6 +22,9 @@ $show_desc      = trim($params->get('show_desc', 1));
 $thumbwidth     = trim($params->get('thumbwidth', 100));
 $thumbheight    = trim($params->get('thumbheight', 100));
 $layout         = $params->get('layout', 'default');
+$productPerRow  = $params->get('number_of_row');
+
+JFactory::getDocument()->addStyleSheet("modules/mod_redproducttab/css/style.css");
 
 JLoader::import('redshop.library');
 

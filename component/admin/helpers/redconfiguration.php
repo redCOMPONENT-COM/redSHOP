@@ -12,23 +12,21 @@ defined('_JEXEC') or die;
 
 class Redconfiguration
 {
-	public $_def_array = null;
+	public $defArray = null;
 
-	public $_configpath = null;
+	public $configPath = null;
 
-	public $_config_dist_path = null;
+	public $configDistPath = null;
 
-	public $_config_bkp_path = null;
+	public $configBkpPath = null;
 
-	public $_config_tmp_path = null;
+	public $configTmpPath = null;
 
-	public $_cfgdata = null;
+	public $configDefPath = null;
 
-	public $_country_list = null;
+	public $cfgData = null;
 
-	public $_table_prefix = null;
-
-	public $_db = null;
+	public $countryList = null;
 
 	protected static $instance = null;
 
@@ -56,14 +54,12 @@ class Redconfiguration
 	 */
 	public function __construct()
 	{
-		$this->_table_prefix = '#__redshop_';
-
-		$this->_db               = JFactory::getDbo();
-		$this->_configpath       = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
-		$this->_config_dist_path = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.dist.php";
-		$this->_config_bkp_path  = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.bkp.php";
-		$this->_config_tmp_path  = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.tmp.php";
-		$this->_config_def_path  = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.def.php";
+		$basepath             = JPATH_SITE . '/administrator/components/com_redshop/helpers/';
+		$this->configPath     = $basepath . 'redshop.cfg.php';
+		$this->configDistPath = $basepath . 'wizard/redshop.cfg.dist.php';
+		$this->configBkpPath  = $basepath . 'wizard/redshop.cfg.bkp.php';
+		$this->configTmpPath  = $basepath . 'wizard/redshop.cfg.tmp.php';
+		$this->configDefPath  = $basepath . 'wizard/redshop.cfg.def.php';
 
 		if (!defined('JSYSTEM_IMAGES_PATH'))
 		{
@@ -103,12 +99,12 @@ class Redconfiguration
 	 */
 	public function isCFGFile()
 	{
-		if (!file_exists($this->_configpath))
+		if (!file_exists($this->configPath))
 		{
 			return false;
 		}
 
-		require_once $this->_configpath;
+		require_once $this->configPath;
 
 		return true;
 	}
@@ -120,9 +116,10 @@ class Redconfiguration
 	 */
 	public function isCFGTable()
 	{
-		$query = 'show tables like "' . $this->_db->getPrefix() . 'redshop_configuration"';
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadResult();
+		$db = JFactory::getDbo();
+		$query = 'show tables like "' . $db->getPrefix() . 'redshop_configuration"';
+		$db->setQuery($query);
+		$result = $db->loadResult();
 
 		if (count($result) <= 0)
 		{
@@ -141,10 +138,12 @@ class Redconfiguration
 	 */
 	public function setCFGTableData($org = array())
 	{
+		$db = JFactory::getDbo();
+
 		// GetData From table
-		$query = "SELECT * FROM " . $this->_table_prefix . "configuration WHERE id = 1";
-		$this->_db->setQuery($query);
-		$cfgdata = $this->_db->loadAssoc();
+		$query = "SELECT * FROM #__redshop_configuration WHERE id = 1";
+		$db->setQuery($query);
+		$cfgdata = $db->loadAssoc();
 
 		// Prepare data from table
 		$data = $this->redshopCFGData($cfgdata);
@@ -167,9 +166,9 @@ class Redconfiguration
 	{
 		if ($this->isCFGFile())
 		{
-			if (copy($this->_configpath, $this->_config_bkp_path))
+			if (copy($this->configPath, $this->configBkpPath))
 			{
-				if (!copy($this->_config_dist_path, $this->_configpath))
+				if (!copy($this->configDistPath, $this->configPath))
 				{
 					return false;
 				}
@@ -177,7 +176,7 @@ class Redconfiguration
 		}
 		else
 		{
-			if (!copy($this->_config_dist_path, $this->_configpath))
+			if (!copy($this->configDistPath, $this->configPath))
 			{
 				return false;
 			}
@@ -230,7 +229,7 @@ class Redconfiguration
 	{
 		if (count($def) <= 0)
 		{
-			$def = $this->_def_array;
+			$def = $this->defArray;
 		}
 
 		$html = "<?php \n";
@@ -248,7 +247,7 @@ class Redconfiguration
 			return false;
 		}
 
-		if ($fp = fopen($this->_config_def_path, "w"))
+		if ($fp = fopen($this->configDefPath, "w"))
 		{
 			fwrite($fp, $html, strlen($html));
 			fclose($fp);
@@ -271,13 +270,13 @@ class Redconfiguration
 	 */
 	public function defineCFGVars($data, $bypass = false)
 	{
-		$this->_cfgdata = "";
+		$this->cfgData = "";
 
 		foreach ($data as $key => $value)
 		{
 			if (!defined($key) || $bypass)
 			{
-				$this->_cfgdata .= "define('" . $key . "', '" . addslashes($value) . "');\n";
+				$this->cfgData .= "define('" . $key . "', '" . addslashes($value) . "');\n";
 			}
 		}
 
@@ -291,15 +290,15 @@ class Redconfiguration
 	 */
 	public function writeCFGFile()
 	{
-		if ($fp = fopen($this->_configpath, "w"))
+		if ($fp = fopen($this->configPath, "w"))
 		{
 			// Cleaning <?php and ?\> tag from the code
-			$this->_cfgdata = str_replace(array('<?php', '?>', "\n"), '', $this->_cfgdata);
+			$this->cfgData = str_replace(array('<?php', '?>', "\n"), '', $this->cfgData);
 
 			// Now, adding <?php tag at the top of the file.
-			$this->_cfgdata = "<?php \n" . $this->_cfgdata;
+			$this->cfgData = "<?php \n" . $this->cfgData;
 
-			fwrite($fp, $this->_cfgdata, strlen($this->_cfgdata));
+			fwrite($fp, $this->cfgData, strlen($this->cfgData));
 			fclose($fp);
 
 			return true;
@@ -318,9 +317,9 @@ class Redconfiguration
 	 */
 	public function updateCFGFile()
 	{
-		if ($fp = fopen($this->_configpath, "a"))
+		if ($fp = fopen($this->configPath, "a"))
 		{
-			fputs($fp, $this->_cfgdata, strlen($this->_cfgdata));
+			fputs($fp, $this->cfgData, strlen($this->cfgData));
 			fclose($fp);
 
 			return true;
@@ -341,7 +340,7 @@ class Redconfiguration
 	{
 		if ($this->isCFGFile())
 		{
-			if (!copy($this->_configpath, $this->_config_bkp_path))
+			if (!copy($this->configPath, $this->configBkpPath))
 			{
 				return false;
 			}
@@ -349,7 +348,7 @@ class Redconfiguration
 
 		else
 		{
-			if (!copy($this->_config_dist_path, $this->_configpath))
+			if (!copy($this->configDistPath, $this->configPath))
 			{
 				return false;
 			}
@@ -365,11 +364,11 @@ class Redconfiguration
 	 */
 	public function isTmpFile()
 	{
-		if (file_exists($this->_config_tmp_path))
+		if (file_exists($this->configTmpPath))
 		{
 			if ($this->isTMPFileWritable())
 			{
-				require_once $this->_config_tmp_path;
+				require_once $this->configTmpPath;
 
 				return true;
 			}
@@ -389,7 +388,7 @@ class Redconfiguration
 	 */
 	public function isTMPFileWritable()
 	{
-		if (!is_writable($this->_config_tmp_path))
+		if (!is_writable($this->configTmpPath))
 		{
 			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
 
@@ -406,11 +405,11 @@ class Redconfiguration
 	 */
 	public function isDEFFile()
 	{
-		if (file_exists($this->_config_def_path))
+		if (file_exists($this->configDefPath))
 		{
 			if ($this->isDEFFileWritable())
 			{
-				require_once $this->_config_def_path;
+				require_once $this->configDefPath;
 
 				return true;
 			}
@@ -430,7 +429,7 @@ class Redconfiguration
 	 */
 	public function isDEFFileWritable()
 	{
-		if (!is_writable($this->_config_def_path))
+		if (!is_writable($this->configDefPath))
 		{
 			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_WRITABLE'));
 
@@ -1000,6 +999,7 @@ class Redconfiguration
 
 	public function setQuotationMode()
 	{
+		$db = JFactory::getDbo();
 		$user             = JFactory::getUser();
 		$userhelper       = rsUserHelper::getInstance();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
@@ -1014,10 +1014,10 @@ class Redconfiguration
 			}
 		}
 
-		$qurey = "SELECT * FROM " . $this->_table_prefix . "shopper_group "
+		$qurey = "SELECT * FROM #__redshop_shopper_group "
 			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
-		$this->_db->setQuery($qurey);
-		$list = $this->_db->loadObject();
+		$db->setQuery($qurey);
+		$list = $db->loadObject();
 
 		if ($list)
 		{
@@ -1316,31 +1316,31 @@ class Redconfiguration
 	public function getCountryId($conid)
 	{
 		$db = JFactory::getDbo();
-		$query = 'SELECT country_id FROM ' . $this->_table_prefix . 'country '
+		$query = 'SELECT country_id FROM #__redshop_country '
 			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function getCountryCode2($conid)
 	{
 		$db = JFactory::getDbo();
-		$query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country '
+		$query = 'SELECT country_2_code FROM #__redshop_country '
 			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function getStateCode2($conid)
 	{
 		$db = JFactory::getDbo();
-		$query = 'SELECT state_2_code FROM ' . $this->_table_prefix . 'state '
+		$query = 'SELECT state_2_code FROM #__redshop_state '
 			. 'WHERE state_3_code LIKE ' . $db->quote($conid);
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function getStateCode($conid, $tax_code)
@@ -1351,11 +1351,11 @@ class Redconfiguration
 		}
 
 		$db = JFactory::getDbo();
-		$query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state '
+		$query = 'SELECT  state_3_code , show_state FROM #__redshop_state '
 		. 'WHERE state_2_code LIKE ' . $db->quote($tax_code)
 		. ' AND country_id = ' . (int) $conid;
-		$this->_db->setQuery($query);
-		$rslt_data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$rslt_data = $db->loadObjectList();
 
 		if ($rslt_data[0]->show_state == 3)
 		{
@@ -1373,7 +1373,7 @@ class Redconfiguration
 	{
 		$db = JFactory::getDbo();
 
-		if (empty($this->_country_list))
+		if (empty($this->countryList))
 		{
 						$redhelper = redhelper::getInstance();
 
@@ -1393,20 +1393,20 @@ class Redconfiguration
 						$countryCode = $db->quote($countryCode);
 					}
 
-					$q = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM ' . $this->_table_prefix . 'country '
+					$q = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM #__redshop_country '
 						. 'WHERE country_3_code IN (' . implode(",", $country_list) . ') '
 						. 'ORDER BY country_name ASC';
 
-					$this->_db->setQuery($q);
-					$countries = $this->_db->loadObjectList();
+					$db->setQuery($q);
+					$countries = $db->loadObjectList();
 					$countries = $redhelper->convertLanguageString($countries);
 				}
 			}
 
-			$this->_country_list = $countries;
+			$this->countryList = $countries;
 		}
 
-		return $this->_country_list;
+		return $this->countryList;
 	}
 
 	public function getCountryList($post = array(), $country_codename = "country_code", $address_type = "BT", $country_class = "inputbox")
@@ -1521,24 +1521,24 @@ class Redconfiguration
 					$countryCode = $db->quote($countryCode);
 				}
 
-				$q = 'SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code FROM ' . $this->_table_prefix . 'country AS c '
-					. ',' . $this->_table_prefix . 'state s '
+				$q = 'SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code FROM #__redshop_country AS c '
+					. ',#__redshop_state s '
 					. 'WHERE (c.country_id=s.country_id OR s.country_id IS NULL) '
 					. 'AND c.country_3_code IN (' . implode(",", $country_list) . ') '
 					. 'ORDER BY c.country_id, s.state_name ';
 
-				$this->_db->setQuery($q);
-				$states = $this->_db->loadObjectList();
+				$db->setQuery($q);
+				$states = $db->loadObjectList();
 			}
 		}
 
-		$q = 'SELECT count(state_id) FROM ' . $this->_table_prefix . 'state AS s '
-			. ',' . $this->_table_prefix . 'country AS c '
+		$q = 'SELECT count(state_id) FROM #__redshop_state AS s '
+			. ',#__redshop_country AS c '
 			. 'WHERE c.country_id = s.country_id '
 			. 'AND c.country_3_code = ' . $db->quote($selected_country_code);
 
-		$this->_db->setQuery($q);
-		$is_states = $this->_db->loadResult();
+		$db->setQuery($q);
+		$is_states = $db->loadResult();
 
 		// Build the State lists for each Country
 		$script = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";

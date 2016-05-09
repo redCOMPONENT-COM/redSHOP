@@ -294,7 +294,7 @@ submitbutton = function (pressbutton) {
 		form.task.value = pressbutton;
 	}
 	if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-		|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'edit') || (pressbutton == 'setDefault') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
+		|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'edit') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
 		form.view.value = "media_detail";
 	}
 	try {

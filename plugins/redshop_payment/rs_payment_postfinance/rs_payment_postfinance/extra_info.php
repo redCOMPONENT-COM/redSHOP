@@ -12,7 +12,7 @@ JLoader::import('redshop.library');
 $objOrder         = order_functions::getInstance();
 $objconfiguration = Redconfiguration::getInstance();
 $user = JFactory::getUser();
-$shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
+$shipping_address = RedshopHelperOrder::getOrderShippingUserInfo($data['order_id']);
 $redhelper = redhelper::getInstance();
 $db = JFactory::getDbo();
 $user = JFActory::getUser();

@@ -14,16 +14,6 @@ defined('_JEXEC') or die;
 		<tr valign="top">
 			<td>
 				<table width="100%" cellpadding="0" cellspacing="0">
-					<?php
-					/*<tr>
-						<td width="50%">
-							<fieldset class="adminform">
-							<legend><?php echo JText::_('COM_REDSHOP_REDSHOP_VERSION' ); ?></legend>
-								<?php echo $this->loadTemplate('redshop_version');?>
-							</fieldset>
-						</td>
-					</tr>*/
-					?>
 					<tr>
 						<td width="50%">
 							<fieldset class="adminform">

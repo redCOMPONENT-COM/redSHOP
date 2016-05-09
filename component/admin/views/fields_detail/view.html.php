@@ -66,10 +66,7 @@ class RedshopViewFields_detail extends RedshopView
 
 		$lists['required'] = JHTML::_('select.booleanlist', 'required', 'class="inputbox"', $detail->required);
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'field_type',
-			'class="inputbox" size="1" onchange="field_select(this.value)" ',
-			'value', 'text', $detail->field_type
-		);
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'field_type', '', 'value', 'text', $detail->field_type);
 
 		$disable = "";
 

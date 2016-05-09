@@ -8,6 +8,7 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.modal', 'a.modal-thumb');
 
 $producthelper = producthelper::getInstance();
@@ -17,6 +18,16 @@ if ($this->item->giftcard_id)
 	$this->form->setValue('giftcard_price', null, $producthelper->redpriceDecimal($this->item->giftcard_price));
 	$this->form->setValue('giftcard_value', null, $producthelper->redpriceDecimal($this->item->giftcard_value));
 }
+
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(task)
+	{
+		if (task == "giftcard.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
+		{
+			Joomla.submitform(task);
+		}
+	};
+');
 ?>
 <form
 	action="index.php?option=com_redshop&view=giftcard&task=giftcard.edit&giftcard_id=<?php echo $this->item->giftcard_id; ?>"

@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 class Tablediscount_detail extends JTable
 {
 	public $discount_id = 0;
-
+	
+	public $name = null;
+	
 	public $amount = null;
 
 	public $condition = null;

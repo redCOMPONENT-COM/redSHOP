@@ -77,9 +77,9 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 		</label></span></td>
 						<td>
 							<input type="text" name="cart_thumb_width" id="cart_thumb_width"
-							       value="<?php echo CART_THUMB_WIDTH; ?>">
+							       value="<?php echo $this->config->get('CART_THUMB_WIDTH'); ?>">
 							<input type="text" name="cart_thumb_height" id="cart_thumb_height"
-							       value="<?php echo CART_THUMB_HEIGHT; ?>">
+							       value="<?php echo $this->config->get('CART_THUMB_HEIGHT'); ?>">
 						</td>
 					</tr>
 					<tr>
@@ -107,20 +107,20 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 								<div style="float: left;">
 									<input class="text_area" type="file" name="cartimg" id="cartimg" size="50"/>
 									<input type="hidden" name="addtocart_image" id="addtocart_image"
-									       value="<?php echo ADDTOCART_IMAGE; ?>"/>
+									       value="<?php echo $this->config->get('ADDTOCART_IMAGE'); ?>"/>
 									<a href="#123"
-									   onclick="delimg('<?php echo ADDTOCART_IMAGE ?>','cartdiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
+									   onclick="delimg('<?php echo $this->config->get('ADDTOCART_IMAGE') ?>','cartdiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
 								</div>
 							</div>
 							<div>&nbsp;</div>
-							<div id="cartdiv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_IMAGE))
+							<div id="cartdiv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $this->config->get('ADDTOCART_IMAGE')))
 								{ ?>
 									<div style="width: 500px; height: 50px;">
 									<a class="modal"
-									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_IMAGE; ?>"
-									   title="<?php echo ADDTOCART_IMAGE; ?>" rel="{handler: 'image', size: {}}">
-										<img alt="<?php echo ADDTOCART_IMAGE; ?>"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_IMAGE; ?>"/></a>
+									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE'); ?>"
+									   title="<?php echo $this->config->get('ADDTOCART_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
+										<img alt="<?php echo $this->config->get('ADDTOCART_IMAGE'); ?>"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE'); ?>"/></a>
 									</div><?php } ?></div>
 							</div>
 						</td>
@@ -134,21 +134,21 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 								<div style="float: left;">
 									<input class="text_area" type="file" name="cartback" id="cartback" size="50"/>
 									<input type="hidden" name="addtocart_background" id="addtocart_background"
-									       value="<?php echo ADDTOCART_BACKGROUND; ?>"/>
+									       value="<?php echo $this->config->get('ADDTOCART_BACKGROUND'); ?>"/>
 									<a href="#123"
-									   onclick="delimg('<?php echo ADDTOCART_BACKGROUND ?>','cartbgdiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
+									   onclick="delimg('<?php echo $this->config->get('ADDTOCART_BACKGROUND') ?>','cartbgdiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
 								</div>
 							</div>
 							<div>&nbsp;</div>
 							<div style="width: 500px; height: 50px;">
 								<div
-									id="cartbgdiv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_BACKGROUND))
+									id="cartbgdiv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $this->config->get('ADDTOCART_BACKGROUND')))
 									{ ?>
 									<a class="modal"
-									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_BACKGROUND; ?>"
-									   title="<?php echo ADDTOCART_BACKGROUND; ?>" rel="{handler: 'image', size: {}}">
-										<img alt="<?php echo ADDTOCART_BACKGROUND; ?>"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_BACKGROUND; ?>"/>
+									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_BACKGROUND'); ?>"
+									   title="<?php echo $this->config->get('ADDTOCART_BACKGROUND'); ?>" rel="{handler: 'image', size: {}}">
+										<img alt="<?php echo $this->config->get('ADDTOCART_BACKGROUND'); ?>"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_BACKGROUND'); ?>"/>
 										</a><?php } ?>
 								</div>
 							</div>
@@ -161,23 +161,24 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 				      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_REQUESTQUOTE_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_REQUESTQUOTE_IMAGE_LBL'); ?>">
 				<?php echo JText::_('COM_REDSHOP_REQUESTQUOTE_IMAGE_LBL');?>:</span></td>
 						<td>
+							<?php $requestquoteImage = $this->config->get('REQUESTQUOTE_IMAGE'); ?>
 							<div style="width: 400px; height: 40px;">
 								<div style="float: left;">
 									<input class="text_area" type="file" name="quoteimg" id="quoteimg" size="50"/>
 									<input type="hidden" name="requestquote_image" id="requestquote_image"
-									       value="<?php echo REQUESTQUOTE_IMAGE; ?>"/>
+									       value="<?php echo $requestquoteImage; ?>"/>
 								</div>
 							</div>
 							<div>&nbsp;</div>
-							<div id="quotediv"><?php if (is_file(JPATH_ROOT . $addtocart_path . REQUESTQUOTE_IMAGE))
+							<div id="quotediv"><?php if (is_file(JPATH_ROOT . $addtocart_path . $requestquoteImage))
 								{ ?>
 									<div style="width: 300px; height: 30px;">
-									<a class="modal" href="<?php echo $url . $addtocart_path . REQUESTQUOTE_IMAGE; ?>"
-									   title="<?php echo REQUESTQUOTE_IMAGE; ?>" rel="{handler: 'image', size: {}}">
-										<img alt="<?php echo REQUESTQUOTE_IMAGE; ?>"
-										     src="<?php echo $url . $addtocart_path . REQUESTQUOTE_IMAGE; ?>"/></a>
+									<a class="modal" href="<?php echo $url . $addtocart_path . $requestquoteImage; ?>"
+									   title="<?php echo $requestquoteImage; ?>" rel="{handler: 'image', size: {}}">
+										<img alt="<?php echo $requestquoteImage; ?>"
+										     src="<?php echo $url . $addtocart_path . $requestquoteImage; ?>"/></a>
 									<a class="remove_link" href="#123"
-									   onclick="delimg('<?php echo REQUESTQUOTE_IMAGE ?>','quotediv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
+									   onclick="delimg('<?php echo $requestquoteImage ?>','quotediv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
 									</div><?php } ?></div>
 							</div>
 						</td>
@@ -187,28 +188,29 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						                                    title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_REQUESTQUOTE_BACKGROUND_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_REQUESTQUOTE_BACKGROUND_LBL'); ?>">
 		<?php echo JText::_('COM_REDSHOP_REQUESTQUOTE_BACKGROUND_LBL');?>:</span></td>
 						<td>
+							<?php $requestquoteBackground =  $this->config->get('REQUESTQUOTE_BACKGROUND'); ?>
 							<div style="width: 500px; height: 50px;">
 								<div style="float: left;">
 									<input class="text_area" type="file" name="quoteback" id="quoteback" size="50"/>
 									<input type="hidden" name="requestquote_background" id="requestquote_background"
-									       value="<?php echo REQUESTQUOTE_BACKGROUND; ?>"/>
-									<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . REQUESTQUOTE_BACKGROUND))
+									       value="<?php echo $requestquoteBackground; ?>"/>
+									<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $requestquoteBackground))
 									{ ?>
 										<a href="#123"
-										   onclick="delimg('<?php echo REQUESTQUOTE_BACKGROUND ?>','quotebgdiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE') ?></a><?php }?>
+										   onclick="delimg('<?php echo $requestquoteBackground ?>','quotebgdiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE') ?></a><?php }?>
 								</div>
 							</div>
 							<div>&nbsp;</div>
 							<div style="width: 500px; height: 50px;">
 								<div
-									id="quotebgdiv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . REQUESTQUOTE_BACKGROUND))
+									id="quotebgdiv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $requestquoteBackground))
 									{ ?>
 									<a class="modal"
-									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . REQUESTQUOTE_BACKGROUND; ?>"
-									   title="<?php echo REQUESTQUOTE_BACKGROUND; ?>"
+									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $requestquoteBackground; ?>"
+									   title="<?php echo $requestquoteBackground; ?>"
 									   rel="{handler: 'image', size: {}}">
-										<img alt="<?php echo REQUESTQUOTE_BACKGROUND; ?>"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . REQUESTQUOTE_BACKGROUND; ?>"/>
+										<img alt="<?php echo $requestquoteBackground; ?>"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $requestquoteBackground; ?>"/>
 										</a><?php } ?></div>
 							</div>
 							</div></td>
@@ -218,25 +220,26 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						                                    title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_UPDATE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_UPDATE_LBL'); ?>"><?php echo  JText::_('COM_REDSHOP_ADDTOCART_UPDATE_LBL');?>
 								:</span></td>
 						<td>
+							<?php $addtocartUpdate =  $this->config->get('ADDTOCART_UPDATE'); ?>
 							<div style="width: 500px; height: 50px;">
 								<div style="float: left;">
 									<input class="text_area" type="file" name="cartupdate" id="cartupdate" size="50"/>
 									<input type="hidden" name="addtocart_update" id="addtocart_update"
-									       value="<?php echo ADDTOCART_UPDATE; ?>"/>
+									       value="<?php echo $addtocartUpdate; ?>"/>
 									<a href="#123"
-									   onclick="delimg('<?php echo ADDTOCART_UPDATE ?>','cartupdatediv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
+									   onclick="delimg('<?php echo $addtocartUpdate ?>','cartupdatediv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
 								</div>
 							</div>
 							<div>&nbsp;</div>
 							<div style="width: 500px; height: 50px;">
 								<div
-									id="cartupdatediv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_UPDATE))
+									id="cartupdatediv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartUpdate))
 									{ ?>
 									<a class="modal"
-									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_UPDATE; ?>"
-									   title="<?php echo ADDTOCART_UPDATE; ?>" rel="{handler: 'image', size: {}}">
-										<img alt="<?php echo ADDTOCART_UPDATE; ?>"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_UPDATE; ?>"/>
+									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate; ?>"
+									   title="<?php echo $addtocartUpdate; ?>" rel="{handler: 'image', size: {}}">
+										<img alt="<?php echo $addtocartUpdate; ?>"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate; ?>"/>
 										</a><?php } ?>
 								</div>
 							</div>
@@ -248,24 +251,25 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						                                    title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_DELETE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_DELETE_LBL'); ?>"><?php echo  JText::_('COM_REDSHOP_ADDTOCART_DELETE_LBL');?>
 								:</span></td>
 						<td>
+							<?php $addtocartDelete =  $this->config->get('ADDTOCART_UPDATE'); ?>
 							<div style="width: 500px; height: 50px;">
 								<div style="float: left;">
 									<input class="text_area" type="file" name="cartdelete" id="cartdelete" size="50"/>
 									<input type="hidden" name="addtocart_delete" id="addtocart_delete"
-									       value="<?php echo ADDTOCART_DELETE; ?>"/>
+									       value="<?php echo $addtocartDelete; ?>"/>
 									<a href="#123"
-									   onclick="delimg('<?php echo ADDTOCART_DELETE ?>','cartdeldiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
+									   onclick="delimg('<?php echo $addtocartDelete ?>','cartdeldiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
 								</div>
 							</div>
 							<div>&nbsp;</div>
 							<div style="width: 500px; height: 50px;">
-								<div id="cartdeldiv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_DELETE))
+								<div id="cartdeldiv"><?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartDelete))
 									{ ?>
 									<a class="modal"
-									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_DELETE; ?>"
-									   title="<?php echo ADDTOCART_DELETE; ?>" rel="{handler: 'image', size: {}}">
-										<img alt="<?php echo ADDTOCART_DELETE; ?>"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_DELETE; ?>"/>
+									   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete; ?>"
+									   title="<?php echo $addtocartDelete; ?>" rel="{handler: 'image', size: {}}">
+										<img alt="<?php echo $addtocartDelete; ?>"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete; ?>"/>
 										</a><?php } ?>
 								</div>
 							</div>
@@ -320,5 +324,5 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 			document.getElementById('quotationprice').style.display = "";
 		}
 	}
-	quote_price(<?php echo DEFAULT_QUOTATION_MODE_PRE?>);
+	quote_price(<?php echo $this->config->get('DEFAULT_QUOTATION_MODE_PRE');?>);
 </script>

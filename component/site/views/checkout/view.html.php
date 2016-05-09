@@ -17,7 +17,6 @@ class RedshopViewCheckout extends RedshopView
 		$app = JFactory::getApplication();
 		$model     = $this->getModel('checkout');
 		$Itemid    = JRequest::getInt('Itemid');
-		$task      = JRequest::getCmd('task');
 		$user      = JFactory::getUser();
 		$redhelper = redhelper::getInstance();
 		$field     = extraField::getInstance();
@@ -135,6 +134,26 @@ class RedshopViewCheckout extends RedshopView
 			$shipping_rate_id = JRequest::getInt('shipping_rate_id');
 			$element          = JRequest::getCmd('payment_method_id');
 			$ccinfo           = JRequest::getInt('ccinfo');
+
+			if (!isset($cart['voucher_discount']))
+			{
+				$cart['voucher_discount'] = 0;
+			}
+
+			if (!isset($cart['coupon_discount']))
+			{
+				$cart['coupon_discount'] = 0;
+			}
+
+			if (!isset($cart['product_subtotal']))
+			{
+				$cart['product_subtotal'] = 0;
+			}
+
+			if (!isset($cart['total']))
+			{
+				$cart['total'] = 0;
+			}
 
 			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 			$subtotal       = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];

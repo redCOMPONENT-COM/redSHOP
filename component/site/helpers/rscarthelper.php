@@ -954,7 +954,7 @@ class rsCarthelper
 		}
 		else
 		{
-			$delete_img = "defaultcross.jpg";
+			$delete_img = "defaultcross.png";
 		}
 
 		for ($i = 0; $i < $idx; $i++)
@@ -1440,7 +1440,7 @@ class rsCarthelper
 					}
 					else
 					{
-						$update_img = "defaultupdate.jpg";
+						$update_img = "defaultupdate.png";
 					}
 
 					$update_cart .= '<img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">';
@@ -1466,7 +1466,7 @@ class rsCarthelper
 				}
 				else
 				{
-					$delete_img = "defaultcross.jpg";
+					$delete_img = "defaultcross.png";
 				}
 
 				if ($mainview == 'checkout')
@@ -2345,6 +2345,11 @@ class rsCarthelper
 			}
 			else
 			{
+				if (!isset($cart['voucher_discount']))
+				{
+					$cart['coupon_discount'] = 0;
+				}
+
 				$total_discount      = $cart['cart_discount'] + (isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0) + $cart['coupon_discount'];
 				$d['order_subtotal'] = (SHIPPING_AFTER == 'total') ? $subtotal - $total_discount : $subtotal;
 				$d['users_info_id']  = $user_info_id;
@@ -3096,8 +3101,8 @@ class rsCarthelper
 			$replace[] = JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
 		}
 
-		$billingaddresses  = $this->_order_functions->getOrderBillingUserInfo($order_id);
-		$shippingaddresses = $this->_order_functions->getOrderShippingUserInfo($order_id);
+		$billingaddresses  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 
 		$search [] = "{requisition_number}";
 		$replace[] = ($row->requisition_number) ? $row->requisition_number : "N/A";

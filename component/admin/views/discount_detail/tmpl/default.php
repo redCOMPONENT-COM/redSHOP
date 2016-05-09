@@ -38,7 +38,17 @@ $now = JFactory::getDate();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 			<table class="admintable">
-
+				<tr>
+					<td width="100" align="right" class="key">
+						<label for="name">
+							<?php echo JText::_('COM_REDSHOP_NAME'); ?>:
+						</label>
+					</td>
+					<td>
+						<input class="text_area" type="text" name="name" id="name" size="32" maxlength="250"
+						       value="<?php echo $this->detail->name; ?>"/>
+					</td>
+				</tr>
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">

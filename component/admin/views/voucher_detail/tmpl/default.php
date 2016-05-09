@@ -8,6 +8,7 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.formvalidator');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $producthelper = producthelper::getInstance();
@@ -15,17 +16,11 @@ $producthelper = producthelper::getInstance();
 $now = JFactory::getDate();
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform(pressbutton);
-			return;
-		}
+	Joomla.submitbutton = function (task) {
 
-		if (form.amount.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_VOUCHER_AMOUNT_MUST_FILLED', true ); ?>");
-		} else {
-			submitform(pressbutton);
+		if (task == "cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
+		{
+			Joomla.submitform(task);
 		}
 	}
 </script>
@@ -37,12 +32,12 @@ $now = JFactory::getDate();
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key">
-						<label for="name">
+						<label for="voucher_code">
 							<?php echo JText::_('COM_REDSHOP_VOUCHER_CODE'); ?>:
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="voucher_code" id="voucher_code" size="32"
+						<input class="text_area" required="required" type="text" name="voucher_code" id="voucher_code" size="32"
 						       maxlength="250" value="<?php echo $this->detail->voucher_code; ?>"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_VOUCHER_CODE'), JText::_('COM_REDSHOP_VOUCHER_CODE'), 'tooltip.png', '', '', false); ?>
 					</td>
@@ -70,7 +65,9 @@ $now = JFactory::getDate();
 				</tr>
 				<tr>
 					<td valign="top" align="right" class="key">
-						<?php echo JText::_('COM_REDSHOP_VOUCHER_PRODUCT'); ?>:
+						<label for="container_product">
+							<?php echo JText::_('COM_REDSHOP_VOUCHER_PRODUCT'); ?>
+						</label>
 					</td>
 					<td>
 						<?php echo $this->lists['voucher_product']; ?>

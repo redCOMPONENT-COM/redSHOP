@@ -132,10 +132,10 @@ if ($flage) : ?>
 				</tr>
 				</tbody>
 			</table>
-			<input type="hidden" name="view" value="wishlist"/>
-			<input type="hidden" name="boxchecked" value=""/>
-			<input type="hidden" name="option" value="com_redshop"/>
-			<input type="hidden" name="task" value="savewishlist"/>
+			<input type="hidden" name="view" value="wishlist" />
+			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="option" value="com_redshop" />
+			<input type="hidden" name="task" value="savewishlist" />
 		</form>
 	</div>
 

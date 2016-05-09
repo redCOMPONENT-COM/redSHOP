@@ -69,7 +69,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$billingaddresses     = $this->_order_functions->getBillingAddress($order->user_id);
 		$d['billingaddress']  = $billingaddresses;
 
-		$shippingaddresses    = $this->_order_functions->getOrderShippingUserInfo($order->order_id);
+		$shippingaddresses    = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
 		$d['shippingaddress'] = $shippingaddresses;
 
 		$Itemid               = JRequest::getInt('Itemid');

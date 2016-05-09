@@ -512,7 +512,7 @@ for ($i = 0, $in = count($products); $i < $in; $i++)
 									</td>
 									<td width="10%">
 										<div class="input-prepend span12">
-										<span class="add-on span3"><?php echo REDCURRENCY_SYMBOL; ?></span>
+										<span class="add-on span3"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
 										<input type="text" name="update_price" id="update_price" class="span9"
 										       value="<?php echo $producthelper->redpriceDecimal($products[$i]->product_item_price_excl_vat); ?>"
 										       size="10">
@@ -540,12 +540,12 @@ for ($i = 0, $in = count($products); $i < $in; $i++)
 									</td>
 									<td width="5%">
 										<img class="delete_item"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.png"
 										     title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 										     alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 										     onclick="if(confirm('<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_ORDER_ITEM'); ?>')) { document.itemForm<?php echo $order_item_id; ?>.task.value='delete_item';document.itemForm<?php echo $order_item_id; ?>.submit();}">
 										<img class="update_price"
-										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
+										     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.png"
 										     title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 										     alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 										     onclick="document.itemForm<?php echo $order_item_id; ?>.task.value='updateItem';document.itemForm<?php echo $order_item_id; ?>.submit();">
@@ -791,7 +791,7 @@ $session->set('cart', $cart); ?>
 								value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
 								size="10">
 							<span class="add-on"><label class="inline">&nbsp;<img class="update_price" align="absmiddle"
-								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.png"
 								title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								onclick="document.update_discount<?php echo $order_id; ?>.submit();"></label></span>
@@ -820,7 +820,7 @@ $session->set('cart', $cart); ?>
 							<span class="add-on">
 							<label class="inline">&nbsp;
 							<img class="update_price" align="absmiddle"
-								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.png"
 								title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 								onclick="document.special_discount<?php echo $order_id; ?>.submit();">
@@ -921,7 +921,7 @@ $session->set('cart', $cart); ?>
 						<input name="productpriceproduct1" id="productpriceproduct1" type="hidden" value="0"/></td>
 					<td><input type="text" name="quantityproduct1" id="quantityproduct1" style="display: none;"
 					           onchange="changeOfflineQuantityBox('product1');" value="1" class="span12"
-					           size="<?php echo DEFAULT_QUANTITY; ?>" maxlength="<?php echo DEFAULT_QUANTITY; ?>"></td>
+					           size="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>" maxlength="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"></td>
 					<td align="right">
 						<div id="tdtotalprdproduct1"></div>
 						<input name="subpriceproduct1" id="subpriceproduct1" type="hidden" value="0"/>

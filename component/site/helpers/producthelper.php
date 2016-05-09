@@ -7689,6 +7689,7 @@ class producthelper
 				for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
 				{
 					$property_price = $orderPropdata[$p]->section_price;
+					$productAttributeCalculatedPrice = 0;
 
 					if ($stock == 1)
 					{

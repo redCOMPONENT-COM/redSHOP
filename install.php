@@ -8,9 +8,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::discover('', JPATH_SITE . '/components/com_redshop/helpers', false);
-JLoader::discover('', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
-
 /**
  * Script file of redSHOP component
  *
@@ -787,7 +784,7 @@ class Com_RedshopInstallerScript
 
 		if (!defined("REQUESTQUOTE_IMAGE"))
 		{
-			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.gif';
+			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.png';
 		}
 
 		if (!defined("REQUESTQUOTE_BACKGROUND"))
@@ -921,6 +918,18 @@ class Com_RedshopInstallerScript
 		}
 
 		$Redconfiguration->manageCFGFile($cfgarr);
+
+		// Store new config file using existing config files.
+		try
+		{
+			Redshop::getConfig()->loadLegacy();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
 	}
 
 	/**
@@ -1226,6 +1235,7 @@ class Com_RedshopInstallerScript
 
 			array_push(
 				$files,				
+				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',				
 				JPATH_SITE . '/components/com_redshop/helpers/captcha.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
 				JPATH_SITE . '/components/com_redshop/helpers/currency.php',

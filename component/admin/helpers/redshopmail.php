@@ -227,7 +227,7 @@ class redshopMail
 		$search[]         = "{order_detail_link}";
 		$replace[]        = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
-		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 		$message          = str_replace($search, $replace, $message);
 		$message          = $this->imginmail($message);
 		$thirdpartyemail  = $billingaddresses->thirdparty_email;
@@ -376,7 +376,7 @@ class redshopMail
 		$manufacturer_email = array();
 
 		$row              = $this->_order_functions->getOrderDetails($order_id);
-		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 		$orderpayment     = $this->_order_functions->getOrderPaymentDetail($order_id);
 		$paymentmethod    = $this->_order_functions->getPaymentMethodInfo($orderpayment[0]->payment_method_class);
 		$paymentmethod    = $paymentmethod[0];
@@ -609,7 +609,7 @@ class redshopMail
 		$replace_sub[]    = SHOP_NAME;
 
 		$user             = JFactory::getUser();
-		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($orderId);
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$search_sub[]     = "{fullname}";
 		$replace_sub[]    = $userfullname;
@@ -726,7 +726,7 @@ class redshopMail
 		$from     = $config->get('mailfrom');
 		$fromname = $config->get('fromname');
 
-		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($orderId);
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$email            = $billingaddresses->user_email;
 		$mailBody = $this->imginmail($mailBody);
 
@@ -1616,7 +1616,7 @@ class redshopMail
 		}
 
 		$orderdetail = $this->_order_functions->getOrderDetails($order_id);
-		$user_billinginfo = $this->_order_functions->getOrderBillingUserInfo($order_id);
+		$user_billinginfo = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 
 		$search[] = "{name}";
 		$search[] = "{order_number}";

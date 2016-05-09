@@ -130,7 +130,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="vat_introtext" id="vat_introtext" rows="4"
-			          cols="40"/><?php echo stripslashes(VAT_INTROTEXT); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('VAT_INTROTEXT')); ?></textarea>
 		</td>
 	</tr>
 
@@ -141,7 +141,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_REDSHOP_WITH_VAT_TEXT_INFO_LBL');?>:</span></td>
 		<td>
 			<textarea class="text_area" type="text" name="with_vat_text_info" id="with_vat_text_info" rows="4"
-			          cols="40"/><?php echo stripslashes(WITH_VAT_TEXT_INFO); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('WITH_VAT_TEXT_INFO')); ?></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -151,7 +151,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_REDSHOP_WITHOUT_VAT_TEXT_INFO_LBL');?>:</span></td>
 		<td>
 			<textarea class="text_area" type="text" name="without_vat_text_info" id="without_vat_text_info" rows="4"
-			          cols="40"/><?php echo stripslashes(WITHOUT_VAT_TEXT_INFO); ?></textarea>
+			          cols="40"/><?php echo stripslashes($this->config->get('WITHOUT_VAT_TEXT_INFO')); ?></textarea>
 		</td>
 	</tr>
 </table>

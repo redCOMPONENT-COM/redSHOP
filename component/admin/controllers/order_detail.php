@@ -343,30 +343,28 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function createpdf()
 	{
-		$view = $this->getView('order_detail', 'tcpdf');
+		$this->getView('order_detail', 'tcpdf');
 		parent::display();
 	}
 
 	public function createpdfstocknote()
 	{
-		$view = $this->getView('order_detail', 'stocknotepdf');
+		$this->getView('order_detail', 'stocknotepdf');
 		parent::display();
 	}
 
 	public function send_downloadmail()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'get', 'array');
+		$cid  = JRequest::getVar('cid', array(0), 'get', 'array');
 		$tmpl = JRequest::getVar('tmpl', '', 'request', 'string');
-		$model = $this->getModel('order_detail');
 
-		if ($model->send_downloadmail($cid[0]))
+		$order_functions = new order_functions;
+
+		$msg = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
+
+		if ($order_functions->SendDownload($cid[0]))
 		{
 			$msg = JText::_('COM_REDSHOP_DOWNLOAD_MAIL_HAS_BEEN_SENT');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
 		}
 
 		if ($tmpl)
@@ -415,9 +413,9 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 
-		$userbillinginfo = $order_functions->getOrderBillingUserInfo($request['order_id']);
+		$userbillinginfo = RedshopHelperOrder::getOrderBillingUserInfo($request['order_id']);
 
-		$shippingaddresses = $order_functions->getOrderShippingUserInfo($request['order_id']);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($request['order_id']);
 
 		if (isset($shippingaddresses))
 		{

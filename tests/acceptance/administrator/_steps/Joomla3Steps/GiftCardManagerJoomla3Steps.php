@@ -41,10 +41,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
 		$I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
 		$I->click('Save & Close');
-		$I->see('Item successfully saved.', '.alert-success');
-		$I->click(['link' => 'ID']);
-		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click(['link' => 'ID']);
+		$I->waitForText('Item successfully saved', 60, ['id' => 'system-message-container']);
+		$I->filterListBySearching($cardName, ['id' => 'filter_search']);
+		$I->seeElement(['link' => $cardName]);
 	}
 
 	/**
@@ -59,17 +58,15 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click(['link' => 'ID']);
-		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click(\GiftCardManagerPage::$firstResult);
-		$I->click('Edit');
+		$I->filterListBySearching($cardName, ['id' => 'filter_search']);
+		$I->click(['link' => $cardName]);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Edit View');
 		$I->waitForElement(\GiftCardManagerPage::$giftCardName);
 		$I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
 		$I->click('Save & Close');
-		$I->see('Item successfully saved.', '.alert-success');
-		$I->see($newCardName, \GiftCardManagerPage::$giftCardResultRow);
-		$I->click(['link' => 'ID']);
+		$I->see('Item successfully saved', ['id' => 'system-message-container']);
+		$I->filterListBySearching($newCardName, ['id' => 'filter_search']);
+		$I->seeElement(['link' => $newCardName]);
 	}
 
 	/**
@@ -83,11 +80,10 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->click(['link' => 'ID']);
-		$I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
+		$I->filterListBySearching($cardName, ['id' => 'filter_search']);
 		$I->click(\GiftCardManagerPage::$firstResult);
 		$I->click('Delete');
-		$I->dontSee($cardName, \GiftCardManagerPage::$giftCardResultRow);
+		$I->dontSeeElement(['link' => $cardName]);
 	}
 
 	/**
@@ -113,7 +109,14 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeCardState($cardName = 'Sample Card', $state = 'unpublish')
 	{
-		$this->changeState(new \GiftCardManagerPage, $cardName, $state, \GiftCardManagerPage::$giftCardResultRow, \GiftCardManagerPage::$firstResult);
+		$this->changeState(
+			new \GiftCardManagerPage,
+			$cardName,
+			$state,
+			\GiftCardManagerPage::$giftCardResultRow,
+			\GiftCardManagerPage::$firstResult,
+			['id' => 'filter_search']
+		);
 	}
 
 	/**

@@ -96,7 +96,7 @@ defined('_JEXEC') or die;
 		</label></span></td>
 		<td><textarea class="text_area" type="text" name="seo_page_language"
 		              id="seo_page_language" rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_LANGAUGE);
+			echo stripslashes($this->config->get('SEO_PAGE_LANGAUGE'));
 			?></textarea>
 		</td>
 	</tr>
@@ -111,7 +111,7 @@ defined('_JEXEC') or die;
 		</label></span></td>
 		<td><textarea class="text_area" type="text" name="seo_page_robots"
 		              id="seo_page_robots" rows="4" cols="40"/><?php
-			echo stripslashes(SEO_PAGE_ROBOTS);
+			echo stripslashes($this->config->get('SEO_PAGE_ROBOTS'));
 			?></textarea>
 		</td>
 	</tr>

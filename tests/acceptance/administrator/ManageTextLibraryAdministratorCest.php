@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class ManageTextLibraryAdministratorCest
  *
@@ -64,7 +64,6 @@ class ManageTextLibraryAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\TextLibraryManagerJoomla3Steps($scenario);
 		$I->changeTextLibraryState($this->newName);
-		$I->verifyState('unpublished', $I->getTextLibraryState($this->newName));
 	}
 
 	/**
@@ -78,6 +77,5 @@ class ManageTextLibraryAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\TextLibraryManagerJoomla3Steps($scenario);
 		$I->deleteText($this->newName);
-		$I->searchText($this->newName, 'Delete');
 	}
 }
