@@ -1234,7 +1234,7 @@ class Com_RedshopInstallerScript
 			);
 
 			array_push(
-				$files,				
+				$files,		
 				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',				
 				JPATH_SITE . '/components/com_redshop/helpers/captcha.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cart.php',

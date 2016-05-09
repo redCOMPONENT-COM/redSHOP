@@ -30,8 +30,6 @@ class RedshopViewOrder_detail extends RedshopView
 		<?php
 		}
 
-		$params = $app->getParams('com_redshop');
-
 		$prodhelperobj = producthelper::getInstance();
 		$prodhelperobj->generateBreadcrumb();
 

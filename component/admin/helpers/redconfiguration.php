@@ -1375,8 +1375,6 @@ class Redconfiguration
 
 		if (empty($this->countryList))
 		{
-						$redhelper = redhelper::getInstance();
-
 			$countries = array();
 
 			if (COUNTRY_LIST)
@@ -1399,6 +1397,8 @@ class Redconfiguration
 
 					$db->setQuery($q);
 					$countries = $db->loadObjectList();
+
+					$redhelper = redhelper::getInstance();
 					$countries = $redhelper->convertLanguageString($countries);
 				}
 			}
