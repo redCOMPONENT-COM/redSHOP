@@ -20,12 +20,34 @@
 	border: solid 1px #ccc;
 }
 
-.pane-sliders .panel h3 {
+.pane-sliders .panel h3, #dashboard-item {
 	background: #fafafa;
 	color: #666;
 	font-size: 1.182em;
 }
+#dashboard-item
+{
+	margin: 3px;
+	padding: 5px 10px;
 
+}
+#dashboard-item a:hover{
+	text-decoration: none;
+}
+
+#dashboard-item a:before
+{
+    content: "\e250";
+    color: #3071a9;
+    font-family: 'IcoMoon';
+    font-style: normal;
+    speak: none;
+    padding-right: 5px;
+}
+#dashboard-item a:hover:before
+{
+	color: #1f496e;
+}
 .pane-sliders .content {
 	background: #fff;
 }
