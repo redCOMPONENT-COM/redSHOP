@@ -13,11 +13,4 @@ JLoader::import('redshop.library');
 $thumbwidth  = (int) $params->get('thumbwidth', 100);
 $thumbheight = (int) $params->get('thumbheight', 100);
 
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminImages');
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
 require JModuleHelper::getLayoutPath('mod_redshop_shoppergrouplogo');

@@ -11,12 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-$redConfiguration = new Redconfiguration;
-$redConfiguration->defineDynamicVars();
-
 $category = $params->get('category', '');
 
 if (is_array($category))
@@ -69,19 +63,5 @@ if ($productIds = $db->setQuery($query, 0, $number_of_items)->loadColumn())
 		$rows = array_values($rows);
 	}
 }
-
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-JLoader::load('RedshopHelperProduct');
-
-JLoader::load('RedshopHelperHelper');
-
-JLoader::load('RedshopHelperAdminTemplate');
-
-JLoader::load('RedshopHelperExtra_field');
 
 require JModuleHelper::getLayoutPath('mod_redshop_who_bought');

@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = new producthelper;
-$extra_field = new extra_field;
-$redTemplate = new Redtemplate;
-$redhelper = new redhelper;
-$extraField = new extraField;
-$Redconfiguration = new Redconfiguration;
+$producthelper = producthelper::getInstance();
+$extra_field = extra_field::getInstance();
+$redTemplate = Redtemplate::getInstance();
+$redhelper = redhelper::getInstance();
+$extraField = extraField::getInstance();
+$Redconfiguration = Redconfiguration::getInstance();
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
@@ -251,7 +251,10 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 //	for($m=0; $m<count($media_image); $m++)
 //	{
-	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
+
+	if (count($media_image)
+		&& $media_image[$m]->media_name
+		&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
 		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE, '0');
 		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE, '0');

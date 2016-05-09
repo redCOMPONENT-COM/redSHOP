@@ -9,17 +9,20 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminMail');
 
 /**
- *  cron class
+ * Cron class
+ *
+ * @since  1.5
  */
-class Cron
+class RedshopHelperCron
 {
 	/**
-	 * cron constructor
+	 * Init redshop cron
+	 *
+	 * @return  void
 	 */
-	public function __construct()
+	public static function init()
 	{
 		// Mail center
 		$date = JFactory::getDate();
@@ -30,7 +33,7 @@ class Cron
 
 		if (DISCOUNT_MAIL_SEND)
 		{
-			cron::after_purchased_order_mail();
+			self::after_purchased_order_mail();
 		}
 
 		// Move to Stockroom start
@@ -52,13 +55,13 @@ class Cron
 
 			if (SEND_CATALOG_REMINDER_MAIL)
 			{
-				cron::catalog_mail();
+				self::catalog_mail();
 			}
 
-			cron::color_mail();
+			self::color_mail();
 
 			// Send subscription renewal mail.
-			cron::subscription_renewal_mail();
+			self::subscription_renewal_mail();
 		}
 	}
 
@@ -67,10 +70,10 @@ class Cron
 	 *
 	 * @return void
 	 */
-	public function catalog_mail()
+	public static function catalog_mail()
 	{
 		$date        = JFactory::getDate();
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$fdate       = $date->format('Y-m-d');
 
 		$db = $db = JFactory::getDbo();
@@ -244,11 +247,11 @@ class Cron
 	 *
 	 * @return void
 	 */
-	public function after_purchased_order_mail()
+	public static function after_purchased_order_mail()
 	{
-		$redshopMail     = new redshopMail;
-		$redconfig       = new Redconfiguration;
-		$stockroomhelper = new rsstockroomhelper;
+		$redshopMail     = redshopMail::getInstance();
+		$redconfig       = Redconfiguration::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$db              = JFactory::getDbo();
 		$date            = JFactory::getDate();
 		$fdate           = $date->format('Y-m-d');
@@ -444,10 +447,10 @@ class Cron
 	 *
 	 * @return void
 	 */
-	public function color_mail()
+	public static function color_mail()
 	{
 		$date        = JFactory::getDate();
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$today       = time();
 
 		$fdate = $date->format('Y-m-d');
@@ -663,10 +666,10 @@ class Cron
 	 *
 	 * @return void
 	 */
-	public function subscription_renewal_mail()
+	public static function subscription_renewal_mail()
 	{
 		$db          = $db = JFactory::getDbo();
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$query       = "SELECT ps.* FROM #__redshop_product_subscribe_detail AS ps"
 			. " ,#__redshop_subscription_renewal AS r"
 			. " WHERE r.product_id = ps.product_id AND r.before_no_days >= DATEDIFF(FROM_UNIXTIME( ps.end_date ),curdate())"
@@ -688,5 +691,3 @@ class Cron
 		}
 	}
 }
-
-$cron = new Cron;

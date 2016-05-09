@@ -139,7 +139,6 @@ class RedshopProductSlideshow
 	 */
 	public static function write_prodgallery_xml_data($cat_arr, $params)
 	{
-		JLoader::load('RedshopHelperAdminImages');
 		$db = JFactory::getDbo();
 
 		$ret_array = array(
@@ -209,8 +208,8 @@ class RedshopProductSlideshow
 			}
 		}
 
-		$producthelper = new producthelper;
-		$redhelper     = new redhelper;
+		$producthelper = producthelper::getInstance();
+		$redhelper     = redhelper::getInstance();
 
 		for ($k = 0, $countRows = count($rows);$k < $countRows;$k++)
 		{

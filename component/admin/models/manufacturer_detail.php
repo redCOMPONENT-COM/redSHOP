@@ -97,7 +97,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)

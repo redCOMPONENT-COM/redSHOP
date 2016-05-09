@@ -19,11 +19,11 @@ $Scheme          = $u->getScheme();
 $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
 
-$extraField      = new extraField;
-$producthelper   = new producthelper;
-$redshopconfig   = new Redconfiguration;
-$stockroomhelper = new rsstockroomhelper;
-$config          = new Redconfiguration;
+$extraField      = extraField::getInstance();
+$producthelper   = producthelper::getInstance();
+$redshopconfig   = Redconfiguration::getInstance();
+$stockroomhelper = rsstockroomhelper::getInstance();
+$config          = Redconfiguration::getInstance();
 
 $template = $this->template;
 

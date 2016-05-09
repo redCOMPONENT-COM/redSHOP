@@ -11,11 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
 $user = JFactory::getUser();
 $document = JFactory::getDocument();
 $document->addScriptDeclaration("
@@ -36,8 +31,7 @@ if ($enableAjaxsearch)
 
 $app = JFactory::getApplication();
 $db = JFactory::getDbo();
-JLoader::load('RedshopHelperUser');
-$userHelper = new rsUserhelper;
+$userHelper = rsUserHelper::getInstance();
 $shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 $shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId);
 $query = $db->getQuery(true)

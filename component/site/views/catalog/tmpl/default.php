@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$redTemplate = new Redtemplate;
+$redTemplate = Redtemplate::getInstance();
 $Itemid = JRequest::getInt('Itemid');
 $layout = JRequest::getCmd('layout', 'default');
 $model = $this->getModel('catalog');

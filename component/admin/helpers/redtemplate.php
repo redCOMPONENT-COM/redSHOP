@@ -24,6 +24,26 @@ class Redtemplate
 
 	protected static $templatesArray = array();
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the RedTemplate object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  RedTemplate  The RedTemplate object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new Redtemplate;
+		}
+
+		return self::$instance;
+	}
+
 	/**
 	 * load initial files
 	 */

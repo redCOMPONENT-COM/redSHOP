@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminConfiguration');
 
 class RedshopControllerWizard extends RedshopController
 {
@@ -165,7 +164,7 @@ class RedshopControllerWizard extends RedshopController
 
 	public function finish()
 	{
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 
 		$post = JRequest::get('post');
 

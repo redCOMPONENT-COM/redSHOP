@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
-
 JHTMLBehavior::modal();
 
 $model       = $this->getModel('product');

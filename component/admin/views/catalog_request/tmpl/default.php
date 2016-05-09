@@ -7,8 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
-$Redconfiguration = new Redconfiguration;?>
+$Redconfiguration = Redconfiguration::getInstance();?>
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {

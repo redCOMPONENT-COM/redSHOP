@@ -8,10 +8,9 @@
  */
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminShipping');
 
-$shippinghelper = new shipping;
-$currencyClass  = new CurrencyHelper;
+$shippinghelper = shipping::getInstance();
+$currencyClass  = CurrencyHelper::getInstance();
 
 // Currency accepted by Google
 $currency_code = "USD";

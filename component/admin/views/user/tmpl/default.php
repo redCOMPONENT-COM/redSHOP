@@ -8,9 +8,9 @@
  */
 defined('_JEXEC') or die;
 
-$producthelper = new producthelper;
-$redhelper     = new redhelper;
-$userhelper    = new rsUserhelper;
+$producthelper = producthelper::getInstance();
+$redhelper     = redhelper::getInstance();
+$userhelper    = rsUserHelper::getInstance();
 $filter        = JRequest::getVar('filter');
 $model         = $this->getModel('user');
 ?>

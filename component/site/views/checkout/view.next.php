@@ -9,17 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
 
 class RedshopViewCheckout extends RedshopView
 {
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$shippinghelper  = new shipping;
-		$order_functions = new order_functions;
+		$shippinghelper  = shipping::getInstance();
+		$order_functions = order_functions::getInstance();
 
 		$params  = $app->getParams('com_redshop');
 		$Itemid  = JRequest::getInt('Itemid');

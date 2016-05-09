@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 
 // Load stripe library
 require_once dirname(__DIR__) . '/stripe/library/init.php';
@@ -66,7 +65,7 @@ class plgRedshop_PaymentStripe extends JPlugin
 		}
 
 		$app         = JFactory::getApplication();
-		$orderHelper = new order_functions;
+		$orderHelper = order_functions::getInstance();
 		$orderId     = $app->input->getInt('orderid');
 		$order       = $orderHelper->getOrderDetails($orderId);
 		$price       = $order->order_total;

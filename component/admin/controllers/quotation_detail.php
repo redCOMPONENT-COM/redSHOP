@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminProduct');
 
 class RedshopControllerQuotation_detail extends RedshopController
 {
@@ -32,7 +29,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function save($send = 0)
 	{
-		$quotationHelper = new quotationHelper;
+		$quotationHelper = quotationHelper::getInstance();
 		$post = JRequest::get('post');
 
 
@@ -165,7 +162,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function newQuotationItem()
 	{
-		$adminproducthelper = new adminproducthelper;
+		$adminproducthelper = adminProductHelper::getInstance();
 		$post = JRequest::get('post');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -190,7 +187,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function getQuotationPriceTax()
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$get = JRequest::get('get');
 		$product_id = $get['product_id'];
 		$user_id = $get['user_id'];

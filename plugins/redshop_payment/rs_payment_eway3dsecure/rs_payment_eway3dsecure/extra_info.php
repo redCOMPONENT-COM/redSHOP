@@ -37,7 +37,7 @@ $request->ShippingAddress->PostalCode = $data['shippinginfo']->zipcode;
 $request->ShippingAddress->Email = $data['shippinginfo']->user_email;
 $request->ShippingAddress->Phone = $data['shippinginfo']->phone;
 
-$order_functions  = new order_functions;
+$order_functions  = order_functions::getInstance();
 $orderItems      = $order_functions->getOrderItemDetail($data['order_id']);
 
 if (count($orderItems) > 0)
@@ -53,7 +53,7 @@ if (count($orderItems) > 0)
 }
 
 $currency_main = $this->params->get('paymentCurrency');
-$currencyClass  = new CurrencyHelper;
+$currencyClass  = CurrencyHelper::getInstance();
 $order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
 // Populate values for Payment Object

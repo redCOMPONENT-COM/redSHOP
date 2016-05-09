@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
+$Redconfiguration = Redconfiguration::getInstance();
 $uri = JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
-$producthelper = new producthelper;
-$redhelper = new redhelper;
+$producthelper = producthelper::getInstance();
+$redhelper = redhelper::getInstance();
 $app = JFactory::getApplication();
 $Itemid = $app->input->getInt('Itemid', 0);
 $view = $app->input->getCmd('view', 'category');

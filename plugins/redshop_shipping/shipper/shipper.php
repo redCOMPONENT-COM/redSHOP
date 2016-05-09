@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Plgredshop_Shippingshipper
@@ -55,7 +54,7 @@ class Plgredshop_Shippingshipper extends JPlugin
 	 */
 	public function onListRates(&$d)
 	{
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$shippingrate = array();

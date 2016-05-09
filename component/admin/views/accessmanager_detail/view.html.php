@@ -10,13 +10,11 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
 
 class RedshopViewAccessmanager_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$producthelper = new producthelper;
 		$section = JRequest::getVar('section');
 		$model = $this->getModel('accessmanager_detail');
 		$accessmanager = $model->getaccessmanager();

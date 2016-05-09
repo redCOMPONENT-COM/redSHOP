@@ -63,7 +63,7 @@ class RedshopHelperProduct
 	 */
 	public static function getMainProductQuery($query = false, $userId = 0)
 	{
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($userId);
 		$db = JFactory::getDbo();
 

@@ -8,12 +8,10 @@
  */
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-$objOrder         = new order_functions;
-$objconfiguration = new Redconfiguration;
+$objOrder         = order_functions::getInstance();
+$objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
-$redhelper        = new redhelper;
+$redhelper        = redhelper::getInstance();
 $db               = JFactory::getDbo();
 $user             = JFActory::getUser();
 $task             = JRequest::getVar('task');

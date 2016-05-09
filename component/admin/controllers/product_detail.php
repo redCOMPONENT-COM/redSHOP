@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperAdminThumbnail');
-JLoader::load('RedshopHelperAdminProduct');
 
 /**
  * Product_Detail Controller.
@@ -170,7 +168,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post['product_availability_date'] = strtotime($post['product_availability_date']);
 		}
 
-		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('product_detail');
 
@@ -182,11 +179,11 @@ class RedshopControllerProduct_Detail extends RedshopController
 			// Add product to economic
 			if (ECONOMIC_INTEGRATION == 1)
 			{
-				$economic = new economic;
+				$economic = economic::getInstance();
 				$economic->createProductInEconomic($row);
 			}
 
-			$field = new extra_field;
+			$field = extra_field::getInstance();
 
 			// Field_section 1 :Product
 			$field->extra_field_save($post, 1, $row->product_id);
@@ -380,7 +377,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
 		{
-			$economic = new economic;
+			$economic = economic::getInstance();
 		}
 
 		$model = $this->getModel('product_detail');

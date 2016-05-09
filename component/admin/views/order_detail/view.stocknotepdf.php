@@ -10,23 +10,21 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewOrder_detail extends RedshopView
 {
 	function display($tpl = null)
 	{
 
-		$config = new Redconfiguration;
-		$redTemplate = new Redtemplate;
-		$order_functions = new order_functions;
-		$producthelper = new producthelper;
+		$config = Redconfiguration::getInstance();
+		$redTemplate = Redtemplate::getInstance();
+		$order_functions = order_functions::getInstance();
+		$producthelper = producthelper::getInstance();
 		$model = $this->getModel();
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 		$detail = $this->get('data');
-		$carthelper = new rsCarthelper;
-		$shippinghelper = new shipping;
+		$carthelper = rsCarthelper::getInstance();
+		$shippinghelper = shipping::getInstance();
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
 		$template = $model->getStockNoteTemplate();
 		if (count($template) > 0 && $template->template_desc != "")

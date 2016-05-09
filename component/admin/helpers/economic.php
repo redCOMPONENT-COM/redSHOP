@@ -9,12 +9,6 @@
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperAdminStockroom');
-
 class economic
 {
 	public $_table_prefix = null;
@@ -31,16 +25,36 @@ class economic
 
 	public $_dispatcher = null;
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the economic object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  economic  The economic object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new economic;
+		}
+
+		return self::$instance;
+	}
+
 	public function __construct()
 	{
 		$db                     = JFactory::getDbo();
 		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = $db;
-		$this->_producthelper   = new producthelper;
-		$this->_shippinghelper  = new shipping;
-		$this->_redhelper       = new redhelper;
-		$this->_order_functions = new order_functions;
-		$this->_stockroomhelper = new rsstockroomhelper;
+		$this->_producthelper   = producthelper::getInstance();
+		$this->_shippinghelper  = shipping::getInstance();
+		$this->_redhelper       = redhelper::getInstance();
+		$this->_order_functions = order_functions::getInstance();
+		$this->_stockroomhelper = rsstockroomhelper::getInstance();
 
 		JPluginHelper::importPlugin('economic');
 		$this->_dispatcher = JDispatcher::getInstance();
@@ -285,7 +299,7 @@ class economic
 
 	public function getTotalProperty($productId)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		// Collect Attributes
 		$attribute   = $producthelper->getProductAttribute($productId);

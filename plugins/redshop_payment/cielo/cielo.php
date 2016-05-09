@@ -141,8 +141,6 @@ class plgRedshop_paymentCielo extends JPlugin
 
 	public function onCapture_PaymentCielo($element, $data)
 	{
-		JLoader::load('RedshopHelperAdminOrder');
-
 		// Store number
 		$cielo_loja_id = $this->params->get('cielo_loja_id', '');
 

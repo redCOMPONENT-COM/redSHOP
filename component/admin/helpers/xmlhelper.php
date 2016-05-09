@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminImages');
 
 class xmlHelper
 {
@@ -339,8 +337,8 @@ class xmlHelper
 
 	public function writeXMLExportFile($xmlexport_id = 0)
 	{
-		$config   = new Redconfiguration;
-		$shipping = new shipping;
+		$config   = Redconfiguration::getInstance();
+		$shipping = shipping::getInstance();
 		$uri      = JURI::getInstance();
 		$url      = $uri->root();
 		$xmlarray = array();

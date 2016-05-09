@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 
 /**
  * 2Checkout Payment plugin for redSHOP and other joomla ecommerce component
@@ -43,7 +42,7 @@ class PlgRedshop_PaymentRs_Payment_2checkout extends JPlugin
 		}
 
 		$app         = JFactory::getApplication();
-		$orderHelper = new order_functions;
+		$orderHelper = order_functions::getInstance();
 		$orderItems  = $orderHelper->getOrderItemDetail($data['order_id']);
 		$Itemid      = $app->input->getInt('Itemid');
 

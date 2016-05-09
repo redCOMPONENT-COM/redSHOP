@@ -10,11 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminThumbnail');
-JLoader::load('RedshopHelperAdminCategory');
-JLoader::load('RedshopHelperAdminImages');
-JLoader::load('RedshopHelperAdminTemplate');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -66,7 +61,7 @@ class RedshopModelCategory_detail extends RedshopModel
 	 */
 	public function getExtraFields($item)
 	{
-		$redshopTemplate = new Redtemplate;
+		$redshopTemplate = Redtemplate::getInstance();
 		$template_desc = $redshopTemplate->getTemplate('category', $item->category_template, '', true);
 		$template = $template_desc[0]->template_desc;
 		$regex = '/{rs_[\w]{1,}\}/';
@@ -77,7 +72,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		{
 			$dbname = implode(',', $matches[0]);
 			$dbname = str_replace(array('{', '}'), '', $dbname);
-			$field = new extra_field;
+			$field = extra_field::getInstance();
 			$listField[] = $field->list_all_field(2, $item->category_id, $dbname);
 		}
 
@@ -315,7 +310,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		}
 
 		// Extra Field Data Saved
-		$field = new extra_field;
+		$field = extra_field::getInstance();
 		$field->extra_field_save($data, 2, $newcatid);
 
 		// Start Accessory Product

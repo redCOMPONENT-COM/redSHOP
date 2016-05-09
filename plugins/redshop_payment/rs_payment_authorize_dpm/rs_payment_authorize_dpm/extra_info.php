@@ -8,8 +8,6 @@
  */
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 
 // Redirection after full page load
 JHtml::_('redshopjquery.framework');
@@ -20,8 +18,8 @@ $document->addScriptDeclaration(
 	});'
 );
 
-$objOrder         = new order_functions;
-$objconfiguration = new Redconfiguration;
+$objOrder         = order_functions::getInstance();
+$objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
 $session          = JFactory::getSession();
 $redirect_ccdata  = $session->get('ccdata');

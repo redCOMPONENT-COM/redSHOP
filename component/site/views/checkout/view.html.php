@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperExtra_field');
 
 class RedshopViewCheckout extends RedshopView
 {
@@ -20,8 +18,8 @@ class RedshopViewCheckout extends RedshopView
 		$model     = $this->getModel('checkout');
 		$Itemid    = JRequest::getInt('Itemid');
 		$user      = JFactory::getUser();
-		$redhelper = new redhelper;
-		$field     = new extraField;
+		$redhelper = redhelper::getInstance();
+		$field     = extraField::getInstance();
 		$session   = JFactory::getSession();
 
 		// Load language file

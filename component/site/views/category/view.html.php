@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminText_library');
 
 
 /**
@@ -44,8 +43,8 @@ class RedshopViewCategory extends RedshopView
 	{
 		$this->app     = JFactory::getApplication();
 		$this->input   = $this->app->input;
-		$objhelper     = new redhelper;
-		$prodhelperobj = new producthelper;
+		$objhelper     = redhelper::getInstance();
+		$prodhelperobj = producthelper::getInstance();
 
 		// Request variables
 		$this->option = $this->input->getString('option', 'com_redshop');
@@ -122,7 +121,7 @@ class RedshopViewCategory extends RedshopView
 
 			$isSlider = false;
 
-			if (count($loadCategorytemplate) > 0 && strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
+			if (count($loadCategorytemplate) > 0 && strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
 			{
 				$model->getCategoryProduct(1);
 				$minmax[0]     = $model->getState('minprice');
@@ -402,7 +401,7 @@ class RedshopViewCategory extends RedshopView
 
 		if ($this->catid && count($loadCategorytemplate) > 0)
 		{
-			if (strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
+			if (strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
 			{
 				$ajaxSlide = $this->input->getBool('ajaxslide', false);
 
