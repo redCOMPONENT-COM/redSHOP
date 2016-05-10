@@ -733,3 +733,40 @@ function validateExtrafield(form) {
         return true;
     }
 }
+
+function checkUsernameAvailability()
+{
+    var form = document.forms['adminForm'];
+    var JSONObject = new Object;
+    JSONObject.userid = (form['id'].value) ? form['id'].value : form['user_id'].value;
+    JSONObject.username = form['username'].value;
+
+    JSONstring = JSON.stringify(JSONObject);
+
+    request = getHTTPObject();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            var JSONtext = request.responseText;
+            var JSONobject = JSON.parse(JSONtext);
+
+            if (JSONobject.message != '' || JSONobject.message != undefined || JSONobject.message != null)
+            {
+
+                document.getElementById('user_valid').innerHTML  = JSONobject.message;
+
+                if (JSONobject.exist == 1)
+                {
+                    document.getElementById('user_valid').style.color = 'red';
+                }
+                else
+                {
+                    document.getElementById('user_valid').style.color = 'green';
+                }
+            }
+        }
+    }
+
+    request.open("GET", "index.php?option=com_redshop&view=user_detail&task=validationUsername&json=" + JSONstring, true);
+    request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    request.send(null);
+}
