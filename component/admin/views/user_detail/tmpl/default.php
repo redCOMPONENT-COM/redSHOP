@@ -84,7 +84,7 @@ if ($this->pagination->limitstart > 0)
 			} else if (r.exec(form.username.value) || form.username.value.length < 2) {
 				alert("<?php echo JText::_('COM_REDSHOP_WARNLOGININVALID', true );?>");
 				return false;
-			} else if (user_valid == 0) {
+			} else if (document.getElementById('user_valid').style.color == "red") {
 				alert("<?php echo JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE', true );?>");
 				return false;
 
