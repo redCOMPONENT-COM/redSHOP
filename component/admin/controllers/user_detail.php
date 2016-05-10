@@ -201,4 +201,28 @@ class RedshopControllerUser_detail extends RedshopController
 		$encoded = json_encode($json);
 		die($encoded);
 	}
+	
+	public function validationUsername()
+	{
+		$json = JFactory::getApplication()->input->get('json', '', 'STR');
+		$decoded = json_decode($json);
+		$model = $this->getModel('user_detail');
+		$check = $model->validate_user($decoded->username, $decoded->userid);
+
+		$json = array();
+
+		if ($check > 0)
+		{
+			$json['exist'] = 1;
+			$json['message'] = JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
+		}
+		else
+		{
+			$json['exist'] = 0;
+			$json['message'] = JText::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
+		}
+
+		$encoded = json_encode($json);
+		die($encoded);
+	}
 }
