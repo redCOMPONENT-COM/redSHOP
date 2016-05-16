@@ -240,8 +240,9 @@ class leftmenu
 			default:
 				$selected = 0;
 				break;
-		}
+		} 
 
+		echo '<h3 id="dashboard-item">' . $this->generateMenuItem('index.php?option=com_redshop', 'COM_REDSHOP_DASHBOARD') . '</h3>';
 		echo JHtml::_('sliders.start', 'stat-pane', array('startOffset' => $selected));
 		echo $this->generateHeader('COM_REDSHOP_PRODUCT_MANAGEMENT');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_PRODUCTS'), 'COM_REDSHOP_NEW PRODUCT'); ?>
