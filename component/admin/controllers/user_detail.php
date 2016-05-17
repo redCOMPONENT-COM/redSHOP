@@ -204,25 +204,32 @@ class RedshopControllerUser_detail extends RedshopController
 	
 	public function validationUsername()
 	{
-		$json = JFactory::getApplication()->input->get('json', '', 'STR');
-		$decoded = json_decode($json);
+		$username = JFactory::getApplication()->input->getString('username', '');
+		$user_id = JFactory::getApplication()->input->getInt('user_id', 0);
+
 		$model = $this->getModel('user_detail');
-		$check = $model->validate_user($decoded->username, $decoded->userid);
+		$usernameAvailability = $model->validate_user($username, $user_id);
 
-		$json = array();
+		$message = JText::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
+		$textColor = "green";
 
-		if ($check > 0)
+		if ($usernameAvailability > 0)
 		{
-			$json['exist'] = 1;
-			$json['message'] = JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
-		}
-		else
-		{
-			$json['exist'] = 0;
-			$json['message'] = JText::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
+			$message = JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
+			$textColor = "red";
 		}
 
-		$encoded = json_encode($json);
-		die($encoded);
+		if ($username == "")
+		{
+			$message = JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME');
+			$textColor = "red";
+		}
+
+		$result = array();
+		$result['color'] = $textColor;
+		$result['message'] = $message;
+
+		$result = json_encode($result);
+		die($result);
 	}
 }
