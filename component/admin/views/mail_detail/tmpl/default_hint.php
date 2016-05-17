@@ -8,10 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminTemplate');
-
-$extra_field = new extra_field;
+$extra_field = extra_field::getInstance();
 
 ?>
 <h4><?php echo JText::_('COM_REDSHOP_MAIL_CENTER_HELPFUL_HINT'); ?></h4>

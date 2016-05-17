@@ -6,26 +6,22 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-JLoader::load('RedshopHelperProduct');
 
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperAdminStockroom');
 
 global $context;
 
 $app = JFactory::getApplication();
 
-$order_function = new order_functions;
-$config = new Redconfiguration;
+$order_function = order_functions::getInstance();
+$config = Redconfiguration::getInstance();
 
 $lists = $this->lists;
 $model = $this->getModel('order');
-$redhelper = new redhelper;
-$shippinghelper = new shipping;
-$stockroomhelper = new rsstockroomhelper;
+$redhelper = redhelper::getInstance();
+$shippinghelper = shipping::getInstance();
+$stockroomhelper = rsstockroomhelper::getInstance();
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_product');
 ?>
@@ -328,7 +324,7 @@ JPluginHelper::importPlugin('redshop_product');
 				</td>
 				<td align="center">
 				<?php
-					$carthelper    = new rsCarthelper;
+					$carthelper    = rsCarthelper::getInstance();
 					echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
 					echo "<br />";
 

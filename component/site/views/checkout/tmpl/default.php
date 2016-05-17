@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperExtra_field');
 
 JHTML::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
@@ -21,9 +19,9 @@ $url             = JURI::base();
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();
 
-$redhelper       = new redhelper;
-$userhelper      = new rsUserhelper;
-$order_functions = new order_functions;
+$redhelper       = redhelper::getInstance();
+$userhelper      = rsUserHelper::getInstance();
+$order_functions = order_functions::getInstance();
 
 $telesearch      = $order_functions->getparameters('rs_telesearch');
 $Itemid          = $redhelper->getCheckoutItemid();

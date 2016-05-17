@@ -8,16 +8,14 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminImages');
 JHTMLBehavior::modal();
 JHTML::_('behavior.tooltip');
 $editor        = JFactory::getEditor();
 $uri           = JURI::getInstance();
 $url           = $uri->root();
 JHTML::_('behavior.calendar');
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 JText::script('COM_REDSHOP_DELETE');
-
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

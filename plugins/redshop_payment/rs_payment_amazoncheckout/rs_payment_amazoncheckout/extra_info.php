@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperHelper');
 
 $amazon_signature                = $this->params->get("amazon_signature");
 $amazon_recipientEmail           = $this->params->get("amazon_recipientEmail");

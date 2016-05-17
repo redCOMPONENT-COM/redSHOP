@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminCategory');
 /**
  * Export view class
  *

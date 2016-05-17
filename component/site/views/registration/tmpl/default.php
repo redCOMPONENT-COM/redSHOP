@@ -15,8 +15,8 @@ $Itemid = JRequest::getInt('Itemid');
 $jinput = JFactory::getApplication()->input;
 $post   = $jinput->getArray($_POST);
 
-$userhelper = new rsUserhelper;
-$rsCarthelper = new rsCarthelper;
+$userhelper = rsUserHelper::getInstance();
+$rsCarthelper = rsCarthelper::getInstance();
 
 $is_company = $this->lists['is_company'];
 

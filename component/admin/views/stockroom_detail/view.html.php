@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminExtra_field');
 
 class RedshopViewStockroom_detail extends RedshopView
 {
@@ -68,7 +67,7 @@ class RedshopViewStockroom_detail extends RedshopView
 			$delivery_time['value'] = "days";
 			$delivery_time['value'] .= "weeks";
 
-			$extra_field = new extra_field;
+			$extra_field = extra_field::getInstance();
 
 			$booleanlist = $extra_field->booleanlist('delivery_time', 'class="inputbox"', $detail->delivery_time,
 				JText::_('COM_REDSHOP_DAYS'), JText::_('COM_REDSHOP_WEEKS')

@@ -14,10 +14,6 @@ jimport('joomla.plugin.plugin');
 JHTML::_('behavior.tooltip', '.hasTooltip');
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCurrency');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgredshop_shippingups extends JPlugin
 {
@@ -395,10 +391,10 @@ class plgredshop_shippingups extends JPlugin
 
 	function onListRates(&$d)
 	{
-		$shippinghelper = new shipping;
-		$producthelper = new producthelper;
-		$redconfig = new Redconfiguration;
-		$currency = new CurrencyHelper;
+		$shippinghelper = shipping::getInstance();
+		$producthelper = producthelper::getInstance();
+		$redconfig = Redconfiguration::getInstance();
+		$currency = CurrencyHelper::getInstance();
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$itemparams = new JRegistry($shipping->params);

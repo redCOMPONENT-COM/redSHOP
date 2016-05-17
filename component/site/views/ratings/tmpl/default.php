@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-$redconfig = new Redconfiguration;
-$redTemplate = new Redtemplate;
+$redconfig = Redconfiguration::getInstance();
+$redTemplate = Redtemplate::getInstance();
 $model = $this->getModel('ratings');
 
 $main_template = $redTemplate->getTemplate("review");

@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminMail');
 
 /**
  * Class PlgRedshop_ProductStockroom_Status
@@ -71,7 +69,7 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 		$templateMiddle = $templateEdata[0];
 		$middleData = '';
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$stock_flag = 0;
 		$orderproducts = $order_functions->getOrderItemDetail($order_id);
 
@@ -120,7 +118,7 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 			$mailFrom = $app->get('mailfrom');
 			$fromName = $app->get('fromname');
 			$replyTo = trim($this->params->get('replyTo', ''));
-			$redshopMail = new redshopMail;
+			$redshopMail = redshopMail::getInstance();
 			$message = $redshopMail->imginmail($message);
 
 			if ($replyTo != '')
@@ -149,7 +147,7 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 	{
 		if ($stockrooms = explode(",", $stockrooms))
 		{
-			$stockRoomHelper = new rsstockroomhelper;
+			$stockRoomHelper = rsstockroomhelper::getInstance();
 			$db = JFactory::getDbo();
 
 			foreach ($stockrooms as $stockroom)

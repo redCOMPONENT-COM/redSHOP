@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper;
-$redconfig = new Redconfiguration;
+$producthelper = producthelper::getInstance();
+$redconfig = Redconfiguration::getInstance();
 
 
 

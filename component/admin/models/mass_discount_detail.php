@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
 
 class RedshopModelMass_discount_detail extends RedshopModel
 {
@@ -92,7 +91,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$row = $this->getTable('mass_discount_detail');
 
@@ -377,8 +376,8 @@ class RedshopModelMass_discount_detail extends RedshopModel
 	}
 
 	public function delete($cid = array())
-	{
-		$producthelper = new producthelper;
+	{		
+		$producthelper = producthelper::getInstance();
 
 		if (count($cid))
 		{

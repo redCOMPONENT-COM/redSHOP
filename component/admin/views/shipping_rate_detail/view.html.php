@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewShipping_rate_detail extends RedshopView
 {
@@ -19,8 +16,8 @@ class RedshopViewShipping_rate_detail extends RedshopView
 	{
 		$app = JFactory::getApplication();
 		$context = 'shipping_rate';
-		$shippinghelper = new shipping;
-		$userhelper = new rsUserhelper;
+		$shippinghelper = shipping::getInstance();
+		$userhelper = rsUserHelper::getInstance();
 		$uri = JFactory::getURI();
 		$model = $this->getModel();
 		$db = JFactory::getDbo();
@@ -123,7 +120,7 @@ class RedshopViewShipping_rate_detail extends RedshopView
 			)
 		);
 
-		$field = new extra_field;
+		$field = extra_field::getInstance();
 
 		// Extra field
 		$list_field = $field->list_all_field(11, $detail->shipping_rate_id);

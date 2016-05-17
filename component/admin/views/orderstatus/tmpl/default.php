@@ -8,8 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-
-$redhelper = new redhelper;
+$redhelper = redhelper::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 {
@@ -109,9 +108,8 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 			return;
 		}
 
-		JLoader::load('RedshopHelperAdminOrder');
 
-		$objOrder   = new order_functions;
+		$objOrder   = order_functions::getInstance();
 		$db         = JFactory::getDbo();
 		$order_id   = $data['order_id'];
 
@@ -123,7 +121,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$key1       = $this->params->get("dibs_md5key1");
 		$merchantid = $this->params->get("seller_id");
 
-		$currencyClass      = new CurrencyHelper;
+		$currencyClass      = CurrencyHelper::getInstance();
 		$formdata['amount'] = $currencyClass->convert($data['order_amount'], '', $this->params->get("dibs_currency"));
 		$formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
 

@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
 
 $Itemid          = $app->input->get('Itemid');
-$order_functions = new order_functions;
-$currencyClass   = new CurrencyHelper;
+$order_functions = order_functions::getInstance();
+$currencyClass   = CurrencyHelper::getInstance();
 $order_items     = $order_functions->getOrderItemDetail($data['order_id']);
 $order           = $order_functions->getOrderDetails($data['order_id']);
 $hmac_key        = $this->params->get("hmac_key");

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 
 $bool = true;
 $shippname = JText::_('COM_REDSHOP_SHIPPING_RATE_NAME');

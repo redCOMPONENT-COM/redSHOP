@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-JLoader::load('RedshopHelperAdminXmlHelper');
-
 class RedshopControllerXmlexport_detail extends RedshopController
 {
 	public function __construct($default = array())

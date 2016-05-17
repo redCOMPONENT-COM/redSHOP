@@ -88,7 +88,7 @@ defined('_JEXEC') or die;
 				$this->config->get('AUTO_GENERATE_LABEL')
 			);
 
-			$order_functions = new order_functions;
+			$order_functions = order_functions::getInstance();
 
 			echo $order_functions->getstatuslist(
 				'generate_label_on_status',

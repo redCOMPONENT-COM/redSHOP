@@ -14,9 +14,7 @@ class RedshopViewOrder extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		JLoader::load('RedshopHelperAdminOrder');
-
-		$order_function = new order_functions;
+		$order_function = order_functions::getInstance();
 
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();

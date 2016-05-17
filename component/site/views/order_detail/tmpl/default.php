@@ -10,21 +10,16 @@
 defined('_JEXEC') or die;
 $uri         = JURI::getInstance();
 $url         = JURI::base();
-$redconfig   = new Redconfiguration;
-$extra_field = new extra_field;
+$redconfig   = Redconfiguration::getInstance();
+$extra_field = extra_field::getInstance();
 
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
 
-$producthelper   = new producthelper;
-$redhelper       = new redhelper;
-$order_functions = new order_functions;
-$redTemplate     = new Redtemplate;
-$shippinghelper  = new shipping;
-$carthelper      = new rsCarthelper;
+$producthelper   = producthelper::getInstance();
+$redhelper       = redhelper::getInstance();
+$order_functions = order_functions::getInstance();
+$redTemplate     = Redtemplate::getInstance();
+$shippinghelper  = shipping::getInstance();
+$carthelper      = rsCarthelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $oid    = JRequest::getInt('oid');

@@ -9,17 +9,15 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewOrder_detail extends RedshopView
 {
 	function display($tpl = null)
 	{
-		$config = new Redconfiguration;
-		$redTemplate = new Redtemplate;
+		$config = Redconfiguration::getInstance();
+		$redTemplate = Redtemplate::getInstance();
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$detail = $this->get('data');
 		$billing = $order_functions->getBillingAddress($detail->user_id);
 		$shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);

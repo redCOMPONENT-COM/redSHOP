@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopControllerMedia extends RedshopController
 {

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopModelOrder extends RedshopModel
 {
@@ -184,7 +183,7 @@ class RedshopModelOrder extends RedshopModel
 
 	public function update_status()
 	{
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$order_functions->update_status();
 	}
 
@@ -238,8 +237,7 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function gls_export($cid)
 	{
-		$orderHelper = new order_functions;
-
+		$orderHelper = order_functions::getInstance();
 		ob_clean();
 
 		// Start the ouput
@@ -327,9 +325,9 @@ class RedshopModelOrder extends RedshopModel
 	 * @return  void
 	 */
 	public function business_gls_export($cid)
-	{
-		$orderHelper = new order_functions;
-		$extraField  = new extraField;
+	{		
+		$orderHelper = order_functions::getInstance();
+		$extraField  = extraField::getInstance();
 
 		ob_clean();
 

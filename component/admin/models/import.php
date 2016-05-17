@@ -11,9 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperAdminThumbnail');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperProduct');
 
 class RedshopModelImport extends RedshopModel
 {
@@ -113,7 +110,7 @@ class RedshopModelImport extends RedshopModel
 		/**
 		 * check is redCRM is installed or not
 		 */
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$isredcrm = false;
 
 		if ($redhelper->isredCRM())
@@ -2736,7 +2733,7 @@ class RedshopModelImport extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$query = "SELECT vmui.* , vmsvx.shopper_group_id FROM `#__vm_user_info` AS vmui "
 			. "LEFT JOIN #__vm_shopper_vendor_xref AS vmsvx ON vmui.user_id = vmsvx.user_id ";
 		$db->setQuery($query);
@@ -2827,7 +2824,7 @@ class RedshopModelImport extends RedshopModel
 	public function Orders_insert()
 	{
 		$db = JFactory::getDbo();
-		$order_functions = new order_functions;
+		$producthelper = producthelper::getInstance();
 
 		$query = "SELECT rui.users_info_id AS rui_users_info_id, vmo . * , rdo.vm_order_number AS rdo_order_number
 				FROM (
