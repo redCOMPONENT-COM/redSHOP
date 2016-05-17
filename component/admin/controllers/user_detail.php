@@ -202,7 +202,7 @@ class RedshopControllerUser_detail extends RedshopController
 		die($encoded);
 	}
 	
-	public function validationUsername()
+	public function ajaxValidationUsername()
 	{
 		$username = JFactory::getApplication()->input->getString('username', '');
 		$user_id = JFactory::getApplication()->input->getInt('user_id', 0);
@@ -211,22 +211,22 @@ class RedshopControllerUser_detail extends RedshopController
 		$usernameAvailability = $model->validate_user($username, $user_id);
 
 		$message = JText::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
-		$textColor = "green";
+		$type = "success";
 
 		if ($usernameAvailability > 0)
 		{
 			$message = JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
-			$textColor = "red";
+			$type = "error";
 		}
 
 		if ($username == "")
 		{
 			$message = JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME');
-			$textColor = "red";
+			$type = "error";
 		}
 
 		$result = array();
-		$result['color'] = $textColor;
+		$result['type'] = $type;
 		$result['message'] = $message;
 
 		$result = json_encode($result);
