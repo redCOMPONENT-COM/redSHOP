@@ -84,9 +84,7 @@ class plgRedshop_PaymentNganluong extends JPlugin
 		$merchantPass = $this->params->get('nganluong_merchant_password');
 		$email = $this->params->get('nganluong_email');
 		$url = $this->params->get('nganluong_url_api');
-echo '<pre>';
-print_r($order);
-echo '</prE>';die;
+
 		$nlCheckout = new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
 		$totalAmount = $price;
 		$items = array();
