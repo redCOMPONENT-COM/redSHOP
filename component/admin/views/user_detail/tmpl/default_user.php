@@ -19,8 +19,7 @@ defined('_JEXEC') or die;    ?>
 				<tr>
 					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</td>
 					<td><input class="text_area" type="text" name="username" id="username"
-					           value="<?php echo $this->detail->username; ?>" size="20" maxlength="250"
-					           onblur="checkUsernameAvailability()"/>
+					           value="<?php echo $this->detail->username; ?>" size="20" maxlength="250" />
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_USERNAME'), JText::_('COM_REDSHOP_USERNAME'), 'tooltip.png', '', '', false); ?>
 						<span id="user_valid">*</span></td>
 				</tr>
