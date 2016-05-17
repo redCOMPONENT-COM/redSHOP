@@ -9,18 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
-
 class RedshopViewTextlibrary extends RedshopView
 {
 	public $state;
 
 	public function display($tpl = null)
 	{
-		$context = 'textlibrary_id';
-
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_TEXTLIBRARY'));

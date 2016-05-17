@@ -44,7 +44,7 @@ class RedshopControllerConfiguration extends RedshopController
 
 		array_walk(
 			$values,
-			function(&$value, $key, $array) {
+			function(&$value) use ($array) {
 				$value = $array[$value];
 			},
 			$array

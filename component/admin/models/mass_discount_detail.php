@@ -378,7 +378,6 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$layout = JRequest::getVar('layout');
 		$producthelper = new producthelper;
 
 		if (count($cid))

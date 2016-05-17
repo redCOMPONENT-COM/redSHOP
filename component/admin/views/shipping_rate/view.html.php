@@ -18,7 +18,6 @@ class RedshopViewShipping_rate extends RedshopView
 
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
 
 		$shippinghelper = new shipping;
 
@@ -36,7 +35,6 @@ class RedshopViewShipping_rate extends RedshopView
 		$shipping = $shippinghelper->getShippingMethodById($id);
 
 		$shipping_rates = $this->get('Data');
-		$total          = $this->get('Total');
 		$pagination     = $this->get('Pagination');
 
 		// Load language file of the shipping plugin

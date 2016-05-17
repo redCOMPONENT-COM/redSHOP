@@ -1,21 +1,15 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Wizard
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-class redSHOPWizard{
+class redSHOPWizard
+{
 
 	function initialize(){
 
@@ -577,7 +571,7 @@ class redSHOPWizardTemplate
 	<table cellpadding="6" width="100%">
 		<tr>
 			<td rowspan="2" valign="top" width="10%">' . $this->setHTMLSidebar($step) . '</td>
-			<td valign="top" height="30">' . $this->setHTMLTitle($title, $step, $status, $install, $substep) . '</td>
+			<td valign="top" height="30">' . $this->setHTMLTitle($title, $step) . '</td>
 		</tr>
 		<tr>
 			<td valign="top">
@@ -637,7 +631,7 @@ class redSHOPWizardTemplate
 		 return $html;
 	}
 
-	function setHTMLTitle($title, $step, $status, $install = 1, $substep = 0)
+	function setHTMLTitle($title, $step)
 	{
 		ob_start();
 		?>

@@ -17,7 +17,6 @@ class RedshopViewOrder_detail extends RedshopView
 {
 	function display($tpl = null)
 	{
-
 		$config = new Redconfiguration;
 		$redTemplate = new Redtemplate;
 		$order_functions = new order_functions;
@@ -26,7 +25,6 @@ class RedshopViewOrder_detail extends RedshopView
 		$redTemplate = new Redtemplate;
 		$detail = $this->get('data');
 		$carthelper = new rsCarthelper;
-		$shippinghelper = new shipping;
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
 		$template = $model->getStockNoteTemplate();
 		if (count($template) > 0 && $template->template_desc != "")
@@ -114,7 +112,4 @@ class RedshopViewOrder_detail extends RedshopView
 		$pdfObj->Output("StocNoteOrder_" . $detail->order_id . ".pdf", "D");
 		exit;
 	}
-
 }
-
-?>

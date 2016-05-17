@@ -34,7 +34,6 @@ class RedshopViewSample_request extends RedshopView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$catalog    = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();

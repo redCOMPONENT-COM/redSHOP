@@ -134,7 +134,7 @@ class RedshopControllerOrder extends RedshopController
 				$redshopMail = new redshopMail;
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
-				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 
@@ -147,7 +147,6 @@ class RedshopControllerOrder extends RedshopController
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
 			$order_id = JRequest::getCmd('order_id');
-			$order_function = new order_functions;
 			$paymentInfo = RedshopHelperOrder::getPaymentInfo($order_id);
 
 			if ($paymentInfo)
@@ -168,7 +167,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$economic = new economic;
 			$economicdata ['split_payment'] = 0;
-			$invoiceHandle = $economic->createInvoiceInEconomic($order_id, $economicdata);
+			$economic->createInvoiceInEconomic($order_id, $economicdata);
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
@@ -177,7 +176,7 @@ class RedshopControllerOrder extends RedshopController
 				if (is_file($bookinvoicepdf))
 				{
 					$redshopMail = new redshopMail;
-					$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+					$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -205,8 +204,6 @@ class RedshopControllerOrder extends RedshopController
 		$product_count = array();
 		$db = JFactory::getDbo();
 
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$order_id = implode(',', $cid);
 		$where = "";
 
 		$sql = "SELECT order_id,count(order_item_id) as noproduct FROM `#__redshop_order_item`  " . $where . " GROUP BY order_id";
@@ -227,7 +224,6 @@ class RedshopControllerOrder extends RedshopController
 
 		$no_products = max($product_count);
 
-		$shipping_helper = new shipping;
 		ob_clean();
 
 		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
@@ -430,11 +426,9 @@ class RedshopControllerOrder extends RedshopController
 	public function generateParcel()
 	{
 		$order_function = new order_functions;
-		$post = JRequest::get('post');
-		$specifiedSendDate = $post ['specifiedSendDate'];
 		$order_id = JRequest::getCmd('order_id');
 
-		$generate_label = $order_function->generateParcel($order_id, $specifiedSendDate);
+		$generate_label = $order_function->generateParcel($order_id);
 
 		if ($generate_label == "success")
 		{

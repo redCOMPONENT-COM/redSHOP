@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelSample_detail extends RedshopModel
 {
 	public $_id = null;
@@ -105,16 +104,13 @@ class RedshopModelSample_detail extends RedshopModel
 
 			if ($total_loop > 0)
 			{
-				$h = 0;
-
-				foreach ($data["colour_id"] as $cp)
+				for ($h = 0, $nh = count($data["colour_id"]); $h < $nh; $h++)
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "catalog_colour "
 						. "(sample_id,code_image,is_image) "
 						. "VALUE ('" . $row->sample_id . "','" . $data["code_image"][$h] . "','" . $data["is_image"][$h] . "') ";
 					$this->_db->setQuery($sql);
 					$this->_db->execute();
-					$h++;
 				}
 			}
 		}

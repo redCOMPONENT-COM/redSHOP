@@ -64,7 +64,6 @@ class RedshopViewGiftcard extends RedshopView
 		$isNew = ($this->item->giftcard_id < 1);
 
 		// Prepare text for title
-		$text = ($isNew) ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		$title = JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 
 		JToolBarHelper::title($title, 'redshop_giftcard_48');

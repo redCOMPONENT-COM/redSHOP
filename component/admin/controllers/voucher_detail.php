@@ -23,7 +23,6 @@ class RedshopControllerVoucher_detail extends RedshopController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('voucher_detail');
 		parent::display();
 	}
 

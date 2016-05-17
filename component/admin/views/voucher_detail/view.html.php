@@ -72,7 +72,6 @@ class RedshopViewVoucher_detail extends RedshopView
 									)
 								);
 
-		$result = array();
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->request_url = $uri->toString();

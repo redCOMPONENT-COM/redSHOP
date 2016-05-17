@@ -40,13 +40,10 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$adminproducthelper = new adminproducthelper;
 		$order_functions = new order_functions;
-		$shippinghelper = new shipping;
-
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['order_id'] = $cid [0];
 		$model = $this->getModel('addorder_detail');
-		$post['order_number'] = $order_number = $order_functions->generateOrderNumber();
+		$post['order_number'] = $order_functions->generateOrderNumber();
 
 		$orderItem = $adminproducthelper->redesignProductItem($post);
 		$post['order_item'] = $orderItem;
@@ -276,7 +273,6 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function getShippingRate()
 	{
-		$shippinghelper = new shipping;
 		$get = JRequest::get('get');
 		$shipping = RedshopShippingRate::decrypt($get['shipping_rate_id']);
 		$order_shipping = 0;
