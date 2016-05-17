@@ -402,9 +402,8 @@ class RedshopModelNewsletter extends RedshopModel
 		$o = new stdClass;
 		$o->text = $newsletter_body;
 		JPluginHelper::importPlugin('content');
-		$dispatcher = JDispatcher::getInstance();
 		$x = array();
-		$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 1));
+		JDispatcher::getInstance()->trigger('onPrepareContent', array(&$o, &$x, 1));
 		$newsletter_template2 = $o->text;
 
 		$content = str_replace("{data}", $newsletter_template2, $newsletter_template);

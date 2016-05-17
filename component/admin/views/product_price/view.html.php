@@ -14,8 +14,6 @@ class RedshopViewProduct_price extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		global $context;
-
 		$product_id = JRequest::getVar('pid');
 
 		$db       = JFactory::getDbo();

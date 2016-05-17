@@ -35,7 +35,6 @@ class RedshopViewProducttags extends RedshopView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$tags       = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();

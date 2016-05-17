@@ -366,7 +366,6 @@ class RedshopModelExport extends RedshopModel
 			return null;
 		}
 
-		$ret = null;
 		$i = 0;
 
 		if (count($cur) > 0)
@@ -448,8 +447,6 @@ class RedshopModelExport extends RedshopModel
 		$db->setQuery($query);
 		$cur = $db->loadObjectList();
 
-		$ret = null;
-
 		if (count($cur) > 0)
 		{
 			$redhelper = redhelper::getInstance();
@@ -485,7 +482,6 @@ class RedshopModelExport extends RedshopModel
 
 				// Added attribute of products
 				$attribute = $producthelper->getProductAttribute($cur[$i]->product_id);
-				$attr = array();
 
 				for ($att = 0; $att < count($attribute); $att++)
 				{
@@ -718,7 +714,6 @@ class RedshopModelExport extends RedshopModel
 			return null;
 		}
 
-		$ret = null;
 		$i = 0;
 
 		if (count($cur) > 0)
@@ -1071,7 +1066,6 @@ class RedshopModelExport extends RedshopModel
 			return null;
 		}
 
-		$ret = null;
 		$i = 0;
 
 		if (count($cur) > 0)

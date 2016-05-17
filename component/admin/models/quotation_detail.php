@@ -210,8 +210,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$db = JFactory::getDbo();
-
 			$items = $quotationHelper->getQuotationProduct($cids);
 
 			for ($i = 0, $in = count($items); $i < $in; $i++)

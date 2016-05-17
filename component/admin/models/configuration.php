@@ -686,7 +686,7 @@ class RedshopModelConfiguration extends RedshopModel
 		JPluginHelper::importPlugin('content');
 		$dispatcher = JDispatcher::getInstance();
 		$x = array();
-		$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
+		$dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 		$newsletter_template2 = $o->text;
 
 		$content = str_replace("{data}", $newsletter_template2, $newsletter_template);
@@ -798,8 +798,6 @@ class RedshopModelConfiguration extends RedshopModel
 
 		$assets_dir = JPATH_ROOT . 'components/com_redshop/assets';
 
-		$assets_download_dir = JPATH_ROOT . 'components/com_redshop/assets/download';
-
 		if (strstr($product_download_root, JPATH_ROOT) && $product_download_root != JPATH_ROOT)
 		{
 			$htaccessfile_path = $product_download_root . '/.htaccess';
@@ -878,7 +876,6 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function resetTemplate()
 	{
-		$Redtemplate = Redtemplate::getInstance();
 		$db = JFactory::getDbo();
 		$q = "SELECT * FROM #__redshop_template";
 		$db->setQuery($q);
@@ -889,7 +886,6 @@ class RedshopModelConfiguration extends RedshopModel
 			$data = $list[$i];
 
 			$red_template = Redtemplate::getInstance();
-			$tname = $data->template_name;
 			$data->template_name = strtolower($data->template_name);
 			$data->template_name = str_replace(" ", "_", $data->template_name);
 			$tempate_file = $red_template->getTemplatefilepath($data->template_section, $data->template_name, true);

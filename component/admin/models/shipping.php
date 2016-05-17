@@ -94,8 +94,6 @@ class RedshopModelShipping extends RedshopModel
 
 	public function saveOrder(&$cid)
 	{
-		$app = JFactory::getApplication();
-
 		$db = JFactory::getDbo();
 		$row = $this->getTable('shipping_detail');
 

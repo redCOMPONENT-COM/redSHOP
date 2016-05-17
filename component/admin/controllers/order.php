@@ -131,7 +131,7 @@ class RedshopControllerOrder extends RedshopController
 				$redshopMail = redshopMail::getInstance();
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
-				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 
@@ -165,7 +165,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$economic = economic::getInstance();
 			$economicdata ['split_payment'] = 0;
-			$invoiceHandle = $economic->createInvoiceInEconomic($order_id, $economicdata);
+			$economic->createInvoiceInEconomic($order_id, $economicdata);
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
@@ -202,8 +202,6 @@ class RedshopControllerOrder extends RedshopController
 		$product_count = array();
 		$db = JFactory::getDbo();
 
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$order_id = implode(',', $cid);
 		$where = "";
 
 		$sql = "SELECT order_id,count(order_item_id) as noproduct FROM `#__redshop_order_item`  " . $where . " GROUP BY order_id";
@@ -427,11 +425,9 @@ class RedshopControllerOrder extends RedshopController
 	public function generateParcel()
 	{
 		$order_function = order_functions::getInstance();
-		$post = JRequest::get('post');
-		$specifiedSendDate = $post ['specifiedSendDate'];
 		$order_id = JRequest::getCmd('order_id');
 
-		$generate_label = $order_function->generateParcel($order_id, $specifiedSendDate);
+		$generate_label = $order_function->generateParcel($order_id);
 
 		if ($generate_label == "success")
 		{

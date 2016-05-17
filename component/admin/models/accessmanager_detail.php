@@ -438,7 +438,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 	{
 		$returnable = array();
 
-		foreach ($groups as $key => $val)
+		foreach ($groups as $val)
 		{
 			$returnable[$val->id] = str_repeat('<span class="gi">|&mdash;</span>', $val->level) . $val->title;
 		}

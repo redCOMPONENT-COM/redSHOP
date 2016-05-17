@@ -61,8 +61,6 @@ class RedshopViewProduct_Detail extends RedshopView
 		$this->producthelper = producthelper::getInstance();
 
 		$this->option        = $this->input->getString('option', 'com_redshop');
-		$db                  = JFactory::getDBO();
-		$dbPrefix            = $app->getCfg('dbprefix');
 		$lists               = array();
 
 		$model               = $this->getModel('product_detail');
@@ -376,8 +374,6 @@ class RedshopViewProduct_Detail extends RedshopView
 
 		$lists['accessory_product'] = $accessory_product;
 		$lists['QUANTITY_SELECTBOX_VALUE'] = $detail->quantity_selectbox_value;
-
-		$result = array();
 
 		// For preselected.
 		if ($detail->product_template == "")

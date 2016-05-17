@@ -39,7 +39,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['order_id'] = $cid [0];
 		$model = $this->getModel('addorder_detail');
-		$post['order_number'] = $order_number = $order_functions->generateOrderNumber();
+		$post['order_number'] = $order_functions->generateOrderNumber();
 
 		$orderItem = $adminproducthelper->redesignProductItem($post);
 		$post['order_item'] = $orderItem;

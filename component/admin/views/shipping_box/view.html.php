@@ -51,7 +51,6 @@ class RedshopViewShipping_box extends RedshopView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$shipping_box = $this->get('Data');
-		$total        = $this->get('Total');
 		$pagination   = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();

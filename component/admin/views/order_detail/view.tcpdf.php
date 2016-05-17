@@ -14,17 +14,14 @@ class RedshopViewOrder_detail extends RedshopView
 {
 	function display($tpl = null)
 	{
-
 		$config = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 
 		$order_functions = order_functions::getInstance();
-		$model = $this->getModel();
-
 		$detail = $this->get('data');
-
 		$billing = $order_functions->getBillingAddress($detail->user_id);
 		$shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
+
 		if (!$shipping)
 		{
 			$shipping = $billing;
@@ -85,20 +82,10 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
 		$pdfObj->setHeaderFont(array($font, '', 10));
-		//$pdfObj->setFooterFont(array($font, '', 8));
 		$pdfObj->SetFont($font, '', 12);
-
-
-		//$pdfObj->AliasNbPages();
 		$pdfObj->AddPage();
-
-
 		$pdfObj->WriteHTML($html_template);
-
 		$pdfObj->Output("Order_" . $detail->order_id . ".pdf", "D");
 		exit;
 	}
-
 }
-
-?>

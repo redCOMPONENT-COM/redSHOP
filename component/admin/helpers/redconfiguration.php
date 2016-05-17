@@ -1385,9 +1385,6 @@ class Redconfiguration
 
 				if (count($country_list) > 0)
 				{
-					// Sanitize country list
-					$sanitizedCountryArray = array();
-
 					foreach ($country_list as &$countryCode)
 					{
 						$countryCode = $db->quote($countryCode);

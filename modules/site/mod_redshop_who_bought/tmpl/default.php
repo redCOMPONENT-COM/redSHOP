@@ -116,7 +116,7 @@ if (count($rows))
 			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_full_image))
 			{
 				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/noimage.jpg';
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumbwidth, $thumbheight, USE_IMAGE_SIZE_SWAPPING);
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbwidth, $thumbheight, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
 				$thumbImage = REDSHOP_FRONT_IMAGES_ABSPATH . 'thumb/' . $filename_path_info['basename'];
 			}

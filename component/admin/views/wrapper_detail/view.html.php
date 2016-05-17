@@ -67,11 +67,6 @@ class RedshopViewWrapper_detail extends RedshopView
 
 		$product = $model->getProductInfo($product_id);
 
-		if (count($detail) > 0)
-		{
-			$pid = explode(",", $detail->product_id);
-		}
-
 		$productData = $model->getProductInfowrapper($detail->product_id);
 
 		if (count($productData) > 0)

@@ -2488,23 +2488,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 	}
 
 	/**
-	 * Function get_subattrprop.
-	 *
-	 * @param   int  $subattr_id  ID.
-	 *
-	 * @return  array
-	 */
-	public function get_subattrprop($subattr_id)
-	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
-				  WHERE subattribute_color_id IN (\'' . $subattr_id . '\')
-				  ORDER BY subattribute_color_id ASC';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
-	}
-
-	/**
 	 * Function delsubattr_diff.
 	 *
 	 * @param   array  $subattr_diff  ID.
@@ -2648,7 +2631,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (count($list) > 0)
 		{
-			foreach ($list as $key => $tag)
+			foreach ($list as $tag)
 			{
 				$sortlist[$tag->association_id][] = $tag->tag_name;
 			}
@@ -2758,7 +2741,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (count($tags) > 0)
 			{
-				foreach ($tags as $key => $tag)
+				foreach ($tags as $tag)
 				{
 					// Split tag to type ID and tag ID.
 					list($type_id, $tag_id) = explode('.', $tag);

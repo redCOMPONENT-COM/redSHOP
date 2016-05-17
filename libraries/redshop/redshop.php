@@ -87,4 +87,14 @@ abstract class Redshop
 	{
 		return (string) static::getManifest()->version;
 	}
+
+	/**
+	 * Gets product object
+	 *
+	 * @return  RedshopProduct object
+	 */
+	public static function product($id)
+	{
+		return RedshopProduct::getInstance($id);
+	}
 }

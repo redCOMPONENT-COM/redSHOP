@@ -93,13 +93,13 @@ class RedShopHelperImages extends JObject
 		}
 
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
-		$physiclePath = self::generateImages($filePath, $dest, $command, $type, $width, $height, $proportional);
+		$physiclePath = self::generateImages($filePath, $dest, $command, $width, $height, $proportional);
 		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
 
 		return $thumbUrl;
 	}
 
-	public static function generateImages($file_path, $dest, $command = 'upload', $type, $width, $height, $proportional = USE_IMAGE_SIZE_SWAPPING)
+	public static function generateImages($file_path, $dest, $command = 'upload', $width, $height, $proportional = USE_IMAGE_SIZE_SWAPPING)
 	{
 		$ret = false;
 
@@ -135,23 +135,18 @@ class RedShopHelperImages extends JObject
 							break;
 					}
 				}
+
+				// Thumb
 				else
 				{
-					// THUMB
-					$src = $file_path;
-					$src_path_info = pathinfo($src);
+					$src_path_info = pathinfo($file_path);
 					$dest = $src_path_info['dirname'] . '/thumb/' . $src_path_info['filename'] . '_w'
 						. $width . '_h' . $height . '.' . $src_path_info['extension'];
-					$alt_dest = '';
+					$ret = $dest;
 
 					if (!JFile::exists($dest))
 					{
-						$ret = self::writeImage($src, $dest, $alt_dest, $width, $height, $proportional);
-					}
-
-					else
-					{
-						$ret = $dest;
+						$ret = self::writeImage($file_path, $dest, '', $width, $height, $proportional);
 					}
 				}
 
@@ -341,10 +336,8 @@ class RedShopHelperImages extends JObject
 		switch (strtolower($output))
 		{
 			case 'browser':
-				$output = null;
-				break;
 			case 'file':
-				$output = $destPath;
+				$output = null;
 				break;
 			case 'return':
 				return $image_resized;
@@ -380,7 +373,7 @@ class RedShopHelperImages extends JObject
 		return true;
 	}
 
-/**
+	/**
 	 * Some function which was in obscure reddesignhelper class.
 	 *
 	 * @return array

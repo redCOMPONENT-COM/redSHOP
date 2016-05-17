@@ -124,8 +124,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$post                 = $this->input->getArray($_POST);
 		$cid                  = $this->input->post->get('cid', array(), 'array');
 		$post ['product_id']  = $cid[0];
-		$stockroom_id         = '';
-
 		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
 		if (is_array($post['product_category'])

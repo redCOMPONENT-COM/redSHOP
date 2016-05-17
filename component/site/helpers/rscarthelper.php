@@ -1551,7 +1551,7 @@ class rsCarthelper
 			else
 			{
 				$product           = $this->_producthelper->getProductById($product_id);
-				$product_name      = $product->product_name;
+				$product_name      = $rowitem[$i]->order_item_name;
 				$userfield_section = 12;
 				$giftcardData = new stdClass;
 			}
@@ -1760,8 +1760,8 @@ class rsCarthelper
 			}
 			else
 			{
-				$cart_mdata = str_replace("{product_sku}", $product->product_number, $cart_mdata);
-				$cart_mdata = str_replace("{product_number}", $product->product_number, $cart_mdata);
+				$cart_mdata = str_replace("{product_sku}", $rowitem[$i]->order_item_sku, $cart_mdata);
+				$cart_mdata = str_replace("{product_number}", $rowitem[$i]->order_item_sku, $cart_mdata);
 				$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
 
 				if ($product->product_type == 'subscription')

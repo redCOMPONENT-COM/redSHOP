@@ -21,7 +21,6 @@ class RedshopViewXmlimport extends RedshopView
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
-		$model = $this->getModel('xmlimport');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_IMPORT_MANAGEMENT'), 'redshop_import48');
 		JToolbarHelper::addNew();
@@ -37,7 +36,6 @@ class RedshopViewXmlimport extends RedshopView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$data               = $this->get('Data');
-		$total              = $this->get('Total');
 		$pagination         = $this->get('Pagination');
 
 		$this->lists        = $lists;

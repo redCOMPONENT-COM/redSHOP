@@ -16,10 +16,7 @@ class RedshopViewProduct_category extends RedshopView
 
 	public function display($tpl = null)
 	{
-		global $context;
-
 		$document = JFactory::getDocument();
-
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 		$task = JRequest::getVar('task');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');

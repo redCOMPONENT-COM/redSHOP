@@ -137,8 +137,6 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$orderby = $this->_buildContentOrderBy();
-		$limitstart = $this->getState('limitstart');
-		$limit = $this->getState('limit');
 		$search_field = $this->getState('search_field');
 		$keyword = $this->getState('keyword');
 		$category_id = $this->getState('category_id');
@@ -512,7 +510,6 @@ class RedshopModelProduct extends RedshopModel
 					$txt = '- ' . $v->title;
 				}
 
-				$pt = $v->parent_id;
 				$list[$id] = $v;
 				$list[$id]->treename = $indent . $txt;
 				$list[$id]->children = count(@$children[$id]);

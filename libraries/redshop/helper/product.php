@@ -16,7 +16,48 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperProduct
 {
+	/**
+	 * Product info
+	 *
+	 * @var  array
+	 */
 	protected static $products = array();
+
+	/**
+	 * All product data
+	 *
+	 * @var  array
+	 */
+	protected static $allProducts = array();
+
+	/**
+	 * Get all product information
+	 * Warning: This method is loading all the products from DB. Which can resulting
+	 * 			into memory issue. Use with caution.
+	 * 			It is aimed to use in CLI version or for webservices.
+	 *
+	 * @return  array  Product Information array
+	 */
+	public static function getList()
+	{
+		if (empty(self::$allProducts))
+		{
+			$db    = JFactory::getDbo();
+			$query = self::getMainProductQuery();
+			$query->select(
+						array(
+							'p.product_name as text',
+							'p.product_id as value'
+						)
+					);
+
+			$db->setQuery($query);
+
+			self::$allProducts = $db->loadObjectList('product_id');
+		}
+
+		return self::$allProducts;
+	}
 
 	/**
 	 * Get product information
@@ -34,23 +75,36 @@ class RedshopHelperProduct
 			$userId = $user->id;
 		}
 
-		if (!array_key_exists($productId . '.' . $userId, self::$products))
+		$key = $productId . '.' . $userId;
+
+		if (!array_key_exists($key, self::$products))
 		{
-			$db = JFactory::getDbo();
-			$query = self::getMainProductQuery(false, $userId);
-
-			// Select product
-			$query->where($db->qn('p.product_id') . ' = ' . (int) $productId);
-
-			$db->setQuery($query);
-
-			if (self::$products[$productId . '.' . $userId] = $db->loadObject())
+			// Check if data is already loaded while getting list
+			if (array_key_exists($productId, self::$allProducts))
 			{
-				self::setProductRelates(array($productId . '.' . $userId => self::$products[$productId . '.' . $userId]), $userId);
+				self::$products[$key] = self::$allProducts[$productId];
+			}
+
+			// Otheriwise load product info
+			else
+			{
+				$db = JFactory::getDbo();
+				$query = self::getMainProductQuery(false, $userId);
+
+				// Select product
+				$query->where($db->qn('p.product_id') . ' = ' . (int) $productId);
+
+				$db->setQuery($query);
+				self::$products[$key] = $db->loadObject();
+			}
+
+			if (self::$products[$key])
+			{
+				self::setProductRelates(array($key => self::$products[$key]), $userId);
 			}
 		}
 
-		return self::$products[$productId . '.' . $userId];
+		return self::$products[$key];
 	}
 
 	/**

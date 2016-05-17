@@ -113,7 +113,7 @@ class RedshopControllerWizard extends RedshopController
 
 			if ($country_list)
 			{
-				foreach ($country_list as $key => $value)
+				foreach ($country_list as $value)
 				{
 					$country_listCode .= $value;
 					$i++;

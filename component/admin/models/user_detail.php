@@ -165,13 +165,10 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function storeUser($post)
 	{
-
 		$userhelper = rsUserHelper::getInstance();
 
-		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
-
 
 		$post['billisship'] = 1;
 
