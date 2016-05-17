@@ -67,7 +67,7 @@ class RedshopHelperUser
 		// If both is not set return, as we also have silent user creating where joomla user id is not set
 		if (!$userId && !$userInfoId)
 		{
-			return array();
+			return (new stdClass);
 		}
 
 		if (!$useAddressType)
