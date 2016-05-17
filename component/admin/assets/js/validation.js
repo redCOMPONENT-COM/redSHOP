@@ -734,39 +734,18 @@ function validateExtrafield(form) {
     }
 }
 
-function checkUsernameAvailability()
-{
-    var form = document.forms['adminForm'];
-    var JSONObject = new Object;
-    JSONObject.userid = (form['id'].value) ? form['id'].value : form['user_id'].value;
-    JSONObject.username = form['username'].value;
-
-    JSONstring = JSON.stringify(JSONObject);
-
-    request = getHTTPObject();
-    request.onreadystatechange = function() {
-        if (request.readyState == 4) {
-            var JSONtext = request.responseText;
-            var JSONobject = JSON.parse(JSONtext);
-
-            if (JSONobject.message != '' || JSONobject.message != undefined || JSONobject.message != null)
-            {
-
-                document.getElementById('user_valid').innerHTML  = JSONobject.message;
-
-                if (JSONobject.exist == 1)
-                {
-                    document.getElementById('user_valid').style.color = 'red';
-                }
-                else
-                {
-                    document.getElementById('user_valid').style.color = 'green';
-                }
-            }
-        }
-    }
-
-    request.open("GET", "index.php?option=com_redshop&view=user_detail&task=validationUsername&json=" + JSONstring, true);
-    request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    request.send(null);
-}
+jQuery(document).ready(function(){
+    jQuery("#username").blur(function() {
+        jQuery.ajax({
+            url: "index.php?option=com_redshop&view=user_detail&task=validationUsername",
+            type: "GET",
+            data:  {username: jQuery("#username").val(), user_id: jQuery("input[name=user_id").val()},
+            success: function(data){
+                data = JSON.parse('{' + data.substring(data.indexOf('{') + 1));
+                jQuery('#user_valid').html(data.message);
+                jQuery('#user_valid').css('color', data.color);
+            },
+            error: function(){}
+       });
+    });
+});
