@@ -155,14 +155,15 @@ class plgRedshop_PaymentNganluong extends JPlugin
 	public function onAfterNotifyPaymentNganluong($name, $orderId)
 	{
 		$app    = JFactory::getApplication();
-		$values = new stdClass;
 
 		// Initialize response
+
+/*		$values = new stdClass;
 		$values->order_id                  = $orderId;
 		$values->order_status_code         = $this->params->get('invalid_status', '');
 		$values->order_payment_status_code = 'Unpaid';
 		$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');
-		$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');
+		$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');*/
 
 		$app->redirect(
 			JRoute::_(
