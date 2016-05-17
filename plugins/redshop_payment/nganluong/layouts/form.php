@@ -8,12 +8,9 @@
 
 defined('_JEXEC') or die;
 
-$action  = $displayData['action'];
-$data    = $displayData['data'];
-$params  = $displayData['params'];
-$price   = $data['order']->order_total;
-$return_url = $displayData['return'];
-$cancel_url = $displayData['cancel_return'];
+$formInput = $displayData['formInput'];
+$params    = $displayData['params'];
+$action = $formInput['action'];
 
 $name        = $params->get('dataName', SHOP_NAME);
 $description = JText::sprintf('PLG_REDSHOP_PAYMENT_NGANLUONG_PAYMENT_DESCRIPTION', $data['order_id']);
@@ -553,12 +550,10 @@ $description = JText::sprintf('PLG_REDSHOP_PAYMENT_NGANLUONG_PAYMENT_DESCRIPTION
 				</td>
 			</tr>					
 		</table>
-		<input type="hidden" name="return_url" value="<?php echo $return_url; ?>"/>
-		<input type="hidden" name="cancel_url" value="<?php echo $cancel_url; ?>"/>
-		<input type="hidden" name="fullname" value="<?php echo $data['billinginfo']->firstname . ' ' . $data['billinginfo']->lastname; ?>"/>
-		<input type="hidden" name="email" value="<?php echo $data['billinginfo']->user_email; ?>"/>
-		<input type="hidden" name="phone" value="<?php echo $data['billinginfo']->phone; ?>"/>
-		<input type="hidden" name="address" value="<?php echo $data['billinginfo']->address; ?>"/>
+		<input type="hidden" name="fullname" value="<?php echo $formInput['firstname'] . ' ' . $formInput['lastname']; ?>"/>
+		<input type="hidden" name="email" value="<?php echo $formInput['email']; ?>"/>
+		<input type="hidden" name="phone" value="<?php echo $formInput['phone']; ?>"/>
+		<input type="hidden" name="address" value="<?php echo $formInput['street']; ?>"/>
 	</form>	
 	<script language="javascript">
 		jQuery('input[name="option_payment"]').bind('click', function() {

@@ -14,7 +14,7 @@ JLoader::load('RedshopHelperAdminOrder');
 // Load nganluong library
 require_once dirname(__DIR__) . '/nganluong/library/init.php';
 
-class plgRedshop_PaymentNganluong extends JPlugin
+class plgRedshop_PaymentNganluong extends RedshopPayment
 {
 	/**
 	 * Load the language file on instantiation.
@@ -42,20 +42,30 @@ class plgRedshop_PaymentNganluong extends JPlugin
 		$orderId = $data['order_id'];
 		$itemId = JFactory::getApplication()->input->getInt('Itemid');
 
-		$returnUrl = JURI::root() . "index.php?option=com_redshop&view=order_detail&layout=receipt&oid=" . $orderId . "&Itemid=" . $itemId;
-		$cancelUrl = JURI::root() . "index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=" . $orderId . "&Itemid=" . $itemId;
+		echo $this->renderPaymentForm($data);
+	}
 
-		echo RedshopLayoutHelper::render(
-			'form',
-			array(
-				'action' => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=nganluong&orderid=" . $orderId,
-				'data'   => $data,
-				'params' => $this->params,
-				'return' => $returnUrl,
-				'cancel_return' => $cancelUrl
-			),
-			dirname(__DIR__) . '/nganluong/layouts'
-		);
+	/**
+	 * Prepare Payment Input
+	 *
+	 * @param   array  $orderInfo  Order Information
+	 *
+	 * @return  array  Payment Gateway for parameters
+	 */
+	protected function preparePaymentInput($orderInfo)
+	{
+		$inputs = array(
+				'action' 	  => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=nganluong&orderid=" . $orderInfo['order_id'],
+				'firstname'   => $orderInfo['billinginfo']->firstname,
+				'lastname'    => $orderInfo['billinginfo']->lastname,
+				'email'       => $orderInfo['billinginfo']->user_email,
+				'url'         => $this->getReturnUrl($orderInfo['order_id']),
+				'urlc'        => $this->getNotifyUrl($orderInfo['order_id']),
+				'phone'       => $orderInfo['billinginfo']->phone,
+				'street'      => $orderInfo['billinginfo']->address,
+			);
+
+		return $inputs;
 	}
 
 	/**
@@ -96,8 +106,8 @@ class plgRedshop_PaymentNganluong extends JPlugin
 		$orderDescription = '';
 		$taxAmount = $order->order_tax;
 		$feeshipping = $order->order_shipping;
-		$returnUrl = $input->post->get('return_url');
-		$cancelUrl = urlencode($input->post->get('cancel_url'));
+		$returnUrl = $this->getReturnUrl($orderId);
+		$cancelUrl = urlencode($this->getNotifyUrl($orderId));
 
 		$buyerFullname = $input->post->get('fullname');
 		$buyerEmail = $input->post->get('email');
