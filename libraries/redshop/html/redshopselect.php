@@ -207,7 +207,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 
 		$options['select2.options'] = array(
 			'placeholder' => '',
-			'minimumInputLength' => 0,
+			'minimumInputLength' => 2,
 			'width' => 'resolve',
 			'multiple' => 'false',
 			'allowClear' => 'true',
