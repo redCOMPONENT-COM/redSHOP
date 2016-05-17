@@ -27,7 +27,6 @@ $url = JURI::base();
 $Itemid = $redhelper->getCheckoutItemid();
 $order_id = JRequest::getInt('oid');
 
-// For barcode
 $model = $this->getModel('order_detail');
 
 $order = $this->OrdersDetail;
@@ -101,7 +100,6 @@ $ReceiptTemplate = str_replace("{product_name_lbl}", JText::_('COM_REDSHOP_PRODU
 $ReceiptTemplate = str_replace("{price_lbl}", JText::_('COM_REDSHOP_PRICE_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_PRICE_LBL'), $ReceiptTemplate);
-$ReceiptTemplate = str_replace("{barcode}", '', $ReceiptTemplate);
 $ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
 
 // Added new tag

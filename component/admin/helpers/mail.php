@@ -532,15 +532,15 @@ class redshopMail
 		$invoice_pdfName = "multiprintorder" . round(microtime(true) * 1000);
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 		$store_files = array('index.html', '' . $invoice_pdfName . '.pdf');
-		
-		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) 
+
+		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file)
 		{
-			if (!in_array(basename($file), $store_files)) 
+			if (!in_array(basename($file), $store_files))
 			{
 				unlink($file);
 			}
 		}
-		
+
 		return $invoice_pdfName;
 	}
 
@@ -562,7 +562,6 @@ class redshopMail
 		$arr_discount_type = array();
 
 		$row           = $this->_order_functions->getOrderDetails($orderId);
-		$barcode_code  = $row->barcode;
 		$arr_discount  = explode('@', $row->discount_type);
 		$discount_type = '';
 
@@ -621,22 +620,6 @@ class redshopMail
 		$html   = $this->_carthelper->replaceOrderTemplate($row, $html);
 		$html   = str_replace("{firstname}", $billingaddresses->firstname, $html);
 		$html   = str_replace("{lastname}", $billingaddresses->lastname, $html);
-
-		if (function_exists("curl_init"))
-		{
-			if ('pdf' == $type)
-			{
-				$barcodeImageUrl = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $row->barcode . ".png";
-				$barcodeImage    = '<img src="' . $barcodeImageUrl . '" alt="Barcode"  border="0" />';
-				$html         = str_replace("{barcode}", $barcodeImage, $html);
-			}
-			else
-			{
-				$barcodeImageUrl = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $row->barcode . ".png";
-				$barcodeImage    = '<img src="' . $barcodeImageUrl . '" alt="Barcode"  border="0" />';
-				$html         = str_replace("{barcode}", $barcodeImage, $html);
-			}
-		}
 
 		$html = $this->_carthelper->replaceOrderTemplate($row, $html);
 

@@ -1744,66 +1744,6 @@ class order_functions
 		return $shippingloc;
 	}
 
-	public function barcode_randon_number($lenth = 12, $barcodekey = 0)
-	{
-		$mainhelper = new redshopMail;
-		$redTemplate = new Redtemplate;
-
-		$ordermail = $mainhelper->getMailtemplate(0, "order");
-		$ordermailbody = $ordermail[0]->mail_body;
-
-		$invoicemail = $mainhelper->getMailtemplate(0, "invoice_mail");
-		$invoicemailbody = $invoicemail[0]->mail_body;
-
-		$receipttemp = $redTemplate->getTemplate('order_receipt');
-		$receipttempbody = $receipttemp[0]->template_desc;
-
-		if (strstr($ordermailbody, "{barcode}") || strstr($invoicemailbody, "{barcode}")
-			|| strstr($receipttempbody, "{barcode}") || $barcodekey == 1)
-		{
-			$aZ09 = array_merge(range(1, 9));
-			$rand_barcode = '';
-
-			for ($c = 0; $c < $lenth; $c++)
-			{
-				$rand_barcode .= $aZ09[mt_rand(0, count($aZ09) - 1)];
-			}
-
-			if (function_exists("curl_init"))
-			{
-				$url = JURI::root() . 'administrator/components/com_redshop/helpers/barcode/barcode.php?code='
-					. $rand_barcode . '&encoding=EAN&scale=2&mode=png';
-
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_FAILONERROR, 1);
-				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 3);
-				curl_setopt($ch, CURLOPT_POST, 1);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, "code='.$rand_barcode.'&encoding=EAN&scale=2&mode=png");
-				$result = curl_exec($ch);
-				curl_close($ch);
-			}
-
-			return $rand_barcode;
-		}
-		else
-		{
-			$rand_barcode = "";
-
-			return $rand_barcode;
-		}
-	}
-
-	public function updatebarcode($oid, $barcode)
-	{
-		$db = JFactory::getDbo();
-		$barcodequery = 'UPDATE #__redshop_orders SET barcode = ' . $db->quote($barcode) . ' WHERE order_id = ' . (int) $oid;
-		$db->setQuery($barcodequery);
-		$db->execute();
-	}
-
 	public function checkupdateordersts($data)
 	{
 		$res = 1;
@@ -1849,7 +1789,6 @@ class order_functions
 
 			// Getting the order details
 			$orderdetail = $this->getOrderDetails($order_id);
-			$barcode_code = $orderdetail->barcode;
 
 			// Changes to parse all tags same as order mail start
 			$row = $order_functions->getOrderDetails($order_id);
@@ -1890,25 +1829,6 @@ class order_functions
 
 			// Changes to parse all tags same as order mail end
 			$userdetail = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-
-			// For barcode
-			if (strstr($maildata, "{barcode}"))
-			{
-				if ($barcode_code != "" && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png"))
-				{
-					$barcode_code = $barcode_code;
-				}
-				else
-				{
-					$barcode_code = $this->barcode_randon_number(12, 1);
-					$this->updatebarcode($order_id, $barcode_code);
-				}
-
-				$img_url = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
-				$bar_replace = '<img alt="" src="' . $img_url . '">';
-				$search[] = "{barcode}";
-				$replace[] = $bar_replace;
-			}
 
 			// Getting the order status changed template from mail center end
 			$maildata = $carthelper->replaceBillingAddress($maildata, $userdetail);

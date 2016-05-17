@@ -462,7 +462,6 @@ class RedshopModelCheckout extends RedshopModel
 			$order_paymentstatus = 'Unpaid';
 		}
 
-		// For barcode generation
 		$row->order_discount       = $odiscount;
 		$row->order_discount_vat   = $odiscount_vat;
 		$row->payment_discount     = $payment_amount;
@@ -479,7 +478,6 @@ class RedshopModelCheckout extends RedshopModel
 		$row->split_payment        = $issplit;
 		$row->discount_type        = $this->discount_type;
 		$row->order_id             = $app->input->getInt('order_id', 0);
-		$row->barcode              = $order_functions->barcode_randon_number(12, 0);
 
 		if (!$row->store())
 		{
