@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewAccount_shipto extends RedshopView
 {
@@ -18,10 +17,10 @@ class RedshopViewAccount_shipto extends RedshopView
 	{
 		$app = JFactory::getApplication();
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		// Extra_field;
-		$extra_field     = new extraField;
+		$extra_field     = extraField::getInstance();
 
 		$task = JRequest::getCmd('task');
 		$user = JFactory::getUser();

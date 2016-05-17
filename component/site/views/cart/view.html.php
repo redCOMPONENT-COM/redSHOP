@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JLoader::load('RedshopHelperProduct');
 
 class RedshopViewCart extends RedshopView
 {
@@ -16,7 +15,7 @@ class RedshopViewCart extends RedshopView
 		$app = JFactory::getApplication();
 
 		// Request variables
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 		$user        = JFactory::getUser();
 
 		$session = JFactory::getSession();

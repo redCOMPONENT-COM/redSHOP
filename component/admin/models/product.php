@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminStockroom');
-JLoader::load('RedshopHelperAdminShipping');
-JLoader::load('RedshopHelperProduct');
 
 class RedshopModelProduct extends RedshopModel
 {
@@ -186,7 +182,7 @@ class RedshopModelProduct extends RedshopModel
 				$query_prd = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM #__redshop_product AS p ";
 				$tot_products = $this->_getList($query_prd);
 				$product_id_array = '';
-				$producthelper = new producthelper;
+				$producthelper = producthelper::getInstance();
 				$products_stock = $producthelper->removeOutofstockProduct($tot_products);
 				$final_product_stock = $this->getFinalProductStock($products_stock);
 
@@ -355,7 +351,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function product_template($template_id, $product_id, $section)
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		if ($section == 1 || $section == 12)
 		{
@@ -408,7 +404,7 @@ class RedshopModelProduct extends RedshopModel
 		if (count($str) > 0)
 		{
 			$dbname = implode(",", $str);
-			$field = new extra_field;
+			$field = extra_field::getInstance();
 
 			for ($t = 0, $tn = count($sec); $t < $tn; $t++)
 			{

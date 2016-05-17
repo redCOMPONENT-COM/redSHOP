@@ -19,7 +19,7 @@ class RedshopViewShipping_rate extends RedshopView
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
 
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 
 		$lists['order']     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
 		$lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');

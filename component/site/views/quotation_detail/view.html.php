@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminQuotation');
 
 class RedshopViewQuotation_detail extends RedshopView
 {
@@ -17,7 +16,7 @@ function display ($tpl = null)
 {
 	$app = JFactory::getApplication();
 
-	$quotationHelper = new quotationHelper;
+	$quotationHelper = quotationHelper::getInstance();
 
 	$print = JRequest::getInt('print');
 

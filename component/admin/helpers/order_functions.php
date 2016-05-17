@@ -10,17 +10,32 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperAdminEconomic');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
 
 class order_functions
 {
 	public $_orderstatuslist = null;
 
 	public $_customorderstatuslist = null;
+
+	protected static $instance = null;
+
+	/**
+	 * Returns the order_functions object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  order_functions  The order_functions object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new order_functions;
+		}
+
+		return self::$instance;
+	}
 
 	public function resetOrderId()
 	{
@@ -168,7 +183,7 @@ class order_functions
 	{
 		$db                        = JFactory::getDbo();
 		$order_details             = $this->getOrderDetails($order_id);
-		$producthelper             = new producthelper;
+		$producthelper             = producthelper::getInstance();
 		$orderproducts             = $this->getOrderItemDetail($order_id);
 		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
@@ -390,7 +405,7 @@ class order_functions
 	 */
 	public function changeorderstatus($data)
 	{
-		$helper   = new redhelper;
+		$helper = redhelper::getInstance();
 		$db       = JFactory::getDbo();
 		$order_id = $data->order_id;
 		$pos      = strpos(JURI::base(), 'plugins');
@@ -459,7 +474,7 @@ class order_functions
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
-				$redshopMail = new redshopMail;
+				$redshopMail = redshopMail::getInstance();
 
 				// Send Order Mail After Payment
 				if (ORDER_MAIL_AFTER && $data->order_status_code == "C")
@@ -535,7 +550,7 @@ class order_functions
 			// Economic Integration start for invoice generate and book current invoice
 			if (ECONOMIC_INTEGRATION == 1)
 			{
-				$economic = new economic;
+				$economic = economic::getInstance();
 				$oid = explode(",", $order_id);
 
 				for ($i = 0, $in = count($oid); $i < $in; $i++)
@@ -700,9 +715,9 @@ class order_functions
 	public function update_status()
 	{
 		$app = JFactory::getApplication();
-		$helper = new redhelper;
-		$producthelper = new producthelper;
-		$stockroomhelper = new rsstockroomhelper;
+		$helper = redhelper::getInstance();
+		$producthelper = producthelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$post = JRequest::get('post');
 		$tmpl = JRequest::getVar('tmpl');
@@ -834,7 +849,7 @@ class order_functions
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
-				$redshopMail = new redshopMail;
+				$redshopMail = redshopMail::getInstance();
 
 				if (ORDER_MAIL_AFTER && $newstatus == 'C')
 				{
@@ -1111,8 +1126,7 @@ class order_functions
 	public function getBillingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = new redhelper;
-
+		$helper = redhelper::getInstance();
 
 		$user = JFactory::getUser();
 
@@ -1204,7 +1218,7 @@ class order_functions
 	public function getShippingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = new redhelper;
+		$helper = redhelper::getInstance();
 
 		$user = JFactory::getUser();
 
@@ -1419,7 +1433,7 @@ class order_functions
 				. "WHERE order_id = " . (int) $maxId;
 			$db->setQuery($query);
 			$maxOrderNumber = $db->loadResult();
-			$economic = new economic;
+			$economic = economic::getInstance();
 			$maxInvoice = $economic->getMaxOrderNumberInEconomic();
 			$maxId = max(intval($maxOrderNumber), $maxInvoice);
 		}
@@ -1460,7 +1474,7 @@ class order_functions
 	public function getCountryName($cnt3 = "")
 	{
 		$db = JFactory::getDbo();
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$and = '';
 		$cntname = '';
 
@@ -1517,9 +1531,9 @@ class order_functions
 
 	public function SendDownload($order_id = 0)
 	{
-		$config = new Redconfiguration;
+		$config = Redconfiguration::getInstance();
 		$app = JFactory::getApplication();
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 
 		// Getting the order status changed template from mail center end
 		$MailFrom = $app->getCfg('mailfrom');
@@ -1653,8 +1667,7 @@ class order_functions
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-		JLoader::load('RedshopHelperAdminConfiguration');
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
 		$paymentinfo = $plugin_parameters[0];
@@ -1726,8 +1739,8 @@ class order_functions
 
 	public function barcode_randon_number($lenth = 12, $barcodekey = 0)
 	{
-		$mainhelper = new redshopMail;
-		$redTemplate = new Redtemplate;
+		$mainhelper = redshopMail::getInstance();
+		$redTemplate = Redtemplate::getInstance();
 
 		$ordermail = $mainhelper->getMailtemplate(0, "order");
 		$ordermailbody = $ordermail[0]->mail_body;
@@ -1805,10 +1818,10 @@ class order_functions
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$config          = new Redconfiguration;
-		$carthelper      = new rsCarthelper;
-		$order_functions = new order_functions;
-		$redshopMail     = new redshopMail;
+		$config          = Redconfiguration::getInstance();
+		$carthelper      = rsCarthelper::getInstance();
+		$order_functions = order_functions::getInstance();
+		$redshopMail     = redshopMail::getInstance();
 
 		$MailFrom = $app->getCfg('mailfrom');
 		$FromName = $app->getCfg('fromname');
@@ -1994,7 +2007,7 @@ class order_functions
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 1)
 		{
-			$economic = new economic;
+			$economic = economic::getInstance();
 
 			if (ECONOMIC_INVOICE_DRAFT == 2 && $order_status == BOOKING_ORDER_STATUS)
 			{
@@ -2030,7 +2043,7 @@ class order_functions
 
 			if (is_file($bookinvoicepdf))
 			{
-				$redshopMail = new redshopMail;
+				$redshopMail = redshopMail::getInstance();
 				$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
@@ -2039,7 +2052,7 @@ class order_functions
 	public function createMultiprintInvoicePdf($order_id)
 	{
 		$invoice = "";
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 
 		$invoice = $redshopMail->createMultiprintInvoicePdf($order_id);
 
@@ -2103,9 +2116,9 @@ class order_functions
 
 	public function orderStatusUpdate($order_id, $post = array())
 	{
-		$helper = new redhelper;
-		$stockroomhelper = new rsstockroomhelper;
-		$producthelper = new producthelper;
+		$helper = redhelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
+		$producthelper = producthelper::getInstance();
 		$newstatus = $post['order_status_all'];
 		$customer_note = $post['customer_note' . $order_id];
 		$isproduct = (isset($post['isproduct'])) ? $post['isproduct'] : 0;

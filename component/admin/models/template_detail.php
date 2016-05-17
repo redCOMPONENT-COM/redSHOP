@@ -54,7 +54,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$red_template = new Redtemplate;
+		$red_template = Redtemplate::getInstance();
 
 		if (empty($this->_data))
 		{
@@ -106,7 +106,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$red_template = new Redtemplate;
+		$red_template = Redtemplate::getInstance();
 
 		$row = $this->getTable();
 
@@ -167,7 +167,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$red_template = new Redtemplate;
+		$red_template = Redtemplate::getInstance();
 
 		if (count($cid))
 		{

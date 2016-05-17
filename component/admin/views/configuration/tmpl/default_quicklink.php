@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 $quicklink_icon = explode(",", $this->config->get('QUICKLINK_ICON'));
-JLoader::load('RedshopHelperAdminImages');
 $new_arr = RedShopHelperImages::geticonarray();
 
 ?>

@@ -20,7 +20,6 @@ class RedshopViewSupplier_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		JLoader::load('RedshopHelperAdminExtra_field');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 

@@ -10,14 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminProduct');
 
 class RedshopModelOrder_detail extends RedshopModel
 {
@@ -61,7 +53,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function _loadData()
 	{
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		if (empty($this->_data))
 		{
@@ -127,16 +119,16 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper = new producthelper;
-		$order_functions = new order_functions;
-		$quotationHelper = new quotationHelper;
-		$stockroomhelper = new rsstockroomhelper;
+		$producthelper = producthelper::getInstance();
+		$order_functions = order_functions::getInstance();
+		$quotationHelper = quotationHelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		if (count($cid))
 		{
 			if (ECONOMIC_INTEGRATION == 1)
 			{
-				$economic = new economic;
+				$economic = economic::getInstance();
 
 				for ($i = 0, $in = count($cid); $i < $in; $i++)
 				{
@@ -273,10 +265,10 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function neworderitem($data, $quantity, $order_item_id)
 	{
-		$adminproducthelper = new adminproducthelper;
-		$producthelper = new producthelper;
-		$rsCarthelper = new rsCarthelper;
-		$stockroomhelper = new rsstockroomhelper;
+		$adminproducthelper = adminProductHelper::getInstance();
+		$producthelper = producthelper::getInstance();
+		$rsCarthelper = rsCarthelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		// Get Order Info
 		$orderdata = $this->getTable('order_detail');
@@ -666,12 +658,11 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			if (ECONOMIC_INTEGRATION == 1)
 			{
-				$economic = new economic;
-				$economic->renewInvoiceInEconomic($orderdata);
+				economic::getInstance()->renewInvoiceInEconomic($orderdata);
 			}
 
 			// Send mail from template
-			$redshopMail = new redshopMail;
+			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendOrderSpecialDiscountMail($this->_id);
 		}
 
@@ -685,7 +676,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function delete_item($data)
 	{
-		$stockroomhelper = new rsstockroomhelper;
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$productid = $data['productid'];
 
@@ -732,12 +723,11 @@ class RedshopModelOrder_detail extends RedshopModel
 			// Economic Integration start for invoice generate
 			if (ECONOMIC_INTEGRATION == 1)
 			{
-				$economic = new economic;
-				$economic->renewInvoiceInEconomic($orderdata);
+				economic::getInstance()->renewInvoiceInEconomic($orderdata);
 			}
 
 			// Send mail from template ********************/
-			$redshopMail = new redshopMail;
+			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendOrderSpecialDiscountMail($this->_id);
 		}
 
@@ -746,9 +736,9 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function updateItem($data)
 	{
-		$producthelper = new producthelper;
-		$order_functions = new order_functions;
-		$stockroomhelper = new rsstockroomhelper;
+		$producthelper = producthelper::getInstance();
+		$order_functions = order_functions::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$order_item_id = $data['order_item_id'];
 		$orderitemdata = $this->getTable('order_item_detail');
@@ -864,8 +854,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function updateAttributeItem($order_item_id, $quantity = 0)
 	{
-		$stockroomhelper = new rsstockroomhelper;
-		$order_functions = new order_functions;
+		$stockroomhelper = rsstockroomhelper::getInstance();
+		$order_functions = order_functions::getInstance();
 		$attArr = $order_functions->getOrderItemAttributeDetail($order_item_id, 0, "attribute");
 
 		/** my attribute save in table start */
@@ -915,7 +905,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Get Order Info
 		$orderdata = $this->getTable('order_detail');
 		$orderdata->load($this->_id);
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$OrderItems = $order_functions->getOrderItemDetail($this->_id);
 		$update_discount = abs($data['update_discount']);
 
@@ -967,12 +957,11 @@ class RedshopModelOrder_detail extends RedshopModel
 		// Economic Integration start for invoice generate
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic;
-			$economic->renewInvoiceInEconomic($orderdata);
+			economic::getInstance()->renewInvoiceInEconomic($orderdata);
 		}
 
 		// Send mail from template
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$redshopMail->sendOrderSpecialDiscountMail($this->_id);
 
 		return true;
@@ -980,12 +969,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function special_discount($data, $chk = false)
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 
 		$orderdata = $this->getTable('order_detail');
 		$orderdata->load($this->_id);
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 		$OrderItems      = $order_functions->getOrderItemDetail($this->_id);
 
 		if (!$orderdata->special_discount)
@@ -1034,8 +1023,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic      = new economic;
-			$economic->renewInvoiceInEconomic($orderdata);
+			economic::getInstance()->renewInvoiceInEconomic($orderdata);
 		}
 
 		// Send mail from template
@@ -1046,7 +1034,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function update_shippingrates($data)
 	{
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 
 		// Get Order Info
 		$orderdata = $this->getTable('order_detail');
@@ -1078,8 +1066,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					// Economic Integration start for invoice generate
 					if (ECONOMIC_INTEGRATION == 1)
 					{
-						$economic = new economic;
-						$economic->renewInvoiceInEconomic($orderdata);
+						economic::getInstance()->renewInvoiceInEconomic($orderdata);
 					}
 				}
 			}
@@ -1105,7 +1092,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				$fieldSection = 15;
 			}
 
-			$field = new extra_field;
+			$field = extra_field::getInstance();
 			$field->extra_field_save($data, $fieldSection, $row->users_info_id);
 
 			return true;
@@ -1125,7 +1112,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if ($row->store())
 		{
-			$field = new extra_field;
+			$field = extra_field::getInstance();
 
 			// Field_section 7 :Customer Address Section
 			$fieldSection = 7;
@@ -1251,7 +1238,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function getStockNoteTemplate()
 	{
-		$redTemplate = new Redtemplate;
+		$redTemplate = Redtemplate::getInstance();
 
 		if (empty ($this->_template))
 		{

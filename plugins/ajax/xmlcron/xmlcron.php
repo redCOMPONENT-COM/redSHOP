@@ -25,7 +25,6 @@ class PlgAjaxXmlCron extends JPlugin
 	public function onAjaxXmlCron()
 	{
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperAdminXmlHelper');
 
 		$this->xmlExportFileUpdate();
 		$this->xmlImportFileUpdate();

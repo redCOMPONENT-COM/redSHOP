@@ -6,13 +6,12 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-JLoader::load('RedshopHelperAdminOrder');
 
 
 $model = $this->getModel('rating');
-$config = new Redconfiguration;
+$config = Redconfiguration::getInstance();
 $url = JURI::base();
-$order_functions = new order_functions;
+$order_functions = order_functions::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 

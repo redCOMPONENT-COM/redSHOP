@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperUser');
 
 class plgSearchRedshop_products extends JPlugin
 {
@@ -28,8 +26,7 @@ class plgSearchRedshop_products extends JPlugin
 		parent::__construct($subject, $config);
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		JLoader::load('RedshopHelperAdminConfiguration');
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 		$Redconfiguration->defineDynamicVars();
 
 		$this->loadLanguage();
@@ -209,7 +206,7 @@ class plgSearchRedshop_products extends JPlugin
 		}
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = new rsUserhelper;
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$whereaclProduct = "";
@@ -234,7 +231,7 @@ class plgSearchRedshop_products extends JPlugin
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$redhelper = new redhelper;
+		$redhelper = redhelper::getInstance();
 		$return    = array();
 
 		foreach ($rows as $key => $row)

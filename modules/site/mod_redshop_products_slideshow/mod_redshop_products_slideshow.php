@@ -19,16 +19,6 @@ $backgroundColor = trim($params->get('backgroundColor', '#FFFFFF'));
 $wmode           = trim($params->get('wmode', 'window'));
 $id              = intval($params->get('category_id', 0));
 
-// Include redshop config file.
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-
 // Include the helper functions only once
 require_once __DIR__ . '/helper.php';
 

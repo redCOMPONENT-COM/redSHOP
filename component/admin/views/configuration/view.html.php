@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminTemplate');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperHelper');
-
 class RedshopViewConfiguration extends RedshopView
 {
 	/**
@@ -41,12 +37,12 @@ class RedshopViewConfiguration extends RedshopView
 		$currency_data = $model->getCurrency();
 
 		$this->config = $model->getData();
-
-		$redhelper   = new redhelper;
-		$config      = new Redconfiguration;
-		$redTemplate = new Redtemplate;
-		$extra_field = new extra_field;
-		$userhelper  = new rsUserhelper;
+		
+		$redhelper   = redhelper::getInstance();
+		$config      = Redconfiguration::getInstance();
+		$redTemplate = Redtemplate::getInstance();
+		$extra_field = extra_field::getInstance();
+		$userhelper  = rsUserHelper::getInstance();
 		$lists       = array();
 
 		// Load language file

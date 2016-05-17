@@ -51,9 +51,8 @@ class PlgRedshop_ProductCanonical extends JPlugin
 		// Looking for Parent product to set as canonical.
 		elseif ((int) $product->product_parent_id)
 		{
-			JLoader::load('RedshopHelperProduct');
 
-			$productHelper = new producthelper;
+			$productHelper = producthelper::getInstance();
 			$parentProduct = $productHelper->getProductById($product->product_parent_id);
 
 			$url = 'index.php?option=com_redshop&view=product&layout=detail'

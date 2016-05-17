@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.modal', 'a.modal-thumb');
 
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 
 if ($this->item->giftcard_id)
 {

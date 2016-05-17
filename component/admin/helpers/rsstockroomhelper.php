@@ -9,10 +9,29 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
 
 class rsstockroomhelper
 {
+	protected static $instance = null;
+
+	/**
+	 * Returns the rsStockRoomHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  rsStockRoomHelper  The rsStockRoomHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new rsstockroomhelper;
+		}
+
+		return self::$instance;
+	}
+
 	public function getStockroomDetail($stockroom_id = 0)
 	{
 		$list = array();
@@ -57,7 +76,7 @@ class rsstockroomhelper
 	public function isAttributeStockExists($product_id)
 	{
 		$isStockExists = false;
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$property = $producthelper->getAttibuteProperty(0, 0, $product_id);
 
 		for ($att_j = 0; $att_j < count($property); $att_j++)
@@ -116,7 +135,7 @@ class rsstockroomhelper
 
 	public function isAttributePreorderStockExists($product_id)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$property = $producthelper->getAttibuteProperty(0, 0, $product_id);
 
 		for ($att_j = 0; $att_j < count($property); $att_j++)
@@ -208,7 +227,7 @@ class rsstockroomhelper
 	public function getStockAmountwithReserve($sectionId = 0, $section = 'product', $stockroomId = 0)
 	{
 		$quantity = 1;
-		$productHelper = new producthelper;
+		$productHelper = producthelper::getInstance();
 
 		if (USE_STOCKROOM == 1)
 		{
@@ -276,7 +295,7 @@ class rsstockroomhelper
 		}
 		else
 		{
-			$helper = new redhelper;
+			$helper = redhelper::getInstance();
 
 			if ($helper->isredCRM())
 			{
@@ -390,14 +409,14 @@ class rsstockroomhelper
 		}
 		else
 		{
-			$helper = new redhelper;
+			$helper = redhelper::getInstance();
 
 			if ($helper->isredCRM())
 			{
 				if (ENABLE_ITEM_TRACKING_SYSTEM && !ENABLE_ONE_STOCKROOM_MANAGEMENT)
 				{
 					// Include redSHOP product helper
-					$producthelper = new producthelper;
+					$producthelper = producthelper::getInstance();
 
 					// Supplier order helper object
 					$crmSupplierOrderHelper = new crmSupplierOrderHelper;
@@ -567,7 +586,7 @@ class rsstockroomhelper
 			if ($quantity > 0)
 			{
 				$preorder_list = $this->getPreorderStockroomAmountDetailList($section_id, $section);
-				$producthelper = new producthelper;
+				$producthelper = producthelper::getInstance();
 
 				if ($section == "product")
 				{
@@ -740,7 +759,7 @@ class rsstockroomhelper
 
 	public function replaceStockroomAmountDetail($template_desc = "", $section_id = 0, $section = "product")
 	{
-		if (strstr($template_desc, '{stockroom_detail}'))
+		if (strpos($template_desc, '{stockroom_detail}') !== false)
 		{
 			$productinstock = "";
 
@@ -988,7 +1007,7 @@ class rsstockroomhelper
 
 	public function getFinalStockofProduct($product_id, $totalatt)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$isStockExists = $this->isStockExists($product_id);
 
@@ -1034,7 +1053,7 @@ class rsstockroomhelper
 
 	public function getFinalPreorderStockofProduct($product_id, $totalatt)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$isStockExists = $this->isPreorderStockExists($product_id);
 

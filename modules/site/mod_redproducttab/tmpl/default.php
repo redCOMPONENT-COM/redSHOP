@@ -11,15 +11,14 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-JLoader::load('RedshopHelperRedshop.js');
-JLoader::load('RedshopHelperProduct');
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 JHTML::script('com_redshop/redbox.js', false, true);
 $module_id = "mod_" . $module->id;
-$producthelper = new producthelper;
-$redhelper     = new redhelper;
-$extraField    = new extraField;
+
+$producthelper = producthelper::getInstance();
+$redhelper     = redhelper::getInstance();
+$extraField    = extraField::getInstance();
 
 // Create Pane
 echo JHtml::_('tabs.start', 'pane', array('startOffset' => 0));

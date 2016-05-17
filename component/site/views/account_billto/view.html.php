@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperExtra_field');
 
 class RedshopViewAccount_billto extends RedshopView
 {
@@ -24,7 +23,7 @@ class RedshopViewAccount_billto extends RedshopView
 	public function display($tpl = null)
 	{
 		$app         = JFactory::getApplication();
-		$extra_field = new extraField;
+		$extra_field = extraField::getInstance();
 
 		$params = $app->getParams('com_redshop');
 

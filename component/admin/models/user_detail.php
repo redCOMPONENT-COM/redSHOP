@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopHelperUser');
 
 class RedshopModelUser_detail extends RedshopModel
 {
@@ -168,7 +165,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function storeUser($post)
 	{
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
@@ -196,7 +193,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function store($post)
 	{
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;

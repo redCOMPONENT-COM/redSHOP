@@ -9,10 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperProduct');
 
 /**
  * Handles redSHOP product and categories links
@@ -154,8 +151,8 @@ class Xmap_Com_Redshop
 	static protected function getCategoryTree($xmap, $parent, &$params, $catid = 0)
 	{
 		$db      = JFactory::getDbo();
-		$objhelper     = new redhelper;
-		$producthelper = new producthelper;
+		$objhelper     = redhelper::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		$query = $db->getQuery(true)
 			->select('a.category_id, a.category_name, a.category_pdate')
@@ -280,8 +277,8 @@ class Xmap_Com_Redshop
 		}
 
 		$db = JFactory::getDbo();
-		$objhelper     = new redhelper;
-		$producthelper = new producthelper;
+		$objhelper     = redhelper::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		$query = $db->getQuery(true)
 			->select('prod.*, cpx.category_id')

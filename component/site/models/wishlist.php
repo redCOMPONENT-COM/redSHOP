@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Class wishlistModelwishlist
@@ -183,7 +180,7 @@ class RedshopModelWishlist extends RedshopModel
 			elseif (!empty($_SESSION["no_of_prod"]))
 			{
 				ob_clean();
-				$extraField = new extraField;
+				$extraField = extraField::getInstance();
 				$section    = 12;
 				$row_data   = $extraField->getSectionFieldList($section);
 

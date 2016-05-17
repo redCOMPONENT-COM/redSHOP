@@ -6,13 +6,11 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 
-JLoader::load('RedshopHelperAdminQuotation');
-$quotationHelper = new quotationHelper;
+$quotationHelper = quotationHelper::getInstance();
 
-$config = new Redconfiguration;
+$config = Redconfiguration::getInstance();
 
 
 $lists = $this->lists;

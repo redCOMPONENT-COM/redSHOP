@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminCategory');
-JLoader::load('RedshopHelperAdminShopper');
-JLoader::load('RedshopHelperProduct');
 
 /**
  * Product Detail View
@@ -60,9 +56,9 @@ class RedshopViewProduct_Detail extends RedshopView
 		JPluginHelper::importPlugin('redshop_product_type');
 		$this->dispatcher    = JDispatcher::getInstance();
 
-		$redTemplate         = new Redtemplate;
-		$redhelper           = new redhelper;
-		$this->producthelper = new producthelper;
+		$redTemplate         = Redtemplate::getInstance();
+		$redhelper           = redhelper::getInstance();
+		$this->producthelper = producthelper::getInstance();
 
 		$this->option        = $this->input->getString('option', 'com_redshop');
 		$lists               = array();
@@ -337,7 +333,7 @@ class RedshopViewProduct_Detail extends RedshopView
 			}
 			else
 			{
-				$objhelper = new redhelper;
+				$objhelper = redhelper::getInstance();
 				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
 			}
 
