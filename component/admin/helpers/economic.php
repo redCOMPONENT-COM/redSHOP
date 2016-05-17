@@ -641,7 +641,7 @@ class economic
 			// Create Gift Card Entry for invoice
 			if ($orderitem[$i]->is_giftcard)
 			{
-				$this->createGFInvoiceLineInEconomic($orderitem[$i], $invoice_no, $user_id);
+				$this->createGFInvoiceLineInEconomic($orderitem[$i], $invoice_no);
 				continue;
 			}
 
@@ -722,7 +722,7 @@ class economic
 	 * @access public
 	 * @return array
 	 */
-	public function createGFInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
+	public function createGFInvoiceLineInEconomic($orderitem = array(), $invoice_no = "")
 	{
 		$product                 = new stdClass;
 		$product->product_id     = $orderitem->product_id;
@@ -745,7 +745,7 @@ class economic
 		$eco['product_quantity'] = $orderitem->product_quantity;
 		$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
-		$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+		$this->_dispatcher->trigger('createInvoiceLine', array($eco));
 	}
 
 	/**
@@ -761,7 +761,6 @@ class economic
 		for ($i = 0, $in = count($orderitem); $i < $in; $i++)
 		{
 			$displaywrapper   = "";
-			$displayattribute = "";
 			$displayaccessory = "";
 
 			$product_id = $orderitem[$i]->product_id;
@@ -824,8 +823,6 @@ class economic
 					$orderProperty = $this->_producthelper->getAttibuteProperty($propertyId, $attributeId, $productId);
 
 					$property_number = $orderProperty[0]->property_number;
-					$property_oprand = $orderPropdata[0]->section_oprand;
-					$property_price  = $orderPropdata[0]->section_price;
 					$property_name   = $orderPropdata[0]->section_name;
 
 					if ($property_number)
@@ -837,7 +834,7 @@ class economic
 				}
 			}
 
-			$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+			$this->_dispatcher->trigger('createInvoiceLine', array($eco));
 		}
 	}
 
@@ -895,7 +892,7 @@ class economic
 					$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 					$eco['shipping']         = 1;
 
-					$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+					$this->_dispatcher->trigger('createInvoiceLine', array($eco));
 				}
 			}
 		}
@@ -957,8 +954,8 @@ class economic
 				}
 
 				$eco['product_stock'] = 1;
-				$ecoProductNumber     = $this->_dispatcher->trigger('storeProduct', array($eco));
-				$InvoiceLine_no       = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+				$this->_dispatcher->trigger('storeProduct', array($eco));
+				$this->_dispatcher->trigger('createInvoiceLine', array($eco));
 			}
 		}
 	}
@@ -1454,7 +1451,7 @@ class economic
 			$eco[$i]['product_price']    = $orderAttitem[$i]->section_price;
 			$eco[$i]['product_quantity'] = $orderItem->product_quantity;
 			$eco[$i]['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
-			$InvoiceLine_no              = $this->_dispatcher->trigger('createInvoiceLine', array($eco[$i]));
+			$this->_dispatcher->trigger('createInvoiceLine', array($eco[$i]));
 		}
 	}
 

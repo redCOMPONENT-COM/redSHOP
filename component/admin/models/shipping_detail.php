@@ -81,7 +81,7 @@ class RedshopModelShipping_detail extends RedshopModel
 
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
-		$payment = $dispatcher->trigger('onWriteconfig', array($data));
+		$dispatcher->trigger('onWriteconfig', array($data));
 
 		return true;
 	}

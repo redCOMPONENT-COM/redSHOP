@@ -22,9 +22,6 @@ class Redaccesslevel
 
 	public function checkaccessofuser($group_id)
 	{
-		$app = JFactory::getApplication();
-
-
 		$db = JFactory::getDbo();
 		$query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
 			. " WHERE `view`=1 and `gid` = " . (int) $group_id;
@@ -45,15 +42,15 @@ class Redaccesslevel
 		{
 			if ($task == 'add')
 			{
-				$this->getgroup_accesstaskadd($view, $task, $group_id);
+				$this->getgroup_accesstaskadd($view, $group_id);
 			}
 			elseif ($task == 'edit')
 			{
-				$this->getgroup_accesstaskedit($view, $task, $group_id);
+				$this->getgroup_accesstaskedit($view, $group_id);
 			}
 			elseif ($task == 'remove')
 			{
-				$this->getgroup_accesstaskdelete($view, $task, $group_id);
+				$this->getgroup_accesstaskdelete($view, $group_id);
 			}
 		}
 	}
@@ -118,7 +115,7 @@ class Redaccesslevel
 		}
 	}
 
-	public function getgroup_accesstaskadd($view, $task, $group_id)
+	public function getgroup_accesstaskadd($view, $group_id)
 	{
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
@@ -176,7 +173,7 @@ class Redaccesslevel
 		}
 	}
 
-	public function getgroup_accesstaskedit($view, $task, $group_id)
+	public function getgroup_accesstaskedit($view, $group_id)
 	{
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
@@ -230,7 +227,7 @@ class Redaccesslevel
 		}
 	}
 
-	public function getgroup_accesstaskdelete($view, $task, $group_id)
+	public function getgroup_accesstaskdelete($view, $group_id)
 	{
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();

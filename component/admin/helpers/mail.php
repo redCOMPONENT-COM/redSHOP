@@ -124,7 +124,6 @@ class redshopMail
 			return false;
 		}
 
-		$cart = '';
 		$row = $this->_order_functions->getOrderDetails($order_id);
 
 		$orderpayment = $this->_order_functions->getOrderPaymentDetail($order_id);
@@ -143,10 +142,6 @@ class redshopMail
 
 		$manufacturer_email = array();
 		$supplier_email = array();
-		$reddesign_attachment = array();
-		$cartArr = array();
-
-		$cart_mdata           = '';
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
@@ -339,9 +334,7 @@ class redshopMail
 
 	public function sendOrderSpecialDiscountMail($order_id)
 	{
-		$redconfig     = new Redconfiguration;
 		$producthelper = new producthelper;
-		$extra_field   = new extra_field;
 
 		$config        = JFactory::getConfig();
 		$mailbcc       = array();
@@ -362,8 +355,6 @@ class redshopMail
 			return false;
 		}
 
-		$cart = '';
-
 		$manufacturer_email = array();
 
 		$row              = $this->_order_functions->getOrderDetails($order_id);
@@ -371,7 +362,6 @@ class redshopMail
 		$orderpayment     = $this->_order_functions->getOrderPaymentDetail($order_id);
 		$paymentmethod    = $this->_order_functions->getPaymentMethodInfo($orderpayment[0]->payment_method_class);
 		$paymentmethod    = $paymentmethod[0];
-		$partialpayment   = $this->_order_functions->getOrderPartialPayment($order_id);
 		$message          = $this->_carthelper->replaceOrderTemplate($row, $message);
 
 		// Set order paymethod name
@@ -397,7 +387,6 @@ class redshopMail
 
 		if ($isBankTransferPaymentType)
 		{
-			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 			$paymentparams = new JRegistry($paymentmethod->params);
 			$txtextra_info = $paymentparams->get('txtextra_info', '');
 
@@ -453,11 +442,7 @@ class redshopMail
 	public function createMultiprintInvoicePdf($oid)
 	{
 		$order_functions = new order_functions;
-		$shippinghelper  = new shipping;
-		$extra_field     = new extra_field;
-		$redconfig       = new Redconfiguration;
 		$redTemplate     = new Redtemplate;
-		$producthelper   = new producthelper;
 		$message         = "";
 
 		$pdfObj = RedshopHelperPdf::getInstance();
@@ -532,15 +517,15 @@ class redshopMail
 		$invoice_pdfName = "multiprintorder" . round(microtime(true) * 1000);
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 		$store_files = array('index.html', '' . $invoice_pdfName . '.pdf');
-		
-		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file) 
+
+		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file)
 		{
-			if (!in_array(basename($file), $store_files)) 
+			if (!in_array(basename($file), $store_files))
 			{
 				unlink($file);
 			}
 		}
-		
+
 		return $invoice_pdfName;
 	}
 
@@ -557,12 +542,9 @@ class redshopMail
 	protected function replaceInvoiceMailTemplate($orderId, $html, $subject = null, $type = 'pdf')
 	{
 		$redconfig         = new Redconfiguration;
-		$producthelper     = new producthelper;
-		$extra_field       = new extra_field;
 		$arr_discount_type = array();
 
 		$row           = $this->_order_functions->getOrderDetails($orderId);
-		$barcode_code  = $row->barcode;
 		$arr_discount  = explode('@', $row->discount_type);
 		$discount_type = '';
 
@@ -599,7 +581,6 @@ class redshopMail
 		$search_sub[]     = "{shopname}";
 		$replace_sub[]    = SHOP_NAME;
 
-		$user             = JFactory::getUser();
 		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$search_sub[]     = "{fullname}";
@@ -662,8 +643,6 @@ class redshopMail
 		$message           = "";
 		$subject           = "";
 		$mailbcc           = null;
-		$arr_discount_type = array();
-
 		$mailinfo          = $this->getMailtemplate(0, "invoice_mail");
 
 		if (count($mailinfo) > 0)
@@ -749,20 +728,14 @@ class redshopMail
 	public function sendRegistrationMail(&$data)
 	{
 		$app = JFactory::getApplication();
-
-		$acl = JFactory::getACL();
-		$db  = JFactory::getDbo();
 		$me  = JFactory::getUser();
 
 		$mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		$MailFrom = $app->getCfg('mailfrom');
 		$FromName = $app->getCfg('fromname');
-		$SiteName = $app->getCfg('sitename');
 
-		/*
-	 	 * Time for the email magic so get ready to sprinkle the magic dust...
-	 	 */
+		// Time for the email magic so get ready to sprinkle the magic dust...
 		$adminEmail   = $me->get('email');
 		$adminName    = $me->get('name');
 		$maildata     = "";
@@ -916,8 +889,6 @@ class redshopMail
 
 		$MailFrom      = $app->getCfg('mailfrom');
 		$FromName      = $app->getCfg('fromname');
-		$SiteName      = $app->getCfg('sitename');
-
 		$user_email    = "";
 		$firstname     = "";
 		$lastname      = "";
@@ -1029,8 +1000,6 @@ class redshopMail
 
 	public function sendQuotationMail($quotation_id, $status = 0)
 	{
-		$uri             = JURI::getInstance();
-		$url             = $uri->root();
 		$redconfig       = new Redconfiguration;
 		$producthelper   = new producthelper;
 		$extra_field     = new extra_field;
@@ -1567,7 +1536,7 @@ class redshopMail
 
 			if ($email)
 			{
-				if (JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $data_add, $mode = 1, null, $mailbcc))
+				if (JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $data_add, 1, null, $mailbcc))
 				{
 					return true;
 				}
@@ -1731,14 +1700,11 @@ class redshopMail
 		$data_add = str_replace("{name}", $catalog->name, $data_add);
 		$data_add = $this->imginmail($data_add);
 
-		if (JFactory::getMailer()->sendMail($from, $fromname, $catalog->email, $subject, $data_add, 1, null, $mailbcc, $attachment))
-		{
-			return true;
-		}
-
-		else
+		if (!JFactory::getMailer()->sendMail($from, $fromname, $catalog->email, $subject, $data_add, 1, null, $mailbcc, $attachment))
 		{
 			return false;
 		}
+
+		return true;
 	}
 }

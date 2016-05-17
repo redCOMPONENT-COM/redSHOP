@@ -21,8 +21,6 @@ class RedshopViewMedia_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-
-
 		$document = JFactory::getDocument();
 
 		$document->addScript('components/com_redshop/assets/js/media.js');
@@ -34,8 +32,6 @@ class RedshopViewMedia_detail extends RedshopView
 		$lists = array();
 
 		$detail = $this->get('data');
-		$model = $this->getModel('media_detail');
-
 		$isNew = ($detail->media_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');

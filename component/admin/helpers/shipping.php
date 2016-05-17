@@ -83,14 +83,10 @@ class shipping
 
 		$shippingArr = $this->getShopperGroupDefaultShipping();
 
-		$shopper_shipping = 0;
-
 		if (empty($shippingArr))
 		{
 			$cart        = $session->get('cart');
 			$idx         = (int) ($cart ['idx']);
-			$totalVolume = 0;
-
 			$shippingrate = array();
 
 			if ($idx)
@@ -243,14 +239,8 @@ class shipping
 		$db             = JFactory::getDbo();
 
 		$data           = $productHelper->getProductById($d['product_id']);
-
-		$totalQnt       = '';
 		$weighttotal    = $data->weight;
 		$volume         = $data->product_volume;
-		$totalLength    = $data->product_length;
-		$totalheight    = $data->product_height;
-		$totalwidth     = $data->product_width;
-
 		$userInfo       = $this->getShippingAddress($d['users_info_id']);
 		$country        = '';
 		$state          = '';
@@ -305,14 +295,9 @@ class shipping
 
 		$shippingArr = $this->getShopperGroupDefaultShipping();
 
-		$shopper_shipping = 0;
-
 		if (empty($shippingArr))
 		{
 			$cart         = $session->get('cart');
-			$idx          = (int) ($cart ['idx']);
-			$totalVolume  = 0;
-
 			$shippingrate = array();
 
 			$pwhere = 'AND ( FIND_IN_SET(' . (int) $product_id . ', shipping_rate_on_product) )';
@@ -511,7 +496,6 @@ class shipping
 		{
 			$length = $volumeShipping[$g]['length'];
 			$width  = $volumeShipping[$g]['width'];
-			$height = $volumeShipping[$g]['height'];
 
 			if ($g == 0)
 			{
@@ -1508,7 +1492,7 @@ class shipping
 
 			if ($bool)
 			{
-				$bool = $this->isProductDetailMatch($d);
+				$bool = $this->isProductDetailMatch();
 
 				if ($bool)
 				{
@@ -1668,7 +1652,7 @@ class shipping
 		return false;
 	}
 
-	public function isProductDetailMatch(&$d)
+	public function isProductDetailMatch()
 	{
 		$db = JFactory::getDbo();
 		$session = JFactory::getSession();

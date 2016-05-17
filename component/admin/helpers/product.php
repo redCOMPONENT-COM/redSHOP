@@ -27,12 +27,8 @@ class adminproducthelper
 
 	public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
 	{
-		$uri = JURI::getInstance();
-		$url = $uri->root();
 		$redconfig = new Redconfiguration;
 		$producthelper = new producthelper;
-
-		$product = $producthelper->getProductById($product_id);
 		$totalAccessory = count($accessory);
 		$accessorylist = "";
 
@@ -88,8 +84,6 @@ class adminproducthelper
 
 	function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
 	{
-		$uri = JURI::getInstance();
-		$url = $uri->root();
 		$producthelper = new producthelper;
 		$attributelist = "";
 
@@ -153,7 +147,6 @@ class adminproducthelper
 				$tmp_array[0]->text = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
 
 				$new_property = array_merge($tmp_array, $property);
-				$at_id = $product->product_id;
 				$chklist = "";
 
 				if ($attributes [$a]->allow_multiple_selection)
@@ -321,7 +314,7 @@ class adminproducthelper
 		return $displayrespoce;
 	}
 
-	public function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0, $shipping_box_post_id = 0)
+	public function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0)
 	{
 		$producthelper = new producthelper;
 		$order_functions = new order_functions;

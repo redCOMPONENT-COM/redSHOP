@@ -9,23 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopViewSample_catalog extends RedshopView
 {
 	public function display($tpl = null)
 	{
-
-
 		$uri = JFactory::getURI();
-
 		$this->setLayout('default');
-
-		$lists = array();
-
 		$detail = $this->get('data');
-
 		$model = $this->getModel('sample_catalog');
-
 		$sample = $model->getsample($detail->colour_id);
 
 		$this->detail = $detail;

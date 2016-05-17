@@ -631,9 +631,6 @@ class RedshopModelCategory_detail extends RedshopModel
 				$category_parent_id = $this->_db->loadResult();
 
 				$post = array();
-				$newwidth = THUMB_WIDTH;
-				$newheight = THUMB_HEIGHT;
-
 				$post['category_id'] = 0;
 				$post['category_name'] = $this->renameToUniqueValue('category_name', $copydata[$i]->category_name);
 				$post['category_short_description'] = $copydata[$i]->category_short_description;
@@ -664,7 +661,7 @@ class RedshopModelCategory_detail extends RedshopModel
 					JFile::upload($src, $dest);
 				}
 
-				$row = $this->store($post);
+				$this->store($post);
 			}
 		}
 

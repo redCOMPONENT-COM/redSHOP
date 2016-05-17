@@ -28,7 +28,7 @@ class RedshopViewCurrency extends RedshopView
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
-		
+
 		$state		    = $this->get('State');
 		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');
 		$filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -37,7 +37,6 @@ class RedshopViewCurrency extends RedshopView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$fields             = $this->get('Data');
-		$total              = $this->get('Total');
 		$pagination         = $this->get('Pagination');
 
 		$this->user         = JFactory::getUser();

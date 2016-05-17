@@ -323,7 +323,7 @@ class xmlHelper
 		$query = "INSERT INTO " . $this->_table_prefix . "xml_import_log "
 			. "(xmlimport_id, xmlimport_filename, xmlimport_date) "
 			. "VALUES "
-			. "(" . (int) $xmlexport_id . ", " . $this->_db->quote($filename) . "," . (int) time() . ") ";
+			. "(" . (int) $xmlimport_id . ", " . $this->_db->quote($filename) . "," . (int) time() . ") ";
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 	}
@@ -341,8 +341,6 @@ class xmlHelper
 	{
 		$config   = new Redconfiguration;
 		$shipping = new shipping;
-		$uri      = JURI::getInstance();
-		$url      = $uri->root();
 		$xmlarray = array();
 		$xmlexportdata = $this->getXMLExportInfo($xmlexport_id);
 
@@ -459,14 +457,6 @@ class xmlHelper
 				break;
 			default:
 				return false;
-		}
-
-		if ($xmlexportdata->filename != "")
-		{
-			if (is_file($destpath . $xmlexportdata->filename))
-			{
-//				unlink($destpath.$xmlexportdata->filename);
-			}
 		}
 
 		//Make the filename unique
@@ -722,7 +712,7 @@ class xmlHelper
 
 		/* Data in Variables ready to be written to an XML file */
 		$fp = fopen($destpath . $filename, 'w');
-		$write = fwrite($fp, $xml_document);
+		fwrite($fp, $xml_document);
 
 		$this->insertXMLExportlog($xmlexport_id, $filename);
 		// Update new generated exported file in database record
@@ -827,7 +817,7 @@ class xmlHelper
 
 		/* Data in Variables ready to be written to an XML file */
 		$fp = fopen($destpath . $filename, 'w');
-		$write = fwrite($fp, $xml_document);
+		fwrite($fp, $xml_document);
 
 		// Update new generated imported file in database record
 		$this->updateXMLImportFilename($xmlimport_id, $filename);
