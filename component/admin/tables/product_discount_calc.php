@@ -51,8 +51,9 @@ class Tableproduct_discount_calc extends JTable
 	 */
 	public function check()
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
+		// @todo  $discount_calc_unit is missing here
 		$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
 
 		$converted_area_start = $this->area_start * $unit * $unit;

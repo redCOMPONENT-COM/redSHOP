@@ -78,13 +78,7 @@ class RedshopModelSample_request extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$filter = $this->getState('filter');
-		$where = '';
-
-
-		$orderby = $this->_buildContentOrderBy();
-
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'sample_request ' . $where . $orderby;
+		$query = 'SELECT * FROM ' . $this->_table_prefix . 'sample_request ' . $this->_buildContentOrderBy();
 
 		return $query;
 	}

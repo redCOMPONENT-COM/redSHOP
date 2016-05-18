@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewNewsletter extends RedshopView
 {
@@ -23,8 +22,6 @@ class RedshopViewNewsletter extends RedshopView
 		$n = $cid[0];
 		$model = $this->getModel('newsletter');
 		$subscribers = $model->listallsubscribers($n);
-
-		$db = JFactory::getDbo();
 		$product_category = new product_category;
 
 		$document = JFactory::getDocument();
@@ -44,7 +41,6 @@ class RedshopViewNewsletter extends RedshopView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		$newsletters = $this->get('Data');
-		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$oprand = JFactory::getApplication()->input->getCmd('oprand', 'select');

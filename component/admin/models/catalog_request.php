@@ -73,13 +73,7 @@ class RedshopModelCatalog_request extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$filter = $this->getState('filter');
-		$where = '';
-
-
-		$orderby = $this->_buildContentOrderBy();
-
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_request ' . $where . $orderby;
+		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_request ' . $this->_buildContentOrderBy();
 
 		return $query;
 	}

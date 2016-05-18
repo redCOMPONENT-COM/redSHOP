@@ -10,10 +10,9 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-JLoader::load('RedshopHelperProduct');
 
 $document = JFactory::getDocument();
-$producthelper = new producthelper;
+$producthelper = producthelper::getInstance();
 $editor        = JFactory::getEditor();
 
 ?>
@@ -52,7 +51,7 @@ $editor        = JFactory::getEditor();
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>:</td>
 					<td>
 						<?php
-							$producthelper = new producthelper;
+							$producthelper = producthelper::getInstance();
 							$product       = $producthelper->getProductByID($this->detail->product_id);
 
 							$productname   = "";

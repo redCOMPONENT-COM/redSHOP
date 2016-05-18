@@ -423,7 +423,7 @@ if ($showbuttons)
 							$sectionIdName,
 							array(
 								'select2.ajaxOptions' => array('typeField' => ', media_section:$(\'#media_section\').val()'),
-								'select2.options' => array('placeholder' => JText::_('COM_REDSHOP_SECTION_NAME')),
+								'select2.options' => array('placeholder' => JText::_('COM_REDSHOP_SECTION_NAME'), 'minimumInputLength' => 0),
 								'list.attr' => $listAttributes
 							)
 						);

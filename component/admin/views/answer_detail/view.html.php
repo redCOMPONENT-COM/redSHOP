@@ -11,14 +11,12 @@ defined( '_JEXEC' ) or die;
 
 jimport( 'joomla.application.component.view' );
 
-JLoader::load('RedshopHelperProduct');
 
 class RedshopViewAnswer_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$producthelper = new producthelper;
-
+		$producthelper = producthelper::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_ANSWER') );

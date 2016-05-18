@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminText_library');
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelNewsletter extends RedshopModel
 {
@@ -368,7 +365,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function newsletterEntry($cid = array(), $userid = array(), $username = array())
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$jconfig = new jconfig;
 		$db = JFactory::getDbo();
 		$newsletter_id = JRequest::getVar('newsletter_id');
@@ -405,9 +402,8 @@ class RedshopModelNewsletter extends RedshopModel
 		$o = new stdClass;
 		$o->text = $newsletter_body;
 		JPluginHelper::importPlugin('content');
-		$dispatcher = JDispatcher::getInstance();
 		$x = array();
-		$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 1));
+		JDispatcher::getInstance()->trigger('onPrepareContent', array(&$o, &$x, 1));
 		$newsletter_template2 = $o->text;
 
 		$content = str_replace("{data}", $newsletter_template2, $newsletter_template);
@@ -462,7 +458,7 @@ class RedshopModelNewsletter extends RedshopModel
 		$texts = new text_library;
 		$content = $texts->replace_texts($content);
 
-		$redshopMail     = new redshopMail;
+		$redshopMail     = redshopMail::getInstance();
 		$data1 = $redshopMail->imginmail($content);
 
 		$retsubscriberid = array();

@@ -82,7 +82,6 @@ class RedshopModelCatalog extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$layout = JRequest::getVar('layout', 'default');
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'catalog_id');
 
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');

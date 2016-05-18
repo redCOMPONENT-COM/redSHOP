@@ -11,12 +11,29 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminImages');
-JLoader::load('RedshopHelperExtra_Field');
 
 class extra_field
 {
+	protected static $instance = null;
+
+	/**
+	 * Returns the extra_field object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  extra_field  The extra_field object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new extra_field;
+		}
+
+		return self::$instance;
+	}
+
 	public function list_all_field_in_product($section = extraField::SECTION_PRODUCT)
 	{
 		$db = JFactory::getDbo();
@@ -35,11 +52,8 @@ class extra_field
 
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
-		$db     = JFactory::getDbo();
-
-		$uri    = JURI::getInstance();
-		$url    = $uri->root();
-		$q      = "SELECT * FROM #__redshop_fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
+		$db = JFactory::getDbo();
+		$q  = "SELECT * FROM #__redshop_fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
 
 		if ($field_name != '')
 		{
@@ -345,7 +359,7 @@ class extra_field
 
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
-					$extra_field_value = JHTML::_('calendar', $date, $row_data[$i]->field_name, $row_data[$i]->field_name, $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
+					$extra_field_value = JHTML::_('calendar', $date, $row_data[$i]->field_name, $row_data[$i]->field_name, '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
@@ -914,9 +928,6 @@ class extra_field
 	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id)
 	{
 		$db = JFactory::getDbo();
-		$url = JURI::base();
-
-		$document = JFactory::getDocument();
 		JHtml::script('com_redshop/attribute.js', false, true);
 
 		$q = "SELECT * FROM #__redshop_fields "
@@ -937,8 +948,6 @@ class extra_field
 			{
 				$ex_field_title .= '<div class="userfield_label">' . $asterisk . $row_data[$i]->field_title . '</div>';
 			}
-
-			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
 			$text_value = '';
 
@@ -1047,7 +1056,7 @@ class extra_field
 						$ajax = '';
 						$req = $row_data[$i]->required;
 
-						$ex_field .= '<div class="userfield_input">' . JHTML::_('calendar', $text_value, 'extrafieldname' . $unique_id . '[]', $ajax . $row_data[$i]->field_name . '_' . $unique_id, $format = '%d-%m-%Y', array('class' => $row_data[$i]->field_class, 'size' => $row_data[$i]->field_size, 'maxlength' => $row_data[$i]->field_maxlength, 'required' => $req, 'userfieldlbl' => $row_data[$i]->field_title, 'errormsg' => '')) . '</div>';
+						$ex_field .= '<div class="userfield_input">' . JHTML::_('calendar', $text_value, 'extrafieldname' . $unique_id . '[]', $ajax . $row_data[$i]->field_name . '_' . $unique_id, '%d-%m-%Y', array('class' => $row_data[$i]->field_class, 'size' => $row_data[$i]->field_size, 'maxlength' => $row_data[$i]->field_maxlength, 'required' => $req, 'userfieldlbl' => $row_data[$i]->field_title, 'errormsg' => '')) . '</div>';
 						break;
 				}
 			}

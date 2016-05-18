@@ -7,11 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JLoader::load('RedshopHelperAdminOrder');
-$order_function = new order_functions;
+$order_function = order_functions::getInstance();
 
-
-$config = new Redconfiguration;
+$config = Redconfiguration::getInstance();
 $model = $this->getModel('newslettersubscr');
 ?>
 <script language="javascript" type="text/javascript">

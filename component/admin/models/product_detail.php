@@ -8,15 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminCategory');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Product_Detail Model.
@@ -230,7 +225,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$catorder = array();
 		$oldcategory = array();
 
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$row = $this->getTable('product_detail');
 
@@ -1442,7 +1437,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					}
 				}
 
-				$field = new extra_field;
+				$field = extra_field::getInstance();
 
 				// Field_section 1 :Product.
 				$field->copy_product_extra_field($pdata->product_id, $row->product_id);
@@ -2493,23 +2488,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 	}
 
 	/**
-	 * Function get_subattrprop.
-	 *
-	 * @param   int  $subattr_id  ID.
-	 *
-	 * @return  array
-	 */
-	public function get_subattrprop($subattr_id)
-	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
-				  WHERE subattribute_color_id IN (\'' . $subattr_id . '\')
-				  ORDER BY subattribute_color_id ASC';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
-	}
-
-	/**
 	 * Function delsubattr_diff.
 	 *
 	 * @param   array  $subattr_diff  ID.
@@ -2653,7 +2631,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (count($list) > 0)
 		{
-			foreach ($list as $key => $tag)
+			foreach ($list as $tag)
 			{
 				$sortlist[$tag->association_id][] = $tag->tag_name;
 			}
@@ -2763,7 +2741,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (count($tags) > 0)
 			{
-				foreach ($tags as $key => $tag)
+				foreach ($tags as $tag)
 				{
 					// Split tag to type ID and tag ID.
 					list($type_id, $tag_id) = explode('.', $tag);
@@ -3028,7 +3006,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function  attribute_empty()
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$database = JFactory::getDbo();
 
 		if ($this->id)
@@ -4169,7 +4147,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_subprop($sp, $subattribute_id)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
 
@@ -4217,7 +4195,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_prop($attribute_id, $property_id)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$propertyList  = $producthelper->getAttibuteProperty(0, $attribute_id);
 
@@ -4272,7 +4250,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_attibute($product_id, $attribute_id, $attribute_set_id)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if (empty($attribute_set_id) && empty($product_id))
 		{
@@ -4462,7 +4440,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$info = $producthelper->getChildProduct($parentid);
 
 		for ($i = 0, $in = count($info); $i < $in; $i++)
@@ -4597,7 +4575,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copyDiscountCalcdata($old_product_id, $new_product_id, $discount_calc_method)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$query = "SELECT * FROM `" . $this->table_prefix . "product_discount_calc`
 				  WHERE product_id='" . $old_product_id . "' ";
 		$this->_db->setQuery($query);

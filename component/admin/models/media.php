@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperAdminMedia');
-
 class RedshopModelMedia extends RedshopModel
 {
 	/**
@@ -231,8 +229,6 @@ class RedshopModelMedia extends RedshopModel
 							$tmp->height = @$info[1];
 							$tmp->type = @$info[2];
 							$tmp->mime = @$info['mime'];
-
-							$filesize = $mediaHelper->parseSize($tmp->size);
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{

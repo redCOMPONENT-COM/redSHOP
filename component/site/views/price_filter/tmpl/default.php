@@ -25,11 +25,10 @@ $show_addtocart           = JRequest::getBool('show_addtocart');
 $show_discountpricelayout = JRequest::getBool('show_discountpricelayout');
 
 $k = 0;
-$configobj = new Redconfiguration;
+$configobj = Redconfiguration::getInstance();
 
 // Get product helper
-JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper;?>
+$producthelper = producthelper::getInstance();?>
 <table border="0" cellpadding="2" cellspacing="2">
 	<?php
 	for ($i = 0, $countPrdList = count($this->prdlist); $i < $countPrdList; $i++)

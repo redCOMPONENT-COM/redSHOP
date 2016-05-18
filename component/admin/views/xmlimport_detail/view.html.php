@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminXmlHelper');
 
 class RedshopViewXmlimport_detail extends RedshopView
 {
@@ -33,7 +32,6 @@ class RedshopViewXmlimport_detail extends RedshopView
 		$xmlprdextrafieldtag   = array();
 		$updatefiletag         = array();
 		$updatebillingtag      = array();
-		$updateshippinhtag     = array();
 		$updateprdexttag       = array();
 		$updateitemtag         = array();
 		$updatestocktag        = array();

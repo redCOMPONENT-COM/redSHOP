@@ -19,7 +19,7 @@ class RedshopControllerShipping extends RedshopController
 		// Add product to economic
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic;
+			$economic = economic::getInstance();
 
 			$query = "SELECT s.*, r.* FROM #__redshop_shipping_rate r "
 				. "LEFT JOIN #__extensions s ON r.shipping_class = s.element "

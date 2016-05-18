@@ -9,15 +9,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperUser');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminProduct');
-JLoader::load('RedshopHelperAdminShipping');
 
 class RedshopModelAddorder_detail extends RedshopModel
 {
@@ -36,7 +27,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
-		$this->_order_functions = new order_functions;
+		$this->_order_functions = order_functions::getInstance();
 		$this->_db = JFactory::getDbo();
 	}
 
@@ -154,7 +145,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function storeShipping($data)
 	{
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 		$data['address_type'] = 'BT';
 		$data['createaccount'] = (isset($data['username']) && $data['username'] != "") ? 1 : 0;
 		$data['user_email'] = $data['email1'] = $data['email'];
@@ -245,14 +236,13 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function store($postdata)
 	{
-		$redshopMail = new redshopMail;
-		$order_functions = new order_functions;
-		$helper = new redhelper;
-		$producthelper = new producthelper;
-		$rsCarthelper = new rsCarthelper;
-		$shippinghelper = new shipping;
-		$adminproducthelper = new adminproducthelper;
-		$stockroomhelper = new rsstockroomhelper;
+		$redshopMail = redshopMail::getInstance();
+		$order_functions = order_functions::getInstance();
+		$helper = redhelper::getInstance();
+		$producthelper = producthelper::getInstance();
+		$rsCarthelper = rsCarthelper::getInstance();
+		$adminproducthelper = adminProductHelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
@@ -314,8 +304,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 			JTable::addIncludePath(REDSHOP_ADMIN . '/tables');
 		}
 
-		$order_shipping = RedshopShippingRate::decrypt($row->ship_method_id);
-
 		$rowOrderStatus = $this->getTable('order_status_log');
 		$rowOrderStatus->order_id = $row->order_id;
 		$rowOrderStatus->order_status = $row->order_status;
@@ -371,7 +359,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
 			$retAccArr = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory = $retAccArr[0];
-			$accessory_total_price = $retAccArr[1];
 			$accessory_vat_price = $retAccArr[2];
 
 			$wrapper_price = 0;
@@ -873,7 +860,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
 			$issplit = 0;
-			$economic = new economic;
+			$economic = economic::getInstance();
 
 			if (isset($postdata['issplit']) && $postdata['issplit'] == 1)
 			{
@@ -894,7 +881,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			$invoiceHandle = $economic->createInvoiceInEconomic($row->order_id, $economicdata);
+			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
@@ -907,7 +894,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				if (is_file($bookinvoicepdf))
 				{
-					$ret = $redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					$redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -923,14 +910,14 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function sendRegistrationMail($post)
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$redshopMail->sendRegistrationMail($post);
 	}
 
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
-		$extra_field = new extra_field;
-		$Redconfiguration = new Redconfiguration;
+		$extra_field = extra_field::getInstance();
+		$Redconfiguration = Redconfiguration::getInstance();
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE address_type like "ST" '

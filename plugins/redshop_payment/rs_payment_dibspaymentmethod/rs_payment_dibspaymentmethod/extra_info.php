@@ -12,10 +12,7 @@ $url  = $uri->root();
 $user = JFactory::getUser();
 $db   = JFactory::getDbo();
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperHelper');
 
 $sql           = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
@@ -73,7 +70,7 @@ if ($this->params->get("is_test") == "1")
 
 $version            = "2";
 $dibsurl            = "https://payment.architrade.com/paymentweb/start.action";
-$currencyClass      = new CurrencyHelper;
+$currencyClass      = CurrencyHelper::getInstance();
 $formdata['amount'] = $currencyClass->convert($order_details[0]->order_total, '', $this->params->get("dibs_currency"));
 $formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
 

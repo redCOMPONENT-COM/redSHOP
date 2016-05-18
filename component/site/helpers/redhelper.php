@@ -8,8 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperUser');
 
 class redhelper
 {
@@ -22,6 +20,26 @@ class redhelper
 	protected static $redshopMenuItems;
 
 	protected static $isRedProductFinder = null;
+
+	protected static $instance = null;
+
+	/**
+	 * Returns the redHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  redHelper  The redHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new redhelper;
+		}
+
+		return self::$instance;
+	}
 
 	public function __construct()
 	{
@@ -101,14 +119,13 @@ class redhelper
 	 */
 	public function dbtocart()
 	{
-		JLoader::load('RedshopHelperCart');
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = JFactory::getUser();
 
 		if ($user->id && !isset($cart['idx']))
 		{
-			$rscarthelper = new rsCarthelper;
+			$rscarthelper = rsCarthelper::getInstance();
 			$rscarthelper->dbtocart();
 		}
 	}
@@ -376,7 +393,7 @@ class redhelper
 	 */
 	public function getShopperGroupPortal()
 	{
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserHelper::getInstance();
 		$user = JFactory::getUser();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
@@ -398,7 +415,7 @@ class redhelper
 	public function getShopperGroupCategory($cid = 0)
 	{
 		$user = JFactory::getUser();
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
@@ -434,7 +451,7 @@ class redhelper
 		}
 
 		$user = JFactory::getUser();
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserhelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
@@ -711,7 +728,7 @@ class redhelper
 	// Get checkout Itemid
 	public function getCheckoutItemid()
 	{
-		$userhelper         = new rsUserhelper;
+		$userhelper         = rsUserHelper::getInstance();
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
@@ -731,7 +748,7 @@ class redhelper
 	// Get cart Itemid
 	public function getCartItemid()
 	{
-		$userhelper         = new rsUserhelper;
+		$userhelper         = rsUserHelper::getInstance();
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
@@ -756,7 +773,6 @@ class redhelper
 	 */
 	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = WATERMARK_PRODUCT_IMAGE)
 	{
-		JLoader::load('RedshopHelperAdminImages');
 		$pathMainImage = $section . '/' . $ImageName;
 
 		try
@@ -791,7 +807,7 @@ class redhelper
 			}
 
 			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
-			$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumbWidth, $thumbHeight, 1);
+			$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, 1);
 			$filename_path_info = pathinfo($filename);
 			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $filename_path_info['basename'];
 			ob_start();
@@ -873,7 +889,7 @@ class redhelper
 			else
 			{
 				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $section, $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING);
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
 				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $filename_path_info['basename'];
 			}
@@ -891,7 +907,7 @@ class redhelper
 
 		$db = JFactory::getDbo();
 
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "order_users_info AS oui "
 			. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oui.order_id "
@@ -908,7 +924,7 @@ class redhelper
 		$paymentData       = $this->_db->loadobject();
 		$paymentName       = $paymentData->payment_method_name;
 		$payment_method_id = $paymentData->payment_method_id;
-		$redTemplate       = new Redtemplate;
+		$redTemplate       = Redtemplate::getInstance();
 		$TemplateDetail    = $redTemplate->getTemplate("clicktell_sms_message");
 
 		$order_shipping_class = 0;
@@ -1005,7 +1021,7 @@ class redhelper
 
 	public function replaceMessage($message, $orderData, $paymentName)
 	{
-		$shippinghelper  = new shipping;
+		$shippinghelper  = shipping::getInstance();
 		$shipping_method = '';
 		$details         = RedshopShippingRate::decrypt($orderData->ship_method_id);
 
@@ -1021,7 +1037,7 @@ class redhelper
 			$shipping_method = $details[1] . $ext;
 		}
 
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$userData = $producthelper->getUserInformation($orderData->user_id);
 

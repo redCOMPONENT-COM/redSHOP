@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperExtra_field');
 
 /**
  * registration Controller.
@@ -35,8 +32,8 @@ class RedshopControllerRegistration extends RedshopController
 		$post   = JRequest::get('post');
 		$Itemid = JRequest::getInt('Itemid', 0);
 
-		$prodhelperobj = new producthelper;
-		$redshopMail   = new redshopMail;
+		$prodhelperobj = producthelper::getInstance();
+		$redshopMail   = redshopMail::getInstance();
 
 		$model   = $this->getModel('registration');
 		$success = $model->store($post);
@@ -86,7 +83,6 @@ class RedshopControllerRegistration extends RedshopController
 	 */
 	public function captcha()
 	{
-		JLoader::load('RedshopHelperCaptcha');
 
 		$width       = JRequest::getInt('width', 120);
 		$height      = JRequest::getInt('height', 40);
@@ -133,9 +129,9 @@ class RedshopControllerRegistration extends RedshopController
 	 */
 	public function getCompanyOrCustomer()
 	{
-		$redTemplate  = new Redtemplate;
-		$rsUserhelper = new rsUserhelper;
-		$extraField   = new extraField;
+		$redTemplate  = Redtemplate::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
+		$extraField   = extraField::getInstance();
 
 		$get = JRequest::get('get');
 		$template_id = $get['template_id'];

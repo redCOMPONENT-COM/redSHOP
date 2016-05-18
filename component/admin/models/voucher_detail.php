@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelVoucher_detail extends RedshopModel
 {
 	public $_id = null;
@@ -163,16 +162,6 @@ class RedshopModelVoucher_detail extends RedshopModel
 		}
 
 		return true;
-	}
-
-	public function product_data()
-	{
-		$query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv,"
-			. $this->_table_prefix . "product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
-		$this->_db->setQuery($query);
-		$this->_productdata = $this->_db->loadObjectList();
-
-		return $this->_productdata;
 	}
 
 	public function voucher_products_sel($voucher_id)

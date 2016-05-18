@@ -19,7 +19,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 	public function send_newsletter_preview()
 	{
-		$view = $this->getView('newsletter', 'preview');
+		$this->getView('newsletter', 'preview');
 		parent::display();
 	}
 

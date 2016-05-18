@@ -32,7 +32,7 @@ class PlgSystemRedSHOP extends JPlugin
 		// Load only from frontend
 		if (!$app->isAdmin())
 		{
-			JLoader::load('RedshopHelperRedshop.js');
+			RedshopHelperJs::init();
 
 			// Use different CSS for print layout
 			if ($app->input->getCmd('print', ''))

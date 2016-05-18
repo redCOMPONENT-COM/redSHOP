@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.html.parameter');
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperProduct');
 
 /**
  *    Build URL routes for redSHOP
@@ -52,9 +51,6 @@ function redshopBuildRoute(&$query)
 	{
 		$Itemid = 101;
 	}
-
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	JLoader::load('RedshopHelperAdminCategory');
 
 	$product_category = new product_category;
 	$infoid           = '';
@@ -508,7 +504,7 @@ function redshopBuildRoute(&$query)
 			}
 
 			$segments[] = $task;
-			$productHelper = new producthelper;
+			$productHelper = producthelper::getInstance();
 			$product = $productHelper->getProductById($pid);
 
 			if ($pid && $product)
@@ -712,8 +708,6 @@ function redshopBuildRoute(&$query)
 function redshopParseRoute($segments)
 {
 	$vars = array();
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
 	$db           = JFactory::getDbo();
 	$firstSegment = $segments[0];
 

@@ -29,7 +29,7 @@ class RedshopModelAccount_billto extends RedshopModel
 
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
-				$order_functions = new order_functions;
+				$order_functions = order_functions::getInstance();
 				$detail          = $order_functions->getBillingAddress(-$auth['users_info_id']);
 
 				if (!isset($detail->user_id))
@@ -89,7 +89,7 @@ class RedshopModelAccount_billto extends RedshopModel
 
 	public function store($post)
 	{
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 
 		$post['billisship']    = 1;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;

@@ -55,7 +55,6 @@ class Com_RedshopInstallerScript
 		// $parent is the class calling this method
 
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperAdminTemplate');
 
 		$this->com_install('install');
 	}
@@ -92,7 +91,6 @@ class Com_RedshopInstallerScript
 		$this->cleanUpgradeFiles($parent);
 
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperAdminTemplate');
 		$this->com_install('update');
 	}
 
@@ -212,7 +210,7 @@ class Com_RedshopInstallerScript
 		// Demo content insert
 
 		// Start template demo content
-		$redtemplate = new Redtemplate;
+		$redtemplate = Redtemplate::getInstance();
 		$q           = "INSERT IGNORE INTO `#__redshop_template` (`template_id`, `template_name`, `template_section`, `template_desc`, `published`) VALUES
 					(8, 'grid', 'category', '" . $redtemplate->getInstallSectionTemplate('grid') . "', 1),
 					(5, 'list', 'category', '" . $redtemplate->getInstallSectionTemplate('list') . "', 1),
@@ -285,7 +283,7 @@ class Com_RedshopInstallerScript
 		{
 			$data = $list[$i];
 
-			$red_template        = new Redtemplate;
+			$red_template        = Redtemplate::getInstance();
 			$tname               = $data->template_name;
 			$data->template_name = strtolower($data->template_name);
 			$data->template_name = str_replace(" ", "_", $data->template_name);
@@ -468,11 +466,10 @@ class Com_RedshopInstallerScript
 	{
 		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperUser');
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 		$cnt        = $userhelper->userSynchronization();
 	}
 
@@ -484,7 +481,6 @@ class Com_RedshopInstallerScript
 	private function redshopHandleCFGFile()
 	{
 		JLoader::import('redshop.library');
-		JLoader::load('RedshopHelperAdminConfiguration');
 
 		// Include redshop.cfg.php file for cfg variables
 		$cfgfile = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
@@ -501,7 +497,7 @@ class Com_RedshopInstallerScript
 			require_once $cfgfile;
 		}
 
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 
 		// Declaration
 		$cfgarr = array();
@@ -1230,17 +1226,42 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
-		if (version_compare($this->getOldParam('version'), '1.6', '>='))
+		if (version_compare($this->getOldParam('version'), '1.6.1', '<='))
 		{
-			array_push(
-				$files,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php',
-				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml'
-			);
-
 			array_push(
 				$folders,
 				JPATH_LIBRARIES . '/redshop/config'
+			);
+
+			array_push(
+				$files,				
+				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',				
+				JPATH_SITE . '/components/com_redshop/helpers/captcha.php',
+				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
+				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
+				JPATH_SITE . '/components/com_redshop/helpers/extra_field.php',
+				JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php',
+				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
+				JPATH_SITE . '/components/com_redshop/helpers/product.php',
+				JPATH_SITE . '/components/com_redshop/helpers/user.php',
+				JPATH_SITE . '/components/com_redshop/helpers/zip.php',
+				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
+				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/access_level.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/images.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/media.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/menu.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/update.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php'
 			);
 		}
 

@@ -10,13 +10,12 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminQuotation');
 
 class RedshopViewQuotation_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$quotationHelper = new quotationHelper;
+		$quotationHelper = quotationHelper::getInstance();
 
 		$layout = JRequest::getVar('layout', 'default');
 
@@ -29,7 +28,6 @@ class RedshopViewQuotation_detail extends RedshopView
 
 		$uri = JFactory::getURI();
 		$lists = array();
-		$model = $this->getModel();
 
 		if ($layout != 'default')
 		{
@@ -37,8 +35,6 @@ class RedshopViewQuotation_detail extends RedshopView
 		}
 
 		$detail = $this->get('data');
-		$redconfig = new Redconfiguration;
-
 		$isNew = ($detail->quotation_id < 1);
 		$userarr = $this->get('userdata');
 

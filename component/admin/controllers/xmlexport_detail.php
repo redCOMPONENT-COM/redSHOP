@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-JLoader::load('RedshopHelperAdminXmlHelper');
-
 class RedshopControllerXmlexport_detail extends RedshopController
 {
 	public function __construct($default = array())
@@ -129,9 +126,6 @@ function setChildElement()
 	$post = JRequest::get('post');
 	$session = JFactory::getSession();
 	$childelement = $session->get('childelement');
-
-	$model = $this->getModel('xmlexport_detail');
-
 	$resarray = array();
 	$uarray = array();
 	$columns = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
@@ -152,7 +146,7 @@ function setChildElement()
 
 	if ($seclen != $firstlen)
 	{
-		echo $msg = JText::_('COM_REDSHOP_DUPLICATE_FIELDNAME');
+		echo JText::_('COM_REDSHOP_DUPLICATE_FIELDNAME');
 
 		return;
 	}

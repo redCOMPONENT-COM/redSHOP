@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperUser');
 
 /**
  * Newsletter Controller.
@@ -55,7 +54,7 @@ class RedshopControllerNewsletter extends RedshopController
 		}
 		else
 		{
-			$userhelper = new rsUserhelper;
+			$userhelper = rsUserHelper::getInstance();
 
 			if ($userhelper->newsletterSubscribe(0, $post, 1))
 			{
@@ -109,7 +108,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		if ($alreadysubscriberbymail)
 		{
-			$userhelper = new rsUserhelper;
+			$userhelper = rsUserHelper::getInstance();
 
 			if ($userhelper->newsletterUnsubscribe($email))
 			{

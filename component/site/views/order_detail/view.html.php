@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewOrder_detail extends RedshopView
 {
@@ -18,7 +17,7 @@ class RedshopViewOrder_detail extends RedshopView
 	{
 		$app = JFactory::getApplication();
 
-		$order_functions = new order_functions;
+		$order_functions = order_functions::getInstance();
 
 		$print = JRequest::getInt('print');
 
@@ -31,7 +30,9 @@ class RedshopViewOrder_detail extends RedshopView
 		<?php
 		}
 
-		$prodhelperobj = new producthelper;
+		$params = $app->getParams('com_redshop');
+
+		$prodhelperobj = producthelper::getInstance();
 		$prodhelperobj->generateBreadcrumb();
 
 		$user          = JFactory::getUser();

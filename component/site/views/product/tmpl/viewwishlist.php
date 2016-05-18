@@ -12,12 +12,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-JLoader::load('RedshopHelperAdminCategory');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
 
-$config        = new Redconfiguration;
-$producthelper = new producthelper;
+$config        = Redconfiguration::getInstance();
+$producthelper = producthelper::getInstance();
 
 $url        = JURI::base();
 $wishlists  = $this->wishlists;
@@ -86,9 +83,9 @@ else // If user logged in than display this code.
 function display_products($rows)
 {
 	$url        = JURI::base();
-	$extra_data = new producthelper;
+	$extra_data = producthelper::getInstance();
 
-	$producthelper = new producthelper;
+	$producthelper = producthelper::getInstance();
 
 	for ($i = 0, $in = count($rows); $i < $in; $i++)
 	{

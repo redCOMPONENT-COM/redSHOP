@@ -10,13 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperAdminQuotation');
-JLoader::load('RedshopHelperAdminProduct');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminStockroom');
 
 class RedshopModelQuotation_detail extends RedshopModel
 {
@@ -68,7 +61,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function &getuserdata()
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		if ($this->_data->user_id)
 		{
@@ -119,7 +112,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function _initData()
 	{
-		$quotationHelper = new quotationHelper;
+		$quotationHelper = quotationHelper::getInstance();
 
 		if (empty($this->_data))
 		{
@@ -204,7 +197,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function sendQuotationMail($quotaion_id)
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$send = $redshopMail->sendQuotationMail($quotaion_id);
 
 		return $send;
@@ -212,13 +205,11 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$quotationHelper = new quotationHelper;
+		$quotationHelper = quotationHelper::getInstance();
 
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$db = JFactory::getDbo();
-
 			$items = $quotationHelper->getQuotationProduct($cids);
 
 			for ($i = 0, $in = count($items); $i < $in; $i++)
@@ -284,7 +275,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function deleteitem($cids = 0, $quotation_id = 0)
 	{
-		$quotationHelper = new quotationHelper;
+		$quotationHelper = quotationHelper::getInstance();
 
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
@@ -380,10 +371,10 @@ class RedshopModelQuotation_detail extends RedshopModel
 	// Add new Quotation Item
 	public function newQuotationItem($data)
 	{
-		$quotationHelper = new quotationHelper;
-		$rsCarthelper = new rsCarthelper;
-		$producthelper = new producthelper;
-		$stockroomhelper = new rsstockroomhelper;
+		$quotationHelper = quotationHelper::getInstance();
+		$rsCarthelper = rsCarthelper::getInstance();
+		$producthelper = producthelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$item = $data['quotation_item'];
 
 		// Get Order Info

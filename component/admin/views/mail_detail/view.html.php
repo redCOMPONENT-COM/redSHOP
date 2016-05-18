@@ -65,7 +65,7 @@ class RedshopViewMail_detail extends RedshopView
 			);
 		}
 
-		$redtemplate = new Redtemplate;
+		$redtemplate = Redtemplate::getInstance();
 		$optiontype = $redtemplate->getMailSections();
 		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'mail_section',
 			'class="inputbox" size="1" onchange="mail_select(this)" ', 'value', 'text', $detail->mail_section
