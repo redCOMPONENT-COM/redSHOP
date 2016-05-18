@@ -17,7 +17,7 @@ class RedshopControllerUser_detail extends RedshopController
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 		$this->_table_prefix = '#__redshop_';
-		$this->redhelper = new redhelper;
+		$this->redhelper = redhelper::getInstance();
 	}
 
 	public function edit()
@@ -200,5 +200,36 @@ class RedshopControllerUser_detail extends RedshopController
 		$json['email'] = $email;
 		$encoded = json_encode($json);
 		die($encoded);
+	}
+	
+	public function ajaxValidationUsername()
+	{
+		$username = JFactory::getApplication()->input->getString('username', '');
+		$user_id = JFactory::getApplication()->input->getInt('user_id', 0);
+
+		$model = $this->getModel('user_detail');
+		$usernameAvailability = $model->validate_user($username, $user_id);
+
+		$message = JText::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
+		$type = "success";
+
+		if ($usernameAvailability > 0)
+		{
+			$message = JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
+			$type = "error";
+		}
+
+		if ($username == "")
+		{
+			$message = JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME');
+			$type = "error";
+		}
+
+		$result = array();
+		$result['type'] = $type;
+		$result['message'] = $message;
+
+		$result = json_encode($result);
+		die($result);
 	}
 }

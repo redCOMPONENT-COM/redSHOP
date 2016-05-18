@@ -11,9 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminText_library');
-JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelConfiguration extends RedshopModel
 {
@@ -35,7 +32,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$this->Redconfiguration = new Redconfiguration;
+		$this->Redconfiguration = Redconfiguration::getInstance();
 
 		$this->_configpath = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 	}
@@ -666,7 +663,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$mailfrom = $data['news_mail_from'];
 		$mailfromname = $data['news_from_name'];
 		$to = $data['newsletter_test_email'];
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$uri = JURI::getInstance();
 		$url = $uri->root();
 
@@ -689,7 +686,7 @@ class RedshopModelConfiguration extends RedshopModel
 		JPluginHelper::importPlugin('content');
 		$dispatcher = JDispatcher::getInstance();
 		$x = array();
-		$results = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
+		$dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 		$newsletter_template2 = $o->text;
 
 		$content = str_replace("{data}", $newsletter_template2, $newsletter_template);
@@ -744,7 +741,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$texts = new text_library;
 		$content = $texts->replace_texts($content);
 
-		$redshopMail     = new redshopMail;
+		$redshopMail     = redshopMail::getInstance();
 		$data1 = $redshopMail->imginmail($content);
 
 		$to = trim($to);
@@ -800,8 +797,6 @@ class RedshopModelConfiguration extends RedshopModel
 		$filecontent = "";
 
 		$assets_dir = JPATH_ROOT . 'components/com_redshop/assets';
-
-		$assets_download_dir = JPATH_ROOT . 'components/com_redshop/assets/download';
 
 		if (strstr($product_download_root, JPATH_ROOT) && $product_download_root != JPATH_ROOT)
 		{
@@ -881,7 +876,6 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function resetTemplate()
 	{
-		$Redtemplate = new Redtemplate;
 		$db = JFactory::getDbo();
 		$q = "SELECT * FROM #__redshop_template";
 		$db->setQuery($q);
@@ -891,8 +885,7 @@ class RedshopModelConfiguration extends RedshopModel
 		{
 			$data = $list[$i];
 
-			$red_template = new Redtemplate;
-			$tname = $data->template_name;
+			$red_template = Redtemplate::getInstance();
 			$data->template_name = strtolower($data->template_name);
 			$data->template_name = str_replace(" ", "_", $data->template_name);
 			$tempate_file = $red_template->getTemplatefilepath($data->template_section, $data->template_name, true);

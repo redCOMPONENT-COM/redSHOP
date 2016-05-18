@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminMail');
 
 /**
  * Class ask question model
@@ -128,7 +127,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 			return false;
 		}
 
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$Itemid     = $data['Itemid'];
 		$mailbcc    = null;
 		$subject    = '';

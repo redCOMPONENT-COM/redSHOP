@@ -13,15 +13,7 @@ JLoader::import('redshop.library');
 $user           = JFactory::getUser();
 $db = JFactory::getDbo();
 
-// Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-
 $rows = array();
-JLoader::load('RedshopHelperProduct');
 
 if (MY_WISHLIST)
 {

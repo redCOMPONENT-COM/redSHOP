@@ -21,7 +21,7 @@ class RedshopViewZipcode_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$Redconfiguration = new Redconfiguration;
+		$Redconfiguration = Redconfiguration::getInstance();
 		$uri = JFactory::getURI();
 		$lists = array();
 		$detail = $this->get('data');

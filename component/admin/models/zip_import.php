@@ -11,11 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
-
 jimport('joomla.filesystem.file');
-
-JLoader::load('RedshopHelperAdminThumbnail');
-require_once JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
 class RedshopModelZip_import extends RedshopModel
 {
@@ -34,9 +30,7 @@ class RedshopModelZip_import extends RedshopModel
 
 	public function getData()
 	{
-		$thumb = new thumbnail;
 		$app = JFactory::getApplication();
-		$obj_img = new thumbnail_images;
 
 		$this->getzipfilenames();
 
@@ -73,9 +67,7 @@ class RedshopModelZip_import extends RedshopModel
 
 	public function getzipfilenames()
 	{
-		$live_path = JURI::base();
 		$user = JFactory::getUser();
-		$x = 5;
 		$url = REMOTE_UPDATE_DOMAIN_URL . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" .
 			$user->username . "&reddomain=" . JURI::base() . "";
 
@@ -91,7 +83,6 @@ class RedshopModelZip_import extends RedshopModel
 		$data = curl_exec($ch);
 
 		//Close the connection
-		preg_match_all("#<span id='zip'>(.*?)</span>#is", $data, $out);
 		curl_close($ch);
 		ob_clean();
 		$fp = fopen(JPATH_ROOT . '/tmp/com_jcomments_new.zip', 'w');
@@ -180,11 +171,6 @@ class RedshopModelZip_import extends RedshopModel
 	 */
 	public function _getPackageFromUrl()
 	{
-		// Get a database connector
-
-		$db = JFactory::getDbo();
-		$tempno = $_SESSION['zipno'];
-
 		// Get the URL of the package to install
 		$url = trim(strip_tags(str_replace('administrator//', '', $_SESSION['filename'][0])));
 

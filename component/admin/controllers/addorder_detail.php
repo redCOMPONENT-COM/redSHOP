@@ -9,13 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperAdminProduct');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminShipping');
-
 class RedshopControllerAddorder_detail extends RedshopController
 {
 	public function __construct($default = array())
@@ -38,15 +31,15 @@ class RedshopControllerAddorder_detail extends RedshopController
 	{
 		$post = JRequest::get('post');
 
-		$adminproducthelper = new adminproducthelper;
-		$order_functions = new order_functions;
-		$shippinghelper = new shipping;
+		$adminproducthelper = adminProductHelper::getInstance();
+		$order_functions = order_functions::getInstance();
+		$shippinghelper = shipping::getInstance();
 
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['order_id'] = $cid [0];
 		$model = $this->getModel('addorder_detail');
-		$post['order_number'] = $order_number = $order_functions->generateOrderNumber();
+		$post['order_number'] = $order_functions->generateOrderNumber();
 
 		$orderItem = $adminproducthelper->redesignProductItem($post);
 		$post['order_item'] = $orderItem;
@@ -56,8 +49,8 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		if (USE_STOCKROOM == 1)
 		{
-			$stockroomhelper = new rsstockroomhelper;
-			$producthelper = new producthelper;
+			$stockroomhelper = rsstockroomhelper::getInstance();
+			$producthelper = producthelper::getInstance();
 
 			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{
@@ -134,7 +127,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$paymentinfo->accepted_credict_card = $paymentparams->get("accepted_credict_card");
 		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
 
-		$cartHelper = new rsCartHelper;
+		$cartHelper = rsCarthelper::getInstance();
 
 		$subtotal = $post['order_subtotal'];
 		$update_discount = 0;
@@ -215,7 +208,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$objorder = new order_functions;
+			$objorder = order_functions::getInstance();
 			$objorder->getpaymentinformation($row, $post);
 		}
 		else
@@ -276,7 +269,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function getShippingRate()
 	{
-		$shippinghelper = new shipping;
+		$shippinghelper = shipping::getInstance();
 		$get = JRequest::get('get');
 		$shipping = RedshopShippingRate::decrypt($get['shipping_rate_id']);
 		$order_shipping = 0;

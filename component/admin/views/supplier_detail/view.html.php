@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopViewSupplier_detail extends RedshopView
 {
 	/**
@@ -21,7 +20,6 @@ class RedshopViewSupplier_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		JLoader::load('RedshopHelperAdminExtra_field');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 
@@ -32,11 +30,7 @@ class RedshopViewSupplier_detail extends RedshopView
 		$lists = array();
 
 		$detail = $this->get('data');
-
-		$model = $this->getModel('supplier_detail');
-
 		$isNew = ($detail->supplier_id < 1);
-
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_manufact48');

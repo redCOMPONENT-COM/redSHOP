@@ -9,12 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperUser');
 
 
 /**
@@ -34,13 +28,13 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_producthelper   = new producthelper;
-		$this->_redshopMail     = new redshopMail;
-		$this->_order_functions = new order_functions;
-		$this->_extraField      = new extraField;
-		$this->_redhelper       = new redhelper;
-		$this->_userhelper      = new rsUserhelper;
-		$this->_carthelper      = new rsCarthelper;
+		$this->_producthelper   = producthelper::getInstance();
+		$this->_redshopMail     = redshopMail::getInstance();
+		$this->_order_functions = order_functions::getInstance();
+		$this->_extraField      = extraField::getInstance();
+		$this->_redhelper       = redhelper::getInstance();
+		$this->_userhelper      = rsUserHelper::getInstance();
+		$this->_carthelper      = rsCarthelper::getInstance();
 	}
 
 	/**
@@ -64,7 +58,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$session = JFactory::getSession();
 		$model   = $this->getModel('order_detail');
 
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 
 		$request = JRequest::get('request');
 
@@ -173,7 +167,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$db      = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$Itemid  = JRequest::getInt('Itemid');
-		$objOrder = new order_functions;
+		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = JDispatcher::getInstance();
@@ -383,7 +377,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function payment()
 	{
 		$app       = JFactory::getApplication();
-		$redconfig = new Redconfiguration;
+		$redconfig = Redconfiguration::getInstance();
 		$Itemid    = JRequest::getInt('Itemid');
 		$order_id  = JRequest::getInt('order_id');
 

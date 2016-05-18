@@ -26,15 +26,10 @@ $document->addStyleDeclaration('
 JHtml::_('redshopjquery.framework');
 JHtml::script('modules/mod_redshop_who_bought/assets/js/jquery.jcarousel.min.js');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-$producthelper = new producthelper;
-$redhelper = new redhelper;
-$redTemplate = new Redtemplate;
-$extraField = new extraField;
+$producthelper = producthelper::getInstance();
+$redhelper = redhelper::getInstance();
+$redTemplate = Redtemplate::getInstance();
+$extraField = extraField::getInstance();
 $module_id = "mod_" . $module->id;
 
 JHtml::script('com_redshop/common.js', false, true);
@@ -121,7 +116,7 @@ if (count($rows))
 			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_full_image))
 			{
 				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/noimage.jpg';
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumbwidth, $thumbheight, USE_IMAGE_SIZE_SWAPPING);
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbwidth, $thumbheight, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
 				$thumbImage = REDSHOP_FRONT_IMAGES_ABSPATH . 'thumb/' . $filename_path_info['basename'];
 			}

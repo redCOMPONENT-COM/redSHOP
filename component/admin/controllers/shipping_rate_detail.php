@@ -36,7 +36,6 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		$post = JRequest::get('post');
 
 		// Include extra field class
-		JLoader::load('RedshopHelperAdminExtra_field');
 
 
 		$post['shipping_rate_on_product'] = explode(',', $post['container_product']);
@@ -45,7 +44,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 
 		if ($row = $model->store($post))
 		{
-			$field = new extra_field;
+			$field = extra_field::getInstance();
 
 			// Field_section 11 :Shipping
 			$field->extra_field_save($post, "11", $row->shipping_rate_id);

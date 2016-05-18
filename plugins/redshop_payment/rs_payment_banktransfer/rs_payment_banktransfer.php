@@ -31,8 +31,7 @@ class plgRedshop_paymentrs_payment_banktransfer extends JPlugin
 		// Send the Order mail
 		if (ORDER_MAIL_AFTER)
 		{
-			JLoader::load('RedshopHelperAdminMail');
-			$redshopMail = new redshopMail;
+						$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendOrderMail($data['order_id']);
 		}
 

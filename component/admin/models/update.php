@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminUpdate');
-JLoader::load('RedshopHelperHelper');
-
 /**
  * Class RedshopModelUpdate
  *

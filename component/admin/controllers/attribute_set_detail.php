@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperAdminThumbnail');
-
 class RedshopControllerAttribute_set_detail extends RedshopController
 {
 	public function __construct($default = array())
@@ -41,15 +39,11 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 
 
-		JLoader::load('RedshopHelperAdminExtra_field');
-
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($row = $model->store($post))
 		{
-			$file = JRequest::getVar('image', 'array', 'files', 'array');
-
-			$this->attribute_save($post, $row, $file);
+			$this->attribute_save($post, $row);
 
 			$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL_SAVED');
 		}
@@ -137,7 +131,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 
-	public function attribute_save($post, $row, $file)
+	public function attribute_save($post, $row)
 	{
 		$model = $this->getModel('attribute_set_detail');
 
@@ -317,7 +311,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		}
 		else
 		{
-			$more_images = $model->property_more_img($post, $main_img, $sub_img);
+			$model->property_more_img($post, $main_img, $sub_img);
 			?>
 			<script language="javascript" type="text/javascript">
 				window.parent.SqueezeBox.close();
@@ -361,7 +355,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
 
-		$more_images = $model->subattribute_color($post, $sub_img);
+		$model->subattribute_color($post, $sub_img);
 
 		?>
 		<script language="javascript" type="text/javascript">

@@ -10,13 +10,11 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
 
 class RedshopViewAccessmanager_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$producthelper = new producthelper;
 		$section = JRequest::getVar('section');
 		$model = $this->getModel('accessmanager_detail');
 		$accessmanager = $model->getaccessmanager();
@@ -74,7 +72,7 @@ FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2
 	{
 		$returnable = array();
 
-		foreach ($groups as $key => $val)
+		foreach ($groups as $val)
 		{
 			$returnable[$val->id] = str_repeat('<span class="gi">|&mdash;</span>', $val->level) . $val->title;
 		}

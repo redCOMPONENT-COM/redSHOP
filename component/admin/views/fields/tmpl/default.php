@@ -9,7 +9,7 @@
 
 $pagination = $this->pagination;
 $ordering = ($this->lists['order'] == 'ordering');
-$redtemplate = new Redtemplate;
+$redtemplate = Redtemplate::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton)

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperProduct');
 
 /**
  * Class RedshopViewProduct_rating

@@ -9,12 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopHelperAdminConfiguration');
-JLoader::load('RedshopHelperProduct');
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-$productHelper = new producthelper;
+$productHelper = producthelper::getInstance();
 
 ?>
 <div class="mod_discount_main">

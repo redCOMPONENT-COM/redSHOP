@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminXmlHelper');
 
 class RedshopModelXmlexport_detail extends RedshopModel
 {
@@ -103,7 +102,6 @@ class RedshopModelXmlexport_detail extends RedshopModel
 	 */
 	public function store($data, $export = 0)
 	{
-		$resarray = array();
 		$xmlhelper = new xmlHelper;
 
 		$data['xmlexport_on_category'] = @ implode(',', $data['xmlexport_on_category']);
@@ -158,7 +156,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 		if ($export == 1)
 		{
-			$filename = $xmlhelper->writeXMLExportFile($row->xmlexport_id);
+			$xmlhelper->writeXMLExportFile($row->xmlexport_id);
 		}
 
 		return $row;

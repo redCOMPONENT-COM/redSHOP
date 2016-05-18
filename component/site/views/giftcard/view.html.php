@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
 
 class RedshopViewGiftcard extends RedshopView
 {

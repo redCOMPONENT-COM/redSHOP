@@ -46,7 +46,6 @@ class JFormFieldRedshopCategoryRemove extends JFormField
 			}
 		}
 
-		JLoader::load('RedshopHelperAdminCategory');
 		$product_category = new product_category;
 		ob_start();
 		$output = $product_category->list_all('' . $this->name . '[]', '', $values, 10, false, true);

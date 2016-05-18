@@ -8,9 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+
 JLoader::import('redshop.library');
-JLoader::load('RedshopHelperHelper');
 
 /**
  * Renders a Manufacturer Order by Fields
@@ -35,7 +34,7 @@ class JFormFieldOrderbymanufacturer extends JFormField
 	 */
 	protected function getInput()
 	{
-		$helper = new redhelper;
+		$helper = redhelper::getInstance();
 		$name   = $this->name;
 		$value  = $this->value;
 

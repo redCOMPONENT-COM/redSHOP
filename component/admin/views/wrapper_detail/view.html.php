@@ -29,8 +29,6 @@ class RedshopViewWrapper_detail extends RedshopView
 		$detail = $this->get('data');
 		$model = $this->getModel('wrapper_detail');
 
-		JLoader::load('RedshopHelperAdminExtra_field');
-
 		$isNew = ($detail->wrapper_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -68,11 +66,6 @@ class RedshopViewWrapper_detail extends RedshopView
 		$lists['category_name'] = $model->getMultiselectBox("categoryid[]", $category, $catid, "category_id", "category_name", true);
 
 		$product = $model->getProductInfo($product_id);
-
-		if (count($detail) > 0)
-		{
-			$pid = explode(",", $detail->product_id);
-		}
 
 		$productData = $model->getProductInfowrapper($detail->product_id);
 

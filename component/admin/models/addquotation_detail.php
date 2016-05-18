@@ -10,13 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperAdminProduct');
-JLoader::load('RedshopHelperAdminQuotation');
 
 class RedshopModelAddquotation_detail extends RedshopModel
 {
@@ -104,17 +97,17 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function sendRegistrationMail($post)
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$redshopMail->sendRegistrationMail($post);
 	}
 
 	public function store($data)
 	{
-		$extra_field = new extra_field;
-		$quotationHelper = new quotationHelper;
-		$producthelper = new producthelper;
-		$rsCarthelper = new rsCarthelper;
-		$stockroomhelper = new rsstockroomhelper;
+		$extra_field = extra_field::getInstance();
+		$quotationHelper = quotationHelper::getInstance();
+		$producthelper = producthelper::getInstance();
+		$rsCarthelper = rsCarthelper::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$extra_field->extra_field_save($data, 16, $data['user_info_id'], $data['user_email']);
 
@@ -497,7 +490,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function sendQuotationMail($quotaion_id)
 	{
-		$redshopMail = new redshopMail;
+		$redshopMail = redshopMail::getInstance();
 		$send = $redshopMail->sendQuotationMail($quotaion_id);
 
 		return $send;
@@ -534,9 +527,9 @@ class RedshopModelAddquotation_detail extends RedshopModel
 	}
 
 
-	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $user_id, $uniqueid = "")
+	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $uniqueid = "")
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$subproperty = array();
 

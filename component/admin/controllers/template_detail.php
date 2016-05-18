@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminTemplate');
 
 class RedshopControllerTemplate_detail extends RedshopController
 {

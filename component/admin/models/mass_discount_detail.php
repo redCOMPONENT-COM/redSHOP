@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::load('RedshopHelperProduct');
 
 
 class RedshopModelMass_discount_detail extends RedshopModel
@@ -92,7 +91,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$row = $this->getTable('mass_discount_detail');
 
@@ -377,9 +376,8 @@ class RedshopModelMass_discount_detail extends RedshopModel
 	}
 
 	public function delete($cid = array())
-	{
-		$layout = JRequest::getVar('layout');
-		$producthelper = new producthelper;
+	{		
+		$producthelper = producthelper::getInstance();
 
 		if (count($cid))
 		{
@@ -521,14 +519,6 @@ class RedshopModelMass_discount_detail extends RedshopModel
 				. 'product WHERE published = 1 and product_id =""';
 		}
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
-	}
-
-	public function GetProductList()
-	{
-		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

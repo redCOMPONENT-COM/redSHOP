@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperAdminProduct');
 
 class RedshopControllerAddquotation_detail extends RedshopController
 {
@@ -26,7 +24,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 	public function save($send = 0)
 	{
 		$post = JRequest::get('post');
-		$adminproducthelper = new adminproducthelper;
+		$adminproducthelper = adminProductHelper::getInstance();
 
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -122,7 +120,6 @@ class RedshopControllerAddquotation_detail extends RedshopController
 		$product_id = $get['product_id'];
 		$accessory_id = $get['accessory_id'];
 		$attribute_id = $get['attribute_id'];
-		$user_id = $get['user_id'];
 		$unique_id = $get['unique_id'];
 
 		$propid = explode(",", $get['property_id']);
@@ -132,7 +129,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 		for ($i = 0, $in = count($propid); $i < $in; $i++)
 		{
 			$property_id = $propid[$i];
-			$response .= $model->replaceSubPropertyData($product_id, $accessory_id, $attribute_id, $property_id, $user_id, $unique_id);
+			$response .= $model->replaceSubPropertyData($product_id, $accessory_id, $attribute_id, $property_id, $unique_id);
 		}
 
 		echo $response;

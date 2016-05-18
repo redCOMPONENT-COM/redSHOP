@@ -10,9 +10,9 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-$this->producthelper   = new producthelper;
-$this->order_functions = new order_functions;
-$this->config          = new Redconfiguration;
+$this->producthelper   = producthelper::getInstance();
+$this->order_functions = order_functions::getInstance();
+$this->config          = Redconfiguration::getInstance();
 $this->model           = $this->getModel('user_detail');
 $this->flag            = JRequest::getVar('flag', '', 'request', 'string');
 $this->shipping        = JRequest::getVar('shipping', '', 'request', 'string');
@@ -84,7 +84,7 @@ if ($this->pagination->limitstart > 0)
 			} else if (r.exec(form.username.value) || form.username.value.length < 2) {
 				alert("<?php echo JText::_('COM_REDSHOP_WARNLOGININVALID', true );?>");
 				return false;
-			} else if (user_valid == 0) {
+			} else if (document.getElementById('user_valid').style.color == "red") {
 				alert("<?php echo JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE', true );?>");
 				return false;
 

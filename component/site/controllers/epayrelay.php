@@ -9,12 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminOrder');
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopHelperUser');
 
 /**
  * Order Detail Controller.

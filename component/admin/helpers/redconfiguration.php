@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperUser');
 
 class Redconfiguration
 {
@@ -28,6 +27,26 @@ class Redconfiguration
 	public $cfgData = null;
 
 	public $countryList = null;
+
+	protected static $instance = null;
+
+	/**
+	 * Returns the RedConfiguration object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  RedConfiguration  The RedConfiguration object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new Redconfiguration;
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * define default path
@@ -926,7 +945,7 @@ class Redconfiguration
 	public function showPrice()
 	{
 		$user       = JFactory::getUser();
-		$userHelper = new rsUserhelper;
+		$userHelper = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -953,7 +972,7 @@ class Redconfiguration
 	public function getCatalog()
 	{
 		$user             = JFactory::getUser();
-		$userHelper       = new rsUserhelper;
+		$userHelper       = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -982,7 +1001,7 @@ class Redconfiguration
 	{
 		$db = JFactory::getDbo();
 		$user             = JFactory::getUser();
-		$userhelper       = new rsUserhelper;
+		$userhelper       = rsUserHelper::getInstance();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 
 		if ($user->id)
@@ -1231,7 +1250,7 @@ class Redconfiguration
 		{
 			$convertformat = date(DEFAULT_DATEFORMAT, $date);
 
-			if (strstr(DEFAULT_DATEFORMAT, "M"))
+			if (strpos(DEFAULT_DATEFORMAT, "M") !== false)
 			{
 				$convertformat = str_replace("Jan", JText::_('COM_REDSHOP_JAN'), $convertformat);
 				$convertformat = str_replace("Feb", JText::_('COM_REDSHOP_FEB'), $convertformat);
@@ -1247,7 +1266,7 @@ class Redconfiguration
 				$convertformat = str_replace("Dec", JText::_('COM_REDSHOP_DEC'), $convertformat);
 			}
 
-			if (strstr(DEFAULT_DATEFORMAT, "F"))
+			if (strpos(DEFAULT_DATEFORMAT, "F") !== false)
 			{
 				$convertformat = str_replace("January", JText::_('COM_REDSHOP_JANUARY'), $convertformat);
 				$convertformat = str_replace("February", JText::_('COM_REDSHOP_FEBRUARY'), $convertformat);
@@ -1263,7 +1282,7 @@ class Redconfiguration
 				$convertformat = str_replace("December", JText::_('COM_REDSHOP_DECEMBER'), $convertformat);
 			}
 
-			if (strstr(DEFAULT_DATEFORMAT, "D"))
+			if (strpos(DEFAULT_DATEFORMAT, "D") !== false)
 			{
 				$convertformat = str_replace("Mon", JText::_('COM_REDSHOP_MON'), $convertformat);
 				$convertformat = str_replace("Tue", JText::_('COM_REDSHOP_TUE'), $convertformat);
@@ -1274,7 +1293,7 @@ class Redconfiguration
 				$convertformat = str_replace("Sun", JText::_('COM_REDSHOP_SUN'), $convertformat);
 			}
 
-			if (strstr(DEFAULT_DATEFORMAT, "l"))
+			if (strpos(DEFAULT_DATEFORMAT, "l") !== false)
 			{
 				$convertformat = str_replace("Monday", JText::_('COM_REDSHOP_MONDAY'), $convertformat);
 				$convertformat = str_replace("Tuesday", JText::_('COM_REDSHOP_TUESDAY'), $convertformat);
@@ -1356,8 +1375,7 @@ class Redconfiguration
 
 		if (empty($this->countryList))
 		{
-			JLoader::load('RedshopHelperHelper');
-			$redhelper = new redhelper;
+						$redhelper = redhelper::getInstance();
 
 			$countries = array();
 
@@ -1367,9 +1385,6 @@ class Redconfiguration
 
 				if (count($country_list) > 0)
 				{
-					// Sanitize country list
-					$sanitizedCountryArray = array();
-
 					foreach ($country_list as &$countryCode)
 					{
 						$countryCode = $db->quote($countryCode);

@@ -34,7 +34,7 @@ class plgRedshop_PaymentPaygate extends JPlugin
 			return;
 		}
 
-		$currencyClass   = new CurrencyHelper;
+		$currencyClass   = CurrencyHelper::getInstance();
 		$app = JFactory::getApplication();
 
 		$paymentId       = $this->params->get('paygateId');

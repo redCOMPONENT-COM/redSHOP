@@ -11,12 +11,11 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-JLoader::load('RedshopHelperAdminOrder');
-$order_functions = new order_functions;
+$order_functions = order_functions::getInstance();
 
 $url = JURI::base();
 
-$redconfig = new Redconfiguration;
+$redconfig = Redconfiguration::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $return = JRequest::getString('return');
@@ -35,7 +34,7 @@ $state      = $order_functions->getStateName($detail->state_code, $detail->count
 $phone      = $detail->phone;
 $user_email = $detail->user_email;
 
-$field = new extra_field;
+$field = extra_field::getInstance();
 
 if (DEFAULT_CUSTOMER_REGISTER_TYPE == 1 || !DEFAULT_CUSTOMER_REGISTER_TYPE)
 {

@@ -21,14 +21,15 @@ $getoption = JRequest::getCmd('option');
 
 $document = JFactory::getDocument();
 JHTML::stylesheet('modules/mod_redshop_shoppergroup_product/css/products.css');
+
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 JHTML::script('com_redshop/redbox.js', false, true);
 
-$producthelper = new producthelper;
-$redhelper     = new redhelper;
-$redTemplate   = new Redtemplate;
-$extraField    = new extraField;
+$producthelper = producthelper::getInstance();
+$redhelper     = redhelper::getInstance();
+$redTemplate   = Redtemplate::getInstance();
+$extraField    = extraField::getInstance();
 
 echo "<div class='mod_redshop_shoppergroup_product_wrapper'>";
 

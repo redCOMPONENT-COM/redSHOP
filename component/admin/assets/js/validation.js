@@ -733,3 +733,24 @@ function validateExtrafield(form) {
         return true;
     }
 }
+
+jQuery(document).ready(function(){
+    jQuery("#username").blur(function() {
+        jQuery.ajax({
+            url: "index.php?option=com_redshop&view=user_detail&task=ajaxValidationUsername",
+            type: "GET",
+            data:  {username: jQuery("#username").val(), user_id: jQuery("input[name=user_id").val()},
+            success: function(data){
+                data = JSON.parse('{' + data.substring(data.indexOf('{') + 1));
+                jQuery('#user_valid').html(data.message);
+                jQuery('#user_valid').css('color', 'green');
+
+                if (data.type == 'error')
+                {
+                    jQuery('#user_valid').css('color', 'red');
+                }
+            },
+            error: function(){}
+       });
+    });
+});

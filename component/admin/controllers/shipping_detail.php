@@ -34,8 +34,6 @@ class RedshopControllerShipping_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
 		$model = $this->getModel('shipping_detail');
 		$row = $model->store($post);
 

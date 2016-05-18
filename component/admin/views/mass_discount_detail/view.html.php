@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewMass_discount_detail extends RedshopView
 {
@@ -50,8 +49,6 @@ class RedshopViewMass_discount_detail extends RedshopView
 		$model = $this->getModel('mass_discount_detail');
 
 		$manufacturers = $model->getmanufacturers();
-
-		$productData = $model->GetProductList();
 
 		$category_id = explode(',', $detail->category_id);
 		$tmp = new stdClass;

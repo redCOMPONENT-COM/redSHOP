@@ -14,7 +14,6 @@ class RedshopViewRating_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-
 		$userslist = JRequest::getVar('userslist');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_RATING_MANAGEMENT_DETAIL'), 'redshop_rating48');
@@ -44,7 +43,6 @@ class RedshopViewRating_detail extends RedshopView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$model = $this->getModel('rating_detail');
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['favoured'] = JHTML::_('select.booleanlist', 'favoured', 'class="inputbox"', $detail->favoured);
 

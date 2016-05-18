@@ -35,8 +35,6 @@ class RedshopViewTax_group extends RedshopView
 
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-
-		$total              = $this->get('Total');
 		$media              = $this->get('Data');
 		$pagination         = $this->get('Pagination');
 

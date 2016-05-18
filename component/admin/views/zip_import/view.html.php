@@ -14,7 +14,6 @@ class RedshopViewZip_import extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
 		$layout = JRequest::getVar('layout');
 
 		if ($layout == 'confirmupdate')
@@ -23,11 +22,10 @@ class RedshopViewZip_import extends RedshopView
 		}
 		else
 		{
-			$model = $this->getModel('zip_import');
-			/* Load the data to export */
 			$result = $this->get('Data');
 			$this->result = $result;
 		}
+
 		parent::display($tpl);
 	}
 }

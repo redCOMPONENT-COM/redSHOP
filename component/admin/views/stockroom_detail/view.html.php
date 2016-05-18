@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminExtra_field');
-
 class RedshopViewStockroom_detail extends RedshopView
 {
 	public function display($tpl = null)
@@ -61,8 +59,6 @@ class RedshopViewStockroom_detail extends RedshopView
 			// Get data from the model
 			$model = $this->getModel('stockroom_detail');
 
-			$result = array();
-
 			$lists['show_in_front'] = JHTML::_('select.booleanlist', 'show_in_front', 'class="inputbox"', $detail->show_in_front);
 
 			$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
@@ -71,10 +67,10 @@ class RedshopViewStockroom_detail extends RedshopView
 			$delivery_time['value'] = "days";
 			$delivery_time['value'] .= "weeks";
 
-			$extra_field = new extra_field;
+			$extra_field = extra_field::getInstance();
 
 			$booleanlist = $extra_field->booleanlist('delivery_time', 'class="inputbox"', $detail->delivery_time,
-				$yes = JText::_('COM_REDSHOP_DAYS'), $no = JText::_('COM_REDSHOP_WEEKS')
+				JText::_('COM_REDSHOP_DAYS'), JText::_('COM_REDSHOP_WEEKS')
 			);
 
 			$this->booleanlist = $booleanlist;

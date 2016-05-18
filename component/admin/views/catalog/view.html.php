@@ -38,7 +38,6 @@ class RedshopViewCatalog extends RedshopView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 		$catalog = $this->get('Data');
-		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 

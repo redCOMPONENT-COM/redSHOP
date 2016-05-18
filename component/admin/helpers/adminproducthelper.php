@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopHelperProduct');
-
 class adminproducthelper
 {
 	public $_data = null;
@@ -20,6 +17,26 @@ class adminproducthelper
 
 	public $_product_level = 0;
 
+	protected static $instance = null;
+
+	/**
+	 * Returns the adminProductHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  adminProductHelper  The adminProductHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new adminProductHelper;
+		}
+
+		return self::$instance;
+	}
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -27,12 +44,8 @@ class adminproducthelper
 
 	public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
 	{
-		$uri = JURI::getInstance();
-		$url = $uri->root();
-		$redconfig = new Redconfiguration;
-		$producthelper = new producthelper;
-
-		$product = $producthelper->getProductById($product_id);
+		$redconfig = Redconfiguration::getInstance();
+		$producthelper = producthelper::getInstance();
 		$totalAccessory = count($accessory);
 		$accessorylist = "";
 
@@ -88,9 +101,7 @@ class adminproducthelper
 
 	function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
 	{
-		$uri = JURI::getInstance();
-		$url = $uri->root();
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$attributelist = "";
 
 		$product = $producthelper->getProductById($product_id);
@@ -153,7 +164,6 @@ class adminproducthelper
 				$tmp_array[0]->text = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
 
 				$new_property = array_merge($tmp_array, $property);
-				$at_id = $product->product_id;
 				$chklist = "";
 
 				if ($attributes [$a]->allow_multiple_selection)
@@ -211,7 +221,7 @@ class adminproducthelper
 
 	public function replaceWrapperData($product_id = 0, $user_id, $uniqueid = "")
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 		$wrapperlist = "";
 
 		$wrapper = $producthelper->getWrapper($product_id, 0, 1);
@@ -255,7 +265,7 @@ class adminproducthelper
 
 	public function getProductItemInfo($product_id = 0, $quantity = 1, $unique_id = "", $user_id = 0, $newproduct_price = 0)
 	{
-		$producthelper = new producthelper;
+		$producthelper = producthelper::getInstance();
 
 		$wrapperlist = "";
 		$accessorylist = "";
@@ -321,10 +331,10 @@ class adminproducthelper
 		return $displayrespoce;
 	}
 
-	public function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0, $shipping_box_post_id = 0)
+	public function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0)
 	{
-		$producthelper = new producthelper;
-		$order_functions = new order_functions;
+		$producthelper = producthelper::getInstance();
+		$order_functions = order_functions::getInstance();
 
 		if ($shipp_users_info_id > 0)
 		{
@@ -488,9 +498,9 @@ class adminproducthelper
 
 	public function replaceUserfield($product_id = 0, $template_id = 0, $unique_id = "")
 	{
-		$producthelper = new producthelper;
-		$redTemplate = new Redtemplate;
-		$extraField = new extra_field;
+		$producthelper = producthelper::getInstance();
+		$redTemplate = Redtemplate::getInstance();
+		$extraField = extra_field::getInstance();
 		$template_desc = $redTemplate->getTemplate("product", $template_id);
 		$returnArr = $producthelper->getProductUserfieldFromTemplate($template_desc[0]->template_desc);
 

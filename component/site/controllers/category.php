@@ -290,7 +290,6 @@ class RedshopControllerCategory extends RedshopController
 
 		if ($xmlexport_id)
 		{
-			JLoader::load('RedshopHelperAdminXmlhelper');
 
 			$xmlHelper = new xmlHelper;
 			$xmlHelper->writeXMLExportFile($xmlexport_id);

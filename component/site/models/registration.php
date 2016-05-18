@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 
 
-JLoader::load('RedshopHelperAdminMail');
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperUser');
 
 /**
  * Class registrationModelregistration
@@ -38,7 +35,7 @@ class RedshopModelRegistration extends RedshopModel
 
 	public function store(&$data)
 	{
-		$userhelper = new rsUserhelper;
+		$userhelper = rsUserHelper::getInstance();
 		$captcha    = $userhelper->checkCaptcha($data);
 
 		if (!$captcha)

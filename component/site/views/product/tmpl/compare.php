@@ -10,14 +10,12 @@
 defined('_JEXEC') or die;
 
 // Get product helper
-JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopHelperExtra_field');
 
 $print  = $this->input->getBool('print', false);
 
-$producthelper   = new producthelper;
-$config          = new Redconfiguration;
-$stockroomhelper = new rsstockroomhelper;
+$producthelper   = producthelper::getInstance();
+$config          = Redconfiguration::getInstance();
+$stockroomhelper = rsstockroomhelper::getInstance();
 $compare         = new RedshopProductCompare;
 
 $compareCategoryId = $compare->getCategoryId();
@@ -78,7 +76,7 @@ if ($total > 0)
 	$template = str_replace('{remove_all}', $removeAll, $template);
 
 	// Make extrafield object..
-	$field    = new extraField;
+	$field    = extraField::getInstance();
 
 	$product_tag = array();
 

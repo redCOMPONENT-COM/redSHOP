@@ -9,18 +9,15 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminExtra_field');
-JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperAdminShopper');
 
 
 class RedshopViewUser_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$Redconfiguration = new Redconfiguration;
-		$userhelper       = new rsUserhelper;
-		$extra_field      = new extra_field;
+		$Redconfiguration = Redconfiguration::getInstance();
+		$userhelper       = rsUserHelper::getInstance();
+		$extra_field      = extra_field::getInstance();
 		$shoppergroup     = new shoppergroup;
 
 		$document         = JFactory::getDocument();

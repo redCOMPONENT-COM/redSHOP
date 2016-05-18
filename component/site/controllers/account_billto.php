@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopHelperAdminOrder');
 
 /**
  * Account Billing Address Controller.
@@ -41,7 +40,7 @@ class RedshopControllerAccount_billto extends RedshopController
 	public function edit()
 	{
 		$user                        = JFactory::getUser();
-		$order_functions             = new order_functions;
+		$order_functions             = order_functions::getInstance();
 		$billingaddresses            = $order_functions->getBillingAddress($user->id);
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 

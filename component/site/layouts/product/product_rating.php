@@ -25,10 +25,9 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 JHtml::_('redshopjquery.radiobutton');
-JLoader::load('RedshopHelperUser');
 
 $user = JFactory::getUser();
-$userHelper = new rsUserhelper;
+$userHelper = rsUserHelper::getInstance();
 
 if ($user->id)
 {

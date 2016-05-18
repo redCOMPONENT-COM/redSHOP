@@ -43,7 +43,7 @@ $stockrooms = $model->StockRoomList();
 					<tbody>
 					<?php
 						$iscrm = false;
-						$helper = new redhelper;
+						$helper = redhelper::getInstance();
 
 						/**
 						 * redCRM includes
