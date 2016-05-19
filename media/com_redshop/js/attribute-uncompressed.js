@@ -6,6 +6,30 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
+redSHOP.setProductTax = function(postData){
+
+	// Setting default
+	postData.id        = postData.id || 0;
+	postData.price     = postData.price || 0;
+	postData.userId    = postData.userId || 0;
+	postData.taxExempt = postData.taxExempt || false;
+
+	postData.option    = 'com_redshop';
+	postData.view      = 'cart';
+	postData.task      = 'cart.ajaxGetProductTax';
+	postData.tmpl      = 'component';
+
+	jQuery.ajax({
+		url: redSHOP.RSConfig._('AJAX_BASE_URL'),
+		type: 'POST',
+		dataType: 'json',
+		data: postData,
+	}).done(function( product ) {
+		// Setting in global variable
+		redSHOP.baseTax = product.tax;
+	});
+};
+
 redSHOP.filterExtraFieldName = function(name){
 	name = reverseString(name);
 	return reverseString(name.substr(name.indexOf("_") + 1));
@@ -69,6 +93,10 @@ window.addEvent('domready', function () {
 	redBOX.assign($$('a.redbox'), {
 		parse: 'rel'
 	});
+
+	// Calculating base tax using price 1
+	// Later it can be used to multiplied with any price to get exact tax in JS.
+	redSHOP.setProductTax({id: 0, price: 1});
 });
 
 var r_browser = false;
@@ -494,30 +522,30 @@ function display_image_add_out(img, product_id)
 	}
 }
 
-function collectAttributes(product_id, accessory_id, relatedprd_id)
+function collectAttributes(productId, accessoryId, relatedProductId)
 {
 	var prefix,
-		attrArr           = new Array(),
-		allpropArr        = new Array(),
-		tolallsubpropArr  = new Array(),
-		mainprice         = 0,
-		price_without_vat = 0,
-		old_price         = 0,
-		isStock           = true,
-		setPropEqual      = true,
-		setSubpropEqual   = true,
-		acc_error         = "",
-		subacc_error      = "",
-		layout            = jQuery('#isAjaxBoxOpen').val(),
-		preorder          = jQuery('#product_preorder' + product_id).val(),
-		product_stock     = jQuery('#product_stock' + product_id).val(),
-		preorder_stock    = jQuery('#preorder_product_stock' + product_id).val(),
-		preprefix         = "",
-		myaccQuan         = 1;
+		attributeIds         = [],
+		allProperties        = [],
+		totalSubProperties   = [],
+		mainprice            = 0,
+		price_without_vat    = 0,
+		old_price            = 0,
+		isStock              = true,
+		setPropEqual         = true,
+		setSubpropEqual      = true,
+		requiredError        = "",
+		subPropRequiredError = "",
+		layout               = jQuery('#isAjaxBoxOpen').val(),
+		preorder             = jQuery('#product_preorder' + productId).val(),
+		product_stock        = jQuery('#product_stock' + productId).val(),
+		preorder_stock       = jQuery('#preorder_product_stock' + productId).val(),
+		preprefix            = "",
+		myaccQuan            = 1;
 
-	if (jQuery("#accquantity_" + product_id + "_" + accessory_id).length)
+	if (jQuery("#accquantity_" + productId + "_" + accessoryId).length)
 	{
-		myaccQuan = jQuery("#accquantity_" + product_id + "_" + accessory_id).val();
+		myaccQuan = jQuery("#accquantity_" + productId + "_" + accessoryId).val();
 	}
 
 	if (layout == "viewajaxdetail")
@@ -525,131 +553,121 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 		preprefix = "ajax_";
 	}
 
-	if (accessory_id != 0)
+	if (accessoryId != 0)
 	{
 		prefix            = preprefix + "acc_";
-		mainprice         = parseFloat(jQuery('#accessory_id_' + product_id + '_' + accessory_id).attr('accessoryprice'));
-		price_without_vat = parseFloat(jQuery('#accessory_id_' + product_id + '_' + accessory_id).attr('accessorywithoutvatprice'));
+		mainprice         = parseFloat(jQuery('#accessory_id_' + productId + '_' + accessoryId).attr('accessoryprice'));
+		price_without_vat = parseFloat(jQuery('#accessory_id_' + productId + '_' + accessoryId).attr('accessorywithoutvatprice'));
 		old_price         = mainprice;
 	}
 	else
 	{
-		prefix    = (relatedprd_id != 0) ? preprefix + "rel_" : preprefix + "prd_";
-		mainprice = parseFloat(jQuery('#main_price' + product_id).val());
-		old_price = parseFloat(jQuery('#product_old_price' + product_id).val());
+		prefix    = (relatedProductId != 0) ? preprefix + "rel_" : preprefix + "prd_";
+		mainprice = parseFloat(jQuery('#main_price' + productId).val());
+		old_price = parseFloat(jQuery('#product_old_price' + productId).val());
 
-		if (jQuery('#product_price_excluding_price' + product_id).length)
+		if (jQuery('#product_price_excluding_price' + productId).length)
 		{
-			price_without_vat = parseFloat(jQuery('#product_price_excluding_price' + product_id).val());
+			price_without_vat = parseFloat(jQuery('#product_price_excluding_price' + productId).val());
 		}
-		else if (jQuery('#product_price_no_vat' + product_id).length)
+		else if (jQuery('#product_price_no_vat' + productId).length)
 		{
-			price_without_vat = parseFloat(jQuery('#product_price_no_vat' + product_id).val());
-		}
-	}
-
-	var commonid      = prefix + product_id + '_' + accessory_id;
-	var commonstockid = prefix + product_id;
-
-	if (document.getElementsByName('attribute_id_' + commonid + '[]'))
-	{
-		var attrName = document.getElementsByName('attribute_id_' + commonid + '[]');
-
-		for (var i = 0; i < attrName.length; i++)
-		{
-			attrArr[i] = attrName[i].value;
+			price_without_vat = parseFloat(jQuery('#product_price_no_vat' + productId).val());
 		}
 	}
+
+	var commonid      = prefix + productId + '_' + accessoryId,
+		commonstockid = prefix + productId;
 
 	if (isStock)
 	{
 		isStock = checkProductStockRoom(product_stock, commonstockid, preorder, preorder_stock);
 	}
 
-	if (attrArr.length <= 0 && redSHOP.RSConfig._('AJAX_CART_BOX') == 1)
+	// Init attribute dom element
+	var attributeDoms = jQuery('[name="attribute_id_' + commonid + '[]"');
+
+	if (attributeDoms.length <= 0 && redSHOP.RSConfig._('AJAX_CART_BOX') == 1)
 	{
-		acc_error = jQuery('#requiedAttribute').val();
-		subacc_error = jQuery('#requiedProperty').val();
+		requiredError        = jQuery('#requiedAttribute').val();
+		subPropRequiredError = jQuery('#requiedProperty').val();
 	}
 
-	for (var i = 0; i < attrArr.length; i++)
-	{
-		var attribute_id = attrArr[i];
-		commonid = prefix + product_id + '_' + accessory_id + '_' + attribute_id;
+	// Loop through attributes
+	attributeDoms.each(function(index, attribute) {
 
-		var propName = document.getElementsByName('property_id_' + commonid + '[]');
+		var attributeId = attribute.value;
+			commonid    = prefix + productId + '_' + accessoryId + '_' + attributeId;
 
-		if (propName.length > 0)
-		{
-			setPropertyImage(product_id, 'property_id_' + commonid);
+		attributeIds.push(attributeId);
 
-			var seli = 0, requiredProp = [], propArr = [];
+		var propertyDoms = jQuery('[name="property_id_' + commonid + '[]"');
 
-			// Collect property start
-			for (var p = 0; p < propName.length; p++)
-			{
-				if (propName[p].type == 'checkbox' || propName[p].type == 'radio')
+		if (propertyDoms.length){
+
+			setPropertyImage(productId, 'property_id_' + commonid);
+
+			var seli = 0, requiredProp = [], properties = [];
+
+			// Loop through properties
+			propertyDoms.each(function(propIndex, property) {
+
+				if (property.type == 'checkbox' || property.type == 'radio')
 				{
-					if (propName[p].checked && propName[p].value != 0)
+					if (property.checked && property.value != 0)
 					{
-						propArr[seli++] = propName[p].value;
+						properties.push(property.value);
 					}
 				}
 				else
 				{
-					if (propName[p].selectedIndex && propName[p].options[propName[p].selectedIndex].value != 0)
+					if (property.selectedIndex && property.options[property.selectedIndex].value != 0)
 					{
-						propArr[seli++] = propName[p].options[propName[p].selectedIndex].value;
+						properties.push(property.options[property.selectedIndex].value);
 					}
 				}
 
-				if (propName[p].required)
+				if (property.required)
 				{
-					requiredProp.push(propName[p].getAttribute('attribute_name'));
+					requiredProp.push(property.getAttribute('attribute_name'));
 				}
-			}
+			});
 
-			if (propArr.length > 0)
+			// Push to all properties array
+			if (properties.length)
 			{
-				allpropArr[i] = propArr.join(",,");
+				allProperties.push(properties.join(",,"));
 			}
 
-			// required check
-			if (requiredProp.length > 0 && propArr.length == 0)
+			// Check required
+			if (requiredProp.length && !properties.length)
 			{
-				acc_error += Joomla.JText._('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') + " " + unescape(requiredProp[0]) + "\n";
+				requiredError += Joomla.JText._('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED') + " " + unescape(requiredProp.join("<br>")) + "\n";
 			}
 
-			/******Collect property Price start*******/
+			// Collect property Price
 			if (setPropEqual && setSubpropEqual)
 			{
-				var oprandElementId = 'property_id_' + commonid + '_oprand';
-				var priceElementId = 'property_id_' + commonid + '_proprice';
-				var retProArr = calculateSingleProductPrice(mainprice, oprandElementId, priceElementId, propArr);
+				var oprandElementId          = 'property_id_' + commonid + '_oprand',
+					priceElementId           = 'property_id_' + commonid + '_proprice',
+					priceWithoutVatElementId = 'property_id_' + commonid + '_proprice_withoutvat';
 
-				//setPropEqual = retProArr[0];
-				mainprice = retProArr[1];
-
-				var retProArr = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, propArr);
-				old_price = retProArr[1];
-
-				priceElementId = 'property_id_' + commonid + '_proprice_withoutvat';
-				retProArr = calculateSingleProductPrice(price_without_vat, oprandElementId, priceElementId, propArr);
-				price_without_vat = retProArr[1];
+				old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, properties);
+				price_without_vat = calculateSingleProductPrice(price_without_vat, oprandElementId, priceWithoutVatElementId, properties);
 			}
 
-			/******Collect subproperty start*******/
-			var isSubproperty = false;
-			var allsubpropArr = new Array();
-			for (var p = 0; p < propArr.length; p++)
-			{
-				var property_id = propArr[p];
-				var stockElementId = 'property_id_' + commonid + '_stock' + property_id;
-				var preOrderstockElementId = 'property_id_' + commonid + '_preorderstock' + property_id;
+			// Collect sub-properties
+			var isSubproperty = false, allSubProperties = [];
+
+			properties.each(function(propertyId) {
+
+				// Handle stocks
+				var stockElementId         = 'property_id_' + commonid + '_stock' + propertyId;
+				var preOrderstockElementId = 'property_id_' + commonid + '_preorderstock' + propertyId;
 
 				if (jQuery('#' + stockElementId).length > 0
 					&& jQuery('#' + preOrderstockElementId).length > 0
-					&& isStock && accessory_id == 0)
+					&& isStock && accessoryId == 0)
 				{
 					isStock = checkProductStockRoom(
 								jQuery('#' + stockElementId).val(),
@@ -659,90 +677,93 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
 							);
 				}
 
-				var subcommonid = prefix + product_id + '_' + accessory_id + '_' + attribute_id + '_' + property_id;
-				var spCommonName = '[name="subproperty_id_' + subcommonid + '[]"]';
+				var subCommonId   = prefix + productId + '_' + accessoryId + '_' + attributeId + '_' + propertyId;
+				var subCommonName = '[name="subproperty_id_' + subCommonId + '[]"]';
 
-				if (jQuery(spCommonName).length)
+				if (jQuery(subCommonName).length)
 				{
-					setSubpropertyImage(product_id, 'subproperty_id_' + subcommonid);
+					setSubpropertyImage(productId, 'subproperty_id_' + subCommonId);
 					isSubproperty = true;
 
-					var subpropArr = new Array();
+					var subProperties = [];
 
-					if ('radio' == jQuery(spCommonName).attr('type') || 'checkbox' == jQuery(spCommonName).attr('type'))
+					if ('radio' == jQuery(subCommonName).attr('type')
+						|| 'checkbox' == jQuery(subCommonName).attr('type'))
 					{
-						subpropArr.push(jQuery(spCommonName + ':checked').val());
+						subProperties.push(jQuery(subCommonName + ':checked').val());
 					}
 					else
 					{
-						subpropArr.push(jQuery(spCommonName).val());
+						subProperties.push(jQuery(subCommonName).val());
 					}
 
-					for (var sp = 0; sp < subpropArr.length; sp++)
-					{
-						var stockElementId = 'subproperty_id_' + subcommonid + '_stock' + subpropArr[sp];
-						var preorderStockElementId = 'subproperty_id_' + subcommonid + '_preOrderStock' + subpropArr[sp];
+					subProperties.each(function(subProperty) {
 
-						if (redSHOP.RSConfig._('USE_STOCKROOM') == 1 && document.getElementById(stockElementId) && accessory_id == 0)
+						var stockElementId         = '#subproperty_id_' + subCommonId + '_stock' + subProperty;
+						var preorderStockElementId = '#subproperty_id_' + subCommonId + '_preOrderStock' + subProperty;
+
+						if (redSHOP.RSConfig._('USE_STOCKROOM') == 1 && jQuery(stockElementId).length && accessoryId == 0)
 						{
-							isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, document.getElementById(preorderStockElementId).value);
+							isStock = checkProductStockRoom(
+										jQuery(stockElementId).val(),
+										commonstockid,
+										preorder,
+										jQuery(preorderStockElementId).val()
+									);
 						}
+					});
+
+					if (jQuery(subCommonName).attr('required') == 1 && subProperties.length) {
+						subPropRequiredError += jQuery('#subprop_lbl').html() + " " + unescape(jQuery(subCommonName).attr('subpropName')) + "\n";
 					}
 
-					if (jQuery(spCommonName).attr('required') == 1 && subpropArr.length == 0) {
-						subacc_error += jQuery('#subprop_lbl').html() + " " + unescape(jQuery(spCommonName).attr('subpropName')) + "\n";
-					}
-
-					/******Collect subproperty Price start*******/
+					// Collect sub-property Price
 					if (setPropEqual && setSubpropEqual)
 					{
-						var oprandElementId = 'subproperty_id_' + subcommonid + '_oprand';
-						var priceElementId = 'subproperty_id_' + subcommonid + '_proprice';
-						var retSubArr = calculateSingleProductPrice(mainprice, oprandElementId, priceElementId, subpropArr);
-						mainprice = retSubArr[1];
+						var oprandElementId          = 'subproperty_id_' + subCommonId + '_oprand',
+							priceElementId           = 'subproperty_id_' + subCommonId + '_proprice',
+							priceWithoutVatElementId = 'subproperty_id_' + subCommonId + '_proprice_withoutvat';
 
-						var retSubArr = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, subpropArr);
-						old_price = retSubArr[1];
-
-						priceElementId = 'subproperty_id_' + subcommonid + '_proprice_withoutvat';
-
-						retSubArr = calculateSingleProductPrice(price_without_vat, oprandElementId, priceElementId, subpropArr);
-						price_without_vat = retSubArr[1];
+						old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, subProperties);
+						price_without_vat = calculateSingleProductPrice(price_without_vat, oprandElementId, priceWithoutVatElementId, subProperties);
 					}
 
-					allsubpropArr.push(subpropArr.join("::"));
+					allSubProperties.push(subProperties.join("::"));
 				}
-			}
 
-			tolallsubpropArr.push(allsubpropArr.join(",,"));
+				totalSubProperties.push(allSubProperties.join(",,"));
+			});
 		}
+	});
+
+	// Apply vat here in last
+	mainprice = price_without_vat * (1 + redSHOP.baseTax);
+
+	if (allProperties.length == 0)
+	{
+		attributeIds = [];
 	}
 
-	if (allpropArr.length == 0)
+	if (accessoryId != 0)
 	{
-		attrArr = new Array();
-	}
-
-	if (accessory_id != 0)
-	{
-		jQuery('#acc_attribute_data').val(attrArr.join("##"));
-		jQuery('#acc_property_data').val(allpropArr.join("##"));
-		jQuery('#acc_subproperty_data').val(tolallsubpropArr.join("##"));
+		jQuery('#acc_attribute_data').val(attributeIds.join("##"));
+		jQuery('#acc_property_data').val(allProperties.join("##"));
+		jQuery('#acc_subproperty_data').val(totalSubProperties.join("##"));
 		jQuery('#accessory_price').val(mainprice);
 		jQuery('#accessory_price_withoutvat').val(price_without_vat);
 	}
 	else
 	{
-		jQuery('#attribute_data').val(attrArr.join("##"));
-		jQuery('#property_data').val(allpropArr.join("##"));
-		jQuery('#subproperty_data').val(tolallsubpropArr.join("##"));
+		jQuery('#attribute_data').val(attributeIds.join("##"));
+		jQuery('#property_data').val(allProperties.join("##"));
+		jQuery('#subproperty_data').val(totalSubProperties.join("##"));
 		jQuery('#tmp_product_price').val(mainprice);
 		jQuery('#productprice_notvat').val(price_without_vat);
 		jQuery('#tmp_product_old_price').val(old_price);
 	}
 
-	jQuery('#requiedAttribute').val(acc_error);
-	jQuery('#requiedProperty').val(subacc_error);
+	jQuery('#requiedAttribute').val(requiredError);
+	jQuery('#requiedProperty').val(subPropRequiredError);
 }
 
 /**
@@ -880,131 +901,103 @@ function calculateSingleProductPrice(price, oprandElementId, priceElementId, ele
 	var setEqual = true;
 		price = parseFloat(price);
 
-	for (var i = 0; i < elementArr.length; i++)
+	for (var i = 0; i < elementArr.length && elementArr[i] != 0; i++)
 	{
 		var id       = elementArr[i];
-		var oprand   = document.getElementById(oprandElementId + id).value;
-		var subprice = document.getElementById(priceElementId + id).value;
+		var oprand   = jQuery('#' + oprandElementId + id).val();
+		var subprice = parseFloat(jQuery('#' + priceElementId + id).val());
 
 		if (oprand == "-")
 		{
-			price -= parseFloat(subprice);
+			price -= subprice;
 		}
 		else if (oprand == "+")
 		{
-			price += parseFloat(subprice);
+			price += subprice;
 		}
 		else if (oprand == "*")
 		{
-			price *= parseFloat(subprice);
+			price *= subprice;
 		}
 		else if (oprand == "/")
 		{
-			price /= parseFloat(subprice);
+			price /= subprice;
 		}
 		else if (oprand == "=")
 		{
-			price = parseFloat(subprice);
+			price = subprice;
 			setEqual = false;
 
 			break;
 		}
 	}
 
-	var retArr = new Array();
-	retArr[0]  = setEqual;
-	retArr[1]  = price;
-
-	return retArr;
+	return price;
 }
 
 // calculate attribute price
-function calculateTotalPrice(product_id, relatedprd_id) {
+function calculateTotalPrice(productId, relatedProductId) {
 
-	if (product_id == 0 || product_id == "")
+	if (productId == 0 || productId == "")
 	{
 		return false;
 	}
 
-	var mainprice = 0;
-	var price_without_vat = 0;
-	var old_price = 0;
-	var accfinalprice_withoutvat = 0;
-	var product_old_price = 0;
+	var mainprice                = 0,
+		price_without_vat        = 0,
+		old_price                = (jQuery('#tmp_product_old_price').length > 0) ? parseFloat(jQuery('#tmp_product_old_price').val()) : 0,
+		accfinalprice_withoutvat = (jQuery('#accessory_price_withoutvat').length > 0) ? parseFloat(jQuery('#accessory_price_withoutvat').val()) : 0,
+		product_old_price        = 0,
+		qty                      = (jQuery('#quantity' + prefix).length > 0) ? jQuery('#quantity' + prefix).val() : 1,
+		accfinalprice            = parseFloat(collectAccessory(productId, relatedProductId)),
+		prefix                   = (relatedProductId != 0) ? relatedProductId : productId,
+		wprice                   = 0,
+		wrapper_price_withoutvat = 0;
 
-	// Accessory price add
-	var accfinalprice = collectAccessory(product_id, relatedprd_id);
-	var qty = 1;
+	collectAttributes(productId, 0, relatedProductId);
 
-	if (relatedprd_id != 0)
+	if (jQuery('#tmp_product_price').length)
 	{
-		prefix = relatedprd_id;
-	}
-	else
-	{
-		prefix = product_id;
-	}
-
-	if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix))
-	{
-		qty = document.getElementById('quantity' + prefix).value;
+		mainprice = parseFloat(jQuery('#tmp_product_price').val());
 	}
 
-	if (document.getElementById('accessory_price_withoutvat'))
+	if (jQuery('#hidden_subscription_prize').length)
 	{
-		accfinalprice_withoutvat = parseFloat(document.getElementById('accessory_price_withoutvat').value);
+		mainprice += parseFloat(jQuery('#hidden_subscription_prize').val());
 	}
 
-	collectAttributes(product_id, 0, relatedprd_id);
-
-	if (document.getElementById('tmp_product_price'))
+	if (jQuery('#productprice_notvat').length)
 	{
-		mainprice = parseFloat(document.getElementById('tmp_product_price').value);
+		price_without_vat = parseFloat(jQuery('#productprice_notvat').val());
 	}
 
-	if (document.getElementById('hidden_subscription_prize'))
+	if (jQuery('#tmp_product_old_price').length)
 	{
-		mainprice = parseFloat(mainprice) + parseFloat(document.getElementById('hidden_subscription_prize').value);
-	}
-
-	if (document.getElementById('productprice_notvat'))
-	{
-		price_without_vat = parseFloat(document.getElementById('productprice_notvat').value);
-	}
-
-	if (document.getElementById('tmp_product_old_price'))
-	{
-		old_price = parseFloat(document.getElementById('tmp_product_old_price').value);
+		old_price = parseFloat(jQuery('#tmp_product_old_price').val());
 	}
 
 	// setting wrapper price
 	setWrapperComboBox();
 
-	var wprice = 0;
-
-	if (document.getElementById("wrapper_price"))
+	if (jQuery('#wrapper_price').length)
 	{
-		wprice = document.getElementById("wrapper_price").value;
+		wprice = parseFloat(jQuery('#wrapper_price').val());
 	}
 
-	var wrapper_price_withoutvat = 0;
-
-	if (document.getElementById("wrapper_price_withoutvat"))
+	if (jQuery('#wrapper_price_withoutvat').length)
 	{
-		wrapper_price_withoutvat = document.getElementById("wrapper_price_withoutvat").value;
+		wrapper_price_withoutvat = parseFloat(jQuery('#wrapper_price_withoutvat').val());
 	}
 
-	final_price_f = parseFloat(mainprice) + parseFloat(accfinalprice) + parseFloat(wprice);
-
-	product_price_without_vat = parseFloat(price_without_vat) + parseFloat(accfinalprice_withoutvat) + parseFloat(wrapper_price_withoutvat);
-
-	product_old_price = parseFloat(old_price) + parseFloat(accfinalprice) + parseFloat(wprice);
-
-	savingprice = parseFloat(product_old_price) - parseFloat(final_price_f);
+	final_price_f             = mainprice + accfinalprice + wprice;
+	product_price_without_vat = price_without_vat + accfinalprice_withoutvat + wrapper_price_withoutvat;
+	product_old_price         = old_price + accfinalprice + wprice;
+	savingprice               = parseFloat(product_old_price) - parseFloat(final_price_f);
 
 	if (redSHOP.RSConfig._('SHOW_PRICE') == '1')
 	{
-		if (!final_price_f || (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') == '1' && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE') != '1'))
+		if (!final_price_f
+			|| (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') == '1' && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE') != '1'))
 		{
 			final_price = getPriceReplacement(final_price_f);
 		}
@@ -1018,17 +1011,14 @@ function calculateTotalPrice(product_id, relatedprd_id) {
 		final_price = getPriceReplacement(final_price_f);
 	}
 
-	if (redSHOP.RSConfig._('SHOW_PRICE') == '1' && ( redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') != '1' || (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE'))))
+	if (redSHOP.RSConfig._('SHOW_PRICE') == '1'
+		&& (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') != '1'
+			|| (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE'))
+			)
+		)
 	{
-		if (document.getElementById('produkt_kasse_hoejre_pris_indre' + product_id))
-		{
-			document.getElementById('produkt_kasse_hoejre_pris_indre' + product_id).innerHTML = final_price;
-		}
-
-		if (document.getElementById('display_product_discount_price' + product_id))
-		{
-			document.getElementById('display_product_discount_price' + product_id).innerHTML = final_price;
-		}
+		jQuery('#produkt_kasse_hoejre_pris_indre' + productId).html(final_price);
+		jQuery('#display_product_discount_price' + productId).html(final_price);
 
 		if (!product_price_without_vat)
 		{
@@ -1039,17 +1029,11 @@ function calculateTotalPrice(product_id, relatedprd_id) {
 			product_price_without_vat = number_format(product_price_without_vat, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
 		}
 
-		if (document.getElementById('display_product_price_without_vat' + product_id))
-		{
-			document.getElementById('display_product_price_without_vat' + product_id).innerHTML = product_price_without_vat;
-		}
+		jQuery('#display_product_price_without_vat' + productId).html(product_price_without_vat);
+		jQuery('#display_product_price_no_vat' + productId).html(product_price_without_vat);
 
-		if (document.getElementById('display_product_price_no_vat' + product_id))
-		{
-			document.getElementById('display_product_price_no_vat' + product_id).innerHTML = product_price_without_vat;
-		}
 
-		if (document.getElementById('display_product_old_price' + product_id))
+		if (jQuery('#display_product_old_price' + productId).length)
 		{
 			if (!product_old_price)
 			{
@@ -1060,19 +1044,16 @@ function calculateTotalPrice(product_id, relatedprd_id) {
 				product_old_price = number_format(product_old_price, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
 			}
 
-			document.getElementById('display_product_old_price' + product_id).innerHTML = product_old_price;
+			jQuery('#display_product_old_price' + productId).html(product_old_price);
 		}
 
-		if (document.getElementById('display_product_saving_price' + product_id))
+		if (jQuery('#display_product_saving_price' + productId).length)
 		{
 			savingprice = number_format(savingprice, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
-			document.getElementById('display_product_saving_price' + product_id).innerHTML = savingprice;
+			jQuery('#display_product_saving_price' + productId).html(savingprice);
 		}
 
-		if (document.getElementById("rs_selected_accessory_price"))
-		{
-			document.getElementById("rs_selected_accessory_price").innerHTML = final_price;
-		}
+		jQuery('#rs_selected_accessory_price').html(final_price);
 	}
 }
 

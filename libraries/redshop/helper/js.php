@@ -66,9 +66,13 @@ class RedshopHelperJs
 			$currency_convert = round($convertPrice->convert(1), 2);
 		}
 
+		$token = JSession::getFormToken();
+
 		// Prepare dynamic variables to add them in javascript stack
 		$dynamicVars = array(
 			'SITE_URL'                          => JURI::root(),
+			'AJAX_TOKEN'                        => $token,
+			'AJAX_BASE_URL'                     => JRoute::_('index.php?' . $token . '=1', false),
 			'AJAX_CART_BOX'                     => AJAX_CART_BOX,
 			'REDSHOP_VIEW'                      => $view,
 			'REDSHOP_LAYOUT'                    => $layout,

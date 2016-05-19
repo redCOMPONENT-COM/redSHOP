@@ -351,7 +351,7 @@ class RedshopControllerCart extends RedshopController
 		if ($valid)
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
-			
+
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
@@ -394,7 +394,7 @@ class RedshopControllerCart extends RedshopController
 			$this->_carthelper->cartFinalCalculation(false);
 
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $Itemid, false);
-			
+
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
@@ -597,5 +597,37 @@ class RedshopControllerCart extends RedshopController
 			window.parent.location.href = "<?php echo $link ?>";
 		</script>
 		<?php    exit;
+	}
+
+	/**
+	 * Get product tax for ajax request
+	 *
+	 * @return  JSON  Return json response for tax
+	 */
+	public function ajaxGetProductTax()
+	{
+		RedshopHelperAjax::validateAjaxRequest('get');
+
+		$app          = JFactory::getApplication();
+
+		$productId    = $app->input->getInt('id', 0);
+		$productPrice = $app->input->getFloat('price', 0);
+		$userId       = $app->input->getInt('userId', 0);
+		$taxExempt    = $app->input->getBool('taxExempt', false);
+
+		$product = new JRegistry;
+		$product->set(
+			'tax',
+			producthelper::getInstance()->getProductTax(
+				$productId,
+				$productPrice,
+				$userId,
+				$taxExempt
+			)
+		);
+
+		ob_clean();
+		echo $product;
+		$app->close();
 	}
 }
