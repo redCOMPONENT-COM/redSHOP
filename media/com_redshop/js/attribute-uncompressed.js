@@ -296,8 +296,8 @@ redSHOP.onChangePropertyDropdown = [];
 function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribute_id, selectedproperty_id, mpw_thumb, mph_thumb)
 {
 	var allarg           = arguments;
-	var propArr          = new Array();
-	var subpropArr       = new Array();
+	var propArr          = [];
+	var subpropArr       = [];
 	var property_data    = "";
 	var subproperty_data = "";
 	var suburl           = "";
@@ -737,7 +737,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
 	});
 
 	// Apply vat here in last
-	mainprice = price_without_vat * (1 + redSHOP.baseTax);
+	mainprice = price_without_vat * (1 + redSHOP.RSConfig._('BASE_TAX'));
 
 	if (allProperties.length == 0)
 	{
@@ -1073,11 +1073,11 @@ function collectAccessory(product_id, relatedprd_id)
 	var price = 0;
 	var selid = 0;
 	var tmpprice = 0;
-	var myaccall = new Array();
-	var myaccqua = new Array();
-	var myattall = new Array();
-	var mypropall = new Array();
-	var mysubpropall = new Array();
+	var myaccall = [];
+	var myaccqua = [];
+	var myattall = [];
+	var mypropall = [];
+	var mysubpropall = [];
 
 
 	if (document.getElementById('isAjaxBoxOpen')) {
@@ -1647,7 +1647,7 @@ function discountCalculation(proid) {
 	}
 
 	// new extra enhancement of discount calculator added
-	var pdcoptionid = new Array();
+	var pdcoptionid = [];
 	if (document.getElementsByName('pdc_option_name[]')) {
 
 		var pdcoptions = document.getElementsByName('pdc_option_name[]');
@@ -1805,7 +1805,7 @@ function hasClass(ele, cls) {
  * function to support ie too
  */
 function RedgetElementsByClassName(xx) {
-	var rl = new Array();
+	var rl = [];
 	var ael = document.all ? document.all : document.getElementsByTagName('*');
 	for (i = 0, j = 0; i < ael.length; i++) {
 		if ((ael[i].className == xx)) {
@@ -1816,7 +1816,7 @@ function RedgetElementsByClassName(xx) {
 	return rl;
 }
 function getElementsByClassName(xx) {
-	var rl = new Array();
+	var rl = [];
 	var ael = document.all ? document.all : document.getElementsByTagName('*');
 	for (i = 0, j = 0; i < ael.length; i++) {
 		if ((ael[i].className == xx)) {
@@ -1970,7 +1970,7 @@ function setAddtocartForm(frmCartName, product_id) {
 	}
 
 	// new extra enhancement of discount calculator added
-	var pdcoptionid = new Array();
+	var pdcoptionid = [];
 	if (document.getElementsByName('pdc_option_name[]')) {
 
 		var pdcoptions = document.getElementsByName('pdc_option_name[]');
@@ -2020,8 +2020,8 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 	var att_error_alert = false;
 	var attreq = false;
 
-	var arr_attr_id = new Array();
-	var arr_subattr_id = new Array();
+	var arr_attr_id = [];
+	var arr_subattr_id = [];
 	var sel_i = 0;
 	var sub_sel_i = 0;
 	// User field validation
@@ -2241,7 +2241,7 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 		totAttribute = 0;
 	}
 
-	var accarr = new Array();
+	var accarr = [];
 	if (totAccessory > 0 && requiedAccessory != "" && requiedAccessory != 0) {
 		accarr = requiedAccessory.split("@@");
 		if (totAccessory == accarr.length) {
@@ -2557,8 +2557,8 @@ function checkAddtocartwishlistValidation(frmCartName, product_id, relatedprd_id
 	var att_error_alert = false;
 	var attreq = false;
 
-	var arr_attr_id = new Array();
-	var arr_subattr_id = new Array();
+	var arr_attr_id = [];
+	var arr_subattr_id = [];
 	var sel_i = 0;
 	var sub_sel_i = 0;
 	// User field validation
@@ -2595,9 +2595,9 @@ function checkAddtocartwishlistValidation(frmCartName, product_id, relatedprd_id
 	}
 }
 
-var mainpro_id = new Array();
-var totatt = new Array();
-var totcount_no_user_field = new Array();
+var mainpro_id = [];
+var totatt = [];
+var totcount_no_user_field = [];
 
 function productalladdprice(my) {
 
