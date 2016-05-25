@@ -5,37 +5,31 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use \AcceptanceTester;
+
 /**
  * Class Products2CheckoutCest
  *
- * @package  AcceptanceTester
+ * @package  CheckoutTester
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
  * @since    1.4
  */
-class Products2CheckoutCest
+class TwoCheckoutCest
 {
 	/**
 	 * Test to Verify the Payment Plugin
 	 *
-	 * @param   AcceptanceTester  $I         Actor Class Object
+	 * @param   CheckoutTester  $I         Actor Class Object
 	 * @param   String            $scenario  Scenario Variable
 	 *
 	 * @return void
 	 */
-	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
+	public function checkout(CheckoutTester $I, $scenario)
 	{
-		$I = new AcceptanceTester($scenario);
-
-		$scenario->skip('@todo to be removed once REDSHOP-2731 gets fixed');
-
 		$I->wantTo('Test Product Checkout on Front End with 2 Checkout Payment Plugin');
 		$I->doAdministratorLogin();
 		$pluginName = '2Checkout';
-		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_2checkout/';
-		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
 
 		$checkoutAccountInformation = array(
 			"vendorID" => "901261371",
@@ -49,7 +43,7 @@ class Products2CheckoutCest
 		$I->enablePlugin($pluginName);
 		$this->update2CheckoutPlugin($I, $scenario, $checkoutAccountInformation['vendorID'], $checkoutAccountInformation['secretWord']);
 		$I->doAdministratorLogout();
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+		$I = new CheckoutTester\ProductCheckoutManagerJoomla3Steps($scenario);
 
 		$customerInformation = array(
 			"email" => "test@test" . rand() . ".com",
@@ -104,14 +98,14 @@ class Products2CheckoutCest
 	/**
 	 * Function to Update Checkout Plugin Information
 	 *
-	 * @param   AcceptanceTester  $I           Actor Class Object
+	 * @param   CheckoutTester  $I           Actor Class Object
 	 * @param   String            $scenario    Scenario Variable
 	 * @param   String            $vendorID    Vendor ID for the Account
 	 * @param   String            $secretWord  Secret Word for the Account
 	 *
 	 * @return void
 	 */
-	private function update2CheckoutPlugin(AcceptanceTester $I, $scenario, $vendorID, $secretWord)
+	private function update2CheckoutPlugin(CheckoutTester $I, $scenario, $vendorID, $secretWord)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_plugins');
 		$I->checkForPhpNoticesOrWarnings();
@@ -132,7 +126,7 @@ class Products2CheckoutCest
 	/**
 	 * Function to Test Checkout Process of a Product using the 2Checkout Payment Plugin
 	 *
-	 * @param   AcceptanceTester  $I                      Actor Class Object
+	 * @param   CheckoutTester  $I                      Actor Class Object
 	 * @param   String            $scenario               Scenario Variable
 	 * @param   Array             $addressDetail          Address Detail
 	 * @param   Array             $shipmentDetail         Shipping Address Detail
@@ -142,7 +136,7 @@ class Products2CheckoutCest
 	 *
 	 * @return void
 	 */
-	private function checkoutProductWith2CheckoutPayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	private function checkoutProductWith2CheckoutPayment(CheckoutTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
 	{
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv,30);
@@ -160,7 +154,7 @@ class Products2CheckoutCest
 		$I->click(['xpath' => "//input[@value='Checkout']"]);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+		$I = new CheckoutTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->addressInformation($addressDetail);
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
