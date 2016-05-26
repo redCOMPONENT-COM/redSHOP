@@ -40,13 +40,13 @@ class JFormFieldCreditCards extends JFormFieldCheckboxes
 		JFactory::getLanguage()->load('com_redshop');
 
 		$cardTypes             = array();
-		$cardTypes['VISA']     = 'COM_REDSHOP_CARD_TYPE_VISA';
-		$cardTypes['MC']       = 'COM_REDSHOP_CARD_TYPE_MASTERCARD';
-		$cardTypes['amex']     = 'COM_REDSHOP_CARD_TYPE_AMERICAN_EXPRESS';
-		$cardTypes['maestro']  = 'COM_REDSHOP_CARD_TYPE_MAESTRO';
-		$cardTypes['jcb']      = 'COM_REDSHOP_CARD_TYPE_JCB';
-		$cardTypes['diners']   = 'COM_REDSHOP_CARD_TYPE_DINERS_CLUB';
-		$cardTypes['discover'] = 'COM_REDSHOP_CARD_TYPE_DISCOVER';
+		$cardTypes['VISA']     = JText::_('COM_REDSHOP_CARD_TYPE_VISA');
+		$cardTypes['MC']       = JText::_('COM_REDSHOP_CARD_TYPE_MASTERCARD');
+		$cardTypes['amex']     = JText::_('COM_REDSHOP_CARD_TYPE_AMERICAN_EXPRESS');
+		$cardTypes['maestro']  = JText::_('COM_REDSHOP_CARD_TYPE_MAESTRO');
+		$cardTypes['jcb']      = JText::_('COM_REDSHOP_CARD_TYPE_JCB');
+		$cardTypes['diners']   = JText::_('COM_REDSHOP_CARD_TYPE_DINERS_CLUB');
+		$cardTypes['discover'] = JText::_('COM_REDSHOP_CARD_TYPE_DISCOVER');
 
 		// Allow parent options - This will extends the options added directly from XML
 		$options = parent::getOptions();

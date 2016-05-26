@@ -371,7 +371,13 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$d ["order_payment_trans_id"] = $paymentResponse->transaction_id;
 				$order_status_log             = $paymentResponse->message;
-				$order_status                 = 'C';
+
+				if (!isset($paymentResponse->status))
+				{
+					$paymentResponse->status = 'C';
+				}
+
+				$order_status = $paymentResponse->status;
 
 				if (!isset($paymentResponse->paymentStatus))
 				{
