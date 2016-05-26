@@ -3757,16 +3757,10 @@ class rsCarthelper
 			$paymentparams = new JRegistry($paymentmethod->params);
 			$is_creditcard = $paymentparams->get('is_creditcard', 0);
 
-			if ($is_creditcard)
+			$credict_card = $paymentparams->get("accepted_credict_card", array());
+
+			if ($is_creditcard && !empty($credict_card))
 			{
-				$credict_card          = array();
-				$accepted_credict_card = $paymentparams->get("accepted_credict_card");
-
-				if ($accepted_credict_card != "")
-				{
-					$credict_card = $accepted_credict_card;
-				}
-
 				$cardinfo .= '<fieldset class="adminform"><legend>' . JText::_('COM_REDSHOP_CARD_INFORMATION') . '</legend>';
 				$cardinfo .= '<table class="admintable">';
 				$cardinfo .= '<tr><td colspan="2" align="right" nowrap="nowrap">';
@@ -3831,6 +3825,10 @@ class rsCarthelper
 				$cardinfo .= '<td><input class="inputbox" id="credit_card_code" name="credit_card_code" value="' . $credit_card_code . '" autocomplete="off" type="password"></td></tr>';
 
 				$cardinfo .= '</table></fieldset>';
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PAYMENT_CREDIT_CARDS_NOT_FOUND'), 'error');
 			}
 		}
 

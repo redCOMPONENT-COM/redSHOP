@@ -20,6 +20,7 @@
 	<files>
 		<filename plugin="paypalcreditcard">paypalcreditcard.php</filename>
 		<folder>library</folder>
+		<folder>layouts</folder>
 	</files>
 
 	<languages>
@@ -69,6 +70,17 @@
 					label="PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CARDS"
 					description="PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CARDS_DESC"
 				/>
+				<field
+					name="enableVault"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_ENABLE_VAULT"
+					description="PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_ENABLE_VAULT_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 				<field
 					name="isTest"
 					type="radio"

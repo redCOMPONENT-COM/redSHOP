@@ -21,6 +21,7 @@ use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
 use PayPal\Api\Authorization;
 use PayPal\Api\Capture;
+use PayPal\Api\Patch;
 
 class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 {
@@ -56,35 +57,39 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$app         = JFactory::getApplication();
 		$session     = JFactory::getSession();
 		$cart        = $session->get('cart');
-		$ccdata      = $session->get('ccdata');
-		$billingInfo = $data['billinginfo'];
+		$enableVault = $this->params->get('enableVault', 0);
 
 		$return = new stdClass;
-
-		$expyear    = $ccdata['order_payment_expire_year'];
-		$expmonth   = $ccdata['order_payment_expire_month'];
-		$address    = $data['billinginfo']->address;
-		$postalcode = $data['billinginfo']->zipcode;
-		$cvv        = $ccdata['credit_card_code'];
-
-		$cardType = strtolower($ccdata['creditcard_code']);
-
-		if ('mc' == $cardType)
-		{
-			$cardType = 'mastercard';
-		}
 
 		// CreditCard
 		// A resource representing a credit card that can be
 		// used to fund a payment.
-		$card = new CreditCard();
-		$card->setType($cardType)
-			->setNumber($ccdata['order_payment_number'])
-			->setExpireMonth($ccdata['order_payment_expire_month'])
-			->setExpireYear($ccdata['order_payment_expire_year'])
-			->setCvv2($ccdata['credit_card_code'])
-			->setFirstName($billingInfo->firstname)
-			->setLastName($billingInfo->lastname);
+		$card = $this->creditCard($data);
+
+		// If vault is enabled only save card - payment will be done from backend.
+		if ($enableVault)
+		{
+			try
+			{
+				$card->create($apiContext);
+
+				$return->transaction_id = 0;
+				$return->status         = 'P';
+				$return->paymentStatus  = 'Unpaid';
+				$return->responsestatus = 'Success';
+				$return->message        = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CREATE_SUCCESS');
+			}
+			catch (Exception $ex)
+			{
+				$return->responsestatus = 'Fail';
+				$return->message        = JText::sprintf(
+											'PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL',
+											implode('<br />', $this->parsePaypalException($ex))
+										);
+			}
+
+			return $return;
+		}
 
 		// FundingInstrument
 		// A resource representing a Payer's funding instrument.
@@ -200,6 +205,298 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $return;
 	}
 
+	protected function creditCard($data)
+	{
+		$billingInfo = $data['billinginfo'];
+		$ccdata      = JFactory::getSession()->get('ccdata');
+		$cardType    = strtolower($ccdata['creditcard_code']);
+
+		if ('mc' == $cardType)
+		{
+			$cardType = 'mastercard';
+		}
+
+		// CreditCard
+		// A resource representing a credit card that can be
+		// used to fund a payment.
+		$card = new CreditCard();
+		$card->setType($cardType)
+			->setNumber($ccdata['order_payment_number'])
+			->setExpireMonth($ccdata['order_payment_expire_month'])
+			->setExpireYear($ccdata['order_payment_expire_year'])
+			->setCvv2($ccdata['credit_card_code'])
+			->setFirstName($billingInfo->firstname)
+			->setLastName($billingInfo->lastname);
+
+		$card->setMerchantId('redSHOPPaypalCreditCard');
+		$card->setExternalCardId($billingInfo->users_info_id . uniqid());
+		$card->setExternalCustomerId($billingInfo->users_info_id);
+
+		return $card;
+	}
+
+	public function onListCreditCards()
+	{
+		$app = JFactory::getApplication();
+		$plugin = $app->input->getCmd('plugin');
+
+		if ($this->isAjaxRequest() && 'paypalcreditcard' == $plugin)
+		{
+			$this->handleAjaxRequest();
+
+			$app->close();
+		}
+
+		$enableVault = $this->params->get('enableVault', 0);
+
+		if (!$enableVault)
+		{
+			return;
+		}
+
+		$user = RedshopHelperUser::getUserInformation(JFactory::getUser()->id);
+
+		$apiContext  = $this->loadFramework();
+
+		$html =  RedshopLayoutHelper::render(
+				'cards',
+				array(
+					'apiContext' => $apiContext,
+					'params'    => $this->params,
+					'plugin' => $this,
+					'merchantId' => 'redSHOPPaypalCreditCard',
+					//'externalCardId' => $user->users_info_id,
+					'externalCustomerId' => $user->users_info_id,
+					'creditCardTypes' => $this->creditCardTypes()
+				),
+				JPATH_SITE . '/plugins/' . $this->_type . '/' . $this->_name . '/layouts'
+			);
+
+		echo $html;
+
+		return $html;
+	}
+
+	protected function handleAjaxRequest()
+	{
+		$app = JFactory::getApplication();
+
+		$task = $app->input->getCmd('task');
+
+		$ajaxMethod = 'onCreditCard' . ucfirst($task);
+
+		$data = array(
+			'cardId'          => $app->input->getString('cardId'),
+			'cardName'        => $app->input->getString('cardName'),
+			'cardType'        => $app->input->getString('cardType'),
+			'cardNumber'      => $app->input->getNumber('cardNumber'),
+			'cardExpireMonth' => $app->input->getInt('cardExpireMonth'),
+			'cardExpireYear'  => $app->input->getInt('cardExpireYear'),
+			'cardCvv'         => $app->input->getInt('cardCvv'),
+			'users_info_id'   => RedshopHelperUser::getUserInformation(JFactory::getUser()->id)->users_info_id
+		);
+
+		$this->$ajaxMethod($data);
+	}
+
+	protected function prepareCreditCard($data)
+	{
+		list($firstName, $lastName) = explode(" ", $data['cardName']);
+
+		if ($data['cardId'] != '0')
+		{
+			$apiContext  = $this->loadFramework();
+			$card = CreditCard::get($data['cardId'], $apiContext);
+		}
+		else
+		{
+			$card = new CreditCard();
+		}
+
+		$card->setType($data['cardType'])
+			->setNumber($data['cardNumber'])
+			->setExpireMonth($data['cardExpireMonth'])
+			->setExpireYear($data['cardExpireYear'])
+			->setFirstName($firstName)
+			->setLastName($lastName);
+
+		$card->setMerchantId('redSHOPPaypalCreditCard');
+		$card->setExternalCardId($data['users_info_id'] . uniqid());
+		$card->setExternalCustomerId($data['users_info_id']);
+
+		return $card;
+	}
+
+	public function onCreditCardNew($data)
+	{
+		$app        = JFactory::getApplication();
+		$apiContext = $this->loadFramework();
+		$card       = $this->prepareCreditCard($data);
+		$cardId     = 0;
+		$html       = '';
+
+		try
+		{
+			$card->setCvv2($data['cardCvv']);
+			$card->create($apiContext);
+
+			$cardId = $card->getId();
+
+			$html = RedshopLayoutHelper::render(
+							'card',
+							array(
+								'card'            => $card,
+								'creditCardTypes' => $this->creditCardTypes()
+							),
+							JPATH_SITE . '/plugins/' . $this->_type . '/' . $this->_name . '/layouts'
+						);
+
+			$app->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_SAVED'), 'success');
+		}
+		catch (Exception $ex)
+		{
+			$app->enqueueMessage($ex->getMessage() . '<br />' . implode('<br />', $this->parsePaypalException($ex)), 'error');
+		}
+
+		$return             = $this->getSystemMessages();
+		$return['cardId']   = $cardId;
+		$return['response'] = $html;
+
+		ob_clean();
+		echo json_encode($return);
+	}
+
+	public function onCreditCardUpdate($data)
+	{
+		$apiContext  = $this->loadFramework();
+
+		list($firstName, $lastName) = explode(" ", $data['cardName']);
+
+		$card = $this->prepareCreditCard($data);
+
+		$pathRequest = new \PayPal\Api\PatchRequest();
+
+		$name = new Patch();
+		$name->setOp("replace")
+			->setPath('/first_name')
+			->setValue($firstName);
+
+		$pathRequest->addPatch($name);
+
+		$lastnamePatch = new Patch();
+		$lastnamePatch->setOp("replace")
+			->setPath('/last_name')
+			->setValue($lastName);
+
+		$pathRequest->addPatch($lastnamePatch);
+
+		$month = new Patch();
+		$month->setOp("replace")
+			->setPath('/expire_month')
+			->setValue((int) $data['cardExpireMonth']);
+
+		$pathRequest->addPatch($month);
+
+		$year = new Patch();
+		$year->setOp("replace")
+			->setPath('/expire_year')
+			->setValue((int) $data['cardExpireYear']);
+
+		$pathRequest->addPatch($year);
+
+		$app = JFactory::getApplication();
+
+		try
+		{
+			$card->update($pathRequest, $apiContext);
+
+			$app->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_SAVED'), 'success');
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		$return             = $this->getSystemMessages();
+		$return['cardId']   = $card->getId();
+		$return['response'] = '';
+
+		ob_clean();
+		echo json_encode($return);
+	}
+
+	public function onCreditCardDelete($data)
+	{
+		$app        = JFactory::getApplication();
+		$apiContext = $this->loadFramework();
+		$card       = $this->prepareCreditCard($data);
+
+		try
+		{
+			$card->delete($apiContext);
+
+			$app->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_DELETED'), 'success');
+		}
+		catch (Exception $ex)
+		{
+			$app->enqueueMessage($ex->getMessage() . '<br />' . implode('<br />', $this->parsePaypalException($ex)), 'error');
+		}
+
+		$return             = $this->getSystemMessages();
+		$return['cardId']   = 0;
+		$return['response'] = '';
+
+		ob_clean();
+		echo json_encode($return);
+	}
+
+	protected function getSystemMessages()
+	{
+		$messages = JFactory::getApplication()->getMessageQueue();
+		$return['messages'] = array();
+
+		if (is_array($messages))
+		{
+			foreach ($messages as $msg)
+			{
+				$msgList = array(
+					'msgList' => array(
+						$msg['type'] => array($msg['message'])
+					)
+				);
+				$msg['message'] = RedshopLayoutHelper::render('system.message', $msgList);
+
+				switch ($msg['type'])
+				{
+					case 'message':
+						$typeMessage = 'success';
+						break;
+					case 'notice':
+						$typeMessage = 'info';
+						break;
+					case 'error':
+						$typeMessage = 'important';
+						break;
+					case 'warning':
+						$typeMessage = 'warning';
+						break;
+					default:
+						$typeMessage = $msg['type'];
+				}
+
+				$return['messages'][] = array('message' => $msg['message'], 'type_message' => $typeMessage);
+			}
+		}
+
+		return $return;
+	}
+
+	protected function isAjaxRequest()
+	{
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+	}
+
 	public function onAuthorizeStatus_PaypalCreditcard($element, $orderId)
 	{
 		if ($element != 'paypalcreditcard')
@@ -309,7 +606,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $return;
 	}
 
-	private function parsePaypalException($ex)
+	protected function parsePaypalException($ex)
 	{
 		$data = json_decode($ex->getData());
 
@@ -327,5 +624,20 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$errorMessage[] = $data->message . ' ' . $data->information_link;
 
 		return $errorMessage;
+	}
+
+	protected function creditCardTypes()
+	{
+		$creditCardTypes = array(
+			JHtml::_('select.option', 'visa', 'Visa', 'value', 'text'),
+			JHtml::_('select.option', 'mastercard', 'Mastercard', 'value', 'text'),
+			JHtml::_('select.option', 'amex', 'American Express', 'value', 'text'),
+			JHtml::_('select.option', 'maestro', 'Maestro', 'value', 'text'),
+			JHtml::_('select.option', 'jcb', 'JCB', 'value', 'text'),
+			JHtml::_('select.option', 'diners', 'Diners Club', 'value', 'text'),
+			JHtml::_('select.option', 'discover', 'Discover', 'value', 'text')
+		);
+
+		return $creditCardTypes;
 	}
 }
