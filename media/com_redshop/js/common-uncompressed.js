@@ -15,7 +15,7 @@ redSHOP.addToCompare = function(ele, showList = 0){
 	var productId = data[0],
 		categoryId = data[1];
 
-	command = (ele.is(":checked")) ? 'add' : 'remove';
+	var command = (ele.is(":checked")) ? 'add' : 'remove';
 
 	if (ele.is("a"))
 		command = 'remove';
