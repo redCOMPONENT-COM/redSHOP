@@ -52,6 +52,29 @@ class RedshopProductCompare implements Countable
 				'category' => 0
 			)
 		);
+		
+		$sameCategoryInList = true;
+		$categoryIds = array();
+
+		foreach ($this->compare['items'] as $key => $value)
+		{
+			array_push($categoryIds, $value['item']->categoryId);
+		}
+
+		if (count(array_unique($categoryIds)) > 1)
+		{
+			$sameCategoryInList = false;
+		}
+
+		if (PRODUCT_COMPARISON_TYPE == 'category' && !$sameCategoryInList)
+		{
+			JFactory::getSession()->set('product.compare', array(
+										'items'    => array(),
+										'total'    => 0,
+										'category' => 0
+									)
+						);
+		}
 	}
 
 	/**
@@ -73,15 +96,12 @@ class RedshopProductCompare implements Countable
 	{
 		$this->key = $this->item->productId;
 
-		if (PRODUCT_COMPARISON_TYPE == 'category')
-		{
-			$this->key = $this->item->productId . '.' . $this->item->categoryId;
+		$this->key = $this->item->productId . '.' . $this->item->categoryId;
 
-			// There is no category id set while removing find the key
-			if (!$this->item->categoryId)
-			{
-				$this->key = $this->findItemKey();
-			}
+		// There is no category id set while removing find the key
+		if (!$this->item->categoryId)
+		{
+			$this->key = $this->findItemKey();
 		}
 
 		return $this->key;
@@ -94,9 +114,21 @@ class RedshopProductCompare implements Countable
 	 */
 	protected function validItem()
 	{
+		$validCategoryId = true;
+
+		foreach ($this->compare['items'] as $key => $value)
+		{
+			if ($this->item->categoryId != $value['item']->categoryId)
+			{
+				$validCategoryId = false;
+				break;
+			}
+		}
+
 		return (
 			$this->isEmpty()
-			|| (PRODUCT_COMPARISON_TYPE == 'category' && $this->getCategoryId() === $this->item->categoryId)
+			|| (PRODUCT_COMPARISON_TYPE == 'category' && $validCategoryId)
+			|| PRODUCT_COMPARISON_TYPE == 'global'
 		);
 	}
 
@@ -116,19 +148,19 @@ class RedshopProductCompare implements Countable
 		// Throw an exception for invalid entried
 		if (!$this->validItem())
 		{
-			throw new Exception('0`' . JText::_('COM_REDSHOP_ERROR_ADDING_PRODUCT_TO_COMPARE'), 1);
+			throw new Exception(JText::_('COM_REDSHOP_ERROR_ADDING_PRODUCT_TO_COMPARE'), 1);
 		}
 
 		// Set Unique key based on comparision type
 		$this->setKey();
 
 		// Throw an exception if there's no id:
-		if (!$this->key) throw new Exception('It requires items with unique product id.');
+		if (!$this->key) throw new Exception(JText::_('COM_REDSHOP_ERROR_REQUIRE_UNIQUE_PRODUCT_ID_TO_COMPARE'));
 
 		// Throw an exception if comparison is overlimit.
 		if ($this->count() >= PRODUCT_COMPARE_LIMIT)
 		{
-			throw new Exception('0`' . JText::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE'));
+			throw new Exception(JText::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE'));
 		}
 
 		// Throw an exception if already found in compare list.
