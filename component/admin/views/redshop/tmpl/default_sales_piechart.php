@@ -8,32 +8,12 @@
  */
 defined('_JEXEC') or die;
 
+JFactory::getDocument()->addScript('//www.google.com/jsapi');
 
-$user = JFactory::getUser();
+$turnover = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalTurnoverCpanel();
 
-$model = $this->getModel('redshop');
-
-$data = "[]";
-$rowdata = "";
-//print_r($this->turnover);
-
-for ($p = 0; $p < count($this->turnover); $p++)
-{
-	$rowdata[] = "['" . $this->turnover[$p]->viewdate . "'," . $this->turnover[$p]->turnover . "]";
-
-}
-
-
-
-
-
+$data = json_encode($turnover, JSON_NUMERIC_CHECK);
 $title = addslashes(JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'));
-//print_r($rowdata);
-if (is_array($rowdata))
-{
-	$rowdata = implode(",", $rowdata);
-	$data = "[$rowdata]";
-}
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -53,32 +33,51 @@ if (is_array($rowdata))
 		data.addColumn('number', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>');
 		data.addRows(<?php echo $data;?>);
 
+		var options = {
+			width: 600,
+			height: 300,
+			is3D: true,
+			title: '<?php echo $title;?>',
+			hAxis: {title: '<?php echo JText::_('COM_REDSHOP_LASTMONTHSALES');?>'},
+			vAxis: {title: '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>'}
+		};
+
 		//Instantiate and draw our chart, passing in some options.
 		var chart = new google.visualization.ColumnChart(document.getElementById('lastmonthsales_statistics_pie'));
-		chart.draw(data, {width: 500, height: 300, is3D: true, title: '<?php echo $title;?>'});
+		chart.draw(data, options);
 	}
 </script>
-
-
 <form action="index.php?option=com_redshop" method="post" name="chartform" id="chartForm">
 	<div id="editcell">
-
 		<table class="adminlist" width="100%">
-
-
 			<tr>
-				<td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption'];?></td>
-			</tr>
+				<td>
+					<?php
+						echo JText::_('COM_REDSHOP_FILTER') . ": ";
+						$options = array();
+						$options[] = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_Select'));
+						$options[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
+						$options[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
+						$options[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
+						$options[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
 
+						echo JHTML::_(
+							'select.genericlist',
+							$options,
+							'filteroption',
+							'class="inputbox" size="1" onchange="document.chartform.submit();"',
+							'value',
+							'text',
+							JFactory::getApplication()->input->getInt('filteroption', 4)
+						);
+
+					?>
+				</td>
+			</tr>
 		</table>
 		<table class="adminlist" width="100%" height="295">
-
-
 			<div style="float:left;" id="lastmonthsales_statistics_pie"></div>
-
 		</table>
 	</div>
 	<input type="hidden" name="view" value="redshop"/>
-
-
 </form>
