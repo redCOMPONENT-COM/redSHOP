@@ -1,7 +1,7 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
-redSHOP.addToCompare = function(ele){
+redSHOP.addToCompare = function(ele, showList = 0){
 
 	if (!ele.length) {return;}
 
@@ -15,17 +15,23 @@ redSHOP.addToCompare = function(ele){
 	var productId = data[0],
 		categoryId = data[1];
 
-	var command = (ele.is(":checked")) ? 'add' : 'remove';
+	command = (ele.is(":checked")) ? 'add' : 'remove';
+
+	if (ele.is("a"))
+		command = 'remove';
+
+	if (showList == 1)
+	{
+		command = '';
+	}
 
 	jQuery.ajax({
 		url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare',
 		type: 'POST',
-		dataType: 'json',
-		data: {cmd: command, pid: productId, cid: categoryId},
-		complete: function(xhr, textStatus) {
-		},
-		success: function(data, textStatus, xhr) {
-
+		dataType: 'json', data: {cmd: command, pid: productId, cid: categoryId},
+		complete: function(xhr, textStatus) { },
+		success: function(data, textStatus, xhr)
+		{
 			if (data.success === true)
 			{
 				jQuery('#divCompareProduct').html(data.html);
@@ -38,8 +44,19 @@ redSHOP.addToCompare = function(ele){
 			}
 
 			jQuery('a[id^="removeCompare"]').click(function(event) {
-		    	redSHOP.addToCompare(jQuery(this));
-		    });
+				if (jQuery(this).attr('value') ==  jQuery('[id^="rsProductCompareChk"]').val())
+				{
+					jQuery('[id^="rsProductCompareChk"]').prop('checked', false);
+				}
+				redSHOP.addToCompare(jQuery(this));
+			});
+
+			jQuery('a[id^="removeCompare"]').each(function(index, el) {
+				if (jQuery(this).attr('value').split('.')[0] == jQuery('#product_id').val())
+				{
+					jQuery('[id^="rsProductCompareChk"]').prop('checked', true);
+				}
+			});
 		},
 		error: function(xhr, textStatus, errorThrown) {
 			//called when there is an error
@@ -47,11 +64,12 @@ redSHOP.addToCompare = function(ele){
 	});
 };
 
+
 // New registration functions
 jQuery(document).ready(function() {
     billingIsShipping(document.getElementById('billisship'));
 
-    redSHOP.addToCompare(jQuery('[id^="rsProductCompareChk"]'));
+    redSHOP.addToCompare(jQuery('[id^="rsProductCompareChk"]'), 1);
 
     jQuery('[id^="rsProductCompareChk"]').click(function(event) {
     	redSHOP.addToCompare(jQuery(this));
