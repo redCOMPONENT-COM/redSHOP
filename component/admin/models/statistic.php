@@ -627,14 +627,24 @@ class RedshopModelStatistic extends RedshopModel
 
 				if ($rs[0]->viewer > 0)
 				{
+					if ($this->_filteroption == 1)
+					{
+						$rs[0]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
+					}
+
 					if ($this->_filteroption == 2)
 					{
 						$rs[0]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
-					
+
 					if ($this->_filteroption == 3)
 					{
-						$rs[0]->viewdate = date("F, Y", strtotime($list->preday));
+						$rs[0]->viewdate = date("F, Y", strtotime($list->preday) + 1);
+					}
+
+					if ($this->_filteroption == 4)
+					{
+						$rs[0]->viewdate = date("Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[0];
