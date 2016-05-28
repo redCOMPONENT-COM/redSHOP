@@ -100,7 +100,7 @@ class RedshopProductCompare implements Countable
 	{
 		return (
 			$this->isEmpty()
-			|| (PRODUCT_COMPARISON_TYPE == 'category' && $validCategoryId)
+			|| (PRODUCT_COMPARISON_TYPE == 'category' && $this->getCategoryId() === $this->item->categoryId)
 			|| PRODUCT_COMPARISON_TYPE == 'global'
 		);
 	}
