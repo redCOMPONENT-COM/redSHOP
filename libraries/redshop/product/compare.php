@@ -52,28 +52,12 @@ class RedshopProductCompare implements Countable
 				'category' => 0
 			)
 		);
-		
-		$sameCategoryInList = true;
-		$categoryIds = array();
 
-		foreach ($this->compare['items'] as $key => $value)
+		/* Clean session if user change comparision type to 'category' and different category id found in the last item list,
+		in order to avoid backward incompatibility and user confusion */
+		if (PRODUCT_COMPARISON_TYPE == 'category' && $this->isMixedCategoryId())
 		{
-			array_push($categoryIds, $value['item']->categoryId);
-		}
-
-		if (count(array_unique($categoryIds)) > 1)
-		{
-			$sameCategoryInList = false;
-		}
-
-		if (PRODUCT_COMPARISON_TYPE == 'category' && !$sameCategoryInList)
-		{
-			JFactory::getSession()->set('product.compare', array(
-										'items'    => array(),
-										'total'    => 0,
-										'category' => 0
-									)
-						);
+			$this->cleanSession();
 		}
 	}
 
@@ -114,17 +98,6 @@ class RedshopProductCompare implements Countable
 	 */
 	protected function validItem()
 	{
-		$validCategoryId = true;
-
-		foreach ($this->compare['items'] as $key => $value)
-		{
-			if ($this->item->categoryId != $value['item']->categoryId)
-			{
-				$validCategoryId = false;
-				break;
-			}
-		}
-
 		return (
 			$this->isEmpty()
 			|| (PRODUCT_COMPARISON_TYPE == 'category' && $validCategoryId)
@@ -236,7 +209,27 @@ class RedshopProductCompare implements Countable
 	{
 		return (is_integer(strpos($key, $this->item->productId . '.')));
 	}
+	
+	/**
+	 * Check if session have items with different category id
+	 *
+	 * @return  boolean
+	 */
+	public function isMixedCategoryId()
+	{
+		$cids = array();
 
+		foreach ($this->compare['items'] as $key => $value)
+		{
+			array_push($cids, $value['item']->categoryId);
+		}
+		
+		// Count the number of category id in item list
+		$countCid = count(array_unique($cids));
+
+		return ($countCid > 1);
+	}
+	
 	/**
 	 * Count compare Items
 	 *
@@ -257,6 +250,21 @@ class RedshopProductCompare implements Countable
 		$this->compare['total'] = $this->count();
 
 		JFactory::getSession()->set('product.compare', $this->compare);
+	}
+	
+	/**
+	 * Clean items info
+	 *
+	 * @return  void
+	 */
+	public function cleanSession()
+	{
+		JFactory::getSession()->set('product.compare', array(
+									'items'    => array(),
+									'total'    => 0,
+									'category' => 0
+								)
+					);
 	}
 
 	/**
