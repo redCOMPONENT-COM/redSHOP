@@ -68,7 +68,7 @@ $title = addslashes(JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'));
 							'class="inputbox" size="1" onchange="document.chartform.submit();"',
 							'value',
 							'text',
-							JFactory::getApplication()->input->getInt('filteroption', 4)
+							JFactory::getApplication()->input->getInt('filteroption', 1)
 						);
 
 					?>
