@@ -118,7 +118,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 
 		// Initialize query
 		$query = $db->getQuery(true)
-			->select('p.product_number, p.product_name, p.product_id');
+			->select('p.product_number, p.product_name, p.product_id, p.product_price');
 
 		$keyword = $this->getState('keyword');
 
