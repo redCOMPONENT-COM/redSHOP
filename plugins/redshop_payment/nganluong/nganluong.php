@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::import('redshop.library');
-JLoader::load('RedshopHelperAdminOrder');
-
 // Load nganluong library
 require_once dirname(__DIR__) . '/nganluong/library/init.php';
 
@@ -82,7 +79,7 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 
 		$app         = JFactory::getApplication();
 		$input       = $app->input;
-		$orderHelper = new order_functions;
+		$orderHelper = order_functions::getInstance();
 		$orderId     = $input->getInt('orderid');
 		$order       = $orderHelper->getOrderDetails($orderId);
 		$price       = $order->order_total;
@@ -96,7 +93,7 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 		$totalAmount = $price;
 		$items = array();
 		$paymentMethod = $input->post->get('option_payment');
-		$bankCode = @$input->post->get('bankcode');
+		$bankCode = $input->post->get('bankcode');
 		$orderCode = $orderId;
 		$paymentType = '';
 		$discountAmount = $order->order_discount;
@@ -127,15 +124,15 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			}
 			elseif ($paymentMethod == "NH_OFFLINE")
 			{
-					$nlResult = $nlCheckout->officeBankCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
+				$nlResult = $nlCheckout->officeBankCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
 			}
 			elseif ($paymentMethod == "ATM_OFFLINE")
 			{
-					$nlResult = $nlCheckout->BankOfflineCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
+				$nlResult = $nlCheckout->BankOfflineCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
 			}
 			elseif ($paymentMethod == "IB_ONLINE")
 			{
-					$nlResult = $nlCheckout->IBCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
+				$nlResult = $nlCheckout->IBCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
 			}
 		}
 
