@@ -10,17 +10,9 @@ defined('_JEXEC') or die;
 
 $formInput = $displayData['formInput'];
 $params    = $displayData['params'];
-$action = $formInput['action'];
-
-$name        = $params->get('dataName', SHOP_NAME);
-$description = JText::sprintf('PLG_REDSHOP_PAYMENT_NGANLUONG_PAYMENT_DESCRIPTION', $data['order_id']);
+$action    = $formInput['action'];
+$name      = $params->get('dataName', SHOP_NAME);
 ?>
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		jQuery('.stripe-button-el').hide().click();
-		setTimeout('jQuery(".stripe-button-el").show();', 8000);
-	});
-</script>
 <h3><?php echo $name; ?></h3>
 <style>
 	
@@ -557,7 +549,7 @@ $description = JText::sprintf('PLG_REDSHOP_PAYMENT_NGANLUONG_PAYMENT_DESCRIPTION
 	</form>	
 	<script language="javascript">
 		jQuery('input[name="option_payment"]').bind('click', function() {
-		jQuery('.list-content li').removeClass('active');
-		jQuery(this).parent().parent('li').addClass('active');
+			jQuery('.list-content li').removeClass('active');
+			jQuery(this).parent().parent('li').addClass('active');
 		});		
 	</script>

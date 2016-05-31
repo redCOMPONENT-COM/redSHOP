@@ -39,9 +39,6 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			return;
 		}
 
-		$orderId = $data['order_id'];
-		$itemId = JFactory::getApplication()->input->getInt('Itemid');
-
 		echo $this->renderPaymentForm($data);
 	}
 
@@ -165,16 +162,6 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 	public function onAfterNotifyPaymentNganluong($name, $orderId)
 	{
 		$app    = JFactory::getApplication();
-
-		// Initialize response
-
-/*		$values = new stdClass;
-		$values->order_id                  = $orderId;
-		$values->order_status_code         = $this->params->get('invalid_status', '');
-		$values->order_payment_status_code = 'Unpaid';
-		$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');
-		$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');*/
-
 		$app->redirect(
 			JRoute::_(
 				'index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId,
@@ -205,9 +192,7 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			return;
 		}
 
-		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
-
 		$app->enqueueMessage($return->message, $return->type);
 
 		return $return;
