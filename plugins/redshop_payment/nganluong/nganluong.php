@@ -136,6 +136,8 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			}
 		}
 
+		$return = new stdClass;
+
 		if ($nlResult->error_code == '00')
 		{
 			$return = $app->redirect((string) $nlResult->checkout_url);
