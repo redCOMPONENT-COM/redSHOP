@@ -3145,12 +3145,10 @@ class producthelper
 
 		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
 
-		$product_id = $cart[$id]['product_id'];
-
-		$productdetail = $this->getProductById($product_id);
-
 		if ($section_id == 12)
 		{
+			$product_id = $cart[$id]['product_id'];
+			$productdetail = $this->getProductById($product_id);
 			$temp_name = "product";
 			$temp_id   = $productdetail->product_template;
 			$giftcard  = 0;
