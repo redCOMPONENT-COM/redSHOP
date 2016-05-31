@@ -33,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"
 				value="<?php echo $this->escape($this->state->get('filter.search')); ?>"
 				class="hasTooltip"
-				title="<?php echo JHtml::tooltipText('COM_CONTACT_SEARCH_IN_NAME'); ?>"
+				title="<?php echo JHtml::tooltipText('COM_GIFTCARD_SEARCH_IN_NAME'); ?>"
 			/>
 		</div>
 		<div class="btn-group pull-left">
