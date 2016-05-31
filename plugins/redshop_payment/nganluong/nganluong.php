@@ -136,8 +136,6 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			}
 		}
 
-		$return = new stdClass;
-
 		if ($nlResult->error_code == '00')
 		{
 			$return = $app->redirect((string) $nlResult->checkout_url);
@@ -167,33 +165,5 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 				false
 			)
 		);
-	}
-
-	/**
-	 * Refund amount on cancel order
-	 *
-	 * @param   string  $element  Plugin Name
-	 * @param   array   $data     Order Transaction information
-	 *
-	 * @return  object  Return status information
-	 */
-	public function onStatus_PaymentNganluong($element, $data)
-	{
-		if ($element != 'nganluong')
-		{
-			return;
-		}
-
-		$transactionId = $data['order_transactionid'];
-
-		if ('' == $transactionId)
-		{
-			return;
-		}
-
-		$app = JFactory::getApplication();
-		$app->enqueueMessage($return->message, $return->type);
-
-		return $return;
 	}
 }
