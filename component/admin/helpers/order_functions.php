@@ -312,39 +312,52 @@ class order_functions
 			$addon .= '<addon adnid="NOTSMS"></addon>';
 		}
 
+		// Get the User's shipping detail which passing to PostDanmark Shipping Location plugin for getting actual pickup location
+		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+		$checkoutModel = RedshopModel::getInstance('Checkout', 'RedshopModel');
+		$receiverInfo = $checkoutModel->shipaddress($shippingInfo->users_info_id);
+		$receiver_full_name = mb_convert_encoding($receiverInfo->firstname . " " . $receiverInfo->lastname, "ISO-8859-1");
+
+		$pickupLocationId  = explode(":", $shippingInfo->company_name)[1];
+
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
-				<unifaunonline>
-				<meta>
-				<val n="doorcode">"' . date('Y-m-d H:i') . '"</val>
-				</meta>
-				<receiver rcvid="' . $shippingInfo->users_info_id . '">
-				<val n="name"><![CDATA[' . $full_name . ']]></val>
-				<val n="address1"><![CDATA[' . $finaladdress1 . ']]></val>
-				<val n="address2"><![CDATA[' . $finaladdress2 . ']]></val>
-				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
-				<val n="city">' . $city . '</val>
-				<val n="country">' . $shippingInfo->country_code . '</val>
-				<val n="contact"><![CDATA[' . $firstname . ']]></val>
-				<val n="phone">' . $shippingInfo->phone . '</val>
-				<val n="doorcode"/>
-				<val n="email">' . $shippingInfo->user_email . '</val>
-				<val n="sms">' . $shippingInfo->phone . '</val>
-				</receiver>
-				<shipment orderno="' . $shippingInfo->order_id . '">
-				<val n="from">1</val>
-				<val n="to">' . $shippingInfo->users_info_id . '</val>
-				<val n="reference">' . $order_details->order_number . '</val>
-				<service srvid="' . $fproductCode . '">
-				' . $addon . '
-				</service>
-				<container type="parcel">
-				<val n="copies">1</val>
-				<val n="weight">' . $totalWeight . '</val>
-				<val n="contents">' . $content_products . '</val>
-				<val n="packagecode">PC</val>
-				</container>
-				</shipment>
-				</unifaunonline>';
+			<pacsoftonline>
+			<meta>
+			<val n="created">"' . date('Y-m-d H:i') . '"</val>
+			</meta>
+			<receiver rcvid="' . $shippingInfo->users_info_id . '">
+			<val n="name"><![CDATA[' . $receiver_full_name . ']]></val>
+			<val n="address1"><![CDATA[' . mb_convert_encoding($receiverInfo->address, "ISO-8859-1") . ']]></val>
+			<val n="address2"></val>
+			<val n="zipcode">' . $receiverInfo->zipcode . '</val>
+			<val n="city">' . mb_convert_encoding($receiverInfo->city, "ISO-8859-1") . '</val>
+			<val n="country">' . $receiverInfo->country_code . '</val>
+			<val n="contact"><![CDATA[' . mb_convert_encoding($receiverInfo->firstname, "ISO-8859-1") . ']]></val>
+			<val n="doorcode"></val>
+			<val n="email">' . $receiverInfo->user_email . '</val>
+			<val n="sms">' . $receiverInfo->phone . '</val>
+			</receiver>
+			<receiver rcvid="' . $pickupLocationId . '">
+			<val n="name"><![CDATA[' . $full_name . ']]></val>
+			<val n="address1"><![CDATA[' . $address . ']]></val>
+			<val n="zipcode">' . $shippingInfo->zipcode . '</val>
+			<val n="city">' . $city . '</val>
+			<val n="country">' . $shippingInfo->country_code . '</val>
+			</receiver>
+			<shipment orderno="' . $shippingInfo->order_id . '">
+			<val n="from">1</val>
+			<val n="to">' . $shippingInfo->users_info_id . '</val>
+			<val n="agentto">' . $pickupLocationId . '</val>
+			<val n="reference">' . $order_details->order_number . '</val>
+			<service srvid="' . $fproductCode . '">' . $addon . '</service>
+			<container type="parcel">
+			<val n="copies">1</val>
+			<val n="weight">' . $totalWeight . '</val>
+			<val n="contents">' . $content_products . '</val>
+			<val n="packagecode">PC</val>
+			</container>
+			</shipment>
+			</pacsoftonline>';
 
 		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK"
 					. "&user=" . POSTDK_CUSTOMER_NO
