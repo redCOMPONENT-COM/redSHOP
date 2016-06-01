@@ -57,35 +57,36 @@ class BaoKimPaymentPro
 	 */
 	public function pay_by_card($data)
 	{
-		$base_url = "http://" . $_SERVER['SERVER_NAME'];
-		$url_success = $data['return'];
-		$url_cancel = $data['cancel'];
-		$order_id = $data['order_id'];
-		$total_amount = str_replace('.', '', $data['total_amount']);
+		$base_url                         = JURI::base();
+		$url_success                      = $data['return'];
+		$url_cancel                       = $data['cancel'];
+		$url_detail                       = $data['detail'];
+		$order_id                         = $data['order_id'];
+		$total_amount                     = str_replace('.', '', $data['total_amount']);
 
-		$params['business'] = strval(EMAIL_BUSINESS);
+		$params['business']               = strval(EMAIL_BUSINESS);
 		$params['bank_payment_method_id'] = intval($data['bank_payment_method_id']);
-		$params['transaction_mode_id'] = '1';
-		$params['escrow_timeout'] = 3;
+		$params['transaction_mode_id']    = $data['transaction_mode_id'];
+		$params['escrow_timeout']         = $data['escrow_timeout'];
 
-		$params['order_id'] = $order_id;
-		$params['total_amount'] = $total_amount;
-		$params['shipping_fee'] = $data['shipping_fee'];
-		$params['tax_fee'] = $data['tax_fee'];
-		$params['currency_code'] = 'VND';
+		$params['order_id']               = $order_id;
+		$params['total_amount']           = $total_amount;
+		$params['shipping_fee']           = $data['shipping_fee'];
+		$params['tax_fee']                = $data['tax_fee'];
+		$params['currency_code']          = 'VND';
 
-		$params['url_success'] = $url_success;
-		$params['url_cancel'] = $url_cancel;
-		$params['url_detail'] = '';
+		$params['url_success']            = $url_success;
+		$params['url_cancel']             = $url_cancel;
+		$params['url_detail']             = $url_detail;
 
-		$params['order_description'] = 'Thanh toán đơn hàng từ Website ' . $base_url . ' với mã đơn hàng ' . $order_id;
-		$params['payer_name'] = $data['payer_name'];
-		$params['payer_email'] = $data['payer_email'];
-		$params['payer_phone_no'] = $data['payer_phone_no'];
-		$params['payer_address'] = $data['address'];
+		$params['order_description']      = 'Thanh toán đơn hàng từ Website ' . $base_url . ' với mã đơn hàng ' . $order_id;
+		$params['payer_name']             = $data['payer_name'];
+		$params['payer_email']            = $data['payer_email'];
+		$params['payer_phone_no']         = $data['payer_phone_no'];
+		$params['payer_address']          = $data['address'];
 
 		$call_restfull = new CallRestful;
-		$result = json_decode($call_restfull->call_API("POST", $params, BAOKIM_API_PAY_BY_CARD), true);
+		$result        = json_decode($call_restfull->call_API("POST", $params, BAOKIM_API_PAY_BY_CARD), true);
 
 		return $result;
 	}

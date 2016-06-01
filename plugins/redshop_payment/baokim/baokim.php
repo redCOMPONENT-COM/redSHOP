@@ -82,34 +82,41 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 			return;
 		}
 
-		$app                 = JFactory::getApplication();
-		$input               = $app->input;
-		$orderHelper         = new order_functions;
-		$orderId             = $input->getInt('orderid');
-		$order               = $orderHelper->getOrderDetails($orderId);
-		$price               = $order->order_total;
-		$bankPaymentMethodId = $input->post->get('bank_payment_method_id');
+		$app                            = JFactory::getApplication();
+		$input                          = $app->input;
+		$orderHelper                    = new order_functions;
+		$orderId                        = $input->getInt('orderid');
+		$order                          = $orderHelper->getOrderDetails($orderId);
+		$price                          = $order->order_total;
+		$bankPaymentMethodId            = $input->post->get('bank_payment_method_id');
+		$data                           = array();
+		$data['order_id']               = $orderId;
+		$data['total_amount']           = $price;
+		$data['bank_payment_method_id'] = $input->post->get('bank_payment_method_id');
+		$data['payer_name']             = $input->post->getString('payer_name');
+		$data['payer_email']            = $input->post->getString('payer_email');
+		$data['payer_phone_no']         = $input->post->get('payer_phone_no');
+		$data['address']                = $input->post->getString('address');
+		$data['return']                 = $this->getReturnUrl($orderId);
+		$data['cancel']                 = $this->getNotifyUrl($orderId);
+		$data['detail']                 = JURI::base() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId;
+		$data['shipping_fee']           = $order->order_shipping;
+		$data['tax_fee']                = $order->order_tax;
+		$data['transaction_mode_id']    = $input->post->get('payment_mode');
+
+		if ($data['transaction_mode_id'] == 1)
+		{
+			$data['escrow_timeout'] = 0;
+		}
+		else
+		{
+			$data['escrow_timeout'] = $input->post->get('escrow_timeout');
+		}
 
 		if (!empty($bankPaymentMethodId))
 		{
-			$data                           = array();
-			$data['order_id']               = $orderId;
-			$data['total_amount']           = $price;
-			$data['bank_payment_method_id'] = $input->post->get('bank_payment_method_id');
-			$data['payer_name']             = $input->post->get('payer_name');
-			$data['payer_email']            = $input->post->get('payer_email');
-			$data['payer_phone_no']         = $input->post->get('payer_phone_no');
-			$data['address']                = $input->post->get('address');
-			$returnUrl                      = $this->getReturnUrl($orderId);
-			$cancelUrl                      = urlencode($this->getNotifyUrl($orderId));
-			$data['return']                 = $returnUrl;
-			$data['cancel']                 = $cancelUrl;
-			$feeshipping                    = $order->order_shipping;
-			$taxAmount                      = $order->order_tax;
-			$data['shipping_fee']           = $feeshipping;
-			$data['tax_fee']                = $taxAmount;
-			$baokim                         = new BaoKimPaymentPro;
-			$result                         = $baokim->pay_by_card($data);
+			$baokim = new BaoKimPaymentPro;
+			$result = $baokim->pay_by_card($data);
 
 			if (!empty($result['error']))
 			{
@@ -122,7 +129,6 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 		}
 		else
 		{
-			$data      = $_POST;
 			$baokim    = new BaoKimPayment;
 			$baokimUrl = $baokim->createRequestUrl($data);
 		}
@@ -147,33 +153,5 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 				false
 			)
 		);
-	}
-
-	/**
-	 * Refund amount on cancel order
-	 *
-	 * @param   string  $element  Plugin Name
-	 * @param   array   $data     Order Transaction information
-	 *
-	 * @return  object  Return status information
-	 */
-	public function onStatus_PaymentBaokim($element, $data)
-	{
-		if ($element != 'nganluong')
-		{
-			return;
-		}
-
-		$transactionId = $data['order_transactionid'];
-
-		if ('' == $transactionId)
-		{
-			return;
-		}
-
-		$app = JFactory::getApplication();
-		$app->enqueueMessage($return->message, $return->type);
-
-		return $return;
 	}
 }
