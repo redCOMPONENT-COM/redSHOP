@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 // Load baokim library
 require_once dirname(__DIR__) . '/library/constants.php';
 require_once dirname(__DIR__) . '/library/baokim_payment_pro.php';
-require_once dirname(__DIR__) . '/library/baokim_payment.php';
 
 $baokim = new BaoKimPaymentPro;
 $banks = $baokim->get_seller_info();

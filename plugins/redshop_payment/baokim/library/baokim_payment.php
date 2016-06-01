@@ -42,12 +42,13 @@ class BaoKimPayment
 	 */
 	public function createRequestUrl($data)
 	{
-		$order_id = time();
 		$total_amount = str_replace('.', '', $data['total_amount']);
-		$base_url = "http://" . $_SERVER['SERVER_NAME'];
-		$url_success = $base_url . '/success';
-		$url_cancel = $base_url . '/cancel';
-		$currency = 'VND';
+		$base_url     = JURI::base();
+		$url_success  = $data['return'];
+		$url_cancel   = $data['cancel'];
+		$url_detail   = $data['detail'];
+		$order_id     = $data['order_id'];
+		$currency     = 'VND';
 
 		// Mảng các tham số chuyển tới baokim.vn
 		$params = array(
@@ -55,12 +56,12 @@ class BaoKimPayment
 			'order_id'          =>	strval($order_id),
 			'business'          =>	strval(EMAIL_BUSINESS),
 			'total_amount'      =>	strval($total_amount),
-			'shipping_fee'      =>	strval('0'),
-			'tax_fee'           =>	strval('0'),
+			'shipping_fee'      =>	strval($data['shipping_fee']),
+			'tax_fee'           =>	strval($data['tax_fee']),
 			'order_description' =>	strval('Thanh toán đơn hàng từ Website ' . $base_url . ' với mã đơn hàng ' . $order_id),
 			'url_success'       =>	strtolower($url_success),
 			'url_cancel'        =>	strtolower($url_cancel),
-			'url_detail'        =>	strtolower(''),
+			'url_detail'        =>	strtolower($url_detail),
 			'payer_name'        =>	strval($data['payer_name']),
 			'payer_email'       =>	strval($data['payer_email']),
 			'payer_phone_no'    =>	strval($data['payer_phone_no']),
