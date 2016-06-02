@@ -81,11 +81,12 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 		{
 			return;
 		}
-
+		
 		$app                            = JFactory::getApplication();
 		$input                          = $app->input;
 		$orderHelper                    = new order_functions;
 		$orderId                        = $input->getInt('orderid');
+		$itemId                         = $input->getInt('Itemid');
 		$order                          = $orderHelper->getOrderDetails($orderId);
 		$price                          = $order->order_total;
 		$bankPaymentMethodId            = $input->post->get('bank_payment_method_id');
@@ -99,7 +100,7 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 		$data['address']                = $input->post->getString('address');
 		$data['return']                 = $this->getReturnUrl($orderId);
 		$data['cancel']                 = $this->getNotifyUrl($orderId);
-		$data['detail']                 = JURI::base() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId;
+		$data['detail']                 = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&Itemid=' . $itemId, true);
 		$data['shipping_fee']           = $order->order_shipping;
 		$data['tax_fee']                = $order->order_tax;
 		$data['transaction_mode_id']    = $input->post->get('payment_mode');

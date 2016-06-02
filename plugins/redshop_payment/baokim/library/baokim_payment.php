@@ -10,6 +10,7 @@
  *
  */
 require_once('constants.php');
+
 class BaoKimPayment
 {
 	/**
@@ -43,12 +44,11 @@ class BaoKimPayment
 	public function createRequestUrl($data)
 	{
 		$total_amount = str_replace('.', '', $data['total_amount']);
-		$base_url     = JURI::base();
-		$url_success  = $data['return'];
-		$url_cancel   = $data['cancel'];
-		$url_detail   = $data['detail'];
+		$base_url     = substr(JURI::base(), 0, -1);
+		$url_success  = $base_url . JRoute::_(str_replace(JURI::base(), '', $data['return']), true);
+		$url_cancel   = $base_url . JRoute::_(str_replace(JURI::base(), '', $data['cancel']), true);
+		$url_detail   = $base_url . $data['detail'];
 		$order_id     = $data['order_id'];
-		$currency     = 'VND';
 
 		// Mảng các tham số chuyển tới baokim.vn
 		$params = array(
@@ -66,8 +66,7 @@ class BaoKimPayment
 			'payer_email'       =>	strval($data['payer_email']),
 			'payer_phone_no'    =>	strval($data['payer_phone_no']),
 			'shipping_address'  =>	strval($data['address']),
-			'currency'          =>	strval($currency),
-
+			'currency'          =>	strval(CURRENCY_CODE),
 		);
 		ksort($params);
 
