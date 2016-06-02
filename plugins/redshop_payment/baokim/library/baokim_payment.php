@@ -1,15 +1,13 @@
 ﻿<?php
-
 /**
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- *		Phiên bản: 1.1
- *		Tên lớp: BaoKimPayment
- *		Chức năng: Tích hợp thanh toán qua baokim.vn cho các merchant site có đăng ký API
- *						- Xây dựng URL chuyển thông tin tới baokim.vn để xử lý việc thanh toán cho merchant site.
- *						- Xác thực tính chính xác của thông tin đơn hàng được gửi về từ baokim.vn.
- *
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once('constants.php');
+
+require_once 'constants.php';
 
 class BaoKimPayment
 {
