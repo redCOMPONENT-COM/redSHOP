@@ -263,6 +263,78 @@ class RedshopModelStatistic extends RedshopModel
 		return $this->_neworders;
 	}
 
+	/**
+	 * Get total turnover for cpanel view
+	 * This is an optimized version of original getTotalTurnover() function
+	 *
+	 * @return  array  Turn over of shop to show statistics chart.
+	 */
+	public function getTotalTurnOverCpanel()
+	{
+		$formate = $this->getDateFormate();
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('cdate')
+					->from($db->qn('#__redshop_orders'))
+					->where($db->qn('order_status') . ' = ' . $db->q('C'), 'OR')
+					->where($db->qn('order_status') . ' = ' . $db->q('PR'), 'OR')
+					->where($db->qn('order_status') . ' = ' . $db->q('S'), 'OR')
+					->order($db->qn('cdate') . ' ASC');
+
+		// Set the query and load the result.
+		$db->setQuery($query, 0, 1);
+		$minDate = $db->loadResult();
+
+		$query = $db->getQuery(true)
+					->from($db->qn('#__redshop_orders', 'o'))
+					->where(
+						$db->qn('o.order_status') . ' = ' . $db->q('C')
+						. ' OR '
+						. $db->qn('o.order_status') . ' = ' . $db->q('PR')
+						. ' OR '
+						. $db->qn('o.order_status') . ' = ' . $db->q('S')
+					)
+					->where($db->qn('cdate') . ' >= ' . $minDate)
+					->order($db->qn('o.cdate') . ' DESC')
+					->group('viewdate');
+
+		$query->leftjoin(
+					$db->qn('#__redshop_users_info', 'uf')
+					. ' ON '
+					. $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id')
+				)
+				->where($db->qn('uf.address_type') . ' = ' . $db->q('BT'));
+
+		if ($this->_filteroption == 2)
+		{
+			$query->select('CONCAT("' . JText::_('COM_REDSHOP_WEEKS') . ' - ", WEEKOFYEAR(FROM_UNIXTIME(o.cdate,"%Y-%m-%d"))) AS viewdate');
+
+			$query->group('FROM_UNIXTIME(o.cdate,"%Y")');
+		}
+		else if ($this->_filteroption == 4)
+		{
+			$query->select('CONCAT("' . JText::_('COM_REDSHOP_YEAR') . ' - ", FROM_UNIXTIME(o.cdate,"' . $formate . '")) AS viewdate');
+		}
+		else
+		{
+			$query->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate');
+		}
+
+		$query->select('SUM(o.order_total) AS turnover');
+
+		if ($this->_filteroption != 4)
+		{
+			$db->setQuery($query, 0, 10);
+		}
+		else
+		{
+			$db->setQuery($query);
+		}
+
+		return $db->loadRowList();
+	}
+
 	public function getTotalTurnover()
 	{
 		$today = $this->getStartDate();
