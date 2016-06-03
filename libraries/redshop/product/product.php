@@ -42,7 +42,7 @@ class RedshopProduct
 		if (!is_int($id))
 		{
 			throw new InvalidArgumentException(
-				JText::sprintf('LIB_REDSHOP_PRODUCT_ID_NOT_VALID', __CLASS__),
+				JText::sprintf('LIB_REDSHOP_PRODUCT_ID_NOT_VALID_INTEGER', $id, __CLASS__, gettype($id)),
 				1
 			);
 		}
@@ -51,7 +51,7 @@ class RedshopProduct
 
 		if (empty($this->info))
 		{
-			throw new Exception("Error Processing Request", 1);
+			throw new Exception(JText::sprintf('LIB_REDSHOP_PRODUCT_NOT_FOUND_ERROR', __CLASS__), 404);
 		}
 	}
 
