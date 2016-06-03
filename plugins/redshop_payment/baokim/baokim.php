@@ -131,7 +131,17 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 			$baokimUrl = $baokim->createRequestUrl($data);
 		}
 
-		return $app->redirect((string) $baokimUrl);
+		$values      = new stdClass;
+
+		// Initialize response
+		$values->order_id                  = $orderId;
+		$values->order_status_code         = $this->params->get('invalid_status', '');
+		$values->order_payment_status_code = 'Unpaid';
+		$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
+		$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
+		$values->redirect                  = (string) $baokimUrl;
+
+		return $values;
 	}
 
 	/**
