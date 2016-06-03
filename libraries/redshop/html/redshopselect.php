@@ -197,12 +197,12 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 				$value[] = $val->$options['option.key'];
 			}
 		}
-		elseif (is_object($data) && isset($data->$options['option.key']) && isset($data->$options['option.text']))
+		elseif (is_object($data) && isset($data->{$options['option.key']}) && isset($data->{$options['option.text']}))
 		{
 			$initSelection = new stdClass;
-			$initSelection->id = $data->$options['option.key'];
-			$initSelection->text = $data->$options['option.text'];
-			$value[] = $data->$options['option.key'];
+			$initSelection->id = $data->{$options['option.key']};
+			$initSelection->text = $data->{$options['option.text']};
+			$value[] = $data->{$options['option.key']};
 		}
 
 		$options['select2.options'] = array(
