@@ -497,27 +497,6 @@ class RedshopControllerOrder_detail extends RedshopController
 		$app->redirect($redirect_url, $paymentResponse->message);
 	}
 
-	/*
-	 * Notify payment function
-	 */
-	public function notify_payment()
-	{
-		$app = JFactory::getApplication();
-		$request = JRequest::get('request');
-
-		$objOrder = order_functions::getInstance();
-
-		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
-
-		$results = $dispatcher->trigger('onNotifyPayment' . $request['payment_plugin'], array($request['payment_plugin'], $request));
-
-		$msg = $results[0]->msg;
-		$objOrder->changeorderstatus($results[0]);
-		$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['orderid']);
-		$app->redirect($redirect_url, $msg);
-	}
-
 	public function send_invoicemail()
 	{
 		$redshopMail = redshopMail::getInstance();
@@ -575,5 +554,17 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $orderId, $msg);
 		}
+	}
+
+	public function pay()
+	{
+		$app = JFactory::getApplication();
+
+		$orderId = $app->input->getInt('orderId');
+
+		JPluginHelper::importPlugin('redshop_payment');
+		JEventDispatcher::getInstance()->trigger('onPaymentBackend', array($orderId));
+
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId);
 	}
 }

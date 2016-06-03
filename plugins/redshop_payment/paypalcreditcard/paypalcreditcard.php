@@ -12,6 +12,7 @@ require_once __DIR__ . '/library/paypal.php';
 
 use PayPal\Api\Amount;
 use PayPal\Api\CreditCard;
+use PayPal\Api\CreditCardToken;
 use PayPal\Api\Details;
 use PayPal\Api\FundingInstrument;
 use PayPal\Api\Item;
@@ -73,7 +74,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			{
 				$card->create($apiContext);
 
-				$return->transaction_id = 0;
+				$return->transaction_id = $card->getId();
 				$return->status         = 'P';
 				$return->paymentStatus  = 'Unpaid';
 				$return->responsestatus = 'Success';
@@ -639,5 +640,150 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		);
 
 		return $creditCardTypes;
+	}
+
+	public function onPaymentBackend($orderId)
+	{
+		$app = JFactory::getApplication();
+
+		$orderInfo = RedshopHelperOrder::getOrderDetail($orderId);
+
+		// Only pay when order status is set to pending and unpaid.
+		if ('P' != $orderInfo->order_status && 'Unpaid' != $orderInfo->order_payment_status)
+		{
+			$app->enqueueMessage(
+				JText::sprintf(
+					'PLG_REDSHOP_PAYMENT_PAYPAL_NOT_PAY_ORDER',
+					$orderInfo->order_status,
+					$orderInfo->order_payment_status
+				),
+				'error'
+			);
+
+			return false;
+		}
+
+		$paymentInfo = RedshopHelperOrder::getPaymentInfo($orderId);
+		$cardId = $paymentInfo->order_payment_trans_id;
+
+		$apiContext  = $this->loadFramework();
+		$session     = JFactory::getSession();
+		$cart        = $session->get('cart');
+
+		//$card = CreditCard::get($cardId, $apiContext);
+
+		$creditCardToken = new CreditCardToken;
+		$creditCardToken->setCreditCardId($cardId);
+
+		// FundingInstrument
+		$fi = new FundingInstrument;
+		$fi->setCreditCardToken($creditCardToken);
+
+		// Payer
+		$payer = new Payer;
+		$payer->setPaymentMethod("credit_card")
+			->setFundingInstruments(array($fi));
+
+		// Itemized information
+		$cartItems = array();
+		$orderItems = order_functions::getInstance()->getOrderItemDetail($orderId);
+
+		for ($i = 0, $n = count($orderItems); $i < $n; $i++)
+		{
+			$orderItem   = $orderItems[$i];
+			$item        = new Item;
+			$cartItems[] =  $item->setName($orderItem->order_item_name)
+								->setDescription('')
+								->setCurrency(CURRENCY_CODE)
+								->setQuantity($orderItem->product_quantity)
+								->setTax($orderItem->product_item_price - $orderItem->product_item_price_excl_vat)
+								->setPrice($orderItem->product_item_price);
+		}
+
+		$itemList = new ItemList;
+		$itemList->setItems($cartItems);
+
+		// Additional payment details
+		$details = new Details;
+		$details->setShipping($orderInfo->order_shipping)
+				->setTax($orderInfo->order_tax)
+				->setSubtotal($orderInfo->order_subtotal);
+
+		// Amount
+		$amount = new Amount;
+		$amount->setCurrency(CURRENCY_CODE)
+			->setTotal($orderInfo->order_total)
+			->setDetails($details);
+
+		// Transaction
+		$transaction = new Transaction;
+		$transaction->setAmount($amount)
+			->setItemList($itemList)
+			->setDescription(SHOP_NAME . ' Order No ' . $orderInfo->order_number)
+			->setInvoiceNumber(uniqid());
+
+
+		// Payment
+		$payment = new Payment;
+		$payment->setIntent($this->params->get('paymentIntent'))
+			->setPayer($payer)
+			->setTransactions(array($transaction));
+
+		// Create Payment
+		try
+		{
+			$payment->create($apiContext);
+
+			$return                 = new stdClass;
+			$return->order_id       = $orderId;
+			$return->transaction_id = $payment->getId();
+
+			if ('created' == $payment->getState()
+				|| 'approved' == $payment->getState())
+			{
+				$return->order_status_code         = $this->params->get('verify_status');
+				$return->order_payment_status_code = 'Paid';
+
+				$return->log = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_AUTHORIZE_SUCCESS');
+				$return->msg = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_AUTHORIZE_SUCCESS');
+
+				if ('sale' == $payment->getIntent())
+				{
+					$return->order_status_code = $this->params->get('capture_status');
+
+					$return->msg = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CAPTURE_SUCCESS');
+					$return->log = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CAPTURE_SUCCESS');
+				}
+
+				$app->enqueueMessage($return->msg, 'message');
+			}
+			else
+			{
+				$return->order_status_code         = $this->params->get('invalid_status');
+				$return->order_payment_status_code = 'Unpaid';
+
+				$return->log = JText::sprintf('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL', '');
+				$return->msg = JText::sprintf('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL', '');
+
+				$app->enqueueMessage($return->msg, 'error');
+			}
+
+			// Update order status.
+			order_functions::getInstance()->changeorderstatus($return);
+
+			return true;
+		}
+		catch (Exception $ex)
+		{
+			$app->enqueueMessage(
+				JText::sprintf(
+					'PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL',
+					implode('<br />', $this->parsePaypalException($ex))
+				),
+				'error'
+			);
+
+			return false;
+		}
 	}
 }
