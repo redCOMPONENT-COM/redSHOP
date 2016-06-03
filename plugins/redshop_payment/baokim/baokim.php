@@ -131,6 +131,8 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 			$baokimUrl = $baokim->createRequestUrl($data);
 		}
 
+		$this->redirect = (string) $baokimUrl;
+
 		$values      = new stdClass;
 
 		// Initialize response
@@ -139,7 +141,6 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 		$values->order_payment_status_code = 'Unpaid';
 		$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
 		$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
-		$values->redirect                  = (string) $baokimUrl;
 
 		return $values;
 	}
@@ -155,11 +156,6 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 	public function onAfterNotifyPaymentBaokim($name, $orderId)
 	{
 		$app    = JFactory::getApplication();
-		$app->redirect(
-			JRoute::_(
-				'index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId,
-				false
-			)
-		);
+		$app->redirect($this->redirect);
 	}
 }
