@@ -191,10 +191,10 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 			foreach ($data as $key => $val)
 			{
 				$object = new stdClass;
-				$object->id = $val->$options['option.key'];
-				$object->text = $val->$options['option.text'];
+				$object->id = $val->{$options['option.key']};
+				$object->text = $val->{$options['option.text']};
 				$initSelection[] = $object;
-				$value[] = $val->$options['option.key'];
+				$value[] = $val->{$options['option.key']};
 			}
 		}
 		elseif (is_object($data) && isset($data->{$options['option.key']}) && isset($data->{$options['option.text']}))
