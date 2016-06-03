@@ -208,6 +208,11 @@ class RedshopControllerOrder_detail extends RedshopController
 			)
 		);
 
+		if ($request['payment_plugin'] == "baokim")
+		{
+			$app->redirect($results[0]->redirect);
+		}
+
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
 			die("TRUE");
