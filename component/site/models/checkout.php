@@ -1478,9 +1478,13 @@ class RedshopModelCheckout extends RedshopModel
 		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 
-
 		$validpayment [0] = 1;
 		$validpayment [1] = '';
+
+		if ($ccdata['selectedCardId'] != '')
+		{
+			return $validpayment;
+		}
 
 		// The Data should be in the session.
 		if (!isset($ccdata))

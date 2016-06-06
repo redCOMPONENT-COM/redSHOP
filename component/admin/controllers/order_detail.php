@@ -459,6 +459,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$ccdata['order_payment_expire_month'] = $request['order_payment_expire_month'];
 		$ccdata['order_payment_expire_year'] = $request['order_payment_expire_year'];
 		$ccdata['credit_card_code'] = $request['credit_card_code'];
+		$ccdata['selectedCardId'] = $app->input->getString('selectedCard', '');
 		$session->set('ccdata', $ccdata);
 
 		$values['order_shipping'] = $order->order_shipping;

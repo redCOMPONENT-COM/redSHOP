@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Redshop.Layouts
- * @subpackage  Payment.paypalcreditcard
+ * @subpackage  Payment.PaypalCreditCard
  * @copyright   Copyright (C) 2008-2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU/GPL, see LICENSE
  */
@@ -15,9 +15,13 @@ extract($displayData);
 ?>
 <div class="ajax-error">&nbsp;</div>
 <h2><?php echo JText::_('PLG_PAYPALCREDITCARD'); ?></h2>
+
+<?php if (!$selectable) : ?>
 <div class="navbar pull-right">
   <button type="submit" id="newCardBtn" class="btn btn-primary">New</button>
 </div>
+<?php endif; ?>
+
 <div id="newCardform" class="hide">
 <?php
 	echo RedshopLayoutHelper::render(
@@ -54,6 +58,9 @@ try
 			<table class="table table-hover">
 				<thead>
 					<tr>
+					<?php if ($selectable) : ?>
+						<th>&nbsp;</th>
+					<?php endif; ?>
 						<th>Name</th>
 						<th>Type</th>
 						<th>Number</th>
@@ -67,8 +74,9 @@ try
 						echo RedshopLayoutHelper::render(
 							'card',
 							array(
-								'card'          => $card,
-								'creditCardTypes' => $creditCardTypes
+								'card'            => $card,
+								'creditCardTypes' => $creditCardTypes,
+								'selectable'      => $selectable
 							),
 							__DIR__
 						);
