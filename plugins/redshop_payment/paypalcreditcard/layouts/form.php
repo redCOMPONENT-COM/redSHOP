@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Redshop.Layouts
- * @subpackage  Payment.paypalcreditcard
+ * @subpackage  Payment.PaypalCreditCard
  * @copyright   Copyright (C) 2008-2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU/GPL, see LICENSE
  */

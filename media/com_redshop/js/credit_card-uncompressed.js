@@ -59,6 +59,12 @@ function isString(textObj) {
 }
 
 function CheckCardNumber(form) {
+
+		if (jQuery('input:radio[name="selectedCard"]:checked').val() != "")
+		{
+			return true;
+		}
+
 		var tmpyear;
 		if (form.order_payment_name.value.length > 0) {
 			if (isString(form.order_payment_name) == false) {

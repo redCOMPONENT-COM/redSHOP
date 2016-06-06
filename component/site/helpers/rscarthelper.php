@@ -3705,126 +3705,34 @@ class rsCarthelper
 
 	public function replaceCreditCardInformation($payment_method_id = 0)
 	{
-		$ccdata = $this->_session->get('ccdata');
-
-		$url                      = JURI::base(true);
-		$cc_list                  = array();
-		$cc_list['VISA']          = new stdClass;
-		$cc_list['VISA']->img     = 'visa.jpg';
-		$cc_list['MC']            = new stdClass;
-		$cc_list['MC']->img       = 'master.jpg';
-		$cc_list['amex']          = new stdClass;
-		$cc_list['amex']->img     = 'blue.jpg';
-		$cc_list['maestro']       = new stdClass;
-		$cc_list['maestro']->img  = 'mastero.jpg';
-		$cc_list['jcb']           = new stdClass;
-		$cc_list['jcb']->img      = 'jcb.jpg';
-		$cc_list['diners']        = new stdClass;
-		$cc_list['diners']->img   = 'dinnersclub.jpg';
-		$cc_list['discover']      = new stdClass;
-		$cc_list['discover']->img = 'discover.jpg';
-
-		$montharr   = array();
-		$montharr[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_MONTH'));
-		$montharr[] = JHTML::_('select.option', '01', 1);
-		$montharr[] = JHTML::_('select.option', '02', 2);
-		$montharr[] = JHTML::_('select.option', '03', 3);
-		$montharr[] = JHTML::_('select.option', '04', 4);
-		$montharr[] = JHTML::_('select.option', '05', 5);
-		$montharr[] = JHTML::_('select.option', '06', 6);
-		$montharr[] = JHTML::_('select.option', '07', 7);
-		$montharr[] = JHTML::_('select.option', '08', 8);
-		$montharr[] = JHTML::_('select.option', '09', 9);
-		$montharr[] = JHTML::_('select.option', '10', 10);
-		$montharr[] = JHTML::_('select.option', '11', 11);
-		$montharr[] = JHTML::_('select.option', '12', 12);
-
-		if (!empty($payment_method_id))
+		if (empty($payment_method_id))
 		{
-			$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
-			$paymentmethod = $paymentmethod[0];
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
+				'error'
+			);
+
+			return '';
 		}
-		else
-		{
-			$paymentmethod = $this->_redhelper->getPlugins('redshop_payment');
-			$paymentmethod = $paymentmethod[0];
-		}
+
+		$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentmethod = $paymentmethod[0];
 
 		$cardinfo = "";
 
 		if (file_exists(JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.php'))
 		{
 			$paymentparams = new JRegistry($paymentmethod->params);
-			$is_creditcard = $paymentparams->get('is_creditcard', 0);
 
-			$credict_card = $paymentparams->get("accepted_credict_card", array());
-
-			if ($is_creditcard && !empty($credict_card))
+			if ($paymentparams->get('is_creditcard', 0)
+				&& !empty($paymentparams->get("accepted_credict_card", array())))
 			{
-				$cardinfo .= '<fieldset class="adminform"><legend>' . JText::_('COM_REDSHOP_CARD_INFORMATION') . '</legend>';
-				$cardinfo .= '<table class="admintable">';
-				$cardinfo .= '<tr><td colspan="2" align="right" nowrap="nowrap">';
-				$cardinfo .= '<table width="100%" border="0" cellspacing="2" cellpadding="2">';
-				$cardinfo .= '<tr>';
-
-				for ($ic = 0; $ic < count($credict_card); $ic++)
-				{
-					$cardinfo .= '<td align="center"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $cc_list[$credict_card[$ic]]->img . '" alt="" border="0" /></td>';
-				}
-
-				$cardinfo .= '</tr>';
-				$cardinfo .= '<tr>';
-
-				for ($ic = 0; $ic < count($credict_card); $ic++)
-				{
-					$value   = $credict_card[$ic];
-					$checked = "";
-
-					if (!isset($ccdata['creditcard_code']) && $ic == 0)
-					{
-						$checked = "checked";
-					}
-					elseif (isset($ccdata['creditcard_code']))
-					{
-						$checked = ($ccdata['creditcard_code'] == $value) ? "checked" : "";
-					}
-
-					$cardinfo .= '<td align="center"><input type="radio" name="creditcard_code" value="' . $value . '" ' . $checked . ' /></td>';
-				}
-
-				$cardinfo .= '</tr></table></td></tr>';
-				$cardinfo .= '<tr valign="top">';
-				$cardinfo .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_name">' . JText::_('COM_REDSHOP_NAME_ON_CARD') . '</label></td>';
-				$order_payment_name = (!empty($ccdata['order_payment_name'])) ? $ccdata['order_payment_name'] : "";
-				$cardinfo .= '<td><input class="inputbox" id="order_payment_name" name="order_payment_name" value="' . $order_payment_name . '" autocomplete="off" type="text"></td>';
-				$cardinfo .= '</tr>';
-				$cardinfo .= '<tr valign="top">';
-				$cardinfo .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_number">' . JText::_('COM_REDSHOP_CARD_NUM') . '</label></td>';
-				$order_payment_number = (!empty($ccdata['order_payment_number'])) ? $ccdata['order_payment_number'] : "";
-				$cardinfo .= '<td><input class="inputbox" id="order_payment_number" name="order_payment_number" value="' . $order_payment_number . '" autocomplete="off" type="text"></td>';
-				$cardinfo .= '</tr>';
-				$cardinfo .= '<tr><td align="right" nowrap="nowrap" width="10%">' . JText::_('COM_REDSHOP_EXPIRY_DATE') . '</td>';
-				$cardinfo .= '<td>';
-
-				$value = isset($ccdata['order_payment_expire_month']) ? $ccdata['order_payment_expire_month'] : date('m');
-				$cardinfo .= JHTML::_('select.genericlist', $montharr, 'order_payment_expire_month', 'size="1" class="inputbox" ', 'value', 'text', $value);
-
-				$thisyear = date('Y');
-				$cardinfo .= '/<select class="inputbox" name="order_payment_expire_year" size="1">';
-
-				for ($y = $thisyear; $y < ($thisyear + 10); $y++)
-				{
-					$selected = (!empty($ccdata['order_payment_expire_year']) && $ccdata['order_payment_expire_year'] == $y) ? "selected" : "";
-					$cardinfo .= '<option value="' . $y . '" ' . $selected . '>' . $y . '</option>';
-				}
-
-				$cardinfo .= '</select></td></tr>';
-				$cardinfo .= '<tr valign="top"><td align="right" nowrap="nowrap" width="10%"><label for="credit_card_code">' . JText::_('COM_REDSHOP_CARD_SECURITY_CODE') . '</label></td>';
-
-				$credit_card_code = (!empty($ccdata['credit_card_code'])) ? $ccdata['credit_card_code'] : "";
-				$cardinfo .= '<td><input class="inputbox" id="credit_card_code" name="credit_card_code" value="' . $credit_card_code . '" autocomplete="off" type="password"></td></tr>';
-
-				$cardinfo .= '</table></fieldset>';
+				$cardinfo = RedshopLayoutHelper::render(
+						'order.payment.creditcard',
+						array(
+							'pluginParams' => $paymentparams,
+						)
+					);
 			}
 			else
 			{

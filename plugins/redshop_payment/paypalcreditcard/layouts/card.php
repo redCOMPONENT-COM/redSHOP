@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Redshop.Layouts
- * @subpackage  Payment.paypalcreditcard
+ * @subpackage  Payment.PaypalCreditCard
  * @copyright   Copyright (C) 2008-2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU/GPL, see LICENSE
  */
@@ -12,6 +12,11 @@ extract($displayData);
 
 ?>
 <tr id="card-<?php echo $card->id; ?>">
+<?php if ($selectable) : ?>
+	<td>
+		<input type="radio" name="selectedCard" value="<?php echo $card->id; ?>">
+	</td>
+<?php endif; ?>
 	<td>
 		<?php
 			$name = $card->first_name . ' ' . $card->last_name;

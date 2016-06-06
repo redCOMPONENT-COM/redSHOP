@@ -62,19 +62,25 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		$return = new stdClass;
 
-		// CreditCard
-		// A resource representing a credit card that can be
-		// used to fund a payment.
-		$card = $this->creditCard($data);
-
 		// If vault is enabled only save card - payment will be done from backend.
 		if ($enableVault)
 		{
 			try
 			{
-				$card->create($apiContext);
+				$ccdata = JFactory::getSession()->get('ccdata');
+				$selectedCardId = $ccdata['selectedCardId'];
 
-				$return->transaction_id = $card->getId();
+				if ($selectedCardId != '')
+				{
+					$return->transaction_id = $selectedCardId;
+				}
+				else
+				{
+					$card = $this->creditCard($data);
+					$card->create($apiContext);
+					$return->transaction_id = $card->getId();
+				}
+
 				$return->status         = 'P';
 				$return->paymentStatus  = 'Unpaid';
 				$return->responsestatus = 'Success';
@@ -92,10 +98,10 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			return $return;
 		}
 
+		// CreditCard
+		$card = $this->creditCard($data);
+
 		// FundingInstrument
-		// A resource representing a Payer's funding instrument.
-		// For direct credit card payments, set the CreditCard
-		// field on this object.
 		$fi = new FundingInstrument();
 		$fi->setCreditCard($card);
 
@@ -236,7 +242,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $card;
 	}
 
-	public function onListCreditCards()
+	public function onListCreditCards($selectable = false)
 	{
 		$app = JFactory::getApplication();
 		$plugin = $app->input->getCmd('plugin');
@@ -268,7 +274,8 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 					'merchantId' => 'redSHOPPaypalCreditCard',
 					//'externalCardId' => $user->users_info_id,
 					'externalCustomerId' => $user->users_info_id,
-					'creditCardTypes' => $this->creditCardTypes()
+					'creditCardTypes' => $this->creditCardTypes(),
+					'selectable' => $selectable
 				),
 				JPATH_SITE . '/plugins/' . $this->_type . '/' . $this->_name . '/layouts'
 			);
@@ -670,8 +677,6 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$session     = JFactory::getSession();
 		$cart        = $session->get('cart');
 
-		//$card = CreditCard::get($cardId, $apiContext);
-
 		$creditCardToken = new CreditCardToken;
 		$creditCardToken->setCreditCardId($cardId);
 
@@ -721,7 +726,6 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			->setItemList($itemList)
 			->setDescription(SHOP_NAME . ' Order No ' . $orderInfo->order_number)
 			->setInvoiceNumber(uniqid());
-
 
 		// Payment
 		$payment = new Payment;
@@ -778,7 +782,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$app->enqueueMessage(
 				JText::sprintf(
 					'PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL',
-					implode('<br />', $this->parsePaypalException($ex))
+					'<br />' . $ex->getMessage() . implode('<br />', $this->parsePaypalException($ex))
 				),
 				'error'
 			);
