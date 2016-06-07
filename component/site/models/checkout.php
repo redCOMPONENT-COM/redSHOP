@@ -1402,7 +1402,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			$giftcardmail_body = $this->_redshopMail->imginmail($giftcardmail_body);
 
-			JFactory::getMailer()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
+			JFactory::getMailer()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, null, null, $giftcard_attachment);
 		}
 
 	}
