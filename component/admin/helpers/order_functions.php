@@ -828,7 +828,7 @@ class order_functions
 
 			if (!$order_log->store())
 			{
-				JError::raiseError(500, $order_log->getError());
+				throw new Exception($order_log->getError());
 			}
 
 			$this->updateOrderComment($order_id, $customer_note);

@@ -54,7 +54,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
 		if (!is_array($cid) && $cid == 1)
@@ -90,7 +90,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
 		$model = $this->getModel('tax_group_detail');
@@ -113,7 +113,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
 		$model = $this->getModel('tax_group_detail');
