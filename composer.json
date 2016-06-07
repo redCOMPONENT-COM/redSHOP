@@ -7,11 +7,10 @@
         "php": ">=5.3.10"
     },
     "require-dev": {
-        "codeception/codeception": "2.1.*",
+        "codeception/codeception": "~2.2",
         "joomla-projects/joomla-browser": "v3.5.1.1",
         "codegyre/robo": "~0.5",
         "redcomponent/robo": "dev-master",
-        "redcomponent/teststatistics": "dev-master",
         "fzaninotto/faker": "^1.5",
         "cloudinary/cloudinary_php": "1.1.1",
         "knplabs/github-api": "1.4.12",
