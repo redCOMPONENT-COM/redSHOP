@@ -15,7 +15,10 @@ defined('_JEXEC') or die;
 	<tr>
 		<td>&nbsp;</td>
 		<td align="left">
-			<img src="<?php echo JURI::base(true);?>/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" />
+			<?php
+			$url = JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5&' . rand() . '=1';
+			?>
+			<img src="<?php echo $url;?>" />
 		</td>
 	</tr>
 	<tr>
