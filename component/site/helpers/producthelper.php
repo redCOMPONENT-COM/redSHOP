@@ -3140,12 +3140,10 @@ class producthelper
 
 		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
 
-		$product_id = $cart[$id]['product_id'];
-
-		$productdetail = $this->getProductById($product_id);
-
 		if ($section_id == 12)
 		{
+			$product_id = $cart[$id]['product_id'];
+			$productdetail = $this->getProductById($product_id);
 			$temp_name = "product";
 			$temp_id   = $productdetail->product_template;
 			$giftcard  = 0;
@@ -10072,7 +10070,7 @@ class producthelper
 				$tempdata_div_end    = $product_end [1];
 
 				$attribute_template = $this->getAttributeTemplate($tempdata_div_middle);
-				
+
 				// Extra field display
  +				$extraFieldName = $extra_field->getSectionFieldNameArray(1, 1, 1);
 
@@ -10207,7 +10205,7 @@ class producthelper
 
 					$related_template_data = $this->getProductOnSaleComment($related_product[$r], $related_template_data);
 					$related_template_data = $this->getSpecialProductComment($related_product[$r], $related_template_data);
-					
+
 					//  Extra field display
  +					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, 1);
 
