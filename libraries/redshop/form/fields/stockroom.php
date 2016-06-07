@@ -26,7 +26,7 @@ class JElementstockroom extends JElement
 	 */
 	var $_name = 'stockroom';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	function fetchElement($name, $value, $control_name)
 	{
 		$db = JFactory::getDbo();
 

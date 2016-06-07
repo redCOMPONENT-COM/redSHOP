@@ -2144,45 +2144,40 @@ class producthelper
 		return true;
 	}
 
-	public function getApplyattributeVatOrNot($data_add = "", $user_id = 0)
+	public function getApplyattributeVatOrNot($template = "", $userId = 0)
 	{
-		$user            = JFactory::getUser();
-		$userInformation = array();
+		$userInformation = new stdClass;
 
-		if ($user_id == 0)
+		if ($userId == 0)
 		{
-			$user_id = $user->id;
+			$userId = JFactory::getUser()->id;
 		}
 
-		if ($user_id != 0)
+		if ($userId != 0)
 		{
-			$userInformation = $this->getUserInformation($user_id);
+			$userInformation = $this->getUserInformation($userId);
 		}
 
-		if (count($userInformation) <= 0)
+		if (empty((array) $userInformation))
 		{
 			$userInformation = $this->GetdefaultshopperGroupData();
 		}
-
-		if (!empty($userInformation))
+		else if (isset($userInformation->show_price_without_vat) && $userInformation->show_price_without_vat)
 		{
-			if (isset($userInformation->show_price_without_vat) && $userInformation->show_price_without_vat)
-			{
-				return false;
-			}
+			return false;
 		}
 
-		if (strpos($data_add, "{attribute_price_without_vat}") !== false)
+		if (strpos($template, "{attribute_price_without_vat}") !== false)
 		{
-			return 0;
+			return false;
 		}
-		elseif (strpos($data_add, "{attribute_price_with_vat}") !== false)
+		elseif (strpos($template, "{attribute_price_with_vat}") !== false)
 		{
-			return 1;
+			return true;
 		}
 		else
 		{
-			return $this->taxexempt_addtocart($user_id);
+			return $this->taxexempt_addtocart($userId);
 		}
 
 		return true;
@@ -5574,7 +5569,7 @@ class producthelper
 
 						$attributes_subproperty_withoutvat = $subproperty [$i]->subattribute_color_price;
 
-						if (!empty($chktag))
+						if (!$chktag)
 						{
 							$attributes_subproperty_vat_show = $this->getProducttax($product_id, $subproperty [$i]->subattribute_color_price);
 						}
@@ -7316,108 +7311,100 @@ class producthelper
 		return $this->_cartTemplateData;
 	}
 
-	public function makeAttributeCart($attArr = array(), $product_id = 0, $user_id = 0, $new_product_price = 0, $quantity = 1, $data = '')
+	public function makeAttributeCart($attributes = array(), $productId = 0, $userId = 0, $newProductPrice = 0, $quantity = 1, $data = '')
 	{
 		$user            = JFactory::getUser();
-		$cart            = $this->_session->get('cart');
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$product         = $this->getProductById($product_id);
 
-		if ($user_id == 0)
+		if ($userId == 0)
 		{
-			$user_id = $user->id;
+			$userId = $user->id;
 		}
 
 		$sel                  = 0;
 		$selP                 = 0;
-		$chktag               = $this->getApplyattributeVatOrNot($data, $user_id);
+		$applyVat             = $this->getApplyattributeVatOrNot($data, $userId);
 		$setPropEqual         = true;
 		$setSubpropEqual      = true;
 		$displayattribute     = "";
 		$selectedAttributs    = array();
 		$selectedProperty     = array();
 		$productOldprice      = 0;
-		$product_vat_price    = 0;
-		$product_vat_Oldprice = 0;
+		$productVatPrice      = 0;
 
-		if ($new_product_price != 0)
+		if ($newProductPrice != 0)
 		{
-			$product_price = $new_product_price;
+			$productPrice = $newProductPrice;
 
-			if ($product_price > 0)
+			if ($productPrice > 0)
 			{
-				$product_vat_price = $this->getProductTax($product_id, $product_price, $user_id);
-			}
-
-			if ((DEFAULT_QUOTATION_MODE || $cart['quotation'] == 1 || $product->use_discount_calc) && $chktag)
-			{
-				$product_price += $product_vat_price;
+				$productVatPrice = $this->getProductTax($productId, $productPrice, $userId);
 			}
 		}
 		else
 		{
-			$productArr        = $this->getProductNetPrice($product_id, $user_id, $quantity, $data);
-			$product_price     = $productArr['product_price'];
-			$product_vat_price = $productArr['productVat'];
-			$productOldprice   = $productArr['product_old_price_excl_vat'];
+			$productPrices   = $this->getProductNetPrice($productId, $userId, $quantity, $data);
+
+			// Using price without vat to proceed with calcualtion - we will apply vat in the end.
+			$productPrice    = $productPrices['product_price_novat'];
+			$productVatPrice = $productPrices['productVat'];
+			$productOldprice = $productPrices['product_old_price_excl_vat'];
 		}
 
-		$isStock         = $stockroomhelper->isStockExists($product_id);
-		$isPreorderStock = $stockroomhelper->isPreorderStockExists($product_id);
+		$isStock         = $stockroomhelper->isStockExists($productId);
+		$isPreorderStock = $stockroomhelper->isPreorderStockExists($productId);
 
-		for ($i = 0, $in = count($attArr); $i < $in; $i++)
+		for ($i = 0, $in = count($attributes); $i < $in; $i++)
 		{
-			$prooprand      = array();
-			$proprice       = array();
-			$provatprice    = array();
-			$provat         = array();
-			$subprooprand   = array();
-			$subproprice    = array();
-			$subprovatprice = array();
-			$subprovat      = array();
-			$attribute      = $this->getProductAttribute(0, 0, $attArr[$i]['attribute_id']);
+			$propertiesOperator        = array();
+			$propertiesPrice           = array();
+			$propertiesPriceWithVat    = array();
+			$propertiesVat             = array();
+			$subPropertiesOperator     = array();
+			$subPropertiesPrice        = array();
+			$subPropertiesPriceWithVat = array();
+			$subPropertiesVat          = array();
+			$attribute                 = $this->getProductAttribute(0, 0, $attributes[$i]['attribute_id']);
 
 			$hide_attribute_price = 0;
 
-			if (count($attribute) > 0)
+			if (!empty($attribute))
 			{
 				$hide_attribute_price = $attribute[0]->hide_attribute_price;
 			}
 
-			$propArr = $attArr[$i]['attribute_childs'];
+			$properties = $attributes[$i]['attribute_childs'];
 
-			if (count($propArr) > 0)
+			if (count($properties) > 0)
 			{
-				$displayattribute .= "<div class='checkout_attribute_title'>" . urldecode($attArr[$i]['attribute_name'])
+				$displayattribute .= "<div class='checkout_attribute_title'>" . urldecode($attributes[$i]['attribute_name'])
 					. ":</div>";
 			}
 
-			for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
+			for ($k = 0, $kn = count($properties); $k < $kn; $k++)
 			{
-				$att_vat = 0;
+				$propertyVat             = 0;
+				$propertyOperator        = $properties[$k]['property_oprand'];
+				$propertyPriceWithoutVat = (isset($properties[$k]['property_price'])) ? $properties[$k]['property_price'] : 0;
+				$property                = $this->getAttibuteProperty($properties[$k]['property_id']);
+				$propertyPrice           = $propertyPriceWithoutVat;
 
-				if (isset($propArr[$k]['property_price']) === false)
+				if ($propertyPriceWithoutVat > 0)
 				{
-					$propArr[$k]['property_price'] = 0;
-				}
-
-				if ($propArr[$k]['property_price'] > 0)
-				{
-					$att_vat = $this->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
-				}
-
-				$property       = $this->getAttibuteProperty($propArr[$k]['property_id']);
-				$property_price = $propArr[$k]['property_price'];
-
-				if (!empty($chktag))
-				{
-					if ($propArr[$k]['property_oprand'] != '*' && $propArr[$k]['property_oprand'] != '/')
+					// Set property vat to 1 when price is 1. For * and / math rules.
+					if ($propertyPriceWithoutVat == 1
+						&& ($propertyOperator == '*' || $propertyOperator == '/'))
 					{
-						$property_price = $property_price + $att_vat;
+						$propertyVat = 1;
+					}
+
+					if ($propertyOperator != '*' && $propertyOperator != '/')
+					{
+						$propertyVat = $this->getProducttax($productId, $propertyPriceWithoutVat, $userId);
 					}
 				}
 
-				$displayPrice = " (" . $propArr[$k]['property_oprand'] . " " . $this->getProductFormattedPrice($property_price) . ")";
+				$displayPrice = " (" . $propertyOperator . " " . $this->getProductFormattedPrice($propertyPrice) . ")";
 
 				if ((DEFAULT_QUOTATION_MODE && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
 				{
@@ -7431,8 +7418,8 @@ class producthelper
 					$virtualNumber = "<div class='checkout_attribute_number'>" . $property[0]->property_number . "</div>";
 				}
 
-				$isStock         = $stockroomhelper->isStockExists($propArr[$k]['property_id'], "property");
-				$isPreorderStock = $stockroomhelper->isPreorderStockExists($propArr[$k]['property_id'], "property");
+				$isStock         = $stockroomhelper->isStockExists($properties[$k]['property_id'], "property");
+				$isPreorderStock = $stockroomhelper->isPreorderStockExists($properties[$k]['property_id'], "property");
 
 				if (strpos($data, '{product_attribute_price}') === false)
 				{
@@ -7445,65 +7432,75 @@ class producthelper
 				}
 
 				$displayattribute .= "<div class='checkout_attribute_wrapper'><div class='checkout_attribute_price'>"
-					. urldecode($propArr[$k]['property_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
-				$prooprand[$k]   = $propArr[$k]['property_oprand'];
-				$proprice[$k]    = $propArr[$k]['property_price'];
-				$provatprice[$k] = $property_price;
-				$provat[$k]      = $att_vat;
-				$subpropArr      = $propArr[$k]['property_childs'];
+					. urldecode($properties[$k]['property_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
+				$propertiesOperator[$k]     = $propertyOperator;
+				$propertiesPrice[$k]        = $propertyPriceWithoutVat;
+				$propertiesPriceWithVat[$k] = $propertyPrice;
+				$propertiesVat[$k]          = $propertyVat;
+				$subProperties              = $properties[$k]['property_childs'];
 
-				if (count($subpropArr) > 0)
+				if (count($subProperties) > 0)
 				{
 					$displayattribute .= "<div class='checkout_subattribute_title'>"
-						. urldecode($subpropArr[0]['subattribute_color_title']) . "</div>";
+						. urldecode($subProperties[0]['subattribute_color_title']) . "</div>";
 				}
 
-				for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
+				for ($l = 0, $ln = count($subProperties); $l < $ln; $l++)
 				{
-					$att_vat = 0;
-
 					if ($l == 0)
 					{
-						$selectedProperty[$selP++] = $propArr[$k]['property_id'];
+						$selectedProperty[$selP++] = $properties[$k]['property_id'];
 					}
 
-					if ($subpropArr[$l]['subproperty_price'] > 0
-						&& $subpropArr[$l]['subproperty_oprand'] != '*'
-						&&  $subpropArr[$l]['subproperty_oprand'] != '/')
+					// Continue if there is no subproperty id
+					if (!(int) $subProperties[$l]['subproperty_id'])
 					{
-						$att_vat = $this->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+						continue;
 					}
 
-					$subproperty_price = $subpropArr[$l]['subproperty_price'];
+					$subPropertyVat             = 0;
+					$subPropertyOperator        = $subProperties[$l]['subproperty_oprand'];
+					$subPropertyPriceWithoutVat = $subProperties[$l]['subproperty_price'];
+					$subPropertyPrice           = $subPropertyPriceWithoutVat;
 
-					if (!empty($chktag))
+					if ($subPropertyPriceWithoutVat > 0)
 					{
-						$subproperty_price = $subproperty_price + $att_vat;
+						// Set property vat to 1 when price is 1. For * and / math rules.
+						if ($subPropertyPriceWithoutVat == 1
+							&& ($subPropertyOperator == '*' || $subPropertyOperator == '/'))
+						{
+							$subPropertyVat = 1;
+						}
+
+						if ($subPropertyOperator != '*' &&  $subPropertyOperator != '/')
+						{
+							$subPropertyVat = $this->getProducttax($productId, $subPropertyPriceWithoutVat, $userId);
+						}
 					}
 
-					$displayPrice = " (" . $subpropArr[$l]['subproperty_oprand'] . " "
-						. $this->getProductFormattedPrice($subproperty_price) . ")";
+					$displayPrice = " (" . $subPropertyOperator . " "
+						. $this->getProductFormattedPrice($subPropertyPrice) . ")";
 
 					if ((DEFAULT_QUOTATION_MODE && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
 					{
 						$displayPrice = "";
 					}
 
-					$subproperty   = $this->getAttibuteSubProperty($subpropArr[$l]['subproperty_id']);
+					$subProperty   = $this->getAttibuteSubProperty($subProperties[$l]['subproperty_id']);
 					$virtualNumber = "";
 
-					if (count($subproperty) > 0 && $subproperty[0]->subattribute_color_number)
+					if (count($subProperty) > 0 && $subProperty[0]->subattribute_color_number)
 					{
 						$virtualNumber = "<div class='checkout_subattribute_number'>["
-							. $subproperty[0]->subattribute_color_number . "]</div>";
+							. $subProperty[0]->subattribute_color_number . "]</div>";
 					}
 
 					$isStock         = $stockroomhelper->isStockExists(
-						$subpropArr[$l]['subproperty_id'],
+						$subProperties[$l]['subproperty_id'],
 						"subproperty"
 					);
 					$isPreorderStock = $stockroomhelper->isPreorderStockExists(
-						$subpropArr[$l]['subproperty_id'],
+						$subProperties[$l]['subproperty_id'],
 						"subproperty"
 					);
 
@@ -7516,53 +7513,36 @@ class producthelper
 					{
 						$virtualNumber = '';
 					}
-					$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($subpropArr[$l]['subproperty_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
-					$subprooprand[$k][$l]   = $subpropArr[$l]['subproperty_oprand'];
-					$subproprice[$k][$l]    = $subpropArr[$l]['subproperty_price'];
-					$subprovatprice[$k][$l] = $subproperty_price;
-					$subprovat[$k][$l]      = $att_vat;
+					$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($subProperties[$l]['subproperty_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
+
+					$subPropertiesOperator[$k][$l]     = $subPropertyOperator;
+					$subPropertiesPrice[$k][$l]        = $subPropertyPriceWithoutVat;
+					$subPropertiesPriceWithVat[$k][$l] = $subPropertyPrice;
+					$subPropertiesVat[$k][$l]          = $subPropertyVat;
 				}
 			}
 
 			// FOR PROPERTY AND SUBPROPERTY PRICE CALCULATION
-			if ($setPropEqual && $setSubpropEqual)
-			{
-				$accessory_priceArr    = $this->makeTotalPriceByOprand($product_price, $prooprand, $provatprice);
-				$accessory_vatArr      = $this->makeTotalPriceByOprand($product_vat_price, $prooprand, $provat);
-				$accessory_oldpriceArr = $this->makeTotalPriceByOprand($productOldprice, $prooprand, $proprice);
-				$product_price     = $accessory_priceArr[1];
-				$product_vat_price = $accessory_vatArr[1];
-				$productOldprice   = $accessory_oldpriceArr[1];
-			}
+			$propertyPrices = $this->makeTotalPriceByOprand($productPrice, $propertiesOperator, $propertiesPriceWithVat);
+			$productPrice   = $propertyPrices[1];
 
-			for ($t = 0, $tn = count($propArr); $t < $tn; $t++)
-			{
-				$subElementArr             = $propArr[$t]['property_childs'];
-				$selectedAttributs[$sel++] = $attArr[$i]['attribute_id'];
+			$propertyOldPriceVats = $this->makeTotalPriceByOprand($productOldprice, $propertiesOperator, $propertiesPrice);
+			$productOldprice      = $propertyOldPriceVats[1];
 
-				if ($setPropEqual && $setSubpropEqual && isset($subprovatprice[$t]))
+			for ($t = 0, $tn = count($properties); $t < $tn; $t++)
+			{
+				$selectedAttributs[$sel++] = $attributes[$i]['attribute_id'];
+
+				if ($setPropEqual && $setSubpropEqual && isset($subPropertiesPriceWithVat[$t]))
 				{
-					$accessory_priceArr    = $this->makeTotalPriceByOprand(
-						$product_price,
-						$subprooprand[$t],
-						$subprovatprice[$t]
-					);
-					$accessory_vatArr      = $this->makeTotalPriceByOprand(
-						$product_vat_price,
-						$subprooprand[$t],
-						$subprovat[$t]
-					);
-					$accessory_oldpriceArr = $this->makeTotalPriceByOprand(
-						$productOldprice,
-						$subprooprand[$t],
-						$subproprice[$t]
-					);
-					$product_price     = $accessory_priceArr[1];
-					$product_vat_price = $accessory_vatArr[1];
-					$productOldprice   = $accessory_oldpriceArr[1];
+					$subPropertyPrices    = $this->makeTotalPriceByOprand($productPrice, $subPropertiesOperator[$t], $subPropertiesPriceWithVat[$t]);
+
+					$productPrice     = $subPropertyPrices[1];
+
+					$subPropertyOldPriceVats = $this->makeTotalPriceByOprand($productOldprice, $subPropertiesOperator[$t], $subPropertiesPrice[$t]);
+					$productOldprice   = $subPropertyOldPriceVats[1];
 				}
 			}
-			/// FOR PROPERTY AND SUBPROPERTY PRICE CALCULATION
 		}
 
 		if ($displayattribute != "")
@@ -7573,26 +7553,32 @@ class producthelper
 				. $displayattribute;
 		}
 
+		$productVatOldPrice = 0;
+
 		if ($productOldprice > 0)
 		{
-			$product_vat_Oldprice = $this->getProductTax($product_id, $productOldprice, $user_id);
+			$productVatOldPrice = $this->getProductTax($productId, $productOldprice, $userId);
 		}
 
-		$applytax = $this->getApplyVatOrNot($data, $user_id);
-
-		if ($applytax)
+		// Recalculate VAT if set to apply vat for attribute
+		if ($applyVat)
 		{
-			$product_price = $product_price - $product_vat_price;
+			$productVatPrice = $this->getProducttax($productId, $productPrice, $userId);
+		}
+
+		if (!$this->getApplyVatOrNot($data, $userId))
+		{
+			$productPrice += $productVatPrice;
 		}
 
 		return array(
 			$displayattribute,
-			$product_price,
-			$product_vat_price,
+			$productPrice,
+			$productVatPrice,
 			$selectedAttributs,
 			$isStock,
 			$productOldprice,
-			$product_vat_Oldprice,
+			$productVatOldPrice,
 			$isPreorderStock,
 			$selectedProperty
 		);
@@ -10084,6 +10070,9 @@ class producthelper
 				$tempdata_div_end    = $product_end [1];
 
 				$attribute_template = $this->getAttributeTemplate($tempdata_div_middle);
+				
+				// Extra field display
+ +				$extraFieldName = $extra_field->getSectionFieldNameArray(1, 1, 1);
 
 				for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 				{
@@ -10216,6 +10205,9 @@ class producthelper
 
 					$related_template_data = $this->getProductOnSaleComment($related_product[$r], $related_template_data);
 					$related_template_data = $this->getSpecialProductComment($related_product[$r], $related_template_data);
+					
+					//  Extra field display
+ +					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, 1);
 
 					// Related product attribute price list
 					$related_template_data = $this->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);

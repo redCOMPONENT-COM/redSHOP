@@ -31,7 +31,6 @@ class JFormFieldmanufacturer extends JFormField
 	{
 		$db = JFactory::getDbo();
 		$name = $this->name;
-		$control_name = $this->name;
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT manufacturer_id,manufacturer_name ' .
 			' FROM #__redshop_manufacturer WHERE published=1';

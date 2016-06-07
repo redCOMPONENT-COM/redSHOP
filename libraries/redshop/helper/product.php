@@ -219,7 +219,8 @@ class RedshopHelperProduct
 				->select('SUM(psx.quantity)')
 				->from($db->qn('#__redshop_product_stockroom_xref', 'psx'))
 				->where('psx.product_id = p.product_id')
-				->where('psx.quantity >= 0');
+				->where('psx.quantity >= 0')
+				->where('psx.stockroom_id > 0');
 
 			$query->select('(' . $subQuery . ') AS sum_quanity');
 		}

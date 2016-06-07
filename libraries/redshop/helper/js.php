@@ -66,9 +66,13 @@ class RedshopHelperJs
 			$currency_convert = round($convertPrice->convert(1), 2);
 		}
 
+		$token = JSession::getFormToken();
+
 		// Prepare dynamic variables to add them in javascript stack
 		$dynamicVars = array(
 			'SITE_URL'                          => JURI::root(),
+			'AJAX_TOKEN'                        => $token,
+			'AJAX_BASE_URL'                     => JRoute::_('index.php?' . $token . '=1', false),
 			'AJAX_CART_BOX'                     => AJAX_CART_BOX,
 			'REDSHOP_VIEW'                      => $view,
 			'REDSHOP_LAYOUT'                    => $layout,
@@ -82,6 +86,7 @@ class RedshopHelperJs
 			'USE_AS_CATALOG'                    => USE_AS_CATALOG,
 			'AJAX_CART_DISPLAY_TIME'            => AJAX_CART_DISPLAY_TIME,
 			'SHOW_PRICE'                        => SHOW_PRICE,
+			'BASE_TAX'                          => producthelper::getInstance()->getProductTax(0, 1),
 			'DEFAULT_QUOTATION_MODE'            => DEFAULT_QUOTATION_MODE,
 			'PRICE_REPLACE'                     => PRICE_REPLACE,
 			'ALLOW_PRE_ORDER'                   => ALLOW_PRE_ORDER,
