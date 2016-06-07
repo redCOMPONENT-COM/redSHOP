@@ -390,7 +390,7 @@ class order_functions
 		}
 		catch (Exception $e)
 		{
-			JError::raiseWarning(21, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 	}
 
@@ -823,7 +823,7 @@ class order_functions
 
 			if (!$order_log->bind($data))
 			{
-				return JError::raiseWarning(500, $order_log->getError());
+				return JFactory::getApplication()->enqueueMessage($order_log->getError(), 'error');
 			}
 
 			if (!$order_log->store())
@@ -2111,7 +2111,7 @@ class order_functions
 
 				if ($generate_label != "success")
 				{
-					JError::raiseWarning(21, $generate_label);
+					JFactory::getApplication()->enqueueMessage($generate_label, 'error');
 				}
 			}
 		}

@@ -340,7 +340,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			if ($directory == 0)
 			{
 				$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
-				JError::raiseWarning(403, $msg);
+				JFactory::getApplication()->enqueueMessage($msg, 'error');
 			}
 
 			// Starting of Bull upload creation
@@ -357,7 +357,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 					if ($file_upload != 1)
 					{
 						$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
-						JError::raiseWarning(403, $msg);
+						JFactory::getApplication()->enqueueMessage($msg, 'error');
 					}
 
 					$target = 'components/com_redshop/assets/media/extracted/' . $bulkfile['name'];

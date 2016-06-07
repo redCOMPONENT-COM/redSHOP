@@ -100,7 +100,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 			if ($model->getError() != "")
 			{
-				JError::raiseWarning(500, $model->getError());
+				JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
 			}
 		}
 		else
