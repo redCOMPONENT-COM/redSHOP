@@ -1,0 +1,294 @@
+
+/* CSS Document */
+body {
+	background: #fff;
+	font-size: 11px;
+	font-family: Tahoma, Geneva, sans-serif;
+	color: #292929c;
+	margin: 0px;
+	padding: 0px;
+}
+
+a {
+	color: #3c3c3c;
+	text-decoration: none;
+	outline: none;
+}
+
+a:hover {
+	color: #275B8B;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+input {
+	background: none;
+	font-size: 13px;
+	font-family: Arial, Helvetica, sans-serif;
+	border-radius: 0;
+}
+
+ul, li {
+	list-style: none;
+
+}
+
+h1 {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+h3 {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+h4 {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+h5 {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.clr {
+	clear: both;
+}
+
+.content {
+	padding: 5px;
+}
+
+/* Wrapper */
+#wrapper {
+	width: 715px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.nav {
+	width: 100%;
+	background: #006c9a;
+	height: 32px;
+}
+
+.nav .nav_title {
+	line-height: 30px;
+	color: #fff;
+	font-weight: normal;
+	text-align: center;
+	font-size: 15px;
+	text-transform: uppercase;
+}
+
+.notice {
+	width: 715px;
+	margin: 10px auto;
+	background: #f8f7b1;
+	border-radius: 4px;
+	height: 32px;
+}
+
+.notice .notice_content {
+	background: url(../images/notice_bg.png) left no-repeat;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 30px;
+	font-size: 11px;
+	height: 32px;
+	line-height: 30px;
+}
+
+.payment_list {
+	width: 100%;
+}
+.customer_info{
+	border-bottom: 1px #ccc dotted;
+}
+.customer_info .dl-horizontal{
+	margin-top: 10px;
+}
+.customer_info dt{
+	font-weight: normal;
+	font-size: 13px;
+	width: 115px;
+	padding-top: 5px;
+}
+.customer_info dd {
+	margin-left: 125px;
+}
+.customer_info input{
+	box-shadow:none;
+	border-radius: 2px;
+	height: 20px;
+	padding: 4px 6px;
+	margin-bottom: 10px;
+	font-size: 13px;
+	line-height: 24px;
+}
+.payment_list #select_payment .method {
+	padding: 15px 0;
+	border-bottom: 1px #ccc dotted;
+	display: inline-block;
+	width: 715px;
+	position: relative;
+}
+.payment_list #select_payment .method:first-child{
+	border-top: 1px #ccc dotted;
+}
+.payment_list #select_payment .method:hover, .payment_list #select_payment .method:focus, .payment_list #select_payment .method.selected {
+	/*background: #e7f4fc;*/
+}
+
+.payment_list #select_payment .icon {
+	width: 50px;
+	height: auto;
+	float: left;
+	display: inline-block;
+}
+
+.payment_list #select_payment .icon img {
+	vertical-align: middle;
+	padding-left: 5px;
+}
+
+.payment_list #select_payment .info {
+	width: 665px;
+	float: left;
+}
+
+.payment_list #select_payment .method .check_box {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.payment_list #select_payment .method .check_box {
+	width: 30px;
+	height: 30px;
+	background: url(../images/check_pay.jpg) 0 0 no-repeat;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.payment_list #select_payment .method .checked_box {
+	background: url(../images/checked_pay.jpg) 0 0 no-repeat !important;
+}
+
+.title {
+	font-weight: bold;
+	padding-right: 10px;
+	display: block;
+	font-size: 13px;
+	color: #1db453;
+}
+.method .title {
+	color: inherit ;
+}
+.desc {
+	padding-right: 10px;
+	display: block;
+	color: #777
+}
+
+.bank_list {
+	margin-top: 0px;
+	clear: both;
+}
+
+.bank_list #b_l li {
+	float: left;
+	width: 60px;
+	margin: 10px 10px 0px 0;
+	border-bottom: none;
+	padding: 0 !important;
+}
+
+.event, .tut {
+	height: 15px;
+	padding-left: 20px;
+	margin-top: 5px;
+	display: inline-block;
+	margin: 5px 5px 5px 0;
+}
+
+.event {
+	color: #da0000;
+	background: url(../images/event.png) left no-repeat;
+}
+
+.tut {
+	background: url(../images/tut.png) left no-repeat;
+}
+
+.bk_logo {
+	position: absolute;
+	top: 10px;
+	left: 310px;
+}
+
+.pm_submit {
+	width: 200px;
+	height: 40px;
+	color: #fff;
+	font-weight: bold;
+	cursor: pointer;
+	text-align: center;
+}
+
+.pm_submit:hover {
+
+}
+
+.submit {
+	margin: 20px 0 0;
+	width: 100%;
+	text-align: center;
+}
+
+.img-active {
+	border: 2px solid blue !important
+}
+
+.img-bank {
+	border: 2px solid white
+}
+
+div .selected {
+	background-color: #e8f4fb;
+}
+
+ul#bl li img {
+	padding: 3px 3px 3px 3px;
+}
+
+.payment-mode {
+	display: block;
+	margin: 15px 23px 0px 0px;
+	float: left
+}
+
+.desc-mode {
+	font-size: 13px;
+	font-weight: bold
+}
+
+#daykeep {
+	display: none;
+	margin-top: 10px;
+}
+
+.info1 {
+	display: none;
+}
