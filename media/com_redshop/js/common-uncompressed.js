@@ -1,7 +1,7 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
-redSHOP.addToCompare = function(ele){
+redSHOP.compareAction = function(ele, command){
 
 	if (!ele.length) {return;}
 
@@ -15,17 +15,18 @@ redSHOP.addToCompare = function(ele){
 	var productId = data[0],
 		categoryId = data[1];
 
-	var command = (ele.is(":checked")) ? 'add' : 'remove';
+	if (command == "")
+	{
+		command = (ele.is(":checked")) ? 'add' : 'remove';
+	}
 
 	jQuery.ajax({
 		url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare',
 		type: 'POST',
-		dataType: 'json',
-		data: {cmd: command, pid: productId, cid: categoryId},
-		complete: function(xhr, textStatus) {
-		},
-		success: function(data, textStatus, xhr) {
-
+		dataType: 'json', data: {cmd: command, pid: productId, cid: categoryId},
+		complete: function(xhr, textStatus) { },
+		success: function(data, textStatus, xhr)
+		{
 			if (data.success === true)
 			{
 				jQuery('#divCompareProduct').html(data.html);
@@ -37,9 +38,17 @@ redSHOP.addToCompare = function(ele){
 				jQuery('#mod_compareproduct').html(data.total);
 			}
 
+			// The checkbox "Add To Compare" should be unchecked after user deleting current view product from comparision list
 			jQuery('a[id^="removeCompare"]').click(function(event) {
-		    	redSHOP.addToCompare(jQuery(this));
-		    });
+				// Check if deleted product is current view product
+				if (jQuery(this).attr('value') ==  jQuery('[id^="rsProductCompareChk"]').val())
+				{
+					jQuery('[id^="rsProductCompareChk"]').prop('checked', false);
+				}
+				
+				// Remove it from comparision list and return updated list
+				redSHOP.compareAction(jQuery(this), "remove");
+			});
 		},
 		error: function(xhr, textStatus, errorThrown) {
 			//called when there is an error
@@ -47,22 +56,25 @@ redSHOP.addToCompare = function(ele){
 	});
 };
 
+
 // New registration functions
 jQuery(document).ready(function() {
-    billingIsShipping(document.getElementById('billisship'));
-
-    redSHOP.addToCompare(jQuery('[id^="rsProductCompareChk"]'));
-
-    jQuery('[id^="rsProductCompareChk"]').click(function(event) {
-    	redSHOP.addToCompare(jQuery(this));
-    });
-
-    // Hide some checkout view stuff
-    jQuery('#divPrivateTemplateId').hide();
-    jQuery('#divCompanyTemplateId').hide();
-
-    // Click public or private registration form function
-    showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
+	billingIsShipping(document.getElementById('billisship'));
+	
+	// Show comparision list on first load of product view
+	redSHOP.compareAction(jQuery('[id^="rsProductCompareChk"]'), "getItems");
+	
+	// Handle add (remove) product to (from) comparision list 
+	jQuery('[id^="rsProductCompareChk"]').click(function(event) {
+	    redSHOP.addToCompare(jQuery(this), "");
+	});
+	
+	// Hide some checkout view stuff
+	jQuery('#divPrivateTemplateId').hide();
+	jQuery('#divCompanyTemplateId').hide();
+	
+	// Click public or private registration form function
+	showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
 });
 
 function validateInputNumber(objid)
