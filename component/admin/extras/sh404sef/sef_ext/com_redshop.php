@@ -257,15 +257,15 @@ switch ($view)
 						$catname = $categoryData->category_name;
 					}
 
-					$title[] = $catname;
+					$title[] = JFilterOutput::stringURLSafe($catname);
 				}
 
 				if (ENABLE_SEF_PRODUCT_NUMBER)
 				{
-					$title[] = $product->product_number;
+					$title[] = JFilterOutput::stringURLSafe($product->product_number);
 				}
 
-				$title[] = $product->product_name;
+				$title[] = JFilterOutput::stringURLSafe($product->product_name);
 			}
 			else
 			{

@@ -3294,7 +3294,7 @@ class rsCarthelper
 				}
 
 				$retAttArr = $this->_producthelper->makeAttributeCart(
-					$cartArr[$i]['cart_attribute'],
+					isset($cartArr[$i]['cart_attribute']) ? $cartArr[$i]['cart_attribute'] : array(),
 					(int) $product->product_id,
 					$user_id,
 					$price,
@@ -3313,7 +3313,7 @@ class rsCarthelper
 
 				// Accessory calculation
 				$retAccArr = $this->_producthelper->makeAccessoryCart(
-					$cartArr [$i] ['cart_accessory'],
+					isset($cartArr[$i]['cart_accessory']) ? $cartArr[$i]['cart_accessory'] : array(),
 					$product->product_id,
 					$user_id
 				);

@@ -190,7 +190,9 @@ if (count($list) > 0)
 							<?php
 							if ($params->get('show_addtocart', 1))
 							{
-								$addtocart_data = $producthelper->replaceCartTemplate($row->product_id, 0, 0, 0, "", false, array(), 0, 0, 0, $module->id);
+								$attributes = $producthelper->getProductAttribute($row->product_id);
+								$totalatt   = count($attributes);
+								$addtocart_data = $producthelper->replaceCartTemplate($row->product_id, 0, 0, 0, "", false, array(), $totalatt, 0, 0, $module->id);
 								echo "<div class=\"form-button\">" . $addtocart_data . "</div>";
 							}
 							?>
