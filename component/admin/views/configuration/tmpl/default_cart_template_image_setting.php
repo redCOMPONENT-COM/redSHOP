@@ -251,7 +251,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 						                                    title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_DELETE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_DELETE_LBL'); ?>"><?php echo  JText::_('COM_REDSHOP_ADDTOCART_DELETE_LBL');?>
 								:</span></td>
 						<td>
-							<?php $addtocartDelete =  $this->config->get('ADDTOCART_UPDATE'); ?>
+							<?php $addtocartDelete =  $this->config->get('ADDTOCART_DELETE'); ?>
 							<div style="width: 500px; height: 50px;">
 								<div style="float: left;">
 									<input class="text_area" type="file" name="cartdelete" id="cartdelete" size="50"/>
