@@ -86,7 +86,7 @@ Joomla.submitbutton = function (pressbutton)
 		return;
 	}
 
-	if ((pressbutton == 'save') || (pressbutton == 'send'))
+	if ((pressbutton == 'save') || (pressbutton == 'send') || (pressbutton == 'apply'))
 	{
 		if (form.user_id.value == 0)
 		{

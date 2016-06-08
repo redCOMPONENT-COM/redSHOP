@@ -27,7 +27,12 @@ class RedshopControllerQuotation_detail extends RedshopController
 		parent::display();
 	}
 
-	public function save($send = 0)
+	public function apply()
+	{
+		$this->save(0, 1);
+	}
+
+	public function save($send = 0, $apply = 0)
 	{
 		$quotationHelper = quotationHelper::getInstance();
 		$post = JRequest::get('post');
@@ -89,25 +94,32 @@ class RedshopControllerQuotation_detail extends RedshopController
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
+
+			$quotation_status = $post['quotation_status'] > 0 ? $post['quotation_status'] : 2;
+			$quotationHelper->updateQuotationStatus($row->quotation_id, $quotation_status);
+
+			if ($send == 1)
+			{
+				if ($model->sendQuotationMail($row->quotation_id) && JFactory::getConfig()->get('mailonline') == 1)
+				{
+					$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
+				}
+			}
+
+			if ($apply == 1)
+			{
+				$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id, $msg);
+			}
+			else
+			{
+				$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
+			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
+			$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 		}
-
-		$quotation_status = $post['quotation_status'] > 0 ? $post['quotation_status'] : 2;
-
-		$quotationHelper->updateQuotationStatus($row->quotation_id, $quotation_status);
-
-		if ($send == 1)
-		{
-			if ($model->sendQuotationMail($row->quotation_id) && JFactory::getConfig()->get('mailonline') == 1)
-			{
-				$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function send()

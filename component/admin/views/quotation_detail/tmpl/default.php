@@ -46,7 +46,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 			submitform('newQuotationItem');
 			return;
 		}
-		if ((pressbutton == 'save') || (pressbutton == 'send')) {
+		if ((pressbutton == 'save') || (pressbutton == 'send') || (pressbutton == 'aplly')) {
 			if (form.user_id.value == 0 && form.quotation_email.value == "") {
 				alert('<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT_FOR_QUOTATION');?>');
 				return false;
