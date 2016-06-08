@@ -561,6 +561,9 @@ class producthelper
 
 	public function getVatUserinfo($user_id = 0)
 	{
+		// Let's create a common user session first.
+		RedshopHelperUser::createUserSession();
+
 		$user = JFactory::getUser();
 
 		if ($user_id == 0)
