@@ -136,16 +136,28 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			}
 		}
 
+		$this->redirect   = (string) $nlResult->checkout_url;
+		$values           = new stdClass;
+		$values->order_id = $orderId;
+
+		return $values;
+
 		if ($nlResult->error_code == '00')
 		{
-			$return = $app->redirect((string) $nlResult->checkout_url);
+			$values->order_status_code         = $this->params->get('verify_status', '');
+			$values->order_payment_status_code = 'Paid';
+			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_PLACED');
+			$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_PLACED');
 		}
 		else
 		{
-			$return = $app->enqueueMessage($nlResult->error_message, 'error');
+			$values->order_status_code         = $this->params->get('invalid_status', '');
+			$values->order_payment_status_code = 'Unpaid';
+			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');
+			$values->msg                       = $nlResult->error_message;
 		}
 
-		return $return;
+		return $values;
 	}
 
 	/**
@@ -159,11 +171,6 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 	public function onAfterNotifyPaymentNganluong($name, $orderId)
 	{
 		$app    = JFactory::getApplication();
-		$app->redirect(
-			JRoute::_(
-				'index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId,
-				false
-			)
-		);
+		$app->redirect($this->redirect);
 	}
 }
