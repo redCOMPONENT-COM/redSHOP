@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
 	
 	// Handle add (remove) product to (from) comparision list 
 	jQuery('[id^="rsProductCompareChk"]').click(function(event) {
-	    redSHOP.addToCompare(jQuery(this), "");
+	    redSHOP.compareAction(jQuery(this), "");
 	});
 	
 	// Hide some checkout view stuff
