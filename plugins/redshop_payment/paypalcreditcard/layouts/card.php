@@ -36,7 +36,7 @@ extract($displayData);
 		</a>
 	<td>
 	</tr>
-	<tr class="hide" id="card-edit-<?php echo $card->id; ?>">
+	<tr id="card-edit-<?php echo $card->id; ?>">
 	<td colspan="6">
 		<?php
 		echo RedshopLayoutHelper::render(
