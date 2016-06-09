@@ -22,7 +22,7 @@ extract($displayData);
 </div>
 <?php endif; ?>
 
-<div id="newCardform" class="hide">
+<div id="newCardform">
 <?php
 	echo RedshopLayoutHelper::render(
 		'form',
@@ -48,9 +48,10 @@ try
 		"merchant_id" => $merchantId,
 		"external_customer_id" => $externalCustomerId
 	);
+
 	$cards = CreditCard::all($params, $apiContext);
 
-	if (!empty($cards))
+	if ($cards->total_items)
 	{
 	?>
 
@@ -99,6 +100,9 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
+
+		jQuery('#newCardform').hide();
+		jQuery('[id^="card-edit-"]').hide();
 
 		jQuery(document).on('click', '.edit, .cancel', function() {
 			var id = jQuery(this).attr('cardId');

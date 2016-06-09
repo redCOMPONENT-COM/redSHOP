@@ -85,6 +85,8 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 				$return->paymentStatus  = 'Unpaid';
 				$return->responsestatus = 'Success';
 				$return->message        = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CREATE_SUCCESS');
+
+				$app->enqueueMessage($return->message, 'message');
 			}
 			catch (Exception $ex)
 			{
@@ -93,6 +95,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 											'PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL',
 											implode('<br />', $this->parsePaypalException($ex))
 										);
+				$app->enqueueMessage($return->message, 'error');
 			}
 
 			return $return;
