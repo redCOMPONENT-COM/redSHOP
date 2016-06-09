@@ -12,7 +12,7 @@ use PayPal\Api\CreditCard;
 
 extract($displayData);
 
-JHtml::script('plg_redshop_payment_paypalcreditcard/cards.js', false, true, false);
+JHtml::script('plg_redshop_payment_paypalcreditcard/cards.min.js', false, true, false);
 
 ?>
 <div class="ajax-error">&nbsp;</div>
