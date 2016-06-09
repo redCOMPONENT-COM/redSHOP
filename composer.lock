@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "274e26c10e6d2294de9d9fb94926d487",
-    "content-hash": "addac0b3e519d49ba92c6fd85b0aa749",
+    "hash": "382ca07c1d918fe84361eadacbc16831",
+    "content-hash": "bbaf921b7c92ba845076aabc444df189",
     "packages": [],
     "packages-dev": [
         {
@@ -734,16 +734,16 @@
         },
         {
             "name": "joomla-projects/joomla-browser",
-            "version": "v3.5.1.1",
+            "version": "v3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "dce6a126699069bb44ac2e39be92f62bd3a80bae"
+                "reference": "b0a583d09435d9941219fef06fcc27a6487df976"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/dce6a126699069bb44ac2e39be92f62bd3a80bae",
-                "reference": "dce6a126699069bb44ac2e39be92f62bd3a80bae",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/b0a583d09435d9941219fef06fcc27a6487df976",
+                "reference": "b0a583d09435d9941219fef06fcc27a6487df976",
                 "shasum": ""
             },
             "require": {
@@ -781,7 +781,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2016-05-09 11:13:20"
+            "time": "2016-05-21 13:48:02"
         },
         {
             "name": "joomla-projects/selenium-server-standalone",
