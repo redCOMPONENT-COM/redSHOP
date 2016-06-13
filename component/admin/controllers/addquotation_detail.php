@@ -21,7 +21,12 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
     }
 
-	public function save($send = 0)
+    public function apply()
+	{
+		$this->save(0, 1);
+	}
+
+	public function save($send = 0, $apply = 0)
 	{
 		$post = JRequest::get('post');
 		$adminproducthelper = adminProductHelper::getInstance();
@@ -91,13 +96,21 @@ class RedshopControllerAddquotation_detail extends RedshopController
 					$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
 				}
 			}
+
+			if ($apply == 1)
+			{
+				$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id, $msg);
+			}
+			else
+			{
+				$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
+			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
+			$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function send()
