@@ -8583,7 +8583,7 @@ class producthelper
 
 	public function getCompare()
 	{
-		$compare_product = $this->_session->get('compare_product');
+		$compare_product = $this->_session->get('product.compare');
 
 		if (!$compare_product)
 		{
