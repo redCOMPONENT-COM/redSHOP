@@ -564,7 +564,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$orderId = $app->input->getInt('orderId');
 
 		JPluginHelper::importPlugin('redshop_payment');
-		JEventDispatcher::getInstance()->trigger('onPaymentBackend', array($orderId));
+		JEventDispatcher::getInstance()->trigger('onBackendPayment', array($orderId));
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId);
 	}

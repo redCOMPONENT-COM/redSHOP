@@ -652,7 +652,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $creditCardTypes;
 	}
 
-	public function onPaymentBackend($orderId)
+	public function onBackendPayment($orderId)
 	{
 		$app = JFactory::getApplication();
 
