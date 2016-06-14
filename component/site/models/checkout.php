@@ -371,7 +371,13 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$d ["order_payment_trans_id"] = $paymentResponse->transaction_id;
 				$order_status_log             = $paymentResponse->message;
-				$order_status                 = 'C';
+
+				if (!isset($paymentResponse->status))
+				{
+					$paymentResponse->status = 'C';
+				}
+
+				$order_status = $paymentResponse->status;
 
 				if (!isset($paymentResponse->paymentStatus))
 				{
@@ -1472,9 +1478,13 @@ class RedshopModelCheckout extends RedshopModel
 		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 
-
 		$validpayment [0] = 1;
 		$validpayment [1] = '';
+
+		if ($ccdata['selectedCardId'] != '')
+		{
+			return $validpayment;
+		}
 
 		// The Data should be in the session.
 		if (!isset($ccdata))

@@ -111,6 +111,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$ccdata['order_payment_expire_month'] = $request['order_payment_expire_month'];
 		$ccdata['order_payment_expire_year']  = $request['order_payment_expire_year'];
 		$ccdata['credit_card_code']           = $request['credit_card_code'];
+		$ccdata['selectedCardId']             = $app->input->getString('selectedCard');
 
 		// Create session
 		$session->set('ccdata', $ccdata);
@@ -139,8 +140,8 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		if ($paymentResponse->responsestatus == "Success" || $values['payment_plugin'] == "")
 		{
-			$paymentResponse->order_status_code = 'C';
-			$paymentResponse->order_payment_status_code = 'Paid';
+			$paymentResponse->order_status_code = (isset($paymentResponse->status)) ? $paymentResponse->status : 'C';
+			$paymentResponse->order_payment_status_code = (isset($paymentResponse->paymentStatus)) ? $paymentResponse->paymentStatus : 'Paid';
 			$paymentResponse->order_id = $request['order_id'];
 
 			// Change order status
@@ -401,10 +402,10 @@ class RedshopControllerOrder_detail extends RedshopController
 				      name="adminForm" id="adminForm" enctype="multipart/form-data"
 				      onsubmit="return CheckCardNumber(this);">
 					<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo[0]->payment_method_class); ?>
-					<div style="float: right;">
+					<div>
 						<input type="hidden" name="option" value="com_redshop"/>
 						<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-						<input type="hidden" name="task" value="process_payment"/>
+						<input type="hidden" name="task" value="process_payment" />
 						<input type="hidden" name="view" value="order_detail"/>
 						<input type="submit" name="submit" class="greenbutton"
 						       value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>"/>
@@ -414,7 +415,8 @@ class RedshopControllerOrder_detail extends RedshopController
 						<input type="hidden" name="payment_method_id"
 						       value="<?php echo $paymentInfo[0]->payment_method_class; ?>"/>
 					</div>
-					</form><?php
+					</form>
+				<?php
 				}
 				else
 				{
