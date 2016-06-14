@@ -582,6 +582,7 @@ class RedshopControllerCheckout extends RedshopController
 			$ccdata['order_payment_expire_month'] = JRequest::getVar('order_payment_expire_month');
 			$ccdata['order_payment_expire_year']  = JRequest::getVar('order_payment_expire_year');
 			$ccdata['credit_card_code']           = JRequest::getVar('credit_card_code');
+			$ccdata['selectedCardId'] = JFactory::getApplication()->input->getString('selectedCard', '');
 			$session->set('ccdata', $ccdata);
 
 			$validpayment = $model->validatepaymentccinfo();
@@ -699,7 +700,7 @@ class RedshopControllerCheckout extends RedshopController
 		$app        = JFactory::getApplication();
 		$cart       = JFactory::getSession()->get('cart');
 		$carthelper = rsCarthelper::getInstance();
-		
+
 		$creditcard = "";
 
 		if ($cart['total'] > 0)
