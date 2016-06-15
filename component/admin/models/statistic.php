@@ -20,6 +20,8 @@ class RedshopModelStatistic extends RedshopModel
 
 	public $_filteroption = null;
 
+	public $_typeoption = null;
+
 	public $_mostpopular = null;
 
 	public $_bestsallers = null;
@@ -47,10 +49,16 @@ class RedshopModelStatistic extends RedshopModel
 		$this->_startdate = strtotime(JRequest::getVar('startdate'));
 		$this->_enddate = strtotime(JRequest::getVar('enddate'));
 		$this->_filteroption = JRequest::getVar('filteroption');
+		$this->_typeoption = JRequest::getVar('typeoption');
 
 		if ($this->_filteroption == "" && JRequest::getVar('view') == "")
 		{
 			$this->_filteroption = 3;
+		}
+
+		if ($this->_typeoption == "")
+		{
+			$this->_typeoption = 1;
 		}
 	}
 
@@ -120,7 +128,14 @@ class RedshopModelStatistic extends RedshopModel
 		$this->_db->setQuery($query);
 		$mindate = $this->_db->loadResult();
 
-		$query = 'SELECT count(oi.product_id) AS totalproduct, FROM_UNIXTIME(oi.cdate,"' . $formate . '") AS viewdate '
+		$type = 'count(oi.product_id)';
+
+		if ($this->_typeoption == 2)
+		{
+			$type = 'sum(oi.product_quantity)';
+		}
+
+		$query = 'SELECT '. $type .' AS totalproduct, FROM_UNIXTIME(oi.cdate,"' . $formate . '") AS viewdate '
 			. ', p.product_id, p.product_name, p.product_price '
 			. 'FROM ' . $this->_table_prefix . 'order_item as oi '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=oi.product_id ';

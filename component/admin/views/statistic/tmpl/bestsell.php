@@ -18,7 +18,8 @@ $end = $this->pagination->limit;
 	<div id="editcell">
 		<table width="100%">
 			<tr>
-				<td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption'];?></td>
+				<td><?php echo JText::_('COM_REDSHOP_DATE') . ": " . $this->lists['filteroption'];?></td>
+				<td><?php echo JText::_('COM_REDSHOP_TYPE') . ": " . $this->lists['typeoption'];?></td>
 			</tr>
 			<?php /*<tr><td><?php echo JText::_('COM_REDSHOP_STARTDATE');?></td>
 		<td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
@@ -32,7 +33,11 @@ $end = $this->pagination->limit;
 				<th align="center"><?php echo JText::_('COM_REDSHOP_HASH'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
-				<th align="center"><?php echo JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'); ?></th>
+				<th align="center"><?php if ($this->typeoption == 2)
+											echo JText::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD');
+										else
+											echo JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'); ?>
+				</th>
 			</tr>
 			</thead>
 			<?php    $disdate = "";
@@ -43,7 +48,7 @@ $end = $this->pagination->limit;
 				{
 					break;
 				}
-				if ($this->filteroption && $row->viewdate != $disdate)
+				if ($this->filteroption && $this->filteroption != 0 && $row->viewdate != $disdate)
 				{
 					$disdate = $row->viewdate;    ?>
 					<tr>

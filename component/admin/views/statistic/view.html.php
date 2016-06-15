@@ -27,16 +27,26 @@ class RedshopViewStatistic extends RedshopView
 		$enddate = JRequest::getVar('enddate');
 
 		$filteroption = JRequest::getVar('filteroption');
+		$typeoption = JRequest::getVar('typeoption');
 		$lists = array();
 		$option = array();
+
 		$option[] = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_Select'));
 		$option[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
 		$option[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
 		$option[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
 		$option[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
 
+		$type[] = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_Select'));
+		$type[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'));
+		$type[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD'));
+
 		$lists['filteroption'] = JHTML::_('select.genericlist', $option, 'filteroption',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $filteroption
+		);
+
+		$lists['typeoption'] = JHTML::_('select.genericlist', $type, 'typeoption',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $typeoption
 		);
 
 		$redshopviewer = array();
@@ -155,6 +165,7 @@ class RedshopViewStatistic extends RedshopView
 		$this->pageviewer = $pageviewer;
 		$this->lists = $lists;
 		$this->filteroption = $filteroption;
+		$this->typeoption = $typeoption;
 		$this->layout = $layout;
 		$this->request_url = $uri->toString();
 
