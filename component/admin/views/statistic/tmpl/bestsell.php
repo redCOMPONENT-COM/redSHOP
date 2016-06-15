@@ -34,9 +34,9 @@ $end = $this->pagination->limit;
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></th>
 				<th align="center"><?php if ($this->typeoption == 2)
-											echo JText::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD');
-										else
-											echo JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'); ?>
+								echo JText::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD');
+							else
+								echo JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'); ?>
 				</th>
 			</tr>
 			</thead>
