@@ -51,13 +51,12 @@ abstract class RedshopViewCsv extends JViewLegacy
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
 	 * @throws  RuntimeException
 	 */
-	public function display($tpl = null)
+	public function display()
 	{
 		// Get the columns
 		$columns = $this->getColumns();

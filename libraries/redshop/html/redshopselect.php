@@ -100,7 +100,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 	 *
 	 * @since   1.5
 	 */
-	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false, $translate = false, $classSuffix = ' btn-group redRadioGroup')
+	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false, $translate = false)
 	{
 		JHtml::_('redshopjquery.radiobutton');
 

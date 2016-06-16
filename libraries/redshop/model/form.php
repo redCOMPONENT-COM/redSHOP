@@ -59,14 +59,13 @@ class RedshopModelForm extends JModelForm
 	/**
 	 * Method for getting the form from the model.
 	 *
-	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
 	 * @since   1.5
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm(
