@@ -63,6 +63,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			'trnCardNumber'   => $ccdata['order_payment_number'],
 			'trnExpMonth'     => $ccdata['order_payment_expire_month'],
 			'trnExpYear'      => $order_payment_expire_year,
+			'trnCardCvd'      => $ccdata['credit_card_code'],
 			'trnOrderNumber'  => $data['order_number'],
 			'trnAmount'       => $order_total,
 			'ordEmailAddress' => $data['billinginfo']->user_email,

@@ -1,7 +1,7 @@
 // Only define the redSHOP namespace if not defined.
 redSHOP = window.redSHOP || {};
 
-redSHOP.addToCompare = function(ele){
+redSHOP.compareAction = function(ele, command){
 
 	if (!ele.length) {return;}
 
@@ -15,17 +15,18 @@ redSHOP.addToCompare = function(ele){
 	var productId = data[0],
 		categoryId = data[1];
 
-	var command = (ele.is(":checked")) ? 'add' : 'remove';
+	if (command == "")
+	{
+		command = (ele.is(":checked")) ? 'add' : 'remove';
+	}
 
 	jQuery.ajax({
 		url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare',
 		type: 'POST',
-		dataType: 'json',
-		data: {cmd: command, pid: productId, cid: categoryId},
-		complete: function(xhr, textStatus) {
-		},
-		success: function(data, textStatus, xhr) {
-
+		dataType: 'json', data: {cmd: command, pid: productId, cid: categoryId},
+		complete: function(xhr, textStatus) { },
+		success: function(data, textStatus, xhr)
+		{
 			if (data.success === true)
 			{
 				jQuery('#divCompareProduct').html(data.html);
@@ -37,9 +38,17 @@ redSHOP.addToCompare = function(ele){
 				jQuery('#mod_compareproduct').html(data.total);
 			}
 
+			// The checkbox "Add To Compare" should be unchecked after user deleting current view product from comparision list
 			jQuery('a[id^="removeCompare"]').click(function(event) {
-		    	redSHOP.addToCompare(jQuery(this));
-		    });
+				// Check if deleted product is current view product
+				if (jQuery(this).attr('value') ==  jQuery('[id^="rsProductCompareChk"]').val())
+				{
+					jQuery('[id^="rsProductCompareChk"]').prop('checked', false);
+				}
+				
+				// Remove it from comparision list and return updated list
+				redSHOP.compareAction(jQuery(this), "remove");
+			});
 		},
 		error: function(xhr, textStatus, errorThrown) {
 			//called when there is an error
@@ -47,22 +56,25 @@ redSHOP.addToCompare = function(ele){
 	});
 };
 
+
 // New registration functions
 jQuery(document).ready(function() {
-    billingIsShipping(document.getElementById('billisship'));
-
-    redSHOP.addToCompare(jQuery('[id^="rsProductCompareChk"]'));
-
-    jQuery('[id^="rsProductCompareChk"]').click(function(event) {
-    	redSHOP.addToCompare(jQuery(this));
-    });
-
-    // Hide some checkout view stuff
-    jQuery('#divPrivateTemplateId').hide();
-    jQuery('#divCompanyTemplateId').hide();
-
-    // Click public or private registration form function
-    showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
+	billingIsShipping(document.getElementById('billisship'));
+	
+	// Show comparision list on first load of product view
+	redSHOP.compareAction(jQuery('[id^="rsProductCompareChk"]'), "getItems");
+	
+	// Handle add (remove) product to (from) comparision list 
+	jQuery('[id^="rsProductCompareChk"]').click(function(event) {
+	    redSHOP.compareAction(jQuery(this), "");
+	});
+	
+	// Hide some checkout view stuff
+	jQuery('#divPrivateTemplateId').hide();
+	jQuery('#divCompanyTemplateId').hide();
+	
+	// Click public or private registration form function
+	showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
 });
 
 function validateInputNumber(objid)
@@ -782,7 +794,6 @@ function onestepCheckoutProcess(objectname,classname)
 			xmlhttp1.send(null);
 		}
 
-		var params=[];
 		var users_info_id=0;
 		var shipping_box_id = 0;
 		var shipping_rate_id="";
@@ -852,20 +863,24 @@ function onestepCheckoutProcess(objectname,classname)
 			Itemid = document.getElementById('onestepItemid').value;
 		}
 
-		params.push('option=com_redshop&view=checkout&task=oneStepCheckoutProcess');
-		params.push("users_info_id=" + users_info_id);
-		params.push("shipping_box_id=" + shipping_box_id);
-		params.push("shipping_rate_id=" + shipping_rate_id);
-		params.push("payment_method_id=" + payment_method_id);
-		params.push("rate_template_id=" + rate_template_id);
-		params.push("cart_template_id=" + cart_template_id);
-		params.push("customer_note=" + unescape(customer_note));
-		params.push("requisition_number=" + requisition_number);
-		params.push("rs_customer_message_ta=" + rs_customer_message_ta);
-		params.push("txt_referral_code=" + txt_referral_code);
-		params.push("objectname=" + objectname);
-		params.push("Itemid=" + Itemid);
-		params.push("sid=" + Math.random());
+		var postParams = {
+			option : 'com_redshop',
+			view : 'checkout',
+			task : 'oneStepCheckoutProcess',
+			users_info_id	: users_info_id,
+			shipping_box_id	: shipping_box_id,
+			shipping_rate_id	: shipping_rate_id,
+			payment_method_id	: payment_method_id,
+			rate_template_id	: rate_template_id,
+			cart_template_id	: cart_template_id,
+			customer_note	: unescape(customer_note),
+			requisition_number	: requisition_number,
+			rs_customer_message_ta	: rs_customer_message_ta,
+			txt_referral_code	: txt_referral_code,
+			objectname	: objectname,
+			Itemid	: Itemid,
+			sid	: Math.random()
+		};
 
 		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component';
 
@@ -877,44 +892,45 @@ function onestepCheckoutProcess(objectname,classname)
 		{
 			document.getElementById('divRedshopCart').innerHTML = "Loading...<img src='"+redSHOP.RSConfig._('SITE_URL')+"/components/com_redshop/assets/images/loading.gif' />";
 		}
-		xmlhttp=GetXmlHttpObject();
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4)
+
+		jQuery.ajax({
+			url: url,
+			type: 'POST',
+			dataType: 'html',
+			data: postParams,
+		})
+		.done(function(txtresponse) {
+		    var arrResponse = txtresponse.split("`_`");
+
+		    document.getElementById('responceonestep').innerHTML = arrResponse[1];
+
+			if(arrResponse[2] && document.getElementById('mod_cart_total_value_ajax'))
 			{
-				txtresponse = xmlhttp.responseText;
-			    var arrResponse = txtresponse.split("`_`");
-			    document.getElementById('responceonestep').innerHTML = arrResponse[1];
-				if(arrResponse[2] && document.getElementById('mod_cart_total_value_ajax'))
-				{
-					document.getElementById('mod_cart_total_value_ajax').innerHTML=arrResponse[2];
-				}
-				if(document.getElementById('divShippingRate') && document.getElementById('onestepshiprate') && document.getElementById('onestepshiprate').innerHTML!="")
-				{
-					document.getElementById('divShippingRate').innerHTML = document.getElementById('onestepshiprate').innerHTML;
-				}
-
-				if(document.getElementById('divRedshopCart') && document.getElementById('onestepdisplaycart') && document.getElementById('onestepdisplaycart').innerHTML!="")
-				{
-					document.getElementById('divRedshopCart').innerHTML = document.getElementById('onestepdisplaycart').innerHTML;
-				}
-				document.getElementById('responceonestep').innerHTML = "";
-
-				SqueezeBox.initialize({});
-
-				$$('a.modal').each(function(el) {
-					el.addEvent('click', function(e) {
-						new Event(e).stop();
-						SqueezeBox.fromElement(el);
-					});
-				});
+				document.getElementById('mod_cart_total_value_ajax').innerHTML=arrResponse[2];
 			}
-		};
+			if(document.getElementById('divShippingRate') && document.getElementById('onestepshiprate') && document.getElementById('onestepshiprate').innerHTML!="")
+			{
+				document.getElementById('divShippingRate').innerHTML = document.getElementById('onestepshiprate').innerHTML;
+			}
 
-		xmlhttp.open("POST", url, true);
-		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.send(params.join('&'));
+			if(document.getElementById('divRedshopCart') && document.getElementById('onestepdisplaycart') && document.getElementById('onestepdisplaycart').innerHTML!="")
+			{
+				document.getElementById('divRedshopCart').innerHTML = document.getElementById('onestepdisplaycart').innerHTML;
+			}
+			document.getElementById('responceonestep').innerHTML = "";
+
+			SqueezeBox.initialize({});
+
+			$$('a.modal').each(function(el) {
+				el.addEvent('click', function(e) {
+					new Event(e).stop();
+					SqueezeBox.fromElement(el);
+				});
+			});
+		})
+		.fail(function() {
+			console.warn("onestepCheckoutProcess Error");
+		});
 	}
 
 	if(document.getElementById('extrafield_payment'))

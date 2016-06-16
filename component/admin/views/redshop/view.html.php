@@ -45,37 +45,7 @@ class RedshopViewRedshop extends RedshopView
 			$this->access_rslt = $this->access_rslt->checkaccessofuser($user->gid);
 		}
 
-		$filteroption = JRequest::getVar('filteroption');
-
-		if (isset($filteroption))
-		{
-			$filteroption = $filteroption;
-		}
-		else
-		{
-			$filteroption = 4;
-		}
-
-		$statsticmodel = RedshopModel::getInstance('Statistic', 'RedshopModel');
-		$this->turnover = $statsticmodel->getTotalTurnover();
-
-		$document = JFactory::getDocument();
-		$document->addScript('//www.google.com/jsapi');
-
-		$lists = array();
-		$option = array();
-		$option[] = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_Select'));
-		$option[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
-		$option[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
-		$option[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
-		$option[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
-		$lists['filteroption'] = JHTML::_('select.genericlist', $option, 'filteroption',
-			'class="inputbox" size="1" onchange="document.chartform.submit();"', 'value', 'text', $filteroption
-		);
-
-		$configmodel = RedshopModel::getInstance('Configuration', 'RedshopModel');
-
-		$this->redshopversion = $configmodel->getcurrentversion();
+		$this->redshopversion = RedshopModel::getInstance('Configuration', 'RedshopModel')->getcurrentversion();
 
 		$model = $this->getModel();
 
@@ -88,8 +58,6 @@ class RedshopViewRedshop extends RedshopView
 		{
 			$this->neworders = $model->getNeworders();
 		}
-
-		$this->lists  = $lists;
 
 		parent::display($tpl);
 	}

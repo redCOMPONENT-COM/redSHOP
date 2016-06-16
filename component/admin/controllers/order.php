@@ -42,8 +42,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function update_status()
 	{
-		$model = $this->getModel('order');
-		$model->update_status();
+		order_functions::getInstance()->update_status();
 	}
 
 	/**
@@ -107,6 +106,7 @@ class RedshopControllerOrder extends RedshopController
 		JPluginHelper::importPlugin('redshop_product');
 		JDispatcher::getInstance()->trigger('onAjaxOrderStatusUpdate', array($orderId, $post, &$response));
 
+		ob_clean();
 		echo json_encode($response);
 
 		$app->close();

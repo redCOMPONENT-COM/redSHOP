@@ -181,12 +181,6 @@ class RedshopModelOrder extends RedshopModel
 		return $query;
 	}
 
-	public function update_status()
-	{
-		$order_functions = order_functions::getInstance();
-		$order_functions->update_status();
-	}
-
 	public function export_data($cid)
 	{
 		$where = "";
@@ -325,7 +319,7 @@ class RedshopModelOrder extends RedshopModel
 	 * @return  void
 	 */
 	public function business_gls_export($cid)
-	{		
+	{
 		$orderHelper = order_functions::getInstance();
 		$extraField  = extraField::getInstance();
 

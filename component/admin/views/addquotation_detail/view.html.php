@@ -59,6 +59,7 @@ class RedshopViewAddquotation_detail extends RedshopView
 				. JText::_('COM_REDSHOP_NEW') . ' ]</small></small>', 'redshop_order48'
 		);
 
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 		JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
 		JToolBarHelper::cancel();
