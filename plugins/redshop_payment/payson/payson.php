@@ -172,11 +172,10 @@ class plgRedshop_PaymentPayson extends JPlugin
 	 * Notify payment
 	 *
 	 * @param   string  $element  Name of plugin
-	 * @param   array   $request  HTTP request data
 	 *
 	 * @return  object  Contains the information of order success of falier in object
 	 */
-	public function onNotifyPaymentPayson($element, $request)
+	public function onNotifyPaymentPayson($element)
 	{
 		if ($element != 'payson')
 		{

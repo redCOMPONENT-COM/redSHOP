@@ -330,14 +330,6 @@ class Klarna
     protected static $htmlentities = false;
 
     /**
-     * Populated with possible proxy information.
-     * A comma separated list of IP addresses.
-     *
-     * @var string
-     */
-    private $_x_fwd;
-
-    /**
      * The storage class for PClasses.
      *
      * Use 'xml' for xmlstorage.class.php.<br>
@@ -2064,7 +2056,7 @@ class Klarna
      *
      * @return true if the update was successful
      */
-    public function update($rno, $clear = true)
+    public function update($rno)
     {
         $rno = strval($rno);
 
@@ -3660,8 +3652,6 @@ class Klarna
 
             //Calculate time and selectTime.
             $timeend = microtime(true);
-            $time = (int) (($selectDateTime - $timestart) * 1000);
-            $selectTime = (int) (($timeend - $timestart) * 1000);
 
             $status = $xmlrpcresp->faultCode();
 
@@ -3936,24 +3926,6 @@ class Klarna
     }
 
     /**
-     * Checks/fixes so the artTitle input is valid.
-     *
-     * @param string &$artTitle Article title.
-     *
-     * @throws KlarnaException
-     * @return void
-     */
-    private function _checkArtTitle(&$artTitle)
-    {
-        if (!is_string($artTitle)) {
-            $artTitle = strval($artTitle);
-        }
-        if (!isset($artTitle) || strlen($artTitle) == 0) {
-            throw new Klarna_ArgumentNotSetException("artTitle", 50059);
-        }
-    }
-
-    /**
      * Checks/fixes so the artNo input is valid.
      *
      * @param int|string &$artNo Article number.
@@ -4176,7 +4148,7 @@ class Klarna
      * @throws KlarnaException
      * @return void
      */
-    private function _checkPNO(&$pno, $enc)
+    private function _checkPNO(&$pno)
     {
         if (!$pno) {
             throw new Klarna_ArgumentNotSetException("PNO/SSN");

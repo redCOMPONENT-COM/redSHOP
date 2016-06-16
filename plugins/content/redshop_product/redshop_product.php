@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
 
 class plgContentredshop_product extends JPlugin
 {
-	public function onContentPrepare($context, &$row, &$params, $page = 0)
+	public function onContentPrepare(&$row, $page = 0)
 	{
 		if (preg_match_all("/{redshop:.+?}/", $row->text, $matches, PREG_PATTERN_ORDER) > 0)
 		{

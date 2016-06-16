@@ -151,7 +151,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(FinderIndexerResult $item)
 	{
 		// Check if the extension is enabled.
 		if (JComponentHelper::isEnabled($this->extension) == false)
@@ -221,8 +221,6 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = JFactory::getDbo();
-
 		// Check if we can use the supplied SQL query.
 		$query = is_a($query, 'JDatabaseQuery') ? $query : $this->db->getQuery(true);
 		$case_when_item_alias = ' CASE WHEN ';

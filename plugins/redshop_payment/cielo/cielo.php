@@ -22,11 +22,10 @@ class plgRedshop_paymentCielo extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	public function onPrePayment_Cielo($element, $data)
+	public function onPrePayment_Cielo($elementlement, $data)
 	{
 		$app = JFactory::getApplication();
 		$session       = JFactory::getSession();
-		$ccdata        = $session->get('ccdata');
 
 		if ($element != 'cielo')
 		{
@@ -139,7 +138,7 @@ class plgRedshop_paymentCielo extends JPlugin
 		return $values;
 	}
 
-	public function onCapture_PaymentCielo($element, $data)
+	public function onCapture_PaymentCielo($data)
 	{
 		// Store number
 		$cielo_loja_id = $this->params->get('cielo_loja_id', '');

@@ -38,14 +38,12 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 	 *
 	 * @return  void
 	 */
-	public function onPrePayment($element, $data)
+	public function onPrePayment($element)
 	{
 		if ($element != 'dibsdx')
 		{
 			return;
 		}
-
-		$app = JFactory::getApplication();
 
 		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
@@ -94,7 +92,6 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
-					$transaction_id = $tid;
 					$values->order_status_code = $verify_status;
 					$values->order_payment_status_code = 'Paid';
 					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -125,7 +122,7 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 	 *
 	 * @return  stdClass|void
 	 */
-	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($order_id, $tid)
 	{
 		$db = JFactory::getDbo();
 		$res = false;
@@ -157,13 +154,9 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDbo();
-
 		JPlugin::loadLanguage('com_redshop');
 
-		$order_id  = $data['order_id'];
 		$dibsurl   = "https://payment.architrade.com/cgi-bin/capture.cgi?";
-		$orderid   = $data['order_id'];
 		$hmac_key  = $this->params->get("hmac_key");
 
 		$api_path  = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';

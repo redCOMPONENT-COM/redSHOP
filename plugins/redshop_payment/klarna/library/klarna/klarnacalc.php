@@ -427,13 +427,6 @@ class KlarnaCalc
             $minpay = 0;
         }
 
-        //add monthly fee
-        $payment = self::_annuity(
-            $sum,
-            $pclass->getMonths(),
-            $pclass->getInterestRate()
-        ) + $monthsfee;
-
         $type = $pclass->getType();
         switch($type) {
         case KlarnaPClass::CAMPAIGN:

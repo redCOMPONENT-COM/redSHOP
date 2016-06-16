@@ -91,7 +91,7 @@ class plgRedshop_PaymentPaygate extends JPlugin
 	 *
 	 * @return  object  Payment succss or fail info and message.
 	 */
-	public function onNotifyPaymentPaygate($element, $request)
+	public function onNotifyPaymentPaygate($element)
 	{
 		if ($element != 'paygate')
 		{

@@ -78,7 +78,7 @@ class PlgRedshop_PaymentDotpay extends RedshopPayment
 	 *
 	 * @return  object  Order Status information object
 	 */
-	public function onNotifyPaymentDotpay($element, $request)
+	public function onNotifyPaymentDotpay($element)
 	{
 		if ($element != 'dotpay')
 		{

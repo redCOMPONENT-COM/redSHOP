@@ -61,12 +61,6 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		$return = new stdClass;
 
-		$expyear    = $ccdata['order_payment_expire_year'];
-		$expmonth   = $ccdata['order_payment_expire_month'];
-		$address    = $data['billinginfo']->address;
-		$postalcode = $data['billinginfo']->zipcode;
-		$cvv        = $ccdata['credit_card_code'];
-
 		$cardType = strtolower($ccdata['creditcard_code']);
 
 		if ('mc' == $cardType)
@@ -234,7 +228,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 *
 	 * @return  object  Success or failed message
 	 */
-	public function onCapture_PaymentPaypalCreditcard($element, $data)
+	public function onCapture_PaymentPaypalCreditcard($data)
 	{
 		$transactionId = $data['order_transactionid'];
 
