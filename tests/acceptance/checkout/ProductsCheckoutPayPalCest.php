@@ -15,7 +15,7 @@
  *
  * @since    1.4
  */
-class CouponCheckoutProductCest
+class ProductsCheckoutPaypalCest
 {
 	/**
 	 * Test to Verify the Payment Plugin
@@ -25,12 +25,12 @@ class CouponCheckoutProductCest
 	 *
 	 * @return void
 	 */
-	public function testProductsCouponFrontEnd(AcceptanceTester $I, $scenario)
+	public function testPaypalCheckoutFrontEnd(AcceptanceTester $I, $scenario)
 	{
 		$sillyLogic = rand(99, 999);
 		$I->wantTo('Test Product Checkout on Front End with PayPal Payment Plugin');
 		$I->doAdministratorLogin();
-		$pluginName = 'Paypal';
+		$pluginName = 'redSHOP - Paypal Payments';
 		$payPalInformation = array(
 			"username" => "alexis@redcomponent.com",
 			"password" => "I10v3redK0mpont#",
