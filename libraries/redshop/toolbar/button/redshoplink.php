@@ -38,7 +38,7 @@ class JButtonRedshopLink extends JButton
 	 *
 	 * @since   1.5
 	 */
-	public function fetchButton($name = 'back', $text = '', $url = null, $target = '_self')
+	public function fetchButton($type = 'RedshopLink', $name = 'back', $text = '', $url = null, $target = '_self')
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
@@ -62,7 +62,7 @@ class JButtonRedshopLink extends JButton
 	 *
 	 * @since   1.5
 	 */
-	public function fetchId($name = '')
+	public function fetchId($type = 'RedshopLink', $name = '')
 	{
 		return $this->_parent->getName() . '-' . $name;
 	}
