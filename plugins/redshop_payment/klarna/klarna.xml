@@ -97,80 +97,17 @@
 					name="noteForGeneral"
 					type="note"
 					class="alert alert-info"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PNO_NOTE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PNO_NOTE_DESC"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_GENERAL_NOTE"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_GENERAL_NOTE_DESC"
 				/>
 				<field
-					name="noteForPrivate"
-					type="note"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_NOTE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_NOTE_DESC"
-				/>
-				<field
-					name="privatePNO"
-					type="extrafields"
-					field_section="7"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
+					name="extrafield_payment"
+					type="extrafieldpayment"
+					multiple="multiple"
+					default="rs_pno,rs_birthdate,rs_gender"
 					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DESC"
-				/>
-				<field
-					name="privateDOB"
-					type="extrafields"
-					field_section="7"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DOB"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DOB_DESC"
-				/>
-				<field
-					name="privateGender"
-					type="extrafields"
-					field_section="7"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_GENDER"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_GENDER_DESC"
-				/>
-				<field
-					name="noteForCompany"
-					type="note"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_NOTE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_NOTE_DESC"
-				/>
-				<field
-					name="companyPNO"
-					type="extrafields"
-					field_section="8"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DESC"
-				/>
-				<field
-					name="companyDOB"
-					type="extrafields"
-					field_section="8"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DOB"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DOB_DESC"
-				/>
-				<field
-					name="companyGender"
-					type="extrafields"
-					field_section="8"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_GENDER"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_GENDER_DESC"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_LBL"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_DESC"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -248,13 +185,6 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field
-					name="extrafield_payment"
-					type="extrafieldpayment"
-					multiple="multiple"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_LBL"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_DESC"
-				/>
 				<field
 					name="shopper_group_id"
 					type="shoppergrouplist"

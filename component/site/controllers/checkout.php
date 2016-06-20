@@ -747,32 +747,17 @@ class RedshopControllerCheckout extends RedshopController
 	 *
 	 * @return void
 	 */
-	public function displaypaymentextrafield()
+	public function displayPaymentExtraField()
 	{
+		$app = JFactory::getApplication();
+		$plugin = RedshopHelperPayment::info($app->input->getCmd('paymentMethod'));
+
 		ob_clean();
-		$payment_method_id  = JRequest::getCmd('payment_method_id', '');
-		$paymentmethod      = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
-		$paymentparams      = new JRegistry($paymentmethod[0]->params);
-		$extrafield_payment = $paymentparams->get('extrafield_payment', '');
-
-		$extraField       = extraField::getInstance();
-		$extrafield_total = "";
-
-		if (count($extrafield_payment) > 0)
-		{
-			for ($ui = 0; $ui < count($extrafield_payment); $ui++)
-			{
-				if ($extrafield_payment[$ui] != "")
-				{
-					$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 18, '', 0, 0, 0);
-					$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
-					$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
-				}
-			}
-
-			echo $extrafield_total . $extrafield_hidden;
-			die();
-		}
+		echo RedshopLayoutHelper::render(
+								'order.payment.extrafields',
+								array('plugin' => $plugin)
+							);
+		$app->close();
 	}
 
 	/**

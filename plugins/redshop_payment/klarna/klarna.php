@@ -172,59 +172,46 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		try
 		{
 			// Collect PNO Information
-			$pnoInfo = $extraField->getSectionFieldDataList(
-				$this->params->get('privatePNO'),
-				extraField::SECTION_PRIVATE_BILLING_ADDRESS,
-				$data['billinginfo']->users_info_id
+			$pnoInfo = RedshopHelperExtrafields::getDataByName(
+				'rs_pno',
+				extraField::SECTION_PAYMENT_GATEWAY,
+				$data['order_id']
 			);
 
-			$dateOfBirth = $extraField->getSectionFieldDataList(
-				$this->params->get('privateDOB'),
-				extraField::SECTION_PRIVATE_BILLING_ADDRESS,
-				$data['billinginfo']->users_info_id
+			$dateOfBirth = RedshopHelperExtrafields::getDataByName(
+				'rs_birthdate',
+				extraField::SECTION_PAYMENT_GATEWAY,
+				$data['order_id']
 			);
 
-			$gender = $extraField->getSectionFieldDataList(
-				$this->params->get('privateGender'),
-				extraField::SECTION_PRIVATE_BILLING_ADDRESS,
-				$data['billinginfo']->users_info_id
+			$genderInfo = RedshopHelperExtrafields::getDataByName(
+				'rs_gender',
+				extraField::SECTION_PAYMENT_GATEWAY,
+				$data['order_id']
 			);
 
-			if ((int) $data['billinginfo']->is_company)
-			{
-				$pnoInfo = $extraField->getSectionFieldDataList(
-					$this->params->get('companyPNO'),
-					extraField::SECTION_COMPANY_BILLING_ADDRESS,
-					$data['billinginfo']->users_info_id
-				);
+			// Personal Number(PNO) Field is only for Nordic Countries (Denmark, Finland, Norway and Sweden).
+			$pno    = (count($pnoInfo) > 0) ? $pnoInfo->data_txt : '';
+			$gender = '';
 
-				$dateOfBirth = $extraField->getSectionFieldDataList(
-					$this->params->get('companyDOB'),
-					extraField::SECTION_COMPANY_BILLING_ADDRESS,
-					$data['billinginfo']->users_info_id
-				);
-
-				$gender = $extraField->getSectionFieldDataList(
-					$this->params->get('companyGender'),
-					extraField::SECTION_COMPANY_BILLING_ADDRESS,
-					$data['billinginfo']->users_info_id
-				);
-			}
-
-			$data['billinginfo']->pno    = (count($pnoInfo) > 0) ? $pnoInfo->data_txt : '';
-			$data['billinginfo']->gender = '';
-
+			// KlarnaFlags::MALE, KlarnaFlags::FEMALE (AT/DE/NL only)
 			if (in_array($data['billinginfo']->country_2_code, array('AT', 'DE', 'NL')))
 			{
-				$data['billinginfo']->pno    = (count($dateOfBirth) > 0) ? str_replace('-', '', $dateOfBirth->data_txt) : '';
+				$pno = '';
 
-				if (count($gender) > 0)
+				// Date of birth for AT/DE/NL
+				if (count($dateOfBirth) > 0)
 				{
-					$data['billinginfo']->gender = KlarnaFlags::FEMALE;
+					$pno = str_replace('-', '', $dateOfBirth->data_txt);
+				}
 
-					if ('m' == $dateOfBirth->data_txt)
+				if (count($genderInfo) > 0)
+				{
+					$gender = KlarnaFlags::FEMALE;
+
+					if ('m' == $genderInfo->data_txt)
 					{
-						$data['billinginfo']->gender = KlarnaFlags::MALE;
+						$gender = KlarnaFlags::MALE;
 					}
 				}
 			}
@@ -235,8 +222,8 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			if ('' == trim($paymentInfo[0]->order_payment_trans_id))
 			{
 				$result = $k->reserveAmount(
-					$data['billinginfo']->pno,
-					$data['billinginfo']->gender,
+					$pno,
+					$gender,
 					-1,   // Automatically calculate and reserve the cart total amount
 					KlarnaFlags::NO_FLAG,
 					KlarnaPClass::INVOICE
@@ -447,7 +434,6 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			return;
 		}
 
-		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$k   = new Klarna;
 
