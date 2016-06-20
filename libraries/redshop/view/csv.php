@@ -56,7 +56,7 @@ abstract class RedshopViewCsv extends JViewLegacy
 	 *
 	 * @throws  RuntimeException
 	 */
-	public function display()
+	public function display($tpl = null)
 	{
 		// Get the columns
 		$columns = $this->getColumns();
