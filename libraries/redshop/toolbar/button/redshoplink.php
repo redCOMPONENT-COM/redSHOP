@@ -29,6 +29,7 @@ class JButtonRedshopLink extends JButton
 	/**
 	 * Fetch the HTML for the button
 	 *
+	 * @param   string  $type  The button type
 	 * @param   string  $name    Name to be used as apart of the id
 	 * @param   string  $text    Button text
 	 * @param   string  $url     The link url
@@ -56,6 +57,7 @@ class JButtonRedshopLink extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
+	 * @param   string  $type  The button type.
 	 * @param   string  $name  The name of the button.
 	 *
 	 * @return  string  Button CSS Id
