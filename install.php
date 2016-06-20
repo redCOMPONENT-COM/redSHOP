@@ -1262,7 +1262,7 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/update.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php',
-				JPATH_LIBRARIES 	. '/redshop/form/fields/stockroom.php'
+				JPATH_LIBRARIES     . '/redshop/form/fields/stockroom.php'
 			);
 		}
 
