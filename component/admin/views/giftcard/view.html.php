@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       1.6
  */
-class RedshopViewGiftcard extends RedshopView
+class RedshopViewGiftcard extends RedshopViewAdmin
 {
 	protected $form;
 

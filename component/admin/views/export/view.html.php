@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.5
  */
-class RedshopViewExport extends RedshopView
+class RedshopViewExport extends RedshopViewAdmin
 {
 	/**
 	 * Method to display export view

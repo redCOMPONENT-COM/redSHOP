@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopViewConfiguration extends RedshopView
+class RedshopViewConfiguration extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -37,7 +37,7 @@ class RedshopViewConfiguration extends RedshopView
 		$currency_data = $model->getCurrency();
 
 		$this->config = $model->getData();
-		
+
 		$redhelper   = redhelper::getInstance();
 		$config      = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();

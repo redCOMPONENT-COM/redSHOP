@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewTax_group extends RedshopView
+class RedshopViewTax_group extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{

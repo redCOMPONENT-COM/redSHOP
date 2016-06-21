@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewAttribute_set_detail extends RedshopView
+class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewProduct extends RedshopView
+class RedshopViewProduct extends RedshopViewAdmin
 {
 	/**
 	 * The pagination object.
