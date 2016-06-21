@@ -141,55 +141,6 @@ RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
 JText::script('COM_REDSHOP_IS_REQUIRED');
 
 $document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
-$format = $app->input->get('format', 'html');
-
-if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task != "getcurrencylist"
-	&& $layout != "thumbs" && $view != "catalog_detail" && $task != "clearsef" && $task != "removesubpropertyImage"
-	&& $task != "removepropertyImage" && $view != "product_price" && $task != "template" && $json_var == ''
-	&& $task != 'gbasedownload' && $task != "export_data" && $showbuttons != "1" && $showall != 1
-	&& $view != "product_attribute_price" && $task != "ins_product" && $view != "shipping_rate_detail"
-	&& $view != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $view != "update"
-	&& $format == 'html')
-{
-	// Container CSS class definition
-	if (version_compare(JVERSION, '3.0', '<'))
-	{
-		$redSHOPCSSContainerClass = ' isJ25';
-	}
-	else
-	{
-		$redSHOPCSSContainerClass = ' isJ30';
-	}
-
-	echo '<div id="redSHOPAdminContainer" class="redSHOPAdminView' . ucfirst($view) . $redSHOPCSSContainerClass . '">';
-
-	if ($view != "redshop" && $view != "configuration" && $view != "product_detail"
-		&& $view != "country_detail" && $view != "state_detail" && $view != "category_detail"
-		&& $view != "fields_detail" && $view != "stockroom_detail"
-		&& $view != "shipping_detail" && $view != "user_detail" && $view != "template_detail"
-		&& $view != "voucher_detail" && $view != "textlibrary_detail" && $view != "manufacturer_detail"
-		&& $view != "rating_detail" && $view != "newslettersubscr_detail" && $view != "discount_detail"
-		&& $view != "mail_detail" && $view != "newsletter_detail" && $view != "media_detail"
-		&& $view != "shopper_group_detail" && $view != "sample_detail" && $view != "attributeprices"
-		&& $view != "attributeprices_detail" && $view != "prices_detail" && $view != "wrapper_detail"
-		&& $view != "tax_group_detail" && $view != "addorder_detail" && $view != "tax_detail"
-		&& $view != "coupon_detail" && $view != "giftcard" && $view != "attribute_set_detail"
-		&& $view != 'shipping_box_detail' && $view != 'quotation_detail'
-		&& $view != 'question_detail' && $view != 'answer_detail'
-		&& $view != 'xmlimport_detail' && $view != 'addquotation_detail'
-		&& $view != 'xmlexport_detail' && $task != 'element'  && $view != 'stockimage_detail'
-		&& $view != 'mass_discount_detail' && $view != 'supplier_detail'
-		&& $view != 'orderstatus_detail'
-		&& 'component' != $app->input->get('tmpl'))
-	{
-		echo '<div style="float:left;width:19%; margin-right:1%;">';
-		$menu = new leftmenu;
-		echo '</div>';
-
-		// Set div for listing body
-		echo '<div style="float:left;width:80%;">';
-	}
-}
 
 // Execute the task.
 $controller = JControllerLegacy::getInstance('Redshop');
@@ -206,5 +157,3 @@ else
 $controller->execute($task);
 $controller->redirect();
 
-// End div here
-echo '</div></div>';

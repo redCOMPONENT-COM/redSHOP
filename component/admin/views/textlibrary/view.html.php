@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopViewTextlibrary extends RedshopView
+class RedshopViewTextlibrary extends RedshopViewAdmin
 {
 	public $state;
 

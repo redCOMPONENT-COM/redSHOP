@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 
-class RedshopViewCategory extends RedshopView
+class RedshopViewCategory extends RedshopViewAdmin
 {
 	/**
 	 * The current user.

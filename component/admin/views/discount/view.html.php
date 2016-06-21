@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewDiscount extends RedshopView
+class RedshopViewDiscount extends RedshopViewAdmin
 {
 	/**
 	 * The current user.
@@ -41,7 +41,7 @@ class RedshopViewDiscount extends RedshopView
 
 		$uri = JFactory::getURI();
 		$this->state = $this->get('State');
-		
+
 		$optiontype = array();
 		$optiontype[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
 		$optiontype[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_PERCENTAGE'));
@@ -50,7 +50,7 @@ class RedshopViewDiscount extends RedshopView
 		$lists['discount_type'] = JHTML::_('select.genericlist', $optiontype, 'discount_type',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $this->state->get('discount_type')
 		);
-		
+
 		$lists['order'] = $this->state->get('list.ordering');
 		$lists['order_Dir'] = $this->state->get('list.direction');
 		$discounts = $this->get('Data');

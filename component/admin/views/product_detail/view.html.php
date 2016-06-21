@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since       1.0
  */
-class RedshopViewProduct_Detail extends RedshopView
+class RedshopViewProduct_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.

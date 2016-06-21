@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewZipcode extends RedshopView
+class RedshopViewZipcode extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 
 
-class RedshopViewQuotation_detail extends RedshopView
+class RedshopViewQuotation_detail extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{

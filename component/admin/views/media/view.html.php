@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewMedia extends RedshopView
+class RedshopViewMedia extends RedshopViewAdmin
 {
 	public $images;
 
