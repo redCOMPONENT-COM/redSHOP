@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 ?>
+<!-- sidebar: style can be found in sidebar.less -->
 <section class="sidebar">
-	<?php $menu = new leftmenu; ?>
+	<?php echo RedshopLayoutHelper::render('component.full.sidebar.menu', $displayData); ?>
 </section>
+

@@ -21,13 +21,8 @@ $user = JFactory::getUser();
 			<span class="hidden-xs"><?php echo $user->name ?></span>
 		</a>
 	</li>
+
 	<li>
-		<a href="<?php echo JRoute::_('index.php') ?>"><i class="fa fa-joomla"></i></a>
-	</li>
-	<li>
-		<a href="<?php echo JUri::root() ?>" target="_blank"><i class="fa fa-external-link"></i></a>
-	</li>
-	<li>
-		<a href="<?php echo $logoutUrl ?>"><i class="fa fa-sign-out"></i></a>
+		<a href="<?php echo $logoutUrl ?>">Logout</a>
 	</li>
 </ul>

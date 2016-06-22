@@ -62,13 +62,6 @@ $step     = JRequest::getVar('step', '');
 
 JHtml::_('behavior.framework');
 JHtml::_('redshopjquery.framework');
-$document = JFactory::getDocument();
-
-if (version_compare(JVERSION, '3.0', '>='))
-{
-	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true));
-	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
-}
 
 // Initialize wizard
 if ($isWizard || $step != '')
@@ -140,7 +133,14 @@ RedshopHelperConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
 RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
 JText::script('COM_REDSHOP_IS_REQUIRED');
 
-$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
+$document = JFactory::getDocument();
+
+$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.js');
+$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');
+
+JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true));
+
+$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.css');
 
 // Execute the task.
 $controller = JControllerLegacy::getInstance('Redshop');

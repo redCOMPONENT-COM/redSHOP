@@ -58,47 +58,49 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 	}
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
-	<div class="filterItem">
-		<div class="btn-wrapper input-append">
-			<input
-				type="text"
-				name="keyword"
-				id="keyword"
-				placeholder="<?php echo JText::_('COM_REDSHOP_SEARCH'); ?>"
-				value="<?php echo $this->state->get('keyword'); ?>"
-			>
-			<?php
-			$filterOptions[] = JHtml::_('select.option', 'product_name', JText::_('COM_REDSHOP_PRODUCT_NAME'));
-			$filterOptions[] = JHtml::_('select.option', 'product_number', JText::_('COM_REDSHOP_PRODUCT_NUMBER'));
+	<div class="filterTool">
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input
+					type="text"
+					name="keyword"
+					id="keyword"
+					placeholder="<?php echo JText::_('COM_REDSHOP_SEARCH'); ?>"
+					value="<?php echo $this->state->get('keyword'); ?>"
+				>
+				<?php
+				$filterOptions[] = JHtml::_('select.option', 'product_name', JText::_('COM_REDSHOP_PRODUCT_NAME'));
+				$filterOptions[] = JHtml::_('select.option', 'product_number', JText::_('COM_REDSHOP_PRODUCT_NUMBER'));
 
-			echo JHtml::_(
-				'select.genericlist',
-				$filterOptions,
-				'search_field',
-				'class="inputbox" onchange="document.adminForm.submit();" ',
-				'value',
-				'text',
-				$this->state->get('search_field')
-			);
-			?>
-			<input
-				type="submit"
-				class="btn"
-				value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>"
-			>
-			<input
-				type="reset"
-				class="btn"
-				value="<?php echo JText::_("JCLEAR") ?>"
-				onclick="clearForm();"
-			>
+				echo JHtml::_(
+					'select.genericlist',
+					$filterOptions,
+					'search_field',
+					'class="inputbox" onchange="document.adminForm.submit();" ',
+					'value',
+					'text',
+					$this->state->get('search_field')
+				);
+				?>
+				<input
+					type="submit"
+					class="btn"
+					value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>"
+				>
+				<input
+					type="reset"
+					class="btn"
+					value="<?php echo JText::_("JCLEAR") ?>"
+					onclick="clearForm();"
+				>
+			</div>
 		</div>
-	</div>
-	<div class="filterItem">
-		<?php echo $this->lists['category'];?>
-	</div>
-	<div class="filterItem">
-		<?php echo $this->lists['stockroom_type']; ?>
+		<div class="filterItem">
+			<?php echo $this->lists['category'];?>
+		</div>
+		<div class="filterItem">
+			<?php echo $this->lists['stockroom_type']; ?>
+		</div>
 	</div>
 	<div id="editcell1">
 		<table class="adminlist table table-striped">

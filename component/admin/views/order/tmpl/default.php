@@ -100,54 +100,56 @@ JPluginHelper::importPlugin('redshop_product');
 
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
-	<div class="filterItem">
-		<div class="btn-wrapper input-append">
-			<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
-				   placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
-			<?php echo $lists['filter_by'];?>
-			<?php
-				$state     = $this->get('State');
-				$startDate = $state->get('filter_from_date');
-				$endDate   = $state->get('filter_to_date');
+	<div class="filterTool">
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+					   placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
+				<?php echo $lists['filter_by'];?>
+				<?php
+					$state     = $this->get('State');
+					$startDate = $state->get('filter_from_date');
+					$endDate   = $state->get('filter_to_date');
 
-				echo JHtml::_(
-					'calendar',
-					$startDate,
-					'filter_from_date',
-					'filter_from_date',
-					'%d-%m-%Y',
-					array(
-						'size' => '15',
-						'maxlength' => '19',
-						'placeholder' => JText::_('COM_REDSHOP_FROM') . ' ' . JText::_('JDATE')
-					)
-				);
+					echo JHtml::_(
+						'calendar',
+						$startDate,
+						'filter_from_date',
+						'filter_from_date',
+						'%d-%m-%Y',
+						array(
+							'size' => '15',
+							'maxlength' => '19',
+							'placeholder' => JText::_('COM_REDSHOP_FROM') . ' ' . JText::_('JDATE')
+						)
+					);
 
-				echo JHtml::_(
-					'calendar',
-					$endDate,
-					'filter_to_date',
-					'filter_to_date',
-					'%d-%m-%Y',
-					array(
-						'size' => '15',
-						'maxlength' => '19',
-						'placeholder' => JText::_('COM_REDSHOP_TO') . ' ' . JText::_('JDATE')
-					)
-				);
-			?>
-			<input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO');?>"/>
-			<input type="button" class="btn" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+					echo JHtml::_(
+						'calendar',
+						$endDate,
+						'filter_to_date',
+						'filter_to_date',
+						'%d-%m-%Y',
+						array(
+							'size' => '15',
+							'maxlength' => '19',
+							'placeholder' => JText::_('COM_REDSHOP_TO') . ' ' . JText::_('JDATE')
+						)
+					);
+				?>
+				<input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO');?>"/>
+				<input type="button" class="btn" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+			</div>
 		</div>
-	</div>
-	<div class="filterItem">
-		<?php echo $lists['filter_payment_status'];?>
-	</div>
-	<div class="filterItem">
-		<?php echo $lists['filter_status'];?>
-	</div>
-	<div class="filterItem"><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
-		: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
+		<div class="filterItem">
+			<?php echo $lists['filter_payment_status'];?>
+		</div>
+		<div class="filterItem">
+			<?php echo $lists['filter_status'];?>
+		</div>
+		<div class="filterItem"><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
+			: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
+		</div>
 	</div>
 
 	<table class="adminlist table table-striped">
