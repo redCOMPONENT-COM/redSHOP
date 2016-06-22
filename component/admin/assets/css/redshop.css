@@ -512,15 +512,9 @@ table.admintable td {
 	padding: 3px;
 }
 table.admintable td.key, table.admintable td.paramlist_key {
-	background-color: #f6f6f6;
-	/*text-align: right;
-  width: 140px;*/
 	text-align: left;
 	width: 180px;
-	color: #666;
 	font-weight: bold;
-	border-bottom: 1px solid #e9e9e9;
-	border-right: 1px solid #e9e9e9;
 }
 table.paramlist td.paramlist_description {
 	background-color: #f6f6f6;
@@ -577,16 +571,9 @@ table.adminform td.helpMenu {
 	background: #f0f0f0;
 	border: 1px solid #ccc;
 }
-fieldset.adminform {
-	border: 1px solid #ccc;
-	margin: 0 10px 10px 10px;
-}
+
 hr {
 	border: 1px solid #EDEDED;
-}
-fieldset.adminform {
-	border: 1px solid #ccc;
-	margin: 0 10px 10px 10px;
 }
 
 .red_blue_blue {
@@ -696,4 +683,18 @@ span.hasTooltip{
 
 div.controls{
 	display: inline;
+}
+
+#country_list_chzn {
+  height: 220px;
+  overflow: auto;
+}
+
+.redSHOPAdminViewConfiguration .admintable tbody tr:first-child {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#redSHOPAdminContainer .j-sidebar-container {
+  background-color: transparent;
 }
