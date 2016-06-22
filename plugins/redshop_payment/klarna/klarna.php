@@ -59,7 +59,6 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		}
 
 		$orderHelper = order_functions::getInstance();
-		$extraField  = extraField::getInstance();
 		$k           = new Klarna;
 
 		$k->config(
@@ -127,6 +126,78 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			KlarnaFlags::INC_VAT | KlarnaFlags::IS_HANDLING
 		);*/
 
+		// Collect Extra Field Informations
+		$pnoInfo = RedshopHelperExtrafields::getDataByName(
+			'rs_pno',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		$dateOfBirth = RedshopHelperExtrafields::getDataByName(
+			'rs_birthdate',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		$genderInfo = RedshopHelperExtrafields::getDataByName(
+			'rs_gender',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		$houseNumberInfo = RedshopHelperExtrafields::getDataByName(
+			'rs_house_number',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		$houseExtensionInfo = RedshopHelperExtrafields::getDataByName(
+			'rs_house_extension',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		// Personal Number(PNO) Field is only for Nordic Countries (Denmark, Finland, Norway and Sweden).
+		$pno            = (count($pnoInfo) > 0) ? $pnoInfo->data_txt : '';
+		$gender         = '';
+		$houseNumber    = '';
+		$houseExtension = '';
+
+		// Prepare AT/DE/NL only information
+		if (in_array($data['billinginfo']->country_2_code, array('AT', 'DE', 'NL')))
+		{
+			$pno = '';
+
+			// Prepare Date of birth for AT/DE/NL
+			if (count($dateOfBirth) > 0)
+			{
+				$pno = str_replace('-', '', $dateOfBirth->data_txt);
+			}
+
+			// Prepare Gender info.
+			if (count($genderInfo) > 0)
+			{
+				$gender = KlarnaFlags::FEMALE;
+
+				if ('m' == $genderInfo->data_txt)
+				{
+					$gender = KlarnaFlags::MALE;
+				}
+			}
+
+			// Prepare house number info
+			if (count($houseNumberInfo) > 0)
+			{
+				$houseNumber = $houseNumberInfo->data_txt;
+			}
+
+			// Prepare house extension info
+			if (count($houseExtensionInfo) > 0 && 'NL' == $data['billinginfo']->country_2_code)
+			{
+				$houseExtension = $houseExtensionInfo->data_txt;
+			}
+		}
+
 		$k->setAddress(
 			KlarnaFlags::IS_BILLING,
 			new KlarnaAddr(
@@ -140,8 +211,8 @@ class plgRedshop_PaymentKlarna extends JPlugin
 				$data['billinginfo']->zipcode,
 				$data['billinginfo']->city,
 				KlarnaCountry::fromCode($data['billinginfo']->country_2_code),
-				null,  // House number (AT/DE/NL only)
-				null   // House extension (NL only)
+				$houseNumber,  // House number (AT/DE/NL only)
+				$houseExtension   // House extension (NL only)
 			)
 		);
 
@@ -158,8 +229,8 @@ class plgRedshop_PaymentKlarna extends JPlugin
 				$data['shippinginfo']->zipcode,
 				$data['shippinginfo']->city,
 				KlarnaCountry::fromCode($data['shippinginfo']->country_2_code),
-				null, // House number (AT/DE/NL only)
-				null  // House extension (NL only)
+				$houseNumber, // House number (AT/DE/NL only)
+				$houseExtension  // House extension (NL only)
 			)
 		);
 
@@ -171,51 +242,6 @@ class plgRedshop_PaymentKlarna extends JPlugin
 
 		try
 		{
-			// Collect PNO Information
-			$pnoInfo = RedshopHelperExtrafields::getDataByName(
-				'rs_pno',
-				extraField::SECTION_PAYMENT_GATEWAY,
-				$data['order_id']
-			);
-
-			$dateOfBirth = RedshopHelperExtrafields::getDataByName(
-				'rs_birthdate',
-				extraField::SECTION_PAYMENT_GATEWAY,
-				$data['order_id']
-			);
-
-			$genderInfo = RedshopHelperExtrafields::getDataByName(
-				'rs_gender',
-				extraField::SECTION_PAYMENT_GATEWAY,
-				$data['order_id']
-			);
-
-			// Personal Number(PNO) Field is only for Nordic Countries (Denmark, Finland, Norway and Sweden).
-			$pno    = (count($pnoInfo) > 0) ? $pnoInfo->data_txt : '';
-			$gender = '';
-
-			// KlarnaFlags::MALE, KlarnaFlags::FEMALE (AT/DE/NL only)
-			if (in_array($data['billinginfo']->country_2_code, array('AT', 'DE', 'NL')))
-			{
-				$pno = '';
-
-				// Date of birth for AT/DE/NL
-				if (count($dateOfBirth) > 0)
-				{
-					$pno = str_replace('-', '', $dateOfBirth->data_txt);
-				}
-
-				if (count($genderInfo) > 0)
-				{
-					$gender = KlarnaFlags::FEMALE;
-
-					if ('m' == $genderInfo->data_txt)
-					{
-						$gender = KlarnaFlags::MALE;
-					}
-				}
-			}
-
 			$paymentInfo = $orderHelper->getOrderPaymentDetail($data['order_id']);
 
 			// Reserve amount only for new orders.
@@ -270,7 +296,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 
 				$app = JFactory::getApplication();
 				$app->redirect(
-					JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $data['order_id'])
+					JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $data['order_id'], false)
 				);
 			}
 		}

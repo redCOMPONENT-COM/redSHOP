@@ -3933,10 +3933,11 @@ class rsCarthelper
 
 						if ($checked != '')
 						{
-							$paymentExtraFieldsHtml = RedshopLayoutHelper::render(
-								'order.payment.extrafields',
-								array('plugin' => $oneMethod)
-							);
+							$layoutFile = new JLayoutFile('order.payment.extrafields');
+
+							// Append plugin JLayout path to improve view based on plugin if needed.
+							$layoutFile->addIncludePath(JPATH_SITE . '/plugins/' . $oneMethod->type . '/' . $oneMethod->name . '/layouts');
+							$paymentExtraFieldsHtml =  $layoutFile->render(array('plugin' => $oneMethod));
 						}
 
 						$payment_display = str_replace(

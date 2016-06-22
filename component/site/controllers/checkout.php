@@ -747,16 +747,20 @@ class RedshopControllerCheckout extends RedshopController
 	 *
 	 * @return void
 	 */
-	public function displayPaymentExtraField()
+	public function ajaxDisplayPaymentExtraField()
 	{
+		RedshopHelperAjax::validateAjaxRequest('get');
+
 		$app = JFactory::getApplication();
 		$plugin = RedshopHelperPayment::info($app->input->getCmd('paymentMethod'));
 
+		$layoutFile = new JLayoutFile('order.payment.extrafields');
+
+		// Append plugin JLayout path to improve view based on plugin if needed.
+		$layoutFile->addIncludePath(JPATH_SITE . '/plugins/' . $plugin->type . '/' . $plugin->name . '/layouts');
+
 		ob_clean();
-		echo RedshopLayoutHelper::render(
-								'order.payment.extrafields',
-								array('plugin' => $plugin)
-							);
+		echo $layoutFile->render(array('plugin' => $plugin));
 		$app->close();
 	}
 

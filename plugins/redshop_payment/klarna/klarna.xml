@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
-	version="2.5"
+	version="3.0"
 	client="site"
 	type="plugin"
 	group="redshop_payment"
@@ -20,6 +20,7 @@
 	<files>
 		<filename plugin="klarna">klarna.php</filename>
 		<folder>library</folder>
+		<folder>layouts</folder>
 	</files>
 
 	<languages>
@@ -104,7 +105,7 @@
 					name="extrafield_payment"
 					type="extrafieldpayment"
 					multiple="multiple"
-					default="rs_pno,rs_birthdate,rs_gender"
+					default="rs_pno,rs_birthdate,rs_gender,rs_house_number,rs_house_extension"
 					required="true"
 					label="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_LBL"
 					description="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_DESC"

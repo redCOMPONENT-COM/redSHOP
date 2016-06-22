@@ -947,7 +947,7 @@ function onestepCheckoutProcess(objectname,classname)
 				dataType: 'html',
 				data: {
 					view: 'checkout',
-					task: 'displayPaymentExtraField',
+					task: 'ajaxDisplayPaymentExtraField',
 					paymentMethod: paymentMethod.val()
 				},
 			})
