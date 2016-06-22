@@ -101,22 +101,24 @@ else
 ?>
 <form action="<?php echo $action; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-	<?php
-		if ($showbuttons != 1)
-		{
-			?>
-		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ': ' . $this->lists['type']; ?>
+		<div class="filterTool">
+		<?php
+			if ($showbuttons != 1)
+			{
+				?>
+			<div class="filterItem">
+				<?php echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ': ' . $this->lists['type']; ?>
+			</div>
+			<div class="filterItem">
+				<?php echo JText::_('COM_REDSHOP_MEDIA_SECTION') . ': ' . $this->lists['filter_media_section']; ?>
+			</div>
+			<div class="filterItem">
+				<button class="reset" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+			</div>
+		<?php
+			}
+		?>
 		</div>
-		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_MEDIA_SECTION') . ': ' . $this->lists['filter_media_section']; ?>
-		</div>
-		<div class="filterItem">
-			<button class="btn btn-small" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('filter_media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-		</div>
-	<?php
-		}
-	?>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>

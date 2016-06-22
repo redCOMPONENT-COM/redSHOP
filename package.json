@@ -3,10 +3,12 @@
   "version": "1.5.0",
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-install": "^0.6.0"
+  },
   "devDependencies": {
     "gulp": "^3.8.11",
-    "joomla-gulp-release": "^1.0.3"
+    "joomla-gulp-release": "^1.0.9"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

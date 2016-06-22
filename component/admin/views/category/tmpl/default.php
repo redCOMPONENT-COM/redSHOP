@@ -69,27 +69,25 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 	}
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
-	<table width="100%" cellpadding="1" cellspacing="1" border="0">
-		<tr>
-			<td colspan="2" valign="top" align="left" class="key" width="30%">
-				<?php echo JText::_('COM_REDSHOP_FILTER'); ?>:
+	<div id="editcell">
+		<div class="filterTool">
+			<div class="filterItem">
 				<div class="btn-wrapper input-append">
 					<input type="text" name="category_main_filter" id="category_main_filter"
 						   value="<?php echo $category_main_filter; ?>" onchange="document.adminForm.submit();">
 					<button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
+					<button class="reset" onclick="document.getElementById('filter').value='';this.form.submit();">
+						<?php echo JText::_('COM_REDSHOP_RESET'); ?>
+					</button>
 				</div>
-			</td>
-			<td align="right">
-				<?php echo JText::_('COM_REDSHOP_ASSIGN_TEMPLATE'); ?>:
+			</div>
+			<div class="filterItem">
 				<?php echo $this->lists['category_template'];?>
-			</td>
-			<td valign="top" align="right" width="250">
-				<?php echo JText::_('COM_REDSHOP_CATEGORY'); ?>:
+			</div>
+			<div class="filterItem">
 				<?php echo $this->lists['category']; ?>
-			</td>
-		</tr>
-	</table>
-	<div id="editcell">
+			</div>
+		</div>
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>

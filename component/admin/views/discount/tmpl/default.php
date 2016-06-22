@@ -29,7 +29,7 @@ $producthelper = producthelper::getInstance();
 
 		form.submit();
 	}
-	
+
 	resetfilter = function()
 	{
 		document.getElementById('discount_type').value = 'select';
@@ -41,22 +41,25 @@ $producthelper = producthelper::getInstance();
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="name_filter" id="name_filter" value="<?php echo $this->state->get('name_filter'); ?>"
-					 onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_NAME'); ?>">
-				<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
-				<button class="btn" onclick="resetfilter();"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="name_filter" id="name_filter" value="<?php echo $this->state->get('name_filter'); ?>"
+						 onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_NAME'); ?>">
+					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
+					<button class="reset" onclick="resetfilter();"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
+				</div>
+			</div>
+			<div class="filterItem">
+				<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
+				: <?php echo $this->lists ['shopper_group']; ?>
+			</div>
+			<div class="filterItem">
+				<?php echo JText::_('COM_REDSHOP_DISCOUNT_TYPE'); ?>:
+				<?php echo $this->lists['discount_type']; ?>
 			</div>
 		</div>
-		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
-			: <?php echo $this->lists ['shopper_group']; ?>
-		</div>
-		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_DISCOUNT_TYPE'); ?>:
-			<?php echo $this->lists['discount_type']; ?>
-		</div>
+
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>

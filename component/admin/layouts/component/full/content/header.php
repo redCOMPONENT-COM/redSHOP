@@ -14,13 +14,9 @@ extract($displayData);
 $toolbar = JToolbar::getInstance('toolbar');
 
 ?>
-<div class="row">
-	<div class="col-xs-12 col-md-3">
-		<?php echo JFactory::getApplication()->JComponentTitle; ?>
-	</div>
-	<div class="col-xs-12 col-md-9">
-		<?php echo $toolbar->render() ?>
 
-	</div>
-</div>
+<div class="component-title"><?php echo JFactory::getApplication()->JComponentTitle; ?></div>
+
+<?php echo $toolbar->render() ?>
+
 <div class="row-fluid message-sys" id="message-sys"></div>

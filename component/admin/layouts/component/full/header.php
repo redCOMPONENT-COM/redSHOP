@@ -10,25 +10,22 @@
 defined('_JEXEC') or die;
 
 $logoLgUrl = JUri::root() . 'media/com_redshop/images/redshop_white_logo.png';
-$logoMiniUrl = JUri::root() . 'media/com_redshop/images/redshop_white_logo.png';
 ?>
+
+<!-- Sidebar toggle button-->
+<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+	<span class="sr-only">Toggle navigation</span>
+</a>
+
 <!-- Logo -->
 <a href="<?php echo JRoute::_('index.php?option=com_redshop'); ?>" class="logo">
-  <!-- mini logo for sidebar mini 50x50 pixels -->
-  <span class="logo-mini">
-	  <img src="<?php echo $logoMiniUrl ?>" class="center-block">
-  </span>
-  <!-- logo for regular state and mobile devices -->
   <span class="logo-lg">
 	  <img src="<?php echo $logoLgUrl ?>" class="center-block">
   </span>
 </a>
+
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">
-	<!-- Sidebar toggle button-->
-	<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-		<span class="sr-only">Toggle navigation</span>
-	</a>
 	<div class="navbar-custom-menu">
 		<?php echo RedshopLayoutHelper::render('component.full.header.menu', $displayData); ?>
 	</div>
