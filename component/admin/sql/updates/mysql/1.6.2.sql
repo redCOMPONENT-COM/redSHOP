@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `#__redshop_alert` (
+CREATE TABLE IF NOT EXISTS `#__redshop_alerts` (
 	`id` 		INT(11)      NOT NULL AUTO_INCREMENT,
 	`message` 	VARCHAR(255) NOT NULL,
 	`sent_date` DATETIME     NOT NULL,
