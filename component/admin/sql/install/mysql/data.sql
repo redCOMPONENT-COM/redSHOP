@@ -395,6 +395,13 @@ INSERT IGNORE INTO `#__redshop_currency` (`currency_id`, `currency_name`, `curre
 	(157, 'Slovak Koruna', 'SKK'),
 	(158, 'Armenian Dram', 'AMD');
 
+INSERT IGNORE INTO `#__redshop_fields` VALUES
+	(2, 'PNO', 'rs_pno', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 2, 0),
+	(3, 'Birthdate', 'rs_birthdate', '12', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 3, 0),
+	(4, 'Gender', 'rs_gender', '4', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 4, 0),
+	(5, 'House Number', 'rs_house_number', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 5, 0),
+	(6, 'House Extension', 'rs_house_extension', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 6, 0);
+
 INSERT IGNORE INTO `#__redshop_order_status` (`order_status_id`, `order_status_code`, `order_status_name`, `published`)
 VALUES
 	(1, 'P', 'Pending', 1),

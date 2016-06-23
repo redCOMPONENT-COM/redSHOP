@@ -13,6 +13,7 @@
 		"plugins/system/redshop/**",
 		"plugins/redshop_payment/rs_payment_banktransfer/**",
 		"plugins/redshop_payment/rs_payment_paypal/**",
+		"plugins/redshop_payment/klarna/**",
 		"plugins/redshop_shipping/default_shipping/**"
 	]
 }
