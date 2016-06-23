@@ -36,7 +36,6 @@ $model = $this->getModel('stockimage');
 
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-
 		<div class="filterTool">
 			<div class="filterItem">
 				<div class="btn-wrapper input-append">

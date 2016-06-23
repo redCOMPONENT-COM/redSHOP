@@ -47,7 +47,7 @@ $order_functions = order_functions::getInstance();
 				<div class="btn-wrapper input-append">
 					<input type="text" name="comment_filter" id="comment_filter" value="<?php echo $this->state->get('comment_filter'); ?>">
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<input type="reset" class="btn" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
 						   onclick="return clearreset();">
 				</div>
 			</div>
