@@ -40,11 +40,16 @@ template {
 }
 a {
   background-color: transparent;
+  color: #3071a9;
+  text-decoration: none;
 }
 a:active,
 a:hover {
   outline: 0;
 }
+
+
+
 abbr[title] {
   border-bottom: 1px dotted;
 }
@@ -238,6 +243,7 @@ th {
   }
   .table {
     border-collapse: collapse !important;
+    margin-top: 10px;
   }
   .table td,
   .table th {
@@ -2936,24 +2942,25 @@ tbody.collapse.in {
 .btn-toolbar .btn
 {
   font-size: 14px;
-  color: #ffffff;
+  color: #293235;
   padding: 8px 15px;
   width: auto;
   border: 0;
-  background-color: #565656;
+  background-color: #ebebeb;
   background-image: none;
   text-shadow: none;
 }
 
 .btn-toolbar .btn span
 {
-  display: none;
+  //display: none;
 }
 
 .btn-toolbar .btn.btn-success
 {
   background-color: #469e49;
   width: auto !important;
+  color: #FFFFFF;
 }
 
 .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
@@ -5128,7 +5135,7 @@ button.close {
   border: 0;
   -webkit-appearance: none;
 }
-.modal-open {
+/*.modal-open {
   overflow: hidden;
 }
 .modal {
@@ -5233,7 +5240,7 @@ button.close {
   width: 50px;
   height: 50px;
   overflow: scroll;
-}
+}*/
 @media (min-width: 768px) {
   .modal-dialog {
     width: 600px;
@@ -8700,10 +8707,11 @@ a:focus {
   text-transform: none !important;
 }
 
-.sidebar-menu .treeview-menu > li li
+.sidebar-menu .treeview-menu > li ul li a
 {
-  padding-left: 10px;
+  padding-left: 50px;
 }
+
 
 .sidebar-menu .treeview-menu > li > a > .fa,
 .sidebar-menu .treeview-menu > li > a > .glyphicon,
@@ -8763,7 +8771,7 @@ a:focus {
     background-color: inherit;
   }
   .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
-    top: 44px;
+    top: 0;
     margin-left: 0;
   }
   .sidebar-mini.sidebar-collapse .main-sidebar .user-panel > .info,
@@ -8799,6 +8807,7 @@ a:focus {
   .sidebar-mini.sidebar-collapse .sidebar-menu > li > a
   {
     padding-left: 10px;
+    overflow: hidden;
   }
 }
 .sidebar-menu,
@@ -10087,7 +10096,7 @@ a:focus {
  */
 .btn {
   border-radius: 5px !important;
-  box-shadow: inset 0px -1px 0px #565656 !important;
+  box-shadow: 1px 2px 1px #cccccc !important;
   border: 0px !important;
 }
 .btn.uppercase {
@@ -10854,7 +10863,7 @@ table.text-center th {
  * Component: modal
  * ----------------
  */
-.modal {
+/*.modal {
   background: rgba(0, 0, 0, 0.3);
 }
 .modal-content {
@@ -10894,7 +10903,7 @@ table.text-center th {
 .modal-danger .modal-header,
 .modal-danger .modal-footer {
   border-color: #c23321;
-}
+}*/
 /*
  * Page: Mailbox
  * -------------
@@ -15820,7 +15829,7 @@ i.configuration_management
 #adminForm .filterTool
 {
   background-color: #e1e1e1;
-  padding: 10px 10px 5px;
+  padding: 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -15840,7 +15849,7 @@ i.configuration_management
 {
   height: auto;
   padding: 10px 5px 10px 35px;
-  border-radius: 5px;
+  border-radius: 5px 0px 0px 5px;
 }
 
 #adminForm .filterTool .filterItem label
@@ -15853,7 +15862,8 @@ i.configuration_management
   border-color: transparent;
 }
 
-#adminForm .filterTool .filterItem .btn-wrapper .btn
+#adminForm .filterTool .filterItem .btn-wrapper .btn[type='submit'],
+#adminForm .filterTool .filterItem .btn-wrapper button.btn
 {
   background: transparent url("../images/search.png") no-repeat scroll center center;
   border: 0 none;
@@ -15866,13 +15876,35 @@ i.configuration_management
   padding-left: 30px;
 }
 
+#adminForm .filterTool .filterItem .btn-wrapper .btn[type='submit']:hover,
+#adminForm .filterTool .filterItem .btn-wrapper .btn[type='submit']:focus{
+  background-position: center center !important;
+}
+
 #adminForm .filterTool .filterItem .btn-wrapper .reset
 {
   height: 40px;
+  background-color: #565656;
+  background-image: none;
+  color: #FFFFFF;
+  font-size: 14px;
+  text-shadow: none;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+.filterTool .chzn-container-single
+{
+  margin-top: 3px;
 }
 
 .filterTool .chzn-container-single .chzn-single {
   border: 0;
+}
+
+#adminForm .filterTool .filterItem .input-append
+{
+  margin-bottom: 0;
 }
 
 .btn-micro
@@ -15896,7 +15928,7 @@ dd
 
 dl.tabs {
   float: left;
-  margin: 10px 0 -1px 0;
+  //margin: 10px 0 -1px 0;
   z-index: 50;
 }
 
@@ -15908,7 +15940,7 @@ dl.tabs dt {
 }
 
 dl.tabs dt.open {
-  border-bottom: 2px solid #d62128;
+  border-bottom: 4px solid #d62128;
   z-index: 100;
   color: #000;
 }
@@ -15935,7 +15967,7 @@ dl.tabs h3 a{
 .current
 {
   clear: both;
-  margin-top: 10px;
+ // margin-top: 10px;
   float: left;
 }
 
@@ -15945,7 +15977,8 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 }
 
 table.admintable td {
-  padding: 3px;
+  padding: 5px;
+  vertical-align: middle;
 }
 
 table.admintable td label
@@ -15969,6 +16002,17 @@ table.admintable td .controls
   display: inline-block;
 }
 
+td .controls .radio,
+td .controls .checkbox
+{
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.controls > .radio:first-child, .controls > .checkbox:first-child
+{
+  padding-top: 0;
+}
 
 .redShopLimitBox {
   float: left;
@@ -16091,4 +16135,819 @@ div.current select, div.current input, div.current textarea, div.current select 
         -webkit-background-size: 200px 20px;
         background-size: 200px 20px;
     }
+}
+
+table.admintable td .input-append button.btn,
+.filterItem.calendar-div .input-append button.btn
+{
+  position: absolute;
+  margin-left: -40px;
+  z-index: 99;
+  background-image: none;
+  background-color: transparent;
+  border: 0;
+  box-shadow: none !important;
+}
+
+
+table.admintable td .input-append button.btn .icon-calendar,
+.filterItem.calendar-div .input-append button.btn .icon-calendar
+{
+  background: transparent url(../images/calendar.png) center center no-repeat;
+  height: 18px;
+  width: 18px;
+}
+
+table.admintable td .input-append button.btn .icon-calendar::before,
+.filterItem.calendar-div .input-append button.btn .icon-calendar::before
+{
+  content: "";
+}
+
+.input-append .add-on, .input-prepend .add-on
+{
+  height: 28px !important;
+}
+
+.width-20
+{
+  width: 25px !important;
+}
+
+.adminlist th .saveorder
+{
+  float: none !important;
+}
+
+.saveorder {
+    background: rgba(0, 0, 0, 0) url("../images/j3ready/filesave.png") no-repeat scroll 0 0 !important;
+    display: inline-block;
+    float: left;
+    height: 16px;
+    margin-right: 8px;
+    overflow: hidden;
+    width: 16px;
+    border: 0 !important;
+}
+
+.saveorder:hover,
+.saveorder:focus
+{
+  background-position: 0 0 !important;
+}
+
+.saveorder .icon-menu-2
+{
+  display: none;
+}
+
+iframe, svg {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.btn-small [class*="icon-"] {
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    float: left;
+    background-repeat: no-repeat;
+    background-size: 16px auto;
+}
+
+.btn-small [class*="icon-"]::before
+{
+  content: "";
+}
+
+.icon-unpublish
+{
+  background: transparent url(../images/unpublish.png) center center no-repeat;
+}
+
+.icon-publish
+{
+  background: transparent url(../images/publish.png) center center no-repeat;
+}
+
+.hasTooltip .icon-publish,
+.hasTooltip .icon-unpublish
+{
+  background-image: none;
+}
+
+.icon-save
+{
+  background: transparent url(../images/save.png) center center no-repeat;
+}
+
+.icon-delete,
+.icon-cancel
+{
+  background: transparent url(../images/delete.png) center center no-repeat;
+}
+
+.icon-edit
+{
+  background: transparent url(../images/edit.png) center center no-repeat;
+}
+
+.icon-new
+{
+  background: transparent url(../images/new.png) center center no-repeat;
+}
+
+.icon-save-new
+{
+  background: transparent url(../images/save-new.png) center center no-repeat;
+}
+
+.icon-copy,
+.icon-save-copy
+{
+  background: transparent url(../images/copy.png) center center no-repeat;
+}
+
+.icon-print,
+.icon-print_f2
+{
+  background: transparent url(../images/print.png) center center no-repeat;
+}
+
+.icon-apply
+{
+  background: transparent url(../images/apply.png) center center no-repeat;
+}
+
+.icon-preview
+{
+  background: transparent url(../images/preview.png) center center no-repeat;
+}
+
+/* redshop menu */
+.icon-48-importexport48 {
+  background-image: url(../images/importexport48.png);
+}
+.icon-32-redshop_importexport32,
+.icon-redshop_importexport32 {
+  background-image: url(../images/importexport32.png);
+}
+.icon-48-redshop_redshopcart48 {
+  background-image: url(../images/redshopcart48.png);
+}
+/* redshop statistics icon */
+
+.icon-48-redshop_statistic48 {
+  background-image: url(../images/statistic48.png);
+}
+
+.page-title .icon-redshop_261-x-88{
+  background: url("../images/redshop_white_logo.png") no-repeat;
+  height: 30px;
+  width: 132px;
+}
+
+.icon-48-redshop_261-x-88{
+  background: url("../images/redshop.png") no-repeat;
+  height: 45px;
+  width: 196px;
+}
+
+/* catalog management */
+
+.icon-48-redshop_catalogmanagement48 {
+  background-image: url(../images/catalogmanagement48.png);
+}
+/* category management */
+
+.icon-48-redshop_categories48 {
+  background-image: url(../images/categories48.png);
+}
+/* configuration management */
+
+.icon-48-redshop_icon-48-settings {
+  background-image: url(../images/icon-48-settings.png);
+}
+/* configuration management */
+
+.icon-32-redshop_icon-32-settings,
+.icon-redshop_icon-32-settings{
+  background-image: url(../images/configuration_32.png);
+}
+
+
+
+/* configuration management */
+
+.icon-48-redshop_icon-48-giftcard {
+  background-image: url(../images/giftcard_48.png);
+}
+/* country management */
+
+.icon-48-redshop_icon-48-country {
+  background-image: url(../images/country_48.png);
+}
+/* state management */
+
+.icon-48-redshop_icon-48-region {
+  background-image: url(../images/region_48.png);
+}
+/* currency management */
+
+.icon-48-redshop_icon-48-currencies {
+  background-image: url(../images/currencies_48.png);
+}
+/* question management */
+
+.icon-48-redshop_question48 {
+  background-image: url(../images/question_48.jpg);
+}
+/* quotation management */
+
+.icon-48-redshop_quotation48 {
+  background-image: url(../images/quotation_48.jpg);
+}
+/* coupon management */
+
+.icon-48-redshop_coupon48 {
+  background-image: url(../images/coupon48.png);
+}
+/* discount management */
+
+.icon-48-redshop_discountmanagmenet48 {
+  background-image: url(../images/discountmanagmenet48.png);
+}
+/* export management */
+
+.icon-48-redshop_export48 {
+  background-image: url(../images/export48.png);
+}
+/* Fields management */
+
+.icon-48-redshop_fields48 {
+  background-image: url(../images/fields48.png);
+}
+/* Import management */
+
+.icon-48-redshop_mailcenter48 {
+  background-image: url(../images/import48.png);
+}
+/* Mail management */
+
+.icon-48-redshop_mailcenter48 {
+  background-image: url(../images/mailcenter48.png);
+}
+/* Manufacturer management */
+
+.icon-48-redshop_manufact48 {
+  background-image: url(../images/manufact48.png);
+}
+/* Giftcard management */
+
+.icon-48-redshop_giftcard_48 {
+  background-image: url(../images/giftcard_48.png);
+}
+/* Country management */
+
+.icon-48-redshop_country_48 {
+  background-image: url(../images/country_48.png);
+}
+/* State management */
+
+.icon-48-redshop_region_48 {
+  background-image: url(../images/region_48.png);
+}
+/* Currency management */
+
+.icon-48-redshop_currencies_48 {
+  background-image: url(../images/currencies_48.png);
+}
+/* Media management */
+
+.icon-48-redshop_media48 {
+  background-image: url(../images/media48.png);
+}
+/* Newsletter management */
+
+.icon-48-redshop_newsletter48 {
+  background-image: url(../images/newsletter48.png);
+}
+/* Order management */
+
+.icon-48-redshop_order48 {
+  background-image: url(../images/order48.png);
+}
+/* Payment management */
+
+.icon-48-redshop_payment48 {
+  background-image: url(../images/payment48.png);
+}
+/* Product management */
+
+.icon-48-redshop_products48 {
+  background-image: url(../images/products48.png);
+}
+/* Import management */
+
+.icon-48-redshop_import48 {
+  background-image: url(../images/import48.png);
+}
+/* Color Sample management */
+
+.icon-48-redshop_colorsample48 {
+  background-image: url(../images/colorsample48.png);
+}
+/* Shipping management */
+
+.icon-48-redshop_shipping48 {
+  background-image: url(../images/shipping48.png);
+}
+/* Shipping management */
+
+.icon-48-redshop_stockroom48 {
+  background-image: url(../images/stockroom48.png);
+}
+/* Export management */
+
+.icon-48-redshop_vatgroup48 {
+  background-image: url(../images/vatgroup_48.png);
+}
+/* Vat( tax ) management */
+
+.icon-48-redshop_vatrates48 {
+  background-image: url(../images/vatrates48.png);
+}
+/* Templates management */
+
+.icon-48-redshop_templates48 {
+  background-image: url(../images/templates48.png);
+}
+/* Textlibrary management */
+
+.icon-48-redshop_textlibrary48 {
+  background-image: url(../images/textlibrary48.png);
+}
+/* Textlibrary management */
+
+.icon-48-redshop_user48 {
+  background-image: url(../images/user48.png);
+}
+/* Voucher management */
+
+.icon-48-redshop_voucher48 {
+  background-image: url(../images/voucher48.png);
+}
+/* Voucher management */
+
+.icon-48-redshop_rating48 {
+  background-image: url(../images/rating48.png);
+}
+/* Vat management */
+
+.icon-48-redshop_vat48 {
+  background-image: url(../images/vatrates48.png);
+}
+/* wrapper management */
+
+.icon-48-redshop_wrapper48 {
+  background-image: url(../images/wrapper48.png);
+}
+/* Shipping Box management */
+
+.icon-48-redshop_shipping_box48 {
+  background-image: url(../images/shipping_boxes48.png);
+}
+/* Icon files 32px */
+
+/* redshop menu */
+
+.icon-32-redshop_redshopcart32 {
+  background-image: url(../images/redshopcart32.png);
+}
+/* Shipping Box management */
+
+.icon-48-redshop_shipping_box32 {
+  background-image: url(../images/shipping_boxes32.png);
+}
+/* redshop statistics icon */
+
+.icon-32-redshop_statistic32,
+.icon-redshop_statistic32 {
+  background-image: url(../images/statistic32.png);
+}
+/* catalog management */
+
+.icon-32-redshop_catalogmanagement32 {
+  background-image: url(../images/catalogmanagement32.png);
+}
+/* category management */
+
+.icon-32-redshop_categories32 {
+  background-image: url(../images/categories32.png);
+}
+/* coupon management */
+
+.icon-32-redshop_coupon32 {
+  background-image: url(../images/coupon32.png);
+}
+/* TaxGroup management */
+
+.icon-32-redshop_taxgroup_taxgroup32 {
+  background-image: url(../images/vatgroup_32.png);
+}
+/* Tax management */
+
+.icon-32-redshop_tax_tax32,
+.icon-redshop_tax_tax32{
+  background-image: url(../images/vatrates32.png);
+}
+/* discount management */
+
+.icon-32-redshop_discountmanagmenet32 {
+  background-image: url(../images/discountmanagmenet32.png);
+}
+/* export management */
+
+.icon-32-redshop_export32 {
+  background-image: url(../images/export32.png);
+}
+/* Fields management */
+
+.icon-32-redshop_fields32 {
+  background-image: url(../images/fields32.png);
+}
+/* Import management */
+
+.icon-32-redshop_mailcenter32 {
+  background-image: url(../images/import32.png);
+}
+/* Import management */
+
+.icon-32-redshop_import_import32 {
+  background-image: url(../images/import32.png);
+}
+/* Export management */
+
+.icon-32-redshop_export_export32 {
+  background-image: url(../images/export32.png);
+}
+/* Mail management */
+
+.icon-32-redshop_mailcenter32 {
+  background-image: url(../images/mailcenter32.png);
+}
+/* Manufacturer management */
+
+.icon-32-redshop_manufact32 {
+  background-image: url(../images/manufact32.png);
+}
+/* Media management */
+
+.icon-32-redshop_media32 {
+  background-image: url(../images/media32.png);
+}
+/* Newsletter management */
+
+.icon-32-redshop_newsletter32 {
+  background-image: url(../images/newsletter32.png);
+}
+/* Order management */
+
+.icon-32-redshop_order32 {
+  background-image: url(../images/order32.png);
+}
+/* Payment management */
+
+.icon-32-redshop_payment32 {
+  background-image: url(../images/payment32.png);
+}
+/* Product management */
+
+.icon-32-redshop_products32 {
+  background-image: url(../images/products32.png);
+}
+/* Color Sample management */
+
+.icon-32-redshop_colorsample32 {
+  background-image: url(../images/colorsample32.png);
+}
+/* Shipping management */
+
+.icon-32-redshop_shipping32 {
+  background-image: url(../images/shipping32.png);
+}
+/* Shipping management */
+
+.icon-32-redshop_stockroom32 {
+  background-image: url(../images/stockroom32.png);
+}
+/* Vat( tax ) management */
+
+.icon-32-redshop_vatrates32 {
+  background-image: url(../images/vatrates32.png);
+}
+/* Templates management */
+
+.icon-32-redshop_templates32 {
+  background-image: url(../images/templates32.png);
+}
+/* Textlibrary management */
+
+.icon-32-redshop_textlibrary32 {
+  background-image: url(../images/templates32.png);
+}
+/* Textlibrary management */
+
+.icon-32-redshop_user32 {
+  background-image: url(../images/user32.png);
+}
+/* Voucher management */
+
+.icon-32-redshop_voucher32 {
+  background-image: url(../images/voucher32.png);
+}
+/* Voucher management */
+
+.icon-48-redshop_shipping_rates48 {
+  background-image: url(../images/shipping_rates_48.png);
+}
+/* Voucher management */
+
+.icon-32-redshop_shipping_rates32 {
+  background-image: url(../images/shipping_rates_32.png);
+}
+/* wrapper management */
+
+.icon-32-redshop_wrapper32 {
+  background-image: url(../images/wrapper32.png);
+}
+/* attributeBank management */
+
+.icon-32-redshop_attribute_bank32 {
+  background-image: url(../images/attribute_bank32.png);
+}
+/* Shipping management */
+
+.icon-48-redshop_attribute_bank48 {
+  background-image: url(../images/attribute_bank48.png);
+}
+.selectedimg {
+  border: 2px solid #000000;
+}
+.pointer {
+  cursor: pointer;
+}
+/* Accounting Group Icon*/
+
+.icon-48-redshop_accountgroup48 {
+  background-image: url(../images/accounting_group48.png);
+}
+.icon-32-redshop_accountgroup32 {
+  background-image: url(../images/accounting_group32.png);
+}
+.icon-48-redshop_configwizrd48 {
+  background-image: url(../images/wizard_48.png);
+}
+.icon-32-redshop_configwizrd32,
+.icon-redshop_configwizrd32 {
+  background-image: url(../images/wizard_32.png);
+}
+.distitle {
+  font-family: inherit;
+  font-size: 12px;
+  color: gray;
+  padding-left: 5px;
+  font-weight: bold;
+  height: 30;
+}
+.icon-32-gbase {
+  background-image: url(../images/gbase.png);
+}
+.icon-32-print_f2 {
+  background-image: url(../images/print_f2.png);
+}
+.icon-32-gbase {
+  background-image: url(../images/gbase.png);
+}
+.icon-32-print_f2 {
+  background-image: url(../images/print_f2.png);
+}
+
+.popup .btn.btn-small
+{
+  font-size: 14px;
+  color: #293235;
+  padding: 8px 15px;
+  width: auto;
+  border: 0;
+  background-color: #ebebeb;
+  background-image: none;
+  text-shadow: none;
+}
+
+.popup .configuration
+{
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+.popup fieldset
+{
+  margin-bottom: 20px;
+}
+
+/* -- CONTROL PANEL STYLES ----------------------------- */
+.cpanel div.icon, #cpanel div.icon {
+  text-align: center;
+  margin-right: 15px;
+  float: left;
+  margin-bottom: 15px;
+
+}
+
+.cpanel div.icon a, #cpanel div.icon a {
+  background-color: #fff;
+  background-position: -30px;
+  display: block;
+  float: left;
+  height: 97px;
+  width: 108px;
+  color: #565656;
+  vertical-align: middle;
+  text-decoration: none;
+  border: 1px solid #CCC;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-transition-property: background-position,
+  -webkit-border-bottom-left-radius,
+  -webkit-box-shadow;
+  -moz-transition-property: background-position,
+  -moz-border-radius-bottomleft,
+  -moz-box-shadow;
+  -webkit-transition-duration: 0.8s;
+  -moz-transition-duration: 0.8s;
+}
+
+#cpanel div.icon a:hover,
+#cpanel div.icon a:focus,
+#cpanel div.icon a:active,
+.cpanel div.icon a:hover,
+.cpanel div.icon a:focus,
+.cpanel div.icon a:active {
+  background-position: 0;
+  -webkit-border-bottom-left-radius: 50% 20px;
+  -moz-border-radius-bottomleft: 50% 20px;
+  border-bottom-left-radius: 50% 20px;
+  -webkit-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 10;
+}
+
+#cpanel img,
+.cpanel img {
+  padding: 9px 0;
+  margin: 0 auto;
+}
+
+#cpanel span,
+.cpanel span {
+  display: block;
+  text-align: center;
+  line-height: 13px;
+}
+
+div.cpanel-left {
+  width: 54%;
+  float: left;
+}
+
+div.cpanel-right {
+  width: 45%;
+  float: right;
+}
+
+div.current {
+  clear: both;
+
+  width: 100%;
+}
+
+div.current dd {
+  padding: 0;
+  margin: 0;
+}
+
+dl#content-pane.tabs {
+  margin: 1px 0 0 0;
+}
+
+div.current label,
+div.current span.faux-label {
+  display: block;
+  min-width: 150px;
+  float: left;
+  clear: left;
+  margin-top: 8px;
+}
+
+div.current fieldset {
+  border: none 0;
+}
+
+div.current fieldset.adminform {
+  border: 1px #ccc solid;
+  padding: 5px;
+}
+
+div.current fieldset.radio {
+  float: left;
+}
+
+div.current fieldset.radio input {
+  clear: none;
+  min-width: 15px;
+  float: left;
+  margin: 3px 0 0 2px;
+}
+
+div.current fieldset.radio label {
+  clear: none;
+  min-width: 45px;
+  float: left;
+  margin: 3px 0 0 5px;
+}
+
+div.current fieldset.checkboxes {
+  float: left;
+  clear: right;
+}
+
+div.current fieldset.checkboxes input {
+  clear: left;
+  min-width: 15px;
+  float: left;
+  margin: 3px 0 0 2px;
+}
+
+div.current fieldset.checkboxes label {
+  clear: right;
+  min-width: 45px;
+  margin: 3px 0 0 5px;
+}
+
+div.current input,
+div.current textarea,
+div.current select {
+  clear: none;
+  float: left;
+  margin: 3px 0 0 2px;
+}
+
+div.current select {
+  margin-bottom: 15px;
+}
+
+p.tab-description {
+  font-size: 1.091em;
+  margin-left: 0;
+  margin-top: 5px;
+}
+
+dl.tabs dt h3 {
+  font-size: 1em;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+.isJ30 legend {
+  color: #146295;
+  font-size: 1.182em;
+  font-weight: bold;
+  width: auto;
+  border: none;
+  margin-bottom: 0;
+}
+
+fieldset.redRadioGroup{
+  padding-top: 5px;
+  margin: 0;
+}
+fieldset.redRadioGroup > .btn {
+  box-shadow: none !important;
+  display: inline-block !important;
+  margin-top: 0;
+  min-width: 50px;
+  padding: 5px 0;
+  text-align: center;
+}
+
+
+fieldset.redRadioGroup .iradio_minimal-blue
+{
+  display: none;
 }

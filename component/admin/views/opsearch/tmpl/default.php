@@ -22,34 +22,36 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 		<?php if ($showbuttons != 1)
 		{
 			?>
-		<div class="filterItem">
-			<?php  echo JText::_("COM_REDSHOP_PRODUCT_NAME") . ": ";
-			$filterObject = new stdClass;
-			$filterObject->text = '';
+		<div class="filterTool">
+			<div class="filterItem">
+				<?php  echo JText::_("COM_REDSHOP_PRODUCT_NAME") . ": ";
+				$filterObject = new stdClass;
+				$filterObject->text = '';
 
-			if ($this->state->get('filter_product') && ($productData = $productHelper->getProductById($this->state->get('filter_product'))))
-			{
-				$filterObject->text = $productData->product_name;
-			}
+				if ($this->state->get('filter_product') && ($productData = $productHelper->getProductById($this->state->get('filter_product'))))
+				{
+					$filterObject->text = $productData->product_name;
+				}
 
-			$filterObject->value = $this->state->get('filter_product');
+				$filterObject->value = $this->state->get('filter_product');
 
-			echo JHTML::_('redshopselect.search', $filterObject, 'filter_product',
-				array(
-					'select2.options' => array(
-						'events' => array('select2-selecting' => 'function(e) {document.getElementById(\'filter_product\').value = e.object.id;document.adminForm.submit();}')
+				echo JHTML::_('redshopselect.search', $filterObject, 'filter_product',
+					array(
+						'select2.options' => array(
+							'events' => array('select2-selecting' => 'function(e) {document.getElementById(\'filter_product\').value = e.object.id;document.adminForm.submit();}')
+						)
 					)
-				)
-			);
-			?>
-			<button class="btn"
-				onclick="document.getElementById('filter_product').value='0';document.getElementById('filter_user').value='0';document.getElementById('filter_status').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-		</div>
-		<div class="filterItem">
-			<?php echo $this->lists['filter_status']; ?>
-		</div>
-		<div class="filterItem">
-			<?php echo $this->lists['filter_user']; ?>
+				);
+				?>
+				<button class="btn"
+					onclick="document.getElementById('filter_product').value='0';document.getElementById('filter_user').value='0';document.getElementById('filter_status').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+			</div>
+			<div class="filterItem">
+				<?php echo $this->lists['filter_status']; ?>
+			</div>
+			<div class="filterItem">
+				<?php echo $this->lists['filter_user']; ?>
+			</div>
 		</div>
 		<?php } ?>
 		<table class="adminlist table table-striped">

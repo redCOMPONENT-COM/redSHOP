@@ -23,6 +23,20 @@ $user = JFactory::getUser();
 	</li>
 
 	<li>
-		<a href="<?php echo $logoutUrl ?>">Logout</a>
+		<a href="<?php echo JRoute::_('index.php') ?>"><i class="fa fa-joomla"></i></a>
+	</li>
+
+	<li>
+		<a href="#" onclick="Joomla.popupWindow('components/com_redshop/help/en-GB/redshop.html', 'Help', 700, 500, 1)">
+			<i class="fa fa-question-circle"></i>
+
+		</a>
+	</li>
+
+	<li>
+		<a href="<?php echo JUri::root() ?>" target="_blank"><i class="fa fa-external-link"></i></a>
+	</li>
+	<li>
+		<a href="<?php echo $logoutUrl ?>"><i class="fa fa-sign-out"></i></a>
 	</li>
 </ul>

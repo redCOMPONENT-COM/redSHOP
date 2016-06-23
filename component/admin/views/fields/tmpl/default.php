@@ -37,12 +37,12 @@ $redtemplate = Redtemplate::getInstance();
 	<div id="editcell">
 		<div class="filterTool">
 			<div class="filterItem">
+
 				<div class="btn-wrapper input-append">
 					<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
 						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>">
-					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button class="btn"
-						onclick="document.getElementById('filter').value='';document.getElementById('filtertype').value='0';document.getElementById('filtersection').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="button" class="btn reset" onclick="document.getElementById('filter').value='';document.getElementById('filtertype').value='0';document.getElementById('filtersection').value='0';this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
 				</div>
 			</div>
 			<div class="filterItem">

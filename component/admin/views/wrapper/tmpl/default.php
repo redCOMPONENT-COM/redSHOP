@@ -60,8 +60,8 @@ $url = $uri->root();?>
  					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
  						placeholder="<?php echo JText::_('COM_REDSHOP_WRAPPER_FILTER'); ?>">
  					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
- 					<button class="btn reset"
-						onclick="this.form.getElementById('filter').value='';"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="document.getElementById('filter').value='';this.form.submit();" />
  				</div>
 			</div>
 		</div>

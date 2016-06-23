@@ -67,12 +67,9 @@ $model         = $this->getModel('user');
 					value="<?php echo $this->state->get('filter'); ?>"
 					placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER');?>"
 					>
-				<button class="btn" type="submit">
-					<?php echo JText::_('COM_REDSHOP_GO');?>
-				</button>
-				<button class="btn reset" type="button" onclick="resetfilter();">
-					<?php echo JText::_('COM_REDSHOP_RESET');?>
-				</button>
+				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+
 			</div>
 		</div>
 
