@@ -34,7 +34,6 @@ class RedshopViewRedshop extends RedshopViewAdmin
 			JToolBarHelper::custom('configuration', 'redshop_icon-32-settings', JText::_('COM_REDSHOP_CONFIG'),
 				JText::_('COM_REDSHOP_CONFIG'), false, false
 			);
-			JToolBarHelper::help('redshop', true);
 		}
 
 		$user = JFactory::getUser();

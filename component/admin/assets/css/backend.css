@@ -1847,14 +1847,19 @@ input[type="search"] {
   font-weight: normal;
   cursor: pointer;
 }
-.radio input[type="radio"],
+
+.radio.inline, .checkbox.inline
+{
+  padding-top: 0 !important;
+}
+/*.radio input[type="radio"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
   position: absolute;
   margin-left: -20px;
   margin-top: 4px \9;
-}
+}*/
 .radio + .radio,
 .checkbox + .checkbox {
   margin-top: -5px;
@@ -16212,7 +16217,7 @@ iframe, svg {
     width: 16px;
     float: left;
     background-repeat: no-repeat;
-    background-size: 16px auto;
+    background-size: 90% auto;
 }
 
 .btn-small [class*="icon-"]::before
@@ -16282,6 +16287,27 @@ iframe, svg {
 .icon-preview
 {
   background: transparent url(../images/preview.png) center center no-repeat;
+}
+
+.icon-send
+{
+  background: transparent url(../images/send.png) center center no-repeat;
+}
+
+.icon-redshop_order32
+{
+  background: transparent url(../images/order1.png) center center no-repeat;
+}
+
+.icon-redshop_export_export32
+{
+  background: transparent url(../images/preview.png) center center no-repeat;
+}
+
+.icon-redshop_import_import32,
+.icon-upload
+{
+    background: transparent url(../images/import.png) center center no-repeat;
 }
 
 /* redshop menu */
@@ -16950,4 +16976,9 @@ fieldset.redRadioGroup > .btn {
 fieldset.redRadioGroup .iradio_minimal-blue
 {
   display: none;
+}
+
+.input-xmini
+{
+  width: 30px;
 }
