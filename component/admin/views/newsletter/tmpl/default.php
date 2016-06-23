@@ -40,9 +40,9 @@ $model = $this->getModel('newsletter');
 				<div class="btn-wrapper input-append">
 					<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
 						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>">
-					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO');    ?></button>
-					<button class="btn reset"
-						onclick="document.getElementById('filter').value='';this.form.submit();"><?php    echo JText::_('COM_REDSHOP_RESET'); ?></button>
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="document.getElementById('filter').value='';this.form.submit();">
 				</div>
 			</div>
 		</div>

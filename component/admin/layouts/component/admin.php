@@ -90,19 +90,13 @@ if ($content instanceof Exception)
 		</section>
 	</div>
 <?php elseif ($templateComponent) : ?>
-	<div class="container-fluid RedSHOP">
-		<div class="span12 content">
-			<section id="component">
-				<div class="row-fluid">
-					<h1><?php echo $view->getTitle() ?></h1>
-				</div>
-				<div class="row-fluid message-sys" id="message-sys"></div>
-				<hr/>
-				<div class="row-fluid">
-					<?php echo $content ?>
-				</div>
-			</section>
-		</div>
+	<div class="redSHOP">
+		<section id="component">
+			<div class="message-sys" id="message-sys"></div>
+			<div class="popup">
+				<?php echo $content ?>
+			</div>
+		</section>
 	</div>
 <?php
 else : ?>

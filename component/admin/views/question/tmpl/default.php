@@ -44,8 +44,8 @@ $ordering      = ($this->lists['order'] == 'ordering');
 					<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
 						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>">
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<button class="btn reset"
-						onclick="document.getElementById('filter').value='';document.getElementById('product_id').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="document.getElementById('filter').value='';document.getElementById('product_id').value='0';this.form.submit();">
 				</div>
 			</div>
 			<div class="filterItem">

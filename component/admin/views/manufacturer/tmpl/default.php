@@ -42,13 +42,12 @@ $ordering = ($this->lists['order'] == 'm.ordering');
 		<div class="filterTool">
 			<div class="filterItem">
 				<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
-					<div class="btn-wrapper input-append">
-					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
-					       onchange="document.adminForm.submit();">
-					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button class="btn reset"
-						onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-					</div>
+				<div class="btn-wrapper input-append">
+					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>" />
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>" />
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="document.getElementById('filter').value='';this.form.submit();" />
+				</div>
 			</div>
 		</div>
 

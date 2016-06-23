@@ -12068,6 +12068,11 @@ function _init() {
             $('.message-sys').append(messageContainer);
         }
 
+        $('img').each(function(){
+
+        });
+
+        console.log($('img').attr('src'));
         // We cannot access the body tag so add admin-lte styling classes dynamically
         $('body').addClass('skin-black sidebar-mini');
 
@@ -12079,6 +12084,12 @@ function _init() {
 		    radioClass: 'iradio_minimal-blue',
 		    increaseArea: '20%' // optional
 		  });
+
+        $("input").on('ifClicked', function (e) {
+        	console.log(1);
+		    $(this).click();
+		    $('input').iCheck('update');
+		});
     });
 })(jQuery);
 
