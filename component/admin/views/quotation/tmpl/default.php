@@ -47,7 +47,7 @@ $model = $this->getModel('quotation');
 				<div class="btn-wrapper input-append">
 					<input placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>" type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>" />
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<button class="reset"
+					<button class="btn reset"
 							onclick="document.getElementById('filter').value='';document.getElementById('filter_status').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
 				</div>
 			</div>

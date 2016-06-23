@@ -47,7 +47,7 @@ $producthelper = producthelper::getInstance();
 					<input type="text" name="name_filter" id="name_filter" value="<?php echo $this->state->get('name_filter'); ?>"
 						 onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_NAME'); ?>">
 					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
-					<button class="reset" onclick="resetfilter();"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
+					<button class="btn reset" onclick="resetfilter();"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
 				</div>
 			</div>
 			<div class="filterItem">

@@ -46,7 +46,7 @@ $ordering = ($this->lists['order'] == 'm.ordering');
 					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
 					       onchange="document.adminForm.submit();">
 					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button class="reset"
+					<button class="btn reset"
 						onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
 					</div>
 			</div>

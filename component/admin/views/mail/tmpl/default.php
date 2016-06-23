@@ -41,7 +41,7 @@ $redtemplate = Redtemplate::getInstance();
 					<input type="text" name="filter" id="filter" value="<?php echo $this->lists['filter']; ?>"
 						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>">
 					<button onclick="this.form.submit();" class="btn"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button class="reset"
+					<button class="btn reset"
 							onclick="document.getElementById('filter').value='';document.getElementById('filter_section').value=0;this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
 				</div>
 			</div>

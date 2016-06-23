@@ -70,7 +70,7 @@ $model         = $this->getModel('user');
 				<button class="btn" type="submit">
 					<?php echo JText::_('COM_REDSHOP_GO');?>
 				</button>
-				<button class="reset" type="button" onclick="resetfilter();">
+				<button class="btn reset" type="button" onclick="resetfilter();">
 					<?php echo JText::_('COM_REDSHOP_RESET');?>
 				</button>
 			</div>

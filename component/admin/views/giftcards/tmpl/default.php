@@ -36,7 +36,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						title="<?php echo JHtml::tooltipText('COM_REDSHOP_GIFTCARD_SEARCH_IN_NAME'); ?>"
 					/>
 				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<button class="reset" onclick="document.getElementById('filter').value='';this.form.submit();">
+				<button class="btn reset" onclick="document.getElementById('filter').value='';this.form.submit();">
 					<?php echo JText::_('COM_REDSHOP_RESET'); ?>
 				</button>
 			</div>
