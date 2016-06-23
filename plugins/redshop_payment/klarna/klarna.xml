@@ -50,51 +50,6 @@
 					description="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET_DESC"
 				/>
 				<field
-					name="purchaseCountry"
-					type="list"
-					class=""
-					default="DK"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_DESC"
-				>
-					<option value="AT">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_AUSTRIA</option>
-					<option value="DK">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_DENMARK</option>
-					<option value="FI">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_FINLAND</option>
-					<option value="DE">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_GERMANY</option>
-					<option value="NL">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_NETHERLANDS</option>
-					<option value="NO">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_NORWAY</option>
-					<option value="SE">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_SWEDEN</option>
-				</field>
-				<field
-					name="purchaseLanguage"
-					type="list"
-					class=""
-					default="DA"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DESC"
-				>
-					<option value="EN">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_ENGLISH</option>
-					<option value="DA">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DANISH</option>
-					<option value="FI">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_FINNISH</option>
-					<option value="DE">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_GERMAN</option>
-					<option value="NL">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DUTCH</option>
-					<option value="NB">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_NORWEGIAN</option>
-					<option value="SV">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_SWEDISH</option>
-				</field>
-				<field
-					name="purchaseCurrency"
-					type="list"
-					class=""
-					default="DKK"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_DESC"
-				>
-					<option value="DKK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_DANISH</option>
-					<option value="EUR">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_EURO</option>
-					<option value="NOK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_NORWEGIAN</option>
-					<option value="SEK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_SWEDISH</option>
-				</field>
-				<field
 					name="noteForGeneral"
 					type="note"
 					class="alert alert-info"

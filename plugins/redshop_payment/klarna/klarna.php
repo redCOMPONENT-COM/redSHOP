@@ -10,16 +10,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_PaymentKlarna extends JPlugin
+class plgRedshop_PaymentKlarna extends RedshopPayment
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.1
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Constructor
 	 *
@@ -44,6 +36,18 @@ class plgRedshop_PaymentKlarna extends JPlugin
 	}
 
 	/**
+	 * Prepare Payment Input
+	 *
+	 * @param   array  $orderInfo  Order Information
+	 *
+	 * @return  array  Payment Gateway for parameters
+	 */
+	protected function preparePaymentInput($orderInfo)
+	{
+		// Not using it.
+	}
+
+	/**
 	 * This method will be triggered on before placing order to reserve amount in klarna.
 	 *
 	 * @param   string  $element  Name of the payment plugin
@@ -64,9 +68,9 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($this->params->get('purchaseCountry')),
-			KlarnaLanguage::fromCode($this->params->get('purchaseLanguage')),
-			KlarnaCurrency::fromCode(strtolower($this->params->get('purchaseCurrency'))),
+			KlarnaCountry::fromCode($data['billinginfo']->country_2_code),
+			KlarnaLanguage::fromCode($this->getLang()),
+			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
 			Klarna::BETA,         // Server
 			'json',               // PClass storage
 			'./pclasses.json'     // PClass storage URI path
@@ -332,7 +336,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		RedshopModel::getInstance('order_detail', 'RedshopModel')->resetcart();
 
 		$app->redirect(
-			JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId),
+			JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId, false),
 			$values->msg
 		);
 	}
@@ -379,9 +383,9 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($this->params->get('purchaseCountry')),
-			KlarnaLanguage::fromCode($this->params->get('purchaseLanguage')),
-			KlarnaCurrency::fromCode(strtolower($this->params->get('purchaseCurrency'))),
+			KlarnaCountry::fromCode($data['billinginfo']->country_code),
+			KlarnaLanguage::fromCode($this->getLang()),
+			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
 			Klarna::BETA,         // Server
 			'json',               // PClass storage
 			'./pclasses.json'     // PClass storage URI path
@@ -460,15 +464,17 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			return;
 		}
 
+		$orderBilling = RedshopHelperOrder::getOrderBillingUserInfo($data['order_id']);
+
 		$app = JFactory::getApplication();
 		$k   = new Klarna;
 
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($this->params->get('purchaseCountry')),
-			KlarnaLanguage::fromCode($this->params->get('purchaseLanguage')),
-			KlarnaCurrency::fromCode(strtolower($this->params->get('purchaseCurrency'))),
+			KlarnaCountry::fromCode($orderBilling->country_code),
+			KlarnaLanguage::fromCode($this->getLang()),
+			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
 			Klarna::BETA, // Server
 			'json',
 			'./pclasses.json'
