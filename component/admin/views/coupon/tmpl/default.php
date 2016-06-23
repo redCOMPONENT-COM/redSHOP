@@ -48,7 +48,7 @@ $url = JURI::base();
 					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
 						   placeholder="<?php echo JText::_('COM_REDSHOP_COUPON_FILTER'); ?>">
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<input type="reset" class="reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
 						   onclick="return clearreset();">
 				</div>
 			</div>

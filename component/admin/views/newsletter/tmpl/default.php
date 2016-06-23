@@ -41,7 +41,7 @@ $model = $this->getModel('newsletter');
 					<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
 						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>">
 					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO');    ?></button>
-					<button class="reset"
+					<button class="btn reset"
 						onclick="document.getElementById('filter').value='';this.form.submit();"><?php    echo JText::_('COM_REDSHOP_RESET'); ?></button>
 				</div>
 			</div>

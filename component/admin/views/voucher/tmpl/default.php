@@ -42,7 +42,7 @@ $config = Redconfiguration::getInstance();
  					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
  						placeholder="<?php echo JText::_('COM_REDSHOP_VOUCHER_FILTER'); ?>">
  					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
- 					<button class="reset"
+ 					<button class="btn reset"
 						onclick="this.form.getElementById('filter').value='';"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
  				</div>
 			</div>

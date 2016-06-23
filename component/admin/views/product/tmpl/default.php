@@ -70,7 +70,7 @@ JHtml::_('redshopjquery.framework');
 		<div class="btn-wrapper input-append">
 			<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
 			<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-			<button class="reset" onclick="document.getElementById('filter').value='';this.form.submit();">
+			<button class="btn reset" onclick="document.getElementById('filter').value='';this.form.submit();">
 				<?php echo JText::_('COM_REDSHOP_RESET'); ?>
 			</button>
 		</div>
