@@ -37,12 +37,4 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_RATING'), 'rating');
 		</td>
 	</tr>
 </table>
-<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_STOCKROOM_TAB'), 'stockroom'); ?>
-<table class="adminlist" width="100%" cellpadding="0" cellspacing="0">
-	<tr valign="top">
-		<td width="50%">
-			<?php echo $this->loadTemplate('stockroom_settings');?>
-		</td>
-	</tr>
-</table>
 <?php  echo JHtml::_('tabs.end');
