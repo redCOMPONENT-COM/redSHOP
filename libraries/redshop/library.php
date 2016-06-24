@@ -37,6 +37,7 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 	// Load helpers pathes in JLoader
 	JLoader::discover('', JPATH_SITE . '/components/com_redshop/helpers', false);
 	JLoader::discover('', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
+	JLoader::discover('RedshopAdmin', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
 
 	// HTML helpers
 	JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');

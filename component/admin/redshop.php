@@ -151,17 +151,7 @@ if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task !
 	&& $view != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $view != "update"
 	&& $format == 'html')
 {
-	// Container CSS class definition
-	if (version_compare(JVERSION, '3.0', '<'))
-	{
-		$redSHOPCSSContainerClass = ' isJ25';
-	}
-	else
-	{
-		$redSHOPCSSContainerClass = ' isJ30';
-	}
-
-	echo '<div id="redSHOPAdminContainer" class="redSHOPAdminView' . ucfirst($view) . $redSHOPCSSContainerClass . '">';
+	echo '<div id="redSHOPAdminContainer" class="redSHOPAdminView isJ30' . ucfirst($view) . '">';
 
 	if ($view != "redshop" && $view != "configuration" && $view != "product_detail"
 		&& $view != "country_detail" && $view != "state_detail" && $view != "category_detail"
@@ -182,12 +172,12 @@ if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task !
 		&& $view != 'orderstatus_detail'
 		&& 'component' != $app->input->get('tmpl'))
 	{
-		echo '<div style="float:left;width:19%; margin-right:1%;">';
-		$menu = new leftmenu;
+		echo '<div id="j-sidebar-container" class="span2">';
+		echo leftmenu::render();
 		echo '</div>';
 
 		// Set div for listing body
-		echo '<div style="float:left;width:80%;">';
+		echo '<div id="j-main-container" class="span10">';
 	}
 }
 
