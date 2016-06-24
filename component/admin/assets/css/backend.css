@@ -159,6 +159,11 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
+
+input, button, select, textarea {
+  ont-family: 'Roboto', sans-serif !important;
+}
+
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
@@ -8402,6 +8407,13 @@ a:focus {
   padding: 2px 3px;
   line-height: .9;
 }
+
+.main-header .navbar .nav > li > .dropdown-menu::after
+{
+  right: 10px;
+  left: auto;
+}
+
 .main-header .logo {
   -webkit-transition: width 0.3s ease-in-out;
   -o-transition: width 0.3s ease-in-out;
@@ -13968,7 +13980,7 @@ fieldset[disabled] .btn-yahoo.active {
   position: relative;
   display: block;
   overflow: hidden;
-  padding: 0 0 0 8px;
+  padding: 0 0 0 10px;
   height: 23px;
   border: 1px solid #aaa;
   border-radius: 5px;
@@ -13985,7 +13997,6 @@ fieldset[disabled] .btn-yahoo.active {
   white-space: nowrap;
   line-height: 24px;
   font-size: 14px;
-  font-weight: bold;
 }
 
 .redShopLimitBox .chzn-container-single .chzn-single
@@ -14087,9 +14098,10 @@ fieldset[disabled] .btn-yahoo.active {
 .chzn-container .chzn-results li {
   display: none;
   margin: 0;
-  padding: 5px 6px;
+  padding: 8px 10px;
   list-style: none;
   line-height: 15px;
+  font-size: 14px;
 }
 .chzn-container .chzn-results li.active-result {
   display: list-item;
@@ -14101,12 +14113,7 @@ fieldset[disabled] .btn-yahoo.active {
   cursor: default;
 }
 .chzn-container .chzn-results li.highlighted {
-  background-color: #3875d7;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
-  background-image: -webkit-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: -moz-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: -o-linear-gradient(#3875d7 20%, #2a62bc 90%);
-  background-image: linear-gradient(#3875d7 20%, #2a62bc 90%);
+  background-color: #cccccc;
   color: #fff;
 }
 .chzn-container .chzn-results li.no-results {
@@ -14377,7 +14384,7 @@ fieldset[disabled] .btn-yahoo.active {
 
 }
 .chzn-container-single .chzn-single div b {
-  margin-top: 4px !important;
+  margin-top: 2px !important;
 }
 .chzn-container.active .chzn-single,
 .chzn-container-active .chzn-single,
@@ -14399,25 +14406,26 @@ fieldset[disabled] .btn-yahoo.active {
 }
 .chzn-container-single .chzn-single {
   line-height: 30px;
-  min-height: 34px;
+  min-height: 30px;
   background-image: none;
-  box-shadow: none;
+  /*box-shadow: none;*/
 }
 .chzn-container-single .chzn-drop {
   box-shadow: none;
-  border: 1px solid #d2d2d4;
+  border: 0;
 }
 .chzn-container-single li:hover,
 .chzn-container-single li.active-result:hover,
 .chzn-container-single li.highlighted,
 .chzn-container-single li.result-selected.highlighted {
   background-image: none;
-  background-color: #f2f2f2 !important;
-  color: #333333;
+  background-color: #7f7f7f !important;
+  color: #FFFFFF;
 }
 .chzn-container-single .chzn-results {
   margin: 0;
   padding: 0;
+  background-color: #f7f7f7;
 }
 .company-icon {
   position: relative;
@@ -15739,13 +15747,26 @@ fine-grain .ui-widget {
 .select2-container .select2-choice
 {
   background-image: none !important;
+  background-color: #f7f7f7 !important;
   height: 30px !important;
+  border: 0 !important;
+  box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+  color: #555;
+  padding-left: 10px;
+}
+
+.select2-container .select2-choice span{
+  color: #555;
 }
 
 .select2-container .select2-choice .select2-arrow
 {
   background: transparent !important;
   border: 0px !important;
+}
+
+.select2-container .select2-choice .select2-arrow b {
+    background: transparent url("chosen-sprite.png") no-repeat scroll 0 5px !important;
 }
 
 .sortable-options .sortable-move {
@@ -15906,6 +15927,7 @@ i.configuration_management
 
 .filterTool .chzn-container-single .chzn-single {
   border: 0;
+  box-shadow: none;
 }
 
 #adminForm .filterTool .filterItem .input-append
@@ -15949,6 +15971,20 @@ dl.tabs dt.open {
   border-bottom: 4px solid #d62128;
   z-index: 100;
   color: #000;
+  position: relative;
+}
+
+dl.tabs dt.open::before
+{
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #d62128;
+  bottom: -10px;
+  content: "";
+  display: inline-block;
+  left: 50%;
+  margin-left: -6px;
+  position: absolute;
 }
 
 dl.tabs dt.open h3 a{
@@ -15980,26 +16016,40 @@ dl.tabs h3 a{
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input
 {
   height: auto !important;
+  font-size: 14px;
 }
 
 table.admintable td {
   padding: 5px;
-  vertical-align: middle;
+
 }
 
 table.admintable td label
 {
   display: inline-block;
+  font-size: 14px;
 }
 
 table.admintable td input[type="text"]
 {
   width: 220px;
+  border: 0;
+  background-color: #f7f7f7;
+  box-shadow: none;
+  padding: 8px 10px;
 }
 
 table.admintable td .chzn-container
 {
   width: 220px !important;
+  background-color: #f7f7f7;
+  border: 0;
+}
+
+table.admintable td .chzn-container-single .chzn-single
+{
+  background-color: #f7f7f7;
+  border: 0;
 }
 
 table.admintable td .controls
@@ -16092,38 +16142,38 @@ div.current select, div.current input, div.current textarea, div.current select 
     vertical-align: middle;
     margin: 0 5px 0 0;
     padding: 0;
-    width: 18px;
-    height: 18px;
+    width: 19px;
+    height: 21px;
     background: url(blue.png) no-repeat;
     border: none;
     cursor: pointer;
 }
 
 .icheckbox_minimal-blue {
-    background-position: 0 0;
+    background-position: -48px 0;
 }
     .icheckbox_minimal-blue.hover {
-        background-position: -20px 0;
+        background-position: -68px 0;
     }
     .icheckbox_minimal-blue.checked {
-        background-position: -40px 0;
+        background-position: -68px 0;
     }
     .icheckbox_minimal-blue.disabled {
         background-position: -60px 0;
         cursor: default;
     }
     .icheckbox_minimal-blue.checked.disabled {
-        background-position: -80px 0;
+        background-position: -68px 0;
     }
 
 .iradio_minimal-blue {
-    background-position: -100px 0;
+    background-position: -145px 0;
 }
     .iradio_minimal-blue.hover {
-        background-position: -120px 0;
+        background-position: -165px 0;
     }
     .iradio_minimal-blue.checked {
-        background-position: -140px 0;
+        background-position: -165px 0;
     }
     .iradio_minimal-blue.disabled {
         background-position: -160px 0;
@@ -16160,8 +16210,13 @@ table.admintable td .input-append button.btn .icon-calendar,
 .filterItem.calendar-div .input-append button.btn .icon-calendar
 {
   background: transparent url(../images/calendar.png) center center no-repeat;
-  height: 18px;
+  height: 25px;
   width: 18px;
+}
+
+.filterItem.calendar-div .input-append button.btn .icon-calendar
+{
+  height: 18px;
 }
 
 table.admintable td .input-append button.btn .icon-calendar::before,

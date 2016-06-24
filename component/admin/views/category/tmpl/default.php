@@ -73,7 +73,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 		<div class="filterTool">
 			<div class="filterItem">
 				<div class="btn-wrapper input-append">
-					<input type="text" name="category_main_filter" id="category_main_filter"
+					<input type="text" name="category_main_filter" id="category_main_filter" placeholder="<?php echo JText::_("COM_REDSHOP_CATEGORY_FILTER") ?>"
 						   value="<?php echo $category_main_filter; ?>" onchange="document.adminForm.submit();">
 
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">

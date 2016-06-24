@@ -9923,7 +9923,6 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
       $this.trigger('focus')
 
       $parent
-        .toggleClass('open')
         .trigger('shown.bs.dropdown', relatedTarget)
     }
 
@@ -12068,11 +12067,6 @@ function _init() {
             $('.message-sys').append(messageContainer);
         }
 
-        $('img').each(function(){
-
-        });
-
-        console.log($('img').attr('src'));
         // We cannot access the body tag so add admin-lte styling classes dynamically
         $('body').addClass('skin-black sidebar-mini');
 
