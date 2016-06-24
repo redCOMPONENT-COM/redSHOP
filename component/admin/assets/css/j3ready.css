@@ -37,12 +37,8 @@
 
 #dashboard-item a:before
 {
-    content: "\e250";
-    color: #3071a9;
-    font-family: 'IcoMoon';
-    font-style: normal;
-    speak: none;
-    padding-right: 5px;
+	content: url("../images/companystore16");
+	margin-right: 5px;
 }
 #dashboard-item a:hover:before
 {

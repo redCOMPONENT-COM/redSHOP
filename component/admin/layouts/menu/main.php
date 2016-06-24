@@ -48,7 +48,8 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div class="nav-header"><?php echo JText::_($group); ?></div>
 
 			<?php foreach ($sections as $sectionKey => $section) : ?>
-			<?php echo JHtml::_('bootstrap.addSlide', 'redshop-main-menu', JText::_($section->title), $sectionKey); ?>
+			<?php $title =  '<i class="icon-16-redshop_' . $sectionKey . '"></i>' . JText::_($section->title); ?>
+			<?php echo JHtml::_('bootstrap.addSlide', 'redshop-main-menu', $title, $sectionKey); ?>
 				<ul class="nav nav-list">
 				<?php foreach ($section->items as $items) : ?>
 					<li>
