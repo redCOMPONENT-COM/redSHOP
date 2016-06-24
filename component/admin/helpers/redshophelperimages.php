@@ -389,7 +389,7 @@ class RedShopHelperImages extends JObject
 							"vats" => array('tax_group', 'currency', 'country', 'state'),
 							"importexport" => array('import', 'xmlimport'),
 							"altration" => array('fields', 'template', 'textlibrary'),
-							"customerinput" => array('question', 'rating'),
+							"customerinput" => array('question', 'rating', 'alert'),
 							"accountings" => array('accountgroup'),
 							"popular" => array(),
 							"prodimages" => array('products48.png', 'categories48.png', 'manufact48.png', 'media48.png'),
@@ -401,7 +401,7 @@ class RedShopHelperImages extends JObject
 							"vatimages" => array('vatgroup_48.png', 'currencies_48.png', 'country_48.png', 'region_48.png'),
 							"importimages" => array('importexport48.png', 'importexport48.png'),
 							"altrationimages" => array('fields48.png', 'templates48.png', 'textlibrary48.png'),
-							"customerinputimages" => array('question_48.jpg', 'rating48.png'),
+							"customerinputimages" => array('question_48.jpg', 'rating48.png', 'mailcenter48.png'),
 							"accimages" => array('accounting_group48.png'),
 							"popularimages" => array(),
 							"prodtxt" => array('PRODUCTS', 'CATEGORIES', 'MANUFACTURERS', 'MEDIA'),
@@ -413,7 +413,7 @@ class RedShopHelperImages extends JObject
 							"vattxt" => array('TAX_GROUP', 'CURRENCY', 'COUNTRY', 'STATE'),
 							"importtxt" => array('IMPORT_EXPORT', 'XML_IMPORT_EXPORT'),
 							"altrationtxt" => array('FIELDS', 'TEMPLATES', 'TEXT_LIBRARY'),
-							"customerinputtxt" => array('QUESTION', 'REVIEW'),
+							"customerinputtxt" => array('QUESTION', 'REVIEW', 'ALERT'),
 							"acctxt" => array('ECONOMIC_ACCOUNT_GROUP'),
 							"populartxt" => array());
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.0" type="plugin" group="redshop_alert" method="upgrade">
+	<name>PLG_REDSHOP_ALERT_ALERT</name>
+	<creationDate>June 2016</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<copyright>(C) 2014 redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+	<version>1.0</version>
+  <description>PLG_REDSHOP_ALERT_ALERT_DESC</description>
+  <files>
+    <filename plugin="alert">alert.php</filename>
+    <folder>language</folder>
+  </files>
+</extension>
