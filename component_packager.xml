@@ -131,6 +131,20 @@
                 <exclude name=".*" />
             </fileset>
         </copy>
+        <echo msg="Copying redshop_finder plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/finder/redshop">
+            <fileset dir="${extpath}/plugins/finder/redshop">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+        <echo msg="Copying redshop_alert plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_alert/alert">
+            <fileset dir="${extpath}/plugins/redshop_alert/alert">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
     </target>
 
     <target name="compress">
