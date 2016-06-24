@@ -212,6 +212,7 @@ class leftmenu
 				break;
 
 			case "question":
+			case "alert":
 			case "question_detail":
 			case "answer":
 			case "answer_detail":
@@ -549,7 +550,11 @@ class leftmenu
 			?>
 		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_CUSTOMER_INPUT');
-		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUESTION'), 'COM_REDSHOP_QUESTION'); ?>
+		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ALERT'), 'COM_REDSHOP_ALERT'); ?>
+		<table class="adminlist">
+			<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=alert', 'COM_REDSHOP_ALERT'); ?>
+		</table>
+		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUESTION'), 'COM_REDSHOP_QUESTION'); ?>
 		<table class="adminlist">
 			<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=question', 'COM_REDSHOP_QUESTION_LISTING'); ?>
 		</table>
