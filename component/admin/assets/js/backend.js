@@ -12079,13 +12079,13 @@ function _init() {
         // Tooltips
         $('[data-toggle="tooltip"]').tooltip();
 
-        $('input').iCheck({
+        $('input:not([rel="noicheck"])').iCheck({
 		    checkboxClass: 'icheckbox_minimal-blue',
 		    radioClass: 'iradio_minimal-blue',
 		    increaseArea: '20%' // optional
 		  });
 
-        $("input").on('ifClicked', function (e) {
+        $('input:not([rel="noicheck"])').on('ifClicked', function (e) {
         	console.log(1);
 		    $(this).click();
 		    $('input').iCheck('update');
