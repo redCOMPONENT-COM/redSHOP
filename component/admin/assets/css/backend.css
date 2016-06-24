@@ -13523,7 +13523,9 @@ fieldset[disabled] .btn-yahoo.active {
 
 }
 
-.skin-black .sidebar-menu .treeview-menu li a:hover {
+.skin-black .sidebar-menu .treeview-menu li a:hover,
+.skin-black .sidebar-menu .treeview-menu li a.active
+{
   background: #565656;
 }
 .skin-black .main-footer {

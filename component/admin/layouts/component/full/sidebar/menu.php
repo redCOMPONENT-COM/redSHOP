@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $user = JFactory::getUser();
 
-$option = 'com_redshop';
 $activeView = $app->input->get('view');
+$activeLayout = $app->input->get('layout', '');
 
 $ecoIsenable = JPluginHelper::isEnabled('economic');
 
@@ -302,38 +302,50 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=product'); ?>">
+						<a
+							class="<?php echo $activeView == 'product' && $activeLayout == '' ? 'active' : ''; ?>"
+						 	href="<?php echo JRoute::_('index.php?option=com_redshop&view=product'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_PRODUCT_LISTING'); ?></span>
 						</a>
 					</li>
 
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=listing'); ?>">
+						<a
+							class="<?php echo $activeView == 'product' && $activeLayout == 'listing' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=listing'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_VIEW'); ?></span>
 						</a>
 					</li>
 
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=product_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'product_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=product_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?></span>
 						</a>
 					</li>
 
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=mass_discount_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'mass_discount_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=mass_discount_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_MASS_DISCOUNT'); ?></span>
 						</a>
 					</li>
 
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=mass_discount'); ?>">
+						<a
+							class="<?php echo $activeView == 'mass_discount' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=mass_discount'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_MASS_DISCOUNT'); ?></span>
 						</a>
 					</li>
 
 					<?php if (ECONOMIC_INTEGRATION == 1 && $ecoIsenable) { ?>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=importproduct'); ?>">
+						<a
+							class="<?php echo $activeView == 'product' && $activeLayout == 'importproduct' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=importproduct'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC'); ?></span>
 						</a>
 					</li>
@@ -341,7 +353,9 @@ switch ($activeView)
 
 					<?php if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1) { ?>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=importattribute'); ?>">
+						<a
+							class="<?php echo $activeView == 'product' && $activeLayout == 'importattribute' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=importattribute'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC'); ?></span>
 						</a>
 					</li>
@@ -357,13 +371,17 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=category'); ?>">
+						<a
+							class="<?php echo $activeView == 'category' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=category'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_CATEGORY_LISTING'); ?></span>
 						</a>
 					</li>
 
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=category_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'category_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=category_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_CATEGORY'); ?></span>
 						</a>
 					</li>
@@ -377,13 +395,17 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=manufacturer'); ?>">
+						<a
+							class="<?php echo $activeView == 'manufacturer' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=manufacturer'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_MANUFACTURER_LISTING'); ?></span>
 						</a>
 					</li>
 
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=manufacturer_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'manufacturer_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=manufacturer_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_MANUFACTURER'); ?></span>
 						</a>
 					</li>
@@ -397,20 +419,23 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=media'); ?>">
+						<a
+							class="<?php echo $activeView == 'media' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=media'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_MEDIA_LISTING'); ?></span>
 						</a>
 					</li>
 
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=media_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'media_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=media_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_MEDIA_ITEM'); ?></span>
 						</a>
 					</li>
 				</ul>
 			</li>
 		</ul>
-
 	</li>
 
 	<!-- Order -->
@@ -428,37 +453,51 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>">
+						<a
+							class="<?php echo $activeView == 'order' && $activeLayout == '' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ORDER_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'addorder_detail' ? 'active' : ''; ?>"
+							href="<?php echo RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_ORDER'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order&layout=labellisting'); ?>">
+						<a
+							class="<?php echo $activeView == 'order' && $activeLayout == 'labellisting' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=order&layout=labellisting'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_DOWNLOAD_LABEL'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=orderstatus'); ?>">
+						<a
+							class="<?php echo $activeView == 'orderstatus' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=orderstatus'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ORDERSTATUS_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=opsearch'); ?>">
+						<a
+							class="<?php echo $activeView == 'opsearch' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=opsearch'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_PRODUCT_ORDER_SEARCH'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=barcode'); ?>">
+						<a
+							class="<?php echo $activeView == 'barcode' && $activeLayout == '' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=barcode'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_BARCODE'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=barcode&layout=barcode_order'); ?>">
+						<a
+							class="<?php echo $activeView == 'barcode' && $activeLayout == 'barcode_order' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=barcode&layout=barcode_order'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_BARCODE_ORDER'); ?></span>
 						</a>
 					</li>
@@ -472,12 +511,16 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>">
+						<a
+							class="<?php echo $activeView == 'quotation' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_QUOTATION_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=addquotation_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'addquotation_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=addquotation_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_QUOTATION'); ?></span>
 						</a>
 					</li>
@@ -492,34 +535,46 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockroom'); ?>">
+						<a
+							class="<?php echo $activeView == 'stockroom' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockroom'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_STOCKROOM_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockroom_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'stockroom_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockroom_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_STOCKROOM'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockroom_listing'); ?>">
+						<a
+							class="<?php echo $activeView == 'stockroom_listing' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockroom_listing'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_STOCKROOM_AMOUNT_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockimage'); ?>">
+						<a
+							class="<?php echo $activeView == 'stockimage' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockimage'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_STOCKIMAGE_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockimage_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'stockimage_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=stockimage_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_STOCKIMAGE'); ?></span>
 						</a>
 					</li>
 
 					<?php if (ECONOMIC_INTEGRATION && $ecoIsenable) { ?>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=importstock'); ?>">
+						<a
+							class="<?php echo $activeView == 'importstock' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=importstock'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC'); ?></span>
 						</a>
 					</li>
@@ -536,12 +591,16 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=supplier'); ?>">
+						<a
+							class="<?php echo $activeView == 'supplier' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=supplier'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_SUPPLIER_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=supplier_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'supplier_detail' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=supplier_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_SUPPLIER'); ?></span>
 						</a>
 					</li>
@@ -565,22 +624,30 @@ switch ($activeView)
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=discount'); ?>">
+						<a
+							class="<?php echo $activeView == 'discount' && $activeLayout == '' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=discount'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_DISCOUNT_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=discount_detail'); ?>">
+						<a
+							class="<?php echo $activeView == 'discount_detail' && $activeLayout == '' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=discount_detail'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_DISCOUNT'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=discount&layout=product'); ?>">
+						<a
+							class="<?php echo $activeView == 'discount' && $activeLayout == 'product' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=discount&layout=product'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_LISTING'); ?></span>
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=discount_detail&layout=product'); ?>">
+						<a
+							class="<?php echo $activeView == 'discount_detail' && $activeLayout == 'product' ? 'active' : ''; ?>"
+							href="<?php echo JRoute::_('index.php?option=com_redshop&view=discount_detail&layout=product'); ?>">
 							<span><?php echo JText::_('COM_REDSHOP_ADD_DISCOUNT'); ?></span>
 						</a>
 					</li>
