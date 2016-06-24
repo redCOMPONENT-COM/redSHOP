@@ -512,15 +512,9 @@ table.admintable td {
 	padding: 3px;
 }
 table.admintable td.key, table.admintable td.paramlist_key {
-	background-color: #f6f6f6;
-	/*text-align: right;
-  width: 140px;*/
 	text-align: left;
 	width: 180px;
-	color: #666;
 	font-weight: bold;
-	border-bottom: 1px solid #e9e9e9;
-	border-right: 1px solid #e9e9e9;
 }
 table.paramlist td.paramlist_description {
 	background-color: #f6f6f6;
@@ -577,16 +571,9 @@ table.adminform td.helpMenu {
 	background: #f0f0f0;
 	border: 1px solid #ccc;
 }
-fieldset.adminform {
-	border: 1px solid #ccc;
-	margin: 0 10px 10px 10px;
-}
+
 hr {
 	border: 1px solid #EDEDED;
-}
-fieldset.adminform {
-	border: 1px solid #ccc;
-	margin: 0 10px 10px 10px;
 }
 
 .red_blue_blue {
@@ -696,4 +683,204 @@ span.hasTooltip{
 
 div.controls{
 	display: inline;
+}
+
+#country_list_chzn {
+  height: 220px;
+  overflow: auto;
+}
+
+.redSHOPAdminViewConfiguration .admintable tbody tr:first-child {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#redSHOPAdminContainer .j-sidebar-container {
+  background-color: transparent;
+}
+
+#redshop-main-menu .accordion-toggle {
+  text-decoration: none;
+}
+
+#redshop-main-menu [class^="icon-"] {
+  height: 16px;
+  line-height: 16px;
+  position: relative;
+  top: 2px;
+  width: 16px;
+  margin-right: 5px;
+}
+
+/* menu */
+.icon-16-redshop_import,
+.icon-16-redshop_xmlimport {
+	background-image: url(../images/importexport16.png);
+}
+
+.icon-16-redshop_configuration{
+	background-image: url(../images/configuration_16.png);
+}
+
+.icon-16-redshop_redshopcart {
+	background-image: url(../images/redshopcart16.png);
+}
+
+.icon-16-redshop_statistic {
+	background-image: url(../images/statistic16.png);
+}
+
+.icon-16-redshop_catalog {
+	background-image: url(../images/catalogmanagement16.png);
+}
+
+.icon-16-redshop_category {
+	background-image: url(../images/categories16.png);
+}
+
+.icon-16-redshop_coupon {
+	background-image: url(../images/coupon16.png);
+}
+
+.icon-16-redshop_tax_group {
+	background-image: url(../images/vatgroup_16.png);
+}
+
+.icon-16-redshop_tax_tax{
+	background-image: url(../images/vatrates16.png);
+}
+
+.icon-16-redshop_discount {
+	background-image: url(../images/discountmanagmenet16.png);
+}
+
+.icon-16-redshop_export {
+	background-image: url(../images/export16.png);
+}
+
+.icon-16-redshop_fields {
+	background-image: url(../images/fields16.png);
+}
+
+.icon-16-redshop_mail {
+	background-image: url(../images/mailcenter16.png);
+}
+
+.icon-16-redshop_import_import {
+	background-image: url(../images/import16.png);
+}
+
+.icon-16-redshop_export_export {
+	background-image: url(../images/export16.png);
+}
+
+.icon-16-redshop_mailcenter {
+	background-image: url(../images/mailcenter16.png);
+}
+
+.icon-16-redshop_manufacturer {
+	background-image: url(../images/manufact16.png);
+}
+
+.icon-16-redshop_media {
+	background-image: url(../images/media16.png);
+}
+
+.icon-16-redshop_newsletter {
+	background-image: url(../images/newsletter16.png);
+}
+
+.icon-16-redshop_order {
+	background-image: url(../images/order16.png);
+}
+
+.icon-16-redshop_payment {
+	background-image: url(../images/payment16.png);
+}
+
+.icon-16-redshop_product,
+.icon-16-redshop_attribute_set {
+	background-image: url(../images/products16.png);
+}
+
+.icon-16-redshop_sample {
+	background-image: url(../images/colorsample16.png);
+}
+
+.icon-16-redshop_shipping {
+	background-image: url(../images/shipping16.png);
+}
+
+.icon-16-redshop_stockroom {
+	background-image: url(../images/stockroom16.png);
+}
+
+.icon-16-redshop_vatrates {
+	background-image: url(../images/vatrates16.png);
+}
+
+.icon-16-redshop_template {
+	background-image: url(../images/templates16.png);
+}
+
+.icon-16-redshop_textlibrary {
+	background-image: url(../images/templates16.png);
+}
+
+.icon-16-redshop_user,
+.icon-16-redshop_producttags {
+	background-image: url(../images/user16.png);
+}
+
+.icon-16-redshop_voucher {
+	background-image: url(../images/voucher16.png);
+}
+
+.icon-16-redshop_shipping_rates {
+	background-image: url(../images/shipping_rates_16.png);
+}
+
+.icon-16-redshop_wrapper {
+	background-image: url(../images/wrapper16.png);
+}
+
+.icon-16-redshop_attribute_bank {
+	background-image: url(../images/attribute_bank16.png);
+}
+
+.icon-16-redshop_quotation {
+	background-image: url(../images/quotation_16.jpg);
+}
+
+.icon-16-redshop_supplier {
+	background-image: url(../images/container16.png);
+}
+
+.icon-16-redshop_giftcards {
+	background-image: url(../images/giftcard_16.png);
+}
+
+.icon-16-redshop_shipping_box {
+	background-image: url(../images/shipping_boxes16.png);
+}
+
+.icon-16-redshop_currency {
+	background-image: url(../images/currencies_16.png);
+}
+
+.icon-16-redshop_country {
+	background-image: url(../images/country_16.png);
+}
+
+.icon-16-redshop_state,
+.icon-16-redshop_zipcode {
+	background-image: url(../images/region_16.png);
+}
+
+.icon-16-redshop_question {
+	background-image: url(../images/question_16.jpg);
+}
+
+.icon-16-redshop_rating {
+	background-image: url(../images/rating16.png);
 }

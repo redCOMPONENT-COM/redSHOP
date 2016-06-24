@@ -99,9 +99,9 @@ defined('_JEXEC') or die;
 					);
 
 					JFactory::getDocument()->addScriptDeclaration("
-						window.addEvent('domready', function() {
-							$$('.showOrderTab').addEvent('click', function(){
-							    $$('.tabs .ordertab').fireEvent('click');
+						jQuery(function () {
+							jQuery('.showOrderTab').on('click', function(){
+								jQuery('#configTabs a[href=\"#ordertab\"]').tab('show');
 							});
 						});
 					");
