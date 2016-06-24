@@ -1234,8 +1234,8 @@ class Com_RedshopInstallerScript
 			);
 
 			array_push(
-				$files,				
-				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',				
+				$files,
+				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',
 				JPATH_SITE . '/components/com_redshop/helpers/captcha.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
 				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
@@ -1261,7 +1261,8 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/update.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php'
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php',
+				JPATH_LIBRARIES     . '/redshop/form/fields/stockroom.php'
 			);
 		}
 
