@@ -241,11 +241,11 @@ class leftmenu
 				break;
 		}
 
-		echo $this->generateHeader('COM_REDSHOP_PRODUCT_MANAGEMENT', 'product');
+		echo '<h3 id="dashboard-item">' . $this->generateMenuItem('index.php?option=com_redshop', 'COM_REDSHOP_DASHBOARD') . '</h3>';
 		echo JHtml::_('sliders.start', 'stat-pane', array('startOffset' => $selected));
-
+		echo $this->generateHeader('COM_REDSHOP_PRODUCT_MANAGEMENT');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_PRODUCTS'), 'COM_REDSHOP_NEW PRODUCT'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=product', 'COM_REDSHOP_PRODUCT_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=product&layout=listing', 'COM_REDSHOP_PRODUCT_PRICE_VIEW');
@@ -262,34 +262,32 @@ class leftmenu
 					echo $this->generateMenuItem('index.php?option=com_redshop&view=product&layout=importattribute', 'COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC');
 				}
 			} ?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATEGORY'), 'COM_REDSHOP_CATEGORY'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=category', 'COM_REDSHOP_CATEGORY_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=category_detail', 'COM_REDSHOP_ADD_CATEGORY');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_MANUFACTURER'), 'COM_REDSHOP_MANUFACTURER'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=manufacturer', 'COM_REDSHOP_MANUFACTURER_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=manufacturer_detail', 'COM_REDSHOP_ADD_MANUFACTURER');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_MEDIA'), 'COM_REDSHOP_MEDIA'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=media', 'COM_REDSHOP_MEDIA_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=media_detail', 'COM_REDSHOP_ADD_MEDIA_ITEM', 'COM_REDSHOP_BULK_UPLOAD');
 			?>
-		</ul>
+		</table>
 		<?php
-		echo JHtml::_('sliders.end');
 		echo $this->generateHeader('COM_REDSHOP_ORDER');
-		echo JHtml::_('sliders.start');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER'), 'COM_REDSHOP_ORDER'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=order', 'COM_REDSHOP_ORDER_LISTING');
 			echo $this->generateMenuItem(RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'), 'COM_REDSHOP_ADD_ORDER');
@@ -299,20 +297,20 @@ class leftmenu
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=barcode', 'COM_REDSHOP_BARCODE');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=barcode&layout=barcode_order', 'COM_REDSHOP_BARCODE_ORDER');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUOTATION'), 'COM_REDSHOP_QUOTATION'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=quotation', 'COM_REDSHOP_QUOTATION_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=addquotation_detail', 'COM_REDSHOP_ADD_QUOTATION');
 			?>
-		</ul>
+		</table>
 		<?php
 
 		if (USE_STOCKROOM != 0)
 		{
 			echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_STOCKROOM'), 'COM_REDSHOP_STOCKROOM'); ?>
-			<ul class="adminlist">
+			<table class="adminlist">
 				<?php
 				echo $this->generateMenuItem('index.php?option=com_redshop&view=stockroom', 'COM_REDSHOP_STOCKROOM_LISTING');
 				echo $this->generateMenuItem('index.php?option=com_redshop&view=stockroom_detail', 'COM_REDSHOP_ADD_STOCKROOM');
@@ -325,59 +323,59 @@ class leftmenu
 					echo $this->generateMenuItem('index.php?option=com_redshop&view=stockroom_detail&layout=importstock', 'COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC');
 				}
 			?>
-			</ul>
+			</table>
 			<?php
 		}
 
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_SUPPLIER'), 'COM_REDSHOP_SUPPLIER'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=supplier', 'COM_REDSHOP_SUPPLIER_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=supplier_detail', 'COM_REDSHOP_ADD_SUPPLIER');
 			?>
-		</ul>
+		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_DISCOUNT');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_DISCOUNT'), 'COM_REDSHOP_DISCOUNT');
 		?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=discount', 'COM_REDSHOP_DISCOUNT_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=discount_detail', 'COM_REDSHOP_ADD_DISCOUNT');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=discount&layout=product', 'COM_REDSHOP_DISCOUNT_PRODUCT_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=discount_detail&layout=product', 'COM_REDSHOP_ADD_DISCOUNT', 'COM_REDSHOP_ADD_DISCOUNT_PRODUCT');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_GIFTCARD'), 'COM_REDSHOP_GIFTCARD'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcards', 'COM_REDSHOP_GIFTCARD_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=giftcard&task=giftcard.edit', 'COM_REDSHOP_ADD_GIFTCARD');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_VOUCHER'), 'COM_REDSHOP_VOUCHER'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=voucher', 'COM_REDSHOP_VOUCHER_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=voucher_detail', 'COM_REDSHOP_ADD_VOUCHER');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_COUPON'), 'COM_REDSHOP_COUPON'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=coupon', 'COM_REDSHOP_COUPON_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=coupon_detail', 'COM_REDSHOP_ADD_COUPON');
 			?>
-		</ul>
+		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_COMMUNICATION');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_MAIL_CENTER'), 'COM_REDSHOP_MAIL_CENTER'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=mail', 'COM_REDSHOP_MAIL_CENTER_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=mail_detail', 'COM_REDSHOP_ADD_MAIL_CENTER');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_NEWSLETTER'), 'COM_REDSHOP_NEWSLETTER'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=newsletter', 'COM_REDSHOP_NEWSLETTER_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=newsletter_detail', 'COM_REDSHOP_ADD_NEWSLETTER');
@@ -385,12 +383,12 @@ class leftmenu
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=newslettersubscr_detail', 'COM_REDSHOP_ADD_NEWSLETTER_SUBSCR');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=newsletter_detail&layout=statistics', 'COM_REDSHOP_NEWSLETTER_STATISTICS');
 			?>
-		</ul>
+		</table>
 		<?php
 		echo $this->generateHeader('COM_REDSHOP_SHIPPING');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_SHIPPING_METHOD'), 'COM_REDSHOP_SHIPPING_METHOD');
 		?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=shipping', 'COM_REDSHOP_SHIPPING_METHOD_LISTING');
 
 			if (ECONOMIC_INTEGRATION == 1 && $ecoIsenable)
@@ -398,28 +396,28 @@ class leftmenu
 				echo $this->generateMenuItem('index.php?option=com_redshop&view=shipping&task=importeconomic', 'COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC');
 			}
 		?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_SHIPPING_BOX'), 'COM_REDSHOP_SHIPPING_BOX'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=shipping_box', 'COM_REDSHOP_SHIPPING_BOXES');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=shipping_box_detail', 'COM_REDSHOP_ADD_SHIPPING_BOXES');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_SHIPPING_DETAIL'), 'COM_REDSHOP_SHIPPING_DETAIL'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php echo $this->generateMenuItem('index.php?option=com_installer', 'COM_REDSHOP_ADD_SHIPPING_METHOD'); ?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_WRAPPER'), 'COM_REDSHOP_WRAPPER'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=wrapper', 'COM_REDSHOP_WRAPPER_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=wrapper_detail', 'COM_REDSHOP_ADD_WRAPPER');
 			?>
-		</ul>
+		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_USER');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_USER'), 'COM_REDSHOP_USER'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=user', 'COM_REDSHOP_USER_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=user_detail', 'COM_REDSHOP_ADD_USER');
@@ -427,7 +425,7 @@ class leftmenu
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=shopper_group', 'COM_REDSHOP_SHOPPER_GROUP_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=shopper_group_detail', 'COM_REDSHOP_ADD_SHOPPER_GROUP');
 			?>
-		</ul>
+		</table>
 		<script type="text/javascript">
 			function userSync() {
 				if (confirm("<?php echo JText::_('COM_REDSHOP_DO_YOU_WANT_TO_SYNC');?>") == true)
@@ -439,57 +437,57 @@ class leftmenu
 		if (ENABLE_BACKENDACCESS)
 		{
 			echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ACCESS_MANAGER'), 'COM_REDSHOP_ACCESS_MANAGER'); ?>
-			<ul class="adminlist">
+			<table class="adminlist">
 				<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=accessmanager', 'COM_REDSHOP_ACCESS_MANAGER'); ?>
-			</ul>
+			</table>
 		<?php
 		}
 
 		echo $this->generateHeader('COM_REDSHOP_VAT_AND_CURRENCY');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_TAX_GROUP'), 'COM_REDSHOP_TAX_GROUP'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=tax_group', 'COM_REDSHOP_TAX_GROUP_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=tax_group_detail', 'COM_REDSHOP_TAX_GROUP_DETAIL');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CURRENCY'), 'COM_REDSHOP_CURRENCY'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=currency', 'COM_REDSHOP_CURRENCY_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=currency_detail', 'COM_REDSHOP_ADD_CURRENCY');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_COUNTRY'), 'COM_REDSHOP_COUNTRY'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=country', 'COM_REDSHOP_COUNTRY_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=country_detail', 'COM_REDSHOP_ADD_COUNTRY');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_STATE'), 'COM_REDSHOP_STATE'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=state', 'COM_REDSHOP_STATE_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=state_detail', 'COM_REDSHOP_ADD_STATE');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ZIPCODE'), 'COM_REDSHOP_ZIPCODE'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=zipcode', 'COM_REDSHOP_ZIPCODE_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=zipcode_detail', 'COM_REDSHOP_ADD_ZIPCODE');
 			?>
-		</ul>
+		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_IMPORT_EXPORT');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_IMPORT_EXPORT'), 'COM_REDSHOP_IMPORT_EXPORT'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=import', 'COM_REDSHOP_DATA_IMPORT');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=export', 'COM_REDSHOP_DATA_EXPORT');
 			echo $this->generateMenuItem('javascript:vmImport();', 'COM_REDSHOP_IMPORT_FROM_VM');
 			?>
-		</ul>
+		</table>
 		<script type="text/javascript">
 			function vmImport() {
 				if (confirm("<?php echo JText::_('COM_REDSHOP_DO_YOU_WANT_TO_IMPORT_VM');?>") == true)
@@ -497,85 +495,85 @@ class leftmenu
 			}
 		</script>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_XML_IMPORT_EXPORT'), 'COM_REDSHOP_XML_IMPORT_EXPORT'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=xmlimport', 'COM_REDSHOP_XML_IMPORT');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=xmlexport', 'COM_REDSHOP_XML_EXPORT');
 			?>
-		</ul>
+		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_CUSTOMIZATION');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_FIELDS'), 'COM_REDSHOP_FIELDS'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=fields', 'COM_REDSHOP_FIELDS_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=fields_detail', 'COM_REDSHOP_ADD_FIELD');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_TEMPLATE'), 'COM_REDSHOP_TEMPLATE'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=template', 'COM_REDSHOP_TEMPLATE_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=template_detail', 'COM_REDSHOP_ADD_TEMPLATE');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_TEXT_LIBRARY'), 'COM_REDSHOP_TEXT_LIBRARY'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=textlibrary', 'COM_REDSHOP_TEXT_LIBRARY_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=textlibrary_detail', 'COM_REDSHOP_ADD_TEXT_LIBRARY_TAG');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_MANAGEMENT'), 'COM_REDSHOP_CATALOG_MANAGEMENT'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=catalog', 'COM_REDSHOP_CATALOG');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=catalog_request', 'COM_REDSHOP_CATALOG_REQUEST');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_COLOUR_SAMPLE_MANAGEMENT'), 'COM_REDSHOP_COLOUR_SAMPLE_MANAGEMENT'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=sample', 'COM_REDSHOP_CATALOG_PRODUCT_SAMPLE');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=sample_request', 'COM_REDSHOP_SAMPLE_REQUEST');
 			?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_TAGS'), 'COM_REDSHOP_TAGS'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=producttags', 'COM_REDSHOP_TAGS_LISTING'); ?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ATTRIBUTE_BANK'), 'COM_REDSHOP_ATTRIBUTE_BANK'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=attribute_set', 'COM_REDSHOP_ATTRIBUTE_SET_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=attribute_set_detail', 'COM_REDSHOP_ADD_ATTRIBUTE_SET');
 			?>
-		</ul>
+		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_CUSTOMER_INPUT');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUESTION'), 'COM_REDSHOP_QUESTION'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=question', 'COM_REDSHOP_QUESTION_LISTING'); ?>
-		</ul>
+		</table>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_REVIEW'), 'COM_REDSHOP_REVIEW'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 		<?php echo $this->generateMenuItem('index.php?option=com_redshop&view=rating', 'COM_REDSHOP_RATING_REVIEW'); ?>
-		</ul>
+		</table>
 		<?php
 
 		if (ECONOMIC_INTEGRATION && $ecoIsenable)
 		{
 			echo $this->generateHeader('COM_REDSHOP_ACCOUNTING');
 			echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'), 'COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'); ?>
-			<ul class="adminlist">
+			<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=accountgroup', 'COM_REDSHOP_ACCOUNTGROUP_LISTING');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=accountgroup_detail', 'COM_REDSHOP_ADD_ACCOUNTGROUP');
 			?>
-			</ul><?php
+			</table><?php
 		}
 
 		echo $this->generateHeader('COM_REDSHOP_STATISTIC');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_STATISTIC'), 'COM_REDSHOP_STATISTIC'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=statistic', 'COM_REDSHOP_TOTAL_VISITORS');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=statistic&layout=pageview', 'COM_REDSHOP_TOTAL_PAGEVIEWERS');
@@ -589,17 +587,17 @@ class leftmenu
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=statistic&layout=newprod', 'COM_REDSHOP_NEWEST_PRODUCTS');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=statistic&layout=neworder', 'COM_REDSHOP_NEWEST_ORDERS');
 			?>
-		</ul>
+		</table>
 		<?php echo $this->generateHeader('COM_REDSHOP_CONFIG');
 		echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CONFIG'), 'COM_REDSHOP_CONFIG'); ?>
-		<ul class="adminlist">
+		<table class="adminlist">
 			<?php
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=configuration', 'COM_REDSHOP_RESHOP_CONFIGURATION');
 			echo $this->generateMenuItem('index.php?option=com_redshop&wizard=1', 'COM_REDSHOP_START_CONFIGURATION_WIZARD');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=configuration&layout=resettemplate', 'COM_REDSHOP_RESET_TEMPLATE_LBL');
 			echo $this->generateMenuItem('index.php?option=com_redshop&view=update', 'COM_REDSHOP_UPDATE_TITLE');
 			?>
-		</ul>
+		</table>
 		<?php
 
 		echo JHtml::_('sliders.end');
@@ -621,7 +619,7 @@ class leftmenu
 			$text = $title;
 		}
 
-		return '<li><a href="' . $link . '" title="' . JText::_($title) . '">' . JText::_($text) . '</a></li>';
+		return '<tr><td><a href="' . $link . '" title="' . JText::_($title) . '">' . JText::_($text) . '</a></td></tr>';
 	}
 
 	/**
@@ -631,8 +629,8 @@ class leftmenu
 	 *
 	 * @return string
 	 */
-	private function generateHeader($header, $class = '')
+	private function generateHeader($header)
 	{
-		return '<h3 class="' . $class . '">' . JText::_($header) . '</h3>';
+		return '</div></div><div><div><table><tr><td class="distitle">' . JText::_($header) . '</td></tr></table>';
 	}
 }
