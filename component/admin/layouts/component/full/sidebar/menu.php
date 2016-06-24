@@ -298,7 +298,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'product' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_PRODUCTS'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -353,7 +353,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'category' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_CATEGORY'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -373,7 +373,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'manufacturer' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_MANUFACTURER'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -393,7 +393,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'media' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_MEDIA'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -424,7 +424,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'order' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_ORDER'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -468,7 +468,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'quotation' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_QUOTATION'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -488,7 +488,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'stockroom' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_STOCKROOM'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -532,7 +532,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'supplier' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_SUPPLIER'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -561,7 +561,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'discount' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_DISCOUNT'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -590,7 +590,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'giftcards' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_GIFTCARD'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -609,7 +609,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'voucher' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_VOUCHER'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -628,7 +628,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'coupon' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_COUPON'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -657,7 +657,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'mail' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_MAIL_CENTER'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -676,7 +676,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'newsletter' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_NEWSLETTER'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -720,7 +720,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'shipping_method' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -748,7 +748,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'shipping_box' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_SHIPPING_BOX'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -769,7 +769,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'wrapper' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_WRAPPER'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -798,7 +798,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'user' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_USER'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -850,7 +850,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'tax' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_TAX_GROUP'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -868,7 +868,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'currency' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_CURRENCY'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -886,7 +886,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'country' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -904,7 +904,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'state' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_STATE'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -922,7 +922,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'zipcode' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_ZIPCODE'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -951,7 +951,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'importexport' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_IMPORT_EXPORT'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -975,7 +975,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'xmlimportexport' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_XML_IMPORT_EXPORT'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -1004,7 +1004,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'fields' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -1023,7 +1023,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'template' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_TEMPLATE'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -1042,7 +1042,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'textlibrary' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_TEXT_LIBRARY'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -1061,7 +1061,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'catalog' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_CATALOG_MANAGEMENT'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -1080,7 +1080,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'sample' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_COLOUR_SAMPLE_MANAGEMENT'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
@@ -1105,7 +1105,7 @@ switch ($activeView)
 			<li class="treeview <?php echo $itemSelected == 'attribute_set' ? 'active' : ''; ?>">
 				<a href="#">
 					<span><?php echo JText::_('COM_REDSHOP_ATTRIBUTE_BANK'); ?></span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-caret-down pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
