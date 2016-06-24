@@ -286,17 +286,13 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			<?php $mediadetail = $model->MediaDetail($row->product_id); ?>
 			<a class="modal"
 			   href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
-			   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
-					src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
-					alt="media">(<?php  echo count($mediadetail);?>)</a>
+			   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><?php  echo count($mediadetail);?></a>
 		</td>
 		<td align="center">
 			<?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
 			<a class="modal"
 			   href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&tmpl=component"
-			   rel="{handler: 'iframe', size: {x: 700, y: 450}}">
-				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
-				     alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"><?php echo "(" . count($wrapper) . ")";?></a>
+			   rel="{handler: 'iframe', size: {x: 700, y: 450}}"><?php echo count($wrapper);?></a>
 		</td>
 		<td align="center">
 			<?php echo $row->visited;?>

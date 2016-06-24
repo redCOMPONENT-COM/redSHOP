@@ -8806,7 +8806,7 @@ a:focus {
 
   .sidebar-mini.sidebar-collapse .main-header
   {
-      padding-left: 10px;
+      padding-left: 7px;
   }
 
   .sidebar-mini.sidebar-collapse .sidebar-menu > li > a
@@ -13940,6 +13940,7 @@ fieldset[disabled] .btn-yahoo.active {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  width: auto !important;
 }
 .chzn-container .chzn-drop {
   position: absolute;
@@ -16216,8 +16217,8 @@ iframe, svg {
     height: 16px;
     width: 16px;
     float: left;
-    background-repeat: no-repeat;
-    background-size: 90% auto;
+    /*background-repeat: no-repeat;
+    background-size: 90% auto;*/
 }
 
 .btn-small [class*="icon-"]::before
