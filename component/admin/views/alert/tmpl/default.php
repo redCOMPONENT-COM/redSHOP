@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 ?>
 <script language="javascript" type="text/javascript">
-	
+
 	resetfilter = function()
 	{
 		document.getElementById('read_filter').value = 'select';
@@ -21,17 +21,19 @@ defined('_JEXEC') or die;
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="name_filter" id="name_filter" value="<?php echo $this->state->get('name_filter'); ?>"
-					 onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_NAME'); ?>">
-				<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
-				<button class="btn" onclick="resetfilter();"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="name_filter" id="name_filter" value="<?php echo $this->state->get('name_filter'); ?>"
+						 onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_NAME'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+				</div>
 			</div>
-		</div>
-		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_ALERT_READ_FILTER'); ?>:
-			<?php echo $this->lists['read_filter']; ?>
+			<div class="filterItem">
+				<?php echo JText::_('COM_REDSHOP_ALERT_READ_FILTER'); ?>:
+				<?php echo $this->lists['read_filter']; ?>
+			</div>
 		</div>
 		<table class="adminlist table table-striped">
 			<thead>
