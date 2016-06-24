@@ -125,25 +125,25 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		{
 			$cartItem    = $cart[$i];
 			$product     = RedshopHelperProduct::getProductById($cartItem['product_id']);
+			$tax         = ($cartItem['product_vat'] < 0) ? 0 : $cartItem['product_vat'];
 			$item        = new Item();
 			$cartItems[] =  $item->setName($product->product_name)
 								->setDescription($product->product_s_desc)
 								->setCurrency(CURRENCY_CODE)
 								->setQuantity($cartItem['quantity'])
-								->setTax($cartItem['product_vat'])
+								->setTax($tax)
 								->setPrice($cartItem['product_price']);
 		}
 
 		$itemList = new ItemList();
 		$itemList->setItems($cartItems);
 
+		$cartTax = ($cart['tax'] < 0) ? 0 : $cart['tax'];
+
 		// Additional payment details
-		// Use this optional field to set additional
-		// payment information such as tax, shipping
-		// charges etc.
 		$details = new Details();
 		$details->setShipping($cart['shipping'])
-				->setTax($cart['tax'])
+				->setTax($cartTax)
 				->setSubtotal($cart['subtotal']);
 
 		// Amount
@@ -699,22 +699,28 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		for ($i = 0, $n = count($orderItems); $i < $n; $i++)
 		{
 			$orderItem   = $orderItems[$i];
+
+			$tax = ($orderItem->product_item_price - $orderItem->product_item_price_excl_vat);
+			$tax = ($tax < 0) ? 0 : $tax;
+
 			$item        = new Item;
 			$cartItems[] =  $item->setName($orderItem->order_item_name)
 								->setDescription('')
 								->setCurrency(CURRENCY_CODE)
 								->setQuantity($orderItem->product_quantity)
-								->setTax($orderItem->product_item_price - $orderItem->product_item_price_excl_vat)
+								->setTax()
 								->setPrice($orderItem->product_item_price);
 		}
 
 		$itemList = new ItemList;
 		$itemList->setItems($cartItems);
 
+		$orderTax = ($orderInfo->order_tax < 0) ? 0 : $orderInfo->order_tax;
+
 		// Additional payment details
 		$details = new Details;
 		$details->setShipping($orderInfo->order_shipping)
-				->setTax($orderInfo->order_tax)
+				->setTax($orderTax)
 				->setSubtotal($orderInfo->order_subtotal);
 
 		// Amount
