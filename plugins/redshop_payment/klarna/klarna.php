@@ -100,7 +100,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			'',
 			'Shipping fee',
 			$data['order']->order_shipping,
-			0,  // @todo  need to show vat
+			$data['order']->order_shipping_tax,
 			0,
 			KlarnaFlags::INC_VAT | KlarnaFlags::IS_SHIPMENT
 		);
@@ -112,7 +112,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 				'',
 				'Discount Line',
 				$data['order']->order_discount,
-				0,  // @todo  need to show vat
+				$data['order']->order_discount_vat,
 				0,
 				KlarnaFlags::INC_VAT
 			);
