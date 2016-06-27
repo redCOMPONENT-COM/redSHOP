@@ -1253,7 +1253,6 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/images.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/media.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/menu.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php',
