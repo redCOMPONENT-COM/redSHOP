@@ -52,7 +52,7 @@ $editor        = JFactory::getEditor();
 					<td>
 						<?php
 							$producthelper = producthelper::getInstance();
-							$product       = $producthelper->getProductByID($this->detail->product_id);
+							$product       = Redshop::product((int) $this->detail->product_id);
 
 							$productname   = "";
 
