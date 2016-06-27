@@ -18,7 +18,7 @@ class RedshopViewRedshop extends RedshopViewAdmin
 	{
 		$this->layout = JRequest::getCmd('layout', 'default');
 
-		JToolBarHelper::title('', 'redshop_261-x-88');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_DASHBOARD'));
 
 		if ($this->layout != "noconfig")
 		{

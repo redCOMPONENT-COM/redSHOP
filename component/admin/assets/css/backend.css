@@ -5113,10 +5113,10 @@ button.list-group-item-danger.active:focus {
   padding: 19px;
   margin-bottom: 20px;
   background-color: #f5f5f5;
-  border: 1px solid #e3e3e3;
+  border: 0 !important;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: none !important;
 }
 .well blockquote {
   border-color: #ddd;
@@ -5130,6 +5130,12 @@ button.list-group-item-danger.active:focus {
   padding: 9px;
   border-radius: 3px;
 }
+
+.well .module-title.nav-header
+{
+  padding-left: 0 !important;
+}
+
 .close,
 .mailbox-attachment-close {
   float: right;
@@ -8468,6 +8474,17 @@ a:focus {
   padding-left: 10px;
 }
 
+.module-title.nav-header
+{
+  border-left: 5px solid #337ab7;
+  color: #293235;
+  font-size: 16px;
+  line-height: normal;
+  margin: 20px 0;
+  padding-left: 10px;
+  font-weight: normal;
+}
+
 .content-header h1.page-title span
 {
   display: none;
@@ -8587,6 +8604,17 @@ a:focus {
   .main-sidebar,
   .left-side {
     padding-top: 100px;
+    width: auto;
+  }
+
+  .btn-toolbar .btn-wrapper
+  {
+    margin-left: 5px !important;
+  }
+
+  body
+  {
+    padding: 0 !important;
   }
 }
 @media (max-width: 767px) {
@@ -15805,62 +15833,62 @@ i.product_management
   background: transparent url(../images/product_management.png) center center no-repeat;
 }
 
-i.order_management
+i.order
 {
   background: transparent url(../images/order.png) center center no-repeat;
 }
 
-i.discount_management
+i.discount
 {
   background: transparent url(../images/discount.png) center center no-repeat;
 }
 
-i.communication_management
+i.communication
 {
   background: transparent url(../images/communication.png) center center no-repeat;
 }
 
-i.shipping_management
+i.shipping
 {
   background: transparent url(../images/shipping.png) center center no-repeat;
 }
 
-i.user_management
+i.user
 {
   background: transparent url(../images/user.png) center center no-repeat;
 }
 
-i.importexport_management
+i.import_export
 {
   background: transparent url(../images/importexport_management.png) center center no-repeat;
 }
 
-i.customization_management
+i.customization
 {
   background: transparent url(../images/customization.png) center center no-repeat;
 }
 
-i.tax_management
+i.vat_and_currency
 {
   background: transparent url(../images/tax.png) center center no-repeat;
 }
 
-i.customer_management
+i.customer_input
 {
   background: transparent url(../images/customer.png) center center no-repeat;
 }
 
-i.accountgroup_management
+i.accountgroup
 {
   background: transparent url(../images/tax.png) center center no-repeat;
 }
 
-i.statistic_management
+i.statistic
 {
   background: transparent url(../images/statistic.png) center center no-repeat;
 }
 
-i.configuration_management
+i.config
 {
   background: transparent url(../images/configuration.png) center center no-repeat;
 }
@@ -17077,4 +17105,11 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 {
   box-shadow: 0 0 3px rgba(127, 127, 127, 0.6) !important;
   border-color: #e6e5e5 !important;
+}
+
+#lastmonthsales_statistics_pie
+{
+  width: 100%;
+  overflow: hidden;
+  margin-top: 10px;
 }

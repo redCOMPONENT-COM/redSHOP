@@ -14,15 +14,15 @@ extract($displayData);
 <?php if(isset($items)) { ?>
 <ul class="sidebar-menu">
 	<?php foreach ($items as $group => $sections) : ?>
-		<li class="treeview">
+		<li class="treeview <?php echo ($active[0] == $group ? 'active': '') ?>">
 			<a href="#">
-				<i class="product_management"></i>
-				<span><?php echo JText::_($group); ?></span>
+				<i class="<?php echo strtolower($group)?>"></i>
+				<span><?php echo JText::_('COM_REDSHOP_' . $group); ?></span>
 			</a>
 
 			<ul class="treeview-menu">
 			<?php foreach ($sections as $sectionKey => $section) : ?>
-				<li class="treeview">
+				<li class="treeview <?php echo ($active[1] == $sectionKey ? 'active': '') ?>">
 					<a href="#">
 						<span><?php echo JText::_($section->title); ?></span>
 						<i class="fa fa-caret-down pull-right"></i>
@@ -37,7 +37,7 @@ extract($displayData);
 								array(
 									'link'        => $item->link,
 									'title'       => JText::_($item->title),
-									'description' => JText::_($item->description)
+									'active' => JText::_($item->active)
 								)
 							);
 							?>

@@ -10,7 +10,9 @@ defined('_JEXEC') or die;
 
 extract($displayData);
 
+$view = JFactory::getApplication()->input->getCmd('view');
+
 ?>
-<a href="<?php echo $link; ?>" title="<?php echo $description; ?>">
+<a href="<?php echo $link; ?>" class="<?php echo ($active ? 'active': '') ?>">
 	<?php echo $title; ?>
 </a>
