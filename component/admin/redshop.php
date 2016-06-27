@@ -135,12 +135,12 @@ JText::script('COM_REDSHOP_IS_REQUIRED');
 
 $document = JFactory::getDocument();
 
-$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.js');
+$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.min.js');
 $document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');
 
 JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true));
 
-$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.css');
+$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.min.css');
 
 // Execute the task.
 $controller = JControllerLegacy::getInstance('Redshop');
