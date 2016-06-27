@@ -13,20 +13,8 @@ extract($displayData);
 
 $activeView = $view->getName();
 
-
-//print_r($displayData);
-// Container CSS class definition
-if (version_compare(JVERSION, '3.0', '<'))
-{
-	$redSHOPCSSContainerClass = ' isJ25';
-}
-else
-{
-	$redSHOPCSSContainerClass = ' isJ30';
-}
-
 ?>
-<div id="redSHOPAdminContainer" class="redSHOPAdminView<?php echo ucfirst($activeView) ?> <?php echo $redSHOPCSSContainerClass ?>">
+<div id="redSHOPAdminContainer" class="redSHOPAdminView<?php echo ucfirst($activeView) ?>">
 	<div class="wrapper">
 		<header class="main-header">
 			<?php echo JLayoutHelper::render('component.full.header', array()); ?>
