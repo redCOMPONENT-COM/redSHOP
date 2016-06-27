@@ -35,7 +35,7 @@ class RedshopViewGiftcards extends RedshopView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			throw new Exception(implode('<br />', $errors));
 
 			return false;
 		}

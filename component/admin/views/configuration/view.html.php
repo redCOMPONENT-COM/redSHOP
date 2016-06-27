@@ -37,7 +37,7 @@ class RedshopViewConfiguration extends RedshopView
 		$currency_data = $model->getCurrency();
 
 		$this->config = $model->getData();
-		
+
 		$redhelper   = redhelper::getInstance();
 		$config      = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();
@@ -61,7 +61,7 @@ class RedshopViewConfiguration extends RedshopView
 
 		if (!is_writable($configpath))
 		{
-			JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'), 'error');
 		}
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
