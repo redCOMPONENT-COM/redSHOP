@@ -295,9 +295,13 @@ class RedshopModelStatistic extends RedshopModel
 						. ' OR '
 						. $db->qn('o.order_status') . ' = ' . $db->q('S')
 					)
-					->where($db->qn('cdate') . ' >= ' . $minDate)
 					->order($db->qn('o.cdate') . ' DESC')
 					->group('viewdate');
+
+		if (!empty($mindate))
+		{
+			$query->where($db->qn('cdate') . ' >= ' . $minDate);
+		}
 
 		$query->leftjoin(
 					$db->qn('#__redshop_users_info', 'uf')

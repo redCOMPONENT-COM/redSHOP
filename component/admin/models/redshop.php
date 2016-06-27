@@ -36,7 +36,7 @@ class RedshopModelRedshop extends RedshopModel
 		/* Get the current columns for redshop category_xref */
 		$q = "SHOW INDEX FROM #__redshop_category_xref";
 		$db->setQuery($q);
-		$cols = $db->loadObjectList('Key_name');
+		$cols = $db->loadObjectList('Column_name');
 
 		if (is_array($cols))
 		{
