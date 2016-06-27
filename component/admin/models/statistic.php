@@ -286,6 +286,11 @@ class RedshopModelStatistic extends RedshopModel
 		$db->setQuery($query, 0, 1);
 		$minDate = $db->loadResult();
 
+		if (!$minDate)
+		{
+			return array();
+		}
+
 		$query = $db->getQuery(true)
 					->from($db->qn('#__redshop_orders', 'o'))
 					->where(
