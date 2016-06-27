@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.view');
 
 
-class RedshopViewCategory_detail extends RedshopView
+class RedshopViewCategory_detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.

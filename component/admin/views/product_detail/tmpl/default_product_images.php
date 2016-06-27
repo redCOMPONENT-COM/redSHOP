@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 			</span>
 		</td>
 		<td>
-			/<input type="file" name="product_full_image" id="product_full_image" size="25" />
+			<input type="file" name="product_full_image" id="product_full_image" size="25" />
 			<div class="button2-left">
 				<div class="image">
 					<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>

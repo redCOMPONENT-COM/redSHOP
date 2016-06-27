@@ -66,12 +66,12 @@ class RedshopAdminMenu
 		return $this;
 	}
 
-	public function addItem($link, $title, $description = null)
+	public function addItem($link, $title, $active = null)
 	{
-		$item              = new stdClass;
-		$item->link        = $link;
-		$item->title       = $title;
-		$item->description = $description;
+		$item         = new stdClass;
+		$item->link   = $link;
+		$item->title  = $title;
+		$item->active = $active;
 
 		if ($this->section)
 		{

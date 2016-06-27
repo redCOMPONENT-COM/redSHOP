@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die;
 jimport( 'joomla.application.component.view' );
 
 
-class RedshopViewAnswer_detail extends RedshopView
+class RedshopViewAnswer_detail extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
