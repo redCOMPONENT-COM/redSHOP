@@ -149,16 +149,16 @@ class RedshopControllerConfiguration extends RedshopController
 			if (!is_dir($post['product_download_root']))
 			{
 				$msg = "";
-				JError::raiseWarning(21, JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'), 'error');
 			}
 
 			elseif (!$model->configurationWriteable())
 			{
-				JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'), 'error');
 			}
 			elseif (!$model->configurationReadable())
 			{
-				JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_READABLE'));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_READABLE'), 'error');
 			}
 			else
 			{

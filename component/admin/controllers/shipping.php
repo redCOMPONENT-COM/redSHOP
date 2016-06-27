@@ -78,7 +78,7 @@ class RedshopControllerShipping extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
 		$model = $this->getModel('shipping_detail');
@@ -97,7 +97,7 @@ class RedshopControllerShipping extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
 		$model = $this->getModel('shipping_detail');
