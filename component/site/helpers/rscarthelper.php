@@ -3703,6 +3703,13 @@ class rsCarthelper
 		return $returnarr;
 	}
 
+	/**
+	 * Display credit card form based on payment method
+	 *
+	 * @param   integer  $payment_method_id  Payment Method ID for which form needs to be prepare
+	 *
+	 * @return  string     Credit Card form display data in HTML
+	 */
 	public function replaceCreditCardInformation($payment_method_id = 0)
 	{
 		if (empty($payment_method_id))
