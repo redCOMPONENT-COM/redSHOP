@@ -2161,7 +2161,7 @@ class producthelper
 			$userInformation = $this->getUserInformation($userId);
 		}
 
-		if (empty((array) $userInformation))
+		if (count((array) $userInformation) == 0)
 		{
 			$userInformation = $this->GetdefaultshopperGroupData();
 		}

@@ -3723,9 +3723,10 @@ class rsCarthelper
 		if (file_exists(JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.php'))
 		{
 			$paymentparams = new JRegistry($paymentmethod->params);
+			$acceptedCredictCard = $paymentparams->get("accepted_credict_card", array());
 
 			if ($paymentparams->get('is_creditcard', 0)
-				&& !empty($paymentparams->get("accepted_credict_card", array())))
+				&& !empty($acceptedCredictCard))
 			{
 				$cardinfo = RedshopLayoutHelper::render(
 						'order.payment.creditcard',
