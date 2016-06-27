@@ -76,14 +76,3 @@ $new_arr        = RedShopHelperImages::geticonarray();
 		<?php  echo $this->loadTemplate('quickpanel');  ?>
 	</div>
 </div>
-
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-<td valign="top" width="50%">
-
-</td>
-<td valign="top" width="50%">
-
-</td>
-</tr>
-</table>
