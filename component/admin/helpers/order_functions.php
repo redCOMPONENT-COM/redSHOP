@@ -715,6 +715,11 @@ class order_functions
 		return $mylist['paymentstatuslist'];
 	}
 
+	/**
+	 * Update order status and trigger emails based on status.
+	 *
+	 * @return  void
+	 */
 	public function update_status()
 	{
 		$app             = JFactory::getApplication();
