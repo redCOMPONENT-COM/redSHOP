@@ -13,7 +13,4 @@ extract($displayData);
 ?>
 <a href="<?php echo $link; ?>" title="<?php echo $description; ?>">
 	<?php echo $title; ?>
-	<small class="muted">
-		<?php echo JText::_($description); ?>
-	</small>
 </a>

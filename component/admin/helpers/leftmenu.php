@@ -31,7 +31,7 @@ class leftmenu
 		self::setAccountGroup();
 		self::setStatisticsGroup();
 
-		return JLayoutHelper::render('menu.main', array('items' => $menu->items, 'active' => $active));
+		return JLayoutHelper::render('component.full.sidebar.menu', array('items' => $menu->items, 'active' => $active));
 	}
 
 	protected static function getActive()
