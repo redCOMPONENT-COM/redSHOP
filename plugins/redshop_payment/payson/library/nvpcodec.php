@@ -11,8 +11,6 @@ class NVPCodec {
      */
 
     public static function Encode($input) {
-        $output = "";
-
         $entries = array();
 
         foreach ($input as $key => $value) {

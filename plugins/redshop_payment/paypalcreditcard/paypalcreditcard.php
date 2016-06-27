@@ -607,7 +607,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 *
 	 * @return  object  Success or failed message
 	 */
-	public function onCapture_PaymentPaypalCreditcard($element, $data)
+	public function onCapture_PaymentPaypalCreditcard($data)
 	{
 		if ($element != 'paypalcreditcard')
 		{

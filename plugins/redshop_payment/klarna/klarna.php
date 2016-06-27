@@ -334,7 +334,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 	 *
 	 * @return  object  Status Object
 	 */
-	public function onNotifyPaymentKlarna($element, $request)
+	public function onNotifyPaymentKlarna($element)
 	{
 		if ($element != 'klarna')
 		{
@@ -350,7 +350,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 	 *
 	 * @return  object  Success or failed message
 	 */
-	public function onCapture_PaymentKlarna($element, $data)
+	public function onCapture_PaymentKlarna($data)
 	{
 		$transactionId = $data['order_transactionid'];
 
@@ -447,7 +447,6 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			return;
 		}
 
-		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$k   = new Klarna;
 

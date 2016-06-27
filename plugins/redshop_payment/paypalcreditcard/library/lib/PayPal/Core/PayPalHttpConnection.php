@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 namespace PayPal\Core;
 
@@ -39,7 +39,7 @@ class PayPalHttpConnection
      * @param array            $config
      * @throws PayPalConfigurationException
      */
-    public function __construct(PayPalHttpConfig $httpConfig, array $config)
+    public function __construct(PayPalHttpConfig $httpConfig)
     {
         if (!function_exists("curl_init")) {
             throw new PayPalConfigurationException("Curl module is not available on this system");

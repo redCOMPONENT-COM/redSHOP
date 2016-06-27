@@ -243,7 +243,7 @@ class KlarnaEncoding
      *
      * @return bool   True if correct.
      */
-    public static function checkPNO($pno, $enc = null)
+    public static function checkPNO($pno)
     {
         return strlen($pno) > 0;
     }

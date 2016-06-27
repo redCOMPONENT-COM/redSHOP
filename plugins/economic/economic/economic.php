@@ -866,7 +866,7 @@ class plgEconomicEconomic extends JPlugin
 	 * @access public
 	 * @return array
 	 */
-	public function getProductGroup($d)
+	public function getProductGroup()
 	{
 		if ($this->error)
 		{
@@ -1357,7 +1357,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			$entityHandle = new stdclass;
 			$entityHandle->Id = $d ['updateDebtorContact'];
-			$contacts = $this->client->DebtorContact_GetData(array('entityHandle' => $entityHandle))->DebtorContact_GetDataResult;
+			$this->client->DebtorContact_GetData(array('entityHandle' => $entityHandle))->DebtorContact_GetDataResult;
 		}
 		catch (Exception $exception)
 		{
@@ -1391,7 +1391,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			$debtorContactHandle = new stdclass;
 			$debtorContactHandle->Id = $d ['user_info_id'];
-			$contacts = $this->client->DebtorContact_Delete(array('debtorContactHandle' => $debtorContactHandle));
+			$this->client->DebtorContact_Delete(array('debtorContactHandle' => $debtorContactHandle));
 		}
 		catch (Exception $exception)
 		{
@@ -2167,7 +2167,7 @@ class plgEconomicEconomic extends JPlugin
 	 *
 	 * @return  void
 	 */
-	public function createCashbookEntryCreditorPayment($d, $bookHandle)
+	public function createCashbookEntryCreditorPayment($d)
 	{
 		if ($this->error)
 		{
