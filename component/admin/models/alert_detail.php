@@ -18,13 +18,9 @@ class RedshopModelAlert_detail extends RedshopModel
 
 	public $_shoppers = null;
 
-	public $_table_prefix = null;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
