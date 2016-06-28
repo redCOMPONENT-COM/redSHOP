@@ -30,8 +30,6 @@ class JFormFieldextrainfo extends JFormField
 
 	protected function getInput()
 	{
-		$db = JFactory::getDbo();
-
 		$html = '';
 		$html .= "<textarea  name='" . $this->name . "'[]'  id='" . $this->name . "'[]' rows='8' cols='20'>" . $this->value . "</textarea>";
 
