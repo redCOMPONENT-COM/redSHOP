@@ -65,7 +65,7 @@ class RedshopModelForm extends JModelForm
 	 *
 	 * @since   1.5
 	 */
-	public function getForm($loadData = true)
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm(
