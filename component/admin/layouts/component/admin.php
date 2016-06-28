@@ -83,7 +83,7 @@ if ($content instanceof Exception)
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function () {
-		<?php if (!$displaySidebar) : ?>
+		<?php if (!$displaySidebar || !EXPAND_ALL) : ?>
 		jQuery('body').addClass('sidebar-collapse');
 		<?php endif; ?>
 	});
@@ -92,7 +92,7 @@ if ($content instanceof Exception)
 <?php if ($view->getLayout() === 'modal' || $view->getName() == 'wizard') : ?>
 	<div class="row-fluid RedSHOP">
 		<section id="component">
-			<div class="row-fluid message-sys"  id="message-sys"></div>
+			<div class="row-fluid message-sys" id="message-sys"></div>
 			<div class="row-fluid">
 				<?php echo $content ?>
 			</div>
