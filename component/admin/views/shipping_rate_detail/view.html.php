@@ -12,6 +12,13 @@ defined('_JEXEC') or die;
 
 class RedshopViewShipping_rate_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();

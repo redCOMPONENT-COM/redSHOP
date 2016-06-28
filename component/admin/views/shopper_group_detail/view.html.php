@@ -13,6 +13,13 @@ defined('_JEXEC') or die;
 class RedshopViewShopper_group_detail extends RedshopViewAdmin
 {
 	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
+	/**
 	 * The request url.
 	 *
 	 * @var  string

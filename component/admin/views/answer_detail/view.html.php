@@ -14,6 +14,13 @@ jimport( 'joomla.application.component.view' );
 
 class RedshopViewAnswer_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$producthelper = producthelper::getInstance();

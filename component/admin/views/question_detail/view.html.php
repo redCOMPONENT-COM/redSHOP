@@ -12,6 +12,13 @@ defined('_JEXEC') or die;
 
 class RedshopViewQuestion_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();

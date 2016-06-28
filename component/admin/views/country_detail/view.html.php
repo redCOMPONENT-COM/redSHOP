@@ -19,6 +19,13 @@ class RedshopViewCountry_detail extends RedshopViewAdmin
 	 */
 	public $request_url;
 
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
