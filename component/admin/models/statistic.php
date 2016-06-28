@@ -45,13 +45,15 @@ class RedshopModelStatistic extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
+		
+		$jinput = JFactory::getApplication()->input;
+		
+		$this->_startdate = strtotime($jinput->getInt('startdate', 0));
+		$this->_enddate = strtotime($jinput->getInt('enddate', 0));
+		$this->_filteroption = $jinput->getInt('filteroption', 0);
+		$this->_typeoption = $jinput->getInt('typeoption', 0);
 
-		$this->_startdate = strtotime(JRequest::getVar('startdate'));
-		$this->_enddate = strtotime(JRequest::getVar('enddate'));
-		$this->_filteroption = JRequest::getVar('filteroption');
-		$this->_typeoption = JRequest::getVar('typeoption');
-
-		if ($this->_filteroption == "" && JRequest::getVar('view') == "")
+		if ($this->_filteroption == "" && $jinput->getString('view', '') == "")
 		{
 			$this->_filteroption = 3;
 		}
