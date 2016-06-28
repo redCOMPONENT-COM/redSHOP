@@ -11929,9 +11929,14 @@ function _init() {
 		  });
 
         $('input:not([rel="noicheck"])').on('ifClicked', function (e) {
-        	console.log(1);
 		    $(this).click();
 		    $('input').iCheck('update');
+		});
+
+		$('img[src*="system/images/tooltip.png"]').each(function(){
+			var s = $(this).attr('src');
+			s = s.replace('system', 'com_redshop');
+			$(this).attr('src', s);
 		});
     });
 })(jQuery);
