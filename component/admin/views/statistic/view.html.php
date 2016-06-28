@@ -18,16 +18,16 @@ class RedshopViewStatistic extends RedshopView
 		global $context;
 
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
+		$app      = JFactory::getApplication();   
 		$document = JFactory::getDocument();
 
-		$layout = JRequest::getVar('layout');
+		$layout = $app->input->getString('layout', '');
 
-		$startdate = JRequest::getVar('startdate');
-		$enddate = JRequest::getVar('enddate');
+		$startdate = $app->input->getInt('startdate', 0);
+		$enddate = $app->input->getInt('enddate', 0);
 
-		$filteroption = JRequest::getVar('filteroption');
-		$typeoption = JRequest::getVar('typeoption');
+		$filteroption = $app->input->getInt('filteroption', 0);
+		$typeoption = $app->input->getInt('typeoption', 1);
 		$lists = array();
 		$option = array();
 
