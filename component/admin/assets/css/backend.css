@@ -1835,8 +1835,14 @@ input[type="search"] {
   }
 }
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
+
+.form-group span.hasTooltip
+{
+  margin-left: 10px;
+}
+
 .radio,
 .checkbox {
   position: relative;
@@ -3326,15 +3332,15 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-radius: 4px 4px 0 0;
 }
 .nav-tabs > li > a:hover {
-  border-color: #eeeeee #eeeeee #ddd;
+  /*border-color: #eeeeee #eeeeee #ddd;*/
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-bottom-color: transparent;
+  border: 1px solid transparent;
+  border-top-color: transparent;
   cursor: default;
 }
 .nav-tabs.nav-justified {
@@ -10415,7 +10421,7 @@ a:focus {
   border-top-left-radius: 3px;
 }
 .nav-tabs-custom > .nav-tabs > li {
-  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
   margin-bottom: -2px;
   margin-right: 5px;
 }
@@ -15477,8 +15483,8 @@ fine-grain .ui-widget {
   border-top-left-radius: 3px;
 }
 .nav-tabs > li {
-  border-top: 3px solid transparent;
-  margin-bottom: -2px;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px !important;
   margin-right: 5px;
 }
 .nav-tabs > li > a {
@@ -15490,11 +15496,11 @@ fine-grain .ui-widget {
 }
 .nav-tabs > li > a,
 .nav-tabs > li > a:hover {
-  background: transparent;
-  margin: 0;
+  background: transparent !important;
+
 }
 .nav-tabs > li > a:hover {
-  color: #999;
+  /*color: #999;*/
 }
 .nav-tabs > li:not(.active) > a:hover,
 .nav-tabs > li:not(.active) > a:focus,
@@ -15502,7 +15508,7 @@ fine-grain .ui-widget {
   border-color: transparent;
 }
 .nav-tabs > li.active {
-  border-top-color: #337ab7;
+  border-bottom-color: #d62128;
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active:hover > a {
@@ -15511,14 +15517,28 @@ fine-grain .ui-widget {
 }
 .nav-tabs > li.active > a {
   border-top-color: transparent;
-  border-left-color: #f4f4f4;
-  border-right-color: #f4f4f4;
+  border-left-color: transparent;
+  border-right-color: transparent;
 }
+
+.nav-tabs > li.active > a::before {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #d62128;
+    bottom: -10px;
+    content: "";
+    display: inline-block;
+    left: 50%;
+    margin-left: -6px;
+    position: absolute;
+}
+
 .nav-tabs > li:first-of-type {
   margin-left: 0;
 }
 .nav-tabs > li:first-of-type.active > a {
   border-left-color: transparent;
+  border-right-color: transparent;
 }
 .nav-tabs.pull-right {
   float: none !important;
@@ -16087,13 +16107,16 @@ table.admintable td {
 
 }
 
-table.admintable td label
+table.admintable td label,
+.adminform .form-group label
 {
-  display: inline-block;
+  display: block;
   font-size: 14px;
+  float: none;
 }
 
-table.admintable td input[type="text"]
+table.admintable td input[type="text"],
+.adminform .form-group input[type="text"]
 {
   width: 220px;
   border: 0;
@@ -16102,23 +16125,36 @@ table.admintable td input[type="text"]
   padding: 8px 10px;
 }
 
-table.admintable td .chzn-container
+table.admintable td .chzn-container,
+.adminform .form-group .chzn-container
 {
   width: 220px !important;
   background-color: #f7f7f7;
   border: 0;
 }
 
-table.admintable td .chzn-container-single .chzn-single
+.adminform .form-group .chzn-container.chzn-container-multi
+{
+  width: auto !important;
+}
+
+table.admintable td .chzn-container-single .chzn-single,
+.adminform .form-group .chzn-container-single .chzn-single
 {
   background-color: #f7f7f7;
   border: 0;
 }
 
-table.admintable td .controls
+table.admintable td .controls,
+.adminform .form-group .controls
 {
   float: none;
   display: inline-block;
+}
+
+.adminform .form-group .controls .radio
+{
+  display: inline;
 }
 
 td .controls .radio,
@@ -16257,6 +16293,7 @@ div.current select, div.current input, div.current textarea, div.current select 
 }
 
 table.admintable td .input-append button.btn,
+.form-group .input-append button.btn,
 .filterItem.calendar-div .input-append button.btn
 {
   position: absolute;
@@ -16270,6 +16307,7 @@ table.admintable td .input-append button.btn,
 
 
 table.admintable td .input-append button.btn .icon-calendar,
+.form-group .input-append button.btn .icon-calendar,
 .filterItem.calendar-div .input-append button.btn .icon-calendar
 {
   background: transparent url(../images/calendar.png) center center no-repeat;
@@ -16283,6 +16321,7 @@ table.admintable td .input-append button.btn .icon-calendar,
 }
 
 table.admintable td .input-append button.btn .icon-calendar::before,
+.form-group .input-append button.btn .icon-calendar::before,
 .filterItem.calendar-div .input-append button.btn .icon-calendar::before
 {
   content: "";
@@ -17011,7 +17050,6 @@ div.current fieldset {
 }
 
 div.current fieldset.adminform {
-  border: 1px #ccc solid;
   padding: 5px;
 }
 
