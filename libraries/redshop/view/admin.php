@@ -28,6 +28,13 @@ class RedshopViewAdmin extends JViewLegacy
 	protected $componentLayout = 'component.admin';
 
 	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = true;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -40,7 +47,8 @@ class RedshopViewAdmin extends JViewLegacy
 			$this->componentLayout,
 			array(
 				'view' => $this,
-				'tpl' => $tpl
+				'tpl' => $tpl,
+				'sidebar_display' => $this->displaySidebar
 			)
 		);
 

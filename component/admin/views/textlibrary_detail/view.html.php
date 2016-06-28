@@ -19,6 +19,13 @@ class RedshopViewTextlibrary_detail extends RedshopViewAdmin
 	 */
 	public $request_url;
 
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();

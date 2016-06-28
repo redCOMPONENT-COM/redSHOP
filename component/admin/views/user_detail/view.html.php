@@ -13,6 +13,13 @@ defined('_JEXEC') or die;
 
 class RedshopViewUser_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$Redconfiguration = Redconfiguration::getInstance();

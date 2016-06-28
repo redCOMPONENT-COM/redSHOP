@@ -49,6 +49,14 @@ if ('raw' === $format)
 $templateComponent = 'component' === $input->get('tmpl');
 $input->set('tmpl', 'component');
 
+// Do we have to display the sidebar ?
+$displaySidebar = false;
+
+if (isset($data['sidebar_display']))
+{
+	$displaySidebar = (bool) $data['sidebar_display'];
+}
+
 // The view to render.
 if (!isset($data['view']))
 {
@@ -75,10 +83,8 @@ if ($content instanceof Exception)
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function () {
-		<?php if ($input->getBool('disable_sidebar') || $input->getBool('hidemainmenu')) : ?>
-		jQuery('.sidebar').addClass('opacity-70');
-		jQuery('.sidebar button').prop('disabled', true);
-		jQuery('.sidebar a').attr('disabled', true).attr('href', '#').addClass('disabled');
+		<?php if (!$displaySidebar) : ?>
+		jQuery('body').addClass('sidebar-collapse');
 		<?php endif; ?>
 	});
 </script>
