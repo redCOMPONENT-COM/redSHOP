@@ -19,7 +19,7 @@ class RedshopControllerBarcode extends RedshopController
 		if (strlen($post['barcode']) != 13)
 		{
 			$msg = 'Invalid Barcode';
-			JError::raiseWarning(0, $msg);
+			JFactory::getApplication()->enqueueMessage($msg, 'error');
 			parent::display();
 		}
 		else
@@ -52,7 +52,7 @@ class RedshopControllerBarcode extends RedshopController
 			else
 			{
 				$msg = 'Invalid Barcode';
-				JError::raiseWarning(0, $msg);
+				JFactory::getApplication()->enqueueMessage($msg, 'error');
 				parent::display();
 			}
 		}
@@ -65,7 +65,7 @@ class RedshopControllerBarcode extends RedshopController
 		if (strlen($post['barcode']) != 13)
 		{
 			$msg = 'Invalid Barcode';
-			JError::raiseWarning(0, $msg);
+			JFactory::getApplication()->enqueueMessage($msg, 'error');
 			$this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order');
 		}
 
@@ -85,7 +85,7 @@ class RedshopControllerBarcode extends RedshopController
 			else
 			{
 				$msg = 'Invalid Barcode';
-				JError::raiseWarning(0, $msg);
+				JFactory::getApplication()->enqueueMessage($msg, 'error');
 				$this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order');
 			}
 		}

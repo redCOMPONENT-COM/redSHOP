@@ -390,7 +390,7 @@ class order_functions
 		}
 		catch (Exception $e)
 		{
-			JError::raiseWarning(21, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 	}
 
@@ -715,6 +715,11 @@ class order_functions
 		return $mylist['paymentstatuslist'];
 	}
 
+	/**
+	 * Update order status and trigger emails based on status.
+	 *
+	 * @return  void
+	 */
 	public function update_status()
 	{
 		$app             = JFactory::getApplication();
@@ -811,12 +816,12 @@ class order_functions
 
 			if (!$order_log->bind($data))
 			{
-				return JError::raiseWarning(500, $order_log->getError());
+				return JFactory::getApplication()->enqueueMessage($order_log->getError(), 'error');
 			}
 
 			if (!$order_log->store())
 			{
-				JError::raiseError(500, $order_log->getError());
+				throw new Exception($order_log->getError());
 			}
 
 			$this->updateOrderComment($orderId, $customerNote);
@@ -2108,7 +2113,7 @@ class order_functions
 
 				if ($generate_label != "success")
 				{
-					JError::raiseWarning(21, $generate_label);
+					JFactory::getApplication()->enqueueMessage($generate_label, 'error');
 				}
 			}
 		}

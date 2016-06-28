@@ -73,7 +73,7 @@ class RedshopControllerMedia extends RedshopController
 					if ($file_upload != 1)
 					{
 						$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
-						JError::raiseWarning(403, $msg);
+						JFactory::getApplication()->enqueueMessage($msg, 'error');
 					}
 					else
 					{
@@ -131,7 +131,7 @@ class RedshopControllerMedia extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
 
 		$model = $this->getModel('media');
@@ -180,7 +180,7 @@ class RedshopControllerMedia extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
 		}
 
 		$model = $this->getModel('media_detail');

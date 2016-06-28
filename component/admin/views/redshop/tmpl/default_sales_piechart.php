@@ -29,7 +29,7 @@ $title = addslashes(JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'));
 	function drawChart() {
 		//Create our data table.
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', '<?php echo JText::_('COM_REDSHOP_LASTMONTHSALES');?>');
+		data.addColumn('string', '<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>');
 		data.addColumn('number', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>');
 		data.addRows(<?php echo $data;?>);
 
