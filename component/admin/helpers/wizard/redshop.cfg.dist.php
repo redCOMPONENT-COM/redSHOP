@@ -335,7 +335,7 @@ define('QUICKLINK_ICON', '');
 define('DISPLAY_NEW_ORDERS', '1');
 define('DISPLAY_NEW_CUSTOMERS', '1');
 define('DISPLAY_STATISTIC', '1');
-define('EXPAND_ALL', '0');
+define('EXPAND_ALL', '1');
 define('AJAX_CART_DISPLAY_TIME', '3000');
 define('IMAGE_QUALITY_OUTPUT', '100');
 define('SEND_CATALOG_REMINDER_MAIL', '0');
