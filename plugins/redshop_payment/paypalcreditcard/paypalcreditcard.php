@@ -125,25 +125,25 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		{
 			$cartItem    = $cart[$i];
 			$product     = RedshopHelperProduct::getProductById($cartItem['product_id']);
+			$tax         = ($cartItem['product_vat'] < 0) ? 0 : $cartItem['product_vat'];
 			$item        = new Item();
 			$cartItems[] =  $item->setName($product->product_name)
 								->setDescription($product->product_s_desc)
 								->setCurrency(CURRENCY_CODE)
 								->setQuantity($cartItem['quantity'])
-								->setTax($cartItem['product_vat'])
+								->setTax($tax)
 								->setPrice($cartItem['product_price']);
 		}
 
 		$itemList = new ItemList();
 		$itemList->setItems($cartItems);
 
+		$cartTax = ($cart['tax'] < 0) ? 0 : $cart['tax'];
+
 		// Additional payment details
-		// Use this optional field to set additional
-		// payment information such as tax, shipping
-		// charges etc.
 		$details = new Details();
 		$details->setShipping($cart['shipping'])
-				->setTax($cart['tax'])
+				->setTax($cartTax)
 				->setSubtotal($cart['subtotal']);
 
 		// Amount
@@ -215,6 +215,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $return;
 	}
 
+	/**
+	 * Prepare credit card object to use during payment or storing credit card.
+	 *
+	 * @param   array  $data  Cart information
+	 *
+	 * @return  object        Paypal Credit Card object
+	 */
 	protected function creditCard($data)
 	{
 		$billingInfo = $data['billinginfo'];
@@ -245,6 +252,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $card;
 	}
 
+	/**
+	 * List all the credit cards stored in paypal vault
+	 *
+	 * @param   boolean  $selectable  Allow list to be selectable or not.
+	 *
+	 * @return  string                HTML Output for listing
+	 */
 	public function onListCreditCards($selectable = false)
 	{
 		$app = JFactory::getApplication();
@@ -288,6 +302,11 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $html;
 	}
 
+	/**
+	 * Handle AJAX request to create/update/delete cards in paypal vault.
+	 *
+	 * @return  JSON  Outputs the json string.
+	 */
 	protected function handleAjaxRequest()
 	{
 		$app = JFactory::getApplication();
@@ -310,6 +329,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$this->$ajaxMethod($data);
 	}
 
+	/**
+	 * Prepare credit card object from the basic credit card information.
+	 *
+	 * @param   array  $data  Credit Card information
+	 *
+	 * @return  object        Paypal credit card object
+	 */
 	protected function prepareCreditCard($data)
 	{
 		list($firstName, $lastName) = explode(" ", $data['cardName']);
@@ -338,6 +364,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $card;
 	}
 
+	/**
+	 * Method to create new credit card in paypal vault
+	 *
+	 * @param   array  $data  Credit Card information
+	 *
+	 * @return  JSON  Outputs the json string.
+	 */
 	public function onCreditCardNew($data)
 	{
 		$app        = JFactory::getApplication();
@@ -377,6 +410,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		echo json_encode($return);
 	}
 
+	/**
+	 * Method to create update credit card in paypal vault
+	 *
+	 * @param   array  $data  Credit Card information
+	 *
+	 * @return  JSON  Outputs the json string.
+	 */
 	public function onCreditCardUpdate($data)
 	{
 		$apiContext  = $this->loadFramework();
@@ -436,6 +476,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		echo json_encode($return);
 	}
 
+	/**
+	 * Method to create delete credit card from paypal vault
+	 *
+	 * @param   array  $data  Credit Card information
+	 *
+	 * @return  JSON  Outputs the json string.
+	 */
 	public function onCreditCardDelete($data)
 	{
 		$app        = JFactory::getApplication();
@@ -461,6 +508,11 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		echo json_encode($return);
 	}
 
+	/**
+	 * Get common system message to display native error or message.
+	 *
+	 * @return  array  Messages or Errors
+	 */
 	protected function getSystemMessages()
 	{
 		$messages = JFactory::getApplication()->getMessageQueue();
@@ -502,12 +554,25 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $return;
 	}
 
+	/**
+	 * Validate request is an AJAX request or not.
+	 *
+	 * @return  boolean  True if request is an AJAX request.
+	 */
 	protected function isAjaxRequest()
 	{
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 	}
 
+	/**
+	 * Authorize paypal credit card payments
+	 *
+	 * @param   string   $element  Unique name of the payment method.
+	 * @param   integer  $orderId  Order id which payment needs to be authorized.
+	 *
+	 * @return  void
+	 */
 	public function onAuthorizeStatus_PaypalCreditcard($element, $orderId)
 	{
 		if ($element != 'paypalcreditcard')
@@ -544,6 +609,11 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 */
 	public function onCapture_PaymentPaypalCreditcard($element, $data)
 	{
+		if ($element != 'paypalcreditcard')
+		{
+			return;
+		}
+
 		$transactionId = $data['order_transactionid'];
 
 		if ('' == $transactionId)
@@ -617,6 +687,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $return;
 	}
 
+	/**
+	 * Parse the paypal exception object to return informative error message.
+	 *
+	 * @param   object  $ex  PayPal exception object
+	 *
+	 * @return  array       Error messages.
+	 */
 	protected function parsePaypalException($ex)
 	{
 		$data = json_decode($ex->getData());
@@ -637,6 +714,11 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $errorMessage;
 	}
 
+	/**
+	 * Supported credit card types by this payment method.
+	 *
+	 * @return  array  Credit card types
+	 */
 	protected function creditCardTypes()
 	{
 		$creditCardTypes = array(
@@ -652,6 +734,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		return $creditCardTypes;
 	}
 
+	/**
+	 * This method will be triggered from Backend order detail page to pay payment from backend.
+	 *
+	 * @param   integer  $orderId  Order Id which needs to be paid.
+	 *
+	 * @return  boolean            True on successfully processing payment.
+	 */
 	public function onBackendPayment($orderId)
 	{
 		$app = JFactory::getApplication();
@@ -699,22 +788,28 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		for ($i = 0, $n = count($orderItems); $i < $n; $i++)
 		{
 			$orderItem   = $orderItems[$i];
+
+			$tax = ($orderItem->product_item_price - $orderItem->product_item_price_excl_vat);
+			$tax = ($tax < 0) ? 0 : $tax;
+
 			$item        = new Item;
 			$cartItems[] =  $item->setName($orderItem->order_item_name)
 								->setDescription('')
 								->setCurrency(CURRENCY_CODE)
 								->setQuantity($orderItem->product_quantity)
-								->setTax($orderItem->product_item_price - $orderItem->product_item_price_excl_vat)
+								->setTax()
 								->setPrice($orderItem->product_item_price);
 		}
 
 		$itemList = new ItemList;
 		$itemList->setItems($cartItems);
 
+		$orderTax = ($orderInfo->order_tax < 0) ? 0 : $orderInfo->order_tax;
+
 		// Additional payment details
 		$details = new Details;
 		$details->setShipping($orderInfo->order_shipping)
-				->setTax($orderInfo->order_tax)
+				->setTax($orderTax)
 				->setSubtotal($orderInfo->order_subtotal);
 
 		// Amount

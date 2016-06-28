@@ -39,7 +39,7 @@ class RedshopControllerWizard extends RedshopController
 		}
 		else
 		{
-			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'), 'error');
 		}
 
 		return false;
@@ -49,7 +49,7 @@ class RedshopControllerWizard extends RedshopController
 	{
 		if (!is_writable($this->_temp_file))
 		{
-			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'), 'error');
 			return false;
 		}
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Backend
- * @subpackage  Controller
+ * @subpackage  Controller.OrderDetail
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,8 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
-
+/**
+ * Redshop Order Detail Controller
+ *
+ * @package     Redshop.Backend
+ * @subpackage  Controller.OrderDetail
+ * @since       1.0
+ */
 class RedshopControllerOrder_detail extends RedshopController
 {
 	public function __construct($default = array())
@@ -63,7 +68,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
 		$model = $this->getModel('order_detail');
@@ -557,6 +562,13 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 	}
 
+	/**
+	 * Pay order from backend. Responsibility of Changing Order Status will be on payment method it self.
+	 * Using order_functions::getInstance()->changeorderstatus($return);
+	 * To give more flexibility to payment method.
+	 *
+	 * @return  void
+	 */
 	public function pay()
 	{
 		$app = JFactory::getApplication();

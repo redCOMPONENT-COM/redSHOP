@@ -286,6 +286,11 @@ class RedshopModelStatistic extends RedshopModel
 		$db->setQuery($query, 0, 1);
 		$minDate = $db->loadResult();
 
+		if (!$minDate)
+		{
+			return array();
+		}
+
 		$query = $db->getQuery(true)
 					->from($db->qn('#__redshop_orders', 'o'))
 					->where(
@@ -303,8 +308,8 @@ class RedshopModelStatistic extends RedshopModel
 					$db->qn('#__redshop_users_info', 'uf')
 					. ' ON '
 					. $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id')
-				)
-				->where($db->qn('uf.address_type') . ' = ' . $db->q('BT'));
+					. ' AND ' . $db->qn('uf.address_type') . ' = ' . $db->q('BT')
+				);
 
 		if ($this->_filteroption == 2)
 		{

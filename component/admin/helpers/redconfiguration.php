@@ -375,7 +375,7 @@ class Redconfiguration
 		}
 		else
 		{
-			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'), 'error');
 		}
 
 		return false;
@@ -390,7 +390,7 @@ class Redconfiguration
 	{
 		if (!is_writable($this->configTmpPath))
 		{
-			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'), 'error');
 
 			return false;
 		}
@@ -416,7 +416,7 @@ class Redconfiguration
 		}
 		else
 		{
-			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_FOUND'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_FOUND'), 'error');
 		}
 
 		return false;
@@ -431,7 +431,7 @@ class Redconfiguration
 	{
 		if (!is_writable($this->configDefPath))
 		{
-			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_WRITABLE'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_WRITABLE'), 'error');
 
 			return false;
 		}
