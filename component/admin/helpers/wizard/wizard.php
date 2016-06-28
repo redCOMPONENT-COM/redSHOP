@@ -301,298 +301,44 @@ class redSHOPWizardTemplate
 		$html 		= '';
 
 		$html .= '
-	<style type="text/css">
-	/**
-	 * Reset Joomla! styles
-	 */
-	div.t, div.b {
-		height: 0;
-		margin: 0;
-		background: none;
-	}
+			<script>
+				function submitwizard(str,step){
 
-	body #content-box div.padding {
-		padding: 0;
-	}
+					if(str == "exit"){
+						window.location.href = "index.php?option=com_redshop";
+						return;
+					}
 
-	body div.m {
-		padding: 0;
-		border: 0;
-	}
+					var wform = document.installform;
 
-	.button1-right {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_right.png) 100% 0 no-repeat;
-		float: left;
-		margin-left: 5px;
-	}
+					if(str == "pre"){
+						wform.go.value = "pre";
+						if(step == 0){
+							wform.task.value = "save";
+							wform.substep.value = "6";
+						}
 
-	.button1-right .prev {
-		float: left;
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_prev.png) no-repeat;
-	}
+					}else{
+						wform.go.value = "next";
+					}
 
-	.button-previous{
-		border:0;
-		background: none;
-		font-size: 11px;
-		height: 26px;
-		line-height: 24px;
-		padding-left: 30px;
-		cursor: pointer;
-	}
-
-	.button1-left {
-		background: transparent url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_left.png) no-repeat scroll 0 0;
-		float: left;
-		margin-left: 5px;
-		cursor: pointer;
-	}
-	.button1-left .next {
-		background: transparent url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_next.png) no-repeat scroll 100% 0;
-		float: left;
-		cursor: pointer;
-	}
-
-	.button1-left .exit {
-		background: transparent url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_admin.png) no-repeat scroll 100% 0;
-		float: left;
-		cursor: pointer;
-	}
-
-	.button-next{
-		border: 0;
-		background: none;
-		font-size: 11px;
-		height: 26px;
-		line-height: 24px;
-		padding-right: 30px;
-		cursor: pointer;
-	}
-
-	h1.steps{
-		color:#0B55C4;
-		font-size:20px;
-		font-weight:bold;
-		margin:0;
-		padding-bottom:8px;
-	}
-
-	div.steps {
-		font-size: 12px;
-		font-weight: bold;
-		padding-bottom: 12px;
-		padding-top: 10px;
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_divider.png) 0 100% repeat-x;
-	}
-
-	div.on {
-		color:#0B55C4;
-	}
-
-	#toolbar-box,
-	#submenu-box,
-	#header-box {
-		display: none;
-	}
-
-	div#cElement-box div.t, div#cElement-box div.b {
-		height: 6px;
-		padding: 0;
-		margin: 0;
-		overflow: hidden;
-	}
-
-	div#cElement-box div.m {
-		border-left: 1px solid #ccc;
-		border-right: 1px solid #ccc;
-		padding: 1px 8px;
-	}
-
-	div#cElement-box div.t {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 0 repeat-x;
-	}
-
-	div#cElement-box div.t div.t {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tr_light.png) 100% 0 no-repeat;
-	}
-
-	div#cElement-box div.t div.t div.t {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tl_light.png) 0 0 no-repeat;
-	}
-
-	div#cElement-box div.b {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 100% repeat-x;
-	}
-
-	div#cElement-box div.b div.b {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_br_light.png) 100% 0 no-repeat;
-	}
-
-	div#cElement-box div.b div.b div.b {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_bl_light.png) 0 0 no-repeat;
-	}
-	#stepbar {
-		float: left;
-		width: 170px;
-	}
-
-	#stepbar div.box {
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard_48.png) 0 0 no-repeat;
-		height: 140px;
-		background-position: center;
-	}
-
-	#stepbar h1 {
-		margin: 0;
-		padding-bottom: 8px;
-		font-size: 20px;
-		color: #0B55C4;
-		font-weight: bold;
-		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_divider.png) 0 100% repeat-x;
-	}
-
-	div#stepbar {
-	  background: #f7f7f7;
-	}
-
-	div#stepbar div.t {
-	  background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 0 repeat-x;
-	}
-
-	div#stepbar div.t div.t {
-	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tr_dark.png) 100% 0 no-repeat;
-	}
-
-	div#stepbar div.t div.t div.t {
-	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tl_dark.png) 0 0 no-repeat;
-	}
-
-	div#stepbar div.b {
-	  background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 100% repeat-x;
-	}
-
-	div#stepbar div.b div.b {
-	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_br_dark.png) 100% 0 no-repeat;
-	}
-
-	div#stepbar div.b div.b div.b {
-	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_bl_dark.png) 0 0 no-repeat;
-	}
-
-	div#stepbar div.t, div#stepbar div.b {
-		height: 6px;
-		margin: 0;
-		overflow: hidden;
-		padding: 0;
-	}
-
-	div#stepbar div.m,
-	div#cToolbar-box div.m {
-		padding: 0 8px;
-		border-left: 1px solid #ccc;
-		border-right: 1px solid #ccc;
-	}
-
-	div#cToolbar-box {
-		background: #f7f7f7;
-		position: relative;
-	}
-
-	div#cToolbar-box div.m {
-		padding: 0;
-		height: 30px;
-	}
-
-	div#cToolbar-box {
-		background: #fbfbfb;
-	}
-
-	div#cToolbar-box div.t,
-	div#cToolbar-box div.b {
-		height: 6px;
-	}
-
-	div#cToolbar-box span.title {
-		color: #0B55C4;
-		font-size: 20px;
-		font-weight: bold;
-		line-height: 30px;
-		padding-left: 6px;
-	}
-
-	div#cToolbar-box div.t {
-	  background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 0 repeat-x;
-	}
-
-	div#cToolbar-box div.t div.t {
-	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tr_med.png) 100% 0 no-repeat;
-	}
-
-	div#cToolbar-box div.t div.t div.t {
-	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tl_med.png) 0 0 no-repeat;
-	}
-
-	div#cToolbar-box div.b {
-	  background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 100% repeat-x;
-	}
-
-	div#cToolbar-box div.b div.b {
-	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_br_med.png) 100% 0 no-repeat;
-	}
-
-	div#cToolbar-box div.b div.b div.b {
-	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_bl_med.png) 0 0 no-repeat;
-	}
-	</style>
-	<script>
-		function submitwizard(str,step){
-
-			if(str == "exit"){
-				window.location.href = "index.php?option=com_redshop";
-				return;
-			}
-
-			var wform = document.installform;
-
-			if(str == "pre"){
-				wform.go.value = "pre";
-				if(step == 0){
-					wform.task.value = "save";
-					wform.substep.value = "6";
+					wform.submit();
 				}
+			</script>
 
-			}else{
-				wform.go.value = "next";
-			}
-
-			wform.submit();
-		}
-	</script>
-	<table cellpadding="6" width="100%">
-		<tr>
-			<td rowspan="2" valign="top" width="10%">' . $this->setHTMLSidebar($step) . '</td>
-			<td valign="top" height="30">' . $this->setHTMLTitle($title, $step) . '</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<div id="cElement-box">
-					<div class="t">
-				 		<div class="t">
-							<div class="t"></div>
-				 		</div>
-					</div>
-					<div class="m">
-					'. $output . '
-					</div>
-					<div class="b">
-						<div class="b">
-							<div class="b"</div>
-						</div>
+			<div id="redSHOPAdminContainer" class="redSHOPAdminViewWizard">
+				<div class="wrapper">
+					<header class="main-header">
+						' . $this->setHTMLTitle($title, $step) . '
+					</header>
+					<aside class="main-sidebar">
+						' . $this->setHTMLSidebar($step) . '
+					</aside>
+					<div class="content-wrapper">
+						<section class="content">' . $output . '</section>
 					</div>
 				</div>
-			</td>
-		</tr>
-	</table>';
+			</div>';
 
 		echo $html;
 	}
@@ -601,30 +347,47 @@ class redSHOPWizardTemplate
 	{
 		ob_start();
 		?>
+		<aside class="main-sidebar">
+			<section class="sidebar">
+				<ul class="sidebar-menu">
+					<li class="<?php if($activeSteps == 1) echo "active"; ?>">
+						<a href="#">
+							<i>1</i>
+							<span><?php echo JText::_('COM_REDSHOP_WIZARD_WELCOME_STEP1');?></span>
+						</a>
+					</li>
 
-		<div id="stepbar">
-			<div class="t">
-				<div class="t">
-					<div class="t"></div>
-				</div>
-			</div>
-			<div class="m">
-				<h1 class="steps"><?php echo JText::_('COM_REDSHOP_WIZARD_STEPS');?></h1>
-				<div id="stepFirst" class="steps<?php if($activeSteps == 1) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_WELCOME_STEP1');?></div>
-				<div class="steps<?php if($activeSteps == 2) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_GENERAL_STEP2');?></div>
-				<div class="steps<?php if($activeSteps == 3) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_TERM_STEP3');?></div>
-				<div class="steps<?php if($activeSteps == 4) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_USER_STEP3');?></div>
-				<div class="steps<?php if($activeSteps == 5) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_PRICE_STEP4');?></div>
-				<div id="stepLast" class="steps<?php if($activeSteps == 0) echo " on"; ?>"><?php echo JText::_('COM_REDSHOP_WIZARD_FINISH');?></div>
-				<div class="box"></div>
-		  	</div>
-			<div class="b">
-				<div class="b">
-					<div class="b"></div>
-				</div>
-			</div>
-	  	</div>
+					<li class="<?php if($activeSteps == 2) echo "active"; ?>">
+						<a href="#">
+							<i>2</i>
+							<span><?php echo JText::_('COM_REDSHOP_WIZARD_GENERAL_STEP2');?></span>
+						</a>
+					</li>
 
+					<li class="<?php if($activeSteps == 3) echo "active"; ?>">
+						<a href="#">
+							<i>3</i>
+							<span><?php echo JText::_('COM_REDSHOP_WIZARD_TERM_STEP3');?></span>
+						</a>
+					</li>
+
+					<li class="<?php if($activeSteps == 4) echo "active"; ?>">
+						<a href="#">
+							<i>4</i>
+							<span><?php echo JText::_('COM_REDSHOP_WIZARD_USER_STEP3');?></span>
+						</a>
+					</li>
+
+					<li class="<?php if($activeSteps == 5) echo "active"; ?>">
+						<a href="#">
+							<i>5</i>
+							<span><?php echo JText::_('COM_REDSHOP_WIZARD_FINISH');?></span>
+						</a>
+					</li>
+				</ul>
+			</section>
+
+		</aside>
 		<?php
 		 $html = ob_get_contents();
 		 ob_end_clean();
@@ -634,63 +397,33 @@ class redSHOPWizardTemplate
 	function setHTMLTitle($title, $step)
 	{
 		ob_start();
-		?>
-			<div id="cToolbar-box">
-	   			<div class="t">
-					<div class="t">
-						<div class="t"></div>
-					</div>
-				</div>
-				<div class="m">
-					<?php
+	?>
 
-					if($step >2 || $step==0){
-					?>
-					<div>
-						<div id="Container">
-							<div class="button1-right">
-								<div id="div-button-prev" class="prev">
-									<?php $vaule = JText::_('COM_REDSHOP_WIZARD_PREVIOUS_BUTTON'); ?>
-									<input type="button" id="input-button-next" class="button-previous" onclick="submitwizard('pre','<?php echo $step;?>');" value="<?php echo $vaule;?>"/>
-								</div>
-							</div>
-						</div>
-					</div>
-					<?php
-					}
-					?>
-					<span class="title">
-						<?php echo $title; ?>
-					</span>
+			<a role="button" data-toggle="offcanvas" class="sidebar-toggle" href="#">
+			<span class="sr-only">Toggle navigation</span>
+		</a>
+		<div class="component-title"><?php echo $title; ?></div>
 
-					<div style="position: absolute; top: 8px; right: 150px;">
-						<div id="Container">
-							<div class="button1-left">
-								<div id="div-button-next" class="next">
-									<?php $vaule = ($step == 0) ? JText::_('COM_REDSHOP_WIZARD_FINISH_BUTTON') : JText::_('COM_REDSHOP_WIZARD_NEXT_BUTTON'); ?>
-									<input type="button" id="input-button-next" class="button-next" onclick="submitwizard('next',1);" value="<?php echo $vaule;?>"/>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div style="position: absolute; top: 8px; right: 10px;">
-						<div id="Container">
-							<div class="button1-left">
-								<div id="div-button-next" class="exit">
-									<?php $vaule = JText::_('COM_REDSHOP_SKIP_DO_IT_LATER')?>
-									<input type="button" id="input-button-next" class="button-next" onclick="submitwizard('exit');" value="<?php echo $vaule;?>"/>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="b">
-					<div class="b">
-						<div class="b"></div>
-					</div>
-				</div>
-	  		</div>
-
+		<nav class="navbar navbar-static-top" role="navigation">
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<?php if($step >2 || $step==0){ ?>
+					<li>
+						<?php $vaule = JText::_('COM_REDSHOP_WIZARD_PREVIOUS_BUTTON'); ?>
+						<a href="#" onclick="submitwizard('pre','<?php echo $step;?>');"><i class="fa fa-backward"></i><?php echo $vaule; ?></a>
+					</li>
+					<?php } ?>
+					<li>
+						<?php $vaule = ($step == 0) ? JText::_('COM_REDSHOP_WIZARD_FINISH_BUTTON') : JText::_('COM_REDSHOP_WIZARD_NEXT_BUTTON'); ?>
+						<a href="#" onclick="submitwizard('next',1);"><i class="fa fa-forward"></i><?php echo $vaule; ?></a>
+					</li>
+					<li>
+						<?php $vaule = JText::_('COM_REDSHOP_SKIP_DO_IT_LATER')?>
+						<a href="#" onclick="submitwizard('exit');"><?php echo $vaule; ?></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 		<?php
 		$html = ob_get_contents();
 		ob_end_clean();

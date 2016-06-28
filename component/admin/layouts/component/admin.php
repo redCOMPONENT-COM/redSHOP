@@ -46,7 +46,6 @@ if ('raw' === $format)
 	return $content;
 }
 
-
 $templateComponent = 'component' === $input->get('tmpl');
 $input->set('tmpl', 'component');
 
@@ -75,12 +74,16 @@ if ($content instanceof Exception)
 }
 ?>
 <script type="text/javascript">
-	jQuery(document).ready(function ($) {
-
-
+	jQuery(document).ready(function () {
+		<?php if ($input->getBool('disable_sidebar') || $input->getBool('hidemainmenu')) : ?>
+		jQuery('.sidebar').addClass('opacity-70');
+		jQuery('.sidebar button').prop('disabled', true);
+		jQuery('.sidebar a').attr('disabled', true).attr('href', '#').addClass('disabled');
+		<?php endif; ?>
 	});
 </script>
-<?php if ($view->getLayout() === 'modal') : ?>
+
+<?php if ($view->getLayout() === 'modal' || $view->getName() == 'wizard') : ?>
 	<div class="row-fluid RedSHOP">
 		<section id="component">
 			<div class="row-fluid message-sys"  id="message-sys"></div>
@@ -98,7 +101,6 @@ if ($content instanceof Exception)
 			</div>
 		</section>
 	</div>
-<?php
-else : ?>
+<?php else : ?>
 	<?php echo JLayoutHelper::render('component.full', $displayData); ?>
 <?php endif;

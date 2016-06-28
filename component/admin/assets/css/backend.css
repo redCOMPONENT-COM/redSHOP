@@ -8456,6 +8456,14 @@ a:focus {
 .main-header .navbar-brand {
   color: #fff;
 }
+
+.main-header .component-title
+{
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .content-header {
   position: relative;
 }
@@ -17125,4 +17133,11 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
   width: 100%;
   overflow: hidden;
   margin-top: 10px;
+}
+
+.redSHOPAdminViewWizard .fa
+{
+  width: auto !important;
+  margin-right: 5px;
+  height: auto !important;
 }
