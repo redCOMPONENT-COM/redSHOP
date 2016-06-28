@@ -25,7 +25,6 @@ class PDFMerger
 {
 	private $_files;	//['form.pdf']  ["1,2,4, 5-19"]
 	private $_fpdi;
-
 	/**
 	 * Merge PDFs.
 	 * @return void

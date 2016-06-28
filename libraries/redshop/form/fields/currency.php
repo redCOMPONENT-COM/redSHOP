@@ -68,7 +68,7 @@ class JFormFieldcurrency extends JFormField
 			$attribs .= 'class="inputbox"';
 		}
 
-		if ($m = $this->element['multiple'])
+		if ($this->element['multiple'])
 		{
 			$attribs .= ' multiple="multiple"';
 		}
