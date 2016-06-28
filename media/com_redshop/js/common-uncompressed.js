@@ -30,12 +30,10 @@ redSHOP.compareAction = function(ele, command){
 			if (data.success === true)
 			{
 				jQuery('#divCompareProduct').html(data.html);
-				jQuery('#mod_compareproduct').html(data.total);
 			}
 			else
 			{
 				jQuery('#divCompareProduct').html(data.message + '<br />' + data.html);
-				jQuery('#mod_compareproduct').html(data.total);
 			}
 
 			// The checkbox "Add To Compare" should be unchecked after user deleting current view product from comparision list
