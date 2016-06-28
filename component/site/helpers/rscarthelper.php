@@ -3703,6 +3703,13 @@ class rsCarthelper
 		return $returnarr;
 	}
 
+	/**
+	 * Display credit card form based on payment method
+	 *
+	 * @param   integer  $payment_method_id  Payment Method ID for which form needs to be prepare
+	 *
+	 * @return  string     Credit Card form display data in HTML
+	 */
 	public function replaceCreditCardInformation($payment_method_id = 0)
 	{
 		if (empty($payment_method_id))
@@ -3723,9 +3730,10 @@ class rsCarthelper
 		if (file_exists(JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.php'))
 		{
 			$paymentparams = new JRegistry($paymentmethod->params);
+			$acceptedCredictCard = $paymentparams->get("accepted_credict_card", array());
 
 			if ($paymentparams->get('is_creditcard', 0)
-				&& !empty($paymentparams->get("accepted_credict_card", array())))
+				&& !empty($acceptedCredictCard))
 			{
 				$cardinfo = RedshopLayoutHelper::render(
 						'order.payment.creditcard',

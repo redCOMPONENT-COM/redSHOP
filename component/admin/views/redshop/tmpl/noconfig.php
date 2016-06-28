@@ -13,16 +13,16 @@ $configpath = $configroot . '/redshop.cfg.php';
 
 $distconfigpath = $configroot . '/wizard/redshop.cfg.dist.php';
 
-JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_EXIST'));
+JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_EXIST'), 'error');
 
 if (!is_readable($configroot))
 {
-	JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_READABLE'));
+	JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_READABLE'), 'error');
 }
 
 if (!is_writable($configroot))
 {
-	JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'));
+	JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'), 'error');
 	echo "<div>" . JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSON') . "</div>";
 }
 else

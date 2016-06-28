@@ -175,7 +175,7 @@ function setChildElement()
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
 		$model = $this->getModel('xmlexport_detail');
@@ -211,7 +211,7 @@ function setChildElement()
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
 		}
 
 		$model = $this->getModel('xmlexport_detail');
@@ -238,7 +238,7 @@ function setChildElement()
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_AUTO_SYNCHRONIZE'));
 		}
 
 		$model = $this->getModel('xmlexport_detail');
@@ -265,7 +265,7 @@ function setChildElement()
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
 		}
 
 		$model = $this->getModel('xmlexport_detail');
@@ -292,7 +292,7 @@ function setChildElement()
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_USE_EXPORTFILE_TO_ALL'));
 		}
 
 		$model = $this->getModel('xmlexport_detail');
@@ -319,7 +319,7 @@ function setChildElement()
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
 		$model = $this->getModel('xmlexport_detail');
@@ -346,7 +346,7 @@ function setChildElement()
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
 		$model = $this->getModel('xmlexport_detail');

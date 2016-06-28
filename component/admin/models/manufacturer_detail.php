@@ -246,7 +246,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 				if (!$row->store())
 				{
-					JError::raiseError(500, $db->getErrorMsg());
+					throw new Exception($db->getErrorMsg());
 				}
 			}
 		}
