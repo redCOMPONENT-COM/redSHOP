@@ -17090,6 +17090,19 @@ fieldset.redRadioGroup > .btn {
   text-align: center;
 }
 
+fieldset.redRadioGroup .radio.btn:first-of-type
+{
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  margin-right: 0 !important;
+}
+
+fieldset.redRadioGroup .radio.btn:last-child:not(:first-child)
+{
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  margin-right: 0 !important;
+}
 
 fieldset.redRadioGroup .iradio_minimal-blue
 {
