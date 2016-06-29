@@ -208,12 +208,6 @@ if (!class_exists('redcategoryScroller'))
 		 */
 		function displayredScroller(&$rows)
 		{
-			global $mosConfig_absolute_path;
-
-			$database = JFactory::getDbo();
-
-			$cnt = 0;
-
 			if ($this->ScrollCSSOverride == 'yes')
 			{
 				$txt_size = $this->ScrollTextSize . 'px';
@@ -242,10 +236,6 @@ if (!class_exists('redcategoryScroller'))
                         scrolldelay=\"" . $this->ScrollDelay . "\"
                         truespeed=\"true\" onmouseover=\"this.stop()\" onmouseout=\"this.start()\">";
 			}
-
-			$show_category_name = ($this->show_category_name == "yes") ? true : false;
-			$show_addtocart     = ($this->show_addtocart == "yes") ? true : false;
-			$show_price         = ($this->show_price == "yes") ? true : false;
 
 			if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
 			{
@@ -293,7 +283,7 @@ if (!class_exists('redcategoryScroller'))
 		/**
 		 * Helper DB function
 		 */
-		function getredCategorySKU($limit = 0, $how = null, $category_id = 0, $featuredCategory = 'no')
+		function getredCategorySKU($limit = 0, $how = null, $category_id = 0)
 		{
 			$app = JFactory::getApplication();
 
@@ -345,12 +335,9 @@ if (!class_exists('redcategoryScroller'))
 			return $rows;
 		}
 
-		function ShowCategory($row, $i)
+		function ShowCategory($row)
 		{
-			$producthelper = producthelper::getInstance();
 			$redhelper     = redhelper::getInstance();
-
-			$category_id = intval(JRequest::getInt('cid', 0));
 
 			$ItemData = $redhelper->getCategoryItemid($row->category_id);
 
@@ -364,7 +351,6 @@ if (!class_exists('redcategoryScroller'))
 			}
 
 			$data_add   = '';
-			$thum_image = "";
 
 			$pname = $row->category_name;
 
