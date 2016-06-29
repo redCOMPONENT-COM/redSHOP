@@ -32,8 +32,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$discountManagerPage = new \DiscountManagerJ3Page;
-		$verifyAmount = '$ ' . $amount . ',00';
+		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
 		$I->verifyNotices(false, $this->checkForNotices(), 'Discount Manager Page');
 		$I->click('New');
 		$I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
@@ -41,6 +40,8 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\DiscountManagerJ3Page::$amount, $amount);
 		$I->fillField(\DiscountManagerJ3Page::$discountAmount, $discountAmount);
 		$I->click(\DiscountManagerJ3Page::$discountTypeDropDown);
+
+		$discountManagerPage = new \DiscountManagerJ3Page;
 		$I->click($discountManagerPage->discountType($discountType));
 		$I->click(\DiscountManagerJ3Page::$shopperGroupDropDown);
 		$I->click($discountManagerPage->shopperGroup($shopperGroup));
@@ -63,8 +64,8 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$verifyAmount = '$ ' . $amount . ',00';
-		$newVerifyAmount = '$ ' . $newAmount . ',00';
+		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
+		$newVerifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $newAmount . ',00';
 		$I->filterListBySearching($name, ['id' => 'name_filter']);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->waitForElement(['link' => $verifyAmount]);
@@ -90,7 +91,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function changeDiscountState($name, $amount, $state = 'unpublish')
 	{
 		$I = $this;
-		$verifyAmount = '$ ' . $amount . ',00';
+		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
@@ -133,7 +134,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function getDiscountState($name, $amount)
 	{
 		$I = $this;
-		$verifyAmount = '$ ' . $amount . ',00';
+		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
 		$I->filterListBySearching($name, ['id' => 'name_filter']);
 		$result = $I->getState(new \DiscountManagerJ3Page, $verifyAmount, \DiscountManagerJ3Page::$firstResultRow, \DiscountManagerJ3Page::$discountStatePath);
 

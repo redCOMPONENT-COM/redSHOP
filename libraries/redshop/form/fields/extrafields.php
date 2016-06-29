@@ -15,6 +15,19 @@ JFormHelper::loadFieldClass('list');
  * Field to create extra field list dynamically
  * based on `field_section` and `field_show_in_front` etc...
  *
+ * Example:
+ *
+ * <field
+ *		name="privatePNO"
+ *		type="extrafields"
+ *		field_section="7"
+ *		value_field="field_id"
+ *		text_field="CONCAT(field_title, ' (', field_name, ')')"
+ *		required="true"
+ *		label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING"
+ *		description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DESC"
+ *	/>
+ *
  * @package     RedSHOP.Library
  * @subpackage  Form.Field
  * @since       1.5
@@ -69,6 +82,8 @@ class JFormFieldExtraFields extends JFormFieldList
 	 */
 	protected $textField;
 
+	protected $extraFields = array();
+
 	/**
 	 * Get Extra field info as an option
 	 *
@@ -76,9 +91,6 @@ class JFormFieldExtraFields extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialiase variables.
-		$db = JFactory::getDbo();
-
 		$this->fieldSection     = isset($this->element['field_section']) ? (int) $this->element['field_section'] : 1;
 		$this->fieldShowInFront = isset($this->element['field_show_in_front']) ? (int) $this->element['field_show_in_front'] : 1;
 		$this->published        = isset($this->element['published']) ? (int) $this->element['published'] : 1;
@@ -86,6 +98,28 @@ class JFormFieldExtraFields extends JFormFieldList
 		// Dynamic query select options
 		$this->valueField = isset($this->element['value_field']) ? (string) $this->element['value_field'] : 'field_name';
 		$this->textField  = isset($this->element['text_field']) ? (string) $this->element['text_field'] : 'field_title';
+
+		return array_merge(
+			parent::getOptions(),
+			$this->getExtraFields()
+		);
+	}
+
+	/**
+	 * Get Extra Fields using sections.
+	 *
+	 * @return  array  Extra Fields list
+	 */
+	protected function getExtraFields()
+	{
+		$db = JFactory::getDbo();
+
+		$key = $this->fieldSection . $this->fieldShowInFront . $this->published;
+
+		if (array_key_exists($key, $this->extraFields))
+		{
+			return $this->extraFields[$key];
+		}
 
 		// Create the base select statement.
 		$query = $db->getQuery(true)
@@ -104,9 +138,8 @@ class JFormFieldExtraFields extends JFormFieldList
 		// Set the query and load the result.
 		$db->setQuery($query);
 
-		return array_merge(
-			parent::getOptions(),
-			$db->loadObjectList()
-		);
+		$this->extraFields[$key] = $db->loadObjectList();
+
+		return $this->extraFields[$key];
 	}
 }

@@ -338,6 +338,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
 	`ordering`            INT(11)      NOT NULL,
 	`display_in_checkout` TINYINT(4)   NOT NULL,
 	PRIMARY KEY (`field_id`),
+	UNIQUE KEY `field_name` (`field_name`),
 	KEY `idx_published` (`published`),
 	KEY `idx_field_section` (`field_section`),
 	KEY `idx_field_type` (`field_type`),

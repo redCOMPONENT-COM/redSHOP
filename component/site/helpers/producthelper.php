@@ -10512,7 +10512,7 @@ class producthelper
 
 			if (trim($user_fields) != '')
 			{
-				$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
+				$sql = "INSERT INTO #__redshop_fields_data "
 					. "(fieldid,data_txt,itemid,section) "
 					. "value ('" . (int) $row_data[$i]->field_id . "'," . $db->quote(addslashes($user_fields)) . "," . (int) $order_id
 					. "," . $db->quote($section_id) . ")";
