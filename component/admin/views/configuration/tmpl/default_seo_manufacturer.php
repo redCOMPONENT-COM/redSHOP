@@ -9,80 +9,75 @@
 defined('_JEXEC') or die;
 
 ?>
-<table class="admintable" width="100%">
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+
+<legend><?php echo JText::_('COM_REDSHOP_SEO_MANUFACTURER_TAB'); ?></legend>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_SEO_PAGE_TITLE_MANUFACTUR_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEO_PAGE_TITLE_MANUFACTUR_LBL'); ?>">
 		<label
 			for="seo_page_title_manufactur"><?php
 			echo JText::_('COM_REDSHOP_SEO_PAGE_TITLE_MANUFACTUR_LBL');
-			?></label></span></td>
-		<td><textarea class="text_area" type="text"
+			?></label></span>
+	<textarea class="text_area" type="text"
 		              name="seo_page_title_manufactur" id="seo_page_title_manufactur"
 		              rows="4" cols="40"/><?php
 			echo stripslashes($this->config->get('SEO_PAGE_TITLE_MANUFACTUR'));
 			?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEO_PAGE_HEADING_MANUFACTUR_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEO_PAGE_HEADING_MANUFACTUR'); ?>">
 		<label
 			for="seo_page_heading_manufactur"><?php
 			echo JText::_('COM_REDSHOP_SEO_PAGE_HEADING_MANUFACTUR_LBL');
-			?></label></span></td>
-		<td><textarea class="text_area" type="text"
+			?></label></span>
+	<textarea class="text_area" type="text"
 		              name="seo_page_heading_manufactur" id="seo_page_heading_manufactur"
 		              rows="4" cols="40"/><?php
 			echo stripslashes($this->config->get('SEO_PAGE_HEADING_MANUFACTUR'));
 			?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_SEO_PAGE_DESCRIPTION_MANUFACTUR_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEO_PAGE_DESCRIPTION_MANUFACTUR_LBL'); ?>">
 		<label
 			for="seo_page_description_manufactur"><?php
 			echo JText::_('COM_REDSHOP_SEO_PAGE_DESCRIPTION_MANUFACTUR_LBL');
-			?></label></span></td>
-		<td><textarea class="text_area" type="text"
+			?></label></span>
+	<textarea class="text_area" type="text"
 		              name="seo_page_description_manufactur"
 		              id="seo_page_description_manufactur" rows="4" cols="40"/><?php
 			echo stripslashes($this->config->get('SEO_PAGE_DESCRIPTION_MANUFACTUR'));
 			?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_SEO_PAGE_KEYWORDS_MANUFACTUR_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEO_PAGE_KEYWORDS_MANUFACTUR_LBL'); ?>">
 		<label
 			for="seo_page_keywords_manufactur"><?php
 			echo JText::_('COM_REDSHOP_SEO_PAGE_KEYWORDS_MANUFACTUR_LBL');
-			?></label></span></td>
-		<td><textarea class="text_area" type="text"
+			?></label></span>
+	<textarea class="text_area" type="text"
 		              name="seo_page_keywords_manufactur" id="seo_page_keywords_manufactur"
 		              rows="4" cols="40"/><?php
 			echo stripslashes($this->config->get('SEO_PAGE_KEYWORDS_MANUFACTUR'));
 			?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_SEO_PAGE_CANONICAL_MANUFACTUR_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEO_PAGE_CANONICAL_MANUFACTUR_LBL'); ?>">
 		<label
 			for="seo_page_keywords_manufactur"><?php
 			echo JText::_('COM_REDSHOP_SEO_PAGE_CANONICAL_MANUFACTUR_LBL');
-			?></label></span></td>
-		<td><textarea class="text_area" type="text"
+			?></label></span>
+	<textarea class="text_area" type="text"
 		              name="seo_page_canonical_manufactur" id="seo_page_canonical_manufactur"
 		              rows="4" cols="40"/><?php
 			echo stripslashes($this->config->get('SEO_PAGE_CANONICAL_MANUFACTUR'));
 			?></textarea>
-		</td>
-	</tr>
-</table>
+</div>
