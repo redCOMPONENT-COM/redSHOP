@@ -27,17 +27,16 @@ class RedshopViewStatistic extends RedshopView
 		$enddate = $app->input->getInt('enddate', 0);
 
 		$filteroption = $app->input->getInt('filteroption', 0);
-		$typeoption = $app->input->getInt('typeoption', 1);
+		$typeoption = $app->input->getInt('typeoption', 2);
 		$lists = array();
 		$option = array();
 
-		$option[] = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_Select'));
+		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_Select'));
 		$option[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
 		$option[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
 		$option[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
 		$option[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
 
-		$type[] = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_Select'));
 		$type[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_NUMBER_OF_TIMES_SOLD'));
 		$type[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_NUMBER_OF_ITEMS_SOLD'));
 
