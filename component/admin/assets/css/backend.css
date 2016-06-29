@@ -5188,10 +5188,10 @@ button.close {
   -ms-transform: translate(0, -25%);
   -o-transform: translate(0, -25%);
   transform: translate(0, -25%);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -moz-transition: -moz-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
+  -webkit-transition: -webkit-transform 0.1s ease-out;
+  -moz-transition: -moz-transform 0.1s ease-out;
+  -o-transition: -o-transform 0.1s ease-out;
+  transition: transform 0.1s ease-out;
 }
 .modal.in .modal-dialog {
   -webkit-transform: translate(0, 0);
@@ -8208,10 +8208,10 @@ body {
 .content-wrapper,
 .right-side,
 .main-footer {
-  -webkit-transition: -webkit-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
-  -moz-transition: -moz-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
-  -o-transition: -o-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  -webkit-transition: -webkit-transform 0.1s ease-in-out, margin 0.1s ease-in-out;
+  -moz-transition: -moz-transform 0.1s ease-in-out, margin 0.1s ease-in-out;
+  -o-transition: -o-transform 0.1s ease-in-out, margin 0.1s ease-in-out;
+  transition: transform 0.1s ease-in-out, margin 0.1s ease-in-out;
   margin-left: 250px;
   z-index: 820;
 }
@@ -8355,9 +8355,9 @@ a:focus {
   padding-left: 23px;
 }
 .main-header > .navbar {
-  -webkit-transition: margin-left 0.3s ease-in-out;
-  -o-transition: margin-left 0.3s ease-in-out;
-  transition: margin-left 0.3s ease-in-out;
+  -webkit-transition: margin-left 0.1s ease-in-out;
+  -o-transition: margin-left 0.1s ease-in-out;
+  transition: margin-left 0.1s ease-in-out;
   margin-bottom: 0;
   margin-left: auto;
   border: none;
@@ -8443,9 +8443,9 @@ a:focus {
 }
 
 .main-header .logo {
-  -webkit-transition: width 0.3s ease-in-out;
-  -o-transition: width 0.3s ease-in-out;
-  transition: width 0.3s ease-in-out;
+  -webkit-transition: width 0.1s ease-in-out;
+  -o-transition: width 0.1s ease-in-out;
+  transition: width 0.1s ease-in-out;
   display: block;
   float: left;
   height: 50px;
@@ -8614,10 +8614,10 @@ a:focus {
   min-height: 100%;
   width: 250px;
   z-index: 810;
-  -webkit-transition: -webkit-transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  -moz-transition: -moz-transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  -o-transition: -o-transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+  -webkit-transition: -webkit-transform 0.1s ease-in-out, width 0.1s ease-in-out;
+  -moz-transition: -moz-transform 0.1s ease-in-out, width 0.1s ease-in-out;
+  -o-transition: -o-transform 0.1s ease-in-out, width 0.1s ease-in-out;
+  transition: transform 0.1s ease-in-out, width 0.1s ease-in-out;
 }
 @media (max-width: 767px) {
   .main-sidebar,
@@ -9515,9 +9515,9 @@ a:focus {
   z-index: 5px;
 }
 .small-box .icon {
-  -webkit-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  transition: all 0.3s linear;
+  -webkit-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  transition: all 0.1s linear;
   position: absolute;
   top: -10px;
   right: 10px;
@@ -12726,10 +12726,10 @@ fieldset[disabled] .btn-yahoo.active {
   line-height: 30px;
 }
 .fc-color-picker > li .fa {
-  -webkit-transition: -webkit-transform linear 0.3s;
-  -moz-transition: -moz-transform linear 0.3s;
-  -o-transition: -o-transform linear 0.3s;
-  transition: transform linear 0.3s;
+  -webkit-transition: -webkit-transform linear 0.1s;
+  -moz-transition: -moz-transform linear 0.1s;
+  -o-transition: -o-transform linear 0.1s;
+  transition: transform linear 0.1s;
 }
 .fc-color-picker > li .fa:hover {
   -webkit-transform: rotate(30deg);
@@ -12738,9 +12738,9 @@ fieldset[disabled] .btn-yahoo.active {
   transform: rotate(30deg);
 }
 #add-new-event {
-  -webkit-transition: all linear 0.3s;
-  -o-transition: all linear 0.3s;
-  transition: all linear 0.3s;
+  -webkit-transition: all linear 0.1s;
+  -o-transition: all linear 0.1s;
+  transition: all linear 0.1s;
 }
 .external-event {
   padding: 5px 10px;
@@ -13525,9 +13525,9 @@ fieldset[disabled] .btn-yahoo.active {
   background-color: #374850;
   border: 1px solid transparent;
   height: 35px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 .skin-black .sidebar-form input[type="text"] {
   color: #666;
@@ -25296,10 +25296,10 @@ a.grid_true {
 }
 @media (min-width: 768px) {
   .j-toggle-transition {
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    -o-transition: all 0.1s ease;
+    transition: all 0.1s ease;
   }
 }
 @media (max-width: 979px) {
@@ -25377,4 +25377,10 @@ body.modal-open {
 .modal-body {
   -webkit-overflow-scrolling: touch;
   overflow-y: auto !important;
+}
+
+.pane-sliders .panel h3
+{
+  font-size: 14px;
+  margin: 0;
 }

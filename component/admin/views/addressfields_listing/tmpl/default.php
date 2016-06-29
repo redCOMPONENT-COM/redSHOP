@@ -47,7 +47,7 @@ $field_section_drop = JRequest::getVar('field_section_drop');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">

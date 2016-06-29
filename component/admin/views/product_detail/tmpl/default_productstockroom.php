@@ -12,7 +12,7 @@ $model = $this->getModel('product_detail');
 $stockrooms = $model->StockRoomList();
 ?>
 
-<table class="admintable">
+<table class="admintable table">
 
 	<tr>
 		<td colspan="2">

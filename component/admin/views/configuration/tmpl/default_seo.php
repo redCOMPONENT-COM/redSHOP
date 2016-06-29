@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
 		echo JHtml::_('bootstrap.startTabSet', 'seo-pane', array('active' => 'tags'));
 		echo JHtml::_('bootstrap.addTab', 'seo-pane', 'tags', JText::_('COM_REDSHOP_TITLE_AVAILABLE_SEO_TAGS', true));
 		?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
 					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 		</table>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'seo-pane', 'headingtags', JText::_('COM_REDSHOP_HEADING_AVAILABLE_SEO_TAGS', true));?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
 					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
@@ -80,7 +80,7 @@ defined('_JEXEC') or die;
 		</table>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'seo-pane', 'desctags', JText::_('COM_REDSHOP_DESC_AVAILABLE_SEO_TAGS', true));?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
 					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
@@ -99,7 +99,7 @@ defined('_JEXEC') or die;
 		</table>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'seo-pane', 'keywordtags', JText::_('COM_REDSHOP_KEYWORD_AVAILABLE_SEO_TAGS', true));?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
 					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>

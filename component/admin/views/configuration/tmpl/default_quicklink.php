@@ -27,7 +27,7 @@ $new_arr = RedShopHelperImages::geticonarray();
 </style>
 
 <legend><?php echo JText::_('COM_REDSHOP_QUICK_LINKS'); ?></legend>
-<table class="adminlist">
+<table class="adminlist table table-striped">
 <tr>
 	<td class="distitle"><?php echo JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT');?></td>
 </tr>

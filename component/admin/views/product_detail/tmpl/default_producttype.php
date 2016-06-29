@@ -23,7 +23,7 @@ $total_serial = count($productSerialDetail);
 <?php if (($this->detail->product_type == 'file') || ($this->detail->product_download == 1)) : ?>
 	<div id="div_file">
 
-		<table class="admintable">
+		<table class="admintable table">
 
 			<tr>
 				<td class="key">
@@ -119,7 +119,7 @@ $total_serial = count($productSerialDetail);
 		</table>
 
 		<?php if ($total_serial > 0) :?>
-			<table class="adminlist">
+			<table class="adminlist table table-striped">
 				<tr>
 					<th></th>
 					<th><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>

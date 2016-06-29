@@ -50,7 +50,7 @@ $title = JText::_('COM_REDSHOP_AVAILABLE_TEMPLATE_TAGS');
 if ($this->detail->template_section == "category")
 {
 	echo JHtml::_('tabs.panel', $title, 'category-fields'); ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td>
 				<?php
@@ -128,7 +128,7 @@ if ($this->detail->template_section == "category")
 	if ($cat_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'category-desc');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $cat_desc;?>
@@ -143,7 +143,7 @@ if ($this->detail->template_section == "category")
 if ($this->detail->template_section == "giftcard")
 {
 	echo JHtml::_('tabs.panel', $title, 'giftcard-fields');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td>
 				<?php
@@ -168,7 +168,7 @@ if ($this->detail->template_section == "giftcard")
 	if ($gift_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'giftcard-desc');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $gift_desc;?>
@@ -184,7 +184,7 @@ if ($this->detail->template_section == "giftcard")
 if ($this->detail->template_section == "product")
 {
 	echo JHtml::_('tabs.panel', $title, 'events');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td>
 				<?php
@@ -286,7 +286,7 @@ if ($this->detail->template_section == "product")
 	if ($prd_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $prd_desc;?>
@@ -302,7 +302,7 @@ if ($this->detail->template_section == "product")
 if ($this->detail->template_section == "product_sample")
 {
 	echo JHtml::_('tabs.panel', $title, 'events');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td>
 				<?php
@@ -325,7 +325,7 @@ if ($this->detail->template_section == "product_sample")
 	if ($prdsamp_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $prdsamp_desc;?>
@@ -341,7 +341,7 @@ if ($this->detail->template_section == "product_sample")
 if ($this->detail->template_section == "manufacturer")
 {
 	echo JHtml::_('tabs.panel', $title, 'events');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td>
 				<?php
@@ -364,7 +364,7 @@ if ($this->detail->template_section == "manufacturer")
 	if ($manu_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $manu_desc;?>
@@ -380,7 +380,7 @@ if ($this->detail->template_section == "manufacturer")
 if ($this->detail->template_section == "manufacturer_products")
 {
 	echo JHtml::_('tabs.panel', $title, 'events');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('manufacturer_products'); ?></td>
 		</tr>
@@ -390,7 +390,7 @@ if ($this->detail->template_section == "manufacturer_products")
 	if ($manuprd_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $manuprd_desc;?>
@@ -417,7 +417,7 @@ if ($this->detail->template_section == "manufacturer_products")
 if ($this->detail->template_section == "cart")
 {
 	echo JHtml::_('tabs.panel', $title, 'cart');        ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('cart'); ?></td>
 		</tr>
@@ -427,7 +427,7 @@ if ($this->detail->template_section == "cart")
 	if ($cart_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $cart_desc;?>
@@ -443,7 +443,7 @@ if ($this->detail->template_section == "cart")
 if ($this->detail->template_section == "checkout")
 {
 	echo JHtml::_('tabs.panel', $title, 'checkout');        ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('checkout'); ?></td>
 		</tr>
@@ -453,7 +453,7 @@ if ($this->detail->template_section == "checkout")
 	if ($checkout_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $checkout_desc;?>
@@ -469,7 +469,7 @@ if ($this->detail->template_section == "checkout")
 if ($this->detail->template_section == "catalogue_cart")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog_cart');        ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('catalogue_cart'); ?></td>
 		</tr>
@@ -479,7 +479,7 @@ if ($this->detail->template_section == "catalogue_cart")
 	if ($catcart_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $catcart_desc;?>
@@ -495,7 +495,7 @@ if ($this->detail->template_section == "catalogue_cart")
 if ($this->detail->template_section == "catalogue_order_detail")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog_order_detail');        ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('catalogue_order_detail'); ?></td>
 		</tr>
@@ -505,7 +505,7 @@ if ($this->detail->template_section == "catalogue_order_detail")
 	if ($catordetail_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $catordetail_desc;;?>
@@ -521,7 +521,7 @@ if ($this->detail->template_section == "catalogue_order_detail")
 if ($this->detail->template_section == "catalogue_order_receipt")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog_order_receipt');        ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('catalogue_order_receipt'); ?></td>
 		</tr>
@@ -531,7 +531,7 @@ if ($this->detail->template_section == "catalogue_order_receipt")
 	if ($catorrcp_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $catorrcp_desc;?>
@@ -547,7 +547,7 @@ if ($this->detail->template_section == "catalogue_order_receipt")
 if ($this->detail->template_section == "categoryproduct")
 {
 	echo JHtml::_('tabs.panel', $title, 'category_product_template');        ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('category_product'); ?></td>
 		</tr>
@@ -557,7 +557,7 @@ if ($this->detail->template_section == "categoryproduct")
 	if ($catprd != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $catprd;?>
@@ -573,7 +573,7 @@ if ($this->detail->template_section == "categoryproduct")
 if ($this->detail->template_section == "clicktell_sms_message")
 {
 	echo JHtml::_('tabs.panel', $title, 'clicktell_sms_template');        ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('clicktell_sms_message'); ?></td>
 		</tr>
@@ -583,7 +583,7 @@ if ($this->detail->template_section == "clicktell_sms_message")
 	if ($click_desc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $click_desc;?>
@@ -602,7 +602,7 @@ if ($this->detail->template_section == "empty_cart")
 	if ($emp_cart != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $emp_cart;?>
@@ -618,7 +618,7 @@ if ($this->detail->template_section == "empty_cart")
 if ($this->detail->template_section == "frontpage_category")
 {
 	echo JHtml::_('tabs.panel', $title, 'frontpage_category_detail');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('frontpage_category');?></td>
 		</tr>
@@ -628,7 +628,7 @@ if ($this->detail->template_section == "frontpage_category")
 	if ($fr_cat != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $fr_cat;?>
@@ -644,7 +644,7 @@ if ($this->detail->template_section == "frontpage_category")
 if ($this->detail->template_section == "giftcard_list")
 {
 	echo JHtml::_('tabs.panel', $title, 'manufacturer detail');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('giftcard_list'); ?></td>
 		</tr>
@@ -654,7 +654,7 @@ if ($this->detail->template_section == "giftcard_list")
 	if ($gift_list != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $gift_list;?>
@@ -670,7 +670,7 @@ if ($this->detail->template_section == "giftcard_list")
 if ($this->detail->template_section == "manufacturer_detail")
 {
 	echo JHtml::_('tabs.panel', $title, 'manufacturer detail');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('manufacturer_detail'); ?></td>
 		</tr>
@@ -696,7 +696,7 @@ if ($this->detail->template_section == "manufacturer_detail")
 if ($this->detail->template_section == "catalog")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('catalogue'); ?></td>
 		</tr>
@@ -706,7 +706,7 @@ if ($this->detail->template_section == "catalog")
 	if ($catlog != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $catlog;?>
@@ -722,7 +722,7 @@ if ($this->detail->template_section == "catalog")
 if ($this->detail->template_section == "order_detail")
 {
 	echo JHtml::_('tabs.panel', $title, 'order_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('order_detail'); ?></td>
 		</tr>
@@ -763,7 +763,7 @@ if ($this->detail->template_section == "order_detail")
 	if ($ord_detail != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ord_detail;?>
@@ -779,7 +779,7 @@ if ($this->detail->template_section == "order_detail")
 if ($this->detail->template_section == "order_receipt")
 {
 	echo JHtml::_('tabs.panel', $title, 'order_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('order_receipt'); ?></td>
 		</tr>
@@ -820,7 +820,7 @@ if ($this->detail->template_section == "order_receipt")
 	if ($ord_receipt != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ord_receipt;?>
@@ -836,7 +836,7 @@ if ($this->detail->template_section == "order_receipt")
 if ($this->detail->template_section == "quotation_detail")
 {
 	echo JHtml::_('tabs.panel', $title, 'Quotation_detail_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('quotation_detail'); ?></td>
 	</tr>
@@ -846,7 +846,7 @@ if ($this->detail->template_section == "quotation_detail")
 	if ($quo_detail != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $quo_detail;?>
@@ -862,7 +862,7 @@ if ($this->detail->template_section == "quotation_detail")
 if ($this->detail->template_section == "quotation_request")
 {
 	echo JHtml::_('tabs.panel', $title, 'Quotation_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('quotation_request'); ?></td>
 	</tr>
@@ -872,7 +872,7 @@ if ($this->detail->template_section == "quotation_request")
 	if ($quo_req != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $quo_req;?>
@@ -888,7 +888,7 @@ if ($this->detail->template_section == "quotation_request")
 if ($this->detail->template_section == "order_print")
 {
 	echo JHtml::_('tabs.panel', $title, 'order_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td>
 				<?php
@@ -930,7 +930,7 @@ if ($this->detail->template_section == "order_print")
 	if ($ord_print != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ord_print;?>
@@ -946,7 +946,7 @@ if ($this->detail->template_section == "order_print")
 if ($this->detail->template_section == "order_list")
 {
 	echo JHtml::_('tabs.panel', $title, 'orderlist_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('orderlist'); ?></td>
 		</tr>
@@ -956,7 +956,7 @@ if ($this->detail->template_section == "order_list")
 	if ($ord_list != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ord_list;?>
@@ -972,7 +972,7 @@ if ($this->detail->template_section == "order_list")
 if ($this->detail->template_section == "newsletter")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('newsletter'); ?></td>
 		</tr>
@@ -982,7 +982,7 @@ if ($this->detail->template_section == "newsletter")
 	if ($newsletter != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $newsletter;?>
@@ -998,7 +998,7 @@ if ($this->detail->template_section == "newsletter")
 if ($this->detail->template_section == "newsletter_product")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('newsletter_product'); ?></td>
 		</tr>
@@ -1008,7 +1008,7 @@ if ($this->detail->template_section == "newsletter_product")
 	if ($newsletter_prd != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $newsletter_prd;?>
@@ -1024,7 +1024,7 @@ if ($this->detail->template_section == "newsletter_product")
 if ($this->detail->template_section == "related_product")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('related_product'); ?></td>
 		</tr>
@@ -1034,7 +1034,7 @@ if ($this->detail->template_section == "related_product")
 	if ($related_prd != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $related_prd;?>
@@ -1050,7 +1050,7 @@ if ($this->detail->template_section == "related_product")
 if ($this->detail->template_section == "add_to_cart")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('add_to_cart'); ?></td>
 		</tr>
@@ -1060,7 +1060,7 @@ if ($this->detail->template_section == "add_to_cart")
 	if ($add_to_cart != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $add_to_cart;?>
@@ -1078,7 +1078,7 @@ if ($this->detail->template_section == "add_to_cart")
 if ($this->detail->template_section == "review")
 {
 	echo JHtml::_('tabs.panel', $title, 'review');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('review'); ?></td>
 		</tr>
@@ -1088,7 +1088,7 @@ if ($this->detail->template_section == "review")
 	if ($review != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $review;?>
@@ -1104,7 +1104,7 @@ if ($this->detail->template_section == "review")
 if ($this->detail->template_section == "attribute_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('attribute'); ?></td>
 		</tr>
@@ -1114,7 +1114,7 @@ if ($this->detail->template_section == "attribute_template")
 	if ($attrib != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $attrib;?>
@@ -1130,7 +1130,7 @@ if ($this->detail->template_section == "attribute_template")
 if ($this->detail->template_section == "attributewithcart_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'attributewithcart');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('attribute_with_cart'); ?></td>
 		</tr>
@@ -1150,7 +1150,7 @@ if ($this->detail->template_section == "attributewithcart_template")
 	if ($attrib_cart != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $attrib_cart;?>
@@ -1166,7 +1166,7 @@ if ($this->detail->template_section == "attributewithcart_template")
 if ($this->detail->template_section == "accessory_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'catalog');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('accessory'); ?></td>
 		</tr>
@@ -1176,7 +1176,7 @@ if ($this->detail->template_section == "accessory_template")
 	if ($acc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $acc;?>
@@ -1192,7 +1192,7 @@ if ($this->detail->template_section == "accessory_template")
 if ($this->detail->template_section == "wrapper_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'wrapper');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('wrapper'); ?></td>
 		</tr>
@@ -1202,7 +1202,7 @@ if ($this->detail->template_section == "wrapper_template")
 	if ($wrapper != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $wrapper;?>
@@ -1218,7 +1218,7 @@ if ($this->detail->template_section == "wrapper_template")
 if ($this->detail->template_section == "wishlist_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'wishlist');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('wishlist'); ?></td>
 		</tr>
@@ -1228,7 +1228,7 @@ if ($this->detail->template_section == "wishlist_template")
 	if ($wishlist != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $wishlist;?>
@@ -1244,7 +1244,7 @@ if ($this->detail->template_section == "wishlist_template")
 if ($this->detail->template_section == "wishlist_mail_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'wishlist');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('wishlist_mail'); ?></td>
 		</tr>
@@ -1254,7 +1254,7 @@ if ($this->detail->template_section == "wishlist_mail_template")
 	if ($wishlist_mail != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $wishlist_mail;?>
@@ -1270,7 +1270,7 @@ if ($this->detail->template_section == "wishlist_mail_template")
 if ($this->detail->template_section == "shipping_pdf")
 {
 	echo JHtml::_('tabs.panel', $title, 'shipping');?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('shipping_pdf'); ?></td>
 		</tr>
@@ -1280,7 +1280,7 @@ if ($this->detail->template_section == "shipping_pdf")
 	if ($ship_pdf != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ship_pdf;?>
@@ -1296,7 +1296,7 @@ if ($this->detail->template_section == "shipping_pdf")
 if ($this->detail->template_section == "ask_question_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'askquestion');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('ask_question'); ?></td>
 		</tr>
@@ -1306,7 +1306,7 @@ if ($this->detail->template_section == "ask_question_template")
 	if ($ask_ques != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ask_ques;?>
@@ -1322,7 +1322,7 @@ if ($this->detail->template_section == "ask_question_template")
 if ($this->detail->template_section == "ajax_cart_box")
 {
 	echo JHtml::_('tabs.panel', $title, 'wrapper');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('ajax_cart_box'); ?></td>
 		</tr>
@@ -1332,7 +1332,7 @@ if ($this->detail->template_section == "ajax_cart_box")
 	if ($ajax_cart != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ajax_cart;?>
@@ -1348,7 +1348,7 @@ if ($this->detail->template_section == "ajax_cart_box")
 if ($this->detail->template_section == "ajax_cart_detail_box")
 {
 	echo JHtml::_('tabs.panel', $title, 'wrapper');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><b><?php echo JText::_('COM_REDSHOP_AJAX_CART_BOX_DETAIL_TEMPLATE_HINT'); ?></b></td>
 		</tr>
@@ -1386,7 +1386,7 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 	if ($ajax_cart_box_detail != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ajax_cart_box_detail;?>
@@ -1402,7 +1402,7 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 if ($this->detail->template_section == "redproductfinder")
 {
 	echo JHtml::_('tabs.panel', $title, 'redPRODUCTFINDER');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('redproductfinder'); ?></td>
 		</tr>
@@ -1423,7 +1423,7 @@ if ($this->detail->template_section == "redproductfinder")
 	if ($redprdfinder != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $redprdfinder;?>
@@ -1439,7 +1439,7 @@ if ($this->detail->template_section == "redproductfinder")
 if ($this->detail->template_section == "account_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'account_detail');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('account'); ?></td>
 		</tr>
@@ -1449,7 +1449,7 @@ if ($this->detail->template_section == "account_template")
 	if ($acc != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $acc;?>
@@ -1466,7 +1466,7 @@ if ($this->detail->template_section == "account_template")
 if ($this->detail->template_section == "compare_product")
 {
 	echo JHtml::_('tabs.panel', $title, 'compare_product');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('compare_product'); ?></td>
 		</tr>
@@ -1476,7 +1476,7 @@ if ($this->detail->template_section == "compare_product")
 	if ($cmp_prd != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $cmp_prd;?>
@@ -1492,7 +1492,7 @@ if ($this->detail->template_section == "compare_product")
 if ($this->detail->template_section == "redshop_payment")
 {
 	echo JHtml::_('tabs.panel', $title, 'redshop_payment');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('redshop_payment'); ?></td>
 		</tr>
@@ -1502,7 +1502,7 @@ if ($this->detail->template_section == "redshop_payment")
 	if ($payment != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $payment;?>
@@ -1518,7 +1518,7 @@ if ($this->detail->template_section == "redshop_payment")
 if ($this->detail->template_section == "redshop_shipping")
 {
 	echo JHtml::_('tabs.panel', $title, 'redshop_shipping');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('redshop_shipping'); ?></td>
 		</tr>
@@ -1528,7 +1528,7 @@ if ($this->detail->template_section == "redshop_shipping")
 	if ($shipping != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $shipping;?>
@@ -1544,7 +1544,7 @@ if ($this->detail->template_section == "redshop_shipping")
 if ($this->detail->template_section == "shippingbox")
 {
 	echo JHtml::_('tabs.panel', $title, 'shippingbox');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('shipping_box'); ?></td>
 		</tr>
@@ -1554,7 +1554,7 @@ if ($this->detail->template_section == "shippingbox")
 	if ($ship_box != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $ship_box;?>
@@ -1570,7 +1570,7 @@ if ($this->detail->template_section == "shippingbox")
 if ($this->detail->template_section == "onestep_checkout")
 {
 	echo JHtml::_('tabs.panel', $title, '1stepcheckout');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('onestep_checkout'); ?></td>
 		</tr>
@@ -1623,7 +1623,7 @@ if ($this->detail->template_section == "onestep_checkout")
 	if ($one_step != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $one_step;?>
@@ -1639,7 +1639,7 @@ if ($this->detail->template_section == "onestep_checkout")
 if ($this->detail->template_section == "change_cart_attribute")
 {
 	echo JHtml::_('tabs.panel', $title, 'cartattribute');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('change_cart_attribute'); ?></td>
 		</tr>
@@ -1669,7 +1669,7 @@ if ($this->detail->template_section == "change_cart_attribute")
 	if ($change_cart_attrib != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $change_cart_attrib;?>
@@ -1685,7 +1685,7 @@ if ($this->detail->template_section == "change_cart_attribute")
 if ($this->detail->template_section == "product_content_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'product_content');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('product_content'); ?></td>
 		</tr>
@@ -1695,7 +1695,7 @@ if ($this->detail->template_section == "product_content_template")
 	if ($product_content != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $product_content;?>
@@ -1711,7 +1711,7 @@ if ($this->detail->template_section == "product_content_template")
 if ($this->detail->template_section == "quotation_cart")
 {
 	echo JHtml::_('tabs.panel', $title, 'product_content');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('quotation_cart'); ?></td>
 		</tr>
@@ -1721,7 +1721,7 @@ if ($this->detail->template_section == "quotation_cart")
 	if ($quotation_cart != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $quotation_cart;?>
@@ -1736,7 +1736,7 @@ if ($this->detail->template_section == "quotation_cart")
 if ($this->detail->template_section == "billing_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'billing_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('billing') ?></td>
 		</tr>
@@ -1766,7 +1766,7 @@ if ($this->detail->template_section == "billing_template")
 	if ($billing_template != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $billing_template;?>
@@ -1781,7 +1781,7 @@ if ($this->detail->template_section == "billing_template")
 if ($this->detail->template_section == "private_billing_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'private_billing_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('private_billing'); ?></td>
 		</tr>
@@ -1791,7 +1791,7 @@ if ($this->detail->template_section == "private_billing_template")
 	if ($billing_template != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php echo $billing_template;?></td>
 			</tr>
@@ -1804,7 +1804,7 @@ if ($this->detail->template_section == "private_billing_template")
 if ($this->detail->template_section == "company_billing_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'company_billing_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('company_billing'); ?></td>
 		</tr>
@@ -1814,7 +1814,7 @@ if ($this->detail->template_section == "company_billing_template")
 	if ($billing_template != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php echo $billing_template;?></td>
 			</tr>
@@ -1827,7 +1827,7 @@ if ($this->detail->template_section == "company_billing_template")
 if ($this->detail->template_section == "shipping_template")
 {
 	echo JHtml::_('tabs.panel', $title, 'shipping_template');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('shipping') ?></td>
 		</tr>
@@ -1837,7 +1837,7 @@ if ($this->detail->template_section == "shipping_template")
 	if ($shipping_template != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $shipping_template;?>
@@ -1852,7 +1852,7 @@ if ($this->detail->template_section == "shipping_template")
 if ($this->detail->template_section == "stock_note")
 {
 	echo JHtml::_('tabs.panel', $title, 'stock_note');    ?>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('stock_note'); ?></td>
 		</tr>
@@ -1865,7 +1865,7 @@ if ($this->detail->template_section == "stock_note")
 	if ($stock_note != "")
 	{
 		echo JHtml::_('tabs.panel', $default_template, 'events');    ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td>
 					<?php echo $stock_note;?>

@@ -35,7 +35,7 @@ $model = $this->getModel('newsletter_detail');
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
@@ -104,7 +104,7 @@ $model = $this->getModel('newsletter_detail');
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_FIXED_TAGS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td><?php echo Redtemplate::getTemplateValues('newsletter', 'mail'); ?></td>
 				</tr>
@@ -119,7 +119,7 @@ $model = $this->getModel('newsletter_detail');
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_TAGS_HINT'); ?></legend>
-				<table class="admintable">
+				<table class="admintable table">
 					<?php
 					//Geeting the Text library texts for the newsletter section
 					for ($i = 0, $in = count($tags); $i < $in; $i++)
