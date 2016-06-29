@@ -23,7 +23,7 @@ $countrystyle = (isset($this->showcountry) && $this->showcountry == 0) ? ' style
 $statestyle = (isset($this->showstates) && $this->showstates == 0) ? ' style="display:none;" ' : '';
 ?>
 <div class="col50">
-	<table class="admintable">
+	<table class="admintable table">
 		<tr>
 			<td valign="top" align="right" class="key">
 				<span id="divFirstname"><?php echo JText::_('COM_REDSHOP_FIRST_NAME');?></span>:

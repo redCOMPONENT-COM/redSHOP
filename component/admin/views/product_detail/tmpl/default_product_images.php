@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 ?>
-<table class="admintable">
+<table class="admintable table">
 	<tr>
 		<td class="key">
 			<span

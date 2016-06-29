@@ -35,7 +35,7 @@ $product = $producthelper->getProductById($this->qdetail->product_id);?>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>:</td>
 					<td><?php echo $product->product_name;    ?>
@@ -82,7 +82,7 @@ $product = $producthelper->getProductById($this->qdetail->product_id);?>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_QUESTION'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td><?php echo $this->qdetail->question;    ?></td>
 				</tr>
@@ -93,7 +93,7 @@ $product = $producthelper->getProductById($this->qdetail->product_id);?>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_ANSWERS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 
 				<tr>
 					<td><?php echo $editor->display("question", $this->detail->question, '$widthPx', '$heightPx', '100', '20', '1');    ?></td>

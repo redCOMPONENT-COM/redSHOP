@@ -115,7 +115,7 @@ $url = $uri->root();
 	echo JHtml::_('bootstrap.addTab', 'config', 'general', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION', true));
 	?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<input type="hidden" name="view" value="configuration"/>
 			<input type="hidden" name="task" value=""/>
 			<input type="hidden" name="selectedTabPosition" value=""/>
@@ -126,21 +126,21 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'user', JText::_('COM_REDSHOP_USER', true)); ?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('user'); ?>
 		</div>
 	</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'cattab', JText::_('COM_REDSHOP_CATEGORY_TAB', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('cattab'); ?>
 		</div>
 	</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'manufacturertab', JText::_('COM_REDSHOP_REDMANUFACTURER_TAB', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('manufacturertab'); ?>
 		</div>
 	</div>
@@ -148,7 +148,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'producttab', JText::_('COM_REDSHOP_PRODUCT_TAB', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('producttab'); ?>
 		</div>
 	</div>
@@ -156,7 +156,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'featuretab', JText::_('COM_REDSHOP_FEATURE_TAB', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('featuretab'); ?>
 		</div>
 	</div>
@@ -164,7 +164,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'pricetab', JText::_('COM_REDSHOP_PRICE_TAB', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('pricetab'); ?>
 		</div>
 	</div>
@@ -172,7 +172,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'carttab', JText::_('COM_REDSHOP_CART_TAB', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('carttab'); ?>
 		</div>
 	</div>
@@ -180,7 +180,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'ordertab', JText::_('COM_REDSHOP_ORDER_TAB', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('ordertab'); ?>
 		</div>
 	</div>
@@ -188,7 +188,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'newslettertab', JText::_('COM_REDSHOP_NEWSLETTER_TAB', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('newslettertab'); ?>
 		</div>
 	</div>
@@ -196,7 +196,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'integration', JText::_('COM_REDSHOP_INTEGRATION', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('integration'); ?>
 		</div>
 	</div>
@@ -204,7 +204,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'seo', JText::_('COM_REDSHOP_SEO', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('seo'); ?>
 		</div>
 	</div>
@@ -212,7 +212,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'dashboard', JText::_('COM_REDSHOP_DASHBOARD', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('dashboard'); ?>
 		</div>
 	</div>
@@ -220,7 +220,7 @@ $url = $uri->root();
 
 	<?php echo JHtml::_('bootstrap.addTab', 'config', 'redshopabout', JText::_('COM_REDSHOP_ABOUT', true));?>
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="col-sm-12">
 			<?php echo $this->loadTemplate('redshopabout'); ?>
 		</div>
 	</div>

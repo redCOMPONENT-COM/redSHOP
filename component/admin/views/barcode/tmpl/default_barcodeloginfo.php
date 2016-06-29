@@ -15,7 +15,7 @@ $model = $this->getModel('barcode');
 
 ?>
 <div>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
 			<th><?php echo JText::_('COM_REDSHOP_ORDER_ID'); ?></th>

@@ -53,7 +53,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>

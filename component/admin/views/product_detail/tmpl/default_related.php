@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT'); ?>
 	</legend>
 
-	<table class="admintable">
+	<table class="admintable table">
 
 		<tr>
 			<td>
