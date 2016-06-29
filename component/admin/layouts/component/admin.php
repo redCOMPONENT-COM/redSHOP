@@ -49,6 +49,8 @@ if ('raw' === $format)
 $templateComponent = 'component' === $input->get('tmpl');
 $input->set('tmpl', 'component');
 
+echo JLayoutHelper::render('component.assets');
+
 // Do we have to display the sidebar ?
 $displaySidebar = false;
 

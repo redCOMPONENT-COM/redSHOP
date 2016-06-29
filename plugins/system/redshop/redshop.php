@@ -56,5 +56,8 @@ class PlgSystemRedSHOP extends JPlugin
 		{
 			RedshopHelperConfig::scriptDeclaration();
 		}
+
+		$doc = new RedshopHelperDocument;
+		$doc->cleanHeader();
 	}
 }
