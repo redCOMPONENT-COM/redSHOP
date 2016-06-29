@@ -21,7 +21,7 @@ class RedshopViewStatistic extends RedshopView
 		$app      = JFactory::getApplication();   
 		$document = JFactory::getDocument();
 
-		$layout = $app->input->getString('layout', '');
+		$layout = $app->input->getCmd('layout', '');
 
 		$startdate = $app->input->getInt('startdate', 0);
 		$enddate = $app->input->getInt('enddate', 0);
