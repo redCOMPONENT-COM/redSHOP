@@ -392,17 +392,6 @@ class leftmenu
 				(self::$view == 'shopper_group_detail') ? true : false
 			);
 
-		if (ENABLE_BACKENDACCESS)
-		{
-			$menu->section('accessmanager')
-				->title('COM_REDSHOP_ACCESS_MANAGER')
-				->addItem(
-					'index.php?option=com_redshop&view=accessmanager',
-					'COM_REDSHOP_ACCESS_MANAGER',
-					(self::$view == 'accessmanager') ? true : false
-				);
-		}
-
 		JFactory::getDocument()->addScriptDeclaration('
 			function userSync() {
 				if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_SYNC') . '") == true)
@@ -621,6 +610,17 @@ class leftmenu
 				'COM_REDSHOP_UPDATE_TITLE',
 				(self::$view == 'update') ? true : false
 			);
+
+		if (ENABLE_BACKENDACCESS)
+		{
+			$menu->section('accessmanager')
+				->title('COM_REDSHOP_ACCESS_MANAGER')
+				->addItem(
+					'index.php?option=com_redshop&view=accessmanager',
+					'COM_REDSHOP_ACCESS_MANAGER',
+					(self::$view == 'accessmanager') ? true : false
+				);
+		}
 
 		$menu->group('CONFIG');
 	}

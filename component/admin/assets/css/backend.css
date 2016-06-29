@@ -8776,7 +8776,7 @@ a:focus {
   margin: 0;
 }
 .sidebar-menu .treeview-menu > li > a {
-  padding: 10px 0px 10px 40px;
+  padding: 10px 35px 10px 40px;
   display: block;
   font-size: 14px;
   text-transform: none !important;
@@ -8904,7 +8904,7 @@ a:focus {
 }
 .sidebar-menu li > a > .pull-right {
   position: absolute;
-  right: 24px;
+  right: 10px;
   top: 50%;
   margin-top: -7px;
 }
