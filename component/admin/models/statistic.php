@@ -51,16 +51,11 @@ class RedshopModelStatistic extends RedshopModel
 		$this->_startdate = strtotime($jinput->getInt('startdate', 0));
 		$this->_enddate = strtotime($jinput->getInt('enddate', 0));
 		$this->_filteroption = $jinput->getInt('filteroption', 0);
-		$this->_typeoption = $jinput->getInt('typeoption', 1);
+		$this->_typeoption = $jinput->getInt('typeoption', 2);
 
-		if ($this->_filteroption == "" && $jinput->getString('view', '') == "")
+		if (!$this->_filteroption && $jinput->getString('view', '') == "")
 		{
 			$this->_filteroption = 3;
-		}
-
-		if ($this->_typeoption == "")
-		{
-			$this->_typeoption = 1;
 		}
 	}
 
