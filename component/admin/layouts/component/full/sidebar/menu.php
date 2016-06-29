@@ -25,7 +25,7 @@ extract($displayData);
 				<li class="treeview <?php echo ($active[1] == $sectionKey ? 'active': '') ?>">
 					<a href="#">
 						<span><?php echo JText::_($section->title); ?></span>
-						<i class="fa fa-caret-down pull-right"></i>
+						<i class="fa fa-angle-left pull-right"></i>
 					</a>
 
 					<ul class="treeview-menu">
