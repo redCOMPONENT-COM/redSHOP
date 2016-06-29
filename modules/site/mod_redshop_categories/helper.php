@@ -305,16 +305,13 @@ class modProMenuHelper
 
 	}
 
-	function get_category_tree($params, $category_id = 0,
-		$links_css_class = "mainlevel",
-		$list_css_class = "mm123",
-		$highlighted_style = "font-style:italic;", $shopper_group_id = 0)
+	function get_category_tree($params, $category_id = 0, $links_css_class = "mainlevel", $highlighted_style = "font-style:italic;", $shopper_group_id = 0)
 	{
 		$objhelper              = redhelper::getInstance();
 		$parent_selected        = $params->get('redshop_category', '');
 		$parent_selected_remove = $params->get('redshop_category_remove', '');
 
-		$categories = $this->getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove);
+		$categories = $this->getCategoryTreeArray(1, "", $shopper_group_id, $parent_selected_remove);
 
 		// Sort array of category objects
 		$result       = $this->sortCategoryTreeArray($categories, $parent_selected);
@@ -327,7 +324,7 @@ class modProMenuHelper
 		$key = array_keys($categories);
 
 		// Category count
-		$nrows = $size = count($key);
+		$nrows = count($key);
 
 		$html = "";
 
@@ -473,7 +470,6 @@ class modProMenuHelper
 				}
 
 				$uri = JURI::getInstance();
-				$url = $uri->root();
 
 				$catlink = 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category_tmp[$row_list[$n]]["category_child_id"] . $append . '&Itemid=' . $Itemid;
 				$html .= '<li ' . $class . ' ><a title="' . $catname . '" style="display:block;' . $style . '" class="' . $css_class . '" href=' . JRoute::_($catlink) . '>'
