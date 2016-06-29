@@ -42,6 +42,9 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 	// HTML helpers
 	JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');
 
+	// Include all tables
+	JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+
 	$cfgFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 	if (file_exists($cfgFile))

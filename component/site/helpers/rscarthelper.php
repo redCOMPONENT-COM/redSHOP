@@ -3794,8 +3794,6 @@ class rsCarthelper
 		$montharr[] = JHTML::_('select.option', '11', JText::_('COM_REDSHOP_NOV'));
 		$montharr[] = JHTML::_('select.option', '12', JText::_('COM_REDSHOP_DEC'));
 
-		$paymentmethod = JPluginHelper::getPlugin('redshop_payment');
-
 		$template_desc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $template_desc);
 
 		if (strpos($template_desc, "{split_payment}") !== false)
@@ -3811,6 +3809,8 @@ class rsCarthelper
 			}
 		}
 
+		$paymentMethods = RedshopHelperPayment::info();
+
 		if (strpos($template_desc, "{payment_loop_start}") !== false && strpos($template_desc, "{payment_loop_end}") !== false)
 		{
 			$template1       = explode("{payment_loop_start}", $template_desc);
@@ -3821,8 +3821,8 @@ class rsCarthelper
 			$flag            = false;
 
 			// Filter payment gateways array for shopperGroups
-			$paymentmethod = array_filter(
-				$paymentmethod,
+			$paymentMethods = array_filter(
+				$paymentMethods,
 				function ($paymentMethod) use ($shopperGroupId)
 				{
 					$paymentFilePath = JPATH_SITE
@@ -3834,8 +3834,7 @@ class rsCarthelper
 						return false;
 					}
 
-					$paymentparams  = new JRegistry($paymentMethod->params);
-					$shopperGroups  = $paymentparams->get('shopper_group_id', array());
+					$shopperGroups  = $paymentMethod->params->get('shopper_group_id', array());
 
 					if (!is_array($shopperGroups))
 					{
@@ -3853,11 +3852,11 @@ class rsCarthelper
 				}
 			);
 
-			$totalPaymentMethod = count($paymentmethod);
+			$totalPaymentMethod = count($paymentMethods);
 
 			if ($totalPaymentMethod > 0)
 			{
-				foreach ($paymentmethod as $p => $oneMethod)
+				foreach ($paymentMethods as $p => $oneMethod)
 				{
 					$cardinfo        = "";
 					$display_payment = "";
@@ -3865,10 +3864,9 @@ class rsCarthelper
 
 					include_once $paymentpath;
 
-					$paymentparams  = new JRegistry($oneMethod->params);
-					$private_person = $paymentparams->get('private_person', '');
-					$business       = $paymentparams->get('business', '');
-					$is_creditcard  = $paymentparams->get('is_creditcard', 0);
+					$private_person = $oneMethod->params->get('private_person', '');
+					$business       = $oneMethod->params->get('business', '');
+					$is_creditcard  = $oneMethod->params->get('is_creditcard', 0);
 
 					$checked = '';
 					$payment_chcked_class = '';
@@ -3936,6 +3934,26 @@ class rsCarthelper
 					$payment_display .= $template_middle;
 					$payment_display = str_replace("{payment_method_name}", $display_payment, $payment_display);
 					$payment_display = str_replace("{creditcard_information}", $cardinfo, $payment_display);
+
+					if (strpos($payment_display, "{payment_extrafields}") !== false)
+					{
+						$paymentExtraFieldsHtml = '';
+
+						if ($checked != '')
+						{
+							$layoutFile = new JLayoutFile('order.payment.extrafields');
+
+							// Append plugin JLayout path to improve view based on plugin if needed.
+							$layoutFile->addIncludePath(JPATH_SITE . '/plugins/' . $oneMethod->type . '/' . $oneMethod->name . '/layouts');
+							$paymentExtraFieldsHtml =  $layoutFile->render(array('plugin' => $oneMethod));
+						}
+
+						$payment_display = str_replace(
+							'{payment_extrafields}',
+							'<div class="extrafield_payment">' . $paymentExtraFieldsHtml . '</div>',
+							$payment_display
+						);
+					}
 				}
 			}
 
@@ -3944,34 +3962,7 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $payment_display, $template_desc);
 		}
 
-		$extrafield_total   = '';
-
-		if (strpos($template_desc, "{payment_extrafields}") !== false)
-		{
-			$extraField         = extraField::getInstance();
-			$paymentparams_new  = new JRegistry($paymentmethod[0]->params);
-			$extrafield_payment = $paymentparams_new->get('extrafield_payment');
-			$extrafield_total   = '';
-			$extrafield_hidden  = '';
-
-			if (count($extrafield_payment) > 0)
-			{
-				for ($ui = 0; $ui < count($extrafield_payment); $ui++)
-				{
-					$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 18, '', 0, 0, 0);
-					$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
-					$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
-				}
-
-				$template_desc = str_replace("{payment_extrafields}", "<div id='extrafield_payment'>" . $extrafield_total . $extrafield_hidden . "</div>", $template_desc);
-			}
-			else
-			{
-				$template_desc = str_replace("{payment_extrafields}", "<div id='extrafield_payment'></div>", $template_desc);
-			}
-		}
-
-		if (count($paymentmethod) == 1 && $is_creditcard == "0" && $extrafield_total == "")
+		if (count($paymentMethods) == 1 && $is_creditcard == "0")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
