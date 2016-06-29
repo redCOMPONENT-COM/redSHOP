@@ -511,9 +511,9 @@ for ($i = 0, $in = count($products); $i < $in; $i++)
 										?>
 									</td>
 									<td width="10%">
-										<div class="input-prepend span12">
-										<span class="add-on span3"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
-										<input type="text" name="update_price" id="update_price" class="span9"
+										<div class="input-prepend col-sm-12">
+										<span class="add-on col-sm-3"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
+										<input type="text" name="update_price" id="update_price" class="col-sm-9"
 										       value="<?php echo $producthelper->redpriceDecimal($products[$i]->product_item_price_excl_vat); ?>"
 										       size="10">
 										</div>
@@ -522,7 +522,7 @@ for ($i = 0, $in = count($products); $i < $in; $i++)
 									<td width="10%"><?php echo $producthelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 
 									<td width="5%">
-										<input type="text" name="quantity" id="quantity" class="span12"
+										<input type="text" name="quantity" id="quantity" class="col-sm-12"
 										       value="<?php echo $quantity; ?>" size="3">
 									</td>
 									<td align="right" width="10%">
@@ -703,7 +703,7 @@ $session->set('cart', $cart); ?>
 </tr>
 <tr>
 	<td>
-		<div class="offset7 span5">
+		<div class="offset7 col-sm-5">
 		<table width="100%" align="right" border="0" cellspacing="0" cellpadding="0"
 		       class="adminlist table table-condensed table-striped">
 			<tbody>
@@ -787,7 +787,7 @@ $session->set('cart', $cart); ?>
 						<div class="input-prepend input-append">
 							<span class="add-on"><?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?></span>
 							<input type="text" name="update_discount"
-								id="update_discount" class="span6"
+								id="update_discount" class="col-sm-6"
 								value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
 								size="10">
 							<span class="add-on"><label class="inline">&nbsp;<img class="update_price" align="absmiddle"
@@ -813,7 +813,7 @@ $session->set('cart', $cart); ?>
 						<div class="input-prepend input-append">
 							<span class="add-on"><?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?></span>
 							<input type="text" name="special_discount"
-								id="special_discount" class="span6"
+								id="special_discount" class="col-sm-6"
 								value="<?php echo $this->detail->special_discount; ?>"
 								size="10">
 							<span class="add-on">%&nbsp;</span>
@@ -911,7 +911,7 @@ $session->set('cart', $cart); ?>
 					<td id="tdnoteproduct1"></td>
 					<td><input type="hidden" name="change_product_tmp_priceproduct1"
 					           id="change_product_tmp_priceproduct1" value="0" size="10">
-						<input type="text" name="prdexclpriceproduct1" style="display: none;" id="prdexclpriceproduct1" class="span12"
+						<input type="text" name="prdexclpriceproduct1" style="display: none;" id="prdexclpriceproduct1" class="col-sm-12"
 						       onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
 					<td align="right">
 						<div id="prdtaxproduct1"></div>
@@ -920,7 +920,7 @@ $session->set('cart', $cart); ?>
 						<div id="prdpriceproduct1"></div>
 						<input name="productpriceproduct1" id="productpriceproduct1" type="hidden" value="0"/></td>
 					<td><input type="text" name="quantityproduct1" id="quantityproduct1" style="display: none;"
-					           onchange="changeOfflineQuantityBox('product1');" value="1" class="span12"
+					           onchange="changeOfflineQuantityBox('product1');" value="1" class="col-sm-12"
 					           size="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>" maxlength="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"></td>
 					<td align="right">
 						<div id="tdtotalprdproduct1"></div>
