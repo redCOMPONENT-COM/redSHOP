@@ -9,68 +9,56 @@
 defined('_JEXEC') or die;
 
 ?>
-<div id="config-document">
-	<table width="100%" cellpadding="0" cellspacing="0">
-		<tr valign="top">
-			<td width="50%">
-				<fieldset class="adminform">
-					<table class="admintable">
-						<tr>
-							<td class="config_param"><?php echo JText::_('COM_REDSHOP_COMPARISON_SETTINGS'); ?></td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key">
-						<span class="editlinktip hasTip"
-						      title="<?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARE_LIMIT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_LIMIT_LBL'); ?>">
-						<label for="name"><?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARE_LIMIT_LBL');?></label></span>
-							</td>
-							<td>
-								<input type="text" name="product_compare_limit" id="product_compare_limit"
-								       value="<?php echo $this->config->get('PRODUCT_COMPARE_LIMIT'); ?>">
-							</td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key">
-						<span class="editlinktip hasTip"
+
+<div class="row">
+	<div class="col-sm-6">
+		<legend><?php echo JText::_('COM_REDSHOP_COMPARISON_SETTINGS'); ?></legend>
+
+		<div class="form-group">
+			<span class="editlinktip hasTip"
+					  title="<?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCTS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCTS'); ?>">
+				<label for="name">
+					<?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCTS_LBL');?>
+				</label>
+			 </span>
+			 <?php echo $this->lists ['compare_products'];?>
+		</div>
+		<div class="form-group">
+			<span class="editlinktip hasTip"
+					      title="<?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARE_LIMIT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_LIMIT_LBL'); ?>">
+					<label for="name"><?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARE_LIMIT_LBL');?></label></span>
+			<input type="text" name="product_compare_limit" id="product_compare_limit"
+							       value="<?php echo $this->config->get('PRODUCT_COMPARE_LIMIT'); ?>">
+		</div>
+
+		<div class="form-group">
+			<span class="editlinktip hasTip"
 						      title="<?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARISON_TYPE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARISON_TYPE_LBL'); ?>">
 						<label
 							for="name"><?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARISON_TYPE_LBL');?></label></span>
-							</td>
-							<td><?php echo $this->lists ['product_comparison_type'];?></td>
-						</tr>
-					</table>
-				</fieldset>
-			</td>
-			<td width="50%">
-				<fieldset class="adminform">
-					<table class="admintable">
-						<tr>
-							<td class="config_param"><?php echo JText::_('COM_REDSHOP_COMPARISON_LAYOUT'); ?></td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key">
-						<span class="editlinktip hasTip"
+			<?php echo $this->lists ['product_comparison_type'];?>
+		</div>
+
+	</div>
+
+	<div class="col-sm-6">
+		<legend><?php echo JText::_('COM_REDSHOP_COMPARISON_LAYOUT'); ?></legend>
+		<div class="form-group">
+			<span class="editlinktip hasTip"
 						      title="<?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCT_TEMPLATE_LBL'); ?>::<?php echo JText::_('TOOLTIP_COMPARE_PRODUCT_TEMPLATE'); ?>">
 						<label
 							for="name"><?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCT_TEMPLATE_LBL');?></label></span>
-							</td>
-							<td><?php echo $this->lists ['compare_template_id'];?></td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key">
-					<span class="editlinktip hasTip"
+			<?php echo $this->lists ['compare_template_id'];?>
+		</div>
+
+		<div class="form-group">
+			<span class="editlinktip hasTip"
 					      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCT_THUMB_WIDTH_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCT_THUMB_WIDTH'); ?>">
 					<label for="name"><?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCT_THUMB_WIDTH_HEIGHT'); ?></label></span>
-							</td>
-							<td>
-								<input type="text" name="compare_product_thumb_width" id="compare_product_thumb_width"
+			<input type="text" name="compare_product_thumb_width" id="compare_product_thumb_width"
 								       value="<?php echo $this->config->get('COMPARE_PRODUCT_THUMB_WIDTH'); ?>">
-								<input type="text" name="compare_product_thumb_height" id="compare_product_thumb_height"
+			<input type="text" name="compare_product_thumb_height" id="compare_product_thumb_height"
 								       value="<?php echo $this->config->get('COMPARE_PRODUCT_THUMB_HEIGHT'); ?>">
-							</td>
-					</table>
-				</fieldset>
-			</td>
-		</tr>
-	</table>
+		</div>
+	</div>
 </div>

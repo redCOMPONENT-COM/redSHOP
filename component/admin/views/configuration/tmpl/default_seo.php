@@ -9,30 +9,33 @@
 defined('_JEXEC') or die;
 
 ?>
-<table width="100%" cellpadding="0" cellspacing="0">
-	<tr valign="top">
-		<td width="50%">
+
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-md-6 col-lg-3">
 			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_SEO_GENERAL_TAB'); ?></legend>
 				<?php echo $this->loadTemplate('seo_general');?>
 			</fieldset>
+		</div>
+		<div class="col-md-6 col-lg-3">
 			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_SEO_CATEGORY_TAB'); ?></legend>
 				<?php echo $this->loadTemplate('seo_category');?>
 			</fieldset>
-		</td>
-		<td width="50%">
+		</div>
+		<div class="col-md-6 col-lg-3">
 			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_SEO_PRODUCT_TAB'); ?></legend>
 				<?php echo $this->loadTemplate('seo_product');?>
 			</fieldset>
+		</div>
+
+		<div class="col-md-6 col-lg-3">
 			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_SEO_MANUFACTURER_TAB'); ?></legend>
 				<?php echo $this->loadTemplate('seo_manufacturer');?>
 			</fieldset>
-		</td>
-	</tr>
-</table>
+		</div>
+	</div>
+</fieldset>
+
 
 <div class="col50">
 	<fieldset class="adminform">

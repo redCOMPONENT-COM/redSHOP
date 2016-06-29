@@ -9,36 +9,30 @@
 defined('_JEXEC') or die;
 
 ?>
-<div id="config-document">
-	<table width="100%" cellpadding="0" cellspacing="0">
-		<tr valign="top">
-			<td width="50%">
 
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_QUICK_LINKS'); ?></legend>
-					<?php echo $this->loadTemplate('quicklink');?>
-				</fieldset>
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-md-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('quicklink');?>
+			</fieldset>
+		</div>
+		<div class="col-md-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('new_customers');?>
+			</fieldset>
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('new_orders');?>
+			</fieldset>
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('statistic');?>
+			</fieldset>
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('expand');?>
+			</fieldset>
 
-			</td>
-			<td width="50%">
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_NEWEST_CUSTOMERS'); ?></legend>
-					<?php echo $this->loadTemplate('new_customers');?>
-				</fieldset>
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_NEWEST_ORDERS'); ?></legend>
-					<?php echo $this->loadTemplate('new_orders');?>
-				</fieldset>
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_SHOW_LAST_MONTH_STATISTIC'); ?></legend>
-					<?php echo $this->loadTemplate('statistic');?>
-				</fieldset>
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_EXPAND_ALL_LBL'); ?></legend>
-					<?php echo $this->loadTemplate('expand');?>
-				</fieldset>
+		</div>
 
-			</td>
-		</tr>
-	</table>
-</div>
+	</div>
+</fieldset>
+

@@ -9,18 +9,16 @@
 defined('_JEXEC') or die;
 
 ?>
-<table class="admintable">
 
-	<tr>
-		<td width="100" align="right" class="key">
-				<span class="editlinktip hasTip"
+<legend><?php echo JText::_('COM_REDSHOP_NEWEST_ORDERS'); ?></legend>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 				      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DISPLAY_ORDERS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DISPLAY_ORDERS'); ?>">
-       <?php
+        <label><?php
 					echo JText::_('COM_REDSHOP_DISPLAY_ORDERS_LBL');
-					?></span></td>
-		<td><?php
+					?></label></span>
+	<?php
 			echo $this->lists ['display_new_orders'];
 			?>
-		</td>
-	</tr>
-</table>
+</div>

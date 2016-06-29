@@ -15733,7 +15733,7 @@ fine-grain .ui-widget {
   background-image: none;
 }
 .tab-content {
-  padding: 20px;
+  padding: 0;
 }
 .header-toolbar {
   margin: 20px 0;
@@ -17132,7 +17132,7 @@ fieldset.redRadioGroup > .btn {
   display: inline-block !important;
   margin-top: 0;
   min-width: 50px;
-  padding: 5px 0;
+  padding: 5px 10px !important;
   text-align: center;
 }
 
@@ -17178,4 +17178,17 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
   width: auto !important;
   margin-right: 5px;
   height: auto !important;
+}
+
+#usrdiv,
+#catdiv,
+.divimages
+{
+  margin-top: 10px;
+
+  .remove_link
+  {
+    display: block;
+    margin-top: 5px;
+  }
 }
