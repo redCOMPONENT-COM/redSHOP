@@ -60,8 +60,8 @@ class RedshopHelperTCPDF extends TCPDF
 			// Full background image
 			$this->SetAutoPageBreak(false, 0);
 			$this->Image(
-				$this->img_file, $x = 0, $y = 0, $w = 210, $h = 297, $type = '', $link = '', $align = '', $resize = false,
-				$dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 0
+				$this->img_file, 0, 0, 210, 297, '', '', '', false,
+				300, '', false, false, 0
 			);
 			$this->SetAutoPageBreak($this->AutoPageBreak);
 		}
