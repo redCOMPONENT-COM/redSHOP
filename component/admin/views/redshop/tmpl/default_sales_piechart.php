@@ -49,7 +49,6 @@ $title = addslashes(JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'));
 		<?php
 			echo JText::_('COM_REDSHOP_FILTER') . ": ";
 			$options = array();
-			$options[] = JHTML::_('select.option', '0"selected"', JText::_('COM_REDSHOP_SELECT'));
 			$options[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
 			$options[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
 			$options[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));

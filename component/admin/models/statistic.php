@@ -50,7 +50,7 @@ class RedshopModelStatistic extends RedshopModel
 
 		if ($this->_filteroption == "" && JRequest::getVar('view') == "")
 		{
-			$this->_filteroption = 3;
+			$this->_filteroption = 1;
 		}
 	}
 
