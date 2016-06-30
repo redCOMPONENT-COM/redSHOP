@@ -109,9 +109,6 @@ JPluginHelper::importPlugin('redshop_product');
 					<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
 				</div>
 			</div>
-			<div class="filterItem">
-				<?php echo $lists['filter_by'];?>
-			</div>
 			<div class="filterItem calendar-div">
 				<?php
 					$state     = $this->get('State');
@@ -154,8 +151,7 @@ JPluginHelper::importPlugin('redshop_product');
 			<div class="filterItem">
 				<?php echo $lists['filter_status'];?>
 			</div>
-			<div class="filterItem"><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
-				: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
+			<div class="filterItem"><?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
 			</div>
 		</div>
 
@@ -171,7 +167,7 @@ JPluginHelper::importPlugin('redshop_product');
 			<?php echo JHtml::_('redshopgrid.checkall'); ?>
 		</th>
 		<th class="title" width="5%">
-			<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHTML::_('grid.sort', 'ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<th class="title" width="10%">
 			<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_NUMBER', 'order_number', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -188,12 +184,12 @@ JPluginHelper::importPlugin('redshop_product');
 		<th width="10%">
 			<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_EMAIL', 'uf.user_email', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
-		<th width="28%">
+		<th width="20%">
 			<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php if (USE_STOCKROOM == 1)
 		{ ?>
-			<th width="15%">
+			<th width="10%">
 				<?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
 			</th>
 			<th width="10%">
@@ -207,8 +203,7 @@ JPluginHelper::importPlugin('redshop_product');
 		<th width="7%">
 			<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_TOTAL', 'order_total', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
-		<th>
-		</th>
+		<th></th>
 		<?php if (POSTDK_INTEGRATION)
 			echo "<th></th>";?>
 	</tr>
@@ -399,55 +394,58 @@ JPluginHelper::importPlugin('redshop_product');
 			?>
 			</td>
 			<?php
-				$details = RedshopShippingRate::decrypt($row->ship_method_id);
-
-				$shippingParams = new JRegistry;
-
-				if (!empty($details[0]))
+				if (POSTDK_INTEGRATION)
 				{
-					$shippingPlugin = JPluginHelper::getPlugin(
-									'redshop_shipping',
-									str_replace(
-										'plgredshop_shipping',
-										'',
-										strtolower($details[0])
-									)
-								);
+					$details = RedshopShippingRate::decrypt($row->ship_method_id);
 
-					if (!empty($shippingPlugin))
+					$shippingParams = new JRegistry;
+
+					if (!empty($details[0]))
 					{
-						$shippingParams = new JRegistry($shippingPlugin->params);
+						$shippingPlugin = JPluginHelper::getPlugin(
+										'redshop_shipping',
+										str_replace(
+											'plgredshop_shipping',
+											'',
+											strtolower($details[0])
+										)
+									);
+
+						if (!empty($shippingPlugin))
+						{
+							$shippingParams = new JRegistry($shippingPlugin->params);
+						}
 					}
-				}
 
-				// Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
-				$allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean) $shippingParams->get('allowPacsoftLabel'));
+					// Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
+					$allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean) $shippingParams->get('allowPacsoftLabel'));
 
-				if ($allowPacsoftLabel && POSTDK_INTEGRATION)
-				{
-					echo "<td>";
-
-					if ($row->order_label_create)
+					if ($allowPacsoftLabel)
 					{
-						echo JTEXT::_("COM_REDSHOP_XML_ALREADY_GENERATED");
+						echo "<td>";
+
+						if ($row->order_label_create)
+						{
+							echo JTEXT::_("COM_REDSHOP_XML_ALREADY_GENERATED");
+						}
+						else
+						{
+							echo JHTML::_('calendar', date('Y-m-d'), 'specifiedDate' . $i, 'specifiedDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
+							<input type="button" class="button"
+								value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
+								onclick="
+									javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';
+									document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;
+									document.parcelFrm.submit();">
+						<?php
+						}
+
+						echo "</td>";
 					}
 					else
 					{
-						echo JHTML::_('calendar', date('Y-m-d'), 'specifiedDate' . $i, 'specifiedDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
-						<input type="button" class="button"
-							value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
-							onclick="
-								javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';
-								document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;
-								document.parcelFrm.submit();">
-					<?php
+						echo '<td>' . JText::_('COM_REDSHOP_NO_PACSOFT_LABEL') . '</td>';
 					}
-
-					echo "</td>";
-				}
-				else
-				{
-					echo '<td>' . JText::_('COM_REDSHOP_NO_PACSOFT_LABEL') . '</td>';
 				}
 			?>
 		</tr>

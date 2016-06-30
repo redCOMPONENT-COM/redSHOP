@@ -330,7 +330,7 @@ class RedshopModelStatistic extends RedshopModel
 			$query->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate');
 		}
 
-		$query->select('SUM(o.order_total) AS turnover');
+		$query->select('SUM(o.order_total) AS turnover, SUM(o.order_total) AS turnover');
 
 		if ($this->_filteroption != 4)
 		{
@@ -817,7 +817,7 @@ class RedshopModelStatistic extends RedshopModel
 		switch ($this->_filteroption)
 		{
 			case 1:
-				$return = "%d %b, %Y";
+				$return = "%d %b";
 				break;
 			case 2:
 				$return = "%d %b, %Y";

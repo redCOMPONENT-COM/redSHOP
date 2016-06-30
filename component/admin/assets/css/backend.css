@@ -14013,6 +14013,7 @@ fieldset[disabled] .btn-yahoo.active {
   -moz-user-select: none;
   user-select: none;
   width: auto !important;
+  min-width: 100px !important;
 }
 .chzn-container .chzn-drop {
   position: absolute;
@@ -14485,7 +14486,8 @@ fieldset[disabled] .btn-yahoo.active {
 .chzn-container-single .chzn-results {
   margin: 0;
   padding: 0;
-  background-color: #f7f7f7;
+  background-color: #ffffff;
+  border: 1px solid #e6e5e5;
 }
 .company-icon {
   position: relative;

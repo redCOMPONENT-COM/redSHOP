@@ -13,6 +13,7 @@ JFactory::getDocument()->addScript('//www.google.com/jsapi');
 $turnover = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalTurnoverCpanel();
 
 $data = json_encode($turnover, JSON_NUMERIC_CHECK);
+
 $title = addslashes(JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'));
 ?>
 
@@ -31,6 +32,7 @@ $title = addslashes(JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES'));
 		var data = new google.visualization.DataTable();
 		data.addColumn('string', '<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>');
 		data.addColumn('number', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>');
+		data.addColumn({type: 'number', role: 'annotation'});
 		data.addRows(<?php echo $data;?>);
 
 		var options = {
