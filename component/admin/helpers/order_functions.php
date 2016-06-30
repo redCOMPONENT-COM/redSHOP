@@ -706,7 +706,7 @@ class order_functions
 
 	public function getpaymentstatuslist($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		$types[] = JHTML::_('select.option', '', '- ' . JText::_('COM_REDSHOP_SELECT_PAYMENT_STATUS') . ' -');
+		$types[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_PAYMENT_STATUS'));
 		$types[] = JHTML::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
 		$types[] = JHTML::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
 		$types[] = JHTML::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
