@@ -34,6 +34,9 @@ class RedshopViewOrder extends RedshopViewAdmin
 		}
 		else
 		{
+			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
+			JToolbarHelper::addNew();
+
 			JToolBarHelper::custom(
 				'multiprint_order',
 				'print_f2.png',
@@ -41,8 +44,6 @@ class RedshopViewOrder extends RedshopViewAdmin
 				'COM_REDSHOP_MULTI_PRINT_ORDER_LBL',
 				true
 			);
-			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
-			JToolbarHelper::addNew();
 
 			JToolBarHelper::custom(
 				'allStatusExceptPacsoft',
