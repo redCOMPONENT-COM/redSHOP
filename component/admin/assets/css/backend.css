@@ -25387,3 +25387,14 @@ body.modal-open {
   font-size: 14px;
   margin: 0;
 }
+
+#menuhide
+{
+  margin-left: 0;
+}
+
+#menuhide,
+#menuhide ul
+{
+  list-style: none;
+}

@@ -15,12 +15,14 @@ class leftmenu
 
 	protected static $layout = NULL;
 
-	public static function render()
+	public static function render($disableMenu = false)
 	{
 		self::$view = JFactory::getApplication()->input->getCmd('view');
 		self::$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		$menu = RedshopAdminMenu::getInstance();
+
+		$menu->disableMenu = $disableMenu;
 
 		$active = self::getActive();
 
@@ -38,7 +40,14 @@ class leftmenu
 		self::setStatisticsGroup();
 		self::setConfigGroup();
 
-		return JLayoutHelper::render('component.full.sidebar.menu', array('items' => $menu->items, 'active' => $active));
+		if ($disableMenu)
+		{
+			return $menu->items;
+		}
+		else
+		{
+			return JLayoutHelper::render('component.full.sidebar.menu', array('items' => $menu->items, 'active' => $active));
+		}
 	}
 
 	protected static function getActive()

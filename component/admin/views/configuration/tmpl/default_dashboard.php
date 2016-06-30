@@ -14,10 +14,13 @@ defined('_JEXEC') or die;
 	<div class="row">
 		<div class="col-md-6">
 			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('quicklink');?>
+				<?php echo $this->loadTemplate('menuhide');?>
 			</fieldset>
 		</div>
 		<div class="col-md-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('quicklink');?>
+			</fieldset>
 			<fieldset class="adminform">
 				<?php echo $this->loadTemplate('new_customers');?>
 			</fieldset>
