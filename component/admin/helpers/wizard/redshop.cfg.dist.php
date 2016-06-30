@@ -332,6 +332,7 @@ define('POSTDK_INTEGRATION', '0');
 define('POSTDANMARK_ADDRESS', 'address');
 define('POSTDANMARK_POSTALCODE', '123456');
 define('QUICKLINK_ICON', '');
+define('MENUHIDE', '');
 define('DISPLAY_NEW_ORDERS', '1');
 define('DISPLAY_NEW_CUSTOMERS', '1');
 define('DISPLAY_STATISTIC', '1');

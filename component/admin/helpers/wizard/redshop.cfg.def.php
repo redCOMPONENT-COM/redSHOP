@@ -310,6 +310,7 @@ $defaultarray["display_new_orders"] = DISPLAY_NEW_ORDERS;
 $defaultarray["display_statistic"] = DISPLAY_STATISTIC;
 $defaultarray["expand_all"] = EXPAND_ALL;
 $defaultarray["quicklink_icon"] = QUICKLINK_ICON;
+$defaultarray["menuhide"] = MENUHIDE;
 $defaultarray["default_portal_logo"] = DEFAULT_PORTAL_LOGO;
 $defaultarray["show_price_user_group_list"] = SHOW_PRICE_USER_GROUP_LIST;
 $defaultarray["show_price_shopper_group_list"] = SHOW_PRICE_SHOPPER_GROUP_LIST;
