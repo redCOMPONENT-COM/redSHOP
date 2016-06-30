@@ -208,10 +208,6 @@ if (!class_exists('redproductScroller'))
 		 */
 		function displayredScroller(&$rows)
 		{
-			$database = JFactory::getDbo();
-
-			$cnt = 0;
-
 			if ($this->ScrollCSSOverride == 'yes')
 			{
 				$txt_size = $this->ScrollTextSize . 'px';
@@ -239,10 +235,6 @@ if (!class_exists('redproductScroller'))
                         scrolldelay=\"" . $this->ScrollDelay . "\"
                         truespeed=\"true\" onmouseover=\"this.stop()\" onmouseout=\"this.start()\">";
 			}
-
-			$show_product_name = ($this->show_product_name == "yes") ? true : false;
-			$show_addtocart    = ($this->show_addtocart == "yes") ? true : false;
-			$show_price        = ($this->show_price == "yes") ? true : false;
 
 			if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
 			{
@@ -291,10 +283,8 @@ if (!class_exists('redproductScroller'))
 		/**
 		 * Helper DB function
 		 */
-		public function getredProductSKU($limit = 0, $how = null, $category_id = 0, $featuredProducts = 'no')
+		public function getredProductSKU($limit = 0, $how = null, $category_id = 0)
 		{
-			$app = JFactory::getApplication();
-
 			$category_array = new product_category;
 
 			$hierachy = $category_array->getCategoryListArray($category_id, $category_id);
@@ -355,11 +345,10 @@ if (!class_exists('redproductScroller'))
 			return $rows;
 		}
 
-		public function ShowProducts($row, $i)
+		public function ShowProducts($row)
 		{
 			$producthelper = producthelper::getInstance();
 			$redhelper     = redhelper::getInstance();
-			$url           = JURI::base();
 			$category_id   = $producthelper->getCategoryProduct($row->product_id);
 			$ItemData      = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
 

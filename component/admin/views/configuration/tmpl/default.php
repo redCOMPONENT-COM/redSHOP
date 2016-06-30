@@ -8,6 +8,9 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', 'select');
 JHTMLBehavior::modal();
 
 $uri = JURI::getInstance();
@@ -96,66 +99,134 @@ $url = $uri->root();
 <form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<?php
-	$dashboard = JFactory::getApplication()->input->getInt('dashboard');
+	$dashboard = JFactory::getApplication()->input->getInt('dashboard', 0);
 	$app = JFactory::getApplication();
-	$options = array('startOffset' => $app->getUserState('com_redshop.configuration.selectedTabPosition'));
+	$options = array('active' => 'general');
 
 	if ($dashboard)
 	{
-		// Temporary fix - due to joomla bug have to force this code. Need to remove after fix in Joomla.
-		JFactory::getDocument()->addScriptDeclaration('
-			window.addEvent("domready", function(){
-				$$("dl#pane.tabs").each(function(tabs){
-					new JTabs(tabs, {"display": 12,"useStorage": false,"titleSelector": "dt.tabs","descriptionSelector": "dd.tabs"});
-				});
-			});
-		');
-
-		// Permenant fix - will work after joomla bug fix
-		$options = array(
-			'startOffset' => 12,
-			'useCookie'   => false
-		);
+		$options = array('active' => 'dashboard');
 	}
 
-	echo JHtml::_('tabs.start', 'pane', $options);
+	echo JHtml::_('bootstrap.startTabSet', 'config', $options);
+
 	$app->setUserState('com_redshop.configuration.selectedTabPosition', null);
 	$output = '';
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'general');
+	echo JHtml::_('bootstrap.addTab', 'config', 'general', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION', true));
 	?>
-	<input type="hidden" name="view" value="configuration"/>
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="selectedTabPosition" value=""/>
-	<?php
-	echo $this->loadTemplate('general');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_USER'), 'user');
-	echo $this->loadTemplate('user');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_TAB'), 'cattab');
-	echo $this->loadTemplate('cattab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_REDMANUFACTURER_TAB'), 'manufacturertab');
-	echo $this->loadTemplate('manufacturertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_TAB'), 'producttab');
-	echo $this->loadTemplate('producttab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FEATURE_TAB'), 'featuretab');
-	echo $this->loadTemplate('featuretab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRICE_TAB'), 'pricetab');
-	echo $this->loadTemplate('pricetab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CART_TAB'), 'carttab');
-	echo $this->loadTemplate('carttab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ORDER_TAB'), 'ordertab');
-	echo $this->loadTemplate('ordertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_NEWSLETTER_TAB'), 'newslettertab');
-	echo $this->loadTemplate('newslettertab');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_INTEGRATION'), 'integration');
-	echo $this->loadTemplate('integration');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_SEO'), 'seo');
-	echo $this->loadTemplate('seo');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DASHBOARD'), 'dashboard');
-	echo $this->loadTemplate('dashboard');
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ABOUT'), 'redshopabout');
-	echo $this->loadTemplate('redshopabout');
-	echo JHtml::_('tabs.end');
-	?>
+	<div class="row-fluid">
+		<div class="span12">
+			<input type="hidden" name="view" value="configuration"/>
+			<input type="hidden" name="task" value=""/>
+			<input type="hidden" name="selectedTabPosition" value=""/>
+			<?php echo $this->loadTemplate('general'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'user', JText::_('COM_REDSHOP_USER', true)); ?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('user'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'cattab', JText::_('COM_REDSHOP_CATEGORY_TAB', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('cattab'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'manufacturertab', JText::_('COM_REDSHOP_REDMANUFACTURER_TAB', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('manufacturertab'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'producttab', JText::_('COM_REDSHOP_PRODUCT_TAB', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('producttab'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'featuretab', JText::_('COM_REDSHOP_FEATURE_TAB', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('featuretab'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'pricetab', JText::_('COM_REDSHOP_PRICE_TAB', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('pricetab'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'carttab', JText::_('COM_REDSHOP_CART_TAB', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('carttab'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'ordertab', JText::_('COM_REDSHOP_ORDER_TAB', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('ordertab'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'newslettertab', JText::_('COM_REDSHOP_NEWSLETTER_TAB', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('newslettertab'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'integration', JText::_('COM_REDSHOP_INTEGRATION', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('integration'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'seo', JText::_('COM_REDSHOP_SEO', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('seo'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'dashboard', JText::_('COM_REDSHOP_DASHBOARD', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('dashboard'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'config', 'redshopabout', JText::_('COM_REDSHOP_ABOUT', true));?>
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo $this->loadTemplate('redshopabout'); ?>
+		</div>
+	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<input type="hidden" name="cid" value="1"/>
 	<input type="hidden" name="option" value="com_redshop"/>
 </form>

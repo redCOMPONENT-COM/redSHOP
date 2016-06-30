@@ -22,7 +22,6 @@ class RedshopViewOrder_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = order_functions::getInstance();
@@ -180,6 +179,16 @@ class RedshopViewOrder_detail extends RedshopView
 			'send',
 			'COM_REDSHOP_SEND_INVOICEMAIL'
 		);
+
+		if ($payment_detail->plugin->params->get('enableVault')
+			&& ('P' == $detail->order_status || 'Unpaid' == $detail->order_payment_status))
+		{
+			RedshopToolbarHelper::link(
+				'index.php?option=com_redshop&view=order_detail&task=pay&orderId=' . $order_id . $appendTmpl,
+				'credit',
+				'COM_REDSHOP_ORDER_PAY'
+			);
+		}
 
 		if ($tmpl)
 		{

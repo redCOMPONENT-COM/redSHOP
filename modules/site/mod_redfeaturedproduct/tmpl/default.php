@@ -27,7 +27,7 @@ JHtml::_('redshopjquery.framework');
 
 if ($view == 'category')
 {
-	if (!$GLOBALS['product_price_slider'])
+	if (!isset($GLOBALS['product_price_slider']))
 	{
 		JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 	}

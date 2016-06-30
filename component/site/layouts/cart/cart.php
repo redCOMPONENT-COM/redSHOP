@@ -88,7 +88,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 		<div class="clr"></div>
 	<?php endif; ?>
 
-	<?php if ($displayData['showWithDiscount']):
+	<?php if (isset($displayData['showWithDiscount'])):
 		$discountValue = $cart['discount_ex_vat'];
 
 		if ($displayData['showWithVat'])

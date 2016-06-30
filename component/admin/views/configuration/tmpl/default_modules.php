@@ -121,17 +121,4 @@ $url = $uri->root();
 		</td>
 		<td><?php echo $this->lists ['discount_enable'];?></td>
 	</tr>
-	<tr>
-		<td colspan="2">
-			<hr/>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
-				  title="<?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_STOCKROOM_LBL'); ?>">
-			<label for="container"><?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['use_stockroom']; ?></td>
-	</tr>
 </table>

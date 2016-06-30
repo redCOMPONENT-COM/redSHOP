@@ -72,7 +72,7 @@ class RedshopHelperJs
 		$dynamicVars = array(
 			'SITE_URL'                          => JURI::root(),
 			'AJAX_TOKEN'                        => $token,
-			'AJAX_BASE_URL'                     => JRoute::_('index.php?' . $token . '=1', false),
+			'AJAX_BASE_URL'                     => JRoute::_('index.php?tmpl=component&option=com_redshop&' . $token . '=1', false),
 			'AJAX_CART_BOX'                     => AJAX_CART_BOX,
 			'REDSHOP_VIEW'                      => $view,
 			'REDSHOP_LAYOUT'                    => $layout,

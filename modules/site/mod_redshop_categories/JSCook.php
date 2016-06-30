@@ -21,7 +21,7 @@ if (!class_exists('redCategoryMenu'))
 		function traverse_tree_down(&$mymenu_content, $category_id = '0', $level = '0', $params = '', $shopper_group_id)
 		{
 			static $ibg = 0;
-			global $urlpath, $redproduct_menu;
+			global $redproduct_menu;
 			$db = JFactory::getDbo();
 			$level++;
 			$redproduct_menu = new modProMenuHelper;

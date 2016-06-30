@@ -107,7 +107,7 @@ class redTigraTreeMenu
 	function traverse_tree_down(&$mymenu_content, $category_id = '0', $level = '0', $shopper_group_id)
 	{
 		static $ibg = 0;
-		global $Itemid, $urlpath, $sortparam;
+		global $Itemid, $sortparam;
 
 		$db        = JFactory::getDbo();
 		$objhelper = redhelper::getInstance();
@@ -140,8 +140,8 @@ class redTigraTreeMenu
 
 		if (!($categories == null))
 		{
-			$i             = 1;
-			$numCategories = count($categories);
+			$i = 1;
+
 			foreach ($categories as $category)
 			{
 				$ibg++;

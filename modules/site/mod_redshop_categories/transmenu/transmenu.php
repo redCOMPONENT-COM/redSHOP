@@ -95,11 +95,8 @@ class TransMenu
 
 	function genMenuItem(&$row, $level, $pos)
 	{
-		global $urlpath;
-
 		$app = JFactory::getApplication();
 
-		$txt       = '';
 		$objhelper = redhelper::getInstance();
 		$Itemid    = JRequest::getInt('Itemid', '1');
 
@@ -218,9 +215,6 @@ class TransMenu
 		}
 
 		$menuclass = 'mainlevel' . $this->parent->_params->get('class_sfx');
-
-		// Active Menu highlighting
-		$current_itemid = trim(JRequest::getInt('Itemid'));
 
 		if (in_array($mitem->id, $this->parent->open))
 		{

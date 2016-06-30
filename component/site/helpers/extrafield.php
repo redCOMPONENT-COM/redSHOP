@@ -504,7 +504,7 @@ class extraField
 		return implode('', $html);
 	}
 
-	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
+	public function list_all_user_fields($field_section = "", $section_id = self::SECTION_PRODUCT_USERFIELD, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
 	{
 		$db      = JFactory::getDbo();
 		$session = JFactory::getSession();
@@ -1163,35 +1163,12 @@ class extraField
 	 * @param   int  $section      Section
 	 * @param   int  $sectionItem  Section item
 	 *
+	 * @deprecated 1.6.1  Use RedshopHelperExtrafields::getData instead
+	 *
 	 * @return mixed|null
 	 */
 	public function getSectionFieldDataList($fieldId, $section = 0, $sectionItem = 0)
 	{
-		$return = null;
-
-		if ($section == 1)
-		{
-			$productHelper = producthelper::getInstance();
-			$product = $productHelper->getProductById($sectionItem);
-
-			if ($product && isset($product->extraFields[$fieldId]))
-			{
-				$return = $product->extraFields[$fieldId];
-			}
-		}
-		else
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('fd.*', 'f.field_title'))
-				->from($db->qn('#__redshop_fields_data', 'fd'))
-				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
-				->where('fd.itemid = ' . (int) $sectionItem)
-				->where('fd.fieldid = ' . (int) $fieldId)
-				->where('fd.section = ' . $db->quote($section));
-			$return = $db->setQuery($query)->loadObject();
-		}
-
-		return $return;
+		return RedshopHelperExtrafields::getData($fieldId, $section, $sectionItem);
 	}
 }

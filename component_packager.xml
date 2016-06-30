@@ -124,6 +124,13 @@
                 <exclude name=".*" />
             </fileset>
         </copy>
+        <echo msg="Copying klarna plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_payment/klarna">
+            <fileset dir="${extpath}/plugins/redshop_payment/klarna">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
         <echo msg="Copying default_shipping plugin" />
         <copy todir="${tmpdir}/${extension}/plugins/redshop_shipping/default_shipping">
             <fileset dir="${extpath}/plugins/redshop_shipping/default_shipping">

@@ -780,19 +780,24 @@ class shipping
 	/**
 	 * Apply VAT on shipping rate
 	 *
-	 * @param   object   $shippingrate  Shipping Rate information
+	 * @param   object   $shippingRate  Shipping Rate information
 	 * @param   array    $data          Shipping Rate user information from cart or checkout selection.
 	 *
 	 * @return  object   Shipping Rate
 	 */
-	public function applyVatOnShippingRate($shippingrate = array(), $data)
+	public function applyVatOnShippingRate($shippingRate, $data)
 	{
-		$productHelper     = producthelper::getInstance();
-		$shipping_rate_vat = $shippingrate->shipping_rate_value;
-
-		if ($shippingrate->apply_vat == 1)
+		if (!is_array($data))
 		{
-			$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $data);
+			throw new InvalidArgumentException(__FUNCTION__ . ' function only accepts array as 2nd argument. Input was: ' . getType($data));
+		}
+
+		$productHelper     = producthelper::getInstance();
+		$shipping_rate_vat = $shippingRate->shipping_rate_value;
+
+		if ($shippingRate->apply_vat == 1)
+		{
+			$result = $this->getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
 			$addVat = $productHelper->taxexempt_addtocart($data['user_id']);
 
 			if (!empty($result) && $addVat)

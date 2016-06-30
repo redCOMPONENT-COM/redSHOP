@@ -390,7 +390,7 @@ class order_functions
 		}
 		catch (Exception $e)
 		{
-			JError::raiseWarning(21, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 	}
 
@@ -715,45 +715,38 @@ class order_functions
 		return $mylist['paymentstatuslist'];
 	}
 
+	/**
+	 * Update order status and trigger emails based on status.
+	 *
+	 * @return  void
+	 */
 	public function update_status()
 	{
-		$app = JFactory::getApplication();
-		$helper = redhelper::getInstance();
-		$producthelper = producthelper::getInstance();
+		$app             = JFactory::getApplication();
+		$helper          = redhelper::getInstance();
+		$producthelper   = producthelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
-		$post = JRequest::get('post');
-		$tmpl = JRequest::getVar('tmpl');
-		$newstatus = JRequest::getVar('status');
-		$paymentstatus = JRequest::getVar('order_paymentstatus');
+		$newStatus       = $app->input->getCmd('status');
+		$paymentStatus   = $app->input->getCmd('order_paymentstatus');
+		$return          = $app->input->getCmd('return');
 
-		$return = JRequest::getVar('return');
+		$customerNote    = $app->input->get('customer_note', array(), 'array');
+		$customerNote    = stripslashes($customerNote[0]);
 
-		$customer_note = JRequest::getVar('customer_note', '', 'request', 'string', JREQUEST_ALLOWRAW);
-		$oid = JRequest::getVar('order_id', array(), 'method', 'array');
-		$order_id = $oid[0];
-		$sendordermail = JRequest::getVar("order_sendordermail");
+		$oid             = $app->input->get('order_id', array(), 'method', 'array');
+		$orderId         = $oid[0];
 
-		$isproduct = JRequest::getInt('isproduct', 0);
-		$product_id = JRequest::getInt('product_id', 0);
-		$order_item_id = JRequest::getInt('order_item_id', 0);
-
-		if (JRequest::getVar('isarchive') != 0 && JRequest::getVar('isarchive') != "")
-		{
-			$isarchive = "&isarchive=1";
-		}
-
-		else
-		{
-			$isarchive = "";
-		}
+		$isProduct       = $app->input->getInt('isproduct', 0);
+		$productId       = $app->input->getInt('product_id', 0);
+		$orderItemId     = $app->input->getInt('order_item_id', 0);
 
 		/**
 		 * redCRM includes
 		 */
 		if ($helper->isredCRM())
 		{
-			if ($newstatus == 'C')
+			if ($newStatus == 'C')
 			{
 				if (JRequest::getVar('customstatusconfirmed'))
 				{
@@ -764,7 +757,7 @@ class order_functions
 					$customstatus = "";
 				}
 			}
-			elseif ($newstatus == 'S')
+			elseif ($newStatus == 'S')
 			{
 				if (JRequest::getVar('customstatusshipping'))
 				{
@@ -775,7 +768,7 @@ class order_functions
 					$customstatus = "";
 				}
 			}
-			elseif ($newstatus == 'X')
+			elseif ($newStatus == 'X')
 			{
 				if (JRequest::getVar('customstatuscanceled'))
 				{
@@ -792,90 +785,95 @@ class order_functions
 			}
 
 			$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-			$crmSupplierOrderHelper->redSHOPCustomOrderUpdate($order_id, $customstatus);
+			$crmSupplierOrderHelper->redSHOPCustomOrderUpdate($orderId, $customstatus);
 
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
 				// Supplier order helper object
 				$getStatus = array();
-				$getStatus['orderstatus'] = $newstatus;
-				$getStatus['paymentstatus'] = $paymentstatus;
+				$getStatus['orderstatus'] = $newStatus;
+				$getStatus['paymentstatus'] = $paymentStatus;
 
-				$crmSupplierOrderHelper->redSHOPOrderUpdate($order_id, $getStatus);
+				$crmSupplierOrderHelper->redSHOPOrderUpdate($orderId, $getStatus);
 				unset($getStatus);
 			}
 		}
 
-		if (isset($paymentstatus))
+		if (isset($paymentStatus))
 		{
-			$this->updateOrderPaymentStatus($order_id, $paymentstatus);
+			$this->updateOrderPaymentStatus($orderId, $paymentStatus);
 		}
 
 		$order_log = JTable::getInstance('order_status_log', 'Table');
 
-		if (!$isproduct)
+		if (!$isProduct)
 		{
-			$data['order_id'] = $order_id;
-			$data['order_status'] = $newstatus;
-			$data['order_payment_status'] = $paymentstatus;
+			$data['order_id'] = $orderId;
+			$data['order_status'] = $newStatus;
+			$data['order_payment_status'] = $paymentStatus;
 			$data['date_changed'] = time();
-			$data['customer_note'] = $customer_note;
+			$data['customer_note'] = $customerNote;
 
 			if (!$order_log->bind($data))
 			{
-				return JError::raiseWarning(500, $order_log->getError());
+				return JFactory::getApplication()->enqueueMessage($order_log->getError(), 'error');
 			}
 
 			if (!$order_log->store())
 			{
-				JError::raiseError(500, $order_log->getError());
+				throw new Exception($order_log->getError());
 			}
 
-			$this->updateOrderComment($order_id, $customer_note);
+			$this->updateOrderComment($orderId, $customerNote);
 
-			if (isset($post['requisition_number']))
+			$requisitionNumber = $app->input->getString('requisition_number', '');
+
+			if ('' != $requisitionNumber)
 			{
-				$this->updateOrderRequisitionNumber($order_id, $post['requisition_number']);
+				$this->updateOrderRequisitionNumber($orderId, $requisitionNumber);
 			}
 
 			// Changing the status of the order
-			$this->updateOrderStatus($order_id, $newstatus, $order_log->order_status_log_id);
+			$this->updateOrderStatus($orderId, $newStatus, $order_log->order_status_log_id);
 
 			// Trigger function on Order Status change
 			JPluginHelper::importPlugin('order');
-			JDispatcher::getInstance()->trigger('onAfterOrderStatusUpdate', array($this->getOrderDetails($order_id)));
+			JDispatcher::getInstance()->trigger(
+				'onAfterOrderStatusUpdate',
+				array(RedshopHelperOrder::getOrderDetail($orderId))
+			);
 
-			if ($paymentstatus == "Paid")
+			if ($paymentStatus == "Paid")
 			{
 				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
-				$checkoutModelcheckout->sendGiftCard($order_id);
+				$checkoutModelcheckout->sendGiftCard($orderId);
 
 				// Send the Order mail
 				$redshopMail = redshopMail::getInstance();
 
-				if (ORDER_MAIL_AFTER && $newstatus == 'C')
+				if (ORDER_MAIL_AFTER && $newStatus == 'C')
 				{
-					$redshopMail->sendOrderMail($order_id);
+					$redshopMail->sendOrderMail($orderId);
 				}
 
 				elseif (INVOICE_MAIL_ENABLE)
 				{
-					$redshopMail->sendInvoiceMail($order_id);
+					$redshopMail->sendInvoiceMail($orderId);
 				}
 			}
 
-			$this->createWebPacklabel($order_id, $newstatus, $paymentstatus);
+			$this->createWebPacklabel($orderId, $newStatus, $paymentStatus);
 		}
 
-		$this->updateOrderItemStatus($order_id, $product_id, $newstatus, $customer_note, $order_item_id);
-		$helper->clickatellSMS($order_id);
+		$this->updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
+		$helper->clickatellSMS($orderId);
 
-		switch ($newstatus)
+		switch ($newStatus)
 		{
 			case "X";
 
-				$orderproducts = $this->getOrderItemDetail($order_id);
+				$orderproducts = $this->getOrderItemDetail($orderId);
 
 				for ($i = 0, $in = count($orderproducts); $i < $in; $i++)
 				{
@@ -890,63 +888,65 @@ class order_functions
 
 			case "RT":
 
-				if ($isproduct)
+				if ($isProduct)
 				{
 					// Changing the status of the order item to Returned
-					$this->updateOrderItemStatus($order_id, $product_id, "RT", $customer_note, $order_item_id);
+					$this->updateOrderItemStatus($orderId, $productId, "RT", $customerNote, $orderItemId);
 
 					// Changing the status of the order to Partially Returned
-					$this->updateOrderStatus($order_id, "PRT");
+					$this->updateOrderStatus($orderId, "PRT");
 				}
 
 				break;
 
 			case "RC":
 
-				if ($isproduct)
+				if ($isProduct)
 				{
 					// Changing the status of the order item to Reclamation
-					$this->updateOrderItemStatus($order_id, $product_id, "RC", $customer_note, $order_item_id);
+					$this->updateOrderItemStatus($orderId, $productId, "RC", $customerNote, $orderItemId);
 
 					// Changing the status of the order to Partially Reclamation
-					$this->updateOrderStatus($order_id, "PRC");
+					$this->updateOrderStatus($orderId, "PRC");
 				}
 
 				break;
 
 			case "S":
 
-				if ($isproduct)
+				if ($isProduct)
 				{
 					// Changing the status of the order item to Reclamation
-					$this->updateOrderItemStatus($order_id, $product_id, "S", $customer_note, $order_item_id);
+					$this->updateOrderItemStatus($orderId, $productId, "S", $customerNote, $orderItemId);
 
 					// Changing the status of the order to Partially Reclamation
-					$this->updateOrderStatus($order_id, "PS");
+					$this->updateOrderStatus($orderId, "PS");
 				}
 
 				break;
 
 			case "C":
 				// SensDownload Products
-				$this->SendDownload($order_id);
+				$this->SendDownload($orderId);
 				break;
 		}
 
-		if ($sendordermail == 'true')
+		if ($app->input->getCmd('order_sendordermail') == 'true')
 		{
-			$this->changeOrderStatusMail($order_id, $newstatus, $customer_note);
+			$this->changeOrderStatusMail($orderId, $newStatus, $customerNote);
 		}
 
-		$this->createBookInvoice($order_id, $newstatus);
+		$this->createBookInvoice($orderId, $newStatus);
 
-		$msg = JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $order_id;
+		$msg       = JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $orderId;
+
+		$isarchive = ($app->input->getInt('isarchive')) ? '&isarchive=1' : '';
 
 		if ($return == 'order')
 		{
 			if (JFactory::getApplication()->input->getCmd('option') == 'com_redcrm')
 			{
-				$app->redirect('index.php?option=com_redcrm&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->redirect('index.php?option=com_redcrm&view=' . $return . '&cid[]=' . $orderId . '' . $isarchive . '', $msg);
 			}
 			else
 			{
@@ -955,13 +955,15 @@ class order_functions
 		}
 		else
 		{
-			if ($tmpl != "")
+			$tmpl = $app->input->getCmd('tmpl');
+
+			if ('' != $tmpl)
 			{
-				$app->redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
+				$app->redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
 			}
 			else
 			{
-				$app->redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '' . $isarchive . '', $msg);
 			}
 		}
 	}
@@ -2111,7 +2113,7 @@ class order_functions
 
 				if ($generate_label != "success")
 				{
-					JError::raiseWarning(21, $generate_label);
+					JFactory::getApplication()->enqueueMessage($generate_label, 'error');
 				}
 			}
 		}

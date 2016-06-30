@@ -42,8 +42,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function update_status()
 	{
-		$model = $this->getModel('order');
-		$model->update_status();
+		order_functions::getInstance()->update_status();
 	}
 
 	/**

@@ -36,8 +36,13 @@ class JFormFieldExtraFieldPayment extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
+		if (!is_array($this->value))
+		{
+			$this->value = explode(',', $this->value);
+		}
+
 		// Initialiase variables.
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		// Create the base select statement.
 		$query = $db->getQuery(true)

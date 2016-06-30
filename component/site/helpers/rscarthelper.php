@@ -3703,134 +3703,48 @@ class rsCarthelper
 		return $returnarr;
 	}
 
+	/**
+	 * Display credit card form based on payment method
+	 *
+	 * @param   integer  $payment_method_id  Payment Method ID for which form needs to be prepare
+	 *
+	 * @return  string     Credit Card form display data in HTML
+	 */
 	public function replaceCreditCardInformation($payment_method_id = 0)
 	{
-		$ccdata = $this->_session->get('ccdata');
-
-		$url                      = JURI::base(true);
-		$cc_list                  = array();
-		$cc_list['VISA']          = new stdClass;
-		$cc_list['VISA']->img     = 'visa.jpg';
-		$cc_list['MC']            = new stdClass;
-		$cc_list['MC']->img       = 'master.jpg';
-		$cc_list['amex']          = new stdClass;
-		$cc_list['amex']->img     = 'blue.jpg';
-		$cc_list['maestro']       = new stdClass;
-		$cc_list['maestro']->img  = 'mastero.jpg';
-		$cc_list['jcb']           = new stdClass;
-		$cc_list['jcb']->img      = 'jcb.jpg';
-		$cc_list['diners']        = new stdClass;
-		$cc_list['diners']->img   = 'dinnersclub.jpg';
-		$cc_list['discover']      = new stdClass;
-		$cc_list['discover']->img = 'discover.jpg';
-
-		$montharr   = array();
-		$montharr[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_MONTH'));
-		$montharr[] = JHTML::_('select.option', '01', 1);
-		$montharr[] = JHTML::_('select.option', '02', 2);
-		$montharr[] = JHTML::_('select.option', '03', 3);
-		$montharr[] = JHTML::_('select.option', '04', 4);
-		$montharr[] = JHTML::_('select.option', '05', 5);
-		$montharr[] = JHTML::_('select.option', '06', 6);
-		$montharr[] = JHTML::_('select.option', '07', 7);
-		$montharr[] = JHTML::_('select.option', '08', 8);
-		$montharr[] = JHTML::_('select.option', '09', 9);
-		$montharr[] = JHTML::_('select.option', '10', 10);
-		$montharr[] = JHTML::_('select.option', '11', 11);
-		$montharr[] = JHTML::_('select.option', '12', 12);
-
-		if (!empty($payment_method_id))
+		if (empty($payment_method_id))
 		{
-			$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
-			$paymentmethod = $paymentmethod[0];
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
+				'error'
+			);
+
+			return '';
 		}
-		else
-		{
-			$paymentmethod = $this->_redhelper->getPlugins('redshop_payment');
-			$paymentmethod = $paymentmethod[0];
-		}
+
+		$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+		$paymentmethod = $paymentmethod[0];
 
 		$cardinfo = "";
 
 		if (file_exists(JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.php'))
 		{
 			$paymentparams = new JRegistry($paymentmethod->params);
-			$is_creditcard = $paymentparams->get('is_creditcard', 0);
+			$acceptedCredictCard = $paymentparams->get("accepted_credict_card", array());
 
-			if ($is_creditcard)
+			if ($paymentparams->get('is_creditcard', 0)
+				&& !empty($acceptedCredictCard))
 			{
-				$credict_card          = array();
-				$accepted_credict_card = $paymentparams->get("accepted_credict_card");
-
-				if ($accepted_credict_card != "")
-				{
-					$credict_card = $accepted_credict_card;
-				}
-
-				$cardinfo .= '<fieldset class="adminform"><legend>' . JText::_('COM_REDSHOP_CARD_INFORMATION') . '</legend>';
-				$cardinfo .= '<table class="admintable">';
-				$cardinfo .= '<tr><td colspan="2" align="right" nowrap="nowrap">';
-				$cardinfo .= '<table width="100%" border="0" cellspacing="2" cellpadding="2">';
-				$cardinfo .= '<tr>';
-
-				for ($ic = 0; $ic < count($credict_card); $ic++)
-				{
-					$cardinfo .= '<td align="center"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $cc_list[$credict_card[$ic]]->img . '" alt="" border="0" /></td>';
-				}
-
-				$cardinfo .= '</tr>';
-				$cardinfo .= '<tr>';
-
-				for ($ic = 0; $ic < count($credict_card); $ic++)
-				{
-					$value   = $credict_card[$ic];
-					$checked = "";
-
-					if (!isset($ccdata['creditcard_code']) && $ic == 0)
-					{
-						$checked = "checked";
-					}
-					elseif (isset($ccdata['creditcard_code']))
-					{
-						$checked = ($ccdata['creditcard_code'] == $value) ? "checked" : "";
-					}
-
-					$cardinfo .= '<td align="center"><input type="radio" name="creditcard_code" value="' . $value . '" ' . $checked . ' /></td>';
-				}
-
-				$cardinfo .= '</tr></table></td></tr>';
-				$cardinfo .= '<tr valign="top">';
-				$cardinfo .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_name">' . JText::_('COM_REDSHOP_NAME_ON_CARD') . '</label></td>';
-				$order_payment_name = (!empty($ccdata['order_payment_name'])) ? $ccdata['order_payment_name'] : "";
-				$cardinfo .= '<td><input class="inputbox" id="order_payment_name" name="order_payment_name" value="' . $order_payment_name . '" autocomplete="off" type="text"></td>';
-				$cardinfo .= '</tr>';
-				$cardinfo .= '<tr valign="top">';
-				$cardinfo .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_number">' . JText::_('COM_REDSHOP_CARD_NUM') . '</label></td>';
-				$order_payment_number = (!empty($ccdata['order_payment_number'])) ? $ccdata['order_payment_number'] : "";
-				$cardinfo .= '<td><input class="inputbox" id="order_payment_number" name="order_payment_number" value="' . $order_payment_number . '" autocomplete="off" type="text"></td>';
-				$cardinfo .= '</tr>';
-				$cardinfo .= '<tr><td align="right" nowrap="nowrap" width="10%">' . JText::_('COM_REDSHOP_EXPIRY_DATE') . '</td>';
-				$cardinfo .= '<td>';
-
-				$value = isset($ccdata['order_payment_expire_month']) ? $ccdata['order_payment_expire_month'] : date('m');
-				$cardinfo .= JHTML::_('select.genericlist', $montharr, 'order_payment_expire_month', 'size="1" class="inputbox" ', 'value', 'text', $value);
-
-				$thisyear = date('Y');
-				$cardinfo .= '/<select class="inputbox" name="order_payment_expire_year" size="1">';
-
-				for ($y = $thisyear; $y < ($thisyear + 10); $y++)
-				{
-					$selected = (!empty($ccdata['order_payment_expire_year']) && $ccdata['order_payment_expire_year'] == $y) ? "selected" : "";
-					$cardinfo .= '<option value="' . $y . '" ' . $selected . '>' . $y . '</option>';
-				}
-
-				$cardinfo .= '</select></td></tr>';
-				$cardinfo .= '<tr valign="top"><td align="right" nowrap="nowrap" width="10%"><label for="credit_card_code">' . JText::_('COM_REDSHOP_CARD_SECURITY_CODE') . '</label></td>';
-
-				$credit_card_code = (!empty($ccdata['credit_card_code'])) ? $ccdata['credit_card_code'] : "";
-				$cardinfo .= '<td><input class="inputbox" id="credit_card_code" name="credit_card_code" value="' . $credit_card_code . '" autocomplete="off" type="password"></td></tr>';
-
-				$cardinfo .= '</table></fieldset>';
+				$cardinfo = RedshopLayoutHelper::render(
+						'order.payment.creditcard',
+						array(
+							'pluginParams' => $paymentparams,
+						)
+					);
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PAYMENT_CREDIT_CARDS_NOT_FOUND'), 'error');
 			}
 		}
 
@@ -3880,8 +3794,6 @@ class rsCarthelper
 		$montharr[] = JHTML::_('select.option', '11', JText::_('COM_REDSHOP_NOV'));
 		$montharr[] = JHTML::_('select.option', '12', JText::_('COM_REDSHOP_DEC'));
 
-		$paymentmethod = JPluginHelper::getPlugin('redshop_payment');
-
 		$template_desc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $template_desc);
 
 		if (strpos($template_desc, "{split_payment}") !== false)
@@ -3897,6 +3809,8 @@ class rsCarthelper
 			}
 		}
 
+		$paymentMethods = RedshopHelperPayment::info();
+
 		if (strpos($template_desc, "{payment_loop_start}") !== false && strpos($template_desc, "{payment_loop_end}") !== false)
 		{
 			$template1       = explode("{payment_loop_start}", $template_desc);
@@ -3907,8 +3821,8 @@ class rsCarthelper
 			$flag            = false;
 
 			// Filter payment gateways array for shopperGroups
-			$paymentmethod = array_filter(
-				$paymentmethod,
+			$paymentMethods = array_filter(
+				$paymentMethods,
 				function ($paymentMethod) use ($shopperGroupId)
 				{
 					$paymentFilePath = JPATH_SITE
@@ -3920,8 +3834,7 @@ class rsCarthelper
 						return false;
 					}
 
-					$paymentparams  = new JRegistry($paymentMethod->params);
-					$shopperGroups  = $paymentparams->get('shopper_group_id', array());
+					$shopperGroups  = $paymentMethod->params->get('shopper_group_id', array());
 
 					if (!is_array($shopperGroups))
 					{
@@ -3939,11 +3852,11 @@ class rsCarthelper
 				}
 			);
 
-			$totalPaymentMethod = count($paymentmethod);
+			$totalPaymentMethod = count($paymentMethods);
 
 			if ($totalPaymentMethod > 0)
 			{
-				foreach ($paymentmethod as $p => $oneMethod)
+				foreach ($paymentMethods as $p => $oneMethod)
 				{
 					$cardinfo        = "";
 					$display_payment = "";
@@ -3951,10 +3864,9 @@ class rsCarthelper
 
 					include_once $paymentpath;
 
-					$paymentparams  = new JRegistry($oneMethod->params);
-					$private_person = $paymentparams->get('private_person', '');
-					$business       = $paymentparams->get('business', '');
-					$is_creditcard  = $paymentparams->get('is_creditcard', 0);
+					$private_person = $oneMethod->params->get('private_person', '');
+					$business       = $oneMethod->params->get('business', '');
+					$is_creditcard  = $oneMethod->params->get('is_creditcard', 0);
 
 					$checked = '';
 					$payment_chcked_class = '';
@@ -4022,6 +3934,26 @@ class rsCarthelper
 					$payment_display .= $template_middle;
 					$payment_display = str_replace("{payment_method_name}", $display_payment, $payment_display);
 					$payment_display = str_replace("{creditcard_information}", $cardinfo, $payment_display);
+
+					if (strpos($payment_display, "{payment_extrafields}") !== false)
+					{
+						$paymentExtraFieldsHtml = '';
+
+						if ($checked != '')
+						{
+							$layoutFile = new JLayoutFile('order.payment.extrafields');
+
+							// Append plugin JLayout path to improve view based on plugin if needed.
+							$layoutFile->addIncludePath(JPATH_SITE . '/plugins/' . $oneMethod->type . '/' . $oneMethod->name . '/layouts');
+							$paymentExtraFieldsHtml =  $layoutFile->render(array('plugin' => $oneMethod));
+						}
+
+						$payment_display = str_replace(
+							'{payment_extrafields}',
+							'<div class="extrafield_payment">' . $paymentExtraFieldsHtml . '</div>',
+							$payment_display
+						);
+					}
 				}
 			}
 
@@ -4030,34 +3962,7 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $payment_display, $template_desc);
 		}
 
-		$extrafield_total   = '';
-
-		if (strpos($template_desc, "{payment_extrafields}") !== false)
-		{
-			$extraField         = extraField::getInstance();
-			$paymentparams_new  = new JRegistry($paymentmethod[0]->params);
-			$extrafield_payment = $paymentparams_new->get('extrafield_payment');
-			$extrafield_total   = '';
-			$extrafield_hidden  = '';
-
-			if (count($extrafield_payment) > 0)
-			{
-				for ($ui = 0; $ui < count($extrafield_payment); $ui++)
-				{
-					$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 18, '', 0, 0, 0);
-					$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
-					$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
-				}
-
-				$template_desc = str_replace("{payment_extrafields}", "<div id='extrafield_payment'>" . $extrafield_total . $extrafield_hidden . "</div>", $template_desc);
-			}
-			else
-			{
-				$template_desc = str_replace("{payment_extrafields}", "<div id='extrafield_payment'></div>", $template_desc);
-			}
-		}
-
-		if (count($paymentmethod) == 1 && $is_creditcard == "0" && $extrafield_total == "")
+		if (count($paymentMethods) == 1 && $is_creditcard == "0")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}

@@ -62,9 +62,9 @@ class RedshopControllerUser_detail extends RedshopController
 				$link = RedshopHelperUtility::getSSLLink(
 					'index.php?option=com_redshop&view=user_detail&task=edit&cid[]=' . $row->users_info_id
 				);
-				
+
 				$input = JFactory::getApplication()->input;
-				
+
 				if ($input->post->get('add_shipping') != null)
 				{
 					$link = RedshopHelperUtility::getSSLLink(
@@ -91,7 +91,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
 		$model = $this->getModel('user_detail');
@@ -121,7 +121,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
 		$model = $this->getModel('user_detail');
@@ -143,7 +143,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
 		$model = $this->getModel('user_detail');
@@ -201,7 +201,7 @@ class RedshopControllerUser_detail extends RedshopController
 		$encoded = json_encode($json);
 		die($encoded);
 	}
-	
+
 	public function ajaxValidationUsername()
 	{
 		$username = JFactory::getApplication()->input->getString('username', '');
