@@ -151,7 +151,7 @@ JPluginHelper::importPlugin('redshop_product');
 			<div class="filterItem">
 				<?php echo $lists['filter_status'];?>
 			</div>
-			<div class="filterItem"><?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
+			<div class="filterItem"><?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" ", 'COM_REDSHOP_NEW_STATUS'); ?>
 			</div>
 		</div>
 
