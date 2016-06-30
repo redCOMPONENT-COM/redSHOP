@@ -45,7 +45,7 @@ redSHOP.compareAction = function(ele, command){
 				{
 					jQuery('[id^="rsProductCompareChk"]').prop('checked', false);
 				}
-				
+
 				// Remove it from comparision list and return updated list
 				redSHOP.compareAction(jQuery(this), "remove");
 			});
@@ -60,19 +60,19 @@ redSHOP.compareAction = function(ele, command){
 // New registration functions
 jQuery(document).ready(function() {
 	billingIsShipping(document.getElementById('billisship'));
-	
+
 	// Show comparision list on first load of product view
 	redSHOP.compareAction(jQuery('[id^="rsProductCompareChk"]'), "getItems");
-	
-	// Handle add (remove) product to (from) comparision list 
+
+	// Handle add (remove) product to (from) comparision list
 	jQuery('[id^="rsProductCompareChk"]').click(function(event) {
 	    redSHOP.compareAction(jQuery(this), "");
 	});
-	
+
 	// Hide some checkout view stuff
 	jQuery('#divPrivateTemplateId').hide();
 	jQuery('#divCompanyTemplateId').hide();
-	
+
 	// Click public or private registration form function
 	showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
 });
@@ -933,40 +933,45 @@ function onestepCheckoutProcess(objectname,classname)
 		});
 	}
 
-	if(document.getElementById('extrafield_payment'))
+	if (jQuery('.extrafield_payment').length)
 	{
-		if(objectname=="payment_method_id")
+		jQuery('.extrafield_payment').children('[id^="extraFields"]').remove();
+
+		if (objectname == "payment_method_id")
 		{
-			var propName = document.getElementsByName('payment_method_id');
-			for(var p=0;p<propName.length;p++)
-			{
-				if(propName[p].checked)
-				{
-					payment_method_id = propName[p].value;
-					newparam = newparam + "&payment_method_id=" + payment_method_id;
-				}
-			}
+			var paymentMethod = jQuery('[name="payment_method_id"]:checked');
 
-			xmlhttp1=GetXmlHttpObject();
-			var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaypaymentextrafield';
-			url1 = url1 + newparam;
+			jQuery.ajax({
+				url: redSHOP.RSConfig._('AJAX_BASE_URL'),
+				type: 'POST',
+				dataType: 'html',
+				data: {
+					view: 'checkout',
+					task: 'ajaxDisplayPaymentExtraField',
+					paymentMethod: paymentMethod.val()
+				},
+			})
+			.done(function(html) {
+				jQuery('#paymentblock #' + paymentMethod.val()).siblings('.extrafield_payment').append(html);
 
-			xmlhttp1.onreadystatechange=function()
-			{
-				if (xmlhttp1.readyState==4)
+				if (jQuery('input[id^="rs_birthdate_"]').length)
 				{
-					if(document.getElementById('extrafield_payment'))
-					{
-						document.getElementById('extrafield_payment').innerHTML = xmlhttp1.responseText;
-					}
+					window.addEvent('domready', function () {
+						Calendar.setup({
+							inputField: jQuery('input[id^="rs_birthdate_"]').attr('id'),
+							ifFormat: "%d-%m-%Y",
+							button: jQuery('button[id^="rs_birthdate_"]').attr('id'),
+							align: "Tl",
+							singleClick: true
+						});
+					});
 				}
-			};
-			xmlhttp1.open("GET",url1,true);
-			xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-			xmlhttp1.send(null);
+			})
+			.fail(function() {
+				console.log("extrafield payment get error");
+			});
 		}
 	}
-
 
 	if(document.getElementById('extrafield_shipping'))
 	{

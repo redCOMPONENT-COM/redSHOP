@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
-	version="2.5"
+	version="3.0"
 	client="site"
 	type="plugin"
 	group="redshop_payment"
@@ -20,6 +20,7 @@
 	<files>
 		<filename plugin="klarna">klarna.php</filename>
 		<folder>library</folder>
+		<folder>layouts</folder>
 	</files>
 
 	<languages>
@@ -49,128 +50,20 @@
 					description="PLG_REDSHOP_PAYMENT_KLARNA_SHARED_SECRET_DESC"
 				/>
 				<field
-					name="purchaseCountry"
-					type="list"
-					class=""
-					default="DK"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_DESC"
-				>
-					<option value="AT">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_AUSTRIA</option>
-					<option value="DK">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_DENMARK</option>
-					<option value="FI">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_FINLAND</option>
-					<option value="DE">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_GERMANY</option>
-					<option value="NL">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_NETHERLANDS</option>
-					<option value="NO">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_NORWAY</option>
-					<option value="SE">PLG_REDSHOP_PAYMENT_KLARNA_COUNTRY_SWEDEN</option>
-				</field>
-				<field
-					name="purchaseLanguage"
-					type="list"
-					class=""
-					default="DA"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DESC"
-				>
-					<option value="EN">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_ENGLISH</option>
-					<option value="DA">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DANISH</option>
-					<option value="FI">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_FINNISH</option>
-					<option value="DE">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_GERMAN</option>
-					<option value="NL">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_DUTCH</option>
-					<option value="NB">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_NORWEGIAN</option>
-					<option value="SV">PLG_REDSHOP_PAYMENT_KLARNA_LANGUAGE_SWEDISH</option>
-				</field>
-				<field
-					name="purchaseCurrency"
-					type="list"
-					class=""
-					default="DKK"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_DESC"
-				>
-					<option value="DKK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_DANISH</option>
-					<option value="EUR">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_EURO</option>
-					<option value="NOK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_NORWEGIAN</option>
-					<option value="SEK">PLG_REDSHOP_PAYMENT_KLARNA_CURRENCY_SWEDISH</option>
-				</field>
-				<field
 					name="noteForGeneral"
 					type="note"
 					class="alert alert-info"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PNO_NOTE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PNO_NOTE_DESC"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_GENERAL_NOTE"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_GENERAL_NOTE_DESC"
 				/>
 				<field
-					name="noteForPrivate"
-					type="note"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_NOTE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_NOTE_DESC"
-				/>
-				<field
-					name="privatePNO"
-					type="extrafields"
-					field_section="7"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
+					name="extrafield_payment"
+					type="extrafieldpayment"
+					multiple="multiple"
+					default="rs_pno,rs_birthdate,rs_gender,rs_house_number,rs_house_extension"
 					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DESC"
-				/>
-				<field
-					name="privateDOB"
-					type="extrafields"
-					field_section="7"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DOB"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_DOB_DESC"
-				/>
-				<field
-					name="privateGender"
-					type="extrafields"
-					field_section="7"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_GENDER"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_PRIVATE_BILLING_GENDER_DESC"
-				/>
-				<field
-					name="noteForCompany"
-					type="note"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_NOTE"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_NOTE_DESC"
-				/>
-				<field
-					name="companyPNO"
-					type="extrafields"
-					field_section="8"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DESC"
-				/>
-				<field
-					name="companyDOB"
-					type="extrafields"
-					field_section="8"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DOB"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_DOB_DESC"
-				/>
-				<field
-					name="companyGender"
-					type="extrafields"
-					field_section="8"
-					value_field="field_id"
-					text_field="CONCAT(field_title, ' (', field_name, ')')"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_GENDER"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_COMPANY_BILLING_GENDER_DESC"
+					label="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_LBL"
+					description="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_DESC"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -248,13 +141,6 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field
-					name="extrafield_payment"
-					type="extrafieldpayment"
-					multiple="multiple"
-					label="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_LBL"
-					description="PLG_REDSHOP_PAYMENT_KLARNA_EXTRAFIELD_PAYMENT_DESC"
-				/>
 				<field
 					name="shopper_group_id"
 					type="shoppergrouplist"

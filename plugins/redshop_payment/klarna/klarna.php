@@ -10,16 +10,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_PaymentKlarna extends JPlugin
+class plgRedshop_PaymentKlarna extends RedshopPayment
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.1
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Constructor
 	 *
@@ -44,6 +36,18 @@ class plgRedshop_PaymentKlarna extends JPlugin
 	}
 
 	/**
+	 * Prepare Payment Input
+	 *
+	 * @param   array  $orderInfo  Order Information
+	 *
+	 * @return  array  Payment Gateway for parameters
+	 */
+	protected function preparePaymentInput($orderInfo)
+	{
+		// Not using it.
+	}
+
+	/**
 	 * This method will be triggered on before placing order to reserve amount in klarna.
 	 *
 	 * @param   string  $element  Name of the payment plugin
@@ -59,15 +63,14 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		}
 
 		$orderHelper = order_functions::getInstance();
-		$extraField  = extraField::getInstance();
 		$k           = new Klarna;
 
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($this->params->get('purchaseCountry')),
-			KlarnaLanguage::fromCode($this->params->get('purchaseLanguage')),
-			KlarnaCurrency::fromCode(strtolower($this->params->get('purchaseCurrency'))),
+			KlarnaCountry::fromCode($data['billinginfo']->country_2_code),
+			KlarnaLanguage::fromCode($this->getLang()),
+			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
 			Klarna::BETA,         // Server
 			'json',               // PClass storage
 			'./pclasses.json'     // PClass storage URI path
@@ -97,7 +100,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			'',
 			'Shipping fee',
 			$data['order']->order_shipping,
-			0,  // @todo  need to show vat
+			$data['order']->order_shipping_tax,
 			0,
 			KlarnaFlags::INC_VAT | KlarnaFlags::IS_SHIPMENT
 		);
@@ -109,7 +112,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 				'',
 				'Discount Line',
 				$data['order']->order_discount,
-				0,  // @todo  need to show vat
+				$data['order']->order_discount_vat,
 				0,
 				KlarnaFlags::INC_VAT
 			);
@@ -127,6 +130,78 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			KlarnaFlags::INC_VAT | KlarnaFlags::IS_HANDLING
 		);*/
 
+		// Collect Extra Field Informations
+		$pnoInfo = RedshopHelperExtrafields::getDataByName(
+			'rs_pno',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		$dateOfBirth = RedshopHelperExtrafields::getDataByName(
+			'rs_birthdate',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		$genderInfo = RedshopHelperExtrafields::getDataByName(
+			'rs_gender',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		$houseNumberInfo = RedshopHelperExtrafields::getDataByName(
+			'rs_house_number',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		$houseExtensionInfo = RedshopHelperExtrafields::getDataByName(
+			'rs_house_extension',
+			extraField::SECTION_PAYMENT_GATEWAY,
+			$data['order_id']
+		);
+
+		// Personal Number(PNO) Field is only for Nordic Countries (Denmark, Finland, Norway and Sweden).
+		$pno            = (count($pnoInfo) > 0) ? $pnoInfo->data_txt : '';
+		$gender         = '';
+		$houseNumber    = '';
+		$houseExtension = '';
+
+		// Prepare AT/DE/NL only information
+		if (in_array($data['billinginfo']->country_2_code, array('AT', 'DE', 'NL')))
+		{
+			$pno = '';
+
+			// Prepare Date of birth for AT/DE/NL
+			if (count($dateOfBirth) > 0)
+			{
+				$pno = str_replace('-', '', $dateOfBirth->data_txt);
+			}
+
+			// Prepare Gender info.
+			if (count($genderInfo) > 0)
+			{
+				$gender = KlarnaFlags::FEMALE;
+
+				if ('m' == $genderInfo->data_txt)
+				{
+					$gender = KlarnaFlags::MALE;
+				}
+			}
+
+			// Prepare house number info
+			if (count($houseNumberInfo) > 0)
+			{
+				$houseNumber = $houseNumberInfo->data_txt;
+			}
+
+			// Prepare house extension info
+			if (count($houseExtensionInfo) > 0 && 'NL' == $data['billinginfo']->country_2_code)
+			{
+				$houseExtension = $houseExtensionInfo->data_txt;
+			}
+		}
+
 		$k->setAddress(
 			KlarnaFlags::IS_BILLING,
 			new KlarnaAddr(
@@ -136,12 +211,12 @@ class plgRedshop_PaymentKlarna extends JPlugin
 				$data['billinginfo']->firstname,
 				$data['billinginfo']->lastname,
 				'',
-				$data['billinginfo']->address,
+				mb_convert_encoding($data['billinginfo']->address, 'iso-8859-1'),
 				$data['billinginfo']->zipcode,
 				$data['billinginfo']->city,
 				KlarnaCountry::fromCode($data['billinginfo']->country_2_code),
-				null,  // House number (AT/DE/NL only)
-				null   // House extension (NL only)
+				$houseNumber,  // House number (AT/DE/NL only)
+				$houseExtension   // House extension (NL only)
 			)
 		);
 
@@ -154,12 +229,12 @@ class plgRedshop_PaymentKlarna extends JPlugin
 				$data['shippinginfo']->firstname,
 				$data['shippinginfo']->lastname,
 				'',
-				$data['shippinginfo']->address,
+				mb_convert_encoding($data['shippinginfo']->address, 'iso-8859-1'),
 				$data['shippinginfo']->zipcode,
 				$data['shippinginfo']->city,
 				KlarnaCountry::fromCode($data['shippinginfo']->country_2_code),
-				null, // House number (AT/DE/NL only)
-				null  // House extension (NL only)
+				$houseNumber, // House number (AT/DE/NL only)
+				$houseExtension  // House extension (NL only)
 			)
 		);
 
@@ -171,72 +246,14 @@ class plgRedshop_PaymentKlarna extends JPlugin
 
 		try
 		{
-			// Collect PNO Information
-			$pnoInfo = $extraField->getSectionFieldDataList(
-				$this->params->get('privatePNO'),
-				extraField::SECTION_PRIVATE_BILLING_ADDRESS,
-				$data['billinginfo']->users_info_id
-			);
-
-			$dateOfBirth = $extraField->getSectionFieldDataList(
-				$this->params->get('privateDOB'),
-				extraField::SECTION_PRIVATE_BILLING_ADDRESS,
-				$data['billinginfo']->users_info_id
-			);
-
-			$gender = $extraField->getSectionFieldDataList(
-				$this->params->get('privateGender'),
-				extraField::SECTION_PRIVATE_BILLING_ADDRESS,
-				$data['billinginfo']->users_info_id
-			);
-
-			if ((int) $data['billinginfo']->is_company)
-			{
-				$pnoInfo = $extraField->getSectionFieldDataList(
-					$this->params->get('companyPNO'),
-					extraField::SECTION_COMPANY_BILLING_ADDRESS,
-					$data['billinginfo']->users_info_id
-				);
-
-				$dateOfBirth = $extraField->getSectionFieldDataList(
-					$this->params->get('companyDOB'),
-					extraField::SECTION_COMPANY_BILLING_ADDRESS,
-					$data['billinginfo']->users_info_id
-				);
-
-				$gender = $extraField->getSectionFieldDataList(
-					$this->params->get('companyGender'),
-					extraField::SECTION_COMPANY_BILLING_ADDRESS,
-					$data['billinginfo']->users_info_id
-				);
-			}
-
-			$data['billinginfo']->pno    = (count($pnoInfo) > 0) ? $pnoInfo->data_txt : '';
-			$data['billinginfo']->gender = '';
-
-			if (in_array($data['billinginfo']->country_2_code, array('AT', 'DE', 'NL')))
-			{
-				$data['billinginfo']->pno    = (count($dateOfBirth) > 0) ? str_replace('-', '', $dateOfBirth->data_txt) : '';
-
-				if (count($gender) > 0)
-				{
-					$data['billinginfo']->gender = KlarnaFlags::FEMALE;
-
-					if ('m' == $dateOfBirth->data_txt)
-					{
-						$data['billinginfo']->gender = KlarnaFlags::MALE;
-					}
-				}
-			}
-
 			$paymentInfo = $orderHelper->getOrderPaymentDetail($data['order_id']);
 
 			// Reserve amount only for new orders.
 			if ('' == trim($paymentInfo[0]->order_payment_trans_id))
 			{
 				$result = $k->reserveAmount(
-					$data['billinginfo']->pno,
-					$data['billinginfo']->gender,
+					$pno,
+					$gender,
 					-1,   // Automatically calculate and reserve the cart total amount
 					KlarnaFlags::NO_FLAG,
 					KlarnaPClass::INVOICE
@@ -283,7 +300,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 
 				$app = JFactory::getApplication();
 				$app->redirect(
-					JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $data['order_id'])
+					JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $data['order_id'], false)
 				);
 			}
 		}
@@ -319,7 +336,7 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		RedshopModel::getInstance('order_detail', 'RedshopModel')->resetcart();
 
 		$app->redirect(
-			JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId),
+			JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $orderId, false),
 			$values->msg
 		);
 	}
@@ -366,9 +383,9 @@ class plgRedshop_PaymentKlarna extends JPlugin
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($this->params->get('purchaseCountry')),
-			KlarnaLanguage::fromCode($this->params->get('purchaseLanguage')),
-			KlarnaCurrency::fromCode(strtolower($this->params->get('purchaseCurrency'))),
+			KlarnaCountry::fromCode($data['billinginfo']->country_code),
+			KlarnaLanguage::fromCode($this->getLang()),
+			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
 			Klarna::BETA,         // Server
 			'json',               // PClass storage
 			'./pclasses.json'     // PClass storage URI path
@@ -447,16 +464,17 @@ class plgRedshop_PaymentKlarna extends JPlugin
 			return;
 		}
 
-		$db  = JFactory::getDbo();
+		$orderBilling = RedshopHelperOrder::getOrderBillingUserInfo($data['order_id']);
+
 		$app = JFactory::getApplication();
 		$k   = new Klarna;
 
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($this->params->get('purchaseCountry')),
-			KlarnaLanguage::fromCode($this->params->get('purchaseLanguage')),
-			KlarnaCurrency::fromCode(strtolower($this->params->get('purchaseCurrency'))),
+			KlarnaCountry::fromCode($orderBilling->country_code),
+			KlarnaLanguage::fromCode($this->getLang()),
+			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
 			Klarna::BETA, // Server
 			'json',
 			'./pclasses.json'

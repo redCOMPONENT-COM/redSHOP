@@ -62,4 +62,13 @@ class DiscountManagerJ3Page
 
 		return $path;
 	}
+
+	public static function getCurrencyCode()
+	{
+		require_once REDSHOP_CONFIG_PATH;
+
+		$redshopConfig = new \RedshopConfig;
+
+		return $redshopConfig->REDCURRENCY_SYMBOL;
+	}
 }
