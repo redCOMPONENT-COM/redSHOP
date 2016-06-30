@@ -25398,3 +25398,8 @@ body.modal-open {
 {
   list-style: none;
 }
+
+#lastmonthsales_statistics_pie text
+{
+  fill: #337ab7;
+}
