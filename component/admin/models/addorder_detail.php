@@ -379,7 +379,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 				}
 			}
 
-			$product = $producthelper->getProductById($product_id);
+			$product = Redshop::product((int) $product_id);
 
 			$rowitem = $this->getTable('order_item_detail');
 
@@ -421,7 +421,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			if ($iscrm)
 			{
 				$crmProductHelper = new crmProductHelper;
-				$crmproduct = $crmProductHelper->getProductById($product_id);
+				$crmproduct = Redshop::product((int) $product_id);
 
 				$rowitem->product_purchase_price = $crmproduct->product_purchase_price > 0 ? $crmproduct->product_purchase_price : $crmproduct->product_price;
 			}
@@ -577,7 +577,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
+					$accProductinfo = Redshop::product((int) $accdata->child_product_id);
 					$rowaccitem = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id = 0;
 					$rowaccitem->order_item_id = $rowitem->order_item_id;

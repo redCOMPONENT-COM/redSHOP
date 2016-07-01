@@ -18,7 +18,7 @@ $editor = JFactory::getEditor();
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$product = $producthelper->getProductById($this->qdetail->product_id);?>
+$product = Redshop::product((int) $this->qdetail->product_id);?>
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

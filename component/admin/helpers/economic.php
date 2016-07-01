@@ -660,7 +660,7 @@ class economic
 			}
 
 			$product_id = $orderitem[$i]->product_id;
-			$product    = $this->_producthelper->getProductById($product_id);
+			$product    = Redshop::product((int) $product_id);
 			$this->createProductInEconomic($product);
 
 			if ($orderitem[$i]->wrapper_id)
@@ -778,7 +778,7 @@ class economic
 			$displayaccessory = "";
 
 			$product_id = $orderitem[$i]->product_id;
-			$product    = $this->_producthelper->getProductById($product_id);
+			$product    = Redshop::product((int) $product_id);
 			$this->createProductInEconomic($product);
 
 			if ($orderitem[$i]->wrapper_id)
@@ -1342,7 +1342,7 @@ class economic
 
 		if (count($orderItemAttdata) > 0)
 		{
-			$product = $this->_producthelper->getProductById($parent_section_id);
+			$product = Redshop::product((int) $parent_section_id);
 
 			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
 			{

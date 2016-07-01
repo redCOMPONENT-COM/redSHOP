@@ -225,7 +225,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 					}
 					else
 					{
-						$pro_array = $producthelper->getProductById($row->product_parent_id);
+						$pro_array = Redshop::product((int) $row->product_parent_id);
 
 						?>
 						<a href="<?php echo $link; ?>"
@@ -256,7 +256,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 					}
 					else
 					{
-						$pro_array = $producthelper->getProductById($row->product_parent_id);
+						$pro_array = Redshop::product((int) $row->product_parent_id);
 
 						?>
 						<a href="<?php echo $link; ?>"
