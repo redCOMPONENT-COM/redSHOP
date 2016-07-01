@@ -48,7 +48,7 @@ $menuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=manufactu
 foreach ($list as $key => $item)
 {
 	$list[$key]->item_id = $app->input->getInt('Itemid');
-	
+
 	foreach ($menuItem as $k => $value)
 	{
 		$menuParams = $value->params;
