@@ -8,15 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
-
-$document = JFactory::getDocument();
-$producthelper = producthelper::getInstance();
-$editor        = JFactory::getEditor();
-
+$editor = JFactory::getEditor();
 ?>
-
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 
@@ -51,20 +44,18 @@ $editor        = JFactory::getEditor();
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>:</td>
 					<td>
 						<?php
-							$producthelper = producthelper::getInstance();
-							$product       = Redshop::product((int) $this->detail->product_id);
+							$productname = '';
 
-							$productname   = "";
-
-							if (count($product) > 0)
+							if ($this->detail->product_id)
 							{
-								$productname = $product->product_name;
+								$product       = Redshop::product((int) $this->detail->product_id);
+								$productname   = (count($product) > 0) ? $product->product_name : '';
 							}
 						?>
 						<?php
 						$productObject = new stdClass;
 
-						if ($this->detail->product_id && ($productData = $producthelper->getProductById($this->detail->product_id)))
+						if ($this->detail->product_id && ($productData = producthelper::getInstance()->getProductById($this->detail->product_id)))
 						{
 							$productObject->value = $this->detail->product_id;
 							$productObject->text = $productData->product_name;
