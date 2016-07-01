@@ -38,4 +38,26 @@ else
 	$scrollDelay = '200';
 }
 
+$app = JFactory::getApplication();
+$uri = JURI::getInstance();
+$url = $uri->root();
+
+$menu = $app->getMenu();
+$menuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=manufacturers&layout=products', false);
+
+foreach ($list as $key => $item)
+{
+	$list[$key]->item_id = $app->input->getInt('Itemid');
+	
+	foreach ($menuItem as $k => $value)
+	{
+		$menuParams = $value->params;
+
+		if ($menuParams->get('manufacturerid') == $item->manufacturer_id)
+		{
+			$list[$key]->item_id = $value->id;
+		}
+	}
+}
+
 require JModuleHelper::getLayoutPath('mod_redmanufacturer', $params->get('layout', 'default'));

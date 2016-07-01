@@ -22,10 +22,6 @@ JHtml::_('redshopjquery.flexslider', '#redManufSlider_' . $module->id . ' .flexs
 	)
 );
 
-$app = JFactory::getApplication();
-$uri = JURI::getInstance();
-$url = $uri->root();
-$Itemid = $app->input->getInt('Itemid', 0);
 $document = JFactory::getDocument();
 $document->addStyleDeclaration('
 #redManufSlider_' . $module->id . ' .flexslider{
@@ -71,7 +67,7 @@ $document->addStyleDeclaration('
 			);
 			$link = JRoute::_(
 				'index.php?option=com_redshop&view=manufacturers&layout='
-				. $PageLink . '&mid=' . $slide->manufacturer_id . '&Itemid=' . $Itemid, false
+				. $PageLink . '&mid=' . $slide->manufacturer_id . '&Itemid=' . $slide->item_id, false
 			);
 			$title = $slide->manufacturer_name;
 			?>
