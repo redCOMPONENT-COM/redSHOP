@@ -257,7 +257,7 @@ class shipping
 		$user_id        = $user->id;
 		$db             = JFactory::getDbo();
 
-		$data           = $productHelper->getProductById($d['product_id']);
+		$data           = Redshop::product((int) $d['product_id']);
 		$weighttotal    = $data->weight;
 		$volume         = $data->product_volume;
 		$userInfo       = $this->getShippingAddress($d['users_info_id']);
@@ -1285,7 +1285,7 @@ class shipping
 				continue;
 			}
 
-			$data       = $productHelper->getProductById($cart [$i] ['product_id']);
+			$data       = Redshop::product((int) $cart [$i] ['product_id']);
 
 			$length[$i] = $data->product_length;
 			$width[$i]  = $data->product_width;
@@ -1388,7 +1388,7 @@ class shipping
 				continue;
 			}
 
-			$data       = $productHelper->getProductById($cart [$i] ['product_id']);
+			$data       = Redshop::product((int) $cart [$i] ['product_id']);
 			$acc_weight = 0;
 
 			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)

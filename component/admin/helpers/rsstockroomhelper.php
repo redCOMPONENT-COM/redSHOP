@@ -239,7 +239,7 @@ class rsstockroomhelper
 
 				foreach ($sectionId as $item)
 				{
-					$productData = $productHelper->getProductById($item);
+					$productData = Redshop::product((int) $item);
 
 					if (isset($productData->sum_quanity))
 					{
@@ -590,11 +590,11 @@ class rsstockroomhelper
 
 				if ($section == "product")
 				{
-					$product_data = $producthelper->getProductById($section_id);
+					$product_data = Redshop::product((int) $section_id);
 				}
 				else
 				{
-					$product_data = $producthelper->getProductById($product_id);
+					$product_data = Redshop::product((int) $product_id);
 				}
 
 				if ($product_data->preorder == "yes" || ($product_data->preorder == "global" && ALLOW_PRE_ORDER)

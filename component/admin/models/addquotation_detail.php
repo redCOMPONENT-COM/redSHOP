@@ -181,7 +181,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 			$rowitem = $this->getTable('quotation_item_detail');
 
-			$product = $producthelper->getProductById($product_id);
+			$product = Redshop::product((int) $product_id);
 
 			$quotation_item[$i] = new stdClass;
 			$quotation_item[$i]->quotation_id = $row->quotation_id;
@@ -351,7 +351,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
+					$accProductinfo = Redshop::product((int) $accdata->child_product_id);
 					$rowaccitem = $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
 					$rowaccitem->quotation_item_id = $rowitem->quotation_item_id;
