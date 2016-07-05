@@ -144,6 +144,8 @@ class RedshopControllerConfiguration extends RedshopController
 			$post['allow_multiple_discount'] = 0;
 		}
 
+		$post['menuhide'] = implode(',', $app->input->post->get('menuhide', array(), 'ARRAY'));
+
 		if (isset($post['product_download_root']))
 		{
 			if (!is_dir($post['product_download_root']))

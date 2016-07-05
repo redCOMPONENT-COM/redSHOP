@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewCurrency extends RedshopView
+class RedshopViewCurrency extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{

@@ -53,7 +53,7 @@ switch ($this->detail->section_type)
 		<fieldset>
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right"
 					    class="key"><?php echo JText::_('COM_REDSHOP_XMLEXPORT_DISPLAY_FILENAME'); ?>:

@@ -8,49 +8,35 @@
  */
 defined('_JEXEC') or die;
 ?>
-<table class="admintable" width="100%">
-	<tr>
-		<td class="config_param" colspan="2"><?php echo JText::_('COM_REDSHOP_MAIN_CATEGORY_SETTINGS'); ?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
+<legend><?php echo JText::_('COM_REDSHOP_MAIN_CATEGORY_SETTINGS'); ?></legend>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 			      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_CATEGORY_ORDERING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_CATEGORY_ORDERING_METHOD_LBL'); ?>">
-			<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_CATEGORY_ORDERING_METHOD_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['default_category_ordering_method'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
+		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_CATEGORY_ORDERING_METHOD_LBL');?></label></span>
+	<?php echo $this->lists ['default_category_ordering_method'];?>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 			      title="<?php echo JText::_('COM_REDSHOP_MAXCATEGORY_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MAXCATEGORY_LBL'); ?>">
-			<?php echo JText::_('COM_REDSHOP_MAXCATEGORY_LBL');?></span>
-		</td>
-		<td>
-			<input type="text" name="maxcategory" id="maxcategory" value="<?php echo $this->config->get('MAXCATEGORY'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td align="right" class="key">
-		<span class="editlinktip hasTip"
+		<label><?php echo JText::_('COM_REDSHOP_MAXCATEGORY_LBL');?></label></span>
+	<input type="text" name="maxcategory" id="maxcategory" value="<?php echo $this->config->get('MAXCATEGORY'); ?>">
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRE'); ?>">
-		<?php echo JText::_('COM_REDSHOP_PRODUCT_EXPIRE_LBL');?>:</span>
-		</td>
-		<td>
-			<textarea class="text_area" type="text" name="product_expire_text" id="product_expire_text" rows="4"
+		<label><?php echo JText::_('COM_REDSHOP_PRODUCT_EXPIRE_LBL');?>:</label></span>
+	<textarea class="form-control" type="text" name="product_expire_text" id="product_expire_text" rows="4"
 			          cols="40"/><?php echo stripslashes($this->config->get('PRODUCT_EXPIRE_TEXT')); ?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td align="right" class="key">
-		<span class="editlinktip hasTip"
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY_PAGE_INTROTEXT'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_FRONTPAGE_CATEGORY_PAGE_INTROTEXT'); ?>">
-		<?php echo JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY_PAGE_INTROTEXT');?>:</span>
-		</td>
-		<td>
-			<textarea class="text_area" type="text" name="category_frontpage_introtext"
+		<label><?php echo JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY_PAGE_INTROTEXT');?>:</label></span>
+	<textarea class="form-control" type="text" name="category_frontpage_introtext"
 			          id="category_frontpage_introtext" rows="4"
 			          cols="40"/><?php echo stripslashes($this->config->get('CATEGORY_FRONTPAGE_INTROTEXT')); ?></textarea>
-		</td>
-	</tr>
-</table>
+</div>

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewProduct extends RedshopView
+class RedshopViewProduct extends RedshopViewAdmin
 {
 	/**
 	 * The pagination object.
@@ -47,14 +47,14 @@ class RedshopViewProduct extends RedshopView
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
-			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
-			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 			JToolbarHelper::addNew('product_detail.addRedirect');
 			JToolbarHelper::editList('product_detail.editRedirect');
 			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
+			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
+			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 		}
 
 		if ($layout == 'listing')

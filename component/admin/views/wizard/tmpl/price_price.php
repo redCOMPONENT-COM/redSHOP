@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<table class="admintable">
+<table class="admintable table">
 	<tr>
 		<td colspan="2" class="price_intro_text">&nbsp;</td>
 	</tr>

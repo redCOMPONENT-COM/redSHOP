@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 	<div>&nbsp;</div>
 	<fieldset class="adminform">
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td colspan="2" class="registration_intro_text">
 					<?php echo JText::_('COM_REDSHOP_REGISTRATION_METHOD_INTRO_TEXT'); ?>
@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 	</fieldset>
 	<div>&nbsp;</div>
 	<fieldset class="adminform">
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td colspan="2" class="welcomepage_intro_text">
 					<?php echo JText::_('COM_REDSHOP_WELCOMEPAGE_INTRO_TEXT'); ?>
@@ -56,7 +56,7 @@ if (ALLOW_CUSTOMER_REGISTER_TYPE != 2)
 	?>
 	<div>&nbsp;</div>
 	<fieldset class="adminform">
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td colspan="2" class="registration_page_intro_text">
 					<?php echo JText::_('COM_REDSHOP_REGISTRATION_PAGE_INTRO_TEXT'); ?>
@@ -82,7 +82,7 @@ if (ALLOW_CUSTOMER_REGISTER_TYPE != 1)
 	?>
 	<div>&nbsp;</div>
 	<fieldset class="adminform">
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td colspan="2" class="registration_page_intro_text">
 					<?php echo JText::_('COM_REDSHOP_REGISTRATION_PAGE_COMP_INTRO_TEXT'); ?>

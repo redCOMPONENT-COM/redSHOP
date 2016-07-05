@@ -9,18 +9,16 @@
 defined('_JEXEC') or die;
 
 ?>
-<table class="admintable">
 
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+<legend><?php echo JText::_('COM_REDSHOP_EXPAND_ALL_LBL'); ?></legend>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_EXPAND_ALL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_EXPAND_ALL'); ?>">
-			<?php
+			 <label><?php
 			echo JText::_('COM_REDSHOP_EXPAND_ALL_LBL');
-			?></td>
-		<td><?php
+			?> </label>
+	<?php
 			echo $this->lists ['expand_all'];
 			?>
-		</td>
-	</tr>
-</table>
+</div>

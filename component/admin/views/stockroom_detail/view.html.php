@@ -10,8 +10,15 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewStockroom_detail extends RedshopView
+class RedshopViewStockroom_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$layout = JRequest::getVar('layout', '');

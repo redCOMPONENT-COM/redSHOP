@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.4
  */
-class RedshopViewUpdate extends RedshopView
+class RedshopViewUpdate extends RedshopViewAdmin
 {
 	/**
 	 * Display method

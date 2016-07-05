@@ -42,12 +42,14 @@ $order_functions = order_functions::getInstance();
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="comment_filter" id="comment_filter" value="<?php echo $this->state->get('comment_filter'); ?>">
-				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<input type="reset" class="btn" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-					   onclick="return clearreset();">
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="comment_filter" id="comment_filter" value="<?php echo $this->state->get('comment_filter'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="return clearreset();">
+				</div>
 			</div>
 		</div>
 		<table class="adminlist table table-striped">

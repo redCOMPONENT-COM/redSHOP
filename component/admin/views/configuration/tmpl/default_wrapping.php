@@ -9,30 +9,22 @@
 defined('_JEXEC') or die;
 
 ?>
-<table class="admintable">
-	<tr>
-		<td class="config_param"><?php echo JText::_('COM_REDSHOP_WRAPPING_MANAGEMENT'); ?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+
+<legend><?php echo JText::_('COM_REDSHOP_WRAPPING_MANAGEMENT'); ?></legend>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_WRAPPER_THUMB_WIDTH_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_WRAPPER_THUMB_WIDTH'); ?>">
-		<?php echo JText::_('COM_REDSHOP_DEFAULT_WRAPPER_THUMB_WIDTH_HEIGHT');?></span></td>
-		<td>
-			<input type="text" name="default_wrapper_thumb_width" value="<?php echo $this->config->get('DEFAULT_WRAPPER_THUMB_WIDTH'); ?>"/>
-			<input type="text" name="default_wrapper_thumb_height" value="<?php echo $this->config->get('DEFAULT_WRAPPER_THUMB_HEIGHT'); ?>"/>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-	 <span class="editlinktip hasTip"
+		<label><?php echo JText::_('COM_REDSHOP_DEFAULT_WRAPPER_THUMB_WIDTH_HEIGHT');?></label>
+	</span>
+	<input type="text" name="default_wrapper_thumb_width" value="<?php echo $this->config->get('DEFAULT_WRAPPER_THUMB_WIDTH'); ?>"/>
+	<input type="text" name="default_wrapper_thumb_height" value="<?php echo $this->config->get('DEFAULT_WRAPPER_THUMB_HEIGHT'); ?>"/>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 	       title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_AUTO_SCROLL_FOR_WRAPPER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_AUTO_SCROLL_FOR_WRAPPER'); ?>">
-			<?php
-			echo JText::_('COM_REDSHOP_AUTO_SCROLL_FOR_WRAPPER_LBL');
-			?></td>
-		<td><?php
-			echo $this->lists ['auto_scroll_wrapper'];
-			?>
-		</td>
-	</tr>
-</table>
+		<label><?php echo JText::_('COM_REDSHOP_AUTO_SCROLL_FOR_WRAPPER_LBL'); ?><label>
+	</span>
+	<?php echo $this->lists ['auto_scroll_wrapper']; ?>
+</div>

@@ -220,7 +220,7 @@ echo $this->loadTemplate('related');
 			$ordering = $this->getassociation->ordering;
 		}
 	?>
-	<table class="adminform">
+	<table class="admintable table">
 		<tr>
 			<td>
 				<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TAG_NAME_TIP'), JText::_('COM_REDSHOP_TAG_NAME'), 'tooltip.png', '', '', false); ?>

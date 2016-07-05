@@ -28,6 +28,11 @@ class RedshopAdminMenu
 
 	protected static $instance = null;
 
+	private $menuhide = null;
+
+	public $disableMenu = false;
+
+
 	/**
 	 * Returns the RedshopAdminMenu object, only creating it if it doesn't already exist.
 	 *
@@ -49,6 +54,8 @@ class RedshopAdminMenu
 	{
 		$this->data = array();
 
+		$this->menuhide = explode(",", MENUHIDE);
+
 		return $this;
 	}
 
@@ -66,21 +73,24 @@ class RedshopAdminMenu
 		return $this;
 	}
 
-	public function addItem($link, $title, $description = null)
+	public function addItem($link, $title, $active = null)
 	{
-		$item              = new stdClass;
-		$item->link        = $link;
-		$item->title       = $title;
-		$item->description = $description;
-
-		if ($this->section)
+		if ($this->disableMenu || !in_array($title, $this->menuhide))
 		{
-			$this->data[$this->section]->items[] = $item;
-		}
+			$item         = new stdClass;
+			$item->link   = $link;
+			$item->title  = $title;
+			$item->active = $active;
 
-		if ($this->title)
-		{
-			$this->data[$this->section]->title = $this->title;
+			if ($this->section)
+			{
+				$this->data[$this->section]->items[] = $item;
+			}
+
+			if ($this->title)
+			{
+				$this->data[$this->section]->title = $this->title;
+			}
 		}
 
 		return $this;
