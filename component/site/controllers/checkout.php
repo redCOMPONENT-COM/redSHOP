@@ -407,6 +407,7 @@ class RedshopControllerCheckout extends RedshopController
 		$model      = $this->getModel('checkout');
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
+		$user       = JFactory::getUser();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -511,7 +512,10 @@ class RedshopControllerCheckout extends RedshopController
 			if ($order_id)
 			{
 				JPluginHelper::importPlugin('redshop_product');
+				JPluginHelper::importPlugin('redshop_alert');
 				$data = $dispatcher->trigger('getStockroomStatus', array($order_id));
+				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $user->username, $order_id);
+				$dispatcher->trigger('storeAlert', array($message));
 
 				$model->resetcart();
 

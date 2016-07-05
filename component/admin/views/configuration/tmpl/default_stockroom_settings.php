@@ -9,58 +9,56 @@
 defined('_JEXEC') or die;
 
 ?>
-<div id="config-document">
-	<table width="100%" cellpadding="0" cellspacing="0">
-		<tr valign="top">
-			<td width="50%">
-				<fieldset class="adminform">
-					<table class="admintable">
-						<tr>
-							<td class="config_param"><?php echo JText::_('COM_REDSHOP_STOCKROOM_SETTINGS'); ?></td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key">
-								<span class="editlinktip hasTip"
+
+<div class="row">
+	<div class="col-sm-6">
+		<legend><?php echo JText::_('COM_REDSHOP_STOCKROOM_SETTINGS'); ?></legend>
+		<div class="form-group">
+			<span class="editlinktip hasTip"
 									  title="<?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_STOCKROOM_LBL'); ?>">
-								<label for="container"><?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL');?></label></span>
-							</td>
-							<td><?php echo $this->lists ['use_stockroom']; ?></td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key">
-					<span class="editlinktip hasTip"
+				<label for="container"><?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL');?></label>
+			</span>
+			<?php echo $this->lists ['use_stockroom']; ?>
+		</div>
+
+		<div class="form-group">
+			<span class="editlinktip hasTip"
 					      title="<?php echo JText::_('COM_REDSHOP_USE_BLANK_AS_INFINITE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_BLANK_AS_INFINITE_LBL'); ?>">
-					<label
-						for="container"><?php echo JText::_('COM_REDSHOP_USE_BLANK_AS_INFINITE_LBL');?></label></span>
-							</td>
-							<td><?php echo $this->lists ['use_blank_as_infinite'];?></td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key">
-				<span class="editlinktip hasTip"
+				<label
+						for="container"><?php echo JText::_('COM_REDSHOP_USE_BLANK_AS_INFINITE_LBL');?></label>
+			</span>
+			<?php echo $this->lists ['use_blank_as_infinite'];?>
+		</div>
+
+		<div class="form-group">
+			<span class="editlinktip hasTip"
 				      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEDAULT_STOCKROOM_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEDAULT_STOCKROOM'); ?>">
 				<label
-					for="default_stockroom"><?php echo JText::_('COM_REDSHOP_DEDAULT_STOCKROOM_LBL');?></label></span>
-							</td>
-							<td><?php echo $this->lists ['default_stockroom'];?></td>
-						</tr>
-						<tr>
-							<td width="100" align="right" class="key">
-				<span class="editlinktip hasTip"
+					for="default_stockroom"><?php echo JText::_('COM_REDSHOP_DEDAULT_STOCKROOM_LBL');?></label>
+			</span>
+			<?php echo $this->lists ['default_stockroom'];?>
+		</div>
+
+		<div class="form-group">
+			<span class="editlinktip hasTip"
 				      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKAMOUNT_IMAGE_THUMB_WIDTH_HEIGHT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_STOCKAMOUNT_IMAGE_THUMB_WIDTH_HEIGHT_LBL'); ?>">
 				<label
-					for="default_stockroom"><?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKAMOUNT_IMAGE_THUMB_WIDTH_HEIGHT_LBL');?></label></span>
-							</td>
-							<td><input type="text" name="default_stockamount_thumb_width"
+					for="default_stockroom"><?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKAMOUNT_IMAGE_THUMB_WIDTH_HEIGHT_LBL');?></label>
+			</span>
+
+			<input type="text" name="default_stockamount_thumb_width"
 							           value="<?php echo $this->config->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'); ?>"/>
-								<input type="text" name="default_stockamount_thumb_height"
-								       value="<?php echo $this->config->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'); ?>"/></td>
-						</tr>
-					</table>
-				</fieldset>
-			</td>
-			<td width="50%">
-			</td>
-		</tr>
-	</table>
+			<input type="text" name="default_stockamount_thumb_height"
+								       value="<?php echo $this->config->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'); ?>"/>
+		</div>
+
+		<div class="form-group">
+			<span class="editlinktip hasTip"
+				      title="<?php echo JText::_('COM_REDSHOP_USE_PRODUCT_OUTOFSTOCK_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_PRODUCT_OUTOFSTOCK_IMAGE'); ?>">
+				<label for="name"><?php echo JText::_('COM_REDSHOP_USE_PRODUCT_OUTOFSTOCK_IMAGE_LBL');?></label></span>
+			<?php echo $this->lists ['use_product_outofstock_image'];?>
+		</div>
+
+	</div>
 </div>
+

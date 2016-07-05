@@ -11,146 +11,35 @@ defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 ?>
-<table class="admintable" width="100%">
-	<tr>
-		<td class="config_param"><?php echo JText::_('COM_REDSHOP_GENERAL_LAYOUT_SETTING'); ?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_PRODUCT_ORDERING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_PRODUCT_ORDERING_METHOD_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_PRODUCT_ORDERING_METHOD_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['default_product_ordering_method'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_MANUFACTURER_ORDERING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_MANUFACTURER_ORDERING_METHOD_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_MANUFACTURER_ORDERING_METHOD_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['default_manufacturer_ordering_method'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['default_manufacturer_product_ordering_method'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_TITLE_MAX_CHARS'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_TITLE_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_MANUFACTURER_MAX_CHARS_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="manufacturer_title_max_chars" id="manufacturer_title_max_chars"
-			       value="<?php echo $this->config->get('MANUFACTURER_TITLE_MAX_CHARS'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_TITLE_END_SUFFIX'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MANUFACTURER_TITLE_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_MANUFACTURER_TITLE_END_SUFFIX_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="manufacturer_title_end_suffix" id="manufacturer_title_end_suffix"
-			       value="<?php echo $this->config->get('MANUFACTURER_TITLE_END_SUFFIX'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<hr/>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+<legend><?php echo JText::_('COM_REDSHOP_GENERAL_LAYOUT_SETTING'); ?></legend>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_TOOLTIP'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_LBL');?></label></span>
-		</td>
-		<td>
-			<textarea name="media_allowed_mime_type" cols="5" rows="5"><?php echo $this->config->get('MEDIA_ALLOWED_MIME_TYPE'); ?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+	<textarea name="media_allowed_mime_type" cols="5" rows="5"><?php echo $this->config->get('MEDIA_ALLOWED_MIME_TYPE'); ?></textarea>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_IMAGE_QUALITY_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_QUALITY_LBL'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_IMAGE_QUALITY_LBL');?></label></span>
-		</td>
-		<td><input type="text" name="image_quality_output" id="image_quality_output"
+	<input type="text" name="image_quality_output" id="image_quality_output"
 		           value="<?php echo $this->config->get('IMAGE_QUALITY_OUTPUT'); ?>"/>
-		</td>
-	</tr>
+</div>
 
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CAT_IS_LIGHTBOX'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CAT_IS_LIGHTBOX'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CAT_IS_LIGHTBOX');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['cat_is_lightbox'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_PRODUCT_ADDIMG_IS_LIGHTBOX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ADDIMG_IS_LIGHTBOX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_PRODUCT_ADDIMG_IS_LIGHTBOX_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['product_addimg_is_lightbox'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_PRODUCT_IS_LIGHTBOX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_IS_LIGHTBOX'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_PRODUCT_IS_LIGHTBOX_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['product_is_lightbox'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_PRODUCT_DETAIL_IS_LIGHTBOX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DETAIL_IS_LIGHTBOX'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_PRODUCT_DETAIL_IS_LIGHTBOX_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['product_detail_is_lightbox'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_USE_PRODUCT_RESERVE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_PRODUCT_RESERVE_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_USE_PRODUCT_RESERVE_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['is_product_reserve'];?></td>
-	</tr>
-	<tr>
-		<td align="right" class="key">
-			<span class="editlinktip hasTip" title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CART_RESERVATION_MESSAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CART_RESERVATION_MESSAGE'); ?>">
-			<?php echo JText::_('COM_REDSHOP_CART_RESERVATION_MESSAGE_LBL');?>:</span>
-		</td>
-		<td>
-			<textarea class="text_area" type="text" name="cart_reservation_message"
-			          id="cart_reservation_message" rows="4"
-			          cols="40"/><?php echo stripslashes($this->config->get('CART_RESERVATION_MESSAGE')); ?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_USE_PRODUCT_OUTOFSTOCK_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_PRODUCT_OUTOFSTOCK_IMAGE'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_USE_PRODUCT_OUTOFSTOCK_IMAGE_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['use_product_outofstock_image'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ENABLE_ADDRESS_DETAIL_IN_SHIPPING_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ENABLE_ADDRESS_DETAIL_IN_SHIPPING'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_ENABLE_ADDRESS_DETAIL_IN_SHIPPING_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['enable_address_detail_in_shipping'];?></td>
-</table>
+<div class="form-group">
+	<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_DESC'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_LBL');?></label>
+	</span>
+	<?php echo $this->lists ['use_image_size_swapping'];?>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_DESC'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_LBL');?></label>
+	</span>
+	<?php echo $this->lists ['use_image_size_swapping'];?>
+</div>

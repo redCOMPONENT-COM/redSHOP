@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since       1.0
  */
-class RedshopViewProduct_Detail extends RedshopView
+class RedshopViewProduct_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -34,6 +34,13 @@ class RedshopViewProduct_Detail extends RedshopView
 	public $producthelper;
 
 	public $dispatcher;
+
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
 	/**
 	 * Execute and display a template script.

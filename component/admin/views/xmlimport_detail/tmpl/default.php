@@ -288,7 +288,7 @@ submitbutton = function (pressbutton) {
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right"
 					    class="key"><?php echo JText::_('COM_REDSHOP_XMLIMPORT_DISPLAY_FILENAME'); ?>:
@@ -412,7 +412,7 @@ submitbutton = function (pressbutton) {
 		<div class="col50" id="adminresult">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_XMLEXPORT_FILE_DETAIL'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<th><?php echo JText::_('COM_REDSHOP_FIELD_NAME'); ?></th>
 					<th><?php echo JText::_('COM_REDSHOP_XMLEXPORT_FILE_TAG_NAME'); ?></th>
@@ -578,7 +578,7 @@ submitbutton = function (pressbutton) {
 		<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_XMLEXPORT_FILE_DETAIL'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td id="tdNodata"><?php echo JText::_('COM_REDSHOP_NO_DATA_TO_IMPORT');?></td>
 				</tr>

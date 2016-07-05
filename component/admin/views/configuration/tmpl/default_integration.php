@@ -9,37 +9,33 @@
 defined('_JEXEC') or die;
 
 ?>
-<div id="config-document">
-	<table width="100%" cellpadding="0" cellspacing="0">
-		<tr valign="top">
-			<td width="50%">
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS'); ?></legend>
-					<?php echo $this->loadTemplate('analytics');?>
-				</fieldset>
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_CONFIG_GLS'); ?></legend>
-					<?php echo $this->loadTemplate('gls');?>
-				</fieldset>
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_CLICKATELL'); ?></legend>
-					<?php echo $this->loadTemplate('clicktell');?>
-				</fieldset>
-			</td>
-			<td width="50%">
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_POST_DENMART'); ?></legend>
-					<?php echo $this->loadTemplate('postdk');?>
-				</fieldset>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_ECONOMIC'); ?></legend>
-					<?php echo $this->loadTemplate('economic');?>
-				</fieldset>
-			</td>
-		</tr>
-	</table>
-</div>
+
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-sm-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('analytics');?>
+			</fieldset>
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('gls');?>
+			</fieldset>
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('clicktell');?>
+			</fieldset>
+
+		</div>
+		<div class="col-sm-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('postdk');?>
+			</fieldset>
+		</div>
+	</div>
+</fieldset>
+
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-sm-12">
+			<?php echo $this->loadTemplate('economic');?>
+		</div>
+	</div>
+</fieldset>

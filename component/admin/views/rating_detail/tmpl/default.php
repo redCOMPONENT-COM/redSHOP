@@ -30,12 +30,12 @@ $productHelper = producthelper::getInstance();
 			alert("<?php echo JText::_('COM_REDSHOP_RATING_COMMENT_MUST_BE_FILLED', true ); ?>");
 			return false;
 		}
-		
+
 		if (form.product_id.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_PRODUCT', true ); ?>");
 			return false;
 		}
-		else 
+		else
 		{
 			submitform(pressbutton);
 		}
@@ -47,7 +47,7 @@ $productHelper = producthelper::getInstance();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="volume">

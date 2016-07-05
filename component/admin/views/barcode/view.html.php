@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewBarcode extends RedshopView
+class RedshopViewBarcode extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{

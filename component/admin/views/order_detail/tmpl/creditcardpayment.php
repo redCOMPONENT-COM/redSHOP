@@ -106,7 +106,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_CARD_INFORMATION'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td colspan="2" align="right" nowrap="nowrap">
 

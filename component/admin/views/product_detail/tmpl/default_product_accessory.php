@@ -21,7 +21,7 @@ JText::script('COM_REDSHOP_DELETE');
 					<?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'); ?>
 				</legend>
 
-				<table class="admintable">
+				<table class="admintable table">
 
 						<tr>
 							<td class="key">

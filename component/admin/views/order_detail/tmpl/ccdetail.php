@@ -28,7 +28,7 @@ $eyear = $edate[$j + 1] . $edate[$j + 2] . $edate[$j + 3] . $edate[$j + 4];
 ?>
 <div align="center">
 	<h3><?php echo JText::_("COM_REDSHOP_CREDIT_CARD_INFO");?></h3>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<th><?php echo JText::_('COM_REDSHOP_CREDIT_CARD_NAME')?>::</th>
 			<td><?php echo base64_decode($ccdetail->order_payment_cardname);?></td>

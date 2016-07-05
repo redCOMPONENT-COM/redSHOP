@@ -10,8 +10,15 @@ defined('_JEXEC') or die;
 
 
 
-class RedshopViewXmlimport_detail extends RedshopView
+class RedshopViewXmlimport_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$xmlhelper = new xmlHelper;

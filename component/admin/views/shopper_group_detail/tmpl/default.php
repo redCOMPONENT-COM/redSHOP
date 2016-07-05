@@ -34,7 +34,7 @@ $url = $uri->root();    ?>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_NAME'); ?>
 						:
@@ -197,7 +197,7 @@ $url = $uri->root();    ?>
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_LOGO'); ?></legend>
-				<table class="admintable">
+				<table class="admintable table">
 					<tr>
 						<td><input type="file" name="shopper_group_logo" id="shopper_group_logo" size="77"/></td>
 						<td>
@@ -243,7 +243,7 @@ $url = $uri->root();    ?>
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_INTROTEXT'); ?></legend>
-				<table class="admintable">
+				<table class="admintable table">
 					<tr>
 						<td>
 							<?php
@@ -264,7 +264,7 @@ $url = $uri->root();    ?>
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_DESCRIPTION'); ?></legend>
-				<table class="admintable">
+				<table class="admintable table">
 					<tr>
 						<td><?php echo $editor->display("shopper_group_desc", $this->detail->shopper_group_desc, '$widthPx', '$heightPx', '100', '40');    ?></td>
 					</tr>

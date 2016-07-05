@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 ?>
-<table class="admintable">
+<table class="admintable table">
 	<tr>
 		<td width="100" align="right" class="key">
 			<?php

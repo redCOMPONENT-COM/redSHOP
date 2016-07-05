@@ -44,7 +44,7 @@ JHTMLBehavior::modal();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_IMPORT_NEWSLETTER_SUBS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right" class="key">
 						<?php echo JText::_('COM_REDSHOP_SEPRATOR'); ?>:

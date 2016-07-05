@@ -50,7 +50,7 @@ class RedshopModelStatistic extends RedshopModel
 
 		if ($this->_filteroption == "" && JRequest::getVar('view') == "")
 		{
-			$this->_filteroption = 3;
+			$this->_filteroption = 1;
 		}
 	}
 
@@ -300,9 +300,13 @@ class RedshopModelStatistic extends RedshopModel
 						. ' OR '
 						. $db->qn('o.order_status') . ' = ' . $db->q('S')
 					)
-					->where($db->qn('cdate') . ' >= ' . $minDate)
 					->order($db->qn('o.cdate') . ' DESC')
 					->group('viewdate');
+
+		if (!empty($mindate))
+		{
+			$query->where($db->qn('cdate') . ' >= ' . $minDate);
+		}
 
 		$query->leftjoin(
 					$db->qn('#__redshop_users_info', 'uf')
@@ -326,7 +330,7 @@ class RedshopModelStatistic extends RedshopModel
 			$query->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate');
 		}
 
-		$query->select('SUM(o.order_total) AS turnover');
+		$query->select('SUM(o.order_total) AS turnover, SUM(o.order_total) AS turnover');
 
 		if ($this->_filteroption != 4)
 		{
@@ -813,7 +817,7 @@ class RedshopModelStatistic extends RedshopModel
 		switch ($this->_filteroption)
 		{
 			case 1:
-				$return = "%d %b, %Y";
+				$return = "%d %b";
 				break;
 			case 2:
 				$return = "%d %b, %Y";

@@ -618,14 +618,14 @@ class order_functions
 		return RedshopHelperOrder::getOrderStatusList();
 	}
 
-	public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+	public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ', $selectText = 'COM_REDSHOP_SELECT_STATUS_LBL')
 	{
 		if (!$this->_orderstatuslist)
 		{
 			$this->_orderstatuslist = $this->getOrderStatus();
 		}
 
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
+		$types[] = JHTML::_('select.option', '0', '- ' . JText::_($selectText) . ' -');
 		$types = array_merge($types, $this->_orderstatuslist);
 
 		$tot_status = @explode(",", $selected);

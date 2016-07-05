@@ -28,9 +28,10 @@ class RedshopControllerRegistration extends RedshopController
 	 */
 	public function newregistration()
 	{
-		$app    = JFactory::getApplication();
-		$post   = JRequest::get('post');
-		$Itemid = JRequest::getInt('Itemid', 0);
+		$app        = JFactory::getApplication();
+		$post       = JRequest::get('post');
+		$Itemid     = JRequest::getInt('Itemid', 0);
+		$dispatcher = JDispatcher::getInstance();
 
 		$prodhelperobj = producthelper::getInstance();
 		$redshopMail   = redshopMail::getInstance();
@@ -40,6 +41,10 @@ class RedshopControllerRegistration extends RedshopController
 
 		if ($success)
 		{
+			$message = JText::sprintf('COM_REDSHOP_ALERT_REGISTRATION_SUCCESSFULLY', $post['username']);
+			JPluginHelper::importPlugin('redshop_alert');
+			$dispatcher->trigger('storeAlert', array($message));
+
 			if ($post['mywishlist'] == 1)
 			{
 				$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);

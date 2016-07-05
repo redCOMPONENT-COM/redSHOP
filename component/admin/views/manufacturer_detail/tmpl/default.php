@@ -49,7 +49,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'detail-tab');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td width="100" align="right" class="key">
 					<label for="name">
@@ -137,7 +137,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'detail-tab');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td>
 					<?php echo $editor->display("manufacturer_desc", $this->detail->manufacturer_desc, '$widthPx', '$heightPx', '100', '20');    ?>

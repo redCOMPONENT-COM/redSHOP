@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewStockroom_listing extends RedshopView
+class RedshopViewStockroom_listing extends RedshopViewAdmin
 {
 	public $state;
 

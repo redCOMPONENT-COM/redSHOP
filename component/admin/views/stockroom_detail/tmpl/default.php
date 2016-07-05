@@ -40,7 +40,7 @@ $date = JFactory::getDate();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
@@ -136,7 +136,7 @@ $date = JFactory::getDate();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td>
 						<?php echo $editor->display("stockroom_desc", $this->detail->stockroom_desc, '$widthPx', '$heightPx', '100', '20', '1');    ?>

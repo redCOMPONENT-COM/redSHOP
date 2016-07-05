@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewOrder extends RedshopView
+class RedshopViewOrder extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
@@ -34,6 +34,9 @@ class RedshopViewOrder extends RedshopView
 		}
 		else
 		{
+			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
+			JToolbarHelper::addNew();
+
 			JToolBarHelper::custom(
 				'multiprint_order',
 				'print_f2.png',
@@ -41,8 +44,6 @@ class RedshopViewOrder extends RedshopView
 				'COM_REDSHOP_MULTI_PRINT_ORDER_LBL',
 				true
 			);
-			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
-			JToolbarHelper::addNew();
 
 			JToolBarHelper::custom(
 				'allStatusExceptPacsoft',

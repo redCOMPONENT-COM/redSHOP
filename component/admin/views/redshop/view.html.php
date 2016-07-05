@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewRedshop extends RedshopView
+class RedshopViewRedshop extends RedshopViewAdmin
 {
 	public $layout;
 
@@ -18,7 +18,7 @@ class RedshopViewRedshop extends RedshopView
 	{
 		$this->layout = JRequest::getCmd('layout', 'default');
 
-		JToolBarHelper::title('', 'redshop_261-x-88');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_DASHBOARD'));
 
 		if ($this->layout != "noconfig")
 		{
@@ -34,7 +34,6 @@ class RedshopViewRedshop extends RedshopView
 			JToolBarHelper::custom('configuration', 'redshop_icon-32-settings', JText::_('COM_REDSHOP_CONFIG'),
 				JText::_('COM_REDSHOP_CONFIG'), false, false
 			);
-			JToolBarHelper::help('redshop', true);
 		}
 
 		$user = JFactory::getUser();

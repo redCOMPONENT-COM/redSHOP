@@ -47,7 +47,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1'
 <div class="col50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td width="100" align="right" class="key"><label
 						for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_NAME'); ?>:</label></td>
@@ -94,7 +94,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1'
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td><?php echo $editor->display("category_short_description", $this->detail->category_short_description, '$widthPx', '$heightPx', '100', '20');    ?></td>
 				</tr>
@@ -104,7 +104,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1'
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td><?php echo $editor->display("category_description", $this->detail->category_description, '$widthPx', '$heightPx', '100', '20');    ?></td>
 				</tr>
@@ -117,7 +117,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1'
 echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 ?>
 <div class="col50"></div>
-<table class="adminform">
+<table class="admintable table">
 	<tr>
 		<td valign="top" align="right" class="key" width="100"><?php echo JText::_('COM_REDSHOP_CATEGORY_IMAGE'); ?>:
 		</td>
@@ -244,13 +244,13 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 // Create 3rd Tab
 echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 ?>
-<table>
+<table class="admintable table">
 	<tr>
 		<td align="right" class="key"><?php echo JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL'); ?>:
 		</td>
-		<td><?php echo $this->lists['append_to_global_seo']; ?>
+		<td><?php echo $this->lists['append_to_global_seo']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_APPEND_TO_GLOBAL_SEO_LBL'), JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL'), 'tooltip.png', '', '', false); ?>
 		</td>
-		<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_APPEND_TO_GLOBAL_SEO_LBL'), JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL'), 'tooltip.png', '', '', false); ?></td>
+
 	</tr>
 	<tr>
 		<td align="right" class="key">
@@ -335,7 +335,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 	</tr>
 </table>
 <?php echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FIELDS'), 'tab4'); ?>
-<table class="admintable">
+<table class="admintable table">
 	<tr>
 		<td colspan="2">
 			<?php
@@ -352,7 +352,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 ?>
 <div class="col50">
-	<table class="admintable">
+	<table class="admintable table">
 		<tr>
 			<td VALIGN="TOP" class="key" align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?> <br/>
 				<br/>
