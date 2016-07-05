@@ -213,7 +213,7 @@ $calendarFormat = '%d-%m-%Y';
 
 				<tr>
 					<td colspan="2">
-						<?php echo $editor->display("product_s_desc", $this->detail->product_s_desc, '$widthPx', '$heightPx', '100', '20'); ?>
+						<?php echo $editor->display("product_s_desc", $this->detail->product_s_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
 					</td>
 				</tr>
 
@@ -227,7 +227,7 @@ $calendarFormat = '%d-%m-%Y';
 
 				<tr>
 					<td colspan="2">
-						<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20'); ?>
+						<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
 					</td>
 				</tr>
 			</table>
