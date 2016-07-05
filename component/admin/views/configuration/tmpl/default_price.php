@@ -136,48 +136,4 @@ defined('_JEXEC') or die;
 		</td>
 		<td><?php echo $this->lists ['show_price'];?></td>
 	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_PRICE_REPLACEMENT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRICE_REPLACEMENT_LBL'); ?>">
-		<?php echo JText::_('COM_REDSHOP_PRICE_REPLACEMENT_LBL');?>
-		</span>
-		</td>
-		<td>
-			<input type="text" name="price_replacement" id="price_replacement" value="<?php echo $this->config->get('PRICE_REPLACE'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_PRICE_REPLACEMENT_URL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRICE_REPLACEMENT_URL_LBL'); ?>">
-		<?php echo JText::_('COM_REDSHOP_PRICE_REPLACEMENT_URL_LBL');?></span>
-		</td>
-		<td>
-			<input type="text" name="price_replacement_url" id="price_replacement_url"
-			       value="<?php echo $this->config->get('PRICE_REPLACE_URL'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ZERO_PRICE_REPLACEMENT_LBL'); ?>">
-		<?php echo JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_LBL');?></span>
-		</td>
-		<td>
-			<input type="text" name="zero_price_replacement" id="zero_price_replacement"
-			       value="<?php echo $this->config->get('ZERO_PRICE_REPLACE'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_URL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ZERO_PRICE_REPLACEMENT_URL_LBL'); ?>">
-		<?php echo JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_URL_LBL');?></span>
-		</td>
-		<td>
-			<input type="text" name="zero_price_replacement_url" id="zero_price_replacement_url"
-			       value="<?php echo $this->config->get('ZERO_PRICE_REPLACE_URL'); ?>">
-		</td>
-	</tr>
 </table>
