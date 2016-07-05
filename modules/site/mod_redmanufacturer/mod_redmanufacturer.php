@@ -41,7 +41,6 @@ else
 array_map(
 	function($list)
 	{
-		$menuParams = $menuItem->params;
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
 		$menuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=manufacturers&layout=products', false);

@@ -63,7 +63,7 @@ class RedshopViewOrder_detail extends RedshopView
 			{
 				$middle_data .= $template_middle;
 
-				$product_detail = $producthelper->getProductById($products[$p]->product_id);
+				$product_detail = Redshop::product((int) $products[$p]->product_id);
 				$middle_data = str_replace("{product_number}", $product_detail->product_number, $middle_data);
 				$middle_data = str_replace("{product_name}", $products[$p]->order_item_name, $middle_data);
 				$middle_data = str_replace("{product_attribute}", $products[$p]->product_attribute, $middle_data);

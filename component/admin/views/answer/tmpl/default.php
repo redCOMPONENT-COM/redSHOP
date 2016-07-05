@@ -86,7 +86,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 				$row->id = $row->question_id;
 				$link = JRoute::_('index.php?option=com_redshop&view=answer_detail&task=edit&cid[]=' . $row->id);
 
-				$product = $producthelper->getProductById($row->product_id);
+				$product = Redshop::product((int) $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
 				<tr class="<?php echo "row$k"; ?>">

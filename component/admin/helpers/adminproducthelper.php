@@ -56,7 +56,7 @@ class adminproducthelper
 			for ($a = 0, $an = count($accessory); $a < $an; $a++)
 			{
 				$ac_id = $accessory [$a]->child_product_id;
-				$c_p_data = $producthelper->getProductById($ac_id);
+				$c_p_data = Redshop::product((int) $ac_id);
 
 				$accessory_name = $redconfig->maxchar($accessory [$a]->product_name, ACCESSORY_PRODUCT_TITLE_MAX_CHARS, ACCESSORY_PRODUCT_TITLE_END_SUFFIX);
 
@@ -104,7 +104,7 @@ class adminproducthelper
 		$producthelper = producthelper::getInstance();
 		$attributelist = "";
 
-		$product = $producthelper->getProductById($product_id);
+		$product = Redshop::product((int) $product_id);
 
 		if ($accessory_id != 0)
 		{
@@ -277,7 +277,7 @@ class adminproducthelper
 
 		if ($product_id)
 		{
-			$productInfo = $producthelper->getProductById($product_id);
+			$productInfo = Redshop::product((int) $product_id);
 
 			if ($newproduct_price != 0)
 			{
