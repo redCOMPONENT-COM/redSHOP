@@ -96,7 +96,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1'
 			<legend><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo $editor->display("category_short_description", $this->detail->category_short_description, '$widthPx', '$heightPx', '100', '20');    ?></td>
+					<td><?php echo $editor->display("category_short_description", $this->detail->category_short_description, '$widthPx', '$heightPx', '100', '20', false);    ?></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -106,7 +106,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1'
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo $editor->display("category_description", $this->detail->category_description, '$widthPx', '$heightPx', '100', '20');    ?></td>
+					<td><?php echo $editor->display("category_description", $this->detail->category_description, '$widthPx', '$heightPx', '100', '20', false);    ?></td>
 				</tr>
 			</table>
 		</fieldset>
