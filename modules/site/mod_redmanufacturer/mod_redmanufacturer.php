@@ -54,7 +54,6 @@ array_map(
 			if ($menuParams->get('manufacturerid') == $list->manufacturer_id)
 			{
 				$list->item_id = $value->id;
-
 				break;
 			}
 		}
