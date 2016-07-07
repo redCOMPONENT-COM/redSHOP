@@ -46,7 +46,3 @@ $doc->disableScript('media/redcore/lib/bootstrap/js/bootstrap.min.js');
 $doc->disableScript('media/jui/js/jquery.min.js');
 $doc->disableScript('media/jui/js/jquery-noconflict.js');
 $doc->disableScript('media/jui/js/jquery-migrate.min.js');
-/*$doc->disableScript('media/jui/js/bootstrap.min.js');
-$doc->disableScript('media/system/js/mootools-core.js');
-$doc->disableScript('media/system/js/mootools-more.js');
-//$doc->disableScript('media/system/js/modal.js');*/
