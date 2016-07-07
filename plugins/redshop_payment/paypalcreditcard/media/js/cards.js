@@ -76,7 +76,7 @@ jQuery(document).ready(function($) {
 
 								jQuery(fields.get(tdIndex)).html(params.cardName);
 								jQuery(fields.get(tdIndex + 3)).html(params.cardExpireMonth);
-								jQuery(fields.get(tdIndex + 1)).html(params.cardExpireYear);
+								jQuery(fields.get(tdIndex + 4)).html(params.cardExpireYear);
 							}
 							// For new task
 							else if (data.cardId != 0) {
