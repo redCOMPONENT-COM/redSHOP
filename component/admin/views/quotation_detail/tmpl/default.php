@@ -252,7 +252,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				}
 				else
 				{
-					$product = $producthelper->getProductById($quo->product_id);
+					$product = Redshop::product((int) $quo->product_id);
 					$actual_price = $product->product_price;
 					$product_number = "<br/>" . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . ": ( " . $product->product_number . " ) ";
 					$section = 12;

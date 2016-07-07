@@ -317,7 +317,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				}
 			}
 
-			$product = $producthelper->getProductById($product_id);
+			$product = Redshop::product((int) $product_id);
 
 
 			$updatestock = $stockroomhelper->updateStockroomQuantity($product_id, $quantity);
@@ -499,7 +499,7 @@ class RedshopModelOrder_detail extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accessoryproduct = $producthelper->getProductById($accdata->child_product_id);
+					$accessoryproduct = Redshop::product((int) $accdata->child_product_id);
 					$rowaccitem = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id = 0;
 					$rowaccitem->order_item_id = $orderitemdata->order_item_id;
