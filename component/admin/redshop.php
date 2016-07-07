@@ -60,18 +60,6 @@ if (ENABLE_BACKENDACCESS)
 $isWizard = JRequest::getInt('wizard', 0);
 $step     = JRequest::getVar('step', '');
 
-JHtml::_('behavior.framework');
-JHtml::_('redshopjquery.framework');
-
-$document = JFactory::getDocument();
-
-$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.min.js');
-$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');
-
-JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true));
-
-$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.min.css');
-
 // Initialize wizard
 if ($isWizard || $step != '')
 {
@@ -156,4 +144,3 @@ else
 
 $controller->execute($task);
 $controller->redirect();
-
