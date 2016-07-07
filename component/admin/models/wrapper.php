@@ -92,7 +92,7 @@ class RedshopModelWrapper extends RedshopModel
 
 		if ($showall && $this->_productid != 0)
 		{
-			$and = 'WHERE FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1 ';
+			$and = 'AND FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1 ';
 
 			$query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref "
 				. "WHERE product_id = " . $this->_productid;
@@ -103,14 +103,14 @@ class RedshopModelWrapper extends RedshopModel
 				$and .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
 			}
 		}
-		
+
 		$filter = $this->getState('filter');
-		
+
 		if ($filter)
 		{
 			$and .= " AND w.wrapper_name LIKE '%" . $filter . "%' ";
 		}
-		
+
 		$query = 'SELECT distinct(w.wrapper_id), w.* FROM ' . $this->_table_prefix . 'wrapper AS w WHERE 1=1 '
 			. $and;
 
