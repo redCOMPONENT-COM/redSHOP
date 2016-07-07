@@ -15,6 +15,12 @@ $menuhide = explode(",", MENUHIDE);
 ?>
 <?php if(isset($items)) { ?>
 <ul class="sidebar-menu">
+	<li>
+		<a href="index.php?option=com_redshop">
+			<i class="fa fa-bar-chart"></i>
+			<span><?php echo JText::_('COM_REDSHOP_DASHBOARD'); ?></span>
+		</a>
+	</li>
 	<?php foreach ($items as $group => $sections) : ?>
 		<?php if(count($sections) > 0) : ?>
 		<li class="treeview <?php echo ($active[0] == $group ? 'active': '') ?>">

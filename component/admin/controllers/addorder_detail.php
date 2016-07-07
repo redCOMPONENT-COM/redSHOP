@@ -55,7 +55,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{
 				$quantity = $orderItem[$i]->quantity;
-				$productData = $producthelper->getProductById($orderItem[$i]->product_id);
+				$productData = Redshop::product((int) $orderItem[$i]->product_id);
 
 				if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $quantity)
 				{
