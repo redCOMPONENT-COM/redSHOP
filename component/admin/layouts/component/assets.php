@@ -9,9 +9,15 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.framework');
+JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
+
+$doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.min.js');
+$doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');
+$doc->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.min.css');
 
 // Disable template shit
 $doc->disableStylesheet('administrator/templates/isis/css/template.css');
@@ -37,10 +43,6 @@ $doc->disableScript('media/redcore/lib/bootstrap.min.js');
 $doc->disableScript('media/redcore/lib/bootstrap/js/bootstrap.min.js');
 
 // Disable core things
-/*$doc->disableScript('media/jui/js/jquery.min.js');
+$doc->disableScript('media/jui/js/jquery.min.js');
 $doc->disableScript('media/jui/js/jquery-noconflict.js');
 $doc->disableScript('media/jui/js/jquery-migrate.min.js');
-$doc->disableScript('media/jui/js/bootstrap.min.js');
-$doc->disableScript('media/system/js/mootools-core.js');
-$doc->disableScript('media/system/js/mootools-more.js');
-$doc->disableScript('media/system/js/modal.js');*/

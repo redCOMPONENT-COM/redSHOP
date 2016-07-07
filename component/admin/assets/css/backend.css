@@ -8142,13 +8142,7 @@ button.close {
 .fa-percent:before {
   content: "\f295";
 }
-/*!
- *   AdminLTE/build/less v2.0.5
- *   Author: Almsaeed Studio
- *   Website: Almsaeed Studio <http://almsaeedstudio.com>
- *   License: Open source - MIT
- *           Please visit http://opensource.org/licenses/MIT for more information
-!*/
+
 /*
  * Core: General Layout Style
  * -------------------------
@@ -15818,7 +15812,7 @@ fine-grain .ui-widget {
   margin-left: 5px;
 }
 .select2-container {
-  width: 220px !important;
+  width: auto;
 }
 
 .select2-container .select2-choice
@@ -16002,10 +15996,14 @@ i.config
   padding: 10px 6px;
 }
 
-.filterTool .chzn-container-single
+.filterTool .chzn-container-single,
+.filterTool .select2-container .select2-choice
 {
+  height: 40px !important;
+  line-height: 40px;
   margin-top: 3px;
-  background-color: #FFFFFF;
+  background-color: #FFFFFF !important;
+  box-shadow: none;
 }
 
 .filterTool .chzn-container-single .chzn-single {
@@ -16013,6 +16011,11 @@ i.config
   box-shadow: none;
   line-height: 40px;
   min-height: 40px;
+}
+
+.filterTool .select2-container .select2-choice .select2-arrow b
+{
+  background: transparent url("chosen-sprite.png") no-repeat scroll 0 11px !important;
 }
 
 .filterTool .chzn-container-single .chzn-single div b
@@ -25402,4 +25405,14 @@ body.modal-open {
 #lastmonthsales_statistics_pie text
 {
   fill: #337ab7;
+}
+
+.select2-drop-active
+{
+  border: 1px solid #e6e5e5;
+}
+
+.select2-search
+{
+  margin-top: 10px;
 }
