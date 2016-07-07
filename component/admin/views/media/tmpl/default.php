@@ -35,7 +35,7 @@ if ($showbuttons == 1)
 	switch ($media_section)
 	{
 		case "product";
-			$sectionadata           = $producthelper->getProductById($section_id);
+			$sectionadata           = Redshop::product((int) $section_id);
 			$section_name           = isset($sectionadata->product_name) ? $sectionadata->product_name : '';
 			$sectiona_primary_image = isset($sectionadata->product_full_image) ? $sectionadata->product_full_image : '';
 			$directory              = $media_section;

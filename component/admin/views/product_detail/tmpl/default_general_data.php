@@ -496,12 +496,12 @@ $calendarFormat = '%d-%m-%Y';
 	<div class="col-sm-12">
 		<div class="form-group">
 			<label><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></label>
-			<?php echo $editor->display("product_s_desc", $this->detail->product_s_desc, '$widthPx', '$heightPx', '100', '20'); ?>
+			<?php echo $editor->display("product_s_desc", $this->detail->product_s_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
 		</div>
 
 		<div class="form-group">
 			<label><?php echo JText::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
-			<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20'); ?>
+			<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
 		</div>
 	</div>
 </div>
