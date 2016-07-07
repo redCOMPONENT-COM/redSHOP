@@ -164,7 +164,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 		for ($i = 0, $in = count($arr_diff); $i < $in; $i++)
 		{
-			$productData = $producthelper->getProductById($arr_diff[$i]);
+			$productData = Redshop::product((int) $arr_diff[$i]);
 
 			if ($productData->product_on_sale != 1)
 			{
@@ -247,7 +247,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 			for ($p = 0, $pn = count($product_Ids); $p < $pn; $p++)
 			{
-				$productData = $producthelper->getProductById($product_Ids[$p]->product_id);
+				$productData = Redshop::product((int) $product_Ids[$p]->product_id);
 
 				if ($productData->product_on_sale != 1)
 				{
@@ -337,7 +337,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 				for ($p = 0, $pn = count($product_Ids); $p < $pn; $p++)
 				{
-					$productData = $producthelper->getProductById($product_Ids[$p]->product_id);
+					$productData = Redshop::product((int) $product_Ids[$p]->product_id);
 					$p_price = ($data['discount_type'] == 1) ?
 						($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
 						$data['discount_amount'];
@@ -376,7 +376,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 	}
 
 	public function delete($cid = array())
-	{		
+	{
 		$producthelper = producthelper::getInstance();
 
 		if (count($cid))
