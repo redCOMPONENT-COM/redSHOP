@@ -262,7 +262,7 @@ class quotationHelper
 			$quotationItem = $this->getQuotationProduct(0, $quotation_item_id);
 			$product_id = $quotationItem[0]->product_id;
 
-			$productdetail = $producthelper->getProductById($product_id);
+			$productdetail = Redshop::product((int) $product_id);
 			$productTemplate = $redTemplate->getTemplate("product", $productdetail->product_template);
 
 			$returnArr = $producthelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);

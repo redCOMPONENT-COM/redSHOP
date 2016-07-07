@@ -111,35 +111,3 @@ defined('_JEXEC') or die;
 	</span>
 	<?php echo $this->lists ['show_price'];?>
 </div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_PRICE_REPLACEMENT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRICE_REPLACEMENT_LBL'); ?>">
-		<label><?php echo JText::_('COM_REDSHOP_PRICE_REPLACEMENT_LBL');?></label>
-	</span>
-	<input type="text" name="price_replacement" id="price_replacement" value="<?php echo $this->config->get('PRICE_REPLACE'); ?>">
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_PRICE_REPLACEMENT_URL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRICE_REPLACEMENT_URL_LBL'); ?>">
-		<label><?php echo JText::_('COM_REDSHOP_PRICE_REPLACEMENT_URL_LBL');?></label></span>
-	<input type="text" name="price_replacement_url" id="price_replacement_url"
-			       value="<?php echo $this->config->get('PRICE_REPLACE_URL'); ?>">
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ZERO_PRICE_REPLACEMENT_LBL'); ?>">
-		<label><?php echo JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_LBL');?></label></span>
-	<input type="text" name="zero_price_replacement" id="zero_price_replacement"
-			       value="<?php echo $this->config->get('ZERO_PRICE_REPLACE'); ?>">
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_URL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ZERO_PRICE_REPLACEMENT_URL_LBL'); ?>">
-		<label><?php echo JText::_('COM_REDSHOP_ZERO_PRICE_REPLACEMENT_URL_LBL');?></label></span>
-	<input type="text" name="zero_price_replacement_url" id="zero_price_replacement_url"
-			       value="<?php echo $this->config->get('ZERO_PRICE_REPLACE_URL'); ?>">
-</div>
