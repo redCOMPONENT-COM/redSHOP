@@ -154,7 +154,7 @@ class redshopMail
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
-			$product          = $producthelper->getProductById($rowitem[$i]->product_id);
+			$product          = Redshop::product((int) $rowitem[$i]->product_id);
 			$manufacturerData = $producthelper->getSection("manufacturer", $product->manufacturer_id);
 
 			if (count($manufacturerData) > 0)
@@ -931,7 +931,7 @@ class redshopMail
 			$lastname   = $userdata->lastname;
 		}
 
-		$product             = $producthelper->getProductById($data->product_id);
+		$product             = Redshop::product((int) $data->product_id);
 		$productSubscription = $producthelper->getProductSubscriptionDetail($data->product_id, $data->subscription_id);
 
 		$search    = array();
@@ -1078,7 +1078,7 @@ class redshopMail
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
 			$product_id                   = $rowitem[$i]->product_id;
-			$product                      = $producthelper->getProductById($product_id);
+			$product                      = Redshop::product((int) $product_id);
 			$product_name                 = "<div class='product_name'>" .
 				$rowitem[$i]->product_name . "</div>";
 			$product_total_price          = "<div class='product_price'>" .
@@ -1526,7 +1526,7 @@ class redshopMail
 				}
 			}
 
-			$product     = $producthelper->getProductById($product_id);
+			$product     = Redshop::product((int) $product_id);
 
 			$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id);
 
