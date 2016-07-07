@@ -11745,7 +11745,7 @@ function _init() {
 			//Get the screen sizes
 			var screenSizes = $.AdminLTE.options.screenSizes;
 
-			var sidebar = Cookies.get('sidebar');
+			var sidebar = Cookies.get('redshopsidebar');
 
 			if ($(window).width() > (screenSizes.sm - 1) && sidebar == 'collapsed') {
 				$("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
@@ -11760,10 +11760,10 @@ function _init() {
 
 					if ($("body").hasClass('sidebar-collapse')) {
 						$("body").removeClass('sidebar-collapse').trigger('expanded.pushMenu');
-						Cookies.remove('sidebar');
+						Cookies.remove('redshopsidebar');
 					} else {
 						$("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
-						Cookies.set('sidebar', 'collapsed');
+						Cookies.set('redshopsidebar', 'collapsed');
 					}
 				}
 				//Handle sidebar push menu for small screens
