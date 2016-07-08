@@ -18,22 +18,39 @@ class RedshopViewRedshop extends RedshopViewAdmin
 	{
 		$this->layout = JRequest::getCmd('layout', 'default');
 
+		$menuhide = explode(",", MENUHIDE);
+
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DASHBOARD'));
 
 		if ($this->layout != "noconfig")
 		{
-			JToolBarHelper::custom('update', 'redshop_importexport32', JText::_('COM_REDSHOP_UPDATE_TITLE'),
-				JText::_('COM_REDSHOP_UPDATE_TITLE'), false, false
-			);
-			JToolBarHelper::custom('statistic', 'redshop_statistic32', JText::_('COM_REDSHOP_STATISTIC'),
-				JText::_('COM_REDSHOP_STATISTIC'), false, false
-			);
-			JToolBarHelper::custom('wizard', 'redshop_configwizrd32', JText::_('COM_REDSHOP_WIZARD'),
-				JText::_('COM_REDSHOP_WIZARD'), false, false
-			);
-			JToolBarHelper::custom('configuration', 'redshop_icon-32-settings', JText::_('COM_REDSHOP_CONFIG'),
-				JText::_('COM_REDSHOP_CONFIG'), false, false
-			);
+			if (!in_array('COM_REDSHOP_UPDATE_TITLE', $menuhide))
+			{
+				JToolBarHelper::custom('update', 'redshop_importexport32', JText::_('COM_REDSHOP_UPDATE_TITLE'),
+					JText::_('COM_REDSHOP_UPDATE_TITLE'), false, false
+				);
+			}
+
+			if (!in_array('COM_REDSHOP_STATISTIC', $menuhide))
+			{
+				JToolBarHelper::custom('statistic', 'redshop_statistic32', JText::_('COM_REDSHOP_STATISTIC'),
+					JText::_('COM_REDSHOP_STATISTIC'), false, false
+				);
+			}
+
+			if (!in_array('COM_REDSHOP_START_CONFIGURATION_WIZARD', $menuhide))
+			{
+				JToolBarHelper::custom('wizard', 'redshop_configwizrd32', JText::_('COM_REDSHOP_WIZARD'),
+					JText::_('COM_REDSHOP_WIZARD'), false, false
+				);
+			}
+
+			if (!in_array('COM_REDSHOP_RESHOP_CONFIGURATION', $menuhide))
+			{
+				JToolBarHelper::custom('configuration', 'redshop_icon-32-settings', JText::_('COM_REDSHOP_CONFIG'),
+					JText::_('COM_REDSHOP_CONFIG'), false, false
+				);
+			}
 		}
 
 		$user = JFactory::getUser();
