@@ -12,29 +12,6 @@ defined('_JEXEC') or die;
 		<small><?php echo JText::_('COM_REDSHOP_VERSION');?></small>
 		<span class="label label-info"><?php echo $this->redshopversion;?></span>
 	</div>
-	<h2 class="module-title nav-header">
-		<?php echo JText::_('COM_REDSHOP_POPULAR');?>
-	</h2>
-	<div class="row-fluid">
-		<div id="cpanel" align="center">
-			<?php
-				redshopViewredshop::quickiconButton(
-					'index.php?option=com_redshop&amp;wizard=1',
-					'wizard_48.png',
-					JText::_('COM_REDSHOP_WIZARD')
-				);
-			?>
-		</div>
-		<div id="cpanel" align="center">
-			<?php
-				redshopViewredshop::quickiconButton(
-					'index.php?option=com_redshop&view=configuration&dashboard=1',
-					'dashboard_48.png',
-					JText::_('COM_REDSHOP_DASHBORAD_CONFIGURATION')
-				);
-			?>
-		</div>
-	</div>
 
 	<h2 class="module-title nav-header">
 		<?php echo JText::_('COM_REDSHOP_QUICK_LINKS');?>
