@@ -39,7 +39,7 @@ class economic
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new economic;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

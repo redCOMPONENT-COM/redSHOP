@@ -28,7 +28,7 @@ class extra_field
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new extra_field;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

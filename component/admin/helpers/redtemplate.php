@@ -38,7 +38,7 @@ class Redtemplate
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new Redtemplate;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

@@ -67,7 +67,7 @@ class producthelper
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new producthelper;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

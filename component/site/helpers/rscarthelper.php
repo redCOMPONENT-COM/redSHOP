@@ -45,7 +45,7 @@ class rsCarthelper
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new rsCarthelper;
+			self::$instance = new static;
 		}
 
 		return self::$instance;
