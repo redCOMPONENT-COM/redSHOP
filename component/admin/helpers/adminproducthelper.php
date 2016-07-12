@@ -31,7 +31,7 @@ class adminproducthelper
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new adminProductHelper;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

@@ -35,7 +35,7 @@ class redshopMail
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new redshopMail;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

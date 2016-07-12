@@ -26,7 +26,7 @@ class shipping
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new shipping;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

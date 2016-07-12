@@ -31,7 +31,7 @@ class order_functions
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new order_functions;
+			self::$instance = new static;
 		}
 
 		return self::$instance;
