@@ -35,7 +35,7 @@ class redhelper
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new redhelper;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

@@ -35,7 +35,7 @@ class rsUserhelper
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new rsUserHelper;
+			self::$instance = new static;
 		}
 
 		return self::$instance;
