@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="system" method="upgrade">
     <name>PLG_SYS_REDGOOGLEANALYTICS</name>
-    <version>1.5</version>
-    <redshop>1.5</redshop>
-    <creationDate>April 2013</creationDate>
+    <version>1.5.1</version>
+    <redshop>1.6.1</redshop>
+    <creationDate>Jul 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

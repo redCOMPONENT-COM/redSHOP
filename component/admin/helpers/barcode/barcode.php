@@ -1,12 +1,12 @@
-<?
+<?php
 /*
 
  * Image-Creator / Sample
- * Part of PHP-Barcode 0.3pl1
+ * Part of PHP-Barcode 0.4
 
  * (C) 2001,2002,2003,2004 by Folke Ashberg <folke@ashberg.de>
 
- * The newest version can be found at http://www.ashberg.de/bar
+ * The newest version can be found at http://www.ashberg.de/php-barcode
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,42 +24,23 @@
 
  */
 
-require "php-barcode.php";
+require("php-barcode.php");
 
-function getvar($name) {
-	global $_GET, $_POST;
-	if (isset ( $_GET [$name] ))
-		return $_GET [$name];
-	else if (isset ( $_POST [$name] ))
-		return $_POST [$name];
-	else
-		return false;
+function getvar($name){
+    global $_GET, $_POST;
+    if (isset($_GET[$name])) return $_GET[$name];
+    else if (isset($_POST[$name])) return $_POST[$name];
+    else return false;
 }
 
-if (get_magic_quotes_gpc ()) {
-
-	$code = stripslashes ( getvar ( 'code' ) );
-	$mode = stripslashes ( getvar ( 'mode' ) );
-	$scale = stripslashes ( getvar ( 'scale' ) );
-	$encoding = stripslashes ( getvar ( 'encoding' ) );
-
+if (get_magic_quotes_gpc()){
+    $code=stripslashes(getvar('code'));
 } else {
-
-	$code = getvar ( 'code' );
-	$mode = getvar ( 'mode' );
-	$scale = getvar ( 'scale' );
-	$encoding = getvar ( 'encoding' );
+    $code=getvar('code');
 }
-if (! $code)
-	$code = '123456789012';
-if (! $mode)
-	$mode = 'png';
-if (! $scale)
-	$scale = '2';
-if (! $encoding)
-	$encoding = 'EAN';
+if (!$code) $code='123456789012';
 
-barcode_print ( $code, $encoding , $scale , $mode );
+barcode_print($code,getvar('encoding'),getvar('scale'),getvar('mode'));
 
 /*
  * call
@@ -68,5 +49,3 @@ barcode_print ( $code, $encoding , $scale , $mode );
  * http://........./barcode.php?code=012345678901&encoding=EAN&scale=4&mode=png
  *
  */
-
-?>

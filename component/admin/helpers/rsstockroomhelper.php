@@ -26,7 +26,7 @@ class rsstockroomhelper
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new rsstockroomhelper;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

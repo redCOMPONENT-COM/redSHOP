@@ -352,6 +352,20 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 ?>
 <div class="col50">
+	<?php
+		echo RedshopLayoutHelper::render(
+				'system.message',
+				array(
+					'msgList' => array(
+						'info' => array(
+							JText::_('COM_REDSHOP_CATEGORY_ACCESSORY_PRODUCT_INFO')
+						)
+					),
+					'showHeading' => false,
+					'allowClose' => false
+				)
+			);
+	?>
 	<table class="admintable table">
 		<tr>
 			<td VALIGN="TOP" class="key" align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?> <br/>

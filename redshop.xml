@@ -80,7 +80,6 @@
     <!-- Libraries to install with the component -->
     <libraries>
 		<library name="redshop"/>
-		<library name="tcpdf"/>
     </libraries>
 
     <!-- Modules to install with the component -->

@@ -32,7 +32,7 @@ class quotationHelper
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new quotationHelper;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

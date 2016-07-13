@@ -44,7 +44,7 @@ class RedshopAdminMenu
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new RedshopAdminMenu;
+			self::$instance = new static;
 		}
 
 		return self::$instance;
