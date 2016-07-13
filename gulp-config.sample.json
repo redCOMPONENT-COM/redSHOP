@@ -8,7 +8,7 @@
 		"install.php",
 		"component/**",
 		"media/**",
-		"libraries/**",
+		"libraries/redshop/**",
 		"modules/site/mod_redshop_cart/**",
 		"plugins/system/redshop/**",
 		"plugins/redshop_payment/rs_payment_banktransfer/**",

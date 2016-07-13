@@ -87,8 +87,8 @@
         </copy>
 
 		<echo message="Copying libraries..."/>
-		<copy todir="${tmpdir}/${extension}/libraries" overwrite="true">
-			<fileset dir="${extpath}/libraries">
+		<copy todir="${tmpdir}/${extension}/libraries/redshop" overwrite="true">
+			<fileset dir="${extpath}/libraries/redshop">
 				<include name="**"/>
 			</fileset>
 		</copy>

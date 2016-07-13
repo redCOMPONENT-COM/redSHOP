@@ -43,7 +43,7 @@ class CurrencyHelper
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new CurrencyHelper;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

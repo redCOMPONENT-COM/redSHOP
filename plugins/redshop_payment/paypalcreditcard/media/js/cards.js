@@ -70,9 +70,13 @@ jQuery(document).ready(function($) {
 						if (!hasImportant) {
 							if ('update' == taskName) {
 								var fields = jQuery('#card-' + id).children();
-								jQuery(fields.get(0)).html(params.cardName);
-								jQuery(fields.get(3)).html(params.cardExpireMonth);
-								jQuery(fields.get(4)).html(params.cardExpireYear);
+
+								// Find first td has radio input or not
+								var tdIndex = (jQuery(fields.get(0)).find('input').length > 0) ? 1 : 0;
+
+								jQuery(fields.get(tdIndex)).html(params.cardName);
+								jQuery(fields.get(tdIndex + 3)).html(params.cardExpireMonth);
+								jQuery(fields.get(tdIndex + 4)).html(params.cardExpireYear);
 							}
 							// For new task
 							else if (data.cardId != 0) {

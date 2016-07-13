@@ -42,7 +42,7 @@ class Redconfiguration
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new Redconfiguration;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

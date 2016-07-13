@@ -282,7 +282,7 @@ class extraField
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new extraField;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

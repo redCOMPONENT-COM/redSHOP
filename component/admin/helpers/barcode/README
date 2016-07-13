@@ -1,4 +1,4 @@
-PHP-Barcode 0.3pl1
+PHP-Barcode 0.4
 
 PHP-Barcode generates
   - Barcode-Images using libgd (png, jpg,gif),
@@ -11,11 +11,11 @@ PHP-Barcode encodes using
     barcode-encoder which uses GNU-Barcode
     genbarcode can encode EAN-13, EAN-8, UPC, ISBN, 39, 128(a,b,c),
     I25, 128RAW, CBR, MSI, PLS
-    genbarcode is available at www.ashberg.de/bar 
+    genbarcode is available at www.ashberg.de/php-barcode 
 
-(C) 2001,2002,2003,2004 by Folke Ashberg <folke@ashberg.de>
+(C) 2001,2002,2003,2004,2011 by Folke Ashberg <folke@ashberg.de>
 
-The newest version can be found at http://www.ashberg.de/bar
+The newest version can be found at http://www.ashberg.de/php-barcode
 
 
 INSTALLATION:
@@ -24,7 +24,7 @@ INSTALLATION:
    You need php>4 on your system.
    You need the gd2-extension to be able to render images.
    You need a TrueTypeFont if you want to see the CODE below the bars.
-   You need genbarcode (from www.ashberg.de/bar) in you want to use
+   You need genbarcode (from www.ashberg.de/php-barcode) in you want to use
        another encoding than EAN-12/EAN-12/ISBN
 
  Copy the following files into your html/php-directory
@@ -48,7 +48,7 @@ INSTALLATION:
   OPTIONAL - genbarcode:
       If you want to generate not only EAN-12/EAN-13/ISBN-Codes you have to install
       genbarcode, a small unix-commandline tool which uses GNU-Barcode.
-      genbarcode is available http://www.ashberg.de/bar , read genbarcodes
+      genbarcode is available http://www.ashberg.de/php-barcode , read genbarcodes
       README for installation.
       If you have installed genbarcode not to /usr/bin set the $genbarcode_loc
       in php-barcode.php .
