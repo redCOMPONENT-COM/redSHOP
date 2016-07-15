@@ -17,9 +17,9 @@ $doc = new RedshopHelperDocument;
 
 $doc->addTopScript('//use.fontawesome.com/e9d00401af.js');
 
-$doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.min.js');
+$doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.js');
 $doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');
-$doc->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.min.css');
+$doc->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.css');
 
 // Disable template shit
 $doc->disableStylesheet('administrator/templates/isis/css/template.css');
