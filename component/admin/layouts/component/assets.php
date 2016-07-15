@@ -15,6 +15,8 @@ JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
+$doc->addTopScript('//use.fontawesome.com/e9d00401af.js');
+
 $doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.min.js');
 $doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');
 $doc->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.min.css');
