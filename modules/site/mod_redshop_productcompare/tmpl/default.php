@@ -19,7 +19,6 @@ $cid = JRequest::getInt('cid');
 if (COMARE_PRODUCTS == 1)
 {
 	$compare = new RedshopProductCompare();
-	$compare = $compare->getItems();
 
 	?>
 
@@ -27,9 +26,11 @@ if (COMARE_PRODUCTS == 1)
 		<!-- Comparable Products -->
 		<table border="0" cellpadding="5" cellspacing="0" width="100%">
 			<?php
-			if (isset($compare) && count($compare) > 0)
+			if (!$compare->isEmpty())
 			{
-				foreach ($compare as $item_key => $item)
+				$compare = $compare->getItems();
+				
+				foreach ($compare as $item)
 				{
 					$row = $producthelper->getProductById($item['item']->productId);
 
