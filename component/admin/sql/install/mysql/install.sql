@@ -397,6 +397,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_giftcard` (
 	`giftcard_desc`     LONGTEXT       NOT NULL,
 	`customer_amount`   INT(11)        NOT NULL,
 	`accountgroup_id`   INT(11)        NOT NULL,
+	`free_shipping`     TINYINT        NOT NULL,
 	PRIMARY KEY (`giftcard_id`),
 	KEY `idx_published` (`published`)
 )

@@ -59,6 +59,13 @@ class RedshopHelperOrder
 	protected static $orderShippingInfo = array();
 
 	/**
+	 * Order Item information
+	 *
+	 * @var  array
+	 */
+	protected static $orderItems = array();
+
+	/**
 	 * Get order information from order id.
 	 *
 	 * @param   integer   $orderId  Order Id
@@ -490,5 +497,68 @@ class RedshopHelperOrder
 		self::$orderExtraFieldData[$key] = $fieldsData;
 
 		return $fieldsData;
+	}
+
+	/**
+	 * Get all the items from order
+	 *
+	 * @param   integer  $orderId  Valid Integer order Id
+	 *
+	 * @return  array    Order Items
+	 */
+	public static function getItems($orderId)
+	{
+		// If not an integer then convert it into an integer
+		if (!is_int($orderId))
+		{
+			throw new InvalidArgumentException($orderId . " is not valid Integer. Passed argument is " . getType($orderId));
+		}
+
+		$key = $orderId;
+
+		if (array_key_exists($key, self::$orderItems))
+		{
+			return self::$orderItems[$key];
+		}
+
+		// Initialiase variables.
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_order_item'))
+					->where($db->qn('order_id') . ' = ' . $orderId);
+
+		// Set the query and load the result.
+		self::$orderItems[$key] = $db->setQuery($query)->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return null;
+		}
+
+		return self::$orderItems[$key];
+	}
+
+	/**
+	 * Get all gift card items from order items array
+	 *
+	 * @param   integer  $orderId  A valid integer Order Id
+	 *
+	 * @return  array    Contains gift card item.
+	 */
+	public static function giftCardItems($orderId)
+	{
+		$orderItems = self::getItems($orderId);
+
+		return array_filter(
+			self::getItems($orderId),
+			function($item) {
+				return $item->is_giftcard;
+			}
+		);
 	}
 }
