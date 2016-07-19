@@ -61,8 +61,6 @@ class RedshopViewRedshop extends RedshopViewAdmin
 			$this->access_rslt = $this->access_rslt->checkaccessofuser($user->gid);
 		}
 
-		$this->redshopversion = RedshopModel::getInstance('Configuration', 'RedshopModel')->getcurrentversion();
-
 		$model = $this->getModel();
 
 		if (DISPLAY_NEW_CUSTOMERS)

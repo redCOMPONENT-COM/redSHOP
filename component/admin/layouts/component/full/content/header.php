@@ -13,9 +13,18 @@ extract($displayData);
 
 $toolbar = JToolbar::getInstance('toolbar');
 
+$redshopversion = RedshopModel::getInstance('Configuration', 'RedshopModel')->getcurrentversion();
+
 ?>
 
-<div class="component-title"><?php echo JFactory::getApplication()->JComponentTitle; ?></div>
+<div class="component-title">
+	<?php echo JFactory::getApplication()->JComponentTitle; ?>
+
+	<div class="redshopversion">
+		<small><?php echo JText::_('COM_REDSHOP_VERSION');?></small>
+		<span class="label label-info"><?php echo $redshopversion;?></span>
+	</div>
+</div>
 
 <?php echo $toolbar->render() ?>
 
