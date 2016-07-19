@@ -13,7 +13,7 @@ extract($displayData);
 
 $toolbar = JToolbar::getInstance('toolbar');
 
-$redshopversion = RedshopModel::getInstance('Configuration', 'RedshopModel')->getcurrentversion();
+$redshopversion = RedshopModel::getInstance('Configuration', 'RedshopModel')->getCurrentVersion();
 
 ?>
 
