@@ -8,11 +8,6 @@
  */
 defined('_JEXEC') or die;
 ?>
-<div class="alert alert-info">
-		<small><?php echo JText::_('COM_REDSHOP_VERSION');?></small>
-		<span class="label label-info"><?php echo $this->redshopversion;?></span>
-	</div>
-
 	<h2 class="module-title nav-header">
 		<?php echo JText::_('COM_REDSHOP_QUICK_LINKS');?>
 	</h2>

@@ -838,7 +838,7 @@ class RedshopModelConfiguration extends RedshopModel
 	}
 
 	/* Get current version of redshop */
-	public function getcurrentversion()
+	public function getCurrentVersion()
 	{
 		$xmlfile = JPATH_SITE . '/administrator/components/com_redshop/redshop.xml';
 		$version = JText::_('COM_REDSHOP_FILE_NOT_FOUND');
