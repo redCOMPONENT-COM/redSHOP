@@ -28,9 +28,7 @@ if (COMARE_PRODUCTS == 1)
 			<?php
 			if (!$compare->isEmpty())
 			{
-				$compare = $compare->getItems();
-				
-				foreach ($compare as $item)
+				foreach ($compare->getItems() as $item)
 				{
 					$row = $producthelper->getProductById($item['item']->productId);
 
