@@ -2959,7 +2959,7 @@ tbody.collapse.in {
 {
   font-size: 13px;
   color: #293235;
-  padding: 8px 15px;
+  padding: 8px 10px;
   width: auto;
   border: 0;
   background-color: #ebebeb;
@@ -2975,7 +2975,6 @@ tbody.collapse.in {
 .btn-toolbar .btn-wrapper
 {
   display: inline-block;
-  margin: 0 0 5px 10px !important;
 }
 
 .btn-toolbar .btn-wrapper:first-child
