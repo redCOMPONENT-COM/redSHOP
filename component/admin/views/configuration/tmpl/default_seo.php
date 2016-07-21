@@ -10,6 +10,33 @@ defined('_JEXEC') or die;
 
 ?>
 
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-md-6 col-lg-3">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('seo_general');?>
+			</fieldset>
+		</div>
+		<div class="col-md-6 col-lg-3">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('seo_category');?>
+			</fieldset>
+		</div>
+		<div class="col-md-6 col-lg-3">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('seo_product');?>
+			</fieldset>
+		</div>
+
+		<div class="col-md-6 col-lg-3">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('seo_manufacturer');?>
+			</fieldset>
+		</div>
+	</div>
+</fieldset>
+
+
 <div class="col50">
 	<fieldset class="adminform">
 		<legend><?php
@@ -92,29 +119,3 @@ defined('_JEXEC') or die;
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 </div>
-
-<fieldset class="adminform">
-	<div class="row">
-		<div class="col-md-6 col-lg-3">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('seo_general');?>
-			</fieldset>
-		</div>
-		<div class="col-md-6 col-lg-3">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('seo_category');?>
-			</fieldset>
-		</div>
-		<div class="col-md-6 col-lg-3">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('seo_product');?>
-			</fieldset>
-		</div>
-
-		<div class="col-md-6 col-lg-3">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('seo_manufacturer');?>
-			</fieldset>
-		</div>
-	</div>
-</fieldset>
