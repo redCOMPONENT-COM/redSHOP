@@ -23,24 +23,6 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 
 <div class="form-group">
 	<span class="editlinktip hasTip"
-					  title="<?php echo JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_ID_RESET_LBL'); ?>">
-		<label for="onestep_checkout"><?php echo JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL');?></label></span>
-	<a onclick="javascript:resetOrderId();" title="<?php echo JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL'); ?>"><?php echo JText::_('COM_REDSHOP_ORDER_ID_RESET');?></a>
-</div>
-
-<p class="text-warning">
-	<strong>
-	<?php
-		echo JText::sprintf(
-			'COM_REDSHOP_CONFIG_ORDER_FIELD_MOVED_HINT',
-			'<a class="showOrderTab" href="javascript:void(0);">Orders</a>'
-		);
-	?>
-	</strong>
-</p>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
 				  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_AJAX_CART_BOX_TEMPLATE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_AJAX_CART_BOX_TEMPLATE'); ?>">
 		<label
 				for="ajax_cart_box_template"><?php echo JText::_('COM_REDSHOP_AJAX_CART_BOX_TEMPLATE');?></label></span>

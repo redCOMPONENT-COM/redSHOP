@@ -9,9 +9,6 @@
 defined('_JEXEC') or die;
 ?>
 
-<?php echo JText::_('COM_REDSHOP_FEATURE_SETTING');?>
-
-
 <?php
 echo JHtml::_('bootstrap.startTabSet', 'feature-pane', array('active' => 'rating'));
 echo JHtml::_('bootstrap.addTab', 'feature-pane', 'rating', JText::_('COM_REDSHOP_RATING', true));
