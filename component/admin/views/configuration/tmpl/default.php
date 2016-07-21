@@ -17,14 +17,12 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 $app = JFactory::getApplication();
-$dashboard = $app->input->getInt('dashboard', 0);
 $selectedTabPosition = $app->getUserState('com_redshop.configuration.selectedTabPosition', 'general');
 
-if ($dashboard)
+if ($app->input->getInt('dashboard', 0))
 {
-	$selectedTabPosition = $dashboard;
+	$selectedTabPosition = 'dashboard';
 }
-
 
 ?>
 <script language="javascript" type="text/javascript">
