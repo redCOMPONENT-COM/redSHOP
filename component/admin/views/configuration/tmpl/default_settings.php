@@ -66,25 +66,6 @@ defined('_JEXEC') or die;
 				   value="<?php echo $this->config->get('ADMINISTRATOR_EMAIL'); ?>">
 </div>
 
-<p class="text-warning">
-	<strong>
-	<?php
-		echo JText::sprintf(
-			'COM_REDSHOP_CONFIG_ORDER_FIELD_MOVED_HINT',
-			'<a class="showOrderTab" href="javascript:void(0);">Orders</a>'
-		);
-
-		JFactory::getDocument()->addScriptDeclaration("
-			jQuery(function () {
-				jQuery('.showOrderTab').on('click', function(){
-					jQuery('#configTabs a[href=\"#ordertab\"]').tab('show');
-				});
-			});
-		");
-	?>
-	</strong>
-</p>
-
 <div class="form-group">
 	<span class="editlinktip hasTip"
 			  title="<?php echo JText::_('COM_REDSHOP_BACKEND_ACCESS_LEVEL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_BACKEND_ACCESS_LEVEL'); ?>">

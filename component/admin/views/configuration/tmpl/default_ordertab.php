@@ -13,7 +13,15 @@ defined('_JEXEC') or die;
 		<div class="col-sm-6">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('COM_REDSHOP_ORDER_MAIN_SETTINGS'); ?></legend>
+
 				<div class="form-group">
+					<span class="editlinktip hasTip"
+									  title="<?php echo JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_ID_RESET_LBL'); ?>">
+						<label for="onestep_checkout"><?php echo JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL');?></label></span>
+					<a class="btn btn-success" onclick="javascript:resetOrderId();" title="<?php echo JText::_('COM_REDSHOP_ORDER_ID_RESET_LBL'); ?>"><?php echo JText::_('COM_REDSHOP_ORDER_ID_RESET');?></a>
+				</div>
+
+				<div class="form-group orderemail">
 					<span
 							class="editlinktip hasTip"
 							title="<?php echo JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ORDER_MAIL_AFTER'); ?>"
