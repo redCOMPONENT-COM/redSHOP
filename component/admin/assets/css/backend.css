@@ -16123,6 +16123,10 @@ i.discount {
   background: transparent url(../images/discount.png) center center no-repeat;
 }
 
+i.accounting {
+  background: transparent url(../images/accounting.png) center center no-repeat;
+}
+
 i.communication {
   background: transparent url(../images/communication.png) center center no-repeat;
 }
