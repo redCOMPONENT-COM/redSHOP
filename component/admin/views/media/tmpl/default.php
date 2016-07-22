@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
+
+jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
 $producthelper = producthelper::getInstance();
