@@ -7675,8 +7675,7 @@ a:focus {
 }
 .main-header .sidebar-toggle {
   float: left;
-  background: transparent url(../images/menu.png) center center no-repeat;
-  padding: 15px 15px;
+  padding: 15px 5px;
   color: #FFFFFF;
   font-size: 18px;
   text-decoration: none;
