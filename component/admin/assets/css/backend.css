@@ -16119,7 +16119,8 @@ i.order {
   background: transparent url(../images/order.png) center center no-repeat;
 }
 
-i.discount {
+i.discount,
+i.accounting {
   background: transparent url(../images/discount.png) center center no-repeat;
 }
 
