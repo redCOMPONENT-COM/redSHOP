@@ -182,12 +182,12 @@ class order_functions
 	public function generateParcel($order_id)
 	{
 		$db                        = JFactory::getDbo();
-		$order_details             = $this->getOrderDetails($order_id);
+		$orderDetail             = $this->getOrderDetails($order_id);
 		$producthelper             = producthelper::getInstance();
 		$orderproducts             = $this->getOrderItemDetail($order_id);
 		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
-		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($order_details->ship_method_id);
+		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
 
 		// Get Shipping Delivery Type
 		$shippingDeliveryType = 1;
@@ -312,6 +312,20 @@ class order_functions
 			$addon .= '<addon adnid="NOTSMS"></addon>';
 		}
 
+		// Get shop location stored using postdanmark plugin or other similar plugin.
+		$shopLocation = explode('|', $orderDetail->shop_id);
+
+		$agentEle = '';
+
+		if (!empty($shopLocation))
+		{
+			// Sending shop location id as an agent code.
+			$agentEle = '<val n="agentto">' . $shopLocation[0] . '</val>';
+
+			// PUPOPT is stands for "Optional Service Point".
+			$addon .= '<addon adnid="PUPOPT"></addon>';
+		}
+
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
 				<unifaunonline>
 				<meta>
@@ -333,7 +347,8 @@ class order_functions
 				<shipment orderno="' . $shippingInfo->order_id . '">
 				<val n="from">1</val>
 				<val n="to">' . $shippingInfo->users_info_id . '</val>
-				<val n="reference">' . $order_details->order_number . '</val>
+				<val n="reference">' . $orderDetail->order_number . '</val>
+				' . $agentEle . '
 				<service srvid="' . $fproductCode . '">
 				' . $addon . '
 				</service>
