@@ -537,7 +537,7 @@ $cmp_imagelbl = '';
 $cmp_image    = '';
 $cmp_link     = '';
 
-if (COMARE_PRODUCTS)
+if (COMPARE_PRODUCTS)
 {
 	$cmp_imagelbl = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 	$cmp_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';

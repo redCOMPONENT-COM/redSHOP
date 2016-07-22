@@ -227,7 +227,7 @@ class RedshopViewConfiguration extends RedshopView
 		$lists['couponinfo']                    = JHTML::_('redshopselect.booleanlist', 'couponinfo', 'class="inputbox" size="1"', $this->config->get('COUPONINFO'));
 		$lists['my_tags']                       = JHTML::_('redshopselect.booleanlist', 'my_tags', 'class="inputbox" size="1"', $this->config->get('MY_TAGS'));
 		$lists['my_wishlist']                   = JHTML::_('redshopselect.booleanlist', 'my_wishlist', 'class="inputbox" size="1"', $this->config->get('MY_WISHLIST'));
-		$lists['compare_products']              = JHTML::_('redshopselect.booleanlist', 'compare_products', 'class="inputbox" size="1"', $this->config->get('COMARE_PRODUCTS'));
+		$lists['compare_products']              = JHTML::_('redshopselect.booleanlist', 'compare_products', 'class="inputbox" size="1"', $this->config->get('COMPARE_PRODUCTS'));
 		$lists['country_list']                  = JHTML::_('select.genericlist', $countries, 'country_list[]', 'class="inputbox disableBootstrapChosen" multiple="multiple" size="5"',
 			'value', 'text', $country_list
 		);

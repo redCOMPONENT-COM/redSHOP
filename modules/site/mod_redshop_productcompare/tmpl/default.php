@@ -16,7 +16,7 @@ $redhelper = redhelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $cid = JRequest::getInt('cid');
-if (COMARE_PRODUCTS == 1)
+if (COMPARE_PRODUCTS == 1)
 {
 	$compare = new RedshopProductCompare();
 

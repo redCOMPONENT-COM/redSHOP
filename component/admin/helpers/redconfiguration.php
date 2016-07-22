@@ -702,7 +702,7 @@ class Redconfiguration
 						"COUPONINFO"                                   => $d["couponinfo"],
 						"MY_TAGS"                                      => $d["my_tags"],
 						"MY_WISHLIST"                                  => $d["my_wishlist"],
-						"COMARE_PRODUCTS"                              => $d["compare_products"],
+						"COMPARE_PRODUCTS"                              => $d["compare_products"],
 
 						"REGISTER_METHOD"                              => $d["register_method"],
 						"ZERO_PRICE_REPLACE"                           => $d["zero_price_replacement"],

@@ -203,7 +203,7 @@ define('TAX_EXEMPT_APPLY_VAT', '1');
 define('COUPONINFO', '0');
 define('MY_TAGS', '0');
 define('MY_WISHLIST', '0');
-define('COMARE_PRODUCTS', '0');
+define('COMPARE_PRODUCTS', '0');
 define('REGISTER_METHOD', '2');
 define('ZERO_PRICE_REPLACE', '');
 define('ZERO_PRICE_REPLACE_URL', '');
