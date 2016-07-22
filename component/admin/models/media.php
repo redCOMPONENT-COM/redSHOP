@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
 class RedshopModelMedia extends RedshopModel

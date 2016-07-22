@@ -1306,20 +1306,15 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmail = $giftcardmail[0];
 		}
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_item '
-			. 'WHERE order_id = ' . (int) $order_id . ' AND is_giftcard=1';
-		$this->_db->setQuery($query);
-		$orders = $this->_db->loadObjectList();
+		$giftCards = RedshopHelperOrder::giftCardItems((int) $order_id);
 
-		foreach ($orders as $eachorders)
+		foreach ($giftCards as $eachorders)
 		{
 			$giftcardmailsub = $giftcardmail->mail_subject;
 			$giftcardData    = $this->_producthelper->getGiftcardData($eachorders->product_id);
-			$thum_image      = "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "giftcard/" . $giftcardData->giftcard_image . "'  title='" . $giftcardData->giftcard_name . "' alt='" . $giftcardData->giftcard_name . "'></a>";
 			$giftcard_value  = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
 			$giftcard_price  = $eachorders->product_final_price;
 			$giftcardmail_body = $giftcardmail->mail_body;
-			$giftcard_name     = $giftcardData->giftcard_name;
 			$giftcardmail_body = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmail_body);
 			$user_fields       = $this->_producthelper->GetProdcutUserfield($eachorders->order_item_id, 13);
 			$giftcardmail_body = str_replace("{product_userfields}", $user_fields, $giftcardmail_body);
@@ -1355,6 +1350,7 @@ class RedshopModelCheckout extends RedshopModel
 			$couponItems->userid           = 0;
 			$couponItems->coupon_left      = 1;
 			$couponItems->published        = 1;
+			$couponItems->free_shipping    = $giftcardData->free_shipping;
 
 			if (!$couponItems->store())
 			{
