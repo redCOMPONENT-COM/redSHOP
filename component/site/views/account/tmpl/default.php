@@ -542,7 +542,7 @@ if (COMARE_PRODUCTS)
 	$cmp_imagelbl = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 	$cmp_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$cmp_link     = JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE');
-	$compare 	  = new RedshopProductCompare();
+	$compare      = new RedshopProductCompare();
 
 	if (!$compare->isEmpty())
 	{
