@@ -11,21 +11,6 @@ $quicklink_icon = explode(",", $this->config->get('QUICKLINK_ICON'));
 $new_arr = RedShopHelperImages::geticonarray();
 
 ?>
-<style type="text/css">
-	#cpanel div.icon a:hover, #cpanel div.icon a:focus, #cpanel div.icon a:active, .cpanel div.icon a:hover, .cpanel div.icon a:focus, .cpanel div.icon a:active {
-		background-position: 0 center;
-		border-bottom-right-radius: 50% 15px;
-		border-bottom-left-radius: 0% 15px;
-		box-shadow: 5px 10px 15px rgba(69, 85, 96, 0.25);
-		position: relative;
-		z-index: 10;
-	}
-
-	#cpanel img, .cpanel img {
-		float: none;
-	}
-</style>
-
 <legend><?php echo JText::_('COM_REDSHOP_QUICK_LINKS'); ?></legend>
 <table class="adminlist table table-striped">
 <tr>
