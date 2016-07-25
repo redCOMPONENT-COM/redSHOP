@@ -43,11 +43,14 @@ class RedshopModelManufacturers extends RedshopModel
 		// @ToDo In fearure, when class Manufacturers extends RedshopModelList, replace filter_fields in constructor
 		$this->filter_fields_products = array(
 			'p.product_name ASC', 'product_name ASC',
+			'p.product_name DESC', 'product_name DESC',
 			'p.product_price ASC', 'product_price ASC',
 			'p.product_price DESC', 'product_price DESC',
 			'p.product_number ASC', 'product_number ASC',
+			'p.product_number DESC', 'product_number DESC',
 			'p.product_id DESC', 'product_id DESC',
-			'pc.ordering ASC', 'ordering ASC'
+			'pc.ordering ASC', 'ordering ASC',
+			'pc.ordering DESC', 'ordering DESC'
 		);
 		$this->filter_fields_manufacturer = array(
 			'mn.manufacturer_name ASC', 'manufacturer_name ASC',
@@ -327,26 +330,22 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$order_by = urldecode($app->input->getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD));
+		$orderByObj  = redhelper::getInstance()->prepareOrderBy(
+			urldecode(JFactory::getApplication()->input->getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD))
+		);
+		$orderBy     = $orderByObj->ordering . ' ' . $orderByObj->direction;
+		$filterOrder = 'pc.ordering';
 
-		if (in_array($order_by, $this->filter_fields_products))
+		if (in_array($orderBy, $this->filter_fields_products))
 		{
-			$filter_order = $order_by;
-		}
-		else
-		{
-			$filter_order = 'pc.ordering';
+			$filterOrder = $orderBy;
 		}
 
 		if (strstr($template_data, '{category_name}'))
 		{
-			$filter_order = "c.ordering,c.category_id, " . $filter_order;
+			$filterOrder = "c.ordering,c.category_id, " . $filterOrder;
 		}
 
-		$orderby = " ORDER BY " . $db->escape($filter_order) . ' ';
-
-		return $orderby;
+		return " ORDER BY " . JFactory::getDbo()->escape($filterOrder) . ' ';
 	}
 }
