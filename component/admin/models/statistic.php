@@ -45,9 +45,9 @@ class RedshopModelStatistic extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		
+
 		$jinput = JFactory::getApplication()->input;
-		
+
 		$this->_startdate = strtotime($jinput->getInt('startdate', 0));
 		$this->_enddate = strtotime($jinput->getInt('enddate', 0));
 		$this->_filteroption = $jinput->getInt('filteroption', 0);
@@ -342,7 +342,7 @@ class RedshopModelStatistic extends RedshopModel
 			$query->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate');
 		}
 
-		$query->select('SUM(o.order_total) AS turnover, SUM(o.order_total) AS turnover');
+		$query->select('SUM(o.order_total) AS turnover, CONCAT_WS(" ", SUM(o.order_total), "' . CURRENCY_CODE . '")');
 
 		if ($this->_filteroption != 4)
 		{
@@ -352,6 +352,65 @@ class RedshopModelStatistic extends RedshopModel
 		{
 			$db->setQuery($query);
 		}
+
+		return $db->loadRowList();
+	}
+
+	/**
+	 * Get total sales for cpanel view
+	 *
+	 * @return  array  Sales of shop to show statistics chart.
+	 */
+	public function getTotalSalesCpanel()
+	{
+		$db    = JFactory::getDbo();
+		$query_default = $db->getQuery(true)
+			->select('SUM(' . $db->qn('o.order_total') . ') AS total')
+            ->select('COUNT(' . $db->qn('o.order_total') . ') AS orders')
+			->from($db->qn('#__redshop_orders', 'o'))
+			->where(
+				'(' . $db->qn('o.order_status') . ' = ' . $db->q('C')
+				. ' OR '
+				. $db->qn('o.order_status') . ' = ' . $db->q('PR')
+				. ' OR '
+				. $db->qn('o.order_status') . ' = ' . $db->q('S') . ')'
+			)->leftjoin(
+				$db->qn('#__redshop_users_info', 'uf')
+				. ' ON '
+				. $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id')
+				. ' AND ' . $db->qn('uf.address_type') . ' = ' . $db->q('BT')
+			);
+
+		// 30 days
+		$query = clone $query_default;
+		$query->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '30')));
+		$query->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 30 DAY AND NOW()');
+
+		// Today
+		$query1 = clone $query_default;
+		$query1->select($db->q(JText::_('COM_REDSHOP_STATISTIC_TODAY')));
+		$query1->where('DATE(FROM_UNIXTIME(' . $db->qn('cdate') . ')) = CURDATE()');
+		$query->union($query1);
+
+		// Yesterday
+		$query1 = clone $query_default;
+		$query1->select($db->q(JText::_('COM_REDSHOP_STATISTIC_YESTERDAY')));
+		$query1->where('DATE(FROM_UNIXTIME(' . $db->qn('cdate') . ')) = SUBDATE(CURDATE(),1)');
+		$query->union($query1);
+
+		// 7 days
+		$query1 = clone $query_default;
+		$query1->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '7')));
+		$query1->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 7 DAY AND NOW()');
+		$query->union($query1);
+
+		// 90 days
+		$query1 = clone $query_default;
+		$query1->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '90')));
+		$query1->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 90 DAY AND NOW()');
+		$query->union($query1);
+
+		$db->setQuery($query);
 
 		return $db->loadRowList();
 	}
