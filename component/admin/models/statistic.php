@@ -387,28 +387,28 @@ class RedshopModelStatistic extends RedshopModel
 		$query->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 30 DAY AND NOW()');
 
 		// Today
-		$query1 = clone $query_default;
-		$query1->select($db->q(JText::_('COM_REDSHOP_STATISTIC_TODAY')));
-		$query1->where('DATE(FROM_UNIXTIME(' . $db->qn('cdate') . ')) = CURDATE()');
-		$query->union($query1);
+		$query_temp = clone $query_default;
+        $query_temp->select($db->q(JText::_('COM_REDSHOP_STATISTIC_TODAY')));
+        $query_temp->where('DATE(FROM_UNIXTIME(' . $db->qn('cdate') . ')) = CURDATE()');
+		$query->union($query_temp);
 
 		// Yesterday
-		$query1 = clone $query_default;
-		$query1->select($db->q(JText::_('COM_REDSHOP_STATISTIC_YESTERDAY')));
-		$query1->where('DATE(FROM_UNIXTIME(' . $db->qn('cdate') . ')) = SUBDATE(CURDATE(),1)');
-		$query->union($query1);
+        $query_temp = clone $query_default;
+        $query_temp->select($db->q(JText::_('COM_REDSHOP_STATISTIC_YESTERDAY')));
+        $query_temp->where('DATE(FROM_UNIXTIME(' . $db->qn('cdate') . ')) = SUBDATE(CURDATE(),1)');
+		$query->union($query_temp);
 
 		// 7 days
-		$query1 = clone $query_default;
-		$query1->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '7')));
-		$query1->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 7 DAY AND NOW()');
-		$query->union($query1);
+        $query_temp = clone $query_default;
+        $query_temp->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '7')));
+        $query_temp->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 7 DAY AND NOW()');
+		$query->union($query_temp);
 
 		// 90 days
-		$query1 = clone $query_default;
-		$query1->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '90')));
-		$query1->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 90 DAY AND NOW()');
-		$query->union($query1);
+        $query_temp = clone $query_default;
+        $query_temp->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '90')));
+        $query_temp->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 90 DAY AND NOW()');
+		$query->union($query_temp);
 
 		$db->setQuery($query);
 
