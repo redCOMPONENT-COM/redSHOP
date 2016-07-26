@@ -179,14 +179,14 @@ class order_functions
 		}
 	}
 
-	public function generateParcel($order_id)
+	public function generateParcel($orderId)
 	{
 		$db                        = JFactory::getDbo();
-		$orderDetail             = $this->getOrderDetails($order_id);
+		$orderDetail             = $this->getOrderDetails($orderId);
 		$producthelper             = producthelper::getInstance();
-		$orderproducts             = $this->getOrderItemDetail($order_id);
-		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
+		$orderproducts             = $this->getOrderItemDetail($orderId);
+		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
 		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
 
 		// Get Shipping Delivery Type
@@ -387,7 +387,7 @@ class order_functions
 				$query = $db->getQuery(true)
 							->update($db->qn('#__redshop_orders'))
 							->set($db->qn('order_label_create') . ' = 1')
-							->where($db->qn('order_id') . ' = ' . (int) $order_id);
+							->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 				// Set the query and execute the update.
 				$db->setQuery($query);
