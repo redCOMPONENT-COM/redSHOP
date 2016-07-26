@@ -16,9 +16,9 @@ $redhelper = redhelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $cid = JRequest::getInt('cid');
-if (COMARE_PRODUCTS == 1)
+if (COMPARE_PRODUCTS == 1)
 {
-	$compare = $producthelper->getCompare();
+	$compare = new RedshopProductCompare();
 
 	?>
 
@@ -26,16 +26,13 @@ if (COMARE_PRODUCTS == 1)
 		<!-- Comparable Products -->
 		<table border="0" cellpadding="5" cellspacing="0" width="100%">
 			<?php
-			$i = 0;
-			$cnt = 0;
-
-			if (isset($compare['idx']) && $compare['idx'] > 0)
+			if (!$compare->isEmpty())
 			{
-				for ($i = 0; $i < $compare['idx']; $i++)
+				foreach ($compare->getItems() as $item)
 				{
-					$row = $producthelper->getProductById($compare[$i]["product_id"]);
+					$row = $producthelper->getProductById($item['item']->productId);
 
-					$catid = $compare[$i]["category_id"];
+					$cid = $item['item']->categoryId;
 
 					if (!$cid)
 					{
@@ -55,28 +52,8 @@ if (COMARE_PRODUCTS == 1)
 
 					$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $cid . '&Itemid=' . $Itemid);
 
-					if (PRODUCT_COMPARISON_TYPE == "category")
-					{
-						if ($cid == $catid)
-						{
-							?>
-							<tr valign="top">
-								<td width="95%">
-									<span><a href='<?php echo $link; ?>'
-									         title='<?php echo $row->product_name; ?>'><?php echo $row->product_name; ?></a></span>
-								</td>
-								<td width="5%">
-									<span><a href='javascript:void(0);'
-									         onClick="javascript:remove_compare(<?php echo $compare[$i]["product_id"] ?>,<?php echo $compare[$i]["category_id"] ?>)"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></a></span>
-								</td>
-							</tr>
-							<?php
-							$cnt++;
-						}
-					}
-					else
-					{
-						?>
+
+			?>
 						<tr valign="top">
 							<td width="95%">
 								<span><a href='<?php echo $link; ?>'
@@ -84,30 +61,19 @@ if (COMARE_PRODUCTS == 1)
 							</td>
 							<td width="5%">
 								<span><a href='javascript:void(0);'
-								         onClick="javascript:remove_compare(<?php echo $compare[$i]["product_id"] ?>,<?php echo $compare[$i]["category_id"] ?>)"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></a></span>
+								         onClick="javascript:remove_compare(<?php echo $row->product_id ?>, <?php echo $cid ?>)"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></a></span>
 							</td>
 						</tr>
-					<?php
-					}
-				}
-			}
+			<?php
 
-			if (PRODUCT_COMPARISON_TYPE == "category")
-			{
-				if ($cnt == 0)
-				{
-					echo "<tr><td colspan='2'>" . JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE') . "</td></tr>";
 				}
 			}
 			else
 			{
-				if (!empty($catid))
-				{
-					echo "<tr><td colspan='2'>" . JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE') . "</td></tr>";
-				}
+				echo "<tr><td colspan='2'>" . JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE') . "</td></tr>";
 			}
 
-			if ($cid != "")
+			if (isset($cid))
 			{
 				$cid_main = "&cid=" . $cid;
 			}
