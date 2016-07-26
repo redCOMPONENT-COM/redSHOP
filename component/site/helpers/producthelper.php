@@ -8581,18 +8581,6 @@ class producthelper
 		return $div;
 	}
 
-	public function getCompare()
-	{
-		$compare_product = $this->_session->get('compare_product');
-
-		if (!$compare_product)
-		{
-			$compare_product = array();
-		}
-
-		return $compare_product;
-	}
-
 	/*
 	 * function which will return product tag array form  given template
 	 *
