@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
  */
 class RedshopModelAsk_Question extends RedshopModelForm
 {
-	protected $context = 'com_reshop.ask_question';
+	protected $context = 'com_redshop.ask_question';
 
 	/**
 	 * Method to get the record form.
