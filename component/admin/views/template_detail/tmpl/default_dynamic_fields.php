@@ -1102,6 +1102,44 @@ if ($this->detail->template_section == "related_product")
 			</td>
 		</tr>
 		<tr>
+			<td>
+				<?php
+				$tags_front   = $extra_field->getSectionFieldList(1, 1);
+				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
+				$numberOfTags = count($tags);
+
+				if ($numberOfTags)
+				{
+					echo '<b>' . JText::_("COM_REDSHOP_PRODUCT_FIELDS") . '</b>';
+				}
+
+				for ($i = 0; $i < $numberOfTags; $i++)
+				{
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+				}    ?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php
+				$tags_front   = $extra_field->getSectionFieldList(12, 1);
+				$tags_admin   = $extra_field->getSectionFieldList(12, 0);
+				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
+				$numberOfTags = count($tags);
+
+				if ($numberOfTags)
+				{
+					echo '<b>' . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . '</b>';
+				}
+
+				for ($i = 0; $i < $numberOfTags; $i++)
+				{
+					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
+				}    ?>
+			</td>
+		</tr>
+		<tr>
 			<td><?php echo Redtemplate::getTemplateValues('related_product'); ?></td>
 		</tr>
 	</table>
