@@ -364,7 +364,7 @@ class RedshopModelStatistic extends RedshopModel
 	public function getTotalSalesCpanel()
 	{
 		$db    = JFactory::getDbo();
-		$query_default = $db->getQuery(true)
+		$defaultQuery = $db->getQuery(true)
 			->select('SUM(' . $db->qn('o.order_total') . ') AS total')
 			->select('COUNT(' . $db->qn('o.order_total') . ') AS orders')
 			->from($db->qn('#__redshop_orders', 'o'))
@@ -382,30 +382,30 @@ class RedshopModelStatistic extends RedshopModel
 			);
 
 		// 30 days
-		$query = clone $query_default;
+		$query = clone $defaultQuery;
 		$query->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '30')));
 		$query->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 30 DAY AND NOW()');
 
 		// Today
-		$union = clone $query_default;
+		$union = clone $defaultQuery;
 		$union->select($db->q(JText::_('COM_REDSHOP_STATISTIC_TODAY')));
 		$union->where('DATE(FROM_UNIXTIME(' . $db->qn('cdate') . ')) = CURDATE()');
 		$query->union($union);
 
 		// Yesterday
-		$union = clone $query_default;
+		$union = clone $defaultQuery;
 		$union->select($db->q(JText::_('COM_REDSHOP_STATISTIC_YESTERDAY')));
 		$union->where('DATE(FROM_UNIXTIME(' . $db->qn('cdate') . ')) = SUBDATE(CURDATE(),1)');
 		$query->union($union);
 
 		// 7 days
-		$union = clone $query_default;
+		$union = clone $defaultQuery;
 		$union->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '7')));
 		$union->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 7 DAY AND NOW()');
 		$query->union($union);
 
 		// 90 days
-		$union = clone $query_default;
+		$union = clone $defaultQuery;
 		$union->select($db->q(JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', '90')));
 		$union->where('FROM_UNIXTIME(' . $db->qn('cdate') . ') BETWEEN NOW() - INTERVAL 90 DAY AND NOW()');
 		$query->union($union);
