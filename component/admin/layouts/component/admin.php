@@ -85,7 +85,7 @@ if ($content instanceof Exception)
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function () {
-		<?php if (!$displaySidebar || !EXPAND_ALL) : ?>
+		<?php if (!$displaySidebar) : ?>
 		jQuery('body').addClass('sidebar-collapse');
 		<?php endif; ?>
 	});
