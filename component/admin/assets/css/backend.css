@@ -7675,7 +7675,7 @@ a:focus {
 }
 .main-header .sidebar-toggle {
   float: left;
-  padding: 15px 5px;
+  padding: 15px 7px;
   color: #FFFFFF;
   font-size: 18px;
   text-decoration: none;
@@ -27268,10 +27268,6 @@ body.modal-open {
 #menuhide,
 #menuhide ul {
   list-style: none;
-}
-
-#lastmonthsales_statistics_pie text {
-  fill: #337ab7;
 }
 
 .select2-drop-active {
