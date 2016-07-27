@@ -444,11 +444,6 @@ class order_functions
 
 		if ($checkupdateordersts == 0 && $data->order_status_code != "" && $data->order_payment_status_code != "")
 		{
-			if ($data->order_status_code == "C")
-			{
-				$this->SendDownload($order_id);
-			}
-
 			// Order status valid and change the status
 			$query = "UPDATE #__redshop_orders set order_status = " . $db->quote($data->order_status_code)
 				. ", order_payment_status = " . $db->quote($data->order_payment_status_code) . " where order_id = " . (int) $order_id;
@@ -459,6 +454,7 @@ class order_functions
 			if ("C" == $data->order_status_code
 				&& "Paid" == $data->order_payment_status_code)
 			{
+				$this->SendDownload($order_id);
 				RedshopHelperOrder::generateInvoiceNumber($order_id);
 			}
 
@@ -941,8 +937,13 @@ class order_functions
 				break;
 
 			case "C":
+
 				// SensDownload Products
-				$this->SendDownload($orderId);
+				if ($paymentStatus == "Paid")
+				{
+					$this->SendDownload($orderId);
+				}
+
 				break;
 		}
 
