@@ -27270,10 +27270,6 @@ body.modal-open {
   list-style: none;
 }
 
-#lastmonthsales_statistics_pie text {
-  fill: #337ab7;
-}
-
 .select2-drop-active {
   border: 1px solid #e6e5e5;
 }

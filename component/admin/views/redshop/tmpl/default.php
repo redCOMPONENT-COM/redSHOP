@@ -44,35 +44,36 @@ $new_arr        = RedShopHelperImages::geticonarray();
 ?>
 
 <div class="row">
-	<div class="col-sm-8">
+	<div class="col-sm-12">
+		<?php  echo $this->loadTemplate('quickpanel');  ?>
+	</div>
+</div>
+
+<div class="row">
 	<?php if (DISPLAY_STATISTIC): ?>
+	<div class="col-sm-12">
 		<h2 class="module-title nav-header">
 			<?php echo JText::_('COM_REDSHOP_PIE_CHART_FOR_LASTMONTH_SALES');?>
 		</h2>
-		<div class="row-fluid">
-			<?php  echo $this->loadTemplate('sales_piechart');  ?>
-		</div>
+		<?php  echo $this->loadTemplate('sales_piechart');  ?>
+	</div>
 	<?php endif; ?>
-	<?php if (DISPLAY_NEW_CUSTOMERS): ?>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<?php if (DISPLAY_NEW_CUSTOMERS): ?>
 		<h2 class="module-title nav-header">
 			<?php echo JText::_('COM_REDSHOP_NEWEST_CUSTOMERS');?>
 		</h2>
-		<div class="row-fluid">
-			<?php  echo $this->loadTemplate('newest_customers');  ?>
-		</div>
-	<?php endif; ?>
+		<?php  echo $this->loadTemplate('newest_customers');  ?>
+		<?php endif; ?>
 
-	<?php if (DISPLAY_NEW_ORDERS): ?>
+		<?php if (DISPLAY_NEW_ORDERS): ?>
 		<h2 class="module-title nav-header">
 			<?php echo JText::_('COM_REDSHOP_NEWEST_ORDERS');?>
 		</h2>
-		<div class="row-fluid">
-			<?php  echo $this->loadTemplate('newest_orders');  ?>
-		</div>
-	<?php endif; ?>
-	</div>
-
-	<div class="col-sm-4">
-		<?php  echo $this->loadTemplate('quickpanel');  ?>
+		<?php  echo $this->loadTemplate('newest_orders');  ?>
+		<?php endif; ?>
 	</div>
 </div>
