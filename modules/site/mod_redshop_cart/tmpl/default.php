@@ -53,18 +53,18 @@ if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_BACKGROUND))
 		<div class="mod_cart_title"><?php echo JText::_('MOD_REDSHOP_CART_CART_TEXT');?></div>
 	</div>
 	<div class="mod_cart_total" id="mod_cart_total">
-		<?php echo RedshopLayoutHelper::render(
-			'cart.cart',
-			array(
-				'cartOutput' => $output_view,
-				'totalQuantity' => $count,
-				'cart' => $cart,
-				'showWithVat' => $show_with_vat,
-				'showShippingLine' => $show_shipping_line,
-				'showWithDiscount' => $show_with_discount
-			),
-			'components/com_redshop/layouts/'
-		);
+		<?php
+		echo RedshopLayoutHelper::render(
+				'cart.cart',
+				array(
+					'cartOutput'       => $output_view,
+					'totalQuantity'    => $count,
+					'cart'             => $cart,
+					'showWithVat'      => $show_with_vat,
+					'showShippingLine' => $show_shipping_line,
+					'showWithDiscount' => $show_with_discount
+				)
+			);
 		?>
 	</div>
     <div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
