@@ -18,7 +18,7 @@ jimport('joomla.application.component.modelform');
  * @subpackage  Model
  * @since       1.5
  */
-class RedshopModelForm extends JModelForm
+class RedshopModelForm extends JModelAdmin
 {
 	/**
 	 * Context for session

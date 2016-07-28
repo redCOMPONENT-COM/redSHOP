@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-
-
-class RedshopModelQuestion_detail extends RedshopModel
+class RedshopModelQuestion_detail extends RedshopModelForm
 {
 	public $_id = null;
 
@@ -133,66 +131,31 @@ class RedshopModelQuestion_detail extends RedshopModel
 		return true;
 	}
 
-	public function store($data)
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   12.2
+	 */
+	public function save($data)
 	{
-		$user = JFactory::getUser();
-		$db   = JFactory::getDbo();
-		$row  = $this->getTable();
-
-		if (!$data['question_id'])
-		{
-			$data['ordering'] = $this->MaxOrdering();
-		}
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		$data['ordering'] = $this->MaxOrdering();
-
 		// Store Answer
-		if (isset($data['answer']) && trim($data['answer']) != '')
+		if (parent::save($data)
+			&& (isset($data['answer']) && trim($data['answer']) != ''))
 		{
-			if (!(int) $data['question_id'])
-			{
-				$data['question_id'] = $db->insertid();
-			}
+			// Prepare array for answer
+			$answerData                = $data;
+			$answerData['question_id'] = 0;
+			$answerData['parent_id']   = (int) $this->state->get($this->getName() . '.id');
+			$answerData['question']    = $data['answer'];
 
-			// Prepare Answer table
-			$answers = $this->getTable();
-
-			$answers->question_id   = 0;
-
-			// Question Id for which we are adding answer
-			$answers->parent_id     = $data['question_id'];
-			$answers->product_id    = $data['product_id'];
-			$answers->question      = $data['answer'];
-			$answers->user_id       = $user->id;
-			$answers->user_name     = $user->username;
-			$answers->user_email    = $user->email;
-			$answers->published     = 1;
-			$answers->question_date = time();
-			$answers->ordering      = $data['ordering'];
-
-			if (!$answers->store())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
+			parent::save($answerData);
 		}
 
-		return $row;
+		return true;
 	}
 
 	/**
@@ -211,110 +174,39 @@ class RedshopModelQuestion_detail extends RedshopModel
 	}
 
 	/**
-	 * Method to delete the records
+	 * Method to delete one or more records.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @param   array  &$pks  An array of record primary keys.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since   12.2
 	 */
-	public function delete($cid = array())
+	public function delete(&$pks)
 	{
-		if (count($cid))
+		// Remove answer of the question after removing questions.
+		if (parent::delete($pks) && !empty($pks))
 		{
-			$cids = implode(',', $cid);
+			// Initialiase variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+						->delete()
+						->from($db->qn('#__redshop_customer_question'))
+						->where($db->qn('parent_id') . ' IN(' . implode(',', $pks) . ')');
 
-			$query = 'DELETE FROM #__redshop_customer_question '
-				. 'WHERE parent_id IN (' . $cids . ')';
-			$this->_db->setQuery($query);
+			// Set the query and execute the delete.
+			$db->setQuery($query);
 
-			if (!$this->_db->execute())
+			try
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 
 				return false;
 			}
-
-			$query = 'DELETE FROM #__redshop_customer_question '
-				. 'WHERE question_id IN (' . $cids . ')';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to publish the records
-	 *
-	 * @access public
-	 * @return boolean
-	 */
-	public function publish($cid = array(), $publish = 1)
-	{
-		if (count($cid))
-		{
-			$cids = implode(',', $cid);
-
-			$query = 'UPDATE #__redshop_customer_question '
-				. ' SET published = ' . intval($publish)
-				. ' WHERE question_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to save order
-	 *
-	 * @access public
-	 * @return boolean
-	 */
-	public function saveorder($cid = array(), $order)
-	{
-		$row = $this->getTable();
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
-		$groupings = array();
-
-		// Update ordering values
-		for ($i = 0, $in = count($cid); $i < $in; $i++)
-		{
-			$row->load((int) $cid[$i]);
-
-			// Track categories
-			$groupings[] = $row->question_id;
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-			}
-		}
-
-		// Execute updateOrder for each parent group
-		$groupings = array_unique($groupings);
-
-		foreach ($groupings as $group)
-		{
-			$row->reorder((int) $group);
 		}
 
 		return true;
@@ -350,13 +242,5 @@ class RedshopModelQuestion_detail extends RedshopModel
 		$row->store();
 
 		return true;
-	}
-
-	public function sendMailForAskQuestion($ansid)
-	{
-		$redshopMail = redshopMail::getInstance();
-		$rs = $redshopMail->sendAskQuestionMail($ansid);
-
-		return $rs;
 	}
 }
