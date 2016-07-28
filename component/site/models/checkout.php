@@ -1269,7 +1269,7 @@ class RedshopModelCheckout extends RedshopModel
 			$this->_redshopMail->sendOrderMail($row->order_id, true);
 		}
 
-		if ($row->order_status == "C")
+		if ($row->order_status == "C" && $row->order_payment_status == "Paid")
 		{
 			$this->_order_functions->SendDownload($row->order_id);
 		}
