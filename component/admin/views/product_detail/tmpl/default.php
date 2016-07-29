@@ -76,6 +76,9 @@ JHTMLBehavior::modal();
 		} else if (form.product_template.value == "0") {
 			alert("<?php echo JText::_('COM_REDSHOP_TEMPLATE_MUST_SELECTED', true); ?>");
 			return;
+		} else if (form.min_order_product_quantity.value > form.max_order_product_quantity.value) {
+			alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_QUANTITY_PER_ORDER_MUST_BE_LESS_THAN_MAXIMUM_QUANTITY_PER_ORDER', true); ?>");
+			return;
 		} else if (form.copy_attribute.length) {
 			for (var i = 0; i < form.copy_attribute.length; i++) {
 				if (form.copy_attribute[i].checked) {
