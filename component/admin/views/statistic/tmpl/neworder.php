@@ -38,11 +38,13 @@ $end = $this->pagination->limit;
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = $this->neworder[$i];
-				if (!is_object($row))
+				if (!isset($this->neworder[$i]) || !is_object($this->neworder[$i]))
 				{
 					break;
 				}
+
+				$row = $this->neworder[$i];
+
 				if ($this->filteroption && $row->viewdate != $disdate)
 				{
 					$disdate = $row->viewdate;    ?>
