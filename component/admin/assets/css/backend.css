@@ -2941,7 +2941,7 @@ tbody.collapse.in {
   margin-left: -5px;
   padding-left: 36px;
   padding-right: 36px;
-  margin-top: 30px !important;
+  margin-top: 25px !important;
   margin-bottom: 10px !important;
 }
 .btn-toolbar .btn,
@@ -27187,7 +27187,7 @@ body.modal-open {
 
 .label.order_status_c
 {
-  background-color: #dd4b39;
+  background-color: #337ab7;
 }
 
 .label.order_status_p

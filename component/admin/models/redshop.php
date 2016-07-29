@@ -241,15 +241,29 @@ class RedshopModelRedshop extends RedshopModel
 		/*********************************************************/
 	}
 
+	/**
+	 * Get New Customers for Dashboard view
+	 *
+	 * @return  array New Customers.
+	 */
 	public function getNewcustomers()
 	{
-		$this->_table_prefix = '#__redshop_';
-		$custquery = "SELECT *  FROM " . $this->_table_prefix . "users_info ORDER BY users_info_id DESC LIMIT 0, 5";
-		$this->_db->setQuery($custquery);
+		$query = $this->_db->getQuery(true);
+
+		$query->select($this->_db->qn('*'))
+			->from($this->_db->qn('#__redshop_users_info'))
+			->order($this->_db->qn('users_info_id') . ' DESC');
+
+		$this->_db->setQuery($query, 0, 10);
 
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * Get New Order for Dashboard view
+	 *
+	 * @return  array New Order.
+	 */
 	public function getNeworders()
 	{
 		$query = $this->_db->getQuery(true);
@@ -326,5 +340,45 @@ class RedshopModelRedshop extends RedshopModel
 		$this->_db->setQuery($userquery);
 
 		return $this->_db->loadObject();
+	}
+
+	/**
+	 * Get Statistic (Total orders, members, sales) for Dashboard view
+	 *
+	 * @return  array  Statistics chart.
+	 */
+	public function getStatisticDashboard()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('SUM(' . $db->qn('order_total') . ') AS total')
+			->from($db->qn('#__redshop_orders'))
+			->where(
+				'(' . $db->qn('order_status') . ' = ' . $db->q('C')
+				. ' OR '
+				. $db->qn('order_status') . ' = ' . $db->q('PR')
+				. ' OR '
+				. $db->qn('order_status') . ' = ' . $db->q('S') . ')'
+			);
+
+		$union = $db->getQuery(true)
+			->select('COUNT(' . $db->qn('order_id') . ')')
+			->from($db->qn('#__redshop_orders'));
+		$query->union($union);
+
+		$union = $db->getQuery(true)
+			->select('COUNT(' . $db->qn('users_info_id') . ')')
+			->from($db->qn('#__redshop_users_info'))
+			->where($db->qn('address_type') . ' = ' . $db->q('BT'));
+		$query->union($union);
+
+		$union = $db->getQuery(true)
+			->select('COUNT(' . $db->qn('id') . ')')
+			->from($db->qn('#__redshop_siteviewer'));
+		$query->union($union);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
 	}
 }

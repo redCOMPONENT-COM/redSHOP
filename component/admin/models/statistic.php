@@ -415,46 +415,6 @@ class RedshopModelStatistic extends RedshopModel
 		return $db->loadRowList();
 	}
 
-	/**
-	 * Get Statistic (Total orders, members, sales) for Dashboard view
-	 *
-	 * @return  array  Sales of shop to show statistics chart.
-	 */
-	public function getStatisticDashboard()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('SUM(' . $db->qn('order_total') . ') AS total')
-			->from($db->qn('#__redshop_orders'))
-			->where(
-				'(' . $db->qn('order_status') . ' = ' . $db->q('C')
-				. ' OR '
-				. $db->qn('order_status') . ' = ' . $db->q('PR')
-				. ' OR '
-				. $db->qn('order_status') . ' = ' . $db->q('S') . ')'
-			);
-
-		$union = $db->getQuery(true)
-			->select('COUNT(' . $db->qn('order_id') . ')')
-			->from($db->qn('#__redshop_orders'));
-		$query->union($union);
-
-		$union = $db->getQuery(true)
-			->select('COUNT(' . $db->qn('users_info_id') . ')')
-			->from($db->qn('#__redshop_users_info'))
-			->where($db->qn('address_type') . ' = ' . $db->q('BT'));
-		$query->union($union);
-
-		$union = $db->getQuery(true)
-			->select('COUNT(' . $db->qn('id') . ')')
-			->from($db->qn('#__redshop_siteviewer'));
-		$query->union($union);
-
-		$db->setQuery($query);
-
-		return $db->loadColumn();
-	}
-
 	public function getTotalTurnover()
 	{
 		$today = $this->getStartDate();
