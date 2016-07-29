@@ -1806,8 +1806,9 @@ class RedshopSiteProduct
 		{
 			$ProductPriceArr = array();
 
+			$product_id                 = $product->product_id;
 			$price_text                 = JText::_('COM_REDSHOP_REGULAR_PRICE') . "";
-			$result                     = $this->getProductPrices($product->id, $user_id, $quantity);
+			$result                     = $this->getProductPrices($product_id, $user_id, $quantity);
 			$product_price              = '';
 			$product_vat_lbl            = '';
 			$product_price_lbl          = '';
