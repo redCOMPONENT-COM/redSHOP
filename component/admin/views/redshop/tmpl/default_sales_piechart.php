@@ -38,11 +38,14 @@ $data = json_encode($turnover, JSON_NUMERIC_CHECK);
 
 		var options = {
 			height: 500,
-			colors: ['#bed78e']
+			colors: ['#4b94c0'],
+			legend: { position: "none" },
+			chartArea: {'width': '90%', 'height': '90%'},
+			curveType: 'function'
 		};
 
 		//Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.ColumnChart(document.getElementById('lastmonthsales_statistics_pie'));
+		var chart = new google.visualization.LineChart(document.getElementById('lastmonthsales_statistics_pie'));
 		chart.draw(data, options);
 	}
 </script>
@@ -87,9 +90,9 @@ $data = json_encode($turnover, JSON_NUMERIC_CHECK);
 			</thead>
 			<?php foreach($sales as $sale) : ?>
 				<tr>
-					<td><?php echo $sale[2];?></td>
-					<td><?php echo $sale[0];?></td>
-					<td><?php echo $sale[1];?></td>
+					<td><?php echo $sale[2]; ?></td>
+					<td><?php echo $sale[0]; ?></td>
+					<td><?php echo $sale[1]; ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</table>

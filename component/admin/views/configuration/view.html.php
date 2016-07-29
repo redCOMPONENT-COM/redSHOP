@@ -849,7 +849,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['display_new_orders']         = JHTML::_('redshopselect.booleanlist', 'display_new_orders', 'class="inputbox" size="1"', $this->config->get('DISPLAY_NEW_ORDERS'));
 		$lists['display_new_customers']      = JHTML::_('redshopselect.booleanlist', 'display_new_customers', 'class="inputbox" size="1"', $this->config->get('DISPLAY_NEW_CUSTOMERS'));
 		$lists['display_statistic']          = JHTML::_('redshopselect.booleanlist', 'display_statistic', 'class="inputbox" size="1"', $this->config->get('DISPLAY_STATISTIC'));
-		$lists['expand_all']                 = JHTML::_('redshopselect.booleanlist', 'expand_all', 'class="inputbox" size="1"', $this->config->get('EXPAND_ALL'));
 		$lists['send_catalog_reminder_mail'] = JHTML::_('redshopselect.booleanlist', 'send_catalog_reminder_mail', 'class="inputbox" size="1"', $this->config->get('SEND_CATALOG_REMINDER_MAIL'));
 
 		$current_version      = $model->getcurrentversion();

@@ -19,9 +19,6 @@ defined('_JEXEC') or die;
 		</div>
 		<div class="col-md-6">
 			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('quicklink');?>
-			</fieldset>
-			<fieldset class="adminform">
 				<?php echo $this->loadTemplate('new_customers');?>
 			</fieldset>
 			<fieldset class="adminform">
@@ -30,12 +27,7 @@ defined('_JEXEC') or die;
 			<fieldset class="adminform">
 				<?php echo $this->loadTemplate('statistic');?>
 			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('expand');?>
-			</fieldset>
-
 		</div>
-
 	</div>
 </fieldset>
 

@@ -252,10 +252,23 @@ class RedshopModelRedshop extends RedshopModel
 
 	public function getNeworders()
 	{
-		$query = 'SELECT o.*,CONCAT(u.firstname," ",u.lastname) AS name FROM #__redshop_order_users_info AS u '
-			. 'LEFT JOIN #__redshop_orders AS o ON u.order_id = o.order_id AND u.address_type="BT" '
-			. 'ORDER BY o.order_id desc limit 0, 5';
-		$this->_db->setQuery($query);
+		$query = $this->_db->getQuery(true);
+		$query->select(
+				array(
+					$this->_db->qn('o.order_id'),
+					$this->_db->qn('o.order_total'),
+					$this->_db->qn('o.order_status'),
+					$this->_db->qn('os.order_status_name'),
+					'CONCAT(' .  $this->_db->qn('u.firstname') . '," ",' . $this->_db->qn('u.lastname') . ') AS name'
+				)
+			)
+			->from($this->_db->qn('#__redshop_order_users_info', 'u'))
+			->innerJoin($this->_db->qn('#__redshop_orders', 'o') . ' ON ' . $this->_db->qn('u.order_id') . '=' . $this->_db->qn('o.order_id') . ' AND ' . $this->_db->qn('u.address_type') . '="BT"')
+			->innerJoin($this->_db->qn('#__redshop_order_status', 'os') . ' ON ' . $this->_db->qn('os.order_status_code') . '=' . $this->_db->qn('o.order_status'))
+			->order($this->_db->qn('o.order_id') . ' DESC');
+
+		$this->_db->setQuery($query, 0, 10);
+
 		$rows = $this->_db->loadObjectList();
 
 		return $rows;
