@@ -27194,3 +27194,8 @@ body.modal-open {
 {
   background-color: #f39c12;
 }
+
+.label.order_payment_status_paid
+{
+  background-color: #00a65a;
+}

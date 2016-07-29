@@ -511,10 +511,12 @@ class RedshopControllerCheckout extends RedshopController
 
 			if ($order_id)
 			{
+				$billingaddresses  = $model->billingaddresses();
+
 				JPluginHelper::importPlugin('redshop_product');
 				JPluginHelper::importPlugin('redshop_alert');
 				$data = $dispatcher->trigger('getStockroomStatus', array($order_id));
-				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $user->username, $order_id);
+				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $order_id);
 				$dispatcher->trigger('storeAlert', array($message));
 
 				$model->resetcart();

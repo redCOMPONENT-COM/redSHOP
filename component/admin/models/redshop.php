@@ -258,6 +258,7 @@ class RedshopModelRedshop extends RedshopModel
 					$this->_db->qn('o.order_id'),
 					$this->_db->qn('o.order_total'),
 					$this->_db->qn('o.order_status'),
+					$this->_db->qn('o.order_payment_status'),
 					$this->_db->qn('os.order_status_name'),
 					'CONCAT(' .  $this->_db->qn('u.firstname') . '," ",' . $this->_db->qn('u.lastname') . ') AS name'
 				)

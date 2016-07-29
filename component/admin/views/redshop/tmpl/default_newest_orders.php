@@ -20,6 +20,7 @@ $producthelper = producthelper::getInstance();
 				<th align="center"><?php echo JText::_('COM_REDSHOP_FULLNAME'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRICE'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_STATUS'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS'); ?></th>
 			</tr>
 			</thead>
 			<?php
@@ -42,6 +43,8 @@ $producthelper = producthelper::getInstance();
 					                      style="color:black;"><?php echo $producthelper->getProductFormattedPrice($row->order_total); ?></a>
 					</td>
 					<td align="center"><div class="label order_status_<?php echo strtolower($row->order_status); ?>"><?php echo $row->order_status_name; ?></div></td>
+
+					<td align="center"><div class="label order_payment_status_<?php echo strtolower($row->order_payment_status); ?>"><?php echo $row->order_payment_status; ?></div></td>
 				</tr>
 				<?php    $k = 1 - $k;
 			}    ?>

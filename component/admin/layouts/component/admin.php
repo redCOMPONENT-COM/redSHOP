@@ -87,7 +87,6 @@ if ($content instanceof Exception)
 	jQuery(document).ready(function () {
 		<?php if (!$displaySidebar) : ?>
 		jQuery('body').addClass('sidebar-collapse');
-		jQuery('.sidebar-toggle .fa').removeClass('fa-minus').addClass('fa-plus');
 		<?php endif; ?>
 	});
 </script>
