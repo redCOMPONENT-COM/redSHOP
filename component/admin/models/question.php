@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelQuestion extends RedshopModel
 {
 	/**

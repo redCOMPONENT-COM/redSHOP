@@ -25,7 +25,6 @@ class RedshopControllerQuestion extends RedshopController
 	 */
 	public function saveorder()
 	{
-
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 
@@ -77,5 +76,33 @@ class RedshopControllerQuestion extends RedshopController
 		//var_dump('false', $cid);die;
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
+	}
+
+	/**
+	 * Logic for orderup
+	 *
+	 * @return void
+	 */
+	public function orderup()
+	{
+		$this->getModel('question_detail')->orderup();
+		$this->setRedirect(
+			'index.php?option=com_redshop&view=question',
+			JText::_('COM_REDSHOP_NEW_ORDERING_SAVED')
+		);
+	}
+
+	/**
+	 * Logic for orderdown
+	 *
+	 * @return void
+	 */
+	public function orderdown()
+	{
+		$this->getModel('question_detail')->orderdown();
+		$this->setRedirect(
+			'index.php?option=com_redshop&view=question',
+			JText::_('COM_REDSHOP_NEW_ORDERING_SAVED')
+		);
 	}
 }
