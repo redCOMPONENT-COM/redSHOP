@@ -9,23 +9,35 @@
 
 defined('_JEXEC') or die;
 
-class RedshopControllerQuestion_detail extends RedshopController
+class RedshopControllerQuestion_detail extends RedshopControllerForm
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->registerTask('add', 'edit');
-	}
+	/**
+	 * The URL view item variable.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $view_item = 'question_detail';
 
-	public function edit()
-	{
-		JRequest::setVar('view', 'question_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
-		parent::display();
-	}
+	/**
+	 * The URL view item variable.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $view_list = 'question';
 
-	public function save($send = 0)
+	/**
+	 * Save question
+	 *
+	 * @param   integer  $send    Send Question?
+	 * @param   string   $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @todo    I know, I know this is not a proper way. But we needs to move to form way.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 */
+	public function save($send = 0, $urlVar = null)
 	{
 		$post = JRequest::get('post');
 		$question = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -68,7 +80,6 @@ class RedshopControllerQuestion_detail extends RedshopController
 
 	public function remove()
 	{
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -125,13 +136,6 @@ class RedshopControllerQuestion_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
 	}
 
-	public function cancel()
-	{
-
-		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
-	}
-
 	/**
 	 * logic for save an order
 	 *
@@ -140,7 +144,6 @@ class RedshopControllerQuestion_detail extends RedshopController
 	 */
 	public function saveorder()
 	{
-
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 

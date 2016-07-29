@@ -21,8 +21,7 @@ class RedshopModelQuestion_detail extends RedshopModelForm
 	{
 		parent::__construct();
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
-		$this->setId((int) $array[0]);
+		$this->setId(JFactory::getApplication()->input->getInt('question_id', 0));
 	}
 
 	public function setId($id)
@@ -36,7 +35,6 @@ class RedshopModelQuestion_detail extends RedshopModelForm
 		$this->_loadAnswer();
 
 		return $this->_answers;
-
 	}
 
 	public function _loadAnswer()

@@ -176,4 +176,5 @@ $editor = JFactory::getEditor();
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->question_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="question_detail"/>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
