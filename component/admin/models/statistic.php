@@ -342,7 +342,7 @@ class RedshopModelStatistic extends RedshopModel
 			$query->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate');
 		}
 
-		$query->select('SUM(o.order_total) AS turnover, CONCAT_WS(" ", SUM(o.order_total), "' . CURRENCY_CODE . '")');
+		$query->select('SUM(o.order_total) AS turnover');
 
 		if ($this->_filteroption != 4)
 		{

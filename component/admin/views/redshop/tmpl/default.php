@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+$producthelper = producthelper::getInstance();
+
 $statistic = RedshopModel::getInstance('Statistic', 'RedshopModel')->getStatisticDashboard();
 
 ?>
@@ -47,19 +49,19 @@ $user->gid      = $user->groups[$user->usertype];
 <div class="row">
 	<div class="col-md-3 col-sm-6 col-xs-12">
 		<div class="info-box">
-			<span class="info-box-icon bg-red">
+			<span class="info-box-icon bg-green">
 				<i class="fa fa-money" aria-hidden="true"></i>
 			</span>
 
 			<div class="info-box-content">
 				<span class="info-box-text"><?php echo JText::_('COM_REDSHOP_STATISTIC_TOTAL_SALES');?></span>
-				<span class="info-box-number"><?php echo $statistic[0] ?></span>
+				<span class="info-box-number"><?php echo$producthelper->getProductFormattedPrice($statistic[0]); ?></span>
 			</div>
 		</div>
 	</div>
 	<div class="col-md-3 col-sm-6 col-xs-12">
 		<div class="info-box">
-			<span class="info-box-icon bg-green">
+			<span class="info-box-icon bg-blue">
 				<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 			</span>
 
@@ -98,7 +100,6 @@ $user->gid      = $user->groups[$user->usertype];
 </div>
 
 <div class="row">
-	<?php if (DISPLAY_STATISTIC): ?>
 	<div class="col-sm-12">
 		<div class="box">
 			<div class="box-header with-border">
@@ -112,11 +113,9 @@ $user->gid      = $user->groups[$user->usertype];
 			</div>
 		</div>
 	</div>
-	<?php endif; ?>
 </div>
 
 <div class="row">
-	<?php if (DISPLAY_NEW_ORDERS): ?>
 	<div class="col-sm-6">
 		<div class="box">
 			<div class="box-header with-border">
@@ -130,9 +129,7 @@ $user->gid      = $user->groups[$user->usertype];
 			</div>
 		</div>
 	</div>
-	<?php endif; ?>
 
-	<?php if (DISPLAY_NEW_CUSTOMERS): ?>
 	<div class="col-sm-6">
 		<div class="box">
 			<div class="box-header with-border">
@@ -146,5 +143,4 @@ $user->gid      = $user->groups[$user->usertype];
 			</div>
 		</div>
 	</div>
-	<?php endif; ?>
 </div>

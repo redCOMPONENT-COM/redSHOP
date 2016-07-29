@@ -10,11 +10,11 @@ defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
 
+$producthelper = producthelper::getInstance();
+
 $turnover = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalTurnOverCpanel();
 
 $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCpanel();
-
-$data = json_encode($turnover, JSON_NUMERIC_CHECK);
 
 ?>
 
@@ -34,11 +34,16 @@ $data = json_encode($turnover, JSON_NUMERIC_CHECK);
 		data.addColumn('string', '<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>');
 		data.addColumn('number', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>');
 		data.addColumn({type: 'string', role: 'annotation'});
-		data.addRows(<?php echo $data;?>);
+
+		<?php if (count($turnover) > 0) {?>
+			<?php foreach ($turnover as $row) { ?>
+				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $producthelper->getProductFormattedPrice($row[1]); ?>']);
+			<?php } ?>
+		<?php } ?>
 
 		var options = {
-			height: 500,
-			colors: ['#4b94c0'],
+			height: 400,
+			colors: ['#1ab395'],
 			legend: { position: "none" },
 			chartArea: {'width': '90%', 'height': '90%'},
 			curveType: 'function'
@@ -91,7 +96,7 @@ $data = json_encode($turnover, JSON_NUMERIC_CHECK);
 			<?php foreach($sales as $sale) : ?>
 				<tr>
 					<td><?php echo $sale[2]; ?></td>
-					<td><?php echo $sale[0]; ?></td>
+					<td><?php echo $producthelper->getProductFormattedPrice($sale[0]); ?></td>
 					<td><?php echo $sale[1]; ?></td>
 				</tr>
 			<?php endforeach; ?>

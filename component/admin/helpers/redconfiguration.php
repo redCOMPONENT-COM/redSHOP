@@ -854,9 +854,6 @@ class Redconfiguration
 						"GENERATE_LABEL_ON_STATUS"                     => $d["generate_label_on_status"],
 
 						"MENUHIDE"                               	   => $d["menuhide"],
-						"DISPLAY_NEW_ORDERS"                           => $d["display_new_orders"],
-						"DISPLAY_NEW_CUSTOMERS"                        => $d["display_new_customers"],
-						"DISPLAY_STATISTIC"                            => $d['display_statistic'],
 						"AJAX_CART_DISPLAY_TIME"                       => $d['ajax_cart_display_time'],
 						"MEDIA_ALLOWED_MIME_TYPE"                      => $d['media_allowed_mime_type'],
 						"IMAGE_QUALITY_OUTPUT"                         => $d['image_quality_output'],

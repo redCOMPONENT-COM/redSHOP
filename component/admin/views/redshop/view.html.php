@@ -63,15 +63,9 @@ class RedshopViewRedshop extends RedshopViewAdmin
 
 		$model = $this->getModel();
 
-		if (DISPLAY_NEW_CUSTOMERS)
-		{
-			$this->newcustomers = $model->getNewcustomers();
-		}
+		$this->newcustomers = $model->getNewcustomers();
 
-		if (DISPLAY_NEW_ORDERS)
-		{
-			$this->neworders = $model->getNeworders();
-		}
+		$this->neworders = $model->getNeworders();
 
 		parent::display($tpl);
 	}
