@@ -40,41 +40,41 @@ $end = $this->pagination->limit;
 				</th>
 			</tr>
 			</thead>
-			<?php    
+			<?php
 			$disdate = "";
-			
-			if (count($this->bestsell) > 0)
+
+			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
+				if (!isset($this->bestsell[$i]) || !is_object($this->bestsell[$i]))
 				{
-					$row = $this->bestsell[$i];
-					if (!is_object($row))
-					{
-						break;
-					}
-					if ($this->filteroption && $this->filteroption != 0 && $row->viewdate != $disdate)
-					{
-						$disdate = $row->viewdate;    ?>
-						<tr>
-							<td colspan="4"><?php echo JText::_("COM_REDSHOP_DATE") . ": " . $disdate;?></td>
-						</tr>
-					<?php
-					}
-					$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
-					if ($row->product_id != NULL)
-					{
-						?>
-						<tr>
-							<td align="center"><?php echo $i + 1; ?></td>
-							<td><a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>">
-									<?php echo $row->product_name; ?></a></td>
-							<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->product_price);//CURRENCY_SYMBOL.number_format($row->product_price,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);?></td>
-							<td align="center"><?php  echo $row->totalproduct;?></td>
-						</tr>
-					<?php
-					}
+					break;
 				}
-			}	?>
+
+				$row = $this->bestsell[$i];
+
+				if ($this->filteroption && $this->filteroption != 0 && $row->viewdate != $disdate)
+				{
+					$disdate = $row->viewdate;    ?>
+					<tr>
+						<td colspan="4"><?php echo JText::_("COM_REDSHOP_DATE") . ": " . $disdate;?></td>
+					</tr>
+				<?php
+				}
+				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				if ($row->product_id != NULL)
+				{
+					?>
+					<tr>
+						<td align="center"><?php echo $i + 1; ?></td>
+						<td><a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>">
+								<?php echo $row->product_name; ?></a></td>
+						<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->product_price);//CURRENCY_SYMBOL.number_format($row->product_price,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);?></td>
+						<td align="center"><?php  echo $row->totalproduct;?></td>
+					</tr>
+				<?php
+				}
+			}
+			?>
 			<tfoot>
 			<td colspan="4">
 				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
