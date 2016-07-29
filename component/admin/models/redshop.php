@@ -250,7 +250,7 @@ class RedshopModelRedshop extends RedshopModel
 	{
 		$query = $this->_db->getQuery(true);
 
-		$query->select($this->_db->qn('*'))
+		$query->select('*')
 			->from($this->_db->qn('#__redshop_users_info'))
 			->order($this->_db->qn('users_info_id') . ' DESC');
 
