@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 class RedshopControllerQuestion_detail extends RedshopController
 {
 	public function __construct($default = array())
@@ -44,7 +42,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 			$post['parent_id'] = 0;
 		}
 
-		$row = $model->store($post);
+		$row = $model->save($post);
 
 		if ($row)
 		{
@@ -57,7 +55,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 
 		if ($send == 1)
 		{
-			$model->sendMailForAskQuestion($row->question_id);
+			redshopMail::getInstance()->sendAskQuestionMail($row->question_id);
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
@@ -131,36 +129,6 @@ class RedshopControllerQuestion_detail extends RedshopController
 	{
 
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
-	}
-
-	/**
-	 * logic for orderup
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function orderup()
-	{
-
-		$model = $this->getModel('question_detail');
-		$model->orderup();
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
-	}
-
-	/**
-	 * logic for orderdown
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function orderdown()
-	{
-
-		$model = $this->getModel('question_detail');
-		$model->orderdown();
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 
