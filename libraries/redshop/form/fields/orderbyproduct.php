@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 JLoader::import('redshop.library');
 
 /**
@@ -16,7 +17,7 @@ JLoader::import('redshop.library');
  * @package  RedSHOP
  * @since    1.2
  */
-class JFormFieldorderbyproduct extends JFormField
+class JFormFieldOrderByProduct extends JFormFieldList
 {
 	/**
 	 * Element name
@@ -26,21 +27,32 @@ class JFormFieldorderbyproduct extends JFormField
 	 */
 	public $type = 'orderbyproduct';
 
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string	The field input markup.
+	 *
+	 * @since   1.6
+	 */
 	protected function getInput()
 	{
-		$helper = redhelper::getInstance();
-		$name                 = $this->name;
-		$value                = $this->value;
-
-		if (!$value)
+		if (!$this->value)
 		{
-			$value = DEFAULT_PRODUCT_ORDERING_METHOD;
+			$this->value = DEFAULT_PRODUCT_ORDERING_METHOD;
 		}
 
-		$order_data = $helper->getOrderByList();
+		return parent::getInput();
+	}
 
-		$order_select = JHTML::_('select.genericlist', $order_data, $name, 'class="inputbox"', 'value', 'text', $value, $name);
-
-		return $order_select;
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   1.6
+	 */
+	protected function getOptions()
+	{
+		return array_merge(parent::getOptions(), redhelper::getInstance()->getOrderByList());
 	}
 }

@@ -410,24 +410,19 @@ class RedshopModelSearch extends RedshopModel
 	public function _buildQuery($manudata = 0, $getTotal = false)
 	{
 		$app = JFactory::getApplication();
+		$db  = JFactory::getDbo();
 
-		$db = JFactory::getDbo();
-		$productHelper   = producthelper::getInstance();
-		$redconfig  = $app->getParams();
-		$getorderby = urldecode($app->input->getString('order_by', ''));
+		$orderByMethod = $app->input->getString(
+							'order_by',
+							$app->getParams()->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD)
+						);
+		$orderByObj  = redhelper::getInstance()->prepareOrderBy(urldecode($orderByMethod));
 
-		if (in_array($getorderby, $this->filter_fields))
-		{
-			$order_by = $getorderby;
-		}
-		else
-		{
-			$order_by = $redconfig->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
-		}
+		$orderBy = $orderByObj->ordering . ' ' . $orderByObj->direction;
 
-		if ($order_by == 'pc.ordering ASC' || $order_by == 'c.ordering ASC')
+		if ($orderBy == 'pc.ordering ASC' || $orderBy == 'c.ordering ASC')
 		{
-			$order_by = 'p.product_id DESC';
+			$orderBy = 'p.product_id DESC';
 		}
 
 		if ($getTotal)
@@ -440,7 +435,7 @@ class RedshopModelSearch extends RedshopModel
 			$query = $db->getQuery(true)
 				->select('DISTINCT(p.product_id)')
 				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.manufacturer_id = p.manufacturer_id')
-				->order($db->escape($order_by));
+				->order($db->escape($orderBy));
 		}
 
 		$query->from($db->qn('#__redshop_product', 'p'))
@@ -484,7 +479,7 @@ class RedshopModelSearch extends RedshopModel
 		$days        = isset($item->query['newproduct']) ? $item->query['newproduct'] : 0;
 		$today       = date('Y-m-d H:i:s', time());
 		$days_before = date('Y-m-d H:i:s', time() - ($days * 60 * 60 * 24));
-		$aclProducts = $productHelper->loadAclProducts();
+		$aclProducts = producthelper::getInstance()->loadAclProducts();
 
 		// Shopper group - choose from manufactures Start
 		$rsUserhelper               = rsUserHelper::getInstance();

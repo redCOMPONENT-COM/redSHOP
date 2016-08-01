@@ -179,15 +179,15 @@ class order_functions
 		}
 	}
 
-	public function generateParcel($order_id)
+	public function generateParcel($orderId)
 	{
 		$db                        = JFactory::getDbo();
-		$order_details             = $this->getOrderDetails($order_id);
+		$orderDetail             = $this->getOrderDetails($orderId);
 		$producthelper             = producthelper::getInstance();
-		$orderproducts             = $this->getOrderItemDetail($order_id);
-		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
-		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($order_details->ship_method_id);
+		$orderproducts             = $this->getOrderItemDetail($orderId);
+		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
+		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
 
 		// Get Shipping Delivery Type
 		$shippingDeliveryType = 1;
@@ -312,6 +312,20 @@ class order_functions
 			$addon .= '<addon adnid="NOTSMS"></addon>';
 		}
 
+		// Get shop location stored using postdanmark plugin or other similar plugin.
+		$shopLocation = explode('|', $orderDetail->shop_id);
+
+		$agentEle = '';
+
+		if (!empty($shopLocation))
+		{
+			// Sending shop location id as an agent code.
+			$agentEle = '<val n="agentto">' . $shopLocation[0] . '</val>';
+
+			// PUPOPT is stands for "Optional Service Point".
+			$addon .= '<addon adnid="PUPOPT"></addon>';
+		}
+
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
 				<unifaunonline>
 				<meta>
@@ -333,7 +347,8 @@ class order_functions
 				<shipment orderno="' . $shippingInfo->order_id . '">
 				<val n="from">1</val>
 				<val n="to">' . $shippingInfo->users_info_id . '</val>
-				<val n="reference">' . $order_details->order_number . '</val>
+				<val n="reference">' . $orderDetail->order_number . '</val>
+				' . $agentEle . '
 				<service srvid="' . $fproductCode . '">
 				' . $addon . '
 				</service>
@@ -372,7 +387,7 @@ class order_functions
 				$query = $db->getQuery(true)
 							->update($db->qn('#__redshop_orders'))
 							->set($db->qn('order_label_create') . ' = 1')
-							->where($db->qn('order_id') . ' = ' . (int) $order_id);
+							->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 				// Set the query and execute the update.
 				$db->setQuery($query);
@@ -429,11 +444,6 @@ class order_functions
 
 		if ($checkupdateordersts == 0 && $data->order_status_code != "" && $data->order_payment_status_code != "")
 		{
-			if ($data->order_status_code == "C")
-			{
-				$this->SendDownload($order_id);
-			}
-
 			// Order status valid and change the status
 			$query = "UPDATE #__redshop_orders set order_status = " . $db->quote($data->order_status_code)
 				. ", order_payment_status = " . $db->quote($data->order_payment_status_code) . " where order_id = " . (int) $order_id;
@@ -444,6 +454,7 @@ class order_functions
 			if ("C" == $data->order_status_code
 				&& "Paid" == $data->order_payment_status_code)
 			{
+				$this->SendDownload($order_id);
 				RedshopHelperOrder::generateInvoiceNumber($order_id);
 			}
 
@@ -926,8 +937,13 @@ class order_functions
 				break;
 
 			case "C":
+
 				// SensDownload Products
-				$this->SendDownload($orderId);
+				if ($paymentStatus == "Paid")
+				{
+					$this->SendDownload($orderId);
+				}
+
 				break;
 		}
 

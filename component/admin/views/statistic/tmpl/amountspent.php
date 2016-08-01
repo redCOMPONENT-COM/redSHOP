@@ -37,11 +37,13 @@ $end = $this->pagination->limit;
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = $this->amountspentintotal[$i];
-				if (!is_object($row))
+				if (!isset($this->amountspentintotal[$i]) || !is_object($this->amountspentintotal[$i]))
 				{
 					break;
 				}
+
+				$row = $this->amountspentintotal[$i];
+
 				if ($this->filteroption && $row->viewdate != $disdate)
 				{
 					$disdate = $row->viewdate;    ?>
