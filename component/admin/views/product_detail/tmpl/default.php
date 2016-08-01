@@ -10,8 +10,8 @@ defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 
-$app = JFactory::getApplication();
-$selectedTabPosition = $app->getUserState('com_redshop.product_detail.selectedTabPosition', 'general_data');
+$displayData['tabMenu'] = $this->tabmenu->getData('tab')->items;
+$displayData['view'] = $this;
 
 ?>
 
@@ -152,180 +152,11 @@ $selectedTabPosition = $app->getUserState('com_redshop.product_detail.selectedTa
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
-	<div class="row">
-		<div class="col-sm-2">
-			<div class="box">
-				<div class="box-body no-padding">
-					<ul class="tabconfig nav nav-pills nav-stacked" role="tablist">
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'general_data') ? 'active' : '' ?>">
-							<a href="#general_data" aria-controls="general_data" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION', true) ?>
-							</a>
-						</li>
-
-						<?php if ($this->detail->product_type != 'product' && !empty($this->detail->product_type)) : ?>
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'producttype') ? 'active' : '' ?>">
-							<a href="#producttype" aria-controls="producttype" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB', true) ?>
-							</a>
-						</li>
-						<?php endif; ?>
-
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'extrafield') ? 'active' : '' ?>">
-							<a href="#extrafield" aria-controls="extrafield" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_FIELDS', true) ?>
-							</a>
-						</li>
-
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'product_images') ? 'active' : '' ?>">
-							<a href="#product_images" aria-controls="product_images" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGES', true) ?>
-							</a>
-						</li>
-
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'product_attribute') ? 'active' : '' ?>">
-							<a href="#product_attribute" aria-controls="product_attribute" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTES', true) ?>
-							</a>
-						</li>
-
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'product_accessory') ? 'active' : '' ?>">
-							<a href="#product_accessory" aria-controls="product_accessory" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT', true) ?>
-							</a>
-						</li>
-
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'related') ? 'active' : '' ?>">
-							<a href="#related" aria-controls="related" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT', true) ?>
-							</a>
-						</li>
-
-						<?php if ($this->CheckRedProductFinder > 0) : ?>
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'productfinder') ? 'active' : '' ?>">
-							<a href="#productfinder" aria-controls="productfinder" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_REDPRODUCTFINDER_ASSOCIATION', true) ?>
-							</a>
-						</li>
-						<?php endif; ?>
-
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'product_meta_data') ? 'active' : '' ?>">
-							<a href="#product_meta_data" aria-controls="product_meta_data" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_META_DATA_TAB', true) ?>
-							</a>
-						</li>
-
-						<?php if (USE_STOCKROOM == 1) : ?>
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'productstockroom') ? 'active' : '' ?>">
-							<a href="#productstockroom" aria-controls="productstockroom" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_STOCKROOM_TAB', true) ?>
-							</a>
-						</li>
-						<?php endif; ?>
-
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'calculator') ? 'active' : '' ?>">
-							<a href="#calculator" aria-controls="calculator" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR', true) ?>
-							</a>
-						</li>
-
-						<li role="presentation" class="<?php echo ($selectedTabPosition == 'economic_settings') ? 'active' : '' ?>">
-							<a href="#economic_settings" aria-controls="economic_settings" role="tab" data-toggle="tab">
-								<?php echo JText::_('COM_REDSHOP_ECONOMIC_SETTINGS', true) ?>
-							</a>
-						</li>
-
-					</ul>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-sm-10">
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'general_data') ? 'active' : '' ?>" id="general_data">
-					<?php echo $this->loadTemplate('general_data'); ?>
-				</div>
-
-				<?php if ($this->detail->product_type != 'product' && !empty($this->detail->product_type)) : ?>
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'producttype') ? 'active' : '' ?>" id="producttype">
-					<?php echo $this->loadTemplate('producttype'); ?>
-				</div>
-				<?php endif; ?>
-
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'extrafield') ? 'active' : '' ?>" id="extrafield">
-					<?php echo $this->loadTemplate('extrafield'); ?>
-				</div>
-
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'product_images') ? 'active' : '' ?>" id="product_images">
-					<?php echo $this->loadTemplate('product_images'); ?>
-				</div>
-
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'product_attribute') ? 'active' : '' ?>" id="product_attribute">
-					<?php echo $this->loadTemplate('product_attribute'); ?>
-				</div>
-
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'product_accessory') ? 'active' : '' ?>" id="product_accessory">
-					<?php echo $this->loadTemplate('product_accessory'); ?>
-				</div>
-
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'related') ? 'active' : '' ?>" id="related">
-					<?php echo $this->loadTemplate('related'); ?>
-				</div>
-
-				<?php if ($this->CheckRedProductFinder > 0) : ?>
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'productfinder') ? 'active' : '' ?>" id="productfinder">
-					<?php
-					if(count($this->getassociation) == 0)
-					{
-						$accosiation_id = 0;
-						$ordering = 1;
-					}
-					else
-					{
-						$accosiation_id = $this->getassociation->id;
-						$ordering = $this->getassociation->ordering;
-					}
-					?>
-					<table class="admintable table">
-						<tr>
-							<td>
-								<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TAG_NAME_TIP'), JText::_('COM_REDSHOP_TAG_NAME'), 'tooltip.png', '', '', false); ?>
-								<?php echo JText::_('COM_REDSHOP_TAG_NAME'); ?>
-							</td>
-							<td>
-								<?php echo $this->lists['tags']; ?>
-							</td>
-						</tr>
-					</table>
-					<input type="hidden" name="association_id" value="<?php echo $accosiation_id; ?>"/>
-					<input type="hidden" name="ordering" value="<?php echo $ordering; ?>"/>
-				</div>
-				<?php endif; ?>
-
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'product_meta_data') ? 'active' : '' ?>" id="product_meta_data">
-					<?php echo $this->loadTemplate('product_meta_data'); ?>
-				</div>
-
-				<?php if (USE_STOCKROOM == 1) : ?>
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'productstockroom') ? 'active' : '' ?>" id="productstockroom">
-					<?php echo $this->loadTemplate('productstockroom'); ?>
-				</div>
-				<?php endif; ?>
-
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'calculator') ? 'active' : '' ?>" id="calculator">
-					<?php echo $this->loadTemplate('calculator'); ?>
-				</div>
-
-				<div role="tabpanel" class="tab-pane <?php echo ($selectedTabPosition == 'economic_settings') ? 'active' : '' ?>" id="economic_settings">
-					<?php echo $this->loadTemplate('economic_settings'); ?>
-				</div>
-
-			</div>
-		</div>
-	</div>
 
 	<?php
-	// Echo plugin tabs.
+		echo RedshopLayoutHelper::render('component.full.tab.tab', $displayData);
+
+		// Echo plugin tabs.
 		$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
 	?>
 
