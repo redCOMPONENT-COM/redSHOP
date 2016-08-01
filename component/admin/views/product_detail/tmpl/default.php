@@ -152,7 +152,7 @@ JHTMLBehavior::modal();
 
 	<?php
 		echo RedshopLayoutHelper::render(
-			'component.full.tab.tab',
+			'component.full.tab.main',
 			array(
 				'view'    => $this,
 				'tabMenu' => $this->tabmenu->getData('tab')->items,

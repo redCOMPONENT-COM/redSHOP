@@ -18,7 +18,7 @@ extract($displayData);
 			<div class="box-body no-padding">
 				<ul class="tabconfig nav nav-pills nav-stacked" role="tablist">
 					<?php foreach ($tabMenu as $row) : ?>
-						<?php echo RedshopLayoutHelper::render('component.full.tab.name', $row); ?>
+						<?php echo RedshopLayoutHelper::render('component.full.tab.link', $row); ?>
 					<?php endforeach; ?>
 				</ul>
 			</div>
@@ -28,7 +28,7 @@ extract($displayData);
 	<div class="col-sm-10">
 		<div class="tab-content">
 			<?php foreach ($tabMenu as $row) : ?>
-				<?php echo RedshopLayoutHelper::render('component.full.tab.content', array('row' => $row, 'view' => $view)); ?>
+				<?php echo RedshopLayoutHelper::render('component.full.tab.layout', array('row' => $row, 'view' => $view)); ?>
 			<?php endforeach; ?>
 		</div>
 	</div>
