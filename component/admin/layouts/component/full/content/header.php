@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-extract($displayData);
-
 $toolbar = JToolbar::getInstance('toolbar');
 
 $redshopversion = RedshopModel::getInstance('Configuration', 'RedshopModel')->getCurrentVersion();

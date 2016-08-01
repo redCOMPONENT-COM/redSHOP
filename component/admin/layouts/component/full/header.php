@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 $logoLgUrl = JUri::root() . 'media/com_redshop/images/redshop_white_logo.png';
+
 ?>
 
 <!-- Sidebar toggle button-->
