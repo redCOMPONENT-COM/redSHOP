@@ -14502,6 +14502,7 @@ button.ui-datepicker-trigger {
   display: block;
   font-weight: bold;
   font-size: 18px;
+  margin-top: 10px;
 }
 
 .progress-description,
