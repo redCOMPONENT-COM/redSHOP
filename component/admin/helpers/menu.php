@@ -73,7 +73,12 @@ class RedshopAdminMenu
 		return $this;
 	}
 
-	public function addItem($link, $title, $active = null)
+	public function getData($section)
+	{
+		return $this->data[$section];
+	}
+
+	public function addItem($link, $title, $active = null, $param = null)
 	{
 		if ($this->disableMenu || !in_array($title, $this->menuhide))
 		{
@@ -81,6 +86,7 @@ class RedshopAdminMenu
 			$item->link   = $link;
 			$item->title  = $title;
 			$item->active = $active;
+			$item->param  = $param;
 
 			if ($this->section)
 			{

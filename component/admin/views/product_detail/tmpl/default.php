@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.html.html.tabs');
 JHTMLBehavior::modal();
+
 ?>
 
 <script type="text/javascript">
@@ -47,6 +47,18 @@ JHTMLBehavior::modal();
 	};
 
 	submitbutton = function (pressbutton) {
+
+		// Find the position of selected tab
+		var allTabsNames = document.querySelectorAll('.tabconfig a');
+		var selectedTabName  = document.querySelectorAll('.tabconfig li.active a');
+
+		for (var i=0; i < allTabsNames.length; i++) {
+			if (selectedTabName[0].innerHTML === allTabsNames[i].innerHTML) {
+				var selectedTabPosition =allTabsNames[i].getAttribute("aria-controls");
+				break;
+			}
+		}
+
 		var form = document.adminForm;
 
 		if (pressbutton == 'cancel') {
@@ -64,6 +76,12 @@ JHTMLBehavior::modal();
 			submitform(pressbutton);
 			return;
 		}
+
+		if (pressbutton == 'save')
+			form.selectedTabPosition.value = '';
+		else
+			form.selectedTabPosition.value = selectedTabPosition;
+
 		if (form.product_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true); ?>");
 			return;
@@ -126,183 +144,44 @@ JHTMLBehavior::modal();
 		<div style="float: right">
 			<button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
 			<button type="button"
-			        onclick="window.parent.SqueezeBox.close();"> <?php echo JText::_('COM_REDSHOP_CANCEL'); ?> </button>
+					onclick="window.parent.SqueezeBox.close();"> <?php echo JText::_('COM_REDSHOP_CANCEL'); ?> </button>
 		</div>
 		<div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?></div>
 	</fieldset>
 <?php endif; ?>
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
-<?php
+	  enctype="multipart/form-data">
 
-// Tabs converted to JHtml Tabs instead of using deprecated JPane.
-$optionsForTabs = array(
-	'onActive' => 'function(title, description){
-        description.setStyle("display", "block");
-        title.addClass("open").removeClass("closed");
-    }',
-	'onBackground' => 'function(title, description){
-        description.setStyle("display", "none");
-        title.addClass("closed").removeClass("open");
-    }',
-	'startOffset' => 0,
-	'useCookie' => true
-);
-
-// Start tabs.
-echo JHtml::_('tabs.start', 'productTabs', $optionsForTabs);
-
-// Tab1 - Product information tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_INFORMATION'), 'productTab1');
-?>
-<fieldset class="adminform">
-	<legend>
-		<?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?>
-	</legend>
-	<?php echo $this->loadTemplate('general_data'); ?>
-</fieldset>
-<?php if ($this->detail->product_type != 'product' && !empty($this->detail->product_type)) : ?>
 	<?php
-	// Tab2 - Product information tab panel.
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB'), 'productTab2');
+		echo RedshopLayoutHelper::render(
+			'component.full.tab.main',
+			array(
+				'view'    => $this,
+				'tabMenu' => $this->tabmenu->getData('tab')->items,
+			)
+		);
+
+		// Echo plugin tabs.
+		$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
 	?>
-	<fieldset class="adminform">
-		<legend>
-			<?php echo JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB_DESC'); ?>
-		</legend>
-		<?php echo $this->loadTemplate('producttype'); ?>
-	</fieldset>
-<?php endif; ?>
 
-<?php
-// Tab3 - Custom fields tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FIELDS'), 'productTab3');
-?>
-<?php if ($this->detail->product_template != 0) : ?>
-	<?php echo $this->loadTemplate('extrafield'); ?>
-<?php endif; ?>
-
-<?php
-// Tab4 - Product images tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_IMAGES'), 'productTab4');
-?>
-<fieldset class="adminform">
-	<legend>
-		<?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGES'); ?>
-	</legend>
-	<?php echo $this->loadTemplate('product_images'); ?>
-</fieldset>
-
-<?php
-// Tab5 - Product attributes tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTES'), 'productTab5');
-echo $this->loadTemplate('product_attribute');
-
-// Tab6 - Product accessories tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'productTab6');
-echo $this->loadTemplate('product_accessory');
-
-// Tab7 - Related products tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_RELATED_PRODUCT'), 'productTab7');
-echo $this->loadTemplate('related');
-?>
-<?php if ($this->CheckRedProductFinder > 0) : ?>
-	<?php
-		// Tab8 - redPRODUCTFINDER tab panel.
-		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_REDPRODUCTFINDER_ASSOCIATION'), 'productTab8');
-
-		if(count($this->getassociation) == 0)
-		{
-			$accosiation_id = 0;
-			$ordering = 1;
-		}
-		else
-		{
-			$accosiation_id = $this->getassociation->id;
-			$ordering = $this->getassociation->ordering;
-		}
-	?>
-	<table class="admintable table">
-		<tr>
-			<td>
-				<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TAG_NAME_TIP'), JText::_('COM_REDSHOP_TAG_NAME'), 'tooltip.png', '', '', false); ?>
-				<?php echo JText::_('COM_REDSHOP_TAG_NAME'); ?>
-			</td>
-			<td>
-				<?php echo $this->lists['tags']; ?>
-			</td>
-		</tr>
-	</table>
-	<input type="hidden" name="association_id" value="<?php echo $accosiation_id; ?>"/>
-	<input type="hidden" name="ordering" value="<?php echo $ordering; ?>"/>
-<?php endif; ?>
-
-<?php
-// Tab9 - Meta data tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'productTab9');
-?>
-<fieldset class="adminform">
-	<legend>
-		<?php echo JText::_('COM_REDSHOP_META_DATA_TAB'); ?>
-	</legend>
-	<?php echo $this->loadTemplate('product_meta_data'); ?>
-</fieldset>
-
-<?php if (USE_STOCKROOM == 1) : ?>
-	<?php
-	// Tab10 - Stockroom tab panel.
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_STOCKROOM_TAB'), 'productTab10');
-	echo $this->loadTemplate('productstockroom');
-	?>
-<?php endif; ?>
-
-<?php
-// Tab11 - Discount calculator tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR'), 'productTab11');
-echo $this->loadTemplate('calculator');
-?>
-
-<?php
-// Tab12 - Economic tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'), 'productTab12');
-?>
-<fieldset class="adminform">
-	<legend>
-		<?php echo JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'); ?>
-	</legend>
-	<?php echo $this->loadTemplate('economic_settings'); ?>
-</fieldset>
-
-<?php
-// Echo plugin tabs.
-$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
-
-// End tabs.
-echo JHtml::_('tabs.end');
-?>
-
-<div class="clr"></div>
-<input type="hidden" name="cid[]" value="<?php echo $this->detail->product_id; ?>"/>
-<input type="hidden" name="product_id" id="product_id" value="<?php echo $this->detail->product_id; ?>"/>
-
-<input type="hidden" name="old_manufacturer_id" value="<?php echo $this->detail->manufacturer_id; ?>"/>
-<input type="hidden" name="old_image" id="old_image" value="<?php echo $this->detail->product_full_image; ?>">
-<input type="hidden" name="old_thumb_image" id="old_thumb_image"
-       value="<?php echo $this->detail->product_thumb_image; ?>">
-<input type="hidden" name="product_back_full_image" id="product_back_full_image"
-       value="<?php echo $this->detail->product_back_full_image; ?>">
-<input type="hidden" name="product_back_thumb_image" id="product_back_thumb_image"
-       value="<?php echo $this->detail->product_back_thumb_image; ?>">
-<input type="hidden" name="product_preview_image" id="product_preview_image"
-       value="<?php echo $this->detail->product_preview_image; ?>">
-<input type="hidden" name="product_preview_back_image" id="product_preview_back_image"
-       value="<?php echo $this->detail->product_preview_back_image; ?>">
-<input type="hidden" name="task" value=""/>
-<input type="hidden" name="section_id" value=""/>
-<input type="hidden" name="template_id" value=""/>
-<input type="hidden" name="visited" value="<?php echo $this->detail->visited ?>"/>
-<input type="hidden" name="view" value="product_detail"/>
+	<div class="clr"></div>
+	<input type="hidden" name="cid[]" value="<?php echo $this->detail->product_id; ?>"/>
+	<input type="hidden" name="product_id" id="product_id" value="<?php echo $this->detail->product_id; ?>"/>
+	<input type="hidden" name="old_manufacturer_id" value="<?php echo $this->detail->manufacturer_id; ?>"/>
+	<input type="hidden" name="old_image" id="old_image" value="<?php echo $this->detail->product_full_image; ?>">
+	<input type="hidden" name="old_thumb_image" id="old_thumb_image" value="<?php echo $this->detail->product_thumb_image; ?>">
+	<input type="hidden" name="product_back_full_image" id="product_back_full_image" value="<?php echo $this->detail->product_back_full_image; ?>">
+	<input type="hidden" name="product_back_thumb_image" id="product_back_thumb_image" value="<?php echo $this->detail->product_back_thumb_image; ?>">
+	<input type="hidden" name="product_preview_image" id="product_preview_image" value="<?php echo $this->detail->product_preview_image; ?>">
+	<input type="hidden" name="product_preview_back_image" id="product_preview_back_image" value="<?php echo $this->detail->product_preview_back_image; ?>">
+	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="section_id" value=""/>
+	<input type="hidden" name="template_id" value=""/>
+	<input type="hidden" name="visited" value="<?php echo $this->detail->visited ?>"/>
+	<input type="hidden" name="view" value="product_detail"/>
+	<input type="hidden" name="selectedTabPosition" value=""/>
 </form>
 <script type="text/javascript">
 

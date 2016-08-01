@@ -126,6 +126,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$post ['product_id']  = $cid[0];
 		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
+		$selectedTabPosition = $this->input->get('selectedTabPosition');
+		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
+
 		if (is_array($post['product_category'])
 			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
 		{
