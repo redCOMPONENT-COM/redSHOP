@@ -217,8 +217,6 @@ class leftmenu
 
 			case "question":
 			case "question_detail":
-			case "answer":
-			case "answer_detail":
 				$active = 'question';
 				break;
 
