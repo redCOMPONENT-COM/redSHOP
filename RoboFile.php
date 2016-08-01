@@ -109,11 +109,11 @@ class RoboFile extends \Robo\Tasks
 	public function prepareSiteForSystemTests($use_htaccess = 0)
 	{
 		// Caching cloned installations locally
-		if (!is_dir('cache') || (time() - filemtime('cache') > 60 * 60 * 24))
+		if (!is_dir('tests/cache') || (time() - filemtime('tests/cache') > 60 * 60 * 24))
 		{
-			if (file_exists('cache'))
+			if (file_exists('tests/cache'))
 			{
-				$this->taskDeleteDir('cache')->run();
+				$this->taskDeleteDir('tests/cache')->run();
 			}
 
 			$this->_exec($this->buildGitCloneCommand());
@@ -134,7 +134,7 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-		$this->_copyDir('cache', $this->cmsPath);
+		$this->_copyDir('tests/cache', $this->cmsPath);
 
 		// Optionally change owner to fix permissions issues
 		if (!empty($this->configuration->localUser) && !$this->isWindows())
@@ -444,14 +444,14 @@ class RoboFile extends \Robo\Tasks
 		{
 			if (empty($this->configuration->cmsPath))
 			{
-				return 'joomla-cms3';
+				return 'tests/joomla-cms3';
 			}
 
 			if (!file_exists(dirname($this->configuration->cmsPath)))
 			{
 				$this->say("Cms path written in local configuration does not exists or is not readable");
 
-				return 'joomla-cms3';
+				return 'tests/joomla-cms3';
 			}
 
 			return $this->configuration->cmsPath;
@@ -517,6 +517,6 @@ class RoboFile extends \Robo\Tasks
 		{
 			$branch = empty($this->configuration->branch) ? 'staging' : $this->configuration->branch;
 
-			return "git" . $this->executableExtension . " clone -b $branch --single-branch --depth 1 https://github.com/joomla/joomla-cms.git cache";
+			return "git" . $this->executableExtension . " clone -b $branch --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/cache";
 		}
 }
