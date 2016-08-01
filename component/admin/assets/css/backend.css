@@ -1859,6 +1859,11 @@ input[type="search"] {
   cursor: pointer;
 }
 
+.controls .radio
+{
+  display: inline-block;
+}
+
 .radio.inline, .checkbox.inline
 {
   padding-top: 0 !important;
@@ -15793,6 +15798,11 @@ fine-grain .ui-widget {
 
 .tab-content {
   padding-top: 20px;
+}
+
+.tab-content .box
+{
+  border-top-width: 3px;
 }
 
 /* ==========================================================================
