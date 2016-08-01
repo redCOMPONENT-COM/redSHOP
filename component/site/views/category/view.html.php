@@ -388,7 +388,7 @@ class RedshopViewCategory extends RedshopView
 			);
 		}
 
-		$orderBySelect = $model->getState('list.ordering') . ' ' . $model->getState('list.direction');
+		$orderByMethod = $this->app->getUserStateFromRequest($model->context . '.order_by', 'order_by');
 		$lists['order_by'] = JHtml::_(
 			'select.genericlist',
 			$orderData,
@@ -396,7 +396,7 @@ class RedshopViewCategory extends RedshopView
 			'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ',
 			'value',
 			'text',
-			$orderBySelect
+			$orderByMethod
 		);
 
 		if ($this->catid && count($loadCategorytemplate) > 0)
@@ -454,7 +454,7 @@ class RedshopViewCategory extends RedshopView
 		$this->params = $params;
 		$this->maincat = $maincat;
 		$this->category_template_id = $categoryTemplateId;
-		$this->order_by_select = $orderBySelect;
+		$this->order_by_select = $orderByMethod;
 		$this->manufacturer_id = $manufacturerId;
 		$this->loadCategorytemplate = $loadCategorytemplate;
 

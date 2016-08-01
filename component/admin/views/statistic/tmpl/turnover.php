@@ -37,13 +37,16 @@ $end = $this->pagination->limit;
 				<th align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_TURNOVER'); ?></th>
 			</tr>
 			</thead>
-			<?php    for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
+			<?php
+			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = $this->totalturnover[$i];
-				if (!is_object($row))
+				if (!isset($this->totalturnover[$i]) || !is_object($this->totalturnover[$i]))
 				{
 					break;
-				}?>
+				}
+
+				$row = $this->totalturnover[$i];
+			?>
 				<tr>
 					<td align="center"><?php echo $i + 1;?></td>
 					<?php if ($this->filteroption)

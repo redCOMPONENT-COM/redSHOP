@@ -546,32 +546,83 @@ class redhelper
 	// 	Order by list
 	public function getOrderByList()
 	{
-		$order_data           = array();
-		$order_data[0] = new stdClass;
-		$order_data[0]->value = "p.product_name ASC";
-		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME');
+		$list = array(
+			JHtml::_('select.option', 'name', JText::_('COM_REDSHOP_PRODUCT_NAME_ASC')),
+			JHtml::_('select.option', 'name_desc', JText::_('COM_REDSHOP_PRODUCT_NAME_DESC')),
+			JHtml::_('select.option', 'price', JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC')),
+			JHtml::_('select.option', 'price_desc', JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC')),
+			JHtml::_('select.option', 'number', JText::_('COM_REDSHOP_PRODUCT_NUMBER_ASC')),
+			JHtml::_('select.option', 'number_desc', JText::_('COM_REDSHOP_PRODUCT_NUMBER_DESC')),
+			JHtml::_('select.option', 'id', JText::_('COM_REDSHOP_NEWEST')),
+			JHtml::_('select.option', 'ordering', JText::_('COM_REDSHOP_ORDERING_ASC')),
+			JHtml::_('select.option', 'ordering_desc', JText::_('COM_REDSHOP_ORDERING_DESC'))
+		);
 
-		$order_data[1] = new stdClass;
-		$order_data[1]->value = "p.product_price ASC";
-		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
+		return $list;
+	}
 
-		$order_data[2] = new stdClass;
-		$order_data[2]->value = "p.product_price DESC";
-		$order_data[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
+	/**
+	 * Prepare order by object for ordering from string.
+	 *
+	 * @param   string  $case  Order By string generated in getOrderByList method
+	 *
+	 * @return  object         Parsed strings in ordering and direction object key.
+	 */
+	public function prepareOrderBy($case)
+	{
+		$orderBy = new stdClass;
 
-		$order_data[3] = new stdClass;
-		$order_data[3]->value = "p.product_number ASC";
-		$order_data[3]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
+		switch ($case)
+		{
+			case 'name':
+			default:
+				$orderBy->ordering = 'p.product_name';
+				$orderBy->direction = 'ASC';
 
-		$order_data[4] = new stdClass;
-		$order_data[4]->value = "p.product_id DESC";
-		$order_data[4]->text  = JText::_('COM_REDSHOP_NEWEST');
+				break;
+			case 'name_desc':
+				$orderBy->ordering = 'p.product_name';
+				$orderBy->direction = 'DESC';
 
-		$order_data[5] = new stdClass;
-		$order_data[5]->value = "pc.ordering ASC";
-		$order_data[5]->text  = JText::_('COM_REDSHOP_ORDERING');
+				break;
+			case 'price':
+				$orderBy->ordering = 'p.product_price';
+				$orderBy->direction = 'ASC';
 
-		return $order_data;
+				break;
+			case 'price_desc':
+				$orderBy->ordering = 'p.product_price';
+				$orderBy->direction = 'DESC';
+
+				break;
+			case 'number':
+				$orderBy->ordering = 'p.product_number';
+				$orderBy->direction = 'ASC';
+
+				break;
+			case 'number_desc':
+				$orderBy->ordering = 'p.product_number';
+				$orderBy->direction = 'DESC';
+
+				break;
+			case 'id':
+				$orderBy->ordering = 'p.product_id';
+				$orderBy->direction = 'DESC';
+
+				break;
+			case 'ordering':
+				$orderBy->ordering = 'pc.ordering';
+				$orderBy->direction = 'ASC';
+
+				break;
+			case 'ordering_desc':
+				$orderBy->ordering = 'pc.ordering';
+				$orderBy->direction = 'DESC';
+
+				break;
+		}
+
+		return $orderBy;
 	}
 
 	public function getManufacturerOrderByList()
