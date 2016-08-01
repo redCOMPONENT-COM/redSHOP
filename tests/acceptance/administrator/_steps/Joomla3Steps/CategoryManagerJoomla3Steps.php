@@ -74,7 +74,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeState($categoryName, $state = 'unpublish')
+	public function changeCategoryState($categoryName, $state = 'unpublish')
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
