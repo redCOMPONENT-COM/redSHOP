@@ -27,6 +27,8 @@ class ZZUninstallExtensionCest
 		$I->wantTo('Uninstall redSHOP Extensions');
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
+		$I->click(\ExtensionManagerJoomla3Page::$searchTools);
+		$I->selectOptionInChosen('#filter_type', 'Component');
 		$I->fillField('#filter_search', 'redSHOP');
 		$I->click(\ExtensionManagerJoomla3Page::$searchButtonJ3);
 		$I->waitForElement('#manageList');
@@ -42,5 +44,6 @@ class ZZUninstallExtensionCest
 		$I->click(\ExtensionManagerJoomla3Page::$searchButtonJ3);
 		$I->waitForText('There are no extensions installed matching your query.', 10, '.alert-no-items');
 		$I->see('There are no extensions installed matching your query.', '.alert-no-items');
+		$I->selectOptionInChosen('#filter_type', '- Select Type -');
 	}
 }
