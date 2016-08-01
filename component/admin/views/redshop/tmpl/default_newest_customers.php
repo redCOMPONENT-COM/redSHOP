@@ -19,7 +19,6 @@ $model = $this->getModel('redshop');
 				<th align="center"><?php echo JText::_('COM_REDSHOP_NUMBER_OF_ORDERS'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_AVG_AMOUNT_OF_ORDERS'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_AMOUNT_OF_ORDERS'); ?></th>
-
 			</tr>
 			</thead>
 			<?php

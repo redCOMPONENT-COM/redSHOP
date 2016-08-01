@@ -12,30 +12,11 @@ defined('_JEXEC') or die;
 
 <fieldset class="adminform">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<fieldset class="adminform">
 				<?php echo $this->loadTemplate('menuhide');?>
 			</fieldset>
 		</div>
-		<div class="col-md-6">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('quicklink');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('new_customers');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('new_orders');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('statistic');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('expand');?>
-			</fieldset>
-
-		</div>
-
 	</div>
 </fieldset>
 
