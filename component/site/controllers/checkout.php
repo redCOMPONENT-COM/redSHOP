@@ -511,7 +511,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			if ($order_id)
 			{
-				$billingaddresses  = $model->billingaddresses();
+				$billingaddresses  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 
 				JPluginHelper::importPlugin('redshop_product');
 				JPluginHelper::importPlugin('redshop_alert');
