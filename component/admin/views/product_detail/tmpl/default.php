@@ -10,9 +10,6 @@ defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 
-$displayData['tabMenu'] = $this->tabmenu->getData('tab')->items;
-$displayData['view'] = $this;
-
 ?>
 
 <script type="text/javascript">
@@ -144,17 +141,23 @@ $displayData['view'] = $this;
 		<div style="float: right">
 			<button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
 			<button type="button"
-			        onclick="window.parent.SqueezeBox.close();"> <?php echo JText::_('COM_REDSHOP_CANCEL'); ?> </button>
+					onclick="window.parent.SqueezeBox.close();"> <?php echo JText::_('COM_REDSHOP_CANCEL'); ?> </button>
 		</div>
 		<div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?></div>
 	</fieldset>
 <?php endif; ?>
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
+	  enctype="multipart/form-data">
 
 	<?php
-		echo RedshopLayoutHelper::render('component.full.tab.tab', $displayData);
+		echo RedshopLayoutHelper::render(
+			'component.full.tab.tab',
+			array(
+				'view'    => $this,
+				'tabMenu' => $this->tabmenu->getData('tab')->items,
+			)
+		);
 
 		// Echo plugin tabs.
 		$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
@@ -165,16 +168,11 @@ $displayData['view'] = $this;
 	<input type="hidden" name="product_id" id="product_id" value="<?php echo $this->detail->product_id; ?>"/>
 	<input type="hidden" name="old_manufacturer_id" value="<?php echo $this->detail->manufacturer_id; ?>"/>
 	<input type="hidden" name="old_image" id="old_image" value="<?php echo $this->detail->product_full_image; ?>">
-	<input type="hidden" name="old_thumb_image" id="old_thumb_image"
-	       value="<?php echo $this->detail->product_thumb_image; ?>">
-	<input type="hidden" name="product_back_full_image" id="product_back_full_image"
-	       value="<?php echo $this->detail->product_back_full_image; ?>">
-	<input type="hidden" name="product_back_thumb_image" id="product_back_thumb_image"
-	       value="<?php echo $this->detail->product_back_thumb_image; ?>">
-	<input type="hidden" name="product_preview_image" id="product_preview_image"
-	       value="<?php echo $this->detail->product_preview_image; ?>">
-	<input type="hidden" name="product_preview_back_image" id="product_preview_back_image"
-	       value="<?php echo $this->detail->product_preview_back_image; ?>">
+	<input type="hidden" name="old_thumb_image" id="old_thumb_image" value="<?php echo $this->detail->product_thumb_image; ?>">
+	<input type="hidden" name="product_back_full_image" id="product_back_full_image" value="<?php echo $this->detail->product_back_full_image; ?>">
+	<input type="hidden" name="product_back_thumb_image" id="product_back_thumb_image" value="<?php echo $this->detail->product_back_thumb_image; ?>">
+	<input type="hidden" name="product_preview_image" id="product_preview_image" value="<?php echo $this->detail->product_preview_image; ?>">
+	<input type="hidden" name="product_preview_back_image" id="product_preview_back_image" value="<?php echo $this->detail->product_preview_back_image; ?>">
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="section_id" value=""/>
 	<input type="hidden" name="template_id" value=""/>
