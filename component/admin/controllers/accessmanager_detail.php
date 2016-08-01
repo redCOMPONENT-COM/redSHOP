@@ -20,7 +20,7 @@ class RedshopControllerAccessmanager_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'answer_detail');
+		JRequest::setVar('view', 'accessmanager_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
