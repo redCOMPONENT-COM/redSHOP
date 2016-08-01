@@ -32,28 +32,6 @@ class InstallRedShopCest
 		$I->setErrorReportingtoDevelopment();
 	}
 
-	/**
-	 * Test to Install redSHOP Extension on Joomla
-	 *
-	 * @param   AcceptanceTester  $I  Actor Class Object
-	 *
-	 * @return void
-	 */
-	public function testInstallRedShopExtension(AcceptanceTester $I)
-	{
-		$I->wantTo('Install Extension');
-		$I->doAdministratorLogin();
-		$I->disableStatistics();
-		$I->wantTo('Install redSHOP');
-		$I->installExtensionFromFolder($I->getConfig('repo folder'));
-
-		if ($I->getConfig('install demo data') == 'Yes')
-		{
-			$I->click("//input[@value='Install Demo Content']");
-			$I->waitForText('Data Installed Successfully', 10, '#system-message-container');
-		}
-	}
-
 	public function disableTemplateFloatingToolbars(AcceptanceTester $I)
 	{
 		$I->am('administrator');
@@ -76,5 +54,27 @@ class InstallRedShopCest
 		$I->click('Save & Close');
 		$I->waitForText('Style successfully saved.', 60, ['id' => 'system-message-container']);
 		$I->see('Style successfully saved.', ['id' => 'system-message-container']);
+	}
+
+	/**
+	 * Test to Install redSHOP Extension on Joomla
+	 *
+	 * @param   AcceptanceTester  $I  Actor Class Object
+	 *
+	 * @return void
+	 */
+	public function testInstallRedShopExtension(AcceptanceTester $I)
+	{
+		$I->wantTo('Install Extension');
+		$I->doAdministratorLogin();
+		$I->disableStatistics();
+		$I->wantTo('Install redSHOP');
+		$I->installExtensionFromFolder($I->getConfig('repo folder'));
+
+		if ($I->getConfig('install demo data') == 'Yes')
+		{
+			$I->click("//input[@value='Install Demo Content']");
+			$I->waitForText('Data Installed Successfully', 10, '#system-message-container');
+		}
 	}
 }

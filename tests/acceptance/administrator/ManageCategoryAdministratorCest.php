@@ -67,7 +67,7 @@ class ManageCategoryAdministratorCest
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Update Existing Category');
 		$I->changeState($this->newCategoryName, 'unpublish');
-		$currentState = $I->getState($this->newCategoryName);
+		$currentState = $I->getCategoryState($this->newCategoryName);
 		$I->verifyState('unpublished', $currentState);
 	}
 
