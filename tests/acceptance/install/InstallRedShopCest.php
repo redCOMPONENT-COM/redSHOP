@@ -64,10 +64,12 @@ class InstallRedShopCest
 		$I->waitForElement(['link' => 'Templates'],60);
 		$I->click(['link' => 'Templates']);
 		$I->waitForText('Templates: Styles', 60, ['css' => 'h1']);
+		$I->selectOptionInChosen('#client_id', 'Administrator');
+		$I->waitForText('Templates: Styles (Administrator)', 60, ['css' => 'h1']);
 		$I->click(['link' => 'isis - Default']);
 		$I->waitForText('Templates: Edit Style', 60, ['css' => 'h1']);
 		$I->click(['link' => 'Advanced']);
-		$I->waitForElement(['css' => "label[data-original-title='<strong>Status Module Position</strong><br />Choose the location of the status module.']"], 60);
+		$I->waitForElement(['css' => "label[data-original-title='Status Module Position']"], 60);
 		$I->executeJS("window.scrollTo(0, document.body.scrollHeight);");
 		$I->selectOptionInChosen('Status Module Position', 'Top');
 		$I->selectOptionInRadioField('Pinned Toolbar', 'No');
