@@ -60,5 +60,5 @@ class ExtensionManagerJoomla3Page
 
 	public static $searchButtonJ2 = "//button[@class='btn' and @type='submit' and contains(text(),'Search')]";
 
-	public static $searchTools = "//button[@class='btn js-stools-btn-filter']";
+	public static $searchTools = "//button[@class='btn hasTooltip js-stools-btn-filter']";
 }
