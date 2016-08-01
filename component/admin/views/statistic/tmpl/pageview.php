@@ -36,11 +36,13 @@ $end = $this->pagination->limit;
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = $this->pageviewer[$i];
-				if (!is_object($row))
+				if (!isset($this->pageviewer[$i]) || !is_object($this->pageviewer[$i]) )
 				{
 					break;
 				}
+
+				$row = $this->pageviewer[$i];
+
 				if ($this->filteroption && $row->viewdate != $disdate)
 				{
 					$disdate = $row->viewdate;    ?>

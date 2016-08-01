@@ -134,7 +134,6 @@ class RedshopModelCategory extends RedshopModel
 		$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$editTimestamp = $params->get('editTimestamp', 0);
 		$userTimestamp = $app->getUserState($this->context . '.editTimestamp', 0);
-		list($ordering, $direction) = explode(' ', $orderBySelect);
 
 		if ($editTimestamp > $userTimestamp)
 		{
@@ -142,34 +141,12 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		$app->setUserState($this->context . '.editTimestamp', time());
-		$value = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
-		$orderingParts = explode(' ', $value);
 
-		if (count($orderingParts) >= 2)
-		{
-			// Latest part will be considered the direction
-			$fullDirection = end($orderingParts);
+		$orderByMethod = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
+		$orderBy       = redhelper::getInstance()->prepareOrderBy($orderByMethod);
 
-			if (in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
-			{
-				$this->setState('list.direction', $fullDirection);
-			}
-
-			unset($orderingParts[count($orderingParts) - 1]);
-
-			// The rest will be the ordering
-			$fullOrdering = implode(' ', $orderingParts);
-
-			if (in_array($fullOrdering, $this->filter_fields))
-			{
-				$this->setState('list.ordering', $fullOrdering);
-			}
-		}
-		else
-		{
-			$this->setState('list.ordering', $ordering);
-			$this->setState('list.direction', $direction);
-		}
+		$this->setState('list.ordering', $orderBy->ordering);
+		$this->setState('list.direction', $orderBy->direction);
 
 		$this->loadCategoryTemplate($categoryTemplate);
 
@@ -547,12 +524,11 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function buildProductOrderBy()
 	{
-		$db = JFactory::getDbo();
-		list($filterOrder, $filterOrderDir) = explode(' ', DEFAULT_PRODUCT_ORDERING_METHOD);
-		$filterOrder = $this->getState('list.ordering', $filterOrder);
-		$filterOrderDir = $this->getState('list.direction', $filterOrderDir);
+		$orderBy        = redhelper::getInstance()->prepareOrderBy(DEFAULT_PRODUCT_ORDERING_METHOD);
+		$filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
+		$filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 
-		return $db->escape($filterOrder . ' ' . $filterOrderDir);
+		return JFactory::getDbo()->escape($filterOrder . ' ' . $filterOrderDir);
 	}
 
 	public function getData()
