@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<div class="col-sm-12">
 		<div class="box box-primary">
 			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></h3>
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'); ?></h3>
 			</div>
 			<div class="box-body">
 				<?php
