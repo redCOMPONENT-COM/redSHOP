@@ -174,10 +174,11 @@ class RedshopModelCheckout extends RedshopModel
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
+		$userId  = $user->id;
 
 		if (!$user->id && $auth['users_info_id'])
 		{
-			$user->id = - $auth['users_info_id'];
+			$userId = - $auth['users_info_id'];
 		}
 
 		$db      = JFactory::getDbo();
@@ -433,7 +434,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$random_gen_enc_key      = $this->_order_functions->random_gen_enc_key(35);
 		$users_info_id           = $billingaddresses->users_info_id;
-		$row->user_id            = $user->id;
+		$row->user_id            = $userId;
 		$row->order_number       = $order_number;
 		$row->user_info_id       = $users_info_id;
 		$row->order_total        = $order_total;
@@ -585,7 +586,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if ($session->get('isredcrmuser'))
 				{
-					$crmDebitorHelper_contact_values = $crmDebitorHelper->getContactPersons(0, 0, 0, $user->id, 0);
+					$crmDebitorHelper_contact_values = $crmDebitorHelper->getContactPersons(0, 0, 0, $userId, 0);
 				}
 				else
 				{
@@ -737,7 +738,7 @@ class RedshopModelCheckout extends RedshopModel
 				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
 					$product_serial_number = $this->_producthelper->getProdcutSerialNumber($rowitem->product_id);
-					$this->_producthelper->insertProductDownload($rowitem->product_id, $user->id, $rowitem->order_id, $medianame[$j]->media_name, $product_serial_number->serial_number);
+					$this->_producthelper->insertProductDownload($rowitem->product_id, $userId, $rowitem->order_id, $medianame[$j]->media_name, $product_serial_number->serial_number);
 				}
 			}
 
@@ -1093,7 +1094,7 @@ class RedshopModelCheckout extends RedshopModel
 				$subscribe->order_item_id   = $rowitem->order_item_id;
 				$subscribe->product_id      = $product_id;
 				$subscribe->subscription_id = $cart[$i]['subscription_id'];
-				$subscribe->user_id         = $user->id;
+				$subscribe->user_id         = $userId;
 				$subscribe->start_date      = time();
 				$subscribe->end_date        = mktime(0, 0, 0, date('m') + $add_month, date('d') + $add_day, date('Y') + $add_year);
 
