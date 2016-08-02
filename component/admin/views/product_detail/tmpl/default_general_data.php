@@ -83,35 +83,18 @@ $calendarFormat = '%d-%m-%Y';
 				</div>
 
 				<div class="form-group">
-					<label for="product_special0">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</label>
-					<?php echo $this->lists['product_special']; ?>
-				</div>
-
-				<div class="form-group">
 					<label for="published0"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?></label>
 					<?php echo $this->lists['published'];?>
 				</div>
 
 				<div class="form-group">
-					<label><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></label>
-					<?php echo $editor->display("product_s_desc", $this->detail->product_s_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
+					<label><?php echo JText::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
+					<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
 				</div>
 
 				<div class="form-group">
-					<label><?php echo JText::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
-					<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
+					<label><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></label>
+					<?php echo $editor->display("product_s_desc", $this->detail->product_s_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
 				</div>
 			</div>
 		</div>
@@ -293,8 +276,10 @@ $calendarFormat = '%d-%m-%Y';
 		</div>
 
 		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ADDITIONAL_INFORMATION'); ?></h3>
+			</div>
 			<div class="box-body">
-
 				<div class="form-group">
 					<label for="manufacturer_id">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?>
@@ -351,6 +336,23 @@ $calendarFormat = '%d-%m-%Y';
 				</div>
 
 				<div class="form-group">
+					<label for="product_special0">
+						<?php echo JText::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
+						<?php
+						echo JHtml::tooltip(
+							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
+							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
+							'tooltip.png',
+							'',
+							'',
+							false
+						);
+						?>
+					</label>
+					<?php echo $this->lists['product_special']; ?>
+				</div>
+
+				<div class="form-group">
 					<label for="expired0">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_EXPIRED'); ?>
 						<?php
@@ -383,11 +385,7 @@ $calendarFormat = '%d-%m-%Y';
 					</label>
 					<?php echo $this->lists['not_for_sale'];?>
 				</div>
-			</div>
-		</div>
 
-		<div class="box box-primary">
-			<div class="box-body">
 				<div class="form-group">
 					<label for="preorder">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_PREORDER'); ?>
@@ -503,11 +501,7 @@ $calendarFormat = '%d-%m-%Y';
 						   value="<?php echo @$this->detail->max_order_product_quantity; ?>"
 						/>
 				</div>
-			</div>
-		</div>
 
-		<div class="box box-primary">
-			<div class="box-body">
 				<div class="form-group">
 					<label for="product_volume">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_VOLUME'); ?>
