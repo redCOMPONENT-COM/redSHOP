@@ -61,4 +61,14 @@ if (empty($html))
 		);
 }
 
-echo $html;
+?>
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="box box-primary">
+			<div class="box-body">
+				<?php echo $html; ?>
+			</div>
+		</div>
+	</div>
+</div>
