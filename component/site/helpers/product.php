@@ -1587,243 +1587,228 @@ class RedshopSiteProduct
 			return array();
 		}
 
-		$productPrices = array();
-		$dispatcher = JDispatcher::getInstance();
+		$productsPrices = array();
+		$dispatcher    = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
 
 		foreach ($products as $product)
 		{
-			$ProductPriceArr = array();
+			$productId = $product->product_id;
+			$priceText               = JText::_('COM_REDSHOP_REGULAR_PRICE') . "";
+			$productPrices           = $this->getProductPrices($productId, $user_id, $quantity);
+			$productVatLabel         = '';
+			$productPriceLabel       = '';
+			$productOldPriceLabel    = '';
+			$productPriceSavingLabel = '';
+			$oldPriceExcludeVAT      = '';
+			$newPrice                = $product->product_price;
 
-			$product_id                 = $product->product_id;
-			$price_text                 = JText::_('COM_REDSHOP_REGULAR_PRICE') . "";
-			$result                     = $this->getProductPrices($product_id, $user_id, $quantity);
-			$product_price              = '';
-			$product_vat_lbl            = '';
-			$product_price_lbl          = '';
-			$product_price_table        = '';
-			$product_old_price_lbl      = '';
-			$product_price_saving_lbl   = '';
-			$product_old_price_excl_vat = '';
-			$newproductprice            = $product->product_price;
-
-			if (!empty($result))
+			if (!empty($productPrices))
 			{
-				$temp_Product_price = $result->product_price;
-				$newproductprice    = $temp_Product_price;
+				$tmpProductPrice = $productPrices->product_price;
+				$newPrice = $tmpProductPrice;
 			}
 
-			$results = $dispatcher->trigger('setProductCustomPrice', array($product_id));
+			$results = $dispatcher->trigger('setProductCustomPrice', array($productId));
 
 			if (count($results) > 0 && $results[0])
 			{
-				$newproductprice = $results[0];
+				$newPrice = $results[0];
 			}
 
-			$applytax            = $this->getApplyVatOrNot($data_add, $user_id);
-			$discount_product_id = $this->getProductSpecialId($user_id);
-			$res                 = $this->getProductSpecialPrice($newproductprice, $discount_product_id, $product_id);
+			$isApplyTax        = $this->getApplyVatOrNot($data_add, $user_id);
+			$discountProductId = $this->getProductSpecialId($user_id);
+			$specialPrice      = $this->getProductSpecialPrice($newPrice, $discountProductId, $productId);
 
-			if (!empty($res))
+			if (!empty($specialPrice))
 			{
-				$discount_amount = 0;
+				$discountAmount = 0;
 
-				if (count($res) > 0)
+				if (count($specialPrice) > 0)
 				{
-					if ($res->discount_type == 0)
+					if ($specialPrice->discount_type == 0)
 					{
-						$discount_amount = $res->discount_amount;
+						$discountAmount = $specialPrice->discount_amount;
 					}
 					else
 					{
-						$discount_amount = ($newproductprice * $res->discount_amount) / (100);
+						$discountAmount = ($newPrice * $specialPrice->discount_amount) / (100);
 					}
 				}
 
-				if ($newproductprice < 0)
-				{
-					$newproductprice = 0;
-				}
+				$newPrice = $newPrice < 0 ? 0 : $newPrice;
+				$productPriceTax = $this->getProductTax($productId, $newPrice, $user_id);
 
-				$reg_price_tax = $this->getProductTax($row->product_id, $newproductprice, $user_id);
-
-				if ($applytax)
+				if ($isApplyTax)
 				{
-					$reg_price = $row->product_price + $reg_price_tax;
+					$regPrice = $product->product_price + $productPriceTax;
 				}
 				else
 				{
-					$reg_price = $row->product_price;
+					$regPrice = $product->product_price;
 				}
 
-				$reg_price_tax   = $this->getProductTax($product_id, $row->product_price, $user_id);
-				$reg_price       = $row->product_price;
-				$formatted_price = $this->getProductFormattedPrice($reg_price);
+				$productPriceTax = $this->getProductTax($productId, $product->product_price, $user_id);
+				$regPrice        = $product->product_price;
+				$formattedPrice  = $this->getProductFormattedPrice($regPrice);
+				$productPrice    = $newPrice - $discountAmount;
+				$productPrice    = $productPrice < 0 ? 0 : $productPrice;
 
-				$product_price = $newproductprice - $discount_amount;
-
-				if ($product_price < 0)
-				{
-					$product_price = 0;
-				}
-
-				$price_text = $price_text . "<span class='redPriceLineThrough'>" . $formatted_price . "</span><br />" . JText::_('COM_REDSHOP_SPECIAL_PRICE');
+				$priceText .= "<span class='redPriceLineThrough'>" . $formattedPrice . "</span><br />" . JText::_('COM_REDSHOP_SPECIAL_PRICE');
 			}
 			else
 			{
-				$product_price = $newproductprice;
+				$productPrice = $newPrice;
 			}
 
-			$excludingvat    = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, 0, $attributes);
-			$formatted_price = $this->getProductFormattedPrice($excludingvat);
-			$price_text      = $price_text . '<span id="display_product_price_without_vat' . $product_id . '">' . $formatted_price . '</span><input type="hidden" name="product_price_excluding_price" id="product_price_excluding_price' . $product_id . '" value="' . $product_price . '" />';
+			$excludingVAT   = $this->defaultAttributeDataPrice($productId, $productPrice, $data_add, $user_id, 0, $attributes);
+			$formattedPrice = $this->getProductFormattedPrice($excludingVAT);
+			$priceText      .= '<span id="display_product_price_without_vat' . $productId . '">'
+				. $formattedPrice . '</span><input type="hidden" name="product_price_excluding_price" id="product_price_excluding_price'
+				. $productId . '" value="' . $productPrice . '" />';
 
-			$default_tax_amount 		= $this->getProductTax($product_id, $product_price, $user_id, 1);
-			$tax_amount 				= $this->getProductTax($product_id, $product_price, $user_id);
-			$product_price_exluding_vat = $product_price;
-			$product_price_incl_vat     = $default_tax_amount + $product_price_exluding_vat;
+			$taxAmountDefault = $this->getProductTax($productId, $productPrice, $user_id, 1);
+			$taxAmount        = $this->getProductTax($productId, $productPrice, $user_id);
+			$priceExcludeVAT  = $productPrice;
+			$priceIncludeVAT  = $taxAmountDefault + $priceExcludeVAT;
 
-			if ($applytax)
+			if ($isApplyTax)
 			{
-				$product_price = $tax_amount + $product_price;
+				$productPrice = $taxAmount + $productPrice;
 			}
 
-			if ($product_price < 0)
+			if ($productPrice < 0)
 			{
-				$product_price = 0;
+				$productPrice = 0;
 			}
+
+			$seoProductPrice       = '';
+			$seoProductSavingPrice = '';
+			$discountPrice         = '';
+			$oldPrice              = '';
+			$savingPrice           = '';
+			$savingPricePercentage = '';
+			$priceNoVAT            = '';
+			$mainPrice             = '';
+			$productPrice          = '';
+			$priceExcludingVAT     = '';
 
 			if (SHOW_PRICE)
 			{
-				$price_excluding_vat        = $price_text;
-				$product_discount_price_tmp = $this->checkDiscountDate($product_id);
-				$product_old_price_excl_vat = $product_price_exluding_vat;
+				$priceExcludingVAT  = $priceText;
+				$tmpDiscountPrice   = $this->checkDiscountDate($productId);
+				$oldPriceExcludeVAT = $priceExcludeVAT;
 
-				if ($row->product_on_sale && $product_discount_price_tmp > 0)
+				if ($product->product_on_sale && $tmpDiscountPrice > 0)
 				{
-					$dicount_price_exluding_vat = $product_discount_price_tmp;
-					$tax_amount = $this->getProductTax($product_id, $product_discount_price_tmp, $user_id);
+					$discountPriceExcludeVAT = $tmpDiscountPrice;
+					$taxAmount               = $this->getProductTax($productId, $tmpDiscountPrice, $user_id);
 
-					if (intval($applytax) && $product_discount_price_tmp)
+					if (intval($isApplyTax) && $tmpDiscountPrice)
 					{
-						$dis_tax_amount             = $tax_amount;
-						$product_discount_price_tmp = $product_discount_price_tmp + $dis_tax_amount;
+						$discountTaxAmount = $taxAmount;
+						$tmpDiscountPrice  = $tmpDiscountPrice + $discountTaxAmount;
 					}
 
-					if ($product_price < $product_discount_price_tmp )
+					if ($productPrice < $tmpDiscountPrice)
 					{
-						$product_price                   = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes);
-						$product_main_price              = $product_price;
-						$product_discount_price          = '';
-						$product_old_price               = '';
-						$product_price_saving            = '';
-						$product_price_saving_percentage = '';
-						$product_price_novat             = $product_price_exluding_vat;
-						$seoProductSavingPrice           = '';
-						$seoProductPrice                 = $product_price;
-						$tax_amount                      = $this->getProductTax($product_id, $product_price_novat, $user_id);
+						$productPrice = $this->defaultAttributeDataPrice($productId, $productPrice, $data_add, $user_id, intval($isApplyTax), $attributes);
+						$mainPrice = $productPrice;
+						$discountPrice = '';
+						$oldPrice = '';
+						$savingPrice = '';
+						$savingPricePercentage = '';
+						$priceNoVAT = $priceExcludeVAT;
+						$seoProductSavingPrice = '';
+						$seoProductPrice = $productPrice;
+						$taxAmount = $this->getProductTax($productId, $priceNoVAT, $user_id);
 					}
 					else
 					{
-						$product_price_saving = $product_price_exluding_vat - $dicount_price_exluding_vat;
+						$savingPrice = $priceExcludeVAT - $discountPriceExcludeVAT;
 
 						// Calculate total price saving in percentage
-						$product_price_saving_percentage = ($product_price_saving / $product_price_exluding_vat) * 100;
+						$savingPricePercentage = ($savingPrice / $priceExcludeVAT) * 100;
 
 						// Only apply VAT if set to apply in config or tag
-						if (intval($applytax) && $product_price_saving)
+						if (intval($isApplyTax) && $savingPrice)
 						{
-							$dis_save_tax_amount  = $this->getProductTax($product_id, $product_price_saving, $user_id);
+							$dis_save_tax_amount  = $this->getProductTax($productId, $savingPrice, $user_id);
 
 							// Adding VAT in saving price
-							$product_price_saving += $dis_save_tax_amount;
+							$savingPrice += $dis_save_tax_amount;
 						}
 
-						$product_price_incl_vat     = $product_discount_price_tmp + $tax_amount;
-						$product_old_price          = $this->defaultAttributeDataPrice(
-							$product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes
+						$priceIncludeVAT  = $tmpDiscountPrice + $taxAmount;
+						$oldPrice         = $this->defaultAttributeDataPrice(
+							$productId, $productPrice, $data_add, $user_id, intval($isApplyTax), $attributes
 						);
-						$product_discount_price_tmp = $this->defaultAttributeDataPrice(
-							$product_id, $product_discount_price_tmp, $data_add, $user_id, intval($applytax), $attributes
+						$tmpDiscountPrice = $this->defaultAttributeDataPrice(
+							$productId, $tmpDiscountPrice, $data_add, $user_id, intval($isApplyTax), $attributes
 						);
-						$product_discount_price     = $product_discount_price_tmp;
-						$product_main_price         = $product_discount_price_tmp;
-						$product_price              = $product_discount_price_tmp;
-						$product_price_novat        = $this->defaultAttributeDataPrice(
-							$product_id, $dicount_price_exluding_vat, $data_add, $user_id, 0, $attributes
+						$discountPrice    = $tmpDiscountPrice;
+						$mainPrice        = $tmpDiscountPrice;
+						$productPrice     = $tmpDiscountPrice;
+						$priceNoVAT       = $this->defaultAttributeDataPrice(
+							$productId, $discountPriceExcludeVAT, $data_add, $user_id, 0, $attributes
 						);
-						$seoProductPrice            = $product_discount_price_tmp;
-						$seoProductSavingPrice      = $product_price_saving;
+						$seoProductPrice       = $tmpDiscountPrice;
+						$seoProductSavingPrice = $savingPrice;
 
-						$product_price_saving_lbl            = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVING_LBL');
-						$product_old_price_lbl               = JText::_('COM_REDSHOP_PRODUCT_OLD_PRICE_LBL');
+						$productPriceSavingLabel = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVING_LBL');
+						$productOldPriceLabel    = JText::_('COM_REDSHOP_PRODUCT_OLD_PRICE_LBL');
 					}
 				}
 				else
 				{
-					$product_main_price                  = $product_price;
-					$product_price                       = $this->defaultAttributeDataPrice(
-						$product_id, $product_price, $data_add, $user_id, intval($applytax), $attributes
+					$mainPrice             = $productPrice;
+					$productPrice          = $this->defaultAttributeDataPrice(
+						$productId, $productPrice, $data_add, $user_id, intval($isApplyTax), $attributes
 					);
-					$product_discount_price              = '';
-					$product_price_saving                = '';
-					$product_price_saving_percentage     = '';
-					$product_old_price                   = '';
-					$product_price_novat                 = $product_price_exluding_vat;
-					$seoProductPrice                     = $product_price;
-					$seoProductSavingPrice               = '';
+					$discountPrice         = '';
+					$savingPrice           = '';
+					$savingPricePercentage = '';
+					$oldPrice              = '';
+					$priceNoVAT            = $priceExcludeVAT;
+					$seoProductPrice       = $productPrice;
+					$seoProductSavingPrice = '';
 				}
 
-				if ($tax_amount && intval($applytax))
+				if ($taxAmount && intval($isApplyTax))
 				{
-					$product_vat_lbl = ' ' . JText::_('COM_REDSHOP_PRICE_INCLUDING_TAX');
+					$productVatLabel = ' ' . JText::_('COM_REDSHOP_PRICE_INCLUDING_TAX');
 				}
 				else
 				{
-					$product_vat_lbl = ' ' . JText::_('COM_REDSHOP_PRICE_EXCLUDING_TAX');
+					$productVatLabel = ' ' . JText::_('COM_REDSHOP_PRICE_EXCLUDING_TAX');
 				}
 
-				$product_price_lbl = JText::_('COM_REDSHOP_PRODUCT_PRICE');
-			}
-			else
-			{
-				$seoProductPrice                     = '';
-				$seoProductSavingPrice               = '';
-				$product_discount_price              = '';
-				$product_old_price                   = '';
-				$product_price_saving                = '';
-				$product_price_saving_percentage     = '';
-				$product_price_novat                 = '';
-				$product_main_price                  = '';
-				$product_price                       = '';
-				$price_excluding_vat                 = '';
+				$productPriceLabel = JText::_('COM_REDSHOP_PRODUCT_PRICE');
 			}
 
-			$ProductPriceArr['productPrice']                        = $product_price_novat;
-			$ProductPriceArr['product_price']                       = $product_price;
-			$ProductPriceArr['price_excluding_vat']                 = $price_excluding_vat;
-			$ProductPriceArr['product_main_price']                  = $product_main_price;
-			$ProductPriceArr['product_price_novat']                 = $product_price_novat;
-			$ProductPriceArr['product_price_saving']                = $product_price_saving;
-			$ProductPriceArr['product_price_saving_percentage']     = $product_price_saving_percentage;
-			$ProductPriceArr['product_price_saving_lbl']            = $product_price_saving_lbl;
-
-			$ProductPriceArr['product_old_price']                   = $product_old_price;
-			$ProductPriceArr['product_discount_price']              = $product_discount_price;
-			$ProductPriceArr['seoProductSavingPrice']               = $seoProductSavingPrice;
-			$ProductPriceArr['seoProductPrice']                     = $seoProductPrice;
-			$ProductPriceArr['product_old_price_lbl']               = $product_old_price_lbl;
-
-			$ProductPriceArr['product_price_lbl']                   = $product_price_lbl;
-			$ProductPriceArr['product_vat_lbl']                     = $product_vat_lbl;
-			$ProductPriceArr['productVat']                          = $tax_amount;
-			$ProductPriceArr['product_old_price_excl_vat']          = $product_old_price_excl_vat;
-			$ProductPriceArr['product_price_incl_vat']              = $product_price_incl_vat;
-
-			$productPrices[$product->id] = $ProductPriceArr;
+			$productsPrices[$productId] = array(
+				'productPrice'                    => $priceNoVAT,
+				'product_price'                   => $productPrice,
+				'price_excluding_vat'             => $priceExcludingVAT,
+				'product_main_price'              => $mainPrice,
+				'product_price_novat'             => $priceNoVAT,
+				'product_price_saving'            => $savingPrice,
+				'product_price_saving_percentage' => $savingPricePercentage,
+				'product_price_saving_lbl'        => $productPriceSavingLabel,
+				'product_old_price'               => $oldPrice,
+				'product_discount_price'          => $discountPrice,
+				'seoProductSavingPrice'           => $seoProductSavingPrice,
+				'seoProductPrice'                 => $seoProductPrice,
+				'product_old_price_lbl'           => $productOldPriceLabel,
+				'product_price_lbl'               => $productPriceLabel,
+				'product_vat_lbl'                 => $productVatLabel,
+				'productVat'                      => $taxAmount,
+				'product_old_price_excl_vat'      => $oldPriceExcludeVAT,
+				'product_price_incl_vat'          => $priceIncludeVAT
+			);
 		}
 
-		return $productPrices;
+		return $productsPrices;
 	}
 
 	public function getProductQuantityPrice($product_id, $userid)

@@ -322,9 +322,12 @@ class RedshopHelperProduct
 			if (isset($product->product_id))
 			{
 				$keys[] = $product->product_id;
-				self::$products[$product->product_id . '.' . $userId]->attributes = array();
+				self::$products[$product->product_id . '.' . $userId]->attributes  = array();
 				self::$products[$product->product_id . '.' . $userId]->extraFields = array();
-				self::$products[$product->product_id . '.' . $userId]->categories = explode(',', $product->categories);
+
+				$categories = !is_array($product->categories) ? explode(',', $product->categories) : $product->categories;
+
+				self::$products[$product->product_id . '.' . $userId]->categories  = $categories;
 			}
 		}
 
