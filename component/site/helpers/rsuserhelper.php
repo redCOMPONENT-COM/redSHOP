@@ -230,7 +230,7 @@ class rsUserhelper
 
 		$data['name'] = $name = $data['firstname'];
 
-		if (trim($data['username']) == "") // && $registeruser==1)
+		if (trim($data['username']) == "")
 		{
 			JError::raiseWarning('', JText::_('EMPTY_USERNAME'));
 
@@ -318,14 +318,24 @@ class rsUserhelper
 
 	public function createJoomlaUser($data, $createuser = 0)
 	{
-		$app = JFactory::getApplication();
-
 		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
+
+		// Registration is without account creation REGISTER_METHOD = 1
+		// Or Optional account creation
+		if (REGISTER_METHOD == 1 || (REGISTER_METHOD == 2 && $createaccount == 0))
+		{
+			$user = new stdClass;
+			$user->id = 0;
+
+			return $user;
+		}
 
 		$data['password']  = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data['password2'] = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data['email']     = $data['email1'];
 		$data['name']      = $name = $data['firstname'];
+
+		$app = JFactory::getApplication();
 
 		// Prevent front-end user to change user group in the form and then being able to register on any Joomla! user group.
 		if ($app->isSite())
@@ -345,12 +355,7 @@ class rsUserhelper
 			JRequest::setVar('password1', $better_token);
 		}
 
-		$registeruser = 1;
 
-		if (REGISTER_METHOD == 1 || (REGISTER_METHOD == 2 && $createaccount == 0))
-		{
-			$registeruser = 0;
-		}
 
 		if (trim($data['email']) == "")
 		{
@@ -359,110 +364,105 @@ class rsUserhelper
 			return false;
 		}
 
-		if ($registeruser == 1)
+		if (trim($data['username']) == "")
 		{
-			if (trim($data['username']) == "")
-			{
-				JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
 
-				return false;
-			}
-
-			$countusername = $this->validate_user($data['username']);
-
-			if ($countusername > 0)
-			{
-				JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
-
-				return false;
-			}
-
-			$countemail = $this->validate_email($data['email']);
-
-			if ($countemail > 0)
-			{
-				JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
-
-				return false;
-			}
-
-			if (trim($data['password']) == "")
-			{
-				JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_PASSWORD'));
-
-				return false;
-			}
-
-			if (strlen($data['password']) || strlen($data['password2']))
-			{
-				if ($data['password'] != $data['password2'])
-				{
-					JError::raiseWarning('', JText::_('COM_REDSHOP_PASSWORDS_DO_NOT_MATCH'));
-
-					return false;
-				}
-			}
-
-			// Get required system objects
-			$user = clone(JFactory::getUser());
-
-			// If user registration is not allowed, show 403 not authorized.
-			$usersConfig = JComponentHelper::getParams('com_users');
-
-			if (!$user->bind($data))
-			{
-				JError::raiseError(500, $user->getError());
-
-				return false;
-			}
-
-			$date = JFactory::getDate();
-			$user->set('id', 0);
-			$user->set('registerDate', $date->toSql());
-
-			// If user activation is turned on, we need to set the activation information
-			$useractivation = $usersConfig->get('useractivation');
-
-			if ($useractivation == '1')
-			{
-				if (version_compare(JVERSION, '3.0', '<'))
-				{
-					$hash = JApplication::getHash(JUserHelper::genRandomPassword());
-				}
-				else
-				{
-					$hash = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-				}
-
-				$user->set('activation', $hash);
-				$user->set('block', '0');
-			}
-
-			$user->set('name', $name);
-			$user->name = $name;
-
-			// If there was an error with registration, set the message and display form
-			if (!$user->save())
-			{
-				JError::raiseWarning('', JText::_($user->getError()));
-
-				return false;
-			}
-
-			$credentials             = array();
-			$credentials['username'] = $data['username'];
-			$credentials['password'] = $data['password2'];
-
-			// Perform the login action
-			if (!JFactory::getUser()->id)
-			{
-				$app->login($credentials);
-			}
-
-			return $user;
+			return false;
 		}
 
-		return true;
+		$countusername = $this->validate_user($data['username']);
+
+		if ($countusername > 0)
+		{
+			JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
+
+			return false;
+		}
+
+		$countemail = $this->validate_email($data['email']);
+
+		if ($countemail > 0)
+		{
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
+
+			return false;
+		}
+
+		if (trim($data['password']) == "")
+		{
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_PASSWORD'));
+
+			return false;
+		}
+
+		if (strlen($data['password']) || strlen($data['password2']))
+		{
+			if ($data['password'] != $data['password2'])
+			{
+				JError::raiseWarning('', JText::_('COM_REDSHOP_PASSWORDS_DO_NOT_MATCH'));
+
+				return false;
+			}
+		}
+
+		// Get required system objects
+		$user = clone(JFactory::getUser());
+
+		// If user registration is not allowed, show 403 not authorized.
+		$usersConfig = JComponentHelper::getParams('com_users');
+
+		if (!$user->bind($data))
+		{
+			JError::raiseError(500, $user->getError());
+
+			return false;
+		}
+
+		$date = JFactory::getDate();
+		$user->set('id', 0);
+		$user->set('registerDate', $date->toSql());
+
+		// If user activation is turned on, we need to set the activation information
+		$useractivation = $usersConfig->get('useractivation');
+
+		if ($useractivation == '1')
+		{
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				$hash = JApplication::getHash(JUserHelper::genRandomPassword());
+			}
+			else
+			{
+				$hash = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
+			}
+
+			$user->set('activation', $hash);
+			$user->set('block', '0');
+		}
+
+		$user->set('name', $name);
+		$user->name = $name;
+
+		// If there was an error with registration, set the message and display form
+		if (!$user->save())
+		{
+			JError::raiseWarning('', JText::_($user->getError()));
+
+			return false;
+		}
+
+		$credentials             = array();
+		$credentials['username'] = $data['username'];
+		$credentials['password'] = $data['password2'];
+
+		// Perform the login action
+		if (!JFactory::getUser()->id)
+		{
+			$app->login($credentials);
+		}
+
+		return $user;
 	}
 
 	public function checkCaptcha($data, $displayWarning = true)
