@@ -164,14 +164,11 @@ class RedshopModelCheckout extends RedshopModel
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
+		$userId = $user->id;
 
 		if (!$user->id && $auth['users_info_id'])
 		{
 			$userId = - $auth['users_info_id'];
-		}
-		else
-		{
-			$userId = $user->id;
 		}
 
 		$db      = JFactory::getDbo();
