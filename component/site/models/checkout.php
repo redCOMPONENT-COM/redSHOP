@@ -167,7 +167,11 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$user->id && $auth['users_info_id'])
 		{
-			$user->id = - $auth['users_info_id'];
+			$userId = - $auth['users_info_id'];
+		}
+		else
+		{
+			$userId = $user->id;
 		}
 
 		$db      = JFactory::getDbo();
@@ -429,7 +433,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$random_gen_enc_key      = $this->_order_functions->random_gen_enc_key(35);
 		$users_info_id           = $billingaddresses->users_info_id;
-		$row->user_id            = $user->id;
+		$row->user_id            = $userId;
 		$row->order_number       = $order_number;
 		$row->user_info_id       = $users_info_id;
 		$row->order_total        = $order_total;
