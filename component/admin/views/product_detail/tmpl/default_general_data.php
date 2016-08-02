@@ -118,7 +118,7 @@ $calendarFormat = '%d-%m-%Y';
 	</div>
 
 	<div class="col-sm-4">
-		<div class="box box-danger">
+		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?></h3>
 			</div>
@@ -128,7 +128,7 @@ $calendarFormat = '%d-%m-%Y';
 				<div class="form-group">
 					<input type="file" name="product_full_image" id="product_full_image" size="25" />
 
-					<a class="modal btn btn-danger" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
+					<a class="modal btn btn-primary" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
 					</a>
 				</div>
@@ -160,7 +160,7 @@ $calendarFormat = '%d-%m-%Y';
 				?>
 					<div class="button2-left">
 						<div class="image">
-							<a class="modal btn btn-danger" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+							<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
 								<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
 							</a>
 						</div>
@@ -173,7 +173,7 @@ $calendarFormat = '%d-%m-%Y';
 			</div>
 		</div>
 
-		<div class="box box-danger">
+		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></h3>
 			</div>
@@ -292,7 +292,7 @@ $calendarFormat = '%d-%m-%Y';
 			</div>
 		</div>
 
-		<div class="box box-danger">
+		<div class="box box-primary">
 			<div class="box-body">
 
 				<div class="form-group">
@@ -386,7 +386,7 @@ $calendarFormat = '%d-%m-%Y';
 			</div>
 		</div>
 
-		<div class="box box-danger">
+		<div class="box box-primary">
 			<div class="box-body">
 				<div class="form-group">
 					<label for="preorder">
@@ -506,7 +506,7 @@ $calendarFormat = '%d-%m-%Y';
 			</div>
 		</div>
 
-		<div class="box box-danger">
+		<div class="box box-primary">
 			<div class="box-body">
 				<div class="form-group">
 					<label for="product_volume">

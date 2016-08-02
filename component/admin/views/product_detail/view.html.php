@@ -584,7 +584,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	 *
 	 * @return  object  Tab menu
 	 *
-	 * @see     fetch()
 	 * @since   1.7
 	 */
 	private function getTabMenu()
