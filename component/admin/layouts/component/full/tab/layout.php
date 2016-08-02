@@ -12,6 +12,5 @@ extract($displayData);
 
 ?>
 <div role="tabpanel" class="tab-pane <?php echo ($row->active) ? 'active' : '' ?>" id="<?php echo $row->param ?>">
-	<legend><?php echo JText::_($row->title, true) ?></legend>
 	<?php echo $view->loadTemplate($row->param); ?>
 </div>

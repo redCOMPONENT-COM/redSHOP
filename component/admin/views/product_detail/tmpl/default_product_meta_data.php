@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 <div class="row">
 	<div class="col-sm-6">
 		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_META_DATA_TAB'); ?></h3>
+			</div>
 			<div class="box-body">
 				<div class="form-group">
 					<label for="append_to_global_seo">
