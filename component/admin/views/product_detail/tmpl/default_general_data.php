@@ -18,7 +18,6 @@ $calendarFormat = '%d-%m-%Y';
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
 			</div>
-
 			<div class="box-body">
 				<div class="row">
 					<div class="col-sm-6">
@@ -82,6 +81,23 @@ $calendarFormat = '%d-%m-%Y';
 								?>
 							</label>
 							<?php echo $this->lists['product_template']; ?>
+						</div>
+
+						<div class="form-group">
+							<label for="manufacturer_id">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?>
+								<?php
+								echo JHtml::tooltip(
+									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MANUFACTURER'),
+									JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'),
+									'tooltip.png',
+									'',
+									'',
+									false
+								);
+								?>
+							</label>
+							<?php echo $this->lists['manufacturers']; ?>
 						</div>
 
 						<div class="form-group">
@@ -284,18 +300,19 @@ $calendarFormat = '%d-%m-%Y';
 			</div>
 		</div>
 
-		<div class="box box-primary">
+			<div class="box box-primary">
 			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ADDITIONAL_INFORMATION'); ?></h3>
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_MEASURES'); ?></h3>
 			</div>
 			<div class="box-body">
 				<div class="form-group">
-					<label for="manufacturer_id">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?>
+					<label for="product_volume">
+						<?php echo JText::_('COM_REDSHOP_PRODUCT_VOLUME'); ?>
+						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?><sup>3</sup>)
 						<?php
 						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MANUFACTURER'),
-							JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'),
+							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
+							JText::_('COM_REDSHOP_PRODUCT_VOLUME'),
 							'tooltip.png',
 							'',
 							'',
@@ -303,9 +320,127 @@ $calendarFormat = '%d-%m-%Y';
 						);
 						?>
 					</label>
-					<?php echo $this->lists['manufacturers']; ?>
+					<input class="form-control"
+						   type="text"
+						   name="product_volume"
+						   id="product_volume"
+						   size="10"
+						   maxlength="10"
+						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_volume); ?>"
+						/>
 				</div>
 
+				<div class="form-group">
+					<label for="product_length">
+						<?php echo JText::_('COM_REDSHOP_PRODUCT_LENGTH'); ?>
+						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
+						<?php
+						echo JHtml::tooltip(
+							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
+							JText::_('COM_REDSHOP_PRODUCT_LENGTH'),
+							'tooltip.png',
+							'',
+							'',
+							false
+						);
+						?>
+					</label>
+					<input class="form-control"
+						   type="text"
+						   name="product_length"
+						   id="product_length"
+						   size="10"
+						   maxlength="10"
+						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_length); ?>"
+						/>
+				</div>
+
+				<div class="form-group">
+					<label for="product_width">
+						<?php echo JText::_('COM_REDSHOP_PRODUCT_WIDTH'); ?>
+						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
+						<?php
+						echo JHtml::tooltip(
+							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
+							JText::_('COM_REDSHOP_PRODUCT_WIDTH'),
+							'tooltip.png',
+							'',
+							'',
+							false
+						);
+						?>
+					</label>
+					<input class="form-control"
+						   type="text"
+						   name="product_width"
+						   id="product_width"
+						   size="10"
+						   maxlength="10"
+						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_width); ?>"
+						/>
+				</div>
+
+				<div class="form-group">
+					<label for="product_height">
+						<?php echo JText::_('COM_REDSHOP_PRODUCT_HEIGHT'); ?>
+						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
+						<?php
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'), JText::_('COM_REDSHOP_PRODUCT_HEIGHT'), 'tooltip.png', '', '', false);
+						?>
+					</label>
+					<input class="form-control"
+						   type="text"
+						   name="product_height"
+						   id="product_height"
+						   size="10"
+						   maxlength="10"
+						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_height); ?>"
+						/>
+				</div>
+
+				<div class="form-group">
+					<label for="product_diameter">
+						<?php echo JText::_('COM_REDSHOP_PRODUCT_DIAMETER'); ?>
+						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
+						<?php
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'), JText::_('COM_REDSHOP_PRODUCT_DIAMETER'), 'tooltip.png', '', '', false);
+						?>
+					</label>
+					<input class="form-control"
+						   type="text"
+						   name="product_diameter"
+						   id="product_diameter"
+						   size="10"
+						   maxlength="10"
+						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_diameter); ?>"
+						/>
+				</div>
+
+				<div class="form-group">
+					<label for="weight">
+						<?php echo JText::_('COM_REDSHOP_WEIGHT_LBL'); ?>
+						(<?php echo Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'); ?>)
+						<?php
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'), JText::_('COM_REDSHOP_WEIGHT_LBL'), 'tooltip.png', '', '', false);
+						?>
+					</label>
+					<input class="form-control"
+						   type="text"
+						   name="weight"
+						   id="weight"
+						   size="10"
+						   maxlength="10"
+						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->weight); ?>"
+						/>
+				</div>
+			</div>
+		</div>
+
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ADDITIONAL_INFORMATION'); ?></h3>
+			</div>
+			<div class="box-body">
 				<div class="form-group">
 					<label for="supplier_id">
 						<?php echo JText::_('COM_REDSHOP_SUPPLIER'); ?>
@@ -508,142 +643,6 @@ $calendarFormat = '%d-%m-%Y';
 						   size="10"
 						   maxlength="10"
 						   value="<?php echo @$this->detail->max_order_product_quantity; ?>"
-						/>
-				</div>
-			</div>
-		</div>
-
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_MEASURES'); ?></h3>
-			</div>
-			<div class="box-body">
-				<div class="form-group">
-					<label for="product_volume">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_VOLUME'); ?>
-						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?><sup>3</sup>)
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
-							JText::_('COM_REDSHOP_PRODUCT_VOLUME'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</label>
-					<input class="form-control"
-						   type="text"
-						   name="product_volume"
-						   id="product_volume"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_volume); ?>"
-						/>
-				</div>
-
-				<div class="form-group">
-					<label for="product_length">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_LENGTH'); ?>
-						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
-							JText::_('COM_REDSHOP_PRODUCT_LENGTH'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</label>
-					<input class="form-control"
-						   type="text"
-						   name="product_length"
-						   id="product_length"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_length); ?>"
-						/>
-				</div>
-
-				<div class="form-group">
-					<label for="product_width">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_WIDTH'); ?>
-						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
-							JText::_('COM_REDSHOP_PRODUCT_WIDTH'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</label>
-					<input class="form-control"
-						   type="text"
-						   name="product_width"
-						   id="product_width"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_width); ?>"
-						/>
-				</div>
-
-				<div class="form-group">
-					<label for="product_height">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_HEIGHT'); ?>
-						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'), JText::_('COM_REDSHOP_PRODUCT_HEIGHT'), 'tooltip.png', '', '', false);
-						?>
-					</label>
-					<input class="form-control"
-						   type="text"
-						   name="product_height"
-						   id="product_height"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_height); ?>"
-						/>
-				</div>
-
-				<div class="form-group">
-					<label for="product_diameter">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_DIAMETER'); ?>
-						(<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'), JText::_('COM_REDSHOP_PRODUCT_DIAMETER'), 'tooltip.png', '', '', false);
-						?>
-					</label>
-					<input class="form-control"
-						   type="text"
-						   name="product_diameter"
-						   id="product_diameter"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_diameter); ?>"
-						/>
-				</div>
-
-				<div class="form-group">
-					<label for="weight">
-						<?php echo JText::_('COM_REDSHOP_WEIGHT_LBL'); ?>
-						(<?php echo Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'), JText::_('COM_REDSHOP_WEIGHT_LBL'), 'tooltip.png', '', '', false);
-						?>
-					</label>
-					<input class="form-control"
-						   type="text"
-						   name="weight"
-						   id="weight"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->weight); ?>"
 						/>
 				</div>
 			</div>
