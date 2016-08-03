@@ -91,7 +91,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 
 		$row = $this->getTable('mass_discount_detail');
 
@@ -377,7 +377,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 
 		if (count($cid))
 		{

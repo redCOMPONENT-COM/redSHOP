@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-$this->producthelper   = producthelper::getInstance();
+$this->producthelper   = RedshopSiteProduct::getInstance();
 $this->order_functions = order_functions::getInstance();
 $this->config          = Redconfiguration::getInstance();
 $this->model           = $this->getModel('user_detail');

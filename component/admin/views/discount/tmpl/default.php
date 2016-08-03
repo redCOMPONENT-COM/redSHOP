@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -29,7 +29,7 @@ $producthelper = producthelper::getInstance();
 
 		form.submit();
 	}
-	
+
 	resetfilter = function()
 	{
 		document.getElementById('discount_type').value = 'select';

@@ -16,7 +16,7 @@ $url = JURI::base();
 
 $product_data = JRequest::getVar('product');
 $model = $this->getModel('rating_detail');
-$productHelper = producthelper::getInstance();
+$productHelper = RedshopSiteProduct::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -30,12 +30,12 @@ $productHelper = producthelper::getInstance();
 			alert("<?php echo JText::_('COM_REDSHOP_RATING_COMMENT_MUST_BE_FILLED', true ); ?>");
 			return false;
 		}
-		
+
 		if (form.product_id.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_PRODUCT', true ); ?>");
 			return false;
 		}
-		else 
+		else
 		{
 			submitform(pressbutton);
 		}

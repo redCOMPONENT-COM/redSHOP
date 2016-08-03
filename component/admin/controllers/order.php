@@ -194,7 +194,7 @@ class RedshopControllerOrder extends RedshopController
 			exit;
 		}
 
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$order_function = order_functions::getInstance();
 
 		$model = $this->getModel('order');
@@ -315,7 +315,7 @@ class RedshopControllerOrder extends RedshopController
 			exit;
 		}
 
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$order_function = order_functions::getInstance();
 		$model = $this->getModel('order');
 
