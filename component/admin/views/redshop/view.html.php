@@ -63,50 +63,10 @@ class RedshopViewRedshop extends RedshopViewAdmin
 
 		$model = $this->getModel();
 
-		if (DISPLAY_NEW_CUSTOMERS)
-		{
-			$this->newcustomers = $model->getNewcustomers();
-		}
+		$this->newcustomers = $model->getNewcustomers();
 
-		if (DISPLAY_NEW_ORDERS)
-		{
-			$this->neworders = $model->getNeworders();
-		}
+		$this->neworders = $model->getNeworders();
 
 		parent::display($tpl);
-	}
-
-	public function quickiconButton($link, $image, $text, $modal = 0)
-	{
-		// Initialise variables
-		$lang = JFactory::getLanguage();
-		?>
-
-		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
-			<div class="icon">
-				<?php
-
-				if ($modal == 1)
-				{
-				JHTML::_('behavior.modal');
-				?>
-				<a href="<?php echo $link . '&amp;tmpl=component'; ?>" style="cursor:pointer" class="modal"
-				   rel="{handler: 'iframe', size: {x: 800, y: 650}}">
-					<?php
-				}
-				else
-				{
-					?>
-					<a href="<?php echo $link; ?>">
-						<?php
-				}
-
-						echo JHTML::_('image', REDSHOP_ADMIN_IMAGES_ABSPATH . $image, $text);
-						?>
-						<span><?php echo $text; ?></span>
-					</a>
-			</div>
-		</div>
-	<?php
 	}
 }

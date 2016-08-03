@@ -1859,6 +1859,11 @@ input[type="search"] {
   cursor: pointer;
 }
 
+.controls .radio
+{
+  display: inline-block;
+}
+
 .radio.inline, .checkbox.inline
 {
   padding-top: 0 !important;
@@ -2941,7 +2946,7 @@ tbody.collapse.in {
   margin-left: -5px;
   padding-left: 36px;
   padding-right: 36px;
-  margin-top: 30px !important;
+  margin-top: 25px !important;
   margin-bottom: 10px !important;
 }
 .btn-toolbar .btn,
@@ -14466,18 +14471,8 @@ button.ui-datepicker-trigger {
   width: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
-  margin-bottom: 15px;  /*.progress {
-    background: rgba(0, 0, 0, .2);
-    margin: 5px -10px 5px -10px;
-    height: 2px;
-    &,
-    & .progress-bar {
-      .border-radius(0);
-    }
-    .progress-bar {
-      background: #fff;
-    }
-  }*/
+  margin-bottom: 15px;
+  border: 1px solid #e5e5e5;
 }
 
 .info-box small {
@@ -14512,6 +14507,7 @@ button.ui-datepicker-trigger {
   display: block;
   font-weight: bold;
   font-size: 18px;
+  margin-top: 10px;
 }
 
 .progress-description,
@@ -14533,44 +14529,6 @@ button.ui-datepicker-trigger {
 
 .progress-description {
   margin: 0;
-}
-
-/*
- * Aesir styles
- * -------------------
- */
-.info-box-icon {
-  min-height: 160px;
-  line-height: 160px;
-  font-size: 24px;
-}
-
-.info-box {
-  height: 160px;
-  border-radius: 3px;
-}
-
-.info-box-text {
-  font-size: 20px;
-  text-transform: none;
-}
-
-.info-box-number {
-  font-size: 28px;
-}
-
-.info-box-content {
-  padding: 20px 20px 10px 20px;
-}
-
-.aesir.item .content {
-  margin: 15px 15px 0 15px;
-  padding: 0;
-}
-
-fine-grain .ui-widget {
-  font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
-  font-size: 1.1em;
 }
 
 .ui-widget .ui-widget {
@@ -15793,6 +15751,11 @@ fine-grain .ui-widget {
 
 .tab-content {
   padding-top: 20px;
+}
+
+.tab-content .box
+{
+  border-top-width: 3px;
 }
 
 /* ==========================================================================
@@ -26247,56 +26210,6 @@ h6 {
   margin-right: -26px;
 }
 
-.quick-icons .nav li + .nav-header {
-  margin-top: 12px;
-  margin-bottom: 2px;
-}
-
-.quick-icons .nav-list > li > a {
-  padding: 5px 15px;
-}
-
-.quick-icons {
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.quick-icons .nav-header,
-.well .module-title.nav-header {
-  font-size: 13px;
-}
-
-.quick-icons h2.nav-header {
-  margin: 12px 0 5px;
-}
-
-.quick-icons h2.nav-header:first-child {
-  margin: 0px 0 5px;
-}
-
-.well .module-title.nav-header {
-  padding: 0px 15px 7px;
-  margin: 0px;
-}
-
-.quick-icons [class^="icon-"]:before,
-.quick-icons [class*=" icon-"]:before {
-  font-size: 16px;
-  margin-bottom: 20px;
-  line-height: 18px;
-}
-
-.quick-icons .nav-list [class^="icon-"],
-.quick-icons .nav-list [class*=" icon-"] {
-  margin-right: 9px;
-}
-
-html[dir=rtl] .quick-icons .nav-list [class^="icon-"],
-html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
-  margin-left: 9px;
-  margin-right: 0px;
-}
-
 .j-links-separator {
   margin: 20px 0px;
   width: 100%;
@@ -27276,4 +27189,24 @@ body.modal-open {
 
 .select2-search {
   margin-top: 10px;
+}
+
+.label.order_status_s
+{
+  background-color: #00a65a;
+}
+
+.label.order_status_c
+{
+  background-color: #337ab7;
+}
+
+.label.order_status_p
+{
+  background-color: #f39c12;
+}
+
+.label.order_payment_status_paid
+{
+  background-color: #00a65a;
 }

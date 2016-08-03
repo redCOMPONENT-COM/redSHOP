@@ -17,7 +17,7 @@ $activeView = $view->getName();
 <div id="redSHOPAdminContainer" class="redSHOPAdminView<?php echo ucfirst($activeView) ?>">
 	<div class="wrapper">
 		<header class="main-header">
-			<?php echo JLayoutHelper::render('component.full.header', array()); ?>
+			<?php echo JLayoutHelper::render('component.full.header', $displayData); ?>
 		</header>
 		<aside class="main-sidebar">
 			<?php echo JLayoutHelper::render('component.full.sidebar', array()); ?>

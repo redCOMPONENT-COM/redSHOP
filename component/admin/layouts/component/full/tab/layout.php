@@ -8,15 +8,9 @@
  */
 defined('_JEXEC') or die;
 
+extract($displayData);
+
 ?>
-
-<fieldset class="adminform">
-	<div class="row">
-		<div class="col-md-12">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('menuhide');?>
-			</fieldset>
-		</div>
-	</div>
-</fieldset>
-
+<div role="tabpanel" class="tab-pane <?php echo ($row->active) ? 'active' : '' ?>" id="<?php echo $row->param ?>">
+	<?php echo $view->loadTemplate($row->param); ?>
+</div>
