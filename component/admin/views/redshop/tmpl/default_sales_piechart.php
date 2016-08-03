@@ -34,10 +34,11 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 		data.addColumn('string', '<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>');
 		data.addColumn('number', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>');
 		data.addColumn({type: 'string', role: 'annotation'});
+		data.addColumn({type: 'string', role: 'tooltip'});
 
 		<?php if (count($turnover) > 0) {?>
 			<?php foreach ($turnover as $row) { ?>
-				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $producthelper->getProductFormattedPrice($row[1]); ?>']);
+				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $producthelper->getProductFormattedPrice($row[1]); ?>', '<?php echo $producthelper->getProductFormattedPrice($row[1]) . ' in ' . $row[0]; ?>']);
 			<?php } ?>
 		<?php } ?>
 
