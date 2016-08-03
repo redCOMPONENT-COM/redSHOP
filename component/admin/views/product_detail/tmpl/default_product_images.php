@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 			<div class="box-body">
 				<table class="admintable table">
 					<tr>
-						<td class="key">
+						<td class="key" width="20%">
 							<label for="product_thumb_image">
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE'); ?>
 							</label>
@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
 
 							<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path) && trim($this->detail->product_thumb_image) != "") : ?>
 								<div id="image_dis">
-									<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $image_path; ?>" id="thumb_image_display"/>
+									<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $image_path; ?>" id="thumb_image_display" width="200" />
 								</div>
 							<?php endif; ?>
 
@@ -134,7 +134,7 @@ defined('_JEXEC') or die;
 
 							<?php if(file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path) && trim($this->detail->product_back_thumb_image) != "") : ?>
 								<div id="image_dis">
-									<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $back_thumb_image_path; ?>" id="thumb_back_image_display"/>
+									<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $back_thumb_image_path; ?>" id="thumb_back_image_display" width="200" />
 								</div>
 							<?php endif; ?>
 
@@ -178,7 +178,7 @@ defined('_JEXEC') or die;
 
 							<?php if(file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_preview_image) && trim($this->detail->product_preview_image) != "") : ?>
 								<div id="image_dis">
-									<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $product_preview_image; ?>" id="preview_image_display"/>
+									<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $product_preview_image; ?>" id="preview_image_display" width="200" />
 								</div>
 							<?php endif; ?>
 
@@ -222,7 +222,7 @@ defined('_JEXEC') or die;
 
 							<?php if(file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_preview_back_image)  && trim($this->detail->product_preview_back_image) != "") : ?>
 								<div id="image_dis">
-									<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $product_preview_back_image; ?>" id="preview_back_image_display"/>
+									<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $product_preview_back_image; ?>" id="preview_back_image_display" width="200" />
 								</div>
 							<?php endif; ?>
 
