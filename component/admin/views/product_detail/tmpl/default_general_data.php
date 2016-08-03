@@ -260,53 +260,40 @@ $calendarFormat = '%d-%m-%Y';
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?></h3>
 			</div>
 			<div class="box-body">
+
+				<div class="alert alert-info"><?php echo JText::_('COM_REDSHOP_UPLOAD_IMAGE_WARNING'); ?></div>
+
+
+				<?php
+				echo RedshopLayoutHelper::render(
+					'component.image',
+					array(
+						'id'        => 'product_full_image',
+						'deleteid'  => 'image_delete',
+						'displayid' => 'image_display',
+						'type' 	    => 'product',
+						'image'     => $this->detail->product_full_image
+					)
+				);
+				?>
+
 				<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
 
-				<div class="form-group">
-					<input type="file" name="product_full_image" id="product_full_image" size="25" />
-
+				<div class="btn-toolbar">
 					<a class="modal btn btn-primary" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
 					</a>
-				</div>
 
-				<div class="form-group">
-				<?php
-				$style_img  = 'style="display: none;"';
-				$image_path = 'product/' . trim($this->detail->product_full_image);
-
-				if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path) && trim($this->detail->product_full_image) != "")
-				{
-					$style_img = 'style="display: block;"';
-				}
-				?>
-					<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $image_path ?>" id="image_display" <?php echo $style_img;?>  border="0" width="200"/>
-					<br>
 					<input type="hidden" name="product_image" id="product_image"/>
 
-					<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path)) : ?>
-						<label class="inline" for="image_delete">
-							<?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');?>
-						</label>
-						<input type="checkbox" name="image_delete" id="image_delete">
+					<?php if ($this->detail->product_id > 0) : ?>
+					<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $this->detail->product_id . '&showbuttons=1&media_section=product'); ?>
+
+					<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
+					</a>
 					<?php endif; ?>
 				</div>
-
-				<?php if ($this->detail->product_id > 0) :
-					$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $this->detail->product_id . '&showbuttons=1&media_section=product');
-				?>
-					<div class="button2-left">
-						<div class="image">
-							<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
-								<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
-							</a>
-						</div>
-					</div>
-				<?php else:
-					$msgList = array('msgList' => array('message' => array(JText::_('COM_REDSHOP_ADDITIONAL_IMAGES_NOTICE'))));
-					echo RedshopLayoutHelper::render('system.message', $msgList);
-				endif; ?>
-
 			</div>
 		</div>
 
