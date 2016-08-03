@@ -136,7 +136,7 @@ class Plgredshop_Productstock_Notifyemail extends JPlugin
 			if ($product_data = RedshopHelperProduct::getProductById($userData->product_id))
 			{
 				$productDetail = $product_data->product_name;
-				$producthelper = producthelper::getInstance();
+				$producthelper = RedshopSiteProduct::getInstance();
 
 				if ($userData->property_id)
 				{

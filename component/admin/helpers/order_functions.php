@@ -183,7 +183,7 @@ class order_functions
 	{
 		$db                        = JFactory::getDbo();
 		$orderDetail             = $this->getOrderDetails($orderId);
-		$producthelper             = producthelper::getInstance();
+		$producthelper             = RedshopSiteProduct::getInstance();
 		$orderproducts             = $this->getOrderItemDetail($orderId);
 		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
@@ -735,7 +735,7 @@ class order_functions
 	{
 		$app             = JFactory::getApplication();
 		$helper          = redhelper::getInstance();
-		$producthelper   = producthelper::getInstance();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
@@ -2139,7 +2139,7 @@ class order_functions
 	{
 		$helper = redhelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$newstatus = $post['order_status_all'];
 		$customer_note = $post['customer_note' . $order_id];
 		$isproduct = (isset($post['isproduct'])) ? $post['isproduct'] : 0;

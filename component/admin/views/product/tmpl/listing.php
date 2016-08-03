@@ -9,7 +9,7 @@
 
 JHTMLBehavior::modal();
 
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $model = $this->getModel('product');
 
 ?>

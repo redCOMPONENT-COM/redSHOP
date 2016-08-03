@@ -603,7 +603,7 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
-		$producthelper   = producthelper::getInstance();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();

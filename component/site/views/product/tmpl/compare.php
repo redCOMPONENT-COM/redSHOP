@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 $print  = $this->input->getBool('print', false);
 
-$producthelper   = producthelper::getInstance();
+$producthelper   = RedshopSiteProduct::getInstance();
 $config          = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $compare         = new RedshopProductCompare;

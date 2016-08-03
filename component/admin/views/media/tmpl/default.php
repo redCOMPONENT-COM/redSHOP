@@ -14,7 +14,7 @@ JHTMLBehavior::modal();
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $uri = JURI::getInstance();
 $url = $uri->root();
 

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  * Include required files
  */
 
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $carthelper    = rsCarthelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 

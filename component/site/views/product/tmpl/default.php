@@ -20,7 +20,7 @@ $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
 
 $extraField      = extraField::getInstance();
-$producthelper   = producthelper::getInstance();
+$producthelper   = RedshopSiteProduct::getInstance();
 $redshopconfig   = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $config          = Redconfiguration::getInstance();
@@ -1525,7 +1525,7 @@ if (strstr($template_desc, "{product_rating}"))
 		{
 			$fullname  = $reviews[$j]->firstname . " " . $reviews[$j]->lastname;
 			$starimage = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
-			
+
 			if ($fullname != " ")
 			{
 				$displayname = $fullname;

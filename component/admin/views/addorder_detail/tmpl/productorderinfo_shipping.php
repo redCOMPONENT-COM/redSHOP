@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$adminproducthelper = adminProductHelper::getInstance();
+$adminproducthelper = RedshopAdminProduct::getInstance();
 $session = JFactory::getSession();
 
 $ordertotal = $session->get('ordertotal');

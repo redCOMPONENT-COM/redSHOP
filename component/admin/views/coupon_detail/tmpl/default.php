@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 
 
 $editor = JFactory::getEditor();
