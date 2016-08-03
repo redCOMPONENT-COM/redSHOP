@@ -15,7 +15,7 @@ $logoLgUrl = JUri::root() . 'media/com_redshop/images/redshop_white_logo.png';
 
 <!-- Sidebar toggle button-->
 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-	<i class="fa fa-minus" aria-hidden="true"></i>
+	<span class="sr-only">Toggle navigation</span>
 </a>
 
 <!-- Logo -->
