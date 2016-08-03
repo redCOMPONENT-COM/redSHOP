@@ -49,7 +49,7 @@ class plgContentredshop_product extends JPlugin
 			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 
 			$module_id     = "plg_";
-			$producthelper = producthelper::getInstance();
+			$producthelper = RedshopSiteProduct::getInstance();
 			$extraField    = extraField::getInstance();
 			$objhelper     = redhelper::getInstance();
 			$lang          = JFactory::getLanguage();

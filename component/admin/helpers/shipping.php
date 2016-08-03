@@ -37,7 +37,7 @@ class shipping
 	 */
 	public function getDefaultShipping($d)
 	{
-		$productHelper  = producthelper::getInstance();
+		$productHelper  = RedshopSiteProduct::getInstance();
 		$userhelper     = rsUserHelper::getInstance();
 		$session        = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
@@ -249,7 +249,7 @@ class shipping
 	 */
 	public function getDefaultShipping_xmlexport($d)
 	{
-		$productHelper  = producthelper::getInstance();
+		$productHelper  = RedshopSiteProduct::getInstance();
 		$userhelper     = rsUserHelper::getInstance();
 		$session        = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
@@ -443,7 +443,7 @@ class shipping
 	 */
 	public function getShippingrate_calc()
 	{
-		$productHelper = producthelper::getInstance();
+		$productHelper = RedshopSiteProduct::getInstance();
 		$country       = JRequest::getVar('country_code');
 		$state         = JRequest::getVar('state_code');
 		$zip           = JRequest::getVar('zip_code');
@@ -792,7 +792,7 @@ class shipping
 			throw new InvalidArgumentException(__FUNCTION__ . ' function only accepts array as 2nd argument. Input was: ' . getType($data));
 		}
 
-		$productHelper     = producthelper::getInstance();
+		$productHelper     = RedshopSiteProduct::getInstance();
 		$shipping_rate_vat = $shippingRate->shipping_rate_value;
 
 		if ($shippingRate->apply_vat == 1)
@@ -1157,7 +1157,7 @@ class shipping
 
 	public function getShopperGroupDefaultShipping($user_id = 0)
 	{
-		$productHelper = producthelper::getInstance();
+		$productHelper = RedshopSiteProduct::getInstance();
 		$shippingArr   = array();
 		$user          = JFactory::getUser();
 
@@ -1259,7 +1259,7 @@ class shipping
 	 */
 	public function getProductVolumeShipping()
 	{
-		$productHelper = producthelper::getInstance();
+		$productHelper = RedshopSiteProduct::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$idx           = (int) ($cart ['idx']);
@@ -1369,7 +1369,7 @@ class shipping
 
 	public function getCartItemDimention()
 	{
-		$productHelper = producthelper::getInstance();
+		$productHelper = RedshopSiteProduct::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$idx           = (int) ($cart ['idx']);
@@ -1742,7 +1742,7 @@ class shipping
 
 	public function getfreeshippingRate($shipping_rate_id = 0)
 	{
-		$productHelper = producthelper::getInstance();
+		$productHelper = RedshopSiteProduct::getInstance();
 		$userhelper    = rsUserHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart', null);

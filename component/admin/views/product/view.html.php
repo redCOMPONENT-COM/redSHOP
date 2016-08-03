@@ -72,7 +72,7 @@ class RedshopViewProduct extends RedshopView
 		$GLOBALS['productlist'] = array();
 		$redTemplate        = Redtemplate::getInstance();
 		$extra_field        = extra_field::getInstance();
-		$adminproducthelper = adminProductHelper::getInstance();
+		$adminproducthelper = RedshopAdminProduct::getInstance();
 
 		$list_in_products = $extra_field->list_all_field_in_product();
 

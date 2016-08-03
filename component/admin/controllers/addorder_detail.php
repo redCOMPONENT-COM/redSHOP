@@ -31,7 +31,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 	{
 		$post = JRequest::get('post');
 
-		$adminproducthelper = adminProductHelper::getInstance();
+		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$order_functions = order_functions::getInstance();
 		$shippinghelper = shipping::getInstance();
 
@@ -50,7 +50,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if (USE_STOCKROOM == 1)
 		{
 			$stockroomhelper = rsstockroomhelper::getInstance();
-			$producthelper = producthelper::getInstance();
+			$producthelper = RedshopSiteProduct::getInstance();
 
 			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{

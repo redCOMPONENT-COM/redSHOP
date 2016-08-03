@@ -25,7 +25,7 @@ class RedshopViewCategory_detail extends RedshopView
 	{
 		$redTemplate      = Redtemplate::getInstance();
 		$product_category = new product_category;
-		$producthelper    = producthelper::getInstance();
+		$producthelper    = RedshopSiteProduct::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/validation.js');

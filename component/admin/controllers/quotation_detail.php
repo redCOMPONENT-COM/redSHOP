@@ -174,7 +174,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function newQuotationItem()
 	{
-		$adminproducthelper = adminProductHelper::getInstance();
+		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$post = JRequest::get('post');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -199,7 +199,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function getQuotationPriceTax()
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$get = JRequest::get('get');
 		$product_id = $get['product_id'];
 		$user_id = $get['user_id'];

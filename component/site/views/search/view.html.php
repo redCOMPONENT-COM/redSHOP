@@ -126,7 +126,7 @@ class RedshopViewSearch extends RedshopView
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = Redtemplate::getInstance();
 			$Redconfiguration = Redconfiguration::getInstance();
-			$producthelper    = producthelper::getInstance();
+			$producthelper    = RedshopSiteProduct::getInstance();
 			$extraField       = extraField::getInstance();
 			$texts            = new text_library;
 			$stockroomhelper  = rsstockroomhelper::getInstance();

@@ -87,7 +87,7 @@ class RedshopModelQuotation extends RedshopModel
 	{
 		$this->_loadData();
 		$quotationHelper = quotationHelper::getInstance();
-		$producthelper   = producthelper::getInstance();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$extra_field     = extra_field::getInstance();
 		$user            = JFactory::getUser();
 		$user_id         = 0;
@@ -621,7 +621,7 @@ class RedshopModelQuotation extends RedshopModel
 			}
 		}
 
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$user          = JFactory::getUser();
