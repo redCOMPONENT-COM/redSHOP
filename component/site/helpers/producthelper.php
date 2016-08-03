@@ -10522,7 +10522,7 @@ class producthelper
 		{
 			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $order->order_id);
 
-			if ($main_result->data_txt != "" && $row_data[$j]->field_show_in_front == 1)
+			if (!is_null($main_result) && $main_result->data_txt != "" && $row_data[$j]->field_show_in_front == 1)
 			{
 				$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
 			}
