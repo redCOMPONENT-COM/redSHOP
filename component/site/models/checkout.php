@@ -164,15 +164,15 @@ class RedshopModelCheckout extends RedshopModel
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
+		$userId  = $user->id;
 
 		if (!$user->id && $auth['users_info_id'])
 		{
-			$user->id = - $auth['users_info_id'];
+			$userId = - $auth['users_info_id'];
 		}
 
 		$db      = JFactory::getDbo();
 		$issplit = $session->get('issplit');
-		$url     = JURI::root();
 
 		// If user subscribe for the newsletter
 		if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
@@ -188,13 +188,9 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$order_paymentstatus = 'Unpaid';
-		$objshipping         = shipping::getInstance();
-
-		$users_info_id    = JRequest::getInt('users_info_id');
-		$thirdparty_email = JRequest::getVar('thirdparty_email');
-
-		$shippingaddresses = $this->shipaddress($users_info_id);
-		$billingaddresses  = $this->billingaddresses();
+		$users_info_id       = JRequest::getInt('users_info_id');
+		$shippingaddresses   = $this->shipaddress($users_info_id);
+		$billingaddresses    = $this->billingaddresses();
 
 		if (isset($shippingaddresses))
 		{
@@ -239,7 +235,6 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$payment_method_id = JRequest::getVar('payment_method_id');
-		$ccinfo            = JRequest::getVar('ccinfo');
 
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
@@ -247,7 +242,6 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping']     = $shipArr['order_shipping_rate'];
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
 		}
-
 
 		$cart = $this->_carthelper->modifyDiscount($cart);
 
@@ -272,13 +266,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		$paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
 		$cart['total'] = $paymentArray[0];
-		$cart          = $session->set('cart', $cart);
-		$cart          = $session->get('cart');
+		$session->set('cart', $cart);
 
-		$order_shipping    = RedshopShippingRate::decrypt($shipping_rate_id);
-		$order_status      = 'P';
-		$order_status_full = $this->_order_functions->getOrderStatusTitle('P');
-
+		$order_shipping = RedshopShippingRate::decrypt($shipping_rate_id);
+		$order_status   = 'P';
 		$order_subtotal = $cart ['product_subtotal'];
 		$cdiscount      = $cart ['coupon_discount'];
 		$order_tax      = $cart ['tax'];
@@ -399,13 +390,11 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Get the IP Address
-		if (!empty ($_SERVER ['REMOTE_ADDR']))
+		$ip = 'unknown';
+
+		if (!empty($_SERVER['REMOTE_ADDR']))
 		{
-			$ip = $_SERVER ['REMOTE_ADDR'];
-		}
-		else
-		{
-			$ip = 'unknown';
+			$ip = $_SERVER['REMOTE_ADDR'];
 		}
 
 		$row = $this->getTable('order_detail');
@@ -425,11 +414,11 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Start code to track duplicate order number checking
-		$order_number = $this->getOrdernumber();
+		$order_number = $this->_order_functions->generateOrderNumber();
 
 		$random_gen_enc_key      = $this->_order_functions->random_gen_enc_key(35);
 		$users_info_id           = $billingaddresses->users_info_id;
-		$row->user_id            = $user->id;
+		$row->user_id            = $userId;
 		$row->order_number       = $order_number;
 		$row->user_info_id       = $users_info_id;
 		$row->order_total        = $order_total;
@@ -532,9 +521,6 @@ class RedshopModelCheckout extends RedshopModel
 		$rowOrderStatus->customer_note = $order_status_log;
 		$rowOrderStatus->store();
 
-		$country_name = $this->_order_functions->getCountryName($billingaddresses->country_code);
-		$state_name   = $this->_order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
-
 		JRequest::setVar('order_id', $row->order_id);
 		JRequest::setVar('order_number', $row->order_number);
 
@@ -546,25 +532,14 @@ class RedshopModelCheckout extends RedshopModel
 		$product_delivery_time = $this->_producthelper->getProductMinDeliveryTime($cart[0]['product_id']);
 		JRequest::setVar('order_delivery', $product_delivery_time);
 
-		$idx                 = $cart ['idx'];
-		$product_name        = "";
-		$product_note        = "";
-		$product_price       = "";
-		$product_quantity    = "";
-		$product_total_price = "";
+		$idx = $cart ['idx'];
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			// GiftCARD start
-			$is_giftcard    = 0;
-			$giftcard_price = 0;
-			$giftcard_name  = 0;
-
-			// GiftCARD end
-
-			$product_id = $cart [$i] ['product_id'];
-			$product    = $this->_producthelper->getProductById($product_id);
-			$rowitem    = $this->getTable('order_item_detail');
+			$is_giftcard = 0;
+			$product_id  = $cart [$i] ['product_id'];
+			$product     = $this->_producthelper->getProductById($product_id);
+			$rowitem     = $this->getTable('order_item_detail');
 
 			// The redCRM product purchase price
 			if ($helper->isredCRM())
@@ -614,8 +589,6 @@ class RedshopModelCheckout extends RedshopModel
 				$crmOrderHelper = new crmOrderHelper;
 				$crmOrderHelper->storeCRMOrder($crmdata);
 			}
-
-			// End
 
 			if (!$rowitem->bind($post))
 			{
@@ -697,7 +670,6 @@ class RedshopModelCheckout extends RedshopModel
 				$cart_calc_data = $cart[$i]['discount_calc_output'];
 			}
 
-			// End
 			$retAccArr                    = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $product_id);
 			$cart_accessory               = $retAccArr[0];
 			$rowitem->order_id            = $order_id;
@@ -920,8 +892,6 @@ class RedshopModelCheckout extends RedshopModel
 								$accessory_price    = $accessory_priceArr[1];
 							}
 						}
-
-						// FOR ACCESSORY PROPERTY AND SUBPROPERTY PRICE CALCULATION
 					}
 
 					$accdata = $this->getTable('accessory_detail');
@@ -957,7 +927,7 @@ class RedshopModelCheckout extends RedshopModel
 				}
 			}
 
-			// My attribute save in table start
+			// Storing attribute in database
 			if (count($cart [$i] ['cart_attribute']) > 0)
 			{
 				$attchildArr = $cart [$i] ['cart_attribute'];
@@ -1158,8 +1128,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
-		$data       = $dispatcher->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
+		JDispatcher::getInstance()->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
 
 		$GLOBALS['shippingaddresses'] = $shippingaddresses;
 
@@ -1242,8 +1211,7 @@ class RedshopModelCheckout extends RedshopModel
 			}
 
 			$economicdata['economic_payment_method'] = $payment_name;
-
-			$invoiceHandle = $economic->createInvoiceInEconomic($row->order_id, $economicdata);
+			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
 			{
@@ -1253,7 +1221,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if (is_file($bookinvoicepdf))
 				{
-					$ret = $this->_redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					$this->_redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
