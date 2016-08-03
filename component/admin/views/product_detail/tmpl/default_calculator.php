@@ -98,220 +98,226 @@ $stockrooms = $model->StockRoomList();
 
 </script>
 
-<table border="0">
-
-	<tr>
-		<td>
-
-			<fieldset class="adminform">
-
-				<legend>
-					<?php echo JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR'); ?>
-				</legend>
-
-				<table class="admintable" border="0">
+<div class="row">
+	<div class="col-sm-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR'); ?></h3>
+			</div>
+			<div class="box-body">
+				<table border="0">
 					<tr>
-						<td class="key">
-							<label for="use_discount_calc0">
-								<?php echo JText::_('COM_REDSHOP_USE_DISCOUNT_CALCULATOR');?>
-							</label>
-						</td>
 						<td>
-							<?php echo $this->lists['use_discount_calc'];?>
+
+							<fieldset class="adminform">
+								<table class="admintable" border="0">
+									<tr>
+										<td class="key">
+											<label for="use_discount_calc0">
+												<?php echo JText::_('COM_REDSHOP_USE_DISCOUNT_CALCULATOR');?>
+											</label>
+										</td>
+										<td>
+											<?php echo $this->lists['use_discount_calc'];?>
+										</td>
+									</tr>
+
+									<tr>
+										<td class="key">
+											<label for="discount_calc_method">
+												<?php echo JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR_METHOD');?>
+											</label>
+										</td>
+										<td>
+											<?php echo $this->lists['discount_calc_method'];?>
+										</td>
+									</tr>
+									<tr>
+										<td class="key">
+											<label for="allow_decimal_piece">
+												<?php echo JText::_('COM_REDSHOP_ALLOW_DECIMAL_PIECE');?>
+											</label>
+										</td>
+										<td>
+											<?php echo $this->lists['allow_decimal_piece'];?>
+										</td>
+									</tr>
+									<tr>
+										<td class="key">
+											<label for="use_range">
+												<?php echo JText::_('COM_REDSHOP_USE_RANGE');?>
+											</label>
+										</td>
+										<td>
+											<?php echo $this->lists['use_range'];?>
+										</td>
+									</tr>
+								</table>
+
+							</fieldset>
+
 						</td>
 					</tr>
 
 					<tr>
-						<td class="key">
-							<label for="discount_calc_method">
-								<?php echo JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR_METHOD');?>
-							</label>
-						</td>
 						<td>
-							<?php echo $this->lists['discount_calc_method'];?>
+
+							<fieldset class="adminform">
+
+								<table class="admintable" id="discount_calc_table" border="0">
+
+									<tr>
+										<td class="key">
+											<?php echo JText::_('COM_REDSHOP_UNIT');?>
+										</td>
+										<td class="key">
+											<?php echo JText::_('COM_REDSHOP_RANGE_MIN');?>
+										</td>
+										<td class="key">
+											<?php echo JText::_('COM_REDSHOP_RANGE_MAX');?>
+										</td>
+										<td class="key">
+											<?php echo JText::_('COM_REDSHOP_PRICE');?>
+										</td>
+										<td class="key">
+											<a href="javascript:addDiscountElement();">
+												<?php echo JText::_('COM_REDSHOP_ADD');?>
+											</a>
+										</td>
+									</tr>
+
+									<?php
+										$calc_data = $model->getDiscountCalcData();
+
+										// ToDo: This should be in view.html.php?
+										for ($i = 0, $in = count($calc_data); $i < $in; $i++)
+										{
+											// Calculation UNIT.
+											$lists = array();
+											$options = array();
+											$options[] = JHtml::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
+											$options[] = JHtml::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
+											$options[] = JHtml::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
+											$lists['discount_calc_unit'] = JHtml::_(
+																					'select.genericlist',
+																					$options,
+																					'discount_calc_unit[]',
+																					'class="inputbox" size="1" ',
+																					'value',
+																					'text',
+																					$calc_data[$i]->discount_calc_unit
+																			);
+											unset($options);
+									?>
+
+											<tr>
+												<td>
+													<?php echo $lists['discount_calc_unit'];?>
+												</td>
+												<td>
+													<input type="text" name="area_start[]" value="<?php echo $calc_data[$i]->area_start; ?>"/>
+												</td>
+												<td>
+													<input type="text" name="area_end[]" value="<?php echo $calc_data[$i]->area_end; ?>"/>
+												</td>
+												<td>
+													<input type="text" name="area_price[]" value="<?php echo $calc_data[$i]->area_price; ?>"/>
+												</td>
+												<td>
+													<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
+														   onclick="deleteDiscountElement(this,'discount_calc_table')"
+														   class="button"
+														   type="button"
+														/>
+													<input type="hidden" name="discount_calc_id[]" value="<?php echo $calc_data[$i]->id; ?>"/>
+												</td>
+											</tr>
+									<?php
+										}
+									?>
+
+								</table>
+
+							</fieldset>
+
 						</td>
 					</tr>
+
 					<tr>
-						<td class="key">
-							<label for="allow_decimal_piece">
-								<?php echo JText::_('COM_REDSHOP_ALLOW_DECIMAL_PIECE');?>
-							</label>
-						</td>
 						<td>
-							<?php echo $this->lists['allow_decimal_piece'];?>
+
+							<fieldset class="adminform">
+
+								<table class="admintable" id="pdc_extra_table" border="0">
+
+									<tr>
+										<td class="key">
+											<?php echo JText::_('COM_REDSHOP_OPTION_NAME');?>
+										</td>
+										<td class="key">
+											<?php echo JText::_('COM_REDSHOP_OPRAND');?>
+										</td>
+										<td class="key">
+											<?php echo JText::_('COM_REDSHOP_PRICE');?>
+										</td>
+										<td class="key">
+											<a href="javascript:addDiscountElementExtra();">
+												<?php echo JText::_('COM_REDSHOP_ADD');?>
+											</a>
+										</td>
+									</tr>
+
+									<?php
+										$calc_data = $model->getDiscountCalcDataExtra();
+
+										for ($i = 0, $in = count($calc_data); $i < $in; $i++)
+										{
+											// Calculation UNIT.
+											$options = array();
+											$options[] = JHtml::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
+											$options[] = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
+											$options[] = JHtml::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
+											$lists['discount_calc_oprand'] = JHtml::_(
+																					'select.genericlist',
+																					$options,
+																					'pdc_oprand[]',
+																					'class="inputbox" size="1" ',
+																					'value',
+																					'text',
+																					$calc_data[$i]->oprand
+																				);
+
+											unset($options);
+									?>
+											<tr>
+												<td>
+													<input type="text" name="pdc_option_name[]" value="<?php echo $calc_data[$i]->option_name; ?>"/>
+												</td>
+												<td>
+													<?php echo $lists['discount_calc_oprand'];?>
+												</td>
+												<td>
+													<input type="text" name="pdc_price[]" value="<?php echo $calc_data[$i]->price; ?>"/>
+												</td>
+												<td>
+													<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElementExtra(this)" class="button" type="button"/>
+													<input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="<?php echo $calc_data[$i]->pdcextra_id; ?>"/>
+												</td>
+											</tr>
+									<?php
+										}
+									?>
+
+								</table>
+
+							</fieldset>
+
 						</td>
 					</tr>
-					<tr>
-						<td class="key">
-							<label for="use_range">
-								<?php echo JText::_('COM_REDSHOP_USE_RANGE');?>
-							</label>
-						</td>
-						<td>
-							<?php echo $this->lists['use_range'];?>
-						</td>
-					</tr>
+
 				</table>
+			</div>
+		</div>
+	</div>
+</div>
 
-			</fieldset>
-
-		</td>
-	</tr>
-
-	<tr>
-		<td>
-
-			<fieldset class="adminform">
-
-				<table class="admintable" id="discount_calc_table" border="0">
-
-					<tr>
-						<td class="key">
-							<?php echo JText::_('COM_REDSHOP_UNIT');?>
-						</td>
-						<td class="key">
-							<?php echo JText::_('COM_REDSHOP_RANGE_MIN');?>
-						</td>
-						<td class="key">
-							<?php echo JText::_('COM_REDSHOP_RANGE_MAX');?>
-						</td>
-						<td class="key">
-							<?php echo JText::_('COM_REDSHOP_PRICE');?>
-						</td>
-						<td class="key">
-							<a href="javascript:addDiscountElement();">
-								<?php echo JText::_('COM_REDSHOP_ADD');?>
-							</a>
-						</td>
-					</tr>
-
-					<?php
-						$calc_data = $model->getDiscountCalcData();
-
-						// ToDo: This should be in view.html.php?
-						for ($i = 0, $in = count($calc_data); $i < $in; $i++)
-						{
-							// Calculation UNIT.
-							$lists = array();
-							$options = array();
-							$options[] = JHtml::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
-							$options[] = JHtml::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
-							$options[] = JHtml::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
-							$lists['discount_calc_unit'] = JHtml::_(
-																	'select.genericlist',
-																	$options,
-																	'discount_calc_unit[]',
-																	'class="inputbox" size="1" ',
-																	'value',
-																	'text',
-																	$calc_data[$i]->discount_calc_unit
-															);
-							unset($options);
-					?>
-
-							<tr>
-								<td>
-									<?php echo $lists['discount_calc_unit'];?>
-								</td>
-								<td>
-									<input type="text" name="area_start[]" value="<?php echo $calc_data[$i]->area_start; ?>"/>
-								</td>
-								<td>
-									<input type="text" name="area_end[]" value="<?php echo $calc_data[$i]->area_end; ?>"/>
-								</td>
-								<td>
-									<input type="text" name="area_price[]" value="<?php echo $calc_data[$i]->area_price; ?>"/>
-								</td>
-								<td>
-									<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-										   onclick="deleteDiscountElement(this,'discount_calc_table')"
-										   class="button"
-										   type="button"
-										/>
-									<input type="hidden" name="discount_calc_id[]" value="<?php echo $calc_data[$i]->id; ?>"/>
-								</td>
-							</tr>
-					<?php
-						}
-					?>
-
-				</table>
-
-			</fieldset>
-
-		</td>
-	</tr>
-
-	<tr>
-		<td>
-
-			<fieldset class="adminform">
-
-				<table class="admintable" id="pdc_extra_table" border="0">
-
-					<tr>
-						<td class="key">
-							<?php echo JText::_('COM_REDSHOP_OPTION_NAME');?>
-						</td>
-						<td class="key">
-							<?php echo JText::_('COM_REDSHOP_OPRAND');?>
-						</td>
-						<td class="key">
-							<?php echo JText::_('COM_REDSHOP_PRICE');?>
-						</td>
-						<td class="key">
-							<a href="javascript:addDiscountElementExtra();">
-								<?php echo JText::_('COM_REDSHOP_ADD');?>
-							</a>
-						</td>
-					</tr>
-
-					<?php
-						$calc_data = $model->getDiscountCalcDataExtra();
-
-						for ($i = 0, $in = count($calc_data); $i < $in; $i++)
-						{
-							// Calculation UNIT.
-							$options = array();
-							$options[] = JHtml::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
-							$options[] = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
-							$options[] = JHtml::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
-							$lists['discount_calc_oprand'] = JHtml::_(
-																	'select.genericlist',
-																	$options,
-																	'pdc_oprand[]',
-																	'class="inputbox" size="1" ',
-																	'value',
-																	'text',
-																	$calc_data[$i]->oprand
-																);
-
-							unset($options);
-					?>
-							<tr>
-								<td>
-									<input type="text" name="pdc_option_name[]" value="<?php echo $calc_data[$i]->option_name; ?>"/>
-								</td>
-								<td>
-									<?php echo $lists['discount_calc_oprand'];?>
-								</td>
-								<td>
-									<input type="text" name="pdc_price[]" value="<?php echo $calc_data[$i]->price; ?>"/>
-								</td>
-								<td>
-									<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElementExtra(this)" class="button" type="button"/>
-									<input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="<?php echo $calc_data[$i]->pdcextra_id; ?>"/>
-								</td>
-							</tr>
-					<?php
-						}
-					?>
-
-				</table>
-
-			</fieldset>
-
-		</td>
-	</tr>
-
-</table>

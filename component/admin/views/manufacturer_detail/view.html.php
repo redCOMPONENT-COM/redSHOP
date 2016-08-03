@@ -85,7 +85,42 @@ class RedshopViewManufacturer_detail extends RedshopViewAdmin
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->request_url = $uri->toString();
+		$this->tabmenu = $this->getTabMenu();
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Tab Menu
+	 *
+	 * @return  object  Tab menu
+	 *
+	 * @since   1.7
+	 */
+	private function getTabMenu()
+	{
+		$app = JFactory::getApplication();
+
+		$tabMenu = RedshopAdminMenu::getInstance()->init();
+		$tabMenu->section('tab')
+					->title('COM_REDSHOP_DETAILS')
+					->addItem(
+						'#information',
+						'COM_REDSHOP_DETAILS',
+						true,
+						'information'
+					)->addItem(
+						'#seo',
+						'COM_REDSHOP_META_DATA_TAB',
+						false,
+						'seo'
+					)->addItem(
+						'#extrafield',
+						'COM_REDSHOP_FIELDS',
+						false,
+						'extrafield'
+					);
+
+		return $tabMenu;
 	}
 }
