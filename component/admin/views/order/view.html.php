@@ -70,7 +70,7 @@ class RedshopViewOrder extends RedshopViewAdmin
 				'',
 				'COM_REDSHOP_EXPORT_DATA_LBL',
 				'export_data',
-				false
+				true
 			);
 
 			$group->appendButton('Standard',
@@ -84,14 +84,14 @@ class RedshopViewOrder extends RedshopViewAdmin
 				'',
 				'COM_REDSHOP_EXPORT_GLS_LBL',
 				'gls_export',
-				false
+				true
 			);
 
 			$group->appendButton('Standard',
 				'',
 				'COM_REDSHOP_EXPORT_GLS_BUSINESS_LBL',
 				'business_gls_export',
-				false
+				true
 			);
 
 			$group->renderGroup();
