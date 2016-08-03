@@ -52,6 +52,8 @@ tests/*/*Tester.php
 selenium.log
 tests/_output
 tests/joomla-cms3
+tests/cache
+tests/RoboFile.ini
 selenium-server-standalone.jar
 tests/_support/_generated/*
 

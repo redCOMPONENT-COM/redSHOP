@@ -91,8 +91,8 @@ $ordering      = ($this->lists['order'] == 'ordering');
 			{
 				$row       = $this->question[$i];
 				$row->id   = $row->question_id;
-				$link      = JRoute::_('index.php?option=com_redshop&view=question_detail&task=edit&cid[]=' . $row->id);
-				$anslink   = JRoute::_('index.php?option=com_redshop&view=question_detail&task=edit&cid[]=' . $row->id . '#answerlists');
+				$link      = JRoute::_('index.php?option=com_redshop&view=question_detail&task=edit&question_id=' . $row->id);
+				$anslink   = JRoute::_('index.php?option=com_redshop&view=question_detail&task=edit&question_id=' . $row->id . '#answerlists');
 
 				$answer    = $producthelper->getQuestionAnswer($row->id, 0, 1);
 				$answer    = count($answer);
