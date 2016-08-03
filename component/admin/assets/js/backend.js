@@ -11749,8 +11749,6 @@ function _init() {
 
 			if ($(window).width() > (screenSizes.sm - 1) && sidebar == 'collapsed') {
 				$("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
-				$(toggleBtn).find('i').removeClass('fa-minus');
-				$(toggleBtn).find('i').addClass('fa-plus');
 			}
 
 			//Enable sidebar toggle
@@ -11763,13 +11761,9 @@ function _init() {
 					if ($("body").hasClass('sidebar-collapse')) {
 						$("body").removeClass('sidebar-collapse').trigger('expanded.pushMenu');
 						Cookies.remove('redshopsidebar');
-						$(this).find('i').removeClass('fa-plus');
-						$(this).find('i').addClass('fa-minus');
 					} else {
 						$("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
 						Cookies.set('redshopsidebar', 'collapsed');
-						$(this).find('i').addClass('fa-plus');
-						$(this).find('i').removeClass('fa-minus');
 					}
 				}
 				//Handle sidebar push menu for small screens
