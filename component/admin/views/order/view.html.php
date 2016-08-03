@@ -28,16 +28,16 @@ class RedshopViewOrder extends RedshopViewAdmin
 		}
 		elseif ($layout == 'labellisting')
 		{
-			JToolBarHelper::title(JText::_('COM_REDSHOP_DOWNLOAD_LABEL'), 'redshop_order48');
+			RedshopToolbarHelper::title(JText::_('COM_REDSHOP_DOWNLOAD_LABEL'), 'redshop_order48');
 			$this->setLayout('labellisting');
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+			RedshopToolbarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 		else
 		{
-			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
-			JToolbarHelper::addNew();
+			RedshopToolbarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
+			RedshopToolbarHelper::addNew();
 
-			JToolBarHelper::custom(
+			RedshopToolbarHelper::custom(
 				'multiprint_order',
 				'print_f2.png',
 				'print_f2.png',
@@ -45,7 +45,7 @@ class RedshopViewOrder extends RedshopViewAdmin
 				true
 			);
 
-			JToolBarHelper::custom(
+			RedshopToolbarHelper::custom(
 				'allStatusExceptPacsoft',
 				'save.png',
 				'print_f2.png',
@@ -55,7 +55,7 @@ class RedshopViewOrder extends RedshopViewAdmin
 
 			if (POSTDK_INTEGRATION)
 			{
-				JToolBarHelper::custom(
+				RedshopToolbarHelper::custom(
 					'allstatus',
 					'save.png',
 					'save_f2.png',
@@ -64,35 +64,39 @@ class RedshopViewOrder extends RedshopViewAdmin
 				);
 			}
 
-			JToolBarHelper::custom(
-				'export_data',
-				'save.png',
-				'save_f2.png',
+			$group = RedshopToolbarHelper::createGroup('export', 'COM_REDSHOP_EXPORT_DATA_LBL');
+
+			$group->appendButton('Standard',
+				'',
 				'COM_REDSHOP_EXPORT_DATA_LBL',
-				false
+				'export_data',
+				true
 			);
-			JToolBarHelper::custom(
-				'export_fullorder_data',
-				'save.png',
-				'save_f2.png',
+
+			$group->appendButton('Standard',
+				'',
 				'COM_REDSHOP_EXPORT_FULL_DATA_LBL',
+				'export_fullorder_data',
 				false
 			);
-			JToolBarHelper::custom(
-				'gls_export',
-				'save.png',
-				'save_f2.png',
+
+			$group->appendButton('Standard',
+				'',
 				'COM_REDSHOP_EXPORT_GLS_LBL',
-				false
+				'gls_export',
+				true
 			);
-			JToolBarHelper::custom(
-				'business_gls_export',
-				'save.png',
-				'save_f2.png',
+
+			$group->appendButton('Standard',
+				'',
 				'COM_REDSHOP_EXPORT_GLS_BUSINESS_LBL',
-				false
+				'business_gls_export',
+				true
 			);
-			JToolBarHelper::deleteList();
+
+			$group->renderGroup();
+
+			RedshopToolbarHelper::deleteList();
 		}
 
 		$state = $this->get('State');

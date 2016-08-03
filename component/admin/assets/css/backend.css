@@ -2994,6 +2994,24 @@ tbody.collapse.in {
   color: #FFFFFF;
 }
 
+.btn-toolbar .btn-wrapper .dropdown-menu [class*="icon-"]
+{
+  display: none;
+}
+
+.btn-toolbar .btn-wrapper .dropdown-menu .btn
+{
+  width: 100%;
+}
+
+.btn-toolbar .btn-wrapper .dropdown-menu .btn-wrapper
+{
+  display: block;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+}
+
 .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
   border-radius: 0;
 }
