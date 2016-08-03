@@ -7698,7 +7698,8 @@ a:focus {
 }
 .main-header .sidebar-toggle {
   float: left;
-  padding: 15px 7px;
+  background: transparent url(../images/menu.png) center center no-repeat;
+  padding: 15px;
   color: #FFFFFF;
   font-size: 18px;
   text-decoration: none;
@@ -7707,6 +7708,18 @@ a:focus {
 .main-header .sidebar-toggle .icon-bar {
   display: none;
 }
+
+.sidebar-collapse .main-header .sidebar-toggle
+{
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  transition-duration: 0.2s;
+
+}
+
 .main-header .navbar .nav > li.user > a > .fa,
 .main-header .navbar .nav > li.user > a > .glyphicon,
 .main-header .navbar .nav > li.user > a > .ion {
