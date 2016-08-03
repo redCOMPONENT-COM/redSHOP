@@ -16,27 +16,25 @@ $calendarFormat = '%d-%m-%Y';
 	<div class="col-sm-8">
 		<div class="box box-primary">
 			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></h3>
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
 			</div>
 
 			<div class="box-body">
-				<input class="form-control"
-					type="text"
-					name="product_name"
-					id="product_name"
-					size="32"
-					maxlength="250"
-					value="<?php echo htmlspecialchars($this->detail->product_name); ?>" />
-			</div>
-		</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="product_number">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
+							</label>
+							<input class="form-control"
+								type="text"
+								name="product_name"
+								id="product_name"
+								size="32"
+								maxlength="250"
+								value="<?php echo htmlspecialchars($this->detail->product_name); ?>" />
+						</div>
 
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
-					</div>
-					<div class="box-body">
 						<div class="form-group">
 							<label for="product_number">
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER'); ?>
@@ -90,43 +88,8 @@ $calendarFormat = '%d-%m-%Y';
 							<label for="published0"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?></label>
 							<?php echo $this->lists['published'];?>
 						</div>
-
-						<div class="form-group">
-							<label for="product_special0">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
-								<?php
-								echo JHtml::tooltip(
-									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
-									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
-									'tooltip.png',
-									'',
-									'',
-									false
-								);
-								?>
-							</label>
-							<?php echo $this->lists['product_special']; ?>
-						</div>
-
 					</div>
-				</div>
-
-			</div>
-			<div class="col-sm-6">
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
-					</div>
-					<div class="box-body">
-						<div class="form-group">
-							<label for="product_tax_group_id">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'); ?>
-								<?php
-								echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'), JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'), 'tooltip.png', '', '', false);
-								?>
-							</label>
-							<?php echo $this->lists['product_tax_group_id']; ?>
-						</div>
+					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="product_price">
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
@@ -146,6 +109,16 @@ $calendarFormat = '%d-%m-%Y';
 									value="<?php echo $this->detail->product_price; ?>"
 								/>
 							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="product_tax_group_id">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'); ?>
+								<?php
+								echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'), JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'), 'tooltip.png', '', '', false);
+								?>
+							</label>
+							<?php echo $this->lists['product_tax_group_id']; ?>
 						</div>
 
 						<div class="form-group">
@@ -233,6 +206,7 @@ $calendarFormat = '%d-%m-%Y';
 				</div>
 			</div>
 		</div>
+
 
 		<div class="box box-primary">
 			<div class="box-header with-border">
@@ -368,6 +342,23 @@ $calendarFormat = '%d-%m-%Y';
 						)
 					);
 					?>
+				</div>
+
+				<div class="form-group">
+					<label for="product_special0">
+						<?php echo JText::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
+						<?php
+						echo JHtml::tooltip(
+							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
+							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
+							'tooltip.png',
+							'',
+							'',
+							false
+						);
+						?>
+					</label>
+					<?php echo $this->lists['product_special']; ?>
 				</div>
 
 				<div class="form-group">

@@ -1835,7 +1835,7 @@ input[type="search"] {
   }
 }
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .form-group span.hasTooltip
@@ -1843,12 +1843,15 @@ input[type="search"] {
   margin-left: 10px;
 }
 
+.form-group span.hasTooltip img
+{
+  max-width: 14px;
+}
+
 .radio,
 .checkbox {
   position: relative;
   display: block;
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 .radio label,
 .checkbox label {
@@ -8870,6 +8873,11 @@ a:focus {
 .box.box-default {
   border-top-color: #555555;
 }
+
+.box.box-noborder {
+  border-top-width: 1px;
+}
+
 .box.collapsed-box .box-body,
 .box.collapsed-box .box-footer {
   display: none;
@@ -18473,7 +18481,6 @@ input[type="color"],
   display: inline-block;
   height: 18px;
   padding: 4px 6px;
-  margin-bottom: 9px;
   font-size: 13px;
   line-height: 18px;
   color: #555;
@@ -19040,7 +19047,6 @@ select:focus:invalid:focus {
 .input-append,
 .input-prepend {
   display: inline-block;
-  margin-bottom: 9px;
   vertical-align: middle;
   font-size: 0;
   white-space: nowrap;
