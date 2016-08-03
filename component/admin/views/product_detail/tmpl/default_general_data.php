@@ -16,77 +16,229 @@ $calendarFormat = '%d-%m-%Y';
 	<div class="col-sm-8">
 		<div class="box box-primary">
 			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></h3>
+			</div>
+
+			<div class="box-body">
+				<input class="form-control"
+					type="text"
+					name="product_name"
+					id="product_name"
+					size="32"
+					maxlength="250"
+					value="<?php echo htmlspecialchars($this->detail->product_name); ?>" />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<label for="product_number">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER'); ?>
+								<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false); ?>
+							</label>
+							<input class="form-control"
+								type="text"
+								name="product_number"
+								id="product_number"
+								size="32"
+								maxlength="250"
+								value="<?php echo $this->detail->product_number; ?>"
+								/>
+						</div>
+
+						<div class="form-group">
+							<label for="categories">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?>
+								<?php
+								echo JHtml::tooltip(
+									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
+									JText::_('COM_REDSHOP_PRODUCT_CATEGORY'),
+									'tooltip.png',
+									'',
+									'',
+									false
+								);
+								?>
+							</label>
+							<?php echo $this->lists['categories']; ?>
+						</div>
+
+						<div class="form-group">
+							<label for="product_template">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'); ?>
+								<?php
+								echo JHtml::tooltip(
+									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
+									JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'),
+									'tooltip.png',
+									'',
+									'',
+									false
+								);
+								?>
+							</label>
+							<?php echo $this->lists['product_template']; ?>
+						</div>
+
+						<div class="form-group">
+							<label for="published0"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?></label>
+							<?php echo $this->lists['published'];?>
+						</div>
+
+						<div class="form-group">
+							<label for="product_special0">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
+								<?php
+								echo JHtml::tooltip(
+									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
+									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
+									'tooltip.png',
+									'',
+									'',
+									false
+								);
+								?>
+							</label>
+							<?php echo $this->lists['product_special']; ?>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="col-sm-6">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<label for="product_tax_group_id">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'); ?>
+								<?php
+								echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'), JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'), 'tooltip.png', '', '', false);
+								?>
+							</label>
+							<?php echo $this->lists['product_tax_group_id']; ?>
+						</div>
+						<div class="form-group">
+							<label for="product_price">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
+								<?php
+									echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'), JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'tooltip.png', '', '', false);
+								?>
+							</label>
+
+							<div class="input-group">
+								<span class="input-group-addon"><?php echo REDCURRENCY_SYMBOL ?></span>
+								<input class="form-control"
+									type="text"
+									name="product_price"
+									id="product_price"
+									size="10"
+									maxlength="10"
+									value="<?php echo $this->detail->product_price; ?>"
+								/>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="discount_price">
+								<?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
+								<?php
+								echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'), JText::_('COM_REDSHOP_DISCOUNT_PRICE'), 'tooltip.png', '', '', false);
+								?>
+							</label>
+
+							<div class="input-group">
+								<span class="input-group-addon"><?php echo REDCURRENCY_SYMBOL ?></span>
+								<input class="form-control"
+									type="text"
+									name="discount_price"
+									id="discount_price"
+									size="10"
+									maxlength="10"
+									value="<?php echo $this->detail->discount_price; ?>"
+								/>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="discount_stratdate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE'); ?></label>
+							<?php
+								$sdate = "";
+
+								if ($this->detail->discount_stratdate)
+								{
+									if ($startDateTimeStamp = strtotime($this->detail->discount_stratdate))
+									{
+										$this->detail->discount_stratdate = $startDateTimeStamp;
+									}
+
+									$sdate = date("d-m-Y", $this->detail->discount_stratdate);
+								}
+
+								echo JHtml::_(
+									'calendar',
+									$sdate,
+									'discount_stratdate',
+									'discount_stratdate',
+									$calendarFormat,
+									array('class' => 'inputbox', 'size' => '15',  'maxlength' => '19')
+								);
+							?>
+						</div>
+
+						<div class="form-group">
+							<label for="discount_enddate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE'); ?></label>
+							<?php
+								$edate = "";
+
+								if ($this->detail->discount_enddate)
+								{
+									if ($endDateTimeStamp = strtotime($this->detail->discount_enddate))
+									{
+										$this->detail->discount_enddate = $endDateTimeStamp;
+									}
+
+									$edate = date("d-m-Y", $this->detail->discount_enddate);
+								}
+
+								echo JHtml::_(
+									'calendar',
+									$edate,
+									'discount_enddate',
+									'discount_enddate',
+									$calendarFormat,
+									array('class' => 'inputbox', 'size' => '15',  'maxlength' => '19')
+								);
+							?>
+						</div>
+
+						<div class="form-group">
+							<div class="alert alert-info">
+								<?php
+									$isProductOnSale = ($this->detail->product_on_sale) ? JText::_('JYES') : JText::_('JNO');
+									echo JText::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
+								?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></h3>
 			</div>
 			<div class="box-body">
-				<div class="form-group">
-					<label for="product_name">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
-						<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NAME'), JText::_('COM_REDSHOP_PRODUCT_NAME'), 'tooltip.png', '', '', false); ?>
-					</label>
-					<input class="form-control"
-						type="text"
-						name="product_name"
-						id="product_name"
-						size="32"
-						maxlength="250"
-						value="<?php echo htmlspecialchars($this->detail->product_name); ?>" />
-				</div>
-
-				<div class="form-group">
-					<label for="product_number">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER'); ?>
-						<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false); ?>
-					</label>
-					<input class="form-control"
-						type="text"
-						name="product_number"
-						id="product_number"
-						size="32"
-						maxlength="250"
-						value="<?php echo $this->detail->product_number; ?>"
-						/>
-				</div>
-
-				<div class="form-group">
-					<label for="categories">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
-							JText::_('COM_REDSHOP_PRODUCT_CATEGORY'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</label>
-					<?php echo $this->lists['categories']; ?>
-				</div>
-
-				<div class="form-group">
-					<label for="product_template">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
-							JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</label>
-					<?php echo $this->lists['product_template']; ?>
-				</div>
-
-				<div class="form-group">
-					<label for="published0"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?></label>
-					<?php echo $this->lists['published'];?>
-				</div>
-
 				<div class="form-group">
 					<label><?php echo JText::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
 					<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20', false); ?>
@@ -98,6 +250,8 @@ $calendarFormat = '%d-%m-%Y';
 				</div>
 			</div>
 		</div>
+
+
 	</div>
 
 	<div class="col-sm-4">
@@ -153,125 +307,6 @@ $calendarFormat = '%d-%m-%Y';
 					echo RedshopLayoutHelper::render('system.message', $msgList);
 				endif; ?>
 
-			</div>
-		</div>
-
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></h3>
-			</div>
-			<div class="box-body">
-				<div class="form-group">
-					<label for="product_tax_group_id">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'); ?>
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'), JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'), 'tooltip.png', '', '', false);
-						?>
-					</label>
-					<?php echo $this->lists['product_tax_group_id']; ?>
-				</div>
-				<div class="form-group">
-					<label for="product_price">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
-						<?php
-							echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'), JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'tooltip.png', '', '', false);
-						?>
-					</label>
-
-					<div class="input-group">
-						<span class="input-group-addon"><?php echo REDCURRENCY_SYMBOL ?></span>
-						<input class="form-control"
-							type="text"
-							name="product_price"
-							id="product_price"
-							size="10"
-							maxlength="10"
-							value="<?php echo $this->detail->product_price; ?>"
-						/>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="discount_price">
-						<?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'), JText::_('COM_REDSHOP_DISCOUNT_PRICE'), 'tooltip.png', '', '', false);
-						?>
-					</label>
-
-					<div class="input-group">
-						<span class="input-group-addon"><?php echo REDCURRENCY_SYMBOL ?></span>
-						<input class="form-control"
-							type="text"
-							name="discount_price"
-							id="discount_price"
-							size="10"
-							maxlength="10"
-							value="<?php echo $this->detail->discount_price; ?>"
-						/>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="discount_stratdate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE'); ?></label>
-					<?php
-						$sdate = "";
-
-						if ($this->detail->discount_stratdate)
-						{
-							if ($startDateTimeStamp = strtotime($this->detail->discount_stratdate))
-							{
-								$this->detail->discount_stratdate = $startDateTimeStamp;
-							}
-
-							$sdate = date("d-m-Y", $this->detail->discount_stratdate);
-						}
-
-						echo JHtml::_(
-							'calendar',
-							$sdate,
-							'discount_stratdate',
-							'discount_stratdate',
-							$calendarFormat,
-							array('class' => 'inputbox', 'size' => '15',  'maxlength' => '19')
-						);
-					?>
-				</div>
-
-				<div class="form-group">
-					<label for="discount_enddate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE'); ?></label>
-					<?php
-						$edate = "";
-
-						if ($this->detail->discount_enddate)
-						{
-							if ($endDateTimeStamp = strtotime($this->detail->discount_enddate))
-							{
-								$this->detail->discount_enddate = $endDateTimeStamp;
-							}
-
-							$edate = date("d-m-Y", $this->detail->discount_enddate);
-						}
-
-						echo JHtml::_(
-							'calendar',
-							$edate,
-							'discount_enddate',
-							'discount_enddate',
-							$calendarFormat,
-							array('class' => 'inputbox', 'size' => '15',  'maxlength' => '19')
-						);
-					?>
-				</div>
-
-				<div class="form-group">
-					<div class="alert alert-info">
-						<?php
-							$isProductOnSale = ($this->detail->product_on_sale) ? JText::_('JYES') : JText::_('JNO');
-							echo JText::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
-						?>
-					</div>
-				</div>
 			</div>
 		</div>
 
@@ -333,23 +368,6 @@ $calendarFormat = '%d-%m-%Y';
 						)
 					);
 					?>
-				</div>
-
-				<div class="form-group">
-					<label for="product_special0">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</label>
-					<?php echo $this->lists['product_special']; ?>
 				</div>
 
 				<div class="form-group">
@@ -501,7 +519,14 @@ $calendarFormat = '%d-%m-%Y';
 						   value="<?php echo @$this->detail->max_order_product_quantity; ?>"
 						/>
 				</div>
+			</div>
+		</div>
 
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_MEASURES'); ?></h3>
+			</div>
+			<div class="box-body">
 				<div class="form-group">
 					<label for="product_volume">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_VOLUME'); ?>
