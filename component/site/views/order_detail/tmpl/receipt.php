@@ -154,7 +154,7 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
-$googleanalytics = new GoogleAnalytics;
+$googleanalytics = new RedshopHelperGoogleAnalytics;
 
 $analytics_status = $order->analytics_status;
 
