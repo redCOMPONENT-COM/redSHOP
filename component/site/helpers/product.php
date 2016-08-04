@@ -762,7 +762,7 @@ class RedshopSiteProduct
 	{
 		if ($dbname = $this->getExtraFieldsForCurrentTemplate($filedname, $template_data, $categorypage))
 		{
-			$extraField = extraField::getInstance();
+			$extraField = RedshopSiteExtraField::getInstance();
 			$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 		}
 
@@ -3137,7 +3137,7 @@ class RedshopSiteProduct
 
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
-		$extraField  = extraField::getInstance();
+		$extraField  = RedshopSiteExtraField::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$cart        = $this->_session->get('cart');
 
@@ -3198,7 +3198,7 @@ class RedshopSiteProduct
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$cart       = $this->_session->get('cart');
 		$product_id = $cart[$id]['product_id'];
 		$row_data   = $extraField->getSectionFieldList($section_id, 1, 0);
@@ -3230,7 +3230,7 @@ class RedshopSiteProduct
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
-		$extraField      = extraField::getInstance();
+		$extraField      = RedshopSiteExtraField::getInstance();
 		$order_functions = order_functions::getInstance();
 		$orderItem       = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
 
@@ -3267,7 +3267,7 @@ class RedshopSiteProduct
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
@@ -6095,7 +6095,7 @@ class RedshopSiteProduct
 	{
 		$user_id         = 0;
 		$redconfig       = Redconfiguration::getInstance();
-		$extraField      = extraField::getInstance();
+		$extraField      = RedshopSiteExtraField::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$product_quantity = JRequest::getVar('product_quantity');
@@ -9999,7 +9999,7 @@ class RedshopSiteProduct
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 
 		if (count($fieldArray) > 0)
 		{
@@ -10038,7 +10038,7 @@ class RedshopSiteProduct
 	 */
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field      = extraField::getInstance();
+		$extra_field      = RedshopSiteExtraField::getInstance();
 		$config           = Redconfiguration::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$redhelper        = redhelper::getInstance();
@@ -10491,7 +10491,7 @@ class RedshopSiteProduct
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
@@ -10514,7 +10514,7 @@ class RedshopSiteProduct
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 

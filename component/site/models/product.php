@@ -334,7 +334,7 @@ class RedshopModelProduct extends RedshopModel
 	public function addtowishlist2session($data)
 	{
 		ob_clean();
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
 

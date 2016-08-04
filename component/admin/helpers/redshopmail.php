@@ -1043,7 +1043,7 @@ class redshopMail
 
 		$template_sdata = explode('{product_loop_start}', $message);
 
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 
 		if (count($template_sdata) > 0)

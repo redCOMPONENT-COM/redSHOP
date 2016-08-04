@@ -18,9 +18,9 @@ $fields = $plugin->params->get('extrafield_payment', array());
 	<div id="extraFields_<?php echo $plugin->name; ?>">
 	<?php foreach ($fields as $name) : ?>
 		<?php
-			$fieldInput = extraField::getInstance()->list_all_user_fields(
+			$fieldInput = RedshopSiteExtraField::getInstance()->list_all_user_fields(
 							$name,
-							extraField::SECTION_PAYMENT_GATEWAY,
+							RedshopSiteExtraField::SECTION_PAYMENT_GATEWAY,
 							'',
 							0,
 							0,

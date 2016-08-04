@@ -34,7 +34,7 @@ class extra_field
 		return self::$instance;
 	}
 
-	public function list_all_field_in_product($section = extraField::SECTION_PRODUCT)
+	public function list_all_field_in_product($section = RedshopSiteExtraField::SECTION_PRODUCT)
 	{
 		$db = JFactory::getDbo();
 
@@ -83,7 +83,7 @@ class extra_field
 			$reqlbl = ' reqlbl="" ';
 			$errormsg = ' errormsg="" ';
 
-			if ($field_section == extraField::SECTION_QUOTATION && $row_data[$i]->required == 1)
+			if ($field_section == RedshopSiteExtraField::SECTION_QUOTATION && $row_data[$i]->required == 1)
 			{
 				$required = ' required="1" ';
 				$reqlbl = ' reqlbl="' . $extra_field_label . '" ';
@@ -92,7 +92,7 @@ class extra_field
 
 			switch ($type)
 			{
-				case extraField::TYPE_TEXT:
+				case RedshopSiteExtraField::TYPE_TEXT:
 					$text_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
 					$extra_field_value = '<input
@@ -111,14 +111,14 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_TEXT_AREA:
+				case RedshopSiteExtraField::TYPE_TEXT_AREA:
 					$textarea_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$extra_field_value = '<textarea class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '" ' . $required . $reqlbl . $errormsg . ' id="' . $row_data[$i]->field_name . '" cols="' . $row_data[$i]->field_cols . '" rows="' . $row_data[$i]->field_rows . '" >' . htmlspecialchars($textarea_value) . '</textarea>';
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_CHECK_BOX:
+				case RedshopSiteExtraField::TYPE_CHECK_BOX:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -134,7 +134,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_RADIO_BUTTON:
+				case RedshopSiteExtraField::TYPE_RADIO_BUTTON:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -150,7 +150,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_BOX_SINGLE:
+				case RedshopSiteExtraField::TYPE_SELECT_BOX_SINGLE:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -168,7 +168,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_BOX_MULTIPLE:
+				case RedshopSiteExtraField::TYPE_SELECT_BOX_MULTIPLE:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -185,7 +185,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_COUNTRY_BOX:
+				case RedshopSiteExtraField::TYPE_SELECT_COUNTRY_BOX:
 					$q = "SELECT * FROM #__redshop_country";
 					$db->setQuery($q);
 					$field_chk = $db->loadObjectlist();
@@ -205,7 +205,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_WYSIWYG:
+				case RedshopSiteExtraField::TYPE_WYSIWYG:
 					$editor = JFactory::getEditor();
 					$document = JFactory::getDocument();
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
@@ -214,7 +214,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_DOCUMENTS:
+				case RedshopSiteExtraField::TYPE_DOCUMENTS:
 
 					$document = JFactory::getDocument();
 					JHtml::_('redshopjquery.ui');
@@ -305,7 +305,7 @@ class extra_field
 					$ex_field .= '<td><a href="#" title="' . $row_data[$i]->field_name . '" id="add_' . $row_data[$i]->field_name . '">' . JText::_('COM_REDSHOP_ADD') . '</a><div id="html_' . $row_data[$i]->field_name . '">' . $extra_field_value . '</div>';
 					break;
 
-				case extraField::TYPE_IMAGE_SELECT:
+				case RedshopSiteExtraField::TYPE_IMAGE_SELECT:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 					$value = '';
@@ -338,7 +338,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_DATE_PICKER:
+				case RedshopSiteExtraField::TYPE_DATE_PICKER:
 
 					if ($row_data[$i]->field_section != 17)
 					{
@@ -363,7 +363,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_IMAGE_WITH_LINK:
+				case RedshopSiteExtraField::TYPE_IMAGE_WITH_LINK:
 
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
@@ -428,7 +428,7 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
+				case RedshopSiteExtraField::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
 
 					$date = date("d-m-Y", time());
 
@@ -572,7 +572,7 @@ class extra_field
 			}
 
 			// Save Document Extra Field
-			if ($row_data[$i]->field_type == extraField::TYPE_DOCUMENTS)
+			if ($row_data[$i]->field_type == RedshopSiteExtraField::TYPE_DOCUMENTS)
 			{
 				$files = $_FILES[$row_data[$i]->field_name]['name'];
 				$texts = $data['text_' . $row_data[$i]->field_name];
@@ -632,7 +632,7 @@ class extra_field
 				}
 			}
 
-			if ($row_data[$i]->field_type == extraField::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS)
+			if ($row_data[$i]->field_type == RedshopSiteExtraField::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS)
 			{
 				if ($data[$row_data[$i]->field_name] != "" && $data[$row_data[$i]->field_name . "_expiry"] != "")
 				{
@@ -655,11 +655,11 @@ class extra_field
 
 			$sect = explode(",", $field_section);
 
-			if ($row_data[$i]->field_type == extraField::TYPE_IMAGE_SELECT || $row_data[$i]->field_type == extraField::TYPE_IMAGE_WITH_LINK)
+			if ($row_data[$i]->field_type == RedshopSiteExtraField::TYPE_IMAGE_SELECT || $row_data[$i]->field_type == RedshopSiteExtraField::TYPE_IMAGE_WITH_LINK)
 			{
 				$list = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id, $user_email);
 
-				if ($row_data[$i]->field_type == extraField::TYPE_IMAGE_WITH_LINK)
+				if ($row_data[$i]->field_type == RedshopSiteExtraField::TYPE_IMAGE_WITH_LINK)
 				{
 					$field_value_array = explode(',', $data['imgFieldId' . $row_data[$i]->field_id]);
 					$image_hover = array();
@@ -791,17 +791,17 @@ class extra_field
 
 			switch ($type)
 			{
-				case extraField::TYPE_TEXT:
+				case RedshopSiteExtraField::TYPE_TEXT:
 					$extra_field_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_TEXT_AREA:
+				case RedshopSiteExtraField::TYPE_TEXT_AREA:
 					$extra_field_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_CHECK_BOX:
+				case RedshopSiteExtraField::TYPE_CHECK_BOX:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -818,7 +818,7 @@ class extra_field
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_RADIO_BUTTON:
+				case RedshopSiteExtraField::TYPE_RADIO_BUTTON:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -835,7 +835,7 @@ class extra_field
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_BOX_SINGLE:
+				case RedshopSiteExtraField::TYPE_SELECT_BOX_SINGLE:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -852,7 +852,7 @@ class extra_field
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_BOX_MULTIPLE:
+				case RedshopSiteExtraField::TYPE_SELECT_BOX_MULTIPLE:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -876,7 +876,7 @@ class extra_field
 					$ex_field .= $extra_field_value;
 					break;
 
-				case extraField::TYPE_SELECT_COUNTRY_BOX:
+				case RedshopSiteExtraField::TYPE_SELECT_COUNTRY_BOX:
 					$extra_field_value = "";
 
 					if ($data_value && $data_value->data_txt)
@@ -892,7 +892,7 @@ class extra_field
 					break;
 
 				// 12 :- Date Picker
-				case extraField::TYPE_DATE_PICKER:
+				case RedshopSiteExtraField::TYPE_DATE_PICKER:
 					$extra_field_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$ex_field .= $extra_field_value;
 					break;
@@ -925,7 +925,7 @@ class extra_field
 	}
 
 
-	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id)
+	public function list_all_user_fields($field_section = "", $section_id = RedshopSiteExtraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id)
 	{
 		$db = JFactory::getDbo();
 		JHtml::script('com_redshop/attribute.js', false, true);
@@ -961,17 +961,17 @@ class extra_field
 
 				switch ($type)
 				{
-					case extraField::TYPE_TEXT:
+					case RedshopSiteExtraField::TYPE_TEXT:
 						$onkeyup = '';
 						$ex_field .= '<div class="userfield_input"><input class="' . $row_data[$i]->field_class . '" type="text" maxlength="' . $row_data[$i]->field_maxlength . '" onkeyup="var f_value = this.value;' . $onkeyup . '" name="extrafieldname' . $unique_id . '[]"  id="' . $row_data[$i]->field_name . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" value="' . $text_value . '" size="' . $row_data[$i]->field_size . '" /></div>';
 						break;
 
-					case extraField::TYPE_TEXT_AREA:
+					case RedshopSiteExtraField::TYPE_TEXT_AREA:
 						$onkeyup = '';
 						$ex_field .= '<div class="userfield_input"><textarea class="' . $row_data[$i]->field_class . '"  name="extrafieldname' . $unique_id . '[]"  id="' . $row_data[$i]->field_name . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" cols="' . $row_data[$i]->field_cols . '" onkeyup=" var f_value = this.value;' . $onkeyup . '" rows="' . $row_data[$i]->field_rows . '" >' . $text_value . '</textarea></div>';
 						break;
 
-					case extraField::TYPE_CHECK_BOX:
+					case RedshopSiteExtraField::TYPE_CHECK_BOX:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
@@ -982,7 +982,7 @@ class extra_field
 						}
 						break;
 
-					case extraField::TYPE_RADIO_BUTTON:
+					case RedshopSiteExtraField::TYPE_RADIO_BUTTON:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 
@@ -993,7 +993,7 @@ class extra_field
 						}
 						break;
 
-					case extraField::TYPE_SELECT_BOX_SINGLE:
+					case RedshopSiteExtraField::TYPE_SELECT_BOX_SINGLE:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select name="extrafieldname' . $unique_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
@@ -1011,7 +1011,7 @@ class extra_field
 						$ex_field .= '</select></div>';
 						break;
 
-					case extraField::TYPE_SELECT_BOX_MULTIPLE:
+					case RedshopSiteExtraField::TYPE_SELECT_BOX_MULTIPLE:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafieldname' . $unique_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
@@ -1025,7 +1025,7 @@ class extra_field
 						$ex_field .= '</select></div>';
 						break;
 
-					case extraField::TYPE_DOCUMENTS:
+					case RedshopSiteExtraField::TYPE_DOCUMENTS:
 						JHtml::_('redshopjquery.framework');
 						JHtml::script('com_redshop/ajaxupload.js', false, true);
 						$ajax = "";
@@ -1036,7 +1036,7 @@ class extra_field
 
 						break;
 
-					case extraField::TYPE_IMAGE_SELECT:
+					case RedshopSiteExtraField::TYPE_IMAGE_SELECT:
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<table><tr>';
@@ -1052,7 +1052,7 @@ class extra_field
 						$ex_field .= '<input type="hidden" name="extrafieldname' . $unique_id . '[]" id="' . $ajax . $row_data[$i]->field_name . '_' . $unique_id . '" userfieldlbl="' . $row_data[$i]->field_title . '" ' . $req . '  />';
 						break;
 
-					case extraField::TYPE_DATE_PICKER:
+					case RedshopSiteExtraField::TYPE_DATE_PICKER:
 						$ajax = '';
 						$req = $row_data[$i]->required;
 
@@ -1110,7 +1110,7 @@ class extra_field
 		return $list;
 	}
 
-	public function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
+	public function getSectionFieldList($section = RedshopSiteExtraField::SECTION_PRODUCT_USERFIELD, $front = 1)
 	{
 		$db = JFactory::getDbo();
 

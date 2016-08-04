@@ -257,7 +257,7 @@ class RedshopControllerProduct extends RedshopController
 	{
 		ob_clean();
 		$app        = JFactory::getApplication();
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
 

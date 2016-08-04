@@ -76,7 +76,7 @@ if ($total > 0)
 	$template = str_replace('{remove_all}', $removeAll, $template);
 
 	// Make extrafield object..
-	$field    = extraField::getInstance();
+	$field    = RedshopSiteExtraField::getInstance();
 
 	$product_tag = array();
 
