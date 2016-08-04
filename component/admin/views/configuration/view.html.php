@@ -45,7 +45,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$this->config = $model->getData();
 
-		$redhelper   = redhelper::getInstance();
+		$redhelper   = RedshopSiteHelper::getInstance();
 		$config      = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$extra_field = extra_field::getInstance();

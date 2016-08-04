@@ -295,7 +295,7 @@ class rsstockroomhelper
 		}
 		else
 		{
-			$helper = redhelper::getInstance();
+			$helper = RedshopSiteHelper::getInstance();
 
 			if ($helper->isredCRM())
 			{
@@ -409,7 +409,7 @@ class rsstockroomhelper
 		}
 		else
 		{
-			$helper = redhelper::getInstance();
+			$helper = RedshopSiteHelper::getInstance();
 
 			if ($helper->isredCRM())
 			{

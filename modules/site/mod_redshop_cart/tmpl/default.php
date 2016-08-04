@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$redhelper     = redhelper::getInstance();
+$redhelper     = RedshopSiteHelper::getInstance();
 $app           = JFactory::getApplication();
 $itemId        = (int) $redhelper->getCartItemid();
 

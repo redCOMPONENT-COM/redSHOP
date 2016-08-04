@@ -13,7 +13,7 @@ JHtml::_('behavior.tooltip');
 JHtmlBehavior::modal();
 $url = JURI::base();
 
-$objhelper = redhelper::getInstance();
+$objhelper = RedshopSiteHelper::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $extraField = RedshopSiteExtraField::getInstance();
