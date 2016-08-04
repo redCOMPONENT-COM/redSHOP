@@ -98,47 +98,31 @@ $editor = JFactory::getEditor();
 			</div>
 			<div class="box-body">
 				<div class="form-group">
-					<input type="file" name="category_full_image" id="category_full_image" size="30">
-
 					<?php
-					$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
+					echo RedshopLayoutHelper::render(
+						'component.image',
+						array(
+							'id'        => 'category_full_image',
+							'deleteid'  => 'image_delete',
+							'displayid' => 'image_display',
+							'type' 	    => 'category',
+							'image'     => $this->detail->category_full_image
+						)
+					);
 					?>
-					<a class="modal btn btn-primary inline" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
-						<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
-					</a>
+
+					<div class="btn-toolbar">
+						<?php
+						$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
+						?>
+						<a class="modal btn btn-primary inline" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
+							<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
+						</a>
+					</div>
 
 					<input type="hidden" name="category_image" id="category_image"/>
 				</div>
-				<div class="form-group">
 
-					<?php
-					if ($this->detail->category_full_image != "")
-					{
-						if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
-						{
-							$thumbUrl = RedShopHelperImages::getImagePath(
-											$this->detail->category_full_image,
-											'',
-											'thumb',
-											'category',
-											THUMB_WIDTH,
-											THUMB_HEIGHT,
-											USE_IMAGE_SIZE_SWAPPING
-										);
-							?>
-							<a class="modal"
-								href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>category/<?php echo $this->detail->category_full_image ?>"
-								title="" rel="{handler: 'image', size: {}}">
-								<img src="<?php echo $thumbUrl ?>">
-							</a>
-
-							<label class="checkbox"><input type="checkbox" name="image_delete" >
-								<?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE'); ?>
-							</label>
-						<?php
-						}
-					} ?>
-				</div>
 			</div>
 		</div>
 
@@ -148,38 +132,19 @@ $editor = JFactory::getEditor();
 			</div>
 			<div class="box-body">
 				<div class="form-group">
-					<input type="file" name="category_back_full_image" id="category_back_full_image" size="30">
+					<?php
+					echo RedshopLayoutHelper::render(
+						'component.image',
+						array(
+							'id'        => 'category_back_full_image',
+							'deleteid'  => 'image_back_delete',
+							'displayid' => 'image_back',
+							'type' 	    => 'category',
+							'image'     => $this->detail->category_back_full_image
+						)
+					);
+					?>
 				</div>
-
-				<?php
-				if ($this->detail->category_back_full_image != "")
-				{
-					if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_back_full_image))
-					{
-						$thumbUrl = RedShopHelperImages::getImagePath(
-										$this->detail->category_back_full_image,
-										'',
-										'thumb',
-										'category',
-										THUMB_WIDTH,
-										THUMB_HEIGHT,
-										USE_IMAGE_SIZE_SWAPPING
-									);
-						?>
-				<div class="form-group">
-					<a class="modal"
-						href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>category/<?php echo $this->detail->category_back_full_image ?>"
-						title="" rel="{handler: 'image', size: {}}">
-						<img src="<?php echo $thumbUrl ?>">
-					</a>
-
-					<label class="checkbox"><input type="checkbox" name="image_back_delete" >
-						<?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE'); ?>
-					</label>
-				</div>
-						<?php
-					}
-				} ?>
 			</div>
 		</div>
 	</div>

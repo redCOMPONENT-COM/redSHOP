@@ -9,6 +9,9 @@
 defined('_JEXEC') or die;
 
 $editor = JFactory::getEditor();
+$order_functions = order_functions::getInstance();
+$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+
 ?>
 
 <div class="row">
@@ -116,15 +119,15 @@ $editor = JFactory::getEditor();
 							);
 				?>
 
-				<div id="image_dis">
+				<div class="divimage">
 					<img src="<?php echo $image_path; ?>" id="image_display" border="0"/>
 					<input type="hidden" name="product_image" id="product_image"/>
 				</div>
 
-				<div class="button2-left">
-					<div class="image"><a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>"
-					                      rel="{handler: 'iframe', size: {x: 950, y: 500}}"><?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?></a>
-					</div>
+				<div class="btn-toolbar">
+					<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
+					</a>
 				</div>
 			</div>
 		</div>
