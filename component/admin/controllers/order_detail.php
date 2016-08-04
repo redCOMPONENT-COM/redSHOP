@@ -91,7 +91,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function neworderitem()
 	{
-		$adminproducthelper = adminProductHelper::getInstance();
+		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$post = JRequest::get('post');
 		$tmpl = "";
@@ -384,7 +384,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function displayProductItemInfo()
 	{
-		$adminproducthelper = adminProductHelper::getInstance();
+		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$get = JRequest::get('get');
 
 		$product_id = $get['product'];

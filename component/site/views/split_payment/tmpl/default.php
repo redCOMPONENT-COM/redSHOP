@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $order_functions = order_functions::getInstance();
 
 $url = JURI::base();

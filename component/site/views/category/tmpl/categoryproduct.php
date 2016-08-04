@@ -14,7 +14,7 @@ JHTMLBehavior::modal();
 
 $objhelper       = redhelper::getInstance();
 $config          = Redconfiguration::getInstance();
-$producthelper   = producthelper::getInstance();
+$producthelper   = RedshopSiteProduct::getInstance();
 $extraField      = extraField::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();

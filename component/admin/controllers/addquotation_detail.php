@@ -29,7 +29,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 	public function save($send = 0, $apply = 0)
 	{
 		$post = JRequest::get('post');
-		$adminproducthelper = adminProductHelper::getInstance();
+		$adminproducthelper = RedshopAdminProduct::getInstance();
 
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');

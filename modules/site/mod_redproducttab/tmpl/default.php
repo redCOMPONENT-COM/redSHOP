@@ -16,7 +16,7 @@ JHtml::script('com_redshop/common.js', false, true);
 JHTML::script('com_redshop/redbox.js', false, true);
 $module_id = "mod_" . $module->id;
 
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $redhelper     = redhelper::getInstance();
 $extraField    = extraField::getInstance();
 
