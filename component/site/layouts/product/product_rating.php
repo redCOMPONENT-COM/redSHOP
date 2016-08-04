@@ -27,7 +27,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('redshopjquery.radiobutton');
 
 $user = JFactory::getUser();
-$userHelper = rsUserHelper::getInstance();
+$userHelper = RedshopSiteUser::getInstance();
 
 if ($user->id)
 {

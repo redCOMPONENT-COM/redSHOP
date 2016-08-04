@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class rsUserhelper
+class RedshopSiteUser
 {
 	public $_session = null;
 

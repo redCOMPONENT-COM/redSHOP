@@ -55,7 +55,7 @@ class RedshopModelCart extends RedshopModel
 
 		$this->_producthelper = RedshopSiteProduct::getInstance();
 		$this->_carthelper    = RedshopSiteCart::getInstance();
-		$this->_userhelper    = rsUserHelper::getInstance();
+		$this->_userhelper    = RedshopSiteUser::getInstance();
 		$this->_objshipping   = shipping::getInstance();
 
 		if (JModuleHelper::isEnabled('redshop_cart'))
