@@ -6,14 +6,25 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-class CaptchaSecurityImages
+class RedshopSiteCaptcha
 {
+	/**
+	 * Fort patch to be used in printing captcha code.
+	 *
+	 * @var  string
+	 */
 	public $font = 'components/com_redshop/assets/captcha/monofont.ttf';
 
+	/**
+	 * Generate captcha code to offer
+	 *
+	 * @param   integer  $characters  Howmany characters should be in captcha code.
+	 *
+	 * @return  string  Final prepared captcha code
+	 */
 	public function generateCode($characters)
 	{
-		/* list all possible characters, similar looking characters and vowels have been removed */
+		// list all possible characters, similar looking characters and vowels have been removed
 		$possible = '23456789bcdfghjkmnpqrstvwxyz';
 		$code     = '';
 		$i        = 0;
@@ -27,13 +38,19 @@ class CaptchaSecurityImages
 		return $code;
 	}
 
-	public function CaptchaSecurityImages($width = '120', $height = '40', $characters = '6', $captchaname = 'security_code')
+	/**
+	 * Captcha code image to dispay
+	 *
+	 * @param  integer  $width        Width for showing captcha image
+	 * @param  integer  $height       Height for showing captcha image
+	 * @param  integer  $characters   Number of characters should be in captcha.
+	 * @param  string   $name         Name of the captcha.
+	 */
+	public function __construct($width = 120, $height = 40, $characters = 6, $name = 'security_code')
 	{
-		$session = JFactory::getSession();
-
 		$code = $this->generateCode($characters);
 
-		if ($captchaname == 'pri_security_code')
+		if ($name == 'pri_security_code')
 		{
 			setcookie('pri_security_code', $code);
 		}
@@ -47,7 +64,6 @@ class CaptchaSecurityImages
 		$image     = @imagecreate($width, $height) or die('Cannot initialize new GD image stream');
 
 		// Set the colours
-		$background_color = imagecolorallocate($image, 255, 255, 255);
 		$text_color       = imagecolorallocate($image, 20, 40, 100);
 		$noise_color      = imagecolorallocate($image, 100, 120, 180);
 
@@ -71,9 +87,12 @@ class CaptchaSecurityImages
 
 		// Output captcha image to browser
 		ob_clean();
+
 		header('Content-Type: image/jpeg');
+
 		imagejpeg($image);
 		imagedestroy($image);
+
 		exit;
 	}
 }
