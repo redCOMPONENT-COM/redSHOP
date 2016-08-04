@@ -273,7 +273,7 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function resetTermsCondition()
 	{
-		$userhelper = rsUserHelper::getInstance();
+		$userhelper = RedshopSiteUser::getInstance();
 		$userhelper->updateUserTermsCondition();
 		die();
 	}

@@ -310,7 +310,7 @@ class RedshopModelCategory extends RedshopModel
 		$sort = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper               = RedshopSiteUser::getInstance();
 		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopperGroupManufactures != "")

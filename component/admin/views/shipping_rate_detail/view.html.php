@@ -17,7 +17,7 @@ class RedshopViewShipping_rate_detail extends RedshopView
 		$app = JFactory::getApplication();
 		$context = 'shipping_rate';
 		$shippinghelper = shipping::getInstance();
-		$userhelper = rsUserHelper::getInstance();
+		$userhelper = RedshopSiteUser::getInstance();
 		$uri = JFactory::getURI();
 		$model = $this->getModel();
 		$db = JFactory::getDbo();
