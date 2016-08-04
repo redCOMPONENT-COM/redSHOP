@@ -15,7 +15,7 @@ class RedshopViewManufacturers extends RedshopView
 	{
 		$app = JFactory::getApplication();
 
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$redhelper     = redhelper::getInstance();
 		$document      = JFactory::getDocument();
 		$print         = JRequest::getInt('print');
@@ -228,7 +228,7 @@ class RedshopViewManufacturers extends RedshopView
 		else
 		{
 			$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
-			
+
 			if ($app->input->getString('order_by', '') != null)
 			{
 				$order_by_select = $app->input->getString('order_by', '');
@@ -241,7 +241,7 @@ class RedshopViewManufacturers extends RedshopView
 			{
 				$order_by_select = $filter_order;
 			}
-			
+
 			$order_data      = $redhelper->getManufacturerOrderByList();
 		}
 

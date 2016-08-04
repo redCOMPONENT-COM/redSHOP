@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 $url = JURI::base();
 $order_functions = order_functions::getInstance();
 $redconfig = Redconfiguration::getInstance();
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $order_id = JRequest::getInt('order_id', 0);

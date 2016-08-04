@@ -104,7 +104,7 @@ class redshopMail
 	public function sendOrderMail($order_id, $onlyAdmin = false)
 	{
 		$redconfig = Redconfiguration::getInstance();
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$session = JFactory::getSession();
 
 		$config = JFactory::getConfig();
@@ -343,7 +343,7 @@ class redshopMail
 
 	public function sendOrderSpecialDiscountMail($order_id)
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 
 		$config        = JFactory::getConfig();
 		$mailbcc       = array();
@@ -893,7 +893,7 @@ class redshopMail
 	{
 		$app           = JFactory::getApplication();
 
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$redconfig     = Redconfiguration::getInstance();
 
 		$MailFrom      = $app->getCfg('mailfrom');
@@ -1010,7 +1010,7 @@ class redshopMail
 	public function sendQuotationMail($quotation_id, $status = 0)
 	{
 		$redconfig       = Redconfiguration::getInstance();
-		$producthelper   = producthelper::getInstance();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$extra_field     = extra_field::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$config          = JFactory::getConfig();
@@ -1477,7 +1477,7 @@ class redshopMail
 
 	public function sendAskQuestionMail($ansid)
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$uri           = JURI::getInstance();
 		$url           = $uri->root();
 		$subject       = "";

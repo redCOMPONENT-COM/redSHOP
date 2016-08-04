@@ -609,7 +609,7 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
-		$producthelper   = producthelper::getInstance();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();
@@ -733,19 +733,13 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function captcha()
 	{
-		// Isset($_GET['width']) ? $_GET['width'] : '120';
-		$width = JRequest::getInt('width', 120);
+		$app         = JFactory::getApplication();
+		$width       = $app->input->getInt('width', 120);
+		$height      = $app->input->getInt('height', 40);
+		$characters  = $app->input->getInt('characters', 6);
+		$captchaname = $app->input->getCmd('captcha', 'security_code');
 
-		// Isset($_GET['height']) ? $_GET['height'] : '40';
-		$height = JRequest::getInt('height', 40);
-
-		// Isset($_GET['characters']) && $_GET['characters'] > 1 ? $_GET['characters'] : '6';
-		$characters = JRequest::getInt('characters', 6);
-
-		// Isset($_GET['captcha']) ? $_GET['captcha'] : 'security_code';
-		$captchaname = JRequest::getCmd('captcha', 'security_code');
-
-		$captcha = new CaptchaSecurityImages($width, $height, $characters, $captchaname);
+		$captcha = new RedshopSiteCaptcha($width, $height, $characters, $captchaname);
 	}
 
 	/**

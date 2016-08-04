@@ -13,7 +13,7 @@ JHTMLBehavior::modal();
 $url = JURI::base();
 $extraField = extraField::getInstance();
 $extra_field = extra_field::getInstance();
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $redhelper = redhelper::getInstance();
 $Itemid = JRequest::getInt('Itemid');
