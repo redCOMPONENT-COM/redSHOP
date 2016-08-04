@@ -9,17 +9,36 @@
 
 defined('_JEXEC') or die;
 
-class statistic
+class RedshopSiteStatistic
 {
-	public $_table_prefix = null;
+	protected static $instance = null;
 
-	public $_db = null;
-
-	public function __construct()
+	/**
+	 * Returns the productHelper object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  productHelper  The productHelper object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
 	{
-		$this->_db           = JFactory::getDbo();
+		if (self::$instance === null)
+		{
+			self::$instance = new static;
+		}
 
-		// Add entry to statistics if Statistics is enabled in configuration
+		return self::$instance;
+	}
+
+	/**
+	 * Add entry to statistics
+	 *
+	 * @return  void
+	 */
+	public function track()
+	{
+		// Only when enabled in configuration
 		if (STATISTICS_ENABLE)
 		{
 			$this->reshop_visitors();
@@ -36,8 +55,8 @@ class statistic
 
 		$q = "SELECT * FROM #__redshop_siteviewer "
 			. "WHERE session_id = " . $db->quote($sid);
-		$this->_db->setQuery($q);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($q);
+		$data = $db->loadObjectList();
 		$date = time();
 
 		if (!count($data))
@@ -45,9 +64,9 @@ class statistic
 			$query = "INSERT INTO #__redshop_siteviewer "
 				. "(session_id, user_id, created_date) "
 				. "VALUES (" . $db->quote($sid) . ", " . (int) $user->id . "," . (int) $date . ")";
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if ($this->_db->execute())
+			if ($db->execute())
 			{
 				return true;
 			}
@@ -84,20 +103,18 @@ class statistic
 				. "WHERE session_id = " . $db->quote($sid) . " "
 				. "AND section = " . $db->quote($view) . " "
 				. "AND section_id = " . (int) $sectionid;
-			$this->_db->setQuery($q);
-			$data = $this->_db->loadObjectList();
+			$db->setQuery($q);
+			$data = $db->loadObjectList();
 			$date = time();
-
-			$hit = count($data) + 1;
 
 			if (!count($data))
 			{
 				$query = "INSERT INTO #__redshop_pageviewer "
 					. "(session_id, user_id, section, section_id, created_date) "
 					. "VALUES (" . $db->quote($sid) . "," . (int) $user->id . "," . $db->quote($view) . "," . (int) $sectionid . "," . (int) $date . ")";
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				if ($this->_db->execute())
+				if ($db->execute())
 				{
 					return true;
 				}
