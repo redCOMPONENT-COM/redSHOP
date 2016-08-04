@@ -210,13 +210,16 @@ $calendarFormat = '%d-%m-%Y';
 							?>
 						</div>
 
-						<div class="form-group">
-							<div class="alert alert-info">
-								<?php
-									$isProductOnSale = ($this->detail->product_on_sale) ? JText::_('JYES') : JText::_('JNO');
-									echo JText::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
-								?>
-							</div>
+						<?php $display = "";
+						if (!$this->detail->discount_stratdate && !$this->detail->discount_enddate) : ?>
+							<?php $display = 'style="display: none"' ?>
+						<?php endif; ?>
+
+						<div class="alert alert-info" <?php echo $display ?>>
+							<?php
+								$isProductOnSale = ($this->detail->product_on_sale) ? JText::_('JYES') : JText::_('JNO');
+								echo JText::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
+							?>
 						</div>
 					</div>
 				</div>

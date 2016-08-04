@@ -1838,6 +1838,11 @@ input[type="search"] {
   margin-bottom: 20px;
 }
 
+.form-group:last-child
+{
+  margin-bottom: 0;
+}
+
 .form-group span.hasTooltip
 {
   margin-left: 10px;
