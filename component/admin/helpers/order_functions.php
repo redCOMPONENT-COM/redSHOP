@@ -1840,7 +1840,7 @@ class order_functions
 		$app = JFactory::getApplication();
 
 		$config          = Redconfiguration::getInstance();
-		$carthelper      = rsCarthelper::getInstance();
+		$carthelper      = RedshopSiteCart::getInstance();
 		$order_functions = order_functions::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 

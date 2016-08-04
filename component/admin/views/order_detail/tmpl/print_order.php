@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$carthelper = rsCarthelper::getInstance();
+$carthelper = RedshopSiteCart::getInstance();
 $uri = JURI::getInstance();
 $url = $uri->root();
 $redTemplate = Redtemplate::getInstance();
