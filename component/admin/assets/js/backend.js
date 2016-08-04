@@ -16273,17 +16273,34 @@ Licensed under the BSD-2-Clause License.
 		// We cannot access the body tag so add admin-lte styling classes dynamically
 		$('body').addClass('skin-black sidebar-mini');
 
+		$('.imagewarning').hide();
+
 		$('.divimage').hover(function(){
 			$(this).toggleClass('hover');
 		});
 
 		$('.divimagebuttons #deletebtn').click(function(){
-			$(this).parent().parent().hide();
-			$(this).parent().parent().parent().find('input[rel="noicheck"]').click();
+			var divimage = $(this).parent().parent();
+
+			$(divimage).hide();
+			$(divimage).parent().find('input[rel="noicheck"]').click();
+
+			$(divimage).prev().fadeIn('slow', function () {
+				$(this).delay(2000).fadeOut('slow');
+			});
 		});
 
 		$('.divimagebuttons #editbtn').click(function(){
-			$(this).parent().parent().next().find('input').click();
+			var divimage = $(this).parent().parent();
+			var file = $(divimage).next().find('input');
+
+			$(file).click();
+
+			$(file).change(function (){
+				$(divimage).prev().fadeIn('slow', function () {
+					$(this).delay(2000).fadeOut('slow');
+				});
+		    });
 		});
 
 		// Form action

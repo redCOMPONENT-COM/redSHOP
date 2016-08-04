@@ -260,10 +260,6 @@ $calendarFormat = '%d-%m-%Y';
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?></h3>
 			</div>
 			<div class="box-body">
-
-				<div class="alert alert-info"><?php echo JText::_('COM_REDSHOP_UPLOAD_IMAGE_WARNING'); ?></div>
-
-
 				<?php
 				echo RedshopLayoutHelper::render(
 					'component.image',

@@ -15,6 +15,10 @@ $image_path = $type . '/' . trim($image);
 
 ?>
 
+<div class="alert alert-info imagewarning">
+	<?php echo JText::_('COM_REDSHOP_UPLOAD_IMAGE_WARNING'); ?>
+</div>
+
 <?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $image_path) && trim($image) != "") : ?>
 
 <?php
@@ -47,7 +51,9 @@ $image_path = $type . '/' . trim($image);
 </div>
 <?php endif; ?>
 
+<?php if ($id) : ?>
 <div class="form-group">
 	<input type="file" name="<?php echo $id ?>" id="<?php echo $id ?>" size="25" />
 </div>
+<?php endif; ?>
 

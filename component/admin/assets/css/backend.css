@@ -3648,6 +3648,11 @@ a.thumbnail.active {
   text-decoration: underline;
 }
 
+.form-group .alert.imagewarning
+{
+  margin-bottom: 20px;
+}
+
 .alert h4 {
   margin-top: 0;
   color: inherit;

@@ -97,8 +97,6 @@ $editor = JFactory::getEditor();
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_IMAGES'); ?></h3>
 			</div>
 			<div class="box-body">
-				<div class="alert alert-info"><?php echo JText::_('COM_REDSHOP_UPLOAD_IMAGE_WARNING'); ?></div>
-
 				<div class="form-group">
 					<?php
 					echo RedshopLayoutHelper::render(
