@@ -22,7 +22,7 @@ class RedshopViewShopper_group_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$shoppergroup = new shoppergroup;
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 
 
 

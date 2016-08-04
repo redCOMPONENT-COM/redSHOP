@@ -175,7 +175,7 @@ class plgSearchRedshop_categories extends JPlugin
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 		$return    = array();
 
 		foreach ($rows as $key => $row)

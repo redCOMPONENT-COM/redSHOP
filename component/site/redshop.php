@@ -20,7 +20,7 @@ RedshopHelperCron::init();
 new statistic;
 
 // Helper object
-$helper = redhelper::getInstance();
+$helper = RedshopSiteHelper::getInstance();
 
 // Include redCRM if required
 $helper->isredCRM();

@@ -34,7 +34,7 @@ JHTMLBehavior::modal();
 $carthelper = rsCarthelper::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 $userhelper = rsUserHelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $dispatcher = JDispatcher::getInstance();

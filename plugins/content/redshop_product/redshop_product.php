@@ -51,7 +51,7 @@ class plgContentredshop_product extends JPlugin
 			$module_id     = "plg_";
 			$producthelper = RedshopSiteProduct::getInstance();
 			$extraField    = extraField::getInstance();
-			$objhelper     = redhelper::getInstance();
+			$objhelper     = RedshopSiteHelper::getInstance();
 			$lang          = JFactory::getLanguage();
 
 			// Or JPATH_ADMINISTRATOR if the template language file is only

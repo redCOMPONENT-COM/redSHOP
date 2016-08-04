@@ -57,7 +57,7 @@ class extra_field
 
 		if ($field_name != '')
 		{
-			$field_name = redhelper::quote(explode(',', $field_name));
+			$field_name = RedshopSiteHelper::quote(explode(',', $field_name));
 			$q .= 'AND field_name IN (' . implode(',', $field_name) . ') ';
 		}
 

@@ -70,7 +70,7 @@ class RedshopViewProduct extends RedshopView
 		// Request variables
 		$prodhelperobj     = RedshopSiteProduct::getInstance();
 		$this->redTemplate = Redtemplate::getInstance();
-		$this->redHelper   = redhelper::getInstance();
+		$this->redHelper   = RedshopSiteHelper::getInstance();
 		$this->textHelper  = new text_library;
 
 		$this->app             = JFactory::getApplication();

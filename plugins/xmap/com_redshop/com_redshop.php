@@ -151,7 +151,7 @@ class Xmap_Com_Redshop
 	static protected function getCategoryTree($xmap, $parent, &$params, $catid = 0)
 	{
 		$db      = JFactory::getDbo();
-		$objhelper     = redhelper::getInstance();
+		$objhelper     = RedshopSiteHelper::getInstance();
 		$producthelper = RedshopSiteProduct::getInstance();
 
 		$query = $db->getQuery(true)
@@ -277,7 +277,7 @@ class Xmap_Com_Redshop
 		}
 
 		$db = JFactory::getDbo();
-		$objhelper     = redhelper::getInstance();
+		$objhelper     = RedshopSiteHelper::getInstance();
 		$producthelper = RedshopSiteProduct::getInstance();
 
 		$query = $db->getQuery(true)
