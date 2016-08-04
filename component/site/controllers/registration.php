@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 /**
  * registration Controller.
  *
@@ -83,13 +81,13 @@ class RedshopControllerRegistration extends RedshopController
 	 */
 	public function captcha()
 	{
+		$app         = JFactory::getApplication();
+		$width       = $app->input->getInt('width', 120);
+		$height      = $app->input->getInt('height', 40);
+		$characters  = $app->input->getInt('characters', 6);
+		$captchaname = $app->input->getCmd('captcha', 'security_code');
 
-		$width       = JRequest::getInt('width', 120);
-		$height      = JRequest::getInt('height', 40);
-		$characters  = JRequest::getInt('characters', 6);
-		$captchaname = JRequest::getCmd('captcha', 'security_code');
-
-		$captcha = new CaptchaSecurityImages($width, $height, $characters, $captchaname);
+		$captcha     = new RedshopSiteCaptcha($width, $height, $characters, $captchaname);
 	}
 
 	/**
