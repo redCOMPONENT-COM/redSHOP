@@ -312,13 +312,15 @@ class order_functions
 			$addon .= '<addon adnid="NOTSMS"></addon>';
 		}
 
-		// Get shop location stored using postdanmark plugin or other similar plugin.
-		$shopLocation = explode('|', $orderDetail->shop_id);
-
+		// No pickup agent by default
 		$agentEle = '';
 
-		if (!empty($shopLocation))
+		// Only when we have store to send parcel - i.e Pickup Location
+		if ('' != trim($order_details->shop_id))
 		{
+			// Get shop location stored using postdanmark plugin or other similar plugin.
+			$shopLocation = explode('|', $order_details->shop_id);
+
 			// Sending shop location id as an agent code.
 			$agentEle = '<val n="agentto">' . $shopLocation[0] . '</val>';
 
