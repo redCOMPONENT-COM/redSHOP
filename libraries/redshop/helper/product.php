@@ -108,6 +108,77 @@ class RedshopHelperProduct
 	}
 
 	/**
+	 * Get product information from list of product Ids
+	 *
+	 * @param   array  $productIds  Product ids
+	 * @param   int    $userId      User id
+	 *
+	 * @return mixed
+	 */
+	public static function getProductByIds($productIds, $userId = 0)
+	{
+		if (empty($productIds) || !is_array($productIds))
+		{
+			return array();
+		}
+
+		$userId = !$userId ? JFactory::getUser()->id : $userId;
+		$results = array();
+		$notExistProducts = array();
+
+		foreach ($productIds as $productId)
+		{
+			$key = $productId . '.' . $userId;
+
+			if (array_key_exists($key, self::$products))
+			{
+				$results[$productId] = self::$products[$key];
+
+				continue;
+			}
+
+			if (array_key_exists($productId, self::$allProducts))
+			{
+				$results[$productId] = self::$allProducts[$productId];
+
+				continue;
+			}
+
+			$notExistProducts[] = $productId;
+		}
+
+		if (!empty($notExistProducts))
+		{
+			$db = JFactory::getDbo();
+			$query = self::getMainProductQuery(false, $userId);
+
+			// Select product
+			$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $notExistProducts) . ')');
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
+
+			foreach ($result as $product)
+			{
+				$key = $product->product_id . '.' . $userId;
+				self::$products[$key] = $product;
+				$results[$product->product_id] = $product;
+			}
+		}
+
+		$setProducts = array();
+
+		foreach ($results as $productId => $product)
+		{
+			$key = $productId . '.' . $userId;
+			$setProducts[$key] = self::$products[$key];
+		}
+
+		self::setProductRelates($setProducts, $userId);
+
+		return $results;
+	}
+
+	/**
 	 * Get Main Product Query
 	 *
 	 * @param   bool|JDatabaseQuery  $query   Get query or false
@@ -251,9 +322,12 @@ class RedshopHelperProduct
 			if (isset($product->product_id))
 			{
 				$keys[] = $product->product_id;
-				self::$products[$product->product_id . '.' . $userId]->attributes = array();
+				self::$products[$product->product_id . '.' . $userId]->attributes  = array();
 				self::$products[$product->product_id . '.' . $userId]->extraFields = array();
-				self::$products[$product->product_id . '.' . $userId]->categories = explode(',', $product->categories);
+
+				$categories = !is_array($product->categories) ? explode(',', $product->categories) : $product->categories;
+
+				self::$products[$product->product_id . '.' . $userId]->categories  = $categories;
 			}
 		}
 
