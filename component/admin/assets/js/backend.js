@@ -16276,13 +16276,15 @@ Licensed under the BSD-2-Clause License.
 		$('.imagewarning').hide();
 
 		$('.divimage').hover(function(){
-			$(this).toggleClass('hover');
+			$(this).addClass('hover');
+		}, function(){
+			$(this).removeClass('hover');
 		});
 
 		$('.divimagebuttons #deletebtn').click(function(){
 			var divimage = $(this).parent().parent();
 
-			$(divimage).hide();
+			$(divimage).find('img').hide();
 			$(divimage).parent().find('input[rel="noicheck"]').click();
 
 			$(divimage).prev().fadeIn('slow', function () {
