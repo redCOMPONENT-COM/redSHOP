@@ -13,7 +13,7 @@ $model     = $this->getModel('checkout');
 $uri       = JURI::getInstance();
 $url       = $uri->root();
 
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 $Itemid    = $redhelper->getCheckoutItemid();
 $session   = JFactory::getSession();
 $cart      = $session->get('cart');

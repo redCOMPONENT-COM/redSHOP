@@ -110,7 +110,7 @@ class RedshopModelImport extends RedshopModel
 		/**
 		 * check is redCRM is installed or not
 		 */
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 		$isredcrm = false;
 
 		if ($redhelper->isredCRM())

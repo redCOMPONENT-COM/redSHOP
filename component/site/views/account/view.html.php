@@ -121,7 +121,7 @@ class RedshopViewAccount extends RedshopView
 		// RedCRM Template
 
 		// Helper object
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 
 		if ($layout == "default" && $helper->isredCRM())
 		{

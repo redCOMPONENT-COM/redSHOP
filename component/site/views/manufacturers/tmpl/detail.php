@@ -15,7 +15,7 @@ $extraField = RedshopSiteExtraField::getInstance();
 $extra_field = extra_field::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 $Itemid = JRequest::getInt('Itemid');
 $model = $this->getModel('manufacturers');
 

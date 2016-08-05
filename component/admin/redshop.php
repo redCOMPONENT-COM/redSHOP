@@ -31,7 +31,7 @@ if (!file_exists($configpath))
 	JRequest::setVar('layout', 'noconfig');
 }
 
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 $redhelper->removeShippingRate();
 $json_var = JRequest::getVar('json');
 
