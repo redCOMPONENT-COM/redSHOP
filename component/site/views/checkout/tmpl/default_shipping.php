@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $redTemplate = Redtemplate::getInstance();
-$carthelper = rsCarthelper::getInstance();
+$carthelper = RedshopSiteCart::getInstance();
 
 $user   = JFactory::getUser();
 $jinput = JFactory::getApplication()->input;

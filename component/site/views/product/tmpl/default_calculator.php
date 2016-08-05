@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$rsCarthelper = rsCarthelper::getInstance();
+$rsCarthelper = RedshopSiteCart::getInstance();
 
 $url    = JURI::base();
 

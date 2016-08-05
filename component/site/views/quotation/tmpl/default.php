@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 $redTemplate = Redtemplate::getInstance();
-$carthelper = rsCarthelper::getInstance();
+$carthelper = RedshopSiteCart::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $return = JRequest::getString('return');
