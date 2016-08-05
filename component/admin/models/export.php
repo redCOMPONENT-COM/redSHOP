@@ -449,7 +449,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			$redhelper = redhelper::getInstance();
+			$redhelper = RedshopSiteHelper::getInstance();
 			$isrecrm = false;
 
 			if ($redhelper->isredCRM())

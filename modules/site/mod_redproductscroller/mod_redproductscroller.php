@@ -348,7 +348,7 @@ if (!class_exists('redproductScroller'))
 		public function ShowProducts($row)
 		{
 			$producthelper = RedshopSiteProduct::getInstance();
-			$redhelper     = redhelper::getInstance();
+			$redhelper     = RedshopSiteHelper::getInstance();
 			$category_id   = $producthelper->getCategoryProduct($row->product_id);
 			$ItemData      = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
 

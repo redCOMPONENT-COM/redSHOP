@@ -19,7 +19,7 @@ $keyword = $app->input->getString('keyword', $standardkeyword);
 // Manufacturer Select Id
 $manufac_data = $app->input->getInt('manufacture_id', '');
 
-$redhelper       = redhelper::getInstance();
+$redhelper       = RedshopSiteHelper::getInstance();
 $Itemid          = $redhelper->getItemid();
 $modsearchitemid = trim($params->get('modsearchitemid', ''));
 

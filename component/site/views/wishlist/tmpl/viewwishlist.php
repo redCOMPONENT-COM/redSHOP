@@ -15,7 +15,7 @@ JHTML::_('behavior.modal');
 
 $config = Redconfiguration::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 
 $url = JURI::base();
 $Itemid = JRequest::getInt('Itemid');
@@ -173,7 +173,7 @@ function display_products($rows)
 	$extraField    = extraField::getInstance();
 	$session       = JFactory::getSession();
 	$producthelper = RedshopSiteProduct::getInstance();
-	$redhelper     = redhelper::getInstance();
+	$redhelper     = RedshopSiteHelper::getInstance();
 	$config        = Redconfiguration::getInstance();
 	$redTemplate   = Redtemplate::getInstance();
 	$template      = $redTemplate->getTemplate("wishlist_template");

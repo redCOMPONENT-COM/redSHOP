@@ -57,7 +57,7 @@ class RedshopViewProduct_Detail extends RedshopView
 		$this->dispatcher    = JDispatcher::getInstance();
 
 		$redTemplate         = Redtemplate::getInstance();
-		$redhelper           = redhelper::getInstance();
+		$redhelper           = RedshopSiteHelper::getInstance();
 		$this->producthelper = RedshopSiteProduct::getInstance();
 
 		$this->option        = $this->input->getString('option', 'com_redshop');
@@ -333,7 +333,7 @@ class RedshopViewProduct_Detail extends RedshopView
 			}
 			else
 			{
-				$objhelper = redhelper::getInstance();
+				$objhelper = RedshopSiteHelper::getInstance();
 				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
 			}
 
