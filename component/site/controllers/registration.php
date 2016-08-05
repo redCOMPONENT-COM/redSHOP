@@ -134,7 +134,7 @@ class RedshopControllerRegistration extends RedshopController
 	{
 		$redTemplate  = Redtemplate::getInstance();
 		$rsUserhelper = rsUserHelper::getInstance();
-		$extraField   = extraField::getInstance();
+		$extraField   = RedshopSiteExtraField::getInstance();
 
 		$get = JRequest::get('get');
 		$template_id = $get['template_id'];

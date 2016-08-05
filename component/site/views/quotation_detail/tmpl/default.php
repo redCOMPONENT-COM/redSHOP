@@ -15,7 +15,7 @@ $redconfig = Redconfiguration::getInstance();
 $quotationHelper = quotationHelper::getInstance();
 $extra_field     = extra_field::getInstance();
 
-$extra_field_new = extraField::getInstance();
+$extra_field_new = RedshopSiteExtraField::getInstance();
 
 $producthelper = RedshopSiteProduct::getInstance();
 

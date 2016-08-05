@@ -20,7 +20,7 @@ class RedshopViewAccount_shipto extends RedshopView
 		$order_functions = order_functions::getInstance();
 
 		// Extra_field;
-		$extra_field     = extraField::getInstance();
+		$extra_field     = RedshopSiteExtraField::getInstance();
 
 		$task = JRequest::getCmd('task');
 		$user = JFactory::getUser();
