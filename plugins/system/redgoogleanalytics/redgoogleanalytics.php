@@ -43,7 +43,7 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 				{
 					require_once $googleFile;
 
-					$ga = new GoogleAnalytics;
+					$ga = new RedshopHelperGoogleAnalytics;
 					$ga->placeTrans();
 				}
 			}
