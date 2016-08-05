@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.5
  */
-class GoogleAnalytics
+class RedshopHelperGoogleAnalytics
 {
 	public $_data = null;
 
