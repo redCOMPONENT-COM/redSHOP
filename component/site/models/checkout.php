@@ -44,7 +44,7 @@ class RedshopModelCheckout extends RedshopModel
 		$session             = JFactory::getSession();
 
 		$this->_carthelper      = RedshopSiteCart::getInstance();
-		$this->_userhelper      = rsUserHelper::getInstance();
+		$this->_userhelper      = RedshopSiteUser::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 		$this->_producthelper   = RedshopSiteProduct::getInstance();
 		$this->_order_functions = order_functions::getInstance();

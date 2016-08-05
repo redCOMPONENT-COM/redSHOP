@@ -393,7 +393,7 @@ class RedshopSiteHelper
 	 */
 	public function getShopperGroupPortal()
 	{
-		$userHelper = rsUserHelper::getInstance();
+		$userHelper = RedshopSiteUser::getInstance();
 		$user = JFactory::getUser();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
@@ -415,7 +415,7 @@ class RedshopSiteHelper
 	public function getShopperGroupCategory($cid = 0)
 	{
 		$user = JFactory::getUser();
-		$userHelper = rsUserHelper::getInstance();
+		$userHelper = RedshopSiteUser::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
@@ -451,7 +451,7 @@ class RedshopSiteHelper
 		}
 
 		$user = JFactory::getUser();
-		$userHelper = rsUserhelper::getInstance();
+		$userHelper = RedshopSiteUser::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
@@ -779,7 +779,7 @@ class RedshopSiteHelper
 	// Get checkout Itemid
 	public function getCheckoutItemid()
 	{
-		$userhelper         = rsUserHelper::getInstance();
+		$userhelper         = RedshopSiteUser::getInstance();
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
@@ -799,7 +799,7 @@ class RedshopSiteHelper
 	// Get cart Itemid
 	public function getCartItemid()
 	{
-		$userhelper         = rsUserHelper::getInstance();
+		$userhelper         = RedshopSiteUser::getInstance();
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
