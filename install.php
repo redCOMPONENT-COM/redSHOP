@@ -1293,13 +1293,9 @@ class Com_RedshopInstallerScript
 			array_push(
 				$files,
 				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',
-				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
-				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
 				JPATH_SITE . '/components/com_redshop/helpers/extra_field.php',
 				JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php',
 				JPATH_SITE . '/components/com_redshop/helpers/googleanalytics.php',
-				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
-				JPATH_SITE . '/components/com_redshop/helpers/user.php',
 				JPATH_SITE . '/components/com_redshop/helpers/zip.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
 				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
