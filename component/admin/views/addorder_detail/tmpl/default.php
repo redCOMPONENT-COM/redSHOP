@@ -17,7 +17,7 @@ $redconfig = Redconfiguration::getInstance();
 
 
 $model = $this->getModel('addorder_detail');
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 
 $billing = $this->billing;
 $shipping = $this->shipping;

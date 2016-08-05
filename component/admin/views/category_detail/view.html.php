@@ -57,7 +57,7 @@ class RedshopViewCategory_detail extends RedshopViewAdmin
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
-			$objhelper = redhelper::getInstance();
+			$objhelper = RedshopSiteHelper::getInstance();
 			$itemId    = (int) $objhelper->getCategoryItemid($this->detail->category_id);
 
 			$link  = JURI::root() . 'index.php?option=com_redshop'

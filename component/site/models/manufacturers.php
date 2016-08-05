@@ -330,7 +330,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$orderByObj  = redhelper::getInstance()->prepareOrderBy(
+		$orderByObj  = RedshopSiteHelper::getInstance()->prepareOrderBy(
 			urldecode(JFactory::getApplication()->input->getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD))
 		);
 		$orderBy     = $orderByObj->ordering . ' ' . $orderByObj->direction;

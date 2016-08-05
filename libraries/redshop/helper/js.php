@@ -38,7 +38,7 @@ class RedshopHelperJs
 
 		$post   = JRequest::get('POST');
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper   = redhelper::getInstance();
+		$redhelper   = RedshopSiteHelper::getInstance();
 		$cart_Itemid = $redhelper->getCartItemid();
 
 		if ($cart_Itemid == "" || $cart_Itemid == 0)

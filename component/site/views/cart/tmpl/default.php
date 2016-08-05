@@ -16,7 +16,7 @@ JHTMLBehavior::modal();
 $dispatcher    = JDispatcher::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $objshipping   = shipping::getInstance();
-$redhelper     = redhelper::getInstance();
+$redhelper     = RedshopSiteHelper::getInstance();
 $carthelper    = RedshopSiteCart::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 

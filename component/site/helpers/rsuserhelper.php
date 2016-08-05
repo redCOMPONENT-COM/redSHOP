@@ -492,7 +492,7 @@ class rsUserhelper
 	{
 		$redshopMail = redshopMail::getInstance();
 		$extra_field = extra_field::getInstance();
-		$helper      = redhelper::getInstance();
+		$helper      = RedshopSiteHelper::getInstance();
 
 		$data['user_email']   = $data['email'] = $data['email1'];
 		$data['name']         = $name = $data['firstname'];

@@ -18,7 +18,7 @@ class RedshopViewCheckout extends RedshopView
 		$model     = $this->getModel('checkout');
 		$Itemid    = JRequest::getInt('Itemid');
 		$user      = JFactory::getUser();
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 		$field     = RedshopSiteExtraField::getInstance();
 		$session   = JFactory::getSession();
 

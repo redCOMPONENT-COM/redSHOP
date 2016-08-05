@@ -1371,7 +1371,7 @@ class Redconfiguration
 
 		if (empty($this->countryList))
 		{
-						$redhelper = redhelper::getInstance();
+						$redhelper = RedshopSiteHelper::getInstance();
 
 			$countries = array();
 
