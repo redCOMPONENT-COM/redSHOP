@@ -1285,7 +1285,9 @@ class Com_RedshopInstallerScript
 		{
 			array_push(
 				$folders,
-				JPATH_LIBRARIES . '/redshop/config'
+				JPATH_LIBRARIES . '/redshop/config',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/answer',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/answer_detail'
 			);
 
 			array_push(
@@ -1301,6 +1303,10 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/helpers/zip.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
 				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/answer.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/answer_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/access_level.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php',
