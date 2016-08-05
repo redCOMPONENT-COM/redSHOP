@@ -19,7 +19,7 @@ class RedshopViewCheckout extends RedshopView
 		$Itemid    = JRequest::getInt('Itemid');
 		$user      = JFactory::getUser();
 		$redhelper = redhelper::getInstance();
-		$field     = extraField::getInstance();
+		$field     = RedshopSiteExtraField::getInstance();
 		$session   = JFactory::getSession();
 
 		// Load language file

@@ -17,7 +17,7 @@ $order_functions = order_functions::getInstance();
 $configobj       = Redconfiguration::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $extra_field     = extra_field::getInstance();
-$extraField      = extraField::getInstance();
+$extraField      = RedshopSiteExtraField::getInstance();
 $carthelper      = rsCarthelper::getInstance();
 
 $user         = JFactory::getUser();
