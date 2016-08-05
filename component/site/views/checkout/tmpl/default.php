@@ -20,7 +20,7 @@ $user            = JFactory::getUser();
 $session         = JFactory::getSession();
 
 $redhelper       = RedshopSiteHelper::getInstance();
-$userhelper      = rsUserHelper::getInstance();
+$userhelper      = RedshopSiteUser::getInstance();
 $order_functions = order_functions::getInstance();
 
 $telesearch      = $order_functions->getparameters('rs_telesearch');

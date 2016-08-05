@@ -35,7 +35,7 @@ $carthelper = RedshopSiteCart::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $order_functions = order_functions::getInstance();
 $redhelper = RedshopSiteHelper::getInstance();
-$userhelper = rsUserHelper::getInstance();
+$userhelper = RedshopSiteUser::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $dispatcher = JDispatcher::getInstance();
 
