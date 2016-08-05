@@ -54,7 +54,7 @@ class RedshopModelCart extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 
 		$this->_producthelper = RedshopSiteProduct::getInstance();
-		$this->_carthelper    = rsCarthelper::getInstance();
+		$this->_carthelper    = RedshopSiteCart::getInstance();
 		$this->_userhelper    = rsUserHelper::getInstance();
 		$this->_objshipping   = shipping::getInstance();
 

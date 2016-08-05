@@ -267,7 +267,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	{
 		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$producthelper = RedshopSiteProduct::getInstance();
-		$rsCarthelper = rsCarthelper::getInstance();
+		$rsCarthelper = RedshopSiteCart::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		// Get Order Info

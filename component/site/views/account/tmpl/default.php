@@ -18,7 +18,7 @@ $configobj       = Redconfiguration::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $extra_field     = extra_field::getInstance();
 $extraField      = extraField::getInstance();
-$carthelper      = rsCarthelper::getInstance();
+$carthelper      = RedshopSiteCart::getInstance();
 
 $user         = JFactory::getUser();
 $Itemid       = JRequest::getInt('Itemid');

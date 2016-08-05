@@ -22,7 +22,7 @@ class RedshopViewOrder_detail extends RedshopView
 		$model = $this->getModel();
 		$redTemplate = Redtemplate::getInstance();
 		$detail = $this->get('data');
-		$carthelper = rsCarthelper::getInstance();
+		$carthelper = RedshopSiteCart::getInstance();
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
 		$template = $model->getStockNoteTemplate();
 		if (count($template) > 0 && $template->template_desc != "")
