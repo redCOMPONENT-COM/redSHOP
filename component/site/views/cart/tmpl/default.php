@@ -17,7 +17,7 @@ $dispatcher    = JDispatcher::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $objshipping   = shipping::getInstance();
 $redhelper     = redhelper::getInstance();
-$carthelper    = rsCarthelper::getInstance();
+$carthelper    = RedshopSiteCart::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
 $url     = JURI::base();

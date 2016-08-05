@@ -330,7 +330,7 @@ JPluginHelper::importPlugin('redshop_product');
 				</td>
 				<td align="center">
 				<?php
-					$carthelper    = rsCarthelper::getInstance();
+					$carthelper    = RedshopSiteCart::getInstance();
 					echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
 					echo "<br />";
 

@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $redTemplate      = Redtemplate::getInstance();
-$carthelper       = rsCarthelper::getInstance();
+$carthelper       = RedshopSiteCart::getInstance();
 $model            = $this->getModel('checkout');
 $payment_template = $redTemplate->getTemplate("redshop_payment");
 

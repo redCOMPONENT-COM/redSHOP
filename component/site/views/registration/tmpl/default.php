@@ -16,7 +16,7 @@ $jinput = JFactory::getApplication()->input;
 $post   = $jinput->getArray($_POST);
 
 $userhelper = rsUserHelper::getInstance();
-$rsCarthelper = rsCarthelper::getInstance();
+$rsCarthelper = RedshopSiteCart::getInstance();
 
 $is_company = $this->lists['is_company'];
 
