@@ -408,7 +408,7 @@ class RedshopControllerCheckout extends RedshopController
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
 		$user       = JFactory::getUser();
-		$producthelper   = producthelper::getInstance();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
