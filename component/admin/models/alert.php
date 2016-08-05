@@ -117,6 +117,7 @@ class RedshopModelAlert extends RedshopModel
 			->select('*')
 			->from($db->qn('#__redshop_alerts'))
 			->where($db->qn('read') . ' = 0')
+			->order($db->qn('sent_date') . ' = "DESC"')
 			->setLimit($limit);
 
 		return $db->setQuery($query)->loadObjectList();

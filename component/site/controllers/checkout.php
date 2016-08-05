@@ -408,6 +408,7 @@ class RedshopControllerCheckout extends RedshopController
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
 		$user       = JFactory::getUser();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -516,7 +517,15 @@ class RedshopControllerCheckout extends RedshopController
 				JPluginHelper::importPlugin('redshop_product');
 				JPluginHelper::importPlugin('redshop_alert');
 				$data = $dispatcher->trigger('getStockroomStatus', array($order_id));
-				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $order_id);
+
+				$labelClass = '';
+
+				if ($orderresult->order_payment_status == 'Paid')
+				{
+					$labelClass = 'label-success';
+				}
+
+				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
 				$dispatcher->trigger('storeAlert', array($message));
 
 				$model->resetcart();
