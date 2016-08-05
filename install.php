@@ -525,7 +525,7 @@ class Com_RedshopInstallerScript
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
-		rsUserHelper::getInstance()->userSynchronization();
+		RedshopSiteUser::getInstance()->userSynchronization();
 	}
 
 	/**

@@ -42,7 +42,7 @@ class RedshopViewConfiguration extends RedshopView
 		$config      = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$extra_field = extra_field::getInstance();
-		$userhelper  = rsUserHelper::getInstance();
+		$userhelper  = RedshopSiteUser::getInstance();
 		$lists       = array();
 
 		// Load language file

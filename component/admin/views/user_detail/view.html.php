@@ -16,7 +16,7 @@ class RedshopViewUser_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$Redconfiguration = Redconfiguration::getInstance();
-		$userhelper       = rsUserHelper::getInstance();
+		$userhelper       = RedshopSiteUser::getInstance();
 		$extra_field      = extra_field::getInstance();
 		$shoppergroup     = new shoppergroup;
 
