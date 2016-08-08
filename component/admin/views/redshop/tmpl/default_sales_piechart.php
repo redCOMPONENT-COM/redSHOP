@@ -38,7 +38,7 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 
 		<?php if (count($turnover) > 0) {?>
 			<?php foreach ($turnover as $row) { ?>
-				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $producthelper->getProductFormattedPrice($row[1]); ?>', '<?php echo $producthelper->getProductFormattedPrice($row[1]) . ' in ' . $row[0]; ?>']);
+				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $producthelper->getProductFormattedPrice($row[1]); ?>', '<?php echo $row[0] . ' ' . $producthelper->getProductFormattedPrice($row[1]); ?>']);
 			<?php } ?>
 		<?php } ?>
 
@@ -47,7 +47,8 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 			colors: ['#1ab395'],
 			legend: { position: "none" },
 			chartArea: {'width': '90%', 'height': '90%'},
-			curveType: 'function'
+			curveType: 'function',
+			tooltip: {isHtml: true}
 		};
 
 		//Instantiate and draw our chart, passing in some options.
