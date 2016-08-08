@@ -1,3 +1,11 @@
+// Import Bootstrap Compass integration
+@import "bootstrap-compass";
+// Import custom Bootstrap variables
+@import "bootstrap-variables";
+// Import Bootstrap for Sass
+@import "bootstrap";
+
+
 /* General Classes */
 .myupbutton {
 	color: #ffffff;
@@ -417,13 +425,8 @@ div.product_writereview {
 }
 
 .product-cart-link span.pdaddtocart_link, .cart-link span.pdaddtocart_link{
-	background: #eee;
-	line-height: 20px;
-	height: 20px;
-	padding: 5px 10px;
-	border:1px solid #ccc;
-	border-radius:5px;
-	display: inline-block;
+	@extend .btn;
+	@extend .btn-primary;
 }
 /* --- redSHOP Product Content View - Accesories --- */
 
@@ -1120,4 +1123,51 @@ a.rightButton, a.rightButton:hover {
 .gd_navigation span > a:hover, .gd_navigation span > a:focus {
 	text-decoration: none;
 	background-color: #f5f5f5;
+}
+
+/*******************************Product attribute **********************************/
+
+.cursor {
+    cursor: hand;
+    cursor: pointer;
+}
+.att_inactive, .att_active {
+    margin: 0 1px;
+    float: left;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #E7E7E7;
+    padding: 2px;
+    background: #FFFFFF;
+}
+/*******************************Product attribute **********************************/
+/******************************* Hoverbox Code*******************************/
+
+.redhoverImagebox {
+    display: inline;
+    float: left;
+    margin: 3px;
+    padding: 5px;
+    position: relative;
+    cursor: default;
+    list-style: none;
+    width: 100px;
+    float: left;
+}
+.redhoverImagebox a {
+    cursor: pointer;
+}
+.redhoverImagebox a .redImagepreview {
+    display: none;
+}
+.redhoverImagebox a:hover .redImagepreview {
+    cursor: pointer;
+    background: #eee;
+    color: inherit;
+    border: 1px solid black;
+    display: block;
+    position: absolute;
+    top: -33px;
+    left: -45px;
+    z-index: 1;
 }
