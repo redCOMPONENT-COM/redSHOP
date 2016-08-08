@@ -33,19 +33,11 @@ class PlgSystemRedSHOP extends JPlugin
 		if (!$app->isAdmin())
 		{
 			RedshopHelperJs::init();
-
-			// Use different CSS for print layout
-			if ($app->input->getCmd('print', ''))
-			{
-				JHtml::stylesheet('com_redshop/print.css', array(), true);
-			}
-
-			JHtml::stylesheet('com_redshop/style.css', array(), true);
 		}
 	}
 
 	/**
-	 * onAfterRender function
+	 * onBeforeCompileHead function
 	 *
 	 * @return  void
 	 */

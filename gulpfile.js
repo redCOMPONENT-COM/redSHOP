@@ -3,6 +3,7 @@ var jgulp = require('joomla-gulp-release');
 var jgulp = require('gulp');
 var sass = require('gulp-sass');
 var del = require("del");
+var uglify = require('gulp-uglifyjs');
 
 jgulp.task('sass', function() {
 	jgulp.src('./media/com_redshop/scss/style.scss')
@@ -13,11 +14,28 @@ jgulp.task('sass', function() {
 		.pipe(jgulp.dest('./media/com_redshop/css'));
 });
 
+jgulp.task('uglify', function() {
+	jgulp.src(
+	[
+		'./media/com_redshop/js/ajaxupload-uncompressed.js'
+	])
+	.pipe(uglify('ajaxupload.js'))
+	.pipe(jgulp.dest('./media/com_redshop/js'));
+
+	jgulp.src(
+	[
+		'./media/com_redshop/js/common-uncompressed.js'
+	])
+	.pipe(uglify('common.js'))
+	.pipe(jgulp.dest('./media/com_redshop/js'));
+
+});
+
 jgulp.task("clean", function () {
 	return del("build");
 });
 
-jgulp.task("build", ["clean", "sass"], function () {
+jgulp.task("build", ["clean", "sass", "uglify"], function () {
 	jgulp.src(
 	[
 		'./media/**/*',
@@ -59,6 +77,7 @@ jgulp.task(
 	'release',
 	[
 		'sass',
+		'uglify',
 		'release:component',
 		'release:modules',
 		'release:plugins',
