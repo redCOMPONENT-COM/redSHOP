@@ -663,7 +663,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$mailfrom = $data['news_mail_from'];
 		$mailfromname = $data['news_from_name'];
 		$to = $data['newsletter_test_email'];
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$uri = JURI::getInstance();
 		$url = $uri->root();
 

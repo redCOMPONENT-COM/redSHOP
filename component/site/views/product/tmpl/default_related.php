@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $config        = Redconfiguration::getInstance();
 
 $related_product  = $producthelper->getRelatedProduct($this->pid);
@@ -27,7 +27,7 @@ if (count($relptemplate) > 0)
 	$tempdata_div_middle = $product_end [0];
 	$tempdata_div_end    = $product_end [1];
 
-	$extra_field = extraField::getInstance();
+	$extra_field = RedshopSiteExtraField::getInstance();
 	$fieldArray  = $extra_field->getSectionFieldList(17, 0, 0);
 
 	$attribute_template = $producthelper->getAttributeTemplate($tempdata_div_middle);

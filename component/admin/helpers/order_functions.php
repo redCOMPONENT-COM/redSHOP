@@ -183,7 +183,7 @@ class order_functions
 	{
 		$db                        = JFactory::getDbo();
 		$orderDetail             = $this->getOrderDetails($orderId);
-		$producthelper             = producthelper::getInstance();
+		$producthelper             = RedshopSiteProduct::getInstance();
 		$orderproducts             = $this->getOrderItemDetail($orderId);
 		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
@@ -312,13 +312,15 @@ class order_functions
 			$addon .= '<addon adnid="NOTSMS"></addon>';
 		}
 
-		// Get shop location stored using postdanmark plugin or other similar plugin.
-		$shopLocation = explode('|', $orderDetail->shop_id);
-
+		// No pickup agent by default
 		$agentEle = '';
 
-		if (!empty($shopLocation))
+		// Only when we have store to send parcel - i.e Pickup Location
+		if ('' != trim($order_details->shop_id))
 		{
+			// Get shop location stored using postdanmark plugin or other similar plugin.
+			$shopLocation = explode('|', $order_details->shop_id);
+
 			// Sending shop location id as an agent code.
 			$agentEle = '<val n="agentto">' . $shopLocation[0] . '</val>';
 
@@ -423,7 +425,7 @@ class order_functions
 	 */
 	public function changeorderstatus($data)
 	{
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 		$db       = JFactory::getDbo();
 		$order_id = $data->order_id;
 		$pos      = strpos(JURI::base(), 'plugins');
@@ -734,8 +736,8 @@ class order_functions
 	public function update_status()
 	{
 		$app             = JFactory::getApplication();
-		$helper          = redhelper::getInstance();
-		$producthelper   = producthelper::getInstance();
+		$helper          = RedshopSiteHelper::getInstance();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
@@ -1147,7 +1149,7 @@ class order_functions
 	public function getBillingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 
 		$user = JFactory::getUser();
 
@@ -1239,7 +1241,7 @@ class order_functions
 	public function getShippingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 
 		$user = JFactory::getUser();
 
@@ -1495,7 +1497,7 @@ class order_functions
 	public function getCountryName($cnt3 = "")
 	{
 		$db = JFactory::getDbo();
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 		$and = '';
 		$cntname = '';
 
@@ -1840,7 +1842,7 @@ class order_functions
 		$app = JFactory::getApplication();
 
 		$config          = Redconfiguration::getInstance();
-		$carthelper      = rsCarthelper::getInstance();
+		$carthelper      = RedshopSiteCart::getInstance();
 		$order_functions = order_functions::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 
@@ -2137,9 +2139,9 @@ class order_functions
 
 	public function orderStatusUpdate($order_id, $post = array())
 	{
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$newstatus = $post['order_status_all'];
 		$customer_note = $post['customer_note' . $order_id];
 		$isproduct = (isset($post['isproduct'])) ? $post['isproduct'] : 0;

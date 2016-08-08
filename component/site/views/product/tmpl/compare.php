@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 $print  = $this->input->getBool('print', false);
 
-$producthelper   = producthelper::getInstance();
+$producthelper   = RedshopSiteProduct::getInstance();
 $config          = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $compare         = new RedshopProductCompare;
@@ -76,7 +76,7 @@ if ($total > 0)
 	$template = str_replace('{remove_all}', $removeAll, $template);
 
 	// Make extrafield object..
-	$field    = extraField::getInstance();
+	$field    = RedshopSiteExtraField::getInstance();
 
 	$product_tag = array();
 

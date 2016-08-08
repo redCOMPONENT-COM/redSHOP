@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 
 $showall = JRequest::getVar('showall', '0');
 $tmpl = '';

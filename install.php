@@ -525,7 +525,7 @@ class Com_RedshopInstallerScript
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
-		rsUserHelper::getInstance()->userSynchronization();
+		RedshopSiteUser::getInstance()->userSynchronization();
 	}
 
 	/**
@@ -1285,23 +1285,25 @@ class Com_RedshopInstallerScript
 		{
 			array_push(
 				$folders,
-				JPATH_LIBRARIES . '/redshop/config'
+				JPATH_LIBRARIES . '/redshop/config',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/answer',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/answer_detail'
 			);
 
 			array_push(
 				$files,
 				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',
-				JPATH_SITE . '/components/com_redshop/helpers/captcha.php',
-				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
-				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
 				JPATH_SITE . '/components/com_redshop/helpers/extra_field.php',
 				JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php',
-				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
-				JPATH_SITE . '/components/com_redshop/helpers/product.php',
-				JPATH_SITE . '/components/com_redshop/helpers/user.php',
+				JPATH_SITE . '/components/com_redshop/helpers/googleanalytics.php',
 				JPATH_SITE . '/components/com_redshop/helpers/zip.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
 				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
+				JPATH_SITE . '/components/com_redshop/helpers/zipfile.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer_detail.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/answer.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/models/answer_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/access_level.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php',
@@ -1309,7 +1311,6 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/media.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php',

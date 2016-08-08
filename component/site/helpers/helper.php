@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class redhelper
+class RedshopSiteHelper
 {
 	public $_table_prefix = null;
 
@@ -125,7 +125,7 @@ class redhelper
 
 		if ($user->id && !isset($cart['idx']))
 		{
-			$rscarthelper = rsCarthelper::getInstance();
+			$rscarthelper = RedshopSiteCart::getInstance();
 			$rscarthelper->dbtocart();
 		}
 	}
@@ -393,7 +393,7 @@ class redhelper
 	 */
 	public function getShopperGroupPortal()
 	{
-		$userHelper = rsUserHelper::getInstance();
+		$userHelper = RedshopSiteUser::getInstance();
 		$user = JFactory::getUser();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
@@ -415,7 +415,7 @@ class redhelper
 	public function getShopperGroupCategory($cid = 0)
 	{
 		$user = JFactory::getUser();
-		$userHelper = rsUserHelper::getInstance();
+		$userHelper = RedshopSiteUser::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
@@ -451,7 +451,7 @@ class redhelper
 		}
 
 		$user = JFactory::getUser();
-		$userHelper = rsUserhelper::getInstance();
+		$userHelper = RedshopSiteUser::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
@@ -779,7 +779,7 @@ class redhelper
 	// Get checkout Itemid
 	public function getCheckoutItemid()
 	{
-		$userhelper         = rsUserHelper::getInstance();
+		$userhelper         = RedshopSiteUser::getInstance();
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
@@ -799,7 +799,7 @@ class redhelper
 	// Get cart Itemid
 	public function getCartItemid()
 	{
-		$userhelper         = rsUserHelper::getInstance();
+		$userhelper         = RedshopSiteUser::getInstance();
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
@@ -1088,7 +1088,7 @@ class redhelper
 			$shipping_method = $details[1] . $ext;
 		}
 
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 
 		$userData = $producthelper->getUserInformation($orderData->user_id);
 

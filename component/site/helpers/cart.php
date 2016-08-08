@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class rsCarthelper
+class RedshopSiteCart
 {
 	public $_table_prefix = null;
 
@@ -58,9 +58,9 @@ class rsCarthelper
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_extra_field     = extra_field::getInstance();
-		$this->_extraFieldFront = extraField::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
-		$this->_producthelper   = producthelper::getInstance();
+		$this->_extraFieldFront = RedshopSiteExtraField::getInstance();
+		$this->_redhelper       = RedshopSiteHelper::getInstance();
+		$this->_producthelper   = RedshopSiteProduct::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 	}
 
@@ -1136,7 +1136,7 @@ class rsCarthelper
 
 				if ($prd_image !== '')
 				{
-					$redhelper = redhelper::getInstance();
+					$redhelper = RedshopSiteHelper::getInstance();
 
 					if (WATERMARK_CART_THUMB_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
 					{
@@ -1295,7 +1295,7 @@ class rsCarthelper
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
+									$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -3652,7 +3652,7 @@ class rsCarthelper
 
 					if (strpos($rate_data, "{shipping_extrafields}") !== false)
 					{
-						$extraField         = extraField::getInstance();
+						$extraField         = RedshopSiteExtraField::getInstance();
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
 						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
 
@@ -3755,7 +3755,7 @@ class rsCarthelper
 	{
 		$ccdata = $this->_session->get('ccdata');
 
-		$rsUserhelper = rsUserHelper::getInstance();
+		$rsUserhelper = RedshopSiteUser::getInstance();
 		$url          = JURI::base();
 		$user         = JFactory::getUser();
 		$user_id      = $user->id;
@@ -5400,7 +5400,7 @@ class rsCarthelper
 
 	public function dbtocart($userId = 0)
 	{
-		$rsUserhelper = rsUserHelper::getInstance();
+		$rsUserhelper = RedshopSiteUser::getInstance();
 
 		if ($userId == 0)
 		{
@@ -5863,7 +5863,7 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher       = JDispatcher::getInstance();
-		$rsUserhelper     = rsUserHelper::getInstance();
+		$rsUserhelper     = RedshopSiteUser::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
 		$cart             = $this->_session->get('cart');

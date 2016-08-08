@@ -52,7 +52,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 	{
 		$objOrder         = order_functions::getInstance();
 		$objconfiguration = Redconfiguration::getInstance();
-		$carthelper       = rsCarthelper::getInstance();
+		$carthelper       = RedshopSiteCart::getInstance();
 		$user             = JFactory::getUser();
 		$user_id          = $user->id;
 		$jInput = JFactory::getApplication()->input;

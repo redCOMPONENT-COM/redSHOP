@@ -38,7 +38,7 @@ class RedshopHelperJs
 
 		$post   = JRequest::get('POST');
 		$Itemid = JRequest::getVar('Itemid');
-		$redhelper   = redhelper::getInstance();
+		$redhelper   = RedshopSiteHelper::getInstance();
 		$cart_Itemid = $redhelper->getCartItemid();
 
 		if ($cart_Itemid == "" || $cart_Itemid == 0)
@@ -86,7 +86,7 @@ class RedshopHelperJs
 			'USE_AS_CATALOG'                    => USE_AS_CATALOG,
 			'AJAX_CART_DISPLAY_TIME'            => AJAX_CART_DISPLAY_TIME,
 			'SHOW_PRICE'                        => SHOW_PRICE,
-			'BASE_TAX'                          => producthelper::getInstance()->getProductTax(0, 1),
+			'BASE_TAX'                          => RedshopSiteProduct::getInstance()->getProductTax(0, 1),
 			'DEFAULT_QUOTATION_MODE'            => DEFAULT_QUOTATION_MODE,
 			'PRICE_REPLACE'                     => PRICE_REPLACE,
 			'ALLOW_PRE_ORDER'                   => ALLOW_PRE_ORDER,

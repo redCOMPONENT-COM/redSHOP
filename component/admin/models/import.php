@@ -110,7 +110,7 @@ class RedshopModelImport extends RedshopModel
 		/**
 		 * check is redCRM is installed or not
 		 */
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 		$isredcrm = false;
 
 		if ($redhelper->isredCRM())
@@ -2824,7 +2824,7 @@ class RedshopModelImport extends RedshopModel
 	public function Orders_insert()
 	{
 		$db = JFactory::getDbo();
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 
 		$query = "SELECT rui.users_info_id AS rui_users_info_id, vmo . * , rdo.vm_order_number AS rdo_order_number
 				FROM (

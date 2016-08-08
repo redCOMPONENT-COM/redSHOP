@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$productHelper = producthelper::getInstance();
-$cartHelper = rsCarthelper::getInstance();
+$productHelper = RedshopSiteProduct::getInstance();
+$cartHelper = RedshopSiteCart::getInstance();
 $cart = $displayData['cart'];
 $total = 0;
 

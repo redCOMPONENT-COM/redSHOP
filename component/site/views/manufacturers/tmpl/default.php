@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$extraField = extraField::getInstance();
+$extraField = RedshopSiteExtraField::getInstance();
 $config = Redconfiguration::getInstance();
 $url = JURI::base();
 $print = JRequest::getInt('print');
 $Itemid = JRequest::getInt('Itemid');
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER');

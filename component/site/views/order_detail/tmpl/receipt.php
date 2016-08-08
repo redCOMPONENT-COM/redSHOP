@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 
-$carthelper = rsCarthelper::getInstance();
+$carthelper = RedshopSiteCart::getInstance();
 $redconfig = Redconfiguration::getInstance();
 $configobj = Redconfiguration::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 
 $db = JFactory::getDbo();
 $url = JURI::base();
@@ -154,7 +154,7 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
-$googleanalytics = new GoogleAnalytics;
+$googleanalytics = new RedshopHelperGoogleAnalytics;
 
 $analytics_status = $order->analytics_status;
 

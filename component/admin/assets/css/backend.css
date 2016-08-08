@@ -1835,7 +1835,12 @@ input[type="search"] {
   }
 }
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+}
+
+.form-group:last-child
+{
+  margin-bottom: 0;
 }
 
 .form-group span.hasTooltip
@@ -1843,12 +1848,15 @@ input[type="search"] {
   margin-left: 10px;
 }
 
+.form-group span.hasTooltip img
+{
+  max-width: 14px;
+}
+
 .radio,
 .checkbox {
   position: relative;
   display: block;
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 .radio label,
 .checkbox label {
@@ -2994,6 +3002,24 @@ tbody.collapse.in {
   color: #FFFFFF;
 }
 
+.btn-toolbar .btn-wrapper .dropdown-menu [class*="icon-"]
+{
+  display: none;
+}
+
+.btn-toolbar .btn-wrapper .dropdown-menu .btn
+{
+  width: 100%;
+}
+
+.btn-toolbar .btn-wrapper .dropdown-menu .btn-wrapper
+{
+  display: block;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+}
+
 .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
   border-radius: 0;
 }
@@ -3624,6 +3650,17 @@ a.thumbnail.active {
   border: 1px solid transparent;
   border-radius: 4px;
 }
+
+.alert a
+{
+  text-decoration: underline;
+}
+
+.form-group .alert.imagewarning
+{
+  margin-bottom: 20px;
+}
+
 .alert h4 {
   margin-top: 0;
   color: inherit;
@@ -7680,7 +7717,8 @@ a:focus {
 }
 .main-header .sidebar-toggle {
   float: left;
-  padding: 15px 7px;
+  background: transparent url(../images/menu.png) center center no-repeat;
+  padding: 15px;
   color: #FFFFFF;
   font-size: 18px;
   text-decoration: none;
@@ -7689,6 +7727,18 @@ a:focus {
 .main-header .sidebar-toggle .icon-bar {
   display: none;
 }
+
+.sidebar-collapse .main-header .sidebar-toggle
+{
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  transition-duration: 0.2s;
+
+}
+
 .main-header .navbar .nav > li.user > a > .fa,
 .main-header .navbar .nav > li.user > a > .glyphicon,
 .main-header .navbar .nav > li.user > a > .ion {
@@ -8852,6 +8902,11 @@ a:focus {
 .box.box-default {
   border-top-color: #555555;
 }
+
+.box.box-noborder {
+  border-top-width: 1px;
+}
+
 .box.collapsed-box .box-body,
 .box.collapsed-box .box-footer {
   display: none;
@@ -9125,6 +9180,30 @@ a:focus {
   padding: 10px;
   background-color: #fff;
 }
+
+.box-body .divimage
+{
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.box-body .divimage .divimagebuttons
+{
+  position: absolute;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  cursor: pointer;
+}
+
+.box-body .divimage.hover .divimagebuttons
+{
+  display: block;
+}
+
 .chart-legend {
   margin: 10px 0;
 }
@@ -18455,7 +18534,6 @@ input[type="color"],
   display: inline-block;
   height: 18px;
   padding: 4px 6px;
-  margin-bottom: 9px;
   font-size: 13px;
   line-height: 18px;
   color: #555;
@@ -19022,7 +19100,6 @@ select:focus:invalid:focus {
 .input-append,
 .input-prepend {
   display: inline-block;
-  margin-bottom: 9px;
   vertical-align: middle;
   font-size: 0;
   white-space: nowrap;
@@ -20620,78 +20697,6 @@ input[type="submit"].btn.btn-mini {
   border-radius: 0 0 6px 6px;
 }
 
-.alert {
-  padding: 8px 35px 8px 14px;
-  margin-bottom: 18px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #fcf8e3;
-  border: 1px solid #faebcc;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-
-.alert,
-.alert h4 {
-  color: #8a6d3b;
-}
-
-.alert h4 {
-  margin: 0 0 .5em;
-}
-
-.alert .close {
-  position: relative;
-  top: -2px;
-  right: -21px;
-  line-height: 18px;
-}
-
-.alert-success {
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  color: #3c763d;
-}
-
-.alert-success h4 {
-  color: #3c763d;
-}
-
-.alert-danger,
-.alert-error {
-  background-color: #f2dede;
-  border-color: #ebccd1;
-  color: #a94442;
-}
-
-.alert-danger h4,
-.alert-error h4 {
-  color: #a94442;
-}
-
-.alert-info {
-  background-color: #d9edf7;
-  border-color: #bce8f1;
-  color: #31708f;
-}
-
-.alert-info h4 {
-  color: #31708f;
-}
-
-.alert-block {
-  padding-top: 14px;
-  padding-bottom: 14px;
-}
-
-.alert-block > p,
-.alert-block > ul {
-  margin-bottom: 0;
-}
-
-.alert-block p + p {
-  margin-top: 5px;
-}
 
 .nav {
   margin-left: 0;

@@ -19,8 +19,8 @@ $url             = JURI::base();
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();
 
-$redhelper       = redhelper::getInstance();
-$userhelper      = rsUserHelper::getInstance();
+$redhelper       = RedshopSiteHelper::getInstance();
+$userhelper      = RedshopSiteUser::getInstance();
 $order_functions = order_functions::getInstance();
 
 $telesearch      = $order_functions->getparameters('rs_telesearch');

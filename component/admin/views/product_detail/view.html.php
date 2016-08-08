@@ -64,8 +64,8 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$this->dispatcher    = JDispatcher::getInstance();
 
 		$redTemplate         = Redtemplate::getInstance();
-		$redhelper           = redhelper::getInstance();
-		$this->producthelper = producthelper::getInstance();
+		$redhelper           = RedshopSiteHelper::getInstance();
+		$this->producthelper = RedshopSiteProduct::getInstance();
 
 		$this->option        = $this->input->getString('option', 'com_redshop');
 		$lists               = array();
@@ -356,7 +356,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			}
 			else
 			{
-				$objhelper = redhelper::getInstance();
+				$objhelper = RedshopSiteHelper::getInstance();
 				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
 			}
 
@@ -584,7 +584,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	 *
 	 * @return  object  Tab menu
 	 *
-	 * @see     fetch()
 	 * @since   1.7
 	 */
 	private function getTabMenu()

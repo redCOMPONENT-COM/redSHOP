@@ -17,10 +17,10 @@ JLoader::import('joomla.html.parameter');
 JLoader::import('joomla.html.pagination');
 
 RedshopHelperCron::init();
-new statistic;
+RedshopSiteStatistic::getInstance()->track();
 
 // Helper object
-$helper = redhelper::getInstance();
+$helper = RedshopSiteHelper::getInstance();
 
 // Include redCRM if required
 $helper->isredCRM();
@@ -136,7 +136,7 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 
 		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
 		{
-			$ga = new GoogleAnalytics;
+			$ga = new RedshopHelperGoogleAnalytics;
 			$ga->placeTrans();
 		}
 	}

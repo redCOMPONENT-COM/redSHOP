@@ -11749,8 +11749,6 @@ function _init() {
 
 			if ($(window).width() > (screenSizes.sm - 1) && sidebar == 'collapsed') {
 				$("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
-				$(toggleBtn).find('i').removeClass('fa-minus');
-				$(toggleBtn).find('i').addClass('fa-plus');
 			}
 
 			//Enable sidebar toggle
@@ -11763,13 +11761,9 @@ function _init() {
 					if ($("body").hasClass('sidebar-collapse')) {
 						$("body").removeClass('sidebar-collapse').trigger('expanded.pushMenu');
 						Cookies.remove('redshopsidebar');
-						$(this).find('i').removeClass('fa-plus');
-						$(this).find('i').addClass('fa-minus');
 					} else {
 						$("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
 						Cookies.set('redshopsidebar', 'collapsed');
-						$(this).find('i').addClass('fa-plus');
-						$(this).find('i').removeClass('fa-minus');
 					}
 				}
 				//Handle sidebar push menu for small screens
@@ -16278,6 +16272,38 @@ Licensed under the BSD-2-Clause License.
 	$(document).ready(function() {
 		// We cannot access the body tag so add admin-lte styling classes dynamically
 		$('body').addClass('skin-black sidebar-mini');
+
+		$('.imagewarning').hide();
+
+		$('.divimage').hover(function(){
+			$(this).addClass('hover');
+		}, function(){
+			$(this).removeClass('hover');
+		});
+
+		$('.divimagebuttons #deletebtn').click(function(){
+			var divimage = $(this).parent().parent();
+
+			$(divimage).find('img').hide();
+			$(divimage).parent().find('input[rel="noicheck"]').click();
+
+			$(divimage).prev().fadeIn('slow', function () {
+				$(this).delay(2000).fadeOut('slow');
+			});
+		});
+
+		$('.divimagebuttons #editbtn').click(function(){
+			var divimage = $(this).parent().parent();
+			var file = $(divimage).next().find('input');
+
+			$(file).click();
+
+			$(file).change(function (){
+				$(divimage).prev().fadeIn('slow', function () {
+					$(this).delay(2000).fadeOut('slow');
+				});
+		    });
+		});
 
 		// Form action
 		$('.js-mpw-form-action').click(function(e) {

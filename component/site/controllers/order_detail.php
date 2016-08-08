@@ -28,13 +28,13 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_producthelper   = producthelper::getInstance();
+		$this->_producthelper   = RedshopSiteProduct::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 		$this->_order_functions = order_functions::getInstance();
-		$this->_extraField      = extraField::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
-		$this->_userhelper      = rsUserHelper::getInstance();
-		$this->_carthelper      = rsCarthelper::getInstance();
+		$this->_extraField      = RedshopSiteExtraField::getInstance();
+		$this->_redhelper       = RedshopSiteHelper::getInstance();
+		$this->_userhelper      = RedshopSiteUser::getInstance();
+		$this->_carthelper      = RedshopSiteCart::getInstance();
 	}
 
 	/**

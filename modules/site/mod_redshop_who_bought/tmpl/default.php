@@ -26,10 +26,10 @@ $document->addStyleDeclaration('
 JHtml::_('redshopjquery.framework');
 JHtml::script('modules/mod_redshop_who_bought/assets/js/jquery.jcarousel.min.js');
 
-$producthelper = producthelper::getInstance();
-$redhelper = redhelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$extraField = extraField::getInstance();
+$extraField = RedshopSiteExtraField::getInstance();
 $module_id = "mod_" . $module->id;
 
 JHtml::script('com_redshop/common.js', false, true);

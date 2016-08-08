@@ -70,7 +70,7 @@ class JFormFieldPaymentType extends JFormFieldCheckboxes
 			$tmp = JHtml::_(
 				'select.option',
 				$value,
-				$text,
+				JText::_($text),
 				'value',
 				'text'
 			);

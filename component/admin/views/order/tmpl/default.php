@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = producthelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 
 
 global $context;
@@ -19,7 +19,7 @@ $config = Redconfiguration::getInstance();
 
 $lists = $this->lists;
 $model = $this->getModel('order');
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 $shippinghelper = shipping::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $dispatcher = JDispatcher::getInstance();
@@ -330,7 +330,7 @@ JPluginHelper::importPlugin('redshop_product');
 				</td>
 				<td align="center">
 				<?php
-					$carthelper    = rsCarthelper::getInstance();
+					$carthelper    = RedshopSiteCart::getInstance();
 					echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
 					echo "<br />";
 

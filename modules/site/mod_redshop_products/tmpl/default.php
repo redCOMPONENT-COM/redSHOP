@@ -25,10 +25,10 @@ JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 JHtml::script('com_redshop/redbox.js', false, true);
 
-$producthelper   = producthelper::getInstance();
-$redhelper       = redhelper::getInstance();
+$producthelper   = RedshopSiteProduct::getInstance();
+$redhelper       = RedshopSiteHelper::getInstance();
 $redTemplate     = Redtemplate::getInstance();
-$extraField      = extraField::getInstance();
+$extraField      = RedshopSiteExtraField::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 
 

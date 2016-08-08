@@ -20,7 +20,7 @@ class RedshopViewUser extends RedshopViewAdmin
 
 		$document->setTitle(JText::_('COM_REDSHOP_USER'));
 
-		$userhelper = rsUserHelper::getInstance();
+		$userhelper = RedshopSiteUser::getInstance();
 
 		$this->state = $this->get('State');
 		$sync                      = JRequest::getVar('sync');

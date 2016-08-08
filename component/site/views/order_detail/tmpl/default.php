@@ -14,12 +14,12 @@ $redconfig   = Redconfiguration::getInstance();
 $extra_field = extra_field::getInstance();
 
 
-$producthelper   = producthelper::getInstance();
-$redhelper       = redhelper::getInstance();
+$producthelper   = RedshopSiteProduct::getInstance();
+$redhelper       = RedshopSiteHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $shippinghelper  = shipping::getInstance();
-$carthelper      = rsCarthelper::getInstance();
+$carthelper      = RedshopSiteCart::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $oid    = JRequest::getInt('oid');

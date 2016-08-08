@@ -145,7 +145,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function storeShipping($data)
 	{
-		$userhelper = rsUserHelper::getInstance();
+		$userhelper = RedshopSiteUser::getInstance();
 		$data['address_type'] = 'BT';
 		$data['createaccount'] = (isset($data['username']) && $data['username'] != "") ? 1 : 0;
 		$data['user_email'] = $data['email1'] = $data['email'];
@@ -238,10 +238,10 @@ class RedshopModelAddorder_detail extends RedshopModel
 	{
 		$redshopMail = redshopMail::getInstance();
 		$order_functions = order_functions::getInstance();
-		$helper = redhelper::getInstance();
-		$producthelper = producthelper::getInstance();
-		$rsCarthelper = rsCarthelper::getInstance();
-		$adminproducthelper = adminProductHelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
+		$rsCarthelper = RedshopSiteCart::getInstance();
+		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		// For barcode generation

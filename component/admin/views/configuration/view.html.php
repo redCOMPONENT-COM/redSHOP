@@ -45,11 +45,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$this->config = $model->getData();
 
-		$redhelper   = redhelper::getInstance();
+		$redhelper   = RedshopSiteHelper::getInstance();
 		$config      = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$extra_field = extra_field::getInstance();
-		$userhelper  = rsUserHelper::getInstance();
+		$userhelper  = RedshopSiteUser::getInstance();
 		$lists       = array();
 
 		// Load language file
@@ -870,6 +870,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$this->current_version      = $current_version;
 		$this->lists                = $lists;
 		$this->request_url          = $uri->toString();
+		$this->tabmenu 				= $this->getTabMenu();
 
 		parent::display($tpl);
 	}
@@ -888,5 +889,96 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		{
 			return JText::_('COM_REDSHOP_N_A');
 		}
+	}
+
+
+	/**
+	 * Tab Menu
+	 *
+	 * @return  object  Tab menu
+	 *
+	 * @since   1.7
+	 */
+	private function getTabMenu()
+	{
+		$app = JFactory::getApplication();
+		$selectedTabPosition = $app->getUserState('com_redshop.configuration.selectedTabPosition', 'general');
+
+		$tabMenu = RedshopAdminMenu::getInstance()->init();
+		$tabMenu->section('tab')
+					->title('COM_REDSHOP_GENERAL_CONFIGURATION')
+					->addItem(
+						'#general',
+						'COM_REDSHOP_GENERAL_CONFIGURATION',
+						($selectedTabPosition == 'general') ? true : false,
+						'general'
+					)->addItem(
+						'#user',
+						'COM_REDSHOP_USER',
+						($selectedTabPosition == 'user') ? true : false,
+						'user'
+					)->addItem(
+						'#cattab',
+						'COM_REDSHOP_CATEGORY_TAB',
+						($selectedTabPosition == 'cattab') ? true : false,
+						'cattab'
+					)->addItem(
+						'#manufacturertab',
+						'COM_REDSHOP_REDMANUFACTURER_TAB',
+						($selectedTabPosition == 'manufacturertab') ? true : false,
+						'manufacturertab'
+					)->addItem(
+						'#producttab',
+						'COM_REDSHOP_PRODUCT_TAB',
+						($selectedTabPosition == 'producttab') ? true : false,
+						'producttab'
+					)->addItem(
+						'#featuretab',
+						'COM_REDSHOP_FEATURE_TAB',
+						($selectedTabPosition == 'featuretab') ? true : false,
+						'featuretab'
+					)->addItem(
+						'#pricetab',
+						'COM_REDSHOP_PRICE_TAB',
+						($selectedTabPosition == 'pricetab') ? true : false,
+						'pricetab'
+					)->addItem(
+						'#carttab',
+						'COM_REDSHOP_CART_TAB',
+						($selectedTabPosition == 'carttab') ? true : false,
+						'carttab'
+					)->addItem(
+						'#ordertab',
+						'COM_REDSHOP_ORDER_TAB',
+						($selectedTabPosition == 'ordertab') ? true : false,
+						'ordertab'
+					)->addItem(
+						'#newslettertab',
+						'COM_REDSHOP_NEWSLETTER_TAB',
+						($selectedTabPosition == 'newslettertab') ? true : false,
+						'newslettertab'
+					)->addItem(
+						'#integration',
+						'COM_REDSHOP_INTEGRATION',
+						($selectedTabPosition == 'integration') ? true : false,
+						'integration'
+					)->addItem(
+						'#seo',
+						'COM_REDSHOP_SEO',
+						($selectedTabPosition == 'seo') ? true : false,
+						'seo'
+					)->addItem(
+						'#dashboard',
+						'COM_REDSHOP_DASHBOARD',
+						($selectedTabPosition == 'dashboard') ? true : false,
+						'dashboard'
+					)->addItem(
+						'#redshopabout',
+						'COM_REDSHOP_ABOUT',
+						($selectedTabPosition == 'redshopabout') ? true : false,
+						'redshopabout'
+					);
+
+		return $tabMenu;
 	}
 }

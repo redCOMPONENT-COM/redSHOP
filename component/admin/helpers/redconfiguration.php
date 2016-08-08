@@ -941,7 +941,7 @@ class Redconfiguration
 	public function showPrice()
 	{
 		$user       = JFactory::getUser();
-		$userHelper = rsUserHelper::getInstance();
+		$userHelper = RedshopSiteUser::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -968,7 +968,7 @@ class Redconfiguration
 	public function getCatalog()
 	{
 		$user             = JFactory::getUser();
-		$userHelper       = rsUserHelper::getInstance();
+		$userHelper       = RedshopSiteUser::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -997,7 +997,7 @@ class Redconfiguration
 	{
 		$db = JFactory::getDbo();
 		$user             = JFactory::getUser();
-		$userhelper       = rsUserHelper::getInstance();
+		$userhelper       = RedshopSiteUser::getInstance();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 
 		if ($user->id)
@@ -1371,7 +1371,7 @@ class Redconfiguration
 
 		if (empty($this->countryList))
 		{
-						$redhelper = redhelper::getInstance();
+						$redhelper = RedshopSiteHelper::getInstance();
 
 			$countries = array();
 

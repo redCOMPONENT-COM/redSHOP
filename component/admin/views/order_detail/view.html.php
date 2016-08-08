@@ -32,7 +32,7 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = order_functions::getInstance();
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 
 		$uri = JFactory::getURI();
 

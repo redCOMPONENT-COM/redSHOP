@@ -50,9 +50,9 @@ class economic
 		$db                     = JFactory::getDbo();
 		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = $db;
-		$this->_producthelper   = producthelper::getInstance();
+		$this->_producthelper   = RedshopSiteProduct::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
+		$this->_redhelper       = RedshopSiteHelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_stockroomhelper = rsstockroomhelper::getInstance();
 
@@ -299,7 +299,7 @@ class economic
 
 	public function getTotalProperty($productId)
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 
 		// Collect Attributes
 		$attribute   = $producthelper->getProductAttribute($productId);

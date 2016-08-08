@@ -18,11 +18,11 @@ class RedshopViewOrder_detail extends RedshopView
 		$config = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$order_functions = order_functions::getInstance();
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 		$model = $this->getModel();
 		$redTemplate = Redtemplate::getInstance();
 		$detail = $this->get('data');
-		$carthelper = rsCarthelper::getInstance();
+		$carthelper = RedshopSiteCart::getInstance();
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
 		$template = $model->getStockNoteTemplate();
 		if (count($template) > 0 && $template->template_desc != "")

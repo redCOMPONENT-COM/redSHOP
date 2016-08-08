@@ -15,8 +15,8 @@ $Itemid = JRequest::getInt('Itemid');
 $jinput = JFactory::getApplication()->input;
 $post   = $jinput->getArray($_POST);
 
-$userhelper = rsUserHelper::getInstance();
-$rsCarthelper = rsCarthelper::getInstance();
+$userhelper = RedshopSiteUser::getInstance();
+$rsCarthelper = RedshopSiteCart::getInstance();
 
 $is_company = $this->lists['is_company'];
 

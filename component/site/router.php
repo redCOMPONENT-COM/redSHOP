@@ -504,7 +504,7 @@ function redshopBuildRoute(&$query)
 			}
 
 			$segments[] = $task;
-			$productHelper = producthelper::getInstance();
+			$productHelper = RedshopSiteProduct::getInstance();
 			$product = $productHelper->getProductById($pid);
 
 			if ($pid && $product)

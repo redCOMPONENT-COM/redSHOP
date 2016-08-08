@@ -55,7 +55,7 @@ $editor = JFactory::getEditor();
 						<?php
 						$productObject = new stdClass;
 
-						if ($this->detail->product_id && ($productData = producthelper::getInstance()->getProductById($this->detail->product_id)))
+						if ($this->detail->product_id && ($productData = RedshopSiteProduct::getInstance()->getProductById($this->detail->product_id)))
 						{
 							$productObject->value = $this->detail->product_id;
 							$productObject->text = $productData->product_name;
@@ -176,4 +176,5 @@ $editor = JFactory::getEditor();
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->question_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="question_detail"/>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

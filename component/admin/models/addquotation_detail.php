@@ -105,8 +105,8 @@ class RedshopModelAddquotation_detail extends RedshopModel
 	{
 		$extra_field = extra_field::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
-		$producthelper = producthelper::getInstance();
-		$rsCarthelper = rsCarthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
+		$rsCarthelper = RedshopSiteCart::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$extra_field->extra_field_save($data, 16, $data['user_info_id'], $data['user_email']);
@@ -529,7 +529,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $uniqueid = "")
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = RedshopSiteProduct::getInstance();
 
 		$subproperty = array();
 
