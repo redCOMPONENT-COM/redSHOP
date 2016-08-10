@@ -3271,8 +3271,8 @@ class RedshopSiteCart
 
 				if ($i == 0 || ($shipping_box_priority == $shipping_box_priority_pre))
 				{
-					$shipping_box_list .= "<label class=\"radio\" for='shipping_box_id" . $shipping_box_id . "'><input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "' />";
-					$shipping_box_list .= "" . $shippingBoxes[$i]->shipping_box_name . "</label><br/>";
+					$shipping_box_list .= "<div class='radio'><label class=\"radio\" for='shipping_box_id" . $shipping_box_id . "'><input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "' />";
+					$shipping_box_list .= "" . $shippingBoxes[$i]->shipping_box_name . "</label></div>";
 				}
 			}
 		}

@@ -40,15 +40,23 @@ if ($this->params->get('show_page_title', 1))
 
 if (!ONESTEP_CHECKOUT_ENABLE):
 ?>
-	<hr/>
-	<table width="100%" border="0" cellspacing="2" cellpadding="2">
-		<tr>
-			<td width="33%" class="checkout-bar-1"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></td>
-			<td width="33%" class="checkout-bar-2"><?php echo JText::_('COM_REDSHOP_PAYMENT'); ?></td>
-			<td width="33%" class="checkout-bar-3-active"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></td>
-		</tr>
-	</table>
-	<hr/>
+<ul class='nav nav-wizard'>
+	<li>
+		<a data-toggle="tab">
+			<?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?>
+		</a>
+	</li>
+	<li>
+		<a data-toggle="tab">
+			<?php echo JText::_('COM_REDSHOP_PAYMENT');?>
+		</a>
+	</li>
+	<li class='active'>
+		<a data-toggle="tab">
+			<?php echo JText::_('COM_REDSHOP_RECEIPT');?>
+		</a>
+	</li>
+</ul>
 	<?php endif; ?>
 <?php
 
