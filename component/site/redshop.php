@@ -136,7 +136,7 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 
 		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
 		{
-			$ga = new RedshopHelperGoogleAnalytics;
+			$ga = new RedshopHelperGoogleanalytics;
 			$ga->placeTrans();
 		}
 	}
