@@ -107,17 +107,6 @@ class RedshopModelImport extends RedshopModel
 				break;
 		}
 
-		/**
-		 * check is redCRM is installed or not
-		 */
-		$redhelper = redhelper::getInstance();
-		$isredcrm = false;
-
-		if ($redhelper->isredCRM())
-		{
-			$isredcrm = true;
-		}
-
 		/* Loop through the CSV file */
 		/* First line first as that is the column headers */
 		$line = 1;
@@ -1234,20 +1223,6 @@ class RedshopModelImport extends RedshopModel
 											}
 										}
 
-										/**
-										 * update property stock placement
-										 */
-										if ($isredcrm && isset($rawdata['property_stock_placement']) && trim($rawdata['property_stock_placement']) != "")
-										{
-											$property_save = array();
-											$property_save['stockposition'] = $rawdata['property_stock_placement'];
-											$property_save['product_id'] = $attrow->product_id;
-											$property_save['property_id'] = $prop_insert_id;
-
-											$this->storePropertyStockPosition($property_save);
-											unset($property_save);
-										}
-
 										if ($property_image != "")
 										{
 											$property_image_path = $rawdata['property_image'];
@@ -1402,20 +1377,6 @@ class RedshopModelImport extends RedshopModel
 															}
 														}
 													}
-												}
-
-												/**
-												 * update property stock placement
-												 */
-												if ($isredcrm && isset($rawdata['subattribute_stock_placement']) && trim($rawdata['subattribute_stock_placement']) != "")
-												{
-													$subproperty_save = array();
-													$subproperty_save['stockposition'] = $rawdata['subattribute_stock_placement'];
-													$subproperty_save['product_id'] = $attrow->product_id;
-													$subproperty_save['subattribute_color_id'] = $prop_insert_id_sub;
-
-													$this->storePropertyStockPosition($subproperty_save, 'subproperty');
-													unset($subproperty_save);
 												}
 
 												if ($subattribute_color_image != "")
@@ -3145,44 +3106,6 @@ class RedshopModelImport extends RedshopModel
 		$product_id = $db->loadResult();
 
 		return $product_id;
-	}
-
-	public function storePropertyStockPosition($data, $section = 'property')
-	{
-		$db = JFactory::getDbo();
-
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redcrm/tables');
-		$data['section_id'] = ($section == 'property') ? $data['property_id'] : $data['subattribute_color_id'];
-		$data['section'] = $section;
-
-		if ($data['section_id'] <= 0)
-		{
-			return;
-		}
-
-		$db->setQuery("SELECT attribute_stock_placement_id FROM " . $this->_crmtable_prefix . "attribute_stock_placement WHERE section = '" . $data['section'] . "' AND section_id = '" . $data['section_id'] . "'");
-		$autoid = $db->loadResult();
-
-		$row = $this->getTable('attributestock_placement');
-		$row->load($autoid);
-
-		$data['stock_placement'] = $data['stockposition'];
-
-		if (!$row->bind($data))
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
 	}
 
 	/**

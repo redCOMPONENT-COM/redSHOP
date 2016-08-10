@@ -21,35 +21,6 @@ function getHTTPObject() {
     return xhr;
 }
 
-function select_dynamic_field(tpl_id, pr_id, sec1tion) {
-    /*
-     * redCRM Front-End Prefix
-     */
-    var setcrmprefix = "";
-
-    if (typeof(crmPREFIX) === "undefined") {
-
-        setcrmprefix = "";
-    } else {
-        if (crmPREFIX == 'rc')
-            setcrmprefix = "administrator/";
-    }
-
-    if (tpl_id == 0) {
-        document.getElementById('dynamic_field').innerHTML = "";
-        return false;
-    }
-
-    var form = document.forms['adminForm'];
-
-    request = getHTTPObject();
-    request.onreadystatechange = templateData;
-
-    request.open("GET", setcrmprefix + "index.php?option=com_redshop&view=product&task=template&tmpl=component&json&template_id=" + tpl_id + "&product_id=" + pr_id + "&section=" + sec1tion + "&sid=" + Math.random(), true);
-    request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    request.send(null);
-}
-
 function resetTermsCondition() {
     if (document.getElementById('show_terms_and_conditions1') && document.getElementById('show_terms_and_conditions1').checked == 1) {
         if (confirm("Are you sure you want to reset")) {

@@ -124,7 +124,7 @@ class RedshopControllerOrder extends RedshopController
 		if (ECONOMIC_INTEGRATION == 1)
 		{
 			$economic = economic::getInstance();
-			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, 0, $bookInvoiceDate);
+			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
 			if (is_file($bookinvoicepdf))
 			{
