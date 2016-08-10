@@ -1,19 +1,27 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">{billing_address_information_lbl}</h3>
-	</div>
-	<div class="panel-body">
-		{edit_billing_address}
-		{billing_address}
-	</div>
-</div>
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{billing_address_information_lbl}</h3>
+			</div>
 
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">{shipping_address_information_lbl}</h3>
+			<div class="panel-body">
+				{edit_billing_address}
+				{billing_address}
+			</div>
+		</div>
 	</div>
-	<div class="panel-body">
-		{shipping_address}
+
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{shipping_address_information_lbl}</h3>
+			</div>
+
+			<div class="panel-body">
+				{shipping_address}
+			</div>
+		</div>
 	</div>
 </div>
 

@@ -782,10 +782,6 @@ class extra_field
 
 				$ex_field .= JText::_($extra_field_label) . ' : ';
 			}
-			else
-			{
-				$ex_field .= '<div class="row"><label class="col-sm-3">' . JText::_($extra_field_label) . ' : </label><div class="col-sm-9">';
-			}
 
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id, $user_email);
 
@@ -898,11 +894,6 @@ class extra_field
 					break;
 			}
 
-			if ($flag == 0)
-			{
-				$ex_field .= '</div></div>';
-			}
-
 			if (trim($template_desc) != '')
 			{
 				if (strstr($template_desc, "{" . $row_data[$i]->field_name . "}"))
@@ -921,7 +912,14 @@ class extra_field
 			return $template_desc;
 		}
 
-		return $ex_field;
+		if ($flag == 0)
+		{
+			return JLayoutHelper::render('fields.display', array('extra_field_label' => JText::_($extra_field_label), 'extra_field_value' => $ex_field));
+		}
+		else
+		{
+			return $ex_field;
+		}
 	}
 
 

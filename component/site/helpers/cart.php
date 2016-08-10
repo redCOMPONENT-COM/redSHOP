@@ -486,7 +486,7 @@ class RedshopSiteCart
 
 			if (isset($billingaddresses))
 			{
-				$billadd = JLayoutHelper::render('registration.billing', array('billingaddresses' => $billingaddresses));
+				$billadd = JLayoutHelper::render('cart.billing', array('billingaddresses' => $billingaddresses));
 
 				if (strpos($data, '{quotation_custom_field_list}') !== false)
 				{
@@ -626,68 +626,17 @@ class RedshopSiteCart
 
 			if (isset($shippingaddresses) && SHIPPING_METHOD_ENABLE)
 			{
-				if ($shippingaddresses->is_company == 1 && $shippingaddresses->company_name != "")
-				{
-					$shipadd .= JText::_('COM_REDSHOP_COMPANY_NAME') . ' : ' . $shippingaddresses->company_name . '<br />';
-				}
-
-				if ($shippingaddresses->firstname != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $shippingaddresses->firstname . '<br />';
-				}
-
-				if ($shippingaddresses->lastname != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $shippingaddresses->lastname . '<br />';
-				}
-
-				if ($shippingaddresses->address != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $shippingaddresses->address . '<br />';
-				}
-
-				if ($shippingaddresses->zipcode != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $shippingaddresses->zipcode . '<br />';
-				}
-
-				if ($shippingaddresses->city != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $shippingaddresses->city . '<br />';
-				}
-
-				$cname = $this->_order_functions->getCountryName($shippingaddresses->country_code);
-
-				if ($cname != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($cname) . '<br />';
-				}
-
-				$sname = $this->_order_functions->getStateName($shippingaddresses->state_code, $shippingaddresses->country_code);
-
-				if ($sname != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $sname . '<br />';
-				}
-
-				if ($shippingaddresses->phone != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $shippingaddresses->phone . '<br />';
-				}
+				$shipadd = JLayoutHelper::render('cart.shipping', array('shippingaddresses' => $shippingaddresses));
 
 				if ($shippingaddresses->is_company == 1)
 				{
 					// Additional functionality - more flexible way
 					$data = $this->_extraFieldFront->extra_field_display(15, $shippingaddresses->users_info_id, "", $data);
-
-					$shipadd .= $this->_extra_field->list_all_field_display(15, $shippingaddresses->users_info_id, 1);
 				}
 				else
 				{
 					// Additional functionality - more flexible way
 					$data = $this->_extraFieldFront->extra_field_display(14, $shippingaddresses->users_info_id, "", $data);
-
-					$shipadd .= $this->_extra_field->list_all_field_display(14, $shippingaddresses->users_info_id, 1);
 				}
 			}
 

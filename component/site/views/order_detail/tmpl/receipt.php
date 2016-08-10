@@ -32,9 +32,9 @@ $order = $this->OrdersDetail;
 if ($this->params->get('show_page_title', 1))
 {
 ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+	<h1 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
-	</div>
+	</h1>
 <?php
 }
 
@@ -150,7 +150,7 @@ if ($issplit)
 }
 
 // End
-
+/*
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
@@ -205,4 +205,4 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 else
 {
 	$googleanalytics->placeTrans();
-}
+}*/
