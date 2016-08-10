@@ -552,6 +552,25 @@ input[type="color"],
 		width: 100%;
 		clear: both;
 	}
+
+	.controls
+	{
+		label
+		{
+			.inputbox
+			{
+				display: inline-block;
+				float: none;
+				height: auto;
+				margin-left: 0;
+				margin-right: 5px;
+				margin-top: 0;
+				padding: 0;
+				position: relative;
+				width: auto;
+			}
+		}
+	}
 }
 
 /* --- redSHOP Product Content View - Accesories --- */

@@ -486,109 +486,7 @@ class RedshopSiteCart
 
 			if (isset($billingaddresses))
 			{
-				$extra_section = ($billingaddresses->is_company == 1) ? 8 : 7;
-
-				if ($billingaddresses->is_company == 1 && $billingaddresses->company_name != "")
-				{
-					$billadd .= JText::_('COM_REDSHOP_COMPANY_NAME') . ' : ' . $billingaddresses->company_name . '<br />';
-				}
-
-				if ($billingaddresses->firstname != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $billingaddresses->firstname . '<br />';
-				}
-
-				if ($billingaddresses->lastname != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $billingaddresses->lastname . '<br />';
-				}
-
-				if ($billingaddresses->address != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $billingaddresses->address . '<br /> ';
-				}
-
-				if ($billingaddresses->zipcode != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $billingaddresses->zipcode . '<br />';
-				}
-
-				if ($billingaddresses->city != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $billingaddresses->city . '<br /> ';
-				}
-
-				$cname = $this->_order_functions->getCountryName($billingaddresses->country_code);
-
-				if ($cname != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($cname) . '<br />';
-				}
-
-				$sname = $this->_order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
-
-				if ($sname != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $sname . '<br />';
-				}
-
-				if ($billingaddresses->phone != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $billingaddresses->phone . '<br/>';
-				}
-
-				if ($billingaddresses->user_email != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $billingaddresses->user_email . '<br />';
-				}
-				elseif ($user->email != '')
-				{
-					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $user->email . '<br />';
-				}
-
-				if ($billingaddresses->is_company == 1)
-				{
-					if ($billingaddresses->vat_number != "")
-					{
-						$billadd .= JText::_("COM_REDSHOP_VAT_NUMBER") . ' : ' . $billingaddresses->vat_number . '<br />';
-					}
-
-					if ($billingaddresses->ean_number != "")
-					{
-						$billadd .= JText::_("COM_REDSHOP_EAN_NUMBER") . ' : ' . $billingaddresses->ean_number . '<br />';
-					}
-
-					if (SHOW_TAX_EXEMPT_INFRONT)
-					{
-						$billadd .= JText::_("COM_REDSHOP_TAX_EXEMPT") . ' : ';
-
-						if ($billingaddresses->tax_exempt == 1)
-						{
-							$taxexe = JText::_("COM_REDSHOP_YES");
-						}
-						else
-						{
-							$taxexe = JText::_("COM_REDSHOP_NO");
-						}
-
-						$billadd .= $taxexe . '<br />';
-
-						$billadd .= JText::_("COM_REDSHOP_USER_TAX_EXEMPT_REQUEST_LBL") . ' : ';
-
-						if ($billingaddresses->requesting_tax_exempt == 1)
-						{
-							$taxexereq = JText::_("COM_REDSHOP_YES");
-						}
-						else
-						{
-							$taxexereq = JText::_("COM_REDSHOP_NO");
-						}
-
-						$billadd .= $taxexereq . '<br />';
-					}
-				}
-
-				$billadd .= $this->_extra_field->list_all_field_display($extra_section, $billingaddresses->users_info_id, 1);
+				$billadd = JLayoutHelper::render('registration.billing', array('billingaddresses' => $billingaddresses));
 
 				if (strpos($data, '{quotation_custom_field_list}') !== false)
 				{
@@ -3420,11 +3318,11 @@ class RedshopSiteCart
 
 				// Current priority
 				$shipping_box_priority = $shippingBoxes[$i]->shipping_box_priority;
-				$checked               = ($shipping_box_post_id == $shipping_box_id) ? "checked" : "";
+				$checked               = ($shipping_box_post_id == $shipping_box_id) ? "checked='checked'" : "";
 
 				if ($i == 0 || ($shipping_box_priority == $shipping_box_priority_pre))
 				{
-					$shipping_box_list .= "<label class=\"radio\" for='shipping_box_id" . $shipping_box_id . "'><input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "'>";
+					$shipping_box_list .= "<label class=\"radio\" for='shipping_box_id" . $shipping_box_id . "'><input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "' />";
 					$shipping_box_list .= "" . $shippingBoxes[$i]->shipping_box_name . "</label><br/>";
 				}
 			}

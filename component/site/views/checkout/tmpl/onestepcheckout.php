@@ -183,7 +183,7 @@ if ($billingaddresses->ean_number != "")
 if (strstr($onestep_template_desc, "{edit_billing_address}"))
 {
 	$editbill              = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&for=true&return=checkout&Itemid=' . $Itemid);
-	$edit_billing          = '<a class="modal" href="' . $editbill . '" rel="{handler: \'iframe\', size: {x: 800, y: 550}}"> ' . JText::_('COM_REDSHOP_EDIT') . '</a>';
+	$edit_billing          = '<a class="modal btn btn-primary" href="' . $editbill . '" rel="{handler: \'iframe\', size: {x: 800, y: 550}}"> ' . JText::_('COM_REDSHOP_EDIT') . '</a>';
 	$onestep_template_desc = str_replace("{edit_billing_address}", $edit_billing, $onestep_template_desc);
 }
 
@@ -199,7 +199,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 		if ($billingaddresses && OPTIONAL_SHIPPING_ADDRESS)
 		{
 			$ship_check = ($users_info_id == $billingaddresses->users_info_id) ? 'checked="checked"' : '';
-			$shipp .= '<div><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
+			$shipp .= '<div class="radio"><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
 		}
 
 		for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++)
@@ -211,13 +211,13 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 			$delete_addlink = $url . "index.php?option=com_redshop&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
 			$ship_check     = ($users_info_id == $shipinfo->users_info_id) ? 'checked="checked"' : '';
 
-			$shipp .= '<div><label class="radio inline"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $shipinfo->users_info_id . '" ' . $ship_check . ' />' . $shipinfo->firstname . " " . $shipinfo->lastname . "</label> ";
+			$shipp .= '<div class="radio"><label class="radio inline"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $shipinfo->users_info_id . '" ' . $ship_check . ' />' . $shipinfo->firstname . " " . $shipinfo->lastname . "</label> ";
 			$shipp .= '<a class="modal" href="' . $edit_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}">(' . JText::_('COM_REDSHOP_EDIT_LBL') . ')</a> ';
 			$shipp .= '<a href="' . $delete_addlink . '" title="">(' . JText::_('COM_REDSHOP_DELETE_LBL') . ')</a></div>';
 		}
 
 		$add_addlink = JRoute::_('index.php?option=com_redshop&view=account_shipto&tmpl=component&for=true&task=addshipping&return=checkout&Itemid=' . $Itemid . '&infoid=0&is_company=' . $billingaddresses->is_company);
-		$shipp .= '<a class="modal" href="' . $add_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}"> ' . JText::_('COM_REDSHOP_ADD_ADDRESS') . '</a>';
+		$shipp .= '<a class="modal btn btn-primary" href="' . $add_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}"> ' . JText::_('COM_REDSHOP_ADD_ADDRESS') . '</a>';
 		$onestep_template_desc = str_replace('{shipping_address}', $shipp, $onestep_template_desc);
 		$onestep_template_desc = str_replace('{shipping_address_information_lbl}', JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL'), $onestep_template_desc);
 	}

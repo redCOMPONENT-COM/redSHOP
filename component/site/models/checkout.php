@@ -2210,7 +2210,7 @@ class RedshopModelCheckout extends RedshopModel
 			$billingaddresses = $this->billingaddresses();
 
 			$req_number_lbl = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
-			$req_number     = '<input name="requisition_number" id="requisition_number" value="' . $requisition_number . '" />';
+			$req_number     = '<input class="inputbox" name="requisition_number" id="requisition_number" value="' . $requisition_number . '" />';
 
 			$template_desc = str_replace("{requisition_number}", $req_number, $template_desc);
 			$template_desc = str_replace("{requisition_number_lbl}", $req_number_lbl, $template_desc);

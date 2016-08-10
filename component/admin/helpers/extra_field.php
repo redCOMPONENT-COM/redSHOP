@@ -784,7 +784,7 @@ class extra_field
 			}
 			else
 			{
-				$ex_field .= '<tr><td valign="top" align="left">' . JText::_($extra_field_label) . ' : </td><td>';
+				$ex_field .= '<div class="row"><label class="col-sm-3">' . JText::_($extra_field_label) . ' : </label><div class="col-sm-9">';
 			}
 
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id, $user_email);
@@ -900,7 +900,7 @@ class extra_field
 
 			if ($flag == 0)
 			{
-				$ex_field .= '</td></tr>';
+				$ex_field .= '</div></div>';
 			}
 
 			if (trim($template_desc) != '')

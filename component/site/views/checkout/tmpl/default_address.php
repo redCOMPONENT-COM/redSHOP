@@ -27,7 +27,7 @@ $cart      = $session->get('cart');
 	$editbill = $url . "index.php?option=com_redshop&view=account_billto&return=checkout&tmpl=component&for=true&Itemid=" . $Itemid;        ?>
 
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_REDSHOP_BILL_TO_INFORMATION');?></legend>
+		<legend><strong><?php echo JText::_('COM_REDSHOP_BILL_TO_INFORMATION');?></strong></legend>
 		<?php
 		if ($billingaddresses)
 		{
@@ -35,7 +35,7 @@ $cart      = $session->get('cart');
 			if (!$session->get('isredcrmuser'))
 			{
 				?>
-				<a class="modal" href="<?php echo $editbill; ?>"
+				<a class="modal btn btn-primary" href="<?php echo $editbill; ?>"
 				   rel="{handler: 'iframe', size: {x: 720, y: 470}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 			<?php
 			}
@@ -62,126 +62,111 @@ $cart      = $session->get('cart');
 	<?php
 	if (SHIPPING_METHOD_ENABLE)
 	{
-		?>
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
-			<table cellpadding="3" cellspacing="0" border="0" width="100%">
-				<?php
-				if ($billingaddresses && OPTIONAL_SHIPPING_ADDRESS)
-				{
-					$checked = ((!isset($this->users_info_id) || $this->users_info_id == 0) || $this->users_info_id == $billingaddresses->users_info_id) ? 'checked' : '';    ?>
-					<tr>
-						<td>
-							<label class="radio inline" for="users_info_id_default">
-							<?php
-							if (!$session->get('isredcrmuser'))
-							{
-								?>
-								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-								       type="radio" name="users_info_id" id="users_info_id_default"
-								       value="<?php echo $billingaddresses->users_info_id; ?>"
-								<?php echo "checked";?> />
-							<?php
-							}
-							else
-							{
-								?>
-								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-								       type="radio" name="users_info_id" id="users_info_id_default"
-								       value="<?php echo $billingaddresses->users_info_id; ?>"
-								<?php echo $checked;?> />
-							<?php
-							}
-							?>
-							<?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label>';?></td>
-					</tr>
-				<?php
-				}
+	?>
+	<fieldset class="adminform">
+		<legend><strong><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></strong></legend>
+		<?php
+		if ($billingaddresses && OPTIONAL_SHIPPING_ADDRESS)
+		{
+			$checked = ((!isset($this->users_info_id) || $this->users_info_id == 0) || $this->users_info_id == $billingaddresses->users_info_id) ? 'checked' : '';    ?>
 
-				$shippingaddresses = $model->shippingaddresses();
-				$add_addlink = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
-
-				for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++)
-				{
-					if ($this->users_info_id != "")
+			<div class="radio">
+				<label for="users_info_id_default">
+					<?php
+					if (!$session->get('isredcrmuser'))
 					{
-						$checked = ($this->users_info_id == $shippingaddresses [$i]->users_info_id) ? 'checked' : '';
+						?>
+						<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
+						       type="radio" name="users_info_id" id="users_info_id_default"
+						       value="<?php echo $billingaddresses->users_info_id; ?>"
+						<?php echo "checked";?> />
+					<?php
+					}
+					else
+					{
+						?>
+						<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
+						       type="radio" name="users_info_id" id="users_info_id_default"
+						       value="<?php echo $billingaddresses->users_info_id; ?>"
+						<?php echo $checked;?> />
+					<?php
+					}
+					?>
+					<?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS');?>
+				</label>
+			</div>
+		<?php
+		}
+
+		$shippingaddresses = $model->shippingaddresses();
+		$add_addlink = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
+
+		for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++)
+		{
+			if ($this->users_info_id != "")
+			{
+				$checked = ($this->users_info_id == $shippingaddresses [$i]->users_info_id) ? 'checked' : '';
+			}
+
+			$edit_addlink   = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
+			$delete_addlink = $url . "index.php?option=com_redshop&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;    ?>
+
+			<div class="checkbox">
+				<label for="users_info_id_<?php echo $i ?>">';
+					<?php
+
+					if (!$session->get('isredcrmuser'))
+					{
+						?>
+						<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
+						       type="radio" name="users_info_id" id="users_info_id_<?php echo $i;?>"
+						       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
+						<?php echo $checked;?> />
+					<?php
+					}
+					else
+					{
+						?>
+						<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
+						       type="radio" name="users_info_id" id="users_info_id_<?php echo $i;?>"
+						       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
+						<?php echo $checked;?>/>
+
+					<?php
 					}
 
-					$edit_addlink   = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
-					$delete_addlink = $url . "index.php?option=com_redshop&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;    ?>
-					<tr>
-						<td>
-							<?php
-							echo '<label class="radio inline" for="users_info_id_' . $i . '">';
+					if (ENABLE_ADDRESS_DETAIL_IN_SHIPPING)
+					{
+						echo $shippingaddresses [$i]->address . " ";
+					}
 
-							if (!$session->get('isredcrmuser'))
-							{
-								?>
-								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-								       type="radio" name="users_info_id" id="users_info_id_<?php echo $i;?>"
-								       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
-								<?php echo $checked;?> />
-							<?php
-							}
-							else
-							{
-								?>
-								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-								       type="radio" name="users_info_id" id="users_info_id_<?php echo $i;?>"
-								       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
-								<?php echo $checked;?>/>
+					echo $shippingaddresses[$i]->text;
 
-							<?php
-							}
+					if (!$session->get('isredcrmuser')) { ?>
+					<a class="modal btn btn-primary" href="<?php echo $edit_addlink; ?>"
+					   rel="{handler: 'iframe', size: {x: 570, y: 470}}">(<?php echo JText::_('COM_REDSHOP_EDIT_LBL');    ?>
+						)</a>
+					<a href="<?php echo $delete_addlink; ?>"
+					   title="">(<?php echo JText::_('COM_REDSHOP_DELETE_LBL');    ?>)</a>
+					<?php } ?>
+				</label>
+			</div>
+		<?php } ?>
 
-							if (ENABLE_ADDRESS_DETAIL_IN_SHIPPING)
-							{
-								echo $shippingaddresses [$i]->address . " ";
-							}
+		<?php if (!$session->get('isredcrmuser')) { ?>
+			<a class="modal btn btn-primary" href="<?php echo $add_addlink; ?>" rel="{handler: 'iframe', size: {x: 570, y: 470}}">
+			 	<?php echo JText::_('COM_REDSHOP_ADD_ADDRESS');?>
+			</a>
+		<?php } ?>
+	</fieldset>
 
-							echo $shippingaddresses[$i]->text . '</label>';
-
-							if (!$session->get('isredcrmuser'))
-							{
-								?>
-								<a class="modal" href="<?php echo $edit_addlink; ?>"
-								   rel="{handler: 'iframe', size: {x: 570, y: 470}}">(<?php echo JText::_('COM_REDSHOP_EDIT_LBL');    ?>
-									)</a>
-								<a href="<?php echo $delete_addlink; ?>"
-								   title="">(<?php echo JText::_('COM_REDSHOP_DELETE_LBL');    ?>)</a>
-							<?php
-							}
-							?>
-						</td>
-					</tr>
-				<?php
-				}    ?>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-				<?php
-				if (!$session->get('isredcrmuser'))
-				{
-					?>
-					<tr>
-						<td><a class="modal" href="<?php echo $add_addlink; ?>"
-						       rel="{handler: 'iframe', size: {x: 570, y: 470}}"><?php echo JText::_('COM_REDSHOP_ADD_ADDRESS');?> </a>
-						</td>
-					</tr>
-				<?php
-				}    ?>
-			</table>
-		</fieldset>
-		<br/>
-		<div><?php
-			if ($cart['free_shipping'] != 1)
-			{
-				echo $this->loadTemplate('shipping');
-			}
-			?></div>
 	<?php
-	} ?>
+	if ($cart['free_shipping'] != 1)
+	{
+		echo $this->loadTemplate('shipping');
+	}
+	?>
+	<?php } ?>
 	<br/>
 
 	<div id="paymentblock"><?php echo $this->loadTemplate('payment');?></div>

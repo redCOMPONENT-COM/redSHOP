@@ -226,7 +226,7 @@ else
 		?>
 
 		<div id="divShipping" <?php echo $billingisshipping;?>>
-			<fieldset class="adminform">
+			<fieldset class="adminform subTable">
 				<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
 				<?php echo $userhelper->getShippingTable($post, $is_company, $this->lists);    ?>
 			</fieldset>
@@ -244,8 +244,8 @@ else
 		<?php endif; ?>
 
 		<div class="btn-group">
-			<input type="button" class="btn btn-default" name="back" value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
-			<input type="submit" class="btn btn-primary" name="submitbtn" id="submitbtn"
+			<input type="button" class="btn btn-default btn-lg" name="back" value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
+			<input type="submit" class="btn btn-primary btn-lg" name="submitbtn" id="submitbtn"
 									 value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
 		</div>
 

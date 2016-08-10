@@ -93,15 +93,23 @@ $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data
 
 // End
 ?>
-<hr/>
-<table width="100%" class="checkout-bar" border="0" cellspacing="2" cellpadding="2">
-	<tr>
-		<td width="33%" class="checkout-bar-1"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></td>
-		<td width="33%" class="checkout-bar-2-active"><?php echo JText::_('COM_REDSHOP_PAYMENT'); ?></td>
-		<td width="33%" class="checkout-bar-3"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></td>
-	</tr>
-</table>
-<hr/>
+<ul class='nav nav-wizard'>
+	<li>
+		<a data-toggle="tab">
+			<?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?>
+		</a>
+	</li>
+	<li class='active'>
+		<a data-toggle="tab">
+			<?php echo JText::_('COM_REDSHOP_PAYMENT');?>
+		</a>
+	</li>
+	<li>
+		<a data-toggle="tab">
+			<?php echo JText::_('COM_REDSHOP_RECEIPT');?>
+		</a>
+	</li>
+</ul>
 <?php
 if ($is_creditcard == 1 && $ccinfo != '1' && $cart['total'] > 0)
 {

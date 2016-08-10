@@ -80,7 +80,7 @@
 </div>
 
 <div class="form-group">
-	<label>{tax_exempt_lbl}:</label>
+	<label>{tax_exempt_lbl}</label>
 	{tax_exempt}
 </div>
 {company_extrafield}

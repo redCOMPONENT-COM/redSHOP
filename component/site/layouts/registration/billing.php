@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
+extract($displayData);
+
 $order_functions = order_functions::getInstance();
 $extra_field = extra_field::getInstance();
-$model = $this->getModel('checkout');
-$billingaddresses = $model->billingaddresses();    ?>
+$extra_section = ($billingaddresses->is_company == 1) ? 8 : 7;
+
+?>
 
 <div class="redshop-billingaddresses">
 	<?php if ($billingaddresses->is_company == 1) : ?>
@@ -121,8 +124,6 @@ $billingaddresses = $model->billingaddresses();    ?>
 		</div>
 		<?php endif; ?>
 
-		<?php echo $extrafields = $extra_field->list_all_field_display(8, $billingaddresses->users_info_id); ?>
-	<?php else : ?>
-		<?php echo $extrafields = $extra_field->list_all_field_display(7, $billingaddresses->users_info_id); ?>
 	<?php endif; ?>
+	<?php echo $extrafields = $extra_field->list_all_field_display($extra_section, $billingaddresses->users_info_id); ?>
 </div>
