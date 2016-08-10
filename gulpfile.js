@@ -24,6 +24,13 @@ jgulp.task('uglify', function() {
 
 	jgulp.src(
 	[
+		'./media/com_redshop/js/attribute-uncompressed.js'
+	])
+	.pipe(uglify('attribute.js'))
+	.pipe(jgulp.dest('./media/com_redshop/js'));
+
+	jgulp.src(
+	[
 		'./media/com_redshop/js/common-uncompressed.js'
 	])
 	.pipe(uglify('common.js'))

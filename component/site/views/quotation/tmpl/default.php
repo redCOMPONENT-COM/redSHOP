@@ -20,7 +20,7 @@ $cart = $session->get('cart');
 
 $detail = $this->detail;
 $user = JFactory::getUser();
-$extra_field = extra_field::getInstance();
+$extraField   = RedshopSiteExtraField::getInstance();
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
 
@@ -79,21 +79,34 @@ if ($user->id)
 }
 else
 {
-	$billing = '<table width="90%">
-	<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_EMAIL') . ':</td>
-		<td><input type="text" name="user_email" id="user_email" value=""/></td></tr>';
+	$billing = '<div class="redshop-billingaddresses">';
+
+	$emailField = new stdClass;
+	$emailField->field_title = JText::_('COM_REDSHOP_EMAIL');
+	$emailField->field_desc = '';
+	$emailField->required = '';
+
+	$inputField = '<input type="text" name="user_email" id="user_email" value=""/>';
+
+	$billing .= RedshopLayoutHelper::render(
+					'fields.html',
+					array(
+						'fieldHandle' => $emailField,
+						'inputField'  => $inputField
+					)
+				);
 
 	if (strstr($template_desc, "{quotation_custom_field_list}"))
 	{
-		$billing .= $extra_field->list_all_field(16, $detail->user_info_id, "", "tbl");
+		$billing .= $extraField->list_all_field(16, $detail->user_info_id, "", "tbl");
 		$template_desc = str_replace("{quotation_custom_field_list}", "", $template_desc);
 	}
 	else
 	{
-		$template_desc = $extra_field->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
+		$template_desc = $extraField->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
 	}
 
-	$billing .= '</table>';
+	$billing .= '</div>';
 
 	$template_desc = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $template_desc);
 	$template_desc = str_replace("{billing_address}", $billing, $template_desc);
