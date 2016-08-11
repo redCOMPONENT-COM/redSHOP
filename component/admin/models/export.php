@@ -450,31 +450,13 @@ class RedshopModelExport extends RedshopModel
 		if (count($cur) > 0)
 		{
 			$redhelper = redhelper::getInstance();
-			$isrecrm = false;
-
-			if ($redhelper->isredCRM())
-			{
-				$isrecrm = true;
-			}
 
 			for ($i = 0, $in = count($cur); $i < $in; $i++)
 			{
 				if ($i == 0)
 				{
 					echo '"product_number","attribute_name","attribute_ordering","allow_multiple_selection","hide_attribute_price","attribute_required","display_type","property_name","property_stock"';
-
-					if ($isrecrm)
-					{
-						echo ',"property_stock_placement"';
-					}
-
 					echo ',"property_ordering","property_virtual_number","setdefault_selected","setdisplay_type","oprand","property_price","property_image","property_main_image","subattribute_color_name","subattribute_stock"';
-
-					if ($isrecrm)
-					{
-						echo ',"subattribute_stock_placement"';
-					}
-
 					echo ',"subattribute_color_ordering","subattribute_setdefault_selected","subattribute_color_title","subattribute_virtual_number","subattribute_color_oprand","required_sub_attribute","subattribute_color_price","subattribute_color_image","delete"';
 
 					echo "\r\n";
@@ -488,12 +470,6 @@ class RedshopModelExport extends RedshopModel
 					if ($attribute[$att]->attribute_name != "")
 					{
 						echo '"' . $cur[$i]->product_number . '","' . $attribute[$att]->attribute_name . '","' . $attribute[$att]->ordering . '","' . $attribute[$att]->allow_multiple_selection . '","' . $attribute[$att]->hide_attribute_price . '","' . $attribute[$att]->attribute_required . '","' . $attribute[$att]->display_type . '"';
-
-						if ($isrecrm)
-						{
-							echo ',,';
-						}
-
 						echo ',,,,,,,,,,,,,,,,"0"';
 						echo "\r\n";
 						$att_property = $producthelper->getAttibuteProperty(0, $attribute[$att]->attribute_id);
@@ -525,36 +501,10 @@ class RedshopModelExport extends RedshopModel
 
 							echo '"' . $cur[$i]->product_number . '","' . $attribute[$att]->attribute_name . '",,,,,,"' . $att_property[$prop]->property_name . '","' . $main_attribute_stock . '"';
 
-							if ($isrecrm)
-							{
-								$main_attribute_stock_placement = "";
-
-								// Initialiase variables.
-								$query = $db->getQuery(true);
-
-								// Prepare query.
-								$query->select('stock_placement');
-								$query->from('#__redcrm_attribute_stock_placement');
-								$query->where('section = "property"');
-								$query->where('section_id = "' . $att_property[$prop]->property_id . '"');
-
-								// Inject the query and load the result.
-								$db->setQuery($query);
-								$main_attribute_stock_placement = $db->loadResult();
-
-								echo ',"' . $main_attribute_stock_placement . '"';
-							}
-
 							echo ',"' . $att_property[$prop]->ordering . '","' . $att_property[$prop]->property_number . '","'
 								. $att_property[$prop]->setdefault_selected . '","' . $att_property[$prop]->setdisplay_type . '","'
 								. $att_property[$prop]->oprand . '","' . $att_property[$prop]->property_price . '","' . $property_image
 								. '","' . $property_main_image . '"';
-
-							if ($isrecrm)
-							{
-								echo ',';
-							}
-
 							echo ',,,,,,,,,"0"';
 							echo "\n";
 
@@ -582,33 +532,7 @@ class RedshopModelExport extends RedshopModel
 								}
 
 								echo '"' . $cur[$i]->product_number . '","' . $attribute[$att]->attribute_name . '",,,,,,"' . $att_property[$prop]->property_name . '"';
-
-								if ($isrecrm)
-								{
-									echo ',';
-								}
-
 								echo ',,,,,,,,,,"' . $subatt_property[$subprop]->subattribute_color_name . '","' . $main_attribute_stock_sub . '"';
-
-								if ($isrecrm)
-								{
-									$main_attribute_stock_sub_placement = "";
-
-									// Initialiase variables.
-									$query = $db->getQuery(true);
-
-									// Prepare query.
-									$query->select('stock_placement');
-									$query->from('#__redcrm_attribute_stock_placement');
-									$query->where('section = "subproperty"');
-									$query->where('section_id = "' . $subatt_property[$subprop]->subattribute_color_id . '"');
-
-									// Inject the query and load the result.
-									$db->setQuery($query);
-									$main_attribute_stock_sub_placement = $db->loadResult();
-
-									echo ',"' . $main_attribute_stock_sub_placement . '"';
-								}
 
 								echo ',"' . $subatt_property[$subprop]->ordering . '","' . $subatt_property[$subprop]->setdefault_selected
 									. '","' . $subatt_property[$subprop]->subattribute_color_title . '","'

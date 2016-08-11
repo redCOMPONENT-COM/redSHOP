@@ -107,11 +107,6 @@ class economic
 		$eco['city']    = $row->city;
 		$eco['country'] = $this->_order_functions->getCountryName($row->country_code);
 
-		if ($this->_redhelper->isredCRM())
-		{
-			$eco['maximumcredit'] = $row->debitor_max_credit;
-		}
-
 		if (isset($data['economic_payment_terms_id']))
 		{
 			$eco['economic_payment_terms_id'] = $data['economic_payment_terms_id'];
@@ -275,22 +270,7 @@ class economic
 			$eco['eco_prd_number'] = $debtorHandle[0]->Number;
 		}
 
-		$stockamount = $this->_stockroomhelper->getStockroomTotalAmount($row->product_id);
-
-		// Start update stock info for redCRM stock tracking system
-		if ($this->_redhelper->isredCRM() && ENABLE_ITEM_TRACKING_SYSTEM)
-		{
-			// Supplier order helper object
-			$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-			$stockdata                 = new stdClass;
-			$stockdata->product_id     = $row->product_id;
-			$stockdata->property_id    = 0;
-			$stockdata->subproperty_id = 0;
-			$stockamount               = $crmSupplierOrderHelper->getSupplierStock($stockdata);
-		}
-
-		$eco['product_stock'] = $stockamount;
+		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->product_id);
 
 		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
 
@@ -354,22 +334,7 @@ class economic
 			$eco['eco_prd_number'] = $debtorHandle[0]->Number;
 		}
 
-		$stockamount = $this->_stockroomhelper->getStockroomTotalAmount($row->property_id, "property");
-
-		// Start update stock info for redCRM stock tracking system
-		if ($this->_redhelper->isredCRM() && ENABLE_ITEM_TRACKING_SYSTEM)
-		{
-			// Supplier order helper object
-			$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-			$stockdata                 = new stdClass;
-			$stockdata->product_id     = $prdrow->product_id;
-			$stockdata->property_id    = $row->property_id;
-			$stockdata->subproperty_id = 0;
-			$stockamount               = $crmSupplierOrderHelper->getSupplierStock($stockdata);
-		}
-
-		$eco['product_stock'] = $stockamount;
+		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->property_id, "property");
 
 		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
 
@@ -417,26 +382,7 @@ class economic
 			$eco['eco_prd_number'] = $debtorHandle[0]->Number;
 		}
 
-		$stockamount = $this->_stockroomhelper->getStockroomTotalAmount($row->subattribute_color_id, "subproperty");
-
-		// Start update stock info for redCRM stock tracking system
-		if ($this->_redhelper->isredCRM() && ENABLE_ITEM_TRACKING_SYSTEM)
-		{
-			// Supplier order helper object
-			$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-
-			// Get subattribute info for property id
-			$subattributeData = $this->_producthelper->getAttibuteSubProperty($row->subattribute_color_id);
-
-			$stockdata                 = new stdClass;
-			$stockdata->product_id     = $prdrow->product_id;
-			$stockdata->property_id    = $subattributeData[0]->subattribute_id;
-			$stockdata->subproperty_id = $row->subattribute_color_id;
-			$stockamount               = $crmSupplierOrderHelper->getSupplierStock($stockdata);
-		}
-
-		$eco['product_stock'] = $stockamount;
+		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->subattribute_color_id, "subproperty");
 
 		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
 
@@ -1114,7 +1060,7 @@ class economic
 	 * @access public
 	 * @return array
 	 */
-	public function bookInvoiceInEconomic($order_id, $checkOrderStatus = 1, $rmaCRMOrder = 0, $bookinvoicedate = 0)
+	public function bookInvoiceInEconomic($order_id, $checkOrderStatus = 1, $bookinvoicedate = 0)
 	{
 		$file = '';
 
@@ -1124,7 +1070,7 @@ class economic
 
 			if ($orderdetail->invoice_no != '' && $orderdetail->is_booked == 0)
 			{
-				if ((ECONOMIC_INVOICE_DRAFT == 2 && $orderdetail->order_status == BOOKING_ORDER_STATUS) || $checkOrderStatus == 0 || $rmaCRMOrder == 1)
+				if ((ECONOMIC_INVOICE_DRAFT == 2 && $orderdetail->order_status == BOOKING_ORDER_STATUS) || $checkOrderStatus == 0)
 				{
 					$user_billinginfo = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 

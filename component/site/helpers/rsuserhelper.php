@@ -702,14 +702,6 @@ class rsUserhelper
 		JPluginHelper::importPlugin('user');
 		JDispatcher::getInstance()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
 
-		/**
-		 * redCRM includes
-		 */
-		if ($helper->isredCRM())
-		{
-			$this->setoreredCRMDebtor($row);
-		}
-
 		return $row;
 	}
 
@@ -1282,54 +1274,6 @@ class rsUserhelper
 	public function getCaptchaTable()
 	{
 		return RedshopLayoutHelper::render('registration.captcha');
-	}
-
-	/**
-	 * Function to store redCRM user
-	 *
-	 * @param   object  $row  Row to store
-	 *
-	 * @return  object
-	 */
-	public function setoreredCRMDebtor($row)
-	{
-		$this->_db->setQuery("SELECT debitor_id FROM #__redcrm_debitors WHERE users_info_id = " . (int) $row->users_info_id);
-		$row->debitor_id = $this->_db->loadResult();
-
-		if ($row->debitor_id > 0)
-		{
-			return;
-		}
-
-		if (DEBITOR_NUMBER_AUTO_GENERATE == 1 && $row->users_info_id <= 0)
-		{
-			JModelLegacy::addIncludePath(REDCRM_ADMIN . '/models');
-
-			$crmmodel = JModelLegacy::getInstance('debitor', 'redCRMModel');
-
-			$maxdebtor_id = $crmmodel->getMaxdebtor();
-
-			if ($maxdebtor_id < DEBITOR_START_NUMBER)
-			{
-				$row->customer_number = DEBITOR_START_NUMBER;
-			}
-			else
-			{
-				$row->customer_number = $maxdebtor_id + 1;
-			}
-		}
-		else
-		{
-			$row->customer_number = $row->users_info_id;
-		}
-
-		// Set redshop user detail table path
-		JTable::addIncludePath(REDCRM_ADMIN . '/tables');
-		$debtor = JTable::getInstance('debitors', 'Table');
-		$debtor->bind($row);
-		$debtor->store();
-
-		return $debtor;
 	}
 
 	public function getShopperGroupManufacturers()
