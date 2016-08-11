@@ -118,22 +118,6 @@ class RedshopViewAccount extends RedshopView
 		$this->userdata = $userdata;
 		$this->params   = $params;
 
-		// RedCRM Template
-
-		// Helper object
-		$helper = RedshopSiteHelper::getInstance();
-
-		if ($layout == "default" && $helper->isredCRM())
-		{
-			$tmplPath = JPATH_BASE . '/components/com_redcrm/views/account/tmpl';
-
-			$this->addTemplatePath($tmplPath);
-
-			parent::display('storemanagement');
-		}
-
-		// RedCRM Template END
-
 		parent::display($tpl);
 	}
 }

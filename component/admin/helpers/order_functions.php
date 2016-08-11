@@ -15,8 +15,6 @@ class order_functions
 {
 	public $_orderstatuslist = null;
 
-	public $_customorderstatuslist = null;
-
 	protected static $instance = null;
 
 	/**
@@ -512,22 +510,6 @@ class order_functions
 			// For Webpack Postdk Label Generation
 			$this->createWebPacklabel($order_id, $data->order_status_code, $data->order_payment_status_code);
 			$this->createBookInvoice($order_id, $data->order_status_code);
-
-			/**
-			 * redCRM includes
-			 */
-			if ($helper->isredCRM() && ENABLE_ITEM_TRACKING_SYSTEM)
-			{
-				// Supplier order helper object
-				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-				$getStatus = array();
-				$getStatus['orderstatus'] = $data->order_status_code;
-				$getStatus['paymentstatus'] = $data->order_payment_status_code;
-
-				$crmSupplierOrderHelper->redSHOPOrderUpdate($order_id, $getStatus);
-				unset($getStatus);
-			}
 		}
 	}
 
@@ -631,14 +613,14 @@ class order_functions
 		return RedshopHelperOrder::getOrderStatusList();
 	}
 
-	public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ', $selectText = 'COM_REDSHOP_SELECT_STATUS_LBL')
+	public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		if (!$this->_orderstatuslist)
 		{
 			$this->_orderstatuslist = $this->getOrderStatus();
 		}
 
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_($selectText) . ' -');
+		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
 		$types = array_merge($types, $this->_orderstatuslist);
 
 		$tot_status = @explode(",", $selected);
@@ -662,59 +644,6 @@ class order_functions
 		$mylist['filterbylist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $tot_status);
 
 		return $mylist['filterbylist'];
-	}
-
-	public function getCustomOrderStatus($field)
-	{
-		if ($field == "shipping")
-		{
-			$fieldname = "shipping_custom_order_status";
-		}
-
-		if ($field == "confirmed")
-		{
-			$fieldname = "confirmed_custom_order_status";
-		}
-
-		if ($field == "canceled")
-		{
-			$fieldname = "canceled_custom_order_status";
-		}
-
-		$db = JFactory::getDbo();
-
-		$query = "SELECT " . $fieldname . " AS value " . "FROM #__redcrm_configuration ";
-		$db->setQuery($query);
-
-		$list = $db->loadObjectList();
-		$this->_customorderstatuslist = $list;
-
-		return $list;
-	}
-
-	public function getcustomstatuslist($name = 'customstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ', $field = '')
-	{
-		$this->_customorderstatuslist = array();
-
-		if (!$this->_customorderstatuslist)
-		{
-			$this->_customorderstatuslist = $this->getCustomOrderStatus($field);
-		}
-
-		$tot_status_change = @explode(",", $this->_customorderstatuslist[0]->value);
-
-		for ($t = 0, $tn = count($tot_status_change); $t < $tn; $t++)
-		{
-			$this->_customorderstatuslist[$t]->value = $tot_status_change[$t];
-			$this->_customorderstatuslist[$t]->text = $this->getOrderStatusTitle($tot_status_change[$t]);
-		}
-
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
-		$types = array_merge($types, $this->_customorderstatuslist);
-
-		$mylist['customstatuslist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $selected);
-
-		return $mylist['customstatuslist'];
 	}
 
 	public function getpaymentstatuslist($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
@@ -753,64 +682,6 @@ class order_functions
 		$isProduct       = $app->input->getInt('isproduct', 0);
 		$productId       = $app->input->getInt('product_id', 0);
 		$orderItemId     = $app->input->getInt('order_item_id', 0);
-
-		/**
-		 * redCRM includes
-		 */
-		if ($helper->isredCRM())
-		{
-			if ($newStatus == 'C')
-			{
-				if (JRequest::getVar('customstatusconfirmed'))
-				{
-					$customstatus = JRequest::getVar('customstatusconfirmed');
-				}
-				else
-				{
-					$customstatus = "";
-				}
-			}
-			elseif ($newStatus == 'S')
-			{
-				if (JRequest::getVar('customstatusshipping'))
-				{
-					$customstatus = JRequest::getVar('customstatusshipping');
-				}
-				else
-				{
-					$customstatus = "";
-				}
-			}
-			elseif ($newStatus == 'X')
-			{
-				if (JRequest::getVar('customstatuscanceled'))
-				{
-					$customstatus = JRequest::getVar('customstatuscanceled');
-				}
-				else
-				{
-					$customstatus = "";
-				}
-			}
-			else
-			{
-				$customstatus = "";
-			}
-
-			$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-			$crmSupplierOrderHelper->redSHOPCustomOrderUpdate($orderId, $customstatus);
-
-			if (ENABLE_ITEM_TRACKING_SYSTEM)
-			{
-				// Supplier order helper object
-				$getStatus = array();
-				$getStatus['orderstatus'] = $newStatus;
-				$getStatus['paymentstatus'] = $paymentStatus;
-
-				$crmSupplierOrderHelper->redSHOPOrderUpdate($orderId, $getStatus);
-				unset($getStatus);
-			}
-		}
 
 		if (isset($paymentStatus))
 		{
@@ -962,14 +833,7 @@ class order_functions
 
 		if ($return == 'order')
 		{
-			if (JFactory::getApplication()->input->getCmd('option') == 'com_redcrm')
-			{
-				$app->redirect('index.php?option=com_redcrm&view=' . $return . '&cid[]=' . $orderId . '' . $isarchive . '', $msg);
-			}
-			else
-			{
-				$app->redirect('index.php?option=com_redshop&view=' . $return . '' . $isarchive . '', $msg);
-			}
+			$app->redirect('index.php?option=com_redshop&view=' . $return . '' . $isarchive . '', $msg);
 		}
 		else
 		{
@@ -1149,66 +1013,17 @@ class order_functions
 	public function getBillingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 
 		$user = JFactory::getUser();
 
 		// Get Joomla Session
 		$session = JFactory::getSession();
-
-		// Get redCRM Contact person session array
-		$isredcrmuser = $session->get('isredcrmuser', false);
 		$list = array();
 
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
-		}
-
-		if ($helper->isredCRM())
-		{
-			$crmHelper = new crmHelper;
-			$crmDebitorHelper = new crmDebitorHelper;
-
-			$cp_user_id = $user_id;
-
-			/*
-			 * function will check loign redshop user
-			 * is redCRM contact person or not
-			 *
-			 * @return: joomla user of redSHOP billing user belong to contact person
-			 */
-			$crmusers = $crmHelper->getBillingUserId($user_id);
-
-			if (isset($crmusers->user_id))
-			{
-				$user_id = $crmusers->user_id;
-			}
-
-			$query = 'SELECT ui.*,CONCAT(firstname," ",lastname) AS text,d.*,ui.users_info_id FROM '
-				. '#__redshop_users_info as ui '
-				. 'LEFT JOIN #__redcrm_debitors as d ON d.users_info_id = ui.users_info_id ' . 'WHERE address_type like "BT" '
-				. 'AND user_id = ' . (int) $user_id;
-			$db->setQuery($query);
-			$list = $db->loadObject();
-
-			if ($isredcrmuser)
-			{
-				$contact_person = $crmDebitorHelper->getContactPersons(0, 0, 0, $cp_user_id);
-
-				if (count($contact_person) > 0)
-				{
-					$contact_person = $contact_person[0];
-					$person_name = explode(" ", $contact_person->person_name);
-
-					$list->firstname = @$person_name[0];
-					$list->lastname = @$person_name[1];
-					$list->text = $contact_person->person_name;
-					$list->user_email = $contact_person->person_email;
-				}
-			}
-
-			return $list;
 		}
 
 		if ($user_id)
@@ -1241,87 +1056,11 @@ class order_functions
 	public function getShippingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = RedshopSiteHelper::getInstance();
-
 		$user = JFactory::getUser();
-
-		$session = JFactory::getSession();
-
-		// Get redCRM Contact person session array
-		$isredcrmuser = $session->get('isredcrmuser', false);
-
-		$isredcrmuser_debitor = $session->get('isredcrmuser_debitor', false);
-
-		$app = JFactory::getApplication();
-		$is_admin = $app->isAdmin();
 
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
-		}
-
-		if ($helper->isredCRM())
-		{
-			$crmHelper = new crmHelper;
-			$crmDebitorHelper = new crmDebitorHelper;
-
-			/*
-			 * function will check loign redshop user
-			 * is redCRM contact person or not
-			 *
-			 * @return: joomla user of redSHOP shipping user belong to contact person
-			 */
-			$crmuserssid = 0;
-			$crmusers = array();
-
-			if ($isredcrmuser)
-			{
-				$contact_person = $crmDebitorHelper->getContactPersons(0, 0, 0, $user_id);
-				$contact_person = $contact_person[0];
-
-				$crmuserssid = $contact_person->shipping_id;
-				$crmusers = $crmHelper->getShippingUserId(0, $crmuserssid);
-			}
-
-			$list = array();
-
-			if (count($crmusers) > 0)
-			{
-				$crmusersinfo = '';
-				JArrayHelper::toInteger($crmusers);
-				$crmusersinfo = implode(",", $crmusers);
-
-				$query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM '
-					. '#__redshop_users_info as ui'
-					. ' LEFT JOIN #__redcrm_shipping as rcs ON rcs.users_info_id = ui.users_info_id '
-					. ' WHERE address_type like "ST" ' . ' AND ui.users_info_id IN (' . $crmusersinfo . ') ';
-			}
-			else
-			{
-				if (!$is_admin)
-				{
-					$isredcrmuser_debitor = explode(',', $isredcrmuser_debitor);
-					JArrayHelper::toInteger($isredcrmuser_debitor);
-					$isredcrmuser_debitor = implode(',', $isredcrmuser_debitor);
-					$query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM '
-						. '#__redshop_users_info as ui'
-						. ' LEFT JOIN #__redcrm_shipping as rcs ON rcs.users_info_id = ui.users_info_id '
-						. ' WHERE address_type like "ST" AND rcs.destination_name!="" '
-						. ' AND rcs.debitor_id IN (' . $isredcrmuser_debitor . ') ';
-				}
-				else
-				{
-					$query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM '
-						. '#__redshop_users_info as ui'
-						. ' LEFT JOIN #__redcrm_shipping as rcs ON rcs.users_info_id = ui.users_info_id '
-						. ' WHERE address_type like "ST" ' . ' AND ui.user_id  = ' . (int) $user_id;
-				}
-			}
-
-			$db->setQuery($query);
-			$list = $db->loadObjectlist();
-
-			return $list;
 		}
 
 		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM #__redshop_users_info '
@@ -1497,7 +1236,7 @@ class order_functions
 	public function getCountryName($cnt3 = "")
 	{
 		$db = JFactory::getDbo();
-		$redhelper = RedshopSiteHelper::getInstance();
+		$redhelper = redhelper::getInstance();
 		$and = '';
 		$cntname = '';
 
