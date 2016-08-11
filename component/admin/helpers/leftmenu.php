@@ -445,7 +445,7 @@ class leftmenu
 		{
 			$menu = RedshopAdminMenu::getInstance()->init();
 
-			$menu->section('question')
+			$menu->section('accountgroup')
 				->title('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP')
 				->addItem(
 					'index.php?option=com_redshop&view=accountgroup',
