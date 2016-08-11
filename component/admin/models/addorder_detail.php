@@ -265,45 +265,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		$iscrm = $helper->isredCRM();
-
-		if ($iscrm)
-		{
-			$postdata['order_id'] = $row->order_id;
-			$postdata['debitor_id'] = $postdata['user_info_id'];
-			JTable::addIncludePath(REDCRM_ADMIN . '/tables');
-
-			$crmorder = $this->getTable('crm_order');
-
-			if (!$crmorder->bind($postdata))
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-
-			if (!$crmorder->store())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-
-			// Update rma table entry
-			if (ENABLE_RMA && isset($postdata['rmanotes']))
-			{
-				$rmaInfo = $this->getTable('rma_orders');
-
-				$rmaInfo->rma_number = $postdata['rma_number'];
-				$rmaInfo->original_order_id = $postdata['main_order_id'];
-				$rmaInfo->credit_note_order_id = $row->order_id;
-				$rmaInfo->rma_note = $postdata['rmanotes'];
-				$rmaInfo->store();
-			}
-
-			JTable::addIncludePath(REDSHOP_ADMIN . '/tables');
-		}
-
 		$rowOrderStatus = $this->getTable('order_status_log');
 		$rowOrderStatus->order_id = $row->order_id;
 		$rowOrderStatus->order_status = $row->order_status;
@@ -416,15 +377,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$rowitem->wrapper_id = $item[$i]->wrapper_data;
 			$rowitem->wrapper_price = $wrapper_price;
 			$rowitem->is_giftcard = 0;
-
-			// RedCRM product purchase price
-			if ($iscrm)
-			{
-				$crmProductHelper = new crmProductHelper;
-				$crmproduct = Redshop::product((int) $product_id);
-
-				$rowitem->product_purchase_price = $crmproduct->product_purchase_price > 0 ? $crmproduct->product_purchase_price : $crmproduct->product_price;
-			}
 
 			if ($producthelper->checkProductDownload($product_id))
 			{
@@ -720,47 +672,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 				}
 			}
-
-			// redCRM RMA Transaction Entry
-			if ($iscrm)
-			{
-				if (ENABLE_RMA && $rowitem->product_final_price < 0)
-				{
-					// RMA transation log
-					if (isset($item[$i]->reason))
-					{
-						$rmaTrans = $this->getTable('rma_transaction');
-						$rmaTrans->rma_transaction_id = 0;
-						$rmaTrans->rma_number = $postdata['rma_number'];
-						$rmaTrans->order_item_return_id = $rowitem->order_item_id;
-						$rmaTrans->order_item_return_reason = $item[$i]->reason;
-						$rmaTrans->order_item_return_status = $item[$i]->deposition;
-						$rmaTrans->order_item_return_action = $item[$i]->action;
-						$rmaTrans->cdate = time();
-						$rmaTrans->store();
-
-						if (ENABLE_ITEM_TRACKING_SYSTEM)
-						{
-							// Manage supplier order stock
-							$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-							$senddata['main_order_number'] = $postdata['main_order_number'];
-							$senddata['order_status'] = $row->order_status;
-							$senddata['product_id'] = $rowitem->product_id;
-							$senddata['property_id'] = $property_id;
-							$senddata['subproperty_id'] = $subproperty_id;
-							$senddata['deposition'] = $item[$i]->deposition;
-
-							$itemqty = $rowitem->product_quantity;
-
-							for ($r = 0; $r < $itemqty; $r++)
-							{
-								$crmSupplierOrderHelper->manageStockAffectedRMA($senddata);
-							}
-						}
-					}
-				}
-			}
 		}
 
 		$rowpayment = $this->getTable('order_payment');
@@ -837,23 +748,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 		if ($row->order_status == CLICKATELL_ORDER_STATUS)
 		{
 			$helper->clickatellSMS($row->order_id);
-		}
-
-		// Maintan supplier order stck when item tracking system is enabled
-		if ($helper->isredCRM())
-		{
-			if (ENABLE_ITEM_TRACKING_SYSTEM)
-			{
-				// Supplier order helper object
-				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-				$getStatus = array();
-				$getStatus['orderstatus'] = $row->order_status;
-				$getStatus['paymentstatus'] = $row->order_payment_status;
-
-				$crmSupplierOrderHelper->redSHOPOrderUpdate($row->order_id, $getStatus);
-				unset($getStatus);
-			}
 		}
 
 		// Economic Integration start for invoice generate and book current invoice

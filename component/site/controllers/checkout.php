@@ -106,44 +106,6 @@ class RedshopControllerCheckout extends RedshopController
 			$app->redirect($link);
 		}
 
-		if ($helper->isredCRM())
-		{
-			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($post['payment_method_id']);
-
-			if (($session->get('isredcrmuser_debitor') || $session->get('isredcrmuser')) && $isBankTransferPaymentType)
-			{
-				$crmDebitorHelper = new crmDebitorHelper;
-
-				if ($session->get('isredcrmuser_debitor'))
-				{
-					$debitor_id = $session->get('isredcrmuser_debitor');
-				}
-				else
-				{
-					$debitor_id_tot = $crmDebitorHelper->getContactPersons(0, 0, 0, $user->id);
-					$debitor_id = $debitor_id_tot[0]->section_id;
-				}
-
-				$details = $crmDebitorHelper->getDebitor($debitor_id);
-
-				if (count($details) > 0 && $details[0]->is_company == 1)
-				{
-					$unpaid     = $details[0]->debitor_unpaid_balance;
-					$max_credit = $details[0]->debitor_max_credit;
-					$total      = $cart['total'];
-
-					if ($max_credit <= ($unpaid + $total))
-					{
-						$Itemid = JRequest::getVar('Itemid');
-						$msg    = JText::_('DEBITOR_CREDIT_LIMIT_EXCEED');
-						$link   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
-						$this->setRedirect($link, $msg);
-					}
-				}
-			}
-		}
-
 		$Itemid = JRequest::getVar('Itemid');
 		$ccinfo = JRequest::getVar('ccinfo');
 
