@@ -175,18 +175,6 @@ class RedshopSiteProduct
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
 
-		if ($helper->isredCRM())
-		{
-			if ($this->_session->get('isredcrmuser'))
-			{
-				$crmDebitorHelper = new crmDebitorHelper;
-				$debitor_id_tot   = $crmDebitorHelper->getContactPersons(0, 0, 0, $userId);
-				$debitor_id       = $debitor_id_tot[0]->section_id;
-				$details          = $crmDebitorHelper->getDebitor($debitor_id);
-				$userId           = $details[0]->user_id;
-			}
-		}
-
 		if ($quantity != 1)
 		{
 			$db = JFactory::getDbo();
@@ -1305,38 +1293,6 @@ class RedshopSiteProduct
 				}
 
 				$product_delivery_time = (int) $row->deltime . "-" . (int) $row->max_del_time . " " . $duration;
-			}
-		}
-
-		/**
-		 * redCRM includes
-		 */
-		if ($helper->isredCRM())
-		{
-			if (ENABLE_ITEM_TRACKING_SYSTEM)
-			{
-				// Supplier order helper object
-				$crmSupplierOrderHelper   = new crmSupplierOrderHelper;
-				$sendData                 = new stdClass;
-				$sendData->product_id     = $product_id;
-				$sendData->property_id    = 0;
-				$sendData->subproperty_id = 0;
-
-				if ($section == 'property')
-				{
-					$sendData->property_id = $section_id;
-				}
-				elseif ($section == 'subproperty')
-				{
-					// Get data for property id
-					$subattribute_data        = $this->getAttibuteSubProperty($section_id);
-					$sendData->property_id    = $subattribute_data[0]->subattribute_id;
-					$sendData->subproperty_id = $section_id;
-				}
-
-				$product_delivery_time = $crmSupplierOrderHelper->getProductDeliveryTime($sendData);
-				$dayLanguage           = (strlen($product_delivery_time) == 1 && $product_delivery_time == 1) ? JText::_('COM_REDSHOP_DAY') : JText::_('COM_REDSHOP_DAYS');
-				$product_delivery_time = $product_delivery_time . " " . $dayLanguage;
 			}
 		}
 

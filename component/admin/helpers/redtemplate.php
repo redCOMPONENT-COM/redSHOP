@@ -461,7 +461,6 @@ class Redtemplate
 			'onestep_checkout'           => JText::_('COM_REDSHOP_ONESTEP_CHECKOUT_TEMPLATE'),
 			'categoryproduct'            => JText::_('COM_REDSHOP_PRODUCT_CATEGORY_TEMPLATE'),
 			'change_cart_attribute'      => JText::_('COM_REDSHOP_CHANGE_CART_ATTRIBUTE_TEMPLATE'),
-			'crmorder_receipt'           => JText::_('COM_REDSHOP_redCRM_ORDER_RECIEPT'),
 			'checkout'                   => JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE'),
 			'product_content_template'   => JText::_('COM_REDSHOP_PRODUCT_CONTENT'),
 			'billing_template'           => JText::_('COM_REDSHOP_BILLING_TEMPLATE'),
