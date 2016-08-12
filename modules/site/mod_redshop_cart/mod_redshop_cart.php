@@ -47,15 +47,6 @@ if (count($cart) <= 0 || $cart == "")
 
 $idx = 0;
 
-if ((!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1)) && $params->get("use_cookies_value") == 1)
-{
-	if (isset($_COOKIE['redSHOPcart']) && ($_COOKIE['redSHOPcart'] != ''))
-	{
-		$session->set('cart', unserialize(base64_decode($_COOKIE['redSHOPcart'])));
-		$cart = $session->get('cart');
-	}
-}
-
 if (is_array($cart) && !array_key_exists("quotation_id", $cart))
 {
 	if (isset($cart['idx']))
