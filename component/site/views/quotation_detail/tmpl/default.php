@@ -142,7 +142,12 @@ else
 
 	if ($quotationDetail->quotation_email != "")
 	{
-		$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $quotationDetail->quotation_email . '<br>';
+		$billadd .= JLayoutHelper::render('fields.display',
+			array(
+				'extra_field_label' => JText::_("COM_REDSHOP_EMAIL"),
+				'extra_field_value' => $quotationDetail->quotation_email
+				)
+		);
 	}
 }
 
