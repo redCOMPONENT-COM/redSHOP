@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$redhelper     = redhelper::getInstance();
-$app           = JFactory::getApplication();
-$itemId        = (int) $redhelper->getCartItemid();
+$redhelper = redhelper::getInstance();
+$app       = JFactory::getApplication();
+$itemId    = (int) $redhelper->getCartItemid();
 
 $getNewItemId = true;
 
@@ -50,28 +50,28 @@ if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_BACKGROUND))
 <div class="mod_cart_main">
 	<div class="mod_cart_top">
 		<div class="mod_cart_image"></div>
-		<div class="mod_cart_title"><?php echo JText::_('MOD_REDSHOP_CART_CART_TEXT');?></div>
+		<div class="mod_cart_title"><?php echo JText::_('MOD_REDSHOP_CART_CART_TEXT'); ?></div>
 	</div>
 	<div class="mod_cart_total" id="mod_cart_total">
 		<?php
 		echo RedshopLayoutHelper::render(
-				'cart.cart',
-				array(
-					'cartOutput'       => $output_view,
-					'totalQuantity'    => $count,
-					'cart'             => $cart,
-					'showWithVat'      => $show_with_vat,
-					'showShippingLine' => $show_shipping_line,
-					'showWithDiscount' => $show_with_discount
-				)
-			);
+			'cart.cart',
+			array(
+				'cartOutput'       => $output_view,
+				'totalQuantity'    => $count,
+				'cart'             => $cart,
+				'showWithVat'      => $show_with_vat,
+				'showShippingLine' => $show_shipping_line,
+				'showWithDiscount' => $show_with_discount
+			)
+		);
 		?>
 	</div>
-    <div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
+	<div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
 		<?php if ($count || $show_empty_btn): ?>
-        <a href="<?php echo JRoute::_("index.php?option=com_redshop&view=cart&Itemid=" . $itemId); ?>">
-            <?php echo $displayButton;?>
-		</a>
+			<a href="<?php echo JRoute::_("index.php?option=com_redshop&view=cart&Itemid=" . $itemId); ?>">
+				<?php echo $displayButton; ?>
+			</a>
 		<?php endif; ?>
-    </div>
+	</div>
 </div>
