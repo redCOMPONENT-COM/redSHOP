@@ -1,28 +1,15 @@
-<div style="float: right;">{mail_link}</div>
-<p>{product_loop_start}</p>
-<table border="0" cellspacing="0" cellpadding="5" width="100%">
-	<tbody>
-	<tr valign="top">
-		<td width="40%">
-			<div style="float: left; width: 195px; height: 230px; text-align: center;">{product_thumb_image}
-				<div>{product_name}</div>
-				<div>{product_price}</div>
-				<div>{form_addtocart:add_to_cart1}</div>
-				<div></div>
-				<div>{remove_product_link}</div>
-			</div>
-		</td>
-	</tr>
-	</tbody>
-</table>
-<div></div>
-<table border="0" cellspacing="0" cellpadding="0" width="100%">
-	<tbody>
-	<tr>
-		<td></td>
-		<td align="center" valign="top"><br/><br/></td>
-	</tr>
-	</tbody>
-</table>
-<p>{product_loop_end}</p>
-<div style="float: right;">{back_link}</div>
+<div class="mail_link">{mail_link}</div>
+
+<div class="wishlist_list row">
+	{product_loop_start}
+	<div class="wishlist_list_outside col-sm-4">
+		{product_thumb_image}
+		<h3>{product_name}</h3>
+		<div class="product_price">{product_price}</div>
+		<div>{form_addtocart:add_to_cart1}</div>
+		<div class="remove_product_link">{remove_product_link}</div>
+	</div>
+	{product_loop_end}
+</div>
+
+<div class="back_link">{back_link}</div>

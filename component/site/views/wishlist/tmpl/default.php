@@ -26,40 +26,41 @@ JHtml::_('behavior.framework');
 	{
 		$pagetitle = JText ::_('COM_REDSHOP_CREATE_NEWWISHLIST');
 		?>
-		<br/>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 			<?php echo $pagetitle; ?>
 		</h1>
-		<div>&nbsp;</div>
 	<?php
 	}
 	?>
 	<form name="newwishlistForm" method="post" action="">
+		<div class="row">
+			<label for="txtWishlistname" class="col-sm-4"><?php echo JText::_('COM_REDSHOP_WISHLIST_NAME');?>:</label>
+			<div class="col-sm-8"><input type="input" name="txtWishlistname" id="txtWishlistname"/></div>
+		</div>
+
+		<div class="wishlistbtn">
+			<input type="button" value="<?php echo JText::_('COM_REDSHOP_CREATE_SAVE'); ?>"
+					       onclick="checkValidation()"/>&nbsp;
+			<?php
+			if (JRequest::getInt('loginwishlist') == 1) : ?>
+
+			<?php
+				$mywishlist_link = JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $Itemid);
+			?>
+				<a href="<?PHP echo $mywishlist_link; ?>"><input type="button"
+				                                                 value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/></a>
+			<?php else : ?>
+				<input type="button" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
+				       onclick="window.parent.SqueezeBox.close();"/>
+			<?php endif; ?>
+		</div>
+
+
 		<table>
-			<tr>
-				<td>
-					<label for="txtWishlistname"><?php echo JText::_('COM_REDSHOP_WISHLIST_NAME');?> : </label>
-				</td>
-				<td>
-					<input type="input" name="txtWishlistname" id="txtWishlistname"/>
-				</td>
-			</tr>
+
 			<tr>
 				<td colspan="2" align="center">
-					<input type="button" value="<?php echo JText::_('COM_REDSHOP_CREATE_SAVE'); ?>"
-					       onclick="checkValidation()"/>&nbsp;
-					<?php
-					if (JRequest::getInt('loginwishlist') == 1) : ?>
 
-					<?php
-						$mywishlist_link = JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $Itemid);
-					?>
-						<a href="<?PHP echo $mywishlist_link; ?>"><input type="button"
-						                                                 value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/></a>
-					<?php else : ?>
-						<input type="button" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
-						       onclick="window.parent.SqueezeBox.close();"/>
-					<?php endif; ?>
 				</td>
 			</tr>
 		</table>

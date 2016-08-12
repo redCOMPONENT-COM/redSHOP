@@ -34,6 +34,7 @@ $doc->disableScript('media/redcore/lib/bootstrap.min.js');
 $doc->disableScript('media/redcore/lib/bootstrap/js/bootstrap.min.js');
 $doc->disableScript('media/jui/js/bootstrap.min.js');
 
+$doc->addScript(JURI::root() . 'media/com_redshop/js/bootstrap.js');
 $doc->addScript(JURI::root() . 'media/com_redshop/js/redbox.js');
 $doc->addScript(JURI::root() . 'media/com_redshop/js/attribute.js');
 $doc->addScript(JURI::root() . 'media/com_redshop/js/common.js');

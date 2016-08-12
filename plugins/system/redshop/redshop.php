@@ -48,6 +48,14 @@ class PlgSystemRedSHOP extends JPlugin
 			RedshopHelperConfig::scriptDeclaration();
 		}
 
+		$app = JFactory::getApplication();
+		$jinput = $app->input;
+
+		if ($jinput->get('option') != 'com_redshop')
+		{
+			return;
+		}
+
 		$doc = new RedshopHelperDocument;
 		$doc->cleanHeader();
 	}
