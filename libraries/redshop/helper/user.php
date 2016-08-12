@@ -177,22 +177,6 @@ class RedshopHelperUser
 			}
 		}
 
-		// Get redCRM Contact person session array
-		if ($session->get('isredcrmuser', false))
-		{
-			$db = JFactory::getDbo();
-			$subQuery = $db->getQuery(true)
-				->select('users_info_id')
-				->from($db->qn('#__redcrm_contact_persons'))
-				->where('cp_user_id = ' . (int) $userId);
-			$query = $db->getQuery(true)
-				->select('user_id')
-				->from($db->qn('#__redshop_users_info'))
-				->where('users_info_id IN (' . $subQuery . ')')
-				->where('address_type = ' . $db->q('BT'));
-			$userId = $db->setQuery($query)->loadResult();
-		}
-
 		$shopperGroupId = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 
 		if ($userId)

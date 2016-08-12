@@ -15,8 +15,6 @@ class RedshopSiteHelper
 
 	public $_db = null;
 
-	public $_isredCRM = null;
-
 	protected static $redshopMenuItems;
 
 	protected static $isRedProductFinder = null;
@@ -1164,70 +1162,5 @@ class RedshopSiteHelper
 		}
 
 		return self::$isRedProductFinder;
-	}
-
-	/**
-	 * check redCRM is installed or not.
-	 *
-	 * TODO: set session variable 'isredcrmuser'
-	 * Set as boolean - check login user is redCRM contact person as well
-	 *
-	 * @return   boolean
-	 *
-	 * @since    1.0
-	 */
-	public function isredCRM()
-	{
-		$session = JFactory::getSession();
-
-		// Get redshop from joomla component table
-		$isredCRM = $session->get('isredCRM');
-
-		if (is_null($isredCRM) && !empty($isredCRM))
-		{
-			$query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_redcrm%'";
-			$this->_db->setQuery($query);
-			$this->_isredCRM = $this->_db->loadResult();
-		}
-
-		$redcrm_path = JPATH_ADMINISTRATOR . '/components/com_redcrm';
-
-		if (!is_dir($redcrm_path) && !$this->_isredCRM)
-		{
-			$this->_isredCRM = false;
-		}
-		else
-		{
-			$user = JFactory::getUser();
-			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/configuration.php';
-			$crmConfig = new crmConfig;
-			$crmConfig->config();
-			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/helper.php';
-			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/debitor.php';
-			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/product.php';
-			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/supplier_order.php';
-			require_once JPATH_ADMINISTRATOR . '/components/com_redcrm/helpers/order.php';
-
-			$crmHelper = new crmHelper;
-
-			$session = JFactory::getSession();
-
-			if ($crmHelper->isredCRMUser($user->id))
-			{
-				$session->set('isredcrmuser', true);
-			}
-			else
-			{
-				$session->set('isredcrmuser', false);
-			}
-
-			$session->set('isredcrmuser_debitor', $crmHelper->isredCRMUserdebitor($user->id));
-
-			$this->_isredCRM = true;
-		}
-
-		$session->set('isredCRM', $this->_isredCRM);
-
-		return $this->_isredCRM;
 	}
 }

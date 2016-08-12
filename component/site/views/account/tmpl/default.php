@@ -258,22 +258,6 @@ else
 	$template_desc = str_replace('{edit_shipping_link}', '', $template_desc);
 }
 
-// For redCRM user bulk order functionality
-if (isset($this->userdata->debitor_id) && $this->userdata->debitor_id != "" && $this->userdata->debitor_id != 0)
-{
-	$bulkorder_link  = "<a href='" . JRoute::_('index.php?option=com_redcrm&view=bulk_order&Itemid=' . $Itemid) . "'>" . JText::_('COM_REDSHOP_BULK_ORDER_LINK') . "</a>";
-	$bulkorder_image = '<img src="' . $url . 'administrator/components/com_redcrm/assets/images/bulk_order16.png" align="absmiddle">';
-	$template_desc   = str_replace('{bulkorder_image}', $bulkorder_image, $template_desc);
-	$template_desc   = str_replace('{bulkorder_title}', JText::_('COM_REDSHOP_BULK_ORDER'), $template_desc);
-	$template_desc   = str_replace('{bulkorder_link}', $bulkorder_link, $template_desc);
-}
-else
-{
-	$template_desc = str_replace('{bulkorder_image}', "", $template_desc);
-	$template_desc = str_replace('{bulkorder_title}', "", $template_desc);
-	$template_desc = str_replace('{bulkorder_link}', "", $template_desc);
-}
-
 $is_company = $this->userdata->is_company;
 
 if ($is_company == 1)

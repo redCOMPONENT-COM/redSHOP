@@ -293,54 +293,6 @@ class rsstockroomhelper
 				$quantity = 0;
 			}
 		}
-		else
-		{
-			$helper = RedshopSiteHelper::getInstance();
-
-			if ($helper->isredCRM())
-			{
-				if (ENABLE_ITEM_TRACKING_SYSTEM && !ENABLE_ONE_STOCKROOM_MANAGEMENT)
-				{
-					// Supplier order helper object
-					$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-					$getstockdata = new stdClass;
-
-					$getstockdata->property_id = 0;
-					$getstockdata->subproperty_id = 0;
-
-					if ($section == 'product')
-					{
-						$getstockdata->product_id = $sectionId;
-					}
-					elseif ($section == "property")
-					{
-						$property = $productHelper->getAttibuteProperty($sectionId);
-						$attribute_id = $property[0]->attribute_id;
-						$attribute = $productHelper->getProductAttribute(0, 0, $attribute_id);
-						$product_id = $attribute[0]->product_id;
-
-						$getstockdata->product_id = $product_id;
-						$getstockdata->property_id = $sectionId;
-					}
-					elseif ($section == "subproperty")
-					{
-						$subproperty = $productHelper->getAttibuteSubProperty($sectionId);
-						$property_id = $subproperty[0]->subattribute_id;
-						$property = $productHelper->getAttibuteProperty($property_id);
-						$attribute_id = $property[0]->attribute_id;
-						$attribute = $productHelper->getProductAttribute(0, 0, $attribute_id);
-						$product_id = $attribute[0]->product_id;
-
-						$getstockdata->product_id = $product_id;
-						$getstockdata->property_id = $property_id;
-						$getstockdata->subproperty_id = $sectionId;
-					}
-
-					$quantity = $crmSupplierOrderHelper->getSupplierStock($getstockdata);
-				}
-			}
-		}
 
 		if ($quantity == null)
 		{
@@ -405,57 +357,6 @@ class rsstockroomhelper
 			else
 			{
 				$quantity = $pre_order_stock[0]->preorder_stock - $pre_order_stock[0]->ordered_preorder;
-			}
-		}
-		else
-		{
-			$helper = RedshopSiteHelper::getInstance();
-
-			if ($helper->isredCRM())
-			{
-				if (ENABLE_ITEM_TRACKING_SYSTEM && !ENABLE_ONE_STOCKROOM_MANAGEMENT)
-				{
-					// Include redSHOP product helper
-					$producthelper = RedshopSiteProduct::getInstance();
-
-					// Supplier order helper object
-					$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-					$getstockdata = new stdClass;
-
-					$getstockdata->property_id = 0;
-					$getstockdata->subproperty_id = 0;
-
-					if ($section == "product")
-					{
-						$getstockdata->product_id = $section_id;
-					}
-					elseif ($section == "property")
-					{
-						$property = $producthelper->getAttibuteProperty($section_id);
-						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
-						$product_id = $attribute[0]->product_id;
-
-						$getstockdata->product_id = $product_id;
-						$getstockdata->property_id = $section_id;
-					}
-					elseif ($section == "subproperty")
-					{
-						$subproperty = $producthelper->getAttibuteSubProperty($section_id);
-						$property_id = $subproperty[0]->subattribute_id;
-						$property = $producthelper->getAttibuteProperty($property_id);
-						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
-						$product_id = $attribute[0]->product_id;
-
-						$getstockdata->product_id = $product_id;
-						$getstockdata->property_id = $property_id;
-						$getstockdata->subproperty_id = $section_id;
-					}
-
-					$quantity = $crmSupplierOrderHelper->getSupplierStock($getstockdata);
-				}
 			}
 		}
 

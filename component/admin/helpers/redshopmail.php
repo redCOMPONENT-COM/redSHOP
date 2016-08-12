@@ -226,15 +226,7 @@ class redshopMail
 		$message          = str_replace($search, $replace, $message);
 		$message          = $this->imginmail($message);
 		$thirdpartyemail  = $billingaddresses->thirdparty_email;
-
-		if ($session->get('isredcrmuser'))
-		{
-			$email = $user->email;
-		}
-		else
-		{
-			$email = $billingaddresses->user_email;
-		}
+		$email = $billingaddresses->user_email;
 
 		$search[]      = "{order_id}";
 		$replace[]     = $row->order_id;

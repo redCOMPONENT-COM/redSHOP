@@ -42,57 +42,9 @@ $stockrooms = $model->StockRoomList();
 
 					<tbody>
 					<?php
-						$iscrm = false;
 						$helper = RedshopSiteHelper::getInstance();
 
-						/**
-						 * redCRM includes
-						 */
-						if ($helper->isredCRM())
-						{
-							if (ENABLE_ITEM_TRACKING_SYSTEM)
-							{
-								$iscrm = true;
-								$crmHelper = new crmHelper;
-								$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-								$stockWhere = (USE_STOCKROOM) ? " 1=1" : " stockroom_id = " . DEFAULT_STOCKROOM;
-								$stockroom_list = $crmHelper->getStockroom('stockroom_id AS value,stockroom_name AS text', "1", $stockWhere);
-								$stockroomname = $stockroom_list[0]->text;
-
-								$data = new stdClass;
-								$data->product_id = $this->detail->product_id;
-								$data->property_id = 0;
-								$data->subproperty_id = 0;
-
-								if ($section == 'property')
-								{
-									$data->property_id = $section_id;
-								}
-								elseif ($section == 'subproperty')
-								{
-									// Get data for property id.
-									$subattribute_data = $this->getAttibuteSubProperty($section_id);
-									$data->property_id = $subattribute_data[0]->subattribute_id;
-									$data->subproperty_id = $section_id;
-								}
-
-								$stockAmount = $crmSupplierOrderHelper->getSupplierStock($data);
-								$deliveryTime = DEFAULT_DELIVERY_DAYS_STATUS_PENDING;
-
-								if ($stockAmount > 0)
-								{
-									$deliveryTime = DEFAULT_DELIVERY_DAYS_STATUS_ACTIVE;
-								}
-							?>
-							<tr>
-								<td><?php echo $stockroomname; ?></td>
-								<td><?php echo $stockAmount;?></td>
-							</tr>
-					<?php
-							}
-						}
-
-						if (count($stockrooms) > 0 && !$iscrm)
+						if (count($stockrooms) > 0)
 						{
 							foreach ($stockrooms as $s)
 							{
@@ -143,9 +95,7 @@ $stockrooms = $model->StockRoomList();
 
 		<tr>
 			<td colspan="2">
-				<?php if (!$iscrm) : ?>
-					<input type="submit" name="submit" class="btn" value="Save">
-				<?php endif; ?>
+				<input type="submit" name="submit" class="btn" value="Save">
 			</td>
 		</tr>
 

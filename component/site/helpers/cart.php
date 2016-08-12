@@ -2957,34 +2957,6 @@ class RedshopSiteCart
 		$search [] = "{requisition_number_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 
-		if (strpos($ReceiptTemplate, '{redcrm_debitornumber_lbl}') !== false)
-		{
-			if ($session->get('isredcrmuser_debitor'))
-			{
-				$search [] = "{redcrm_debitornumber_lbl}";
-				$replace[] = JText::_('COM_REDSHOP_DEBITOR_NUMBER');
-			}
-			else
-			{
-				$search [] = "{redcrm_debitornumber_lbl}";
-				$replace[] = "";
-			}
-		}
-
-		if (strpos($ReceiptTemplate, '{redcrm_debitornumber}') !== false)
-		{
-			if ($session->get('isredcrmuser_debitor'))
-			{
-				$search [] = "{redcrm_debitornumber}";
-				$replace[] = $row->user_info_id;
-			}
-			else
-			{
-				$search [] = "{redcrm_debitornumber}";
-				$replace[] = "";
-			}
-		}
-
 		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses);
 		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses);
 

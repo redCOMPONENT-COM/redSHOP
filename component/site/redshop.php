@@ -22,9 +22,6 @@ RedshopSiteStatistic::getInstance()->track();
 // Helper object
 $helper = RedshopSiteHelper::getInstance();
 
-// Include redCRM if required
-$helper->isredCRM();
-
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
 $task       = $app->input->getCmd('task', '');

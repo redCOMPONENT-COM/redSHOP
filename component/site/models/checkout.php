@@ -541,55 +541,6 @@ class RedshopModelCheckout extends RedshopModel
 			$product     = $this->_producthelper->getProductById($product_id);
 			$rowitem     = $this->getTable('order_item_detail');
 
-			// The redCRM product purchase price
-			if ($helper->isredCRM())
-			{
-				$crmProductHelper = new crmProductHelper;
-				$crmproduct       = $crmProductHelper->getProductById($product_id);
-
-				$rowitem->product_purchase_price = $crmproduct->product_purchase_price > 0 ? $crmproduct->product_purchase_price : $crmproduct->product_price;
-
-				$crmdata = array();
-
-				$crmDebitorHelper        = new crmDebitorHelper;
-				$crmDebitorHelper_values = $crmDebitorHelper->getShippingDestination(0, 0, $shippingaddresses->users_info_id);
-
-				if ($session->get('isredcrmuser'))
-				{
-					$crmDebitorHelper_contact_values = $crmDebitorHelper->getContactPersons(0, 0, 0, $user->id, 0);
-				}
-				else
-				{
-					$crmDebitorHelper_contact_values = $crmDebitorHelper->getContactPersons(0, 0, 0, 0, $crmDebitorHelper_values[0]->shipping_id);
-				}
-
-				$crmdata['order_id']      = JRequest::getVar('order_id', $row->order_id);
-				$crmdata['debitor_id']    = $shippingaddresses->users_info_id;
-				$crmdata['custom_status'] = '';
-				$crmdata['rma_number']    = '';
-
-				if (count($crmDebitorHelper_values) > 0)
-				{
-					$crmdata['shipping_id'] = $crmDebitorHelper_values[0]->shipping_id;
-				}
-				else
-				{
-					$crmdata['shipping_id'] = 0;
-				}
-
-				if (count($crmDebitorHelper_contact_values) > 0 && count($crmDebitorHelper_values) > 0)
-				{
-					$crmdata['person_id'] = $crmDebitorHelper_contact_values[0]->person_id;
-				}
-				else
-				{
-					$crmdata['person_id'] = 0;
-				}
-
-				$crmOrderHelper = new crmOrderHelper;
-				$crmOrderHelper->storeCRMOrder($crmdata);
-			}
-
 			if (!$rowitem->bind($post))
 			{
 				$this->setError($this->_db->getErrorMsg());
@@ -1242,31 +1193,11 @@ class RedshopModelCheckout extends RedshopModel
 			$this->_order_functions->SendDownload($row->order_id);
 		}
 
-		// RedCRM includes
-		if ($helper->isredCRM())
-		{
-			if (ENABLE_ITEM_TRACKING_SYSTEM)
-			{
-				// Supplier order helper object
-				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
-
-				$getStatus                  = array();
-				$getStatus['orderstatus']   = $row->order_status;
-				$getStatus['paymentstatus'] = $row->order_payment_status;
-
-				$crmSupplierOrderHelper->redSHOPOrderUpdate($row->order_id, $getStatus);
-				unset($getStatus);
-			}
-		}
-
 		return $row;
 	}
 
 	public function sendGiftCard($order_id)
 	{
-		$url               = JURI::root();
-		$giftcardmail_body = '';
-
 		$giftcardmail = $this->_redshopMail->getMailtemplate(0, "giftcard_mail");
 
 		if (count($giftcardmail) > 0)
