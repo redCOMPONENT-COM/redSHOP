@@ -1013,7 +1013,7 @@ class order_functions
 	public function getBillingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 
 		$user = JFactory::getUser();
 
@@ -1236,7 +1236,7 @@ class order_functions
 	public function getCountryName($cnt3 = "")
 	{
 		$db = JFactory::getDbo();
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 		$and = '';
 		$cntname = '';
 
