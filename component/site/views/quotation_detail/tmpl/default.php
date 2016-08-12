@@ -131,98 +131,7 @@ $billadd = "";
 
 if ($quotationDetail->user_id != 0)
 {
-	if ($quotationDetail->firstname != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $quotationDetail->firstname . '<br>';
-	}
-
-	if ($quotationDetail->lastname != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $quotationDetail->lastname . '<br>';
-	}
-
-	if ($quotationDetail->address != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $quotationDetail->address . '<br>';
-	}
-
-	if ($quotationDetail->zipcode != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $quotationDetail->zipcode . '<br>';
-	}
-
-	if ($quotationDetail->city != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $quotationDetail->city . '<br>';
-	}
-
-	if ($order_functions->getCountryName($quotationDetail->country_code) != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($order_functions->getCountryName($quotationDetail->country_code)) . '<br>';
-	}
-
-	if ($order_functions->getStateName($quotationDetail->state_code, $quotationDetail->country_code) != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $order_functions->getStateName($quotationDetail->state_code, $quotationDetail->country_code) . '<br>';
-	}
-
-	if ($quotationDetail->phone != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $quotationDetail->phone . '<br>';
-	}
-
-	if ($quotationDetail->user_email != "")
-	{
-		$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $quotationDetail->user_email . '<br>';
-	}
-
-	if ($quotationDetail->is_company == 1)
-	{
-		if ($quotationDetail->vat_number != "")
-		{
-			$billadd .= JText::_("COM_REDSHOP_VAT_NUMBER") . ' : ' . $quotationDetail->vat_number . '<br>';
-		}
-
-		if (SHOW_TAX_EXEMPT_INFRONT)
-		{
-			$billadd .= JText::_("TAX_EXEMPT") . ' : ';
-
-			if ($quotationDetail->tax_exempt == 1)
-			{
-				$billadd .= JText::_('COM_REDSHOP_YES');
-			}
-			else
-			{
-				$billadd .= JText::_('COM_REDSHOP_NO');
-			}
-
-			$billadd .= ' <br>';
-		}
-
-		$billadd .= JText::_("USER_TAX_EXEMPT_REQUEST_LBL") . ' : ';
-
-		if ($quotationDetail->requesting_tax_exempt == 1)
-		{
-			$billadd .= JText::_('COM_REDSHOP_YES');
-		}
-		else
-		{
-			$billadd .= JText::_('COM_REDSHOP_NO');
-		}
-
-		$billadd .= ' <br>';
-	}
-
-	if ($quotationDetail->is_company == 1)
-	{
-		$billadd .= $extra_field->list_all_field_display(8, $quotationDetail->user_info_id, 1);
-	}
-	else
-	{
-		$billadd .= $extra_field->list_all_field_display(7, $quotationDetail->user_info_id, 1);
-	}
-
-	$billadd .= ' <br>';
+	$billadd = JLayoutHelper::render('cart.billing', array('billingaddresses' => $quotationDetail));
 }
 else
 {
@@ -239,12 +148,12 @@ else
 
 if (strstr($quotation_template, "{quotation_custom_field_list}"))
 {
-	$billadd .= $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 1, $quotationDetail->quotation_email);
+	$billadd .= $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email);
 	$quotation_template = str_replace("{quotation_custom_field_list}", "", $quotation_template);
 }
 else
 {
-	$quotation_template = $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 1, $quotationDetail->quotation_email, $quotation_template);
+	$quotation_template = $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email, $quotation_template);
 }
 
 $search []  = "{account_information}";

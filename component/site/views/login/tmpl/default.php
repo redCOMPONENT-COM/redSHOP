@@ -28,45 +28,34 @@ $returnitemid = $params->get('login', $Itemid);
 
 ?>
 <form action="<?php echo JRoute::_($loginlink); ?>" method="post">
-	<table cellpadding="0" cellspacing="0" border="0" width="100%">
-		<tr>
-			<td colspan="5" height="40">
-				<p><?php echo JText::_('COM_REDSHOP_LOGIN_DESCRIPTION'); ?></p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="username">
-					<?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:
-				</label>
-			</td>
-			<td>
-				<input class="inputbox" type="text" id="username" name="username"/>
-			</td>
-			<td>
-				<label for="password">
-					<?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>:
-				</label>
-			</td>
-			<td>
-				<input class="inputbox" id="password" name="password" type="password"/>
-			</td>
+	<div class="redshop-login form-horizontal">
+		<p><?php echo JText::_('COM_REDSHOP_LOGIN_DESCRIPTION'); ?></p>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</label>
+			<div class="col-sm-9"><input class="inputbox" type="text" id="username" name="username"/></div>
+		</div>
 
-			<td><input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>">
-			</td>
-		</tr>
-		<tr>
-			<td colspan="5">&nbsp;</td>
-		</tr>
-		<tr>
-			<td colspan="5">
+		<div class="form-group">
+			<label class="col-sm-3 control-label"><?php echo JText::_('COM_REDSHOP_PASSWORD'); ?>:</label>
+			<div class="col-sm-9"><input class="inputbox" id="password" name="password" type="password"/></div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-9">
 				<a href="<?php echo JRoute::_($newuser_link); ?>">
 					<?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
 					href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
 					<?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?></a>
-			</td>
-		</tr>
-	</table>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-9">
+				<input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>">
+			</div>
+		</div>
+	</div>
+
 	<input type="hidden" name="task" id="task" value="setlogin">
 	<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo JRequest::getString('wishlist'); ?>">
 	<input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
