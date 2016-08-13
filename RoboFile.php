@@ -373,13 +373,13 @@ class RoboFile extends \Robo\Tasks
 		{
 			$errorSelenium = true;
 			$reportError = false;
-			$reportFile = 'selenium.log';
+			$reportFile = 'tests/selenium.log';
 			$body = 'Selenium log:' . chr(10). chr(10);
 
 			// Loop throught Codeception snapshots
-			if (file_exists('_output') && $handler = opendir('_output'))
+			if (file_exists('tests/_output') && $handler = opendir('/tests_output'))
 			{
-				$reportFile = '_output/report.tap.log';
+				$reportFile = 'tests/_output/report.tap.log';
 				$body = 'Codeception tap log:' . chr(10). chr(10);
 				$errorSelenium = false;
 			}
@@ -393,7 +393,7 @@ class RoboFile extends \Robo\Tasks
 
 				if (!$errorSelenium)
 				{
-					$handler = opendir('_output');
+					$handler = opendir('tests/_output');
 
 					while (false !== ($errorSnapshot = readdir($handler)))
 					{
@@ -414,7 +414,7 @@ class RoboFile extends \Robo\Tasks
 							)
 						);
 
-						$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/_output/' . $errorSnapshot));
+						$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/tests/_output/' . $errorSnapshot));
 						$this->say($errorSnapshot . 'Image sent');
 						$body .= '![Screenshot](' . $result['secure_url'] . ')';
 					}
