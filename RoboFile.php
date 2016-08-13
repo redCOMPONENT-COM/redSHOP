@@ -377,7 +377,7 @@ class RoboFile extends \Robo\Tasks
 			$body = 'Selenium log:' . chr(10). chr(10);
 
 			// Loop throught Codeception snapshots
-			if (file_exists('tests/_output') && $handler = opendir('/tests_output'))
+			if (file_exists('tests/_output') && $handler = opendir('/tests/output'))
 			{
 				$reportFile = 'tests/_output/report.tap.log';
 				$body = 'Codeception tap log:' . chr(10). chr(10);
