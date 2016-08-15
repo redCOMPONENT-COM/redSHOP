@@ -2957,6 +2957,17 @@ tbody.collapse.in {
   margin-top: 25px !important;
   margin-bottom: 10px !important;
 }
+
+.content-header .btn-toolbar#toolbar.affix
+{
+  margin-top: 0 !important;
+  width: 100%;
+  background-color: #333639;
+  z-index: 99;
+  top: 0;
+  padding-top: 10px;
+}
+
 .btn-toolbar .btn,
 .btn-toolbar .btn-group,
 .btn-toolbar .input-group {
