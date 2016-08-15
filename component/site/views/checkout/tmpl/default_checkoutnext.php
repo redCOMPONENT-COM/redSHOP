@@ -90,27 +90,10 @@ else
 // Process the product plugin for cart item
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
-
 // End
-?>
-<ul class='nav nav-wizard'>
-	<li>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?>
-		</a>
-	</li>
-	<li class='active'>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_PAYMENT');?>
-		</a>
-	</li>
-	<li>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_RECEIPT');?>
-		</a>
-	</li>
-</ul>
-<?php
+
+echo JLayoutHelper::render('cart.wizard', array('step' => '2'));
+
 if ($is_creditcard == 1 && $ccinfo != '1' && $cart['total'] > 0)
 {
 	$cart_data = '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';

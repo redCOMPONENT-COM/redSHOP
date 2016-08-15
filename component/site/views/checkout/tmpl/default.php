@@ -67,29 +67,11 @@ else
 	';
 }
 
-if (!ONESTEP_CHECKOUT_ENABLE):
-?>
+if (!ONESTEP_CHECKOUT_ENABLE)
+{
+	echo JLayoutHelper::render('cart.wizard', array('step' => '1'));
+}
 
-<ul class='nav nav-wizard'>
-	<li class='active'>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?>
-		</a>
-	</li>
-	<li>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_PAYMENT');?>
-		</a>
-	</li>
-	<li>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_RECEIPT');?>
-		</a>
-	</li>
-</ul>
-
-<?php
-endif;
 $returnurl = JRoute::_($url . 'index.php?option=com_redshop&view=checkout', false);
 $returnurl = base64_encode($returnurl);
 

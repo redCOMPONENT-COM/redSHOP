@@ -38,27 +38,10 @@ if ($this->params->get('show_page_title', 1))
 <?php
 }
 
-if (!ONESTEP_CHECKOUT_ENABLE):
-?>
-<ul class='nav nav-wizard'>
-	<li>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?>
-		</a>
-	</li>
-	<li>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_PAYMENT');?>
-		</a>
-	</li>
-	<li class='active'>
-		<a data-toggle="tab">
-			<?php echo JText::_('COM_REDSHOP_RECEIPT');?>
-		</a>
-	</li>
-</ul>
-	<?php endif; ?>
-<?php
+if (!ONESTEP_CHECKOUT_ENABLE)
+{
+	echo JLayoutHelper::render('cart.wizard', array('step' => '3'));
+}
 
 if (USE_AS_CATALOG)
 {
