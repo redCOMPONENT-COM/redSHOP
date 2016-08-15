@@ -575,15 +575,6 @@ input[type="color"],
 	clear: left;
 }
 
-.accessory_box {
-	width: 100%;
-	min-height: 1px;
-	border-bottom: 1px dashed #8e8d8d;
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-	display: block;
-}
-
 .accessory_left {
 	float: left;
 	width: 100px;
@@ -969,37 +960,6 @@ td.cart_discount_form div.update_cart form {
 	right: 5px;
 }
 
-div#ajax-cart div#ajax-cart-attr div.attribute_wrapper {
-	text-align: left;
-	border-bottom: 1px solid #CA2128;
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-}
-
-div#ajax-cart div#ajax-cart-access div.accessory {
-	text-align: left;
-	border-bottom: 1px solid #CA2128;
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-}
-
-div#ajax-cart div#ajax-cart-access div.accessory_info {
-	text-align: left;
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-}
-
-div#ajax-cart div#ajax-cart-access div.accessory_title h3 {
-	background-color: transparent !important;
-	color: #CA2128 !important;
-}
-
-div#ajax-cart div#ajax-cart-user {
-	text-align: left;
-	border-bottom: 1px solid #CA2128;
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-}
 
 /*  --- redSHOP Ajax Cart Popup --- */
 #ajax_cart_show_button {
@@ -1128,11 +1088,6 @@ div.subproperty_image_inner {
 	float: left;
 }
 
-div.attribute_wrapper {
-	clear: both;
-	float: left;
-	width: 105px;
-}
 
 div.additional_image {
 	padding-bottom: 0px;

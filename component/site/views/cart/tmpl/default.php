@@ -161,7 +161,7 @@ $update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="
 		<input class="inputbox" type="hidden" value="" name="quantity_all" id="quantity_all">
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="Itemid" value="' . $Itemid . '">
-		<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $idx . ');">
+		<input type=button class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $idx . ');">
 		</form>';
 
 if (QUANTITY_TEXT_DISPLAY)
@@ -234,19 +234,19 @@ $radiobttn = '';
 if (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 1)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
+	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
 elseif (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 0)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
+	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
 elseif (COUPONS_ENABLE == 0 && VOUCHERS_ENABLE == 1)
 {
 	$discount_form .= '<input class="inputbox" id="coupon_input" type="text" value="" name="discount_code" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
+	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
 

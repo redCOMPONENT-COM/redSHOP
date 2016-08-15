@@ -6936,7 +6936,7 @@ class RedshopSiteProduct
 				$wishListButton = "<input type='button' value='" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
 
 				$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-				$wishPrefix = "<a class=\"modal\" href=\"" . $mywishlist_link
+				$wishPrefix = "<a  class=\"modal\" href=\"" . $mywishlist_link
 					. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
 				$wishSuffix = '</a>';
 			}
