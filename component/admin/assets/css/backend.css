@@ -2963,7 +2963,7 @@ tbody.collapse.in {
   margin-top: 0 !important;
   width: 100%;
   background-color: #333639;
-  z-index: 99;
+  z-index: 999;
   top: 0;
   padding-top: 10px;
 }
