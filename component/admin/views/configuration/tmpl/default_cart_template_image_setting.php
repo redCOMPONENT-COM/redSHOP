@@ -78,21 +78,8 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 	<span class="editlinktip hasTip"
 							title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_BACKGROUND_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_BACKGROUND'); ?>"><?php echo JText::_('COM_REDSHOP_ADDTOCART_BACKGROUND_LBL');?>:
 	</span>
-	<input class="text_area" type="file" name="cartback" id="cartback" size="50"/>
-	<input type="hidden" name="addtocart_background" id="addtocart_background"
+	<input type="text" name="addtocart_background" id="addtocart_background"
 		   value="<?php echo $this->config->get('ADDTOCART_BACKGROUND'); ?>"/>
-
-	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $this->config->get('ADDTOCART_BACKGROUND'))){ ?>
-	<div class="divimages" id="cartbgdiv">
-		<a class="modal"
-		   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_BACKGROUND'); ?>"
-		   title="<?php echo $this->config->get('ADDTOCART_BACKGROUND'); ?>" rel="{handler: 'image', size: {}}">
-			<img alt="<?php echo $this->config->get('ADDTOCART_BACKGROUND'); ?>"
-				 src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_BACKGROUND'); ?>"/>
-		</a>
-		<a class="remove_link" href="#" onclick="delimg('<?php echo $this->config->get('ADDTOCART_BACKGROUND') ?>','cartbgdiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE')?></a>
-	</div>
-	<?php } ?>
 </div>
 
 <div class="form-group">
@@ -121,21 +108,8 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 		<?php echo JText::_('COM_REDSHOP_REQUESTQUOTE_BACKGROUND_LBL');?>:
 	</span>
 	<?php $requestquoteBackground =  $this->config->get('REQUESTQUOTE_BACKGROUND'); ?>
-	<input class="text_area" type="file" name="quoteback" id="quoteback" size="50"/>
-	<input type="hidden" name="requestquote_background" id="requestquote_background"
+	<input type="text" name="requestquote_background" id="requestquote_background"
 		   value="<?php echo $requestquoteBackground; ?>"/>
-	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $requestquoteBackground)) { ?>
-	<div class="divimages" id="quotebgdiv">
-		<a class="modal"
-		   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $requestquoteBackground; ?>"
-		   title="<?php echo $requestquoteBackground; ?>"
-		   rel="{handler: 'image', size: {}}">
-			<img alt="<?php echo $requestquoteBackground; ?>"
-				 src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $requestquoteBackground; ?>"/>
-		</a>
-		<a class="remove_link" href="#" onclick="delimg('<?php echo $requestquoteBackground ?>','quotebgdiv','<?php echo $addtocart_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE') ?></a>
-	</div>
-	<?php } ?>
 </div>
 
 <div class="form-group">

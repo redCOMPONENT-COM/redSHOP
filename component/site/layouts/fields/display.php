@@ -21,6 +21,6 @@ extract($displayData);
 ?>
 
 <div class="row">
-	<label class="col-sm-4"><?php echo $extra_field_label;?>:</label>
-	<div class="col-sm-8"><?php echo $extra_field_value;?></div>
+	<label class="col-xs-5"><?php echo $extra_field_label;?>:</label>
+	<div class="col-xs-7"><?php echo $extra_field_value;?></div>
 </div>

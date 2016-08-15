@@ -115,7 +115,7 @@ else
 	}
 
 	$checkout .= '<div class="checkout_button"  style="float:right;">';
-	$checkout .= '<input type=button class="greenbutton" value="' . JText::_('COM_REDSHOP_CART_CHECKOUT') . '" ';
+	$checkout .= '<input type=button class="greenbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_CART_CHECKOUT') . '" ';
 
 	if (MINIMUM_ORDER_TOTAL > 0 && $cart ['total'] < MINIMUM_ORDER_TOTAL)
 	{
@@ -133,7 +133,7 @@ $cart_data = str_replace("{checkout}", $checkout, $cart_data);
 $cart_data = str_replace("{checkout_button}", $checkout, $cart_data);
 
 $qlink = $url . 'index.php?option=com_redshop&view=quotation&tmpl=component&for=true&return=1&Itemid=' . $Itemid;
-$quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
+$quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton btn btn-primary" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
 $cart_data = str_replace("{quotation_request}", $quotation_request, $cart_data);
 /*
  * continue redirection link
@@ -153,7 +153,7 @@ if (strstr($cart_data, "{shop_more}"))
 		$shopmorelink = JRoute::_('index.php');
 	}
 
-	$shop_more = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
+	$shop_more = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
 	$cart_data = str_replace("{shop_more}", $shop_more, $cart_data);
 }
 
@@ -161,7 +161,7 @@ $update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="
 		<input class="inputbox" type="hidden" value="" name="quantity_all" id="quantity_all">
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="Itemid" value="' . $Itemid . '">
-		<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $idx . ');">
+		<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $idx . ');">
 		</form>';
 
 if (QUANTITY_TEXT_DISPLAY)
@@ -175,7 +175,7 @@ else
 
 $empty_cart = '<form style="padding:0px;margin:0px;" name="empty_cart" method="POST" >
 		<input type="hidden" name="task" value="empty_cart">
-		<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_EMPTY') . '" onclick="document.empty_cart.submit();">
+		<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_EMPTY') . '" onclick="document.empty_cart.submit();">
 		</form>';
 
 $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
@@ -234,19 +234,19 @@ $radiobttn = '';
 if (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 1)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
+	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
 elseif (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 0)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
+	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
 elseif (COUPONS_ENABLE == 0 && VOUCHERS_ENABLE == 1)
 {
 	$discount_form .= '<input class="inputbox" id="coupon_input" type="text" value="" name="discount_code" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
+	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
 

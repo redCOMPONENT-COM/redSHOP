@@ -6824,13 +6824,13 @@ class RedshopSiteProduct
 				if (AJAX_CART_BOX != 1)
 				{
 					$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span>';
+						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">' . $ADD_OR_LBL . '</span>';
 				}
 				else
 				{
 					$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 						. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span></a>';
+						. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">' . $ADD_OR_LBL . '</span></a>';
 				}
 			}
 

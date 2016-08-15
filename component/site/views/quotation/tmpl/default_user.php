@@ -145,10 +145,10 @@ $link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
 			</tr>
 
 			<tr>
-				<td align="center" colspan="2"><input type="submit" class="greenbutton" name="btnsubmit"
+				<td align="center" colspan="2"><input type="submit" class="greenbutton btn btn-primary" name="btnsubmit"
 				                                      value="<?php echo JText::_('COM_REDSHOP_SUBMIT'); ?>"
 				                                      onclick="return validateInfo();">
-					<input type="submit" class="greenbutton" name="cancel"
+					<input type="submit" class="greenbutton btn btn-primary" name="cancel"
 					       value="<?php echo JText::_("COM_REDSHOP_CANCEL"); ?>"
 					       onclick="javascript:document.adminForm.task.value='cancel';"/></td>
 			</tr>

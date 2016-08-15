@@ -144,6 +144,6 @@ $cart      = $session->get('cart');
 	<input type="hidden" name="task" value="checkoutnext"/>
 	<input type="hidden" name="view" value="checkout"/>
 
-	<div align="right"><input type="submit" class="greenbutton" name="checkoutnext"
+	<div align="right"><input type="submit" class="greenbutton btn btn-primary" name="checkoutnext"
 	                          value="<?php echo JText::_("COM_REDSHOP_CHECKOUT") ?>"/></div>
 </form>

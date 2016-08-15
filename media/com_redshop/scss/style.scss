@@ -501,13 +501,13 @@ div.product_writereview {
 .product-cart-link span.pdaddtocart_link,
 .cart-link span.pdaddtocart_link,
 .greenbutton {
-	@extend .btn;
-	@extend .btn-primary;
+	//@extend .btn;
+	//@extend .btn-primary;
 }
 
 .button,
 .blackbutton {
-	@extend .btn;
+	//@extend .btn;
 }
 
 input.inputbox,
@@ -527,7 +527,7 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-	@extend .form-control;
+	//@extend .form-control;
 }
 
 .radio, .checkbox

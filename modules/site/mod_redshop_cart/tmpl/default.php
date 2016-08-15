@@ -40,12 +40,9 @@ if ($button_text != "")
 	$displayButton = $button_text;
 }
 
-if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_BACKGROUND))
-{
-	JFactory::getDocument()->addStyleDeclaration(
-		'.mod_cart_checkout{background-image:url(' . REDSHOP_FRONT_IMAGES_ABSPATH . ADDTOCART_BACKGROUND . ');}'
-	);
-}
+JFactory::getDocument()->addStyleDeclaration(
+	'.mod_cart_checkout{background-color:' . ADDTOCART_BACKGROUND . ';}'
+);
 ?>
 <div class="mod_cart_main">
 	<div class="mod_cart_top">

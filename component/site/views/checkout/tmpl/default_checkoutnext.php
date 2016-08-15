@@ -119,7 +119,7 @@ if ($is_creditcard == 1 && $ccinfo != '1' && $cart['total'] > 0)
 	$cart_data .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 	$cart_data .= '<input type="hidden" name="task" value="checkoutnext" />';
 	$cart_data .= '<input type="hidden" name="view" value="checkout" />';
-	$cart_data .= '<input type="submit" name="submit" class="greenbutton" value="' . JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT') . '" />';
+	$cart_data .= '<input type="submit" name="submit" class="greenbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT') . '" />';
 	$cart_data .= '<input type="hidden" name="ccinfo" value="1" />';
 	$cart_data .= '<input type="hidden" name="users_info_id" value="' . $this->users_info_id . '" />';
 	$cart_data .= '<input type="hidden" name="shipping_rate_id" value="' . $this->shipping_rate_id . '" />';

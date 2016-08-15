@@ -845,7 +845,7 @@ class Com_RedshopInstallerScript
 
 		if (!defined("REQUESTQUOTE_BACKGROUND"))
 		{
-			$cfgarr["REQUESTQUOTE_BACKGROUND"] = 'requestquotebg.jpg';
+			$cfgarr["REQUESTQUOTE_BACKGROUND"] = '#409740';
 		}
 
 		if (!defined("SHOW_PRODUCT_DETAIL"))

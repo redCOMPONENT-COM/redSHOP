@@ -2162,13 +2162,13 @@ class RedshopModelCheckout extends RedshopModel
 				$shopmorelink = JRoute::_('index.php');
 			}
 
-			$shop_more     = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
+			$shop_more     = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
 			$template_desc = str_replace("{shop_more}", $shop_more, $template_desc);
 		}
 
 		if (strstr($template_desc, "{checkout_back_button}"))
 		{
-			$checkout_back = '<input type=button class="blackbutton" value="' . JText::_('COM_REDSHOP_BACK_BUTTON') . '" onclick="javascript: history.go(-1);">';
+			$checkout_back = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_BACK_BUTTON') . '" onclick="javascript: history.go(-1);">';
 			$template_desc = str_replace("{checkout_back_button}", $checkout_back, $template_desc);
 		}
 
@@ -2196,7 +2196,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = $this->_carthelper->replaceNewsletterSubscription($template_desc);
 
 		$checkout = '<div id="checkoutfinal" style="float: right;">';
-		$checkout .= '<input type="button" id="checkout_final" name="checkout_final" class="greenbutton" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="if(chkvalidaion()){checkout_disable(\'checkout_final\');}"/>';
+		$checkout .= '<input type="button" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="if(chkvalidaion()){checkout_disable(\'checkout_final\');}"/>';
 		$checkout .= '<input type="hidden" name="task" value="checkoutfinal" />';
 		$checkout .= '<input type="hidden" name="view" value="checkout" />';
 		$checkout .= '<input type="hidden" name="option" value="com_redshop" />';
@@ -2217,7 +2217,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = str_replace("{checkout_button}", $checkout, $template_desc);
 
 		$qlink             = JRoute::_('index.php?option=com_redshop&view=quotation&tmpl=component&for=true&return=1&Itemid=' . $Itemid);
-		$quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
+		$quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton btn btn-primary" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
 		$template_desc     = str_replace("{quotation_request}", $quotation_request, $template_desc);
 
 		if (strstr($template_desc, "{coupon_code_lbl}"))

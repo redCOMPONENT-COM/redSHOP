@@ -112,8 +112,8 @@ else
 	$template_desc = str_replace("{billing_address}", $billing, $template_desc);
 }
 
-$cancel_btn = '<input type="submit" class="greenbutton" name="cancel" value="' . JText::_("COM_REDSHOP_CANCEL") . '" onclick="javascript:document.adminForm.task.value=\'cancel\';"/>';
-$quotation_btn = '<input type="submit" class="greenbutton" name="addquotation" value="' . JText::_("COM_REDSHOP_REQUEST_QUOTATION") . '" onclick="return validateInfo();"/>';
+$cancel_btn = '<input type="submit" class="greenbutton btn btn-primary" name="cancel" value="' . JText::_("COM_REDSHOP_CANCEL") . '" onclick="javascript:document.adminForm.task.value=\'cancel\';"/>';
+$quotation_btn = '<input type="submit" class="greenbutton btn btn-primary" name="addquotation" value="' . JText::_("COM_REDSHOP_REQUEST_QUOTATION") . '" onclick="return validateInfo();"/>';
 $quotation_btn .= '<input type="hidden" name="option" value="com_redshop" />';
 $quotation_btn .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 $quotation_btn .= '<input type="hidden" name="task" value="addquotation" />';
