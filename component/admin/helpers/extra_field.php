@@ -916,10 +916,8 @@ class extra_field
 		{
 			return JLayoutHelper::render('fields.display', array('extra_field_label' => JText::_($extra_field_label), 'extra_field_value' => $ex_field));
 		}
-		else
-		{
-			return $ex_field;
-		}
+
+		return $ex_field;
 	}
 
 
