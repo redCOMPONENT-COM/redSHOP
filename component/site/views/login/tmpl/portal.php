@@ -92,7 +92,7 @@ if ($shoppergroupid != 0)
 			</td>
 		</tr>
 		<tr>
-			<td align="center" colspan="2"><input type="submit" name="submit" class="button"
+			<td align="center" colspan="2"><input type="submit" name="submit" class="button btn btn-primary"
 			                                      value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>"></td>
 		</tr>
 	</table>

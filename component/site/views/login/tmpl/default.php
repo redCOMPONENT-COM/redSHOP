@@ -51,7 +51,7 @@ $returnitemid = $params->get('login', $Itemid);
 
 		<div class="form-group">
 			<div class="col-sm-offset-3 col-sm-9">
-				<input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>">
+				<input type="submit" name="submit" class="button btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>">
 			</div>
 		</div>
 	</div>

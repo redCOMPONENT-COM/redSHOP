@@ -50,7 +50,7 @@ if ($user->id != 0)
 						                       value="<?php echo $model->getMytag($tagid); ?>" id="tags_name"
 						                       size="50"/></td>
 						<td width="20%">
-							<input type="submit" class="button" name="tags_submit"
+							<input type="submit" class="button btn btn-primary" name="tags_submit"
 							       value="<?php echo JText::_('COM_REDSHOP_EDIT_TAG'); ?>"/>
 							<input type="hidden" name="tags_id" value="<?php echo $tagid; ?>"/>
 							<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>

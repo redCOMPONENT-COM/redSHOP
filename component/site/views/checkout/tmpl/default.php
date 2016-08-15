@@ -137,7 +137,7 @@ else
 
 		if (strstr($login_template_desc, "{rs_login_button}"))
 		{
-			$loginbutton = '<input type="submit" class="button" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';
+			$loginbutton = '<input type="submit" class="button btn btn-primary" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';
 			$loginbutton .= '<input type="hidden" name="l" value="1">';
 			$loginbutton .= '<input type="hidden" name="return" value="' . $returnurl . '" />';
 			$loginbutton .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
