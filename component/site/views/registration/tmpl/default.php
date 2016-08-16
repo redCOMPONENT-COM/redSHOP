@@ -60,10 +60,7 @@ if ($this->params->get('show_page_heading', 1))
 		<?php
 		echo $userhelper->getBillingTable($post, $is_company, $this->lists, 0, 1, 1);
 
-		if (SHOW_CAPTCHA)
-		{
-			echo RedshopLayoutHelper::render('registration.captcha');
-		}
+		echo RedshopLayoutHelper::render('registration.captcha');
 
 		if (SHOW_TERMS_AND_CONDITIONS == 1)
 		{

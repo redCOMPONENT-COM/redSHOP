@@ -8,16 +8,27 @@
  */
 
 defined('_JEXEC') or die;
+
+$default = JFactory::getConfig()->get('captcha');
+
+if (JFactory::getApplication()->isSite())
+{
+	$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+}
+
+if (!empty($default))
+{
+	$captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop'));
+
+	if ($captcha != null)
+	{
 ?>
 
-<?php if (SHOW_CAPTCHA) : ?>
 <div class="form-group">
-	<label><?php echo JText::_('COM_REDSHOP_SECURITY_CODE'); ?></label>
-	<input class="inputbox" id="security_code" name="security_code" type="text" />
-
 	<?php
-	$url = JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5&' . rand() . '=1';
+		echo $captcha->display('security_code', 'security_code', 'required');
 	?>
-	<img src="<?php echo $url;?>" />
 </div>
-<?php endif; ?>
+
+<?php } } ?>
+

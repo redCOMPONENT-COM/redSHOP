@@ -216,14 +216,7 @@ else
 
 		<?php endif; ?>
 
-		<?php if (SHOW_CAPTCHA) : ?>
-		<div id="divCaptcha">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_CAPTCHA');?></legend>
-				<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
-			</fieldset>
-		</div>
-		<?php endif; ?>
+		<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
 
 		<div class="btn-group">
 			<input type="button" class="btn btn-default btn-lg" name="back" value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">

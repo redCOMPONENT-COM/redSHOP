@@ -93,21 +93,12 @@ if ($user->id)
 			<div class="col-xs-9"><?php echo $form->getInput('comment'); ?></div>
 		</div>
 
-		<?php if (SHOW_CAPTCHA && $user->guest): ?>
-		<div class="row">
-			<label for="jform_security_code" id="jform_security_code-lbl" class="required col-xs-3">
-				<?php echo JText::_('COM_REDSHOP_CAPTCHA'); ?><span class="star">&nbsp;*</span>
-			</label>
-			<div class="questionCaptcha">
-				<div class="captchaImage">
-					<img src="<?php echo JURI::base(true) . '/index.php?option=com_redshop&view=registration&task=captcha&tmpl=component&captcha=security_code&width=100&height=40&characters=5'; ?>" />
-				</div>
-				<div class="captchaField">
-					<input class="inputbox required" required="required" id="jform_security_code" name="jform[security_code]" type="text" />
-				</div>
-			</div>
-		</div>
-		<?php endif; ?>
+		<?php
+		if ($user->guest)
+		{
+			echo RedshopLayoutHelper::render('registration.captcha');
+		}
+		?>
 	</div>
 
 	<div class="product_rating">

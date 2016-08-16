@@ -146,7 +146,6 @@ define('COUPONS_ENABLE', '1');
 define('VOUCHERS_ENABLE', '1');
 define('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT', '1');
 define('SPLITABLE_PAYMENT', '');
-define('SHOW_CAPTCHA', '0');
 define('SHOW_EMAIL_VERIFICATION', '0');
 define('RATING_MSG', '');
 define('RATING_REVIEW_LOGIN_REQUIRED', '1');

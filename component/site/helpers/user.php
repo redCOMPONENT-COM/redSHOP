@@ -467,14 +467,18 @@ class RedshopSiteUser
 
 	public function checkCaptcha($data, $displayWarning = true)
 	{
-		if (SHOW_CAPTCHA)
+		$default = JFactory::getConfig()->get('captcha');
+
+		if (JFactory::getApplication()->isSite())
 		{
-			$security_code = $_COOKIE['security_code'];
+			$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+		}
 
-			// Unset copy
-			setcookie('security_code', '');
+		if (!empty($default))
+		{
+			$captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop'));
 
-			if (empty($security_code) || $security_code != $data['security_code'])
+			if ($captcha != null && !$captcha->checkAnswer($data))
 			{
 				if ($displayWarning)
 				{

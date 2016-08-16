@@ -7,7 +7,7 @@
 {if subcats}
 <div id="categories">
 	{category_loop_start}
-	<div>
+	<div class="categories_box">
 		<div class="category_image">{category_thumb_image}</div>
 		<div class="category_description">
 			<h2 class="category_title">{category_name}</h2>

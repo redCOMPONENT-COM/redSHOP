@@ -41,7 +41,6 @@ $temparray["without_vat_text_info"] = WITHOUT_VAT_TEXT_INFO;
 $temparray["rating_msg"] = RATING_MSG;
 $temparray['rating_review_login_required'] = RATING_REVIEW_LOGIN_REQUIRED;
 $temparray["register_method"] = REGISTER_METHOD;
-$temparray["show_captcha"] = SHOW_CAPTCHA;
 $temparray["show_email_verification"] = SHOW_EMAIL_VERIFICATION;
 $temparray["new_customer_selection"] = NEW_CUSTOMER_SELECTION;
 $temparray["terms_article"] = TERMS_ARTICLE_ID;

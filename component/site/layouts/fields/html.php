@@ -18,9 +18,6 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-$fieldHandle = $displayData['fieldHandle'];
-$inputField  = $displayData['inputField'];
-
 ?>
 
 <div class="form-group">

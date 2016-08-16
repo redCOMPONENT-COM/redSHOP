@@ -14,10 +14,7 @@
 		<div class="col-xs-8">{user_question}</div>
 	</div>
 
-	<div class="row">
-		<label class="col-xs-4">{captcha_lbl}</label>
-		<div class="col-xs-8">{captcha}</div>
-	</div>
+	{captcha}
 
 	<div class="send_button">
 		{send_button}
