@@ -179,7 +179,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['supplier_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'supplier_mail_enable', 'class="inputbox" ', $this->config->get('SUPPLIER_MAIL_ENABLE'));
 
 		$lists['splitable_payment']         = JHTML::_('redshopselect.booleanlist', 'splitable_payment', 'class="inputbox"', $this->config->get('SPLITABLE_PAYMENT'));
-		$lists['show_captcha']              = JHTML::_('redshopselect.booleanlist', 'show_captcha', 'class="inputbox"', $this->config->get('SHOW_CAPTCHA'));
 		$lists['create_account_checkbox']   = JHTML::_('redshopselect.booleanlist', 'create_account_checkbox', 'class="inputbox"', $this->config->get('CREATE_ACCOUNT_CHECKBOX'));
 		$lists['show_email_verification']   = JHTML::_('redshopselect.booleanlist', 'show_email_verification', 'class="inputbox"', $this->config->get('SHOW_EMAIL_VERIFICATION'));
 		$lists['quantity_text_display']     = JHTML::_('redshopselect.booleanlist', 'quantity_text_display', 'class="inputbox"', $this->config->get('QUANTITY_TEXT_DISPLAY'));

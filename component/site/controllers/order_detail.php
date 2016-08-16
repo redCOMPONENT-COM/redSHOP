@@ -407,7 +407,7 @@ class RedshopControllerOrder_detail extends RedshopController
 						<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
 						<input type="hidden" name="task" value="process_payment" />
 						<input type="hidden" name="view" value="order_detail"/>
-						<input type="submit" name="submit" class="greenbutton"
+						<input type="submit" name="submit" class="greenbutton btn btn-primary"
 						       value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>"/>
 						<input type="hidden" name="ccinfo" value="1"/>
 						<input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>

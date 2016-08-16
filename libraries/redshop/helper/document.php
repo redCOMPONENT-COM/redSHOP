@@ -46,6 +46,13 @@ class RedshopHelperDocument
 	protected static $topStylesheets = array();
 
 	/**
+	 * Stylesheets that will be injected on bottom
+	 *
+	 * @var  array
+	 */
+	protected static $bottomStylesheets = array();
+
+	/**
 	 * Adds a linked script to the page
 	 * This forces always use scripts versions
 	 *
@@ -111,6 +118,29 @@ class RedshopHelperDocument
 	}
 
 	/**
+	 * Add a script to the bottom of the document scripts
+	 *
+	 * @param   string  $url      URL to the linked style sheet
+	 * @param   string  $type     Mime encoding type
+	 * @param   string  $media    Media type that this stylesheet applies to
+	 * @param   array   $attribs  Array of attributes
+	 *
+	 * @return  Document
+	 */
+	public function addBottomStylesheet($url, $type = 'text/css', $media = null, $attribs = array())
+	{
+		$stylesheet = array(
+			'mime'    => $type,
+			'media'   => $media,
+			'attribs' => $attribs
+		);
+
+		static::$bottomStylesheets[$url] = $stylesheet;
+
+		return $this;
+	}
+
+	/**
 	 * Clean header assets
 	 *
 	 * @return  void
@@ -121,6 +151,7 @@ class RedshopHelperDocument
 		$this->cleanHeaderStylesheets();
 		$this->injectTopScripts();
 		$this->injectTopStylesheets();
+		$this->injectBottomStylesheets();
 	}
 
 	/**
@@ -157,6 +188,25 @@ class RedshopHelperDocument
 		$doc = JFactory::getDocument();
 
 		$doc->_styleSheets = array_merge(static::$topStylesheets, $doc->_styleSheets);
+
+		return $this;
+	}
+
+	/**
+	 * Injects the bottom stylesheets on the bottom of the document stylesheets
+	 *
+	 * @return  Document
+	 */
+	protected function injectBottomStylesheets()
+	{
+		if (empty(static::$bottomStylesheets))
+		{
+			return true;
+		}
+
+		$doc = JFactory::getDocument();
+
+		$doc->_styleSheets = array_merge($doc->_styleSheets, static::$bottomStylesheets);
 
 		return $this;
 	}

@@ -1,161 +1,160 @@
 <div class="product_print">{print}</div>
-<table style="width: 100%;" border="0" cellspacing="0" cellpadding="5">
-	<tbody>
-	<tr>
-		<td colspan="2">
-			<table style="width: 100%;" border="0" cellspacing="0" cellpadding="2">
-				<tbody>
-				<tr style="background-color: #cccccc">
-					<th align="left">{discount_type_lbl}</th>
-				</tr>
-				<tr>
-					<td>{discount_type}</td>
-				</tr>
-				<tr style="background-color: #cccccc;">
-					<th align="left">{order_information_lbl}</th>
-				</tr>
-				<tr>
-				</tr>
-				<tr>
-					<td>{order_id_lbl} : {order_id}</td>
-				</tr>
-				<tr>
-					<td>{order_number_lbl} : {order_number}</td>
-				</tr>
-				<tr>
-					<td>{order_date_lbl} : {order_date}</td>
-				</tr>
-				<tr>
-					<td>{order_status_lbl} : {order_status}</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<table style="width: 100%;" border="0" cellspacing="0" cellpadding="2">
-				<tbody>
-				<tr style="background-color: #cccccc;">
-					<th align="left">{billing_address_information_lbl}</th>
-				</tr>
-				<tr>
-				</tr>
-				<tr>
-					<td>{billing_address}</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<table style="width: 100%;" border="0" cellspacing="0" cellpadding="2">
-				<tbody>
-				<tr style="background-color: #cccccc;">
-					<th align="left">{shipping_address_information_lbl}</th>
-				</tr>
-				<tr>
-				</tr>
-				<tr>
-					<td>{shipping_address}</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<table style="width: 100%;" border="0" cellspacing="0" cellpadding="2">
-				<tbody>
-				<tr style="background-color: #cccccc;">
-					<th align="left">{order_detail_lbl}</th>
-				</tr>
-				<tr>
-				</tr>
-				<tr>
-					<td>
-						<table style="width: 100%;" border="0" cellspacing="2" cellpadding="2">
-							<tbody>
-							<tr>
-								<td>{copy_orderitem_lbl}</td>
-								<td>{product_name_lbl}</td>
-								<td>{note_lbl}</td>
-								<td>{price_lbl}</td>
-								<td>{quantity_lbl}</td>
-								<td align="right">{total_price_lbl}</td>
-							</tr>
-							<!-- {product_loop_start} -->
-							<tr>
-								<td>{copy_orderitem}</td>
-								<td>{product_name}<br/>{product_attribute}{product_accessory}{product_userfields}</td>
-								<td>{product_wrapper}</td>
-								<td>{product_price}</td>
-								<td>{product_quantity}</td>
-								<td align="right">{product_total_price}</td>
-							</tr>
-							<!-- {product_loop_end} -->
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>{customer_note_lbl}: {customer_note}</td>
-				</tr>
-				<tr>
-					<td>{requisition_number_lbl}: {requisition_number}</td>
-				</tr>
-				<tr>
-					<td>
-						<table class="cart_calculations" border="0" cellspacing="0" cellpadding="0">
-							<tbody>
-							<tr class="tdborder">
-								<td><b>Product Subtotal excl vat:</b></td>
-								<td width="100">{product_subtotal_excl_vat}</td>
-							</tr>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">{order_information_lbl}</h3>
+	</div>
 
-							<!-- {if discount} -->
-							<tr class="tdborder">
-								<td>{discount_lbl}</td>
-								<td width="100">{discount}</td>
-							</tr>
-							<!-- {discount end if} -->
+	<div class="panel-body">
+		<div class="row">
+			<label class="col-sm-4">{order_id_lbl}:</label>
+			<div class="col-sm-8">{order_id}</div>
+		</div>
 
-							<tr>
-								<td><b>Shipping with vat:</b></td>
-								<td width="100">{shipping}</td>
-							</tr>
-							<!-- {if vat}-->
-							<tr class="tdborder">
-								<td>{vat_lbl}</td>
-								<td width="100">{tax}</td>
-							</tr>
-							<!-- {vat end if} -->
-							<!-- {if payment_discount} -->
-							<tr>
-								<td>{payment_discount_lbl}</td>
-								<td width="100">{payment_order_discount}</td>
-							</tr>
-							<!-- {payment_discount end if} -->
-							<tr>
-								<td>
-									<div class="singleline"><strong>{total_lbl}:</strong></div>
-								</td>
-								<td width="100">
-									<div class="singleline">{order_total}</div>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td align="left">{reorder_button}
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	</tbody>
-</table>
+		<div class="row">
+			<label class="col-sm-4">{order_number_lbl}:</label>
+			<div class="col-sm-8">{order_number}</div>
+		</div>
+
+		<div class="row">
+			<label class="col-sm-4">{order_date_lbl}:</label>
+			<div class="col-sm-8">{order_date}</div>
+		</div>
+
+		<div class="row">
+			<label class="col-sm-4">{order_status_lbl}:</label>
+			<div class="col-sm-8">{order_status}</div>
+		</div>
+
+		<div class="row">
+			<label class="col-sm-4">{payment_lbl}:</label>
+			<div class="col-sm-8">{payment_method}</div>
+		</div>
+
+		<div class="row">
+			<label class="col-sm-4">{order_status_payment_only_lbl}:</label>
+			<div class="col-sm-8">{order_payment_status}</div>
+		</div>
+
+		<div class="row">
+			<label class="col-sm-4">{shipping_method_lbl}:</label>
+			<div class="col-sm-8">{shipping_method}</div>
+		</div>
+
+		<div class="pull-right">
+			{reorder_button}
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{billing_address_information_lbl}</h3>
+			</div>
+
+			<div class="panel-body">
+				{billing_address}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{shipping_address_information_lbl}</h3>
+			</div>
+
+			<div class="panel-body">
+				{shipping_address}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="table-responsive">
+		<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+			<tbody>
+			<tr>
+				<th>{copy_orderitem_lbl}</th>
+				<th>{product_name_lbl}</th>
+				<th></th>
+				<th>{price_lbl}</th>
+				<th>{quantity_lbl}</th>
+				<th>{total_price_lbl}</th>
+			</tr>
+			<!--  {product_loop_start} -->
+			<tr>
+				<td>{copy_orderitem}</td>
+				<td>{product_name}<br/>{product_attribute}{product_accessory}{product_userfields}{product_wrapper}</td>
+				<td>{product_thumb_image}</td>
+				<td>{product_price}</td>
+				<td>{product_quantity}</td>
+				<td>{product_total_price}</td>
+			</tr>
+			<!--  {product_loop_end} -->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="cart_totals">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group cart_customer_note">
+						<label>{customer_note_lbl}:</label>
+						{customer_note}
+					</div>
+
+					<div class="form-group cart_requisition_number">
+						<label>{requisition_number_lbl}:</label>
+						{requisition_number}
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="redshop-login form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-6">{product_subtotal_excl_vat_lbl}:</label>
+							<div class="col-sm-6">{product_subtotal_excl_vat}</div>
+						</div>
+
+						<!-- {if discount}-->
+						<div class="form-group">
+							<label class="col-sm-6">{discount_lbl}:</label>
+							<div class="col-sm-6">{discount}</div>
+						</div>
+						<!-- {discount end if}-->
+
+						<div class="form-group">
+							<label class="col-sm-6">{shipping_with_vat_lbl}:</label>
+							<div class="col-sm-6">{shipping_excl_vat}</div>
+						</div>
+
+						<!-- {if vat}-->
+						<div class="form-group">
+							<label class="col-sm-6">{vat_lbl}:</label>
+							<div class="col-sm-6">{tax}</div>
+						</div>
+						<!-- {vat end if} -->
+
+						<!-- {if payment_discount}-->
+						<div class="form-group">
+							<label class="col-sm-6">{payment_discount_lbl}:</label>
+							<div class="col-sm-6">{payment_order_discount}</div>
+						</div>
+						<!-- {payment_discount end if}-->
+
+						<div class="form-group total">
+							<label class="col-sm-6">{total_lbl}:</label>
+							<div class="col-sm-6">{order_total}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

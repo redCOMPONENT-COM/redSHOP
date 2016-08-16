@@ -35,9 +35,9 @@ if ($getshm == 'https' && $force_ssl > 2)
 }
 
 if ($this->params->get('show_page_heading', 1)) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS'));?>
-	</div>
+	<h1 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS')); ?>
+	</h1>
 <?php endif; ?>
 <?php
 $model          = $this->getModel('order_detail');

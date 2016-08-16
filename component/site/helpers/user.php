@@ -467,14 +467,18 @@ class RedshopSiteUser
 
 	public function checkCaptcha($data, $displayWarning = true)
 	{
-		if (SHOW_CAPTCHA)
+		$default = JFactory::getConfig()->get('captcha');
+
+		if (JFactory::getApplication()->isSite())
 		{
-			$security_code = $_COOKIE['security_code'];
+			$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+		}
 
-			// Unset copy
-			setcookie('security_code', '');
+		if (!empty($default))
+		{
+			$captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop'));
 
-			if (empty($security_code) || $security_code != $data['security_code'])
+			if ($captcha != null && !$captcha->checkAnswer($data))
 			{
 				if ($displayWarning)
 				{
@@ -911,7 +915,7 @@ class RedshopSiteUser
 		}
 		else
 		{
-			$template_desc = '<table class="admintable" border="0" cellspacing="0" cellpadding="0"><tbody><tr valign="top"><td>{private_billing_template:private_billing_template}{company_billing_template:company_billing_template}</td><td>{account_creation_start}<table class="admintable" border="0"><tbody><tr><td width="100" align="right">{username_lbl}</td><td>{username}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{password_lbl}</td><td>{password}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{confirm_password_lbl}</td><td>{confirm_password}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{newsletter_signup_chk}</td><td colspan="2">{newsletter_signup_lbl}</td></tr></tbody></table>{account_creation_end}</td></tr><tr><td colspan="2" align="right"><span class="required">*</span>{required_lbl}</td></tr><tr class="trshipping_add"><td class="tdshipping_add" colspan="2">{sipping_same_as_billing_lbl} {sipping_same_as_billing}</td></tr></tbody></table>';
+			$template_desc = '<table class="admintable" border="0" cellspacing="0" cellpadding="0"><tbody><tr valign="top"><td>{private_billing_template:private_billing_template}{company_billing_template:company_billing_template}</td><td>{account_creation_start}<table class="admintable" border="0"><tbody><tr><td width="100" align="right">{username_lbl}</td><td>{username}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{password_lbl}</td><td>{password}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{confirm_password_lbl}</td><td>{confirm_password}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{newsletter_signup_chk}</td><td colspan="2">{newsletter_signup_lbl}</td></tr></tbody></table>{account_creation_end}</td></tr><tr><td colspan="2" align="right"><span class="required">*</span>{required_lbl}</td></tr><tr class="trshipping_add"><td class="tdshipping_add" colspan="2">{shipping_same_as_billing_lbl} {shipping_same_as_billing}</td></tr></tbody></table>';
 		}
 
 		$private_template = $redTemplate->getTemplate("private_billing_template");
@@ -972,13 +976,13 @@ class RedshopSiteUser
 
 		if ($show_shipping && SHIPPING_METHOD_ENABLE)
 		{
-			$template_desc = str_replace("{sipping_same_as_billing_lbl}", JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'), $template_desc);
-			$template_desc = str_replace("{sipping_same_as_billing}", '<input type="checkbox" id="billisship" name="billisship" value="1" onclick="billingIsShipping(this);" ' . $billingisshipping . ' />', $template_desc);
+			$template_desc = str_replace("{shipping_same_as_billing_lbl}", JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'), $template_desc);
+			$template_desc = str_replace("{shipping_same_as_billing}", '<input type="checkbox" id="billisship" name="billisship" value="1" onclick="billingIsShipping(this);" ' . $billingisshipping . ' />', $template_desc);
 		}
 		else
 		{
-			$template_desc = str_replace("{sipping_same_as_billing_lbl}", '', $template_desc);
-			$template_desc = str_replace("{sipping_same_as_billing}", '', $template_desc);
+			$template_desc = str_replace("{shipping_same_as_billing_lbl}", '', $template_desc);
+			$template_desc = str_replace("{shipping_same_as_billing}", '', $template_desc);
 		}
 
 		if (strstr($template_desc, "{account_creation_start}") && strstr($template_desc, "{account_creation_end}"))
@@ -1071,8 +1075,8 @@ class RedshopSiteUser
 			$template_desc = $template_pd_sdata[0] . $template_middle . $template_pd_edata[1];
 		}
 
-		$template_desc = str_replace("{company_name_lbl}", '<div>' . JText::_('COM_REDSHOP_COMPANY_NAME') . '</div>', $template_desc);
-		$template_desc = str_replace("{company_name}", '<div><input class="inputbox required" type="text" name="company_name" id="company_name" size="32" maxlength="250" value="' . @$post ["company_name"] . '" /></div>', $template_desc);
+		$template_desc = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $template_desc);
+		$template_desc = str_replace("{company_name}", '<input class="inputbox required" type="text" name="company_name" id="company_name" size="32" maxlength="250" value="' . @$post ["company_name"] . '" />', $template_desc);
 		$template_desc = str_replace("{firstname_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $template_desc);
 		$template_desc = str_replace("{firstname}", '<input class="inputbox required" type="text" name="firstname" id="firstname" size="32" maxlength="250" value="' . @$post ["firstname"] . '" />', $template_desc);
 		$template_desc = str_replace("{lastname_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $template_desc);

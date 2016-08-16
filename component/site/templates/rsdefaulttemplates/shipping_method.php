@@ -1,12 +1,13 @@
-<fieldset>
-	<legend><strong>{shipping_heading}</strong></legend>
-	<div>{shipping_method_loop_start}
-		<h3>{shipping_method_title}</h3>
-
-		<div>{shipping_rate_loop_start}
-			<div>{shipping_rate_name}{shipping_rate}</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">{shipping_heading}</h3>
+	</div>
+	<div class="panel-body">
+		{shipping_method_loop_start}
+		<h4>{shipping_method_title}</h4>
+			{shipping_rate_loop_start}
+			<div class="shipping_rate radio">{shipping_rate_name}<span>{shipping_rate}</span></div>
 			{shipping_rate_loop_end}
-		</div>
 		{shipping_method_loop_end}
 	</div>
-</fieldset>
+</div>

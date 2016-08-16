@@ -6824,13 +6824,13 @@ class RedshopSiteProduct
 				if (AJAX_CART_BOX != 1)
 				{
 					$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span>';
+						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">' . $ADD_OR_LBL . '</span>';
 				}
 				else
 				{
 					$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 						. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span></a>';
+						. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">' . $ADD_OR_LBL . '</span></a>';
 				}
 			}
 
@@ -6936,7 +6936,7 @@ class RedshopSiteProduct
 				$wishListButton = "<input type='button' value='" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
 
 				$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-				$wishPrefix = "<a class=\"modal\" href=\"" . $mywishlist_link
+				$wishPrefix = "<a  class=\"modal\" href=\"" . $mywishlist_link
 					. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
 				$wishSuffix = '</a>';
 			}

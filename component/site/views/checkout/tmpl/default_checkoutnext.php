@@ -90,19 +90,10 @@ else
 // Process the product plugin for cart item
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
-
 // End
-?>
-<hr/>
-<table width="100%" class="checkout-bar" border="0" cellspacing="2" cellpadding="2">
-	<tr>
-		<td width="33%" class="checkout-bar-1"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></td>
-		<td width="33%" class="checkout-bar-2-active"><?php echo JText::_('COM_REDSHOP_PAYMENT'); ?></td>
-		<td width="33%" class="checkout-bar-3"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></td>
-	</tr>
-</table>
-<hr/>
-<?php
+
+echo JLayoutHelper::render('cart.wizard', array('step' => '2'));
+
 if ($is_creditcard == 1 && $ccinfo != '1' && $cart['total'] > 0)
 {
 	$cart_data = '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
@@ -111,7 +102,7 @@ if ($is_creditcard == 1 && $ccinfo != '1' && $cart['total'] > 0)
 	$cart_data .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 	$cart_data .= '<input type="hidden" name="task" value="checkoutnext" />';
 	$cart_data .= '<input type="hidden" name="view" value="checkout" />';
-	$cart_data .= '<input type="submit" name="submit" class="greenbutton" value="' . JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT') . '" />';
+	$cart_data .= '<input type="submit" name="submit" class="greenbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT') . '" />';
 	$cart_data .= '<input type="hidden" name="ccinfo" value="1" />';
 	$cart_data .= '<input type="hidden" name="users_info_id" value="' . $this->users_info_id . '" />';
 	$cart_data .= '<input type="hidden" name="shipping_rate_id" value="' . $this->shipping_rate_id . '" />';

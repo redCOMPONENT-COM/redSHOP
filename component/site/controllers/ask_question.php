@@ -63,7 +63,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		$app->setUserState('com_redshop.ask_question.data', $data);
 
 		// Check captcha only for guests
-		if (SHOW_CAPTCHA && JFactory::getUser()->guest)
+		if (JFactory::getUser()->guest)
 		{
 			// Check exists captcha tag in question template form
 			$redTemplate = Redtemplate::getInstance();

@@ -673,6 +673,8 @@ function showCompanyOrCustomer(obj)
 		}
 
 		jQuery('#tmpRegistrationDiv').html('');
+
+		jQuery('select:not(".disableBootstrapChosen")').select2();
 	})
 	.fail(function() {
 		console.warn("error");

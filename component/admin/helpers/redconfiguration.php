@@ -639,7 +639,6 @@ class Redconfiguration
 						"VOUCHERS_ENABLE"                              => $d["vouchers_enable"],
 						"APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT"        => $d["apply_voucher_coupon_already_discount"],
 						"SPLITABLE_PAYMENT"                            => $d["splitable_payment"],
-						"SHOW_CAPTCHA"                                 => $d["show_captcha"],
 						"SHOW_EMAIL_VERIFICATION"                      => $d["show_email_verification"],
 
 						"RATING_MSG"                                   => $d["rating_msg"],

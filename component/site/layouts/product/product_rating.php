@@ -57,91 +57,56 @@ if ($user->id)
 </script>
 <form name="productRatingForm" action="" method="post"
 	  id="productRatingForm" class="form-validate form-vertical">
-	<table cellpadding="3" cellspacing="3" border="0" width="100%">
-		<tr>
-			<td colspan="2"><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_HEADER_TEXT'); ?></td>
-		</tr>
-		<tr>
-			<td valign="top" align="left" width="100">
-				<?php echo $form->getLabel('user_rating'); ?>
-			</td>
-			<td>
-				<table cellpadding="3" cellspacing="0" border="0">
-					<tr>
-						<td><?php echo JText::_('COM_REDSHOP_GOOD'); ?></td>
-						<td align="center">
-							<?php echo $form->getInput('user_rating'); ?>
-						</td>
-						<td><?php echo JText::_('COM_REDSHOP_EXCELLENT'); ?></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="left">
-				<?php echo $form->getLabel('username'); ?>
-			</td>
-			<td>
-				<?php echo $form->getInput('username'); ?>
-			</td>
-		</tr>
+
+	<p><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_HEADER_TEXT'); ?></p>
+	<div class="redshop-productrating">
+		<div class="row">
+			<label class="col-xs-3"><?php echo $form->getLabel('user_rating'); ?></label>
+			<div class="col-xs-9">
+				<div class="row">
+					<div class="col-xs-4"><?php echo JText::_('COM_REDSHOP_GOOD'); ?></div>
+					<div class="col-xs-4"><?php echo $form->getInput('user_rating'); ?></div>
+					<div class="col-xs-4"><?php echo JText::_('COM_REDSHOP_EXCELLENT'); ?></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<label class="col-xs-3"><?php echo $form->getLabel('username'); ?></label>
+			<div class="col-xs-9"><?php echo $form->getInput('username'); ?></div>
+		</div>
+
 		<?php if ($user->guest): ?>
-			<tr>
-				<td valign="top" align="left">
-					<?php echo $form->getLabel('email'); ?>
-				</td>
-				<td>
-					<?php echo $form->getInput('email'); ?>
-				</td>
-			</tr>
+		<div class="row">
+			<label class="col-xs-3"><?php echo $form->getLabel('email'); ?></label>
+			<div class="col-xs-9"><?php echo $form->getInput('email'); ?></div>
+		</div>
 		<?php endif; ?>
-		<tr>
-			<td valign="top" align="left">
-				<?php echo $form->getLabel('title'); ?>
-			</td>
-			<td>
-				<?php echo $form->getInput('title'); ?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="left">
-				<?php echo $form->getLabel('comment'); ?>
-			</td>
-			<td>
-				<?php echo $form->getInput('comment'); ?>
-			</td>
-		</tr>
-		<?php if (SHOW_CAPTCHA && $user->guest): ?>
-			<tr>
-				<td>
-					<label for="jform_security_code" id="jform_security_code-lbl" class="required">
-						<?php echo JText::_('COM_REDSHOP_CAPTCHA'); ?><span class="star">&nbsp;*</span>
-					</label>
-				</td>
-				<td>
-					<div class="questionCaptcha">
-						<div class="captchaImage">
-							<img src="<?php echo JURI::base(true) . '/index.php?option=com_redshop&view=registration&task=captcha&tmpl=component&captcha=security_code&width=100&height=40&characters=5'; ?>" />
-						</div>
-						<div class="captchaField">
-							<input class="inputbox required" required="required" id="jform_security_code" name="jform[security_code]" type="text" />
-						</div>
-					</div>
-				</td>
-			</tr>
-		<?php endif; ?>
-		<tr>
-			<td></td>
-			<td>
-				<input type="submit" class="btn"
-				   value="<?php echo JText::_('COM_REDSHOP_SEND_REVIEW'); ?>"
-				   onclick="ratingSubmitButton('product_rating.submit')">
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2"><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_FOOTER_TEXT'); ?></td>
-		</tr>
-	</table>
+
+		<div class="row">
+			<label class="col-xs-3"><?php echo $form->getLabel('title'); ?></label>
+			<div class="col-xs-9"><?php echo $form->getInput('title'); ?></div>
+		</div>
+
+		<div class="row">
+			<label class="col-xs-3"><?php echo $form->getLabel('comment'); ?></label>
+			<div class="col-xs-9"><?php echo $form->getInput('comment'); ?></div>
+		</div>
+
+		<?php
+		if ($user->guest)
+		{
+			echo RedshopLayoutHelper::render('registration.captcha');
+		}
+		?>
+	</div>
+
+	<div class="product_rating">
+		<input type="submit" class="btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_SEND_REVIEW'); ?>" onclick="ratingSubmitButton('product_rating.submit')">
+	</div>
+
+	<p><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_FOOTER_TEXT'); ?></p>
+
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="product_rating"/>
 	<input type="hidden" name="task" id="task" value=""/>

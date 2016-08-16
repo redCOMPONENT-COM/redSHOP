@@ -782,10 +782,6 @@ class extra_field
 
 				$ex_field .= JText::_($extra_field_label) . ' : ';
 			}
-			else
-			{
-				$ex_field .= '<tr><td valign="top" align="left">' . JText::_($extra_field_label) . ' : </td><td>';
-			}
 
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id, $user_email);
 
@@ -898,11 +894,6 @@ class extra_field
 					break;
 			}
 
-			if ($flag == 0)
-			{
-				$ex_field .= '</td></tr>';
-			}
-
 			if (trim($template_desc) != '')
 			{
 				if (strstr($template_desc, "{" . $row_data[$i]->field_name . "}"))
@@ -919,6 +910,11 @@ class extra_field
 		if (trim($template_desc) != '')
 		{
 			return $template_desc;
+		}
+
+		if ($flag == 0)
+		{
+			return JLayoutHelper::render('fields.display', array('extra_field_label' => JText::_($extra_field_label), 'extra_field_value' => $ex_field));
 		}
 
 		return $ex_field;
