@@ -8,21 +8,21 @@
  */
 
 defined('_JEXEC') or die;
+
 JLoader::import('redshop.library');
 
-$show_with_vat = trim($params->get('show_with_vat', 0));
-$button_text = trim($params->get('button_text', ''));
+$show_with_vat      = trim($params->get('show_with_vat', 0));
+$button_text        = trim($params->get('button_text', ''));
 $show_shipping_line = ($params->get('show_shipping_line', 0));
 $show_with_discount = ($params->get('show_with_discount', 0));
 
-$document = JFactory::getDocument();
-$document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
+$document = JFactory::getDocument()->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
 
-if (JRequest::getCmd('option') != 'com_redshop')
+if (JFactory::getApplication()->input->getCmd('option') != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	$Redconfiguration = Redconfiguration::getInstance();
-	$Redconfiguration->defineDynamicVars();
+
+	Redconfiguration::getInstance()->defineDynamicVars();
 }
 
 $show_empty_btn = 0;
@@ -37,8 +37,8 @@ $helper = redhelper::getInstance();
 $helper->dbtocart();
 
 $output_view = $params->get('cart_output', 'simple');
-$session = JFactory::getSession();
-$cart = $session->get('cart');
+$session     = JFactory::getSession();
+$cart        = $session->get('cart');
 
 if (count($cart) <= 0 || $cart == "")
 {
@@ -46,15 +46,6 @@ if (count($cart) <= 0 || $cart == "")
 }
 
 $idx = 0;
-
-if ((!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1)) && $params->get("use_cookies_value") == 1)
-{
-	if (isset($_COOKIE['redSHOPcart']) && ($_COOKIE['redSHOPcart'] != ''))
-	{
-		$session->set('cart', unserialize(base64_decode($_COOKIE['redSHOPcart'])));
-		$cart = $session->get('cart');
-	}
-}
 
 if (is_array($cart) && !array_key_exists("quotation_id", $cart))
 {
@@ -72,4 +63,5 @@ for ($i = 0; $i < $idx; $i++)
 }
 
 $session->set('cart', $cart);
+
 require JModuleHelper::getLayoutPath('mod_redshop_cart');
