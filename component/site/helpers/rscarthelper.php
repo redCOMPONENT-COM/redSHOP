@@ -4885,21 +4885,7 @@ class rsCarthelper
 
 		$this->_session->set('cart', $cart);
 
-		if (JModuleHelper::isEnabled('redshop_cart'))
-		{
-			JLoader::import('joomla.html.parameter');
-			$cart_param        = JModuleHelper::getModule('redshop_cart');
-			$cart_param_main   = new JRegistry($cart_param->params);
-			$use_cookies_value = $cart_param_main->get('use_cookies_value', '');
-
-			if ($use_cookies_value == 1)
-			{
-				setcookie("redSHOPcart", base64_encode(serialize($cart)), time() + (60 * 60 * 24 * 365));
-			}
-		}
-
 		return $cart;
-
 	}
 
 	public function getWrapperPriceArr($cartArr = array())
