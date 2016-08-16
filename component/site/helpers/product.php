@@ -4396,7 +4396,7 @@ class RedshopSiteProduct
 						{
 							$man_url          = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid='
 								. $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
-							$manufacturerLink = "<a href='" . $man_url . "'>" . JText::_("VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
+							$manufacturerLink = "<a class='btn btn-primary' href='" . $man_url . "'>" . JText::_("VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 							$accessory_div    = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $accessory_div);
 							$accessory_div    = str_replace("{manufacturer_link}", $manufacturerLink, $accessory_div);
 						}
@@ -5942,7 +5942,7 @@ class RedshopSiteProduct
 
 		if (strpos($cartform, "{addtocart_quantity}") !== false)
 		{
-			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity' type='text' name='quantity' id='quantity" .
+			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" .
 				$product_id . "' value='" . $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY .
 				"' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 			$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
@@ -6642,7 +6642,7 @@ class RedshopSiteProduct
 			if (strpos($cartform, "{addtocart_quantity}") !== false)
 			{
 				$addtocart_quantity = "<span id='stockQuantity" . $stockId
-					. "'><input class='quantity' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
+					. "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
 					. "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY
 					. "' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 				$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
@@ -6936,7 +6936,7 @@ class RedshopSiteProduct
 				$wishListButton = "<input type='button' value='" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
 
 				$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-				$wishPrefix = "<a  class=\"modal\" href=\"" . $mywishlist_link
+				$wishPrefix = "<a  class=\"modal btn btn-primary\" href=\"" . $mywishlist_link
 					. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
 				$wishSuffix = '</a>';
 			}
@@ -6949,14 +6949,14 @@ class RedshopSiteProduct
 				{
 					$mywishlist_link = (string) JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewloginwishlist&tmpl=component');
 					$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-					$wishPrefix = "<a class=\"modal\" href=\"" . $mywishlist_link
+					$wishPrefix = "<a class=\"modal btn btn-primary\" href=\"" . $mywishlist_link
 						. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
 					$wishSuffix = '</a>';
 				}
 				else
 				{
 					$wishListLink = "<a href=\"#\" onclick=\"document.getElementById('form_wishlist_" . $product_id
-						. "').submit();return false;\" class='wishlistlink'>" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "</a>";
+						. "').submit();return false;\" class='wishlistlink btn btn-primary'>" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "</a>";
 					$wishPrefix = "<form method='post' action='' id='form_wishlist_" . $product_id
 						. "' name='form_wishlist_" . $product_id . "'>
 								<input type='hidden' name='task' value='addtowishlist' />
@@ -6984,17 +6984,15 @@ class RedshopSiteProduct
 
 	public function replaceCompareProductsButton($product_id = 0, $category_id = 0, $data_add = "", $is_relatedproduct = 0)
 	{
-		$Itemid = JRequest::getInt('Itemid');
 		$prefix = ($is_relatedproduct == 1) ? "related" : "";
-		// for compare product div...
+
+		// For compare product div...
 		if (PRODUCT_COMPARISON_TYPE != "")
 		{
 			if (strpos($data_add, '{' . $prefix . 'compare_product_div}') !== false)
 			{
-				$div                 = $this->makeCompareProductDiv();
-				$compare_product_div = "<a href='" . JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid) . "' >" . JText::_('COM_REDSHOP_COMPARE')
-					. "</a><br />";
-				$compare_product_div .= "<div id='divCompareProduct'>" . $div . "</div>";
+				$compare_product_div = RedshopLayoutHelper::render('product.compare_product');
+
 				$data_add = str_replace("{compare_product_div}", $compare_product_div, $data_add);
 			}
 
@@ -8421,9 +8419,13 @@ class RedshopSiteProduct
 
 			if ($avgRating > 0)
 			{
-				$finalAvgReviewData = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $avgRating . '.gif" />';
-				$finalAvgReviewData .= JText::_('COM_REDSHOP_AVG_RATINGS_1') . " " . $productData->count_rating . " "
-					. JText::_('COM_REDSHOP_AVG_RATINGS_2');
+				$finalAvgReviewData = RedshopLayoutHelper::render(
+					'product.product_rating_display',
+					array(
+						'avgRating' => $avgRating,
+						'countRating' => $productData->count_rating
+						)
+				);
 			}
 		}
 
@@ -10109,7 +10111,7 @@ class RedshopSiteProduct
 						if (count($manufacturer) > 0)
 						{
 							$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
-							$manufacturerLink      = "<a href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
+							$manufacturerLink      = "<a class='btn btn-primary' href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 							$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
 							$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
 						}

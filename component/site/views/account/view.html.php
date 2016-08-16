@@ -80,10 +80,7 @@ class RedshopViewAccount extends RedshopView
 			}
 
 			JLoader::import('joomla.html.pagination');
-			JHtml::_('redshopjquery.framework');
-			JHtml::script('com_redshop/redbox.js', false, true);
-			JHtml::script('com_redshop/attribute.js', false, true);
-			JHtml::script('com_redshop/common.js', false, true);
+
 			$this->setLayout('mywishlist');
 
 			$remove = JRequest::getInt('remove', 0);

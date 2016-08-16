@@ -26,8 +26,7 @@ $model      = $this->getModel('cart');
 $session  = JFactory::getSession();
 $user     = JFactory::getUser();
 $document = JFactory::getDocument();
-JHtml::script('com_redshop/attribute.js', false, true);
-JHtml::script('com_redshop/common.js', false, true);
+
 ?>
 	<script type="text/javascript">
 		function cancelForm(frm) {
