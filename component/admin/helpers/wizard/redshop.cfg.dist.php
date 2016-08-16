@@ -360,3 +360,4 @@ define('MEDIA_ALLOWED_MIME_TYPE', 'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,
 define('AUTO_GENERATE_LABEL', '1');
 define('GENERATE_LABEL_ON_STATUS', 'S');
 define('INVOICE_NUMBER_FOR_FREE_ORDER', '0');
+define('LOAD_REDSHOP_STYLE', '1');

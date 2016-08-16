@@ -37,7 +37,12 @@ $doc->addScript(JURI::root() . 'media/com_redshop/js/redbox.js');
 $doc->addScript(JURI::root() . 'media/com_redshop/js/attribute.js');
 $doc->addScript(JURI::root() . 'media/com_redshop/js/common.js');
 
-$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/style.css');
+$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.css');
+
+if (LOAD_REDSHOP_STYLE)
+{
+	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/style.css');
+}
 
 // Use different CSS for print layout
 if ($app->input->getCmd('print', ''))
