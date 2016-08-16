@@ -49,10 +49,10 @@ if ($this->params->get('show_page_heading', 1))
 		<?php        echo $userhelper->getBillingTable($post, $this->billingaddresses->is_company, $this->lists, 0, 0, $create_account);    ?>
 		<table cellspacing="3" cellpadding="0" border="0" width="100%">
 			<tr>
-				<td align="right"><input type="button" class="button" name="back"
+				<td align="right"><input type="button" class="button btn" name="back"
 				                         value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
 				                         onclick="javascript:cancelForm(this.form);"></td>
-				<td align="left"><input type="submit" class="button" name="submitbtn"
+				<td align="left"><input type="submit" class="button btn btn-primary" name="submitbtn"
 				                        value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>"></td>
 			</tr>
 		</table>

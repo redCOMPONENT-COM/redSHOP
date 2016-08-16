@@ -175,4 +175,6 @@ $controller->execute($task);
 // End component DIV here
 echo "</div>";
 
+echo JLayoutHelper::render('assets');
+
 $controller->redirect();

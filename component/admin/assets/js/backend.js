@@ -16322,5 +16322,11 @@ Licensed under the BSD-2-Clause License.
 
 			e.preventDefault();
 		})
+
+		$('#toolbar').affix({
+			offset: {
+				top: 150
+			}
+		})
 	});
 })(jQuery);

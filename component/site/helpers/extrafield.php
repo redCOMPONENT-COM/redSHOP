@@ -332,7 +332,13 @@ class RedshopSiteExtraField
 			{
 				case self::TYPE_TEXT:
 
-					$text_value = $data_value->data_txt;
+					$text_value = '';
+
+					if ($data_value && $data_value->data_txt)
+					{
+						$text_value = $data_value->data_txt;
+					}
+
 					$inputField = '<input ' . $class . ' type="text" maxlength="' . $row_data[$i]->field_maxlength . '" name="' . $row_data[$i]->field_name . '" id="' . $row_data[$i]->field_name . '" value="' . $text_value . '" size="32" />';
 					break;
 

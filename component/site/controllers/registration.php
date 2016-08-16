@@ -80,22 +80,6 @@ class RedshopControllerRegistration extends RedshopController
 	}
 
 	/**
-	 * captcha
-	 *
-	 * @return  void
-	 */
-	public function captcha()
-	{
-		$app         = JFactory::getApplication();
-		$width       = $app->input->getInt('width', 120);
-		$height      = $app->input->getInt('height', 40);
-		$characters  = $app->input->getInt('characters', 6);
-		$captchaname = $app->input->getCmd('captcha', 'security_code');
-
-		$captcha     = new RedshopSiteCaptcha($width, $height, $characters, $captchaname);
-	}
-
-	/**
 	 * searchUserdetailByPhone
 	 *
 	 * @return  string

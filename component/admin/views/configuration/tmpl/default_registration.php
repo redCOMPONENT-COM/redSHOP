@@ -28,14 +28,6 @@ defined('_JEXEC') or die;
 
 <div class="form-group">
 	<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_SHOW_CAPTCHA'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_CAPTCHA'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_SHOW_CAPTCHA');?></label>
-	</span>
-	<?php echo $this->lists ['show_captcha']; ?>
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
 			      title="<?php echo JText::_('COM_REDSHOP_SHOW_REGISTER_CHECKOUT_CAPTCHA'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_REGISTER_EMAIL_VERIFICATION'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_SHOW_REGISTER_EMAIL_VERIFICATION');?></label>
 	</span>

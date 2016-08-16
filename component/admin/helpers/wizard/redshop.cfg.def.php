@@ -23,7 +23,6 @@ $defaultarray["news_mail_from"] = NEWS_MAIL_FROM;
 $defaultarray["newsletter_mail_chunk"] = NEWSLETTER_MAIL_CHUNK;
 $defaultarray["newsletter_mail_pause_time"] = NEWSLETTER_MAIL_PAUSE_TIME;
 $defaultarray["register_method"] = REGISTER_METHOD;
-$defaultarray["show_captcha"] = SHOW_CAPTCHA;
 $defaultarray["show_email_verification"] = SHOW_EMAIL_VERIFICATION;
 $defaultarray["new_customer_selection"] = NEW_CUSTOMER_SELECTION;
 $defaultarray["terms_article_id"] = TERMS_ARTICLE_ID;

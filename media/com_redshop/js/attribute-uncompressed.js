@@ -478,6 +478,8 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 			displayAdditionalImage(product_id, accessory_id, relatedprd_id, property_id, 0);
 			calculateTotalPrice(product_id, relatedprd_id);
 
+			jQuery('select:not(".disableBootstrapChosen")').select2();
+
 			// Setting up redSHOP JavaScript onChangePropertyDropdown trigger
 			if (redSHOP.onChangePropertyDropdown.length > 0)
 			{

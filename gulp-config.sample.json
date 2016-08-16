@@ -1,6 +1,7 @@
 {
 	"name"         : "redshop",
 	"releasesDir"  : "/var/www/releases",
+	"buildDir"     : "/var/www/joomla",
 	"joomlaVersion": "j25-j3x",
 	"packageFiles" :[
 		"LICENSE.txt",

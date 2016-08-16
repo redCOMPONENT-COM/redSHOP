@@ -74,171 +74,9 @@ $account_img   = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/home.jpg
 $template_desc = str_replace('{account_image}', $account_img, $template_desc);
 $template_desc = str_replace('{account_title}', JText::_('COM_REDSHOP_ACCOUNT_INFORMATION'), $template_desc);
 
-$customer_fullname_lbl = '';
-$customer_fullname     = '';
+$template_desc = $carthelper->replaceBillingAddress($template_desc, $this->userdata);
 
-if ($this->userdata->firstname != "")
-{
-	$customer_fullname_lbl = JText::_('COM_REDSHOP_CUSTOMER_FULLNAME');
-	$customer_fullname     = $this->userdata->firstname . ' ' . $this->userdata->lastname;
-}
-
-$template_desc = str_replace('{fullname_lbl}', $customer_fullname_lbl, $template_desc);
-$template_desc = str_replace('{fullname}', $customer_fullname, $template_desc);
-
-$company_name_lbl = '';
-$company_name     = '';
-
-if ($this->userdata->is_company && $this->userdata->company_name != "")
-{
-	$company_name_lbl = JText::_('COM_REDSHOP_COMPANY_NAME');
-	$company_name     = $this->userdata->company_name;
-}
-
-$template_desc = str_replace('{company_name_lbl}', $company_name_lbl, $template_desc);
-$template_desc = str_replace('{company_name}', $company_name, $template_desc);
-
-$customer_state_lbl = '';
-$customer_state     = '';
-
-if (trim($this->userdata->state_code) != "-" && trim($this->userdata->state_code) != "")
-{
-	$customer_state_lbl = JText::_('COM_REDSHOP_CUSTOMER_STATE');
-	$customer_state     = $order_functions->getStateName($this->userdata->state_code, $this->userdata->country_code);
-
-	if (trim($customer_state == ''))
-	{
-		$customer_state_lbl = '';
-		$customer_state     = '';
-	}
-}
-
-$template_desc = str_replace('{state_lbl}', $customer_state_lbl, $template_desc);
-$template_desc = str_replace('{state}', $customer_state, $template_desc);
-
-$customer_country_lbl = '';
-$customer_country     = '';
-
-if ($this->userdata->country_code)
-{
-	$customer_country_lbl = JText::_('COM_REDSHOP_CUSTOMER_COUNTRY');
-	$customer_country     = $order_functions->getCountryName($this->userdata->country_code, $this->userdata->country_code);
-
-	if (trim($customer_country == ''))
-	{
-		$customer_country_lbl = '';
-		$customer_country     = '';
-	}
-}
-
-$template_desc = str_replace('{country_lbl}', $customer_country_lbl, $template_desc);
-$template_desc = str_replace('{country}', $customer_country, $template_desc);
-
-$customer_vatnumber_lbl = '';
-$customer_vatnumber     = '';
-
-if (($this->userdata->is_company == 1) && ($this->userdata->vat_number != ""))
-{
-	$customer_vatnumber_lbl = JText::_('COM_REDSHOP_CUSTOMER_VATNUMBER');
-	$customer_vatnumber     = $this->userdata->vat_number;
-}
-
-$ean_number_lbl = '';
-$ean_number     = '';
-
-if (($this->userdata->is_company == 1) && ($this->userdata->ean_number != ""))
-{
-	$ean_number_lbl = JText::_('COM_REDSHOP_EAN_NUMBER');
-	$ean_number     = $this->userdata->ean_number;
-}
-
-$requesting_tax_exempt_lbl = '';
-$requesting_tax_exempt     = '';
-
-if ($this->userdata->is_company == 1)
-{
-	$requesting_tax_exempt_lbl = JText::_('COM_REDSHOP_USER_TAX_EXEMPT_REQUEST_LBL');
-
-	if ($this->userdata->requesting_tax_exempt == 1)
-	{
-		$requesting_tax_exempt = JText::_("COM_REDSHOP_YES");
-	}
-	else
-	{
-		$requesting_tax_exempt = JText::_("COM_REDSHOP_NO");
-	}
-}
-
-$template_desc = str_replace('{requesting_tax_exempt_lbl}', $requesting_tax_exempt_lbl, $template_desc);
-$template_desc = str_replace('{requesting_tax_exempt}', $requesting_tax_exempt, $template_desc);
-
-$template_desc = str_replace('{vatnumber_lbl}', $customer_vatnumber_lbl, $template_desc);
-$template_desc = str_replace('{vatnumber}', $customer_vatnumber, $template_desc);
-
-$template_desc = str_replace('{ean_number_lbl}', $ean_number_lbl, $template_desc);
-$template_desc = str_replace('{ean_number}', $ean_number, $template_desc);
-
-$customer_email_lbl = '';
-$customer_email     = '';
-
-if ($this->userdata->email)
-{
-	$customer_email_lbl = JText::_('COM_REDSHOP_CUSTOMER_EMAIL');
-	$customer_email     = $this->userdata->email;
-}
-
-$template_desc = str_replace('{email_lbl}', $customer_email_lbl, $template_desc);
-$template_desc = str_replace('{email}', $customer_email, $template_desc);
-
-$customer_city_lbl = '';
-$customer_city     = '';
-
-if ($this->userdata->city)
-{
-	$customer_city_lbl = JText::_('COM_REDSHOP_CITY');
-	$customer_city     = $this->userdata->city;
-}
-
-$template_desc = str_replace('{city_lbl}', $customer_city_lbl, $template_desc);
-$template_desc = str_replace('{city}', $customer_city, $template_desc);
-
-$customer_phone_lbl = '';
-$customer_phone     = '';
-
-if ($this->userdata->phone)
-{
-	$customer_phone_lbl = JText::_('COM_REDSHOP_PHONE');
-	$customer_phone     = $this->userdata->phone;
-}
-
-$template_desc = str_replace('{phone_lbl}', $customer_phone_lbl, $template_desc);
-$template_desc = str_replace('{phone}', $customer_phone, $template_desc);
-
-$customer_zipcode_lbl = '';
-$customer_zipcode     = '';
-
-if ($this->userdata->zipcode)
-{
-	$customer_zipcode_lbl = JText::_('COM_REDSHOP_ZIP');
-	$customer_zipcode     = $this->userdata->zipcode;
-}
-
-$template_desc = str_replace('{zipcode_lbl}', $customer_zipcode_lbl, $template_desc);
-$template_desc = str_replace('{zipcode}', $customer_zipcode, $template_desc);
-
-$customer_add_lbl = '';
-$customer_add     = '';
-
-if ($this->userdata->address)
-{
-	$customer_add_lbl = JText::_('COM_REDSHOP_ADDRESS');
-	$customer_add     = $this->userdata->address;
-}
-
-$template_desc = str_replace('{address_lbl}', $customer_add_lbl, $template_desc);
-$template_desc = str_replace('{address}', $customer_add, $template_desc);
-
-$edit_account_link = '<a href="' . $accountbillto_link . '">' . JText::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION') . '</a>';
+$edit_account_link = '<a class="btn btn-primary" href="' . $accountbillto_link . '">' . JText::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION') . '</a>';
 $template_desc     = str_replace('{edit_account_link}', $edit_account_link, $template_desc);
 
 $template_desc = $carthelper->replaceNewsletterSubscription($template_desc, 1);
@@ -322,6 +160,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 			$order_data = str_replace('{order_index}', JText::_('COM_REDSHOP_ORDER_NUM'), $order_data);
 			$order_data = str_replace('{order_id}', $orderslist[$j]->order_id, $order_data);
 			$order_data = str_replace('{order_detail_link}', $order_detail, $order_data);
+			$order_data = str_replace('{order_total}', $producthelper->getProductFormattedPrice($orderslist[$j]->order_total), $order_data);
 		}
 	}
 	else
@@ -388,6 +227,23 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 	$template_desc = str_replace('{coupon_title}', $coupon_imagelbl, $template_desc);
 }
 
+
+if (strpos($template_desc, "{if coupon}") !== false && strpos($template_desc, "{coupon end if}") !== false)
+{
+	$template_d1 = explode("{if coupon}", $template_desc);
+	$template_d2 = explode("{coupon end if}", $template_d1[1]);
+
+	if (COUPONINFO && count($usercoupons))
+	{
+		$template_desc = str_replace("{if coupon}", "", $template_desc);
+		$template_desc = str_replace("{coupon end if}", "", $template_desc);
+	}
+	else
+	{
+		$template_desc = $template_d1[0] . $template_d2[1];
+	}
+}
+
 $tag_imagelbl = '';
 $tag_image    = '';
 $tag_link     = '';
@@ -408,6 +264,22 @@ if (MY_TAGS)
 $template_desc = str_replace('{tag_image}', $tag_image, $template_desc);
 $template_desc = str_replace('{tag_title}', $tag_imagelbl, $template_desc);
 $template_desc = str_replace('{edit_tag_link}', $tag_link, $template_desc);
+
+if (strpos($template_desc, "{if tag}") !== false && strpos($template_desc, "{tag end if}") !== false)
+{
+	$template_d1 = explode("{if tag}", $template_desc);
+	$template_d2 = explode("{tag end if}", $template_d1[1]);
+
+	if (MY_TAGS && $myTags > 0)
+	{
+		$template_desc = str_replace("{if tag}", "", $template_desc);
+		$template_desc = str_replace("{tag end if}", "", $template_desc);
+	}
+	else
+	{
+		$template_desc = $template_d1[0] . $template_d2[1];
+	}
+}
 
 if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "{quotation_loop_end}"))
 {
@@ -465,6 +337,22 @@ $wishlist_imagelbl  = '';
 $wishlist_image     = '';
 $edit_wishlist_link = '';
 
+if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc, "{quotation end if}") !== false)
+{
+	$template_d1 = explode("{if quotation}", $template_desc);
+	$template_d2 = explode("{quotation end if}", $template_d1[1]);
+
+	if (count($quotationlist))
+	{
+		$template_desc = str_replace("{if quotation}", "", $template_desc);
+		$template_desc = str_replace("{quotation end if}", "", $template_desc);
+	}
+	else
+	{
+		$template_desc = $template_d1[0] . $template_d2[1];
+	}
+}
+
 if (MY_WISHLIST)
 {
 	$wishlist_imagelbl  = JText::_('COM_REDSHOP_MY_WISHLIST');
@@ -481,6 +369,22 @@ if (MY_WISHLIST)
 $template_desc = str_replace('{wishlist_image}', $wishlist_image, $template_desc);
 $template_desc = str_replace('{wishlist_title}', $wishlist_imagelbl, $template_desc);
 $template_desc = str_replace('{edit_wishlist_link}', $edit_wishlist_link, $template_desc);
+
+if (strpos($template_desc, "{if wishlist}") !== false && strpos($template_desc, "{wishlist end if}") !== false)
+{
+	$template_d1 = explode("{if wishlist}", $template_desc);
+	$template_d2 = explode("{wishlist end if}", $template_d1[1]);
+
+	if ($myWishlist > 0)
+	{
+		$template_desc = str_replace("{if wishlist}", "", $template_desc);
+		$template_desc = str_replace("{wishlist end if}", "", $template_desc);
+	}
+	else
+	{
+		$template_desc = $template_d1[0] . $template_d2[1];
+	}
+}
 
 if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_desc, "{product_serial_loop_end}"))
 {
@@ -517,6 +421,22 @@ if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_de
 	$template_desc = str_replace($serial_desc, $serial_data, $template_desc);
 }
 
+if (strpos($template_desc, "{if product_serial}") !== false && strpos($template_desc, "{product_serial end if}") !== false)
+{
+	$template_d1 = explode("{if product_serial}", $template_desc);
+	$template_d2 = explode("{product_serial end if}", $template_d1[1]);
+
+	if (count($userDownloadProduct))
+	{
+		$template_desc = str_replace("{if product_serial}", "", $template_desc);
+		$template_desc = str_replace("{product_serial end if}", "", $template_desc);
+	}
+	else
+	{
+		$template_desc = $template_d1[0] . $template_d2[1];
+	}
+}
+
 $cmp_imagelbl = '';
 $cmp_image    = '';
 $cmp_link     = '';
@@ -526,7 +446,7 @@ if (COMPARE_PRODUCTS)
 	$cmp_imagelbl = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 	$cmp_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$cmp_link     = JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE');
-	$compare      = new RedshopProductCompare();
+	$compare      = new RedshopProductCompare;
 
 	if (!$compare->isEmpty())
 	{
@@ -534,9 +454,27 @@ if (COMPARE_PRODUCTS)
 	}
 }
 
+if (strpos($template_desc, "{if compare}") !== false && strpos($template_desc, "{compare end if}") !== false)
+{
+	$template_d1 = explode("{if compare}", $template_desc);
+	$template_d2 = explode("{compare end if}", $template_d1[1]);
+
+	if (COMPARE_PRODUCTS && !$compare->isEmpty())
+	{
+		$template_desc = str_replace("{if compare}", "", $template_desc);
+		$template_desc = str_replace("{compare end if}", "", $template_desc);
+	}
+	else
+	{
+		$template_desc = $template_d1[0] . $template_d2[1];
+	}
+}
+
 $template_desc = str_replace('{compare_image}', $cmp_image, $template_desc);
 $template_desc = str_replace('{compare_title}', $cmp_imagelbl, $template_desc);
 $template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
+$template_desc = str_replace('{if compare}', '', $template_desc);
+$template_desc = str_replace('{compare end if}', '', $template_desc);
 
 $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

@@ -1,158 +1,165 @@
-<table border="0" class="improvedTable">
-	<tbody>
-	<tr>
-		<td>{welcome_introtext}</td>
-	</tr>
-	<tr>
-		<td class="account_billinginfo">
-			<table border="0" cellspacing="10" cellpadding="10" width="100%">
-				<tbody>
-				<tr valign="top">
-					<td width="40%">{account_image}<strong>{account_title}</strong><br/><br/>
-						<table border="0" cellspacing="0" cellpadding="2">
-							<tbody>
-							<tr>
-								<td class="account_label">{fullname_lbl}</td>
-								<td class="account_field">{fullname}</td>
-							</tr>
-							<tr>
-								<td class="account_label">{state_lbl}</td>
-								<td class="account_field">{state}</td>
-							</tr>
-							<tr>
-								<td class="account_label">{country_lbl}</td>
-								<td class="account_field">{country}</td>
-							</tr>
-							<tr>
-								<td class="account_label">{vatnumber_lbl}</td>
-								<td class="account_field">{vatnumber}</td>
-							</tr>
-							<tr>
-								<td class="account_label">{ean_number_lbl}</td>
-								<td class="account_field">{ean_number}</td>
-							</tr>
-							<tr>
-								<td class="account_label">{email_lbl}</td>
-								<td class="account_field">{email}</td>
-							</tr>
-							<tr>
-								<td class="account_label">{company_name_lbl}</td>
-								<td class="account_field">{company_name}</td>
-							</tr>
-							<tr>
-								<td colspan="2">{edit_account_link}</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-					<td>
-						<table border="0">
-							<tbody>
-							<tr>
-								<td>{order_image}<strong>{order_title}</strong></td>
-							</tr>
-							<!-- {order_loop_start} -->
-							<tr>
-								<td>{order_index} {order_id} {order_detail_link}</td>
-							</tr>
-							<!-- {order_loop_end} -->
-							<tr>
-								<td>{more_orders}</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td class="account_shippinginfo">{shipping_image}<strong>{shipping_title}</strong> <br/><br/>
-						<table border="0">
-							<tbody>
-							<tr>
-								<td>{edit_shipping_link}</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-					<td>
-						<table border="0">
-							<tbody>
-							<tr>
-								<td>{quotation_image}<strong>{quotation_title}</strong></td>
-							</tr>
-							<!-- {quotation_loop_start} -->
-							<tr>
-								<td>{quotation_index} {quotation_id} {quotation_detail_link}</td>
-							</tr>
-							<!-- {quotation_loop_end} -->
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>{product_serial_image}<strong>{product_serial_title}</strong><br/><br/>
-						<table border="0">
-							<tbody>
-							<!-- {product_serial_loop_start} -->
-							<tr>
-								<td>{product_name} {product_serial_number}</td>
-							</tr>
-							<!-- {product_serial_loop_end} -->
-							</tbody>
-						</table>
-					</td>
-					<td>
-						<table border="0">
-							<tbody>
-							<tr>
-								<td>{coupon_image}<strong>{coupon_title}</strong></td>
-							</tr>
-							<!--  {coupon_loop_start} -->
-							<tr>
-								<td>{coupon_code_lbl} {coupon_code}</td>
-							</tr>
-							<tr>
-								<td>{coupon_value_lbl} {coupon_value}</td>
-							</tr>
-							<!-- {coupon_loop_end} -->
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>{wishlist_image}<strong>{wishlist_title}</strong><br/><br/>
-						<table border="0">
-							<tbody>
-							<tr>
-								<td>{edit_wishlist_link}</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-					<td>{compare_image}<strong>{compare_title}</strong> <br/><br/>
-						<table border="0">
-							<tbody>
-							<tr>
-								<td>{edit_compare_link}</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>{logout_link}</td>
-					<td>{tag_image}<strong>{tag_title}</strong><br/><br/>
-						<table border="0">
-							<tbody>
-							<tr>
-								<td>{edit_tag_link}</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	</tbody>
-</table>
+<div class="welcome_introtext">
+	{welcome_introtext}
+</div>
+
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{account_image} {account_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				{edit_account_link}
+				{billing_address}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{order_image} {order_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				<!-- {order_loop_start} -->
+				<div class="row">
+					<div class="col-sm-4">
+						{order_index}{order_id}
+					</div>
+
+					<div class="col-sm-4">
+						{order_total}
+					</div>
+
+					<div class="col-sm-4">
+						{order_detail_link}
+					</div>
+				</div>
+				<!-- {order_loop_end} -->
+
+				<div class="more_orders">{more_orders}</div>
+			</div>
+		</div>
+
+		{if quotation}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{quotation_image} {quotation_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				<!-- {quotation_loop_start} -->
+				<div class="row">
+					<div class="col-sm-4">
+						{quotation_index}{quotation_id}
+					</div>
+
+					<div class="col-sm-8">
+						{quotation_detail_link}
+					</div>
+				</div>
+				<!-- {quotation_loop_end} -->
+			</div>
+		</div>
+		{quotation end if}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{shipping_image} {shipping_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				{edit_shipping_link}
+			</div>
+		</div>
+
+		{if product_serial}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{product_serial_image} {product_serial_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				<!-- {product_serial_loop_start} -->
+				<div class="row">
+					<div class="col-sm-4">
+						{product_name}
+					</div>
+
+					<div class="col-sm-8">
+						{product_serial_number}
+					</div>
+				</div>
+				<!-- {product_serial_loop_end} -->
+			</div>
+		</div>
+		{product_serial end if}
+
+		{if coupon}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{coupon_image} {coupon_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				<!-- {coupon_loop_start} -->
+				<div class="row">
+					<div class="col-sm-4">
+						{coupon_code_lbl} {coupon_code}
+					</div>
+
+					<div class="col-sm-8">
+						{coupon_value_lbl} {coupon_value}
+					</div>
+				</div>
+				<!-- {coupon_loop_end} -->
+			</div>
+		</div>
+		{coupon end if}
+
+		{if wishlist}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{wishlist_image} {wishlist_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				{edit_wishlist_link}
+			</div>
+		</div>
+		{wishlist end if}
+
+		{if compare}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{compare_image} {compare_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				{edit_compare_link}
+			</div>
+		</div>
+		{compare end if}
+
+		{if tag}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{tag_image} {tag_title}</h3>
+			</div>
+
+			<div class="panel-body">
+				{edit_tag_link}
+			</div>
+		</div>
+		{tag end if}
+	</div>
+</div>
+
+<div class="logout_link">{logout_link}</div>
+
