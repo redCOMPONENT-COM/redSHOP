@@ -101,10 +101,6 @@
 
 }
 
-.gd_navigation {
-	margin-bottom: 10px;
-}
-
 .redshop_links {
 	> div {
 		margin-top: 10px;
@@ -269,5 +265,21 @@ input[type="color"],
 	label
 	{
 		padding-left: 0;
+	}
+}
+
+.gd_navigation
+{
+	margin-bottom: 10px;
+	overflow: hidden;
+
+	.gd_nav_left
+	{
+		float: left;
+	}
+
+	.gd_nav_right
+	{
+		float: right;
 	}
 }
