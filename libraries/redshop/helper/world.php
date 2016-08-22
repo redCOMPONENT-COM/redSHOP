@@ -69,14 +69,17 @@ class RedshopHelperWorld
 			return $this->countries;
 		}
 
+		// Load allowed contries from config
 		$countriesList = Redshop::getConfig()->get('COUNTRY_LIST');
 
 		if ($countriesList)
 		{
+			// Covert them into an array
 			$countriesList = explode(',', $countriesList);
 
 			if (!empty($countriesList))
 			{
+				// Quote them and prepare for query
 				array_walk($countriesList, function(&$country, $key, $db) {
 						$country = $db->quote($country);
 				}, $db);
