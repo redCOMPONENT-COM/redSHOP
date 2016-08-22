@@ -1041,11 +1041,10 @@ class rsUserhelper
 	{
 		$world = RedshopHelperWorld::getInstance();
 
-		$ajax                  = (isset($lists['isAjax']) && $lists['isAjax'] == 1) ? 1 : 0;
 		$countryarray          = $world->getCountryList($post);
 		$post['country_code']  = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray            = $world->getStateList($post, 'state_code', 'country_code', 'BT', $ajax);
+		$statearray            = $world->getStateList($post);
 		$lists['state_code']   = $statearray['state_dropdown'];
 		$countrystyle          = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
 		$statestyle            = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
@@ -1213,11 +1212,11 @@ class rsUserhelper
 		}
 
 		$read_only                = "";
-		$countryarray             = $world->getCountryList($post, "country_code_ST", "ST", "inputbox billingRequired valid", 'state_code_ST');
+		$countryarray             = $world->getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
 		$post['country_code_ST']  = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 
-		$statearray               = $world->getStateList($post, "state_code_ST", "country_code_ST", "ST", 0, "");
+		$statearray               = $world->getStateList($post, 'state_code_ST', 'ST');
 		$lists['state_code_ST']   = $statearray['state_dropdown'];
 
 		$countrystyle = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';

@@ -810,9 +810,8 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
-		$extra_field      = extra_field::getInstance();
-		$Redconfiguration = Redconfiguration::getInstance();
-		$world            = RedshopHelperWorld::getInstance();
+		$extra_field = extra_field::getInstance();
+		$world       = RedshopHelperWorld::getInstance();
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE address_type like "ST" '
@@ -852,7 +851,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$shipping->country_code_ST = $shipping->country_code = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 
-		$statearray = $world->getStateList((array) $shipping, "state_code_ST", "country_code_ST", "ST", 1);
+		$statearray = $world->getStateList((array) $shipping, "state_code_ST", "ST");
 		$lists['state_code_ST'] = $statearray['state_dropdown'];
 
 		$htmlshipping = '<table class="adminlist" border="0" width="100%">';

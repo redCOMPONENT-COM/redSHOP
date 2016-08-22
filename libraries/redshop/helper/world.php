@@ -228,14 +228,12 @@ class RedshopHelperWorld
 	 *
 	 * @param   array   $post             $post get from $_POST request
 	 * @param   string  $stateListName    State Code from billing or Shipping
-	 * @param   string  $countryListName  Country code from billing or shipping
 	 * @param   string  $addressType      Distinguish billing or shipping
-	 * @param   number  $isAdmin          It will determine is admin or site front end
 	 * @param   string  $class            Class of state of selected field
 	 *
 	 * @return array
 	 */
-	public function getStateList($post = array(), $stateListName = "state_code", $countryListName = "country_code", $addressType = "BT", $isAdmin = 0, $class = "inputbox")
+	public function getStateList($post = array(), $stateListName = "state_code", $addressType = "BT", $class = "inputbox")
 	{
 		$selectedCountryCode = Redshop::getConfig()->get('SHOP_COUNTRY');
 
