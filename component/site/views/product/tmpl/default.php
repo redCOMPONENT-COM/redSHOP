@@ -1207,24 +1207,24 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 			$cart_id = "";
 		}
 
-		$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $this->data->product_id);
+		$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $this->data->product_id);
 
-		$ufield .= $product_userfileds[1];
+		$ufield .= $product_userfields[1];
 
-		if ($product_userfileds[1] != "")
+		if ($product_userfields[1] != "")
 		{
 			$count_no_user_field++;
 		}
 
-		$template_desc = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_desc);
-		$template_desc = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_desc);
+		$template_desc = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfields[0], $template_desc);
+		$template_desc = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfields[1], $template_desc);
 	}
 
-	$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+	$product_userfields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 	if ($ufield != "")
 	{
-		$template_desc = str_replace("{if product_userfield}", $product_userfileds_form, $template_desc);
+		$template_desc = str_replace("{if product_userfield}", $product_userfields_form, $template_desc);
 		$template_desc = str_replace("{product_userfield end if}", "</form>", $template_desc);
 	}
 	else

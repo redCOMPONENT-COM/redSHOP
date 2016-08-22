@@ -3634,8 +3634,8 @@ class rsCarthelper
 						{
 							for ($ui = 0; $ui < count($extrafield_payment); $ui++)
 							{
-								$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
-								$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
+								$product_userfields = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
+								$extrafield_total .= $product_userfields[0] . " " . $product_userfields[1] . "<br>";
 								$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
 							}
 
@@ -5848,7 +5848,7 @@ class rsCarthelper
 				{
 					$sameGiftCard = true;
 
-					// Product userfiled
+					// Product userfield
 					if (!empty($row_data))
 					{
 						for ($r = 0, $countRowData = count($row_data); $r < $countRowData; $r++)
@@ -6232,7 +6232,7 @@ class rsCarthelper
 					 */
 					$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct));
 
-					// Product userfiled
+					// Product userfield
 					if (!empty($row_data))
 					{
 						$puf = 1;

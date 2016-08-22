@@ -547,23 +547,23 @@ class RedshopViewSearch extends RedshopView
 
 					for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 					{
-						$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
-						$ufield .= $product_userfileds[1];
+						$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
+						$ufield .= $product_userfields[1];
 
-						if ($product_userfileds[1] != "")
+						if ($product_userfields[1] != "")
 						{
 							$count_no_user_field++;
 						}
 
-						$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $data_add);
-						$data_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $data_add);
+						$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfields[0], $data_add);
+						$data_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfields[1], $data_add);
 					}
 
-					$product_userfileds_form = "<form method='post' action='' id='user_fields_form_" . $this->search[$i]->product_id . "' name='user_fields_form_" . $this->search[$i]->product_id . "'>";
+					$product_userfields_form = "<form method='post' action='' id='user_fields_form_" . $this->search[$i]->product_id . "' name='user_fields_form_" . $this->search[$i]->product_id . "'>";
 
 					if ($ufield != "")
 					{
-						$data_add = str_replace("{if product_userfield}", $product_userfileds_form, $data_add);
+						$data_add = str_replace("{if product_userfield}", $product_userfields_form, $data_add);
 						$data_add = str_replace("{product_userfield end if}", "</form>", $data_add);
 					}
 					else
@@ -592,16 +592,16 @@ class RedshopViewSearch extends RedshopView
 
 						for ($ui = 0, $countUserField = count($userfieldArr); $ui < $countUserField; $ui++)
 						{
-							$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
-							$ufield .= $product_userfileds[1];
+							$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $this->search[$i]->product_id);
+							$ufield .= $product_userfields[1];
 
-							if ($product_userfileds[1] != "")
+							if ($product_userfields[1] != "")
 							{
 								$count_no_user_field++;
 							}
 
-							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_userfield);
-							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_userfield);
+							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfields[0], $template_userfield);
+							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfields[1], $template_userfield);
 						}
 
 						if ($ufield != "")

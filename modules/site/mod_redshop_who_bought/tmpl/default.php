@@ -89,16 +89,16 @@ if (count($rows))
 
 				for ($ui = 0; $ui < count($userfieldArr); $ui++)
 				{
-					$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
-					$ufield .= $product_userfileds[1];
+					$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
+					$ufield .= $product_userfields[1];
 
-					if ($product_userfileds[1] != "")
+					if ($product_userfields[1] != "")
 					{
 						$count_no_user_field++;
 					}
 
-					$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template_userfield);
-					$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template_userfield);
+					$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfields[0], $template_userfield);
+					$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfields[1], $template_userfield);
 				}
 
 				if ($ufield != "")

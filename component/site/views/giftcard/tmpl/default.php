@@ -209,24 +209,24 @@ if ($gid != 0)
 				$cart_id = "";
 			}
 
-			$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
+			$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
 
-			$ufield .= $product_userfileds[1];
+			$ufield .= $product_userfields[1];
 
-			if ($product_userfileds[1] != "")
+			if ($product_userfields[1] != "")
 			{
 				$count_no_user_field++;
 			}
 
-			$template = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $template);
-			$template = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $template);
+			$template = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfields[0], $template);
+			$template = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfields[1], $template);
 		}
 
-		$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+		$product_userfields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 		if ($ufield != "")
 		{
-			$template = str_replace("{if giftcard_userfield}", $product_userfileds_form, $template);
+			$template = str_replace("{if giftcard_userfield}", $product_userfields_form, $template);
 			$template = str_replace("{giftcard_userfield end if}", "</form>", $template);
 		}
 		else
