@@ -1146,9 +1146,9 @@ class redshopMail
 
 			$product_note = "<div class='product_note'>" . $wrapper_name . "</div>";
 			$cart_mdata = str_replace("{product_wrapper}", $product_note, $cart_mdata);
-			$product_userfields = $quotationHelper->displayQuotationUserfield($rowitem[$i]->quotation_item_id, 12);
+			$productUserFields = $quotationHelper->displayQuotationUserfield($rowitem[$i]->quotation_item_id, 12);
 
-			$cart_mdata = str_replace("{product_userfields}", $product_userfields, $cart_mdata);
+			$cart_mdata = str_replace("{product_userfields}", $productUserFields, $cart_mdata);
 			$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cart_mdata);
 			$cart_mdata = str_replace("{product_number}", $product->product_number, $cart_mdata);
 			$cart_mdata = str_replace(

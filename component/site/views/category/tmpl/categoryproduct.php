@@ -242,25 +242,25 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 					for ($ui = 0; $ui < count($userfieldArr); $ui++)
 					{
-						$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
-						$ufield .= $product_userfields[1];
+						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
+						$ufield .= $productUserFields[1];
 
-						if ($product_userfields[1] != "")
+						if ($productUserFields[1] != "")
 						{
 							$count_no_user_field++;
 						}
 
-						$prddata_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfields[0], $prddata_add);
-						$prddata_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfields[1], $prddata_add);
+						$prddata_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $prddata_add);
+						$prddata_add = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $prddata_add);
 					}
 
-					$product_userfields_form = "<form method='post' action='' id='user_fields_form_" .
+					$productUserFields_form = "<form method='post' action='' id='user_fields_form_" .
 												$product->product_id . "' name='user_fields_form_" .
 												$product->product_id . "'>";
 
 					if ($ufield != "")
 					{
-						$prddata_add = str_replace("{if product_userfield}", $product_userfields_form, $prddata_add);
+						$prddata_add = str_replace("{if product_userfield}", $productUserFields_form, $prddata_add);
 						$prddata_add = str_replace("{product_userfield end if}", "</form>", $prddata_add);
 					}
 					else
@@ -289,16 +289,16 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 						for ($ui = 0; $ui < count($userfieldArr); $ui++)
 						{
-							$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
-							$ufield .= $product_userfields[1];
+							$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $product->product_id);
+							$ufield .= $productUserFields[1];
 
-							if ($product_userfields[1] != "")
+							if ($productUserFields[1] != "")
 							{
 								$count_no_user_field++;
 							}
 
-							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfields[0], $template_userfield);
-							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfields[1], $template_userfield);
+							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $template_userfield);
+							$template_userfield = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $template_userfield);
 						}
 
 						if ($ufield != "")

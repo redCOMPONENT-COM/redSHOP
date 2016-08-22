@@ -266,7 +266,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 					$quo->product_price = $quo->product_excl_price + $vat;
 				}
 
-				$product_userfield = $quotationHelper->displayQuotationUserfield($quo->quotation_item_id, $section);
+				$productUserField = $quotationHelper->displayQuotationUserfield($quo->quotation_item_id, $section);
 
 				$product_attribute = "<br/>" . $producthelper->makeAttributeQuotation($quo->quotation_item_id, 0, $quo->product_id);
 				$product_accessory = "<br/>" . $producthelper->makeAccessoryQuotation($quo->quotation_item_id);
@@ -283,7 +283,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 					}
 				}
 
-				$product_title = $quo->product_name . $product_number . $product_attribute . $product_accessory . $product_userfield;
+				$product_title = $quo->product_name . $product_number . $product_attribute . $product_accessory . $productUserField;
 
 				$product_total = $quo->product_price * $quo->product_quantity;
 				$product_tax = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;

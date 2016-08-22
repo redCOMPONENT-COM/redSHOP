@@ -505,7 +505,7 @@ class RedshopAdminProduct
 		$returnArr = $producthelper->getProductUserfieldFromTemplate($template_desc[0]->template_desc);
 
 		$commonid = $product_id . $unique_id;
-		$product_userfields = "<table>";
+		$productUserFields = "<table>";
 
 		for ($ui = 0; $ui < count($returnArr[1]); $ui++)
 		{
@@ -514,13 +514,13 @@ class RedshopAdminProduct
 
 			if ($result_arr[0] != "")
 			{
-				$product_userfields .= "<tr><td>" . $result_arr[0] . "</td><td>" . $result_arr[1] . $hidden_arr[1] . "</td></tr>";
+				$productUserFields .= "<tr><td>" . $result_arr[0] . "</td><td>" . $result_arr[1] . $hidden_arr[1] . "</td></tr>";
 			}
 		}
 
-		$product_userfields .= "</table>";
+		$productUserFields .= "</table>";
 
-		return $product_userfields;
+		return $productUserFields;
 	}
 
 	public function admin_insertProdcutUserfield($field_id = 0, $order_item_id = 0, $section_id = 12, $value = '')

@@ -1744,9 +1744,9 @@ class rsCarthelper
 
 			$cart_mdata = str_replace("{product_accessory}", $this->_producthelper->makeAccessoryOrder($rowitem [$i]->order_item_id), $cart_mdata);
 
-			$product_userfields = $this->_producthelper->getuserfield($rowitem [$i]->order_item_id, $userfield_section);
+			$productUserFields = $this->_producthelper->getuserfield($rowitem [$i]->order_item_id, $userfield_section);
 
-			$cart_mdata = str_replace("{product_userfields}", $product_userfields, $cart_mdata);
+			$cart_mdata = str_replace("{product_userfields}", $productUserFields, $cart_mdata);
 
 			$user_custom_fields = $this->_producthelper->GetProdcutfield_order($rowitem [$i]->order_item_id);
 			$cart_mdata         = str_replace("{product_customfields}", $user_custom_fields, $cart_mdata);
@@ -3634,8 +3634,8 @@ class rsCarthelper
 						{
 							for ($ui = 0; $ui < count($extrafield_payment); $ui++)
 							{
-								$product_userfields = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
-								$extrafield_total .= $product_userfields[0] . " " . $product_userfields[1] . "<br>";
+								$productUserFields = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
+								$extrafield_total .= $productUserFields[0] . " " . $productUserFields[1] . "<br>";
 								$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
 							}
 

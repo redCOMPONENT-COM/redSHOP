@@ -296,34 +296,34 @@ if ($mail == 0)
 						$cart_id = "";
 					}
 
-					$product_userfields_final = $wishlistuserfielddata[$ui]->userfielddata;
+					$productUserFields_final = $wishlistuserfielddata[$ui]->userfielddata;
 
-					if ($product_userfields_final != '')
+					if ($productUserFields_final != '')
 					{
-						$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $product_userfields_final, 1);
+						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFields_final, 1);
 					}
 					else
 					{
-						$product_userfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
+						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
 					}
 
-					$ufield .= $product_userfields[1];
+					$ufield .= $productUserFields[1];
 
 					//
-					if ($product_userfields[1] != "")
+					if ($productUserFields[1] != "")
 					{
 						$count_no_user_field++;
 					}
 
-					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfields[0], $wishlist_data);
-					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfields[1], $wishlist_data);
+					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $wishlist_data);
+					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $wishlist_data);
 				}
 
-				$product_userfields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+				$productUserFields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 				if ($ufield != "")
 				{
-					$wishlist_data = str_replace("{if product_userfield}", $product_userfields_form, $wishlist_data);
+					$wishlist_data = str_replace("{if product_userfield}", $productUserFields_form, $wishlist_data);
 					$wishlist_data = str_replace("{product_userfield end if}", "</form>", $wishlist_data);
 				}
 				else
