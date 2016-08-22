@@ -268,11 +268,11 @@ class plgContentredshop_product extends JPlugin
 						$prtemplate = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $prtemplate);
 					}
 
-					$productUserFields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+					$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 					if ($ufield != "")
 					{
-						$prtemplate = str_replace("{if product_userfield}", $productUserFields_form, $prtemplate);
+						$prtemplate = str_replace("{if product_userfield}", $productUserFieldsForm, $prtemplate);
 						$prtemplate = str_replace("{product_userfield end if}", "</form>", $prtemplate);
 					}
 					else

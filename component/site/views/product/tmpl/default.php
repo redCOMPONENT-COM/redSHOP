@@ -1220,11 +1220,11 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 		$template_desc = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $template_desc);
 	}
 
-	$productUserFields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+	$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 	if ($ufield != "")
 	{
-		$template_desc = str_replace("{if product_userfield}", $productUserFields_form, $template_desc);
+		$template_desc = str_replace("{if product_userfield}", $productUserFieldsForm, $template_desc);
 		$template_desc = str_replace("{product_userfield end if}", "</form>", $template_desc);
 	}
 	else

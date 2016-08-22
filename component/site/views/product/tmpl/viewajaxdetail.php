@@ -150,11 +150,11 @@ if (count($ajaxdetal_template) > 0)
 			}
 		}
 
-		$productUserFields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+		$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 		if ($ufield != "")
 		{
-			$data_add = str_replace("{if product_userfield}", $productUserFields_form, $data_add);
+			$data_add = str_replace("{if product_userfield}", $productUserFieldsForm, $data_add);
 			$data_add = str_replace("{product_userfield end if}", "</form>", $data_add);
 		}
 		else

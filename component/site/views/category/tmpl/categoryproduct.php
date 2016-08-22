@@ -254,13 +254,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 						$prddata_add = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $prddata_add);
 					}
 
-					$productUserFields_form = "<form method='post' action='' id='user_fields_form_" .
+					$productUserFieldsForm = "<form method='post' action='' id='user_fields_form_" .
 												$product->product_id . "' name='user_fields_form_" .
 												$product->product_id . "'>";
 
 					if ($ufield != "")
 					{
-						$prddata_add = str_replace("{if product_userfield}", $productUserFields_form, $prddata_add);
+						$prddata_add = str_replace("{if product_userfield}", $productUserFieldsForm, $prddata_add);
 						$prddata_add = str_replace("{product_userfield end if}", "</form>", $prddata_add);
 					}
 					else

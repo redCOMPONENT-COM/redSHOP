@@ -296,11 +296,11 @@ if ($mail == 0)
 						$cart_id = "";
 					}
 
-					$productUserFields_final = $wishlistuserfielddata[$ui]->userfielddata;
+					$productUserFieldsFinal = $wishlistuserfielddata[$ui]->userfielddata;
 
-					if ($productUserFields_final != '')
+					if ($productUserFieldsFinal != '')
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFields_final, 1);
+						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
 					}
 					else
 					{
@@ -319,11 +319,11 @@ if ($mail == 0)
 					$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $wishlist_data);
 				}
 
-				$productUserFields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+				$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 				if ($ufield != "")
 				{
-					$wishlist_data = str_replace("{if product_userfield}", $productUserFields_form, $wishlist_data);
+					$wishlist_data = str_replace("{if product_userfield}", $productUserFieldsForm, $wishlist_data);
 					$wishlist_data = str_replace("{product_userfield end if}", "</form>", $wishlist_data);
 				}
 				else

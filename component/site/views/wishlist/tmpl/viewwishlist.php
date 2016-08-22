@@ -491,13 +491,13 @@ function display_products($rows)
 					{
 						if ($_SESSION ['wish_' . $check_i]->product_id == $row->product_id)
 						{
-							$productUserFields_final = $_SESSION['wish_' . $check_i]->$mysesspro;
+							$productUserFieldsFinal = $_SESSION['wish_' . $check_i]->$mysesspro;
 						}
 					}
 
-					if ($productUserFields_final != '')
+					if ($productUserFieldsFinal != '')
 					{
-						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFields_final, 1);
+						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
 					}
 					else
 					{
@@ -512,7 +512,7 @@ function display_products($rows)
 						$count_no_user_field++;
 					}
 
-					if ($productUserFields_final != '')
+					if ($productUserFieldsFinal != '')
 					{
 						$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $wishlist_data);
 						$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $wishlist_data);
@@ -524,11 +524,11 @@ function display_products($rows)
 					}
 				}
 
-				$productUserFields_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+				$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 				if ($ufield != "")
 				{
-					$wishlist_data = str_replace("{if product_userfield}", $productUserFields_form, $wishlist_data);
+					$wishlist_data = str_replace("{if product_userfield}", $productUserFieldsForm, $wishlist_data);
 					$wishlist_data = str_replace("{product_userfield end if}", "</form>", $wishlist_data);
 				}
 				else
