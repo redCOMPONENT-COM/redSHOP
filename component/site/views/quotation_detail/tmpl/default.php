@@ -215,14 +215,14 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 
 	if ($quotationProducts [$i]->is_giftcard == 1)
 	{
-		$product_userfields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 13);
+		$productUserFields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 13);
 		$giftcardData       = $producthelper->getGiftcardData($quotationProducts[$i]->product_id);
 
 		$product_number = "";
 	}
 	else
 	{
-		$product_userfields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 12);
+		$productUserFields = $quotationHelper->displayQuotationUserfield($quotationProducts[$i]->quotation_item_id, 12);
 
 		$product = $producthelper->getProductById($quotationProducts[$i]->product_id);
 
@@ -289,7 +289,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 
 	$cart_mdata = str_replace("{product_number}", $product_number, $cart_mdata);
 	$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $cart_mdata);
-	$cart_mdata = str_replace("{product_userfields}", $product_userfields, $cart_mdata);
+	$cart_mdata = str_replace("{product_userfields}", $productUserFields, $cart_mdata);
 	$cart_mdata = str_replace("{product_wrapper}", $product_note, $cart_mdata);
 
 	// ProductFinderDatepicker Extra Field Start

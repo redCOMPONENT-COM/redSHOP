@@ -48,7 +48,7 @@ class RedshopControllerCart extends RedshopController
 		$model                      = $this->getModel('cart');
 
 		// Call add method of modal to store product in cart session
-		$userfiled = JRequest::getVar('userfiled');
+		$userfield = JRequest::getVar('userfield');
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
@@ -202,7 +202,7 @@ class RedshopControllerCart extends RedshopController
 					false
 				);
 
-		if (!$userfiled)
+		if (!$userfield)
 		{
 			if (AJAX_CART_BOX == 1 && isset($post['ajax_cart_box']))
 			{

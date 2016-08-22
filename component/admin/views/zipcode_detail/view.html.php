@@ -48,14 +48,16 @@ class RedshopViewZipcode_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$countryarray = $Redconfiguration->getCountryList((array) $detail);
-		$detail->country_code = $countryarray['country_code'];
+		$world                 = RedshopHelperWorld::getInstance();
+		$countryarray          = $world->getCountryList((array) $detail);
+		$detail->country_code  = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $detail);
-		$lists['state_code'] = $statearray['state_dropdown'];
 
-		$this->detail = $detail;
-		$this->lists = $lists;
+		$statearray            = $world->getStateList((array) $detail);
+		$lists['state_code']   = $statearray['state_dropdown'];
+
+		$this->detail      = $detail;
+		$this->lists       = $lists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

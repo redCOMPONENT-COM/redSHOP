@@ -43,8 +43,6 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 
 		$lists = array();
 		$model = $this->getModel();
-		$Redconfiguration = Redconfiguration::getInstance();
-
 		$user_id = JRequest::getVar('user_id', 0);
 
 		if ($user_id != 0)
@@ -71,18 +69,19 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 		JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
 		JToolBarHelper::cancel();
 
-		// PRODUCT/ATTRIBUTE STOCK ROOM QUANTITY CHECKING IS IMPLEMENTED
+		$world                         = RedshopHelperWorld::getInstance();
 
-		$countryarray = $Redconfiguration->getCountryList((array) $billing);
-		$billing->country_code = $countryarray['country_code'];
-		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $billing);
-		$lists['state_code'] = $statearray['state_dropdown'];
+		$countryarray                  = $world->getCountryList((array) $billing);
+		$billing->country_code         = $countryarray['country_code'];
+		$lists['country_code']         = $countryarray['country_dropdown'];
+
+		$statearray                    = $world->getStateList((array) $billing);
+		$lists['state_code']           = $statearray['state_dropdown'];
 		$lists['quotation_extrafield'] = $extra_field->list_all_field(16, $billing->users_info_id);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
-		$this->billing = $billing;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
+		$this->billing     = $billing;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

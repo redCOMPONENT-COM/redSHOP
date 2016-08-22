@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 class RedshopViewAddorder_detail extends RedshopViewAdmin
 {
 	/**
@@ -31,7 +29,7 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 	{
 		$extra_field      = extra_field::getInstance();
 		$order_functions  = order_functions::getInstance();
-		$Redconfiguration = Redconfiguration::getInstance();
+		$world            = RedshopHelperWorld::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
@@ -132,18 +130,21 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 		JToolBarHelper::custom('validateUserDetail', 'apply.png', 'apply_f2.png', JText::_('COM_REDSHOP_SAVE_USER_INFORMATION'), false);
 		JToolBarHelper::cancel();
 
-		$countryarray = $Redconfiguration->getCountryList((array) $billing, "country_code", "BT");
+		$countryarray          = $world->getCountryList((array) $billing);
 		$billing->country_code = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $billing, "state_code", "country_code", "BT", 1);
+
+		$statearray          = $world->getStateList((array) $billing, "state_code", "country_code", "BT", 1);
 		$lists['state_code'] = $statearray['state_dropdown'];
 
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code;
-		$countryarray = $Redconfiguration->getCountryList((array) $shipping, "country_code_ST", "ST");
+		$countryarray = $world->getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code = $countryarray['country_code_ST'];
+
 		$shipping['state_code_ST'] = $shippinginfo[$key]->state_code;
-		$lists['country_code_ST'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $shipping, "state_code_ST", "country_code_ST", "ST", 1);
+		$lists['country_code_ST']  = $countryarray['country_dropdown'];
+
+		$statearray = $world->getStateList((array) $shipping, "state_code_ST", "ST");
 		$lists['state_code_ST'] = $statearray['state_dropdown'];
 
 		$lists['is_company'] = JHTML::_('select.booleanlist', 'is_company',
@@ -152,10 +153,10 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 			JText::_('COM_REDSHOP_USER_CUSTOMER')
 		);
 
-		$lists['customer_field'] = $extra_field->list_all_field(7, $billing->users_info_id);
-		$lists['company_field'] = $extra_field->list_all_field(8, $billing->users_info_id);
+		$lists['customer_field']          = $extra_field->list_all_field(7, $billing->users_info_id);
+		$lists['company_field']           = $extra_field->list_all_field(8, $billing->users_info_id);
 		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shippinginfo[0]->users_info_id);
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shippinginfo[0]->users_info_id);
+		$lists['shipping_company_field']  = $extra_field->list_all_field(15, $shippinginfo[0]->users_info_id);
 
 		$this->lists = $lists;
 		$this->detail = $detail;

@@ -741,8 +741,8 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				if ($extrafield_shipping[$ui] != "")
 				{
-					$product_userfileds = $extraField->list_all_user_fields($extrafield_shipping[$ui], 19, '', 0, 0, 0);
-					$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
+					$productUserFields = $extraField->list_all_user_fields($extrafield_shipping[$ui], 19, '', 0, 0, 0);
+					$extrafield_total .= $productUserFields[0] . " " . $productUserFields[1] . "<br>";
 					$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_shipping[$ui] . "'>";
 				}
 			}

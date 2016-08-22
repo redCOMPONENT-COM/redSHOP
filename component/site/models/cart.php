@@ -51,34 +51,20 @@ class RedshopModelCart extends RedshopModel
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->_table_prefix = '#__redshop_';
 
 		$this->_producthelper = RedshopSiteProduct::getInstance();
 		$this->_carthelper    = RedshopSiteCart::getInstance();
 		$this->_userhelper    = RedshopSiteUser::getInstance();
 		$this->_objshipping   = shipping::getInstance();
+		$user                 = JFactory::getUser();
+		$session              = JFactory::getSession();
 
-		if (JModuleHelper::isEnabled('redshop_cart'))
-		{
-			$cart_param        = JModuleHelper::getModule('redshop_cart');
-			$cart_param_main   = new JRegistry($cart_param->params);
-			$use_cookies_value = $cart_param_main->get('use_cookies_value', '');
+		// Remove expired products from cart
+		$this->emptyExpiredCartProducts();
 
-			if ($use_cookies_value == 0)
-			{
-				$this->emptyExpiredCartProducts();
-			}
-		}
-		else
-		{
-			$this->emptyExpiredCartProducts();
-		}
-
-		$user = JFactory::getUser();
-
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$task    = JRequest::getVar('task');
+		$cart = $session->get('cart');
 
 		if (!empty($cart))
 		{
@@ -102,6 +88,8 @@ class RedshopModelCart extends RedshopModel
 				{
 					$cart                          = $this->_carthelper->modifyCart($cart, $user_id);
 					$cart['user_shopper_group_id'] = $shopperGroupId;
+
+					$task = JFactory::getApplication()->input->getCmd('task');
 
 					if ($task != 'coupon' && $task != 'voucher')
 					{
@@ -630,12 +618,14 @@ class RedshopModelCart extends RedshopModel
 	public function shippingrate_calc()
 	{
 		JHTML::script('com_redshop/common.js', false, true);
-		$redConfig = Redconfiguration::getInstance();
 
-		$countryarray         = $redConfig->getCountryList();
+		$world = RedshopHelperWorld::getInstance();
+
+		$countryarray         = $world->getCountryList();
 		$post['country_code'] = $countryarray['country_code'];
 		$conutry              = $countryarray['country_dropdown'];
-		$statearray           = $redConfig->getStateList($post);
+
+		$statearray           = $world->getStateList($post);
 		$state                = $statearray['state_dropdown'];
 
 		$shipping_calc = "<form name='adminForm' id='adminForm'>";

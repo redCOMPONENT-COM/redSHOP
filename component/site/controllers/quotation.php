@@ -62,7 +62,7 @@ class RedshopControllerQuotation extends RedshopController
 			$session->set('cart', null);
 			$session->set('ccdata', null);
 			$session->set('issplit', null);
-			$session->set('userfiled', null);
+			$session->set('userfield', null);
 			unset ($_SESSION ['ccdata']);
 
 			if ($return)
