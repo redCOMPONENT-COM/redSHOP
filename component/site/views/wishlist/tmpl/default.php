@@ -141,7 +141,7 @@ if ($flage) : ?>
 
 	<script language="javascript" type="text/javascript">
 		function submitform() {
-			if (document.adminForm.boxchecked.value != '1')
+			if (document.adminForm.boxchecked.value == '0')
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_WISHLIST')?>");
 			else
 				document.adminForm.submit();
