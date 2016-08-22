@@ -15,7 +15,6 @@ class RedshopViewUser_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
-		$Redconfiguration = Redconfiguration::getInstance();
 		$userhelper       = rsUserHelper::getInstance();
 		$extra_field      = extra_field::getInstance();
 		$shoppergroup     = new shoppergroup;
@@ -84,14 +83,16 @@ class RedshopViewUser_detail extends RedshopView
 		$this->lists['shipping_customer_field'] = $extra_field->list_all_field(14, $this->detail->users_info_id);
 		$this->lists['shipping_company_field']  = $extra_field->list_all_field(15, $this->detail->users_info_id);
 
-		$countryarray                           = $Redconfiguration->getCountryList((array) $this->detail);
-		$this->detail->country_code             = $countryarray['country_code'];
-		$this->lists['country_code']            = $countryarray['country_dropdown'];
+		$world = RedshopHelperWorld::getInstance();
 
-		$statearray                             = $Redconfiguration->getStateList((array) $this->detail);
-		$this->lists['state_code']              = $statearray['state_dropdown'];
+		$countryarray                = $world->getCountryList((array) $this->detail);
+		$this->detail->country_code  = $countryarray['country_code'];
+		$this->lists['country_code'] = $countryarray['country_dropdown'];
 
-		$this->request_url                      = JFactory::getURI()->toString();
+		$statearray                  = $world->getStateList((array) $this->detail);
+		$this->lists['state_code']   = $statearray['state_dropdown'];
+
+		$this->request_url           = JFactory::getURI()->toString();
 
 		parent::display($tpl);
 	}

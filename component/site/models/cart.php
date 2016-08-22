@@ -618,12 +618,14 @@ class RedshopModelCart extends RedshopModel
 	public function shippingrate_calc()
 	{
 		JHTML::script('com_redshop/common.js', false, true);
-		$redConfig = Redconfiguration::getInstance();
 
-		$countryarray         = $redConfig->getCountryList();
+		$world = RedshopHelperWorld::getInstance();
+
+		$countryarray         = $world->getCountryList();
 		$post['country_code'] = $countryarray['country_code'];
 		$conutry              = $countryarray['country_dropdown'];
-		$statearray           = $redConfig->getStateList($post);
+
+		$statearray           = $world->getStateList($post);
 		$state                = $statearray['state_dropdown'];
 
 		$shipping_calc = "<form name='adminForm' id='adminForm'>";

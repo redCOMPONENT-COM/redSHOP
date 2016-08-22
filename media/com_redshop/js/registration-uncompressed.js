@@ -1,3 +1,52 @@
+var redSHOP = window.redSHOP || {};
+
+redSHOP.prepareStateList = function(countryListEle, stateListEle){
+
+	jQuery.ajax({
+		url: redSHOP.RSConfig._('AJAX_BASE_URL'),
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			view: 'registration',
+			task: 'getStatesAjax',
+			country: countryListEle.val()
+		}
+	})
+	.done(function(data) {
+
+		// Remove all the options
+		stateListEle.empty();
+
+		// Now let's hide state list by default
+		jQuery('#div_state_txt').hide();
+		stateListEle.parent().parent().hide();
+		stateListEle.hide();
+
+		// And show it when it has actua options
+		if (data.length)
+		{
+			jQuery('#div_state_txt').show();
+			stateListEle.parent().parent().show();
+			stateListEle.show();
+		}
+
+		// Generate options for select lists
+		jQuery.each(data, function(key,state) {
+			stateListEle.append(jQuery("<option></option>")
+						.attr("value", state.value).text(state.text));
+		});
+	})
+	.fail(function() {
+		console.log("Error getting state list.");
+	});
+};
+
+jQuery(document).ready(function($) {
+	jQuery(document).on('change', 'select[id^="rs_country_"]', function() {
+		redSHOP.prepareStateList(jQuery(this), jQuery('#' + jQuery(this).attr('stateid')));
+	});
+});
+
 if(typeof(window['jQuery']) != "undefined")
 {
 	var rss = jQuery.noConflict();

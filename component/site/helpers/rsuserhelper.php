@@ -1039,13 +1039,12 @@ class rsUserhelper
 
 	public function replaceBillingCommonFields($template_desc, $post = array(), $lists)
 	{
-		$Redconfiguration = Redconfiguration::getInstance();
+		$world = RedshopHelperWorld::getInstance();
 
-		$ajax                  = (isset($lists['isAjax']) && $lists['isAjax'] == 1) ? 1 : 0;
-		$countryarray          = $Redconfiguration->getCountryList(@$post, "country_code", "BT");
+		$countryarray          = $world->getCountryList($post);
 		$post['country_code']  = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray            = $Redconfiguration->getStateList(@$post, 'state_code', 'country_code', 'BT', $ajax);
+		$statearray            = $world->getStateList($post);
 		$lists['state_code']   = $statearray['state_dropdown'];
 		$countrystyle          = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
 		$statestyle            = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
@@ -1182,7 +1181,7 @@ class rsUserhelper
 
 	public function getShippingTable($post = array(), $is_company = 0, $lists)
 	{
-		$Redconfiguration  = Redconfiguration::getInstance();
+		$world             = RedshopHelperWorld::getInstance();
 		$redTemplate       = Redtemplate::getInstance();
 		$shipping_template = $redTemplate->getTemplate("shipping_template");
 
@@ -1213,12 +1212,14 @@ class rsUserhelper
 		}
 
 		$read_only                = "";
-		$countryarray             = $Redconfiguration->getCountryList(@$post, "country_code_ST", "ST", "inputbox billingRequired valid");
+		$countryarray             = $world->getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
 		$post['country_code_ST']  = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
-		$statearray               = $Redconfiguration->getStateList(@$post, "state_code_ST", "country_code_ST", "ST", 0, "");
+
+		$statearray               = $world->getStateList($post, 'state_code_ST', 'ST');
 		$lists['state_code_ST']   = $statearray['state_dropdown'];
-		$countrystyle             = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
+
+		$countrystyle = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
 		$statestyle               = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
 
 		$template_desc = str_replace("{firstname_st_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $template_desc);

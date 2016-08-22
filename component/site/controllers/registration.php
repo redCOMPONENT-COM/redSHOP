@@ -172,4 +172,35 @@ class RedshopControllerRegistration extends RedshopController
 		echo $return = "<div id='ajaxRegistrationDiv'>" . $template_desc . "</div>";
 		die();
 	}
+
+	/**
+	 * AJAX Task to get states list
+	 *
+	 * @return  string  JSON encoded string of states list.
+	 */
+	public function getStatesAjax()
+	{
+		// This will validate using GET method
+		RedshopHelperAjax::validateAjaxRequest('get');
+
+		$app = JFactory::getApplication();
+
+		$countryCode = $app->input->getCmd('country');
+
+		$states = RedshopHelperWorld::getInstance()->getStates($countryCode);
+
+		if (!empty($states))
+		{
+			$states = array_merge(
+				array(JHtml::_('select.option', '', JText::_("COM_REDSHOP_SELECT"))),
+				$states
+			);
+		}
+
+		ob_clean();
+
+		echo json_encode($states);
+
+		$app->close();
+	}
 }
