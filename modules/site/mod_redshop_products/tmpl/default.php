@@ -245,16 +245,16 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 
 				for ($ui = 0; $ui < count($userfieldArr); $ui++)
 				{
-					$productUserfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id);
-					$ufield .= $productUserfileds[1];
+					$productUserfields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id);
+					$ufield .= $productUserfields[1];
 
-					if ($productUserfileds[1] != "")
+					if ($productUserfields[1] != "")
 					{
 						$countNoUserField++;
 					}
 
-					$templateUserfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserfileds[0], $templateUserfield);
-					$templateUserfield = str_replace('{' . $userfieldArr[$ui] . '}', $productUserfileds[1], $templateUserfield);
+					$templateUserfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserfields[0], $templateUserfield);
+					$templateUserfield = str_replace('{' . $userfieldArr[$ui] . '}', $productUserfields[1], $templateUserfield);
 				}
 
 				if ($ufield != "")

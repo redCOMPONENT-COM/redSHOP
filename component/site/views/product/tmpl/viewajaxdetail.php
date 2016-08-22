@@ -112,10 +112,10 @@ if (count($ajaxdetal_template) > 0)
 				$cart_id = "";
 			}
 
-			$product_userfileds = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 1, $this->data->product_id);
-			$ufield .= $product_userfileds[0];
+			$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 1, $this->data->product_id);
+			$ufield .= $productUserFields[0];
 
-			if ($product_userfileds[0] != "")
+			if ($productUserFields[0] != "")
 			{
 				$count_no_user_field++;
 			}
@@ -138,8 +138,8 @@ if (count($ajaxdetal_template) > 0)
 					}
 					else
 					{
-						$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $product_userfileds[0], $data_add);
-						$data_add = str_replace('{' . $userfieldArr[$ui] . '}', $product_userfileds[1], $data_add);
+						$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $data_add);
+						$data_add = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $data_add);
 					}
 				}
 				else
@@ -150,11 +150,11 @@ if (count($ajaxdetal_template) > 0)
 			}
 		}
 
-		$product_userfileds_form = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+		$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 		if ($ufield != "")
 		{
-			$data_add = str_replace("{if product_userfield}", $product_userfileds_form, $data_add);
+			$data_add = str_replace("{if product_userfield}", $productUserFieldsForm, $data_add);
 			$data_add = str_replace("{product_userfield end if}", "</form>", $data_add);
 		}
 		else
