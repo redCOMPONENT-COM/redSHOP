@@ -67,6 +67,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		$orderHelper = order_functions::getInstance();
 		$k           = new Klarna;
+		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
 		$k->config(
 			$this->params->get('merchantId'),
@@ -74,7 +75,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			Country::fromCode($data['billinginfo']->country_2_code),
 			Language::fromCode($this->getLang()),
 			Currency::fromCode(strtolower(CURRENCY_CODE)),
-			Klarna::BETA    // @todo needs to use flag for LIVE and BETA
+			$server
 		);
 
 		$orderItems = $orderHelper->getOrderItemDetail($data['order_id']);
@@ -387,6 +388,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$k   = new Klarna;
+		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
 		$k->config(
 			$this->params->get('merchantId'),
@@ -394,7 +396,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			Country::fromCode($data['billinginfo']->country_code),
 			Language::fromCode($this->getLang()),
 			Currency::fromCode(strtolower(CURRENCY_CODE)),
-			Klarna::BETA    // @todo needs to use flag for LIVE and BETA
+			$server
 		);
 
 		$return = new stdClass;
@@ -482,13 +484,15 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		$k = new Klarna;
 
+		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
+
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
 			Country::fromCode($orderBilling->country_code),
 			Language::fromCode($this->getLang()),
 			Currency::fromCode(strtolower(CURRENCY_CODE)),
-			Klarna::BETA    // @todo needs to use flag for LIVE and BETA
+			$server
 		);
 
 		try
