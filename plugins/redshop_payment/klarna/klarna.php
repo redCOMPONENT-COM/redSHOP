@@ -8,6 +8,14 @@
  */
 defined('_JEXEC') or die;
 
+use Klarna\XMLRPC\Klarna;
+use Klarna\XMLRPC\Country;
+use Klarna\XMLRPC\Language;
+use Klarna\XMLRPC\Currency;
+use Klarna\XMLRPC\Flags;
+use Klarna\XMLRPC\Address;
+use Klarna\XMLRPC\PClass;
+
 JLoader::import('redshop.library');
 
 class plgRedshop_PaymentKlarna extends RedshopPayment
@@ -24,13 +32,8 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	 */
 	public function __construct(&$subject, $config = array())
 	{
-		define('JPATH_PLUGIN_KLARNA_LIBRARY', JPATH_SITE . '/plugins/redshop_payment/klarna/library/klarna/');
-
-		require_once JPATH_PLUGIN_KLARNA_LIBRARY . 'Klarna.php';
-
-		// Dependencies from http://phpxmlrpc.sourceforge.net/
-		require_once JPATH_PLUGIN_KLARNA_LIBRARY . '/transport/xmlrpc-3.0.0.beta/lib/xmlrpc.inc';
-		require_once JPATH_PLUGIN_KLARNA_LIBRARY . '/transport/xmlrpc-3.0.0.beta/lib/xmlrpc_wrappers.inc';
+		// Load Klarna Library
+		require_once  __DIR__ . '/library/vendor/autoload.php';
 
 		parent::__construct($subject, $config);
 	}
@@ -64,16 +67,15 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		$orderHelper = order_functions::getInstance();
 		$k           = new Klarna;
+		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($data['billinginfo']->country_2_code),
-			KlarnaLanguage::fromCode($this->getLang()),
-			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
-			Klarna::BETA,         // Server
-			'json',               // PClass storage
-			'./pclasses.json'     // PClass storage URI path
+			Country::fromCode($data['billinginfo']->country_2_code),
+			Language::fromCode($this->getLang()),
+			Currency::fromCode(strtolower(CURRENCY_CODE)),
+			$server
 		);
 
 		$orderItems = $orderHelper->getOrderItemDetail($data['order_id']);
@@ -91,7 +93,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 				$orderItem->product_item_price,
 				$vatInPercentage,
 				0, // Discount will be added as a new line in order
-				KlarnaFlags::INC_VAT
+				Flags::INC_VAT
 			);
 		}
 
@@ -99,10 +101,10 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			1,
 			'',
 			'Shipping fee',
-			$data['order']->order_shipping,
+			(float) $data['order']->order_shipping,
 			$data['order']->order_shipping_tax,
 			0,
-			KlarnaFlags::INC_VAT | KlarnaFlags::IS_SHIPMENT
+			Flags::INC_VAT | Flags::IS_SHIPMENT
 		);
 
 		if ($data['order']->order_discount > 0)
@@ -114,7 +116,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 				$data['order']->order_discount,
 				$data['order']->order_discount_vat,
 				0,
-				KlarnaFlags::INC_VAT
+				Flags::INC_VAT
 			);
 		}
 
@@ -127,10 +129,10 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			11.5,
 			25,
 			0,
-			KlarnaFlags::INC_VAT | KlarnaFlags::IS_HANDLING
+			Flags::INC_VAT | Flags::IS_HANDLING
 		);*/
 
-		// Collect Extra Field Informations
+		// Collect Extra Field Information
 		$pnoInfo = RedshopHelperExtrafields::getDataByName(
 			'rs_pno',
 			RedshopSiteExtraField::SECTION_PAYMENT_GATEWAY,
@@ -181,11 +183,11 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			// Prepare Gender info.
 			if (count($genderInfo) > 0)
 			{
-				$gender = KlarnaFlags::FEMALE;
+				$gender = Flags::FEMALE;
 
 				if ('m' == $genderInfo->data_txt)
 				{
-					$gender = KlarnaFlags::MALE;
+					$gender = Flags::MALE;
 				}
 			}
 
@@ -203,8 +205,8 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 		}
 
 		$k->setAddress(
-			KlarnaFlags::IS_BILLING,
-			new KlarnaAddr(
+			Flags::IS_BILLING,
+			new Address(
 				$data['billinginfo']->user_email,
 				'',
 				$data['billinginfo']->phone,
@@ -214,15 +216,15 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 				mb_convert_encoding($data['billinginfo']->address, 'iso-8859-1'),
 				$data['billinginfo']->zipcode,
 				$data['billinginfo']->city,
-				KlarnaCountry::fromCode($data['billinginfo']->country_2_code),
+				Country::fromCode($data['billinginfo']->country_2_code),
 				$houseNumber,  // House number (AT/DE/NL only)
 				$houseExtension   // House extension (NL only)
 			)
 		);
 
 		$k->setAddress(
-			KlarnaFlags::IS_SHIPPING,
-			new KlarnaAddr(
+			Flags::IS_SHIPPING,
+			new Address(
 				$data['shippinginfo']->user_email,
 				'',
 				$data['shippinginfo']->phone,
@@ -232,7 +234,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 				mb_convert_encoding($data['shippinginfo']->address, 'iso-8859-1'),
 				$data['shippinginfo']->zipcode,
 				$data['shippinginfo']->city,
-				KlarnaCountry::fromCode($data['shippinginfo']->country_2_code),
+				Country::fromCode($data['shippinginfo']->country_2_code),
 				$houseNumber, // House number (AT/DE/NL only)
 				$houseExtension  // House extension (NL only)
 			)
@@ -246,17 +248,17 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		try
 		{
-			$paymentInfo = $orderHelper->getOrderPaymentDetail($data['order_id']);
+			$paymentInfo = RedshopHelperOrder::getPaymentInfo($data['order_id']);
 
 			// Reserve amount only for new orders.
-			if ('' == trim($paymentInfo[0]->order_payment_trans_id))
+			if ('' == trim($paymentInfo->order_payment_trans_id))
 			{
 				$result = $k->reserveAmount(
 					$pno,
 					$gender,
 					-1,   // Automatically calculate and reserve the cart total amount
-					KlarnaFlags::NO_FLAG,
-					KlarnaPClass::INVOICE
+					Flags::NO_FLAG,
+					PClass::INVOICE
 				);
 
 				$reservation = $result[0];
@@ -266,14 +268,14 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 				$values->order_id       = $data['order_id'];
 				$values->transaction_id = $reservation;
 
-				if ($status == KlarnaFlags::ACCEPTED || $status == KlarnaFlags::PENDING)
+				if ($status == Flags::ACCEPTED || $status == Flags::PENDING)
 				{
 					$values->order_status_code         = $this->params->get('verify_status', '');
 					$values->order_payment_status_code = 'Paid';
 					$values->log                       = JText::_('PLG_KLARNA_ORDER_PLACED');
 					$values->msg                       = JText::_('PLG_KLARNA_ORDER_PLACED');
 
-					if ($status == KlarnaFlags::PENDING)
+					if ($status == Flags::PENDING)
 					{
 						$values->order_payment_status_code = 'Unpaid';
 						$values->log                       = JText::_('PLG_KLARNA_ORDER_PENDING_STATUS_APPROVED');
@@ -296,15 +298,18 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			// Update order if transaction placed already.
 			else
 			{
-				$k->update($paymentInfo[0]->order_payment_trans_id);
+				$k->update($paymentInfo->order_payment_trans_id);
 
 				$app = JFactory::getApplication();
 				$app->redirect(
-					JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $data['order_id'], false)
+					JRoute::_(
+						'index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=' . $app->input->getInt('Itemid') . '&oid=' . $data['order_id'],
+						false
+					)
 				);
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$values                            = new stdClass;
 			$values->order_id                  = $data['order_id'];
@@ -349,14 +354,11 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	 * @param   string  $element  Plugin Name
 	 * @param   array   $request  Request data sent from Epay
 	 *
-	 * @return  object  Status Object
+	 * @return  mixed  Status Object
 	 */
 	public function onNotifyPaymentKlarna($element, $request)
 	{
-		if ($element != 'klarna')
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
@@ -371,24 +373,30 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	{
 		$transactionId = $data['order_transactionid'];
 
+		// Set default return
+		$return = new stdClass;
+		$return->responsestatus = 'Fail';
+		$return->type           = 'error';
+
 		if ('' == $transactionId)
 		{
-			return;
+			$return->message = 'Not valid transaction id';
+
+			return $return;
 		}
 
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$k   = new Klarna;
+		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($data['billinginfo']->country_code),
-			KlarnaLanguage::fromCode($this->getLang()),
-			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
-			Klarna::BETA,         // Server
-			'json',               // PClass storage
-			'./pclasses.json'     // PClass storage URI path
+			Country::fromCode($data['billinginfo']->country_code),
+			Language::fromCode($this->getLang()),
+			Currency::fromCode(strtolower(CURRENCY_CODE)),
+			$server
 		);
 
 		$return = new stdClass;
@@ -398,7 +406,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			$result = $k->activate(
 				$transactionId,
 				null,    // OCR Number
-				KlarnaFlags::RSRV_SEND_BY_EMAIL
+				Flags::RSRV_SEND_BY_EMAIL
 			);
 
 			// For optional arguments, flags, partial activations and so on, refer to the documentation.
@@ -430,7 +438,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 				$return->type           = 'error';
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$return->responsestatus = 'Fail';
 			$return->message        = $e->getMessage() . ' #' . $e->getCode();
@@ -452,35 +460,40 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	 */
 	public function onStatus_PaymentKlarna($element, $data)
 	{
+		$return = new stdClass;
+		$return->responsestatus = 'Fail';
+		$return->type           = 'error';
+
 		if ($element != 'klarna')
 		{
-			return;
+			$return->message = 'Not valid payment method';
+
+			return $return;
 		}
 
 		$transactionId = $data['order_transactionid'];
 
 		if ('' == $transactionId)
 		{
-			return;
+			$return->message = 'Not valid transaction id';
+
+			return $return;
 		}
 
 		$orderBilling = RedshopHelperOrder::getOrderBillingUserInfo($data['order_id']);
 
-		$app = JFactory::getApplication();
-		$k   = new Klarna;
+		$k = new Klarna;
+
+		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
 		$k->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
-			KlarnaCountry::fromCode($orderBilling->country_code),
-			KlarnaLanguage::fromCode($this->getLang()),
-			KlarnaCurrency::fromCode(strtolower(CURRENCY_CODE)),
-			Klarna::BETA, // Server
-			'json',
-			'./pclasses.json'
+			Country::fromCode($orderBilling->country_code),
+			Language::fromCode($this->getLang()),
+			Currency::fromCode(strtolower(CURRENCY_CODE)),
+			$server
 		);
-
-		$return = new stdClass;
 
 		try
 		{
@@ -490,16 +503,15 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			$return->type           = 'message';
 			$return->message = JText::_('PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_REFUND_SUCCESS');
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$return->responsestatus = 'Fail';
 			$return->message        = $e->getMessage() . ' #' . $e->getCode();
 			$return->type           = 'error';
 		}
 
-		$app->enqueueMessage($return->message, $return->type);
+		JFactory::getApplication()->enqueueMessage($return->message, $return->type);
 
 		return $return;
 	}
-
 }
