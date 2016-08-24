@@ -29,11 +29,7 @@ class PlgSystemRedSHOP extends JPlugin
 		$app = JFactory::getApplication();
 		JLoader::import('redshop.library');
 
-		// Load only from frontend
-		if (!$app->isAdmin())
-		{
-			RedshopHelperJs::init();
-		}
+		RedshopHelperJs::init();
 	}
 
 	/**
