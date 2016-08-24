@@ -287,4 +287,24 @@ class RedshopHelperWorld
 							)
 		);
 	}
+
+	/**
+	 * AJAX Task to get states list
+	 *
+	 * @return  string  JSON encoded string of states list.
+	 */
+	public function getStatesAjax($countryCode)
+	{
+		$states = $this->getStates($countryCode);
+
+		if (!empty($states))
+		{
+			$states = array_merge(
+				array(JHtml::_('select.option', '', JText::_("COM_REDSHOP_SELECT"))),
+				$states
+			);
+		}
+
+		return json_encode($states);
+	}
 }
