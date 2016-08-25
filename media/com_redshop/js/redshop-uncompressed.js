@@ -70,6 +70,53 @@ redSHOP.AjaxOrderPaymentStatusCheck = function(){
 	});
 };
 
+redSHOP.prepareStateList = function(countryListEle, stateListEle){
+	jQuery.ajax({
+		url: redSHOP.RSConfig._('AJAX_BASE_URL'),
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			view: 'search',
+			task: 'getStatesAjax',
+			country: countryListEle.val()
+		}
+	})
+	.done(function(data) {
+
+		// Remove all the options
+		stateListEle.empty();
+
+		// Now let's hide state list by default
+		jQuery('#div_state_txt').hide();
+		stateListEle.parent().parent().hide();
+		stateListEle.hide();
+
+		// And show it when it has actua options
+		if (data.length)
+		{
+			jQuery('#div_state_txt').show();
+			stateListEle.parent().parent().show();
+
+			// No needs to show original select if chosen is there.
+			if (!jQuery('#' + stateListEle.attr('id') + '_chzn').length)
+			{
+				stateListEle.show();
+			}
+		}
+
+		// Generate options for select lists
+		jQuery.each(data, function(key,state) {
+			stateListEle.append(jQuery("<option></option>")
+						.attr("value", state.value).text(state.text));
+		});
+
+		stateListEle.trigger('liszt:updated');
+	})
+	.fail(function() {
+		console.log("Error getting state list.");
+	});
+};
+
 // Write script here to execute on page load - dom ready.
 jQuery(document).ready(function($) {
 
@@ -88,4 +135,8 @@ jQuery(document).ready(function($) {
 			console.warn('Make sure you add #order_payment_status ID in order receipt template');
 		}
 	}
+
+	jQuery(document).on('change', 'select[id^="rs_country_"]', function() {
+		redSHOP.prepareStateList(jQuery(this), jQuery('#' + jQuery(this).attr('stateid')));
+	});
 });
