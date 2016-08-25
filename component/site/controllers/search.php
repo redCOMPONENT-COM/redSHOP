@@ -87,4 +87,23 @@ class RedshopControllerSearch extends RedshopController
 		echo "{\"results\": " . $encoded . "}";
 		exit;
 	}
+
+	/**
+	 * AJAX Task to get states list
+	 *
+	 * @return  string  JSON encoded string of states list.
+	 */
+	public function getStatesAjax()
+	{
+		// Only verify token for frontend
+		RedshopHelperAjax::validateAjaxRequest('get');
+
+		$app = JFactory::getApplication();
+
+		ob_clean();
+
+		echo RedshopHelperWorld::getInstance()->getStatesAjax($app->input->getCmd('country'));
+
+		$app->close();
+	}
 }

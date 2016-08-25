@@ -29,11 +29,11 @@ class PlgSystemRedSHOP extends JPlugin
 		$app = JFactory::getApplication();
 		JLoader::import('redshop.library');
 
+		RedshopHelperJs::init();
+
 		// Load only from frontend
 		if (!$app->isAdmin())
 		{
-			RedshopHelperJs::init();
-
 			// Use different CSS for print layout
 			if ($app->input->getCmd('print', ''))
 			{
