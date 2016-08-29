@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 class RedshopControllerConfiguration extends RedshopController
 {
 	public function apply()
