@@ -221,7 +221,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php
 									$partial_paid = $order_functions->getOrderPartialPayment($order_id);
 
-									
+
 									?>
 								</td>
 							</tr>
@@ -362,17 +362,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								<td align="right"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
 								<td><?php echo $billing->ean_number; ?></td>
 							</tr>
-							<!-- <tr>
-									<td align="right"><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER' ); ?>:</td>
-									<td><?php echo ($billing->requisition_number!="") ? $billing->requisition_number : "N/A"; ?></td>
-								</tr>-->
 							<?php    $fields = $extra_field->list_all_field_display(8, $billing->users_info_id);
 						}
 						else
 						{
 							$fields = $extra_field->list_all_field_display(7, $billing->users_info_id);
 						}
-						echo $fields; ?>
+						echo $fields;
+					?>
 					</table>
 				</div>
 			</div>
