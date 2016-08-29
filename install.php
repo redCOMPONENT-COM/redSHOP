@@ -202,7 +202,7 @@ class Com_RedshopInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		// The redshop.cfg.php creation or update
+		// The configuration creation or update
 		$this->redshopHandleCFGFile();
 
 		// Syncronise users
@@ -521,7 +521,6 @@ class Com_RedshopInstallerScript
 	 */
 	private function userSynchronization()
 	{
-		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 		JLoader::import('redshop.library');
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
@@ -852,6 +851,14 @@ class Com_RedshopInstallerScript
 	{
 		$folders = array();
 		$files   = array();
+
+		if (version_compare($this->getOldParam('version'), '1.7', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php'
+			);
+		}
 
 		if (version_compare($this->getOldParam('version'), '1.6.1', '<='))
 		{

@@ -28,13 +28,6 @@ class plgContentredshop_product extends JPlugin
 			$session = JFactory::getSession();
 			$post    = JRequest::get('POST');
 
-			if (JRequest::getCmd('option') != 'com_redshop')
-			{
-				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-				$Redconfiguration = Redconfiguration::getInstance();
-				$Redconfiguration->defineDynamicVars();
-			}
-
 			if (isset($post['product_currency']))
 			{
 				$session->set('product_currency', $post['product_currency']);
