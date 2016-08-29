@@ -219,48 +219,6 @@ class Redconfiguration
 	}
 
 	/**
-	 * Write Definition File
-	 *
-	 * @param   array  $def  Array of configuration Definition
-	 *
-	 * @return  boolean  True when file successfully saved.
-	 */
-	public function WriteDefFile($def = array())
-	{
-		if (count($def) <= 0)
-		{
-			$def = $this->defArray;
-		}
-
-		$html = "<?php \n";
-		$html .= 'global $defaultarray;' . "\n" . '$defaultarray = array();' . "\n";
-
-		foreach ($def as $key => $val)
-		{
-			$html .= '$defaultarray["' . $key . '"] = \'' . addslashes($val) . "';\n";
-		}
-
-		$html .= "?>";
-
-		if (!$this->isDEFFile())
-		{
-			return false;
-		}
-
-		if ($fp = fopen($this->configDefPath, "w"))
-		{
-			fwrite($fp, $html, strlen($html));
-			fclose($fp);
-
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
 	 * Define Configuration file. We are preparing define text on this function.
 	 *
 	 * @param   array    $data    Configuration Data associative array

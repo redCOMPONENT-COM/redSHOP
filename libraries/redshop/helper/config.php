@@ -56,6 +56,8 @@ class RedshopHelperConfig
 	 *
 	 * @param   string  $name       Name of the function.
 	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
+	 *
+	 * @return  RedshopHelperConfig
 	 */
 	public function __call($name, $arguments)
 	{
@@ -78,6 +80,16 @@ class RedshopHelperConfig
 	}
 
 	/**
+	 * Get the path to this configuration distinct file
+	 *
+	 * @return  string
+	 */
+	protected function getConfigurationDistFilePath()
+	{
+		return JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
+	}
+
+	/**
 	 * Check config file is exist
 	 *
 	 * @return  boolean  Returns TRUE if the file or directory specified by filename exists; FALSE otherwise.
@@ -85,16 +97,6 @@ class RedshopHelperConfig
 	public function isExists()
 	{
 		return file_exists($this->getConfigurationFilePath());
-	}
-
-	/**
-	 * Check config file is exist
-	 *
-	 * @return  boolean  Returns TRUE if the file or directory specified by filename is writable; FALSE otherwise.
-	 */
-	public function isWritable()
-	{
-		return is_writable($this->getConfigurationFilePath());
 	}
 
 	/**
@@ -258,6 +260,26 @@ class RedshopHelperConfig
 
 			return false;
 		}
+	}
+
+	/**
+	 * Load Distinct configuration file
+	 *
+	 * @since  1.7
+	 *
+	 * @return  boolean  True on success
+	 */
+	public function loadDist()
+	{
+		// Only load dist file when config file is not exist.
+		if (!$this->isExists())
+		{
+			jimport('joomla.filesystem.file');
+
+			return JFile::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
+		}
+
+		return true;
 	}
 
 	/**

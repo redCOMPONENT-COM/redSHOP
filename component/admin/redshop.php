@@ -21,9 +21,9 @@ $app = JFactory::getApplication();
 // Load redSHOP Library
 JLoader::import('redshop.library');
 
-$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
+$config = Redshop::getConfig();
 
-if (!file_exists($configpath))
+if (!$config->isExists())
 {
 	error_reporting(0);
 	$controller = 'redshop';
