@@ -31,21 +31,6 @@ class RedshopViewSearch extends RedshopView
 			$document->setTitle($pagetitle);
 		}
 
-		JHtml::script('com_redshop/common.js', false, true);
-
-		if (AJAX_CART_BOX == 0)
-		{
-			JHtml::script('com_redshop/redbox.js', false, true);
-			JHtml::script('com_redshop/attribute.js', false, true);
-		}
-
-		// Ajax cart javascript
-		if (AJAX_CART_BOX == 1)
-		{
-			JHtml::script('com_redshop/redbox.js', false, true);
-			JHtml::script('com_redshop/attribute.js', false, true);
-		}
-
 		if ($layout == 'redfilter')
 		{
 			$session      = JSession::getInstance('none', array());
@@ -228,10 +213,7 @@ class RedshopViewSearch extends RedshopView
 
 				if (PRODUCT_COMPARISON_TYPE != '')
 				{
-					$compareDiv = $producthelper->makeCompareProductDiv();
-					$compareUrl = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid);
-					$compareProductDiv = '<a href="' . $compareUrl . '" >' . JText::_('COM_REDSHOP_COMPARE') . '</a>';
-					$compareProductDiv .= '<div id="divCompareProduct">' . $compareDiv . '</div>';
+					$compareProductDiv = RedshopLayoutHelper::render('product.compare_product');
 				}
 
 				$template_org = str_replace('{compare_product_div}', $compareProductDiv, $template_org);
