@@ -265,50 +265,12 @@ JPluginHelper::importPlugin('redshop_product');
 					<td>
 						<?php
 						$orderKey = array_search($row->order_status, array_column($this->orderStatus, 'value'));
-						$orderStatusClass = 'label';
 						$orderStatusText  = $this->orderStatus[$orderKey]->text;
+						$orderStatusClass = 'label order_status_' . strtolower($this->orderStatus[$orderKey]->value);
 						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
-
-						switch ($this->orderStatus[$orderKey]->value)
-						{
-							case 'P':
-							case 'ACCP':
-							case 'APP':
-							case 'ABT':
-								$orderStatusClass .= ' label-warning';
-								break;
-
-							case 'S':
-							case 'PS':
-								$orderStatusClass .= ' label-success';
-								break;
-
-							case 'X':
-							case 'R':
-							case 'RT':
-							case 'PRT':
-								$orderStatusClass .= ' label-danger';
-								break;
-
-							case 'RD':
-							case 'RD1':
-							case 'RD2':
-							case 'PR':
-							case 'RC':
-							case 'PRC':
-								$orderStatusClass .= ' label-info';
-								break;
-
-							case 'C':
-								$orderStatusClass .= ' label-primary';
-								break;
-
-							default:
-								break;
-						}
 						?>
 						<a href="javascript:void(0);" class="order-status-change" data-target="order_status_form<?php echo $row->id ?>"><i class="icon icon-edit"></i></a>
-						<span class="<?php echo $orderStatusClass ?>"><?php echo $orderStatusText ?></span>
+						<span class="label <?php echo $orderStatusClass ?>"><?php echo $orderStatusText ?></span>
 						<div id="order_status_form<?php echo $row->id ?>" class="panel panel-default" style="display: none; margin-top: 15px;">
 							<div class="panel-body">
 								<div class="form-group">
@@ -344,13 +306,16 @@ JPluginHelper::importPlugin('redshop_product');
 						<?php echo $producthelper->getProductFormattedPrice($row->order_total) ?>
 					</td>
 					<td>
-						<?php if ($row->order_payment_status == 'Paid'): ?>
-							<span class="badge badge-success"><?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PAID') ?></span>
-						<?php elseif ($row->order_payment_status == 'Unpaid'): ?>
-							<span class="badge badge-danger"><?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?></span>
-						<?php elseif ($row->order_payment_status == 'Partial Paid' || $row->order_payment_status == 'PartialPaid'): ?>
-							<span class="badge badge-warning"><?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID') ?></span>
-						<?php endif; ?>
+						<?php $paymentStatusClass = 'label order_payment_status_' . strtolower($row->order_payment_status); ?>
+						<span class="<?php echo $paymentStatusClass ?>">
+							<?php if ($row->order_payment_status == 'Paid'): ?>
+								<?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PAID') ?>
+							<?php elseif ($row->order_payment_status == 'Unpaid'): ?>
+								<?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
+							<?php elseif ($row->order_payment_status == 'Partial Paid' || $row->order_payment_status == 'PartialPaid'): ?>
+								<?php echo JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID') ?>
+							<?php endif; ?>
+						</span>
 					</td>
 					<?php if (USE_STOCKROOM == 1) : ?>
 						<td align="center">
