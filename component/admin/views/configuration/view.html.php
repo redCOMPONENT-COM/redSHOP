@@ -41,7 +41,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$model = $this->getModel('configuration');
-		$currency_data = $model->getCurrency();
+		$currency_data = $model->getCurrencies();
 
 		$this->config = $model->getData();
 
@@ -64,24 +64,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
 
-		$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
-
-		if (!is_writable($configpath))
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'), 'error');
-		}
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
-
-		if (is_writable($configpath))
-		{
-			JToolBarHelper::save();
-			JToolBarHelper::apply();
-		}
-
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		JToolBarHelper::cancel();
 
-		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
 		$newsletters = $model->getnewsletters();
@@ -120,7 +107,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'new_shopper_group_get_value_from', 'class="inputbox" ', 'value',
 			'text', $this->config->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM')
 		);
-		$lists['write_review_is_lightbox'] = JHTML::_('redshopselect.booleanlist', 'write_review_is_lightbox', 'class="inputbox" ', $this->config->get('WRITE_REVIEW_IS_LIGHTBOX'));
 		$lists['accessory_product_in_lightbox'] = JHTML::_('redshopselect.booleanlist', 'accessory_product_in_lightbox',
 			'class="inputbox" ', $this->config->get('ACCESSORY_PRODUCT_IN_LIGHTBOX')
 		);
@@ -178,7 +164,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['supplier_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'supplier_mail_enable', 'class="inputbox" ', $this->config->get('SUPPLIER_MAIL_ENABLE'));
 
-		$lists['splitable_payment']         = JHTML::_('redshopselect.booleanlist', 'splitable_payment', 'class="inputbox"', $this->config->get('SPLITABLE_PAYMENT'));
 		$lists['create_account_checkbox']   = JHTML::_('redshopselect.booleanlist', 'create_account_checkbox', 'class="inputbox"', $this->config->get('CREATE_ACCOUNT_CHECKBOX'));
 		$lists['show_email_verification']   = JHTML::_('redshopselect.booleanlist', 'show_email_verification', 'class="inputbox"', $this->config->get('SHOW_EMAIL_VERIFICATION'));
 		$lists['quantity_text_display']     = JHTML::_('redshopselect.booleanlist', 'quantity_text_display', 'class="inputbox"', $this->config->get('QUANTITY_TEXT_DISPLAY'));
@@ -870,7 +855,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$this->getinstalledshipping = $getinstalledshipping;
 		$this->current_version      = $current_version;
 		$this->lists                = $lists;
-		$this->request_url          = $uri->toString();
+		$this->request_url          = JUri::getInstance()->toString();
 		$this->tabmenu 				= $this->getTabMenu();
 
 		parent::display($tpl);

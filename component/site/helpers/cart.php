@@ -3641,15 +3641,7 @@ class RedshopSiteCart
 
 		if (strpos($template_desc, "{split_payment}") !== false)
 		{
-			if (SPLITABLE_PAYMENT == 1)
-			{
-				$splitpayment  = '<input type="checkbox" name="issplit" value="1">' . JText::_('COM_REDSHOP_SPLIT_PAYMENT') . '?';
-				$template_desc = str_replace("{split_payment}", $splitpayment, $template_desc);
-			}
-			else
-			{
-				$template_desc = str_replace("{split_payment}", "", $template_desc);
-			}
+			$template_desc = str_replace("{split_payment}", "", $template_desc);
 		}
 
 		$paymentMethods = RedshopHelperPayment::info();

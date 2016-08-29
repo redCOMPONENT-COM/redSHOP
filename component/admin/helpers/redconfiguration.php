@@ -577,7 +577,6 @@ class Redconfiguration
 						"CATEGORY_TEMPLATE"                            => $d["default_category_template"],
 						"DEFAULT_CATEGORYLIST_TEMPLATE"                => $d["default_categorylist_template"],
 						"MANUFACTURER_TEMPLATE"                        => $d["default_manufacturer_template"],
-						"WRITE_REVIEW_IS_LIGHTBOX"                     => $d['write_review_is_lightbox'],
 						"COUNTRY_LIST"                                 => $d["country_list"],
 						"PRODUCT_DEFAULT_IMAGE"                        => $d["product_default_image"],
 						"PRODUCT_OUTOFSTOCK_IMAGE"                     => $d["product_outofstock_image"],
@@ -638,7 +637,6 @@ class Redconfiguration
 						"COUPONS_ENABLE"                               => $d["coupons_enable"],
 						"VOUCHERS_ENABLE"                              => $d["vouchers_enable"],
 						"APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT"        => $d["apply_voucher_coupon_already_discount"],
-						"SPLITABLE_PAYMENT"                            => $d["splitable_payment"],
 						"SHOW_EMAIL_VERIFICATION"                      => $d["show_email_verification"],
 
 						"RATING_MSG"                                   => $d["rating_msg"],

@@ -743,11 +743,6 @@ class Com_RedshopInstallerScript
 			$cfgarr["MANUFACTURER_TITLE_END_SUFFIX"] = '';
 		}
 
-		if (!defined("WRITE_REVIEW_IS_LIGHTBOX"))
-		{
-			$cfgarr["WRITE_REVIEW_IS_LIGHTBOX"] = '0';
-		}
-
 		if (!defined("SPECIAL_DISCOUNT_MAIL_SEND"))
 		{
 			$cfgarr["SPECIAL_DISCOUNT_MAIL_SEND"] = '1';
