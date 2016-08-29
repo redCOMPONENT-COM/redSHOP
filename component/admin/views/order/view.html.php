@@ -9,18 +9,63 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Order List View
+ *
+ * @package     RedShop.Backend
+ * @subpackage  Views
+ * @since       1.0
+ */
 class RedshopViewOrder extends RedshopViewAdmin
 {
+	/**
+	 * @var  array
+	 */
+	public $filter;
+
+	/**
+	 * @var  array
+	 */
+	public $orderStatus;
+
+	/**
+	 * @var  array
+	 */
+	public $lists;
+
+	/**
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * @var  array
+	 */
+	public $orders;
+
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * @var  string
+	 */
+	public $request_url;
+
+	/**
+	 * Display method
+	 *
+	 * @param   string  $tpl  The template name
+	 *
+	 * @return  void
+	 */
 	public function display($tpl = null)
 	{
 		$order_function = order_functions::getInstance();
 
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
-
-		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$layout = JRequest::getVar('layout');
+		JFactory::getDocument()->setTitle(JText::_('COM_REDSHOP_ORDER'));
+		$layout = JFactory::getApplication()->input->getCmd('layout');
 
 		if ($layout == 'previewlog')
 		{
@@ -99,20 +144,18 @@ class RedshopViewOrder extends RedshopViewAdmin
 			RedshopToolbarHelper::deleteList();
 		}
 
-		$state = $this->get('State');
+		$state                 = $this->get('State');
 		$this->filter          = $state->get('filter');
 		$filter_by             = $state->get('filter_by');
 		$filter_status         = $state->get('filter_status');
 		$filter_payment_status = $state->get('filter_payment_status');
 
-		$lists['order']     = $state->get('list.ordering', 'o.order_id');
-		$lists['order_Dir'] = $state->get('list.direction', 'desc');
-
-		$orders     = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$lists['order']        = $state->get('list.ordering', 'o.order_id');
+		$lists['order_Dir']    = $state->get('list.direction', 'desc');
 
 		$lists['filter_by'] = $order_function->getFilterbyList('filter_by', $filter_by,
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"');
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
+		);
 
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
@@ -121,11 +164,12 @@ class RedshopViewOrder extends RedshopViewAdmin
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" '
 		);
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->orders = $orders;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->orders      = $this->get('Data');
+		$this->pagination  = $this->get('Pagination');
+		$this->request_url = JFactory::getUri()->toString();
+		$this->orderStatus = $order_function->getOrderStatus();
 
 		parent::display($tpl);
 	}
