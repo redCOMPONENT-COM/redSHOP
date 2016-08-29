@@ -6,6 +6,15 @@ var del = require("del");
 var uglify = require('gulp-uglifyjs');
 
 jgulp.task('sass', function() {
+	jgulp.src('./media/com_redshop/scss/bootstrap-grid.scss')
+		.pipe(sass({
+			outputStyle: 'compressed',
+			errLogToConsole: true
+		}))
+		.pipe(jgulp.dest('./media/com_redshop/css'));
+});
+
+jgulp.task('sass', function() {
 	jgulp.src('./media/com_redshop/scss/style.scss')
 		.pipe(sass({
 			outputStyle: 'compressed',

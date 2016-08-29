@@ -760,7 +760,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 													'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id .
 													'&Itemid=' . $this->itemid
 												);
-			$manufacturer_link      = '<a href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' .
+			$manufacturer_link      = '<a class="btn btn-primary" href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' .
 											$product->manufacturer_name .
 										'</a>';
 			$data_add               = str_replace("{manufacturer_link}", $manufacturer_link, $data_add);
@@ -777,7 +777,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 									'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id .
 									'&Itemid=' . $this->itemid
 								);
-			$manufacturerPLink = "<a href='" . $manuUrl . "'>" .
+			$manufacturerPLink = "<a class='btn btn-primary' href='" . $manuUrl . "'>" .
 									JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $product->manufacturer_name .
 								"</a>";
 			$data_add          = str_replace("{manufacturer_product_link}", $manufacturerPLink, $data_add);

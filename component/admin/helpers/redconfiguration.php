@@ -873,7 +873,8 @@ class Redconfiguration
 						"AJAX_DETAIL_BOX_WIDTH"                        => $d["ajax_detail_box_width"],
 						"AJAX_DETAIL_BOX_HEIGHT"                       => $d["ajax_detail_box_height"],
 						"AJAX_BOX_WIDTH"                               => $d["ajax_box_width"],
-						"AJAX_BOX_HEIGHT"                              => $d["ajax_box_height"]
+						"AJAX_BOX_HEIGHT"                              => $d["ajax_box_height"],
+						"LOAD_REDSHOP_STYLE"                           => $d["load_redshop_style"]
 		);
 
 		if ($d["cart_timeout"] <= 0)

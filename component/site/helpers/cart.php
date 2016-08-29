@@ -1322,7 +1322,7 @@ class RedshopSiteCart
 				}
 				else
 				{
-					$remove_product = '<form style="padding:0px;margin:0px;" name="delete_cart' . $i . '" method="POST" >
+					$remove_product = '<form name="delete_cart' . $i . '" method="POST" >
 							<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
 							<input type="hidden" name="cart_index" value="' . $i . '">
 							<input type="hidden" name="task" value="">

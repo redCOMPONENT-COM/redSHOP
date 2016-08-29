@@ -18,37 +18,52 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-$compare = $displayData['object'];
+$objhelper     = RedshopSiteHelper::getInstance();
+$producthelper = RedshopSiteProduct::getInstance();
 
-$Itemid          = JRequest::getVar('Itemid');
-$cmd             = JRequest::getVar('cmd');
+$compare       = $displayData['object'];
 
+$cmd           = JRequest::getVar('cmd');
 
-$total    = $compare->getItemsTotal();
+$total         = $compare->getItemsTotal();
 ?>
-<ul id='compare_ul'>
-<?php foreach ($compare->getItems() as $data) : ?>
-	<?php
-	$productId  = $data['item']->productId;
-	$categoryId = $data['item']->categoryId;
-	$product    = RedshopHelperProduct::getProductById($productId);
+<?php if (count($compare->getItems()) > 0) : ?>
+	<ul id='compare_ul'>
+	<?php foreach ($compare->getItems() as $data) : ?>
+		<?php
+		$productId  = $data['item']->productId;
+		$categoryId = $data['item']->categoryId;
+		$product    = RedshopHelperProduct::getProductById($productId);
 
-	$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $categoryId . '&Itemid=' . $Itemid);
-	?>
-	<li>
-		<span>
-			<a href="<?php echo $link; ?>"><?php echo $product->product_name; ?></a>
-		</span>
-		<span>
-			<a
-				id="removeCompare<?php echo $productId . '.' . $categoryId; ?>"
-				href='javascript:;'
-				value="<?php echo $productId . '.' . $categoryId; ?>"
-			>
-				<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
-			</a>
-		</span>
-	</li>
-<?php endforeach; ?>
-</ul>
-<div id="totalCompareProduct" style="display:none;" ><?php echo $total; ?></div>
+		$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+		$catidmain = $product->cat_in_sefurl;
+
+		if (count($ItemData) > 0)
+		{
+			$pItemid = $ItemData->id;
+		}
+		else
+		{
+			$pItemid = $objhelper->getItemid($product->product_id, $catidmain);
+		}
+
+		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $categoryId . '&Itemid=' . $pItemid);
+		?>
+		<li>
+			<span>
+				<a href="<?php echo $link; ?>"><?php echo $product->product_name; ?></a>
+			</span>
+			<span>
+				<a
+					id="removeCompare<?php echo $productId . '.' . $categoryId; ?>"
+					href='javascript:;'
+					value="<?php echo $productId . '.' . $categoryId; ?>"
+				>
+					<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
+				</a>
+			</span>
+		</li>
+	<?php endforeach; ?>
+	</ul>
+	<div id="totalCompareProduct" style="display:none;" ><?php echo $total; ?></div>
+<?php endif ?>

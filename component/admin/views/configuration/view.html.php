@@ -847,6 +847,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['postdk_integration']         = JHTML::_('redshopselect.booleanlist', 'postdk_integration', 'class="inputbox" size="1"', $this->config->get('POSTDK_INTEGRATION'));
 		$lists['send_catalog_reminder_mail'] = JHTML::_('redshopselect.booleanlist', 'send_catalog_reminder_mail', 'class="inputbox" size="1"', $this->config->get('SEND_CATALOG_REMINDER_MAIL'));
 
+		$lists['load_redshop_style'] = JHTML::_('redshopselect.booleanlist', 'load_redshop_style', 'class="inputbox" size="1"', $this->config->get('LOAD_REDSHOP_STYLE'));
+
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
 		$getinstalledplugins  = $model->getinstalledplugins();
