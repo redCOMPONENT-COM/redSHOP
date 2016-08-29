@@ -48,4 +48,32 @@ class PlgRedshop_AlertAlert extends JPlugin
 
 		return $db->setQuery($query)->execute();
 	}
+
+	/**
+	 * send mail to admin
+	 *
+	 * @param   strint   $message  alert message
+	 *
+	 * @return boolean
+	 */
+	public function sendEmail($message)
+	{
+		$mailer = JFactory::getMailer();
+		$mailer->isHTML(true);
+		$config = JFactory::getConfig();
+		$subject = JText::_('COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER_MAIN_SUBJECT');
+		$content = $message;
+
+		// Set email parameters
+		$from = $config->get('mailfrom');
+		$fromName = $config->get('fromname');
+
+		// Send mail
+		if ($mailer->sendMail($from, $fromName, ADMINISTRATOR_EMAIL, $subject, $content))
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
