@@ -39,7 +39,7 @@ $doc->addScript(JURI::root() . 'media/com_redshop/js/common.js');
 
 $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.css');
 
-if (LOAD_REDSHOP_STYLE)
+if (Redshop::getConfig()->get('LOAD_REDSHOP_STYLE'))
 {
 	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/style.css');
 }

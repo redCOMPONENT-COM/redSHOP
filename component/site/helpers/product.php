@@ -6991,7 +6991,7 @@ class RedshopSiteProduct
 		{
 			if (strpos($data_add, '{' . $prefix . 'compare_product_div}') !== false)
 			{
-				$compare_product_div = RedshopLayoutHelper::render('product.compare_product');
+				$compare_product_div = RedshopLayoutHelper::render('product.compare');
 
 				$data_add = str_replace("{compare_product_div}", $compare_product_div, $data_add);
 			}
@@ -8420,7 +8420,7 @@ class RedshopSiteProduct
 			if ($avgRating > 0)
 			{
 				$finalAvgReviewData = RedshopLayoutHelper::render(
-					'product.product_rating_display',
+					'product.rating',
 					array(
 						'avgRating' => $avgRating,
 						'countRating' => $productData->count_rating
