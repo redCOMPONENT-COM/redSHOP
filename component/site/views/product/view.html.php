@@ -114,15 +114,6 @@ class RedshopViewProduct extends RedshopView
 			$stopJQuery = false;
 		}
 
-		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/redbox.js', false, true);
-		JHtml::script('com_redshop/json.js', false, true);
-		JHtml::script('com_redshop/attribute.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
-
-		// Lightbox Javascript
-		JHtml::stylesheet('com_redshop/style.css', array(), true);
-
 		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 
 		if ($layout == "downloadproduct")

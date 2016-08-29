@@ -16,11 +16,13 @@ class RedshopViewRedshop extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
+
 		$this->layout = JRequest::getCmd('layout', 'default');
 
-		$menuhide = explode(",", MENUHIDE);
+		$menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_DASHBOARD'));
+		JToolBarHelper::title(JText::sprintf('COM_REDSHOP_ADMIN_WELCOME', $user->name));
 
 		if ($this->layout != "noconfig")
 		{

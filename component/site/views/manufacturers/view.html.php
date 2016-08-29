@@ -43,10 +43,6 @@ class RedshopViewManufacturers extends RedshopView
 			$disabled = "disabled";
 		}
 
-		JHtml::script('com_redshop/redbox.js', false, true);
-		JHtml::script('com_redshop/attribute.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
-
 		if ($layout != 'default')
 		{
 			$manufacturer = $detail[0];

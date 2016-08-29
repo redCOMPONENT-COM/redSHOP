@@ -11,6 +11,7 @@
 				<th>{product_price_excl_lbl}</th>
 				<th>{quantity_lbl}</th>
 				<th>{total_price_exe_lbl}</th>
+				<th><br/></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -28,16 +29,10 @@
 				<td>{product_thumb_image}</td>
 				<td>{product_price_excl_vat}</td>
 				<td>
-					<table border="0">
-						<tbody>
-						<tr>
-							<td>{update_cart}</td>
-							<td>{remove_product}</td>
-						</tr>
-						</tbody>
-					</table>
+					<span class="update_cart">{update_cart}</span>
 				</td>
 				<td>{product_total_price_excl_vat}</td>
+				<td>{remove_product}</td>
 			</tr>
 			<!-- {product_loop_end} -->
 			</tbody>

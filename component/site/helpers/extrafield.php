@@ -526,8 +526,6 @@ class RedshopSiteExtraField
 
 		$addtocartFormName = 'addtocart_' . $preprefix . 'prd_' . $product_id;
 
-		JHtml::script('com_redshop/attribute.js', false, true);
-
 		if (!array_key_exists($section_id . '_' . $field_section, self::$userFields))
 		{
 			$query = $db->getQuery(true)
