@@ -205,18 +205,6 @@ class redshopMail
 
 		$search[]        = "{discount_type}";
 		$replace[]       = $discount_type;
-		$split_amount    = 0;
-
-		$issplitdisplay  = '';
-		$issplitdisplay2 = '';
-
-		if ($row->split_payment)
-		{
-			$issplitdisplay = "<br/>" . JText::_('COM_REDSHOP_RECEIPT_PARTIALLY_PAID_AMOUNT') . ": "
-				. $producthelper->getProductFormattedPrice($split_amount);
-			$issplitdisplay2 = "<br/>" . JText::_('COM_REDSHOP_REMAINING_PARTIALLY_AMOUNT') . ": "
-				. $producthelper->getProductFormattedPrice($split_amount);
-		}
 
 		$orderdetailurl   = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $order_id . '&encr=' . $row->encr_key;
 		$search[]         = "{order_detail_link}";

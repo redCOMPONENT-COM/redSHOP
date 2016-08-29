@@ -332,13 +332,6 @@ switch ($view)
 		}
 		break;
 
-	case 'split_payment':
-
-		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_SPLIT_PAYMENT'];
-		shRemoveFromGETVarsList('view');
-		break;
-
-
 	case 'checkout':
 
 		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_CHECKOUT'];

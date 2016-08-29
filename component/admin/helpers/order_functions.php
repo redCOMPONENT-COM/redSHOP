@@ -1797,7 +1797,6 @@ class order_functions
 					}
 				}
 
-				$economicdata['split_payment'] = 0;
 				$economic->createInvoiceInEconomic($order_id, $economicdata);
 			}
 

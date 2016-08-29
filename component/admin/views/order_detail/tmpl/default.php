@@ -221,13 +221,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php
 									$partial_paid = $order_functions->getOrderPartialPayment($order_id);
 
-									$remaningtopay = $this->detail->order_total - $partial_paid;
-									$remaningtopay = $producthelper->getProductFormattedPrice($remaningtopay);//number_format($remaningtopay,2);
-									?>
-									<?php if ($this->detail->split_payment)
-									{
-										echo "<strong>" . JText::_('COM_REDSHOP_ORDER_DETAIL_PARTIALLY_PAID_AMOUNT') . ": " . $producthelper->getProductFormattedPrice($partial_paid) . "</strong>";
-									}
+									
 									?>
 								</td>
 							</tr>

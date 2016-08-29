@@ -761,7 +761,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 				$issplit = 1;
 			}
 
-			$economicdata['split_payment'] = $issplit;
 			$economicdata['economic_payment_terms_id'] = $postdata['economic_payment_terms_id'];
 			$economicdata['economic_design_layout'] = $postdata['economic_design_layout'];
 			$economicdata['economic_is_creditcard'] = $postdata['economic_is_creditcard'];

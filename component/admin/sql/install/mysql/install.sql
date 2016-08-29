@@ -604,7 +604,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
 	`customer_note`            TEXT           NOT NULL,
 	`ip_address`               VARCHAR(15)    NOT NULL DEFAULT '',
 	`encr_key`                 VARCHAR(255)   NOT NULL,
-	`split_payment`            INT(11)        NOT NULL,
 	`invoice_no`               VARCHAR(255)   NOT NULL,
 	`mail1_status`             TINYINT(1)     NOT NULL,
 	`mail2_status`             TINYINT(1)     NOT NULL,

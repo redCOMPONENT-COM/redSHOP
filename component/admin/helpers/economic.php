@@ -485,7 +485,6 @@ class economic
 			$orderitem         = $this->_order_functions->getOrderItemDetail($order_id);
 
 			$eco['shop_name']                 = SHOP_NAME;
-			$eco['split_payment']             = $data['split_payment'];
 			$eco['economic_payment_terms_id'] = $data['economic_payment_terms_id'];
 			$eco['economic_design_layout']    = $data['economic_design_layout'];
 
@@ -932,9 +931,7 @@ class economic
 
 		if ($orderdata->is_booked == 0)
 		{
-			$data                  = array();
-			$data['split_payment'] = $orderdata->split_payment;
-
+			$data        = array();
 			$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdata->order_id);
 
 			if (count($paymentInfo) > 0)

@@ -461,7 +461,6 @@ class RedshopModelCheckout extends RedshopModel
 		$row->requisition_number   = $post['requisition_number'];
 		$row->ip_address           = $ip;
 		$row->encr_key             = $random_gen_enc_key;
-		$row->split_payment        = $issplit;
 		$row->discount_type        = $this->discount_type;
 		$row->order_id             = $app->input->getInt('order_id', 0);
 		$row->barcode              = $order_functions->barcode_randon_number(12, 0);
@@ -1149,7 +1148,6 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$economic = economic::getInstance();
 
-			$economicdata['split_payment']             = $issplit;
 			$economicdata['economic_payment_terms_id'] = $economic_payment_terms_id;
 			$economicdata['economic_design_layout']    = $economic_design_layout;
 			$economicdata['economic_is_creditcard']    = $is_creditcard;

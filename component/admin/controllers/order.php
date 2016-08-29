@@ -164,7 +164,6 @@ class RedshopControllerOrder extends RedshopController
 			}
 
 			$economic = economic::getInstance();
-			$economicdata ['split_payment'] = 0;
 			$economic->createInvoiceInEconomic($order_id, $economicdata);
 
 			if (ECONOMIC_INVOICE_DRAFT == 0)
