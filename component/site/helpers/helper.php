@@ -778,7 +778,7 @@ class RedshopSiteHelper
 	public function getCheckoutItemid()
 	{
 		$userhelper         = RedshopSiteUser::getInstance();
-		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
+		$Itemid             = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_checkout_itemid != 0)
@@ -798,7 +798,7 @@ class RedshopSiteHelper
 	public function getCartItemid()
 	{
 		$userhelper         = RedshopSiteUser::getInstance();
-		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
+		$Itemid             = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_itemid != 0)

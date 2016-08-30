@@ -80,7 +80,7 @@ class RedshopViewCheckout extends RedshopView
 		// Toggler settings
 		$openToStretcher = 0;
 
-		if ($isCompany == 1 || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		if ($isCompany == 1 || Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$openToStretcher = 1;
 		}
@@ -106,7 +106,7 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$cart = $session->get('cart');
 
-			if (DEFAULT_QUOTATION_MODE == 1 && !array_key_exists("quotation_id", $cart))
+			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == 1 && !array_key_exists("quotation_id", $cart))
 			{
 				$app->redirect('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
 			}

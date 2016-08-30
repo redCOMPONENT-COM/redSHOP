@@ -69,7 +69,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 	{
 		$post = JRequest::get('post');
 
-		$is_company = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
+		$is_company = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
 		$detail = new stdClass;
 		$detail->users_info_id = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
 		$detail->address_type = (isset($post['address_type'])) ? $post['address_type'] : "";

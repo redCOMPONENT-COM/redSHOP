@@ -28,7 +28,7 @@ $calcoption         = array();
 $calcoption[]       = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
 $calcoption[]       = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
 $calcoption[]       = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
-$discount_calc_unit = JHTML::_('select.genericlist', $calcoption, 'discount_calc_unit', 'class="inputbox" size="1" ', 'value', 'text', DEFAULT_VOLUME_UNIT);
+$discount_calc_unit = JHTML::_('select.genericlist', $calcoption, 'discount_calc_unit', 'class="inputbox" size="1" ', 'value', 'text', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 unset($calcoption);
 
 $height    = "<tr><td><label>" . JText::_('COM_REDSHOP_HEIGHT') . "</label></td><td><input type='text' name='calc_height' id='calc_height' value='' /></td></tr>";

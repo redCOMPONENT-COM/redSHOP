@@ -403,7 +403,7 @@ class redshopMail
 
 			$bcc = array_merge($bcc, $mailbcc);
 
-			if (SPECIAL_DISCOUNT_MAIL_SEND == '1')
+			if (Redshop::getConfig()->get('SPECIAL_DISCOUNT_MAIL_SEND') == '1')
 			{
 				if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 				{
@@ -1256,17 +1256,17 @@ class redshopMail
 		{
 			$tax = $row->quotation_tax;
 
-			if ((float) VAT_RATE_AFTER_DISCOUNT)
+			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 			{
-				$Discountvat             = ((float) VAT_RATE_AFTER_DISCOUNT * $row->quotation_discount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+				$Discountvat             = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $row->quotation_discount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 				$row->quotation_discount = $row->quotation_discount - $Discountvat;
 				$tax                     = $tax - $Discountvat;
 			}
 
-			if ((float) VAT_RATE_AFTER_DISCOUNT)
+			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 			{
 				$sp_discount             = ($row->quotation_special_discount * ($row->quotation_subtotal + $row->quotation_tax)) / 100;
-				$Discountspvat           = ($sp_discount * (float) VAT_RATE_AFTER_DISCOUNT) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+				$Discountspvat           = ($sp_discount * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 				$DiscountspWithotVat     = $sp_discount - $Discountspvat;
 				$row->quotation_discount = $row->quotation_discount + $DiscountspWithotVat;
 				$tax                     = $tax - $Discountspvat;

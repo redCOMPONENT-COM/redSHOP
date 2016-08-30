@@ -883,14 +883,14 @@ class Redconfiguration
 
 		if (!defined('DEFAULT_QUOTATION_MODE'))
 		{
-			if (DEFAULT_QUOTATION_MODE_PRE == 1)
+			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE') == 1)
 			{
 				define('DEFAULT_QUOTATION_MODE', $this->setQuotationMode());
 			}
 
 			else
 			{
-				define('DEFAULT_QUOTATION_MODE', DEFAULT_QUOTATION_MODE_PRE);
+				define('DEFAULT_QUOTATION_MODE', Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE'));
 			}
 		}
 	}
@@ -955,7 +955,7 @@ class Redconfiguration
 		$db = JFactory::getDbo();
 		$user             = JFactory::getUser();
 		$userhelper       = RedshopSiteUser::getInstance();
-		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+		$shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
 		if ($user->id)
 		{
@@ -987,7 +987,7 @@ class Redconfiguration
 
 		else
 		{
-			return DEFAULT_QUOTATION_MODE_PRE;
+			return Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
 		}
 	}
 
@@ -1199,11 +1199,11 @@ class Redconfiguration
 			$date = time();
 		}
 
-		if (DEFAULT_DATEFORMAT)
+		if (Redshop::getConfig()->get('DEFAULT_DATEFORMAT'))
 		{
-			$convertformat = date(DEFAULT_DATEFORMAT, $date);
+			$convertformat = date(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), $date);
 
-			if (strpos(DEFAULT_DATEFORMAT, "M") !== false)
+			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "M") !== false)
 			{
 				$convertformat = str_replace("Jan", JText::_('COM_REDSHOP_JAN'), $convertformat);
 				$convertformat = str_replace("Feb", JText::_('COM_REDSHOP_FEB'), $convertformat);
@@ -1219,7 +1219,7 @@ class Redconfiguration
 				$convertformat = str_replace("Dec", JText::_('COM_REDSHOP_DEC'), $convertformat);
 			}
 
-			if (strpos(DEFAULT_DATEFORMAT, "F") !== false)
+			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "F") !== false)
 			{
 				$convertformat = str_replace("January", JText::_('COM_REDSHOP_JANUARY'), $convertformat);
 				$convertformat = str_replace("February", JText::_('COM_REDSHOP_FEBRUARY'), $convertformat);
@@ -1235,7 +1235,7 @@ class Redconfiguration
 				$convertformat = str_replace("December", JText::_('COM_REDSHOP_DECEMBER'), $convertformat);
 			}
 
-			if (strpos(DEFAULT_DATEFORMAT, "D") !== false)
+			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "D") !== false)
 			{
 				$convertformat = str_replace("Mon", JText::_('COM_REDSHOP_MON'), $convertformat);
 				$convertformat = str_replace("Tue", JText::_('COM_REDSHOP_TUE'), $convertformat);
@@ -1246,7 +1246,7 @@ class Redconfiguration
 				$convertformat = str_replace("Sun", JText::_('COM_REDSHOP_SUN'), $convertformat);
 			}
 
-			if (strpos(DEFAULT_DATEFORMAT, "l") !== false)
+			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "l") !== false)
 			{
 				$convertformat = str_replace("Monday", JText::_('COM_REDSHOP_MONDAY'), $convertformat);
 				$convertformat = str_replace("Tuesday", JText::_('COM_REDSHOP_TUESDAY'), $convertformat);

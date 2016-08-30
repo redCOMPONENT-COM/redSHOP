@@ -464,7 +464,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$selectOption[] = JHtml::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
 		$selectOption[] = JHtml::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
 		$lists['discount_calc_unit'] = JHtml::_('select.genericlist', $selectOption, 'discount_calc_unit[]',
-			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_VOLUME_UNIT
+			'class="inputbox" size="1" ', 'value', 'text', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT')
 		);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_unit']);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_unit']);
@@ -481,9 +481,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			$productVatGroup = array_merge($temps, $productVatGroup);
 		}
 
-		if (DEFAULT_VAT_GROUP && !$detail->product_tax_group_id)
+		if (Redshop::getConfig()->get('DEFAULT_VAT_GROUP') && !$detail->product_tax_group_id)
 		{
-			$detail->product_tax_group_id = DEFAULT_VAT_GROUP;
+			$detail->product_tax_group_id = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
 		}
 
 		$append_to_global_seo = array();

@@ -146,11 +146,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 								'&Itemid=' . $this->itemId
 					);
 
-		if (DEFAULT_LINK_FIND == 0)
+		if (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 0)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . $nextproducts->product_name . "" . DAFULT_NEXT_LINK_SUFFIX . '</a>';
 		}
-		elseif (DEFAULT_LINK_FIND == 1)
+		elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . CUSTOM_NEXT_LINK_FIND . '</a>';
 		}
@@ -171,11 +171,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 								'&Itemid=' . $this->itemId
 					);
 
-		if (DEFAULT_LINK_FIND == 0)
+		if (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 0)
 		{
 			$prevbutton = '<a href="' . $prevlink . '">' . DAFULT_PREVIOUS_LINK_PREFIX . "" . $previousproducts->product_name . '</a>';
 		}
-		elseif (DEFAULT_LINK_FIND == 1)
+		elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
 		{
 			$prevbutton = '<a href="' . $prevlink . '">' . CUSTOM_PREVIOUS_LINK_FIND . '</a>';
 		}
@@ -196,19 +196,19 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
  */
 $product_volume = "";
 $product_volume .= '<span class="length_number">' . $producthelper->redunitDecimal($this->data->product_length) . '</span>';
-$product_volume .= '<span class="length_unit">' . DEFAULT_VOLUME_UNIT . '</span>';
+$product_volume .= '<span class="length_unit">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 $product_volume .= '<span class="separator">X</span>';
 $product_volume .= '<span class="width_number">' . $producthelper->redunitDecimal($this->data->product_width) . '</span>';
-$product_volume .= '<span class="width_unit">' . DEFAULT_VOLUME_UNIT . '</span>';
+$product_volume .= '<span class="width_unit">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 $product_volume .= '<span class="separator">X</span>';
 $product_volume .= '<span class="height_number">' . $producthelper->redunitDecimal($this->data->product_height) . '</span>';
-$product_volume .= '<span class="height_unit">' . DEFAULT_VOLUME_UNIT . '</span>';
+$product_volume .= '<span class="height_unit">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 
 $template_desc = str_replace('{product_size}', $product_volume, $template_desc);
 
-if (DEFAULT_VOLUME_UNIT)
+if (Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'))
 {
-	$product_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . '</span>';
+	$product_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 }
 else
 {
@@ -270,7 +270,7 @@ else
 }
 
 // Product Volume
-$product_volume_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . "3" . '</span>';
+$product_volume_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
 
 if ($this->data->product_volume > 0)
 {
@@ -386,7 +386,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
 }
 
-$product_weight_unit = '<span class="product_unit_variable">' . DEFAULT_WEIGHT_UNIT . '</span>';
+$product_weight_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT') . '</span>';
 
 if ($this->data->weight > 0)
 {
@@ -609,7 +609,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				$title = " title='" . $wrapper[$i]->wrapper_name . "' ";
 				$alt   = " alt='" . $wrapper[$i]->wrapper_name . "' ";
 
-				if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+				if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 				{
 					$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . $producthelper->getProductFormattedPrice($wp) . ")";
 				}
@@ -636,7 +636,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				{
 					$wrapperimage_div .= "<br/><div onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");' align='center'>";
 
-					if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+					if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 					{
 						$wrapperimage_div .= $producthelper->getProductFormattedPrice($wp);
 					}

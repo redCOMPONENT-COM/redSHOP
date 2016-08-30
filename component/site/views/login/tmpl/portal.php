@@ -21,10 +21,10 @@ if (PORTAL_LOGIN_ITEMID)
 	$returnitemid = PORTAL_LOGIN_ITEMID;
 }
 
-$portallogofile = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO;
+$portallogofile = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO');
 
 $portallogo = RedShopHelperImages::getImagePath(
-					DEFAULT_PORTAL_LOGO,
+					Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO'),
 					'',
 					'thumb',
 					'shopperlogo',
@@ -32,7 +32,7 @@ $portallogo = RedShopHelperImages::getImagePath(
 					Redshop::getConfig()->get('THUMB_HEIGHT'),
 					USE_IMAGE_SIZE_SWAPPING
 				);
-$portalname = DEFAULT_PORTAL_NAME;
+$portalname = Redshop::getConfig()->get('DEFAULT_PORTAL_NAME');
 $portalintro = "";
 
 if ($shoppergroupid != 0)

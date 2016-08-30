@@ -830,27 +830,27 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													$special_discount_amount = $this->detail->special_discount_amount;
 													$vatOnDiscount           = false;
 
-													if ((int) APPLY_VAT_ON_DISCOUNT == 0 && (float) VAT_RATE_AFTER_DISCOUNT
+													if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
 													&& (int) $this->detail->order_discount != 0 && (int) $order_tax
 													&& !empty($this->detail->order_discount))
 													{
 													$vatOnDiscount = true;
-													$Discountvat   = ((float) VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+													$Discountvat   = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 													$totaldiscount = $totaldiscount - $Discountvat;
 													}
 
-													if ((int) APPLY_VAT_ON_DISCOUNT == 0 && (float) VAT_RATE_AFTER_DISCOUNT
+													if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
 													&& (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
 													&& !empty($this->detail->special_discount_amount))
 													{
 													$vatOnDiscount           = true;
-													$Discountvat             = ((float) VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+													$Discountvat             = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $special_discount_amount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 													$special_discount_amount = $special_discount_amount - $Discountvat;
 													}
 
 													if ($vatOnDiscount)
 													{
-													$order_tax = (float) VAT_RATE_AFTER_DISCOUNT * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
+													$order_tax = (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
 													}
 													?>
 												<td align="right" width="35%">

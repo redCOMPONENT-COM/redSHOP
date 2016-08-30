@@ -102,7 +102,7 @@ class RedshopSiteCart
 
 				if (strpos($data, '{tax_after_discount}') !== false)
 				{
-					if (APPLY_VAT_ON_DISCOUNT && (float) VAT_RATE_AFTER_DISCOUNT)
+					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 					{
 						if ($check)
 						{
@@ -153,11 +153,11 @@ class RedshopSiteCart
 		$tax_after_discount = 0;
 		$cart               = $this->_session->get('cart');
 
-		if (APPLY_VAT_ON_DISCOUNT && (float) VAT_RATE_AFTER_DISCOUNT)
+		if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 		{
 			if ($discount > 0)
 			{
-				$tmptax             = (float) VAT_RATE_AFTER_DISCOUNT * $discount;
+				$tmptax             = (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $discount;
 				$tax_after_discount = $tax - $tmptax;
 			}
 		}
@@ -504,12 +504,12 @@ class RedshopSiteCart
 				{
 					$data = str_replace('{quotation_custom_field_list}', '', $data);
 
-					if (DEFAULT_QUOTATION_MODE)
+					if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 					{
 						$billadd .= $this->_extra_field->list_all_field(16, $billingaddresses->users_info_id, '', '');
 					}
 				}
-				elseif (DEFAULT_QUOTATION_MODE)
+				elseif (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 				{
 					$data = $this->_extra_field->list_all_field(16, $billingaddresses->users_info_id, '', '', $data);
 				}
@@ -919,7 +919,7 @@ class RedshopSiteCart
 					. '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL')
 					. '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
 
-				if (QUANTITY_TEXT_DISPLAY)
+				if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
 				{
 					$cart_mdata = str_replace("{remove_product}", $remove_product, $cart_mdata);
 				}
@@ -1299,7 +1299,7 @@ class RedshopSiteCart
 				else
 				{
 					$update_cart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >';
-					$update_cart .= '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" id="quantitybox' . $i . '" size="' . DEFAULT_QUANTITY . '" maxlength="' . DEFAULT_QUANTITY . '" onchange="validateInputNumber(this.id);">';
+					$update_cart .= '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" id="quantitybox' . $i . '" size="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" maxlength="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" onchange="validateInputNumber(this.id);">';
 					$update_cart .= '<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
 								<input type="hidden" name="cart_index" value="' . $i . '">
 								<input type="hidden" name="Itemid" value="' . $Itemid . '">
@@ -1354,7 +1354,7 @@ class RedshopSiteCart
 							<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img . '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
 				}
 
-				if (QUANTITY_TEXT_DISPLAY)
+				if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
 				{
 					if (strstr($cart_mdata, "{quantity_increase_decrease}") && $mainview == 'cart')
 					{
@@ -2246,7 +2246,7 @@ class RedshopSiteCart
 
 		$chktag = $this->_producthelper->taxexempt_addtocart();
 
-		if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
+		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && !empty($chktag))
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{
@@ -2377,7 +2377,7 @@ class RedshopSiteCart
 			$template_edata  = explode('{product_loop_end}', $template_sdata[1]);
 			$template_end    = $template_edata[1];
 			$template_middle = $template_edata[0];
-			$template_middle = $this->replaceCartItem($template_middle, $cart, 1, DEFAULT_QUOTATION_MODE);
+			$template_middle = $this->replaceCartItem($template_middle, $cart, 1, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
 			$cart_data       = $template_start . $template_middle . $template_end;
 		}
 
@@ -2407,7 +2407,7 @@ class RedshopSiteCart
 		$tmp_discount              = $discount_total;
 		$discount_total            = $this->_producthelper->getProductFormattedPrice($discount_total + $discount_amount, true);
 
-		if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
+		if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))
 		{
 			if (strpos($cart_data, '{product_subtotal_lbl}') !== false)
 			{
@@ -2542,7 +2542,7 @@ class RedshopSiteCart
 			$cart_data = str_replace("{total_excl_vat}", "", $cart_data);
 		}
 
-		if (!APPLY_VAT_ON_DISCOUNT)
+		if (!Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 		{
 			$total_for_discount = $subtotal_excl_vat;
 		}
@@ -2551,7 +2551,7 @@ class RedshopSiteCart
 			$total_for_discount = $subtotal;
 		}
 
-		$cart_data = $this->replaceDiscount($cart_data, $discount_amount + $tmp_discount, $total_for_discount, DEFAULT_QUOTATION_MODE);
+		$cart_data = $this->replaceDiscount($cart_data, $discount_amount + $tmp_discount, $total_for_discount, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
 
 		if ($checkout)
 		{
@@ -2563,7 +2563,7 @@ class RedshopSiteCart
 			$cart_data     = $this->replacePayment($cart_data, 0, 1, $paymentOprand);
 		}
 
-		$cart_data = $this->replaceTax($cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, DEFAULT_QUOTATION_MODE);
+		$cart_data = $this->replaceTax($cart_data, $tax + $shippingVat, $discount_amount + $tmp_discount, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
 
 		return $cart_data;
 	}
@@ -2667,7 +2667,7 @@ class RedshopSiteCart
 		// End
 		$ReceiptTemplate = $this->replaceShippingMethod($row, $ReceiptTemplate);
 
-		if (!APPLY_VAT_ON_DISCOUNT)
+		if (!Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 		{
 			$total_for_discount = $subtotal_excl_vat;
 		}
@@ -3106,7 +3106,7 @@ class RedshopSiteCart
 					$cartArr['quotation'] = 0;
 				}
 
-				if (DEFAULT_QUOTATION_MODE || $cartArr['quotation'] == 1)
+				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1)
 				{
 					$price = $cartArr[$i]['product_price_excl_vat'];
 				}
@@ -3903,7 +3903,7 @@ class RedshopSiteCart
 			$newslettersignup_lbl = "";
 			$link                 = "";
 
-			if (DEFAULT_NEWSLETTER != 0)
+			if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != 0)
 			{
 				$user  = JFactory::getUser();
 				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
@@ -3949,7 +3949,7 @@ class RedshopSiteCart
 			if (in_array($cart[$v]['product_id'], $product_idArr) || $this->_globalvoucher)
 			{
 				// Set Quantity based on discount type - i.e Multiple or Single.
-				$p_quantity = (DISCOUNT_TYPE == 4) ? $cart[$v]['quantity'] : 1;
+				$p_quantity = (Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) ? $cart[$v]['quantity'] : 1;
 
 				$product_price            += ($cart[$v]['product_price'] * $p_quantity);
 				$product_price_excl_vat   += $cart[$v]['product_price_excl_vat'] * $p_quantity;
@@ -4060,7 +4060,7 @@ class RedshopSiteCart
 					$tmpsubtotal = $pSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 				}
 
-				if (!APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT)
+				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
 				{
 					$tmpsubtotal = $this->calcAlreadyDiscount($tmpsubtotal, $cart);
 				}
@@ -4069,7 +4069,7 @@ class RedshopSiteCart
 				{
 					$avgVAT = 1;
 
-					if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+					if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 					{
 						$avgVAT = $tmpsubtotal / $cart['product_subtotal_excl_vat'];
 					}
@@ -4118,7 +4118,7 @@ class RedshopSiteCart
 				if (is_array($cart['coupon']))
 					$valueExist = $this->rs_recursiveArraySearch($cart['coupon'], $coupon_code);
 
-				switch (DISCOUNT_TYPE)
+				switch (Redshop::getConfig()->get('DISCOUNT_TYPE'))
 				{
 					case 4:
 						if ($valueExist)
@@ -4258,7 +4258,7 @@ class RedshopSiteCart
 					$p_quantity = $voucher->voucher_left;
 				}
 
-				if (!APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT)
+				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
 				{
 					$product_price = $this->calcAlreadyDiscount($product_price, $cart);
 				}
@@ -4308,7 +4308,7 @@ class RedshopSiteCart
 				if (is_array($cart['voucher']))
 					$valueExist = $this->rs_recursiveArraySearch($cart['voucher'], $voucher_code);
 
-				switch (DISCOUNT_TYPE)
+				switch (Redshop::getConfig()->get('DISCOUNT_TYPE'))
 				{
 					case 4:
 						if ($valueExist)
@@ -4646,7 +4646,7 @@ class RedshopSiteCart
 
 		$totaldiscount = 0;
 
-		if (DISCOUNT_ENABLE == 1)
+		if (Redshop::getConfig()->get('DISCOUNT_ENABLE') == 1)
 		{
 			$discount_amount = $this->_producthelper->getDiscountAmount($cart);
 
@@ -4698,7 +4698,7 @@ class RedshopSiteCart
 		$Discountvat = 0;
 		$chktag      = $this->_producthelper->taxexempt_addtocart();
 
-		if ((float) VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
+		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag) && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 		{
 			$vatData = $this->_producthelper->getVatRates();
 
@@ -6944,7 +6944,7 @@ class RedshopSiteCart
 
 		if (!$use_range)
 		{
-			$product_unit = $this->_producthelper->getUnitConversation($globalUnit, DEFAULT_VOLUME_UNIT);
+			$product_unit = $this->_producthelper->getUnitConversation($globalUnit, Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 
 			$product_height   = $data->product_height * $product_unit;
 			$product_width    = $data->product_width * $product_unit;

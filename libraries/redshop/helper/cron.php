@@ -31,7 +31,7 @@ class RedshopHelperCron
 		$day   = date('D', $today);
 		$time  = date('H:i', $today);
 
-		if (DISCOUNT_MAIL_SEND)
+		if (Redshop::getConfig()->get('DISCOUNT_MAIL_SEND'))
 		{
 			self::after_purchased_order_mail();
 		}
@@ -113,7 +113,7 @@ class RedshopHelperCron
 					$recipient = $catalog_detail->email;
 
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
-					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
+					$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
 					$body = $redshopMail->imginmail($body);
 
 					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
@@ -135,7 +135,7 @@ class RedshopHelperCron
 
 				$start_date = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 
-				$end_date = $start_date + (DISCOUNT_DURATION * 23 * 59 * 59);
+				$end_date = $start_date + (Redshop::getConfig()->get('DISCOUNT_DURATION') * 23 * 59 * 59);
 
 				if ($fdate == $send_date)
 				{
@@ -162,8 +162,8 @@ class RedshopHelperCron
 					$recipient = $catalog_detail->email;
 
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
-					$body = str_replace("{days}", DISCOUNT_DURATION, $body);
-					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
+					$body = str_replace("{days}", Redshop::getConfig()->get('DISCOUNT_DURATION'), $body);
+					$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 					$body = $redshopMail->imginmail($body);
 
@@ -172,7 +172,7 @@ class RedshopHelperCron
 					$uid = $db->loadResult();
 
 					$sql = "INSERT INTO  #__redshop_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`) "
-						. "VALUES ('" . $token . "', '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date)
+						. "VALUES ('" . $token . "', '1', '" . Redshop::getConfig()->get('DISCOUNT_PERCENTAGE') . "', " . $db->quote($start_date)
 						. ", " . $db->quote($end_date) . ", '1', " . (int) $uid . ", '1')";
 
 					$db->setQuery($sql);
@@ -191,7 +191,7 @@ class RedshopHelperCron
 				if ($catalog_detail->reminder_3 == 0)
 				{
 					// Coupon reminder
-					$send_date = date("Y-m-d", $catalog_detail->registerDate + (DISCOUNT_DURATION * (60 * 60 * 24)) + (4 * 60 * 60 * 24));
+					$send_date = date("Y-m-d", $catalog_detail->registerDate + (Redshop::getConfig()->get('DISCOUNT_DURATION') * (60 * 60 * 24)) + (4 * 60 * 60 * 24));
 
 					$sql = "select id FROM #__users where email = " . $db->quote($catalog_detail->email);
 					$db->setQuery($sql);
@@ -226,7 +226,7 @@ class RedshopHelperCron
 						$recipient = $catalog_detail->email;
 
 						$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
-						$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
+						$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 						$body = $redshopMail->imginmail($body);
 
@@ -272,11 +272,11 @@ class RedshopHelperCron
 			$from            = $config->get('mailfrom');
 			$fromname        = $config->get('fromname');
 			$start_date      = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-			$end_date        = $start_date + (DISCOUPON_DURATION * 23 * 59 * 59);
+			$end_date        = $start_date + (Redshop::getConfig()->get('DISCOUPON_DURATION') * 23 * 59 * 59);
 			$valid_end_date  = $redconfig->convertDateFormat($end_date);
-			$discoupon_value = (DISCOUPON_PERCENT_OR_TOTAL == 0) ? REDCURRENCY_SYMBOL
+			$discoupon_value = (Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL') == 0) ? REDCURRENCY_SYMBOL
 				. " "
-				. number_format(DISCOUPON_VALUE, 2, PRICE_SEPERATOR, THOUSAND_SEPERATOR) : $discoupon_value = DISCOUPON_VALUE
+				. number_format(Redshop::getConfig()->get('DISCOUPON_VALUE'), 2, PRICE_SEPERATOR, THOUSAND_SEPERATOR) : $discoupon_value = Redshop::getConfig()->get('DISCOUPON_VALUE')
 				. " %";
 
 			$sql = "SELECT CONCAT(firstname,' ',lastname) as name,user_email as email FROM  `#__redshop_order_users_info` WHERE `order_id` =  "
@@ -347,8 +347,8 @@ class RedshopHelperCron
 					{
 						$couponItems                   = JTable::getInstance('coupon_detail', 'Table');
 						$couponItems->coupon_code      = $token;
-						$couponItems->percent_or_total = DISCOUPON_PERCENT_OR_TOTAL;
-						$couponItems->coupon_value     = DISCOUPON_VALUE;
+						$couponItems->percent_or_total = Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL');
+						$couponItems->coupon_value     = Redshop::getConfig()->get('DISCOUPON_VALUE');
 						$couponItems->start_date       = $start_date;
 						$couponItems->end_date         = $end_date;
 						$couponItems->coupon_type      = 1;
@@ -581,7 +581,7 @@ class RedshopHelperCron
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 					$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
-					$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
+					$body = str_replace("{discount}", Redshop::getConfig()->get('COLOUR_DISCOUNT_PERCENTAGE'), $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 					$body = $redshopMail->imginmail($body);
 
@@ -591,7 +591,7 @@ class RedshopHelperCron
 					if ($uid = $db->loadResult())
 					{
 						$sql = "INSERT INTO  #__redshop_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`)
-										VALUES (" . $db->quote($token) . ", '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date) . ", " . $db->quote($end_date) . ", '1', '" . (int) $uid . "', '1')";
+										VALUES (" . $db->quote($token) . ", '1', '" . Redshop::getConfig()->get('DISCOUNT_PERCENTAGE') . "', " . $db->quote($start_date) . ", " . $db->quote($end_date) . ", '1', '" . (int) $uid . "', '1')";
 
 						$db->setQuery($sql);
 						$db->execute();
@@ -645,7 +645,7 @@ class RedshopHelperCron
 
 						$body = str_replace("{name}", $color_detail->name, $bodytmp);
 						$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
-						$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
+						$body = str_replace("{discount}", Redshop::getConfig()->get('COLOUR_DISCOUNT_PERCENTAGE'), $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 						$body = $redshopMail->imginmail($body);
 

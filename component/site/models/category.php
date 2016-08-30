@@ -90,7 +90,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 		$params = $app->getParams('com_redshop');
-		$selectedTemplate = DEFAULT_CATEGORYLIST_TEMPLATE;
+		$selectedTemplate = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
 		$layout = $app->input->getCmd('layout', 'detail');
 
 		if ($this->_id)
@@ -241,9 +241,9 @@ class RedshopModelCategory extends RedshopModel
 
 	public function _buildContentOrderBy()
 	{
-		if (DEFAULT_CATEGORY_ORDERING_METHOD)
+		if (Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD'))
 		{
-			$orderby = " ORDER BY " . DEFAULT_CATEGORY_ORDERING_METHOD;
+			$orderby = " ORDER BY " . Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD');
 		}
 		else
 		{
@@ -646,7 +646,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$redTemplate       = Redtemplate::getInstance();
 
-		$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
+		$selected_template = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
 		$template_section  = "frontpage_category";
 
 		if ($this->_id)

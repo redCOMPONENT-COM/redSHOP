@@ -172,7 +172,7 @@ if (count($rows))
 
 		if ($show_product_price && $product->product_price)
 		{
-			if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+			if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 			{
 				echo "<div class=\"priceWhoBought\">" . $producthelper->getProductFormattedPrice($product->product_price) . "</div>";
 			}

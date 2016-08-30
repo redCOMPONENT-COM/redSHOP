@@ -130,7 +130,7 @@ foreach ($rows as $row)
 
 	if (!$row->not_for_sale && $show_price)
 	{
-		if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+		if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 		{
 			if (!$product_price)
 			{

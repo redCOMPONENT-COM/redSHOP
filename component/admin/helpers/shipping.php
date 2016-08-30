@@ -81,7 +81,7 @@ class shipping
 		}
 		else
 		{
-			$wherecountry = '(FIND_IN_SET(' . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ', shipping_rate_country ) OR shipping_rate_country="0"
+			$wherecountry = '(FIND_IN_SET(' . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', shipping_rate_country ) OR shipping_rate_country="0"
 			OR shipping_rate_country="")';
 		}
 
@@ -293,7 +293,7 @@ class shipping
 		}
 		else
 		{
-			$wherecountry = '(FIND_IN_SET(' . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ', shipping_rate_country ) OR shipping_rate_country="0"
+			$wherecountry = '(FIND_IN_SET(' . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', shipping_rate_country ) OR shipping_rate_country="0"
 			OR shipping_rate_country="")';
 		}
 
@@ -895,7 +895,7 @@ class shipping
 		}
 		else
 		{
-			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ', shipping_rate_country ) )';
+			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', shipping_rate_country ) )';
 		}
 
 		if ($state)
@@ -1084,12 +1084,12 @@ class shipping
 			{
 				if (!$userdata->country_code)
 				{
-					$userdata->country_code = DEFAULT_VAT_COUNTRY;
+					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 				}
 
 				if (!$userdata->state_code)
 				{
-					$userdata->state_code = DEFAULT_VAT_STATE;
+					$userdata->state_code = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 				}
 
 				/*
@@ -1099,8 +1099,8 @@ class shipping
 				 */
 				if (0 == VAT_BASED_ON)
 				{
-					$userdata->country_code = DEFAULT_VAT_COUNTRY;
-					$userdata->state_code   = DEFAULT_VAT_STATE;
+					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
+					$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 				}
 			}
 
@@ -1115,8 +1115,8 @@ class shipping
 			$auth                   = $session->get('auth');
 			$users_info_id          = $auth['users_info_id'];
 			$userdata               = new stdClass;
-			$userdata->country_code = DEFAULT_VAT_COUNTRY;
-			$userdata->state_code   = DEFAULT_VAT_STATE;
+			$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
+			$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 
 			if ($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (VAT_BASED_ON == 2 || VAT_BASED_ON == 1))
 			{
@@ -1131,7 +1131,7 @@ class shipping
 
 		if ($shipping_tax_group_id == 0)
 		{
-			$and .= 'AND tr.tax_group_id = ' . (int) DEFAULT_VAT_GROUP . ' ';
+			$and .= 'AND tr.tax_group_id = ' . (int) Redshop::getConfig()->get('DEFAULT_VAT_GROUP') . ' ';
 		}
 		elseif ($shipping_tax_group_id > 0)
 		{
@@ -1140,7 +1140,7 @@ class shipping
 		}
 		else
 		{
-			$and .= 'AND tr.tax_group_id = ' . (int) DEFAULT_VAT_GROUP . ' ';
+			$and .= 'AND tr.tax_group_id = ' . (int) Redshop::getConfig()->get('DEFAULT_VAT_GROUP') . ' ';
 		}
 
 		$query = 'SELECT tr.* FROM #__redshop_tax_rate as tr '
@@ -1630,7 +1630,7 @@ class shipping
 		}
 		else
 		{
-			$wherecountry = "AND (FIND_IN_SET(" . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ", shipping_rate_country)) ";
+			$wherecountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", shipping_rate_country)) ";
 		}
 
 		$shoppergroup = $userhelper->getShoppergroupData($userInfo->user_id);
@@ -1829,7 +1829,7 @@ class shipping
 		}
 		else
 		{
-			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ', shipping_rate_country )
+			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', shipping_rate_country )
 			OR shipping_rate_country="0" OR shipping_rate_country="")';
 		}
 

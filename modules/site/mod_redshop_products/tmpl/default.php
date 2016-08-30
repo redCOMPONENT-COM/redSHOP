@@ -150,7 +150,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 			$productOldPrice 		= $productArr['product_old_price_excl_vat'];
 		}
 
-		if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+		if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 		{
 			if (!$productPrice)
 			{

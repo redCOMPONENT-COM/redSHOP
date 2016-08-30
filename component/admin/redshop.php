@@ -127,7 +127,7 @@ RedshopHelperConfig::script('PRICE_SEPERATOR', PRICE_SEPERATOR);
 RedshopHelperConfig::script('CURRENCY_SYMBOL_POSITION', CURRENCY_SYMBOL_POSITION);
 RedshopHelperConfig::script('PRICE_DECIMAL', PRICE_DECIMAL);
 RedshopHelperConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
-RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
+RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 JText::script('COM_REDSHOP_IS_REQUIRED');
 
 // Execute the task.

@@ -48,7 +48,7 @@ $use_shoppergroup = $params->get('use_shoppergroup', 'no');
 
 if ($use_shoppergroup == "yes")
 {
-	$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+	$shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
 	if ($user->id)
 	{

@@ -172,9 +172,9 @@ class economic
 			$accountgroup = $this->_redhelper->getEconomicAccountGroup($row->accountgroup_id);
 		}
 
-		elseif (DEFAULT_ECONOMIC_ACCOUNT_GROUP != 0)
+		elseif (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
 		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup(DEFAULT_ECONOMIC_ACCOUNT_GROUP);
+			$accountgroup = $this->_redhelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
 		}
 
 		if (count($accountgroup) > 0)
@@ -545,10 +545,10 @@ class economic
 
 					$isVatDiscount = 0;
 
-					if (APPLY_VAT_ON_DISCOUNT == '0' && (float) VAT_RATE_AFTER_DISCOUNT && $orderdetail->order_discount != "0.00" && $orderdetail->order_tax && !empty($orderdetail->order_discount))
+					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && $orderdetail->order_discount != "0.00" && $orderdetail->order_tax && !empty($orderdetail->order_discount))
 					{
 						$totaldiscount               = $orderdetail->order_discount;
-						$Discountvat                 = ((float) VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+						$Discountvat                 = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 						$orderdetail->order_discount = $totaldiscount - $Discountvat;
 						$isVatDiscount               = 1;
 					}
@@ -865,9 +865,9 @@ class economic
 	 */
 	public function createInvoiceDiscountLineInEconomic($orderdetail = array(), $invoice_no = "", $data = array(), $isPaymentDiscount = 0, $isVatDiscount = 0)
 	{
-		if (DEFAULT_ECONOMIC_ACCOUNT_GROUP)
+		if (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup(DEFAULT_ECONOMIC_ACCOUNT_GROUP, 1);
+			$accountgroup = $this->_redhelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
 
 			if (count($accountgroup) > 0)
 			{

@@ -364,7 +364,7 @@ if (!class_exists('redcategoryScroller'))
 				$pname  = wordwrap($pname, $pwidth, "<br>\n", true);
 			}
 
-			if ($row->category_full_image || CATEGORY_DEFAULT_IMAGE)
+			if ($row->category_full_image || Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'))
 			{
 				$title   = " title='" . $row->category_name . "' ";
 				$alt     = " alt='" . $row->category_name . "' ";
@@ -378,10 +378,10 @@ if (!class_exists('redcategoryScroller'))
 					$product_img = $redhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
 					$linkimage   = $redhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE);
 				}
-				else if (CATEGORY_DEFAULT_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . CATEGORY_DEFAULT_IMAGE))
+				else if (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 				{
-					$product_img = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
-					$linkimage   = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE);
+					$product_img = $redhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
+					$linkimage   = $redhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', WATERMARK_CATEGORY_IMAGE);
 				}
 
 				if (CAT_IS_LIGHTBOX)

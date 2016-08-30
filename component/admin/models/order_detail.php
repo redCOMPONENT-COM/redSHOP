@@ -930,9 +930,9 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			$update_discount = $subtotal;
 		}
-		if (APPLY_VAT_ON_DISCOUNT == '0' && VAT_RATE_AFTER_DISCOUNT && $update_discount != "0.00" && $orderdata->order_tax && !empty($update_discount))
+		if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && $update_discount != "0.00" && $orderdata->order_tax && !empty($update_discount))
 		{
-			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $update_discount);
+			$Discountvat = (Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $update_discount);
 			$update_discount = $update_discount + $Discountvat;
 		}
 		if (abs($data['update_discount']) == 0)

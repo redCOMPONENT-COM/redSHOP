@@ -144,7 +144,7 @@ if (count($list) > 0)
 											$product_price_discount = $productArr['productPrice'];
 										}
 
-										if (SHOW_PRICE && !USE_AS_CATALOG && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+										if (SHOW_PRICE && !USE_AS_CATALOG && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 										{
 											if (!$product_price)
 											{

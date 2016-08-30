@@ -186,7 +186,7 @@ class CurrencyHelper
 	{
 		$session = JFactory::getSession();
 
-		// Global $vendor_currency is DEFAULT!
+		// Global $vendor_currency is Redshop::getConfig()->get('DEFAULT')!
 		if (!$currA)
 		{
 			$currA = CURRENCY_CODE;

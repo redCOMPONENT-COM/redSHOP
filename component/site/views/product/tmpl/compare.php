@@ -176,22 +176,22 @@ if ($total > 0)
 		$product_number_output = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
 		$template              = str_replace('{product_number}', $exp_div . $product->product_number . $div_end . $td_end . $td_start . "{product_number}", $template);
 
-		$product_weight_unit = '<span class="product_unit_variable">' . DEFAULT_WEIGHT_UNIT . '</span>';
+		$product_weight_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT') . '</span>';
 		$template            = str_replace('{product_weight}', $exp_div . $producthelper->redunitDecimal($product->weight) . "&nbsp;" . $product_weight_unit . $div_end . $td_end . $td_start . "{product_weight}", $template);
 
-		$product_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . '</span>';
+		$product_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 		$template     = str_replace('{product_length}', $exp_div . $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_length}", $template);
 		$template     = str_replace('{product_height}', $exp_div . $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_height}", $template);
 		$template     = str_replace('{product_width}', $exp_div . $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_width}", $template);
 
-		$product_volume_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . "3" . '</span>';
+		$product_volume_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
 		$template            = str_replace('{product_volume}', $exp_div . $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit . $div_end . $td_end . $td_start . "{product_volume}", $template);
 
 		if (strstr($template, "{product_price}"))
 		{
 			$price = 0;
 
-			if (SHOW_PRICE && !USE_AS_CATALOG && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+			if (SHOW_PRICE && !USE_AS_CATALOG && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 			{
 				$productPrices = $producthelper->getProductNetPrice($product->product_id);
 				$price = $producthelper->getProductFormattedPrice($productPrices['product_price']);

@@ -526,7 +526,7 @@ class RedshopSiteUser
 				}
 				else
 				{
-					$data['shopper_group_id'] = (SHOPPER_GROUP_DEFAULT_COMPANY != 0) ? SHOPPER_GROUP_DEFAULT_COMPANY : 2;
+					$data['shopper_group_id'] = (Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY') != 0) ? Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY') : 2;
 				}
 			}
 			else
@@ -537,7 +537,7 @@ class RedshopSiteUser
 				}
 				else
 				{
-					$data['shopper_group_id'] = (SHOPPER_GROUP_DEFAULT_PRIVATE != 0) ? SHOPPER_GROUP_DEFAULT_PRIVATE : 1;
+					$data['shopper_group_id'] = (Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE') != 0) ? Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE') : 1;
 				}
 			}
 		}
@@ -784,7 +784,7 @@ class RedshopSiteUser
 			$post['email1']     = $jusers[$i]->email;
 			$post['firstname']  = $name[0];
 			$post['lastname']   = (isset($name[1]) && $name[1]) ? $name[1] : '';
-			$post['is_company'] = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
+			$post['is_company'] = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
 			$post['password1']  = '';
 			$post['billisship'] = 1;
 			$reduser            = $this->storeRedshopUser($post, $jusers[$i]->id, 1);
@@ -802,9 +802,9 @@ class RedshopSiteUser
 		{
 			$user_id = $user->id;
 		}
-		if (DEFAULT_NEWSLETTER > 0)
+		if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') > 0)
 		{
-			$newsletter = DEFAULT_NEWSLETTER;
+			$newsletter = Redshop::getConfig()->get('DEFAULT_NEWSLETTER');
 		}
 		if (count($data) <= 0)
 		{
@@ -867,9 +867,9 @@ class RedshopSiteUser
 		$user = JFactory::getUser();
 		$and  = "";
 
-		if (DEFAULT_NEWSLETTER != "")
+		if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != "")
 		{
-			$and .= "AND newsletter_id='" . DEFAULT_NEWSLETTER . "' ";
+			$and .= "AND newsletter_id='" . Redshop::getConfig()->get('DEFAULT_NEWSLETTER') . "' ";
 		}
 
 		if ($user->id)

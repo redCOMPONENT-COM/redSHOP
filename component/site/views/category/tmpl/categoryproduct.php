@@ -144,10 +144,10 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 			$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
-		elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
+		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
-			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+			$product_img = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$linkimage   = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
 
 		if (CAT_IS_LIGHTBOX)
@@ -331,11 +331,11 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$product_number_output = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
 				$prddata_add           = str_replace("{product_number}", $product_number_output, $prddata_add);
 
-				$product_volume_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . "3" . '</span>';
+				$product_volume_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
 				$strToInsert = $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit;
 				$prddata_add = str_replace("{product_size}", $strToInsert, $prddata_add);
 
-				$product_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . '</span>';
+				$product_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 				$strToInsert  = $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit;
 				$prddata_add  = str_replace("{product_length}", $strToInsert, $prddata_add);
 

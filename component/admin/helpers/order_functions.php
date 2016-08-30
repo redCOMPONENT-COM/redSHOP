@@ -239,7 +239,7 @@ class order_functions
 			$totalWeight += (($weight * $orderproducts [$c]->product_quantity) + $acc_weight);
 		}
 
-		$unitRatio = $producthelper->getUnitConversation('kg', DEFAULT_WEIGHT_UNIT);
+		$unitRatio = $producthelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
 
 		if ($unitRatio != 0)
 		{

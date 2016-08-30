@@ -175,7 +175,7 @@ class RedshopModelCart extends RedshopModel
 		{
 			$redTemplate = Redtemplate::getInstance();
 
-			if (DEFAULT_QUOTATION_MODE)
+			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 			{
 				$this->_data = $redTemplate->getTemplate("quotation_cart");
 			}

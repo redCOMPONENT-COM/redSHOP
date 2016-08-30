@@ -179,7 +179,7 @@ class RedshopControllerCart extends RedshopController
 				}
 			}
 
-			if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
+			if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))
 			{
 				$this->_carthelper->carttodb();
 			}
@@ -189,7 +189,7 @@ class RedshopControllerCart extends RedshopController
 		}
 		else
 		{
-			if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
+			if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))
 			{
 				$this->_carthelper->carttodb();
 			}
@@ -245,7 +245,7 @@ class RedshopControllerCart extends RedshopController
 		$discount_excl_vat        = 0;
 		$totaldiscount            = 0;
 
-		if (DISCOUNT_ENABLE == 1)
+		if (Redshop::getConfig()->get('DISCOUNT_ENABLE') == 1)
 		{
 			$discount_amount = $producthelper->getDiscountAmount($cart);
 
@@ -279,7 +279,7 @@ class RedshopControllerCart extends RedshopController
 		$discountVAT = 0;
 		$chktag = $producthelper->taxexempt_addtocart();
 
-		if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
+		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && !empty($chktag))
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{

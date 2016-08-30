@@ -240,7 +240,7 @@ class RedshopModelExport extends RedshopModel
 				->select('quantity')
 				->from($db->qn('#__redshop_product_stockroom_xref'))
 				->where('product_id = ' . (int) $oneProduct->product_id)
-				->where('stockroom_id = ' . $db->q(DEFAULT_STOCKROOM));
+				->where('stockroom_id = ' . $db->q(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
 
 			if ($stock = $db->setQuery($query)->loadResult())
 			{

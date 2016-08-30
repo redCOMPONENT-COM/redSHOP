@@ -43,7 +43,7 @@ class RedshopViewRegistration extends RedshopView
 		$openToStretcher = 0;
 		$isCompany = $jInput->getInt('is_company', 0);
 
-		if ($isCompany == 1 || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		if ($isCompany == 1 || Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$openToStretcher = 1;
 		}
@@ -66,7 +66,7 @@ class RedshopViewRegistration extends RedshopView
 			$openToStretcher = 1;
 		}
 
-		if (DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		if (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$lists['showCompanydesc']  = '';
 			$lists['showCustomerdesc'] = "style='display:none;'";

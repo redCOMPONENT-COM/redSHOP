@@ -673,18 +673,18 @@ class RedshopModelImport extends RedshopModel
 								->select('COUNT(*) AS total')
 								->from($db->quoteName('#__redshop_product_stockroom_xref'))
 								->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
-								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM));
+								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
 
 							$db->setQuery($query);
 							$total = $db->loadresult();
 
-							if ($product_stock && DEFAULT_STOCKROOM != 0)
+							if ($product_stock && Redshop::getConfig()->get('DEFAULT_STOCKROOM') != 0)
 							{
 								if ($total <= 0)
 								{
 									$insert = new stdClass;
 									$insert->product_id = $product_id;
-									$insert->stockroom_id = DEFAULT_STOCKROOM;
+									$insert->stockroom_id = Redshop::getConfig()->get('DEFAULT_STOCKROOM');
 									$insert->quantity = $product_stock;
 									$db->insertObject("#__redshop_product_stockroom_xref", $insert);
 								}
@@ -694,7 +694,7 @@ class RedshopModelImport extends RedshopModel
 										->update($db->quoteName('#__redshop_product_stockroom_xref'))
 										->set($db->quoteName('quantity') . ' = ' . $db->quote($product_stock))
 										->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
-										->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM));
+										->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
 
 									$db->setQuery($query);
 									$db->execute();
@@ -2276,11 +2276,11 @@ class RedshopModelImport extends RedshopModel
 
 					$last_insert = $rows->product_id;
 
-					if ($product_in_stock && DEFAULT_STOCKROOM != 0)
+					if ($product_in_stock && Redshop::getConfig()->get('DEFAULT_STOCKROOM') != 0)
 					{
 						$query = "INSERT IGNORE INTO `#__redshop_product_stockroom_xref` "
 							. "(`product_id`, `stockroom_id`, `quantity`) "
-							. "VALUES ('" . $last_insert . "', '" . DEFAULT_STOCKROOM . "', '" . $product_in_stock . "') ";
+							. "VALUES ('" . $last_insert . "', '" . Redshop::getConfig()->get('DEFAULT_STOCKROOM') . "', '" . $product_in_stock . "') ";
 						$db->setQuery($query);
 
 						if (!$db->execute())

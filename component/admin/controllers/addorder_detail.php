@@ -156,7 +156,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$subtotal_excl_vat = $subtotal_excl_vat + ($orderItem[$i]->prdexclprice * $orderItem[$i]->quantity);
 		}
 
-		if (APPLY_VAT_ON_DISCOUNT)
+		if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 		{
 			$amt = $subtotal;
 		}
