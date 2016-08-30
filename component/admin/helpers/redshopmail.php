@@ -1096,17 +1096,17 @@ class redshopMail
 				}
 				else
 				{
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 					{
-						$product_image_path = PRODUCT_DEFAULT_IMAGE;
+						$product_image_path = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					}
 				}
 			}
 			else
 			{
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
-					$product_image_path = PRODUCT_DEFAULT_IMAGE;
+					$product_image_path = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 				}
 			}
 

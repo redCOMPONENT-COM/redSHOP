@@ -216,8 +216,8 @@ class plgAcymailingRedshop extends JPlugin
 		$productImage = $productHelper->getProductImage(
 							$productId,
 							$link,
-							PRODUCT_MAIN_IMAGE,
-							PRODUCT_MAIN_IMAGE_HEIGHT,
+							Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+							Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT'),
 							0
 						);
 		$productImageLink = '<a href="' . $link . '">' . $productImage . '</a>';

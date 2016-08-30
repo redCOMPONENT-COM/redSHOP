@@ -891,7 +891,7 @@ class RedshopSiteProduct
 
 		$cat_product_hover = false;
 
-		if ($enableHover && PRODUCT_HOVER_IMAGE_ENABLE)
+		if ($enableHover && Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_ENABLE'))
 		{
 			$cat_product_hover = true;
 		}
@@ -906,13 +906,13 @@ class RedshopSiteProduct
 			}
 		}
 
-		if (!$isStockExists && USE_PRODUCT_OUTOFSTOCK_IMAGE == 1)
+		if (!$isStockExists && Redshop::getConfig()->get('USE_PRODUCT_OUTOFSTOCK_IMAGE') == 1)
 		{
-			if (PRODUCT_OUTOFSTOCK_IMAGE && file_exists($middlepath . PRODUCT_OUTOFSTOCK_IMAGE))
+			if (Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')))
 			{
 				$thum_image = $this->replaceProductImage(
 					$result,
-					PRODUCT_OUTOFSTOCK_IMAGE,
+					Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE'),
 					"",
 					$link,
 					$width,
@@ -1039,11 +1039,11 @@ class RedshopSiteProduct
 		}
 		else
 		{
-			if (PRODUCT_DEFAULT_IMAGE && file_exists($middlepath . PRODUCT_DEFAULT_IMAGE))
+			if (Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 			{
 				$thum_image = $this->replaceProductImage(
 					$result,
-					PRODUCT_DEFAULT_IMAGE,
+					Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 					"",
 					$link,
 					$width,
@@ -1090,7 +1090,7 @@ class RedshopSiteProduct
 
 		$cat_product_hover = false;
 
-		if ($enableHover && PRODUCT_HOVER_IMAGE_ENABLE)
+		if ($enableHover && Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_ENABLE'))
 		{
 			$cat_product_hover = true;
 		}
@@ -1109,8 +1109,8 @@ class RedshopSiteProduct
 			if ($cat_product_hover)
 				$product_hover_img = $redhelper->watermark('product',
 					$imagename,
-					PRODUCT_HOVER_IMAGE_WIDTH,
-					PRODUCT_HOVER_IMAGE_HEIGHT,
+					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'),
+					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'),
 					Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'),
 					'2');
 
@@ -1189,7 +1189,7 @@ class RedshopSiteProduct
 			if (PRODUCT_IS_LIGHTBOX == 1)
 			{
 				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, WATERMARK_PRODUCT_IMAGE, '0');
-				$product_hover_img = $redhelper->watermark('product', $category_img, PRODUCT_HOVER_IMAGE_WIDTH, PRODUCT_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_IMAGE, '0');
+				$product_hover_img = $redhelper->watermark('product', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), WATERMARK_PRODUCT_IMAGE, '0');
 				$linkimage         = $redhelper->watermark('category', $category_img, '', '', WATERMARK_PRODUCT_IMAGE, '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $linkimage . "' " . $title . "  rel=\"myallimg\">";
 				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
@@ -1199,7 +1199,7 @@ class RedshopSiteProduct
 			else
 			{
 				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, WATERMARK_PRODUCT_IMAGE, '0');
-				$product_hover_img = $redhelper->watermark('category', $category_img, PRODUCT_HOVER_IMAGE_WIDTH, PRODUCT_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_IMAGE, '0');
+				$product_hover_img = $redhelper->watermark('category', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), WATERMARK_PRODUCT_IMAGE, '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $link . "' " . $title . ">";
 				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
 				$thum_image .= "</a>";
@@ -4066,7 +4066,7 @@ class RedshopSiteProduct
 					break;
 				}
 
-				if (DEFAULT_AJAX_DETAILBOX_TEMPLATE == $ajaxdetail_template[$i]->template_id)
+				if (Redshop::getConfig()->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE') == $ajaxdetail_template[$i]->template_id)
 				{
 					$default_ajaxdetail_templatedata = $ajaxdetail_template[$i];
 				}
@@ -4617,23 +4617,23 @@ class RedshopSiteProduct
 
 			if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 			{
-				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
-				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
+				$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+				$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
 			}
 			elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 			{
-				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
-				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
+				$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+				$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
 			}
 			elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 			{
-				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+				$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+				$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 			}
 			else
 			{
-				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+				$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+				$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 			}
 
 			$cart_template   = array();
@@ -4769,7 +4769,7 @@ class RedshopSiteProduct
 
 					if ($attributes[$a]->attribute_required > 0)
 					{
-						$pos        = ASTERISK_POSITION > 0 ? urldecode($attributes [$a]->text)
+						$pos        = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attributes [$a]->text)
 							. "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>"
 							. urldecode($attributes[$a]->text);
 						$attr_title = $pos;
@@ -4927,23 +4927,23 @@ class RedshopSiteProduct
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
 		}
 		elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
 		}
 		elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 		else
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 
 		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
@@ -5255,7 +5255,7 @@ class RedshopSiteProduct
 
 					if ($attributes [$a]->attribute_required > 0)
 					{
-						$pos        = ASTERISK_POSITION > 0 ? urldecode($attributes [$a]->text) . "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>" . urldecode($attributes[$a]->text);
+						$pos        = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attributes [$a]->text) . "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>" . urldecode($attributes[$a]->text);
 						$attr_title = $pos;
 					}
 					else
@@ -5407,23 +5407,23 @@ class RedshopSiteProduct
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
 		}
 		elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
 		}
 		elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 		else
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 
 		if ($subatthtml != "")
@@ -5699,7 +5699,7 @@ class RedshopSiteProduct
 
 				if ($subproperty[0]->setrequire_selected == 1)
 				{
-					$displayPropertyName = ASTERISK_POSITION > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'>* </span>" . $displayPropertyName;
+					$displayPropertyName = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'>* </span>" . $displayPropertyName;
 				}
 				$attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
 				$attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
@@ -9127,12 +9127,12 @@ class RedshopSiteProduct
 		}
 		else
 		{
-			if (PRODUCT_DEFAULT_IMAGE && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+			if (Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE') && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 			{
 				$type                = 'product';
-				$imagename           = PRODUCT_DEFAULT_IMAGE;
-				$aTitleImageResponse = PRODUCT_DEFAULT_IMAGE;
-				$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . PRODUCT_DEFAULT_IMAGE;
+				$imagename           = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
+				$aTitleImageResponse = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
+				$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 			}
 		}
 
@@ -9297,48 +9297,48 @@ class RedshopSiteProduct
 			if (strpos($producttemplate, "{product_thumb_image_3}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_3}';
-				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_3;
-				$pw_thumb = PRODUCT_MAIN_IMAGE_3;
+				$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_3');
+				$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_3');
 			}
 			elseif (strpos($producttemplate, "{product_thumb_image_2}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_2}';
-				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_2;
-				$pw_thumb = PRODUCT_MAIN_IMAGE_2;
+				$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_2');
+				$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_2');
 			}
 			elseif (strpos($producttemplate, "{product_thumb_image_1}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_1}';
-				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-				$pw_thumb = PRODUCT_MAIN_IMAGE;
+				$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
+				$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
 			}
 			else
 			{
 				$pimg_tag = '{product_thumb_image}';
-				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-				$pw_thumb = PRODUCT_MAIN_IMAGE;
+				$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
+				$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
 			}
 		}
 
 		if (strpos($producttemplate, "{more_images_3}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
 		}
 		elseif (strpos($producttemplate, "{more_images_2}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
 		}
 		elseif (strpos($producttemplate, "{more_images_1}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 		else
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 
 		if ($main_imgwidth != 0 || $main_imgheight != 0)
@@ -9381,11 +9381,11 @@ class RedshopSiteProduct
 
 			if ($thumb && ($thumb != $media_image [$m]->product_full_image) && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $thumb))
 			{
-				if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
+				if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 				{
-					$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
-					$linkimage     = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
-					$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
+					$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "1");
+					$linkimage     = $redhelper->watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "0");
+					$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '2');
 
 				}
 				else
@@ -9423,9 +9423,9 @@ class RedshopSiteProduct
 				}
 				else
 				{
-					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
+					if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 					{
-						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
+						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '0');
 					}
 					else
 					{
@@ -9453,7 +9453,7 @@ class RedshopSiteProduct
 					}
 					else
 					{
-						$thumb_original = PRODUCT_DEFAULT_IMAGE;
+						$thumb_original = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					}
 
 					if (Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'))

@@ -105,26 +105,26 @@ class plgContentredshop_product extends JPlugin
 				if (strstr($prtemplate, "{product_thumb_image_3}"))
 				{
 					$pimg_tag = '{product_thumb_image_3}';
-					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_3;
-					$pw_thumb = PRODUCT_MAIN_IMAGE_3;
+					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_3');
+					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_3');
 				}
 				elseif (strstr($prtemplate, "{product_thumb_image_2}"))
 				{
 					$pimg_tag = '{product_thumb_image_2}';
-					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_2;
-					$pw_thumb = PRODUCT_MAIN_IMAGE_2;
+					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_2');
+					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_2');
 				}
 				elseif (strstr($prtemplate, "{product_thumb_image_1}"))
 				{
 					$pimg_tag = '{product_thumb_image_1}';
-					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-					$pw_thumb = PRODUCT_MAIN_IMAGE;
+					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
+					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
 				}
 				else
 				{
 					$pimg_tag = '{product_thumb_image}';
-					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-					$pw_thumb = PRODUCT_MAIN_IMAGE;
+					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
+					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='"

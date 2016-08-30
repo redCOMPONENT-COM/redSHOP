@@ -548,7 +548,7 @@ class RedshopSiteUser
 			$data['name']     = $joomlauser->name;
 			$data['email']    = $joomlauser->email;
 		}
-		if (SHOW_TERMS_AND_CONDITIONS == 1 && isset($data['termscondition']) && $data['termscondition'] == 1)
+		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && isset($data['termscondition']) && $data['termscondition'] == 1)
 		{
 			$data['accept_terms_conditions'] = 1;
 		}

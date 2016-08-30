@@ -595,8 +595,8 @@ class RedshopModelConfiguration extends RedshopModel
 									'',
 									'thumb',
 									'product',
-									PRODUCT_MAIN_IMAGE,
-									PRODUCT_MAIN_IMAGE,
+									Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+									Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
 									USE_IMAGE_SIZE_SWAPPING
 								);
 					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"

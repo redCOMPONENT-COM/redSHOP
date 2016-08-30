@@ -199,7 +199,7 @@ function display_products($rows)
 			}
 			else
 			{
-				$maindefaultpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . PRODUCT_DEFAULT_IMAGE;
+				$maindefaultpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 				echo  $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'><a href='" . $link . "'><img src='" . $maindefaultpath . "' height='85' width='63' /></a></div></div>";
 			}
 
@@ -280,7 +280,7 @@ function display_products($rows)
 			else
 			{
 				$maindefaultpath = RedShopHelperImages::getImagePath(
-								PRODUCT_DEFAULT_IMAGE,
+								Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 								'',
 								'thumb',
 								'product',

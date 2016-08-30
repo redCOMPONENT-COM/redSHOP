@@ -201,7 +201,7 @@ class RedshopAdminProduct
 
 				if ($attributes [$a]->attribute_required > 0)
 				{
-					$pos = ASTERISK_POSITION > 0 ? urldecode($attributes [$a]->text)
+					$pos = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attributes [$a]->text)
 						. "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>"
 						. urldecode($attributes[$a]->text);
 					$attr_title = $pos;

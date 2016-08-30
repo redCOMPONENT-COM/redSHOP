@@ -986,9 +986,9 @@ class RedshopSiteCart
 					$prd_image = $product->product_full_image;
 					$type      = 'product';
 				}
-				elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+				elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
-					$prd_image = PRODUCT_DEFAULT_IMAGE;
+					$prd_image = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					$type      = 'product';
 				}
 
@@ -1487,10 +1487,10 @@ class RedshopSiteCart
 						}
 						else
 						{
-							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 							{
 								$attribute_image_path = RedShopHelperImages::getImagePath(
-															PRODUCT_DEFAULT_IMAGE,
+															Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 															'',
 															'thumb',
 															'product',
@@ -1504,10 +1504,10 @@ class RedshopSiteCart
 					}
 					else
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
-														PRODUCT_DEFAULT_IMAGE,
+														Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 														'',
 														'thumb',
 														'product',
@@ -3844,7 +3844,7 @@ class RedshopSiteCart
 			$finaltag       = ($terms_left_final != "") ? "{terms_and_conditions:$terms_left_final}" : "{terms_and_conditions}";
 			$termscondition = '';
 
-			if (SHOW_TERMS_AND_CONDITIONS == 0 || (SHOW_TERMS_AND_CONDITIONS == 1 && ((count($list) > 0 && $list->accept_terms_conditions == 0) || count($list) == 0)))
+			if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && ((count($list) > 0 && $list->accept_terms_conditions == 0) || count($list) == 0)))
 			{
 				$finalwidth  = "500";
 				$finalheight = "450";

@@ -494,7 +494,7 @@ class RedshopModelCheckout extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-		if (SHOW_TERMS_AND_CONDITIONS == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
+		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
 		{
 			$this->_userhelper->updateUserTermsCondition($users_info_id, 1);
 		}

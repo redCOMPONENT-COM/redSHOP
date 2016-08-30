@@ -892,8 +892,8 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 									'',
 									'thumb',
 									'product',
-									CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH,
-									CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT,
+									Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH'),
+									Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT'),
 									USE_IMAGE_SIZE_SWAPPING
 								);
 				$previewImg     = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
