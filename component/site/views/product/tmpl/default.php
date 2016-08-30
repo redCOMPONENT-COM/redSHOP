@@ -370,7 +370,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
 		$wimg      = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
-		$linkimage = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE);
+		$linkimage = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 
 		$altText = $producthelper->getAltText('manufacturer', $this->data->manufacturer_id);
 

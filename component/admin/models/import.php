@@ -3021,7 +3021,7 @@ class RedshopModelImport extends RedshopModel
 				{
 					$reduser = $this->getTable('manufacturer_detail');
 					$reduser->set('published', 1);
-					$reduser->set('template_id', MANUFACTURER_TEMPLATE);
+					$reduser->set('template_id', Redshop::getConfig()->get('MANUFACTURER_TEMPLATE'));
 					$reduser->set('manufacturer_desc', $manufacturer_desc);
 					$reduser->set('manufacturer_name', $manufacturer_name);
 					$reduser->set('manufacturer_id', 0);

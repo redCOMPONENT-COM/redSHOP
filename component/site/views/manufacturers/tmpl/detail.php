@@ -104,9 +104,9 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				$altText = $row->manufacturer_name;
 			}
 
-			if (WATERMARK_MANUFACTURER_IMAGE)
+			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'))
 			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_IMAGE);
+				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 				$maintype         = "watermarked/main";
 			}
 			else

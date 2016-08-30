@@ -286,7 +286,7 @@ class redshopMail
 			return true;
 		}
 
-		if (MANUFACTURER_MAIL_ENABLE)
+		if (Redshop::getConfig()->get('MANUFACTURER_MAIL_ENABLE'))
 		{
 			sort($manufacturer_email);
 
@@ -412,7 +412,7 @@ class redshopMail
 			}
 		}
 
-		if (MANUFACTURER_MAIL_ENABLE)
+		if (Redshop::getConfig()->get('MANUFACTURER_MAIL_ENABLE'))
 		{
 			sort($manufacturer_email);
 

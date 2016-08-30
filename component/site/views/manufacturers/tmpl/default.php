@@ -110,7 +110,7 @@ if ($this->detail && $template_middle != "")
 			$manufacturer_name = "<a href='" . $manproducts . "'><b>" . $row->manufacturer_name . "</b></a>";
 
 			$middledata = $template_middle;
-			$manu_name  = $config->maxchar($manufacturer_name, MANUFACTURER_TITLE_MAX_CHARS, MANUFACTURER_TITLE_END_SUFFIX);
+			$manu_name  = $config->maxchar($manufacturer_name, Redshop::getConfig()->get('MANUFACTURER_TITLE_MAX_CHARS'), Redshop::getConfig()->get('MANUFACTURER_TITLE_END_SUFFIX'));
 			$middledata = str_replace("{manufacturer_name}", $manu_name, $middledata);
 
 			// Extra field display
@@ -132,9 +132,9 @@ if ($this->detail && $template_middle != "")
 							$altText = $media_image[$m]->media_name;
 						}
 
-						if (WATERMARK_MANUFACTURER_IMAGE || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
+						if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 						{
-							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_IMAGE);
+							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 						}
 						else
 						{
