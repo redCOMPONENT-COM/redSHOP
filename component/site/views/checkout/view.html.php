@@ -89,12 +89,12 @@ class RedshopViewCheckout extends RedshopView
 		$lists['allowCustomer'] = "";
 		$lists['allowCompany'] = "";
 
-		if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 		{
 			$lists['allowCompany'] = "style='display:none;'";
 			$openToStretcher = 0;
 		}
-		elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$lists['allowCustomer'] = "style='display:none;'";
 			$openToStretcher = 1;

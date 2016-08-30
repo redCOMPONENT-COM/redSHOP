@@ -549,7 +549,7 @@ $calendarFormat = '%d-%m-%Y';
 						value="<?php echo $this->detail->minimum_per_product_total;?>" />
 				</div>
 
-				<?php if (ALLOW_PRE_ORDER) : ?>
+				<?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>
 				<div class="form-group">
 					<label>
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL'); ?>

@@ -520,8 +520,8 @@ class rsstockroomhelper
 					$product_data = Redshop::product((int) $product_id);
 				}
 
-				if ($product_data->preorder == "yes" || ($product_data->preorder == "global" && ALLOW_PRE_ORDER)
-					|| ($product_data->preorder == "" && ALLOW_PRE_ORDER))
+				if ($product_data->preorder == "yes" || ($product_data->preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+					|| ($product_data->preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 				{
 					for ($i = 0, $in = count($preorder_list); $i < $in; $i++)
 					{

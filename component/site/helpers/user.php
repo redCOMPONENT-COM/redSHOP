@@ -1116,7 +1116,7 @@ class RedshopSiteUser
 
 		if (strstr($template_desc, "{private_extrafield}"))
 		{
-			$extra_field_user = (ALLOW_CUSTOMER_REGISTER_TYPE != 2 && $lists['extra_field_user'] != "") ? $lists['extra_field_user'] : "";
+			$extra_field_user = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 2 && $lists['extra_field_user'] != "") ? $lists['extra_field_user'] : "";
 			$template_desc    = str_replace("{private_extrafield}", $extra_field_user, $template_desc);
 		}
 
@@ -1176,7 +1176,7 @@ class RedshopSiteUser
 
 		if (strstr($template_desc, "{company_extrafield}"))
 		{
-			$extra_field_company = (ALLOW_CUSTOMER_REGISTER_TYPE != 1 && $lists['extra_field_company'] != "") ? $lists['extra_field_company'] : "";
+			$extra_field_company = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1 && $lists['extra_field_company'] != "") ? $lists['extra_field_company'] : "";
 			$template_desc       = str_replace("{company_extrafield}", $extra_field_company, $template_desc);
 		}
 
@@ -1254,8 +1254,8 @@ class RedshopSiteUser
 			$template_pd_edata = explode('{extra_field_st_end}', $template_pd_sdata [1]);
 			$template_middle   = $template_pd_edata[0];
 
-			$extra_field_company = (ALLOW_CUSTOMER_REGISTER_TYPE != 1 && $lists['shipping_company_field'] != "") ? $lists['shipping_company_field'] : "";
-			$extra_field_user    = (ALLOW_CUSTOMER_REGISTER_TYPE != 2 && $lists['shipping_customer_field'] != "") ? $lists['shipping_customer_field'] : "";
+			$extra_field_company = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1 && $lists['shipping_company_field'] != "") ? $lists['shipping_company_field'] : "";
+			$extra_field_user    = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 2 && $lists['shipping_customer_field'] != "") ? $lists['shipping_customer_field'] : "";
 
 			$template_middle_company = str_replace("{extra_field_st}", $extra_field_company, $template_middle);
 			$template_middle_user    = str_replace("{extra_field_st}", $extra_field_user, $template_middle);

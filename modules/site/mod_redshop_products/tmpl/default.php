@@ -53,7 +53,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 		{
 			$productPreorder = $row->preorder;
 
-			if (($productPreorder == "global" && ALLOW_PRE_ORDER) || ($productPreorder == "yes") || ($productPreorder == "" && ALLOW_PRE_ORDER))
+			if (($productPreorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($productPreorder == "yes") || ($productPreorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 			{
 				if (!$isPreorderStockExists)
 				{

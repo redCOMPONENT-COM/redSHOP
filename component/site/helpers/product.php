@@ -6267,9 +6267,9 @@ class RedshopSiteProduct
 		{
 
 			if (($product_preorder == "global"
-				&& ALLOW_PRE_ORDER)
+				&& Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
 				|| ($product_preorder == "yes")
-				|| ($product_preorder == "" && ALLOW_PRE_ORDER)
+				|| ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
 			)
 			{
 				// Get preorder stock for Product
@@ -6356,7 +6356,7 @@ class RedshopSiteProduct
 
 		$p_availability_date = "";
 		$ADD_OR_PRE_LBL      = JText::_('COM_REDSHOP_PRE_ORDER');
-		$ADD_OR_PRE_TOOLTIP  = str_replace("{availability_date}", $p_availability_date, ALLOW_PRE_ORDER_MESSAGE);
+		$ADD_OR_PRE_TOOLTIP  = str_replace("{availability_date}", $p_availability_date, Redshop::getConfig()->get('ALLOW_PRE_ORDER_MESSAGE'));
 		$ADD_OR_PRE_BTN      = PRE_ORDER_IMAGE;
 		$tooltip             = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
 		$ADD_OR_LBL          = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
@@ -8807,9 +8807,9 @@ class RedshopSiteProduct
 			$product_detail   = $this->getProductById($product_id);
 			$product_preorder = $product_detail->preorder;
 
-			if (($product_preorder == "global" && ALLOW_PRE_ORDER)
+			if (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
 				|| ($product_preorder == "yes")
-				|| ($product_preorder == "" && ALLOW_PRE_ORDER))
+				|| ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 			{
 				$productinpreorderstock = $stockroomhelper->getPreorderStockAmountwithReserve($Id, $sec);
 			}
@@ -10293,7 +10293,7 @@ class RedshopSiteProduct
 				// Count status for selected subproperty
 				$stocksts = $stockroomhelper->isStockExists($selectedsubpropertyId, "subproperty");
 
-				if (!$stocksts && (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes")))
+				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 				{
 					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedsubpropertyId, "subproperty");
 					$rsltdata['preorder']       = 1;
@@ -10305,7 +10305,7 @@ class RedshopSiteProduct
 				// Count status for selected property
 				$stocksts = $stockroomhelper->isStockExists($selectedPropertyId, "property");
 
-				if (!$stocksts && (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes")))
+				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 				{
 					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedPropertyId, "property");
 					$rsltdata['preorder']       = 1;
@@ -10317,7 +10317,7 @@ class RedshopSiteProduct
 		{
 			$stocksts = $stockroomhelper->getFinalStockofProduct($product_id, $totalatt);
 
-			if (!$stocksts && (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes")))
+			if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 			{
 				$prestocksts                = $stockroomhelper->getFinalPreorderStockofProduct($product_id, $totalatt);
 				$rsltdata['preorder']       = 1;
