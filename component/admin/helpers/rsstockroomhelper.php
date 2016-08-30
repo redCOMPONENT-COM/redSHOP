@@ -489,18 +489,16 @@ class rsstockroomhelper
 				{
 					$dispatcher = JDispatcher::getInstance();
 					JPluginHelper::importPlugin('redshop_alert');
-					$producthelper = RedshopSiteProduct::getInstance();
+					$productId = ($section == "product") ? $section_id : $product_id;
+					$productData = Redshop::product((int) $productId);
 
-					if ($section == "product")
-					{
-						$product_data = Redshop::product((int) $section_id);
-					}
-					else
-					{
-						$product_data = Redshop::product((int) $product_id);
-					}
-
-					$message = JText::sprintf('COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER', $product_data->product_name, $product_data->product_number, $remaining, $stockroomDetail[0]->stockroom_name);
+					$message = JText::sprintf(
+						'COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER',
+						$product_data->product_name,
+						$product_data->product_number,
+						$remaining,
+						$stockroomDetail[0]->stockroom_name
+					);
 
 					$dispatcher->trigger('storeAlert', array($message));
 					$dispatcher->trigger('sendEmail', array($message));
