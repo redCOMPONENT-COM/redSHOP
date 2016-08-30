@@ -168,7 +168,7 @@ class RedshopViewOrder extends RedshopViewAdmin
 		$this->lists       = $lists;
 		$this->orders      = $this->get('Data');
 		$this->pagination  = $this->get('Pagination');
-		$this->request_url = JFactory::getUri()->toString();
+		$this->request_url = JUri::getInstance()->toString();
 		$this->orderStatus = $order_function->getOrderStatus();
 
 		parent::display($tpl);

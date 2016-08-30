@@ -68,7 +68,7 @@ JPluginHelper::importPlugin('redshop_product');
 		if ((pressbutton == 'allstatus'))
 		{
 			if (document.getElementById('order_status_all').value == '0') {
-				alert('<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS' ); ?>');
+				alert("<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS') ?>");
 				return false;
 			}
 
@@ -155,9 +155,10 @@ JPluginHelper::importPlugin('redshop_product');
 				<?php echo $lists['filter_payment_status'];?>
 			</div>
 			<div class="filterItem">
-				<?php echo $lists['filter_status'];?>
+				<?php echo $lists['filter_status'] ?>
 			</div>
-			<div class="filterItem"><?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" ", 'COM_REDSHOP_NEW_STATUS'); ?>
+			<div class="filterItem">
+				<?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" ", 'COM_REDSHOP_NEW_STATUS') ?>
 			</div>
 		</div>
 	</div>
@@ -233,17 +234,16 @@ JPluginHelper::importPlugin('redshop_product');
 				$results = $dispatcher->trigger('toHighlightGrid', array(&$row));
 				$data->highlight->toHighlightGrid = trim(implode("\n", $results));
 				?>
-				<!--<pre><?php /*print_r($row) */?></pre>-->
 				<tr class="<?php echo "row$k"; ?>">
 					<td class="order">
 						<?php echo $this->pagination->getRowOffset($i); ?>
 						<?php echo $data->highlight->toHighlightGrid;?>
 					</td>
 					<td class="order">
-						<?php echo JHTML::_('grid.id', $i, $row->id); ?>
+						<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 					</td>
 					<td align="center">
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a>
+						<a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>"><?php echo $row->order_id ?></a>
 					</td>
 					<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2
 						&& $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number): ?>
