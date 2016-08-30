@@ -7915,6 +7915,7 @@ a:focus {
 @media (max-width: 767px) {
   .main-header {
     position: relative;
+    padding-left: 10px;
   }
   .main-header .logo,
   .main-header .navbar {
@@ -7926,6 +7927,21 @@ a:focus {
   }
   .main-header .navbar-custom-menu {
     float: right;
+  }
+
+  .sidebar-menu li > a
+  {
+    padding-left: 10px !important;
+  }
+
+  .btn-toolbar .btn-wrapper
+  {
+    width: 100%;
+  }
+
+  .btn-toolbar .btn-wrapper .btn-group
+  {
+    width: 100%;
   }
 }
 @media (max-width: 991px) {
@@ -7960,7 +7976,7 @@ a:focus {
 @media (max-width: 767px) {
   .main-sidebar,
   .left-side {
-    padding-top: 100px;
+    padding-top: 40px;
     width: auto;
   }
 

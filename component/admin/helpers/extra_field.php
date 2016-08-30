@@ -912,7 +912,7 @@ class extra_field
 			return $template_desc;
 		}
 
-		if ($flag == 0)
+		if ($flag == 0 && !empty($extra_field_label))
 		{
 			return JLayoutHelper::render('fields.display', array('extra_field_label' => JText::_($extra_field_label), 'extra_field_value' => $ex_field));
 		}
