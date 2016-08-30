@@ -319,7 +319,7 @@ class RedshopSiteCart
 	 *
 	 * @return mixed
 	 */
-	public function replaceBillingAddress($data, $billingaddresses)
+	public function replaceBillingAddress($data, $billingaddresses, $sendmail = false)
 	{
 		if (strpos($data, '{billing_address_start}') !== false && strpos($data, '{billing_address_end}') !== false)
 		{
@@ -486,7 +486,19 @@ class RedshopSiteCart
 
 			if (isset($billingaddresses))
 			{
-				$billadd = JLayoutHelper::render('cart.billing', array('billingaddresses' => $billingaddresses));
+				$billingLayout = 'cart.billing';
+
+				if ($sendmail)
+				{
+					$billingLayout = 'mail.billing';
+				}
+
+				$billadd = RedshopLayoutHelper::render(
+					$billingLayout,
+					array('billingaddresses' => $billingaddresses),
+					null,
+					array('client' => 0)
+				);
 
 				if (strpos($data, '{quotation_custom_field_list}') !== false)
 				{
@@ -520,7 +532,7 @@ class RedshopSiteCart
 	 *
 	 * @return mixed
 	 */
-	public function replaceShippingAddress($data, $shippingaddresses)
+	public function replaceShippingAddress($data, $shippingaddresses, $sendmail = false)
 	{
 		if (strpos($data, '{shipping_address_start}') !== false && strpos($data, '{shipping_address_end}') !== false)
 		{
@@ -626,7 +638,19 @@ class RedshopSiteCart
 
 			if (isset($shippingaddresses) && SHIPPING_METHOD_ENABLE)
 			{
-				$shipadd = JLayoutHelper::render('cart.shipping', array('shippingaddresses' => $shippingaddresses));
+				$shippingLayout = 'cart.shipping';
+
+				if ($sendmail)
+				{
+					$shippingLayout = 'mail.shipping';
+				}
+
+				$shipadd = RedshopLayoutHelper::render(
+					$shippingLayout,
+					array('shippingaddresses' => $shippingaddresses),
+					null,
+					array('client' => 0)
+				);
 
 				if ($shippingaddresses->is_company == 1)
 				{
@@ -2544,7 +2568,7 @@ class RedshopSiteCart
 		return $cart_data;
 	}
 
-	public function replaceOrderTemplate($row, $ReceiptTemplate)
+	public function replaceOrderTemplate($row, $ReceiptTemplate, $sendmail = false)
 	{
 		$url       = JURI::base();
 		$redconfig = Redconfiguration::getInstance();
@@ -2957,8 +2981,8 @@ class RedshopSiteCart
 		$search [] = "{requisition_number_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 
-		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses);
-		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses);
+		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
+		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
 
 		$message = str_replace($search, $replace, $ReceiptTemplate);
 		$message = $this->replacePayment($message, $row->payment_discount, 0, $row->payment_oprand);
