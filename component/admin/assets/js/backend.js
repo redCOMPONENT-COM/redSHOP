@@ -16321,12 +16321,16 @@ Licensed under the BSD-2-Clause License.
 			$(this).trigger('change');
 
 			e.preventDefault();
-		})
+		});
 
 		$('#toolbar').affix({
 			offset: {
 				top: 150
 			}
-		})
+		});
+
+		$('table').each(function(){
+			$(this).wrap( "<div class='table-responsive'></div>" );
+		});
 	});
 })(jQuery);
