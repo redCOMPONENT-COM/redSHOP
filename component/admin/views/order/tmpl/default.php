@@ -40,7 +40,7 @@ JPluginHelper::importPlugin('redshop_product');
 			document.adminForm.task.value = '';
 		});
 
-		jQuery('.order-status-change').click(function(event){
+		jQuery('.order_status_change').click(function(event){
 			event.preventDefault();
 			var target = jQuery(this).attr('data-target');
 			jQuery('#' + target).slideToggle();
@@ -264,13 +264,13 @@ JPluginHelper::importPlugin('redshop_product');
 					</td>
 					<td>
 						<?php
-						$orderKey = array_search($row->order_status, array_column($this->orderStatus, 'value'));
-						$orderStatusText  = $this->orderStatus[$orderKey]->text;
-						$orderStatusClass = 'label order_status_' . strtolower($this->orderStatus[$orderKey]->value);
+						$orderStatusClass = 'label order_status_' . strtolower($row->order_status);
 						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
 						?>
-						<a href="javascript:void(0);" class="order-status-change" data-target="order_status_form<?php echo $row->id ?>"><i class="icon icon-edit"></i></a>
-						<span class="label <?php echo $orderStatusClass ?>"><?php echo $orderStatusText ?></span>
+						<a href="javascript:void(0);" class="order_status_change" data-target="order_status_form<?php echo $row->id ?>">
+							<i class="icon icon-edit"></i>
+						</a>
+						<span class="label <?php echo $orderStatusClass ?>"><?php echo $row->order_status_name ?></span>
 						<div id="order_status_form<?php echo $row->id ?>" class="panel panel-default" style="display: none; margin-top: 15px;">
 							<div class="panel-body">
 								<div class="form-group">

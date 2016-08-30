@@ -26,11 +26,6 @@ class RedshopViewOrder extends RedshopViewAdmin
 	/**
 	 * @var  array
 	 */
-	public $orderStatus;
-
-	/**
-	 * @var  array
-	 */
 	public $lists;
 
 	/**
@@ -169,7 +164,6 @@ class RedshopViewOrder extends RedshopViewAdmin
 		$this->orders      = $this->get('Data');
 		$this->pagination  = $this->get('Pagination');
 		$this->request_url = JUri::getInstance()->toString();
-		$this->orderStatus = $order_function->getOrderStatus();
 
 		parent::display($tpl);
 	}
