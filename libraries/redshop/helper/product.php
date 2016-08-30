@@ -213,7 +213,7 @@ class RedshopHelperProduct
 			->leftJoin('(' . $subQuery . ') AS child_product_table ON child_product_table.product_parent_id = p.product_id');
 
 		// Sum quantity
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$subQuery = $db->getQuery(true)
 				->select('SUM(psx.quantity)')

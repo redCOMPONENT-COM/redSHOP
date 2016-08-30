@@ -51,7 +51,7 @@ if (count($ajaxdetal_template) > 0)
 						'product',
 						Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
 						Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT'),
-						USE_IMAGE_SIZE_SWAPPING
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 					);
 			$productsrcPath = "<a href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_full_image . "' title='" . $this->data->product_name . "' rel='lightbox[product7]'>";
 			$productsrcPath .= "<img src='" . $thumbUrl . "'>";

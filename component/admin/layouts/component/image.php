@@ -29,7 +29,7 @@ $image_path = $type . '/' . trim($image);
 		$type,
 		200,
 		200,
-		USE_IMAGE_SIZE_SWAPPING
+		Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 	);
 ?>
 <div class="divimage">

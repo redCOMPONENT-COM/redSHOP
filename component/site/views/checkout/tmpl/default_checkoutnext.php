@@ -64,7 +64,7 @@ $is_creditcard = $this->is_creditcard;
 
 $cart_data = "";
 
-if (USE_AS_CATALOG)
+if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
 	$carttempdata = $redTemplate->getTemplate("catalogue_cart");
 

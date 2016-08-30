@@ -802,7 +802,7 @@ class leftmenu
 
 	protected static function setStockroom()
 	{
-		if (USE_STOCKROOM == 0)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 0)
 		{
 			return;
 		}

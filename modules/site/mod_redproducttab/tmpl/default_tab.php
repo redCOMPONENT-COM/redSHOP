@@ -54,7 +54,7 @@ $j     = 0;
 		</p>
 
 		<?php
-		if (!$row->not_for_sale && $show_price && !USE_AS_CATALOG)
+		if (!$row->not_for_sale && $show_price && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$productArr             = $producthelper->getProductNetPrice($row->product_id);

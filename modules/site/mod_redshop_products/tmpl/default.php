@@ -115,7 +115,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 							'product',
 							$thumbWidth,
 							$thumbHeight,
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 			echo "<div class=\"mod_redshop_products_image\"><a href=\"" . $link . "\" title=\"$row->product_name\"><img src=\"" . $thumImage . "\"></a></div>";
 		}

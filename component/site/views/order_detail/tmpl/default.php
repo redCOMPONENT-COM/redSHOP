@@ -47,7 +47,7 @@ $partialpayment = $order_functions->getOrderPartialPayment($oid);
 
 // Get order Payment method information
 
-if (USE_AS_CATALOG)
+if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
 	$orderslist_template = $redTemplate->getTemplate("catalogue_order_detail");
 	$orderslist_template = $orderslist_template[0]->template_desc;

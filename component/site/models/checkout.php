@@ -441,7 +441,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_paymentstatus = 'Paid';
 		}
 
-		if (USE_AS_CATALOG)
+		if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			$order_status        = 'P';
 			$order_paymentstatus = 'Unpaid';

@@ -886,7 +886,7 @@ class RedshopSiteCart
 					'giftcard',
 					Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 					Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 
 				$giftcard_image = "&nbsp;";
@@ -1024,7 +1024,7 @@ class RedshopSiteCart
 								$type,
 								Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 								Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 
 						$product_image = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";
@@ -1438,7 +1438,7 @@ class RedshopSiteCart
 											'orderMergeImages',
 											Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 											Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 				$attrib_img = '<img src="' . $attribute_image_path . '">';
 			}
@@ -1453,7 +1453,7 @@ class RedshopSiteCart
 												'product_attributes',
 												Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 												Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-												USE_IMAGE_SIZE_SWAPPING
+												Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 											);
 					$attrib_img = '<img src="' . $attribute_image_path . '">';
 				}
@@ -1481,7 +1481,7 @@ class RedshopSiteCart
 														$product_type,
 														Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-														USE_IMAGE_SIZE_SWAPPING
+														Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 													);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
@@ -1496,7 +1496,7 @@ class RedshopSiteCart
 															'product',
 															Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 															Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-															USE_IMAGE_SIZE_SWAPPING
+															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 														);
 								$attrib_img = '<img src="' . $attribute_image_path . '">';
 							}
@@ -1513,7 +1513,7 @@ class RedshopSiteCart
 														'product',
 														Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-														USE_IMAGE_SIZE_SWAPPING
+														Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 													);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
@@ -4788,7 +4788,7 @@ class RedshopSiteCart
 			$newquantity = $productData->min_order_product_quantity;
 		}
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$productStock = 0;
 

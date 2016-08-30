@@ -641,7 +641,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 				else
 				{
-					if ($data['quantity'][$i] != "" || !USE_BLANK_AS_INFINITE)
+					if ($data['quantity'][$i] != "" || !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 					{
 						$this->insertProductStock(
 													$product_id,
@@ -3187,7 +3187,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (count($list) > 0)
 			{
-				if ($quantity == "" && USE_BLANK_AS_INFINITE)
+				if ($quantity == "" && Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 				{
 					$query = "DELETE FROM " . $this->table_prefix . $table . "_stockroom_xref
 							  WHERE stockroom_id='" . $post['stockroom_id'][$i] . "' " . $product . $section;
@@ -3226,7 +3226,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				{
 					if ($preorder_stock != "" || $quantity != "")
 					{
-						if ($quantity != "" && !USE_BLANK_AS_INFINITE)
+						if ($quantity != "" && !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 						{
 							if ($quantity == "")
 							{

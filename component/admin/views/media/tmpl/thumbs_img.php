@@ -35,7 +35,7 @@ else
 					$folder,
 					$this->_tmp_img->width_60,
 					$this->_tmp_img->height_60,
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 }
 ?>

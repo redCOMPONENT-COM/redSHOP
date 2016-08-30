@@ -110,7 +110,7 @@ class RedshopControllerConfiguration extends RedshopController
 					}
 
 					// Thumb folder deleted and created
-					if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT || $post['use_image_size_swapping'] != USE_IMAGE_SIZE_SWAPPING)
+					if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT || $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
 					{
 						$this->removeThumbImages();
 					}

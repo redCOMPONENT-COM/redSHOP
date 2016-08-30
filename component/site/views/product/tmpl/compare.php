@@ -114,7 +114,7 @@ if ($total > 0)
 							'product',
 							Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_WIDTH'),
 							Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_HEIGHT'),
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 		$img    = "<div style='width:" . Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_WIDTH') . "px;height:" . Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_HEIGHT') . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $thumbUrl . "'></a></div>";
 
@@ -191,7 +191,7 @@ if ($total > 0)
 		{
 			$price = 0;
 
-			if (SHOW_PRICE && !USE_AS_CATALOG && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+			if (SHOW_PRICE && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 			{
 				$productPrices = $producthelper->getProductNetPrice($product->product_id);
 				$price = $producthelper->getProductFormattedPrice($productPrices['product_price']);

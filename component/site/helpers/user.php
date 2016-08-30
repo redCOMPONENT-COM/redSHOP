@@ -561,7 +561,7 @@ class RedshopSiteUser
 
 			return false;
 		}
-		if (USE_TAX_EXEMPT)
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT'))
 		{
 			if (!$admin && $row->is_company == 1)
 			{
@@ -1138,7 +1138,7 @@ class RedshopSiteUser
 			$template_pd_edata = explode('{vat_number_end}', $template_pd_sdata [1]);
 			$template_middle   = "";
 
-			if (USE_TAX_EXEMPT == 1)
+			if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
 			{
 				$template_middle = $template_pd_edata[0];
 				$classreq        = (REQUIRED_VAT_NUMBER == 1) ? "required" : "";
@@ -1149,7 +1149,7 @@ class RedshopSiteUser
 			$template_desc = $template_pd_sdata[0] . $template_middle . $template_pd_edata[1];
 		}
 
-		if (USE_TAX_EXEMPT == 1 && SHOW_TAX_EXEMPT_INFRONT)
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1 && SHOW_TAX_EXEMPT_INFRONT)
 		{
 			$allowCompany  = '';
 			$taxExempt = '';

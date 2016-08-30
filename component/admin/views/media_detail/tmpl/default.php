@@ -191,7 +191,7 @@ if ($showbuttons)
 													$this->detail->media_section,
 													Redshop::getConfig()->get('THUMB_WIDTH'),
 													Redshop::getConfig()->get('THUMB_HEIGHT'),
-													USE_IMAGE_SIZE_SWAPPING
+													Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 												);
 									?>
 									<a class="modal"

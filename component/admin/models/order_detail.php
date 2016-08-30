@@ -775,7 +775,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$new_added_qty = $data['quantity'] - $orderitemdata->product_quantity;
 
-		if ($currentStock >= $new_added_qty || USE_STOCKROOM == 0)
+		if ($currentStock >= $new_added_qty || Redshop::getConfig()->get('USE_STOCKROOM') == 0)
 		{
 			$quantity = (int) $data['quantity'];
 		}

@@ -840,7 +840,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 								'product',
 								$pw_thumb,
 								$ph_thumb,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 			}
 
@@ -857,7 +857,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 								'product',
 								$pw_thumb,
 								$ph_thumb,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 			}
 
@@ -894,7 +894,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 									'product',
 									Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH'),
 									Redshop::getConfig()->get('CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT'),
-									USE_IMAGE_SIZE_SWAPPING
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 				$previewImg     = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
 				$data_add       = str_replace("{product_preview_img}", $previewImg, $data_add);

@@ -30,7 +30,7 @@ $portallogo = RedShopHelperImages::getImagePath(
 					'shopperlogo',
 					Redshop::getConfig()->get('THUMB_WIDTH'),
 					Redshop::getConfig()->get('THUMB_HEIGHT'),
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 $portalname = Redshop::getConfig()->get('DEFAULT_PORTAL_NAME');
 $portalintro = "";
@@ -44,7 +44,7 @@ if ($shoppergroupid != 0)
 					'shopperlogo',
 					Redshop::getConfig()->get('THUMB_WIDTH'),
 					Redshop::getConfig()->get('THUMB_HEIGHT'),
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 	$portalname  = $this->ShopperGroupDetail[0]->shopper_group_name;
 	$portalintro = $this->ShopperGroupDetail[0]->shopper_group_introtext;

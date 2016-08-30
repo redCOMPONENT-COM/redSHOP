@@ -43,7 +43,7 @@ if (!ONESTEP_CHECKOUT_ENABLE)
 	echo JLayoutHelper::render('cart.wizard', array('step' => '3'));
 }
 
-if (USE_AS_CATALOG)
+if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
 	$ReceiptTemplate = $redTemplate->getTemplate("catalogue_order_receipt");
 	$ReceiptTemplate = $ReceiptTemplate[0]->template_desc;

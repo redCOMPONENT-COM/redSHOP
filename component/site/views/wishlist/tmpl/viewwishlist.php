@@ -286,7 +286,7 @@ function display_products($rows)
 								'product',
 								$pw_thumb,
 								$ph_thumb,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 				$thum_image      = "<a href='" . $link . "'><img src='" . $maindefaultpath . "'  /></a>";
 				$wishlist_data   = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);

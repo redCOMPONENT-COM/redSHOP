@@ -4210,7 +4210,7 @@ class RedshopSiteProduct
 									'product',
 									$aw_thumb,
 									$ah_thumb,
-									USE_IMAGE_SIZE_SWAPPING
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 
 					if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
@@ -4326,7 +4326,7 @@ class RedshopSiteProduct
 											'product',
 											$aw_thumb,
 											$ah_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
 								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessory_image
@@ -4343,7 +4343,7 @@ class RedshopSiteProduct
 											'',
 											$aw_thumb,
 											$ah_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
 								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
@@ -4362,7 +4362,7 @@ class RedshopSiteProduct
 											'product',
 											$aw_thumb,
 											$ah_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
 								. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
@@ -4376,7 +4376,7 @@ class RedshopSiteProduct
 											'',
 											$aw_thumb,
 											$ah_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
 								. "' class='redAttributeImage' src='" . $thumbUrl. "' /></a>";
@@ -4692,7 +4692,7 @@ class RedshopSiteProduct
 											'product_attributes',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$property_image = "<img title='" . urldecode($property[$i]->property_name) . "' src='" . $thumbUrl . "'>";
 						}
@@ -4958,7 +4958,7 @@ class RedshopSiteProduct
 
 				$property_all = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
-				if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && USE_STOCKROOM)
+				if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && Redshop::getConfig()->get('USE_STOCKROOM'))
 				{
 					$property = $this->getAttibutePropertyWithStock($property_all);
 				}
@@ -5016,7 +5016,7 @@ class RedshopSiteProduct
 						$subproperty_all = $this->getAttibuteSubProperty(0, $property[$i]->value);
 
 						// filter Out of stock data
-						if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && USE_STOCKROOM)
+						if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && Redshop::getConfig()->get('USE_STOCKROOM'))
 						{
 							$subproperty = $this->getAttibuteSubPropertyWithStock($subproperty_all);
 						}
@@ -5054,7 +5054,7 @@ class RedshopSiteProduct
 											'product_attributes',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 								$property_woscrollerdiv .= "<div class='property_image_inner' id='" . $propertyid
@@ -5372,7 +5372,7 @@ class RedshopSiteProduct
 			$attributes      = $attributes[0];
 			$subproperty_all = $this->getAttibuteSubProperty(0, $property_id);
 			// filter Out of stock data
-			if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && USE_STOCKROOM)
+			if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && Redshop::getConfig()->get('USE_STOCKROOM'))
 			{
 				$subproperty = $this->getAttibuteSubPropertyWithStock($subproperty_all);
 			}
@@ -5489,7 +5489,7 @@ class RedshopSiteProduct
 												'subcolor',
 												Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'),
 												Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'),
-												USE_IMAGE_SIZE_SWAPPING
+												Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 											);
 							$subprop_Arry[] = $thumbUrl;
 
@@ -5603,7 +5603,7 @@ class RedshopSiteProduct
 					$subproperty_woscrollerdiv .= "</div>";
 				}
 
-				if (USE_ENCODING)
+				if (Redshop::getConfig()->get('USE_ENCODING'))
 				{
 					$displayPropertyName = mb_convert_encoding(urldecode($subproperty[0]->property_name), "ISO-8859-1", "UTF-8");
 
@@ -5615,7 +5615,7 @@ class RedshopSiteProduct
 
 				if ($subproperty[0]->subattribute_color_title != "")
 				{
-					if (USE_ENCODING)
+					if (Redshop::getConfig()->get('USE_ENCODING'))
 					{
 						$displayPropertyName = mb_convert_encoding(
 							urldecode($subproperty[0]->subattribute_color_title),
@@ -6715,7 +6715,7 @@ class RedshopSiteProduct
 				$cartstyle     = 'style="display:none"';
 				$preorderstyle = '';
 
-				if (USE_AS_CATALOG)
+				if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 				{
 					$preorderstyle = 'style="display:none"';
 
@@ -6726,7 +6726,7 @@ class RedshopSiteProduct
 			{
 				$stockstyle = '';
 
-				if (USE_AS_CATALOG)
+				if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 				{
 					$stockstyle = 'style="display:none"';
 
@@ -6743,7 +6743,7 @@ class RedshopSiteProduct
 				$cartstyle     = '';
 				$preorderstyle = 'style="display:none"';
 
-				if (USE_AS_CATALOG)
+				if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 				{
 					$cartstyle = 'style="display:none"';
 
@@ -7259,7 +7259,7 @@ class RedshopSiteProduct
 		{
 			$redTemplate = Redtemplate::getInstance();
 
-			if (!USE_AS_CATALOG || USE_AS_CATALOG)
+			if (!Redshop::getConfig()->get('USE_AS_CATALOG') || Redshop::getConfig()->get('USE_AS_CATALOG'))
 				$this->_cartTemplateData = $redTemplate->getTemplate("cart");
 			else
 				$this->_cartTemplateData = $redTemplate->getTemplate("catalogue_cart");
@@ -8835,7 +8835,7 @@ class RedshopSiteProduct
 								'stockroom',
 								Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'),
 								Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'),
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 
 				$stockamountImage = '<a class="imgtooltip"><span>';
@@ -9195,7 +9195,7 @@ class RedshopSiteProduct
 									$type,
 									$pw_thumb,
 									$ph_thumb,
-									USE_IMAGE_SIZE_SWAPPING
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 			}
 
@@ -9397,7 +9397,7 @@ class RedshopSiteProduct
 								'product',
 								$mpw_thumb,
 								$mph_thumb,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 					$linkimage = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
 
@@ -9408,7 +9408,7 @@ class RedshopSiteProduct
 										'product',
 										ADDITIONAL_HOVER_IMAGE_WIDTH,
 										ADDITIONAL_HOVER_IMAGE_HEIGHT,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 				}
 
@@ -9436,7 +9436,7 @@ class RedshopSiteProduct
 										'product',
 										$pw_thumb,
 										$ph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 					}
 
@@ -9469,7 +9469,7 @@ class RedshopSiteProduct
 										'product',
 										$pw_thumb,
 										$ph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 					}
 
@@ -9534,7 +9534,7 @@ class RedshopSiteProduct
 											'property',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 							$propadditionImg_div_start = "<div class='additional_image'><a href='"
@@ -9554,7 +9554,7 @@ class RedshopSiteProduct
 											'property',
 											$pw_thumb,
 											$ph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 							$property_filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "property/" . $imagename;
@@ -9570,7 +9570,7 @@ class RedshopSiteProduct
 															'property',
 															$pw_thumb,
 															$ph_thumb,
-															USE_IMAGE_SIZE_SWAPPING
+															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 														);
 							}
 							else
@@ -9584,7 +9584,7 @@ class RedshopSiteProduct
 															'product',
 															$pw_thumb,
 															$ph_thumb,
-															USE_IMAGE_SIZE_SWAPPING
+															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 														);
 							}
 
@@ -9600,7 +9600,7 @@ class RedshopSiteProduct
 											'property',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 							$propadditionImg .= $propadditionImg_div_start;
@@ -9617,7 +9617,7 @@ class RedshopSiteProduct
 											'property',
 											ADDITIONAL_HOVER_IMAGE_WIDTH,
 											ADDITIONAL_HOVER_IMAGE_HEIGHT,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$propadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext . "' title='" . $alttext
 								. "' class='redImagepreview'>";
@@ -9665,7 +9665,7 @@ class RedshopSiteProduct
 										$filedir,
 										$mpw_thumb,
 										$mph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 
 						$subpropadditionImg .= $subpropadditionImg_div_start;
@@ -9681,7 +9681,7 @@ class RedshopSiteProduct
 										$filedir,
 										$pw_thumb,
 										$ph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 						$subproperty_filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $imagename;
 
@@ -9695,7 +9695,7 @@ class RedshopSiteProduct
 															'subproperty',
 															$pw_thumb,
 															$ph_thumb,
-															USE_IMAGE_SIZE_SWAPPING
+															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 														);
 						}
 						else
@@ -9715,7 +9715,7 @@ class RedshopSiteProduct
 										$filedir,
 										$mpw_thumb,
 										$mph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 
 						$subpropadditionImg .= $subpropadditionImg_div_start;
@@ -9733,7 +9733,7 @@ class RedshopSiteProduct
 										$filedir,
 										ADDITIONAL_HOVER_IMAGE_WIDTH,
 										ADDITIONAL_HOVER_IMAGE_HEIGHT,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 						$subpropadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext
 							. "' title='" . $alttext . "' class='redImagepreview'>";
@@ -9794,7 +9794,7 @@ class RedshopSiteProduct
 		$stockImgFlag       = false;
 		$notify_stock       = '';
 
-		if (USE_STOCKROOM == 1 && $accessory_id == 0)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1 && $accessory_id == 0)
 		{
 			if ($subproperty_id)
 			{

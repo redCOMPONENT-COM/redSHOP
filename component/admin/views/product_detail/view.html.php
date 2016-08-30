@@ -655,7 +655,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					'product_meta_data'
 				);
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$tabMenu->addItem(
 					'#productstockroom',

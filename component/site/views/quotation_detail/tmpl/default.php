@@ -261,7 +261,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 							'product',
 							Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 							Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 			$product_image = "<div class='product_image'><img src='" . $thumbUrl . "'></div>";
 		}

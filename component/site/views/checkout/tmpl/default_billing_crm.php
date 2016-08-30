@@ -145,7 +145,7 @@ $billingaddresses = $model->billingaddresses();
 	<?php
 	}
 
-	if ($billingaddresses->is_company == 1 && USE_TAX_EXEMPT == 1)
+	if ($billingaddresses->is_company == 1 && Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
 	{
 		?>
 		<tr>

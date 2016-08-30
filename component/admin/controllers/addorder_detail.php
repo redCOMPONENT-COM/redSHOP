@@ -47,7 +47,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		// Check product Quantity
 		$stocknote = '';
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$stockroomhelper = rsstockroomhelper::getInstance();
 			$producthelper = RedshopSiteProduct::getInstance();

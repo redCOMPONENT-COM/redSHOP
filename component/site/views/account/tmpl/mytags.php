@@ -114,7 +114,7 @@ if ($user->id != 0)
 													'product',
 													Redshop::getConfig()->get('THUMB_WIDTH'),
 													Redshop::getConfig()->get('THUMB_HEIGHT'),
-													USE_IMAGE_SIZE_SWAPPING
+													Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 												);
 									$thum_image = "<div style='width:" . Redshop::getConfig()->get('THUMB_WIDTH') . "px;height:" . Redshop::getConfig()->get('THUMB_HEIGHT') . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $thumbUrl . "'></a></div>";
 									$data_add .= $thum_image;

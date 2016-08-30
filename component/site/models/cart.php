@@ -104,7 +104,7 @@ class RedshopModelCart extends RedshopModel
 
 	public function emptyExpiredCartProducts()
 	{
-		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			$stockroomhelper = rsstockroomhelper::getInstance();
 			$session         = JFactory::getSession();
@@ -181,7 +181,7 @@ class RedshopModelCart extends RedshopModel
 			}
 			else
 			{
-				if (!USE_AS_CATALOG)
+				if (!Redshop::getConfig()->get('USE_AS_CATALOG'))
 				{
 					$this->_data = $redTemplate->getTemplate("cart");
 				}

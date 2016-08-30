@@ -114,7 +114,7 @@ class redshopMail
 		$fromname = $config->get('fromname');
 		$user = JFactory::getUser();
 
-		if (USE_AS_CATALOG)
+		if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			$mailinfo = $this->getMailtemplate(0, "catalogue_order");
 		}
@@ -794,7 +794,7 @@ class redshopMail
 		}
 
 		// Tax exempt waiting approval mail
-		if (USE_TAX_EXEMPT && $post['tax_exempt'] == 1)
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT') && $post['tax_exempt'] == 1)
 		{
 			$this->sendTaxExemptMail("tax_exempt_waiting_approval_mail", $post, $bcc);
 		}
@@ -804,7 +804,7 @@ class redshopMail
 
 	public function sendTaxExemptMail($section, $userinfo = array(), $email = "")
 	{
-		if (USE_TAX_EXEMPT)
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT'))
 		{
 			$app          = JFactory::getApplication();
 
@@ -1119,7 +1119,7 @@ class redshopMail
 								'product',
 								Redshop::getConfig()->get('CART_THUMB_WIDTH'),
 								Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 				$product_image = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";
 			}

@@ -625,7 +625,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 									'wrapper',
 									Redshop::getConfig()->get('DEFAULT_WRAPPER_THUMB_WIDTH'),
 									Redshop::getConfig()->get('DEFAULT_WRAPPER_THUMB_HEIGHT'),
-									USE_IMAGE_SIZE_SWAPPING
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 					$wrapperimage_div .= "
 					<a onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");'>
@@ -993,7 +993,7 @@ if (strstr($template_desc, $mpimg_tag))
 										'product',
 										$mpw_thumb,
 										$mph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 						$linkimage     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
 
@@ -1004,7 +1004,7 @@ if (strstr($template_desc, $mpimg_tag))
 											'product',
 											ADDITIONAL_HOVER_IMAGE_WIDTH,
 											ADDITIONAL_HOVER_IMAGE_HEIGHT,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 					}
 
@@ -1031,7 +1031,7 @@ if (strstr($template_desc, $mpimg_tag))
 											'product',
 											$pw_thumb,
 											$ph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 						}
 
@@ -1061,7 +1061,7 @@ if (strstr($template_desc, $mpimg_tag))
 											'product',
 											$pw_thumb,
 											$ph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 						}
 
@@ -1072,7 +1072,7 @@ if (strstr($template_desc, $mpimg_tag))
 											'product',
 											$pw_thumb,
 											$ph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 						$oimg_path = RedShopHelperImages::getImagePath(
 											$thumb,
@@ -1081,7 +1081,7 @@ if (strstr($template_desc, $mpimg_tag))
 											'product',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 						$more_images_div_start = "<div class='additional_image'
@@ -1246,7 +1246,7 @@ if (strstr($template_desc, "{category_product_img}"))
 						'category',
 						$pw_thumb,
 						$ph_thumb,
-						USE_IMAGE_SIZE_SWAPPING
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 					);
 	$backsrcPath = RedShopHelperImages::getImagePath(
 						$this->data->category_back_full_image,
@@ -1255,7 +1255,7 @@ if (strstr($template_desc, "{category_product_img}"))
 						'category',
 						$pw_thumb,
 						$ph_thumb,
-						USE_IMAGE_SIZE_SWAPPING
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 					);
 
 	$ahrefpath     = REDSHOP_FRONT_IMAGES_ABSPATH . "category/" . $this->data->category_full_image;
@@ -1308,7 +1308,7 @@ if (strstr($template_desc, "{front_img_link}") || strstr($template_desc, "{back_
 						'product',
 						$pw_thumb,
 						$ph_thumb,
-						USE_IMAGE_SIZE_SWAPPING
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 					);
 	}
 
@@ -1325,7 +1325,7 @@ if (strstr($template_desc, "{front_img_link}") || strstr($template_desc, "{back_
 						'product',
 						$pw_thumb,
 						$ph_thumb,
-						USE_IMAGE_SIZE_SWAPPING
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 					);
 	}
 
@@ -1364,7 +1364,7 @@ if (strstr($template_desc, "{product_preview_img}"))
 						'product',
 						Redshop::getConfig()->get('PRODUCT_PREVIEW_IMAGE_WIDTH'),
 						Redshop::getConfig()->get('PRODUCT_PREVIEW_IMAGE_HEIGHT'),
-						USE_IMAGE_SIZE_SWAPPING
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 					);
 
 		$previewImg    = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";

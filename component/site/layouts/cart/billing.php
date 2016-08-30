@@ -99,7 +99,7 @@ $extra_section = ($billingaddresses->is_company == 1) ? RedshopSiteExtraField::S
 		</div>
 		<?php endif; ?>
 
-		<?php if (USE_TAX_EXEMPT == 1) : ?>
+		<?php if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1) : ?>
 		<div class="row">
 			<label class="col-xs-5"><?php echo JText::_('COM_REDSHOP_VAT_NUMBER');?>:</label>
 			<div class="col-xs-7"><?php echo $billingaddresses->vat_number;?></div>

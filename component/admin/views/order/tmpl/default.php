@@ -194,7 +194,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<th width="1">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PAYMENT', 'order_payment_status', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
-				<?php if (USE_STOCKROOM == 1): ?>
+				<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1): ?>
 					<th width="10%">
 						<?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
 					</th>
@@ -330,7 +330,7 @@ JPluginHelper::importPlugin('redshop_product');
 							<?php endif; ?>
 						</span>
 					</td>
-					<?php if (USE_STOCKROOM == 1) : ?>
+					<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
 						<td align="center">
 							<?php $order_items = $order_function->getOrderItemDetail($row->order_id);
 

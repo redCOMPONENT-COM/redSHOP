@@ -402,7 +402,7 @@ function validateUserDetail() {
 							<td><input class="inputbox" type="text" name="ean_number" id="ean_number" size="32"
 							           maxlength="250" value="<?php echo $billing->ean_number; ?>"/></td>
 						</tr>
-						<?php    if (USE_TAX_EXEMPT == 1)
+						<?php    if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
 						{
 							?>
 							<tr id="trTaxExempt" <?php echo $allowCompany;?>>

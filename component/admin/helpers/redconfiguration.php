@@ -933,8 +933,8 @@ class Redconfiguration
 		{
 			$list = $list[0];
 
-			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1)
-				|| ($list->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1))
+			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
+				|| ($list->use_as_catalog == "" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1))
 			{
 				return 1;
 			}
@@ -946,7 +946,7 @@ class Redconfiguration
 
 		else
 		{
-			return PRE_USE_AS_CATALOG;
+			return Redshop::getConfig()->get('PRE_USE_AS_CATALOG');
 		}
 	}
 

@@ -113,7 +113,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										'giftcard',
 										150,
 										150,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 								?>
 								<a
@@ -138,7 +138,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										'giftcard',
 										150,
 										150,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 								?>
 								<a
