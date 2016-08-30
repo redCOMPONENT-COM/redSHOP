@@ -206,26 +206,26 @@ if (!$slide)
 	if (strpos($template_desc, '{category_main_thumb_image_2}') !== false)
 	{
 		$ctag     = '{category_main_thumb_image_2}';
-		$ch_thumb = THUMB_HEIGHT_2;
-		$cw_thumb = THUMB_WIDTH_2;
+		$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
+		$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
 	}
 	elseif (strpos($template_desc, '{category_main_thumb_image_3}') !== false)
 	{
 		$ctag     = '{category_main_thumb_image_3}';
-		$ch_thumb = THUMB_HEIGHT_3;
-		$cw_thumb = THUMB_WIDTH_3;
+		$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
+		$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 	}
 	elseif (strpos($template_desc, '{category_main_thumb_image_1}') !== false)
 	{
 		$ctag     = '{category_main_thumb_image_1}';
-		$ch_thumb = THUMB_HEIGHT;
-		$cw_thumb = THUMB_WIDTH;
+		$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+		$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 	else
 	{
 		$ctag     = '{category_main_thumb_image}';
-		$ch_thumb = THUMB_HEIGHT;
-		$cw_thumb = THUMB_WIDTH;
+		$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+		$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
 	$cItemid = $objhelper->getCategoryItemid($this->catid);
@@ -250,7 +250,7 @@ if (!$slide)
 
 	if ($this->maincat->category_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->maincat->category_full_image))
 	{
-		$water_cat_img  = $objhelper->watermark('category', $this->maincat->category_full_image, $cw_thumb, $ch_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+		$water_cat_img  = $objhelper->watermark('category', $this->maincat->category_full_image, $cw_thumb, $ch_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 		$cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name .
 							"'><img src='" . $water_cat_img . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
 	}
@@ -284,26 +284,26 @@ if (!$slide)
 		if (strpos($subcat_template, '{category_thumb_image_2}') !== false)
 		{
 			$tag     = '{category_thumb_image_2}';
-			$h_thumb = THUMB_HEIGHT_2;
-			$w_thumb = THUMB_WIDTH_2;
+			$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
+			$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
 		}
 		elseif (strpos($subcat_template, '{category_thumb_image_3}') !== false)
 		{
 			$tag     = '{category_thumb_image_3}';
-			$h_thumb = THUMB_HEIGHT_3;
-			$w_thumb = THUMB_WIDTH_3;
+			$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
+			$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 		}
 		elseif (strpos($subcat_template, '{category_thumb_image_1}') !== false)
 		{
 			$tag     = '{category_thumb_image_1}';
-			$h_thumb = THUMB_HEIGHT;
-			$w_thumb = THUMB_WIDTH;
+			$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+			$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 		}
 		else
 		{
 			$tag     = '{category_thumb_image}';
-			$h_thumb = THUMB_HEIGHT;
-			$w_thumb = THUMB_WIDTH;
+			$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+			$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 		}
 
 		$cat_detail = "";
@@ -357,13 +357,13 @@ if (!$slide)
 			if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 			{
 				$categoryFullImage = $row->category_full_image;
-				$product_img       = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+				$product_img       = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 				$linkimage         = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 			}
 			elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 			{
 				$categoryFullImage = CATEGORY_DEFAULT_IMAGE;
-				$product_img       = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+				$product_img       = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 				$linkimage         = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 			}
 
@@ -791,26 +791,26 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		if (strpos($data_add, "{product_thumb_image_3}") !== false)
 		{
 			$pimg_tag = '{product_thumb_image_3}';
-			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_3;
-			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_3;
+			$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
+			$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
 		}
 		elseif (strpos($data_add, "{product_thumb_image_2}") !== false)
 		{
 			$pimg_tag = '{product_thumb_image_2}';
-			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_2;
-			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_2;
+			$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
+			$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
 		}
 		elseif (strpos($data_add, "{product_thumb_image_1}") !== false)
 		{
 			$pimg_tag = '{product_thumb_image_1}';
-			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+			$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+			$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 		}
 		else
 		{
 			$pimg_tag = '{product_thumb_image}';
-			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+			$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+			$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 		}
 
 		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'>

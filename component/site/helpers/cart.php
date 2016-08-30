@@ -884,8 +884,8 @@ class RedshopSiteCart
 					'',
 					'thumb',
 					'giftcard',
-					CART_THUMB_WIDTH,
-					CART_THUMB_HEIGHT,
+					Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+					Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 					USE_IMAGE_SIZE_SWAPPING
 				);
 
@@ -1009,9 +1009,9 @@ class RedshopSiteCart
 				{
 					$redhelper = RedshopSiteHelper::getInstance();
 
-					if (WATERMARK_CART_THUMB_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
+					if (Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
 					{
-						$product_cart_img = $redhelper->watermark($type, $prd_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, '0');
+						$product_cart_img = $redhelper->watermark($type, $prd_image, Redshop::getConfig()->get('CART_THUMB_WIDTH'), Redshop::getConfig()->get('CART_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE'), '0');
 
 						$product_image = "<div  class='product_image'><img src='" . $product_cart_img . "'></div>";
 					}
@@ -1022,8 +1022,8 @@ class RedshopSiteCart
 								'',
 								'thumb',
 								$type,
-								CART_THUMB_WIDTH,
-								CART_THUMB_HEIGHT,
+								Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+								Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 								USE_IMAGE_SIZE_SWAPPING
 							);
 
@@ -1436,8 +1436,8 @@ class RedshopSiteCart
 											'',
 											'thumb',
 											'orderMergeImages',
-											CART_THUMB_WIDTH,
-											CART_THUMB_HEIGHT,
+											Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+											Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 											USE_IMAGE_SIZE_SWAPPING
 										);
 				$attrib_img = '<img src="' . $attribute_image_path . '">';
@@ -1451,8 +1451,8 @@ class RedshopSiteCart
 												'',
 												'thumb',
 												'product_attributes',
-												CART_THUMB_WIDTH,
-												CART_THUMB_HEIGHT,
+												Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+												Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 												USE_IMAGE_SIZE_SWAPPING
 											);
 					$attrib_img = '<img src="' . $attribute_image_path . '">';
@@ -1479,8 +1479,8 @@ class RedshopSiteCart
 														'',
 														'thumb',
 														$product_type,
-														CART_THUMB_WIDTH,
-														CART_THUMB_HEIGHT,
+														Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 														USE_IMAGE_SIZE_SWAPPING
 													);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';
@@ -1494,8 +1494,8 @@ class RedshopSiteCart
 															'',
 															'thumb',
 															'product',
-															CART_THUMB_WIDTH,
-															CART_THUMB_HEIGHT,
+															Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+															Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 															USE_IMAGE_SIZE_SWAPPING
 														);
 								$attrib_img = '<img src="' . $attribute_image_path . '">';
@@ -1511,8 +1511,8 @@ class RedshopSiteCart
 														'',
 														'thumb',
 														'product',
-														CART_THUMB_WIDTH,
-														CART_THUMB_HEIGHT,
+														Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 														USE_IMAGE_SIZE_SWAPPING
 													);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';

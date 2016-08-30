@@ -361,15 +361,15 @@ if (strstr($template_desc, "{product_category_list}"))
 
 if (strstr($template_desc, "{manufacturer_image}"))
 {
-	$mh_thumb    = MANUFACTURER_THUMB_HEIGHT;
-	$mw_thumb    = MANUFACTURER_THUMB_WIDTH;
+	$mh_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
+	$mw_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 	$thum_image  = "";
 	$media_image = $producthelper->getAdditionMediaImage($this->data->manufacturer_id, "manufacturer");
 	$m           = 0;
 
 	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
-		$wimg      = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE);
+		$wimg      = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
 		$linkimage = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE);
 
 		$altText = $producthelper->getAltText('manufacturer', $this->data->manufacturer_id);
@@ -623,8 +623,8 @@ if (strstr($template_desc, "{wrapper_template:"))
 									'',
 									'thumb',
 									'wrapper',
-									DEFAULT_WRAPPER_THUMB_WIDTH,
-									DEFAULT_WRAPPER_THUMB_HEIGHT,
+									Redshop::getConfig()->get('DEFAULT_WRAPPER_THUMB_WIDTH'),
+									Redshop::getConfig()->get('DEFAULT_WRAPPER_THUMB_HEIGHT'),
 									USE_IMAGE_SIZE_SWAPPING
 								);
 					$wrapperimage_div .= "
@@ -1048,9 +1048,9 @@ if (strstr($template_desc, $mpimg_tag))
 							$thumb_original = PRODUCT_DEFAULT_IMAGE;
 						}
 
-						if (WATERMARK_PRODUCT_THUMB_IMAGE)
+						if (Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'))
 						{
-							$img_path_org = $this->redHelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+							$img_path_org = $this->redHelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 						}
 						else
 						{

@@ -461,26 +461,26 @@ class RedshopViewSearch extends RedshopView
 				if (strstr($data_add, "{product_thumb_image_3}"))
 				{
 					$cimg_tag = '{product_thumb_image_3}';
-					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_3;
-					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_3;
+					$ch_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
+					$cw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
 				}
 				elseif (strstr($data_add, "{product_thumb_image_2}"))
 				{
 					$cimg_tag = '{product_thumb_image_2}';
-					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_2;
-					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_2;
+					$ch_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
+					$cw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
 				}
 				elseif (strstr($data_add, "{product_thumb_image_1}"))
 				{
 					$cimg_tag = '{product_thumb_image_1}';
-					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+					$ch_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+					$cw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 				else
 				{
 					$cimg_tag = '{product_thumb_image}';
-					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+					$ch_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+					$cw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $cw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ch_thumb . "'>";

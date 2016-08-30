@@ -375,12 +375,12 @@ if (!class_exists('redcategoryScroller'))
 
 				if ($row->category_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_full_image))
 				{
-					$product_img = $redhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE);
+					$product_img = $redhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
 					$linkimage   = $redhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE);
 				}
 				else if (CATEGORY_DEFAULT_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . CATEGORY_DEFAULT_IMAGE))
 				{
-					$product_img = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE);
+					$product_img = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
 					$linkimage   = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE);
 				}
 

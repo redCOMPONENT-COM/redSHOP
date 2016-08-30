@@ -98,7 +98,7 @@ if ($user->id != 0)
 						{
 							foreach ($MyTags as $row)
 							{
-								$data_add   = '<div style="float:left;width:' . (THUMB_WIDTH + 50) . 'px;height:' . (THUMB_HEIGHT + 70) . 'px;text-align:center;">';
+								$data_add   = '<div style="float:left;width:' . (Redshop::getConfig()->get('THUMB_WIDTH') + 50) . 'px;height:' . (Redshop::getConfig()->get('THUMB_HEIGHT') + 70) . 'px;text-align:center;">';
 								$thum_image = "";
 
 								$pname = $row->product_name;
@@ -112,11 +112,11 @@ if ($user->id != 0)
 													'',
 													'thumb',
 													'product',
-													THUMB_WIDTH,
-													THUMB_HEIGHT,
+													Redshop::getConfig()->get('THUMB_WIDTH'),
+													Redshop::getConfig()->get('THUMB_HEIGHT'),
 													USE_IMAGE_SIZE_SWAPPING
 												);
-									$thum_image = "<div style='width:" . THUMB_WIDTH . "px;height:" . THUMB_HEIGHT . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $thumbUrl . "'></a></div>";
+									$thum_image = "<div style='width:" . Redshop::getConfig()->get('THUMB_WIDTH') . "px;height:" . Redshop::getConfig()->get('THUMB_HEIGHT') . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $thumbUrl . "'></a></div>";
 									$data_add .= $thum_image;
 								}
 

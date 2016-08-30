@@ -103,7 +103,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 
 		if (WATERMARK_PRODUCT_IMAGE)
 		{
-			$thumImage = $redhelper->watermark('product', $thumb, $thumbWidth, $thumbHeight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+			$thumImage = $redhelper->watermark('product', $thumb, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 			echo "<div class=\"mod_redshop_products_image\"><img src=\"" . $thumImage . "\"></div>";
 		}
 		else

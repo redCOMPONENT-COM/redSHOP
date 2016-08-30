@@ -1117,8 +1117,8 @@ class redshopMail
 								'',
 								'thumb',
 								'product',
-								CART_THUMB_WIDTH,
-								CART_THUMB_HEIGHT,
+								Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+								Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 								USE_IMAGE_SIZE_SWAPPING
 							);
 				$product_image = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";

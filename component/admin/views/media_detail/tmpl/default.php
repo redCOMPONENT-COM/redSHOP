@@ -189,8 +189,8 @@ if ($showbuttons)
 													'',
 													'thumb',
 													$this->detail->media_section,
-													THUMB_WIDTH,
-													THUMB_HEIGHT,
+													Redshop::getConfig()->get('THUMB_WIDTH'),
+													Redshop::getConfig()->get('THUMB_HEIGHT'),
 													USE_IMAGE_SIZE_SWAPPING
 												);
 									?>

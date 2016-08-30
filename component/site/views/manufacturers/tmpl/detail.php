@@ -88,8 +88,8 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 
 if (strstr($template_desc, "{manufacturer_image}"))
 {
-	$mh_thumb    = MANUFACTURER_THUMB_HEIGHT;
-	$mw_thumb    = MANUFACTURER_THUMB_WIDTH;
+	$mh_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
+	$mw_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 	$thum_image  = "";
 	$media_image = $producthelper->getAdditionMediaImage($row->manufacturer_id, "manufacturer");
 
@@ -114,9 +114,9 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				$maintype = "manufacturer/";
 			}
 
-			if (WATERMARK_MANUFACTURER_THUMB_IMAGE)
+			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_THUMB_IMAGE);
+				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
 				$thumbtype        = "watermarked/main";
 			}
 			else

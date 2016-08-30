@@ -94,26 +94,26 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 	if (strstr($middletemplate_desc, '{category_thumb_image_2}'))
 	{
 		$tag     = '{category_thumb_image_2}';
-		$h_thumb = THUMB_HEIGHT_2;
-		$w_thumb = THUMB_WIDTH_2;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
 	}
 	elseif (strstr($middletemplate_desc, '{category_thumb_image_3}'))
 	{
 		$tag     = '{category_thumb_image_3}';
-		$h_thumb = THUMB_HEIGHT_3;
-		$w_thumb = THUMB_WIDTH_3;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 	}
 	elseif (strstr($middletemplate_desc, '{category_thumb_image_1}'))
 	{
 		$tag     = '{category_thumb_image_1}';
-		$h_thumb = THUMB_HEIGHT;
-		$w_thumb = THUMB_WIDTH;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 	else
 	{
 		$tag     = '{category_thumb_image}';
-		$h_thumb = THUMB_HEIGHT;
-		$w_thumb = THUMB_WIDTH;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
@@ -167,12 +167,12 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 		{
-			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 			$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
 		elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 		{
-			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
 		}
 

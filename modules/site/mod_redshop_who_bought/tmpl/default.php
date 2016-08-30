@@ -122,7 +122,7 @@ if (count($rows))
 			}
 			elseif (WATERMARK_PRODUCT_IMAGE)
 			{
-				$thumbImage = $redhelper->watermark('product', $product->product_full_image, $thumbwidth, $thumbheight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+				$thumbImage = $redhelper->watermark('product', $product->product_full_image, $thumbwidth, $thumbheight, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 			}
 			else
 			{

@@ -112,11 +112,11 @@ if ($total > 0)
 							'',
 							'thumb',
 							'product',
-							COMPARE_PRODUCT_THUMB_WIDTH,
-							COMPARE_PRODUCT_THUMB_HEIGHT,
+							Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_WIDTH'),
+							Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_HEIGHT'),
 							USE_IMAGE_SIZE_SWAPPING
 						);
-		$img    = "<div style='width:" . COMPARE_PRODUCT_THUMB_WIDTH . "px;height:" . COMPARE_PRODUCT_THUMB_HEIGHT . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $thumbUrl . "'></a></div>";
+		$img    = "<div style='width:" . Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_WIDTH') . "px;height:" . Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_HEIGHT') . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $thumbUrl . "'></a></div>";
 
 		$expand = "<a href='javascript:void(0)' onClick='expand_collapse(this," . $product->product_id . ")' style='font-size:18px;text-decoration:none;' >-</a>";
 

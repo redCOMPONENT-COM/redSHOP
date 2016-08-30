@@ -82,26 +82,26 @@ if ($mail == 0)
 	if (strstr($data, '{product_thumb_image_2}'))
 	{
 		$tag     = '{product_thumb_image_2}';
-		$h_thumb = THUMB_HEIGHT_2;
-		$w_thumb = THUMB_WIDTH_2;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
 	}
 	elseif (strstr($data, '{product_thumb_image_3}'))
 	{
 		$tag     = '{product_thumb_image_3}';
-		$h_thumb = THUMB_HEIGHT_3;
-		$w_thumb = THUMB_WIDTH_3;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 	}
 	elseif (strstr($data, '{product_thumb_image_1}'))
 	{
 		$tag     = '{product_thumb_image_1}';
-		$h_thumb = THUMB_HEIGHT;
-		$w_thumb = THUMB_WIDTH;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 	else
 	{
 		$tag     = '{product_thumb_image}';
-		$h_thumb = THUMB_HEIGHT;
-		$w_thumb = THUMB_WIDTH;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
 	$temp_template  = '';

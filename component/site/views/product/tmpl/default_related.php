@@ -41,26 +41,26 @@ if (count($relptemplate) > 0)
 		if (strstr($related_template_data, "{relproduct_image_3}"))
 		{
 			$rpimg_tag = '{relproduct_image_3}';
-			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_3;
-			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_3;
+			$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_3');
+			$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_3');
 		}
 		elseif (strstr($related_template_data, "{relproduct_image_2}"))
 		{
 			$rpimg_tag = '{relproduct_image_2}';
-			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_2;
-			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_2;
+			$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_2');
+			$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_2');
 		}
 		elseif (strstr($related_template_data, "{relproduct_image_1}"))
 		{
 			$rpimg_tag = '{relproduct_image_1}';
-			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
-			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
+			$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+			$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
 		}
 		else
 		{
 			$rpimg_tag = '{relproduct_image}';
-			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
-			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
+			$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+			$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
 		}
 
 		$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='" . $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='" . $rph_thumb . "'>";

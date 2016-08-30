@@ -246,8 +246,8 @@ function display_products($rows)
 	}
 	else
 	{
-		$ph_thumb       = CATEGORY_PRODUCT_THUMB_HEIGHT;
-		$pw_thumb       = CATEGORY_PRODUCT_THUMB_WIDTH;
+		$ph_thumb       = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+		$pw_thumb       = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 		$wishlist_data1 = $template[0]->template_desc;
 
 		$mlink          = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";

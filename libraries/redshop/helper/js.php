@@ -28,6 +28,7 @@ class RedshopHelperJs
 		$view   = JRequest::getCmd('view');
 		$layout = JRequest::getCmd('layout');
 		$for    = JRequest::getWord("for", false);
+		$config = Redshop::getConfig();
 
 		if ($tmpl == 'component' && !$for)
 		{
@@ -50,7 +51,7 @@ class RedshopHelperJs
 			$tmpItemid = $cart_Itemid;
 		}
 
-		$currency_symbol  = REDCURRENCY_SYMBOL;
+		$currency_symbol  = $config->get('REDCURRENCY_SYMBOL');
 		$currency_convert = 1;
 
 		if (isset($post['product_currency']))
@@ -72,36 +73,36 @@ class RedshopHelperJs
 			'SITE_URL'                          => JURI::root(),
 			'AJAX_TOKEN'                        => $token,
 			'AJAX_BASE_URL'                     => JRoute::_('index.php?tmpl=component&option=com_redshop&' . $token . '=1', false),
-			'AJAX_CART_BOX'                     => AJAX_CART_BOX,
+			'AJAX_CART_BOX'                     => $config->get('AJAX_CART_BOX'),
 			'REDSHOP_VIEW'                      => $view,
 			'REDSHOP_LAYOUT'                    => $layout,
 			'CURRENCY_SYMBOL_CONVERT'           => $currency_symbol,
 			'CURRENCY_CONVERT'                  => $currency_convert,
-			'PRICE_SEPERATOR'                   => PRICE_SEPERATOR,
-			'CURRENCY_SYMBOL_POSITION'          => CURRENCY_SYMBOL_POSITION,
-			'PRICE_DECIMAL'                     => PRICE_DECIMAL,
-			'THOUSAND_SEPERATOR'                => THOUSAND_SEPERATOR,
-			'USE_STOCKROOM'                     => USE_STOCKROOM,
-			'USE_AS_CATALOG'                    => USE_AS_CATALOG,
-			'AJAX_CART_DISPLAY_TIME'            => AJAX_CART_DISPLAY_TIME,
-			'SHOW_PRICE'                        => SHOW_PRICE,
+			'PRICE_SEPERATOR'                   => $config->get('PRICE_SEPERATOR'),
+			'CURRENCY_SYMBOL_POSITION'          => $config->get('CURRENCY_SYMBOL_POSITION'),
+			'PRICE_DECIMAL'                     => $config->get('PRICE_DECIMAL'),
+			'THOUSAND_SEPERATOR'                => $config->get('THOUSAND_SEPERATOR'),
+			'USE_STOCKROOM'                     => $config->get('USE_STOCKROOM'),
+			'USE_AS_CATALOG'                    => $config->get('USE_AS_CATALOG'),
+			'AJAX_CART_DISPLAY_TIME'            => $config->get('AJAX_CART_DISPLAY_TIME'),
+			'SHOW_PRICE'                        => $config->get('SHOW_PRICE'),
 			'BASE_TAX'                          => RedshopSiteProduct::getInstance()->getProductTax(0, 1),
-			'DEFAULT_QUOTATION_MODE'            => DEFAULT_QUOTATION_MODE,
-			'PRICE_REPLACE'                     => PRICE_REPLACE,
-			'ALLOW_PRE_ORDER'                   => ALLOW_PRE_ORDER,
-			'ATTRIBUTE_SCROLLER_THUMB_WIDTH'    => ATTRIBUTE_SCROLLER_THUMB_WIDTH,
-			'ATTRIBUTE_SCROLLER_THUMB_HEIGHT'   => ATTRIBUTE_SCROLLER_THUMB_HEIGHT,
-			'PRODUCT_DETAIL_IS_LIGHTBOX'        => PRODUCT_DETAIL_IS_LIGHTBOX,
-			'REQUIRED_VAT_NUMBER'               => REQUIRED_VAT_NUMBER,
-			'NOOF_SUBATTRIB_THUMB_FOR_SCROLLER' => NOOF_SUBATTRIB_THUMB_FOR_SCROLLER,
-			'SHOW_QUOTATION_PRICE'              => SHOW_QUOTATION_PRICE,
-			'AJAX_DETAIL_BOX_WIDTH'             => AJAX_DETAIL_BOX_WIDTH,
-			'AJAX_DETAIL_BOX_HEIGHT'            => AJAX_DETAIL_BOX_HEIGHT,
-			'AJAX_BOX_WIDTH'                    => AJAX_BOX_WIDTH,
-			'AJAX_BOX_HEIGHT'                   => AJAX_BOX_HEIGHT,
-			'PRICE_REPLACE_URL'                 => PRICE_REPLACE_URL,
-			'ZERO_PRICE_REPLACE_URL'            => ZERO_PRICE_REPLACE_URL,
-			'ZERO_PRICE_REPLACE'                => ZERO_PRICE_REPLACE
+			'DEFAULT_QUOTATION_MODE'            => $config->get('DEFAULT_QUOTATION_MODE'),
+			'PRICE_REPLACE'                     => $config->get('PRICE_REPLACE'),
+			'ALLOW_PRE_ORDER'                   => $config->get('ALLOW_PRE_ORDER'),
+			'ATTRIBUTE_SCROLLER_THUMB_WIDTH'    => $config->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'),
+			'ATTRIBUTE_SCROLLER_THUMB_HEIGHT'   => $config->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'),
+			'PRODUCT_DETAIL_IS_LIGHTBOX'        => $config->get('PRODUCT_DETAIL_IS_LIGHTBOX'),
+			'REQUIRED_VAT_NUMBER'               => $config->get('REQUIRED_VAT_NUMBER'),
+			'NOOF_SUBATTRIB_THUMB_FOR_SCROLLER' => $config->get('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER'),
+			'SHOW_QUOTATION_PRICE'              => $config->get('SHOW_QUOTATION_PRICE'),
+			'AJAX_DETAIL_BOX_WIDTH'             => $config->get('AJAX_DETAIL_BOX_WIDTH'),
+			'AJAX_DETAIL_BOX_HEIGHT'            => $config->get('AJAX_DETAIL_BOX_HEIGHT'),
+			'AJAX_BOX_WIDTH'                    => $config->get('AJAX_BOX_WIDTH'),
+			'AJAX_BOX_HEIGHT'                   => $config->get('AJAX_BOX_HEIGHT'),
+			'PRICE_REPLACE_URL'                 => $config->get('PRICE_REPLACE_URL'),
+			'ZERO_PRICE_REPLACE_URL'            => $config->get('ZERO_PRICE_REPLACE_URL'),
+			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE')
 		);
 
 		// Now looping to add dynamic vars into javascript stack
@@ -150,9 +151,9 @@ class RedshopHelperJs
 
 		if ($view == 'product')
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE))
+			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')))
 			{
-				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \"" . REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/" . PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE . "\" ) no-repeat center;}";
+				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \"" . REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/" . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE') . "\" ) no-repeat center;}";
 			}
 			else
 			{

@@ -101,8 +101,8 @@ if ($this->detail && $template_middle != "")
 		if ($row != '')
 		{
 			$mimg_tag = '{manufacturer_image}';
-			$mh_thumb = MANUFACTURER_THUMB_HEIGHT;
-			$mw_thumb = MANUFACTURER_THUMB_WIDTH;
+			$mh_thumb = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
+			$mw_thumb = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 
 			$link = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 
@@ -132,7 +132,7 @@ if ($this->detail && $template_middle != "")
 							$altText = $media_image[$m]->media_name;
 						}
 
-						if (WATERMARK_MANUFACTURER_IMAGE || WATERMARK_MANUFACTURER_THUMB_IMAGE)
+						if (WATERMARK_MANUFACTURER_IMAGE || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 						{
 							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_IMAGE);
 						}
