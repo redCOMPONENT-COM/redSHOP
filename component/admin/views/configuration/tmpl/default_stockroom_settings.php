@@ -59,6 +59,16 @@ defined('_JEXEC') or die;
 			<?php echo $this->lists ['use_product_outofstock_image'];?>
 		</div>
 
+		<div class="form-group">
+			<span class="editlinktip hasTip"
+				      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER_LBL'); ?>">
+				<label
+					for="default_stockamount_below_amount_number"><?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER_LBL');?></label>
+			</span>
+			<input type="text" name="default_stockroom_below_amount_number"
+								       value="<?php echo $this->config->get('DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER'); ?>"/>
+		</div>
+
 	</div>
 </div>
 

@@ -481,6 +481,28 @@ class rsstockroomhelper
 					$affected_row[] = $list[$i]->stockroom_id;
 					$stockroom_quantity[] = $remaining_quantity;
 				}
+
+				$stockroomDetail = $this->getStockroomAmountDetailList($section_id, $section, $list[$i]->stockroom_id);
+				$remaining = $stockroomDetail[0]->quantity - $quantity;
+
+				if ($remaining <= DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER)
+				{
+					$dispatcher = JDispatcher::getInstance();
+					JPluginHelper::importPlugin('redshop_alert');
+					$productId = ($section == "product") ? $section_id : $product_id;
+					$productData = Redshop::product((int) $productId);
+
+					$message = JText::sprintf(
+						'COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER',
+						$product_data->product_name,
+						$product_data->product_number,
+						$remaining,
+						$stockroomDetail[0]->stockroom_name
+					);
+
+					$dispatcher->trigger('storeAlert', array($message));
+					$dispatcher->trigger('sendEmail', array($message));
+				}
 			}
 
 			// For preorder stock
