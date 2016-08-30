@@ -5989,7 +5989,7 @@ class RedshopSiteProduct
 
 		$tooltip             = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
 		$ADD_OR_LBL          = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
-		$ADD_CART_IMAGE      = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? REQUESTQUOTE_IMAGE : ADDTOCART_IMAGE;
+		$ADD_CART_IMAGE      = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : Redshop::getConfig()->get('ADDTOCART_IMAGE');
 		$ADD_CART_BACKGROUND = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? REQUESTQUOTE_BACKGROUND : ADDTOCART_BACKGROUND;
 
 		$cartTag   = '';
@@ -6360,7 +6360,7 @@ class RedshopSiteProduct
 		$ADD_OR_PRE_BTN      = Redshop::getConfig()->get('PRE_ORDER_IMAGE');
 		$tooltip             = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
 		$ADD_OR_LBL          = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
-		$ADD_CART_IMAGE      = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? REQUESTQUOTE_IMAGE : ADDTOCART_IMAGE;
+		$ADD_CART_IMAGE      = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : Redshop::getConfig()->get('ADDTOCART_IMAGE');
 		$ADD_CART_BACKGROUND = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? REQUESTQUOTE_BACKGROUND : ADDTOCART_BACKGROUND;
 		$ADD_OR_TOOLTIP      = "";
 
@@ -9385,7 +9385,7 @@ class RedshopSiteProduct
 				{
 					$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "1");
 					$linkimage     = $redhelper->watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "0");
-					$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '2');
+					$hoverimg_path = $redhelper->watermark('product', $thumb, Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '2');
 
 				}
 				else
@@ -9406,8 +9406,8 @@ class RedshopSiteProduct
 										'',
 										'thumb',
 										'product',
-										ADDITIONAL_HOVER_IMAGE_WIDTH,
-										ADDITIONAL_HOVER_IMAGE_HEIGHT,
+										Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
+										Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
 										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 				}
@@ -9483,7 +9483,7 @@ class RedshopSiteProduct
 					$producthrefend = "</a>";
 				}
 
-				if (ADDITIONAL_HOVER_IMAGE_ENABLE)
+				if (Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE'))
 				{
 					$prodadditionImg .= "<img src='" . $hoverimg_path . "' alt='" . $alttext . "' title='" . $alttext
 						. "' class='redImagepreview'>";
@@ -9608,15 +9608,15 @@ class RedshopSiteProduct
 							$prophrefend = "</a>";
 						}
 
-						if (ADDITIONAL_HOVER_IMAGE_ENABLE)
+						if (Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE'))
 						{
 							$thumbUrl = RedShopHelperImages::getImagePath(
 											$thumb,
 											'',
 											'thumb',
 											'property',
-											ADDITIONAL_HOVER_IMAGE_WIDTH,
-											ADDITIONAL_HOVER_IMAGE_HEIGHT,
+											Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
+											Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
 											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$propadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext . "' title='" . $alttext
@@ -9724,15 +9724,15 @@ class RedshopSiteProduct
 						$subprophrefend = "</a>";
 					}
 
-					if (ADDITIONAL_HOVER_IMAGE_ENABLE)
+					if (Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE'))
 					{
 						$thumbUrl = RedShopHelperImages::getImagePath(
 										$thumb,
 										'',
 										'thumb',
 										$filedir,
-										ADDITIONAL_HOVER_IMAGE_WIDTH,
-										ADDITIONAL_HOVER_IMAGE_HEIGHT,
+										Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
+										Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
 										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 						$subpropadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext

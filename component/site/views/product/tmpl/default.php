@@ -154,9 +154,9 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . CUSTOM_NEXT_LINK_FIND . '</a>';
 		}
-		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . IMAGE_PREVIOUS_LINK_FIND))
+		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
 		{
-			$nextbutton = '<a href="' . $nextlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_NEXT_LINK_FIND . '" /></a>';
+			$nextbutton = '<a href="' . $nextlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . Redshop::getConfig()->get('IMAGE_NEXT_LINK_FIND') . '" /></a>';
 		}
 	}
 
@@ -179,9 +179,9 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		{
 			$prevbutton = '<a href="' . $prevlink . '">' . CUSTOM_PREVIOUS_LINK_FIND . '</a>';
 		}
-		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . IMAGE_PREVIOUS_LINK_FIND))
+		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
 		{
-			$prevbutton = '<a href="' . $prevlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . IMAGE_PREVIOUS_LINK_FIND . '" /></a>';
+			$prevbutton = '<a href="' . $prevlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND') . '" /></a>';
 		}
 
 		// End
@@ -978,8 +978,8 @@ if (strstr($template_desc, $mpimg_tag))
 						$hoverimg_path = $this->redHelper->watermark(
 																		'product',
 																		$thumb,
-																		ADDITIONAL_HOVER_IMAGE_WIDTH,
-																		ADDITIONAL_HOVER_IMAGE_HEIGHT,
+																		Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
+																		Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
 																		Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'),
 																		'2'
 										);
@@ -1002,8 +1002,8 @@ if (strstr($template_desc, $mpimg_tag))
 											'',
 											'thumb',
 											'product',
-											ADDITIONAL_HOVER_IMAGE_WIDTH,
-											ADDITIONAL_HOVER_IMAGE_HEIGHT,
+											Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
+											Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
 											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 					}
@@ -1093,7 +1093,7 @@ if (strstr($template_desc, $mpimg_tag))
 						$more_images_hrefend = "</a>";
 					}
 
-					if (ADDITIONAL_HOVER_IMAGE_ENABLE)
+					if (Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE'))
 					{
 						$more_images .= "<img src='" . $hoverimg_path . "' alt='" . $alttext . "' title='" . $alttext . "' class='redImagepreview'>";
 					}

@@ -861,7 +861,7 @@ class RedshopSiteHelper
 			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $filename_path_info['basename'];
 			ob_start();
 			RedShopHelperImages::resizeImage(
-				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage, $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING, 'browser', false
+				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'), 'browser', false
 			);
 			$contents = ob_get_contents();
 			ob_end_clean();
@@ -938,7 +938,7 @@ class RedshopSiteHelper
 			else
 			{
 				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING);
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'));
 				$filename_path_info = pathinfo($filename);
 				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $filename_path_info['basename'];
 			}

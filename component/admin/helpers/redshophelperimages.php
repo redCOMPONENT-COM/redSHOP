@@ -353,10 +353,10 @@ class RedShopHelperImages extends JObject
 				imagegif($image_resized, $output);
 				break;
 			case IMAGETYPE_JPEG:
-				imagejpeg($image_resized, $output, IMAGE_QUALITY_OUTPUT);
+				imagejpeg($image_resized, $output, Redshop::getConfig()->get('IMAGE_QUALITY_OUTPUT'));
 				break;
 			case IMAGETYPE_PNG:
-				$pngQuality = (IMAGE_QUALITY_OUTPUT - 100) / 11.111111;
+				$pngQuality = (Redshop::getConfig()->get('IMAGE_QUALITY_OUTPUT') - 100) / 11.111111;
 				$pngQuality = round(abs($pngQuality));
 				imagepng($image_resized, $output, $pngQuality);
 				break;
