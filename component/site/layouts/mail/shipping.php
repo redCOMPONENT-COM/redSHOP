@@ -80,3 +80,4 @@ $extra_section = ($shippingaddresses->is_company == 1) ? RedshopSiteExtraField::
 	<?php echo $extrafields = $extra_field->list_all_field_display($extra_section, $shippingaddresses->users_info_id, 0, "", "", true);
 	?>
 </table>
+
