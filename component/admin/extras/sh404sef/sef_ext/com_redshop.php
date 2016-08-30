@@ -136,7 +136,7 @@ switch ($view)
 
 			if ($url->sef_url == "")
 			{
-				if (CATEGORY_TREE_IN_SEF_URL)
+				if (Redshop::getConfig()->get('CATEGORY_TREE_IN_SEF_URL'))
 				{
 					$GLOBALS['catlist_reverse'] = array();
 					$cats                       = RedshopHelperCategory::getCategoryListReverseArray($cid);
@@ -212,7 +212,7 @@ switch ($view)
 
 			if (trim($url) == "")
 			{
-				if (CATEGORY_IN_SEF_URL)
+				if (Redshop::getConfig()->get('CATEGORY_IN_SEF_URL'))
 				{
 					$GLOBALS['catlist_reverse'] = array();
 					$where                      = '';
@@ -234,7 +234,7 @@ switch ($view)
 						$category_id = $product->category_id;
 					}
 
-					if (CATEGORY_TREE_IN_SEF_URL)
+					if (Redshop::getConfig()->get('CATEGORY_TREE_IN_SEF_URL'))
 					{
 						$cats = RedshopHelperCategory::getCategoryListReverseArray($category_id);
 

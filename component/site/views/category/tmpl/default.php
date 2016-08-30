@@ -81,7 +81,7 @@ $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" .
 $print_tag .= "</a>";
 
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
-$template_desc = str_replace("{category_frontpage_introtext}", CATEGORY_FRONTPAGE_INTROTEXT, $template_desc);
+$template_desc = str_replace("{category_frontpage_introtext}", Redshop::getConfig()->get('CATEGORY_FRONTPAGE_INTROTEXT'), $template_desc);
 
 if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($template_desc, "{category_frontpage_loop_end}"))
 {
@@ -203,13 +203,13 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		if (strstr($data_add, '{category_description}'))
 		{
-			$cat_desc = $config->maxchar($row->category_description, CATEGORY_DESC_MAX_CHARS, CATEGORY_DESC_END_SUFFIX);
+			$cat_desc = $config->maxchar($row->category_description, Redshop::getConfig()->get('CATEGORY_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_DESC_END_SUFFIX'));
 			$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 		}
 
 		if (strstr($data_add, '{category_short_desc}'))
 		{
-			$cat_s_desc = $config->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
+			$cat_s_desc = $config->maxchar($row->category_short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
 

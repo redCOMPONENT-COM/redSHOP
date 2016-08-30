@@ -584,7 +584,7 @@ class RedshopSiteProduct
 				 *  VAT_BASED_ON = 1 // Customer mode
 				 *  VAT_BASED_ON = 2 // EU mode
 				 */
-				if (VAT_BASED_ON != 2 && VAT_BASED_ON != 1)
+				if (Redshop::getConfig()->get('VAT_BASED_ON') != 2 && Redshop::getConfig()->get('VAT_BASED_ON') != 1)
 				{
 					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 					$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
@@ -606,7 +606,7 @@ class RedshopSiteProduct
 			$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 			$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 
-			if ($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (VAT_BASED_ON == 2 || VAT_BASED_ON == 1))
+			if ($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
 			{
 				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
 					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
@@ -679,7 +679,7 @@ class RedshopSiteProduct
 				->where('tr.tax_group_id = ' . (int) $taxGroup)
 				->order('tax_rate');
 
-			if (VAT_BASED_ON == 2)
+			if (Redshop::getConfig()->get('VAT_BASED_ON') == 2)
 			{
 				$query->where('tr.is_eu_country = 1');
 			}

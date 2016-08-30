@@ -181,7 +181,7 @@ if (!$slide)
 
 	if (strpos($template_desc, '{category_main_description}') !== false)
 	{
-		$main_cat_desc = $Redconfiguration->maxchar($this->maincat->category_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
+		$main_cat_desc = $Redconfiguration->maxchar($this->maincat->category_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 		$template_desc = str_replace("{category_main_description}", $main_cat_desc, $template_desc);
 	}
 
@@ -189,8 +189,8 @@ if (!$slide)
 	{
 		$main_cat_s_desc = $Redconfiguration->maxchar(
 														$this->maincat->category_short_description,
-														CATEGORY_SHORT_DESC_MAX_CHARS,
-														CATEGORY_SHORT_DESC_END_SUFFIX
+														Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
+														Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
 													);
 		$template_desc   = str_replace("{category_main_short_desc}", $main_cat_s_desc, $template_desc);
 	}
@@ -200,7 +200,7 @@ if (!$slide)
 		$template_desc = str_replace("{shopname}", SHOP_NAME, $template_desc);
 	}
 
-	$main_cat_name = $Redconfiguration->maxchar($this->maincat->category_name, CATEGORY_TITLE_MAX_CHARS, CATEGORY_TITLE_END_SUFFIX);
+	$main_cat_name = $Redconfiguration->maxchar($this->maincat->category_name, Redshop::getConfig()->get('CATEGORY_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_TITLE_END_SUFFIX'));
 	$template_desc = str_replace("{category_main_name}", $main_cat_name, $template_desc);
 
 	if (strpos($template_desc, '{category_main_thumb_image_2}') !== false)
@@ -394,13 +394,13 @@ if (!$slide)
 
 			if (strpos($data_add, '{category_description}') !== false)
 			{
-				$cat_desc = $Redconfiguration->maxchar($row->category_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
+				$cat_desc = $Redconfiguration->maxchar($row->category_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 				$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 			}
 
 			if (strpos($data_add, '{category_short_desc}') !== false)
 			{
-				$cat_s_desc = $Redconfiguration->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
+				$cat_s_desc = $Redconfiguration->maxchar($row->category_short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 				$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 			}
 

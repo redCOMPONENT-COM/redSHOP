@@ -2502,7 +2502,7 @@ class RedshopModelImport extends RedshopModel
 				$rows->published = $category_publish;
 				$rows->category_pdate = $category_pdate;
 				$rows->products_per_page = $products_per_row;
-				$rows->category_template = CATEGORY_TEMPLATE;
+				$rows->category_template = Redshop::getConfig()->get('CATEGORY_TEMPLATE');
 
 				if (!$rows->store())
 				{
