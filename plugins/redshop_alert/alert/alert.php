@@ -70,12 +70,6 @@ class PlgRedshop_AlertAlert extends JPlugin
 			$message
 		);
 
-		// Send mail
-		if ($sent)
-		{
-			return true;
-		}
-
-		return false;
+		return $sent;
 	}
 }
