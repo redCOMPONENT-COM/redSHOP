@@ -68,7 +68,7 @@ JPluginHelper::importPlugin('redshop_product');
 		if ((pressbutton == 'allstatus'))
 		{
 			if (document.getElementById('order_status_all').value == '0') {
-				alert("<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS') ?>");
+				alert("<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS'); ?>");
 				return false;
 			}
 
@@ -152,13 +152,13 @@ JPluginHelper::importPlugin('redshop_product');
 			</div>
 
 			<div class="filterItem">
-				<?php echo $lists['filter_payment_status'];?>
+				<?php echo $lists['filter_payment_status']; ?>
 			</div>
 			<div class="filterItem">
-				<?php echo $lists['filter_status'] ?>
+\				<?php echo $lists['filter_status']; ?>
 			</div>
 			<div class="filterItem">
-				<?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" ", 'COM_REDSHOP_NEW_STATUS') ?>
+				<?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" ", 'COM_REDSHOP_NEW_STATUS'); ?>
 			</div>
 		</div>
 	</div>
@@ -192,7 +192,7 @@ JPluginHelper::importPlugin('redshop_product');
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_TOTAL', 'order_total', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="1">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PAYMENT', 'order_payment_status', $this->lists['order_Dir'], $this->lists['order']) ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PAYMENT', 'order_payment_status', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<?php if (USE_STOCKROOM == 1): ?>
 					<th width="10%">
@@ -234,55 +234,68 @@ JPluginHelper::importPlugin('redshop_product');
 				$results = $dispatcher->trigger('toHighlightGrid', array(&$row));
 				$data->highlight->toHighlightGrid = trim(implode("\n", $results));
 				?>
-				<tr class="<?php echo "row$k"; ?>">
+				<tr class="row<?php echo $k; ?>">
 					<td class="order">
 						<?php echo $this->pagination->getRowOffset($i); ?>
-						<?php echo $data->highlight->toHighlightGrid;?>
+						<?php echo $data->highlight->toHighlightGrid; ?>
 					</td>
 					<td class="order">
 						<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 					</td>
 					<td align="center">
-						<a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>"><?php echo $row->order_id ?></a>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a>
 					</td>
 					<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2
 						&& $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number): ?>
 						<td align="center"><?php echo $row->bookinvoice_number; ?></td>
 					<?php endif; ?>
 					<td>
-						<?php echo $row->firstname . ' ' . $row->lastname ?>
+						<?php echo $row->firstname . ' ' . $row->lastname; ?>
 					</td>
 					<td>
-						<a href="mailto:<?php echo $row->user_email ?>" target="_blank"><i class="fa fa-envelope"></i></a>&nbsp;<?php echo $row->user_email ?>
+						<a href="mailto:<?php echo $row->user_email; ?>" target="_blank">
+							<i class="fa fa-envelope"></i>
+						</a>&nbsp;<?php echo $row->user_email; ?>
 					</td>
 					<td>
 						<?php if ($row->is_company): ?>
-							<p class="text-info"><?php echo $row->company_name ?></p>
+							<p class="text-info"><?php echo $row->company_name; ?></p>
 						<?php else: ?>
-							<p class="text-muted"><?php echo JText::_('COM_REDSHOP_PRIVATE') ?></p>
+							<p class="text-muted"><?php echo JText::_('COM_REDSHOP_PRIVATE'); ?></p>
 						<?php endif; ?>
 					</td>
 					<td>
 						<?php
-						$orderStatusClass = 'label order_status_' . strtolower($row->order_status);
 						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
 						?>
-						<a href="javascript:void(0);" class="order_status_change" data-target="order_status_form<?php echo $row->id ?>">
+						<a href="javascript:void(0);" class="order_status_change" data-target="order_status_form<?php echo $row->id; ?>">
 							<i class="icon icon-edit"></i>
 						</a>
-						<span class="label <?php echo $orderStatusClass ?>"><?php echo $row->order_status_name ?></span>
-						<div id="order_status_form<?php echo $row->id ?>" class="panel panel-default" style="display: none; margin-top: 15px;">
+						<span class="label order_status_<?php echo strtolower($row->order_status); ?>"><?php echo $row->order_status_name; ?></span>
+						<div id="order_status_form<?php echo $row->id; ?>" class="panel panel-default" style="display: none; margin-top: 15px;">
 							<div class="panel-body">
 								<div class="form-group">
-									<label><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?></label>
-									<?php echo $order_function->getstatuslist('order_status' . $row->order_id, $row->order_status, "class=\"form-control inputbox\" size=\"1\" ") ?>
+									<label><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></label>
+									<?php
+									echo $order_function->getstatuslist(
+										'order_status' . $row->order_id,
+										$row->order_status,
+										"class=\"form-control inputbox\" size=\"1\" "
+									)
+									?>
 								</div>
 								<div class="form-group">
-									<label><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?></label>
-									<?php echo $order_function->getpaymentstatuslist('order_paymentstatus' . $row->order_id, $row->order_payment_status, "class=\"form-control inputbox\" size=\"1\" ") ?>
+									<label><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS'); ?></label>
+									<?php
+									echo $order_function->getpaymentstatuslist(
+										'order_paymentstatus' . $row->order_id,
+										$row->order_payment_status,
+										"class=\"form-control inputbox\" size=\"1\" "
+									);
+									?>
 								</div>
 								<div class="form-group">
-									<label><?php echo JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL') ?></label>
+									<label><?php echo JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'); ?></label>
 									<textarea class="form-control" name="customer_note<?php echo $row->order_id ?>"><?php echo $row->customer_note;?></textarea>
 								</div>
 								<div class="form-group">
@@ -303,7 +316,7 @@ JPluginHelper::importPlugin('redshop_product');
 						</div>
 					</td>
 					<td>
-						<?php echo $producthelper->getProductFormattedPrice($row->order_total) ?>
+						<?php echo $producthelper->getProductFormattedPrice($row->order_total); ?>
 					</td>
 					<td>
 						<?php $paymentStatusClass = 'label order_payment_status_' . strtolower($row->order_payment_status); ?>
