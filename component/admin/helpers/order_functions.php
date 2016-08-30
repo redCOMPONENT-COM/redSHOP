@@ -247,7 +247,7 @@ class order_functions
 			$totalWeight = $totalWeight * $unitRatio;
 		}
 
-		if (SHOW_PRODUCT_DETAIL)
+		if (Redshop::getConfig()->get('SHOW_PRODUCT_DETAIL'))
 		{
 			$content_products = array_unique($content_products);
 			$content_products = implode(",", $content_products);

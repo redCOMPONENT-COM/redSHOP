@@ -385,7 +385,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		// For preselected.
 		if ($detail->product_template == "")
 		{
-			$default_preselected = PRODUCT_TEMPLATE;
+			$default_preselected = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
 			$detail->product_template = $default_preselected;
 		}
 

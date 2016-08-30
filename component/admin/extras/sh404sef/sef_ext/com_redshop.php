@@ -260,7 +260,7 @@ switch ($view)
 					$title[] = JFilterOutput::stringURLSafe($catname);
 				}
 
-				if (ENABLE_SEF_PRODUCT_NUMBER)
+				if (Redshop::getConfig()->get('ENABLE_SEF_PRODUCT_NUMBER'))
 				{
 					$title[] = JFilterOutput::stringURLSafe($product->product_number);
 				}

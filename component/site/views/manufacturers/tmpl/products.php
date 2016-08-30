@@ -23,7 +23,7 @@ $user = JFactory::getUser();
 $model = $this->getModel('manufacturers');
 $Itemid = JRequest::getInt('Itemid');
 $print = JRequest::getInt('print');
-$order_by_select = JRequest::getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
+$order_by_select = JRequest::getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'));
 $filter_by_select = JRequest::getString('filter_by', 0);
 
 $document = JFactory::getDocument();
@@ -191,7 +191,7 @@ if ($template_middle != "")
 
 		if (strstr($cart_mdata, '{product_desc}'))
 		{
-			$p_desc     = $Redconfiguration->maxchar($manufacturer_products[$i]->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
+			$p_desc     = $Redconfiguration->maxchar($manufacturer_products[$i]->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 			$cart_mdata = str_replace("{product_desc}", $p_desc, $cart_mdata);
 		}
 

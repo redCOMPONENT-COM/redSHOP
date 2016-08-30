@@ -131,7 +131,7 @@ class RedshopModelCategory extends RedshopModel
 		$this->setState('manufacturer_id', $manufacturerId);
 
 		// Get default ordering
-		$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		$orderBySelect = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$editTimestamp = $params->get('editTimestamp', 0);
 		$userTimestamp = $app->getUserState($this->context . '.editTimestamp', 0);
 
@@ -524,7 +524,7 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function buildProductOrderBy()
 	{
-		$orderBy        = RedshopSiteHelper::getInstance()->prepareOrderBy(DEFAULT_PRODUCT_ORDERING_METHOD);
+		$orderBy        = RedshopSiteHelper::getInstance()->prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
 		$filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 

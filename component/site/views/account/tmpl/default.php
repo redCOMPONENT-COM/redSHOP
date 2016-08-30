@@ -441,7 +441,7 @@ $cmp_imagelbl = '';
 $cmp_image    = '';
 $cmp_link     = '';
 
-if (COMPARE_PRODUCTS)
+if (Redshop::getConfig()->get('COMPARE_PRODUCTS'))
 {
 	$cmp_imagelbl = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 	$cmp_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
@@ -459,7 +459,7 @@ if (strpos($template_desc, "{if compare}") !== false && strpos($template_desc, "
 	$template_d1 = explode("{if compare}", $template_desc);
 	$template_d2 = explode("{compare end if}", $template_d1[1]);
 
-	if (COMPARE_PRODUCTS && !$compare->isEmpty())
+	if (Redshop::getConfig()->get('COMPARE_PRODUCTS') && !$compare->isEmpty())
 	{
 		$template_desc = str_replace("{if compare}", "", $template_desc);
 		$template_desc = str_replace("{compare end if}", "", $template_desc);

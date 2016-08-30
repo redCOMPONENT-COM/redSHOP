@@ -720,7 +720,7 @@ if (strstr($template_desc, "{child_products}"))
 		{
 			$childproducts = array_merge(array($productInfo), $childproducts);
 
-			$display_text = (CHILDPRODUCT_DROPDOWN == "product_number") ? "product_number" : "product_name";
+			$display_text = (Redshop::getConfig()->get('CHILDPRODUCT_DROPDOWN') == "product_number") ? "product_number" : "product_name";
 
 			$selected = array($this->data->product_id);
 
@@ -1008,7 +1008,7 @@ if (strstr($template_desc, $mpimg_tag))
 										);
 					}
 
-					if (PRODUCT_ADDIMG_IS_LIGHTBOX)
+					if (Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX'))
 					{
 						$more_images_div_start = "<div class='additional_image'><a href='" . $linkimage . "' title='" . $alttext . "' rel=\"myallimg\">";
 						$more_images_div_end   = "</a></div>";
@@ -1150,14 +1150,14 @@ $link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data
 if (count($preselectedresult) > 0)
 {
 	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->replaceProductImage($this->data, "", "", "", $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX, 0, $preselectedresult) .
+					$producthelper->replaceProductImage($this->data, "", "", "", $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, $preselectedresult) .
 					"</div>";
 }
 else
 {
 	// Product image flying addwishlist time start
 	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, PRODUCT_DETAIL_IS_LIGHTBOX) .
+					$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) .
 					"</div>";
 }
 
@@ -1279,7 +1279,7 @@ if (strstr($template_desc, "{category_product_img}"))
 																$this->data->category_full_image,
 																'',
 																$pw_thumb, $ph_thumb,
-																PRODUCT_DETAIL_IS_LIGHTBOX
+																Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')
 															);
 	$template_desc = str_replace("{category_product_img}", $thum_catimage, $template_desc);
 

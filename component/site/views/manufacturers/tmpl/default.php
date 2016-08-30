@@ -149,7 +149,7 @@ if ($this->detail && $template_middle != "")
 												);
 						}
 
-						if (PRODUCT_IS_LIGHTBOX == 1)
+						if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 						{
 							$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "manufacturer/" . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
 							<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_img . "'></a>";

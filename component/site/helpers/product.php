@@ -1116,11 +1116,11 @@ class RedshopSiteProduct
 
 			if ($linkimagename != "")
 			{
-				$linkimage = $redhelper->watermark('product', $linkimagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$linkimage = $redhelper->watermark('product', $linkimagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 			else
 			{
-				$linkimage = $redhelper->watermark('product', $imagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$linkimage = $redhelper->watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 		}
 
@@ -1143,7 +1143,7 @@ class RedshopSiteProduct
 			{
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' rel=\"myallimg\">";
 			}
-			elseif (PRODUCT_IS_LIGHTBOX == 1)
+			elseif (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 			{
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage
 					. "' class=\"modal\" rel=\"{handler: 'image', size: {}}\">";
@@ -1186,11 +1186,11 @@ class RedshopSiteProduct
 
 		if ($category_img && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $category_img))
 		{
-			if (PRODUCT_IS_LIGHTBOX == 1)
+			if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 			{
-				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, WATERMARK_PRODUCT_IMAGE, '0');
-				$product_hover_img = $redhelper->watermark('product', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), WATERMARK_PRODUCT_IMAGE, '0');
-				$linkimage         = $redhelper->watermark('category', $category_img, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$product_hover_img = $redhelper->watermark('product', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$linkimage         = $redhelper->watermark('category', $category_img, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $linkimage . "' " . $title . "  rel=\"myallimg\">";
 				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
 
@@ -1198,8 +1198,8 @@ class RedshopSiteProduct
 			}
 			else
 			{
-				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, WATERMARK_PRODUCT_IMAGE, '0');
-				$product_hover_img = $redhelper->watermark('category', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), WATERMARK_PRODUCT_IMAGE, '0');
+				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$product_hover_img = $redhelper->watermark('category', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $link . "' " . $title . ">";
 				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
 				$thum_image .= "</a>";
@@ -3810,7 +3810,7 @@ class RedshopSiteProduct
 
 			$and .= "AND r.product_id IN (" . implode(',', $productIds) . ") ";
 
-			if (TWOWAY_RELATED_PRODUCT)
+			if (Redshop::getConfig()->get('TWOWAY_RELATED_PRODUCT'))
 			{
 				if (DEFAULT_RELATED_ORDERING_METHOD == "r.ordering ASC" || DEFAULT_RELATED_ORDERING_METHOD == "r.ordering DESC")
 				{
@@ -4153,8 +4153,8 @@ class RedshopSiteProduct
 				{
 					$accessory_main_short_description = $redconfig->maxchar(
 						$product->product_s_desc,
-						ACCESSORY_PRODUCT_DESC_MAX_CHARS,
-						ACCESSORY_PRODUCT_DESC_END_SUFFIX
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'),
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX')
 					);
 					$accessory_middle = str_replace("{accessory_main_short_desc}",
 						$accessory_main_short_description,
@@ -4165,8 +4165,8 @@ class RedshopSiteProduct
 				{
 					$accessory_main_product_name = $redconfig->maxchar(
 						$product->product_name,
-						ACCESSORY_PRODUCT_TITLE_MAX_CHARS,
-						ACCESSORY_PRODUCT_TITLE_END_SUFFIX
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
 					);
 					$accessory_middle            = str_replace("{accessory_main_title}", $accessory_main_product_name, $accessory_middle);
 				}
@@ -4213,7 +4213,7 @@ class RedshopSiteProduct
 									USE_IMAGE_SIZE_SWAPPING
 								);
 
-					if (ACCESSORY_PRODUCT_IN_LIGHTBOX == 1)
+					if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
 					{
 						$accessorymainimage = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
 							. "product/" . $accessory_main_image
@@ -4274,8 +4274,8 @@ class RedshopSiteProduct
 
 					$accessory_product_name = $redconfig->maxchar(
 						$accessory [$a]->product_name,
-						ACCESSORY_PRODUCT_TITLE_MAX_CHARS,
-						ACCESSORY_PRODUCT_TITLE_END_SUFFIX
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
 					);
 					$accessory_div          = str_replace("{accessory_title}", $accessory_product_name, $accessory_div);
 
@@ -4315,7 +4315,7 @@ class RedshopSiteProduct
 						. $aw_thumb . "'><input type='hidden' name='acc_main_imgheight' id='acc_main_imgheight' value='"
 						. $ah_thumb . "'>";
 
-					if (ACCESSORY_PRODUCT_IN_LIGHTBOX == 1)
+					if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_image))
 						{
@@ -4384,7 +4384,7 @@ class RedshopSiteProduct
 					}
 
 					$accessory_div               = str_replace($aimg_tag, $accessoryimage . $hidden_thumb_image, $accessory_div);
-					$accessory_short_description = $redconfig->maxchar($accessory [$a]->product_s_desc, ACCESSORY_PRODUCT_DESC_MAX_CHARS, ACCESSORY_PRODUCT_DESC_END_SUFFIX);
+					$accessory_short_description = $redconfig->maxchar($accessory [$a]->product_s_desc, Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX'));
 					$accessory_div               = str_replace("{accessory_short_desc}", $accessory_short_description, $accessory_div);
 
 					// Add manufacturer
@@ -4511,7 +4511,7 @@ class RedshopSiteProduct
 
 					if (strpos($accessory_div, "{accessory_quantity}") !== false)
 					{
-						if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
+						if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE'))
 						{
 							$key                = array_search($accessory [$a]->accessory_id, $selectedAccessory);
 							$accqua             = ($accchecked != "" && isset($selectedAccessoryQua[$key]) && $selectedAccessoryQua[$key]) ? $selectedAccessoryQua[$key] : 1;
@@ -6191,7 +6191,7 @@ class RedshopSiteProduct
 			}
 			elseif ($product->expired == 1)
 			{
-				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", PRODUCT_EXPIRE_TEXT, $data_add);
+				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", Redshop::getConfig()->get('PRODUCT_EXPIRE_TEXT'), $data_add);
 
 				return $data_add;
 			}
@@ -6987,7 +6987,7 @@ class RedshopSiteProduct
 		$prefix = ($is_relatedproduct == 1) ? "related" : "";
 
 		// For compare product div...
-		if (PRODUCT_COMPARISON_TYPE != "")
+		if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') != "")
 		{
 			if (strpos($data_add, '{' . $prefix . 'compare_product_div}') !== false)
 			{
@@ -8280,9 +8280,9 @@ class RedshopSiteProduct
 		// download data
 		$downloadable_product = $this->checkProductDownload($product_id, true); //die();
 
-		$product_download_limit = ($downloadable_product->product_download_limit > 0) ? $downloadable_product->product_download_limit : PRODUCT_DOWNLOAD_LIMIT;
+		$product_download_limit = ($downloadable_product->product_download_limit > 0) ? $downloadable_product->product_download_limit : Redshop::getConfig()->get('PRODUCT_DOWNLOAD_LIMIT');
 
-		$product_download_days      = ($downloadable_product->product_download_days > 0) ? $downloadable_product->product_download_days : PRODUCT_DOWNLOAD_DAYS;
+		$product_download_days      = ($downloadable_product->product_download_days > 0) ? $downloadable_product->product_download_days : Redshop::getConfig()->get('PRODUCT_DOWNLOAD_DAYS');
 		$product_download_clock     = ($downloadable_product->product_download_clock > 0) ? $downloadable_product->product_download_clock : 0;
 		$product_download_clock_min = ($downloadable_product->product_download_clock_min > 0) ? $downloadable_product->product_download_clock_min : 0;
 
@@ -9199,9 +9199,9 @@ class RedshopSiteProduct
 								);
 			}
 
-			if ((WATERMARK_PRODUCT_IMAGE) && $type == 'product')
+			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE')) && $type == 'product')
 			{
-				$aHrefImageResponse = $redhelper->watermark('product', $imagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$aHrefImageResponse = $redhelper->watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 			else
 			{
@@ -9211,7 +9211,7 @@ class RedshopSiteProduct
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
 				. $product->product_name . "' title='" . $product->product_name . "'>";
 
-			if ((!PRODUCT_ADDIMG_IS_LIGHTBOX || !PRODUCT_DETAIL_IS_LIGHTBOX) || $redview == "category")
+			if ((!Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX') || !Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) || $redview == "category")
 				$mainImageResponse = $productmainimg;
 		}
 
@@ -9412,7 +9412,7 @@ class RedshopSiteProduct
 									);
 				}
 
-				if (PRODUCT_ADDIMG_IS_LIGHTBOX)
+				if (Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX'))
 				{
 					$prodadditionImg_div_start = "<div class='additional_image'><a href='" . $linkimage . "' title='"
 						. $alttext . "'  rel=\"myallimg\">";
@@ -9525,7 +9525,7 @@ class RedshopSiteProduct
 						&& ($thumb != $media_image [$m]->property_main_image)
 						&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . "property/" . $thumb))
 					{
-						if (PRODUCT_ADDIMG_IS_LIGHTBOX)
+						if (Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX'))
 						{
 							$thumbUrl = RedShopHelperImages::getImagePath(
 											$thumb,
@@ -9651,7 +9651,7 @@ class RedshopSiteProduct
 					&& ($thumb != $media_image [$m]->subattribute_color_main_image)
 					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . $filedir . "/" . $thumb))
 				{
-					if (PRODUCT_ADDIMG_IS_LIGHTBOX)
+					if (Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX'))
 					{
 						$subpropadditionImg_div_start = "<div class='additional_image'><a href='"
 							. REDSHOP_FRONT_IMAGES_ABSPATH . $filedir . "/" . $thumb . "' title='" . $alttext
@@ -10074,16 +10074,16 @@ class RedshopSiteProduct
 					if (strpos($related_template_data, "{relproduct_link}") !== false)
 					{
 						$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>"
-							. $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX)
+							. $config->maxchar($related_product [$r]->product_name, Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_END_SUFFIX'))
 							. "</a>";
 					}
 					else
 					{
-						$rpname = $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX);
+						$rpname = $config->maxchar($related_product [$r]->product_name, Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_END_SUFFIX'));
 					}
 
-					$rpdesc       = $config->maxchar($related_product [$r]->product_desc, RELATED_PRODUCT_DESC_MAX_CHARS, RELATED_PRODUCT_DESC_END_SUFFIX);
-					$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, RELATED_PRODUCT_SHORT_DESC_MAX_CHARS, RELATED_PRODUCT_SHORT_DESC_END_SUFFIX);
+					$rpdesc       = $config->maxchar($related_product [$r]->product_desc, Redshop::getConfig()->get('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_DESC_END_SUFFIX'));
+					$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, Redshop::getConfig()->get('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
 
 					$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
 

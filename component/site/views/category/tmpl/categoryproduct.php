@@ -353,7 +353,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (strstr($prddata_add, '{product_name}'))
 				{
-					$pname       = $config->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
+					$pname       = $config->maxchar($product->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
 					$pname       = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $pname . "</a>";
 					$prddata_add = str_replace("{product_name}", $pname, $prddata_add);
 				}
@@ -371,13 +371,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (strstr($prddata_add, '{product_s_desc}'))
 				{
-					$p_s_desc    = $config->maxchar($product->product_s_desc, CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS, CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX);
+					$p_s_desc    = $config->maxchar($product->product_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'));
 					$prddata_add = str_replace("{product_s_desc}", $p_s_desc, $prddata_add);
 				}
 
 				if (strstr($prddata_add, '{product_desc}'))
 				{
-					$p_desc      = $config->maxchar($product->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
+					$p_desc      = $config->maxchar($product->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 					$prddata_add = str_replace("{product_desc}", $p_desc, $prddata_add);
 				}
 

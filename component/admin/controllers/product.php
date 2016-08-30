@@ -90,7 +90,7 @@ class RedshopControllerProduct extends RedshopController
 		$totalprd = 0;
 		$msg = '';
 
-		if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
+		if (ECONOMIC_INTEGRATION == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 1)
 		{
 			$economic = economic::getInstance();
 

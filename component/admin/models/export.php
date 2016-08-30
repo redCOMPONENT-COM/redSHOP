@@ -306,7 +306,7 @@ class RedshopModelExport extends RedshopModel
 							}
 							break;
 						case 'download':
-							if ($this->checkFileExists($media->media_name, PRODUCT_DOWNLOAD_ROOT))
+							if ($this->checkFileExists($media->media_name, Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT')))
 							{
 								$downloadArr['name'][] = $media->media_name;
 								$downloadArr['ordering'][] = $media->ordering;

@@ -820,7 +820,7 @@ class RedshopSiteHelper
 	 *
 	 * @return  string
 	 */
-	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = WATERMARK_PRODUCT_IMAGE)
+	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'))
 	{
 		$pathMainImage = $section . '/' . $ImageName;
 

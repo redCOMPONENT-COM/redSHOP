@@ -20,7 +20,7 @@ $compare         = new RedshopProductCompare;
 
 $compareCategoryId = $compare->getCategoryId();
 
-if (PRODUCT_COMPARISON_TYPE == 'category')
+if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category')
 {
 	$compareTemplate = $this->redTemplate->getTemplate(
 		'compare_product',

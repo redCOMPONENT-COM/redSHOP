@@ -58,7 +58,7 @@ class RedshopAdminProduct
 				$ac_id = $accessory [$a]->child_product_id;
 				$c_p_data = Redshop::product((int) $ac_id);
 
-				$accessory_name = $redconfig->maxchar($accessory [$a]->product_name, ACCESSORY_PRODUCT_TITLE_MAX_CHARS, ACCESSORY_PRODUCT_TITLE_END_SUFFIX);
+				$accessory_name = $redconfig->maxchar($accessory [$a]->product_name, Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX'));
 
 				// Get accessory final price with VAT rules
 				$accessorypricelist = $producthelper->getAccessoryPrice($product_id, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price);

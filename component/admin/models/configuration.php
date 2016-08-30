@@ -670,7 +670,7 @@ class RedshopModelConfiguration extends RedshopModel
 	 */
 	public function handleHtaccess($product_download_root)
 	{
-		$row_product_download_root = PRODUCT_DOWNLOAD_ROOT;
+		$row_product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
 		$filecontent = "";
 

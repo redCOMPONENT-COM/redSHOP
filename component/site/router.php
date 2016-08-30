@@ -551,7 +551,7 @@ function redshopBuildRoute(&$query)
 					}
 
 					// Add product number if config is enabled
-					if (ENABLE_SEF_PRODUCT_NUMBER)
+					if (Redshop::getConfig()->get('ENABLE_SEF_PRODUCT_NUMBER'))
 					{
 						$segments[] = JFilterOutput::stringURLSafe($product->product_number);
 					}

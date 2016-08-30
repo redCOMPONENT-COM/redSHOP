@@ -673,7 +673,7 @@ class leftmenu
 					(self::$view == 'product' && self::$layout == 'importproduct') ? true : false
 				);
 
-			if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
+			if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 1)
 			{
 				$menu->section('product')
 				->addItem(

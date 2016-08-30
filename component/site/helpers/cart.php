@@ -5761,7 +5761,7 @@ class RedshopSiteCart
 			$product_data = $this->_producthelper->getProductById($product_id);
 
 			// Handle individual accessory add to cart price
-			if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE
+			if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
 				&& isset($data['parent_accessory_product_id'])
 				&& $data['parent_accessory_product_id'] != 0
 				&& isset($data['accessory_id']))
@@ -5937,7 +5937,7 @@ class RedshopSiteCart
 			}
 
 			// Accessory price
-			if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
+			if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE'))
 			{
 				if (isset($data['accessory_data']))
 				{
@@ -6154,7 +6154,7 @@ class RedshopSiteCart
 						}
 						else
 						{
-							$msg = (CART_RESERVATION_MESSAGE != '' && IS_PRODUCT_RESERVE) ? CART_RESERVATION_MESSAGE : urldecode(JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
+							$msg = (CART_RESERVATION_MESSAGE != '' && Redshop::getConfig()->get('IS_PRODUCT_RESERVE')) ? CART_RESERVATION_MESSAGE : urldecode(JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 
 							return $msg;
 						}
@@ -6212,7 +6212,7 @@ class RedshopSiteCart
 
 				if ($cart[$idx]['quantity'] <= 0)
 				{
-					$msg = (CART_RESERVATION_MESSAGE != '' && IS_PRODUCT_RESERVE) ? CART_RESERVATION_MESSAGE : JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
+					$msg = (CART_RESERVATION_MESSAGE != '' && Redshop::getConfig()->get('IS_PRODUCT_RESERVE')) ? CART_RESERVATION_MESSAGE : JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 
 					return $msg;
 				}

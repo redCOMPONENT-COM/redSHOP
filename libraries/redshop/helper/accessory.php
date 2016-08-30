@@ -27,7 +27,7 @@ class RedshopHelperAccessory
 	{
 		$collection = new stdClass;
 
-		if (!ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
+		if (!Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE'))
 		{
 			return $collection;
 		}

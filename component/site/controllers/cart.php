@@ -98,7 +98,7 @@ class RedshopControllerCart extends RedshopController
 		{
 			$attArr = $cart['AccessoryAsProduct'];
 
-			if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
+			if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE'))
 			{
 				$data['accessory_data']       = $attArr[0];
 				$data['acc_quantity_data']    = $attArr[1];

@@ -264,7 +264,7 @@ if (!$slide)
 	{
 		$compare_product_div = "";
 
-		if (PRODUCT_COMPARISON_TYPE != "")
+		if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') != "")
 		{
 			$comparediv           = $producthelper->makeCompareProductDiv();
 			$compareUrl           = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid);
@@ -671,7 +671,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$link = $specificLink[0];
 		}
 
-		$pname      = $Redconfiguration->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
+		$pname      = $Redconfiguration->maxchar($product->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
 		$product_nm = $pname;
 
 		if (strpos($data_add, '{product_name_nolink}') !== false)
@@ -737,13 +737,13 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		if (strpos($data_add, '{product_s_desc}') !== false)
 		{
-			$p_s_desc = $Redconfiguration->maxchar($product->product_s_desc, CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS, CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX);
+			$p_s_desc = $Redconfiguration->maxchar($product->product_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'));
 			$data_add = str_replace("{product_s_desc}", $p_s_desc, $data_add);
 		}
 
 		if (strpos($data_add, '{product_desc}') !== false)
 		{
-			$p_desc   = $Redconfiguration->maxchar($product->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
+			$p_desc   = $Redconfiguration->maxchar($product->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 			$data_add = str_replace("{product_desc}", $p_desc, $data_add);
 		}
 

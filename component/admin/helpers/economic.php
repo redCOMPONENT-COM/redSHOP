@@ -243,7 +243,7 @@ class economic
 	 */
 	public function createProductInEconomic($row = array())
 	{
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2 && $this->getTotalProperty($row->product_id) > 0)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2 && $this->getTotalProperty($row->product_id) > 0)
 		{
 			return;
 		}
@@ -311,7 +311,7 @@ class economic
 
 		$eco['product_number'] = $row->property_number;
 
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
 			$eco['product_name'] = addslashes($prdrow->product_name) . " " . addslashes($row->property_name);
 
@@ -361,7 +361,7 @@ class economic
 
 		$eco['product_number'] = $row->subattribute_color_number;
 
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
 			$eco['product_name'] = addslashes($row->subattribute_color_name);
 			$string              = trim($prdrow->product_price . $row->oprand . $row->subattribute_color_price);
@@ -532,7 +532,7 @@ class economic
 
 					$this->_dispatcher->trigger('setDeliveryAddress', array($eco));
 
-					if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 					{
 						$this->createInvoiceLineInEconomicAsProduct($orderitem, $invoice_no, $orderdetail->user_id);
 					}
@@ -586,7 +586,7 @@ class economic
 	 */
 	public function createInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
 			return;
 		}
@@ -647,7 +647,7 @@ class economic
 
 			$displayattribute = $this->makeAttributeOrder($invoice_no, $orderitem[$i], 0, $orderitem[$i]->product_id, $user_id);
 
-			if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+			if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 			{
 				$orderitem[$i]->product_item_price_excl_vat -= $displayattribute;
 				$displayattribute = '';
@@ -1246,7 +1246,7 @@ class economic
 				$displayattribute = $this->makeAttributeOrder($invoice_no, $orderItem, 1, $orderItemdata[$i]->product_id, $user_id);
 				$displayaccessory .= $displayattribute;
 
-				if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+				if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
 					$orderItemdata[$i]->product_acc_item_price -= $displayattribute;
 					$displayattribute = '';
@@ -1309,7 +1309,7 @@ class economic
 					{
 						$virtualNumber = "[" . $property[0]->property_number . "]";
 
-						if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+						if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 						{
 							$orderPropdata[$p]->virtualNumber = $property[0]->property_number;
 							$this->createPropertyInEconomic($product, $property[0]);
@@ -1332,7 +1332,7 @@ class economic
 
 					$displayattribute .= urldecode($orderPropdata[$p]->section_name) . $disPrice . $virtualNumber;
 
-					if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
 						$retPrice += $orderPropdata[$p]->section_price;
 						$this->createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, array($orderPropdata[$p]));
@@ -1351,7 +1351,7 @@ class economic
 							{
 								$virtualNumber = "[" . $subproperty[0]->subattribute_color_number . "]";
 
-								if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+								if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 								{
 									$orderSubpropdata[$sp]->virtualNumber = $subproperty[0]->subattribute_color_number;
 									$this->createSubpropertyInEconomic($product, $subproperty[0]);
@@ -1374,13 +1374,13 @@ class economic
 
 							$displayattribute .= "\n" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . $virtualNumber;
 
-							if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+							if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 							{
 								$retPrice += $orderSubpropdata[$sp]->section_price;
 							}
 						}
 
-						if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+						if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 						{
 							$this->createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderSubpropdata);
 						}
@@ -1389,7 +1389,7 @@ class economic
 			}
 		}
 
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 		{
 			$displayattribute = $retPrice;
 		}

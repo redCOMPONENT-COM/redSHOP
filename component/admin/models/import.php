@@ -2264,7 +2264,7 @@ class RedshopModelImport extends RedshopModel
 					$rows->update_date = $update_date;
 					$rows->weight = $weight;
 					$rows->product_price = $product_price;
-					$rows->product_template = PRODUCT_TEMPLATE;
+					$rows->product_template = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
 					$rows->product_length = $length;
 					$rows->product_height = $height;
 					$rows->product_width = $width;
@@ -2369,7 +2369,7 @@ class RedshopModelImport extends RedshopModel
 					$rows->update_date = $update_date;
 					$rows->weight = $weight;
 					$rows->product_price = $product_price;
-					$rows->product_template = PRODUCT_TEMPLATE;
+					$rows->product_template = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
 					$rows->product_length = $length;
 					$rows->product_height = $height;
 					$rows->product_width = $width;

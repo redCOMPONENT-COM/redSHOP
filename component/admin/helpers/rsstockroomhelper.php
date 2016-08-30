@@ -744,7 +744,7 @@ class rsstockroomhelper
 
 	public function getReservedStock($section_id, $section = "product")
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$query = "SELECT SUM(qty) FROM #__redshop_cart "
@@ -761,7 +761,7 @@ class rsstockroomhelper
 
 	public function getCurrentUserReservedStock($section_id, $section = "product")
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$session_id = session_id();
@@ -781,7 +781,7 @@ class rsstockroomhelper
 
 	public function deleteExpiredCartProduct()
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$time = time() - (CART_TIMEOUT * 60);
@@ -797,7 +797,7 @@ class rsstockroomhelper
 
 	public function deleteCartAfterEmpty($section_id = 0, $section = "product", $quantity = 0)
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -842,7 +842,7 @@ class rsstockroomhelper
 
 	public function addReservedStock($section_id, $quantity = 0, $section = "product")
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && USE_STOCKROOM)
 		{
 			$db = JFactory::getDbo();
 			$session_id = session_id();
