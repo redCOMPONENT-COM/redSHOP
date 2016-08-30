@@ -61,15 +61,17 @@ class PlgRedshop_AlertAlert extends JPlugin
 		$mailer = JFactory::getMailer();
 		$mailer->isHTML(true);
 		$config = JFactory::getConfig();
-		$subject = JText::_('COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER_MAIN_SUBJECT');
-		$content = $message;
 
-		// Set email parameters
-		$from = $config->get('mailfrom');
-		$fromName = $config->get('fromname');
+		$sent = $mailer->sendMail(
+			$config->get('mailfrom'),
+			$config->get('fromname'),
+			ADMINISTRATOR_EMAIL,
+			JText::_('COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER_MAIN_SUBJECT'),
+			$message
+		);
 
 		// Send mail
-		if ($mailer->sendMail($from, $fromName, ADMINISTRATOR_EMAIL, $subject, $content))
+		if ($sent)
 		{
 			return true;
 		}
