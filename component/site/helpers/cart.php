@@ -486,16 +486,15 @@ class RedshopSiteCart
 
 			if (isset($billingaddresses))
 			{
+				$billingLayout = 'cart.billing';
+
 				if ($sendmail)
 				{
 					$billingLayout = 'mail.billing';
 				}
-				else
-				{
-					$billingLayout = 'cart.billing';
-				}
 
-				$billadd = RedshopLayoutHelper::render($billingLayout,
+				$billadd = RedshopLayoutHelper::render(
+					$billingLayout,
 					array('billingaddresses' => $billingaddresses),
 					null,
 					array('client' => 0)
@@ -639,16 +638,15 @@ class RedshopSiteCart
 
 			if (isset($shippingaddresses) && SHIPPING_METHOD_ENABLE)
 			{
+				$shippingLayout = 'cart.shipping';
+
 				if ($sendmail)
 				{
 					$shippingLayout = 'mail.shipping';
 				}
-				else
-				{
-					$shippingLayout = 'cart.shipping';
-				}
 
-				$shipadd = RedshopLayoutHelper::render($shippingLayout,
+				$shipadd = RedshopLayoutHelper::render(
+					$shippingLayout,
 					array('shippingaddresses' => $shippingaddresses),
 					null,
 					array('client' => 0)

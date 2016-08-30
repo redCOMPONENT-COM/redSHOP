@@ -14,7 +14,6 @@ extract($displayData);
 $order_functions = order_functions::getInstance();
 $extra_field = extra_field::getInstance();
 $extra_section = ($billingaddresses->is_company == 1) ? RedshopSiteExtraField::SECTION_COMPANY_BILLING_ADDRESS : RedshopSiteExtraField::SECTION_PRIVATE_BILLING_ADDRESS;
-
 ?>
 
 <table border="0">
@@ -127,5 +126,4 @@ $extra_section = ($billingaddresses->is_company == 1) ? RedshopSiteExtraField::S
 
 	<?php endif; ?>
 	<?php echo $extrafields = $extra_field->list_all_field_display($extra_section, $billingaddresses->users_info_id, 0, "", "", true); ?>
-
 </table>

@@ -915,21 +915,19 @@ class extra_field
 		if ($flag == 0 && !empty($extra_field_label))
 		{
 			$client = null;
+			$fieldLayout = 'fields.display';
 
 			if ($sendmail)
 			{
 				$fieldLayout = 'fields.mail';
 				$client = array('client' => 0);
 			}
-			else
-			{
-				$fieldLayout = 'fields.display';
-			}
 
-			return RedshopLayoutHelper::render($fieldLayout,
-					array('extra_field_label' => JText::_($extra_field_label), 'extra_field_value' => $ex_field),
-					null,
-					$client
+			return RedshopLayoutHelper::render(
+				$fieldLayout,
+				array('extra_field_label' => JText::_($extra_field_label), 'extra_field_value' => $ex_field),
+				null,
+				$client
 			);
 		}
 
