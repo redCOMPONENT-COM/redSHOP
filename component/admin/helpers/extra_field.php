@@ -759,7 +759,7 @@ class extra_field
 		return false;
 	}
 
-	public function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "")
+	public function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "", $sendmail = false)
 	{
 		$db = JFactory::getDbo();
 
@@ -914,7 +914,21 @@ class extra_field
 
 		if ($flag == 0 && !empty($extra_field_label))
 		{
-			return JLayoutHelper::render('fields.display', array('extra_field_label' => JText::_($extra_field_label), 'extra_field_value' => $ex_field));
+			$client = null;
+			$fieldLayout = 'fields.display';
+
+			if ($sendmail)
+			{
+				$fieldLayout = 'fields.mail';
+				$client = array('client' => 0);
+			}
+
+			return RedshopLayoutHelper::render(
+				$fieldLayout,
+				array('extra_field_label' => JText::_($extra_field_label), 'extra_field_value' => $ex_field),
+				null,
+				$client
+			);
 		}
 
 		return $ex_field;

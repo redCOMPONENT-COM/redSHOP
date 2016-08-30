@@ -146,7 +146,7 @@ class redshopMail
 		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 
-		$message = $this->_carthelper->replaceOrderTemplate($row, $message);
+		$message = $this->_carthelper->replaceOrderTemplate($row, $message, true);
 		$rowitem = $this->_order_functions->getOrderItemDetail($order_id);
 
 		$manufacturer_email = array();
@@ -363,7 +363,7 @@ class redshopMail
 		$orderpayment     = $this->_order_functions->getOrderPaymentDetail($order_id);
 		$paymentmethod    = $this->_order_functions->getPaymentMethodInfo($orderpayment[0]->payment_method_class);
 		$paymentmethod    = $paymentmethod[0];
-		$message          = $this->_carthelper->replaceOrderTemplate($row, $message);
+		$message          = $this->_carthelper->replaceOrderTemplate($row, $message, true);
 
 		// Set order paymethod name
 		$search[]       = "{shopname}";
@@ -509,7 +509,7 @@ class redshopMail
 			$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 			$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 
-			$message = $this->_carthelper->replaceOrderTemplate($OrdersDetail, $message);
+			$message = $this->_carthelper->replaceOrderTemplate($OrdersDetail, $message, true);
 
 			$pdfObj->AddPage();
 			$pdfObj->WriteHTML($message, true, false, true, false, '');
@@ -600,7 +600,7 @@ class redshopMail
 		$html   = str_replace($search, $replace, $html);
 
 		$html   = $this->imginmail($html);
-		$html   = $this->_carthelper->replaceOrderTemplate($row, $html);
+		$html   = $this->_carthelper->replaceOrderTemplate($row, $html, true);
 		$html   = str_replace("{firstname}", $billingaddresses->firstname, $html);
 		$html   = str_replace("{lastname}", $billingaddresses->lastname, $html);
 
@@ -620,7 +620,7 @@ class redshopMail
 			}
 		}
 
-		$html = $this->_carthelper->replaceOrderTemplate($row, $html);
+		$html = $this->_carthelper->replaceOrderTemplate($row, $html, true);
 
 		$object = new stdClass;
 		$object->subject = $subject;
@@ -1212,7 +1212,7 @@ class redshopMail
 
 		if ($row->user_id != 0)
 		{
-			$message = $this->_carthelper->replaceBillingAddress($message, $row);
+			$message = $this->_carthelper->replaceBillingAddress($message, $row, true);
 		}
 		else
 		{
