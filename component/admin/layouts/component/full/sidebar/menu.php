@@ -29,32 +29,65 @@ $menuhide = explode(",", MENUHIDE);
 				<span><?php echo JText::_('COM_REDSHOP_' . $group); ?></span>
 			</a>
 			<ul class="treeview-menu">
-			<?php foreach ($sections as $sectionKey => $section) : ?>
-				<?php if(count($section->items) > 0) : ?>
-				<li class="treeview <?php echo ($active[1] == $sectionKey || count($sections) == 1 ? 'active': '') ?>">
-					<a href="#">
-						<span><?php echo JText::_($section->title); ?></span>
-						<i class="fa fa-angle-left pull-right"></i>
-					</a>
-					<ul class="treeview-menu" <?php echo (count($sections) == 1 ? 'style="display: block;"': '') ?>>
-						<?php foreach ($section->items as $item) : ?>
-						<li>
-							<?php
-							echo JLayoutHelper::render(
-								'component.full.sidebar.link',
-								array(
-									'link'        => $item->link,
-									'title'       => JText::_($item->title),
-									'active' => JText::_($item->active)
-								)
-							);
-							?>
-						</li>
-						<?php endforeach; ?>
-					</ul>
+			<?php if(count($sections) == 1) : ?>
+			<?php $curSection = reset($sections); ?>
+			<?php foreach ($curSection->items as $item) : ?>
+				<li>
+					<?php
+					echo JLayoutHelper::render(
+						'component.full.sidebar.link',
+						array(
+							'link'        => $item->link,
+							'title'       => JText::_($item->title),
+							'active' => JText::_($item->active)
+						)
+					);
+					?>
 				</li>
-				<?php endif; ?>
-			<?php endforeach; ?>
+				<?php endforeach; ?>
+			<?php else : ?>
+				<?php foreach ($sections as $sectionKey => $section) : ?>
+					<?php if(count($section->items) == 1) : ?>
+					<?php $item = reset($section->items); ?>
+					<li>
+						<?php
+						echo JLayoutHelper::render(
+							'component.full.sidebar.link',
+							array(
+								'link'        => $item->link,
+								'title'       => JText::_($item->title),
+								'active' => JText::_($item->active)
+							)
+						);
+						?>
+					</li>
+					<?php elseif(count($section->items) > 1) : ?>
+					<li class="treeview <?php echo ($active[1] == $sectionKey || count($sections) == 1 ? 'active': '') ?>">
+						<a href="#">
+							<span><?php echo JText::_($section->title); ?></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="treeview-menu" <?php echo (count($sections) == 1 ? 'style="display: block;"': '') ?>>
+							<?php foreach ($section->items as $item) : ?>
+							<li>
+								<?php
+								echo JLayoutHelper::render(
+									'component.full.sidebar.link',
+									array(
+										'link'        => $item->link,
+										'title'       => JText::_($item->title),
+										'active' => JText::_($item->active)
+									)
+								);
+								?>
+							</li>
+							<?php endforeach; ?>
+						</ul>
+					</li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+
+			<?php endif; ?>
 			</ul>
 		</li>
 		<?php endif; ?>
