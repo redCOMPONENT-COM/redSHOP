@@ -21,11 +21,6 @@ $end = $this->pagination->limit;
 				<td><?php echo JText::_('COM_REDSHOP_DATE') . ": " . $this->lists['filteroption'];?></td>
 				<td><?php echo JText::_('COM_REDSHOP_TYPE') . ": " . $this->lists['typeoption'];?></td>
 			</tr>
-			<?php /*<tr><td><?php echo JText::_('COM_REDSHOP_STARTDATE');?></td>
-		<td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td><?php echo JText::_('COM_REDSHOP_ENDDATE');?></td>
-		<td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo JText::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */?>
 		</table>
 		<table class="adminlist table table-striped" width="100%">
 			<thead>
@@ -68,7 +63,7 @@ $end = $this->pagination->limit;
 						<td align="center"><?php echo $i + 1; ?></td>
 						<td><a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>">
 								<?php echo $row->product_name; ?></a></td>
-						<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->product_price);//CURRENCY_SYMBOL.number_format($row->product_price,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);?></td>
+						<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->product_price);?></td>
 						<td align="center"><?php  echo $row->totalproduct;?></td>
 					</tr>
 				<?php

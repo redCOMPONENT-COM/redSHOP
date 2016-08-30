@@ -197,18 +197,6 @@ function validateUserDetail() {
 		form.phone.focus();
 		return false;
 	}
-	/*if(form.ean_number.value=='' && form.requisition_number.value!=''){
-	 alert("
-	<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EAN_NUMBER')?>");
-	 form.ean_number.focus();
-	 return false;
-	 }
-	 if(form.ean_number.value!='' && form.requisition_number.value==''){
-	 alert("
-	<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_REQUISITION_NUMBER')?>");
-	 form.ean_number.focus();
-	 return false;
-	 }*/
 
 	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 	if (form.email.value == '') {

@@ -83,8 +83,8 @@ $url = $uri->root();    ?>
 						:
 					</td>
 					<td>
-						<a href="<?php echo JURI::root() . "index.php?option=com_redshop&view=login&layout=portal&protalid=" . $this->detail->shopper_group_id . "Itemid=" . PORTAL_LOGIN_ITEMID; ?>"
-						   target="_blank"><?php echo JURI::root() . "index.php?option=com_redshop&view=login&layout=portal&protalid=" . $this->detail->shopper_group_id . "Itemid=" . PORTAL_LOGIN_ITEMID;?></a>
+						<a href="<?php echo JURI::root() . "index.php?option=com_redshop&view=login&layout=portal&protalid=" . $this->detail->shopper_group_id . "Itemid=" . Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID'); ?>"
+						   target="_blank"><?php echo JURI::root() . "index.php?option=com_redshop&view=login&layout=portal&protalid=" . $this->detail->shopper_group_id . "Itemid=" . Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID');?></a>
 					</td>
 				</tr>
 				<tr>
@@ -222,9 +222,9 @@ $url = $uri->root();    ?>
 												'',
 												'thumb',
 												'shopperlogo',
-												THUMB_WIDTH,
-												THUMB_HEIGHT,
-												USE_IMAGE_SIZE_SWAPPING
+												Redshop::getConfig()->get('THUMB_WIDTH'),
+												Redshop::getConfig()->get('THUMB_HEIGHT'),
+												Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 											);
 					?>
 					<a

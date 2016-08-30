@@ -240,7 +240,7 @@ class redshopMail
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 
-			$bcc      = (trim(ADMINISTRATOR_EMAIL) != '') ? explode(",", trim(ADMINISTRATOR_EMAIL)) : array();
+			$bcc      = (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '') ? explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'))) : array();
 			$bcc      = array_merge($bcc, $mailbcc);
 			$fullname = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 
@@ -396,9 +396,9 @@ class redshopMail
 		{
 			$bcc = null;
 
-			if (trim(ADMINISTRATOR_EMAIL) != '')
+			if (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '')
 			{
-				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
+				$bcc = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			}
 
 			$bcc = array_merge($bcc, $mailbcc);
@@ -699,9 +699,9 @@ class redshopMail
 			}
 		}
 
-		if ((INVOICE_MAIL_SEND_OPTION == 1 || INVOICE_MAIL_SEND_OPTION == 3) && ADMINISTRATOR_EMAIL != '')
+		if ((INVOICE_MAIL_SEND_OPTION == 1 || INVOICE_MAIL_SEND_OPTION == 3) && Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
-			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
+			$sendto = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 
 			if (!JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $mailBody, 1, null, $mailbcc, $invoiceAttachment))
 			{
@@ -784,9 +784,9 @@ class redshopMail
 
 		if ($mailbody && $data['email'] != "")
 		{
-			if (trim(ADMINISTRATOR_EMAIL) != '')
+			if (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '')
 			{
-				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
+				$bcc = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			}
 
 			$bcc = array_merge($bcc, $mailbcc);
@@ -1320,9 +1320,9 @@ class redshopMail
 		{
 			$bcc = array();
 
-			if (trim(ADMINISTRATOR_EMAIL) != '')
+			if (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '')
 			{
-				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
+				$bcc = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			}
 
 			$bcc = array_merge($bcc, $mailbcc);
@@ -1479,7 +1479,7 @@ class redshopMail
 			$ans        = $ans[0];
 			$fromname   = $ans->user_name;
 			$from       = $ans->user_email;
-			$email      = explode(",", trim(ADMINISTRATOR_EMAIL));
+			$email      = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			$question   = $ans->question;
 			$answer     = "";
 			$telephone  = "";
@@ -1597,9 +1597,9 @@ class redshopMail
 			JFactory::getMailer()->sendMail($from, $fromname, $user_billinginfo->user_email, $subject, $data_add, 1, null, $mailbcc, $attachment);
 		}
 
-		if (ADMINISTRATOR_EMAIL != '')
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
-			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
+			$sendto = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc, $attachment);
 		}
 
@@ -1608,7 +1608,7 @@ class redshopMail
 
 	public function sendRequestTaxExemptMail($data, $username = "")
 	{
-		if (ADMINISTRATOR_EMAIL != '')
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
 			$mailinfo = $this->getMailtemplate(0, "request_tax_exempt_mail");
 			$data_add = "";
@@ -1644,7 +1644,7 @@ class redshopMail
 			$data_add = str_replace("{city}", $data->city, $data_add);
 			$data_add = $this->imginmail($data_add);
 
-			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
+			$sendto = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc);
 		}
 	}

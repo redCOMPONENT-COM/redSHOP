@@ -18,7 +18,7 @@ class RedshopViewAccessmanager extends RedshopViewAdmin
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'), 'redshop_catalogmanagement48');
 
-		if (ENABLE_BACKENDACCESS)
+		if (Redshop::getConfig()->get('ENABLE_BACKENDACCESS'))
 		{
 			parent::display($tpl);
 		}

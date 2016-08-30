@@ -167,10 +167,10 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data_add    = str_replace('{user_address_lbl}', JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
 		$data_add = $redshopMail->imginmail($data_add);
 
-		if (ADMINISTRATOR_EMAIL != '')
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
 			if (JFactory::getMailer()->sendMail(
-				$data['your_email'], $data['your_name'], explode(',', ADMINISTRATOR_EMAIL),
+				$data['your_email'], $data['your_name'], explode(',', Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')),
 				$subject, $data_add, $mode = 1, null, $mailbcc
 			))
 			{
