@@ -835,7 +835,7 @@ class RedshopSiteHelper
 
 			// If watermark not exists or disable - display simple thumb
 			if ($enableWatermark <= 0
-				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . WATERMARK_IMAGE))
+				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				throw new Exception;
 			}
@@ -847,7 +847,7 @@ class RedshopSiteHelper
 			}
 
 			$imageNameWithPrefix = JFile::stripExt($ImageName) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
-				. JFile::stripExt(basename(WATERMARK_IMAGE)) . '.' . JFile::getExt($ImageName);
+				. JFile::stripExt(basename(Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . JFile::getExt($ImageName);
 			$destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/' . $imageNameWithPrefix;
 
 			if (JFile::exists($destinationFile))
@@ -855,7 +855,7 @@ class RedshopSiteHelper
 				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
 			}
 
-			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
+			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . Redshop::getConfig()->get('WATERMARK_IMAGE');
 			$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, 1);
 			$filename_path_info = pathinfo($filename);
 			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $filename_path_info['basename'];
@@ -871,7 +871,7 @@ class RedshopSiteHelper
 				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . "/" . $ImageName;
 			}
 
-			switch (JFile::getExt(WATERMARK_IMAGE))
+			switch (JFile::getExt(Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				case 'gif':
 					$dest = imagecreatefromjpeg($destinationFile);

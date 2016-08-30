@@ -969,7 +969,7 @@ class RedshopSiteCart
 				$prd_image     = '';
 				$type          = 'product';
 
-				if (WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART && isset($cart[$i]['hidden_attribute_cartimage']))
+				if (Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART') && isset($cart[$i]['hidden_attribute_cartimage']))
 				{
 					$image_path    = REDSHOP_FRONT_IMAGES_ABSPATH;
 					$product_image = str_replace($image_path, '', $cart[$i]['hidden_attribute_cartimage']);
@@ -1009,7 +1009,7 @@ class RedshopSiteCart
 				{
 					$redhelper = RedshopSiteHelper::getInstance();
 
-					if (Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
+					if (Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('WATERMARK_IMAGE')))
 					{
 						$product_cart_img = $redhelper->watermark($type, $prd_image, Redshop::getConfig()->get('CART_THUMB_WIDTH'), Redshop::getConfig()->get('CART_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE'), '0');
 
