@@ -949,7 +949,7 @@ class RedshopSiteHelper
 
 	public function clickatellSMS($order_id)
 	{
-		if (CLICKATELL_ENABLE <= 0)
+		if (Redshop::getConfig()->get('CLICKATELL_ENABLE') <= 0)
 		{
 			return;
 		}
@@ -1011,7 +1011,7 @@ class RedshopSiteHelper
 			$this->sendmessage(urlencode($message), $to);
 		}
 
-		if (CLICKATELL_ORDER_STATUS == $orderData->order_status)
+		if (Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS') == $orderData->order_status)
 		{
 			$message = $this->replaceMessage($TemplateDetail[0]->template_desc, $orderData, $paymentName);
 
@@ -1025,13 +1025,13 @@ class RedshopSiteHelper
 	public function sendmessage($text, $to)
 	{
 		// Clickatell_username
-		$user     = CLICKATELL_USERNAME;
+		$user     = Redshop::getConfig()->get('CLICKATELL_USERNAME');
 
 		// Clickatell_password
-		$password = CLICKATELL_PASSWORD;
+		$password = Redshop::getConfig()->get('CLICKATELL_PASSWORD');
 
 		// Clickatell_api_id
-		$api_id   = CLICKATELL_API_ID;
+		$api_id   = Redshop::getConfig()->get('CLICKATELL_API_ID');
 		$baseurl  = "http://api.clickatell.com";
 
 		// Auth call

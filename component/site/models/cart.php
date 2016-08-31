@@ -111,7 +111,7 @@ class RedshopModelCart extends RedshopModel
 			$db              = JFactory::getDbo();
 			$cart            = $session->get('cart');
 			$session_id      = session_id();
-			$carttimeout     = (int) CART_TIMEOUT;
+			$carttimeout     = (int) Redshop::getConfig()->get('CART_TIMEOUT');
 			$time            = time() - ($carttimeout * 60);
 
 			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "

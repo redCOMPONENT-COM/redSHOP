@@ -205,7 +205,7 @@ if ($mail == 0)
 
 			if (count($childproduct) > 0)
 			{
-				if (PURCHASE_PARENT_WITH_CHILD == 1)
+				if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 				{
 					$isChilds       = false;
 					$attributes_set = array();

@@ -67,7 +67,7 @@ else
 	';
 }
 
-if (!ONESTEP_CHECKOUT_ENABLE)
+if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 {
 	echo JLayoutHelper::render('cart.wizard', array('step' => '1'));
 }
@@ -173,7 +173,7 @@ else
 	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 		<?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :
-			$checked_style = (CREATE_ACCOUNT_CHECKBOX == 1) ? 'checked="checked"' : "''";
+			$checked_style = (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1) ? 'checked="checked"' : "''";
 		?>
 		<div class="checkbox">
 			<label>
@@ -186,7 +186,7 @@ else
 		<fieldset>
 			<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
 
-			<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, CREATE_ACCOUNT_CHECKBOX);    ?>
+			<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX'));    ?>
 		</fieldset>
 
 		<?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>

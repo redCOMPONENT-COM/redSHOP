@@ -60,7 +60,7 @@ $j     = 0;
 			$productArr             = $producthelper->getProductNetPrice($row->product_id);
 			$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
-			if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+			if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 			{
 				if (!$product_price)
 				{

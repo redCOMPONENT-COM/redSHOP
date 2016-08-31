@@ -58,7 +58,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 			if ($userhelper->newsletterSubscribe(0, $post, 1))
 			{
-				if (NEWSLETTER_CONFIRMATION)
+				if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION'))
 				{
 					$msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
 				}

@@ -402,7 +402,7 @@ if (!class_exists('redproductScroller'))
 				$data_add .= $pname;
 			}
 
-			if (SHOW_PRICE == 1 && !$row->not_for_sale && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+			if (Redshop::getConfig()->get('SHOW_PRICE') == 1 && !$row->not_for_sale && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 			{
 				if ($this->show_price == 'yes')
 				{

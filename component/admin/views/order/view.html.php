@@ -93,7 +93,7 @@ class RedshopViewOrder extends RedshopViewAdmin
 				true
 			);
 
-			if (POSTDK_INTEGRATION)
+			if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 			{
 				RedshopToolbarHelper::custom(
 					'allstatus',

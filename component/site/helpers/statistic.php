@@ -39,7 +39,7 @@ class RedshopSiteStatistic
 	public function track()
 	{
 		// Only when enabled in configuration
-		if (STATISTICS_ENABLE)
+		if (Redshop::getConfig()->get('STATISTICS_ENABLE'))
 		{
 			$this->reshop_visitors();
 			$this->reshop_pageview();

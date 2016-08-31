@@ -38,7 +38,7 @@ if ($this->params->get('show_page_title', 1))
 <?php
 }
 
-if (!ONESTEP_CHECKOUT_ENABLE)
+if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 {
 	echo JLayoutHelper::render('cart.wizard', array('step' => '3'));
 }

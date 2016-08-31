@@ -1071,7 +1071,7 @@ class shipping
 
 		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
 		{
-			if ('BT' == CALCULATE_VAT_ON)
+			if ('BT' == Redshop::getConfig()->get('CALCULATE_VAT_ON'))
 			{
 				$userdata = RedshopHelperUser::getUserInformation($data['user_id'], 'BT', 0, true, true);
 			}

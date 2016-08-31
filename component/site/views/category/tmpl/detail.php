@@ -937,7 +937,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		// Checking for child products
 		if ($product->count_child_products > 0)
 		{
-			if (PURCHASE_PARENT_WITH_CHILD == 1)
+			if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 			{
 				$isChilds = false;
 

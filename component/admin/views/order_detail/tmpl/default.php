@@ -195,7 +195,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php
 
 									$send_mail_to_customer = 0;
-									if (SEND_MAIL_TO_CUSTOMER)
+									if (Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER'))
 									{
 										$send_mail_to_customer = "checked";
 									}

@@ -154,7 +154,7 @@ $billingaddresses = $model->billingaddresses();
 			<td><?php echo $billingaddresses->vat_number;?></td>
 		</tr>
 		<?php
-		if (SHOW_TAX_EXEMPT_INFRONT)
+		if (Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT'))
 		{
 		?>
 			<tr>

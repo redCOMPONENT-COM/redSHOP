@@ -609,7 +609,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				$title = " title='" . $wrapper[$i]->wrapper_name . "' ";
 				$alt   = " alt='" . $wrapper[$i]->wrapper_name . "' ";
 
-				if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+				if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 				{
 					$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . $producthelper->getProductFormattedPrice($wp) . ")";
 				}
@@ -636,7 +636,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				{
 					$wrapperimage_div .= "<br/><div onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");' align='center'>";
 
-					if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+					if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 					{
 						$wrapperimage_div .= $producthelper->getProductFormattedPrice($wp);
 					}
@@ -753,7 +753,7 @@ $childproduct = $producthelper->getChildProduct($this->data->product_id);
 
 if (count($childproduct) > 0)
 {
-	if (PURCHASE_PARENT_WITH_CHILD == 1)
+	if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 	{
 		$isChilds       = false;
 		$attributes_set = array();
