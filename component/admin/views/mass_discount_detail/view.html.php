@@ -11,8 +11,15 @@ defined('_JEXEC') or die;
 
 
 
-class RedshopViewMass_discount_detail extends RedshopView
+class RedshopViewMass_discount_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT_DETAIL'), 'redshop_discountmanagmenet48');

@@ -197,7 +197,7 @@ class plgAcymailingRedshop extends JPlugin
 	{
 		$template      = Redtemplate::getInstance();
 		$productHelper = RedshopSiteProduct::getInstance();
-		$helper        = redhelper::getInstance();
+		$helper        = RedshopSiteHelper::getInstance();
 
 		$templateId = trim($this->params->get('product_template', 1));
 		$templateDetail = $template->getTemplate('product_content_template', $templateId);

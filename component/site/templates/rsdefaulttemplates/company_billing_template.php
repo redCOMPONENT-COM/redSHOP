@@ -1,80 +1,86 @@
-<table class="admintable" border="0">
-	<tbody>
-	<tr>
-		<td width="100" align="right">{email_lbl}:</td>
-		<td>{email}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<!-- {retype_email_start} -->
-	<tr>
-		<td width="100" align="right">{retype_email_lbl}</td>
-		<td>{retype_email}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<!-- {retype_email_end} -->
-	<tr>
-		<td width="100" align="right">{company_name_lbl}</td>
-		<td>{company_name}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<!-- {vat_number_start} -->
-	<tr>
-		<td width="100" align="right">{vat_number_lbl}</td>
-		<td>{vat_number}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<!-- {vat_number_end} -->
-	<tr>
-		<td width="100" align="right">{firstname_lbl}</td>
-		<td>{firstname}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<tr>
-		<td width="100" align="right">{lastname_lbl}</td>
-		<td>{lastname}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<tr>
-		<td width="100" align="right">{address_lbl}</td>
-		<td>{address}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<tr>
-		<td width="100" align="right">{zipcode_lbl}</td>
-		<td>{zipcode}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<tr>
-		<td width="100" align="right">{city_lbl}</td>
-		<td>{city}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<tr id="{country_txtid}" style="{country_style}">
-		<td width="100" align="right">{country_lbl}</td>
-		<td>{country}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<tr id="{state_txtid}" style="{state_style}">
-		<td width="100" align="right">{state_lbl}</td>
-		<td>{state}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<tr>
-		<td width="100" align="right">{phone_lbl}</td>
-		<td>{phone}</td>
-		<td><span class="required">*</span></td>
-	</tr>
-	<tr>
-		<td width="100" align="right">{ean_number_lbl}</td>
-		<td>{ean_number}</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td width="100" align="right">{tax_exempt_lbl}</td>
-		<td>{tax_exempt}</td>
-	</tr>
-	<tr>
-		<td colspan="3">{company_extrafield}</td>
-	</tr>
-	</tbody>
-</table>
+<div class="form-group">
+	<label>{email_lbl}:</label>
+	{email}
+	<span class="required">*</span>
+</div>
+
+<!-- {retype_email_start} -->
+<div class="form-group">
+	<label>{retype_email_lbl}:</label>
+	{retype_email}
+	<span class="required">*</span>
+</div>
+<!-- {retype_email_end} -->
+
+<div class="form-group">
+	<label>{company_name_lbl}:</label>
+	{company_name}
+	<span class="required">*</span>
+</div>
+
+<!-- {vat_number_start} -->
+<div class="form-group">
+	<label>{vat_number_lbl}:</label>
+	{vat_number}
+	<span class="required">*</span>
+</div>
+<!-- {vat_number_end} -->
+
+<div class="form-group">
+	<label>{firstname_lbl}:</label>
+	{firstname}
+	<span class="required">*</span>
+</div>
+
+<div class="form-group">
+	<label>{lastname_lbl}:</label>
+	{lastname}
+	<span class="required">*</span>
+</div>
+
+<div class="form-group">
+	<label>{address_lbl}:</label>
+	{address}
+	<span class="required">*</span>
+</div>
+
+<div class="form-group">
+	<label>{zipcode_lbl}:</label>
+	{zipcode}
+	<span class="required">*</span>
+</div>
+
+<div class="form-group">
+	<label>{city_lbl}:</label>
+	{city}
+	<span class="required">*</span>
+</div>
+
+<div id="{country_txtid}" class="form-group" style="{country_style}">
+	<label>{country_lbl}:</label>
+	{country}
+	<span class="required">*</span>
+</div>
+
+<div id="{state_txtid}" class="form-group" style="{state_style}">
+	<label>{state_lbl}:</label>
+	{state}
+	<span class="required">*</span>
+</div>
+
+<div class="form-group">
+	<label>{phone_lbl}:</label>
+	{phone}
+	<span class="required">*</span>
+</div>
+
+<div class="form-group">
+	<label>{ean_number_lbl}:</label>
+	{ean_number}
+</div>
+
+<div class="form-group">
+	<label>{tax_exempt_lbl}</label>
+	{tax_exempt}
+</div>
+{company_extrafield}

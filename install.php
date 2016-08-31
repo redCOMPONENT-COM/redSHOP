@@ -269,7 +269,8 @@ class Com_RedshopInstallerScript
 					(451, 'shipping_template', 'shipping_template', '" . $redtemplate->getInstallSectionTemplate('shipping_template') . "',1),
 					(460, 'private_billing_template', 'private_billing_template', '" . $redtemplate->getInstallSectionTemplate('private_billing_template') . "',1),
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
-	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1)";
+	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1),
+	                (551, 'login', 'login', '" . $redtemplate->getInstallSectionTemplate('login') . "',1)";
 		$db->setQuery($q);
 		$db->execute();
 
@@ -525,7 +526,7 @@ class Com_RedshopInstallerScript
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
-		rsUserHelper::getInstance()->userSynchronization();
+		RedshopSiteUser::getInstance()->userSynchronization();
 	}
 
 	/**
@@ -844,7 +845,7 @@ class Com_RedshopInstallerScript
 
 		if (!defined("REQUESTQUOTE_BACKGROUND"))
 		{
-			$cfgarr["REQUESTQUOTE_BACKGROUND"] = 'requestquotebg.jpg';
+			$cfgarr["REQUESTQUOTE_BACKGROUND"] = '#409740';
 		}
 
 		if (!defined("SHOW_PRODUCT_DETAIL"))
@@ -1293,13 +1294,9 @@ class Com_RedshopInstallerScript
 			array_push(
 				$files,
 				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',
-				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
-				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
 				JPATH_SITE . '/components/com_redshop/helpers/extra_field.php',
 				JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php',
 				JPATH_SITE . '/components/com_redshop/helpers/googleanalytics.php',
-				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
-				JPATH_SITE . '/components/com_redshop/helpers/user.php',
 				JPATH_SITE . '/components/com_redshop/helpers/zip.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
 				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',

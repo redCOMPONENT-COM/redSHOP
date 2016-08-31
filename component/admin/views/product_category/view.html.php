@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewProduct_category extends RedshopView
+class RedshopViewProduct_category extends RedshopViewAdmin
 {
 	public $_product = array();
 

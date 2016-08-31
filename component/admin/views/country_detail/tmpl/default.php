@@ -47,7 +47,7 @@ $url = $uri->root();
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="adminform">
 		<legend><?php echo "details" ?></legend>
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td class="key"><?php echo JText::_('COM_REDSHOP_COUNTRY_NAME'); ?></td>
 				<td><input class="text_area" type="text" name="country_name" id="country_name" size="30" maxlength="100"

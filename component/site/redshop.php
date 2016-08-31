@@ -20,7 +20,7 @@ RedshopHelperCron::init();
 RedshopSiteStatistic::getInstance()->track();
 
 // Helper object
-$helper = redhelper::getInstance();
+$helper = RedshopSiteHelper::getInstance();
 
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
@@ -174,5 +174,7 @@ $controller->execute($task);
 
 // End component DIV here
 echo "</div>";
+
+echo JLayoutHelper::render('assets');
 
 $controller->redirect();

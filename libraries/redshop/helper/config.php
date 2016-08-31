@@ -288,7 +288,7 @@ class RedshopHelperConfig
 		JHtml::script('com_redshop/redshop.js', false, true);
 
 		JFactory::getDocument()->addScriptDeclaration('
-			(function() {
+			(function($) {
 				var RedshopStrings = ' . json_encode(self::script()) . ';
 				if (typeof redSHOP == "undefined") {
 					redSHOP = {};
@@ -297,7 +297,25 @@ class RedshopHelperConfig
 				else {
 					redSHOP.RSConfig.load(RedshopStrings);
 				}
-			})();
+
+				$(document).ready(function(){
+					var bootstrapLoaded = (typeof $().carousel == "function");
+					var mootoolsLoaded = (typeof MooTools != "undefined");
+					if (bootstrapLoaded && mootoolsLoaded) {
+						Element.implement({
+							hide: function () {
+								return this;
+							},
+							show: function (v) {
+								return this;
+							},
+							slide: function (v) {
+								return this;
+							}
+						});
+					}
+				});
+			})(jQuery);
 		');
 		self::$isLoadScriptDeclaration = true;
 	}

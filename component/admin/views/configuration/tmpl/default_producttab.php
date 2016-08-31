@@ -8,44 +8,37 @@
  */
 defined('_JEXEC') or die;
 ?>
-<table width="100%" cellpadding="0" cellspacing="0">
-	<tr valign="top" align="left">
-		<td colspan="2">
-			<fieldset>
-				<legend><?php echo JText::_('COM_REDSHOP_PRODUCT_INTRO_TAB'); ?></legend>
-				<?php echo JText::_('COM_REDSHOP_PRODUCT_INTRO');?>
-			</fieldset>
-		</td>
-	</tr>
-</table>
+
 <?php
 echo JHtml::_('bootstrap.startTabSet', 'product-pane', array('active' => 'product'));
 echo JHtml::_('bootstrap.addTab', 'product-pane', 'product', JText::_('COM_REDSHOP_PRODUCT', true));
 ?>
-<table class="adminlist" width="100%" cellpadding="0" cellspacing="0">
-	<tr valign="top">
-		<td>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('product_unit');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('download');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('wrapping');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('catalog');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('color_sample');?>
-			</fieldset>
-		</td>
-		<td width="50%">
+<div class="row">
+	<div class="col-sm-6">
+		<fieldset class="adminform">
+			<?php echo $this->loadTemplate('product_unit');?>
+		</fieldset>
+		<fieldset class="adminform">
+			<?php echo $this->loadTemplate('download');?>
+		</fieldset>
+		<fieldset class="adminform">
+			<?php echo $this->loadTemplate('wrapping');?>
+		</fieldset>
+		<fieldset class="adminform">
+			<?php echo $this->loadTemplate('catalog');?>
+		</fieldset>
+		<fieldset class="adminform">
+			<?php echo $this->loadTemplate('color_sample');?>
+		</fieldset>
+	</div>
+
+	<div class="col-sm-6">
+		<fieldset class="adminform">
 			<?php echo $this->loadTemplate('product_template_image_settings');?>
-		</td>
-	</tr>
-</table>
+		</fieldset>
+	</div>
+</div>
+
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php
 echo JHtml::_('bootstrap.addTab', 'product-pane', 'accessory', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_TAB', true));
@@ -55,3 +48,4 @@ echo JHtml::_('bootstrap.addTab', 'product-pane', 'related', JText::_('COM_REDSH
 echo $this->loadTemplate('related_product');
 echo JHtml::_('bootstrap.endTab');
 echo JHtml::_('bootstrap.endTabSet');
+?>

@@ -9,8 +9,8 @@
 defined('_JEXEC') or die;
 
 $producthelper = RedshopSiteProduct::getInstance();
-$redhelper     = redhelper::getInstance();
-$userhelper    = rsUserHelper::getInstance();
+$redhelper     = RedshopSiteHelper::getInstance();
+$userhelper    = RedshopSiteUser::getInstance();
 $filter        = JRequest::getVar('filter');
 $model         = $this->getModel('user');
 ?>
@@ -56,31 +56,31 @@ $model         = $this->getModel('user');
 </script>
 
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
-	<div class="filterItem">
-		<div class="btn-wrapper input-append">
-			<input
-				type="text"
-				class="input-medium"
-				name="filter"
-				id="filter"
-				value="<?php echo $this->state->get('filter'); ?>"
-				placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER');?>"
-				>
-			<button class="btn" type="submit">
-				<?php echo JText::_('COM_REDSHOP_GO');?>
-			</button>
-			<button class="btn" type="button" onclick="resetfilter();">
-				<?php echo JText::_('COM_REDSHOP_RESET');?>
-			</button>
+	<div class="filterTool">
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input
+					type="text"
+					class="input-medium"
+					name="filter"
+					id="filter"
+					value="<?php echo $this->state->get('filter'); ?>"
+					placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER');?>"
+					>
+				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+
+			</div>
 		</div>
-	</div>
-	<div class="filterItem">
-		<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER');?>
-		<?php echo $this->lists ['shopper_group'];?>
-	</div>
-	<div class="filterItem">
-		<?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED');?>
-		<?php echo $this->lists ['tax_exempt_request'];?>
+
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER');?>
+			<?php echo $this->lists ['shopper_group'];?>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED');?>
+			<?php echo $this->lists ['tax_exempt_request'];?>
+		</div>
 	</div>
 	<div id="editcell">
 		<table class="adminlist table table-striped">

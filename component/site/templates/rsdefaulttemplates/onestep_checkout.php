@@ -1,48 +1,34 @@
-<table border="0" cellspacing="2" cellpadding="2" width="100%">
-	<tbody>
-	<tr>
-		<td>
-			<fieldset class="adminform">
-				<legend>{billing_address_information_lbl}</legend>
-				{edit_billing_address} <br/>{billing_address}
-			</fieldset>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<fieldset class="adminform">
-				<legend>{shipping_address_information_lbl}</legend>
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{billing_address_information_lbl}</h3>
+			</div>
+
+			<div class="panel-body">
+				{edit_billing_address}
+				{billing_address}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{shipping_address_information_lbl}</h3>
+			</div>
+
+			<div class="panel-body">
 				{shipping_address}
-			</fieldset>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<table border="0" class="table">
-				<tbody>
-				<tr>
-					<td>{shippingbox_template:shipping_box}</td>
-				</tr>
-				<tr>
-					<td>{shipping_template:shipping_method}</td>
-				</tr>
-				<tr>
-					<td>{payment_template:payment_method}</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<table border="0" class="table">
-				<tbody>
-				<tr>
-					<td>{checkout_template:checkout}</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	</tbody>
-</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+{shippingbox_template:shipping_box}
+
+{shipping_template:shipping_method}
+
+{payment_template:payment_method}
+
+{checkout_template:checkout}

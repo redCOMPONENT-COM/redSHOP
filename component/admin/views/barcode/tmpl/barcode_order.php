@@ -27,7 +27,7 @@ $log = JRequest::getVar('log');
 	<div id="editcell" style="background-color: ">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_BARCODE'); ?></legend>
-			<table class="adminlist">
+			<table class="adminlist table table-striped">
 				<tr>
 					<td align="right" width="10%"> <?php echo JText::_('COM_REDSHOP_BARCODE');?> :</td>
 					<td width="20%"><input type="text" name="barcode"

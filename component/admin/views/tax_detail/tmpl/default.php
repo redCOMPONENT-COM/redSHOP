@@ -59,7 +59,7 @@ if ($tmpl == "component")
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 
 				<tr>
 					<td width="100" align="right" class="key">

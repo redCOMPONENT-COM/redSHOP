@@ -31,13 +31,15 @@ $filter = JRequest::getVar('filter');
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
-					   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>">
-				<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-				<button class="btn"
-					onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
+						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>" />
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="document.getElementById('filter').value='';this.form.submit();" />
+				</div>
 			</div>
 		</div>
 		<table class="adminlist table table-striped">
@@ -46,8 +48,8 @@ $filter = JRequest::getVar('filter');
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
 				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCKROOM_NAME', 'stockroom_name', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MINIMUM_DELIVERY_TIME', 'min_del_time', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MAXIMUM_DELIVERY_TIME', 'max_del_time', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th width="15%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MINIMUM_DELIVERY_TIME', 'min_del_time', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th width="15%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MAXIMUM_DELIVERY_TIME', 'max_del_time', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th width="5%"
 				    nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th width="5%"

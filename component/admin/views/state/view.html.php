@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewState extends RedshopView
+class RedshopViewState extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
@@ -34,7 +34,7 @@ class RedshopViewState extends RedshopView
 		$db = JFactory::getDbo();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
 
-		$redhelper       = redhelper::getInstance();
+		$redhelper       = RedshopSiteHelper::getInstance();
 		$q               = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries       = $db->loadObjectList();

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 require_once 'components/com_redshop/views/configuration/view.html.php';
 
-class RedshopViewWizard extends RedshopView
+class RedshopViewWizard extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
@@ -41,7 +41,7 @@ class RedshopViewWizard extends RedshopView
 
 		$uri         = JFactory::getURI();
 		$db          = JFactory::getDbo();
-		$redhelper   = redhelper::getInstance();
+		$redhelper   = RedshopSiteHelper::getInstance();
 		$config      = Redconfiguration::getInstance();
 		$extra_field = extra_field::getInstance();
 		$model       = $this->getModel();

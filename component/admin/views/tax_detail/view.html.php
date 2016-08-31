@@ -9,8 +9,15 @@
 
 defined('_JEXEC') or die;
 
-class RedshopViewTax_detail extends RedshopView
+class RedshopViewTax_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$db = JFactory::getDbo();

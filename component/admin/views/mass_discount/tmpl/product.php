@@ -34,7 +34,7 @@ $producthelper = RedshopSiteProduct::getInstance();
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5">

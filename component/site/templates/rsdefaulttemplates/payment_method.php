@@ -1,9 +1,15 @@
-<fieldset class="adminform">
-	<legend><strong>{payment_heading}</strong></legend>
-	<div>{split_payment}</div>
-	<div>{payment_loop_start}
-		<div>{payment_method_name}</div>
-		<div>{creditcard_information}</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">{payment_heading}</h3>
+	</div>
+	<div class="panel-body">
+		<div class="split_payment">{split_payment}</div>
+		{payment_loop_start}
+		<div class="payment_method radio">
+			<div class="payment_method_name">{payment_method_name}</div>
+			<div class="creditcard_information">{creditcard_information}</div>
+		</div>
 		{payment_loop_end}
 	</div>
-</fieldset>
+</div>
+

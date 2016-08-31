@@ -9,20 +9,20 @@
 defined('_JEXEC') or die;
 
 ?>
+
 <fieldset class="adminform">
-	<legend><?php echo JText::_('COM_REDSHOP_USERS'); ?></legend>
-	<table cellpadding="0" cellspacing="0" width="100%">
-		<tr valign="top">
-			<td width="50%">
-				<fieldset class="adminform">
-					<?php echo $this->loadTemplate('registration');?>
-				</fieldset>
-			</td>
-			<td>
-				<fieldset class="adminform">
-					<?php echo $this->loadTemplate('shopper_group');?>
-				</fieldset>
-			</td>
-		</tr>
-	</table>
+	<div class="row">
+		<div class="col-sm-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('registration');?>
+			</fieldset>
+		</div>
+
+		<div class="col-sm-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('shopper_group');?>
+			</fieldset>
+		</div>
+
+	</div>
 </fieldset>

@@ -26,9 +26,10 @@ class RedshopControllerRegistration extends RedshopController
 	 */
 	public function newregistration()
 	{
-		$app    = JFactory::getApplication();
-		$post   = JRequest::get('post');
-		$Itemid = JRequest::getInt('Itemid', 0);
+		$app        = JFactory::getApplication();
+		$post       = JRequest::get('post');
+		$Itemid     = JRequest::getInt('Itemid', 0);
+		$dispatcher = JDispatcher::getInstance();
 
 		$prodhelperobj = RedshopSiteProduct::getInstance();
 		$redshopMail   = redshopMail::getInstance();
@@ -38,6 +39,10 @@ class RedshopControllerRegistration extends RedshopController
 
 		if ($success)
 		{
+			$message = JText::sprintf('COM_REDSHOP_ALERT_REGISTRATION_SUCCESSFULLY', $post['username']);
+			JPluginHelper::importPlugin('redshop_alert');
+			$dispatcher->trigger('storeAlert', array($message));
+
 			if ($post['mywishlist'] == 1)
 			{
 				$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
@@ -72,22 +77,6 @@ class RedshopControllerRegistration extends RedshopController
 		{
 			parent::display();
 		}
-	}
-
-	/**
-	 * captcha
-	 *
-	 * @return  void
-	 */
-	public function captcha()
-	{
-		$app         = JFactory::getApplication();
-		$width       = $app->input->getInt('width', 120);
-		$height      = $app->input->getInt('height', 40);
-		$characters  = $app->input->getInt('characters', 6);
-		$captchaname = $app->input->getCmd('captcha', 'security_code');
-
-		$captcha     = new RedshopSiteCaptcha($width, $height, $characters, $captchaname);
 	}
 
 	/**
@@ -128,8 +117,8 @@ class RedshopControllerRegistration extends RedshopController
 	public function getCompanyOrCustomer()
 	{
 		$redTemplate  = Redtemplate::getInstance();
-		$rsUserhelper = rsUserHelper::getInstance();
-		$extraField   = extraField::getInstance();
+		$rsUserhelper = RedshopSiteUser::getInstance();
+		$extraField   = RedshopSiteExtraField::getInstance();
 
 		$get = JRequest::get('get');
 		$template_id = $get['template_id'];

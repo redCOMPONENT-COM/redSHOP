@@ -63,48 +63,42 @@ JHtml::_('redshopjquery.framework');
 
 </script>
 <form action="index.php?option=com_redshop&view=product" method="post" name="adminForm" id="adminForm">
-<table border="0" cellpadding="2" cellspacing="2" width="100%">
-	<tr>
-		<td>
-			<div class="filterItem">
-				<div class="btn-wrapper input-append">
-					<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
-					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				</div>
-			</div>
-			<div class="filterItem">
-				<select name="search_field" onchange="javascript:document.adminForm.submit();">
-					<option
-						value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
-						<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
-					<option
-						value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'";?>>
-						<?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
-					<option
-						value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>
-						><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
-					<option
-						value="p.name_number" <?php if ($this->search_field == 'p.name_number') echo "selected='selected'";?>
-						><?php echo JText::_("COM_REDSHOP_PRODUCT") . ' ' . JText::_("COM_REDSHOP_NAME_AND_NUMBER"); ?></option>
-					<option
-						value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') echo "selected='selected'";?>>
-						<?php echo JText::_("COM_REDSHOP_ATTRIBUTE_SKU")?></option>
-				</select>
-			</div>
-			<div class="filterItem">
-				<?php echo $this->lists['category']; ?>
-			</div>
-			<div class="filterItem">
-				<?php echo $this->lists['product_sort']; ?>
-			</div>
-		</td>
-		<td align="right">
-			<?php echo $this->lists['product_template'];?>
-		</td>
-	</tr>
-</table>
 
 <div id="editcell">
+<div class="filterTool">
+	<div class="filterItem">
+		<div class="btn-wrapper input-append">
+			<input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword; ?>" placeholder="<?php echo JText::_("COM_REDSHOP_USER_FILTER") ?>">
+			<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+			<input type="button" class="btn reset" onclick="document.getElementById('keyword').value='';this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+		</div>
+	</div>
+	<div class="filterItem">
+		<select name="search_field" onchange="javascript:document.adminForm.submit();">
+			<option
+				value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
+				<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
+			<option
+				value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'";?>>
+				<?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
+			<option
+				value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>
+				><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
+			<option
+				value="p.name_number" <?php if ($this->search_field == 'p.name_number') echo "selected='selected'";?>
+				><?php echo JText::_("COM_REDSHOP_PRODUCT") . ' ' . JText::_("COM_REDSHOP_NAME_AND_NUMBER"); ?></option>
+			<option
+				value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') echo "selected='selected'";?>>
+				<?php echo JText::_("COM_REDSHOP_ATTRIBUTE_SKU")?></option>
+		</select>
+	</div>
+	<div class="filterItem">
+		<?php echo $this->lists['category']; ?>
+	</div>
+	<div class="filterItem">
+		<?php echo $this->lists['product_sort']; ?>
+	</div>
+</div>
 <input type="hidden" name="unpublished_data" value="">
 <table class="adminlist table table-striped">
 <thead>
@@ -287,14 +281,13 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			<td><?php echo $field_value;  ?></td>
 		<?php }    ?>
 
-
 		<td align="center">
 			<?php $mediadetail = $model->MediaDetail($row->product_id); ?>
 			<a class="modal"
 			   href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
-			   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
+			   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""> <img
 					src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
-					alt="media">(<?php  echo count($mediadetail);?>)</a>
+					alt="media"> (<?php  echo count($mediadetail);?>)</a>
 		</td>
 		<td align="center">
 			<?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
@@ -302,7 +295,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			   href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 700, y: 450}}">
 				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
-				     alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"><?php echo "(" . count($wrapper) . ")";?></a>
+				     alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count($wrapper) . ")";?></a>
 		</td>
 		<td align="center">
 			<?php echo $row->visited;?>
@@ -319,7 +312,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td>
 			<?php echo $model->getmanufacturername($row->manufacturer_id); ?>
 		</td>
-		<td width="90">
+		<td>
 			<a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>
 		</td>
 		<td align="center" width="8%">

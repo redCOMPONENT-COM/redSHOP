@@ -10,18 +10,17 @@ defined('_JEXEC') or die;
 
 ?>
 
+
 <fieldset class="adminform">
-	<legend><?php echo JText::_('COM_REDSHOP_MANUFACTURER'); ?></legend>
-	<table width="100%" cellpadding="0" cellspacing="0" class="admintable">
-		<tr valign="top">
-			<td width="50%">
-				<fieldset class="adminform">
-					<?php echo $this->loadTemplate('manufacturer_setting');?>
-				</fieldset>
-			</td>
-			<td width="50%">
-				<?php echo $this->loadTemplate('manufacturer_image_setting');?>
-			</td>
-		</tr>
-	</table>
+	<div class="row">
+		<div class="col-sm-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('manufacturer_setting');?>
+			</fieldset>
+		</div>
+
+		<div class="col-sm-6">
+			<?php echo $this->loadTemplate('manufacturer_image_setting');?>
+		</div>
+	</div>
 </fieldset>

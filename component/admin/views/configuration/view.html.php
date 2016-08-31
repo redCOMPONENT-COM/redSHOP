@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopViewConfiguration extends RedshopView
+class RedshopViewConfiguration extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -17,6 +17,13 @@ class RedshopViewConfiguration extends RedshopView
 	 * @var  string
 	 */
 	public $request_url;
+
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
 	public function display($tpl = null)
 	{
@@ -38,11 +45,11 @@ class RedshopViewConfiguration extends RedshopView
 
 		$this->config = $model->getData();
 
-		$redhelper   = redhelper::getInstance();
+		$redhelper   = RedshopSiteHelper::getInstance();
 		$config      = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$extra_field = extra_field::getInstance();
-		$userhelper  = rsUserHelper::getInstance();
+		$userhelper  = RedshopSiteUser::getInstance();
 		$lists       = array();
 
 		// Load language file
@@ -172,7 +179,6 @@ class RedshopViewConfiguration extends RedshopView
 		$lists['supplier_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'supplier_mail_enable', 'class="inputbox" ', $this->config->get('SUPPLIER_MAIL_ENABLE'));
 
 		$lists['splitable_payment']         = JHTML::_('redshopselect.booleanlist', 'splitable_payment', 'class="inputbox"', $this->config->get('SPLITABLE_PAYMENT'));
-		$lists['show_captcha']              = JHTML::_('redshopselect.booleanlist', 'show_captcha', 'class="inputbox"', $this->config->get('SHOW_CAPTCHA'));
 		$lists['create_account_checkbox']   = JHTML::_('redshopselect.booleanlist', 'create_account_checkbox', 'class="inputbox"', $this->config->get('CREATE_ACCOUNT_CHECKBOX'));
 		$lists['show_email_verification']   = JHTML::_('redshopselect.booleanlist', 'show_email_verification', 'class="inputbox"', $this->config->get('SHOW_EMAIL_VERIFICATION'));
 		$lists['quantity_text_display']     = JHTML::_('redshopselect.booleanlist', 'quantity_text_display', 'class="inputbox"', $this->config->get('QUANTITY_TEXT_DISPLAY'));
@@ -839,11 +845,9 @@ class RedshopViewConfiguration extends RedshopView
 		unset($option);
 
 		$lists['postdk_integration']         = JHTML::_('redshopselect.booleanlist', 'postdk_integration', 'class="inputbox" size="1"', $this->config->get('POSTDK_INTEGRATION'));
-		$lists['display_new_orders']         = JHTML::_('redshopselect.booleanlist', 'display_new_orders', 'class="inputbox" size="1"', $this->config->get('DISPLAY_NEW_ORDERS'));
-		$lists['display_new_customers']      = JHTML::_('redshopselect.booleanlist', 'display_new_customers', 'class="inputbox" size="1"', $this->config->get('DISPLAY_NEW_CUSTOMERS'));
-		$lists['display_statistic']          = JHTML::_('redshopselect.booleanlist', 'display_statistic', 'class="inputbox" size="1"', $this->config->get('DISPLAY_STATISTIC'));
-		$lists['expand_all']                 = JHTML::_('redshopselect.booleanlist', 'expand_all', 'class="inputbox" size="1"', $this->config->get('EXPAND_ALL'));
 		$lists['send_catalog_reminder_mail'] = JHTML::_('redshopselect.booleanlist', 'send_catalog_reminder_mail', 'class="inputbox" size="1"', $this->config->get('SEND_CATALOG_REMINDER_MAIL'));
+
+		$lists['load_redshop_style'] = JHTML::_('redshopselect.booleanlist', 'load_redshop_style', 'class="inputbox" size="1"', $this->config->get('LOAD_REDSHOP_STYLE'));
 
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
@@ -867,6 +871,7 @@ class RedshopViewConfiguration extends RedshopView
 		$this->current_version      = $current_version;
 		$this->lists                = $lists;
 		$this->request_url          = $uri->toString();
+		$this->tabmenu 				= $this->getTabMenu();
 
 		parent::display($tpl);
 	}
@@ -885,5 +890,96 @@ class RedshopViewConfiguration extends RedshopView
 		{
 			return JText::_('COM_REDSHOP_N_A');
 		}
+	}
+
+
+	/**
+	 * Tab Menu
+	 *
+	 * @return  object  Tab menu
+	 *
+	 * @since   1.7
+	 */
+	private function getTabMenu()
+	{
+		$app = JFactory::getApplication();
+		$selectedTabPosition = $app->getUserState('com_redshop.configuration.selectedTabPosition', 'general');
+
+		$tabMenu = RedshopAdminMenu::getInstance()->init();
+		$tabMenu->section('tab')
+					->title('COM_REDSHOP_GENERAL_CONFIGURATION')
+					->addItem(
+						'#general',
+						'COM_REDSHOP_GENERAL_CONFIGURATION',
+						($selectedTabPosition == 'general') ? true : false,
+						'general'
+					)->addItem(
+						'#user',
+						'COM_REDSHOP_USER',
+						($selectedTabPosition == 'user') ? true : false,
+						'user'
+					)->addItem(
+						'#cattab',
+						'COM_REDSHOP_CATEGORY_TAB',
+						($selectedTabPosition == 'cattab') ? true : false,
+						'cattab'
+					)->addItem(
+						'#manufacturertab',
+						'COM_REDSHOP_REDMANUFACTURER_TAB',
+						($selectedTabPosition == 'manufacturertab') ? true : false,
+						'manufacturertab'
+					)->addItem(
+						'#producttab',
+						'COM_REDSHOP_PRODUCT_TAB',
+						($selectedTabPosition == 'producttab') ? true : false,
+						'producttab'
+					)->addItem(
+						'#featuretab',
+						'COM_REDSHOP_FEATURE_TAB',
+						($selectedTabPosition == 'featuretab') ? true : false,
+						'featuretab'
+					)->addItem(
+						'#pricetab',
+						'COM_REDSHOP_PRICE_TAB',
+						($selectedTabPosition == 'pricetab') ? true : false,
+						'pricetab'
+					)->addItem(
+						'#carttab',
+						'COM_REDSHOP_CART_TAB',
+						($selectedTabPosition == 'carttab') ? true : false,
+						'carttab'
+					)->addItem(
+						'#ordertab',
+						'COM_REDSHOP_ORDER_TAB',
+						($selectedTabPosition == 'ordertab') ? true : false,
+						'ordertab'
+					)->addItem(
+						'#newslettertab',
+						'COM_REDSHOP_NEWSLETTER_TAB',
+						($selectedTabPosition == 'newslettertab') ? true : false,
+						'newslettertab'
+					)->addItem(
+						'#integration',
+						'COM_REDSHOP_INTEGRATION',
+						($selectedTabPosition == 'integration') ? true : false,
+						'integration'
+					)->addItem(
+						'#seo',
+						'COM_REDSHOP_SEO',
+						($selectedTabPosition == 'seo') ? true : false,
+						'seo'
+					)->addItem(
+						'#dashboard',
+						'COM_REDSHOP_DASHBOARD',
+						($selectedTabPosition == 'dashboard') ? true : false,
+						'dashboard'
+					)->addItem(
+						'#redshopabout',
+						'COM_REDSHOP_ABOUT',
+						($selectedTabPosition == 'redshopabout') ? true : false,
+						'redshopabout'
+					);
+
+		return $tabMenu;
 	}
 }

@@ -12,7 +12,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 $producthelper = RedshopSiteProduct::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $cid = JRequest::getInt('cid');

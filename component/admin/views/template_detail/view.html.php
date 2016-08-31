@@ -9,8 +9,15 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewTemplate_detail extends RedshopView
+class RedshopViewTemplate_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();

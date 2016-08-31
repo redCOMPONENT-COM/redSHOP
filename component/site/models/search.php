@@ -416,7 +416,7 @@ class RedshopModelSearch extends RedshopModel
 							'order_by',
 							$app->getParams()->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD)
 						);
-		$orderByObj  = redhelper::getInstance()->prepareOrderBy(urldecode($orderByMethod));
+		$orderByObj  = RedshopSiteHelper::getInstance()->prepareOrderBy(urldecode($orderByMethod));
 
 		$orderBy = $orderByObj->ordering . ' ' . $orderByObj->direction;
 
@@ -482,7 +482,7 @@ class RedshopModelSearch extends RedshopModel
 		$aclProducts = RedshopSiteProduct::getInstance()->loadAclProducts();
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper               = RedshopSiteUser::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")

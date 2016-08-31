@@ -11,12 +11,19 @@ defined('_JEXEC') or die;
 
 
 
-class RedshopViewUser_detail extends RedshopView
+class RedshopViewUser_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$userhelper       = rsUserHelper::getInstance();
-		$extra_field      = extra_field::getInstance();
+		$extra_field      = RedshopSiteUser::getInstance();
 		$shoppergroup     = new shoppergroup;
 
 		$document         = JFactory::getDocument();

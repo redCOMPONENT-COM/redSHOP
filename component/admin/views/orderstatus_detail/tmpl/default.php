@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
 $orderstatusArr = array('P', 'C', 'X', 'R', 'S', 'RD', 'RD1', 'RD2', 'ACCP', 'APP', 'ABT', 'PR', 'RC', 'PS', 'RT', 'PRT', 'PRC');
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -40,7 +40,7 @@ $redhelper = redhelper::getInstance();
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">

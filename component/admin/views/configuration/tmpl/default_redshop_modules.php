@@ -9,11 +9,12 @@
 defined('_JEXEC') or die;
 
 ?>
+<legend><?php echo JText::_('COM_REDSHOP_REDSHOP_MODULES'); ?></legend>
 <div id="config-document">
-	<table class="adminlist">
+	<table class="adminlist table">
 		<thead>
 		<tr>
-			<th><?php echo JText::_('COM_REDSHOP_CHECK'); ?></th>
+			<th width="50%"><?php echo JText::_('COM_REDSHOP_CHECK'); ?></th>
 			<th><?php echo JText::_('COM_REDSHOP_RESULT');?></th>
 			<th><?php echo JText::_('COM_REDSHOP_PUBLISHED');?></th>
 		</tr>

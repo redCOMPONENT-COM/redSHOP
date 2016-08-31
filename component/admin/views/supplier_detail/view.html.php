@@ -9,8 +9,15 @@
 
 defined('_JEXEC') or die;
 
-class RedshopViewSupplier_detail extends RedshopView
+class RedshopViewSupplier_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	/**
 	 * The request url.
 	 *

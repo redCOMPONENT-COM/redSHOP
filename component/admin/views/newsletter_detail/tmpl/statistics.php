@@ -68,7 +68,7 @@ $data .= "[$rowdata]";
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_STATISTICS_FILTER'); ?></legend>
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_NEWSLETTER'); ?>:</td>
 				<td><?php echo $selnewsletter;?></td>

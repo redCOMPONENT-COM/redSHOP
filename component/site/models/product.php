@@ -58,7 +58,7 @@ class RedshopModelProduct extends RedshopModel
 		$and = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper               = RedshopSiteUser::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -334,7 +334,7 @@ class RedshopModelProduct extends RedshopModel
 	public function addtowishlist2session($data)
 	{
 		ob_clean();
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
 

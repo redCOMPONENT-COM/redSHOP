@@ -17,7 +17,7 @@ $redconfig = Redconfiguration::getInstance();
 
 
 $model = $this->getModel('addorder_detail');
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 
 $billing = $this->billing;
 $shipping = $this->shipping;
@@ -293,10 +293,10 @@ function validateUserDetail() {
 <tbody>
 <tr>
 	<td>
-		<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+		<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 			<tbody>
 			<tr>
-				<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER_OR_ADD_NEW_USER_IN_BOTTOM_FIELDS'); ?>:</td>
+				<td width="300" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER_OR_ADD_NEW_USER_IN_BOTTOM_FIELDS'); ?>:</td>
 				<td><?php
 					$userDetail = new stdClass;
 					$userDetail->value = $this->detail->user_id;
@@ -318,7 +318,7 @@ function validateUserDetail() {
 				</td>
 			</tr>
 			<tr id="trCreateAccount">
-				<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>:</td>
+				<td width="300" align="right"><?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>:</td>
 				<td><?php echo JHTML::_('select.booleanlist', 'guestuser', 'class="inputbox" onchange="createAccount(this.value);" ', $create_account);?></td>
 			</tr>
 			</tbody>

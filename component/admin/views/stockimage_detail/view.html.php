@@ -10,8 +10,15 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewStockimage_detail extends RedshopView
+class RedshopViewStockimage_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT_DETAIL'), 'redshop_stockroom48');

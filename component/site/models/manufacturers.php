@@ -107,7 +107,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$and     = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper               = RedshopSiteUser::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -249,7 +249,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$and       = '';
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper               = RedshopSiteUser::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -330,7 +330,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$orderByObj  = redhelper::getInstance()->prepareOrderBy(
+		$orderByObj  = RedshopSiteHelper::getInstance()->prepareOrderBy(
 			urldecode(JFactory::getApplication()->input->getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD))
 		);
 		$orderBy     = $orderByObj->ordering . ' ' . $orderByObj->direction;

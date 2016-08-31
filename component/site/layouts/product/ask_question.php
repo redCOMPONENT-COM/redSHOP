@@ -64,19 +64,13 @@ else
 	$template_desc = str_replace('{send_button}', '<input type="submit" class="btn" value="' . JText::_('COM_REDSHOP_SEND') . '" onclick="questionSubmitButton(\'ask_question.submit\')" />', $template_desc);
 
 	$captcha = '';
-	$captchaLbl = '';
 
-	if (SHOW_CAPTCHA && $user->guest)
+	if ($user->guest)
 	{
-		$captcha = '<div class="questionCaptcha">'
-			. '<div class="captchaImage"><img src="' . JURI::base(true) . '/index.php?tmpl=component&option=com_redshop&view=registration&task=captcha&captcha=security_code&width=100&height=40&characters=5" /></div>'
-			. '<div class="captchaField"><input class="inputbox required" required="required" id="jform_security_code" name="jform[security_code]" type="text" /></div>'
-			. '</div>';
-		$captchaLbl = '<label for="jform_security_code" id="jform_security_code-lbl" class="required">' . JText::_('COM_REDSHOP_CAPTCHA') . '<span class="star">&nbsp;*</span></label>';
+		$captcha = RedshopLayoutHelper::render('registration.captcha');
 	}
 
 	$template_desc = str_replace('{captcha}', $captcha, $template_desc);
-	$template_desc = str_replace('{captcha_lbl}', $captchaLbl, $template_desc);
 
 	echo eval('?>' . $template_desc . '<?php ');
 	?>

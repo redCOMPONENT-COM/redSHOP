@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>1.6.1</version>
+    <version>1.7</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -95,5 +95,6 @@
         <plugin name="klarna" group="redshop_payment" />
         <plugin name="default_shipping" group="redshop_shipping" />
         <plugin name="redshop" group="finder" />
+        <plugin name="alert" group="redshop_alert" />
     </plugins>
 </extension>

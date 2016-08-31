@@ -51,32 +51,6 @@ class RedshopControllerConfiguration extends RedshopController
 		return $values;
 	}
 
-	/**
-	 * Collect quick icons list values
-	 *
-	 * @return  string  Comma seperated quick icon names
-	 */
-	protected function collectQuickIcons()
-	{
-		$post = JRequest::get('post');
-
-		$iconList = array_merge(
-			$this->collectItemsUsingPrefix($post, 'prodmng'),
-			$this->collectItemsUsingPrefix($post, 'ordermng'),
-			$this->collectItemsUsingPrefix($post, 'distmng'),
-			$this->collectItemsUsingPrefix($post, 'commmng'),
-			$this->collectItemsUsingPrefix($post, 'impmng'),
-			$this->collectItemsUsingPrefix($post, 'vatmng'),
-			$this->collectItemsUsingPrefix($post, 'custmng'),
-			$this->collectItemsUsingPrefix($post, 'altmng'),
-			$this->collectItemsUsingPrefix($post, 'usermng'),
-			$this->collectItemsUsingPrefix($post, 'shippingmng'),
-			$this->collectItemsUsingPrefix($post, 'accmng')
-		);
-
-		return implode(',', $iconList);
-	}
-
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -84,8 +58,6 @@ class RedshopControllerConfiguration extends RedshopController
 		$app = JFactory::getApplication();
 		$selectedTabPosition = $app->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
-
-		$post['quicklink_icon'] = $this->collectQuickIcons();
 
 		$post['custom_previous_link'] = JRequest::getVar('custom_previous_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
@@ -143,6 +115,8 @@ class RedshopControllerConfiguration extends RedshopController
 		{
 			$post['allow_multiple_discount'] = 0;
 		}
+
+		$post['menuhide'] = implode(',', $app->input->post->get('menuhide', array(), 'ARRAY'));
 
 		if (isset($post['product_download_root']))
 		{
@@ -273,7 +247,7 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function resetTermsCondition()
 	{
-		$userhelper = rsUserHelper::getInstance();
+		$userhelper = RedshopSiteUser::getInstance();
 		$userhelper->updateUserTermsCondition();
 		die();
 	}

@@ -76,7 +76,7 @@ if ($total > 0)
 	$template = str_replace('{remove_all}', $removeAll, $template);
 
 	// Make extrafield object..
-	$field    = extraField::getInstance();
+	$field    = RedshopSiteExtraField::getInstance();
 
 	$product_tag = array();
 
@@ -249,14 +249,14 @@ if ($total > 0)
 			$template = str_replace('{product_category}', $exp_div . $category->category_name . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
 
-		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $category->category_id . '&Itemid=' . $this->itemId . '&tmpl=component';
+		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $this->itemId . '&tmpl=component';
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 		$template = str_replace('{remove}', $exp_div . $remove . $div_end . $td_end . $td_start . "{remove}", $template);
 
 		if (strstr($template, "{add_to_cart}"))
 		{
-			$addtocart = $producthelper->replaceCartTemplate($data['item']->productId);
+			$addtocart = $producthelper->replaceCartTemplate($data['item']->productId, 0, 0, 0, '{form_addtocart:add_to_cart1}');
 			$template  = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
 		}
 

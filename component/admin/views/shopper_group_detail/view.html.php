@@ -10,8 +10,15 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewShopper_group_detail extends RedshopView
+class RedshopViewShopper_group_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	/**
 	 * The request url.
 	 *
@@ -22,7 +29,7 @@ class RedshopViewShopper_group_detail extends RedshopView
 	public function display($tpl = null)
 	{
 		$shoppergroup = new shoppergroup;
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 
 
 

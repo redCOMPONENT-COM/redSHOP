@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 
 
-class RedshopViewOrder_detail extends RedshopView
+class RedshopViewOrder_detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -20,12 +20,19 @@ class RedshopViewOrder_detail extends RedshopView
 	 */
 	public $request_url;
 
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = order_functions::getInstance();
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 
 		$uri = JFactory::getURI();
 

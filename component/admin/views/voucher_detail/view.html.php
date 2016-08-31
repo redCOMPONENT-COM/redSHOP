@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewVoucher_detail extends RedshopView
+class RedshopViewVoucher_detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -18,6 +18,13 @@ class RedshopViewVoucher_detail extends RedshopView
 	 * @var  string
 	 */
 	public $request_url;
+
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
 	public function display($tpl = null)
 	{
