@@ -2058,7 +2058,7 @@ class RedshopModelImport extends RedshopModel
 		$reduser = $this->getTable('prices_detail');
 		$reduser->set('product_id', $productId);
 		$reduser->set('product_price', trim($rawdata['product_price']));
-		$reduser->set('product_currency', CURRENCY_CODE);
+		$reduser->set('product_currency', Redshop::getConfig()->get('CURRENCY_CODE'));
 		$reduser->set('cdate', time());
 		$reduser->set('shopper_group_id', $shopperGroupId);
 		$reduser->set('price_quantity_start', trim($rawdata['price_quantity_start']));
@@ -2160,7 +2160,7 @@ class RedshopModelImport extends RedshopModel
 		}
 
 		$reduser->set('product_price', trim($rawdata['attribute_price']));
-		$reduser->set('product_currency', CURRENCY_CODE);
+		$reduser->set('product_currency', Redshop::getConfig()->get('CURRENCY_CODE'));
 		$reduser->set('cdate', time());
 		$reduser->set('shopper_group_id', trim($rawdata['shopper_group_id']));
 		$reduser->set('price_quantity_start', (int) trim($rawdata['price_quantity_start']));

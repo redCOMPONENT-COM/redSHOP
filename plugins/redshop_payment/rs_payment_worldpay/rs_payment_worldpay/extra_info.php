@@ -52,13 +52,13 @@ else
 $currencyClass         = CurrencyHelper::getInstance();
 $order->order_subtotal = number_format($order_details[0]->order_total, 2, '.', '');
 $amount                = $order->order_subtotal;
-$sign_key              = $md5_key . ":" . $instId . ":" . $order->order_subtotal . ":" . CURRENCY_CODE . ":" . $cartId;
+$sign_key              = $md5_key . ":" . $instId . ":" . $order->order_subtotal . ":" . Redshop::getConfig()->get('CURRENCY_CODE') . ":" . $cartId;
 $md5_sign_key          = md5($sign_key);
 
 $post_variables = Array(
 	"instId"      => $instId,
 	"cartId"      => $data['order_id'],
-	"currency"    => CURRENCY_CODE,
+	"currency"    => Redshop::getConfig()->get('CURRENCY_CODE'),
 	"amount"      => $order->order_subtotal,
 	"email"       => $buyeremail,
 	"address"     => $owneraddress,

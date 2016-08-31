@@ -376,13 +376,14 @@ class RedshopModelNewsletter extends RedshopModel
 		$mailfrom = $jconfig->mailfrom;
 		$fromname = $jconfig->fromname;
 
-		if (NEWS_MAIL_FROM != "")
+		if (Redshop::getConfig()->get('NEWS_MAIL_FROM') != "")
 		{
-			$mailfrom = NEWS_MAIL_FROM;
+			$mailfrom = Redshop::getConfig()->get('NEWS_MAIL_FROM');
 		}
-		if (NEWS_FROM_NAME != "")
+
+		if (Redshop::getConfig()->get('NEWS_FROM_NAME') != "")
 		{
-			$fromname = NEWS_FROM_NAME;
+			$fromname = Redshop::getConfig()->get('NEWS_FROM_NAME');
 		}
 
 		// Getting newsletter content

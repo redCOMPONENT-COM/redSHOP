@@ -39,7 +39,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 
 		if (defined('PRICE_DECIMAL'))
 		{
-			$cal_no = PRICE_DECIMAL;
+			$cal_no = Redshop::getConfig()->get('PRICE_DECIMAL');
 		}
 
 		$order_total               = round($data['order_total'], $cal_no);

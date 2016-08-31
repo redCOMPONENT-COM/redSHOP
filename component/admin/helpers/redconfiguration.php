@@ -563,7 +563,6 @@ class Redconfiguration
 						"ACCESSORY_PRODUCT_TITLE_MAX_CHARS"            => $d["accessory_product_title_max_chars"],
 						"ACCESSORY_PRODUCT_TITLE_END_SUFFIX"           => $d["accessory_product_title_end_suffix"],
 						"ADDTOCART_BACKGROUND"                         => $d["addtocart_background"],
-						"TABLE_PREFIX"                                 => $d["table_prefix"],
 						"SPLIT_DELIVERY_COST"                          => $d["split_delivery_cost"],
 						"TIME_DIFF_SPLIT_DELIVERY"                     => $d["time_diff_split_delivery"],
 						"NEWS_MAIL_FROM"                               => $d["news_mail_from"],

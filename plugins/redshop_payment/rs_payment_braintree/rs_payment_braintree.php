@@ -369,7 +369,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		if (defined('PRICE_DECIMAL'))
 		{
-			$cal_no = PRICE_DECIMAL;
+			$cal_no = Redshop::getConfig()->get('PRICE_DECIMAL');
 		}
 
 		$order_total = number_format($data['order']->order_total, $cal_no, '.', '');
@@ -557,7 +557,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		if (defined('PRICE_DECIMAL'))
 		{
-			$cal_no = PRICE_DECIMAL;
+			$cal_no = Redshop::getConfig()->get('PRICE_DECIMAL');
 		}
 
 		$order_amount = number_format($data['order_amount'], $cal_no);

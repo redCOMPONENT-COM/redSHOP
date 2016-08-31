@@ -143,7 +143,7 @@ if ($user->id != 0)
 										<input type='hidden'   value='add' name='task'>
 										<input type='hidden'   name='product_price' value='" . $product_price . "'>
 										<input type='hidden' name='quantity' id='quantity" . $row->product_id . "'  value='1'>
-										<span onclick='document.addtocartscroll" . $i . ".submit();' align='center' style='background-color: #" . ADDTOCART_BACKGROUND . ";cursor:pointer;'><span style='cursor: pointer;' >" . JText::_('COM_REDSHOP_ADD_TO_CART') . "</span></span>
+										<span onclick='document.addtocartscroll" . $i . ".submit();' align='center' style='background-color: #" . Redshop::getConfig()->get('ADDTOCART_BACKGROUND') . ";cursor:pointer;'><span style='cursor: pointer;' >" . JText::_('COM_REDSHOP_ADD_TO_CART') . "</span></span>
 										</form>
 										</div>";
 								$i++;

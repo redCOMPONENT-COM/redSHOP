@@ -72,7 +72,7 @@ class economic
 		$eco['user_info_id'] = $row->users_info_id;
 		$debtorHandle        = $this->_dispatcher->trigger('Debtor_FindByNumber', array($eco));
 
-		$eco['currency_code'] = CURRENCY_CODE;
+		$eco['currency_code'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$eco['vatzone']       = $this->getEconomicTaxZone($row->country_code);
 		$eco['email']         = $row->user_email;
 
@@ -503,7 +503,7 @@ class economic
 				$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
 
 				$eco['isvat']              = ($orderdetail->order_tax != 0) ? 1 : 0;
-				$currency                  = CURRENCY_CODE;
+				$currency                  = Redshop::getConfig()->get('CURRENCY_CODE');
 				$eco['email']              = $user_billinginfo->user_email;
 				$eco['phone']              = $user_billinginfo->phone;
 				$eco['currency_code']      = $currency;
@@ -1073,7 +1073,7 @@ class economic
 
 					if ($user_billinginfo->is_company == 0 || (!$user_billinginfo->ean_number && $user_billinginfo->is_company == 1))
 					{
-						$currency = CURRENCY_CODE;
+						$currency = Redshop::getConfig()->get('CURRENCY_CODE');
 
 						$eco['invoiceHandle'] = $orderdetail->invoice_no;
 						$eco['debtorHandle']  = intVal($user_billinginfo->users_info_id);
@@ -1414,7 +1414,7 @@ class economic
 
 	public function getEconomicTaxZone($country_code = "")
 	{
-		if ($country_code == SHOP_COUNTRY)
+		if ($country_code == Redshop::getConfig()->get('SHOP_COUNTRY'))
 		{
 			$taxzone = 'HomeCountry';
 		}

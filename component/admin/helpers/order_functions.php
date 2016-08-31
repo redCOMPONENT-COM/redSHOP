@@ -195,7 +195,7 @@ class order_functions
 			$shippingDeliveryType = (int) $shippingRateDecryptDetail[8];
 		}
 
-		$sql = "SELECT country_2_code FROM #__redshop_country WHERE country_3_code = " . $db->quote(SHOP_COUNTRY);
+		$sql = "SELECT country_2_code FROM #__redshop_country WHERE country_3_code = " . $db->quote(Redshop::getConfig()->get('SHOP_COUNTRY'));
 		$db->setQuery($sql);
 		$billingInfo->country_code = $db->loadResult();
 

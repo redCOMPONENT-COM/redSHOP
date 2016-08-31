@@ -35,7 +35,7 @@ class RedshopControllerPrices_detail extends RedshopController
 		$price_quantity_start = JRequest::getVar('price_quantity_start');
 		$price_quantity_end = JRequest::getVar('price_quantity_end');
 
-		$post['product_currency'] = CURRENCY_CODE;
+		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate'] = time();
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');

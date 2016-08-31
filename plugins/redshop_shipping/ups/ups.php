@@ -703,7 +703,7 @@ class plgredshop_shippingups extends JPlugin
 
 		// UPS returns Charges in USD ONLY.
 		// So we have to convert from USD to Vendor Currency if necessary
-		if (CURRENCY_CODE != "USD")
+		if (Redshop::getConfig()->get('CURRENCY_CODE') != "USD")
 		{
 			$convert = true;
 		}
@@ -726,7 +726,7 @@ class plgredshop_shippingups extends JPlugin
 
 			if ($convert)
 			{
-				$tmp = $currency->convert($ratevalue, "USD", CURRENCY_CODE);
+				$tmp = $currency->convert($ratevalue, "USD", Redshop::getConfig()->get('CURRENCY_CODE'));
 
 				if (!empty($tmp))
 				{

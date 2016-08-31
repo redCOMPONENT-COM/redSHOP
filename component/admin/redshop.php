@@ -122,11 +122,11 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 }
 
 RedshopHelperConfig::script('SITE_URL', JURI::root());
-RedshopHelperConfig::script('REDCURRENCY_SYMBOL', REDCURRENCY_SYMBOL);
-RedshopHelperConfig::script('PRICE_SEPERATOR', PRICE_SEPERATOR);
-RedshopHelperConfig::script('CURRENCY_SYMBOL_POSITION', CURRENCY_SYMBOL_POSITION);
-RedshopHelperConfig::script('PRICE_DECIMAL', PRICE_DECIMAL);
-RedshopHelperConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
+RedshopHelperConfig::script('REDCURRENCY_SYMBOL', Redshop::getConfig()->get('REDCURRENCY_SYMBOL'));
+RedshopHelperConfig::script('PRICE_SEPERATOR', Redshop::getConfig()->get('PRICE_SEPERATOR'));
+RedshopHelperConfig::script('CURRENCY_SYMBOL_POSITION', Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION'));
+RedshopHelperConfig::script('PRICE_DECIMAL', Redshop::getConfig()->get('PRICE_DECIMAL'));
+RedshopHelperConfig::script('THOUSAND_SEPERATOR', Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 JText::script('COM_REDSHOP_IS_REQUIRED');
 

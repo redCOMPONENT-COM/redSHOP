@@ -59,7 +59,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		$formdata = array(
 			'merchantnumber'  => $this->params->get("merchant_id"),
 			'amount'          => number_format($data['carttotal'], 2, '.', '') * 100,
-			'currency'        => $CurrencyHelper->get_iso_code(CURRENCY_CODE),
+			'currency'        => $CurrencyHelper->get_iso_code(Redshop::getConfig()->get('CURRENCY_CODE')),
 			'orderid'         => $data['order_id'],
 			'instantcapture'  => $this->params->get("auth_type"),
 			'instantcallback' => 1,

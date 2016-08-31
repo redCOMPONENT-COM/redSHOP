@@ -67,9 +67,9 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		{
 			$currency_main = $this->params->get("currency");
 		}
-		elseif (CURRENCY_CODE != "")
+		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
-			$currency_main = CURRENCY_CODE;
+			$currency_main = Redshop::getConfig()->get('CURRENCY_CODE');
 		}
 		else
 		{

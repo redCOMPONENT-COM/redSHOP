@@ -635,7 +635,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																		size="10">
 																</div>
 															</td>
-															<td width="5%"><?php echo REDCURRENCY_SYMBOL . " " . $vat;?></td>
+															<td width="5%"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $vat;?></td>
 															<td width="10%"><?php echo $producthelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 															<td width="5%">
 																<input type="text" name="quantity" id="quantity" class="col-sm-12"
@@ -643,7 +643,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															</td>
 															<td align="right" width="10%">
 																<?php
-																	echo REDCURRENCY_SYMBOL . "&nbsp;";
+																	echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . "&nbsp;";
 																	echo $producthelper->redpriceDecimal($products[$i]->product_final_price);
 																	?>
 															</td>

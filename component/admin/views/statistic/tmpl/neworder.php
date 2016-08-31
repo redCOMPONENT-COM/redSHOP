@@ -60,7 +60,7 @@ $end = $this->pagination->limit;
 					                      title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>">
 							<?php echo $row->order_id; ?></a></td>
 					<td align="center"><?php  echo $row->firstname . ' ' . $row->lastname;?></td>
-					<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->order_total);//CURRENCY_SYMBOL.number_format($row->order_total,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);?></td>
+					<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->order_total);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

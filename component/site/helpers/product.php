@@ -794,7 +794,7 @@ class RedshopSiteProduct
 	 *
 	 * @return  float                      Formatted Product Price
 	 */
-	public function getProductFormattedPrice($productPrice, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
+	public function getProductFormattedPrice($productPrice, $convert = true, $currency_symbol = Redshop::getConfig()->get('REDCURRENCY_SYMBOL'))
 	{
 		$CurrencyHelper  = CurrencyHelper::getInstance();
 
@@ -807,7 +807,7 @@ class RedshopSiteProduct
 		{
 			$productPrice = $CurrencyHelper->convert($productPrice);
 
-			if (CURRENCY_SYMBOL_POSITION == 'behind')
+			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
 				$currency_symbol = " " . $session->get('product_currency');
 			}
@@ -821,26 +821,26 @@ class RedshopSiteProduct
 
 		if (is_numeric($productPrice))
 		{
-			$priceDecimal = (int) PRICE_DECIMAL;
+			$priceDecimal = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
 			$productPrice = (double) $productPrice;
 
-			if (CURRENCY_SYMBOL_POSITION == 'front')
+			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'front')
 			{
 				$price = $currency_symbol
-					. number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+					. number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 			}
-			elseif (CURRENCY_SYMBOL_POSITION == 'behind')
+			elseif (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
-				$price = number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR)
+				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'))
 					. $currency_symbol;
 			}
-			elseif (CURRENCY_SYMBOL_POSITION == 'none')
+			elseif (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'none')
 			{
-				$price = number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 			}
 			else
 			{
-				$price = $currency_symbol . number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+				$price = $currency_symbol . number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 			}
 		}
 
@@ -851,9 +851,9 @@ class RedshopSiteProduct
 	{
 		$cal_no = 4;
 
-		if (defined('CALCULATION_PRICE_DECIMAL') && CALCULATION_PRICE_DECIMAL != "")
+		if (defined('CALCULATION_PRICE_DECIMAL') && Redshop::getConfig()->get('CALCULATION_PRICE_DECIMAL') != "")
 		{
-			$cal_no = CALCULATION_PRICE_DECIMAL;
+			$cal_no = Redshop::getConfig()->get('CALCULATION_PRICE_DECIMAL');
 		}
 
 		$product_price = round($product_price, $cal_no);
@@ -5990,7 +5990,7 @@ class RedshopSiteProduct
 		$tooltip             = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
 		$ADD_OR_LBL          = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
 		$ADD_CART_IMAGE      = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : Redshop::getConfig()->get('ADDTOCART_IMAGE');
-		$ADD_CART_BACKGROUND = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? REQUESTQUOTE_BACKGROUND : ADDTOCART_BACKGROUND;
+		$ADD_CART_BACKGROUND = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_BACKGROUND') : Redshop::getConfig()->get('ADDTOCART_BACKGROUND');
 
 		$cartTag   = '';
 		$cartIcon  = '';
@@ -6361,7 +6361,7 @@ class RedshopSiteProduct
 		$tooltip             = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
 		$ADD_OR_LBL          = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
 		$ADD_CART_IMAGE      = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : Redshop::getConfig()->get('ADDTOCART_IMAGE');
-		$ADD_CART_BACKGROUND = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? REQUESTQUOTE_BACKGROUND : ADDTOCART_BACKGROUND;
+		$ADD_CART_BACKGROUND = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_BACKGROUND') : Redshop::getConfig()->get('ADDTOCART_BACKGROUND');
 		$ADD_OR_TOOLTIP      = "";
 
 		if ($totalatt > 0)
@@ -7652,7 +7652,7 @@ class RedshopSiteProduct
 
 					if ($export == 1)
 					{
-						$disPrice = " (" . $orderPropdata[$p]->section_oprand . REDCURRENCY_SYMBOL . $property_price . ")";
+						$disPrice = " (" . $orderPropdata[$p]->section_oprand . Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $property_price . ")";
 					}
 					else
 					{
@@ -7729,7 +7729,7 @@ class RedshopSiteProduct
 
 						if ($export == 1)
 						{
-							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . REDCURRENCY_SYMBOL . $subproperty_price . ")";
+							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $subproperty_price . ")";
 						}
 						else
 						{
@@ -8893,13 +8893,13 @@ class RedshopSiteProduct
 
 	public function redpriceDecimal($price)
 	{
-		return number_format($price, PRICE_DECIMAL, '.', '');
+		return number_format($price, Redshop::getConfig()->get('PRICE_DECIMAL'), '.', '');
 	}
 
 	public function redunitDecimal($price)
 	{
-		if (defined('UNIT_DECIMAL') && UNIT_DECIMAL != "")
-			return number_format($price, UNIT_DECIMAL, '.', '');
+		if (defined('UNIT_DECIMAL') && Redshop::getConfig()->get('UNIT_DECIMAL') != "")
+			return number_format($price, Redshop::getConfig()->get('UNIT_DECIMAL'), '.', '');
 		else
 			return $price;
 	}

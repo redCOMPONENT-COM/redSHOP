@@ -337,7 +337,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$orderitemdata->product_item_price = $product_price;
 			$orderitemdata->product_item_price_excl_vat = $product_excl_price;
 			$orderitemdata->product_final_price = $product_price * $quantity;
-			$orderitemdata->order_item_currency = REDCURRENCY_SYMBOL;
+			$orderitemdata->order_item_currency = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 			$orderitemdata->order_status = "P";
 			$orderitemdata->cdate = time();
 			$orderitemdata->mdate = time();

@@ -368,7 +368,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$rowitem->product_item_price = $product_price;
 			$rowitem->product_item_price_excl_vat = $product_excl_price;
 			$rowitem->product_final_price = $product_price * $quantity;
-			$rowitem->order_item_currency = REDCURRENCY_SYMBOL;
+			$rowitem->order_item_currency = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 			$rowitem->order_status = $row->order_status;
 			$rowitem->cdate = $row->cdate;
 			$rowitem->mdate = $row->cdate;

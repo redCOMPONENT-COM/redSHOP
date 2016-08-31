@@ -624,7 +624,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart_accessory               = $retAccArr[0];
 			$rowitem->order_id            = $order_id;
 			$rowitem->user_info_id        = $users_info_id;
-			$rowitem->order_item_currency = REDCURRENCY_SYMBOL;
+			$rowitem->order_item_currency = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 			$rowitem->order_status        = $order_status;
 			$rowitem->cdate               = $timestamp;
 			$rowitem->mdate               = $timestamp;

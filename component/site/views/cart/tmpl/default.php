@@ -189,7 +189,7 @@ if (count($discount) > 0)
 	if ($discount->discount_type == 0)
 	{
 		$discount_amount = $discount->discount_amount;
-		$discount_sign   = " " . REDCURRENCY_SYMBOL;
+		$discount_sign   = " " . Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 	}
 	else
 	{
@@ -198,7 +198,7 @@ if (count($discount) > 0)
 	}
 
 	$diff  = $discount->amount - $cart ['product_subtotal'];
-	$price = number_format($discount->discount_amount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+	$price = number_format($discount->discount_amount, Redshop::getConfig()->get('PRICE_DECIMAL'), Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 
 	if ($diff > 0)
 	{

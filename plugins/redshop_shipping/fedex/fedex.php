@@ -366,7 +366,7 @@ class plgredshop_shippingfedex extends JPlugin
 			}
 		}
 
-		$country_code = SHOP_COUNTRY;
+		$country_code = Redshop::getConfig()->get('SHOP_COUNTRY');
 
 		if ($country_code != '')
 		{

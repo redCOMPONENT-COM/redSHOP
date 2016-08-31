@@ -274,9 +274,9 @@ class RedshopHelperCron
 			$start_date      = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 			$end_date        = $start_date + (Redshop::getConfig()->get('DISCOUPON_DURATION') * 23 * 59 * 59);
 			$valid_end_date  = $redconfig->convertDateFormat($end_date);
-			$discoupon_value = (Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL') == 0) ? REDCURRENCY_SYMBOL
+			$discoupon_value = (Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL') == 0) ? Redshop::getConfig()->get('REDCURRENCY_SYMBOL')
 				. " "
-				. number_format(Redshop::getConfig()->get('DISCOUPON_VALUE'), 2, PRICE_SEPERATOR, THOUSAND_SEPERATOR) : $discoupon_value = Redshop::getConfig()->get('DISCOUPON_VALUE')
+				. number_format(Redshop::getConfig()->get('DISCOUPON_VALUE'), 2, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) : $discoupon_value = Redshop::getConfig()->get('DISCOUPON_VALUE')
 				. " %";
 
 			$sql = "SELECT CONCAT(firstname,' ',lastname) as name,user_email as email FROM  `#__redshop_order_users_info` WHERE `order_id` =  "

@@ -20,7 +20,7 @@ $task             = $input->getCmd('task');
 $layout           = $input->getCmd('layout');
 $Itemid           = $input->getInt('Itemid');
 
-$paymentCurrency  = $this->params->get("currency", CURRENCY_CODE);
+$paymentCurrency  = $this->params->get("currency", Redshop::getConfig()->get('CURRENCY_CODE'));
 
 if (1 == (int) $this->params->get("sandbox"))
 {

@@ -91,7 +91,7 @@ $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 					</td>
 
 					<td align="center">
-						<?php echo number_format($row->tax_rate * 100, 2, PRICE_SEPERATOR, THOUSAND_SEPERATOR) . " %";//number_format($row->tax_rate,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR); ?>
+						<?php echo number_format($row->tax_rate * 100, 2, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) . " %";//number_format($row->tax_rate,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR); ?>
 					</td>
 				</tr>
 				<?php
