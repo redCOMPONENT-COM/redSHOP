@@ -794,8 +794,13 @@ class RedshopSiteProduct
 	 *
 	 * @return  float                      Formatted Product Price
 	 */
-	public function getProductFormattedPrice($productPrice, $convert = true, $currency_symbol = Redshop::getConfig()->get('REDCURRENCY_SYMBOL'))
+	public function getProductFormattedPrice($productPrice, $convert = true, $currency_symbol = '_NON_')
 	{
+		if ($currency_symbol == '_NON_')
+		{
+			$currency_symbol = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
+		}
+
 		$CurrencyHelper  = CurrencyHelper::getInstance();
 
 		// Get Current Currency of SHOP
