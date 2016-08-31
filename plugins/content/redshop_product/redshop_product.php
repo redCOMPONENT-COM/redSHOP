@@ -144,7 +144,7 @@ class plgContentredshop_product extends JPlugin
 				{
 					$pr_price = '';
 
-					if ($show_price && SHOW_PRICE)
+					if ($show_price && Redshop::getConfig()->get('SHOW_PRICE'))
 					{
 						$product_price = $producthelper->getProductPrice($product->product_id, $show_price_with_vat);
 						$productArr = $producthelper->getProductNetPrice($product->product_id, 0, 1);

@@ -150,7 +150,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 			$productOldPrice 		= $productArr['product_old_price_excl_vat'];
 		}
 
-		if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 		{
 			if (!$productPrice)
 			{
@@ -225,7 +225,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 		$hiddenUserField = '';
 		$userfieldArr = array();
 
-		if (AJAX_CART_BOX)
+		if (Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			$ajaxDetailTemplateDesc = "";
 			$ajaxDetailTemplate      = $producthelper->getAjaxDetailboxTemplate($row);

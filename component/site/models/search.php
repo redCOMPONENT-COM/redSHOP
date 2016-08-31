@@ -160,7 +160,7 @@ class RedshopModelSearch extends RedshopModel
 			}
 			elseif (!$limit)
 			{
-				$limit = MAXCATEGORY;
+				$limit = Redshop::getConfig()->get('MAXCATEGORY');
 			}
 		}
 

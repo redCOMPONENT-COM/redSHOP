@@ -745,13 +745,13 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		if ($row->order_status == CLICKATELL_ORDER_STATUS)
+		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
 			$helper->clickatellSMS($row->order_id);
 		}
 
 		// Economic Integration start for invoice generate and book current invoice
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && ECONOMIC_INVOICE_DRAFT != 2)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
 			$economic = economic::getInstance();
 
@@ -770,7 +770,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
 
-			if (ECONOMIC_INVOICE_DRAFT == 0)
+			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
 				$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($postdata['payment_method_class']);

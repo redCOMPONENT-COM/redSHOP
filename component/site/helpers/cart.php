@@ -89,7 +89,7 @@ class RedshopSiteCart
 			}
 			else
 			{
-				if ($quotation_mode && !SHOW_QUOTATION_PRICE)
+				if ($quotation_mode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 				{
 					$data = str_replace("{tax}", "", $data);
 					$data = str_replace("{order_tax}", "", $data);
@@ -188,7 +188,7 @@ class RedshopSiteCart
 			{
 				$data = str_replace("{if discount}", '', $data);
 
-				if ($quotation_mode && !SHOW_QUOTATION_PRICE)
+				if ($quotation_mode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 				{
 					$data = str_replace("{discount}", "", $data);
 					$data = str_replace("{discount_in_percentage}", $percentage, $data);
@@ -417,7 +417,7 @@ class RedshopSiteCart
 						$billingdata = str_replace("{ean_number_lbl}", JText::_('COM_REDSHOP_EAN_NUMBER'), $billingdata);
 					}
 
-					if (SHOW_TAX_EXEMPT_INFRONT)
+					if (Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT'))
 					{
 						if ($billingaddresses->tax_exempt == 1)
 						{
@@ -819,9 +819,9 @@ class RedshopSiteCart
 		$idx        = $cart['idx'];
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
-		if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_DELETE))
+		if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
 		{
-			$delete_img = ADDTOCART_DELETE;
+			$delete_img = Redshop::getConfig()->get('ADDTOCART_DELETE');
 		}
 		else
 		{
@@ -865,7 +865,7 @@ class RedshopSiteCart
 				$cart_mdata = str_replace("{attribute_price_without_vat}", '', $cart_mdata);
 				$cart_mdata = str_replace("{attribute_price_with_vat}", '', $cart_mdata);
 
-				if ($quotation_mode && !SHOW_QUOTATION_PRICE)
+				if ($quotation_mode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 				{
 					$cart_mdata = str_replace("{product_total_price}", "", $cart_mdata);
 					$cart_mdata = str_replace("{product_price}", "", $cart_mdata);
@@ -1041,7 +1041,7 @@ class RedshopSiteCart
 				$chktag              = $this->_producthelper->getApplyVatOrNot($data);
 				$product_total_price = "<div class='product_price'>";
 
-				if (!$quotation_mode || ($quotation_mode && SHOW_QUOTATION_PRICE))
+				if (!$quotation_mode || ($quotation_mode && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 				{
 					if (!$chktag)
 					{
@@ -1058,7 +1058,7 @@ class RedshopSiteCart
 				$product_old_price = "";
 				$product_price     = "<div class='product_price'>";
 
-				if (!$quotation_mode || ($quotation_mode && SHOW_QUOTATION_PRICE))
+				if (!$quotation_mode || ($quotation_mode && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 				{
 					if (!$chktag)
 					{
@@ -1097,7 +1097,7 @@ class RedshopSiteCart
 					{
 						$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->wrapper_name;
 
-						if (!$quotation_mode || ($quotation_mode && SHOW_QUOTATION_PRICE))
+						if (!$quotation_mode || ($quotation_mode && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 						{
 							$wrapper_name .= "(" . $this->_producthelper->getProductFormattedPrice($cart[$i]['wrapper_price'], true) . ")";
 						}
@@ -1229,7 +1229,7 @@ class RedshopSiteCart
 
 				$product_price_excl_vat = $cart[$i]['product_price_excl_vat'];
 
-				if (!$quotation_mode || ($quotation_mode && SHOW_QUOTATION_PRICE))
+				if (!$quotation_mode || ($quotation_mode && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 				{
 					$cart_mdata = str_replace("{product_price_excl_vat}", $this->_producthelper->getProductFormattedPrice($product_price_excl_vat), $cart_mdata);
 					$cart_mdata = str_replace("{product_total_price_excl_vat}", $this->_producthelper->getProductFormattedPrice($product_price_excl_vat * $quantity), $cart_mdata);
@@ -1305,9 +1305,9 @@ class RedshopSiteCart
 								<input type="hidden" name="Itemid" value="' . $Itemid . '">
 								<input type="hidden" name="task" value="">';
 
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_UPDATE))
+					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
 					{
-						$update_img = ADDTOCART_UPDATE;
+						$update_img = Redshop::getConfig()->get('ADDTOCART_UPDATE');
 					}
 					else
 					{
@@ -1331,9 +1331,9 @@ class RedshopSiteCart
 						<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">
 						</form>';
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_DELETE))
+				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
 				{
-					$delete_img = ADDTOCART_DELETE;
+					$delete_img = Redshop::getConfig()->get('ADDTOCART_DELETE');
 				}
 				else
 				{
@@ -2174,7 +2174,7 @@ class RedshopSiteCart
 		$shippingVat   = 0;
 
 		// If SHOW_SHIPPING_IN_CART set to no, make shipping Zero
-		if (SHOW_SHIPPING_IN_CART && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
+		if (Redshop::getConfig()->get('SHOW_SHIPPING_IN_CART') && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			if (!$user_id)
 			{
@@ -2222,7 +2222,7 @@ class RedshopSiteCart
 				}
 
 				$total_discount      = $cart['cart_discount'] + (isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0) + $cart['coupon_discount'];
-				$d['order_subtotal'] = (SHIPPING_AFTER == 'total') ? $subtotal - $total_discount : $subtotal;
+				$d['order_subtotal'] = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $subtotal - $total_discount : $subtotal;
 				$d['users_info_id']  = $user_info_id;
 				$shippingArr         = $this->_shippinghelper->getDefaultShipping($d);
 				$shipping            = $shippingArr['shipping_rate'];
@@ -2407,7 +2407,7 @@ class RedshopSiteCart
 		$tmp_discount              = $discount_total;
 		$discount_total            = $this->_producthelper->getProductFormattedPrice($discount_total + $discount_amount, true);
 
-		if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))
+		if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 		{
 			if (strpos($cart_data, '{product_subtotal_lbl}') !== false)
 			{
@@ -2477,7 +2477,7 @@ class RedshopSiteCart
 
 			if (!$checkout)
 			{
-				if (!SHOW_SHIPPING_IN_CART || !Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
+				if (!Redshop::getConfig()->get('SHOW_SHIPPING_IN_CART') || !Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 				{
 					$rep = false;
 				}
@@ -3758,7 +3758,7 @@ class RedshopSiteCart
 
 						$cart = JFactory::getSession()->get('cart');
 
-						if ($checked != "" && ONESTEP_CHECKOUT_ENABLE  && $cart['total'] > 0)
+						if ($checked != "" && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')  && $cart['total'] > 0)
 						{
 							$cardinfo .= $this->replaceCreditCardInformation($oneMethod->name);
 						}
@@ -3880,7 +3880,7 @@ class RedshopSiteCart
 				}
 
 				$url            = JURI::base();
-				$article_link   = $url . "index.php?option=com_content&amp;view=article&amp;id=" . TERMS_ARTICLE_ID . "&Itemid=" . $Itemid . "&tmpl=component&for=true";
+				$article_link   = $url . "index.php?option=com_content&amp;view=article&amp;id=" . Redshop::getConfig()->get('TERMS_ARTICLE_ID') . "&Itemid=" . $Itemid . "&tmpl=component&for=true";
 				$termscondition = '<label class="checkbox"><input type="checkbox" id="termscondition" name="termscondition" value="1" /> ';
 				$termscondition .= JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL');
 				$termscondition .= ' <a class="modal" href="' . $article_link . '" rel="{handler: \'iframe\', size: {x: ' . $finalwidth . ', y: ' . $finalheight . '}}">' . JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL') . '</a></label>';
@@ -4979,7 +4979,7 @@ class RedshopSiteCart
 		$cartoutputArray['cart_output']    = $cartArray[0];
 		$cartoutputArray['total_quantity'] = $cartArray[1];
 
-		if (AJAX_CART_BOX == 1 && $ajax == 1)
+		if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && $ajax == 1)
 		{
 			echo "`" . $cartArray[0] . "`" . $text;
 			exit;
@@ -5463,9 +5463,9 @@ class RedshopSiteCart
 					{
 						$msg = JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 
-						if (CART_RESERVATION_MESSAGE != '')
+						if (Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '')
 						{
-							$msg = CART_RESERVATION_MESSAGE;
+							$msg = Redshop::getConfig()->get('CART_RESERVATION_MESSAGE');
 						}
 					}
 					else
@@ -5785,7 +5785,7 @@ class RedshopSiteCart
 			 * Check if required userfield are filled or not if not than redirect to product detail page...
 			 * get product userfield from selected product template...
 			 */
-			if (!AJAX_CART_BOX)
+			if (!Redshop::getConfig()->get('AJAX_CART_BOX'))
 			{
 				$fieldreq = $this->userfieldValidation($data, $data_add, $section);
 
@@ -6154,7 +6154,7 @@ class RedshopSiteCart
 						}
 						else
 						{
-							$msg = (CART_RESERVATION_MESSAGE != '' && Redshop::getConfig()->get('IS_PRODUCT_RESERVE')) ? CART_RESERVATION_MESSAGE : urldecode(JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
+							$msg = (Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '' && Redshop::getConfig()->get('IS_PRODUCT_RESERVE')) ? Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') : urldecode(JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 
 							return $msg;
 						}
@@ -6212,7 +6212,7 @@ class RedshopSiteCart
 
 				if ($cart[$idx]['quantity'] <= 0)
 				{
-					$msg = (CART_RESERVATION_MESSAGE != '' && Redshop::getConfig()->get('IS_PRODUCT_RESERVE')) ? CART_RESERVATION_MESSAGE : JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
+					$msg = (Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '' && Redshop::getConfig()->get('IS_PRODUCT_RESERVE')) ? Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') : JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 
 					return $msg;
 				}
@@ -7241,7 +7241,7 @@ class RedshopSiteCart
 	 */
 	public function handleRequiredSelectedAttributeCartMessage($data, $attributeTemplate, $selectedAttrId, $selectedPropId, $notselectedSubpropId)
 	{
-		if (INDIVIDUAL_ADD_TO_CART_ENABLE)
+		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
 			return;
 		}

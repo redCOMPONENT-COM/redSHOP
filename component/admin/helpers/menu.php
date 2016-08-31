@@ -54,7 +54,7 @@ class RedshopAdminMenu
 	{
 		$this->data = array();
 
-		$this->menuhide = explode(",", MENUHIDE);
+		$this->menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE'));
 
 		return $this;
 	}

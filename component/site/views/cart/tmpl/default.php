@@ -70,7 +70,7 @@ $session->set('cart', $cart);
 
 if (strstr($cart_data, '{shipping_calculator}') && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
-	if (SHOW_SHIPPING_IN_CART)
+	if (Redshop::getConfig()->get('SHOW_SHIPPING_IN_CART'))
 	{
 		$shipping_calc = $model->shippingrate_calc();
 		$cart_data     = str_replace("{shipping_calculator}", $shipping_calc, $cart_data);
@@ -99,7 +99,7 @@ else
 	if ($pluginButton)
 		$checkout .= '<div class="googlecheckout-button" style="float:left;">' . $pluginButton . '</div>';
 
-	if (SSL_ENABLE_IN_CHECKOUT)
+	if (Redshop::getConfig()->get('SSL_ENABLE_IN_CHECKOUT'))
 	{
 		$uri    = JURI::getInstance();
 		$c_link = new JURI;
@@ -117,9 +117,9 @@ else
 	$checkout .= '<div class="checkout_button"  style="float:right;">';
 	$checkout .= '<input type=button class="greenbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_CART_CHECKOUT') . '" ';
 
-	if (MINIMUM_ORDER_TOTAL > 0 && $cart ['total'] < MINIMUM_ORDER_TOTAL)
+	if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart ['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
 	{
-		$checkout .= ' onclick="alert(\'' . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . MINIMUM_ORDER_TOTAL . '\');">';
+		$checkout .= ' onclick="alert(\'' . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '\');">';
 	}
 	else
 	{
@@ -140,9 +140,9 @@ $cart_data = str_replace("{quotation_request}", $quotation_request, $cart_data);
  */
 if (strstr($cart_data, "{shop_more}"))
 {
-	if (CONTINUE_REDIRECT_LINK != '')
+	if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
 	{
-		$shopmorelink = JRoute::_(CONTINUE_REDIRECT_LINK);
+		$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 	}
 	elseif ($catItemId = $redhelper->getCategoryItemid())
 	{

@@ -300,12 +300,12 @@ class order_functions
 			$addon = "";
 		}
 
-		if (WEBPACK_ENABLE_EMAIL_TRACK)
+		if (Redshop::getConfig()->get('WEBPACK_ENABLE_EMAIL_TRACK'))
 		{
 			$addon .= '<addon adnid="NOTEMAIL"></addon>';
 		}
 
-		if (WEBPACK_ENABLE_SMS)
+		if (Redshop::getConfig()->get('WEBPACK_ENABLE_SMS'))
 		{
 			$addon .= '<addon adnid="NOTSMS"></addon>';
 		}
@@ -362,8 +362,8 @@ class order_functions
 				</unifaunonline>';
 
 		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK"
-					. "&user=" . POSTDK_CUSTOMER_NO
-					. "&pin=" . POSTDK_CUSTOMER_PASSWORD
+					. "&user=" . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO')
+					. "&pin=" . Redshop::getConfig()->get('POSTDK_CUSTOMER_PASSWORD')
 					. "&developerid=000000075"
 					. "&type=xml";
 		try
@@ -475,8 +475,8 @@ class order_functions
 			$db->execute();
 
 			// Send status change email only if config is set to Before order mail or Order is not confirmed.
-			if (!ORDER_MAIL_AFTER
-				|| (ORDER_MAIL_AFTER && $data->order_status_code != "C"))
+			if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER')
+				|| (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code != "C"))
 			{
 				$this->changeOrderStatusMail($order_id, $data->order_status_code);
 			}
@@ -491,13 +491,13 @@ class order_functions
 				$redshopMail = redshopMail::getInstance();
 
 				// Send Order Mail After Payment
-				if (ORDER_MAIL_AFTER && $data->order_status_code == "C")
+				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code == "C")
 				{
 					$redshopMail->sendOrderMail($order_id);
 				}
 
 				// Send Invoice mail only if order mail is set to before payment.
-				elseif (INVOICE_MAIL_ENABLE)
+				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
 					$redshopMail->sendInvoiceMail($order_id);
 				}
@@ -736,12 +736,12 @@ class order_functions
 				// Send the Order mail
 				$redshopMail = redshopMail::getInstance();
 
-				if (ORDER_MAIL_AFTER && $newStatus == 'C')
+				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $newStatus == 'C')
 				{
 					$redshopMail->sendOrderMail($orderId);
 				}
 
-				elseif (INVOICE_MAIL_ENABLE)
+				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
 					$redshopMail->sendInvoiceMail($orderId);
 				}
@@ -1199,12 +1199,12 @@ class order_functions
 			$maxInvoice = $economic->getMaxOrderNumberInEconomic();
 			$maxId = max(intval($maxOrderNumber), $maxInvoice);
 		}
-		elseif (INVOICE_NUMBER_TEMPLATE)
+		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
 		{
-			$maxId = ($maxId + FIRST_INVOICE_NUMBER + 1);
+			$maxId = ($maxId + Redshop::getConfig()->get('FIRST_INVOICE_NUMBER') + 1);
 
 			$order_number = RedshopHelperOrder::parseNumberTemplate(
-							INVOICE_NUMBER_TEMPLATE,
+							Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'),
 							$maxId
 						);
 
@@ -1727,7 +1727,7 @@ class order_functions
 			$search[] = "{order_track_no}";
 			$replace[] = trim($orderdetail->track_no);
 
-			$order_trackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . POSTDK_CUSTOMER_NO . '&order=' . $order_id;
+			$order_trackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO') . '&order=' . $order_id;
 			$search[] = "{order_track_url}";
 			$replace[] = "<a href='" . $order_trackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
@@ -1767,11 +1767,11 @@ class order_functions
 	public function createBookInvoice($order_id, $order_status)
 	{
 		// Economic Integration start for invoice generate and book current invoice
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && ECONOMIC_INVOICE_DRAFT != 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 1)
 		{
 			$economic = economic::getInstance();
 
-			if (ECONOMIC_INVOICE_DRAFT == 2 && $order_status == BOOKING_ORDER_STATUS)
+			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $order_status == Redshop::getConfig()->get('BOOKING_ORDER_STATUS'))
 			{
 				$paymentInfo = $this->getOrderPaymentDetail($order_id);
 
@@ -1800,7 +1800,7 @@ class order_functions
 				$economic->createInvoiceInEconomic($order_id, $economicdata);
 			}
 
-			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, ECONOMIC_INVOICE_DRAFT);
+			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
 
 			if (is_file($bookinvoicepdf))
 			{
@@ -1832,19 +1832,19 @@ class order_functions
 	public function createWebPacklabel($order_id, $order_status, $paymentstatus)
 	{
 		// If PacSoft is not enable then return
-		if (!POSTDK_INTEGRATION)
+		if (!Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 		{
 			return;
 		}
 
 		// If auto generation is disable then return
-		if (!AUTO_GENERATE_LABEL)
+		if (!Redshop::getConfig()->get('AUTO_GENERATE_LABEL'))
 		{
 			return;
 		}
 
 		// Only Execute this function for selected status match
-		if ($order_status == GENERATE_LABEL_ON_STATUS && $paymentstatus == "Paid")
+		if ($order_status == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS') && $paymentstatus == "Paid")
 		{
 			$order_details  = $this->getOrderDetails($order_id);
 			$details        = RedshopShippingRate::decrypt($order_details->ship_method_id);
@@ -1915,7 +1915,7 @@ class order_functions
 			$this->createWebPacklabel($order_id, $newstatus, $paymentstatus);
 		}
 
-		if (CLICKATELL_ENABLE)
+		if (Redshop::getConfig()->get('CLICKATELL_ENABLE'))
 		{
 			// Changing the status of the order end
 			$helper->clickatellSMS($order_id);

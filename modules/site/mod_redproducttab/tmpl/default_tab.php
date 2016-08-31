@@ -131,7 +131,7 @@ $j     = 0;
 			$hidden_userfield    = "";
 			$userfieldArr        = array();
 
-			if (AJAX_CART_BOX)
+			if (Redshop::getConfig()->get('AJAX_CART_BOX'))
 			{
 				$ajax_detail_template_desc = "";
 				$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($row);

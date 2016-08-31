@@ -171,7 +171,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$order_total = $order_total - $discount_price;
 
-		if (PAYMENT_CALCULATION_ON == 'subtotal')
+		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
 			$paymentAmount = $subtotal;
 		}

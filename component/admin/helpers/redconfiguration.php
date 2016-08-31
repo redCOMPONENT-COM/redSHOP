@@ -905,8 +905,8 @@ class Redconfiguration
 		{
 			$list = $list[0];
 
-			if (($list->show_price == "yes") || ($list->show_price == "global" && SHOW_PRICE_PRE == 1)
-				|| ($list->show_price == "" && SHOW_PRICE_PRE == 1))
+			if (($list->show_price == "yes") || ($list->show_price == "global" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
+				|| ($list->show_price == "" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1))
 			{
 				return 1;
 			}
@@ -917,7 +917,7 @@ class Redconfiguration
 		}
 		else
 		{
-			return SHOW_PRICE_PRE;
+			return Redshop::getConfig()->get('SHOW_PRICE_PRE');
 		}
 	}
 

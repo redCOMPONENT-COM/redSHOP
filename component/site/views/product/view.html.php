@@ -131,7 +131,7 @@ class RedshopViewProduct extends RedshopView
 		else
 		{
 			// Ajax box
-			if ($template == 'cartbox' && AJAX_CART_BOX == 1)
+			if ($template == 'cartbox' && Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
 			{
 				$this->loadTemplate('cartbox');
 				exit;

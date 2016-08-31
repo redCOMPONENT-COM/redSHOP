@@ -170,7 +170,7 @@ if (count($ajaxdetal_template) > 0)
 
 	$childproduct = $producthelper->getChildProduct($this->data->product_id);
 
-	if (count($childproduct) > 0 && PURCHASE_PARENT_WITH_CHILD == 0)
+	if (count($childproduct) > 0 && Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 0)
 	{
 		$isChilds = true;
 	}

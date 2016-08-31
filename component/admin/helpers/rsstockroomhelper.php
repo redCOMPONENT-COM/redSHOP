@@ -784,7 +784,7 @@ class rsstockroomhelper
 		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			$db = JFactory::getDbo();
-			$time = time() - (CART_TIMEOUT * 60);
+			$time = time() - (Redshop::getConfig()->get('CART_TIMEOUT') * 60);
 
 			$query = "DELETE FROM #__redshop_cart "
 				. "WHERE time < " . $db->quote($time);

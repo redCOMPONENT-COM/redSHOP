@@ -299,7 +299,7 @@ class redshopMail
 			}
 		}
 
-		if (SUPPLIER_MAIL_ENABLE)
+		if (Redshop::getConfig()->get('SUPPLIER_MAIL_ENABLE'))
 		{
 			sort($supplier_email);
 
@@ -313,7 +313,7 @@ class redshopMail
 		}
 
 		// Invoice mail send
-		if (INVOICE_MAIL_ENABLE && $row->order_payment_status == "Paid")
+		if (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE') && $row->order_payment_status == "Paid")
 		{
 			$this->sendInvoiceMail($order_id);
 		}
@@ -689,7 +689,7 @@ class redshopMail
 		$email            = $billingaddresses->user_email;
 		$mailBody = $this->imginmail($mailBody);
 
-		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
+		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 2 || Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3) && $email != "")
 		{
 			if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $mailBody, 1, null, $mailbcc, $invoiceAttachment))
 			{
@@ -699,7 +699,7 @@ class redshopMail
 			}
 		}
 
-		if ((INVOICE_MAIL_SEND_OPTION == 1 || INVOICE_MAIL_SEND_OPTION == 3) && Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
+		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 1 || Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3) && Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
 			$sendto = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 
@@ -1162,7 +1162,7 @@ class redshopMail
 			$cart_mdata = $producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray);
 
 			// ProductFinderDatepicker Extra Field End
-			if ($row->quotation_status == 1 && !SHOW_QUOTATION_PRICE)
+			if ($row->quotation_status == 1 && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 			{
 				$cart_mdata = str_replace("{product_price_excl_vat}", "", $cart_mdata);
 				$cart_mdata = str_replace("{product_price}", " ", $cart_mdata);
@@ -1228,7 +1228,7 @@ class redshopMail
 		$subtotal_lbl = '';
 		$vat_lbl      = '';
 
-		if ($row->quotation_status != 1 || ($row->quotation_status == 1 && SHOW_QUOTATION_PRICE))
+		if ($row->quotation_status != 1 || ($row->quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 		{
 			$total_lbl    = JText::_('COM_REDSHOP_TOTAL_LBL');
 			$subtotal_lbl = JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL');
@@ -1244,7 +1244,7 @@ class redshopMail
 
 		$replace[] = $row->quotation_note;
 
-		if ($row->quotation_status == 1 && !SHOW_QUOTATION_PRICE)
+		if ($row->quotation_status == 1 && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 		{
 			$quotation_subtotal = " ";
 			$quotation_total = " ";
@@ -1343,7 +1343,7 @@ class redshopMail
 
 	public function sendNewsletterConfirmationMail($subscription_id)
 	{
-		if (NEWSLETTER_CONFIRMATION)
+		if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION'))
 		{
 			$config   = JFactory::getConfig();
 			$url      = JURI::root();

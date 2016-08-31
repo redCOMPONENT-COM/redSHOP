@@ -1118,7 +1118,7 @@ class shipping
 			$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 			$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 
-			if ($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
+			if ($users_info_id && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
 			{
 				$query = "SELECT country_code,state_code FROM #__redshop_users_info AS u "
 					. "LEFT JOIN #__redshop_shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "

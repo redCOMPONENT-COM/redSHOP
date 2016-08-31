@@ -1067,7 +1067,7 @@ class economic
 
 			if ($orderdetail->invoice_no != '' && $orderdetail->is_booked == 0)
 			{
-				if ((ECONOMIC_INVOICE_DRAFT == 2 && $orderdetail->order_status == BOOKING_ORDER_STATUS) || $checkOrderStatus == 0)
+				if ((Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderdetail->order_status == Redshop::getConfig()->get('BOOKING_ORDER_STATUS')) || $checkOrderStatus == 0)
 				{
 					$user_billinginfo = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 
@@ -1118,7 +1118,7 @@ class economic
 								}
 							}
 
-							if (ECONOMIC_BOOK_INVOICE_NUMBER == 1)
+							if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
 							{
 								$bookhandle = $this->_dispatcher->trigger('CurrentInvoice_Book', array($eco));
 							}
@@ -1131,7 +1131,7 @@ class economic
 							{
 								$bookinvoice_number = $eco['bookinvoice_number'] = $bookhandle[0]->Number;
 
-								if (ECONOMIC_BOOK_INVOICE_NUMBER == 1)
+								if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
 								{
 									$this->updateBookInvoiceNumber($order_id, $bookinvoice_number);
 								}

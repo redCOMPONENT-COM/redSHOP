@@ -483,11 +483,11 @@ class RedshopSiteProduct
 
 			if ($chktaxExempt)
 			{
-				$strVat = WITH_VAT_TEXT_INFO;
+				$strVat = Redshop::getConfig()->get('WITH_VAT_TEXT_INFO');
 			}
 			else
 			{
-				$strVat = WITHOUT_VAT_TEXT_INFO;
+				$strVat = Redshop::getConfig()->get('WITHOUT_VAT_TEXT_INFO');
 			}
 
 			$data_add = str_replace("{vat_info}", $strVat, $data_add);
@@ -606,7 +606,7 @@ class RedshopSiteProduct
 			$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 			$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 
-			if ($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
+			if ($users_info_id && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
 			{
 				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
 					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
@@ -767,17 +767,17 @@ class RedshopSiteProduct
 		}
 		else
 		{
-			if (!SHOW_PRICE || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '1' && SHOW_QUOTATION_PRICE != '1')) // && DEFAULT_QUOTATION_MODE==1)
+			if (!Redshop::getConfig()->get('SHOW_PRICE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '1' && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') != '1')) // && DEFAULT_QUOTATION_MODE==1)
 			{
-				$return = PRICE_REPLACE_URL ? "<a href='http://" . PRICE_REPLACE_URL . "' target='_blank'>"
-					. PRICE_REPLACE . "</a>" : PRICE_REPLACE;
+				$return = Redshop::getConfig()->get('PRICE_REPLACE_URL') ? "<a href='http://" . Redshop::getConfig()->get('PRICE_REPLACE_URL') . "' target='_blank'>"
+					. Redshop::getConfig()->get('PRICE_REPLACE') . "</a>" : Redshop::getConfig()->get('PRICE_REPLACE');
 			}
 
-			if (SHOW_PRICE && trim($product_price) != "")
+			if (Redshop::getConfig()->get('SHOW_PRICE') && trim($product_price) != "")
 			{
-				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '0') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '1' && SHOW_QUOTATION_PRICE == '1'))
+				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '0') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '1' && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == '1'))
 				{
-					$return = ZERO_PRICE_REPLACE_URL ? "<a href='http://" . ZERO_PRICE_REPLACE_URL . "' target='_blank'>" . ZERO_PRICE_REPLACE . "</a>" : ZERO_PRICE_REPLACE;
+					$return = Redshop::getConfig()->get('ZERO_PRICE_REPLACE_URL') ? "<a href='http://" . Redshop::getConfig()->get('ZERO_PRICE_REPLACE_URL') . "' target='_blank'>" . Redshop::getConfig()->get('ZERO_PRICE_REPLACE') . "</a>" : Redshop::getConfig()->get('ZERO_PRICE_REPLACE');
 				}
 			}
 		}
@@ -1374,7 +1374,7 @@ class RedshopSiteProduct
 
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
-		if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 		{
 			$product_price              = $this->getPriceReplacement($ProductPriceArr['product_price'] * $qunselect);
 			$product_main_price         = $this->getPriceReplacement($ProductPriceArr['product_main_price'] * $qunselect);
@@ -1606,7 +1606,7 @@ class RedshopSiteProduct
 			$product_price = 0;
 		}
 
-		if (SHOW_PRICE)
+		if (Redshop::getConfig()->get('SHOW_PRICE'))
 		{
 			$price_excluding_vat        = $price_text;
 			$product_discount_price_tmp = $this->checkDiscountDate($product_id);
@@ -3568,7 +3568,7 @@ class RedshopSiteProduct
 		$displayname             = "attribute_template";
 		$nodisplayname           = "attributewithcart_template";
 
-		if (INDIVIDUAL_ADD_TO_CART_ENABLE)
+		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
 			$displayname   = "attributewithcart_template";
 			$nodisplayname = "attribute_template";
@@ -4044,7 +4044,7 @@ class RedshopSiteProduct
 
 	public function getAjaxDetailboxTemplate($product = array())
 	{
-		if (!AJAX_CART_BOX)
+		if (!Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			return array();
 		}
@@ -4239,7 +4239,7 @@ class RedshopSiteProduct
 				{
 					$product_price = '';
 
-					if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+					if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 					{
 						$accessory_mainproduct_price = $this->getPriceReplacement($ProductPriceArr['product_price']);
 						$accessory_middle            = str_replace(
@@ -4439,7 +4439,7 @@ class RedshopSiteProduct
 					$accessory_main_price  = $this->getProductFormattedPrice($accessory_main_price);
 					$accessory_price_show  = $this->getProductFormattedPrice($accessory_price);
 
-					if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+					if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 					{
 						$accessory_div = str_replace("{accessory_price}", $accessory_price_show, $accessory_div);
 						$accessory_div = str_replace("{accessory_main_price}", $accessory_main_price, $accessory_div);
@@ -4536,7 +4536,7 @@ class RedshopSiteProduct
 			}
 			else
 			{
-				if (AJAX_CART_BOX == 0)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') == 0)
 				{
 					$data_add = str_replace("{accessory_template:" . $accessory_template->template_name . "}", $accessory_div, $data_add);
 				}
@@ -4723,8 +4723,8 @@ class RedshopSiteProduct
 							$property_withvat += $property[$i]->property_price;
 
 							if (
-								SHOW_PRICE &&
-								(!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))
+								Redshop::getConfig()->get('SHOW_PRICE') &&
+								(!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 								&& (!$attributes[$a]->hide_attribute_price)
 							)
 							{
@@ -4845,7 +4845,7 @@ class RedshopSiteProduct
 		$chktagArr['chkvat'] = $chktag = $this->getApplyattributeVatOrNot($data_add);
 		$this->_session->set('chkvat', $chktagArr);
 
-		if (INDIVIDUAL_ADD_TO_CART_ENABLE && $displayIndCart)
+		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE') && $displayIndCart)
 		{
 			$att_template = $this->getAttributeTemplate($data_add, false);
 
@@ -4958,7 +4958,7 @@ class RedshopSiteProduct
 
 				$property_all = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
-				if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && Redshop::getConfig()->get('USE_STOCKROOM'))
+				if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 				{
 					$property = $this->getAttibutePropertyWithStock($property_all);
 				}
@@ -5016,7 +5016,7 @@ class RedshopSiteProduct
 						$subproperty_all = $this->getAttibuteSubProperty(0, $property[$i]->value);
 
 						// filter Out of stock data
-						if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && Redshop::getConfig()->get('USE_STOCKROOM'))
+						if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 						{
 							$subproperty = $this->getAttibuteSubPropertyWithStock($subproperty_all);
 						}
@@ -5112,8 +5112,8 @@ class RedshopSiteProduct
 							$attributes_property_vat = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
 							$property [$i]->property_price += $attributes_property_vat;
 
-							if (SHOW_PRICE
-								&& (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))
+							if (Redshop::getConfig()->get('SHOW_PRICE')
+								&& (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 								&& (!$attributes[$a]->hide_attribute_price))
 							{
 								$property[$i]->text = urldecode($property[$i]->property_name) . " (" . $property [$i]->oprand
@@ -5372,7 +5372,7 @@ class RedshopSiteProduct
 			$attributes      = $attributes[0];
 			$subproperty_all = $this->getAttibuteSubProperty(0, $property_id);
 			// filter Out of stock data
-			if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && Redshop::getConfig()->get('USE_STOCKROOM'))
+			if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 			{
 				$subproperty = $this->getAttibuteSubPropertyWithStock($subproperty_all);
 			}
@@ -5535,7 +5535,7 @@ class RedshopSiteProduct
 
 						$attributes_subproperty_vat_show += $subproperty [$i]->subattribute_color_price;
 
-						if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)) && (!$attributes->hide_attribute_price))
+						if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && (!$attributes->hide_attribute_price))
 						{
 							$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name) . " (" . $subproperty [$i]->oprand . $this->getProductFormattedPrice($attributes_subproperty_vat_show) . ")";
 						}
@@ -5722,7 +5722,7 @@ class RedshopSiteProduct
 
 	public function defaultAttributeDataPrice($product_id = 0, $product_showprice = 0, $data_add, $user_id = 0, $applyTax = 0, $attributes = array())
 	{
-		if (count($attributes) <= 0 || INDIVIDUAL_ADD_TO_CART_ENABLE)
+		if (count($attributes) <= 0 || Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
 			return $product_showprice;
 		}
@@ -6183,7 +6183,7 @@ class RedshopSiteProduct
 
 				return $data_add;
 			}
-			elseif (!SHOW_PRICE)
+			elseif (!Redshop::getConfig()->get('SHOW_PRICE'))
 			{
 				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", '', $data_add);
 
@@ -6802,7 +6802,7 @@ class RedshopSiteProduct
 			{
 				$cartTag = "{addtocart_button}";
 
-				if (AJAX_CART_BOX != 1)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') != 1)
 				{
 					$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . ' ' . $cartstyle
 						. ' class="pdaddtocart"><input type="button" ' . $onclick . $cartTitle . ' name="addtocart_button" value="'
@@ -6821,7 +6821,7 @@ class RedshopSiteProduct
 			{
 				$cartTag = "{addtocart_link}";
 
-				if (AJAX_CART_BOX != 1)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') != 1)
 				{
 					$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
 						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">' . $ADD_OR_LBL . '</span>';
@@ -6838,7 +6838,7 @@ class RedshopSiteProduct
 			{
 				$cartTag = "{addtocart_image_aslink}";
 
-				if (AJAX_CART_BOX != 1)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') != 1)
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_IMAGE))
 						$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
@@ -6868,7 +6868,7 @@ class RedshopSiteProduct
 			{
 				$cartTag = "{addtocart_image}";
 
-				if (AJAX_CART_BOX != 1)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') != 1)
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_BACKGROUND))
 						$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
@@ -6921,7 +6921,7 @@ class RedshopSiteProduct
 
 	public function replaceWishlistButton($product_id = 0, $data_add = "")
 	{
-		if (MY_WISHLIST != 0)
+		if (Redshop::getConfig()->get('MY_WISHLIST') != 0)
 		{
 			$u           = JFactory::getURI();
 			$user        = JFactory::getUser();
@@ -6945,7 +6945,7 @@ class RedshopSiteProduct
 				$wishListButton = "<input type='submit' name='btnwishlist' id='btnwishlist' value='"
 					. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
 
-				if (WISHLIST_LOGIN_REQUIRED != 0)
+				if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0)
 				{
 					$mywishlist_link = (string) JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewloginwishlist&tmpl=component');
 					$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
@@ -7072,7 +7072,7 @@ class RedshopSiteProduct
 
 				$displayPrice = " (" . $this->getProductFormattedPrice($accessory_price) . ")";
 
-				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !SHOW_QUOTATION_PRICE)
+				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 				{
 					$displayPrice = "";
 				}
@@ -7133,7 +7133,7 @@ class RedshopSiteProduct
 						$displayPrice = " (" . $propArr[$k]['property_oprand'] . " "
 							. $this->getProductFormattedPrice($property_price) . ")";
 
-						if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
+						if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
 						{
 							$displayPrice = "";
 						}
@@ -7188,7 +7188,7 @@ class RedshopSiteProduct
 							$displayPrice = " (" . $subpropArr[$l]['subproperty_oprand'] . " "
 								. $this->getProductFormattedPrice($subproperty_price) . ")";
 
-							if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
+							if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
 							{
 								$displayPrice = "";
 							}
@@ -7363,7 +7363,7 @@ class RedshopSiteProduct
 
 				$displayPrice = " (" . $propertyOperator . " " . $this->getProductFormattedPrice($propertyPrice) . ")";
 
-				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
+				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
 				{
 					$displayPrice = "";
 				}
@@ -7438,7 +7438,7 @@ class RedshopSiteProduct
 					$displayPrice = " (" . $subPropertyOperator . " "
 						. $this->getProductFormattedPrice($subPropertyPrice) . ")";
 
-					if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
+					if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
 					{
 						$displayPrice = "";
 					}
@@ -7869,7 +7869,7 @@ class RedshopSiteProduct
 			{
 				$displayaccessory .= "<div class='checkout_accessory_title'>" . urldecode($Itemdata[$i]->accessory_item_name) . " ";
 
-				if ($quotation_status != 1 || ($quotation_status == 1 && SHOW_QUOTATION_PRICE == 1))
+				if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
 				{
 					$displayaccessory .= "(" . $this->getProductFormattedPrice($Itemdata[$i]->accessory_price + $Itemdata[$i]->accessory_vat) . ")";
 				}
@@ -7934,7 +7934,7 @@ class RedshopSiteProduct
 					$displayattribute .= "<div class='checkout_attribute_price'>"
 						. urldecode($propdata[$p]->section_name) . " ";
 
-					if ($quotation_status != 1 || ($quotation_status == 1 && SHOW_QUOTATION_PRICE == 1))
+					if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
 					{
 						$propertyOprand       = $propdata[$p]->section_oprand;
 						$propertyPrice        = $this->getProductFormattedPrice($propdata[$p]->section_price);
@@ -7956,7 +7956,7 @@ class RedshopSiteProduct
 						$displayattribute .= "<div class='checkout_subattribute_price'>"
 							. urldecode($subpropdata[$sp]->section_name) . " ";
 
-						if ($quotation_status != 1 || ($quotation_status == 1 && SHOW_QUOTATION_PRICE == 1))
+						if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
 						{
 							$subpropertyOprand       = $subpropdata[$sp]->section_oprand;
 							$subpropertyPrice        = $this->getProductFormattedPrice($subpropdata[$sp]->section_price);
@@ -9024,7 +9024,7 @@ class RedshopSiteProduct
 
 		if ($tmp_name == '')
 		{
-			$tmp_name = COMPARE_TEMPLATE_ID;
+			$tmp_name = Redshop::getConfig()->get('COMPARE_TEMPLATE_ID');
 		}
 
 		return $tmp_name;

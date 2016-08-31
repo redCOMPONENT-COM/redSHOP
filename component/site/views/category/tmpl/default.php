@@ -139,7 +139,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$portal = $sgportal->shopper_group_portal;
 		}
 
-		if (!$checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+		if (!$checkcid && (Redshop::getConfig()->get('PORTAL_SHOP') == 1 || $portal == 1))
 		{
 			continue;
 		}

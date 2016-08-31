@@ -161,17 +161,17 @@ if (!$slide)
 											'&manufacturer_id=' . $this->manufacturer_id .
 											"&Itemid=" . $this->itemid
 										);
-			$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '&nbsp;' . $categorylist->category_name . '</a>';
+			$returntocategory = '<a href="' . $returncatlink . '">' . Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX') . '&nbsp;' . $categorylist->category_name . '</a>';
 		}
-		else if (DAFULT_RETURN_TO_CATEGORY_PREFIX)
+		else if (Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX'))
 		{
-			$returntocategory_name = DAFULT_RETURN_TO_CATEGORY_PREFIX;
+			$returntocategory_name = Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX');
 			$returncatlink               = JRoute::_(
 												"index.php?option=" . $this->option .
 												"&view=category&manufacturer_id=" . $this->manufacturer_id .
 												"&Itemid=" . $this->itemid
 											);
-			$returntocategory            = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '</a>';
+			$returntocategory            = '<a href="' . $returncatlink . '">' . Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX') . '</a>';
 		}
 
 		$template_desc = str_replace("{returntocategory_link}", $returncatlink, $template_desc);
@@ -323,7 +323,7 @@ if (!$slide)
 				$portal = $sgportal->shopper_group_portal;
 			}
 
-			if (!$checkcid && (PORTAL_SHOP == 1 || $portal == 1))
+			if (!$checkcid && (Redshop::getConfig()->get('PORTAL_SHOP') == 1 || $portal == 1))
 			{
 				continue;
 			}
@@ -584,7 +584,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 				$data_add = str_replace("{product_userfield end if}", "", $data_add);
 			}
 		}
-		elseif (AJAX_CART_BOX)
+		elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			$ajax_detail_template_desc = "";
 			$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);

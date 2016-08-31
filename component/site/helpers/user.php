@@ -206,7 +206,7 @@ class RedshopSiteUser
 
 		if (!$app->isAdmin())
 		{
-			if (REGISTER_METHOD == 1 || $data['user_id'] < 0)
+			if (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || $data['user_id'] < 0)
 			{
 				$reduser = new stdClass;
 				$reduser->id = $data['user_id'];
@@ -322,7 +322,7 @@ class RedshopSiteUser
 
 		// Registration is without account creation REGISTER_METHOD = 1
 		// Or Optional account creation
-		if (REGISTER_METHOD == 1 || (REGISTER_METHOD == 2 && $createaccount == 0))
+		if (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || (Redshop::getConfig()->get('REGISTER_METHOD') == 2 && $createaccount == 0))
 		{
 			$user = new stdClass;
 			$user->id = 0;
@@ -345,7 +345,7 @@ class RedshopSiteUser
 		}
 
 		// Do a password safety check
-		if (REGISTER_METHOD == 3)
+		if (Redshop::getConfig()->get('REGISTER_METHOD') == 3)
 		{
 			// Silent registration
 			$better_token      = substr(uniqid(md5(rand()), true), 0, 10);
@@ -688,9 +688,9 @@ class RedshopSiteUser
 			$rowShip = $this->storeRedshopUserShipping($data);
 		}
 
-		if (REGISTER_METHOD != 1 && $isNew && $admin == 0)
+		if (Redshop::getConfig()->get('REGISTER_METHOD') != 1 && $isNew && $admin == 0)
 		{
-			if (REGISTER_METHOD == 2)
+			if (Redshop::getConfig()->get('REGISTER_METHOD') == 2)
 			{
 				if (isset($data['createaccount']) && $data['createaccount'] == 1)
 				{
@@ -834,7 +834,7 @@ class RedshopSiteUser
 		$data['newsletter_id'] = $newsletter;
 		$data['published']     = 1;
 
-		if (NEWSLETTER_CONFIRMATION && $sendmail)
+		if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION') && $sendmail)
 		{
 			$data['published'] = 0;
 		}
@@ -852,7 +852,7 @@ class RedshopSiteUser
 			$this->setError($this->_db->getErrorMsg());
 		}
 
-		if (NEWSLETTER_CONFIRMATION && $sendmail)
+		if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION') && $sendmail)
 		{
 			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendNewsletterConfirmationMail($row->subscription_id);
@@ -992,11 +992,11 @@ class RedshopSiteUser
 			$template_middle   = "";
 			$checkbox_style  = '';
 
-			if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
+			if (Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get('REGISTER_METHOD') != 3)
 			{
 				$template_middle = $template_pd_edata[0];
 
-				if (REGISTER_METHOD == 2)
+				if (Redshop::getConfig()->get('REGISTER_METHOD') == 2)
 				{
 					if ($create_account == 1)
 					{
@@ -1023,7 +1023,7 @@ class RedshopSiteUser
 				$newsletter_signup_lbl = "";
 				$newsletter_signup_chk = "";
 
-				if ($show_newsletter && NEWSLETTER_ENABLE)
+				if ($show_newsletter && Redshop::getConfig()->get('NEWSLETTER_ENABLE'))
 				{
 					$newsletter_signup_lbl = JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
 					$newsletter_signup_chk = '<input type="checkbox" name="newsletter_signup" id="newsletter_signup" value="1">';
@@ -1149,7 +1149,7 @@ class RedshopSiteUser
 			$template_desc = $template_pd_sdata[0] . $template_middle . $template_pd_edata[1];
 		}
 
-		if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1 && SHOW_TAX_EXEMPT_INFRONT)
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1 && Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT'))
 		{
 			$allowCompany  = '';
 			$taxExempt = '';

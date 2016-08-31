@@ -53,7 +53,7 @@ class RedshopHelperCron
 			$db->setQuery($q_update);
 			$db->execute();
 
-			if (SEND_CATALOG_REMINDER_MAIL)
+			if (Redshop::getConfig()->get('SEND_CATALOG_REMINDER_MAIL'))
 			{
 				self::catalog_mail();
 			}

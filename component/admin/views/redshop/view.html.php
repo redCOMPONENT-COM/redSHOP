@@ -57,7 +57,7 @@ class RedshopViewRedshop extends RedshopViewAdmin
 
 		$user = JFactory::getUser();
 
-		if (ENABLE_BACKENDACCESS)
+		if (Redshop::getConfig()->get('ENABLE_BACKENDACCESS'))
 		{
 			$this->access_rslt = new Redaccesslevel;
 			$this->access_rslt = $this->access_rslt->checkaccessofuser($user->gid);

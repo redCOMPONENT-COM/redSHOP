@@ -41,13 +41,13 @@ $usertype = array_keys($user->groups);
 $user->usertype = $usertype[0];
 $user->gid = $user->groups[$user->usertype];
 
-if (ENABLE_BACKENDACCESS && $user->gid != 8 && !$json_var)
+if (Redshop::getConfig()->get('ENABLE_BACKENDACCESS') && $user->gid != 8 && !$json_var)
 {
 	$access_rslt = new Redaccesslevel;
 	$access_rslt->checkaccessofuser($user->gid);
 }
 
-if (ENABLE_BACKENDACCESS)
+if (Redshop::getConfig()->get('ENABLE_BACKENDACCESS'))
 {
 	if ($user->gid != 8 && $view != '' && !$json_var)
 	{
@@ -63,7 +63,7 @@ $step     = JRequest::getVar('step', '');
 // Initialize wizard
 if ($isWizard || $step != '')
 {
-	if (ENABLE_BACKENDACCESS)
+	if (Redshop::getConfig()->get('ENABLE_BACKENDACCESS'))
 	{
 		if ($user->gid != 8)
 		{

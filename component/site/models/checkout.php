@@ -259,7 +259,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentInfo->payment_discount_is_percent = $paymentMethod->params->get('payment_discount_is_percent', '');
 		$paymentAmount = $cart ['total'];
 
-		if (PAYMENT_CALCULATION_ON == 'subtotal')
+		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
 			$paymentAmount = $cart ['product_subtotal'];
 		}
@@ -479,7 +479,7 @@ class RedshopModelCheckout extends RedshopModel
 		$this->deleteOrdernumberTrack();
 
 		// Generate Invoice Number for confirmed credit card payment or for free order
-		if (((boolean) INVOICE_NUMBER_FOR_FREE_ORDER || $is_creditcard)
+		if (((boolean) Redshop::getConfig()->get('INVOICE_NUMBER_FOR_FREE_ORDER') || $is_creditcard)
 			&& ('C' == $row->order_status && 'Paid' == $row->order_payment_status))
 		{
 			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
@@ -505,7 +505,7 @@ class RedshopModelCheckout extends RedshopModel
 			$quotationHelper->updateQuotationwithOrder($cart['quotation_id'], $row->order_id);
 		}
 
-		if ($row->order_status == CLICKATELL_ORDER_STATUS)
+		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
 			$helper->clickatellSMS($order_id);
 		}
@@ -1144,7 +1144,7 @@ class RedshopModelCheckout extends RedshopModel
 		$stockroomhelper->deleteCartAfterEmpty();
 
 		// Economic Integration start for invoice generate and book current invoice
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && ECONOMIC_INVOICE_DRAFT != 2)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
 			$economic = economic::getInstance();
 
@@ -1162,7 +1162,7 @@ class RedshopModelCheckout extends RedshopModel
 			$economicdata['economic_payment_method'] = $payment_name;
 			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
 
-			if (ECONOMIC_INVOICE_DRAFT == 0)
+			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
@@ -1176,11 +1176,11 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Send the Order mail before payment
-		if (!ORDER_MAIL_AFTER || (ORDER_MAIL_AFTER && $row->order_payment_status == "Paid"))
+		if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER') || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $row->order_payment_status == "Paid"))
 		{
 			$this->_redshopMail->sendOrderMail($row->order_id);
 		}
-		elseif (ORDER_MAIL_AFTER == 1)
+		elseif (Redshop::getConfig()->get('ORDER_MAIL_AFTER') == 1)
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
 			$this->_redshopMail->sendOrderMail($row->order_id, true);
@@ -2046,7 +2046,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentInfo->payment_discount_is_percent = $payment_discount_is_percent;
 		$paymentInfo->accepted_credict_card       = $accepted_credict_card;
 
-		if (PAYMENT_CALCULATION_ON == 'subtotal')
+		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
 			$paymentAmount = $cart ['product_subtotal'];
 		}
@@ -2147,9 +2147,9 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (strstr($template_desc, "{shop_more}"))
 		{
-			if (CONTINUE_REDIRECT_LINK != '')
+			if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
 			{
-				$shopmorelink = JRoute::_(CONTINUE_REDIRECT_LINK);
+				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 			}
 			elseif ($catItemId = $redHelper->getCategoryItemid())
 			{
@@ -2202,7 +2202,7 @@ class RedshopModelCheckout extends RedshopModel
 		$checkout .= '<input type="hidden" name="users_info_id" value="' . $users_info_id . '" />';
 		$checkout .= '<input type="hidden" name="order_id" value="' . JRequest::getVar('order_id') . '" />';
 
-		if (!ONESTEP_CHECKOUT_ENABLE)
+		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
 			$checkout .= '<input type="hidden" name="shop_id" value="' . $shop_id . '" />';
 			$checkout .= '<input type="hidden" name="shipping_rate_id" value="' . $shipping_rate_id . '" />';

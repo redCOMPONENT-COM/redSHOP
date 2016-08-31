@@ -42,7 +42,7 @@ if (count($sgportal) > 0)
 	$portal = $sgportal->shopper_group_portal;
 }
 
-if (PORTAL_SHOP == 1)
+if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 {
 	if ($vName == 'product' && $productid > 0)
 	{

@@ -103,7 +103,7 @@ $cart      = $session->get('cart');
 									       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
 								<?php echo $checked;?>/>
 
-								<?php if (ENABLE_ADDRESS_DETAIL_IN_SHIPPING)
+								<?php if (Redshop::getConfig()->get('ENABLE_ADDRESS_DETAIL_IN_SHIPPING'))
 								{
 									echo $shippingaddresses [$i]->address . " ";
 								}

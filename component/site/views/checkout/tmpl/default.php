@@ -81,7 +81,7 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 }
 else
 {
-	if ($user->id == "" && REGISTER_METHOD != 1)
+	if ($user->id == "" && Redshop::getConfig()->get('REGISTER_METHOD') != 1)
 	{
 		$show_login            = 1;
 		$open_to_mystretchermy = 0;
@@ -92,7 +92,7 @@ else
 		$open_to_mystretchermy = 1;
 	}
 
-	if (NEW_CUSTOMER_SELECTION || (isset($post['createaccount']) && $post['createaccount'] == 1))
+	if (Redshop::getConfig()->get('NEW_CUSTOMER_SELECTION') || (isset($post['createaccount']) && $post['createaccount'] == 1))
 	{
 		$open_to_mystretchermy = 1;
 	}
@@ -172,7 +172,7 @@ else
 
 	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
-		<?php if (REGISTER_METHOD == 2) :
+		<?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :
 			$checked_style = (CREATE_ACCOUNT_CHECKBOX == 1) ? 'checked="checked"' : "''";
 		?>
 		<div class="checkbox">

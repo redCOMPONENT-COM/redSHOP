@@ -141,7 +141,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function createInvoice()
 	{
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && ECONOMIC_INVOICE_DRAFT != 2)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
 			$order_id = JRequest::getCmd('order_id');
 			$order_function = order_functions::getInstance();
@@ -166,7 +166,7 @@ class RedshopControllerOrder extends RedshopController
 			$economic = economic::getInstance();
 			$economic->createInvoiceInEconomic($order_id, $economicdata);
 
-			if (ECONOMIC_INVOICE_DRAFT == 0)
+			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 1);
 

@@ -123,7 +123,7 @@ class RedshopHelperOrder
 		$orderInfo = $db->loadObject();
 
 		// Don't generate invoice number for free orders if disabled from config
-		if ($orderInfo->order_total <= 0 && ! (boolean) INVOICE_NUMBER_FOR_FREE_ORDER)
+		if ($orderInfo->order_total <= 0 && ! (boolean) Redshop::getConfig()->get('INVOICE_NUMBER_FOR_FREE_ORDER'))
 		{
 			return;
 		}
@@ -144,7 +144,7 @@ class RedshopHelperOrder
 
 			$maxInvoiceNo   = $db->loadResult();
 
-			$firstInvoiceNo = (int) FIRST_INVOICE_NUMBER;
+			$firstInvoiceNo = (int) Redshop::getConfig()->get('FIRST_INVOICE_NUMBER');
 
 			// It will apply only for the first number ideally!
 			if ($maxInvoiceNo <= $firstInvoiceNo)
@@ -180,13 +180,13 @@ class RedshopHelperOrder
 			return '';
 		}
 
-		if (!REAL_INVOICE_NUMBER_TEMPLATE)
+		if (!Redshop::getConfig()->get('REAL_INVOICE_NUMBER_TEMPLATE'))
 		{
 			return $invoiceNo;
 		}
 
 		return self::parseNumberTemplate(
-			REAL_INVOICE_NUMBER_TEMPLATE,
+			Redshop::getConfig()->get('REAL_INVOICE_NUMBER_TEMPLATE'),
 			$invoiceNo
 		);
 	}

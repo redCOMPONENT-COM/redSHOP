@@ -618,7 +618,7 @@ class leftmenu
 				(self::$view == 'update') ? true : false
 			);
 
-		if (ENABLE_BACKENDACCESS)
+		if (Redshop::getConfig()->get('ENABLE_BACKENDACCESS'))
 		{
 			$menu->section('accessmanager')
 				->title('COM_REDSHOP_ACCESS_MANAGER')

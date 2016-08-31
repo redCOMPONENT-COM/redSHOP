@@ -16,9 +16,9 @@ $shoppergroupid = JRequest::getInt('protalid', 0);
 
 $returnitemid = $Itemid;
 
-if (PORTAL_LOGIN_ITEMID)
+if (Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID'))
 {
-	$returnitemid = PORTAL_LOGIN_ITEMID;
+	$returnitemid = Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID');
 }
 
 $portallogofile = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO');

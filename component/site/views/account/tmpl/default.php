@@ -64,7 +64,7 @@ if ($this->params->get('show_page_heading', 1))
 <?php
 }
 
-$template_desc = str_replace('{welcome_introtext}', WELCOMEPAGE_INTROTEXT, $template_desc);
+$template_desc = str_replace('{welcome_introtext}', Redshop::getConfig()->get('WELCOMEPAGE_INTROTEXT'), $template_desc);
 
 $logoutimg     = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/logout.jpg" align="absmiddle" />';
 $logout        = '<a href="' . $logout_link . '">' . JText::_('COM_REDSHOP_LOGOUT') . '</a>';
@@ -248,7 +248,7 @@ $tag_imagelbl = '';
 $tag_image    = '';
 $tag_link     = '';
 
-if (MY_TAGS)
+if (Redshop::getConfig()->get('MY_TAGS'))
 {
 	$tag_imagelbl = JText::_('COM_REDSHOP_MY_TAGS');
 	$tag_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
@@ -270,7 +270,7 @@ if (strpos($template_desc, "{if tag}") !== false && strpos($template_desc, "{tag
 	$template_d1 = explode("{if tag}", $template_desc);
 	$template_d2 = explode("{tag end if}", $template_d1[1]);
 
-	if (MY_TAGS && $myTags > 0)
+	if (Redshop::getConfig()->get('MY_TAGS') && $myTags > 0)
 	{
 		$template_desc = str_replace("{if tag}", "", $template_desc);
 		$template_desc = str_replace("{tag end if}", "", $template_desc);
@@ -353,7 +353,7 @@ if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc,
 	}
 }
 
-if (MY_WISHLIST)
+if (Redshop::getConfig()->get('MY_WISHLIST'))
 {
 	$wishlist_imagelbl  = JText::_('COM_REDSHOP_MY_WISHLIST');
 	$wishlist_image     = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';

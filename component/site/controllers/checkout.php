@@ -419,7 +419,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 			}
 
-			if (ONESTEP_CHECKOUT_ENABLE)
+			if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 			{
 				$users_info_id = JRequest::getInt('users_info_id');
 				$chk           = $this->chkvalidation($users_info_id);
@@ -602,7 +602,7 @@ class RedshopControllerCheckout extends RedshopController
 		$payment_method_id = $post['payment_method_id'];
 		$order_total       = $cart['total'];
 		$total_discount    = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-		$order_subtotal    = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal_excl_vat'];
+		$order_subtotal    = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal_excl_vat'];
 		$Itemid            = $post['Itemid'];
 		$objectname        = $post['objectname'];
 		$rate_template_id  = $post['rate_template_id'];

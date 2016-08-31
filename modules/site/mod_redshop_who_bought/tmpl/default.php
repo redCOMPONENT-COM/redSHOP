@@ -69,7 +69,7 @@ if (count($rows))
 		$hidden_userfield    = "";
 		$userfieldArr        = array();
 
-		if (AJAX_CART_BOX)
+		if (Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			$ajax_detail_template_desc = "";
 			$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
@@ -172,7 +172,7 @@ if (count($rows))
 
 		if ($show_product_price && $product->product_price)
 		{
-			if (SHOW_PRICE && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
+			if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 			{
 				echo "<div class=\"priceWhoBought\">" . $producthelper->getProductFormattedPrice($product->product_price) . "</div>";
 			}

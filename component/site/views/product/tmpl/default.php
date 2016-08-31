@@ -122,7 +122,7 @@ if ($returnToCategoryLink || $returnToCategoryName || $returnToCategoryStr)
 										'&Itemid=' . $this->itemId
 									);
 
-		$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . " " . $this->data->category_name . '</a>';
+		$returntocategory = '<a href="' . $returncatlink . '">' . Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX') . " " . $this->data->category_name . '</a>';
 	}
 
 	$template_desc = str_replace('{returntocategory_link}', $returncatlink, $template_desc);
@@ -148,11 +148,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 
 		if (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 0)
 		{
-			$nextbutton = '<a href="' . $nextlink . '">' . $nextproducts->product_name . "" . DAFULT_NEXT_LINK_SUFFIX . '</a>';
+			$nextbutton = '<a href="' . $nextlink . '">' . $nextproducts->product_name . "" . Redshop::getConfig()->get('DAFULT_NEXT_LINK_SUFFIX') . '</a>';
 		}
 		elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
 		{
-			$nextbutton = '<a href="' . $nextlink . '">' . CUSTOM_NEXT_LINK_FIND . '</a>';
+			$nextbutton = '<a href="' . $nextlink . '">' . Redshop::getConfig()->get('CUSTOM_NEXT_LINK_FIND') . '</a>';
 		}
 		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
 		{
@@ -173,11 +173,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 
 		if (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 0)
 		{
-			$prevbutton = '<a href="' . $prevlink . '">' . DAFULT_PREVIOUS_LINK_PREFIX . "" . $previousproducts->product_name . '</a>';
+			$prevbutton = '<a href="' . $prevlink . '">' . Redshop::getConfig()->get('DAFULT_PREVIOUS_LINK_PREFIX') . "" . $previousproducts->product_name . '</a>';
 		}
 		elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
 		{
-			$prevbutton = '<a href="' . $prevlink . '">' . CUSTOM_PREVIOUS_LINK_FIND . '</a>';
+			$prevbutton = '<a href="' . $prevlink . '">' . Redshop::getConfig()->get('CUSTOM_PREVIOUS_LINK_FIND') . '</a>';
 		}
 		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
 		{
@@ -581,7 +581,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 			$warray [0]->wrapper_name = JText::_('COM_REDSHOP_SELECT_WRAPPER');
 			$wrapperimage_div         = "";
 
-			if (AUTO_SCROLL_WRAPPER)
+			if (Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
 			{
 				$wrapperimage_div .= "<marquee behavior='scroll'
 				 								direction='left'
@@ -648,7 +648,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				$wrappertemplate_data .= "<input type='hidden' name='w_price' id='w_price" . $wid . "' value='" . $wp . "' />";
 				$wrappertemplate_data .= "<input type='hidden' name='w_price_withoutvat' id='w_price_withoutvat" . $wid . "' value='" . $wp_withoutvat . "' />";
 
-				if (!AUTO_SCROLL_WRAPPER)
+				if (!Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
 				{
 					if (($i + 1) % 3 == 0)
 					{
@@ -659,7 +659,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 			$wrapperimage_div .= "</tr></table>";
 
-			if (AUTO_SCROLL_WRAPPER)
+			if (Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
 			{
 				$wrapperimage_div .= "</marquee>";
 			}
@@ -1706,7 +1706,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 
 $my_tags = '';
 
-if (MY_TAGS != 0 && $user->id && strstr($template_desc, "{my_tags_button}"))
+if (Redshop::getConfig()->get('MY_TAGS') != 0 && $user->id && strstr($template_desc, "{my_tags_button}"))
 {
 	// Product Tags - New Feature Like Magento Store
 	$my_tags .= "<div id='tags_main'><div id='tags_title'>" . JText::_('COM_REDSHOP_PRODUCT_TAGS') . "</div>";

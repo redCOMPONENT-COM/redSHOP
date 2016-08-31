@@ -18,7 +18,7 @@ $user      = JFactory::getUser();
 $redhelper = RedshopSiteHelper::getInstance();
 $Itemid    = $redhelper->getItemid();
 
-if (MY_WISHLIST)
+if (Redshop::getConfig()->get('MY_WISHLIST'))
 {
 	if (!$user->id)
 	{

@@ -190,7 +190,7 @@ class RedshopModelCategory extends RedshopModel
 
 			if (!$limit)
 			{
-				$limit = MAXCATEGORY;
+				$limit = Redshop::getConfig()->get('MAXCATEGORY');
 			}
 		}
 
@@ -567,7 +567,7 @@ class RedshopModelCategory extends RedshopModel
 				}
 				else
 				{
-					$this->_data = $this->_getList($query, 0, MAXCATEGORY);
+					$this->_data = $this->_getList($query, 0, Redshop::getConfig()->get('MAXCATEGORY'));
 				}
 			}
 		}

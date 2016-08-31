@@ -63,7 +63,7 @@ class RedshopControllerCart extends RedshopController
 			// Set Error Message
 			$app->enqueueMessage($errmsg, 'error');
 
-			if (AJAX_CART_BOX == 1)
+			if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
 			{
 				echo "`0`" . $errmsg;
 				die();
@@ -149,7 +149,7 @@ class RedshopControllerCart extends RedshopController
 								$app->enqueueMessage($this->getError(), 'error');
 							}
 
-							if (AJAX_CART_BOX == 1)
+							if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
 							{
 								echo "`0`" . $errmsg;
 								die();
@@ -204,7 +204,7 @@ class RedshopControllerCart extends RedshopController
 
 		if (!$userfield)
 		{
-			if (AJAX_CART_BOX == 1 && isset($post['ajax_cart_box']))
+			if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && isset($post['ajax_cart_box']))
 			{
 				$link =	JRoute::_(
 						'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $Itemid,

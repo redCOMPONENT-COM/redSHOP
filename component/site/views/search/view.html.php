@@ -554,7 +554,7 @@ class RedshopViewSearch extends RedshopView
 						$data_add = str_replace("{product_userfield end if}", "", $data_add);
 					}
 				}
-				elseif (AJAX_CART_BOX)
+				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
 					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($this->search[$i]);
