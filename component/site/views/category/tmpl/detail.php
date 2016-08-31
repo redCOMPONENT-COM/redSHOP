@@ -197,7 +197,7 @@ if (!$slide)
 
 	if (strpos($template_desc, '{shopname}') !== false)
 	{
-		$template_desc = str_replace("{shopname}", SHOP_NAME, $template_desc);
+		$template_desc = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $template_desc);
 	}
 
 	$main_cat_name = $Redconfiguration->maxchar($this->maincat->category_name, Redshop::getConfig()->get('CATEGORY_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_TITLE_END_SUFFIX'));
@@ -367,7 +367,7 @@ if (!$slide)
 				$linkimage         = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', WATERMARK_CATEGORY_IMAGE, '0');
 			}
 
-			if (CAT_IS_LIGHTBOX)
+			if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
 			{
 				$cat_thumb = "<a class='modal' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryFullImage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
 			}

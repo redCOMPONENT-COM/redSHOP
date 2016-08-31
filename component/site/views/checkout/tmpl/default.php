@@ -100,8 +100,8 @@ else
 	if ($show_login)
 	{
 		echo '<div class="signInPaneDiv">';
-		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.start', 'signInPane', array('startOffset' => $open_to_mystretchermy));
-		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.panel', JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'), 'login');
+		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.start', 'signInPane', array('startOffset' => $open_to_mystretchermy));
+		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'), 'login');
 
 		if (strstr($login_template_desc, "{rs_username}"))
 		{
@@ -135,7 +135,7 @@ else
 		$login_template_desc = '<form action="' . JRoute::_('index.php') . '" method="post">' . $login_template_desc . '</form>';
 
 		echo eval("?>" . $login_template_desc . "<?php ");
-		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
+		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
 	}
 
 	$allowCustomer = $this->lists['allowCustomer'];
@@ -186,10 +186,10 @@ else
 		<fieldset>
 			<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
 
-			<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, OPTIONAL_SHIPPING_ADDRESS, 1, CREATE_ACCOUNT_CHECKBOX);    ?>
+			<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, CREATE_ACCOUNT_CHECKBOX);    ?>
 		</fieldset>
 
-		<?php if (SHIPPING_METHOD_ENABLE) : ?>
+		<?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>
 
 		<?php
 		$billingisshipping = "";
@@ -201,7 +201,7 @@ else
 				$billingisshipping = "style='display:none'";
 			}
 		}
-		elseif (OPTIONAL_SHIPPING_ADDRESS)
+		elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 		{
 			$billingisshipping = "style='display:none'";
 		}
@@ -239,7 +239,7 @@ else
 <?php
 	if ($show_login)
 	{
-		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.end');
+		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.end');
 		echo '</div>';
 	}
 }    ?>

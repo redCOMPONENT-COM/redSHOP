@@ -150,7 +150,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$linkimage   = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 		}
 
-		if (CAT_IS_LIGHTBOX)
+		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
 		{
 			$cat_thumb = "<a rel=\"myallimg\" href='" . $linkimage . "'  " . $title . ">";
 		}

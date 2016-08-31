@@ -77,7 +77,7 @@ $paypalPostData = Array(
 	'bn'                 => 'redCOMPONENT_SP'
 );
 
-if (SHIPPING_METHOD_ENABLE)
+if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	$paypalShippingData = Array(
 		"address1"   => $data['shippinginfo']->address,
@@ -148,7 +148,7 @@ if (is_array($paypalCartItems) && count($paypalCartItems))
 	}
 }
 
-if (SHIPPING_METHOD_ENABLE)
+if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	if (is_array($paypalShippingData) && count($paypalShippingData))
 	{

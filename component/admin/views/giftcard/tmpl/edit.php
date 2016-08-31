@@ -80,7 +80,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						</div>
 					<?php endforeach; ?>
 				</fieldset>
-				<?php if (ECONOMIC_INTEGRATION) : ?>
+				<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION')) : ?>
 					<fieldset class="economic">
 						<legend><?php echo JText::_('COM_REDSHOP_ECONOMIC'); ?></legend>
 						<?php foreach ($this->form->getFieldset('economic') as $field) : ?>

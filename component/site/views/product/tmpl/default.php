@@ -1409,7 +1409,7 @@ if (count($ajaxdetail_templatedata) > 0)
 // Checking if user logged in then only enabling review button
 $reviewform = "";
 
-if (($user->id && RATING_REVIEW_LOGIN_REQUIRED) || !RATING_REVIEW_LOGIN_REQUIRED)
+if (($user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) || !Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED'))
 {
 	// Write Review link with the products
 	if (strstr($template_desc, "{form_rating_without_lightbox}"))
@@ -1468,9 +1468,9 @@ if (strstr($template_desc, "{product_rating_summary}"))
 
 if (strstr($template_desc, "{product_rating}"))
 {
-	if (FAVOURED_REVIEWS != "" || FAVOURED_REVIEWS != 0)
+	if (Redshop::getConfig()->get('FAVOURED_REVIEWS') != "" || Redshop::getConfig()->get('FAVOURED_REVIEWS') != 0)
 	{
-		$mainblock = FAVOURED_REVIEWS;
+		$mainblock = Redshop::getConfig()->get('FAVOURED_REVIEWS');
 	}
 	else
 	{

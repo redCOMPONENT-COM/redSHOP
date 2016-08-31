@@ -121,7 +121,7 @@ class RedshopControllerOrder extends RedshopController
 		$msgType = 'warning';
 
 		// Economic Integration start for invoice generate and book current invoice
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			$economic = economic::getInstance();
 			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
@@ -141,7 +141,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function createInvoice()
 	{
-		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
 			$order_id = JRequest::getCmd('order_id');
 			$order_function = order_functions::getInstance();

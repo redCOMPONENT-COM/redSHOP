@@ -160,7 +160,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data_add    = str_replace('{user_question}', $message, $data_add);
 		$data_add    = str_replace('{answer}', '', $data_add);
 		$subject     = str_replace('{user_question}', $message, $subject);
-		$subject     = str_replace('{shopname}', SHOP_NAME, $subject);
+		$subject     = str_replace('{shopname}', Redshop::getConfig()->get('SHOP_NAME'), $subject);
 		$data_add    = str_replace('{user_address}', $data['address'], $data_add);
 		$data_add    = str_replace('{user_telephone}', $data['telephone'], $data_add);
 		$data_add    = str_replace('{user_telephone_lbl}', JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);

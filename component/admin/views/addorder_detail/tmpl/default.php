@@ -234,7 +234,7 @@ function validateUserDetail() {
 			}
 		}
 	}
-	<?php if(!OPTIONAL_SHIPPING_ADDRESS) {?>
+	<?php if(!Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS')) {?>
 	if (!document.getElementById('billisship').checked) {
 		if (form.firstname_ST.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");

@@ -162,7 +162,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$transaction = new Transaction();
 		$transaction->setAmount($amount)
 			->setItemList($itemList)
-			->setDescription(SHOP_NAME . ' Order No ' . $data['order_number'])
+			->setDescription(Redshop::getConfig()->get('SHOP_NAME') . ' Order No ' . $data['order_number'])
 			->setInvoiceNumber(uniqid());
 
 
@@ -822,7 +822,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$transaction = new Transaction;
 		$transaction->setAmount($amount)
 			->setItemList($itemList)
-			->setDescription(SHOP_NAME . ' Order No ' . $orderInfo->order_number)
+			->setDescription(Redshop::getConfig()->get('SHOP_NAME') . ' Order No ' . $orderInfo->order_number)
 			->setInvoiceNumber(uniqid());
 
 		// Payment

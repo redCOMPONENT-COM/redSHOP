@@ -131,7 +131,7 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 		 */
 		$isredGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
 
-		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
+		if (!$isredGoogleAnalytics && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
 		{
 			$ga = new RedshopHelperGoogleanalytics;
 			$ga->placeTrans();

@@ -245,7 +245,7 @@ class RedshopControllerCheckout extends RedshopController
 
 				return $return;
 			}
-			elseif (ECONOMIC_INTEGRATION == 1 && trim($billingaddresses->ean_number) != '')
+			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
 			{
 				$economic     = economic::getInstance();
 				$debtorHandle = $economic->createUserInEconomic($billingaddresses);
@@ -322,7 +322,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
-		if (SHIPPING_METHOD_ENABLE && $users_info_id != $billingaddresses->users_info_id)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE') && $users_info_id != $billingaddresses->users_info_id)
 		{
 			if ($billingaddresses->is_company == 1)
 			{
@@ -387,7 +387,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
-		if (SHIPPING_METHOD_ENABLE)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$shipping_rate_id = JFactory::getApplication()->input->getString('shipping_rate_id');
 			$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);

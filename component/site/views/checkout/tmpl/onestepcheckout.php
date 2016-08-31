@@ -133,7 +133,7 @@ for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 	}
 }
 
-if (SHIPPING_METHOD_ENABLE)
+if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	if ($users_info_id > 0)
 	{
@@ -191,12 +191,12 @@ $onestep_template_desc = $carthelper->replaceBillingAddress($onestep_template_de
 
 if (strstr($onestep_template_desc, "{shipping_address}"))
 {
-	if (SHIPPING_METHOD_ENABLE)
+	if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 	{
 		$shippingaddresses = $model->shippingaddresses();
 		$shipp             = '';
 
-		if ($billingaddresses && OPTIONAL_SHIPPING_ADDRESS)
+		if ($billingaddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 		{
 			$ship_check = ($users_info_id == $billingaddresses->users_info_id) ? 'checked="checked"' : '';
 			$shipp .= '<div class="radio"><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';

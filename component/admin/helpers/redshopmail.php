@@ -225,7 +225,7 @@ class redshopMail
 		$search_sub[]  = "{order_number}";
 		$replace_sub[] = $row->order_number;
 		$search_sub[]  = "{shopname}";
-		$replace_sub[] = SHOP_NAME;
+		$replace_sub[] = Redshop::getConfig()->get('SHOP_NAME');
 		$search_sub[]  = "{order_date}";
 		$replace_sub[] = $redconfig->convertDateFormat($row->cdate);
 		$subject       = str_replace($search_sub, $replace_sub, $subject);
@@ -355,7 +355,7 @@ class redshopMail
 
 		// Set order paymethod name
 		$search[]       = "{shopname}";
-		$replace[]      = SHOP_NAME;
+		$replace[]      = Redshop::getConfig()->get('SHOP_NAME');
 		$search[]       = "{payment_lbl}";
 		$replace[]      = JText::_('COM_REDSHOP_PAYMENT_METHOD');
 		$search[]       = "{payment_method}";
@@ -568,7 +568,7 @@ class redshopMail
 		$search_sub[]     = "{invoice_number}";
 		$replace_sub[]    = $row->invoice_number;
 		$search_sub[]     = "{shopname}";
-		$replace_sub[]    = SHOP_NAME;
+		$replace_sub[]    = Redshop::getConfig()->get('SHOP_NAME');
 
 		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
@@ -759,7 +759,7 @@ class redshopMail
 		$search[]  = "{email}";
 		$search[]  = '{account_link}';
 
-		$replace[] = SHOP_NAME;
+		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 		$replace[] = $data['firstname'];
 		$replace[] = $data['lastname'];
 		$replace[] = $data['firstname'] . " " . $data['lastname'];
@@ -839,7 +839,7 @@ class redshopMail
 			$search[]  = "{country}";
 			$search[]  = "{phone}";
 			$replace[] = $userinfo['username'];
-			$replace[] = SHOP_NAME;
+			$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 			$replace[] = $userinfo['firstname'] . ' ' . $userinfo['lastname'];
 
 			if ($userinfo['is_company'] == 1)
@@ -925,7 +925,7 @@ class redshopMail
 		$search[]  = "{subscription_price}";
 		$search[]  = "{product_link}";
 
-		$replace[] = SHOP_NAME;
+		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 		$replace[] = $firstname;
 		$replace[] = $lastname;
 		$replace[] = $product->product_name;
@@ -1186,7 +1186,7 @@ class redshopMail
 		$search[]  = "{quotation_note}";
 		$replace[] = $row->quotation_note;
 		$search[]  = "{shopname}";
-		$replace[] = SHOP_NAME;
+		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 		$search[]  = "{quotation_id}";
 		$replace[] = $row->quotation_id;
 		$search[]  = "{quotation_number}";
@@ -1378,7 +1378,7 @@ class redshopMail
 
 			$search[]  = "{shopname}";
 
-			$replace[] = SHOP_NAME;
+			$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 
 			$search[]  = "{link}";
 
@@ -1435,7 +1435,7 @@ class redshopMail
 
 		$search[]  = "{shopname}";
 
-		$replace[] = SHOP_NAME;
+		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 
 		$subject   = str_replace($search, $replace, $subject);
 
@@ -1519,7 +1519,7 @@ class redshopMail
 			$data_add    = str_replace("{user_address}", $address, $data_add);
 			$data_add    = str_replace("{user_telephone}", $telephone, $data_add);
 			$subject     = str_replace("{user_question}", $question, $subject);
-			$subject     = str_replace("{shopname}", SHOP_NAME, $subject);
+			$subject     = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $subject);
 			$subject     = str_replace("{product_name}", $product->product_name, $subject);
 			$data_add = $this->imginmail($data_add);
 

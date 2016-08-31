@@ -13,7 +13,7 @@ $data    = $displayData['data'];
 $params  = $displayData['params'];
 $price   = $data['order']->order_total;
 
-$name        = $params->get('dataName', SHOP_NAME);
+$name        = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
 $description = JText::sprintf('PLG_REDSHOP_PAYMENT_STRIPE_PAYMENT_DESCRIPTION', $data['order_id']);
 ?>
 <script type="text/javascript">

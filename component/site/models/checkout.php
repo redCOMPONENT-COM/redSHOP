@@ -1144,7 +1144,7 @@ class RedshopModelCheckout extends RedshopModel
 		$stockroomhelper->deleteCartAfterEmpty();
 
 		// Economic Integration start for invoice generate and book current invoice
-		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
 			$economic = economic::getInstance();
 
@@ -2179,7 +2179,7 @@ class RedshopModelCheckout extends RedshopModel
 		$shippinPrice        = '';
 		$shippinPriceWithVat = '';
 
-		if (!empty($shipping_rate_id) && SHIPPING_METHOD_ENABLE)
+		if (!empty($shipping_rate_id) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$shippinPriceWithVat = $this->_producthelper->getProductFormattedPrice($cart ['shipping']);
 			$shippinPrice        = $this->_producthelper->getProductFormattedPrice($cart ['shipping'] - $cart['shipping_vat']);

@@ -149,11 +149,11 @@ $googleanalytics = new RedshopHelperGoogleanalytics;
 
 $analytics_status = $order->analytics_status;
 
-if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
+if ($analytics_status == 0 && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
 {
 	$orderTrans                   = array();
 	$orderTrans['order_id']       = $order->order_id;
-	$orderTrans['shopname']       = SHOP_NAME;
+	$orderTrans['shopname']       = Redshop::getConfig()->get('SHOP_NAME');
 	$orderTrans['order_total']    = $order->order_total;
 	$orderTrans['order_tax']      = $order->order_tax;
 	$orderTrans['order_shipping'] = $order->order_shipping;

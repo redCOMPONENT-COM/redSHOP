@@ -167,7 +167,7 @@ class RedshopViewProduct extends RedshopView
 				$pagetitletag = str_replace("{manufacturer}", $this->data->manufacturer_name, $pagetitletag);
 				$pagetitletag = str_replace("{productsku}", $this->data->product_number, $pagetitletag);
 				$pagetitletag = str_replace("{productnumber}", $this->data->product_number, $pagetitletag);
-				$pagetitletag = str_replace("{shopname}", SHOP_NAME, $pagetitletag);
+				$pagetitletag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagetitletag);
 				$pagetitletag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagetitletag);
 				$pagetitletag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagetitletag);
 
@@ -276,7 +276,7 @@ class RedshopViewProduct extends RedshopView
 				$pagekeywordstag = str_replace("{manufacturer}", $this->data->manufacturer_name, $pagekeywordstag);
 				$pagekeywordstag = str_replace("{productsku}", $this->data->product_number, $pagekeywordstag);
 				$pagekeywordstag = str_replace("{productnumber}", $this->data->product_number, $pagekeywordstag);
-				$pagekeywordstag = str_replace("{shopname}", SHOP_NAME, $pagekeywordstag);
+				$pagekeywordstag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagekeywordstag);
 				$pagekeywordstag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagekeywordstag);
 				$pagekeywordstag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagekeywordstag);
 				$pagekeywordstag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagekeywordstag);
@@ -318,7 +318,7 @@ class RedshopViewProduct extends RedshopView
 					}
 					else
 					{
-						$this->document->setMetaData('keywords', $this->data->product_name . ", " . $this->data->category_name . ", " . SHOP_NAME . ", " . $this->data->product_number);
+						$this->document->setMetaData('keywords', $this->data->product_name . ", " . $this->data->category_name . ", " . Redshop::getConfig()->get('SHOP_NAME') . ", " . $this->data->product_number);
 					}
 				}
 			}
@@ -364,7 +364,7 @@ class RedshopViewProduct extends RedshopView
 				$pagedesctag = str_replace("{manufacturer}", $this->data->manufacturer_name, $pagedesctag);
 				$pagedesctag = str_replace("{productsku}", $this->data->product_number, $pagedesctag);
 				$pagedesctag = str_replace("{productnumber}", $this->data->product_number, $pagedesctag);
-				$pagedesctag = str_replace("{shopname}", SHOP_NAME, $pagedesctag);
+				$pagedesctag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagedesctag);
 				$pagedesctag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagedesctag);
 				$pagedesctag = str_replace("{productdesc}", strip_tags($this->data->product_desc), $pagedesctag);
 				$pagedesctag = str_replace("{saleprice}", $prodhelperobj->getProductFormattedPrice($prodhelperobj_array_main['product_price']), $pagedesctag);

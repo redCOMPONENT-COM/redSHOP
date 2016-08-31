@@ -596,7 +596,7 @@ class RedshopSiteUser
 		}
 
 		// Update user info id
-		if (ECONOMIC_INTEGRATION)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
 		{
 			$economic         = economic::getInstance();
 			$original_info_id = $row->users_info_id;
@@ -902,7 +902,7 @@ class RedshopSiteUser
 		{
 			$billingisshipping = "checked='checked'";
 		}
-		elseif (OPTIONAL_SHIPPING_ADDRESS)
+		elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 		{
 			$billingisshipping = "checked='checked'";
 		}
@@ -974,7 +974,7 @@ class RedshopSiteUser
 
 		$template_desc = str_replace("{required_lbl}", JText::_('COM_REDSHOP_REQUIRED'), $template_desc);
 
-		if ($show_shipping && SHIPPING_METHOD_ENABLE)
+		if ($show_shipping && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$template_desc = str_replace("{shipping_same_as_billing_lbl}", JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'), $template_desc);
 			$template_desc = str_replace("{shipping_same_as_billing}", '<input type="checkbox" id="billisship" name="billisship" value="1" onclick="billingIsShipping(this);" ' . $billingisshipping . ' />', $template_desc);
@@ -1064,7 +1064,7 @@ class RedshopSiteUser
 			$template_pd_edata = explode('{retype_email_end}', $template_pd_sdata [1]);
 			$template_middle   = "";
 
-			if (SHOW_EMAIL_VERIFICATION)
+			if (Redshop::getConfig()->get('SHOW_EMAIL_VERIFICATION'))
 			{
 				$template_middle = $template_pd_edata[0];
 				$template_middle = str_replace("{retype_email_lbl}", JText::_('COM_REDSHOP_RETYPE_CUSTOMER_EMAIL'), $template_middle);
@@ -1141,7 +1141,7 @@ class RedshopSiteUser
 			if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
 			{
 				$template_middle = $template_pd_edata[0];
-				$classreq        = (REQUIRED_VAT_NUMBER == 1) ? "required" : "";
+				$classreq        = (Redshop::getConfig()->get('REQUIRED_VAT_NUMBER') == 1) ? "required" : "";
 				$template_middle = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_BUSINESS_NUMBER'), $template_middle);
 				$template_middle = str_replace("{vat_number}", '<input type="text" class="inputbox ' . $classreq . '" name="vat_number" id="vat_number" size="32" maxlength="250" value="' . @$post ["vat_number"] . '" />', $template_middle);
 			}

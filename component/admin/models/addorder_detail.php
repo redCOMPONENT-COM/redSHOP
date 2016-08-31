@@ -751,15 +751,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 		}
 
 		// Economic Integration start for invoice generate and book current invoice
-		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
-			$issplit = 0;
 			$economic = economic::getInstance();
-
-			if (isset($postdata['issplit']) && $postdata['issplit'] == 1)
-			{
-				$issplit = 1;
-			}
 
 			$economicdata['economic_payment_terms_id'] = $postdata['economic_payment_terms_id'];
 			$economicdata['economic_design_layout'] = $postdata['economic_design_layout'];

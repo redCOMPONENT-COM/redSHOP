@@ -384,7 +384,7 @@ if (!class_exists('redcategoryScroller'))
 					$linkimage   = $redhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'));
 				}
 
-				if (CAT_IS_LIGHTBOX)
+				if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
 				{
 					$cat_thumb = "<a class='modal' href='" . $linkimage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
 				}

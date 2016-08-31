@@ -484,7 +484,7 @@ class economic
 			$user_shippinginfo = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 			$orderitem         = $this->_order_functions->getOrderItemDetail($order_id);
 
-			$eco['shop_name']                 = SHOP_NAME;
+			$eco['shop_name']                 = Redshop::getConfig()->get('SHOP_NAME');
 			$eco['economic_payment_terms_id'] = $data['economic_payment_terms_id'];
 			$eco['economic_design_layout']    = $data['economic_design_layout'];
 
@@ -1061,7 +1061,7 @@ class economic
 	{
 		$file = '';
 
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			$orderdetail = $this->_order_functions->getOrderDetails($order_id);
 

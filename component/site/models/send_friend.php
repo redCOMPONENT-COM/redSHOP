@@ -91,7 +91,7 @@ class RedshopModelSend_friend extends RedshopModel
 		$fromname = $config->get('fromname');
 
 		$subject = str_replace("{product_name}", $product->product_name, $subject);
-		$subject = str_replace("{shopname}", SHOP_NAME, $subject);
+		$subject = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $subject);
 
 		if ($email != "")
 		{

@@ -546,7 +546,7 @@ class order_functions
 		if ($affected_rows)
 		{
 			// Economic Integration start for invoice generate and book current invoice
-			if (ECONOMIC_INTEGRATION == 1)
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				$economic = economic::getInstance();
 				$oid = explode(",", $order_id);
@@ -1189,7 +1189,7 @@ class order_functions
 		 * Economic Order Number Only Support (int) value.
 		 * Invoice Number May be varchar or int.
 		 */
-		if (ECONOMIC_INTEGRATION && JPluginHelper::isEnabled('economic'))
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') && JPluginHelper::isEnabled('economic'))
 		{
 			$query = "SELECT order_number FROM #__redshop_orders "
 				. "WHERE order_id = " . (int) $maxId;
@@ -1677,7 +1677,7 @@ class order_functions
 			$maildata = $carthelper->replaceShippingAddress($maildata, $shippingaddresses);
 
 			$search[] = "{shopname}";
-			$replace[] = SHOP_NAME;
+			$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 
 			$search[] = "{fullname}";
 			$replace[] = $userdetail->firstname . " " . $userdetail->lastname;
@@ -1767,7 +1767,7 @@ class order_functions
 	public function createBookInvoice($order_id, $order_status)
 	{
 		// Economic Integration start for invoice generate and book current invoice
-		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && ECONOMIC_INVOICE_DRAFT != 1)
 		{
 			$economic = economic::getInstance();
 

@@ -86,7 +86,7 @@ class RedshopHelperCron
 		{
 			if ($catalog_detail->reminder_1 == 0)
 			{
-				$send_date = date("Y-m-d", $catalog_detail->registerDate + (CATALOG_REMINDER_1 * (60 * 60 * 24)));
+				$send_date = date("Y-m-d", $catalog_detail->registerDate + (Redshop::getConfig()->get('CATALOG_REMINDER_1') * (60 * 60 * 24)));
 
 				if ($fdate == $send_date)
 				{
@@ -127,7 +127,7 @@ class RedshopHelperCron
 
 			if ($catalog_detail->reminder_2 == 0)
 			{
-				$send_date = date("Y-m-d", $catalog_detail->registerDate + (CATALOG_REMINDER_2 * (60 * 60 * 24)));
+				$send_date = date("Y-m-d", $catalog_detail->registerDate + (Redshop::getConfig()->get('CATALOG_REMINDER_2') * (60 * 60 * 24)));
 
 				$better_token = md5(uniqid(mt_rand(), true));
 
@@ -465,7 +465,7 @@ class RedshopHelperCron
 		{
 			if ($color_detail->reminder_1 == 0)
 			{
-				$send_date = $color_detail->registerdate + (COLOUR_SAMPLE_REMAINDER_1 * (60));
+				$send_date = $color_detail->registerdate + (Redshop::getConfig()->get('COLOUR_SAMPLE_REMAINDER_1') * (60));
 
 				if ($today >= $send_date)
 				{
@@ -505,7 +505,7 @@ class RedshopHelperCron
 
 			if ($color_detail->reminder_2 == 0)
 			{
-				$send_date = date("Y-m-d", $color_detail->registerdate + (COLOUR_SAMPLE_REMAINDER_2 * (60 * 60 * 24)));
+				$send_date = date("Y-m-d", $color_detail->registerdate + (Redshop::getConfig()->get('COLOUR_SAMPLE_REMAINDER_2') * (60 * 60 * 24)));
 
 				if ($fdate == $send_date)
 				{
@@ -545,7 +545,7 @@ class RedshopHelperCron
 
 			if ($color_detail->reminder_3 == 0)
 			{
-				$send_date = date("Y-m-d", $color_detail->registerdate + (COLOUR_SAMPLE_REMAINDER_3 * (60 * 60 * 24)));
+				$send_date = date("Y-m-d", $color_detail->registerdate + (Redshop::getConfig()->get('COLOUR_SAMPLE_REMAINDER_3') * (60 * 60 * 24)));
 
 				$better_token = md5(uniqid(mt_rand(), true));
 
@@ -553,7 +553,7 @@ class RedshopHelperCron
 
 				$start_date = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 
-				$end_date = $start_date + (COLOUR_COUPON_DURATION * 23 * 59 * 59);
+				$end_date = $start_date + (Redshop::getConfig()->get('COLOUR_COUPON_DURATION') * 23 * 59 * 59);
 
 				if ($fdate == $send_date)
 				{
@@ -580,7 +580,7 @@ class RedshopHelperCron
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
-					$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
+					$body = str_replace("{days}", Redshop::getConfig()->get('COLOUR_COUPON_DURATION'), $body);
 					$body = str_replace("{discount}", Redshop::getConfig()->get('COLOUR_DISCOUNT_PERCENTAGE'), $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 					$body = $redshopMail->imginmail($body);
@@ -644,7 +644,7 @@ class RedshopHelperCron
 						$recipient = $color_detail->email;
 
 						$body = str_replace("{name}", $color_detail->name, $bodytmp);
-						$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
+						$body = str_replace("{days}", Redshop::getConfig()->get('COLOUR_COUPON_DURATION'), $body);
 						$body = str_replace("{discount}", Redshop::getConfig()->get('COLOUR_DISCOUNT_PERCENTAGE'), $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 						$body = $redshopMail->imginmail($body);

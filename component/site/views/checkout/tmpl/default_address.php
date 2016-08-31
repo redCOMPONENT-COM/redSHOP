@@ -56,7 +56,7 @@ $cart      = $session->get('cart');
 		</div>
 
 		<?php
-		if (SHIPPING_METHOD_ENABLE)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 		?>
 		<div class="col-sm-6">
@@ -67,7 +67,7 @@ $cart      = $session->get('cart');
 
 				<div class="panel-body">
 					<?php
-					if ($billingaddresses && OPTIONAL_SHIPPING_ADDRESS)
+					if ($billingaddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 					{
 						$checked = ((!isset($this->users_info_id) || $this->users_info_id == 0) || $this->users_info_id == $billingaddresses->users_info_id) ? 'checked' : '';    ?>
 
@@ -128,7 +128,7 @@ $cart      = $session->get('cart');
 	</div>
 
 	<?php
-	if (SHIPPING_METHOD_ENABLE && $cart['free_shipping'] != 1)
+	if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE') && $cart['free_shipping'] != 1)
 	{
 		echo $this->loadTemplate('shipping');
 	}

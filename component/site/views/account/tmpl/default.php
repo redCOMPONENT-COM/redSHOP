@@ -81,7 +81,7 @@ $template_desc     = str_replace('{edit_account_link}', $edit_account_link, $tem
 
 $template_desc = $carthelper->replaceNewsletterSubscription($template_desc, 1);
 
-if (SHIPPING_METHOD_ENABLE)
+if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	$shipping_image = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/order.jpg" align="absmiddle">';
 	$update_link    = '<a href="' . $accountshipto_link . '">' . JText::_('COM_REDSHOP_UPDATE_SHIPPING_INFO') . '</a>';
@@ -186,7 +186,7 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 	$coupon_imagelbl = '';
 	$coupon_data     = '';
 
-	if (COUPONINFO)
+	if (Redshop::getConfig()->get('COUPONINFO'))
 	{
 		$coupon_imagelbl = JText::_('COM_REDSHOP_COUPON_INFO');
 		$coupon_image    = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/coupon.jpg" align="absmiddle">';
@@ -233,7 +233,7 @@ if (strpos($template_desc, "{if coupon}") !== false && strpos($template_desc, "{
 	$template_d1 = explode("{if coupon}", $template_desc);
 	$template_d2 = explode("{coupon end if}", $template_d1[1]);
 
-	if (COUPONINFO && count($usercoupons))
+	if (Redshop::getConfig()->get('COUPONINFO') && count($usercoupons))
 	{
 		$template_desc = str_replace("{if coupon}", "", $template_desc);
 		$template_desc = str_replace("{coupon end if}", "", $template_desc);

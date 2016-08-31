@@ -126,7 +126,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (count($cid))
 		{
-			if (ECONOMIC_INTEGRATION == 1)
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				$economic = economic::getInstance();
 
@@ -656,7 +656,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				return false;
 			}
 
-			if (ECONOMIC_INTEGRATION == 1)
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				economic::getInstance()->renewInvoiceInEconomic($orderdata);
 			}
@@ -721,7 +721,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$this->special_discount($tmpArr, true);
 
 			// Economic Integration start for invoice generate
-			if (ECONOMIC_INTEGRATION == 1)
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				economic::getInstance()->renewInvoiceInEconomic($orderdata);
 			}
@@ -955,7 +955,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 		// Economic Integration start for invoice generate
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			economic::getInstance()->renewInvoiceInEconomic($orderdata);
 		}
@@ -1021,7 +1021,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			economic::getInstance()->renewInvoiceInEconomic($orderdata);
 		}
@@ -1064,7 +1064,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					}
 
 					// Economic Integration start for invoice generate
-					if (ECONOMIC_INTEGRATION == 1)
+					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 					{
 						economic::getInstance()->renewInvoiceInEconomic($orderdata);
 					}

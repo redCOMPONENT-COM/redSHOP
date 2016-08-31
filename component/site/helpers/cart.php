@@ -538,11 +538,11 @@ class RedshopSiteCart
 		{
 			$template_sdata = explode('{shipping_address_start}', $data);
 			$template_edata = explode('{shipping_address_end}', $template_sdata[1]);
-			$shippingdata   = (SHIPPING_METHOD_ENABLE) ? $template_edata[0] : '';
+			$shippingdata   = (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) ? $template_edata[0] : '';
 
 			$shipping_extrafield = '';
 
-			if (isset($shippingaddresses) && SHIPPING_METHOD_ENABLE)
+			if (isset($shippingaddresses) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 			{
 				$extra_section = ($shippingaddresses->is_company == 1) ? 15 : 14;
 
@@ -636,7 +636,7 @@ class RedshopSiteCart
 		{
 			$shipadd = '';
 
-			if (isset($shippingaddresses) && SHIPPING_METHOD_ENABLE)
+			if (isset($shippingaddresses) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 			{
 				$shippingLayout = 'cart.shipping';
 
@@ -667,7 +667,7 @@ class RedshopSiteCart
 			$data = str_replace("{shipping_address}", $shipadd, $data);
 		}
 
-		$shippingtext = (SHIPPING_METHOD_ENABLE) ? JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') : '';
+		$shippingtext = (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) ? JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') : '';
 		$data         = str_replace("{shipping_address}", "", $data);
 		$data         = str_replace("{shipping_address_information_lbl}", $shippingtext, $data);
 
@@ -693,7 +693,7 @@ class RedshopSiteCart
 		$search[] = "{vat_shipping}";
 		$search[] = "{order_shipping_shop_location}";
 
-		if (SHIPPING_METHOD_ENABLE)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$details = RedshopShippingRate::decrypt($row->ship_method_id);
 
@@ -1938,7 +1938,7 @@ class RedshopSiteCart
 			$replace[] = JText::_('COM_REDSHOP_PAYMENT_STAUS_LBL');
 		}
 
-		if (SHIPPING_METHOD_ENABLE)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			if (strpos($data, '{shipping_lbl}') !== false)
 			{
@@ -2039,7 +2039,7 @@ class RedshopSiteCart
 			$replace[] = JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL');
 		}
 
-		if (SHIPPING_METHOD_ENABLE)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			if (strpos($data, '{shipping_method_lbl}') !== false)
 			{
@@ -2065,7 +2065,7 @@ class RedshopSiteCart
 		if (strpos($data, '{shopname}') !== false)
 		{
 			$search []  = "{shopname}";
-			$replace [] = SHOP_NAME;
+			$replace [] = Redshop::getConfig()->get('SHOP_NAME');
 		}
 
 		if (strpos($data, '{quotation_id_lbl}') !== false)
@@ -2174,7 +2174,7 @@ class RedshopSiteCart
 		$shippingVat   = 0;
 
 		// If SHOW_SHIPPING_IN_CART set to no, make shipping Zero
-		if (SHOW_SHIPPING_IN_CART && SHIPPING_METHOD_ENABLE)
+		if (SHOW_SHIPPING_IN_CART && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			if (!$user_id)
 			{
@@ -2477,14 +2477,14 @@ class RedshopSiteCart
 
 			if (!$checkout)
 			{
-				if (!SHOW_SHIPPING_IN_CART || !SHIPPING_METHOD_ENABLE)
+				if (!SHOW_SHIPPING_IN_CART || !Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 				{
 					$rep = false;
 				}
 			}
 			else
 			{
-				if (!SHIPPING_METHOD_ENABLE)
+				if (!Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 				{
 					$rep = false;
 				}
@@ -4176,7 +4176,7 @@ class RedshopSiteCart
 					$this->_session->set('cart', $cart);
 				}
 			}
-			elseif (VOUCHERS_ENABLE)
+			elseif (Redshop::getConfig()->get('VOUCHERS_ENABLE'))
 			{
 				$return = $this->voucher();
 			}

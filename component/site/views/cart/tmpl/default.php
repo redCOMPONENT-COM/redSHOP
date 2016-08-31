@@ -68,7 +68,7 @@ $cart_data = str_replace("{print}", $print_tag, $cart_data);
 $cart_data = $carthelper->replaceTemplate($cart, $cart_data, 0);
 $session->set('cart', $cart);
 
-if (strstr($cart_data, '{shipping_calculator}') && SHIPPING_METHOD_ENABLE)
+if (strstr($cart_data, '{shipping_calculator}') && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	if (SHOW_SHIPPING_IN_CART)
 	{
@@ -231,19 +231,19 @@ $coupon_lable = '';
 $confirmMsg = '';
 $radiobttn = '';
 
-if (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 1)
+if (Redshop::getConfig()->get('COUPONS_ENABLE') == 1 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 1)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
 	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
-elseif (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 0)
+elseif (Redshop::getConfig()->get('COUPONS_ENABLE') == 1 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 0)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
 	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
-elseif (COUPONS_ENABLE == 0 && VOUCHERS_ENABLE == 1)
+elseif (Redshop::getConfig()->get('COUPONS_ENABLE') == 0 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 1)
 {
 	$discount_form .= '<input class="inputbox" id="coupon_input" type="text" value="" name="discount_code" size="5">';
 	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
