@@ -851,7 +851,7 @@ class RedshopSiteProduct
 	{
 		$cal_no = 4;
 
-		if (defined('CALCULATION_PRICE_DECIMAL') && Redshop::getConfig()->get('CALCULATION_PRICE_DECIMAL') != "")
+		if (Redshop::getConfig()->get('CALCULATION_PRICE_DECIMAL') != "")
 		{
 			$cal_no = Redshop::getConfig()->get('CALCULATION_PRICE_DECIMAL');
 		}
@@ -5156,12 +5156,12 @@ class RedshopSiteProduct
 					$atth = 50;
 					$attw = 50;
 
-					if (defined('ATTRIBUTE_SCROLLER_THUMB_HEIGHT') && Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'))
+					if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'))
 					{
 						$atth = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT');
 					}
 
-					if (defined('ATTRIBUTE_SCROLLER_THUMB_WIDTH') && Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
+					if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
 					{
 						$attw = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH');
 					}
@@ -5570,12 +5570,12 @@ class RedshopSiteProduct
 				$atth = 50;
 				$attw = 50;
 
-				if (defined('ATTRIBUTE_SCROLLER_THUMB_HEIGHT') && Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'))
+				if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'))
 				{
 					$atth = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT');
 				}
 
-				if (defined('ATTRIBUTE_SCROLLER_THUMB_WIDTH') && Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
+				if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
 				{
 					$attw = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH');
 				}
@@ -8898,10 +8898,12 @@ class RedshopSiteProduct
 
 	public function redunitDecimal($price)
 	{
-		if (defined('UNIT_DECIMAL') && Redshop::getConfig()->get('UNIT_DECIMAL') != "")
+		if (Redshop::getConfig()->get('UNIT_DECIMAL') != "")
+		{
 			return number_format($price, Redshop::getConfig()->get('UNIT_DECIMAL'), '.', '');
-		else
-			return $price;
+		}
+
+		return $price;
 	}
 
 	public function isProductDateRange($userfieldArr, $product_id)
