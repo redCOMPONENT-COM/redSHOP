@@ -770,7 +770,6 @@ class Redconfiguration
 						"DISCOUNT_ENABLE"                              => $d["discount_enable"],
 						"DISCOUNT_TYPE"                                => $d["discount_type"],
 						"INVOICE_MAIL_ENABLE"                          => $d["invoice_mail_enable"],
-						"ENABLE_BACKENDACCESS"                         => $d["enable_backendaccess"],
 						"WISHLIST_LOGIN_REQUIRED"                      => $d["wishlist_login_required"],
 
 						"INVOICE_MAIL_SEND_OPTION"                     => $d["invoice_mail_send_option"],

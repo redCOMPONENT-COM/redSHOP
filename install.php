@@ -578,11 +578,6 @@ class Com_RedshopInstallerScript
 			$cfgarr["DISCOUNT_TYPE"] = 3;
 		}
 
-		if (!defined("ENABLE_BACKENDACCESS"))
-		{
-			$cfgarr["ENABLE_BACKENDACCESS"] = 0;
-		}
-
 		if (!defined("WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"))
 		{
 			$cfgarr["WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"] = 0;

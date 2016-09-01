@@ -41,20 +41,11 @@ $usertype = array_keys($user->groups);
 $user->usertype = $usertype[0];
 $user->gid = $user->groups[$user->usertype];
 
-if (ENABLE_BACKENDACCESS && $user->gid != 8 && !$json_var)
+if (!$user->authorise('core.manage', 'com_redshop') && !$json_var)
 {
-	$access_rslt = new Redaccesslevel;
-	$access_rslt->checkaccessofuser($user->gid);
-}
+	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-if (ENABLE_BACKENDACCESS)
-{
-	if ($user->gid != 8 && $view != '' && !$json_var)
-	{
-		$task = JRequest::getVar('task');
-		$redaccesslevel = new Redaccesslevel;
-		$redaccesslevel->checkgroup_access($view, $task, $user->gid);
-	}
+	return false;
 }
 
 $isWizard = JRequest::getInt('wizard', 0);
@@ -63,14 +54,8 @@ $step     = JRequest::getVar('step', '');
 // Initialize wizard
 if ($isWizard || $step != '')
 {
-	if (ENABLE_BACKENDACCESS)
-	{
-		if ($user->gid != 8)
-		{
-			$redaccesslevel = new Redaccesslevel;
-			$redaccesslevel->checkgroup_access('wizard', '', $user->gid);
-		}
-	}
+	$redaccesslevel = new Redaccesslevel;
+	$redaccesslevel->checkgroup_access('wizard', '', $user->gid);
 
 	JRequest::setVar('view', 'wizard');
 
