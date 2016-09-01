@@ -297,8 +297,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD'); ?></h3>
 				</div>
 				<div class="box-body">
-					<?php if ($this->detail->ship_method_id)
-					{ ?>
+					<?php if ($this->detail->ship_method_id) { ?>
 						<form action="index.php?option=com_redshop" method="post" name="updateshippingrate"
 									  id="updateshippingrate">
 							<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed">
