@@ -594,6 +594,7 @@ class leftmenu
 
 	protected static function setConfigGroup()
 	{
+		$user = JFactory::getUser();
 		$menu = RedshopAdminMenu::getInstance()->init();
 
 		$menu->section('configuration')
@@ -618,7 +619,7 @@ class leftmenu
 				(self::$view == 'update') ? true : false
 			);
 
-		if (ENABLE_BACKENDACCESS)
+		if ($user->authorise('core.manage', 'com_redshop'))
 		{
 			$menu->section('accessmanager')
 				->title('COM_REDSHOP_ACCESS_MANAGER')

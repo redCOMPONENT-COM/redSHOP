@@ -703,7 +703,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['discount_enable']         = JHTML::_('redshopselect.booleanlist', 'discount_enable', 'class="inputbox" ', $this->config->get('DISCOUNT_ENABLE'));
 		$lists['invoice_mail_enable']     = JHTML::_('redshopselect.booleanlist', 'invoice_mail_enable', 'class="inputbox"', $this->config->get('INVOICE_MAIL_ENABLE'));
-		$lists['enable_backendaccess']    = JHTML::_('redshopselect.booleanlist', 'enable_backendaccess', 'class="inputbox"', $this->config->get('ENABLE_BACKENDACCESS'));
 		$lists['wishlist_login_required'] = JHTML::_('redshopselect.booleanlist', 'wishlist_login_required', 'class="inputbox"', $this->config->get('WISHLIST_LOGIN_REQUIRED'));
 
 		$invoice_mail_send_option           = array();
