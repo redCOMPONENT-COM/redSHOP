@@ -354,7 +354,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									</td>
 								</tr>
 							</table>
-							<input type="submit" name="add" id="add" class="btn"
+							<input type="submit" name="add" id="add" class="btn btn-primary"
 								   value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
 							<input type="hidden" name="task" value="update_shippingrates">
 							<input type="hidden" name="user_id" id="user_id"
@@ -1042,7 +1042,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php } ?>
 
 								</td>
-								<td><input type="button" class="btn" name="add" id="add" style="display: none;"
+								<td><input type="button" class="btn btn-primary" name="add" id="add" style="display: none;"
 										   value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
 										   onclick="javascript:submitbutton('add',this.form);"/></td>
 							</tr>
