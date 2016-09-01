@@ -155,10 +155,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<?php echo $lists['filter_payment_status']; ?>
 			</div>
 			<div class="filterItem">
-\				<?php echo $lists['filter_status']; ?>
-			</div>
-			<div class="filterItem">
-				<?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" ", 'COM_REDSHOP_NEW_STATUS'); ?>
+				<?php echo $lists['filter_status']; ?>
 			</div>
 		</div>
 	</div>
@@ -183,7 +180,7 @@ JPluginHelper::importPlugin('redshop_product');
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_EMAIL', 'uf.user_email', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_COMPANY', 'is_company', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CUSTOMER_TYPE', 'is_company', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="15%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
