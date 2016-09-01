@@ -247,7 +247,9 @@ JPluginHelper::importPlugin('redshop_product');
 						<td align="center"><?php echo $row->bookinvoice_number; ?></td>
 					<?php endif; ?>
 					<td>
-						<?php echo $row->firstname . ' ' . $row->lastname; ?>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>">
+							<?php echo $row->firstname . ' ' . $row->lastname; ?>
+						</a>
 					</td>
 					<td>
 						<a href="mailto:<?php echo $row->user_email; ?>" target="_blank">
