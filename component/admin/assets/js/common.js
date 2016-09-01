@@ -1160,7 +1160,6 @@ function validateProductQuantity(nameIndex)
 
 	for (i = 0; i < quantity.length; i++)
 	{
-		console.log(quantity[i].value);
 		if (parseInt(quantity[i].value) <= 0)
 		{
 			alert(Joomla.JText._('COM_REDSHOP_PRODUCT_QUANTITY_MUST_BE_GREATER_THAN_ZERO'));
