@@ -41,16 +41,32 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 		if (pressbutton == 'add') {
 			if (form.product1.value == 0) {
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_PRODUCT');?>");
-				return;
+				return false;
 			}
+
+			if (form.quantityproduct1.value == "" || form.quantityproduct1.value == 0) {
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_QUANTITY'); ?>");
+				return false;
+			}
+
 			submitform('newQuotationItem');
 			return;
 		}
-		if ((pressbutton == 'save') || (pressbutton == 'send') || (pressbutton == 'aplly')) {
+
+		if ((pressbutton == 'save') || (pressbutton == 'send') || (pressbutton == 'apply')) {
+
 			if (form.user_id.value == 0 && form.quotation_email.value == "") {
 				alert('<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT_FOR_QUOTATION');?>');
 				return false;
 			}
+
+			for (var i = 1; i <= qrowCount; i++) {
+				if (document.getElementById('quantityp' + i).value == "" || document.getElementById('quantityp' + i).value == 0) {
+					alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_QUANTITY'); ?>");
+					return false;
+				}
+			}
+
 			if (form.quotation_total.value == 0) {
 				if (!confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_WITH_QUOTATION_TOTAL_ZERO');?>")) {
 					return false;
