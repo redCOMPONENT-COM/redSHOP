@@ -619,16 +619,21 @@ class leftmenu
 				(self::$view == 'update') ? true : false
 			);
 
-		if ($user->authorise('core.manage', 'com_redshop'))
-		{
-			$menu->section('accessmanager')
-				->title('COM_REDSHOP_ACCESS_MANAGER')
+		$menu->section('accessmanager')
+			->title('COM_REDSHOP_ACCESS_MANAGER')
+			->addItem(
+				'index.php?option=com_redshop&view=accessmanager',
+				'COM_REDSHOP_ACCESS_MANAGER',
+				(self::$view == 'accessmanager') ? true : false
+			);
+
+			$menu->section('redshopbackendaccess')
+				->title('COM_REDSHOP_BACKEND_ACCESS_CONFIG')
 				->addItem(
-					'index.php?option=com_redshop&view=accessmanager',
-					'COM_REDSHOP_ACCESS_MANAGER',
-					(self::$view == 'accessmanager') ? true : false
+					'index.php?option=com_config&view=component&component=com_redshop',
+					'COM_REDSHOP_BACKEND_ACCESS_CONFIG',
+					false
 				);
-		}
 
 		$menu->group('CONFIG');
 	}
