@@ -1153,7 +1153,6 @@ function getStateList() {
 	xmlhttp.send(null);
 }
 
-
 function validateProductQuantity(nameIndex)
 {
 	var valid = true;
