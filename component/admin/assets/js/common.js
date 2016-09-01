@@ -1152,3 +1152,22 @@ function getStateList() {
 	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
 }
+
+function validateProductQuantity(nameIndex)
+{
+	var valid = true;
+	var quantity =document.querySelectorAll("input[name*='" + nameIndex + "']");
+
+	for (i = 0; i < quantity.length; i++)
+	{
+		if (parseInt(quantity[i].value) <= 0)
+		{
+			alert(Joomla.JText._('COM_REDSHOP_PRODUCT_QUANTITY_MUST_BE_GREATER_THAN_ZERO'));
+			quantity[i].focus();
+			valid = false;
+			break;
+		}
+	}
+
+	return valid;
+}

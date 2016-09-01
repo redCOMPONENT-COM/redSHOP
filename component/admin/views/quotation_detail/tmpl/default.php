@@ -56,6 +56,10 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 					return false;
 				}
 			}
+			if (validateProductQuantity('quantityp') == false)
+			{
+				return false;
+			}
 		}
 		submitform(pressbutton);
 	}

@@ -102,6 +102,11 @@ Joomla.submitbutton = function (pressbutton)
 			return;
 		}
 
+		if (validateProductQuantity('quantityproduct') == false)
+		{
+			return false;
+		}
+
 		if (validateExtrafield(form) == false)
 		{
 			return false;
