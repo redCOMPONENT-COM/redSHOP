@@ -68,14 +68,6 @@ defined('_JEXEC') or die;
 
 <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_BACKEND_ACCESS_LEVEL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_BACKEND_ACCESS_LEVEL'); ?>">
-		<label for="invoice_mail_send_option"><?php echo JText::_('COM_REDSHOP_BACKEND_ACCESS_LEVEL');?></label>
-	</span>
-	<?php echo $this->lists ['enable_backendaccess'];?>
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
 			  title="<?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_ENCODING'); ?>">
 	<label for="invoice_mail_send_option"><?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL');?></label></span>
 	<?php echo $this->lists ['use_encoding'];?>

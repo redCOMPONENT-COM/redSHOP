@@ -11,7 +11,6 @@ $defaultarray["default_dateformat"] = DEFAULT_DATEFORMAT;
 $defaultarray["country_list"] = COUNTRY_LIST;
 $defaultarray["invoice_mail_enable"] = INVOICE_MAIL_ENABLE;
 $defaultarray["invoice_mail_send_option"] = INVOICE_MAIL_SEND_OPTION;
-$defaultarray["enable_backendaccess"] = ENABLE_BACKENDACCESS;
 $defaultarray["couponinfo"] = COUPONINFO;
 $defaultarray["my_tags"] = MY_TAGS;
 $defaultarray["my_wishlist"] = MY_WISHLIST;
