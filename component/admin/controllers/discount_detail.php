@@ -95,15 +95,15 @@ class RedshopControllerDiscount_detail extends RedshopController
 
 		$msgType = $canSave ? 'message' : 'error';
 
-		if ($apply == 1|| ($apply == 0 && $canSave == false))
+		if ($apply == 1 || ($apply == 0 && $canSave == false))
 		{
 			if (isset($layout) && $layout == 'product')
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id, $msg, $msgType);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg, $msgType);
 			}
 		}
 
