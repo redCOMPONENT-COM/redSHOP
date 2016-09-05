@@ -1822,6 +1822,100 @@ class order_functions
 	}
 
 	/**
+	 * Method for generate Invoice PDF of specific Order
+	 *
+	 * @param  int  $orderId  ID of order.
+	 *
+	 * @return void
+	 */
+	public static function generateInvoicePDF($orderId)
+	{
+		if (!$orderId)
+		{
+			return;
+		}
+
+		$orderFunctions = order_functions::getInstance();
+		$redTemplate     = Redtemplate::getInstance();
+		$pdfObj = RedshopHelperPdf::getInstance();
+
+		$pdfObj->SetTitle('Invoice ' . $orderId);
+
+		// Changed font to support Unicode Characters - Specially Polish Characters
+		$font = 'times';
+		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
+		$pdfObj->setHeaderFont(array($font, '', 8));
+
+		// Set font
+		$pdfObj->SetFont($font, "", 6);
+
+		$orderDetail   = $orderFunctions->getOrderDetails($orderId);
+		$orderTemplate = $redTemplate->getTemplate("order_print");
+
+		if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "")
+		{
+			$message = $orderTemplate[0]->template_desc;
+		}
+		else
+		{
+			$message = '<table style="width: 100%;" border="0" cellpadding="5" cellspacing="0">
+				<tbody><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody>
+				<tr style="background-color: #cccccc;"><th align="left">{order_information_lbl}{print}</th></tr><tr></tr
+				><tr><td>{order_id_lbl} : {order_id}</td></tr><tr><td>{order_number_lbl} : {order_number}</td></tr><tr>
+				<td>{order_date_lbl} : {order_date}</td></tr><tr><td>{order_status_lbl} : {order_status}</td></tr><tr>
+				<td>{shipping_method_lbl} : {shipping_method} : {shipping_rate_name}</td></tr><tr><td>{payment_lbl} : {payment_method}</td>
+				</tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
+				<tbody><tr style="background-color: #cccccc;"><th align="left">{billing_address_information_lbl}</th>
+				</tr><tr></tr><tr><td>{billing_address}</td></tr></tbody></table></td></tr><tr><td colspan="2">
+				<table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody><tr style="background-color: #cccccc;">
+				<th align="left">{shipping_address_info_lbl}</th></tr><tr></tr><tr><td>{shipping_address}</td></tr></tbody>
+				</table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
+				<tbody><tr style="background-color: #cccccc;"><th align="left">{order_detail_lbl}</th></tr><tr></tr><tr><td>
+				<table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody><tr><td>{product_name_lbl}</td><td>{note_lbl}</td>
+				<td>{price_lbl}</td><td>{quantity_lbl}</td><td align="right">Total Price</td></tr>{product_loop_start}<tr>
+				<td><p>{product_name}<br />{product_attribute}{product_accessory}{product_userfields}</p></td>
+				<td>{product_wrapper}{product_thumb_image}</td><td>{product_price}</td><td>{product_quantity}</td>
+				<td align="right">{product_total_price}</td></tr>{product_loop_end}</tbody></table></td></tr><tr>
+				<td></td></tr><tr><td><table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody>
+				<tr align="left"><td align="left"><strong>{order_subtotal_lbl} : </strong></td><td align="right">{order_subtotal}</td>
+				</tr>{if vat}<tr align="left"><td align="left"><strong>{vat_lbl} : </strong></td><td align="right">{order_tax}</td>
+				</tr>{vat end if}{if discount}<tr align="left"><td align="left"><strong>{discount_lbl} : </strong></td>
+				<td align="right">{order_discount}</td></tr>{discount end if}<tr align="left"><td align="left">
+				<strong>{shipping_lbl} : </strong></td><td align="right">{order_shipping}</td></tr><tr align="left">
+				<td colspan="2" align="left"><hr /></td></tr><tr align="left"><td align="left"><strong>{total_lbl} :</strong>
+				</td><td align="right">{order_total}</td></tr><tr align="left"><td colspan="2" align="left"><hr /><br />
+				 <hr /></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>';
+		}
+
+		$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
+			. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='"
+			. JText::_('COM_REDSHOP_PRINT') . "' /></a>";
+
+		$message = str_replace("{print}", $print_tag, $message);
+		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
+		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
+
+		$message = RedshopSiteCart::getInstance()->replaceOrderTemplate($orderDetail, $message, true);
+
+		$pdfObj->AddPage();
+		$pdfObj->writeHTML($message);
+
+		$invoicePdf = 'invoice-' . round(microtime(true) * 1000);
+		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $orderId;
+
+		// Delete currently order invoice
+		if (JFolder::exists($invoiceFolder))
+		{
+			JFolder::delete($invoiceFolder);
+		}
+
+		JFolder::create($invoiceFolder);
+
+		ob_end_clean();
+		$pdfObj->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", "FI");
+	}
+
+	/**
 	 * Create PacSoft Label from Order Status Change functions
 	 *
 	 * @param   integer  $order_id           Order Information ID
