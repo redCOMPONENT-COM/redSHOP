@@ -291,81 +291,87 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 			</div>
 		</div>
 
+		<?php if ($this->detail->ship_method_id) : ?>
 		<div class="col-sm-6">
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD'); ?></h3>
 				</div>
 				<div class="box-body">
-					<?php if ($this->detail->ship_method_id) : ?>
-						<form action="index.php?option=com_redshop" method="post" name="updateshippingrate"
-									  id="updateshippingrate">
-							<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed">
-								<tr>
-									<td align="left">
-										<?php echo JText::_('COM_REDSHOP_SHIPPING_NAME') ?>:
-									</td>
-									<td>
-										<?php  echo $shipping_name = $carthelper->replaceShippingMethod($this->detail, "{shipping_method}"); ?>
-									</td>
-								</tr>
-								<tr>
-									<td align="left">
-										<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
-									</td>
-									<td>
-										<?php  echo $shipping_name = $carthelper->replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS'); ?>:
-									</td>
-									<td>
-										<?php echo $ShippingExtrafields = $producthelper->getPaymentandShippingExtrafields($this->detail, 19); ?>
-									</td>
-								</tr>
-								<tr>
-									<td align="left">
-										<?php echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>:
-									</td>
-									<td>
-										<?php echo $this->loadTemplate('shipping'); ?>
-									</td>
-								</tr>
-								<?php $details = RedshopShippingRate::decrypt($this->detail->ship_method_id);
-								if (count($details) <= 1)
-								{
-									$details = explode("|", $row->ship_method_id);
-								}
-								$disp_style = '';
-								if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
-								{
-									$disp_style = "style=display:none";
-								} ?>
-								<tr>
-									<td align="left">
-										<div
-											id="rs_glslocationId" <?php echo $disp_style?>><?php //echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>
-											<?php
-											echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<input type="submit" name="add" id="add" class="btn btn-primary"
-								   value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
-							<input type="hidden" name="task" value="update_shippingrates">
-							<input type="hidden" name="user_id" id="user_id"
-								   value="<?php echo $this->detail->user_id; ?>">
-							<input type="hidden" name="view" value="order_detail">
-							<input type="hidden" name="return" value="order_detail">
-							<input type="hidden" name="cid[]" value="<?php echo $order_id; ?>">
-						</form>
-					<?php endif; ?>
+					<form action="index.php?option=com_redshop" method="post" name="updateshippingrate"
+								  id="updateshippingrate">
+						<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed">
+							<tr>
+								<td align="left">
+									<?php echo JText::_('COM_REDSHOP_SHIPPING_NAME') ?>:
+								</td>
+								<td>
+									<?php  echo $shipping_name = $carthelper->replaceShippingMethod($this->detail, "{shipping_method}"); ?>
+								</td>
+							</tr>
+							<tr>
+								<td align="left">
+									<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
+								</td>
+								<td>
+									<?php  echo $shipping_name = $carthelper->replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS'); ?>:
+								</td>
+								<td>
+									<?php echo $ShippingExtrafields = $producthelper->getPaymentandShippingExtrafields($this->detail, 19); ?>
+								</td>
+							</tr>
+							<tr>
+								<td align="left">
+									<?php echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>:
+								</td>
+								<td>
+									<?php echo $this->loadTemplate('shipping'); ?>
+								</td>
+							</tr>
+							<?php
+							$details = RedshopShippingRate::decrypt($this->detail->ship_method_id);
+
+							if (count($details) <= 1)
+							{
+								$details = explode("|", $row->ship_method_id);
+							}
+
+							$disp_style = '';
+
+							if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+							{
+								$disp_style = "style=display:none";
+							}
+							?>
+							<tr>
+								<td align="left">
+									<div
+										id="rs_glslocationId" <?php echo $disp_style?>><?php //echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>
+										<?php
+										echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+									</div>
+								</td>
+							</tr>
+						</table>
+						<input type="submit" name="add" id="add" class="btn btn-primary"
+							   value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
+						<input type="hidden" name="task" value="update_shippingrates">
+						<input type="hidden" name="user_id" id="user_id"
+							   value="<?php echo $this->detail->user_id; ?>">
+						<input type="hidden" name="view" value="order_detail">
+						<input type="hidden" name="return" value="order_detail">
+						<input type="hidden" name="cid[]" value="<?php echo $order_id; ?>">
+					</form>
+
 				</div>
 			</div>
 		</div>
+		<?php endif; ?>
 	</div>
 
 	<div class="row">
