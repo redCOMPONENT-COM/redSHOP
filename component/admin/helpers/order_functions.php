@@ -1834,10 +1834,9 @@ class order_functions
 		{
 			return;
 		}
-
-		$orderFunctions = order_functions::getInstance();
-		$redTemplate     = Redtemplate::getInstance();
-		$pdfObj = RedshopHelperPdf::getInstance();
+		$redTemplate = Redtemplate::getInstance();
+		$pdfObj      = RedshopHelperPdf::getInstance();
+		$cartHelper  = RedshopSiteCart::getInstance();
 
 		$pdfObj->SetTitle('Invoice ' . $orderId);
 
@@ -1849,7 +1848,7 @@ class order_functions
 		// Set font
 		$pdfObj->SetFont($font, "", 6);
 
-		$orderDetail   = $orderFunctions->getOrderDetails($orderId);
+		$orderDetail   = self::getOrderDetails($orderId);
 		$orderTemplate = $redTemplate->getTemplate("order_print");
 
 		if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "")
@@ -1895,7 +1894,7 @@ class order_functions
 		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 
-		$message = RedshopSiteCart::getInstance()->replaceOrderTemplate($orderDetail, $message, true);
+		$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
 
 		$pdfObj->AddPage();
 		$pdfObj->writeHTML($message);
