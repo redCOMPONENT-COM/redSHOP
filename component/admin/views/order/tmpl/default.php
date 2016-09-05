@@ -389,7 +389,7 @@ JPluginHelper::importPlugin('redshop_product');
 						<?php echo $config->convertDateFormat($row->cdate); ?>
 					</td>
 					<td>
-						<a href="index.php?option=com_redshop&view=order&task=multiprint_order&cid[]=<?php echo $row->order_id ?>"><i class="fa fa-file-pdf-o"></i></a>
+						<a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 					</td>
 					<td>
 						<?php if ($row->invoice_no != ''): ?>
