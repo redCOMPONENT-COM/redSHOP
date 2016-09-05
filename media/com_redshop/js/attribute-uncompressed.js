@@ -713,7 +713,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
 						}
 					});
 
-					if (jQuery(subCommonName).attr('required') == 'required' && subProperties.length && subProperties == 0) {
+					if (jQuery(subCommonName).attr('required') == 'required' && subProperties.length) {
 						subPropRequiredError += jQuery('#subprop_lbl').html() + " " + unescape(jQuery(subCommonName).attr('subpropName')) + "\n";
 					}
 
