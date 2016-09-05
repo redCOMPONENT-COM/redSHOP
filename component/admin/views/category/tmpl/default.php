@@ -67,6 +67,13 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 		}
 
 	}
+
+	function resetFilter() {
+		document.getElementById('category_main_filter').value = '';
+		document.getElementById('category_template').value = 0;
+		document.getElementById('category_id').value = 0;
+	}
+
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
@@ -77,7 +84,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 						   value="<?php echo $category_main_filter; ?>" onchange="document.adminForm.submit();">
 
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<input type="button" class="btn reset" onclick="document.getElementById('category_main_filter').value='';this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+					<input type="button" class="btn reset" onclick="resetFilter();this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
 				</div>
 			</div>
 			<div class="filterItem">
