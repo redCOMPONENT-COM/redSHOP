@@ -61,6 +61,11 @@ JHTMLBehavior::modal();
 
 		var form = document.adminForm;
 
+		function parseDate(date) {
+		   var parts = date.split("-");
+		   return new Date(parts[2], parts[1] - 1, parts[0]);
+		}
+
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
 			return;
@@ -97,7 +102,7 @@ JHTMLBehavior::modal();
 		} else if (parseFloat(form.discount_price.value) >= parseFloat(form.product_price.value)) {
 			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE_MUST_BE_LESS_THAN_PRICE', true); ?>");
 			return;
-		} else if (new Date(form.discount_stratdate.value) > new Date(form.discount_enddate.value)) {
+		} else if (parseDate(form.discount_stratdate.value) > parseDate(form.discount_enddate.value)) {
 			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
 			return;
 		} else if (parseInt(form.min_order_product_quantity.value) > parseInt(form.max_order_product_quantity.value)) {
