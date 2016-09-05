@@ -26949,6 +26949,7 @@ input.input-large-text {
 
 .editor textarea.mce_editable {
   box-sizing: border-box;
+  width: 600px;
 }
 
 a.grid_false {
