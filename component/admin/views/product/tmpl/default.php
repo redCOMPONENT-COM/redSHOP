@@ -81,7 +81,7 @@ JHtml::_('redshopjquery.framework');
 		</div>
 	</div>
 	<div class="filterItem">
-		<select name="search_field" onchange="javascript:document.adminForm.submit();">
+		<select id="search_field" name="search_field" onchange="javascript:document.adminForm.submit();">
 			<option
 				value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
 				<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
