@@ -1505,6 +1505,10 @@ class Com_RedshopInstallerScript
 				{
 					$overrideFiles[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
 				}
+				else
+				{
+					$overrideFiles[$key] = array_diff(scandir($key), array('.', '..'));
+				}
 			}
 		}
 
