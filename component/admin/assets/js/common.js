@@ -941,6 +941,8 @@ function calculateQuotationTotal() {
 	var q_discount = 0;
 	var q_p_discount = 0,
 		q_p_discount_total = 0;
+	var qrowCount = document.querySelectorAll("[name*='totalpricep']").length;
+
 	for (i = 1; i <= qrowCount; i++) {
 		if (document.getElementById("totalpricep" + i)) {
 			subtotal = parseFloat(subtotal) + parseFloat(document.getElementById("totalpricep" + i).value);
