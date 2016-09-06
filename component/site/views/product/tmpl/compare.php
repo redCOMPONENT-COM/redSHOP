@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.modal');
+
 // Get product helper
 
 $print  = $this->input->getBool('print', false);
