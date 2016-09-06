@@ -294,6 +294,7 @@ class RedshopModelManufacturers extends RedshopModel
 			->select($db->qn('c.category_short_description'))
 			->select($db->qn('c.category_description'))
 			->select($db->qn('c.category_thumb_image'))
+			->select($db->qn('c.category_full_image'))
 			->from($db->qn('#__redshop_product') . ' AS p')
 			->leftJoin($db->qn('#__redshop_product_category_xref') . ' AS pc' . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
 			->leftJoin($db->qn('#__redshop_category') . ' AS c' . ' ON ' . $db->qn('pc.category_id') . ' = ' . $db->qn('c.category_id'))

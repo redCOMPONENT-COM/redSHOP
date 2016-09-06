@@ -82,14 +82,17 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
 			$cart_mdata = str_replace("{category_desc}", $category[$i]->category_description, $cart_mdata);
 			$cart_mdata = str_replace("{category_name}", $category[$i]->category_name, $cart_mdata);
-			$categoryImagePath = REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $category[$i]->category_thumb_image;
-			$categoryImage = "";
+			$thumbUrl = RedShopHelperImages::getImagePath(
+					$category[$i]->category_full_image,
+					'',
+					'thumb',
+					'category',
+					200,
+					200,
+					USE_IMAGE_SIZE_SWAPPING
+				);
 
-			if (is_file($categoryImagePath))
-			{
-				$categoryImage = "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "category/" . $category[$i]->category_thumb_image . "' />";
-			}
-
+			$categoryImage = "<img src='" . $thumbUrl . "' />";
 			$cart_mdata = str_replace("{category_thumb_image}", $categoryImage, $cart_mdata);
 		}
 	}
