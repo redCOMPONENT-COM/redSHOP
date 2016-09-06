@@ -31,7 +31,7 @@ if (!file_exists($configpath))
 	JRequest::setVar('layout', 'noconfig');
 }
 
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 $redhelper->removeShippingRate();
 $json_var = JRequest::getVar('json');
 
@@ -41,46 +41,21 @@ $usertype = array_keys($user->groups);
 $user->usertype = $usertype[0];
 $user->gid = $user->groups[$user->usertype];
 
-if (ENABLE_BACKENDACCESS && $user->gid != 8 && !$json_var)
+if (!$user->authorise('core.manage', 'com_redshop') && !$json_var)
 {
-	$access_rslt = new Redaccesslevel;
-	$access_rslt->checkaccessofuser($user->gid);
-}
+	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-if (ENABLE_BACKENDACCESS)
-{
-	if ($user->gid != 8 && $view != '' && !$json_var)
-	{
-		$task = JRequest::getVar('task');
-		$redaccesslevel = new Redaccesslevel;
-		$redaccesslevel->checkgroup_access($view, $task, $user->gid);
-	}
+	return false;
 }
 
 $isWizard = JRequest::getInt('wizard', 0);
 $step     = JRequest::getVar('step', '');
 
-JHtml::_('behavior.framework');
-JHtml::_('redshopjquery.framework');
-$document = JFactory::getDocument();
-
-if (version_compare(JVERSION, '3.0', '>='))
-{
-	JHtml::_('formbehavior.chosen', 'select:not(".disableBootstrapChosen")', null, array('search_contains' => true));
-	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
-}
-
 // Initialize wizard
 if ($isWizard || $step != '')
 {
-	if (ENABLE_BACKENDACCESS)
-	{
-		if ($user->gid != 8)
-		{
-			$redaccesslevel = new Redaccesslevel;
-			$redaccesslevel->checkgroup_access('wizard', '', $user->gid);
-		}
-	}
+	$redaccesslevel = new Redaccesslevel;
+	$redaccesslevel->checkgroup_access('wizard', '', $user->gid);
 
 	JRequest::setVar('view', 'wizard');
 
@@ -140,47 +115,6 @@ RedshopHelperConfig::script('THOUSAND_SEPERATOR', THOUSAND_SEPERATOR);
 RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', VAT_RATE_AFTER_DISCOUNT);
 JText::script('COM_REDSHOP_IS_REQUIRED');
 
-$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
-$format = $app->input->get('format', 'html');
-
-if ($view != "search" && $view != "order_detail" && $view != "wizard" && $task != "getcurrencylist"
-	&& $layout != "thumbs" && $view != "catalog_detail" && $task != "clearsef" && $task != "removesubpropertyImage"
-	&& $task != "removepropertyImage" && $view != "product_price" && $task != "template" && $json_var == ''
-	&& $task != 'gbasedownload' && $task != "export_data" && $showbuttons != "1" && $showall != 1
-	&& $view != "product_attribute_price" && $task != "ins_product" && $view != "shipping_rate_detail"
-	&& $view != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $view != "update"
-	&& $format == 'html')
-{
-	echo '<div id="redSHOPAdminContainer" class="redSHOPAdminView isJ30' . ucfirst($view) . '">';
-
-	if ($view != "redshop" && $view != "configuration" && $view != "product_detail"
-		&& $view != "country_detail" && $view != "state_detail" && $view != "category_detail"
-		&& $view != "fields_detail" && $view != "stockroom_detail"
-		&& $view != "shipping_detail" && $view != "user_detail" && $view != "template_detail"
-		&& $view != "voucher_detail" && $view != "textlibrary_detail" && $view != "manufacturer_detail"
-		&& $view != "rating_detail" && $view != "newslettersubscr_detail" && $view != "discount_detail"
-		&& $view != "mail_detail" && $view != "newsletter_detail" && $view != "media_detail"
-		&& $view != "shopper_group_detail" && $view != "sample_detail" && $view != "attributeprices"
-		&& $view != "attributeprices_detail" && $view != "prices_detail" && $view != "wrapper_detail"
-		&& $view != "tax_group_detail" && $view != "addorder_detail" && $view != "tax_detail"
-		&& $view != "coupon_detail" && $view != "giftcard" && $view != "attribute_set_detail"
-		&& $view != 'shipping_box_detail' && $view != 'quotation_detail'
-		&& $view != 'question_detail' && $view != 'answer_detail'
-		&& $view != 'xmlimport_detail' && $view != 'addquotation_detail'
-		&& $view != 'xmlexport_detail' && $task != 'element'  && $view != 'stockimage_detail'
-		&& $view != 'mass_discount_detail' && $view != 'supplier_detail'
-		&& $view != 'orderstatus_detail'
-		&& 'component' != $app->input->get('tmpl'))
-	{
-		echo '<div id="j-sidebar-container" class="span2">';
-		echo leftmenu::render();
-		echo '</div>';
-
-		// Set div for listing body
-		echo '<div id="j-main-container" class="span10">';
-	}
-}
-
 // Execute the task.
 $controller = JControllerLegacy::getInstance('Redshop');
 
@@ -195,6 +129,3 @@ else
 
 $controller->execute($task);
 $controller->redirect();
-
-// End div here
-echo '</div></div>';

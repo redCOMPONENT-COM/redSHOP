@@ -206,7 +206,7 @@ class plgSearchRedshop_products extends JPlugin
 		}
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper               = RedshopSiteUser::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$whereaclProduct = "";
@@ -231,7 +231,7 @@ class plgSearchRedshop_products extends JPlugin
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 		$return    = array();
 
 		foreach ($rows as $key => $row)

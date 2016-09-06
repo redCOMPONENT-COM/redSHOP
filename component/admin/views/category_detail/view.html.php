@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.view');
 
 
-class RedshopViewCategory_detail extends RedshopView
+class RedshopViewCategory_detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -20,6 +20,13 @@ class RedshopViewCategory_detail extends RedshopView
 	 * @var  string
 	 */
 	public $request_url;
+
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
 	public function display($tpl = null)
 	{
@@ -50,7 +57,7 @@ class RedshopViewCategory_detail extends RedshopView
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
-			$objhelper = redhelper::getInstance();
+			$objhelper = RedshopSiteHelper::getInstance();
 			$itemId    = (int) $objhelper->getCategoryItemid($this->detail->category_id);
 
 			$link  = JURI::root() . 'index.php?option=com_redshop'
@@ -158,7 +165,47 @@ class RedshopViewCategory_detail extends RedshopView
 
 		$this->lists['categroy_accessory_product'] = $categoryAccessoryProduct;
 		$this->extraFields	= $model->getExtraFields($this->detail);
+		$this->tabmenu = $this->getTabMenu();
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Tab Menu
+	 *
+	 * @return  object  Tab menu
+	 *
+	 * @since   1.7
+	 */
+	private function getTabMenu()
+	{
+		$app = JFactory::getApplication();
+
+		$tabMenu = RedshopAdminMenu::getInstance()->init();
+		$tabMenu->section('tab')
+					->title('COM_REDSHOP_CATEGORY_INFORMATION')
+					->addItem(
+						'#information',
+						'COM_REDSHOP_CATEGORY_INFORMATION',
+						true,
+						'information'
+					)->addItem(
+						'#seo',
+						'COM_REDSHOP_META_DATA_TAB',
+						false,
+						'seo'
+					)->addItem(
+						'#extrafield',
+						'COM_REDSHOP_FIELDS',
+						false,
+						'extrafield'
+					)->addItem(
+						'#accessory',
+						'COM_REDSHOP_ACCESSORY_PRODUCT',
+						false,
+						'accessory'
+					);
+
+		return $tabMenu;
 	}
 }

@@ -42,16 +42,18 @@ $model = $this->getModel('quotation');
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>" method="post"
       name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>" type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>" />
-				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<button class="btn"
-						onclick="document.getElementById('filter').value='';document.getElementById('filter_status').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+					<input placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>" type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>" />
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="document.getElementById('filter').value='';document.getElementById('filter_status').value='0';this.form.submit();">
+				</div>
 			</div>
-		</div>
-		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS') . ": " . $lists['filter_status']; ?>
+			<div class="filterItem">
+				<?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS') . ": " . $lists['filter_status']; ?>
+			</div>
 		</div>
 		<table class="adminlist table table-striped">
 			<thead>

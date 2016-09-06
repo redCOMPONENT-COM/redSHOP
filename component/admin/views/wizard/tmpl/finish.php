@@ -11,7 +11,7 @@ $params = JRequest::getVar('params');
 ?>
 <div>
 	<form action="?option=com_redshop" method="POST" name="installform" id="installform">
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td>
 					<div class="wizard_intro_text"><?php echo JText::_('COM_REDSHOP_FINISH_WIZARD_INTRO_TEXT');?></div>

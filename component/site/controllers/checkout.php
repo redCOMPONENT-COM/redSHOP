@@ -89,7 +89,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		$Itemid        = JRequest::getInt('Itemid');
 		$users_info_id = JRequest::getInt('users_info_id');
-		$helper        = redhelper::getInstance();
+		$helper        = RedshopSiteHelper::getInstance();
 		$chk           = $this->chkvalidation($users_info_id);
 
 		if (!empty($chk))
@@ -369,6 +369,8 @@ class RedshopControllerCheckout extends RedshopController
 		$model      = $this->getModel('checkout');
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
+		$user       = JFactory::getUser();
+		$producthelper   = RedshopSiteProduct::getInstance();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -472,8 +474,21 @@ class RedshopControllerCheckout extends RedshopController
 
 			if ($order_id)
 			{
+				$billingaddresses  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
+
 				JPluginHelper::importPlugin('redshop_product');
+				JPluginHelper::importPlugin('redshop_alert');
 				$data = $dispatcher->trigger('getStockroomStatus', array($order_id));
+
+				$labelClass = '';
+
+				if ($orderresult->order_payment_status == 'Paid')
+				{
+					$labelClass = 'label-success';
+				}
+
+				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
+				$dispatcher->trigger('storeAlert', array($message));
 
 				$model->resetcart();
 
@@ -567,7 +582,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$producthelper   = RedshopSiteProduct::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
-		$carthelper      = rsCarthelper::getInstance();
+		$carthelper      = RedshopSiteCart::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		$model   = $this->getModel('checkout');
@@ -661,7 +676,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app        = JFactory::getApplication();
 		$cart       = JFactory::getSession()->get('cart');
-		$carthelper = rsCarthelper::getInstance();
+		$carthelper = RedshopSiteCart::getInstance();
 
 		$creditcard = "";
 
@@ -680,22 +695,6 @@ class RedshopControllerCheckout extends RedshopController
 		ob_clean();
 		echo $creditcard;
 		die();
-	}
-
-	/**
-	 * Captcha
-	 *
-	 * @return void
-	 */
-	public function captcha()
-	{
-		$app         = JFactory::getApplication();
-		$width       = $app->input->getInt('width', 120);
-		$height      = $app->input->getInt('height', 40);
-		$characters  = $app->input->getInt('characters', 6);
-		$captchaname = $app->input->getCmd('captcha', 'security_code');
-
-		$captcha = new RedshopSiteCaptcha($width, $height, $characters, $captchaname);
 	}
 
 	/**
@@ -733,7 +732,7 @@ class RedshopControllerCheckout extends RedshopController
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
 
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$extrafield_total = "";
 
 		if (count($extrafield_shipping) > 0)

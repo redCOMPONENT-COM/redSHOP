@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 
-$carthelper = rsCarthelper::getInstance();
+$carthelper = RedshopSiteCart::getInstance();
 $redconfig = Redconfiguration::getInstance();
 $configobj = Redconfiguration::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper = RedshopSiteHelper::getInstance();
 
 $db = JFactory::getDbo();
 $url = JURI::base();
@@ -32,25 +32,16 @@ $order = $this->OrdersDetail;
 if ($this->params->get('show_page_title', 1))
 {
 ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+	<h1 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
-	</div>
+	</h1>
 <?php
 }
 
-if (!ONESTEP_CHECKOUT_ENABLE):
-?>
-	<hr/>
-	<table width="100%" border="0" cellspacing="2" cellpadding="2">
-		<tr>
-			<td width="33%" class="checkout-bar-1"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></td>
-			<td width="33%" class="checkout-bar-2"><?php echo JText::_('COM_REDSHOP_PAYMENT'); ?></td>
-			<td width="33%" class="checkout-bar-3-active"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></td>
-		</tr>
-	</table>
-	<hr/>
-	<?php endif; ?>
-<?php
+if (!ONESTEP_CHECKOUT_ENABLE)
+{
+	echo JLayoutHelper::render('cart.wizard', array('step' => '3'));
+}
 
 if (USE_AS_CATALOG)
 {

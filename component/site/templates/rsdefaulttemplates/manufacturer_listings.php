@@ -2,8 +2,9 @@
 <div id="category_header">
 	<div class="category_order_by">{order_by}</div>
 </div>
-<div class="manufacturer_box_wrapper">{manufacturer_loop_start}
-	<div class="manufacturer_box_outside">
+<div class="manufacturer_box_wrapper row">
+	{manufacturer_loop_start}
+	<div class="manufacturer_box_outside col-sm-4">
 		<div class="manufacturer_box_inside">
 			<div class="manufacturer_image">{manufacturer_image}</div>
 			<div class="manufacturer_title">

@@ -11,13 +11,21 @@ defined('_JEXEC') or die;
 
 class leftmenu
 {
-	public static function render()
+	protected static $view = NULL;
+
+	protected static $layout = NULL;
+
+	public static function render($disableMenu = false)
 	{
+		self::$view = JFactory::getApplication()->input->getCmd('view');
+		self::$layout = JFactory::getApplication()->input->getCmd('layout', '');
+
 		$menu = RedshopAdminMenu::getInstance();
+
+		$menu->disableMenu = $disableMenu;
 
 		$active = self::getActive();
 
-		self::setConfigGroup();
 		self::setProductGroup();
 		self::setOrderGroup();
 		self::setDiscountGroup();
@@ -30,37 +38,50 @@ class leftmenu
 		self::setCustomerInputGroup();
 		self::setAccountGroup();
 		self::setStatisticsGroup();
+		self::setConfigGroup();
 
-		return JLayoutHelper::render('menu.main', array('items' => $menu->items, 'active' => $active));
+		if ($disableMenu)
+		{
+			return $menu->items;
+		}
+		else
+		{
+			return JLayoutHelper::render('component.full.sidebar.menu', array('items' => $menu->items, 'active' => $active));
+		}
 	}
 
 	protected static function getActive()
 	{
-		$view = JFactory::getApplication()->input->getCmd('view');
+		$activeGroup = '';
+		$activeItem = '';
 
-		$active = '';
-
-		switch ($view)
+		switch (self::$view)
 		{
 			case "product":
 			case "product_detail":
 			case "prices":
 			case "mass_discount_detail":
 			case "mass_discount":
-				$active = 'product';
+				$activeItem = "product";
+				$activeGroup = "PRODUCT_MANAGEMENT";
 				break;
 
 			case "category":
-				$active = 'category';
+			case "category_detail":
+				$activeItem = "category";
+				$activeGroup = "PRODUCT_MANAGEMENT";
 				break;
 
 			case "manufacturer":
 			case "manufacturer_detail":
-				$active = 'manufacturer';
+				$activeItem = "manufacturer";
+				$activeGroup = "PRODUCT_MANAGEMENT";
 				break;
 
 			case "media":
-				$active = 'media';
+			case 'media_detail':
+				$activeItem = "media";
+				$activeGroup = "PRODUCT_MANAGEMENT";
 				break;
 
 			case "order":
@@ -70,180 +91,224 @@ class leftmenu
 			case "orderstatus_detail":
 			case "opsearch":
 			case "barcode":
-
-				$active = 'order';
+				$activeItem = "order";
+				$activeGroup = "ORDER";
 				break;
 
 			case "quotation":
-			case "quotation_detail":
-				$active = 'quotation';
+			case "addquotation_detail":
+				$activeItem = "quotation";
+				$activeGroup = "ORDER";
 				break;
 
 			case "stockroom":
 			case "stockroom_listing":
 			case "stockimage":
-				$active = 'stockroom';
+				$activeItem = "stockroom";
+				$activeGroup = "ORDER";
 				break;
 
 			case "supplier":
 			case "supplier_detail":
-				$active = 'supplier';
+				$activeItem = "supplier";
+				$activeGroup = "ORDER";
 				break;
 
 			case "discount":
-				$active = 'discount';
+			case "discount_detail":
+				$activeItem = "discount";
+				$activeGroup = "DISCOUNT";
 				break;
 
 			case "giftcards":
 			case "giftcard":
-				$active = 'giftcards';
+				$activeItem = "giftcards";
+				$activeGroup = "DISCOUNT";
 				break;
 
 			case "voucher":
-				$active = 'voucher';
+			case "voucher_detail":
+				$activeItem = "voucher";
+				$activeGroup = "DISCOUNT";
 				break;
 
 			case "coupon":
 			case "coupon_detail":
-				$active = 'coupon';
+				$activeItem = "coupon";
+				$activeGroup = "DISCOUNT";
 				break;
 
 			case "mail":
-				$active = 'mail';
+			case "mail_detail":
+				$activeItem = "mail";
+				$activeGroup = "COMMUNICATION";
 				break;
 
 			case "newsletter":
+			case "newsletter_detail":
 			case "newslettersubscr":
-				$active = 'newsletter';
+			case 'newslettersubscr_detail':
+				$activeItem = "newsletter";
+				$activeGroup = "COMMUNICATION";
 				break;
 
 			case "shipping":
+			case "shipping_detail":
 			case "shipping_rate":
-				$active = 'shipping';
+				$activeItem = "shipping_method";
+				$activeGroup = "SHIPPING";
 				break;
 
 			case "shipping_box":
-				$active = 'shipping_box';
-				break;
-
-			case "shipping_detail":
-				$active = 'shipping_detail';
+			case "shipping_box_detail":
+				$activeItem = "shipping_box";
+				$activeGroup = "SHIPPING";
 				break;
 
 			case "wrapper":
-				$active = 'wrapper';
+			case "wrapper_detail":
+				$activeItem = "wrapper";
+				$activeGroup = "SHIPPING";
 				break;
 
 			case "user":
+			case 'user_detail':
 			case "shopper_group":
-				$active = 'user';
+			case "shopper_group_detail":
+				$activeItem = "user";
+				$activeGroup = "USER";
 				break;
 
 			case "accessmanager":
 			case 'accessmanager_detail':
-				$active = 'accessmanager';
+				$activeItem = "accessmanager";
+				$activeGroup = "USER";
 				break;
 
 			case "tax_group":
 			case "tax_group_detail":
 			case "tax":
-				$active = 'tax_group';
+				$activeItem = "tax";
+				$activeGroup = "VAT_AND_CURRENCY";
 				break;
 
 			case "currency":
 			case "currency_detail":
-				$active = 'currency';
+				$activeItem = "currency";
+				$activeGroup = "VAT_AND_CURRENCY";
 				break;
 
 			case "country":
 			case "country_detail":
-				$active = 'country';
+				$activeItem = "country";
+				$activeGroup = "VAT_AND_CURRENCY";
 				break;
 
 			case "state":
 			case "state_detail":
-				$active = 'state';
+				$activeItem = "state";
+				$activeGroup = "VAT_AND_CURRENCY";
 				break;
 
 			case "zipcode":
 			case "zipcode_detail":
-				$active = 'zipcode';
+				$activeItem = "zipcode";
+				$activeGroup = "VAT_AND_CURRENCY";
 				break;
 
 			case "importexport":
 			case "import":
 			case "export":
 			case "vmimport":
-				$active = 'importexport';
+				$activeItem = "importexport";
+				$activeGroup = "IMPORT_EXPORT";
 				break;
 
 			case "xmlimport":
 			case "xmlexport":
-				$active = 'xmlimport';
+				$activeItem = "xmlimportexport";
+				$activeGroup = "IMPORT_EXPORT";
 				break;
 
 			case "fields":
+			case "fields_detail":
 			case "addressfields_listing":
-				$active = 'fields';
+				$activeItem = "fields";
+				$activeGroup = "CUSTOMIZATION";
 				break;
 
 			case "template":
-				$active = 'template';
+			case "template_detail":
+				$activeItem = "template";
+				$activeGroup = "CUSTOMIZATION";
 				break;
 
 			case "textlibrary":
-				$active = 'textlibrary';
+			case "textlibrary_detail":
+				$activeItem = "textlibrary";
+				$activeGroup = "CUSTOMIZATION";
 				break;
 
 			case "catalog":
 			case "catalog_request":
-				$active = 'catalog';
+				$activeItem = "catalog";
+				$activeGroup = "CUSTOMIZATION";
 				break;
 
 			case "sample":
 			case "sample_request":
-				$active = 'sample';
+				$activeItem = "sample";
+				$activeGroup = "CUSTOMIZATION";
 				break;
 
 			case "producttags":
 			case "producttags_detail":
-				$active = 'producttags';
+				$activeItem = "producttags";
+				$activeGroup = "CUSTOMIZATION";
 				break;
 
 			case "attribute_set":
 			case "attribute_set_detail":
-				$active = 'attribute_set';
+				$activeItem = "attribute_set";
+				$activeGroup = "CUSTOMIZATION";
 				break;
 
 			case "question":
 			case "question_detail":
-				$active = 'question';
+				$activeItem = "question";
+				$activeGroup = "CUSTOMER_INPUT";
 				break;
 
 			case "rating":
-				$active = 'rating';
+			case "rating_detail":
+				$activeItem = "rating";
+				$activeGroup = "CUSTOMER_INPUT";
 				break;
 
 			case "accountgroup":
 			case "accountgroup_detail":
-				$active = 'accountgroup';
+				$activeItem = "accountgroup";
+				$activeGroup = "ACCOUNTING";
 				break;
 
 			case "statistic":
-				$active = 'statistic';
+				$activeItem = "statistic";
+				$activeGroup = "STATISTIC";
 				break;
 
 			case "configuration":
 			case 'update':
-				$active = 'configuration';
+				$activeItem = "configuration";
+				$activeGroup = "CONFIG";
 				break;
 
 			default:
-				$active = '';
+				$activeItem = '';
+				$activeGroup = '';
 				break;
 		}
 
-		return $active;
+		return array($activeGroup, $activeItem);
 	}
 
 	protected static function setProductGroup()
@@ -255,7 +320,7 @@ class leftmenu
 		self::setManufacturer();
 		self::setMedia();
 
-		$menu->group('COM_REDSHOP_PRODUCT_MANAGEMENT');
+		$menu->group('PRODUCT_MANAGEMENT');
 	}
 
 	protected static function setOrderGroup()
@@ -267,7 +332,7 @@ class leftmenu
 		self::setStockroom();
 		self::setSupplier();
 
-		$menu->group('COM_REDSHOP_ORDER');
+		$menu->group('ORDER');
 	}
 
 	protected static function setDiscountGroup()
@@ -279,7 +344,7 @@ class leftmenu
 		self::setVoucher();
 		self::setCoupon();
 
-		$menu->group('COM_REDSHOP_DISCOUNT');
+		$menu->group('DISCOUNT');
 	}
 
 	protected static function setCommunicationGroup()
@@ -289,7 +354,7 @@ class leftmenu
 		self::setMail();
 		self::setNewsLetter();
 
-		$menu->group('COM_REDSHOP_COMMUNICATION');
+		$menu->group('COMMUNICATION');
 	}
 
 	protected static function setShippingGroup()
@@ -300,7 +365,7 @@ class leftmenu
 		self::setShippingBox();
 		self::setWrapper();
 
-		$menu->group('COM_REDSHOP_SHIPPING');
+		$menu->group('SHIPPING');
 	}
 
 	protected static function setUserGroup()
@@ -311,11 +376,13 @@ class leftmenu
 			->title('COM_REDSHOP_USER')
 			->addItem(
 				'index.php?option=com_redshop&view=user',
-				'COM_REDSHOP_USER_LISTING'
+				'COM_REDSHOP_USER_LISTING',
+				(self::$view == 'user') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=user_detail',
-				'COM_REDSHOP_ADD_USER'
+				'COM_REDSHOP_ADD_USER',
+				(self::$view == 'user_detail') ? true : false
 			)
 			->addItem(
 				'javascript:userSync();',
@@ -323,22 +390,14 @@ class leftmenu
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=shopper_group',
-				'COM_REDSHOP_SHOPPER_GROUP_LISTING'
+				'COM_REDSHOP_SHOPPER_GROUP_LISTING',
+				(self::$view == 'shopper_group') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=shopper_group_detail',
-				'COM_REDSHOP_ADD_SHOPPER_GROUP'
+				'COM_REDSHOP_ADD_SHOPPER_GROUP',
+				(self::$view == 'shopper_group_detail') ? true : false
 			);
-
-		if (ENABLE_BACKENDACCESS)
-		{
-			$menu->section('accessmanager')
-				->title('COM_REDSHOP_ACCESS_MANAGER')
-				->addItem(
-					'index.php?option=com_redshop&view=accessmanager',
-					'COM_REDSHOP_ACCESS_MANAGER'
-				);
-		}
 
 		JFactory::getDocument()->addScriptDeclaration('
 			function userSync() {
@@ -347,7 +406,7 @@ class leftmenu
 			}
 		');
 
-		$menu->group('COM_REDSHOP_USER');
+		$menu->group('USER');
 	}
 
 	protected static function setVatGroup()
@@ -360,7 +419,7 @@ class leftmenu
 		self::setState();
 		self::setZipcode();
 
-		$menu->group('COM_REDSHOP_VAT_AND_CURRENCY');
+		$menu->group('VAT_AND_CURRENCY');
 	}
 
 	protected static function setIEGroup()
@@ -371,11 +430,13 @@ class leftmenu
 			->title('COM_REDSHOP_IMPORT_EXPORT')
 			->addItem(
 				'index.php?option=com_redshop&view=import',
-				'COM_REDSHOP_DATA_IMPORT'
+				'COM_REDSHOP_DATA_IMPORT',
+				(self::$view == 'import') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=export',
-				'COM_REDSHOP_DATA_EXPORT'
+				'COM_REDSHOP_DATA_EXPORT',
+				(self::$view == 'export') ? true : false
 			)
 			->addItem(
 				'javascript:vmImport();',
@@ -386,11 +447,13 @@ class leftmenu
 			->title('COM_REDSHOP_XML_IMPORT_EXPORT')
 			->addItem(
 				'index.php?option=com_redshop&view=xmlimport',
-				'COM_REDSHOP_XML_IMPORT'
+				'COM_REDSHOP_XML_IMPORT',
+				(self::$view == 'xmlimport') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=xmlexport',
-				'COM_REDSHOP_XML_EXPORT'
+				'COM_REDSHOP_XML_EXPORT',
+				(self::$view == 'xmlexport') ? true : false
 			);
 
 		JFactory::getDocument()->addScriptDeclaration('
@@ -400,7 +463,7 @@ class leftmenu
 			}
 		');
 
-		$menu->group('COM_REDSHOP_IMPORT_EXPORT');
+		$menu->group('IMPORT_EXPORT');
 	}
 
 	protected static function setCustomisationGroup()
@@ -415,7 +478,7 @@ class leftmenu
 		self::setCustomerTags();
 		self::setAttributeBank();
 
-		$menu->group('COM_REDSHOP_CUSTOMIZATION');
+		$menu->group('CUSTOMIZATION');
 	}
 
 	protected static function setCustomerInputGroup()
@@ -424,19 +487,21 @@ class leftmenu
 
 		$menu->section('question')
 			->title('COM_REDSHOP_QUESTION')
-			 ->addItem(
-					'index.php?option=com_redshop&view=question',
-					'COM_REDSHOP_QUESTION_LISTING'
-				);
+			->addItem(
+				'index.php?option=com_redshop&view=question',
+				'COM_REDSHOP_QUESTION_LISTING',
+				(self::$view == 'question') ? true : false
+			);
 
 		$menu->section('rating')
 			->title('COM_REDSHOP_REVIEW')
 			->addItem(
 				'index.php?option=com_redshop&view=rating',
-				'COM_REDSHOP_RATING_REVIEW'
+				'COM_REDSHOP_RATING_REVIEW',
+				(self::$view == 'rating') ? true : false
 			);
 
-		$menu->group('COM_REDSHOP_CUSTOMER_INPUT');
+		$menu->group('CUSTOMER_INPUT');
 	}
 
 	protected static function setAccountGroup()
@@ -449,14 +514,16 @@ class leftmenu
 				->title('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP')
 				->addItem(
 					'index.php?option=com_redshop&view=accountgroup',
-					'COM_REDSHOP_ACCOUNTGROUP_LISTING'
+					'COM_REDSHOP_ACCOUNTGROUP_LISTING',
+					(self::$view == 'accountgroup') ? true : false
 				)
 				->addItem(
 					'index.php?option=com_redshop&view=accountgroup_detail',
-					'COM_REDSHOP_ADD_ACCOUNTGROUP'
+					'COM_REDSHOP_ADD_ACCOUNTGROUP',
+					(self::$view == 'accountgroup_detail') ? true : false
 				);
 
-			$menu->group('COM_REDSHOP_ACCOUNTING');
+			$menu->group('ACCOUNTING');
 		}
 	}
 
@@ -468,61 +535,74 @@ class leftmenu
 			->title('COM_REDSHOP_STATISTIC')
 			->addItem(
 				'index.php?option=com_redshop&view=statistic',
-				'COM_REDSHOP_TOTAL_VISITORS'
+				'COM_REDSHOP_TOTAL_VISITORS',
+				(self::$view == 'statistic' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=pageview',
-				'COM_REDSHOP_TOTAL_PAGEVIEWERS'
+				'COM_REDSHOP_TOTAL_PAGEVIEWERS',
+				(self::$view == 'statistic' && self::$layout == 'pageview') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=turnover',
-				'COM_REDSHOP_TOTAL_TURNOVER'
+				'COM_REDSHOP_TOTAL_TURNOVER',
+				(self::$view == 'statistic' && self::$layout == 'turnover') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=avrgorder',
-				'COM_REDSHOP_AVG_ORDER_AMOUNT_CUSTOMER'
+				'COM_REDSHOP_AVG_ORDER_AMOUNT_CUSTOMER',
+				(self::$view == 'statistic' && self::$layout == 'avrgorder') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=amountorder',
-				'COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_ORDER'
+				'COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_ORDER',
+				(self::$view == 'statistic' && self::$layout == 'amountorder') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=amountprice',
-				'COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_PRICE_PER_ORDER'
+				'COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_PRICE_PER_ORDER',
+				(self::$view == 'statistic' && self::$layout == 'amountprice') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=amountspent',
-				'COM_REDSHOP_TOP_CUSTOMER_AMOUNT_SPENT_IN_TOTAL'
+				'COM_REDSHOP_TOP_CUSTOMER_AMOUNT_SPENT_IN_TOTAL',
+				(self::$view == 'statistic' && self::$layout == 'amountspent') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=bestsell',
-				'COM_REDSHOP_BEST_SELLERS'
+				'COM_REDSHOP_BEST_SELLERS',
+				(self::$view == 'statistic' && self::$layout == 'bestsell') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=popularsell',
-				'COM_REDSHOP_MOST_VISITED_PRODUCTS'
+				'COM_REDSHOP_MOST_VISITED_PRODUCTS',
+				(self::$view == 'statistic' && self::$layout == 'popularsell') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=newprod',
-				'COM_REDSHOP_NEWEST_PRODUCTS'
+				'COM_REDSHOP_NEWEST_PRODUCTS',
+				(self::$view == 'statistic' && self::$layout == 'newprod') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=neworder',
-				'COM_REDSHOP_NEWEST_ORDERS'
+				'COM_REDSHOP_NEWEST_ORDERS',
+				(self::$view == 'statistic' && self::$layout == 'neworder') ? true : false
 			);
 
-		$menu->group('COM_REDSHOP_STATISTIC');
+		$menu->group('STATISTIC');
 	}
 
 	protected static function setConfigGroup()
 	{
+		$user = JFactory::getUser();
 		$menu = RedshopAdminMenu::getInstance()->init();
 
 		$menu->section('configuration')
 			->title('COM_REDSHOP_CONFIG')
 			->addItem(
 				'index.php?option=com_redshop&view=configuration',
-				'COM_REDSHOP_RESHOP_CONFIGURATION'
+				'COM_REDSHOP_RESHOP_CONFIGURATION',
+				(self::$view == 'configuration' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&wizard=1',
@@ -530,14 +610,32 @@ class leftmenu
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=configuration&layout=resettemplate',
-				'COM_REDSHOP_RESET_TEMPLATE_LBL'
+				'COM_REDSHOP_RESET_TEMPLATE_LBL',
+				(self::$view == 'configuration' && self::$layout == 'resettemplate') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=update',
-				'COM_REDSHOP_UPDATE_TITLE'
+				'COM_REDSHOP_UPDATE_TITLE',
+				(self::$view == 'update') ? true : false
 			);
 
-		$menu->group('COM_REDSHOP_CONFIG');
+		$menu->section('accessmanager')
+			->title('COM_REDSHOP_ACCESS_MANAGER')
+			->addItem(
+				'index.php?option=com_redshop&view=accessmanager',
+				'COM_REDSHOP_ACCESS_MANAGER',
+				(self::$view == 'accessmanager') ? true : false
+			);
+
+			$menu->section('redshopbackendaccess')
+				->title('COM_REDSHOP_BACKEND_ACCESS_CONFIG')
+				->addItem(
+					'index.php?option=com_config&view=component&component=com_redshop',
+					'COM_REDSHOP_BACKEND_ACCESS_CONFIG',
+					false
+				);
+
+		$menu->group('CONFIG');
 	}
 
 	protected static function setProduct()
@@ -548,23 +646,28 @@ class leftmenu
 			->title('COM_REDSHOP_PRODUCTS')
 			->addItem(
 				'index.php?option=com_redshop&view=product',
-				'COM_REDSHOP_PRODUCT_LISTING'
+				'COM_REDSHOP_PRODUCT_LISTING',
+				(self::$view == 'product' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=product&layout=listing',
-				'COM_REDSHOP_PRODUCT_PRICE_VIEW'
+				'COM_REDSHOP_PRODUCT_PRICE_VIEW',
+				(self::$view == 'product' && self::$layout == 'listing') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=product_detail',
-				'COM_REDSHOP_ADD_PRODUCT'
+				'COM_REDSHOP_ADD_PRODUCT',
+				(self::$view == 'product_detail') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=mass_discount_detail',
-				'COM_REDSHOP_ADD_MASS_DISCOUNT'
+				'COM_REDSHOP_ADD_MASS_DISCOUNT',
+				(self::$view == 'mass_discount_detail') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=mass_discount',
-				'COM_REDSHOP_MASS_DISCOUNT'
+				'COM_REDSHOP_MASS_DISCOUNT',
+				(self::$view == 'mass_discount') ? true : false
 			);
 
 		if (ECONOMIC_INTEGRATION == 1 && JPluginHelper::isEnabled('economic'))
@@ -572,7 +675,8 @@ class leftmenu
 			$menu->section('product')
 				->addItem(
 					'index.php?option=com_redshop&view=product&layout=importproduct',
-					'COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC'
+					'COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC',
+					(self::$view == 'product' && self::$layout == 'importproduct') ? true : false
 				);
 
 			if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
@@ -580,7 +684,8 @@ class leftmenu
 				$menu->section('product')
 				->addItem(
 					'index.php?option=com_redshop&view=product&layout=importattribute',
-					'COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC'
+					'COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC',
+					(self::$view == 'product' && self::$layout == 'importattribute') ? true : false
 				);
 			}
 		}
@@ -594,11 +699,13 @@ class leftmenu
 			->title('COM_REDSHOP_CATEGORY')
 			->addItem(
 				'index.php?option=com_redshop&view=category',
-				'COM_REDSHOP_CATEGORY_LISTING'
+				'COM_REDSHOP_CATEGORY_LISTING',
+				(self::$view == 'category') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=category_detail',
-				'COM_REDSHOP_ADD_CATEGORY'
+				'COM_REDSHOP_ADD_CATEGORY',
+				(self::$view == 'category_detail') ? true : false
 			);
 	}
 
@@ -610,11 +717,13 @@ class leftmenu
 			->title('COM_REDSHOP_MANUFACTURER')
 			->addItem(
 				'index.php?option=com_redshop&view=manufacturer',
-				'COM_REDSHOP_MANUFACTURER_LISTING'
+				'COM_REDSHOP_MANUFACTURER_LISTING',
+				(self::$view == 'manufacturer') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=manufacturer_detail',
-				'COM_REDSHOP_ADD_MANUFACTURER'
+				'COM_REDSHOP_ADD_MANUFACTURER',
+				(self::$view == 'manufacturer_detail') ? true : false
 			);
 	}
 
@@ -626,15 +735,13 @@ class leftmenu
 			->title('COM_REDSHOP_MEDIA')
 			->addItem(
 				'index.php?option=com_redshop&view=media',
-				'COM_REDSHOP_MEDIA_LISTING'
+				'COM_REDSHOP_MEDIA_LISTING',
+				(self::$view == 'media') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=media_detail',
-				'COM_REDSHOP_ADD_MEDIA_ITEM'
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=media_detail',
-				'COM_REDSHOP_BULK_UPLOAD'
+				'COM_REDSHOP_BULK_UPLOAD',
+				(self::$view == 'media_detail') ? true : false
 			);
 	}
 
@@ -646,31 +753,38 @@ class leftmenu
 			->title('COM_REDSHOP_ORDER')
 			->addItem(
 				'index.php?option=com_redshop&view=order',
-				'COM_REDSHOP_ORDER_LISTING'
+				'COM_REDSHOP_ORDER_LISTING',
+				(self::$view == 'order' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=addorder_detail',
-				'COM_REDSHOP_ADD_ORDER'
+				'COM_REDSHOP_ADD_ORDER',
+				(self::$view == 'addorder_detail') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=order&layout=labellisting',
-				'COM_REDSHOP_DOWNLOAD_LABEL'
+				'COM_REDSHOP_DOWNLOAD_LABEL',
+				(self::$view == 'order' && self::$layout == 'labellisting') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=orderstatus',
-				'COM_REDSHOP_ORDERSTATUS_LISTING'
+				'COM_REDSHOP_ORDERSTATUS_LISTING',
+				(self::$view == 'orderstatus') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=opsearch',
-				'COM_REDSHOP_PRODUCT_ORDER_SEARCH'
+				'COM_REDSHOP_PRODUCT_ORDER_SEARCH',
+				(self::$view == 'opsearch') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=barcode',
-				'COM_REDSHOP_BARCODE'
+				'COM_REDSHOP_BARCODE',
+				(self::$view == 'barcode' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=barcode&layout=barcode_order',
-				'COM_REDSHOP_BARCODE_ORDER'
+				'COM_REDSHOP_BARCODE_ORDER',
+				(self::$view == 'barcode' && self::$layout == 'barcode_order') ? true : false
 			);
 	}
 
@@ -682,11 +796,13 @@ class leftmenu
 			->title('COM_REDSHOP_QUOTATION')
 			->addItem(
 				'index.php?option=com_redshop&view=quotation',
-				'COM_REDSHOP_QUOTATION_LISTING'
+				'COM_REDSHOP_QUOTATION_LISTING',
+				(self::$view == 'quotation') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=addquotation_detail',
-				'COM_REDSHOP_ADD_QUOTATION'
+				'COM_REDSHOP_ADD_QUOTATION',
+				(self::$view == 'addquotation_detail') ? true : false
 			);
 	}
 
@@ -703,30 +819,36 @@ class leftmenu
 			->title('COM_REDSHOP_STOCKROOM')
 			->addItem(
 				'index.php?option=com_redshop&view=stockroom',
-				'COM_REDSHOP_STOCKROOM_LISTING'
+				'COM_REDSHOP_STOCKROOM_LISTING',
+				(self::$view == 'stockroom') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=stockroom_detail',
-				'COM_REDSHOP_ADD_STOCKROOM'
+				'COM_REDSHOP_ADD_STOCKROOM',
+				(self::$view == 'stockroom_detail' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=stockroom_listing',
-				'COM_REDSHOP_STOCKROOM_AMOUNT_LISTING'
+				'COM_REDSHOP_STOCKROOM_AMOUNT_LISTING',
+				(self::$view == 'stockroom_listing') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=stockimage',
-				'COM_REDSHOP_STOCKIMAGE_LISTING'
+				'COM_REDSHOP_STOCKIMAGE_LISTING',
+				(self::$view == 'stockimage') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=stockimage_detail',
-				'COM_REDSHOP_ADD_STOCKIMAGE'
+				'COM_REDSHOP_ADD_STOCKIMAGE',
+				(self::$view == 'stockimage_detail') ? true : false
 			);
 
 		if (ECONOMIC_INTEGRATION && JPluginHelper::isEnabled('economic'))
 		{
 			$menu->addItem(
 				'index.php?option=com_redshop&view=stockroom_detail&layout=importstock',
-				'COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC'
+				'COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC',
+				(self::$view == 'stockroom_detail' && self::$layout == 'importstock') ? true : false
 			);
 		}
 	}
@@ -739,11 +861,13 @@ class leftmenu
 			->title('COM_REDSHOP_SUPPLIER')
 			->addItem(
 				'index.php?option=com_redshop&view=supplier',
-				'COM_REDSHOP_SUPPLIER_LISTING'
+				'COM_REDSHOP_SUPPLIER_LISTING',
+				(self::$view == 'supplier') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=supplier_detail',
-				'COM_REDSHOP_ADD_SUPPLIER'
+				'COM_REDSHOP_ADD_SUPPLIER',
+				(self::$view == 'supplier_detail') ? true : false
 			);
 	}
 
@@ -755,19 +879,23 @@ class leftmenu
 			->title('COM_REDSHOP_DISCOUNT')
 			->addItem(
 				'index.php?option=com_redshop&view=discount',
-				'COM_REDSHOP_DISCOUNT_LISTING'
+				'COM_REDSHOP_DISCOUNT_LISTING',
+				(self::$view == 'discount' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=discount_detail',
-				'COM_REDSHOP_ADD_DISCOUNT'
+				'COM_REDSHOP_ADD_DISCOUNT',
+				(self::$view == 'discount_detail' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=discount&layout=product',
-				'COM_REDSHOP_DISCOUNT_PRODUCT_LISTING'
+				'COM_REDSHOP_DISCOUNT_PRODUCT_LISTING',
+				(self::$view == 'discount' && self::$layout == 'product') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=discount_detail&layout=product',
-				'COM_REDSHOP_ADD_DISCOUNT_PRODUCT'
+				'COM_REDSHOP_ADD_DISCOUNT_PRODUCT',
+				(self::$view == 'discount_detail' && self::$layout == 'product') ? true : false
 			);
 	}
 
@@ -779,11 +907,13 @@ class leftmenu
 			->title('COM_REDSHOP_GIFTCARD')
 			->addItem(
 				'index.php?option=com_redshop&view=giftcards',
-				'COM_REDSHOP_GIFTCARD_LISTING'
+				'COM_REDSHOP_GIFTCARD_LISTING',
+				(self::$view == 'giftcards') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=giftcard&task=giftcard.edit',
-				'COM_REDSHOP_ADD_GIFTCARD'
+				'COM_REDSHOP_ADD_GIFTCARD',
+				(self::$view == 'giftcard') ? true : false
 			);
 	}
 
@@ -795,11 +925,13 @@ class leftmenu
 			->title('COM_REDSHOP_VOUCHER')
 			->addItem(
 				'index.php?option=com_redshop&view=voucher',
-				'COM_REDSHOP_VOUCHER_LISTING'
+				'COM_REDSHOP_VOUCHER_LISTING',
+				(self::$view == 'voucher') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=voucher_detail',
-				'COM_REDSHOP_ADD_VOUCHER'
+				'COM_REDSHOP_ADD_VOUCHER',
+				(self::$view == 'voucher_detail') ? true : false
 			);
 	}
 
@@ -811,11 +943,13 @@ class leftmenu
 			->title('COM_REDSHOP_COUPON')
 			->addItem(
 				'index.php?option=com_redshop&view=coupon',
-				'COM_REDSHOP_COUPON_LISTING'
+				'COM_REDSHOP_COUPON_LISTING',
+				(self::$view == 'coupon') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=coupon_detail',
-				'COM_REDSHOP_ADD_COUPON'
+				'COM_REDSHOP_ADD_COUPON',
+				(self::$view == 'coupon_detail') ? true : false
 			);
 	}
 
@@ -827,11 +961,13 @@ class leftmenu
 			->title('COM_REDSHOP_MAIL_CENTER')
 			->addItem(
 				'index.php?option=com_redshop&view=mail',
-				'COM_REDSHOP_MAIL_CENTER_LISTING'
+				'COM_REDSHOP_MAIL_CENTER_LISTING',
+				(self::$view == 'mail') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=mail_detail',
-				'COM_REDSHOP_ADD_MAIL_CENTER'
+				'COM_REDSHOP_ADD_MAIL_CENTER',
+				(self::$view == 'mail_detail') ? true : false
 			);
 	}
 
@@ -843,23 +979,28 @@ class leftmenu
 			->title('COM_REDSHOP_NEWSLETTER')
 			->addItem(
 				'index.php?option=com_redshop&view=newsletter',
-				'COM_REDSHOP_NEWSLETTER_LISTING'
+				'COM_REDSHOP_NEWSLETTER_LISTING',
+				(self::$view == 'newsletter') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=newsletter_detail',
-				'COM_REDSHOP_ADD_NEWSLETTER'
+				'COM_REDSHOP_ADD_NEWSLETTER',
+				(self::$view == 'newsletter_detail' && self::$layout == '') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=newslettersubscr',
-				'COM_REDSHOP_NEWSLETTER_SUBSCR_LISTING'
+				'COM_REDSHOP_NEWSLETTER_SUBSCR_LISTING',
+				(self::$view == 'newslettersubscr') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=newslettersubscr_detail',
-				'COM_REDSHOP_ADD_NEWSLETTER_SUBSCR'
+				'COM_REDSHOP_ADD_NEWSLETTER_SUBSCR',
+				(self::$view == 'newslettersubscr_detail') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=newsletter_detail&layout=statistics',
-				'COM_REDSHOP_NEWSLETTER_STATISTICS'
+				'COM_REDSHOP_NEWSLETTER_STATISTICS',
+				(self::$view == 'newsletter_detail' && self::$layout == 'statistics') ? true : false
 			);
 	}
 
@@ -871,7 +1012,8 @@ class leftmenu
 			->title('COM_REDSHOP_SHIPPING_METHOD')
 			->addItem(
 				'index.php?option=com_redshop&view=shipping',
-				'COM_REDSHOP_SHIPPING_METHOD_LISTING'
+				'COM_REDSHOP_SHIPPING_METHOD_LISTING',
+				(self::$view == 'shipping') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_installer',
@@ -895,11 +1037,13 @@ class leftmenu
 			->title('COM_REDSHOP_SHIPPING_BOX')
 			->addItem(
 				'index.php?option=com_redshop&view=shipping_box',
-				'COM_REDSHOP_SHIPPING_BOXES'
+				'COM_REDSHOP_SHIPPING_BOXES',
+				(self::$view == 'shipping_box') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=shipping_box_detail',
-				'COM_REDSHOP_ADD_SHIPPING_BOXES'
+				'COM_REDSHOP_ADD_SHIPPING_BOXES',
+				(self::$view == 'shipping_box_detail') ? true : false
 			);
 	}
 
@@ -911,11 +1055,13 @@ class leftmenu
 			->title('COM_REDSHOP_WRAPPER')
 			->addItem(
 				'index.php?option=com_redshop&view=wrapper',
-				'COM_REDSHOP_WRAPPER_LISTING'
+				'COM_REDSHOP_WRAPPER_LISTING',
+				(self::$view == 'wrapper') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=wrapper_detail',
-				'COM_REDSHOP_ADD_WRAPPER'
+				'COM_REDSHOP_ADD_WRAPPER',
+				(self::$view == 'wrapper_detail') ? true : false
 			);
 	}
 
@@ -926,11 +1072,13 @@ class leftmenu
 			->title('COM_REDSHOP_TAX_GROUP')
 			->addItem(
 				'index.php?option=com_redshop&view=tax_group',
-				'COM_REDSHOP_TAX_GROUP_LISTING'
+				'COM_REDSHOP_TAX_GROUP_LISTING',
+				(self::$view == 'tax_group') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=tax_group_detail',
-				'COM_REDSHOP_TAX_GROUP_DETAIL'
+				'COM_REDSHOP_TAX_GROUP_DETAIL',
+				(self::$view == 'tax_group_detail') ? true : false
 			);
 	}
 
@@ -941,11 +1089,13 @@ class leftmenu
 			->title('COM_REDSHOP_CURRENCY')
 			->addItem(
 				'index.php?option=com_redshop&view=currency',
-				'COM_REDSHOP_CURRENCY_LISTING'
+				'COM_REDSHOP_CURRENCY_LISTING',
+				(self::$view == 'currency') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=currency_detail',
-				'COM_REDSHOP_ADD_CURRENCY'
+				'COM_REDSHOP_ADD_CURRENCY',
+				(self::$view == 'currency_detail') ? true : false
 			);
 	}
 
@@ -956,11 +1106,13 @@ class leftmenu
 			->title('COM_REDSHOP_COUNTRY')
 			->addItem(
 				'index.php?option=com_redshop&view=country',
-				'COM_REDSHOP_COUNTRY_LISTING'
+				'COM_REDSHOP_COUNTRY_LISTING',
+				(self::$view == 'country') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=country_detail',
-				'COM_REDSHOP_ADD_COUNTRY'
+				'COM_REDSHOP_ADD_COUNTRY',
+				(self::$view == 'country_detail') ? true : false
 			);
 	}
 
@@ -971,11 +1123,13 @@ class leftmenu
 			->title('COM_REDSHOP_STATE')
 			->addItem(
 				'index.php?option=com_redshop&view=state',
-				'COM_REDSHOP_STATE_LISTING'
+				'COM_REDSHOP_STATE_LISTING',
+				(self::$view == 'state') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=state_detail',
-				'COM_REDSHOP_ADD_STATE'
+				'COM_REDSHOP_ADD_STATE',
+				(self::$view == 'state_detail') ? true : false
 			);
 	}
 
@@ -986,11 +1140,13 @@ class leftmenu
 			->title('COM_REDSHOP_ZIPCODE')
 			->addItem(
 				'index.php?option=com_redshop&view=zipcode',
-				'COM_REDSHOP_ZIPCODE_LISTING'
+				'COM_REDSHOP_ZIPCODE_LISTING',
+				(self::$view == 'zipcode') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=zipcode_detail',
-				'COM_REDSHOP_ADD_ZIPCODE'
+				'COM_REDSHOP_ADD_ZIPCODE',
+				(self::$view == 'zipcode_detail') ? true : false
 			);
 	}
 
@@ -1001,11 +1157,13 @@ class leftmenu
 			->title('COM_REDSHOP_FIELDS')
 			->addItem(
 				'index.php?option=com_redshop&view=fields',
-				'COM_REDSHOP_FIELDS_LISTING'
+				'COM_REDSHOP_FIELDS_LISTING',
+				(self::$view == 'fields') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=fields_detail',
-				'COM_REDSHOP_ADD_FIELD'
+				'COM_REDSHOP_ADD_FIELD',
+				(self::$view == 'fields_detail') ? true : false
 			);
 	}
 
@@ -1016,11 +1174,13 @@ class leftmenu
 			->title('COM_REDSHOP_TEMPLATE')
 			->addItem(
 				'index.php?option=com_redshop&view=template',
-				'COM_REDSHOP_TEMPLATE_LISTING'
+				'COM_REDSHOP_TEMPLATE_LISTING',
+				(self::$view == 'template') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=template_detail',
-				'COM_REDSHOP_ADD_TEMPLATE'
+				'COM_REDSHOP_ADD_TEMPLATE',
+				(self::$view == 'template_detail') ? true : false
 			);
 	}
 
@@ -1031,11 +1191,13 @@ class leftmenu
 			->title('COM_REDSHOP_TEXT_LIBRARY')
 			->addItem(
 				'index.php?option=com_redshop&view=textlibrary',
-				'COM_REDSHOP_TEXT_LIBRARY_LISTING'
+				'COM_REDSHOP_TEXT_LIBRARY_LISTING',
+				(self::$view == 'textlibrary') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=textlibrary_detail',
-				'COM_REDSHOP_ADD_TEXT_LIBRARY_TAG'
+				'COM_REDSHOP_ADD_TEXT_LIBRARY_TAG',
+				(self::$view == 'textlibrary_detail') ? true : false
 			);
 	}
 
@@ -1046,11 +1208,13 @@ class leftmenu
 			->title('COM_REDSHOP_CATALOG_MANAGEMENT')
 			->addItem(
 				'index.php?option=com_redshop&view=catalog',
-				'COM_REDSHOP_CATALOG'
+				'COM_REDSHOP_CATALOG',
+				(self::$view == 'catalog') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=catalog_request',
-				'COM_REDSHOP_CATALOG_REQUEST'
+				'COM_REDSHOP_CATALOG_REQUEST',
+				(self::$view == 'catalog_request') ? true : false
 			);
 	}
 
@@ -1061,11 +1225,13 @@ class leftmenu
 			->title('COM_REDSHOP_COLOUR_SAMPLE_MANAGEMENT')
 			->addItem(
 				'index.php?option=com_redshop&view=sample',
-				'COM_REDSHOP_CATALOG_PRODUCT_SAMPLE'
+				'COM_REDSHOP_CATALOG_PRODUCT_SAMPLE',
+				(self::$view == 'sample') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=sample_request',
-				'COM_REDSHOP_SAMPLE_REQUEST'
+				'COM_REDSHOP_SAMPLE_REQUEST',
+				(self::$view == 'sample_request') ? true : false
 			);
 	}
 
@@ -1074,9 +1240,10 @@ class leftmenu
 		$menu = RedshopAdminMenu::getInstance();
 		$menu->section('producttags')
 			->title('COM_REDSHOP_TAGS')
-			 ->addItem(
+			->addItem(
 					'index.php?option=com_redshop&view=producttags',
-					'COM_REDSHOP_TAGS_LISTING'
+					'COM_REDSHOP_TAGS_LISTING',
+					(self::$view == 'producttags') ? true : false
 				);
 	}
 
@@ -1087,11 +1254,13 @@ class leftmenu
 			->title('COM_REDSHOP_ATTRIBUTE_BANK')
 			->addItem(
 				'index.php?option=com_redshop&view=attribute_set',
-				'COM_REDSHOP_ATTRIBUTE_SET_LISTING'
+				'COM_REDSHOP_ATTRIBUTE_SET_LISTING',
+				(self::$view == 'attribute_set') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=attribute_set_detail',
-				'COM_REDSHOP_ADD_ATTRIBUTE_SET'
+				'COM_REDSHOP_ADD_ATTRIBUTE_SET',
+				(self::$view == 'attribute_set_detail') ? true : false
 			);
 	}
 }

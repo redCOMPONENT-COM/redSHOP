@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopViewAddorder_detail extends RedshopView
+class RedshopViewAddorder_detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -17,6 +17,13 @@ class RedshopViewAddorder_detail extends RedshopView
 	 * @var  string
 	 */
 	public $request_url;
+
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
 	public function display($tpl = null)
 	{
@@ -37,7 +44,7 @@ class RedshopViewAddorder_detail extends RedshopView
 		$shippinginfo = array();
 		$model        = $this->getModel();
 		$detail       = $this->get('data');
-		$redhelper    = redhelper::getInstance();
+		$redhelper    = RedshopSiteHelper::getInstance();
 
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 

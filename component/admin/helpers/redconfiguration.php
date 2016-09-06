@@ -639,7 +639,6 @@ class Redconfiguration
 						"VOUCHERS_ENABLE"                              => $d["vouchers_enable"],
 						"APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT"        => $d["apply_voucher_coupon_already_discount"],
 						"SPLITABLE_PAYMENT"                            => $d["splitable_payment"],
-						"SHOW_CAPTCHA"                                 => $d["show_captcha"],
 						"SHOW_EMAIL_VERIFICATION"                      => $d["show_email_verification"],
 
 						"RATING_MSG"                                   => $d["rating_msg"],
@@ -771,7 +770,6 @@ class Redconfiguration
 						"DISCOUNT_ENABLE"                              => $d["discount_enable"],
 						"DISCOUNT_TYPE"                                => $d["discount_type"],
 						"INVOICE_MAIL_ENABLE"                          => $d["invoice_mail_enable"],
-						"ENABLE_BACKENDACCESS"                         => $d["enable_backendaccess"],
 						"WISHLIST_LOGIN_REQUIRED"                      => $d["wishlist_login_required"],
 
 						"INVOICE_MAIL_SEND_OPTION"                     => $d["invoice_mail_send_option"],
@@ -853,11 +851,7 @@ class Redconfiguration
 						"AUTO_GENERATE_LABEL"                          => $d["auto_generate_label"],
 						"GENERATE_LABEL_ON_STATUS"                     => $d["generate_label_on_status"],
 
-						"QUICKLINK_ICON"                               => $d["quicklink_icon"],
-						"DISPLAY_NEW_ORDERS"                           => $d["display_new_orders"],
-						"DISPLAY_NEW_CUSTOMERS"                        => $d["display_new_customers"],
-						"DISPLAY_STATISTIC"                            => $d['display_statistic'],
-						"EXPAND_ALL"                                   => $d['expand_all'],
+						"MENUHIDE"                                     => $d["menuhide"],
 						"AJAX_CART_DISPLAY_TIME"                       => $d['ajax_cart_display_time'],
 						"MEDIA_ALLOWED_MIME_TYPE"                      => $d['media_allowed_mime_type'],
 						"IMAGE_QUALITY_OUTPUT"                         => $d['image_quality_output'],
@@ -878,7 +872,9 @@ class Redconfiguration
 						"AJAX_DETAIL_BOX_WIDTH"                        => $d["ajax_detail_box_width"],
 						"AJAX_DETAIL_BOX_HEIGHT"                       => $d["ajax_detail_box_height"],
 						"AJAX_BOX_WIDTH"                               => $d["ajax_box_width"],
-						"AJAX_BOX_HEIGHT"                              => $d["ajax_box_height"]
+						"AJAX_BOX_HEIGHT"                              => $d["ajax_box_height"],
+						"DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER"        => $d["default_stockroom_below_amount_number"],
+						"LOAD_REDSHOP_STYLE"                           => $d["load_redshop_style"]
 		);
 
 		if ($d["cart_timeout"] <= 0)
@@ -945,7 +941,7 @@ class Redconfiguration
 	public function showPrice()
 	{
 		$user       = JFactory::getUser();
-		$userHelper = rsUserHelper::getInstance();
+		$userHelper = RedshopSiteUser::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -972,7 +968,7 @@ class Redconfiguration
 	public function getCatalog()
 	{
 		$user             = JFactory::getUser();
-		$userHelper       = rsUserHelper::getInstance();
+		$userHelper       = RedshopSiteUser::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -1001,7 +997,7 @@ class Redconfiguration
 	{
 		$db = JFactory::getDbo();
 		$user             = JFactory::getUser();
-		$userhelper       = rsUserHelper::getInstance();
+		$userhelper       = RedshopSiteUser::getInstance();
 		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 
 		if ($user->id)

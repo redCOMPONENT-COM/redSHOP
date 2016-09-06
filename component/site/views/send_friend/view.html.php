@@ -26,11 +26,6 @@ class RedshopViewSend_friend extends RedshopView
 
 		$pathway  = $app->getPathway();
 
-		// Include Javascript
-
-		JHtml::script('com_redshop/attribute.js', false, true);
-		JHtml::script('com_redshop/json.js', false, true);
-
 		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 		$data = $this->get('data');
 

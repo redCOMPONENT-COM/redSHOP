@@ -57,6 +57,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 		$layout = JRequest::getVar('layout');
 
 		$post['category_ids'] = ($post['category_ids']) ? implode(',', $post['category_ids']) : '';
+		$canSave = true;
 
 		if (isset($post['shopper_group_id']) === true)
 		{
@@ -81,6 +82,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 			else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_DISCOUNT_DETAIL');
+				$canSave = false;
 			}
 		}
 		else
@@ -88,20 +90,22 @@ class RedshopControllerDiscount_detail extends RedshopController
 			$row                      = new stdClass;
 			$row->discount_product_id = $cid[0];
 			$msg                      = JText::_('COM_REDSHOP_SELECT_SHOPPER_GROUP');
+			$canSave = false;
 		}
 
-		if ($apply == 1)
+		$msgType = $canSave ? 'message' : 'error';
+
+		if ($apply == 1 || ($apply == 0 && $canSave == false))
 		{
 			if (isset($layout) && $layout == 'product')
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id, $msg, $msgType);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg, $msgType);
 			}
 		}
-
 		else
 		{
 			if (isset($layout) && $layout == 'product')

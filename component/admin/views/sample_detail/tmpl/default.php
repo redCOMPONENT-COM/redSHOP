@@ -41,7 +41,7 @@ $url = $uri->root();
 
 		<div class="col50">
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="volume">

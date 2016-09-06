@@ -14,7 +14,7 @@ JHTML::_('behavior.tooltip');
 /**
  * Extra Field Class
  */
-class extraField
+class RedshopSiteExtraField
 {
 	/**
 	 * Extra Field Type for Input Text Element
@@ -332,7 +332,13 @@ class extraField
 			{
 				case self::TYPE_TEXT:
 
-					$text_value = $data_value->data_txt;
+					$text_value = '';
+
+					if ($data_value && $data_value->data_txt)
+					{
+						$text_value = $data_value->data_txt;
+					}
+
 					$inputField = '<input ' . $class . ' type="text" maxlength="' . $row_data[$i]->field_maxlength . '" name="' . $row_data[$i]->field_name . '" id="' . $row_data[$i]->field_name . '" value="' . $text_value . '" size="32" />';
 					break;
 
@@ -519,8 +525,6 @@ class extraField
 		}
 
 		$addtocartFormName = 'addtocart_' . $preprefix . 'prd_' . $product_id;
-
-		JHtml::script('com_redshop/attribute.js', false, true);
 
 		if (!array_key_exists($section_id . '_' . $field_section, self::$userFields))
 		{

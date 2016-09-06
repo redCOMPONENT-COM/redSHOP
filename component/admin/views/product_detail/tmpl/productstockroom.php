@@ -42,7 +42,7 @@ $stockrooms = $model->StockRoomList();
 
 					<tbody>
 					<?php
-						$helper = redhelper::getInstance();
+						$helper = RedshopSiteHelper::getInstance();
 
 						if (count($stockrooms) > 0)
 						{

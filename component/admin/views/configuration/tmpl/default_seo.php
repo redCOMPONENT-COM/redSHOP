@@ -9,30 +9,6 @@
 defined('_JEXEC') or die;
 
 ?>
-<table width="100%" cellpadding="0" cellspacing="0">
-	<tr valign="top">
-		<td width="50%">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_SEO_GENERAL_TAB'); ?></legend>
-				<?php echo $this->loadTemplate('seo_general');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_SEO_CATEGORY_TAB'); ?></legend>
-				<?php echo $this->loadTemplate('seo_category');?>
-			</fieldset>
-		</td>
-		<td width="50%">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_SEO_PRODUCT_TAB'); ?></legend>
-				<?php echo $this->loadTemplate('seo_product');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_REDSHOP_SEO_MANUFACTURER_TAB'); ?></legend>
-				<?php echo $this->loadTemplate('seo_manufacturer');?>
-			</fieldset>
-		</td>
-	</tr>
-</table>
 
 <div class="col50">
 	<fieldset class="adminform">
@@ -43,7 +19,7 @@ defined('_JEXEC') or die;
 		echo JHtml::_('bootstrap.startTabSet', 'seo-pane', array('active' => 'tags'));
 		echo JHtml::_('bootstrap.addTab', 'seo-pane', 'tags', JText::_('COM_REDSHOP_TITLE_AVAILABLE_SEO_TAGS', true));
 		?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
 					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
@@ -63,7 +39,7 @@ defined('_JEXEC') or die;
 		</table>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'seo-pane', 'headingtags', JText::_('COM_REDSHOP_HEADING_AVAILABLE_SEO_TAGS', true));?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
 					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
@@ -77,7 +53,7 @@ defined('_JEXEC') or die;
 		</table>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'seo-pane', 'desctags', JText::_('COM_REDSHOP_DESC_AVAILABLE_SEO_TAGS', true));?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
 					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
@@ -96,7 +72,7 @@ defined('_JEXEC') or die;
 		</table>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'seo-pane', 'keywordtags', JText::_('COM_REDSHOP_KEYWORD_AVAILABLE_SEO_TAGS', true));?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
 					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
@@ -116,3 +92,29 @@ defined('_JEXEC') or die;
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 </div>
+
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-md-6 col-lg-3">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('seo_general');?>
+			</fieldset>
+		</div>
+		<div class="col-md-6 col-lg-3">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('seo_category');?>
+			</fieldset>
+		</div>
+		<div class="col-md-6 col-lg-3">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('seo_product');?>
+			</fieldset>
+		</div>
+
+		<div class="col-md-6 col-lg-3">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('seo_manufacturer');?>
+			</fieldset>
+		</div>
+	</div>
+</fieldset>

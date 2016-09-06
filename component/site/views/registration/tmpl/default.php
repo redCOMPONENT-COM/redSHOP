@@ -15,8 +15,8 @@ $Itemid = JRequest::getInt('Itemid');
 $jinput = JFactory::getApplication()->input;
 $post   = $jinput->getArray($_POST);
 
-$userhelper = rsUserHelper::getInstance();
-$rsCarthelper = rsCarthelper::getInstance();
+$userhelper = RedshopSiteUser::getInstance();
+$rsCarthelper = RedshopSiteCart::getInstance();
 
 $is_company = $this->lists['is_company'];
 
@@ -32,93 +32,44 @@ if ($this->params->get('show_page_heading', 1))
 	}
 }    ?>
 
-<div><span
-		id="customer_registrationintro" <?php echo $this->lists['showCustomerdesc'];
-		?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_INTROTEXT'); ?></span><span
-		id="company_registrationintro" <?php echo $this->lists['showCompanydesc'];
-		?>><?php echo JText::_('COM_REDSHOP_REGISTRATION_COMPANY_INTROTEXT'); ?></span>
+<div class="registrationintro">
+	<span id="customer_registrationintro" <?php echo $this->lists['showCustomerdesc'];?>>
+		<?php echo JText::_('COM_REDSHOP_REGISTRATION_INTROTEXT'); ?>
+	</span>
+	<span id="company_registrationintro" <?php echo $this->lists['showCompanydesc']; ?>>
+		<?php echo JText::_('COM_REDSHOP_REGISTRATION_COMPANY_INTROTEXT'); ?>
+	</span>
 </div>
-<table cellpadding="5" cellspacing="0" border="0">
-	<tr>
-		<td><span <?php echo $this->lists['allowCustomer'];?>>
-				<h4>
-					<label>
-					<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>account/personal-icon.jpg" align="absmiddle">
-					<input type="radio" onclick="showCompanyOrCustomer(this);" name="togglerchecker" id="toggler1"
-					       class="toggler" <?php
-							if ($is_company == 0)
-							{
-							?>checked="checked" <?php
-							}
-							?> value="0"/>
-					<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?>
-					</label>
-				</h4></span></td>
-		<td><span <?php echo $this->lists['allowCompany'];?>><h4>
-					<label>
-					<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>account/business-icon.jpg" align="absmiddle">
-					<input type="radio" onclick="showCompanyOrCustomer(this);" name="togglerchecker" id="toggler2"
-					       class="toggler" <?php
-							if ($is_company == 1)
-							{
-							?>checked="checked" <?php
-							}
-							?> value="1"/>
-					<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
-					</label>
-				</h4></span></td>
-	</tr>
-</table>
+
+<div class="form-group">
+	<label class="radio-inline" <?php echo $this->lists['allowCustomer'];?>>
+		<input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="showCompanyOrCustomer(this);" value="0" <?php echo ($is_company == 0) ? 'checked="checked"' : '' ?> />
+		<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION');?>
+	</label>
+	<label class="radio-inline" <?php echo $this->lists['allowCompany'];?>>
+		<input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="showCompanyOrCustomer(this);" value="1"  <?php echo ($is_company == 1) ? 'checked="checked"' : '' ?> />
+		<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION');?>
+	</label>
+</div>
 
 <form action="<?php echo JRoute::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
-		<table class="admintable" cellpadding="0" cellspacing="0" border="0" width="100%">
-			<tr>
-				<td>
-					<table class="admintable" cellpadding="0" cellspacing="0" border="0" width="100%">
-						<tr>
-							<td><?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, 0, 1, 1);    ?></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
 
-			<?php
-			if (SHOW_CAPTCHA)
-			{
-				?>
-				<tr>
-					<td>
-						<table class="admintable" cellpadding="0" cellspacing="0" border="0" width="100%">
-							<tr>
-								<td align="left">
-								<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			<?php
-			}
+		<?php
+		echo $userhelper->getBillingTable($post, $is_company, $this->lists, 0, 1, 1);
 
-			if (SHOW_TERMS_AND_CONDITIONS == 1)
-			{
-				?>
-				<tr>
-					<td><?php echo $rsCarthelper->replaceTermsConditions("{terms_and_conditions}");?></td>
-				</tr>
-			<?php
-			}
-			?>
-			<tr>
-				<td>
-					<input type="submit" class="registrationSubmitButton button btn" name="submit"
-						   value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>"/>
-				</td>
-			</tr>
-		</table>
+		echo RedshopLayoutHelper::render('registration.captcha');
+
+		if (SHOW_TERMS_AND_CONDITIONS == 1)
+		{
+			echo $rsCarthelper->replaceTermsConditions("{terms_and_conditions}");
+		}
+
+		?>
+
+		<input type="submit" class="registrationSubmitButton button btn btn-primary" name="submit" value="<?php echo JText::_('COM_REDSHOP_SEND_REGISTRATION'); ?>"/>
 
 		<div class="clr"></div>
 

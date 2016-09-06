@@ -13,13 +13,13 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $redTemplate = Redtemplate::getInstance();
-$carthelper = rsCarthelper::getInstance();
+$carthelper = RedshopSiteCart::getInstance();
 
 $user   = JFactory::getUser();
 $jinput = JFactory::getApplication()->input;
 $post   = $jinput->getArray($_POST);
 
-$shippingbox_template = $redTemplate->getTemplate("shipping_box");
+$shippingbox_template = $redTemplate->getTemplate("shippingbox");
 
 if (count($shippingbox_template) > 0 && $shippingbox_template[0]->template_desc)
 {

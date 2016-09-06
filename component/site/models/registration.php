@@ -35,7 +35,7 @@ class RedshopModelRegistration extends RedshopModel
 
 	public function store(&$data)
 	{
-		$userhelper = rsUserHelper::getInstance();
+		$userhelper = RedshopSiteUser::getInstance();
 		$captcha    = $userhelper->checkCaptcha($data);
 
 		if (!$captcha)

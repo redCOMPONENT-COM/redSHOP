@@ -163,7 +163,8 @@ class RedshopModelOrder extends RedshopModel
 					$db->qn('uf.user_email'),
 					$db->qn('uf.is_company'),
 					$db->qn('uf.company_name'),
-					$db->qn('uf.ean_number')
+					$db->qn('uf.ean_number'),
+					$db->qn('os.order_status_name')
 				)
 			)
 			->from($db->qn('#__redshop_orders', 'o'))
@@ -171,6 +172,7 @@ class RedshopModelOrder extends RedshopModel
 				$db->qn('#__redshop_order_users_info', 'uf')
 				. ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('uf.order_id')
 			)
+			->innerJoin($db->qn('#__redshop_order_status', 'os') . ' ON ' . $db->qn('os.order_status_code') . '=' . $this->_db->qn('o.order_status'))
 			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
 			->group($db->qn('o.order_id'));
 
@@ -321,7 +323,7 @@ class RedshopModelOrder extends RedshopModel
 	public function business_gls_export($cid)
 	{
 		$orderHelper = order_functions::getInstance();
-		$extraField  = extraField::getInstance();
+		$extraField  = RedshopSiteExtraField::getInstance();
 
 		ob_clean();
 

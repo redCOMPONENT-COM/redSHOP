@@ -56,7 +56,7 @@ $date = JFactory::getDate();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="volume">

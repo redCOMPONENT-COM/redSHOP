@@ -11,7 +11,7 @@ $params = JRequest::getVar('params');
 ?>
 <div>
 	<form action="?option=com_redshop" method="POST" name="installform" id="installform">
-		<table class="admintable">
+		<table class="admintable table">
 			<tr valign="top">
 				<td width="50%">
 					<fieldset class="adminform">

@@ -85,7 +85,7 @@ switch ($name)
 		{newsletter_signup_chk}{newsletter_signup_lbl}<br/>
 		{account_creation_end}<br/>
 		{required_lbl}<br/>
-		{sipping_same_as_billing_lbl} {sipping_same_as_billing}
+		{shipping_same_as_billing_lbl} {shipping_same_as_billing}
 		<?php
 		break;
 	case 'cart':

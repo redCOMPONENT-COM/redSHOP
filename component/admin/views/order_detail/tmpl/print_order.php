@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$carthelper = rsCarthelper::getInstance();
+$carthelper = RedshopSiteCart::getInstance();
 $uri = JURI::getInstance();
 $url = $uri->root();
 $redTemplate = Redtemplate::getInstance();
@@ -28,6 +28,6 @@ $print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRIN
 	. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='" . JText::_('COM_REDSHOP_PRINT') . "' /></a>";
 
 $message = str_replace("{print}", $print_tag, $ordersprint_template);
-$message = $carthelper->replaceOrderTemplate($OrdersDetail, $message);
+$message = $carthelper->replaceOrderTemplate($OrdersDetail, $message, true);
 echo eval("?>" . $message . "<?php ");
 ?>

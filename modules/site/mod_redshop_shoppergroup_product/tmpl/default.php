@@ -27,9 +27,9 @@ JHtml::script('com_redshop/common.js', false, true);
 JHTML::script('com_redshop/redbox.js', false, true);
 
 $producthelper = RedshopSiteProduct::getInstance();
-$redhelper     = redhelper::getInstance();
+$redhelper     = RedshopSiteHelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
-$extraField    = extraField::getInstance();
+$extraField    = RedshopSiteExtraField::getInstance();
 
 echo "<div class='mod_redshop_shoppergroup_product_wrapper'>";
 

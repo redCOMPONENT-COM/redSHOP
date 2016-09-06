@@ -13,7 +13,7 @@ $order_id = JRequest::getVar('order_id');
 
 ?>
 <div>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<tr>
 			<td width="15%"><?php echo JText::_('COM_REDSHOP_NUMBER_OF_VIEWS'); ?> :</td>
 			<td>

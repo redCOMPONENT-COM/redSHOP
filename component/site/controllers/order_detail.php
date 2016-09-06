@@ -31,10 +31,10 @@ class RedshopControllerOrder_detail extends RedshopController
 		$this->_producthelper   = RedshopSiteProduct::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 		$this->_order_functions = order_functions::getInstance();
-		$this->_extraField      = extraField::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
-		$this->_userhelper      = rsUserHelper::getInstance();
-		$this->_carthelper      = rsCarthelper::getInstance();
+		$this->_extraField      = RedshopSiteExtraField::getInstance();
+		$this->_redhelper       = RedshopSiteHelper::getInstance();
+		$this->_userhelper      = RedshopSiteUser::getInstance();
+		$this->_carthelper      = RedshopSiteCart::getInstance();
 	}
 
 	/**
@@ -407,7 +407,7 @@ class RedshopControllerOrder_detail extends RedshopController
 						<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
 						<input type="hidden" name="task" value="process_payment" />
 						<input type="hidden" name="view" value="order_detail"/>
-						<input type="submit" name="submit" class="greenbutton"
+						<input type="submit" name="submit" class="greenbutton btn btn-primary"
 						       value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>"/>
 						<input type="hidden" name="ccinfo" value="1"/>
 						<input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>

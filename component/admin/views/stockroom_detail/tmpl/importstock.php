@@ -91,7 +91,7 @@ defined('_JEXEC') or die;
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME');?></td>
 					<td><?php echo $this->lists['stockroom_id'];?>&nbsp;&nbsp;&nbsp;<input type="button"
@@ -103,7 +103,7 @@ defined('_JEXEC') or die;
 		</fieldset>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_IMPORT_LOG'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td>
 						<div id="divpreviewlog"></div>

@@ -88,17 +88,17 @@ redSHOP.prepareStateList = function(countryListEle, stateListEle){
 
 		// Now let's hide state list by default
 		jQuery('#div_state_txt').hide();
-		stateListEle.parent().parent().hide();
+		stateListEle.parent().hide();
 		stateListEle.hide();
 
 		// And show it when it has actua options
 		if (data.length)
 		{
 			jQuery('#div_state_txt').show();
-			stateListEle.parent().parent().show();
+			stateListEle.parent().show();
 
-			// No needs to show original select if chosen is there.
-			if (!jQuery('#' + stateListEle.attr('id') + '_chzn').length)
+			// No needs to show original select if select2 is there.
+			if (!jQuery('#s2id_' + stateListEle.attr('id')).length)
 			{
 				stateListEle.show();
 			}
@@ -110,7 +110,7 @@ redSHOP.prepareStateList = function(countryListEle, stateListEle){
 						.attr("value", state.value).text(state.text));
 		});
 
-		stateListEle.trigger('liszt:updated');
+		stateListEle.trigger('change.select2')
 	})
 	.fail(function() {
 		console.log("Error getting state list.");

@@ -37,7 +37,7 @@ $url = $uri->root();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right"
 					    class="key"><?php echo JText::_('COM_REDSHOP_STOCK_AMOUNT_IMAGE_TOOLTIP_LBL'); ?>:

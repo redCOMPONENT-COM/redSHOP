@@ -19,9 +19,10 @@ $url             = JURI::base();
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();
 
-$redhelper       = redhelper::getInstance();
-$userhelper      = rsUserHelper::getInstance();
+$redhelper       = RedshopSiteHelper::getInstance();
+$userhelper      = RedshopSiteUser::getInstance();
 $order_functions = order_functions::getInstance();
+$redTemplate     = Redtemplate::getInstance();
 
 $telesearch      = $order_functions->getparameters('rs_telesearch');
 $Itemid          = $redhelper->getCheckoutItemid();
@@ -40,22 +41,37 @@ $jinput          = JFactory::getApplication()->input;
 
 $post = $jinput->getArray($_POST);
 
-$login_template_desc = '<table border="0" cellspacing="3" cellpadding="3" width="100%"><tbody><tr><td><label>{rs_username_lbl}:</label></td><td>{rs_username}</td><td><label>{rs_password_lbl}:</label></td><td>{rs_password}</td><td>{rs_login_button}</td></tr><tr><td colspan="2">{forget_password_link}</td></tr></tbody></table>';
+$login_template = $redTemplate->getTemplate("login");
 
-if (!ONESTEP_CHECKOUT_ENABLE):
-?>
+if (count($login_template) > 0 && $login_template[0]->template_desc)
+{
+	$login_template_desc = $login_template[0]->template_desc;
+}
+else
+{
+	$login_template_desc = '
+	<div class="redshop-login">
+		<div class="form-group">
+			<label>{rs_username_lbl}</label>
+			{rs_username}
+		</div>
 
-<hr/>
-<table width="100%" class="checkout-bar" border="0" cellspacing="2" cellpadding="2">
-	<tr>
-		<td width="33%" class="checkout-bar-1-active"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?></td>
-		<td width="33%" class="checkout-bar-2"><?php echo JText::_('COM_REDSHOP_PAYMENT');?></td>
-		<td width="33%" class="checkout-bar-3"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></td>
-	</tr>
-</table>
-<hr/>
-<?php
-endif;
+		<div class="form-group">
+			<label>{rs_password_lbl}</label>
+			{rs_password}
+		</div>
+		{rs_login_button}
+
+		{forget_password_link}
+	</div>
+	';
+}
+
+if (!ONESTEP_CHECKOUT_ENABLE)
+{
+	echo JLayoutHelper::render('cart.wizard', array('step' => '1'));
+}
+
 $returnurl = JRoute::_($url . 'index.php?option=com_redshop&view=checkout', false);
 $returnurl = base64_encode($returnurl);
 
@@ -103,7 +119,7 @@ else
 
 		if (strstr($login_template_desc, "{rs_login_button}"))
 		{
-			$loginbutton = '<input type="submit" class="button" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';
+			$loginbutton = '<input type="submit" class="button btn btn-primary" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';
 			$loginbutton .= '<input type="hidden" name="l" value="1">';
 			$loginbutton .= '<input type="hidden" name="return" value="' . $returnurl . '" />';
 			$loginbutton .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
@@ -126,146 +142,100 @@ else
 	$allowCompany = $this->lists['allowCompany'];
 	$is_company = $this->lists['is_company'];
 	?>
-		<table cellpadding="5" cellspacing="0" border="0">
-			<tr>
-				<td><span <?php echo $allowCustomer;?>><h4><label><input type="radio" name="togglerchecker" id="toggler1"
-				                                                  class="toggler"
-								<?php
-								if ($is_company == 0)
-								{
-								?> checked="checked"
-								<?php
-								}
-								?> onclick="showCompanyOrCustomer(this);" value="0"/>
-							<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION');?></label></h4></span></td>
 
-				<td><span <?php echo $allowCompany;?>><h4><label><input type="radio" name="togglerchecker" id="toggler2"
-				                                                 class="toggler"
-								<?php
-								if ($is_company == 1)
-								{
-								?>
-									 checked="checked"
-								<?php
-								}
-								?> onclick="showCompanyOrCustomer(this);" value="1"/>
-							<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION');?></label></h4></span></td>
-			</tr>
-			<?php
-			if (count($telesearch) > 0 && $telesearch[0]->enabled)
+	<div class="form-group">
+		<label class="radio-inline" <?php echo $allowCustomer;?>>
+			<input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="showCompanyOrCustomer(this);" value="0" <?php echo ($is_company == 0) ? 'checked="checked"' : '' ?> />
+			<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION');?>
+		</label>
+		<label class="radio-inline" <?php echo $allowCompany;?>>
+			<input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="showCompanyOrCustomer(this);" value="1"  <?php echo ($is_company == 1) ? 'checked="checked"' : '' ?> />
+			<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION');?>
+		</label>
+	</div>
+
+	<?php if (count($telesearch) > 0 && $telesearch[0]->enabled) : ?>
+
+	<div class="input-group">
+		<span class="input-group-btn">
+			<button class="btn btn-primary" type="button" name="searchaddbyphone" id="searchaddbyphone" onclick="return searchByPhone();">
+				<?php echo JText::_('COM_REDSHOP_SEARCH') ?>
+			</button>
+		</span>
+		<input class="form-control" name="searchphone" id="searchphone" type="text" value="" placeholder="<?php echo JText::_('COM_REDSHOP_GET_ADDRESS_BY_PHONE') ?>" />
+    </div>
+
+	<div id="divSearchPhonemsg" style="display:none">
+		<?php echo JText::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE');?>
+	</div>
+	<?php endif; ?>
+
+	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+
+		<?php if (REGISTER_METHOD == 2) :
+			$checked_style = (CREATE_ACCOUNT_CHECKBOX == 1) ? 'checked="checked"' : "''";
+		?>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" name="createaccount" <?php echo $checked_style;?> id="createaccount" value="1" onclick="createUserAccount(this);"/>
+				<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT');?>
+			</label>
+		</div>
+		<?php endif; ?>
+
+		<fieldset>
+			<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
+
+			<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, OPTIONAL_SHIPPING_ADDRESS, 1, CREATE_ACCOUNT_CHECKBOX);    ?>
+		</fieldset>
+
+		<?php if (SHIPPING_METHOD_ENABLE) : ?>
+
+		<?php
+		$billingisshipping = "";
+
+		if (count($_POST) > 0)
+		{
+			if (isset($post['billisship']) && $post['billisship'] == 1)
 			{
-				?>
-				<tr>
-					<td colspan="2"><?php echo JText::_('COM_REDSHOP_GET_ADDRESS_BY_PHONE') . ':<input name="searchphone" id="searchphone" type="text" value="" /><input type="button" name="searchaddbyphone" id="searchaddbyphone" value="' . JText::_('COM_REDSHOP_SEARCH') . '" onclick="return searchByPhone();" />';?>
-						<br/>
-
-						<div id="divSearchPhonemsg"
-						     style="display:none"><?php echo JText::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE');?></div>
-					</td>
-				</tr>
-			<?php
+				$billingisshipping = "style='display:none'";
 			}
-			?>
-		</table>
-		<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="adminForm"
-		      enctype="multipart/form-data">
-			<?php
-			if (REGISTER_METHOD == 2)
-			{
-				$checked_style = (CREATE_ACCOUNT_CHECKBOX == 1) ? 'checked="checked"' : "''";
-				?>
-				<h4><label><input type="checkbox" name="createaccount" <?php echo $checked_style;?> id="createaccount"
-				           value="1" onclick="createUserAccount(this);"/>
-					<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT');?></label></h4>
-			<?php
-			}    ?>
-			<div>
-				<fieldset class="adminform">
-					<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
-					<?php
-					echo $userhelper->getBillingTable($post, $is_company, $this->lists, OPTIONAL_SHIPPING_ADDRESS, 1, CREATE_ACCOUNT_CHECKBOX);    ?>
-				</fieldset>
-				<br/>
-				<?php
-				$billingisshipping = "";
+		}
+		elseif (OPTIONAL_SHIPPING_ADDRESS)
+		{
+			$billingisshipping = "style='display:none'";
+		}
+		?>
 
-				if (count($_POST) > 0)
-				{
-					if (isset($post['billisship']) && $post['billisship'] == 1)
-					{
-						$billingisshipping = "style='display:none'";
-					}
-				}
-				elseif (OPTIONAL_SHIPPING_ADDRESS)
-				{
-					$billingisshipping = "style='display:none'";
-				}?>
-				<div id="divShipping" <?php echo $billingisshipping;?>>
-					<?php
-					if (SHIPPING_METHOD_ENABLE)
-					{
-						?>
-						<table cellspacing="0" cellpadding="0" border="0" width="100%">
-							<tr class="subTable">
-								<td>
-									<fieldset class="adminform">
-										<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
-										<?php        echo $userhelper->getShippingTable($post, $is_company, $this->lists);    ?>
-									</fieldset>
-								</td>
-							</tr>
-						</table>
-					<?php
-					}
-					?>
-				</div>
+		<div id="divShipping" <?php echo $billingisshipping;?>>
+			<fieldset class="adminform subTable">
+				<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
+				<?php echo $userhelper->getShippingTable($post, $is_company, $this->lists);    ?>
+			</fieldset>
+		</div>
 
-				<div id="divCaptcha">
-					<?php
-					if (SHOW_CAPTCHA)
-					{
-						?>
-						<table cellspacing="0" cellpadding="0" border="0" width="100%">
-							<tr>
-								<td align="left">
-									<fieldset class="adminform">
-										<legend><?php echo JText::_('COM_REDSHOP_CAPTCHA');?></legend>
-										<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
-									</fieldset>
-								</td>
-							</tr>
-						</table>
-					<?php
-					}
-					?>
-				</div>
+		<?php endif; ?>
 
-				<div>
-					<table cellspacing="3" cellpadding="0" border="0" width="100%">
-						<tr>
-							<td align="right"><input type="button" class="blackbutton" name="back"
-								 value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>"
-								 onclick="javascript:window.history.go(-1);"></td>
-							<td align="left">
-								<input type="submit" class="registrationSubmitButton greenbutton" name="submitbtn" id="submitbtn"
+		<?php echo RedshopLayoutHelper::render('registration.captcha'); ?>
+
+		<div class="btn-group">
+			<input type="button" class="btn btn-default btn-lg" name="back" value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
+			<input type="submit" class="btn btn-primary btn-lg" name="submitbtn" id="submitbtn"
 									 value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
+		</div>
 
-			<div class="clr"></div>
-			<input type="hidden" name="l" value="0">
-			<input type="hidden" name="address_type" value="BT"/>
-			<input type="hidden" name="user_id" id="user_id" value="0"/>
-			<input type="hidden" name="usertype" value="Registered"/>
-			<input type="hidden" name="groups[]" value="2"/>
-			<input type="hidden" name="is_company" id="is_company" value="<?php echo $is_company; ?>"/>
-			<input type="hidden" name="shopper_group_id" value="1"/>
-			<input type="hidden" name="task" value="checkoutprocess"/>
 
-		</form>
+		<div class="clr"></div>
+		<input type="hidden" name="l" value="0">
+		<input type="hidden" name="address_type" value="BT"/>
+		<input type="hidden" name="user_id" id="user_id" value="0"/>
+		<input type="hidden" name="usertype" value="Registered"/>
+		<input type="hidden" name="groups[]" value="2"/>
+		<input type="hidden" name="is_company" id="is_company" value="<?php echo $is_company; ?>"/>
+		<input type="hidden" name="shopper_group_id" value="1"/>
+		<input type="hidden" name="task" value="checkoutprocess"/>
+
+	</form>
 <?php
 	if ($show_login)
 	{
@@ -273,6 +243,7 @@ else
 		echo '</div>';
 	}
 }    ?>
+
 <script type="text/javascript">
 
 	function submit_disable(val) {

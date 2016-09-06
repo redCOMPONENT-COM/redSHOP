@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewUser extends RedshopView
+class RedshopViewUser extends RedshopViewAdmin
 {
 	public $state;
 
@@ -20,7 +20,7 @@ class RedshopViewUser extends RedshopView
 
 		$document->setTitle(JText::_('COM_REDSHOP_USER'));
 
-		$userhelper = rsUserHelper::getInstance();
+		$userhelper = RedshopSiteUser::getInstance();
 
 		$this->state = $this->get('State');
 		$sync                      = JRequest::getVar('sync');

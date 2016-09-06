@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since       1.0
  */
-class RedshopViewProduct_Detail extends RedshopView
+class RedshopViewProduct_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -34,6 +34,13 @@ class RedshopViewProduct_Detail extends RedshopView
 	public $producthelper;
 
 	public $dispatcher;
+
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
 	/**
 	 * Execute and display a template script.
@@ -57,7 +64,7 @@ class RedshopViewProduct_Detail extends RedshopView
 		$this->dispatcher    = JDispatcher::getInstance();
 
 		$redTemplate         = Redtemplate::getInstance();
-		$redhelper           = redhelper::getInstance();
+		$redhelper           = RedshopSiteHelper::getInstance();
 		$this->producthelper = RedshopSiteProduct::getInstance();
 
 		$this->option        = $this->input->getString('option', 'com_redshop');
@@ -322,31 +329,6 @@ class RedshopViewProduct_Detail extends RedshopView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_products48');
 
-		if ($detail->product_id > 0)
-		{
-			$ItemData = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
-			$catidmain = $detail->cat_in_sefurl;
-
-			if (count($ItemData) > 0)
-			{
-				$pItemid = $ItemData->id;
-			}
-			else
-			{
-				$objhelper = redhelper::getInstance();
-				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
-			}
-
-			$link  = JURI::root();
-			$link .= 'index.php?option=com_redshop';
-			$link .= '&view=product&pid=' . $detail->product_id;
-			$link .= '&cid=' . $catidmain;
-			$link .= '&Itemid=' . $pItemid;
-
-			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
-			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
-		}
-
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 		JToolBarHelper::save2new();
@@ -361,6 +343,31 @@ class RedshopViewProduct_Detail extends RedshopView
 			$model->checkout($user->get('id'));
 
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
+
+		if ($detail->product_id > 0)
+		{
+			$ItemData = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
+			$catidmain = $detail->cat_in_sefurl;
+
+			if (count($ItemData) > 0)
+			{
+				$pItemid = $ItemData->id;
+			}
+			else
+			{
+				$objhelper = RedshopSiteHelper::getInstance();
+				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
+			}
+
+			$link  = JURI::root();
+			$link .= 'index.php?option=com_redshop';
+			$link .= '&view=product&pid=' . $detail->product_id;
+			$link .= '&cid=' . $catidmain;
+			$link .= '&Itemid=' . $pItemid;
+
+			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
+			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
 		}
 
 		$model = $this->getModel('product_detail');
@@ -567,7 +574,109 @@ class RedshopViewProduct_Detail extends RedshopView
 		$this->detail = $detail;
 		$this->productSerialDetail = $productSerialDetail;
 		$this->request_url = $uri->toString();
+		$this->tabmenu = $this->getTabMenu();
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Tab Menu
+	 *
+	 * @return  object  Tab menu
+	 *
+	 * @since   1.7
+	 */
+	private function getTabMenu()
+	{
+		$app = JFactory::getApplication();
+		$selectedTabPosition = $app->getUserState('com_redshop.product_detail.selectedTabPosition', 'general_data');
+
+		$tabMenu = RedshopAdminMenu::getInstance()->init();
+		$tabMenu->section('tab')
+					->title('COM_REDSHOP_PRODUCT_INFORMATION')
+					->addItem(
+						'#general_data',
+						'COM_REDSHOP_PRODUCT_INFORMATION',
+						($selectedTabPosition == 'general_data') ? true : false,
+						'general_data'
+					);
+
+		if ($this->detail->product_type != 'product' && !empty($this->detail->product_type))
+		{
+			$tabMenu->addItem(
+					'#producttype',
+					'COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB',
+					($selectedTabPosition == 'producttype') ? true : false,
+					'producttype'
+				);
+		}
+
+		$tabMenu->addItem(
+					'#extrafield',
+					'COM_REDSHOP_FIELDS',
+					($selectedTabPosition == 'extrafield') ? true : false,
+					'extrafield'
+				)->addItem(
+					'#product_images',
+					'COM_REDSHOP_PRODUCT_IMAGES',
+					($selectedTabPosition == 'product_images') ? true : false,
+					'product_images'
+				)->addItem(
+					'#product_attribute',
+					'COM_REDSHOP_PRODUCT_ATTRIBUTES',
+					($selectedTabPosition == 'product_attribute') ? true : false,
+					'product_attribute'
+				)->addItem(
+					'#product_accessory',
+					'COM_REDSHOP_ACCESSORY_PRODUCT',
+					($selectedTabPosition == 'product_accessory') ? true : false,
+					'product_accessory'
+				)->addItem(
+					'#related',
+					'COM_REDSHOP_RELATED_PRODUCT',
+					($selectedTabPosition == 'related') ? true : false,
+					'related'
+				);
+
+		if ($this->CheckRedProductFinder > 0)
+		{
+			$tabMenu->addItem(
+					'#productfinder',
+					'COM_REDSHOP_REDPRODUCTFINDER_ASSOCIATION',
+					($selectedTabPosition == 'productfinder') ? true : false,
+					'productfinder'
+				);
+		}
+
+		$tabMenu->addItem(
+					'#product_meta_data',
+					'COM_REDSHOP_META_DATA_TAB',
+					($selectedTabPosition == 'product_meta_data') ? true : false,
+					'product_meta_data'
+				);
+
+		if (USE_STOCKROOM == 1)
+		{
+			$tabMenu->addItem(
+					'#productstockroom',
+					'COM_REDSHOP_STOCKROOM_TAB',
+					($selectedTabPosition == 'productstockroom') ? true : false,
+					'productstockroom'
+				);
+		}
+
+		$tabMenu->addItem(
+					'#calculator',
+					'COM_REDSHOP_DISCOUNT_CALCULATOR',
+					($selectedTabPosition == 'calculator') ? true : false,
+					'calculator'
+				)->addItem(
+					'#economic_settings',
+					'COM_REDSHOP_ECONOMIC_SETTINGS',
+					($selectedTabPosition == 'economic_settings') ? true : false,
+					'economic_settings'
+				);
+
+		return $tabMenu;
 	}
 }

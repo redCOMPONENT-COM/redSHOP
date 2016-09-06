@@ -38,17 +38,19 @@ $ordering      = ($this->lists['order'] == 'ordering');
 
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
-					   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>">
-				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<button class="btn"
-					onclick="document.getElementById('filter').value='';document.getElementById('product_id').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>"
+						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="document.getElementById('filter').value='';document.getElementById('product_id').value='0';this.form.submit();">
+				</div>
 			</div>
-		</div>
-		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME') . ": " . $this->lists['product_id']; ?>
+			<div class="filterItem">
+				<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME') . ": " . $this->lists['product_id']; ?>
+			</div>
 		</div>
 		<table class="adminlist table table-striped">
 			<thead>

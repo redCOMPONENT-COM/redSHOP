@@ -52,7 +52,7 @@ class economic
 		$this->_db              = $db;
 		$this->_producthelper   = RedshopSiteProduct::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
+		$this->_redhelper       = RedshopSiteHelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_stockroomhelper = rsstockroomhelper::getInstance();
 

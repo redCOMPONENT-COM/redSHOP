@@ -35,17 +35,19 @@ $redtemplate = Redtemplate::getInstance();
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="filter" id="filter" value="<?php echo $this->lists['filter']; ?>"
-					   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>">
-				<button onclick="this.form.submit();" class="btn"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-				<button class="btn"
-						onclick="document.getElementById('filter').value='';document.getElementById('filter_section').value=0;this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+		<div class="filterTool">
+			<div class="filterItem">
+
+				<div class="btn-wrapper input-append">
+					<input type="text" name="filter" id="filter" value="<?php echo $this->lists['filter']; ?>"
+						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="button" class="btn reset" onclick="document.getElementById('filter').value='';document.getElementById('filter_section').value=0;this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+				</div>
 			</div>
-		</div>
-		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_MAIL_SECTION') . ": " . $this->lists['mailsection']; ?>
+			<div class="filterItem">
+				<?php echo JText::_('COM_REDSHOP_MAIL_SECTION') . ": " . $this->lists['mailsection']; ?>
+			</div>
 		</div>
 		<table class="adminlist table table-striped">
 			<thead>

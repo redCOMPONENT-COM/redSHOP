@@ -77,7 +77,7 @@ class RedshopSiteProduct
 	{
 		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
-		$this->_userhelper   = rsUserHelper::getInstance();
+		$this->_userhelper   = RedshopSiteUser::getInstance();
 		$this->_session      = JFactory::getSession();
 	}
 
@@ -165,7 +165,7 @@ class RedshopSiteProduct
 	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
 		$userArr  = $this->_session->get('rs_user');
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 		$result = null;
 
 		if (empty($userArr))
@@ -735,7 +735,7 @@ class RedshopSiteProduct
 
 		if (count($findFields) > 0)
 		{
-			return implode(',', redhelper::quote($findFields));
+			return implode(',', RedshopSiteHelper::quote($findFields));
 		}
 
 		return '';
@@ -750,7 +750,7 @@ class RedshopSiteProduct
 	{
 		if ($dbname = $this->getExtraFieldsForCurrentTemplate($filedname, $template_data, $categorypage))
 		{
-			$extraField = extraField::getInstance();
+			$extraField = RedshopSiteExtraField::getInstance();
 			$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 		}
 
@@ -1065,7 +1065,7 @@ class RedshopSiteProduct
 		$imagename     = trim($imagename);
 		$linkimagename = trim($linkimagename);
 		$product_id    = $product->product_id;
-		$redhelper     = redhelper::getInstance();
+		$redhelper     = RedshopSiteHelper::getInstance();
 
 		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
@@ -1178,7 +1178,7 @@ class RedshopSiteProduct
 
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
-		$redhelper  = redhelper::getInstance();
+		$redhelper  = RedshopSiteHelper::getInstance();
 		$result     = $this->getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
@@ -1211,7 +1211,7 @@ class RedshopSiteProduct
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
@@ -2314,7 +2314,7 @@ class RedshopSiteProduct
 
 	public function getCategoryNavigationlist($category_id)
 	{
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 		static $i = 0;
 		static $category_list = array();
 
@@ -2713,7 +2713,7 @@ class RedshopSiteProduct
 	{
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 
 		if ($menuView != "")
 		{
@@ -2816,7 +2816,7 @@ class RedshopSiteProduct
 
 	public function getProductCategory($id = 0)
 	{
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper               = RedshopSiteUser::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 		$and = '';
 
@@ -3093,7 +3093,7 @@ class RedshopSiteProduct
 
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
-		$extraField  = extraField::getInstance();
+		$extraField  = RedshopSiteExtraField::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$cart        = $this->_session->get('cart');
 
@@ -3154,7 +3154,7 @@ class RedshopSiteProduct
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$cart       = $this->_session->get('cart');
 		$product_id = $cart[$id]['product_id'];
 		$row_data   = $extraField->getSectionFieldList($section_id, 1, 0);
@@ -3186,7 +3186,7 @@ class RedshopSiteProduct
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
-		$extraField      = extraField::getInstance();
+		$extraField      = RedshopSiteExtraField::getInstance();
 		$order_functions = order_functions::getInstance();
 		$orderItem       = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
 
@@ -3223,7 +3223,7 @@ class RedshopSiteProduct
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
@@ -3780,7 +3780,7 @@ class RedshopSiteProduct
 
 	public function getRelatedProduct($product_id = 0, $related_id = 0)
 	{
-		$helper          = redhelper::getInstance();
+		$helper          = RedshopSiteHelper::getInstance();
 		$and             = "";
 		$orderby         = "ORDER BY p.product_id ASC ";
 		$orderby_related = "";
@@ -4396,7 +4396,7 @@ class RedshopSiteProduct
 						{
 							$man_url          = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid='
 								. $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
-							$manufacturerLink = "<a href='" . $man_url . "'>" . JText::_("VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
+							$manufacturerLink = "<a class='btn btn-primary' href='" . $man_url . "'>" . JText::_("VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 							$accessory_div    = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $accessory_div);
 							$accessory_div    = str_replace("{manufacturer_link}", $manufacturerLink, $accessory_div);
 						}
@@ -5942,7 +5942,7 @@ class RedshopSiteProduct
 
 		if (strpos($cartform, "{addtocart_quantity}") !== false)
 		{
-			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity' type='text' name='quantity' id='quantity" .
+			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" .
 				$product_id . "' value='" . $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY .
 				"' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 			$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
@@ -6051,7 +6051,7 @@ class RedshopSiteProduct
 	{
 		$user_id         = 0;
 		$redconfig       = Redconfiguration::getInstance();
-		$extraField      = extraField::getInstance();
+		$extraField      = RedshopSiteExtraField::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$product_quantity = JRequest::getVar('product_quantity');
@@ -6642,7 +6642,7 @@ class RedshopSiteProduct
 			if (strpos($cartform, "{addtocart_quantity}") !== false)
 			{
 				$addtocart_quantity = "<span id='stockQuantity" . $stockId
-					. "'><input class='quantity' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
+					. "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
 					. "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY
 					. "' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 				$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
@@ -6824,13 +6824,13 @@ class RedshopSiteProduct
 				if (AJAX_CART_BOX != 1)
 				{
 					$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span>';
+						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">' . $ADD_OR_LBL . '</span>';
 				}
 				else
 				{
 					$cartIcon = '<a class="ajaxcartcolorbox' . $product_id . '"  href="javascript:;" ' . $onclick
 						. ' ><span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
-						. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link">' . $ADD_OR_LBL . '</span></a>';
+						. '" ' . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">' . $ADD_OR_LBL . '</span></a>';
 				}
 			}
 
@@ -6936,7 +6936,7 @@ class RedshopSiteProduct
 				$wishListButton = "<input type='button' value='" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
 
 				$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-				$wishPrefix = "<a class=\"modal\" href=\"" . $mywishlist_link
+				$wishPrefix = "<a  class=\"modal btn btn-primary\" href=\"" . $mywishlist_link
 					. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
 				$wishSuffix = '</a>';
 			}
@@ -6949,14 +6949,14 @@ class RedshopSiteProduct
 				{
 					$mywishlist_link = (string) JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewloginwishlist&tmpl=component');
 					$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-					$wishPrefix = "<a class=\"modal\" href=\"" . $mywishlist_link
+					$wishPrefix = "<a class=\"modal btn btn-primary\" href=\"" . $mywishlist_link
 						. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
 					$wishSuffix = '</a>';
 				}
 				else
 				{
 					$wishListLink = "<a href=\"#\" onclick=\"document.getElementById('form_wishlist_" . $product_id
-						. "').submit();return false;\" class='wishlistlink'>" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "</a>";
+						. "').submit();return false;\" class='wishlistlink btn btn-primary'>" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "</a>";
 					$wishPrefix = "<form method='post' action='' id='form_wishlist_" . $product_id
 						. "' name='form_wishlist_" . $product_id . "'>
 								<input type='hidden' name='task' value='addtowishlist' />
@@ -6984,17 +6984,15 @@ class RedshopSiteProduct
 
 	public function replaceCompareProductsButton($product_id = 0, $category_id = 0, $data_add = "", $is_relatedproduct = 0)
 	{
-		$Itemid = JRequest::getInt('Itemid');
 		$prefix = ($is_relatedproduct == 1) ? "related" : "";
-		// for compare product div...
+
+		// For compare product div...
 		if (PRODUCT_COMPARISON_TYPE != "")
 		{
 			if (strpos($data_add, '{' . $prefix . 'compare_product_div}') !== false)
 			{
-				$div                 = $this->makeCompareProductDiv();
-				$compare_product_div = "<a href='" . JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid) . "' >" . JText::_('COM_REDSHOP_COMPARE')
-					. "</a><br />";
-				$compare_product_div .= "<div id='divCompareProduct'>" . $div . "</div>";
+				$compare_product_div = RedshopLayoutHelper::render('product.compare');
+
 				$data_add = str_replace("{compare_product_div}", $compare_product_div, $data_add);
 			}
 
@@ -7670,7 +7668,7 @@ class RedshopSiteProduct
 						// Show actual productive price
 						if ($property_price > 0)
 						{
-							$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
+							$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
 
 							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -7747,7 +7745,7 @@ class RedshopSiteProduct
 							// Show actual productive price
 							if ($subproperty_price > 0)
 							{
-								$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
+								$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
 
 								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -8421,9 +8419,13 @@ class RedshopSiteProduct
 
 			if ($avgRating > 0)
 			{
-				$finalAvgReviewData = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $avgRating . '.gif" />';
-				$finalAvgReviewData .= JText::_('COM_REDSHOP_AVG_RATINGS_1') . " " . $productData->count_rating . " "
-					. JText::_('COM_REDSHOP_AVG_RATINGS_2');
+				$finalAvgReviewData = RedshopLayoutHelper::render(
+					'product.rating',
+					array(
+						'avgRating' => $avgRating,
+						'countRating' => $productData->count_rating
+						)
+				);
 			}
 		}
 
@@ -8889,9 +8891,16 @@ class RedshopSiteProduct
 		return $parent_id;
 	}
 
+	/**
+	 * Get formatted number
+	 *
+	 * @param   int  $price
+	 *
+	 * @return  string
+	 */
 	public function redpriceDecimal($price)
 	{
-		return number_format($price, PRICE_DECIMAL, '.', '');
+		return number_format(abs($price), PRICE_DECIMAL, '.', '');
 	}
 
 	public function redunitDecimal($price)
@@ -9070,7 +9079,7 @@ class RedshopSiteProduct
 
 			if ($displaylink)
 			{
-				$redhelper = redhelper::getInstance();
+				$redhelper = RedshopSiteHelper::getInstance();
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
 
 				if(!(boolean) $catItem)
@@ -9095,7 +9104,7 @@ class RedshopSiteProduct
 	{
 		$url                 = JURI::base();
 		$product             = $this->getProductById($product_id);
-		$redhelper           = redhelper::getInstance();
+		$redhelper           = RedshopSiteHelper::getInstance();
 		$aHrefImageResponse  = '';
 		$imagename           = '';
 		$aTitleImageResponse = '';
@@ -9232,7 +9241,7 @@ class RedshopSiteProduct
 		$redTemplate     = Redtemplate::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$url             = JURI::base();
-		$redhelper       = redhelper::getInstance();
+		$redhelper       = RedshopSiteHelper::getInstance();
 
 		if ($accessory_id != 0)
 		{
@@ -9955,7 +9964,7 @@ class RedshopSiteProduct
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 
 		if (count($fieldArray) > 0)
 		{
@@ -9994,10 +10003,10 @@ class RedshopSiteProduct
 	 */
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field      = extraField::getInstance();
+		$extra_field      = RedshopSiteExtraField::getInstance();
 		$config           = Redconfiguration::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
-		$redhelper        = redhelper::getInstance();
+		$redhelper        = RedshopSiteHelper::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
@@ -10109,7 +10118,7 @@ class RedshopSiteProduct
 						if (count($manufacturer) > 0)
 						{
 							$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
-							$manufacturerLink      = "<a href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
+							$manufacturerLink      = "<a class='btn btn-primary' href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 							$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
 							$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
 						}
@@ -10449,7 +10458,7 @@ class RedshopSiteProduct
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
@@ -10472,7 +10481,7 @@ class RedshopSiteProduct
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = extraField::getInstance();
+		$extraField = RedshopSiteExtraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 

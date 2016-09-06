@@ -34,7 +34,7 @@ class JFormFieldOrderbymanufacturer extends JFormField
 	 */
 	protected function getInput()
 	{
-		$helper = redhelper::getInstance();
+		$helper = RedshopSiteHelper::getInstance();
 		$name   = $this->name;
 		$value  = $this->value;
 

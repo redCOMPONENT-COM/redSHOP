@@ -55,8 +55,8 @@ class RedshopModelCart extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 
 		$this->_producthelper = RedshopSiteProduct::getInstance();
-		$this->_carthelper    = rsCarthelper::getInstance();
-		$this->_userhelper    = rsUserHelper::getInstance();
+		$this->_carthelper    = RedshopSiteCart::getInstance();
+		$this->_userhelper    = RedshopSiteUser::getInstance();
 		$this->_objshipping   = shipping::getInstance();
 		$user                 = JFactory::getUser();
 		$session              = JFactory::getSession();
@@ -637,7 +637,7 @@ class RedshopModelCart extends RedshopModel
 		$shipping_calc .= "<label>" . JText::_('COM_REDSHOP_ZIPCODE') . "</label><br />";
 		$shipping_calc .= "<input type='text' name='zipcode' id='zip_code' />";
 		$shipping_calc .= "<br />";
-		$shipping_calc .= "<input class='blackbutton' type='button' name='shippingcalc' id='shippingcalc' value='" . JText::_('COM_REDSHOP_UPDATE') . "' onClick='javascript:getShippingrate();' />";
+		$shipping_calc .= "<input class='blackbutton btn' type='button' name='shippingcalc' id='shippingcalc' value='" . JText::_('COM_REDSHOP_UPDATE') . "' onClick='javascript:getShippingrate();' />";
 		$shipping_calc .= "</form>";
 
 		return $shipping_calc;

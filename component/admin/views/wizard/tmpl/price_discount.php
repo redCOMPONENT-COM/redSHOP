@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 </div>
 <div>&nbsp;</div>
 <fieldset>
-	<table class="admintable">
+	<table class="admintable table">
 		<tr>
 			<td colspan="2" class="discount_enable_intro_text">
 				<?php echo JText::_('COM_REDSHOP_DISCOUNT_ENABLE_INTRO_TEXT'); ?>
@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 	</table>
 </fieldset>
 <fieldset>
-	<table class="admintable">
+	<table class="admintable table">
 		<tr>
 			<td colspan="2" class="coupons_enable_intro_text">
 				<?php echo JText::_('COM_REDSHOP_COUPONS_ENABLE_INTRO_TEXT'); ?>
@@ -49,7 +49,7 @@ defined('_JEXEC') or die;
 	</table>
 </fieldset>
 <fieldset>
-	<table class="admintable">
+	<table class="admintable table">
 		<tr>
 			<td colspan="2" class="voucher_enable_intro_text">
 				<?php echo JText::_('COM_REDSHOP_VOUCHER_ENABLE_INTRO_TEXT'); ?>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 	</table>
 </fieldset>
 <fieldset>
-	<table class="admintable">
+	<table class="admintable table">
 		<tr>
 			<td colspan="2" class="discount_type_intro_text">
 				<?php echo JText::_('COM_REDSHOP_DISCOUNT_TYPE_INTRO_TEXT'); ?>
@@ -85,7 +85,7 @@ defined('_JEXEC') or die;
 </fieldset>
 
 <fieldset>
-	<table class="admintable">
+	<table class="admintable table">
 		<tr>
 			<td colspan="2" class="discount_type_intro_text">
 				<?php echo JText::_('COM_REDSHOP_SHIPPING_AFTER_INTRO_TEXT'); ?>

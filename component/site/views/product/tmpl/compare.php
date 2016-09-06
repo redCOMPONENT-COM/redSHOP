@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.modal');
+
 // Get product helper
 
 $print  = $this->input->getBool('print', false);
@@ -76,7 +78,7 @@ if ($total > 0)
 	$template = str_replace('{remove_all}', $removeAll, $template);
 
 	// Make extrafield object..
-	$field    = extraField::getInstance();
+	$field    = RedshopSiteExtraField::getInstance();
 
 	$product_tag = array();
 
@@ -256,7 +258,7 @@ if ($total > 0)
 
 		if (strstr($template, "{add_to_cart}"))
 		{
-			$addtocart = $producthelper->replaceCartTemplate($data['item']->productId);
+			$addtocart = $producthelper->replaceCartTemplate($data['item']->productId, 0, 0, 0, '{form_addtocart:add_to_cart1}');
 			$template  = str_replace('{add_to_cart}', $exp_div . $addtocart . $div_end . $td_end . $td_start . "{add_to_cart}", $template);
 		}
 

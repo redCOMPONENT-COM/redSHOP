@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 
 
-class RedshopViewOrder_detail extends RedshopView
+class RedshopViewOrder_detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -20,12 +20,19 @@ class RedshopViewOrder_detail extends RedshopView
 	 */
 	public $request_url;
 
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = order_functions::getInstance();
-		$redhelper = redhelper::getInstance();
+		$redhelper = RedshopSiteHelper::getInstance();
 
 		$uri = JFactory::getURI();
 
@@ -145,7 +152,8 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_order48');
-		JToolBarHelper::cancel('cancel', JText::_('COM_REDSHOP_ORDERLIST'));
+
+		JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
 		$order_id = $detail->order_id;
 		RedshopToolbarHelper::link(

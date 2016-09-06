@@ -45,7 +45,7 @@ $app = JFactory::getApplication();
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>:</td>
 					<td><input class="text_area" type="text" name="mail_name" id="mail_name" size="32" maxlength="250"
@@ -101,8 +101,8 @@ $app = JFactory::getApplication();
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_BODY'); ?></legend>
-			<div class="span12">
-				<div class="span7">
+			<div class="col-sm-12">
+				<div class="col-sm-7">
 					<p>
 						<label class="text-info" for="templateMode">
 							<?php echo JText::_('COM_REDSHOP_TEMPLATE_SWITCH_METHOD'); ?>
@@ -140,7 +140,7 @@ $app = JFactory::getApplication();
 									);
 				?>
 				</div>
-				<div class="span5">
+				<div class="col-sm-5">
 					<?php echo $this->loadTemplate('hint');?>
 				</div>
 			</div>

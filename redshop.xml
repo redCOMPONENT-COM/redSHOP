@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
     <name>COM_REDSHOP</name>
-    <creationDate>April 2016</creationDate>
+    <creationDate>September 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>1.6.1</version>
+    <version>2.0</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -66,6 +66,7 @@
             <folder>sql</folder>
             <folder>tables</folder>
             <folder>views</folder>
+            <filename>access.xml</filename>
             <filename>config.xml</filename>
             <filename>controller.php</filename>
             <filename>index.html</filename>
@@ -95,5 +96,6 @@
         <plugin name="klarna" group="redshop_payment" />
         <plugin name="default_shipping" group="redshop_shipping" />
         <plugin name="redshop" group="finder" />
+        <plugin name="alert" group="redshop_alert" />
     </plugins>
 </extension>

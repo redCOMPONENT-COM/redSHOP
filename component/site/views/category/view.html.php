@@ -43,7 +43,7 @@ class RedshopViewCategory extends RedshopView
 	{
 		$this->app     = JFactory::getApplication();
 		$this->input   = $this->app->input;
-		$objhelper     = redhelper::getInstance();
+		$objhelper     = RedshopSiteHelper::getInstance();
 		$prodhelperobj = RedshopSiteProduct::getInstance();
 
 		// Request variables
@@ -83,10 +83,6 @@ class RedshopViewCategory extends RedshopView
 		}
 
 		$document = JFactory::getDocument();
-		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/redbox.js', false, true);
-		JHtml::script('com_redshop/attribute.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 
 		$lists   = array();
