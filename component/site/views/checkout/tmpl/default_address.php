@@ -24,7 +24,7 @@ $cart      = $session->get('cart');
 	<input type="hidden" name='l' value='0'>
 	<?php
 	$billingaddresses = $model->billingaddresses();
-	$editbill = $url . "index.php?option=com_redshop&view=account_billto&return=checkout&tmpl=component&for=true&Itemid=" . $Itemid;        ?>
+	$editbill = $url . "index.php?option=com_redshop&view=account_billto&return=checkout&tmpl=component&Itemid=" . $Itemid;        ?>
 
 	<div class="row">
 		<div class="col-sm-6">
@@ -84,7 +84,7 @@ $cart      = $session->get('cart');
 					}
 
 					$shippingaddresses = $model->shippingaddresses();
-					$add_addlink = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
+					$add_addlink = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
 
 					for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++)
 					{
@@ -93,7 +93,7 @@ $cart      = $session->get('cart');
 							$checked = ($this->users_info_id == $shippingaddresses [$i]->users_info_id) ? 'checked' : '';
 						}
 
-						$edit_addlink   = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
+						$edit_addlink   = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
 						$delete_addlink = $url . "index.php?option=com_redshop&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;    ?>
 
 						<div class="radio">
