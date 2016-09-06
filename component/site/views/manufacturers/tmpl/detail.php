@@ -80,6 +80,8 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
 			$cart_mdata = str_replace("{category_desc}", $category[$i]->category_description, $cart_mdata);
 			$cart_mdata = str_replace("{category_name}", $category[$i]->category_name, $cart_mdata);
+			$categoryImage = "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "category/" . $category[$i]->category_full_image . "' />";
+			$cart_mdata = str_replace("{category_image}", $categoryImage, $cart_mdata);
 		}
 	}
 

@@ -226,7 +226,7 @@ switch ($name)
 	case 'manufacturer_detail':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_MANUFACTURER_DETAIL_HINT'); ?></b><br /><br />
-		{manufacturer_name} {manufacturer_image} {manufacturer_description} {category_name} {category_desc} {category_name_with_link} {category_loop_start} {category_loop_end} {manufacturer_url} {manufacturer_allproductslink_lbl} {manufacturer_allproductslink} {manufacturer_extra_fields}
+		{manufacturer_name} {manufacturer_image} {manufacturer_description} {category_name} {category_image} {category_desc} {category_name_with_link} {category_loop_start} {category_loop_end} {manufacturer_url} {manufacturer_allproductslink_lbl} {manufacturer_allproductslink} {manufacturer_extra_fields}
 		<?php
 		break;
 	case 'manufacturer_products':
