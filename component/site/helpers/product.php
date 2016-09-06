@@ -8893,7 +8893,7 @@ class RedshopSiteProduct
 
 	public function redpriceDecimal($price)
 	{
-		return number_format($price, PRICE_DECIMAL, '.', '');
+		return number_format(abs($price), PRICE_DECIMAL, '.', '');
 	}
 
 	public function redunitDecimal($price)
@@ -10154,9 +10154,11 @@ class RedshopSiteProduct
 
 					$related_template_data = $this->getProductOnSaleComment($related_product[$r], $related_template_data);
 					$related_template_data = $this->getSpecialProductComment($related_product[$r], $related_template_data);
+					
+					$isCategorypage = (JFactory::getApplication()->input->getCmd('view') == "category") ? 1 : 0;
 
 					//  Extra field display
-					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, 1);
+					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, $isCategorypage);
 
 					// Related product attribute price list
 					$related_template_data = $this->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
