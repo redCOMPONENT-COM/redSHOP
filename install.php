@@ -106,6 +106,9 @@ class Com_RedshopInstallerScript
 		{
 			// Remove unused files from older than 1.3.3.1 redshop
 			$this->cleanUpgradeFiles($parent);
+
+			// Update redSHOP helper class name
+			$this->updateOverrideTemplate();
 			$this->updateschema();
 		}
 	}
@@ -1276,7 +1279,7 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
-		if (version_compare($this->getOldParam('version'), '1.6.1', '<='))
+		if (version_compare($this->getOldParam('version'), '2.0', '<='))
 		{
 			array_push(
 				$folders,
@@ -1436,6 +1439,128 @@ class Com_RedshopInstallerScript
 				if (JFile::exists($path))
 				{
 					JFile::delete($path);
+				}
+			}
+		}
+	}
+
+	/**
+	 * update helper class name in redSHOP override files
+	 *
+	 * @return  void
+	 */
+	private function updateOverrideTemplate()
+	{
+		$dir = JPATH_SITE . "/templates/";
+		$files = scandir($dir);
+		$files = array_diff(scandir($dir), array('.', '..'));
+		$templates = array();
+
+		foreach ($files as $key => $value)
+		{
+			if (!is_file($dir . $value))
+			{
+				$templates[$dir . $value] = array_diff(scandir($dir . $value), array('.', '..'));
+			}
+		}
+
+		$override = array();
+
+		foreach ($templates as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!is_file($key . '/' . $name))
+				{
+					$override[$key . '/html'] = array_diff(scandir($key . '/html'), array('.', '..'));
+				}
+			}
+		}
+
+		$overrideFolders = array();
+		$overrideLayoutFolders = array();
+
+		foreach ($override as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if ($name == 'layouts')
+				{
+					$overrideLayoutFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+				}
+				elseif (!is_file($key . '/' . $name) && $name != 'layouts')
+				{
+					$overrideFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+				}
+			}
+		}
+
+		$overrideFiles = array();
+
+		foreach ($overrideFolders as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!is_file($key . '/' . $name))
+				{
+					$overrideFiles[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+				}
+			}
+		}
+
+		foreach ($overrideLayoutFolders as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!is_file($key . '/' . $name) && $name == 'com_redshop')
+				{
+					$overrideLayoutFiles[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+				}
+			}
+		}
+
+		foreach ($overrideLayoutFiles as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!is_file($key . '/' . $name))
+				{
+					$overrideFiles[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+				}
+			}
+		}
+
+		$replaceString = array(
+				'new producthelper' => 'RedshopSiteProduct::getInstance()',
+				'new quotationHelper' => 'quotationHelper::getInstance()',
+				'new order_functions' => 'order_functions::getInstance()',
+				'new Redconfiguration' => 'Redconfiguration::getInstance()',
+				'new Redtemplate' => 'Redtemplate::getInstance()',
+				'new extra_field' => 'extra_field::getInstance()',
+				'new extraField' => 'RedshopSiteExtraField::getInstance()',
+				'new rsCarthelper' => 'RedshopSiteCart::getInstance()',
+				'new rsUserhelper' => 'RedshopSiteUser::getInstance()',
+				'new rsstockroomhelper' => 'rsstockroomhelper::getInstance()',
+				'new redhelper' => 'RedshopSiteHelper::getInstance()',
+				'new shipping' => 'shipping::getInstance()'
+			);
+
+		if (!empty($overrideFiles))
+		{
+			foreach ($overrideFiles as $path => $files)
+			{
+				foreach ($files as $file)
+				{
+					$content = file_get_contents($path . '/' . $file);
+
+					foreach ($replaceString as $old => $new)
+					{
+						if (strstr($content, $old))
+						{
+							$content = str_replace($old, $new, $content);
+							file_put_contents($path . '/' . $file, $content);
+						}
+					}
 				}
 			}
 		}
