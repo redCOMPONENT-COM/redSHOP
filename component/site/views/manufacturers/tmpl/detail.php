@@ -72,6 +72,8 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 
 	if ($template_middle != "")
 	{
+		$cart_mdata = '';
+
 		for ($i = 0, $in = count($category); $i < $in; $i++)
 		{
 			$cart_mdata .= $template_middle;
@@ -80,7 +82,17 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
 			$cart_mdata = str_replace("{category_desc}", $category[$i]->category_description, $cart_mdata);
 			$cart_mdata = str_replace("{category_name}", $category[$i]->category_name, $cart_mdata);
-			$categoryImage = "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "category/" . $category[$i]->category_full_image . "' />";
+			$categoryImagePath = REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $category[$i]->category_full_image;
+
+			if (is_file($categoryImagePath))
+			{
+				$categoryImage = "<img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "category/" . $category[$i]->category_full_image . "' />";
+			}
+			else
+			{
+				$categoryImage = "";
+			}
+
 			$cart_mdata = str_replace("{category_image}", $categoryImage, $cart_mdata);
 		}
 	}
