@@ -91,7 +91,7 @@ JPluginHelper::importPlugin('redshop_product');
 		form.submit();
 	}
 
-	resetfilter = function()
+	resetFilter = function()
 	{
 		document.adminForm.task.value = '';
 		document.getElementById('filter').value='';
@@ -112,8 +112,11 @@ JPluginHelper::importPlugin('redshop_product');
 					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
 						   placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
 					<button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
-					<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+					<input type="button" class="btn reset" onclick="resetFilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
 				</div>
+			</div>
+			<div class="filterItem">
+				<?php echo $lists['filter_by']; ?>
 			</div>
 			<div class="filterItem calendar-div">
 				<?php

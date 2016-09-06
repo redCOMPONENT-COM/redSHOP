@@ -61,6 +61,13 @@ JHtml::_('redshopjquery.framework');
 
 	}
 
+	function resetFilter() {
+		document.getElementById('keyword').value = '';
+		document.getElementById('search_field').value = 'p.product_name';
+		document.getElementById('category_id').value = 0;
+		document.getElementById('product_sort').value = 0;
+	}
+
 </script>
 <form action="index.php?option=com_redshop&view=product" method="post" name="adminForm" id="adminForm">
 
@@ -70,7 +77,7 @@ JHtml::_('redshopjquery.framework');
 		<div class="btn-wrapper input-append">
 			<input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword; ?>" placeholder="<?php echo JText::_("COM_REDSHOP_USER_FILTER") ?>">
 			<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-			<input type="button" class="btn reset" onclick="document.getElementById('keyword').value='';this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+			<input type="button" class="btn reset" onclick="resetFilter();this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
 		</div>
 	</div>
 	<div class="filterItem">
