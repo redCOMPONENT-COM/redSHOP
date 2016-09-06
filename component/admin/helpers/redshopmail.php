@@ -604,22 +604,6 @@ class redshopMail
 		$html   = str_replace("{firstname}", $billingaddresses->firstname, $html);
 		$html   = str_replace("{lastname}", $billingaddresses->lastname, $html);
 
-		if (function_exists("curl_init"))
-		{
-			if ('pdf' == $type)
-			{
-				$barcodeImageUrl = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $row->barcode . ".png";
-				$barcodeImage    = '<img src="' . $barcodeImageUrl . '" alt="Barcode"  border="0" />';
-				$html         = str_replace("{barcode}", $barcodeImage, $html);
-			}
-			else
-			{
-				$barcodeImageUrl = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $row->barcode . ".png";
-				$barcodeImage    = '<img src="' . $barcodeImageUrl . '" alt="Barcode"  border="0" />';
-				$html         = str_replace("{barcode}", $barcodeImage, $html);
-			}
-		}
-
 		$html = $this->_carthelper->replaceOrderTemplate($row, $html, true);
 
 		$object = new stdClass;
