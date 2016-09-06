@@ -102,6 +102,11 @@ Joomla.submitbutton = function (pressbutton)
 			return;
 		}
 
+		if (validateProductQuantity() == false)
+		{
+			return false;
+		}
+
 		if (validateExtrafield(form) == false)
 		{
 			return false;
@@ -189,6 +194,25 @@ function validateUserDetail()
 	}
 
 	return;
+}
+
+function validateProductQuantity()
+{
+	var valid = true;
+	var quantity = document.querySelectorAll("input[name*='quantityproduct']");
+
+	for (i = 0; i < quantity.length; i++)
+	{
+		if (parseInt(quantity[i].value) <= 0)
+		{
+			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_QUANTITY'); ?>");
+			quantity[i].focus();
+			valid = false;
+			break;
+		}
+	}
+
+	return valid;
 }
 </script>
 <?php
