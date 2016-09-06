@@ -23,17 +23,10 @@ class RedshopHelperJs
 	 */
 	public static function init()
 	{
-		$doc    = JFactory::getDocument();
-		$tmpl   = JRequest::getCmd('tmpl');
-		$view   = JRequest::getCmd('view');
-		$layout = JRequest::getCmd('layout');
-		$for    = JRequest::getWord("for", false);
-
-		if ($tmpl == 'component' && !$for)
-		{
-			$doc->addStyleDeclaration('html { overflow:scroll; }');
-		}
-
+		$doc     = JFactory::getDocument();
+		$tmpl    = JRequest::getCmd('tmpl');
+		$view    = JRequest::getCmd('view');
+		$layout  = JRequest::getCmd('layout');
 		$session = JFactory::getSession();
 
 		$post   = JRequest::get('POST');

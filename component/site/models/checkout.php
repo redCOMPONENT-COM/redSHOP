@@ -2216,7 +2216,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = str_replace("{checkout}", $checkout, $template_desc);
 		$template_desc = str_replace("{checkout_button}", $checkout, $template_desc);
 
-		$qlink             = JRoute::_('index.php?option=com_redshop&view=quotation&tmpl=component&for=true&return=1&Itemid=' . $Itemid);
+		$qlink             = JRoute::_('index.php?option=com_redshop&view=quotation&tmpl=component&return=1&Itemid=' . $Itemid);
 		$quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton btn btn-primary" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
 		$template_desc     = str_replace("{quotation_request}", $quotation_request, $template_desc);
 

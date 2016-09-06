@@ -132,7 +132,7 @@ else
 $cart_data = str_replace("{checkout}", $checkout, $cart_data);
 $cart_data = str_replace("{checkout_button}", $checkout, $cart_data);
 
-$qlink = $url . 'index.php?option=com_redshop&view=quotation&tmpl=component&for=true&return=1&Itemid=' . $Itemid;
+$qlink = $url . 'index.php?option=com_redshop&view=quotation&tmpl=component&return=1&Itemid=' . $Itemid;
 $quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton btn btn-primary" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
 $cart_data = str_replace("{quotation_request}", $quotation_request, $cart_data);
 /*
