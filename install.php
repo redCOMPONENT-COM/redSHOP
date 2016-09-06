@@ -87,9 +87,6 @@ class Com_RedshopInstallerScript
 		$this->installModules($parent);
 		$this->installPlugins($parent);
 
-		// Remove unused files from older than 1.3.3.1 redshop
-		$this->cleanUpgradeFiles($parent);
-
 		JLoader::import('redshop.library');
 		$this->com_install('update');
 		$this->insertKlarnaFields();
@@ -107,6 +104,8 @@ class Com_RedshopInstallerScript
 	{
 		if ($type == "update")
 		{
+			// Remove unused files from older than 1.3.3.1 redshop
+			$this->cleanUpgradeFiles($parent);
 			$this->updateschema();
 		}
 	}
@@ -1313,7 +1312,7 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/update.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php',
-				JPATH_LIBRARIES     . '/redshop/form/fields/stockroom.php'
+				JPATH_LIBRARIES . '/redshop/form/fields/stockroom.php'
 			);
 		}
 
