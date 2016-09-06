@@ -8891,7 +8891,7 @@ class RedshopSiteProduct
 
 	public function redpriceDecimal($price)
 	{
-		return number_format($price, PRICE_DECIMAL, '.', '');
+		return number_format(abs($price), PRICE_DECIMAL, '.', '');
 	}
 
 	public function redunitDecimal($price)
