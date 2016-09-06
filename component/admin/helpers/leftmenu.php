@@ -775,16 +775,6 @@ class leftmenu
 				'index.php?option=com_redshop&view=opsearch',
 				'COM_REDSHOP_PRODUCT_ORDER_SEARCH',
 				(self::$view == 'opsearch') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=barcode',
-				'COM_REDSHOP_BARCODE',
-				(self::$view == 'barcode' && self::$layout == '') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=barcode&layout=barcode_order',
-				'COM_REDSHOP_BARCODE_ORDER',
-				(self::$view == 'barcode' && self::$layout == 'barcode_order') ? true : false
 			);
 	}
 
