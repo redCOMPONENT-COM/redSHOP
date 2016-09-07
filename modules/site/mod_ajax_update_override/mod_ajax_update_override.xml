@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5" method="upgrade">
+	<name>Ajax redSHOP Update Override Template</name>
+	<version>1.0.0</version>
+	<redshop>2.0</redshop>
+    <creationDate>September 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>The module for ajax</description>
+
+	<files>
+		<filename module="mod_ajax_update_override">mod_ajax_update_override.php</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_ajax_update_override.ini</language>
+	</languages>
+</extension>
