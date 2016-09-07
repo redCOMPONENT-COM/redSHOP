@@ -34,7 +34,7 @@ $producthelper = RedshopSiteProduct::getInstance();
 	{
 		document.getElementById('discount_type').value = 'select';
 		document.getElementById('name_filter').value = '';
-		document.getElementById('spgrpdis_filter').value = '0';
+		document.getElementById('spgrpdis_filter').value = 0;
 		document.adminForm.submit();
 	}
 
