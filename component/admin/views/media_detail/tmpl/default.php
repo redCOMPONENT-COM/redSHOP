@@ -96,12 +96,20 @@ if ($showbuttons)
 
 				return false;
 			}
-			else if (form.file.value == '' && form.media_bank_image.value == '' && form.hdn_download_file.value == '')
+			else if (form.file.value == '' && form.media_bank_image.value == '')
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
 
 				return false;
 			}
+			<?php if ($media_section == 'product') : ?>
+			else if (form.hdn_download_file.value == '')
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
+
+				return false;
+			}
+			<?php endif;?>
 			else if (form.media_type.value == 0)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true ); ?>");
@@ -194,7 +202,7 @@ if ($showbuttons)
 													USE_IMAGE_SIZE_SWAPPING
 												);
 									?>
-									<a class="modal"
+									<a class="modal btn btn-primary"
 									   href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
 									   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 									   rel="{handler: 'image', size: {}}">
@@ -235,7 +243,7 @@ if ($showbuttons)
 						<td width="2%"><?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
 							<div class="button2-left">
 								<div class="image">
-									<a class="modal"
+									<a class="modal btn btn-primary"
 										title="Image" href="<?php echo $ilink; ?>"
 										rel="{handler: 'iframe', size: {x: 1050, y: 450}}">
 										<?php echo JText::_('COM_REDSHOP_IMAGE'); ?>
@@ -255,7 +263,7 @@ if ($showbuttons)
 								<?php $down_ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'); ?>
 								<div class="button2-left">
 									<div class="image">
-										<a class="modal"
+										<a class="modal btn btn-primary"
 											title="Image"
 											href="<?php echo $down_ilink; ?>"
 											rel="{handler: 'iframe', size: {x: 950, y: 450}}">
@@ -285,7 +293,7 @@ if ($showbuttons)
 							<td><?php echo JText::_('COM_REDSHOP_UPLOAD_FILE_FROM_COMPUTER'); ?></td>
 							<td><input type="file" name="file[]" id="file" size="75">
 								<?php if ($media_section != 'manufacturer'): ?>
-								<input type="button" name="addvalue" id="addvalue" class="button btn btn-small"
+								<input type="button" name="addvalue" id="addvalue" class="button btn btn-primary"
 								       Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
 								       onclick="addNewRow('extra_table');"/>
 								<?php endif; ?>
