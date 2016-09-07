@@ -28,35 +28,45 @@ $post['state_code_ST']   = $post['state_code'];
 		frm.task.value = 'cancel';
 		frm.submit();
 	}
+
+	function submitForm(frm)
+	{
+		console.log (validateInfo());
+		if (validateInfo())
+		{
+			frm.submit();
+		}
+	}
+
 	function validateInfo() {
 		var frm = document.adminForm;
 
-		if (frm.firstname.value == '') {
+		if (frm.firstname_ST.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
 			return false;
 		}
 
-		if (frm.lastname.value == '') {
+		if (frm.lastname_ST.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME')?>");
 			return false;
 		}
 
-		if (frm.address.value == '') {
+		if (frm.address_ST.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS')?>");
 			return false;
 		}
 
-		if (frm.zipcode.value == '') {
+		if (frm.zipcode_ST.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE')?>");
 			return false;
 		}
 
-		if (frm.city.value == '') {
+		if (frm.city_ST.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_CITY')?>");
 			return false;
 		}
 
-		if (frm.phone.value == '') {
+		if (frm.phone_ST.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE')?>");
 			return false;
 		}
@@ -77,6 +87,7 @@ $post['state_code_ST']   = $post['state_code'];
 					                         value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
 					                         onclick="javascript:cancelForm(this.form);"></td>
 					<td align="left"><input type="submit" class="button btn btn-primary" name="submitbtn"
+					                        onclick="javascript:validateInfo(this.form);"
 					                        value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>"></td>
 				</tr>
 			</table>
