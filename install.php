@@ -1314,6 +1314,12 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php',
 				JPATH_LIBRARIES . '/redshop/form/fields/stockroom.php'
 			);
+
+			// Remove barcode view for backend
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/barcode'
+			);
 		}
 
 		if (version_compare($this->getOldParam('version'), '1.5.0.5.3', '<='))

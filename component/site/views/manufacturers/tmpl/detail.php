@@ -72,6 +72,8 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 
 	if ($template_middle != "")
 	{
+		$cart_mdata = '';
+
 		for ($i = 0, $in = count($category); $i < $in; $i++)
 		{
 			$cart_mdata .= $template_middle;
@@ -80,6 +82,18 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
 			$cart_mdata = str_replace("{category_desc}", $category[$i]->category_description, $cart_mdata);
 			$cart_mdata = str_replace("{category_name}", $category[$i]->category_name, $cart_mdata);
+			$thumbUrl = RedShopHelperImages::getImagePath(
+					$category[$i]->category_full_image,
+					'',
+					'thumb',
+					'category',
+					200,
+					200,
+					USE_IMAGE_SIZE_SWAPPING
+				);
+
+			$categoryImage = "<img src='" . $thumbUrl . "' />";
+			$cart_mdata = str_replace("{category_thumb_image}", $categoryImage, $cart_mdata);
 		}
 	}
 

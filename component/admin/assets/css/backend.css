@@ -8290,7 +8290,7 @@ a:focus {
 .navbar-nav > .notifications-menu > .dropdown-menu,
 .navbar-nav > .messages-menu > .dropdown-menu,
 .navbar-nav > .tasks-menu > .dropdown-menu {
-  width: 280px;
+  min-width: 280px;
   padding: 0 0 0 0;
   margin: 0;
   top: 100%;
@@ -8340,6 +8340,7 @@ a:focus {
 .navbar-nav > .tasks-menu > .dropdown-menu > li.footer > a:hover {
   text-decoration: none;
   font-weight: normal;
+  color: #fff !important;
 }
 .navbar-nav > .notifications-menu > .dropdown-menu > li .menu,
 .navbar-nav > .messages-menu > .dropdown-menu > li .menu,
