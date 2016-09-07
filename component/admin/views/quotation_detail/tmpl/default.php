@@ -43,21 +43,52 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_PRODUCT');?>");
 				return;
 			}
+
+			if (form.quantityproduct1.value == "" || parseInt(form.quantityproduct1.value) <= 0) {
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_QUANTITY'); ?>");
+				form.quantityproduct1.focus();
+				return false;
+ 			}
+
 			submitform('newQuotationItem');
 			return;
 		}
 		if ((pressbutton == 'save') || (pressbutton == 'send') || (pressbutton == 'aplly')) {
 			if (form.user_id.value == 0 && form.quotation_email.value == "") {
-				alert('<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT_FOR_QUOTATION');?>');
+				alert("<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT_FOR_QUOTATION');?>");
 				return false;
 			}
+
+			if (validateProductQuantity() == false)
+ 			{
+  				return false;
+  			}
+
 			if (form.quotation_total.value == 0) {
-				if (!confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_WITH_QUOTATION_TOTAL_ZERO');?>")) {
+				if (!confirm("<?php echo JText::_(COM_REDSHOP_CONFIRM_WITH_QUOTATION_TOTAL_ZERO');?>")) {
 					return false;
 				}
 			}
 		}
 		submitform(pressbutton);
+	}
+
+	function validateProductQuantity()
+ 	{
+ 		var valid = true;
+ 		var quantity = document.querySelectorAll("input[name*='quantityp']");
+
+ 		for (i = 0; i < quantity.length; i++)
+		{
+			if (parseInt(quantity[i].value) <= 0)
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_QUANTITY'); ?>");
+				quantity[i].focus();
+				valid = false;
+				break;
+			}
+		}
+		return valid;
 	}
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
