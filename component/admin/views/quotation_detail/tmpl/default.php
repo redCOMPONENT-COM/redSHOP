@@ -29,7 +29,6 @@ $url             = $uri->root();
 $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id);    ?>
 <script type="text/javascript">
 	var rowCount = 1;
-	var qrowCount = <?php echo count($quotation_item);?>;
 
 	Joomla.submitbutton = submitbutton = function (pressbutton)
 	{
