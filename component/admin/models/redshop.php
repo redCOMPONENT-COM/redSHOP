@@ -351,7 +351,7 @@ class RedshopModelRedshop extends RedshopModel
 	{
 		$db    = JFactory::getDbo();
 
-		// Todo: Using $query->unionAll() since Joomla fixed $query->unionAll()
+		// Todo: We didn't use JDatabase because $query->unionAll() is not working, please change to use $query->unionAll() when Joomla fixed it
 		$query = 'SELECT SUM(' . $db->qn('order_total') . ') AS total
 			FROM ' . $db->qn('#__redshop_orders') . '
 			WHERE (' . $db->qn('order_status') . ' = ' . $db->q('C')
