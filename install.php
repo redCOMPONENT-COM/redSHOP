@@ -106,6 +106,9 @@ class Com_RedshopInstallerScript
 		{
 			// Remove unused files from older than 1.3.3.1 redshop
 			$this->cleanUpgradeFiles($parent);
+
+			// Update helper class name in template and MVC override
+			$this->updateOverrideTemplate();
 			$this->updateschema();
 		}
 	}
@@ -1276,7 +1279,7 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
-		if (version_compare($this->getOldParam('version'), '1.6.1', '<='))
+		if (version_compare($this->getOldParam('version'), '2.0', '<='))
 		{
 			array_push(
 				$folders,
@@ -1442,6 +1445,185 @@ class Com_RedshopInstallerScript
 				if (JFile::exists($path))
 				{
 					JFile::delete($path);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update helper class name in redSHOP override files
+	 *
+	 * @return  void
+	 */
+	private function updateOverrideTemplate()
+	{
+		$dir       = JPATH_SITE . "/templates/";
+		$codeDir   = JPATH_SITE . "/code/";
+		$files     = JFolder::folders($dir);
+		$codeFiles = JFolder::folders($codeDir);
+		$templates = array();
+
+		foreach ($codeFiles as $key => $value)
+		{
+			if (JFolder::exists($codeDir . 'administrator/components'))
+			{
+				$templates[$codeDir . 'administrator/components'] = JFolder::folders($codeDir . 'administrator/components');
+			}
+
+			if (JFolder::exists($codeDir . 'administrator'))
+			{
+				$templates[$codeDir . 'administrator'] = JFolder::folders($codeDir . 'administrator');
+			}
+
+			if (JFolder::exists($codeDir . 'components'))
+			{
+				$templates[$codeDir . 'components'] = JFolder::folders($codeDir . 'components');
+			}
+
+			if (JFolder::exists($codeDir))
+			{
+				$templates[$codeDir] = JFolder::folders($codeDir);
+			}
+		}
+
+		foreach ($files as $key => $value)
+		{
+			if (!JFile::exists($dir . $value))
+			{
+				$templates[$dir . $value] = JFolder::folders($dir . $value);
+			}
+		}
+
+		$override = array();
+
+		foreach ($templates as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!JFile::exists($key . '/' . $name))
+				{
+					if (JFolder::exists($key . '/com_redshop'))
+					{
+						$override[$key . '/com_redshop'] = JFolder::folders($key . '/com_redshop');
+					}
+
+					if (JFolder::exists($key . '/html'))
+					{
+						$override[$key . '/html'] = JFolder::folders($key . '/html');
+					}
+
+					if (JFolder::exists($key . '/code/com_redshop'))
+					{
+						$override[$key . '/code/com_redshop'] = JFolder::folders($key . '/code/com_redshop');
+					}
+
+					if (JFolder::exists($key . '/code/components/com_redshop'))
+					{
+						$override[$key . '/code/components/com_redshop'] = JFolder::folders($key . '/code/components/com_redshop');
+					}
+				}
+			}
+		}
+
+		$overrideFolders = array();
+		$overrideLayoutFolders = array();
+
+		foreach ($override as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if ($name == 'layouts')
+				{
+					$overrideLayoutFolders[$key . '/' . $name] = JFolder::folders($key . '/' . $name);
+				}
+				elseif (!JFile::exists($key . '/' . $name) && $name != 'layouts')
+				{
+					// Read all files and folders in parent folder
+					$overrideFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+				}
+			}
+		}
+
+		$overrideFiles = array();
+
+		foreach ($overrideFolders as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!JFile::exists($key . '/' . $name))
+				{
+					$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+				}
+				else
+				{
+					$overrideFiles[$key] = JFolder::files($key);
+				}
+			}
+		}
+
+		foreach ($overrideLayoutFolders as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!JFile::exists($key . '/' . $name) && $name == 'com_redshop')
+				{
+					$overrideLayoutFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+				}
+			}
+		}
+
+		foreach ($overrideLayoutFiles as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!JFile::exists($key . '/' . $name))
+				{
+					$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+				}
+			}
+		}
+
+		$replaceString = array(
+				'new producthelper'                                => 'RedshopSiteProduct::getInstance()',
+				'new quotationHelper'                              => 'quotationHelper::getInstance()',
+				'new order_functions'                              => 'order_functions::getInstance()',
+				'new Redconfiguration'                             => 'Redconfiguration::getInstance()',
+				'new Redtemplate'                                  => 'Redtemplate::getInstance()',
+				'new extra_field'                                  => 'extra_field::getInstance()',
+				'new extraField'                                   => 'RedshopSiteExtraField::getInstance()',
+				'new rsCarthelper'                                 => 'RedshopSiteCart::getInstance()',
+				'new rsUserhelper'                                 => 'RedshopSiteUser::getInstance()',
+				'new rsstockroomhelper'                            => 'rsstockroomhelper::getInstance()',
+				'new redhelper'                                    => 'RedshopSiteHelper::getInstance()',
+				'new shipping'                                     => 'shipping::getInstance()',
+				'new CurrencyHelper'                               => 'CurrencyHelper::getInstance()',
+				'new statistic'                                    => 'RedshopSiteStatistic::getInstance()',
+				'new economic'                                     => 'economic::getInstance()',
+				'class producthelper extends producthelperDefault' => 'class RedshopSiteProduct extends RedshopSiteProductDefault',
+				'class rsCarthelper extends rsCarthelperDefault'   => 'class RedshopSiteCart extends RedshopSiteCartDefault',
+				'class extraField extends extraFieldDefault'       => 'class RedshopSiteExtraField extends RedshopSiteExtraFieldDefault',
+				'class redhelper extends redhelperDefault'         => 'class RedshopSiteHelper extends RedshopSiteHelperDefault',
+				'class rsUserhelper extends rsUserhelperDefault'   => 'class RedshopSiteUser extends RedshopSiteUserDefault'
+
+
+			);
+
+		if (!empty($overrideFiles))
+		{
+			foreach ($overrideFiles as $path => $files)
+			{
+				foreach ($files as $file)
+				{
+					$content = JFile::read($path . '/' . $file);
+
+					foreach ($replaceString as $old => $new)
+					{
+						if (strstr($content, $old))
+						{
+							$content = str_replace($old, $new, $content);
+							JFile::write($path . '/' . $file, $content);
+						}
+					}
 				}
 			}
 		}
