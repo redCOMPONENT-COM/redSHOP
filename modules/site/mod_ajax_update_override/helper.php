@@ -20,11 +20,36 @@ class ModAjaxUpdateOverrideHelper
 	 */
 	public static function updateOverrideTemplateAjax()
 	{
-		$app = JFactory::getApplication();
-		$dir = JPATH_SITE . "/templates/";
-		$files = scandir($dir);
-		$files = array_diff(scandir($dir), array('.', '..'));
+		$dir       = JPATH_SITE . "/templates/";
+		$codeDir       = JPATH_SITE . "/code/";
+		$files     = scandir($dir);
+		$files     = array_diff(scandir($dir), array('.', '..'));
+		$codeFiles     = scandir($codeDir);
+		$codeFiles     = array_diff(scandir($codeDir), array('.', '..'));
 		$templates = array();
+
+		foreach ($codeFiles as $key => $value)
+		{
+			if (is_dir($codeDir . 'administrator/components'))
+			{
+				$templates[$codeDir . 'administrator/components'] = array_diff(scandir($codeDir . 'administrator/components'), array('.', '..'));
+			}
+
+			if (is_dir($codeDir . 'administrator'))
+			{
+				$templates[$codeDir . 'administrator'] = array_diff(scandir($codeDir . 'administrator'), array('.', '..'));
+			}
+
+			if (is_dir($codeDir . 'components'))
+			{
+				$templates[$codeDir . 'components'] = array_diff(scandir($codeDir . 'components'), array('.', '..'));
+			}
+
+			if (is_dir($codeDir))
+			{
+				$templates[$codeDir] = array_diff(scandir($codeDir), array('.', '..'));
+			}
+		}
 
 		foreach ($files as $key => $value)
 		{
@@ -42,7 +67,25 @@ class ModAjaxUpdateOverrideHelper
 			{
 				if (!is_file($key . '/' . $name))
 				{
-					$override[$key . '/html'] = array_diff(scandir($key . '/html'), array('.', '..'));
+					if (is_dir($key . '/com_redshop'))
+					{
+						$override[$key . '/com_redshop'] = array_diff(scandir($key . '/com_redshop'), array('.', '..'));
+					}
+
+					if (is_dir($key . '/html'))
+					{
+						$override[$key . '/html'] = array_diff(scandir($key . '/html'), array('.', '..'));
+					}
+
+					if (is_dir($key . '/code/com_redshop'))
+					{
+						$override[$key . '/code/com_redshop'] = array_diff(scandir($key . '/code/com_redshop'), array('.', '..'));
+					}
+
+					if (is_dir($key . '/code/components/com_redshop'))
+					{
+						$override[$key . '/code/components/com_redshop'] = array_diff(scandir($key . '/code/components/com_redshop'), array('.', '..'));
+					}
 				}
 			}
 		}
@@ -116,7 +159,17 @@ class ModAjaxUpdateOverrideHelper
 				'new rsUserhelper' => 'RedshopSiteUser::getInstance()',
 				'new rsstockroomhelper' => 'rsstockroomhelper::getInstance()',
 				'new redhelper' => 'RedshopSiteHelper::getInstance()',
-				'new shipping' => 'shipping::getInstance()'
+				'new shipping' => 'shipping::getInstance()',
+				'new CurrencyHelper' => 'CurrencyHelper::getInstance()',
+				'new statistic' => 'RedshopSiteStatistic::getInstance()',
+				'new economic' => 'economic::getInstance()',
+				'class producthelper extends producthelperDefault' => 'class RedshopSiteProduct extends RedshopSiteProductDefault',
+				'class rsCarthelper extends rsCarthelperDefault' => 'class RedshopSiteCart extends RedshopSiteCartDefault',
+				'class extraField extends extraFieldDefault' => 'class RedshopSiteExtraField extends RedshopSiteExtraFieldDefault',
+				'class redhelper extends redhelperDefault' => 'class RedshopSiteHelper extends RedshopSiteHelperDefault',
+				'class rsUserhelper extends rsUserhelperDefault' => 'class RedshopSiteUser extends RedshopSiteUserDefault'
+
+
 			);
 
 		if (!empty($overrideFiles))
@@ -137,8 +190,6 @@ class ModAjaxUpdateOverrideHelper
 					}
 				}
 			}
-
-			return 'Successful';
 		}
 	}
 }
