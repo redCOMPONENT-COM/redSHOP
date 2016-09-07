@@ -6,6 +6,11 @@
 @import "bootstrap";
 @import "bootstrap-nav-wizard";
 
+body
+{
+	word-wrap: break-word;
+}
+
 .category_front_wrapper {
 	.category_front {
 		margin-bottom: 20px;
