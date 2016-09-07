@@ -350,32 +350,28 @@ class RedshopModelRedshop extends RedshopModel
 	public function getStatisticDashboard()
 	{
 		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('SUM(' . $db->qn('order_total') . ') AS total')
-			->from($db->qn('#__redshop_orders'))
-			->where(
-				'(' . $db->qn('order_status') . ' = ' . $db->q('C')
+
+		// Todo: Using $query->unionAll() since Joomla fixed $query->unionAll()
+		$query = 'SELECT SUM(' . $db->qn('order_total') . ') AS total
+			FROM ' . $db->qn('#__redshop_orders') . '
+			WHERE (' . $db->qn('order_status') . ' = ' . $db->q('C')
 				. ' OR '
 				. $db->qn('order_status') . ' = ' . $db->q('PR')
 				. ' OR '
-				. $db->qn('order_status') . ' = ' . $db->q('S') . ')'
-			);
-
-		$union = $db->getQuery(true)
-			->select('COUNT(' . $db->qn('order_id') . ')')
-			->from($db->qn('#__redshop_orders'));
-		$query->union($union);
-
-		$union = $db->getQuery(true)
-			->select('COUNT(' . $db->qn('users_info_id') . ')')
-			->from($db->qn('#__redshop_users_info'))
-			->where($db->qn('address_type') . ' = ' . $db->q('BT'));
-		$query->union($union);
-
-		$union = $db->getQuery(true)
-			->select('COUNT(' . $db->qn('id') . ')')
-			->from($db->qn('#__redshop_siteviewer'));
-		$query->union($union);
+				. $db->qn('order_status') . ' = ' . $db->q('S') . ')
+				AND '
+				. $db->qn('order_payment_status') . ' = ' . $db->q('Paid') . '
+			UNION ALL (
+				SELECT COUNT(' . $db->qn('order_id') . ')
+				FROM ' . $db->qn('#__redshop_orders') . '
+			)
+			UNION ALL (
+				SELECT COUNT(' . $db->qn('users_info_id') . ')
+				FROM ' . $db->qn('#__redshop_users_info') . '
+			)
+			UNION ALL (
+			SELECT COUNT(' . $db->qn('id') . ')
+			FROM ' . $db->qn('#__redshop_siteviewer') . ')';
 
 		$db->setQuery($query);
 
