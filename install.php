@@ -1614,14 +1614,14 @@ class Com_RedshopInstallerScript
 			{
 				foreach ($files as $file)
 				{
-					$content = file_get_contents($path . '/' . $file);
+					$content = JFile::read($path . '/' . $file);
 
 					foreach ($replaceString as $old => $new)
 					{
 						if (strstr($content, $old))
 						{
 							$content = str_replace($old, $new, $content);
-							file_put_contents($path . '/' . $file, $content);
+							JFile::write($path . '/' . $file, $content);
 						}
 					}
 				}
