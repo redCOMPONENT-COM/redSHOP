@@ -985,55 +985,63 @@ class RedshopSiteUser
 			$template_desc = str_replace("{shipping_same_as_billing}", '', $template_desc);
 		}
 
-		if (strstr($template_desc, "{account_creation_start}") && strstr($template_desc, "{account_creation_end}"))
+		if (JFactory::getUser()->guest)
 		{
-			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
-			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
-			$template_middle   = "";
-			$checkbox_style  = '';
-
-			if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
+			if (strstr($template_desc, "{account_creation_start}") && strstr($template_desc, "{account_creation_end}"))
 			{
-				$template_middle = $template_pd_edata[0];
+				$template_pd_sdata = explode('{account_creation_start}', $template_desc);
+				$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
+				$template_middle   = "";
+				$checkbox_style  = '';
 
-				if (REGISTER_METHOD == 2)
+				if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
 				{
-					if ($create_account == 1)
-					{
-						$checkbox_style = 'style="display:block"';
+					$template_middle = $template_pd_edata[0];
 
+					if (REGISTER_METHOD == 2)
+					{
+						if ($create_account == 1)
+						{
+							$checkbox_style = 'style="display:block"';
+
+						}
+						else
+						{
+							$checkbox_style = 'style="display:none"';
+						}
 					}
 					else
 					{
-						$checkbox_style = 'style="display:none"';
+						$checkbox_style = 'style="display:block"';
 					}
+
+					$template_middle = str_replace("{username_lbl}", JText::_('COM_REDSHOP_USERNAME_REGISTER'), $template_middle);
+					$template_middle = str_replace("{username}", '<input class="inputbox required" type="text" name="username" id="username" size="32" maxlength="250" value="' . @$post ["username"] . '" />', $template_middle);
+					$template_middle = str_replace("{password_lbl}", JText::_('COM_REDSHOP_PASSWORD_REGISTER'), $template_middle);
+					$template_middle = str_replace("{password}", '<input class="inputbox required" type="password" name="password1" id="password1" size="32" maxlength="250" value="" />', $template_middle);
+					$template_middle = str_replace("{confirm_password_lbl}", JText::_('COM_REDSHOP_CONFIRM_PASSWORD'), $template_middle);
+					$template_middle = str_replace("{confirm_password}", '<input class="inputbox required" type="password" name="password2" id="password2" size="32" maxlength="250" value="" />', $template_middle);
+
+					$newsletter_signup_lbl = "";
+					$newsletter_signup_chk = "";
+
+					if ($show_newsletter && NEWSLETTER_ENABLE)
+					{
+						$newsletter_signup_lbl = JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
+						$newsletter_signup_chk = '<input type="checkbox" name="newsletter_signup" id="newsletter_signup" value="1">';
+					}
+
+					$template_middle = str_replace("{newsletter_signup_lbl}", $newsletter_signup_lbl, $template_middle);
+					$template_middle = str_replace("{newsletter_signup_chk}", $newsletter_signup_chk, $template_middle);
 				}
-				else
-				{
-					$checkbox_style = 'style="display:block"';
-				}
 
-				$template_middle = str_replace("{username_lbl}", JText::_('COM_REDSHOP_USERNAME_REGISTER'), $template_middle);
-				$template_middle = str_replace("{username}", '<input class="inputbox required" type="text" name="username" id="username" size="32" maxlength="250" value="' . @$post ["username"] . '" />', $template_middle);
-				$template_middle = str_replace("{password_lbl}", JText::_('COM_REDSHOP_PASSWORD_REGISTER'), $template_middle);
-				$template_middle = str_replace("{password}", '<input class="inputbox required" type="password" name="password1" id="password1" size="32" maxlength="250" value="" />', $template_middle);
-				$template_middle = str_replace("{confirm_password_lbl}", JText::_('COM_REDSHOP_CONFIRM_PASSWORD'), $template_middle);
-				$template_middle = str_replace("{confirm_password}", '<input class="inputbox required" type="password" name="password2" id="password2" size="32" maxlength="250" value="" />', $template_middle);
-
-				$newsletter_signup_lbl = "";
-				$newsletter_signup_chk = "";
-
-				if ($show_newsletter && NEWSLETTER_ENABLE)
-				{
-					$newsletter_signup_lbl = JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
-					$newsletter_signup_chk = '<input type="checkbox" name="newsletter_signup" id="newsletter_signup" value="1">';
-				}
-
-				$template_middle = str_replace("{newsletter_signup_lbl}", $newsletter_signup_lbl, $template_middle);
-				$template_middle = str_replace("{newsletter_signup_chk}", $newsletter_signup_chk, $template_middle);
+				$template_desc = $template_pd_sdata[0] . '<div id="tdUsernamePassword" ' . $checkbox_style . '>' . $template_middle . '</div>' . $template_pd_edata[1];
 			}
-
-			$template_desc = $template_pd_sdata[0] . '<div id="tdUsernamePassword" ' . $checkbox_style . '>' . $template_middle . '</div>' . $template_pd_edata[1];
+		}
+		else
+		{
+			$re = "/({account_creation_start})(.*)(account_creation_end})/s";
+			$template_desc = preg_replace($re, '', $template_desc);
 		}
 
 		$template_desc = $template_desc . "<div id='tmpRegistrationDiv' style='display: none;'></div>";
