@@ -532,7 +532,7 @@ class RedshopControllerCheckout extends RedshopController
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg);
+			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg, 'error');
 		}
 	}
 
