@@ -27,7 +27,7 @@ $user = JFactory::getUser();
 	</li>
 
 	<li>
-		<a title="<?php echo JText::_('JHELP'); ?>" href="#" onclick="Joomla.popupWindow('components/com_redshop/help/en-GB/redshop.html', 'Help', 700, 500, 1)">
+		<a title="<?php echo JText::_('JHELP'); ?>" href="#" onclick="Joomla.popupWindow('http://docs.redcomponent.com/collection/171-redshop', 'Help', 700, 500, 1)">
 			<i class="fa fa-question-circle"></i>
 
 		</a>
