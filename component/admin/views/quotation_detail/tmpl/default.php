@@ -64,7 +64,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
   			}
 
 			if (form.quotation_total.value == 0) {
-				if (!confirm("<?php echo JText::_(COM_REDSHOP_CONFIRM_WITH_QUOTATION_TOTAL_ZERO');?>")) {
+				if (!confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_WITH_QUOTATION_TOTAL_ZERO');?>")) {
 					return false;
 				}
 			}
@@ -81,7 +81,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 		{
 			if (parseInt(quantity[i].value) <= 0)
 			{
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_QUANTITY'); ?>");
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_QUANTITY');?>");
 				quantity[i].focus();
 				valid = false;
 				break;
