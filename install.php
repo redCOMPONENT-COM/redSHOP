@@ -106,9 +106,6 @@ class Com_RedshopInstallerScript
 		{
 			// Remove unused files from older than 1.3.3.1 redshop
 			$this->cleanUpgradeFiles($parent);
-
-			// Update redSHOP helper class name
-			$this->updateOverrideTemplate();
 			$this->updateschema();
 		}
 	}
