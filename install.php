@@ -1458,41 +1458,39 @@ class Com_RedshopInstallerScript
 	private function updateOverrideTemplate()
 	{
 		$dir       = JPATH_SITE . "/templates/";
-		$codeDir       = JPATH_SITE . "/code/";
-		$files     = scandir($dir);
-		$files     = array_diff(scandir($dir), array('.', '..'));
-		$codeFiles     = scandir($codeDir);
-		$codeFiles     = array_diff(scandir($codeDir), array('.', '..'));
+		$codeDir   = JPATH_SITE . "/code/";
+		$files     = JFolder::folders($dir);
+		$codeFiles = JFolder::folders($codeDir);
 		$templates = array();
 
 		foreach ($codeFiles as $key => $value)
 		{
-			if (is_dir($codeDir . 'administrator/components'))
+			if (JFolder::exists($codeDir . 'administrator/components'))
 			{
-				$templates[$codeDir . 'administrator/components'] = array_diff(scandir($codeDir . 'administrator/components'), array('.', '..'));
+				$templates[$codeDir . 'administrator/components'] = JFolder::folders($codeDir . 'administrator/components');
 			}
 
-			if (is_dir($codeDir . 'administrator'))
+			if (JFolder::exists($codeDir . 'administrator'))
 			{
-				$templates[$codeDir . 'administrator'] = array_diff(scandir($codeDir . 'administrator'), array('.', '..'));
+				$templates[$codeDir . 'administrator'] = JFolder::folders($codeDir . 'administrator');
 			}
 
-			if (is_dir($codeDir . 'components'))
+			if (JFolder::exists($codeDir . 'components'))
 			{
-				$templates[$codeDir . 'components'] = array_diff(scandir($codeDir . 'components'), array('.', '..'));
+				$templates[$codeDir . 'components'] = JFolder::folders($codeDir . 'components');
 			}
 
-			if (is_dir($codeDir))
+			if (JFolder::exists($codeDir))
 			{
-				$templates[$codeDir] = array_diff(scandir($codeDir), array('.', '..'));
+				$templates[$codeDir] = JFolder::folders($codeDir);
 			}
 		}
 
 		foreach ($files as $key => $value)
 		{
-			if (!is_file($dir . $value))
+			if (!JFile::exists($dir . $value))
 			{
-				$templates[$dir . $value] = array_diff(scandir($dir . $value), array('.', '..'));
+				$templates[$dir . $value] = JFolder::folders($dir . $value);
 			}
 		}
 
@@ -1502,26 +1500,26 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($value as $name)
 			{
-				if (!is_file($key . '/' . $name))
+				if (!JFile::exists($key . '/' . $name))
 				{
-					if (is_dir($key . '/com_redshop'))
+					if (JFolder::exists($key . '/com_redshop'))
 					{
-						$override[$key . '/com_redshop'] = array_diff(scandir($key . '/com_redshop'), array('.', '..'));
+						$override[$key . '/com_redshop'] = JFolder::folders($key . '/com_redshop');
 					}
 
-					if (is_dir($key . '/html'))
+					if (JFolder::exists($key . '/html'))
 					{
-						$override[$key . '/html'] = array_diff(scandir($key . '/html'), array('.', '..'));
+						$override[$key . '/html'] = JFolder::folders($key . '/html');
 					}
 
-					if (is_dir($key . '/code/com_redshop'))
+					if (JFolder::exists($key . '/code/com_redshop'))
 					{
-						$override[$key . '/code/com_redshop'] = array_diff(scandir($key . '/code/com_redshop'), array('.', '..'));
+						$override[$key . '/code/com_redshop'] = JFolder::folders($key . '/code/com_redshop');
 					}
 
-					if (is_dir($key . '/code/components/com_redshop'))
+					if (JFolder::exists($key . '/code/components/com_redshop'))
 					{
-						$override[$key . '/code/components/com_redshop'] = array_diff(scandir($key . '/code/components/com_redshop'), array('.', '..'));
+						$override[$key . '/code/components/com_redshop'] = JFolder::folders($key . '/code/components/com_redshop');
 					}
 				}
 			}
@@ -1536,10 +1534,11 @@ class Com_RedshopInstallerScript
 			{
 				if ($name == 'layouts')
 				{
-					$overrideLayoutFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+					$overrideLayoutFolders[$key . '/' . $name] = JFolder::folders($key . '/' . $name);
 				}
-				elseif (!is_file($key . '/' . $name) && $name != 'layouts')
+				elseif (!JFile::exists($key . '/' . $name) && $name != 'layouts')
 				{
+					// Read all files and folders in parent folder
 					$overrideFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
 				}
 			}
@@ -1551,13 +1550,13 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($value as $name)
 			{
-				if (!is_file($key . '/' . $name))
+				if (!JFile::exists($key . '/' . $name))
 				{
-					$overrideFiles[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+					$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
 				}
 				else
 				{
-					$overrideFiles[$key] = array_diff(scandir($key), array('.', '..'));
+					$overrideFiles[$key] = JFolder::files($key);
 				}
 			}
 		}
@@ -1566,9 +1565,9 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($value as $name)
 			{
-				if (!is_file($key . '/' . $name) && $name == 'com_redshop')
+				if (!JFile::exists($key . '/' . $name) && $name == 'com_redshop')
 				{
-					$overrideLayoutFiles[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+					$overrideLayoutFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
 				}
 			}
 		}
@@ -1577,34 +1576,34 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($value as $name)
 			{
-				if (!is_file($key . '/' . $name))
+				if (!JFile::exists($key . '/' . $name))
 				{
-					$overrideFiles[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+					$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
 				}
 			}
 		}
 
 		$replaceString = array(
-				'new producthelper' => 'RedshopSiteProduct::getInstance()',
-				'new quotationHelper' => 'quotationHelper::getInstance()',
-				'new order_functions' => 'order_functions::getInstance()',
-				'new Redconfiguration' => 'Redconfiguration::getInstance()',
-				'new Redtemplate' => 'Redtemplate::getInstance()',
-				'new extra_field' => 'extra_field::getInstance()',
-				'new extraField' => 'RedshopSiteExtraField::getInstance()',
-				'new rsCarthelper' => 'RedshopSiteCart::getInstance()',
-				'new rsUserhelper' => 'RedshopSiteUser::getInstance()',
-				'new rsstockroomhelper' => 'rsstockroomhelper::getInstance()',
-				'new redhelper' => 'RedshopSiteHelper::getInstance()',
-				'new shipping' => 'shipping::getInstance()',
-				'new CurrencyHelper' => 'CurrencyHelper::getInstance()',
-				'new statistic' => 'RedshopSiteStatistic::getInstance()',
-				'new economic' => 'economic::getInstance()',
+				'new producthelper'                                => 'RedshopSiteProduct::getInstance()',
+				'new quotationHelper'                              => 'quotationHelper::getInstance()',
+				'new order_functions'                              => 'order_functions::getInstance()',
+				'new Redconfiguration'                             => 'Redconfiguration::getInstance()',
+				'new Redtemplate'                                  => 'Redtemplate::getInstance()',
+				'new extra_field'                                  => 'extra_field::getInstance()',
+				'new extraField'                                   => 'RedshopSiteExtraField::getInstance()',
+				'new rsCarthelper'                                 => 'RedshopSiteCart::getInstance()',
+				'new rsUserhelper'                                 => 'RedshopSiteUser::getInstance()',
+				'new rsstockroomhelper'                            => 'rsstockroomhelper::getInstance()',
+				'new redhelper'                                    => 'RedshopSiteHelper::getInstance()',
+				'new shipping'                                     => 'shipping::getInstance()',
+				'new CurrencyHelper'                               => 'CurrencyHelper::getInstance()',
+				'new statistic'                                    => 'RedshopSiteStatistic::getInstance()',
+				'new economic'                                     => 'economic::getInstance()',
 				'class producthelper extends producthelperDefault' => 'class RedshopSiteProduct extends RedshopSiteProductDefault',
-				'class rsCarthelper extends rsCarthelperDefault' => 'class RedshopSiteCart extends RedshopSiteCartDefault',
-				'class extraField extends extraFieldDefault' => 'class RedshopSiteExtraField extends RedshopSiteExtraFieldDefault',
-				'class redhelper extends redhelperDefault' => 'class RedshopSiteHelper extends RedshopSiteHelperDefault',
-				'class rsUserhelper extends rsUserhelperDefault' => 'class RedshopSiteUser extends RedshopSiteUserDefault'
+				'class rsCarthelper extends rsCarthelperDefault'   => 'class RedshopSiteCart extends RedshopSiteCartDefault',
+				'class extraField extends extraFieldDefault'       => 'class RedshopSiteExtraField extends RedshopSiteExtraFieldDefault',
+				'class redhelper extends redhelperDefault'         => 'class RedshopSiteHelper extends RedshopSiteHelperDefault',
+				'class rsUserhelper extends rsUserhelperDefault'   => 'class RedshopSiteUser extends RedshopSiteUserDefault'
 
 
 			);
