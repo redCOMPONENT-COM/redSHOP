@@ -27183,3 +27183,8 @@ body.modal-open {
 {
   background-color: #00a65a;
 }
+
+.delete_item, .update_price
+{
+  cursor: pointer;
+}
