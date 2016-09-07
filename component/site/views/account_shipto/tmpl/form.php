@@ -31,7 +31,6 @@ $post['state_code_ST']   = $post['state_code'];
 
 	function submitForm(frm)
 	{
-		console.log (validateInfo());
 		if (validateInfo())
 		{
 			frm.submit();
