@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$productHelper = producthelper::getInstance();
+$productHelper = productHelper::getInstance();
 
 ?>
 <div class="mod_discount_main">

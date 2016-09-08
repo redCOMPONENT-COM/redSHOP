@@ -14,7 +14,7 @@ $carthelper = rsCarthelper::getInstance();
 $redconfig = Redconfiguration::getInstance();
 $configobj = Redconfiguration::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redhelper = redhelper::getInstance();
 

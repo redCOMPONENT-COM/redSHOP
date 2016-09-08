@@ -12,7 +12,7 @@ JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
 $showbuttons = JRequest::getVar('showbuttons');
 
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 
 ?>
 <script language="javascript" type="text/javascript">

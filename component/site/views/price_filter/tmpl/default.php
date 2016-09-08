@@ -28,7 +28,7 @@ $k = 0;
 $configobj = Redconfiguration::getInstance();
 
 // Get product helper
-$producthelper = producthelper::getInstance();?>
+$producthelper = productHelper::getInstance();?>
 <table border="0" cellpadding="2" cellspacing="2">
 	<?php
 	for ($i = 0, $countPrdList = count($this->prdlist); $i < $countPrdList; $i++)

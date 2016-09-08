@@ -440,7 +440,7 @@ class RedshopModelExport extends RedshopModel
 	 */
 	private function loadAttributes()
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$db = JFactory::getDbo();
 		$query = "SELECT * FROM `#__redshop_product` ORDER BY product_id asc ";
@@ -697,7 +697,7 @@ class RedshopModelExport extends RedshopModel
 	private function loadFields()
 	{
 		$extra_field   = extra_field::getInstance();
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$db            = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')

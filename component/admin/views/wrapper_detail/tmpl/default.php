@@ -8,7 +8,7 @@
  */
 JHTML::_('behavior.tooltip');
 $showall = JRequest::getVar('showall', '0');
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

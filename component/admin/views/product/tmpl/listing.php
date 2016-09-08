@@ -9,7 +9,7 @@
 
 JHTMLBehavior::modal();
 
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 $model = $this->getModel('product');
 
 ?>
