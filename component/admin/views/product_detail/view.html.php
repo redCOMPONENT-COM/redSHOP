@@ -65,7 +65,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		$redTemplate         = Redtemplate::getInstance();
 		$redhelper           = redhelper::getInstance();
-		$this->producthelper = RedshopSiteProduct::getInstance();
+		$this->producthelper = producthelper::getInstance();
 
 		$this->option        = $this->input->getString('option', 'com_redshop');
 		$lists               = array();

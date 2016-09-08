@@ -217,7 +217,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 		if ($row->wrapper_id)
 		{
-			$productobj = RedshopSiteProduct::getInstance();
+			$productobj = producthelper::getInstance();
 			$wrapper = $productobj->getWrapper($row->product_id, $row->wrapper_id);
 
 			if (count($wrapper) > 0 && $wrapperimg != "")

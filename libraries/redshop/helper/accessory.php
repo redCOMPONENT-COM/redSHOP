@@ -40,7 +40,7 @@ class RedshopHelperAccessory
 			$collection->acc_attribute_data   = explode("@@", $data[2]);
 			$collection->acc_property_data    = explode("@@", $data[3]);
 			$collection->acc_subproperty_data = explode("@@", $data[4]);
-			$productHelper = RedshopSiteProduct::getInstance();
+			$productHelper = producthelper::getInstance();
 
 			foreach ($collection->accessory_data as $key => $accessoryId)
 			{

@@ -18,7 +18,7 @@ class RedshopViewAccount extends RedshopView
 
 		$app = JFactory::getApplication();
 
-		$prodhelperobj = RedshopSiteProduct::getInstance();
+		$prodhelperobj = producthelper::getInstance();
 		$prodhelperobj->generateBreadcrumb();
 
 		$Itemid = JRequest::getInt('Itemid');

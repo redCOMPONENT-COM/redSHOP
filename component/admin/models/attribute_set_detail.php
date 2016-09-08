@@ -109,7 +109,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		if (count($cid))
 		{
@@ -248,7 +248,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		$db = $this->_db;
 		$attribute_data = '';
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$attr = $producthelper->getProductAttribute(0, $data);
 
 		for ($i = 0, $in = count($attr); $i < $in; $i++)
@@ -430,7 +430,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function property_image_list($cid)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		if (count($cid))
 		{
@@ -738,7 +738,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function  attribute_empty()
 	{
 		$database = JFactory::getDbo();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		if ($this->_id)
 		{
@@ -776,7 +776,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removepropertyImage($pid)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		$image = $producthelper->getAttibuteProperty($pid);
 		$image = $image[0];
@@ -810,7 +810,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function removesubpropertyImage($pid)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$image = $producthelper->getAttibuteSubProperty($pid);
 		$image = $image[0];
 		$imagename = $image->subattribute_color_image;

@@ -32,7 +32,7 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$params = $app->getParams('com_redshop');
 
-		$prodhelperobj = RedshopSiteProduct::getInstance();
+		$prodhelperobj = producthelper::getInstance();
 		$prodhelperobj->generateBreadcrumb();
 
 		$user          = JFactory::getUser();

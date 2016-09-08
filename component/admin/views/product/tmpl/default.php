@@ -9,7 +9,7 @@
 $app           = JFactory::getApplication();
 $extra_field   = extra_field::getInstance();
 JHTMLBehavior::modal();
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'x.ordering');

@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 
 $turnover = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalTurnOverCpanel();
 

@@ -183,7 +183,7 @@ class Plgredshop_Shippingbring extends JPlugin
 	public function onListRates(&$d)
 	{
 		$shippinghelper = shipping::getInstance();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$currency = CurrencyHelper::getInstance();
 		$redconfig = Redconfiguration::getInstance();
 

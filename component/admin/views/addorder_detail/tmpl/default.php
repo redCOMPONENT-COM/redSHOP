@@ -11,7 +11,7 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 JHTML::_('behavior.calendar');
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redconfig = Redconfiguration::getInstance();
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
-$productHelper = RedshopSiteProduct::getInstance();
+$productHelper = producthelper::getInstance();
 ?>
 
 <script language="javascript" type="text/javascript">
