@@ -1599,13 +1599,29 @@ class Com_RedshopInstallerScript
 				'new CurrencyHelper'                               => 'CurrencyHelper::getInstance()',
 				'new statistic'                                    => 'RedshopSiteStatistic::getInstance()',
 				'new economic'                                     => 'economic::getInstance()',
+				'new producthelper()'                              => 'RedshopSiteProduct::getInstance()',
+				'new quotationHelper()'                            => 'quotationHelper::getInstance()',
+				'new order_functions()'                            => 'order_functions::getInstance()',
+				'new Redconfiguration()'                           => 'Redconfiguration::getInstance()',
+				'new Redtemplate()'                                => 'Redtemplate::getInstance()',
+				'new extra_field()'                                => 'extra_field::getInstance()',
+				'new extraField()'                                 => 'RedshopSiteExtraField::getInstance()',
+				'new rsCarthelper()'                               => 'RedshopSiteCart::getInstance()',
+				'new rsUserhelper()'                               => 'RedshopSiteUser::getInstance()',
+				'new rsstockroomhelper()'                          => 'rsstockroomhelper::getInstance()',
+				'new redhelper()'                                  => 'RedshopSiteHelper::getInstance()',
+				'new shipping()'                                   => 'shipping::getInstance()',
+				'new CurrencyHelper()'                             => 'CurrencyHelper::getInstance()',
+				'new statistic()'                                  => 'RedshopSiteStatistic::getInstance()',
+				'new economic()'                                   => 'economic::getInstance()',
 				'class producthelper extends producthelperDefault' => 'class RedshopSiteProduct extends RedshopSiteProductDefault',
 				'class rsCarthelper extends rsCarthelperDefault'   => 'class RedshopSiteCart extends RedshopSiteCartDefault',
 				'class extraField extends extraFieldDefault'       => 'class RedshopSiteExtraField extends RedshopSiteExtraFieldDefault',
 				'class redhelper extends redhelperDefault'         => 'class RedshopSiteHelper extends RedshopSiteHelperDefault',
-				'class rsUserhelper extends rsUserhelperDefault'   => 'class RedshopSiteUser extends RedshopSiteUserDefault'
-
-
+				'class rsUserhelper extends rsUserhelperDefault'   => 'class RedshopSiteUser extends RedshopSiteUserDefault',
+				'RedshopConfig::scriptDeclaration();'              => '',
+				'$redConfiguration'                                => '$Redconfiguration',
+				'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',
 			);
 
 		if (!empty($overrideFiles))
