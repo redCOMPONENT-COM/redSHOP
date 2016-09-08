@@ -169,6 +169,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 		$order_data = str_replace('{order_index}', '', $order_data);
 		$order_data = str_replace('{order_id}', '', $order_data);
 		$order_data = str_replace('{order_detail_link}', JText::_('COM_REDSHOP_NO_ORDERS_PLACED_YET'), $order_data);
+		$order_data = str_replace('{order_total}', '', $order_data);
 	}
 
 	$template_desc = str_replace('{order_loop_start}', "", $template_desc);
