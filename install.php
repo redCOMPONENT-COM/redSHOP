@@ -1594,8 +1594,6 @@ class Com_RedshopInstallerScript
 				'new Redconfiguration'                             => 'Redconfiguration::getInstance()',
 				'new Redtemplate'                                  => 'Redtemplate::getInstance()',
 				'new extra_field'                                  => 'extra_field::getInstance()',
-				'new rsCarthelper'                                 => 'RedshopSiteCart::getInstance()',
-				'new rsUserhelper'                                 => 'RedshopSiteUser::getInstance()',
 				'new rsstockroomhelper'                            => 'rsstockroomhelper::getInstance()',
 				'new redhelper'                                    => 'RedshopSiteHelper::getInstance()',
 				'new shipping'                                     => 'shipping::getInstance()',

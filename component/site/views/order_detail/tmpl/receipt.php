@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-$carthelper = RedshopSiteCart::getInstance();
+$carthelper = rsCarthelper::getInstance();
 $redconfig = Redconfiguration::getInstance();
 $configobj = Redconfiguration::getInstance();
 $redTemplate = Redtemplate::getInstance();

@@ -1548,7 +1548,7 @@ class order_functions
 		$app = JFactory::getApplication();
 
 		$config          = Redconfiguration::getInstance();
-		$carthelper      = RedshopSiteCart::getInstance();
+		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 
@@ -1784,7 +1784,7 @@ class order_functions
 		}
 		$redTemplate = Redtemplate::getInstance();
 		$pdfObj      = RedshopHelperPdf::getInstance();
-		$cartHelper  = RedshopSiteCart::getInstance();
+		$cartHelper  = rsCarthelper::getInstance();
 
 		$pdfObj->SetTitle('Invoice ' . $orderId);
 

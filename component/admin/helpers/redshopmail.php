@@ -47,7 +47,7 @@ class redshopMail
 
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_carthelper      = RedshopSiteCart::getInstance();
+		$this->_carthelper      = rsCarthelper::getInstance();
 		$this->_redhelper       = RedshopSiteHelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 	}

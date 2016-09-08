@@ -106,7 +106,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 		$extra_field = extra_field::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$producthelper = RedshopSiteProduct::getInstance();
-		$rsCarthelper = RedshopSiteCart::getInstance();
+		$rsCarthelper = rsCarthelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$extra_field->extra_field_save($data, 16, $data['user_info_id'], $data['user_email']);

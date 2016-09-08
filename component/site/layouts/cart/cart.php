@@ -8,7 +8,7 @@
  */
 
 $productHelper = RedshopSiteProduct::getInstance();
-$cartHelper = RedshopSiteCart::getInstance();
+$cartHelper = rsCarthelper::getInstance();
 $cart = $displayData['cart'];
 $total = 0;
 

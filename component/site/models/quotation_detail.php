@@ -50,7 +50,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
 
-		$carthelper      = RedshopSiteCart::getInstance();
+		$carthelper      = rsCarthelper::getInstance();
 		$producthelper   = RedshopSiteProduct::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 
@@ -210,7 +210,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 	public function modifyQuotation($user_id = 0)
 	{
 		$session    = JFactory::getSession();
-		$carthelper = RedshopSiteCart::getInstance();
+		$carthelper = rsCarthelper::getInstance();
 		$cart       = $session->get('cart');
 
 		$cart = $carthelper->modifyCart($cart, $user_id);
