@@ -19,7 +19,7 @@ $url             = JURI::base();
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();
 
-$redhelper       = RedshopSiteHelper::getInstance();
+$redhelper       = redhelper::getInstance();
 $userhelper      = RedshopSiteUser::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();

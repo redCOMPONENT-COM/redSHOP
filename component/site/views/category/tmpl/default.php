@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$objhelper     = RedshopSiteHelper::getInstance();
+$objhelper     = redhelper::getInstance();
 $config        = Redconfiguration::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $extraField    = extraField::getInstance();

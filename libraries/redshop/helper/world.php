@@ -98,7 +98,7 @@ class RedshopHelperWorld
 
 				// Set the query and load the result.
 				$db->setQuery($query);
-				$this->countries = RedshopSiteHelper::getInstance()->convertLanguageString($db->loadObjectList());
+				$this->countries = redhelper::getInstance()->convertLanguageString($db->loadObjectList());
 
 				// Check for a database error.
 				if ($db->getErrorNum())

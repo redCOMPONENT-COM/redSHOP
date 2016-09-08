@@ -33,7 +33,7 @@ if ($params->get("checkout_empty") != 0)
 }
 
 // Helper object
-$helper = RedshopSiteHelper::getInstance();
+$helper = redhelper::getInstance();
 $helper->dbtocart();
 
 $output_view = $params->get('cart_output', 'simple');

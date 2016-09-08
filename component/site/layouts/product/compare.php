@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$helper = RedshopSiteHelper::getInstance();
+$helper = redhelper::getInstance();
 
 $itemId = $helper->getRedShopMenuItem(
 			array(

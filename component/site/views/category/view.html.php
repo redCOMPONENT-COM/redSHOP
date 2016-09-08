@@ -43,7 +43,7 @@ class RedshopViewCategory extends RedshopView
 	{
 		$this->app     = JFactory::getApplication();
 		$this->input   = $this->app->input;
-		$objhelper     = RedshopSiteHelper::getInstance();
+		$objhelper     = redhelper::getInstance();
 		$prodhelperobj = RedshopSiteProduct::getInstance();
 
 		// Request variables

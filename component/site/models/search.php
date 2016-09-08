@@ -416,7 +416,7 @@ class RedshopModelSearch extends RedshopModel
 							'order_by',
 							$app->getParams()->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD)
 						);
-		$orderByObj  = RedshopSiteHelper::getInstance()->prepareOrderBy(urldecode($orderByMethod));
+		$orderByObj  = redhelper::getInstance()->prepareOrderBy(urldecode($orderByMethod));
 
 		$orderBy = $orderByObj->ordering . ' ' . $orderByObj->direction;
 

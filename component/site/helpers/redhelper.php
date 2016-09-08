@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopSiteHelper
+class redhelper
 {
 	public $_table_prefix = null;
 

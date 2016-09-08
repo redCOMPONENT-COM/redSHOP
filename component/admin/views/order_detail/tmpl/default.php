@@ -14,7 +14,7 @@ JHTML::_('behavior.modal');
 $producthelper = RedshopSiteProduct::getInstance();
 $carthelper = rsCarthelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
+$redhelper = redhelper::getInstance();
 $extra_field = extra_field::getInstance();
 $shippinghelper = shipping::getInstance();
 $config = Redconfiguration::getInstance();

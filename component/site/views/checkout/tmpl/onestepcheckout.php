@@ -19,7 +19,7 @@ JHTMLBehavior::modal();
 $carthelper = rsCarthelper::getInstance();
 $producthelper = RedshopSiteProduct::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
+$redhelper = redhelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $shippinghelper = shipping::getInstance();
 $session = JFactory::getSession();

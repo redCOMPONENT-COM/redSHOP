@@ -19,7 +19,7 @@ $config = Redconfiguration::getInstance();
 
 $lists = $this->lists;
 $model = $this->getModel('order');
-$redhelper = RedshopSiteHelper::getInstance();
+$redhelper = redhelper::getInstance();
 $shippinghelper = shipping::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $dispatcher = JDispatcher::getInstance();
