@@ -1465,7 +1465,7 @@ class Com_RedshopInstallerScript
 		if (JFolder::exists($codeDir))
 		{
 			$codeFiles = JFolder::folders($codeDir);
-			
+
 			foreach ($codeFiles as $key => $value)
 			{
 				if (JFolder::exists($codeDir . 'administrator/components'))
@@ -1618,6 +1618,7 @@ class Com_RedshopInstallerScript
 				'new CurrencyHelper()'                             => 'CurrencyHelper::getInstance()',
 				'new statistic()'                                  => 'RedshopSiteStatistic::getInstance()',
 				'new economic()'                                   => 'economic::getInstance()',
+				'GoogleAnalytics'                                  => 'RedshopHelperGoogleanalytics',
 				'class producthelper extends producthelperDefault' => 'class RedshopSiteProduct extends RedshopSiteProductDefault',
 				'class rsCarthelper extends rsCarthelperDefault'   => 'class RedshopSiteCart extends RedshopSiteCartDefault',
 				'class extraField extends extraFieldDefault'       => 'class RedshopSiteExtraField extends RedshopSiteExtraFieldDefault',
