@@ -23,7 +23,7 @@ class RedshopViewAccount_billto extends RedshopView
 	public function display($tpl = null)
 	{
 		$app         = JFactory::getApplication();
-		$extra_field = RedshopSiteExtraField::getInstance();
+		$extra_field = extraField::getInstance();
 
 		$params = $app->getParams('com_redshop');
 

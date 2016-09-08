@@ -16,7 +16,7 @@ JHTMLBehavior::modal();
 $producthelper = RedshopSiteProduct::getInstance();
 $configobj     = Redconfiguration::getInstance();
 $redTemplate   = Redtemplate::getInstance();
-$extraField    = RedshopSiteExtraField::getInstance();
+$extraField    = extraField::getInstance();
 
 $session       = JFactory::getSession();
 $Itemid        = JRequest::getInt('Itemid');

@@ -732,7 +732,7 @@ class RedshopControllerCheckout extends RedshopController
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
 
-		$extraField = RedshopSiteExtraField::getInstance();
+		$extraField = extraField::getInstance();
 		$extrafield_total = "";
 
 		if (count($extrafield_shipping) > 0)

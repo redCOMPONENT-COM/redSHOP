@@ -29,7 +29,7 @@ JHtml::script('modules/mod_redshop_who_bought/assets/js/jquery.jcarousel.min.js'
 $producthelper = RedshopSiteProduct::getInstance();
 $redhelper = RedshopSiteHelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$extraField = RedshopSiteExtraField::getInstance();
+$extraField = extraField::getInstance();
 $module_id = "mod_" . $module->id;
 
 JHtml::script('com_redshop/common.js', false, true);

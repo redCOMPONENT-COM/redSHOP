@@ -18,7 +18,7 @@ $module_id = "mod_" . $module->id;
 
 $producthelper = RedshopSiteProduct::getInstance();
 $redhelper     = RedshopSiteHelper::getInstance();
-$extraField    = RedshopSiteExtraField::getInstance();
+$extraField    = extraField::getInstance();
 
 // Create Pane
 echo JHtml::_('tabs.start', 'pane', array('startOffset' => 0));

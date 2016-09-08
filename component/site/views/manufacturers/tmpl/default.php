@@ -13,7 +13,7 @@ JHTMLBehavior::modal();
 
 $producthelper = RedshopSiteProduct::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$extraField = RedshopSiteExtraField::getInstance();
+$extraField = extraField::getInstance();
 $config = Redconfiguration::getInstance();
 $url = JURI::base();
 $print = JRequest::getInt('print');
