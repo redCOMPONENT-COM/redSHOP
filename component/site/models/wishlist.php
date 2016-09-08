@@ -180,7 +180,7 @@ class RedshopModelWishlist extends RedshopModel
 			elseif (!empty($_SESSION["no_of_prod"]))
 			{
 				ob_clean();
-				$extraField = RedshopSiteExtraField::getInstance();
+				$extraField = extraField::getInstance();
 				$section    = 12;
 				$row_data   = $extraField->getSectionFieldList($section);
 

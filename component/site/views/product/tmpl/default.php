@@ -19,7 +19,7 @@ $Scheme          = $u->getScheme();
 $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
 
-$extraField      = RedshopSiteExtraField::getInstance();
+$extraField      = extraField::getInstance();
 $producthelper   = RedshopSiteProduct::getInstance();
 $redshopconfig   = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();

@@ -50,7 +50,7 @@ class plgContentredshop_product extends JPlugin
 
 			$module_id     = "plg_";
 			$producthelper = RedshopSiteProduct::getInstance();
-			$extraField    = RedshopSiteExtraField::getInstance();
+			$extraField    = extraField::getInstance();
 			$objhelper     = RedshopSiteHelper::getInstance();
 			$lang          = JFactory::getLanguage();
 

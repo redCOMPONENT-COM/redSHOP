@@ -323,7 +323,7 @@ class RedshopModelOrder extends RedshopModel
 	public function business_gls_export($cid)
 	{
 		$orderHelper = order_functions::getInstance();
-		$extraField  = RedshopSiteExtraField::getInstance();
+		$extraField  = extraField::getInstance();
 
 		ob_clean();
 
