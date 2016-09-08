@@ -370,7 +370,7 @@ class RedshopControllerCheckout extends RedshopController
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
 		$user       = JFactory::getUser();
-		$producthelper   = RedshopSiteProduct::getInstance();
+		$producthelper   = producthelper::getInstance();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -580,7 +580,7 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
-		$producthelper   = RedshopSiteProduct::getInstance();
+		$producthelper   = producthelper::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();

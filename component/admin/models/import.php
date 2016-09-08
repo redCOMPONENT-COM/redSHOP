@@ -2785,7 +2785,7 @@ class RedshopModelImport extends RedshopModel
 	public function Orders_insert()
 	{
 		$db = JFactory::getDbo();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		$query = "SELECT rui.users_info_id AS rui_users_info_id, vmo . * , rdo.vm_order_number AS rdo_order_number
 				FROM (

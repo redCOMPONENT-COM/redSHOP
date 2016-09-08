@@ -209,7 +209,7 @@ class RedshopModelProduct extends RedshopModel
 			return false;
 		}
 
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$redshopMail   = redshopMail::getInstance();
 		$user          = JFactory::getUser();
 
@@ -466,7 +466,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$info          = $producthelper->getChildProduct($parentid);
 
 		for ($i = 0, $in = count($info); $i < $in; $i++)

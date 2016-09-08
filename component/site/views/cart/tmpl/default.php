@@ -14,7 +14,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 $dispatcher    = JDispatcher::getInstance();
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 $objshipping   = shipping::getInstance();
 $redhelper     = redhelper::getInstance();
 $carthelper    = rsCarthelper::getInstance();

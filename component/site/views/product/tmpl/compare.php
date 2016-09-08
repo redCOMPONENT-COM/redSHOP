@@ -15,7 +15,7 @@ JHtml::_('behavior.modal');
 
 $print  = $this->input->getBool('print', false);
 
-$producthelper   = RedshopSiteProduct::getInstance();
+$producthelper   = producthelper::getInstance();
 $config          = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $compare         = new RedshopProductCompare;

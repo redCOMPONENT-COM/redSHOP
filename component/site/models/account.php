@@ -424,7 +424,7 @@ class RedshopModelAccount extends RedshopModel
 		$subject     = $post['subject'];
 		$Itemid      = $post['Itemid'];
 
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		// Get data from database if not than fetch from session
 		if ($user->id && $wishlist_id)

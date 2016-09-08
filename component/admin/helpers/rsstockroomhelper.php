@@ -76,7 +76,7 @@ class rsstockroomhelper
 	public function isAttributeStockExists($product_id)
 	{
 		$isStockExists = false;
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$property = $producthelper->getAttibuteProperty(0, 0, $product_id);
 
 		for ($att_j = 0; $att_j < count($property); $att_j++)
@@ -135,7 +135,7 @@ class rsstockroomhelper
 
 	public function isAttributePreorderStockExists($product_id)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$property = $producthelper->getAttibuteProperty(0, 0, $product_id);
 
 		for ($att_j = 0; $att_j < count($property); $att_j++)
@@ -227,7 +227,7 @@ class rsstockroomhelper
 	public function getStockAmountwithReserve($sectionId = 0, $section = 'product', $stockroomId = 0)
 	{
 		$quantity = 1;
-		$productHelper = RedshopSiteProduct::getInstance();
+		$productHelper = producthelper::getInstance();
 
 		if (USE_STOCKROOM == 1)
 		{
@@ -509,7 +509,7 @@ class rsstockroomhelper
 			if ($quantity > 0)
 			{
 				$preorder_list = $this->getPreorderStockroomAmountDetailList($section_id, $section);
-				$producthelper = RedshopSiteProduct::getInstance();
+				$producthelper = producthelper::getInstance();
 
 				if ($section == "product")
 				{
@@ -930,7 +930,7 @@ class rsstockroomhelper
 
 	public function getFinalStockofProduct($product_id, $totalatt)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		$isStockExists = $this->isStockExists($product_id);
 
@@ -976,7 +976,7 @@ class rsstockroomhelper
 
 	public function getFinalPreorderStockofProduct($product_id, $totalatt)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		$isStockExists = $this->isPreorderStockExists($product_id);
 

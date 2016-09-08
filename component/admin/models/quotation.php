@@ -152,7 +152,7 @@ class RedshopModelQuotation extends RedshopModelList
 		if ($items)
 		{
 			$quotationHelper = quotationHelper::getInstance();
-			$productHelper = RedshopSiteProduct::getInstance();
+			$productHelper = producthelper::getInstance();
 
 			foreach ($items as $key => $item)
 			{

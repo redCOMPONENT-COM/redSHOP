@@ -15,7 +15,7 @@ $url = JURI::base();
 
 $objhelper = redhelper::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 $extraField = extraField::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $redTemplate = Redtemplate::getInstance();

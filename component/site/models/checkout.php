@@ -46,7 +46,7 @@ class RedshopModelCheckout extends RedshopModel
 		$this->_carthelper      = rsCarthelper::getInstance();
 		$this->_userhelper      = rsUserHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
-		$this->_producthelper   = RedshopSiteProduct::getInstance();
+		$this->_producthelper   = producthelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 

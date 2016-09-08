@@ -1588,7 +1588,6 @@ class Com_RedshopInstallerScript
 		}
 
 		$replaceString = array(
-				'new producthelper'                                => 'RedshopSiteProduct::getInstance()',
 				'new quotationHelper'                              => 'quotationHelper::getInstance()',
 				'new order_functions'                              => 'order_functions::getInstance()',
 				'new Redconfiguration'                             => 'Redconfiguration::getInstance()',
@@ -1599,7 +1598,6 @@ class Com_RedshopInstallerScript
 				'new CurrencyHelper'                               => 'CurrencyHelper::getInstance()',
 				'new statistic'                                    => 'RedshopSiteStatistic::getInstance()',
 				'new economic'                                     => 'economic::getInstance()',
-				'new producthelper()'                              => 'RedshopSiteProduct::getInstance()',
 				'new quotationHelper()'                            => 'quotationHelper::getInstance()',
 				'new order_functions()'                            => 'order_functions::getInstance()',
 				'new Redconfiguration()'                           => 'Redconfiguration::getInstance()',
@@ -1611,7 +1609,6 @@ class Com_RedshopInstallerScript
 				'new statistic()'                                  => 'RedshopSiteStatistic::getInstance()',
 				'new economic()'                                   => 'economic::getInstance()',
 				'GoogleAnalytics'                                  => 'RedshopHelperGoogleanalytics',
-				'class producthelper extends producthelperDefault' => 'class RedshopSiteProduct extends RedshopSiteProductDefault',
 				'RedshopConfig::scriptDeclaration();'              => '',
 				'$redConfiguration'                                => '$Redconfiguration',
 				'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',

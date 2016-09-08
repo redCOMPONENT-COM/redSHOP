@@ -14,7 +14,7 @@ $editor        = JFactory::getEditor();
 $uri           = JURI::getInstance();
 $url           = $uri->root();
 JHTML::_('behavior.calendar');
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 JText::script('COM_REDSHOP_DELETE');
 ?>
 <script language="javascript" type="text/javascript">
