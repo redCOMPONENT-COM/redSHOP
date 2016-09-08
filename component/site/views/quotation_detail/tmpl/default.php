@@ -17,7 +17,7 @@ $extra_field     = extra_field::getInstance();
 
 $extra_field_new = extraField::getInstance();
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 
 $order_functions = order_functions::getInstance();
 

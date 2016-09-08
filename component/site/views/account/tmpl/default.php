@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 
-$producthelper   = RedshopSiteProduct::getInstance();
+$producthelper   = producthelper::getInstance();
 $quotationHelper = quotationHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $configobj       = Redconfiguration::getInstance();

@@ -365,7 +365,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function newsletterEntry($cid = array(), $userid = array(), $username = array())
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$jconfig = new jconfig;
 		$db = JFactory::getDbo();
 		$newsletter_id = JRequest::getVar('newsletter_id');

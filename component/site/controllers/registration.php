@@ -31,7 +31,7 @@ class RedshopControllerRegistration extends RedshopController
 		$Itemid     = JRequest::getInt('Itemid', 0);
 		$dispatcher = JDispatcher::getInstance();
 
-		$prodhelperobj = RedshopSiteProduct::getInstance();
+		$prodhelperobj = producthelper::getInstance();
 		$redshopMail   = redshopMail::getInstance();
 
 		$model   = $this->getModel('registration');

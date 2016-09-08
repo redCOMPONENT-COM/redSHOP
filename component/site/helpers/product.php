@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-class RedshopSiteProduct
+class producthelper
 {
 	public $_db = null;
 

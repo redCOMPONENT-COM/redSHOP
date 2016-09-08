@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$producthelper   = RedshopSiteProduct::getInstance();
+$producthelper   = producthelper::getInstance();
 
 $quotationHelper = quotationHelper::getInstance();
 

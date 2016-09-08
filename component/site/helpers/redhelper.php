@@ -1086,7 +1086,7 @@ class redhelper
 			$shipping_method = $details[1] . $ext;
 		}
 
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 
 		$userData = $producthelper->getUserInformation($orderData->user_id);
 

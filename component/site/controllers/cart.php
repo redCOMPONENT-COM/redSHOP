@@ -42,7 +42,7 @@ class RedshopControllerCart extends RedshopController
 		$post                       = JRequest::get('post');
 		$parent_accessory_productid = $post['product_id'];
 		$Itemid                     = JRequest::getInt('Itemid');
-		$producthelper              = RedshopSiteProduct::getInstance();
+		$producthelper              = producthelper::getInstance();
 		$redhelper                  = redhelper::getInstance();
 		$Itemid                     = $redhelper->getCartItemid();
 		$model                      = $this->getModel('cart');
@@ -235,7 +235,7 @@ class RedshopControllerCart extends RedshopController
 
 	public function modifyCalculation($cart)
 	{
-		$producthelper            = RedshopSiteProduct::getInstance();
+		$producthelper            = producthelper::getInstance();
 		$calArr                   = $this->_carthelper->calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
 		$session                  = JFactory::getSession();
@@ -618,7 +618,7 @@ class RedshopControllerCart extends RedshopController
 		$product = new JRegistry;
 		$product->set(
 			'tax',
-			RedshopSiteProduct::getInstance()->getProductTax(
+			producthelper::getInstance()->getProductTax(
 				$productId,
 				$productPrice,
 				$userId,

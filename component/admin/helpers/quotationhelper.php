@@ -246,7 +246,7 @@ class quotationHelper
 	public function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
 	{
 		$redTemplate = Redtemplate::getInstance();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = producthelper::getInstance();
 		$resultArr = array();
 		$db = JFactory::getDbo();
 

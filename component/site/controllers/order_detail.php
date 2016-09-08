@@ -28,7 +28,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_producthelper   = RedshopSiteProduct::getInstance();
+		$this->_producthelper   = producthelper::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_extraField      = extraField::getInstance();

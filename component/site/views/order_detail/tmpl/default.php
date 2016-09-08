@@ -14,7 +14,7 @@ $redconfig   = Redconfiguration::getInstance();
 $extra_field = extra_field::getInstance();
 
 
-$producthelper   = RedshopSiteProduct::getInstance();
+$producthelper   = producthelper::getInstance();
 $redhelper       = redhelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();

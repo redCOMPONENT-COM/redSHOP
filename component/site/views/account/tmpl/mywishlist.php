@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 // Get product helper
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 $configobj     = Redconfiguration::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 $extraField    = extraField::getInstance();

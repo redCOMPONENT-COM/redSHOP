@@ -32,7 +32,7 @@ class RedshopViewCategory_detail extends RedshopViewAdmin
 	{
 		$redTemplate      = Redtemplate::getInstance();
 		$product_category = new product_category;
-		$producthelper    = RedshopSiteProduct::getInstance();
+		$producthelper    = producthelper::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/validation.js');

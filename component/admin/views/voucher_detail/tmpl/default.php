@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = producthelper::getInstance();
 
 $now = JFactory::getDate();
 ?>
