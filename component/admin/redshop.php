@@ -54,8 +54,11 @@ $step     = JRequest::getVar('step', '');
 // Initialize wizard
 if ($isWizard || $step != '')
 {
-	$redaccesslevel = new Redaccesslevel;
-	$redaccesslevel->checkgroup_access('wizard', '', $user->gid);
+	if ($user->gid != 8)
+	{
+		$redaccesslevel = new Redaccesslevel;
+		$redaccesslevel->checkgroup_access('wizard', '', $user->gid);
+	}
 
 	JRequest::setVar('view', 'wizard');
 
