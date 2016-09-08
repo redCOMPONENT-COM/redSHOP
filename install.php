@@ -1460,29 +1460,33 @@ class Com_RedshopInstallerScript
 		$dir       = JPATH_SITE . "/templates/";
 		$codeDir   = JPATH_SITE . "/code/";
 		$files     = JFolder::folders($dir);
-		$codeFiles = JFolder::folders($codeDir);
 		$templates = array();
 
-		foreach ($codeFiles as $key => $value)
+		if (JFolder::exists($codeDir))
 		{
-			if (JFolder::exists($codeDir . 'administrator/components'))
+			$codeFiles = JFolder::folders($codeDir);
+			
+			foreach ($codeFiles as $key => $value)
 			{
-				$templates[$codeDir . 'administrator/components'] = JFolder::folders($codeDir . 'administrator/components');
-			}
+				if (JFolder::exists($codeDir . 'administrator/components'))
+				{
+					$templates[$codeDir . 'administrator/components'] = JFolder::folders($codeDir . 'administrator/components');
+				}
 
-			if (JFolder::exists($codeDir . 'administrator'))
-			{
-				$templates[$codeDir . 'administrator'] = JFolder::folders($codeDir . 'administrator');
-			}
+				if (JFolder::exists($codeDir . 'administrator'))
+				{
+					$templates[$codeDir . 'administrator'] = JFolder::folders($codeDir . 'administrator');
+				}
 
-			if (JFolder::exists($codeDir . 'components'))
-			{
-				$templates[$codeDir . 'components'] = JFolder::folders($codeDir . 'components');
-			}
+				if (JFolder::exists($codeDir . 'components'))
+				{
+					$templates[$codeDir . 'components'] = JFolder::folders($codeDir . 'components');
+				}
 
-			if (JFolder::exists($codeDir))
-			{
-				$templates[$codeDir] = JFolder::folders($codeDir);
+				if (JFolder::exists($codeDir))
+				{
+					$templates[$codeDir] = JFolder::folders($codeDir);
+				}
 			}
 		}
 
