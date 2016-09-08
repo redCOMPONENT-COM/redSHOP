@@ -143,7 +143,7 @@ class RedshopModelCheckout extends RedshopModel
 		$redconfig       = Redconfiguration::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$helper          = RedshopSiteHelper::getInstance();
+		$helper          = redhelper::getInstance();
 		$shippinghelper  = shipping::getInstance();
 		$order_functions = order_functions::getInstance();
 
@@ -2015,7 +2015,7 @@ class RedshopModelCheckout extends RedshopModel
 		$user_id  = $user->id;
 		$usersess = $session->get('rs_user');
 		$userArr  = $this->_producthelper->getVatUserinfo($user_id);
-		$redHelper = RedshopSiteHelper::getInstance();
+		$redHelper = redhelper::getInstance();
 
 		$usersess['rs_user_info_id'] = $users_info_id;
 		unset($cart['shipping']);

@@ -165,7 +165,7 @@ class RedshopSiteProduct
 	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
 		$userArr  = $this->_session->get('rs_user');
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 		$result = null;
 
 		if (empty($userArr))
@@ -735,7 +735,7 @@ class RedshopSiteProduct
 
 		if (count($findFields) > 0)
 		{
-			return implode(',', RedshopSiteHelper::quote($findFields));
+			return implode(',', redhelper::quote($findFields));
 		}
 
 		return '';
@@ -1065,7 +1065,7 @@ class RedshopSiteProduct
 		$imagename     = trim($imagename);
 		$linkimagename = trim($linkimagename);
 		$product_id    = $product->product_id;
-		$redhelper     = RedshopSiteHelper::getInstance();
+		$redhelper     = redhelper::getInstance();
 
 		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
@@ -1178,7 +1178,7 @@ class RedshopSiteProduct
 
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
-		$redhelper  = RedshopSiteHelper::getInstance();
+		$redhelper  = redhelper::getInstance();
 		$result     = $this->getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
@@ -1211,7 +1211,7 @@ class RedshopSiteProduct
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
@@ -2314,7 +2314,7 @@ class RedshopSiteProduct
 
 	public function getCategoryNavigationlist($category_id)
 	{
-		$redhelper = RedshopSiteHelper::getInstance();
+		$redhelper = redhelper::getInstance();
 		static $i = 0;
 		static $category_list = array();
 
@@ -2713,7 +2713,7 @@ class RedshopSiteProduct
 	{
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 
 		if ($menuView != "")
 		{
@@ -3780,7 +3780,7 @@ class RedshopSiteProduct
 
 	public function getRelatedProduct($product_id = 0, $related_id = 0)
 	{
-		$helper          = RedshopSiteHelper::getInstance();
+		$helper          = redhelper::getInstance();
 		$and             = "";
 		$orderby         = "ORDER BY p.product_id ASC ";
 		$orderby_related = "";
@@ -7668,7 +7668,7 @@ class RedshopSiteProduct
 						// Show actual productive price
 						if ($property_price > 0)
 						{
-							$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
+							$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
 
 							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -7745,7 +7745,7 @@ class RedshopSiteProduct
 							// Show actual productive price
 							if ($subproperty_price > 0)
 							{
-								$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
+								$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
 
 								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -9079,7 +9079,7 @@ class RedshopSiteProduct
 
 			if ($displaylink)
 			{
-				$redhelper = RedshopSiteHelper::getInstance();
+				$redhelper = redhelper::getInstance();
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
 
 				if(!(boolean) $catItem)
@@ -9104,7 +9104,7 @@ class RedshopSiteProduct
 	{
 		$url                 = JURI::base();
 		$product             = $this->getProductById($product_id);
-		$redhelper           = RedshopSiteHelper::getInstance();
+		$redhelper           = redhelper::getInstance();
 		$aHrefImageResponse  = '';
 		$imagename           = '';
 		$aTitleImageResponse = '';
@@ -9241,7 +9241,7 @@ class RedshopSiteProduct
 		$redTemplate     = Redtemplate::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$url             = JURI::base();
-		$redhelper       = RedshopSiteHelper::getInstance();
+		$redhelper       = redhelper::getInstance();
 
 		if ($accessory_id != 0)
 		{
@@ -10006,7 +10006,7 @@ class RedshopSiteProduct
 		$extra_field      = extraField::getInstance();
 		$config           = Redconfiguration::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
-		$redhelper        = RedshopSiteHelper::getInstance();
+		$redhelper        = redhelper::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);

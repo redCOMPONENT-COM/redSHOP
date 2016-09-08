@@ -307,7 +307,7 @@ class modProMenuHelper
 
 	function get_category_tree($params, $category_id = 0, $links_css_class = "mainlevel", $highlighted_style = "font-style:italic;", $shopper_group_id = 0)
 	{
-		$objhelper              = RedshopSiteHelper::getInstance();
+		$objhelper              = redhelper::getInstance();
 		$parent_selected        = $params->get('redshop_category', '');
 		$parent_selected_remove = $params->get('redshop_category_remove', '');
 

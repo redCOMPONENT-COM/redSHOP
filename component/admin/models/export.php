@@ -449,7 +449,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (count($cur) > 0)
 		{
-			$redhelper = RedshopSiteHelper::getInstance();
+			$redhelper = redhelper::getInstance();
 
 			for ($i = 0, $in = count($cur); $i < $in; $i++)
 			{

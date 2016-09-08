@@ -35,7 +35,7 @@ class RedshopControllerLogin extends RedshopController
 		$item         = $menu->getItem($returnitemid);
 
 
-		$redhelper = RedshopSiteHelper::getInstance();
+		$redhelper = redhelper::getInstance();
 
 		$model = $this->getModel('login');
 

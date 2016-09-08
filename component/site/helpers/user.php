@@ -496,7 +496,7 @@ class RedshopSiteUser
 	{
 		$redshopMail = redshopMail::getInstance();
 		$extra_field = extra_field::getInstance();
-		$helper      = RedshopSiteHelper::getInstance();
+		$helper      = redhelper::getInstance();
 
 		$data['user_email']   = $data['email'] = $data['email1'];
 		$data['name']         = $name = $data['firstname'];

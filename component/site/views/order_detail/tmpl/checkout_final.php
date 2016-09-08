@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 $configobj = Redconfiguration::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
+$redhelper = redhelper::getInstance();
 
 $url = JURI::base();
 $Itemid = $redhelper->getCheckoutItemid();
