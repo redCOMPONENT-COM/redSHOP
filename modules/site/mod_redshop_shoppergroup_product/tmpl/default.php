@@ -29,7 +29,7 @@ JHTML::script('com_redshop/redbox.js', false, true);
 $producthelper = RedshopSiteProduct::getInstance();
 $redhelper     = RedshopSiteHelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
-$extraField    = RedshopSiteExtraField::getInstance();
+$extraField    = extraField::getInstance();
 
 echo "<div class='mod_redshop_shoppergroup_product_wrapper'>";
 

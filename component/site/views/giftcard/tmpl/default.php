@@ -15,7 +15,7 @@ JHTMLBehavior::modal();
 
 $producthelper = RedshopSiteProduct::getInstance();
 $objhelper     = RedshopSiteHelper::getInstance();
-$extraField    = RedshopSiteExtraField::getInstance();
+$extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
 $model     = $this->getModel('giftcard');

@@ -58,7 +58,7 @@ class RedshopSiteCart
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_extra_field     = extra_field::getInstance();
-		$this->_extraFieldFront = RedshopSiteExtraField::getInstance();
+		$this->_extraFieldFront = extraField::getInstance();
 		$this->_redhelper       = RedshopSiteHelper::getInstance();
 		$this->_producthelper   = RedshopSiteProduct::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
@@ -3495,7 +3495,7 @@ class RedshopSiteCart
 
 					if (strpos($rate_data, "{shipping_extrafields}") !== false)
 					{
-						$extraField         = RedshopSiteExtraField::getInstance();
+						$extraField         = extraField::getInstance();
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
 						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
 

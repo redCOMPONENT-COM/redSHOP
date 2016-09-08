@@ -28,7 +28,7 @@ JHtml::script('com_redshop/redbox.js', false, true);
 $producthelper   = RedshopSiteProduct::getInstance();
 $redhelper       = RedshopSiteHelper::getInstance();
 $redTemplate     = Redtemplate::getInstance();
-$extraField      = RedshopSiteExtraField::getInstance();
+$extraField      = extraField::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 
 

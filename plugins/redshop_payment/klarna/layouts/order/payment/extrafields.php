@@ -40,9 +40,9 @@ $fields = $plugin->params->get('extrafield_payment', array());
 
 			if (($isPNO && !$DOBGroup) || ($DOBFields && $DOBGroup) || ($isHouseExtension && $isNetherland))
 			{
-				$fieldInput = RedshopSiteExtraField::getInstance()->list_all_user_fields(
+				$fieldInput = extraField::getInstance()->list_all_user_fields(
 							$name,
-							RedshopSiteExtraField::SECTION_PAYMENT_GATEWAY,
+							extraField::SECTION_PAYMENT_GATEWAY,
 							'',
 							0,
 							0,
