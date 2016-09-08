@@ -3598,7 +3598,7 @@ class rsCarthelper
 	{
 		$ccdata = $this->_session->get('ccdata');
 
-		$rsUserhelper = RedshopSiteUser::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
 		$url          = JURI::base();
 		$user         = JFactory::getUser();
 		$user_id      = $user->id;
@@ -5229,7 +5229,7 @@ class rsCarthelper
 
 	public function dbtocart($userId = 0)
 	{
-		$rsUserhelper = RedshopSiteUser::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
 
 		if ($userId == 0)
 		{
@@ -5692,7 +5692,7 @@ class rsCarthelper
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher       = JDispatcher::getInstance();
-		$rsUserhelper     = RedshopSiteUser::getInstance();
+		$rsUserhelper     = rsUserHelper::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
 		$cart             = $this->_session->get('cart');

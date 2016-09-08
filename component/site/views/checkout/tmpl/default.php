@@ -20,7 +20,7 @@ $user            = JFactory::getUser();
 $session         = JFactory::getSession();
 
 $redhelper       = redhelper::getInstance();
-$userhelper      = RedshopSiteUser::getInstance();
+$userhelper      = rsUserHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 

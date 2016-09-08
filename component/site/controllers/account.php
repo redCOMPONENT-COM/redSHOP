@@ -94,7 +94,7 @@ class RedshopControllerAccount extends RedshopController
 	 */
 	public function newsletterSubscribe()
 	{
-		$userhelper = RedshopSiteUser::getInstance();
+		$userhelper = rsUserHelper::getInstance();
 		$userhelper->newsletterSubscribe(0, array(), 1);
 
 		$Itemid = JFactory::getApplication()->input->getInt('Itemid');
@@ -113,7 +113,7 @@ class RedshopControllerAccount extends RedshopController
 	{
 		$user       = JFactory::getUser();
 		$Itemid     = JFactory::getApplication()->input->getInt('Itemid');
-		$userhelper = RedshopSiteUser::getInstance();
+		$userhelper = rsUserHelper::getInstance();
 
 		$userhelper->newsletterUnsubscribe($user->email);
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');

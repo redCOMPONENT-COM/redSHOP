@@ -38,7 +38,7 @@ class shipping
 	public function getDefaultShipping($d)
 	{
 		$productHelper  = RedshopSiteProduct::getInstance();
-		$userhelper     = RedshopSiteUser::getInstance();
+		$userhelper     = rsUserHelper::getInstance();
 		$session        = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
 		$user           = JFactory::getUser();
@@ -250,7 +250,7 @@ class shipping
 	public function getDefaultShipping_xmlexport($d)
 	{
 		$productHelper  = RedshopSiteProduct::getInstance();
-		$userhelper     = RedshopSiteUser::getInstance();
+		$userhelper     = rsUserHelper::getInstance();
 		$session        = JFactory::getSession();
 		$order_subtotal = $d ['order_subtotal'];
 		$user           = JFactory::getUser();
@@ -814,7 +814,7 @@ class shipping
 
 	public function listshippingrates($shipping_class, $users_info_id, &$d)
 	{
-		$userhelper     = RedshopSiteUser::getInstance();
+		$userhelper     = rsUserHelper::getInstance();
 		$order_subtotal = $d['order_subtotal'];
 
 		$totaldimention = $this->getCartItemDimention();
@@ -1602,7 +1602,7 @@ class shipping
 
 	public function isUserInfoMatch(&$d)
 	{
-		$userhelper   = RedshopSiteUser::getInstance();
+		$userhelper   = rsUserHelper::getInstance();
 		$shippingrate = array();
 		$db = JFactory::getDbo();
 
@@ -1743,7 +1743,7 @@ class shipping
 	public function getfreeshippingRate($shipping_rate_id = 0)
 	{
 		$productHelper = RedshopSiteProduct::getInstance();
-		$userhelper    = RedshopSiteUser::getInstance();
+		$userhelper    = rsUserHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart', null);
 		$db            = JFactory::getDbo();

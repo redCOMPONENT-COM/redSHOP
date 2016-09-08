@@ -22,7 +22,7 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$userhelper       = RedshopSiteUser::getInstance();
+		$userhelper       = rsUserHelper::getInstance();
 		$extra_field 	  = extra_field::getInstance();
 		$shoppergroup     = new shoppergroup;
 
