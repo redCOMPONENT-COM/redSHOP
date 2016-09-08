@@ -494,6 +494,7 @@ class rsstockroomhelper
 
 					$message = JText::sprintf(
 						'COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER',
+						$productData->product_id,
 						$productData->product_name,
 						$productData->product_number,
 						$remaining,

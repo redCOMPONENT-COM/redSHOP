@@ -67,7 +67,8 @@ class PlgRedshop_AlertAlert extends JPlugin
 			$config->get('fromname'),
 			ADMINISTRATOR_EMAIL,
 			JText::_('COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER_MAIN_SUBJECT'),
-			$message
+			$message,
+			1
 		);
 
 		return $sent;
