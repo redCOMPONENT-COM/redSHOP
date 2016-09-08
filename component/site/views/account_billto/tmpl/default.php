@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-$userhelper = RedshopSiteUser::getInstance();
+$userhelper = rsUserHelper::getInstance();
 $user       = JFactory::getUser();
 $Itemid     = JRequest::getInt('Itemid');
 

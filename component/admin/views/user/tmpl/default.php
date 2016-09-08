@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 $producthelper = RedshopSiteProduct::getInstance();
 $redhelper     = redhelper::getInstance();
-$userhelper    = RedshopSiteUser::getInstance();
+$userhelper    = rsUserHelper::getInstance();
 $filter        = JRequest::getVar('filter');
 $model         = $this->getModel('user');
 ?>

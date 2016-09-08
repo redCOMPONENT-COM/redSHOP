@@ -31,7 +31,7 @@ if ($enableAjaxsearch)
 
 $app = JFactory::getApplication();
 $db = JFactory::getDbo();
-$userHelper = RedshopSiteUser::getInstance();
+$userHelper = rsUserHelper::getInstance();
 $shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 $shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId);
 $query = $db->getQuery(true)

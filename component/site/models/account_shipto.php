@@ -123,7 +123,7 @@ class RedshopModelAccount_shipto extends RedshopModel
 
 	public function store($post)
 	{
-		$userhelper = RedshopSiteUser::getInstance();
+		$userhelper = rsUserHelper::getInstance();
 
 		$post['user_email'] = $post['email1'] = $post['email'];
 		$reduser            = $userhelper->storeRedshopUserShipping($post);

@@ -77,7 +77,7 @@ class RedshopSiteProduct
 	{
 		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
-		$this->_userhelper   = RedshopSiteUser::getInstance();
+		$this->_userhelper   = rsUserHelper::getInstance();
 		$this->_session      = JFactory::getSession();
 	}
 
@@ -2816,7 +2816,7 @@ class RedshopSiteProduct
 
 	public function getProductCategory($id = 0)
 	{
-		$rsUserhelper               = RedshopSiteUser::getInstance();
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 		$and = '';
 
