@@ -11,7 +11,7 @@ JLoader::import('redshop.library');
 $objOrder         = order_functions::getInstance();
 $objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
-$redhelper        = RedshopSiteHelper::getInstance();
+$redhelper        = redhelper::getInstance();
 $db               = JFactory::getDbo();
 $user             = JFActory::getUser();
 $task             = JRequest::getVar('task');

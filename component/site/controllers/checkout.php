@@ -89,7 +89,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		$Itemid        = JRequest::getInt('Itemid');
 		$users_info_id = JRequest::getInt('users_info_id');
-		$helper        = RedshopSiteHelper::getInstance();
+		$helper        = redhelper::getInstance();
 		$chk           = $this->chkvalidation($users_info_id);
 
 		if (!empty($chk))

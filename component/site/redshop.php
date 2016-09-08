@@ -20,7 +20,7 @@ RedshopHelperCron::init();
 RedshopSiteStatistic::getInstance()->track();
 
 // Helper object
-$helper = RedshopSiteHelper::getInstance();
+$helper = redhelper::getInstance();
 
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');

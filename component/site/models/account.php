@@ -415,7 +415,7 @@ class RedshopModelAccount extends RedshopModel
 	{
 		$user        = JFactory::getUser();
 		$redshopMail = redshopMail::getInstance();
-		$redhelper   = RedshopSiteHelper::getInstance();
+		$redhelper   = redhelper::getInstance();
 
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$emailto     = $post['emailto'];

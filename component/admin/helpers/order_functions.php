@@ -423,7 +423,7 @@ class order_functions
 	 */
 	public function changeorderstatus($data)
 	{
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 		$db       = JFactory::getDbo();
 		$order_id = $data->order_id;
 		$pos      = strpos(JURI::base(), 'plugins');
@@ -665,7 +665,7 @@ class order_functions
 	public function update_status()
 	{
 		$app             = JFactory::getApplication();
-		$helper          = RedshopSiteHelper::getInstance();
+		$helper          = redhelper::getInstance();
 		$producthelper   = RedshopSiteProduct::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
@@ -1013,7 +1013,7 @@ class order_functions
 	public function getBillingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 
 		$user = JFactory::getUser();
 
@@ -1236,7 +1236,7 @@ class order_functions
 	public function getCountryName($cnt3 = "")
 	{
 		$db = JFactory::getDbo();
-		$redhelper = RedshopSiteHelper::getInstance();
+		$redhelper = redhelper::getInstance();
 		$and = '';
 		$cntname = '';
 
@@ -1919,7 +1919,7 @@ class order_functions
 
 	public function orderStatusUpdate($order_id, $post = array())
 	{
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$producthelper = RedshopSiteProduct::getInstance();
 		$newstatus = $post['order_status_all'];

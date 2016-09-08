@@ -14,7 +14,7 @@ JHTMLBehavior::modal();
 
 
 $producthelper = RedshopSiteProduct::getInstance();
-$objhelper     = RedshopSiteHelper::getInstance();
+$objhelper     = redhelper::getInstance();
 $extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 

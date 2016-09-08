@@ -59,7 +59,7 @@ class rsCarthelper
 		$this->_order_functions = order_functions::getInstance();
 		$this->_extra_field     = extra_field::getInstance();
 		$this->_extraFieldFront = extraField::getInstance();
-		$this->_redhelper       = RedshopSiteHelper::getInstance();
+		$this->_redhelper       = redhelper::getInstance();
 		$this->_producthelper   = RedshopSiteProduct::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 	}
@@ -1007,7 +1007,7 @@ class rsCarthelper
 
 				if ($prd_image !== '')
 				{
-					$redhelper = RedshopSiteHelper::getInstance();
+					$redhelper = redhelper::getInstance();
 
 					if (WATERMARK_CART_THUMB_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
 					{
@@ -1166,7 +1166,7 @@ class rsCarthelper
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
+									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
