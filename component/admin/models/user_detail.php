@@ -232,11 +232,25 @@ class RedshopModelUser_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$query_default = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
+			$query_default = $db->getQuery(true)
+						->delete($db->qn('#__redshop_users_info'))
+						->where($db->qn('users_info_id') . ' IN (' . $cids . ' )');
 
 			if ($delete_joomla_users)
 			{
-				$query_custom = 'SELECT user_id FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
+				$query_all_juser_ids = $db->getQuery(true)
+										->select('GROUP_CONCAT(id) AS ids')
+										->from($db->qn('#__users'));
+
+				$db->setQuery($query_all_juser_ids);
+				$all_juser_ids = $db->loadResult();
+
+				$query_custom = $db->getQuery(true)
+								->select($db->qn('user_id'))
+								->from($db->qn('#__redshop_users_info'))
+								->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
+								->where($db->qn('user_id') . ' IN (' . $all_juser_ids . ' )');
+
 				$this->_db->setQuery($query_custom);
 				$juser_ids = $this->_db->loadRowList();
 
