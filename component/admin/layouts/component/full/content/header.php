@@ -13,6 +13,15 @@ $toolbar = JToolbar::getInstance('toolbar');
 
 $redshopversion = RedshopModel::getInstance('Configuration', 'RedshopModel')->getCurrentVersion();
 
+$view = JFactory::getApplication()->input->getCmd('view', 'redshop');
+
+$classtoolbar = "";
+
+if ($view == 'redshop')
+{
+	$classtoolbar = ' class="hidden-xs"';
+}
+
 ?>
 
 <div class="component-title">
@@ -24,6 +33,8 @@ $redshopversion = RedshopModel::getInstance('Configuration', 'RedshopModel')->ge
 	</div>
 </div>
 
-<?php echo $toolbar->render() ?>
+<div<?php echo $classtoolbar ?>>
+	<?php echo $toolbar->render() ?>
+</div>
 
 <div class="row-fluid message-sys" id="message-sys"></div>
