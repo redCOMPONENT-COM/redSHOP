@@ -28,7 +28,7 @@ class RedshopControllerCart extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_carthelper = RedshopSiteCart::getInstance();
+		$this->_carthelper = rsCarthelper::getInstance();
 	}
 
 	/**

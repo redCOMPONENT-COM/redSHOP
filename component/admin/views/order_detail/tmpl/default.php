@@ -12,7 +12,7 @@ JHTML::_('behavior.modal');
 
 
 $producthelper = RedshopSiteProduct::getInstance();
-$carthelper = RedshopSiteCart::getInstance();
+$carthelper = rsCarthelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redhelper = RedshopSiteHelper::getInstance();
 $extra_field = extra_field::getInstance();

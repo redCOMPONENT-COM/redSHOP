@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopSiteCart
+class rsCarthelper
 {
 	public $_table_prefix = null;
 

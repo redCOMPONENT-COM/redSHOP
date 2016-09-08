@@ -19,7 +19,7 @@ $redhelper       = RedshopSiteHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $shippinghelper  = shipping::getInstance();
-$carthelper      = RedshopSiteCart::getInstance();
+$carthelper      = rsCarthelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $oid    = JRequest::getInt('oid');

@@ -72,7 +72,7 @@ class RedshopControllerProduct extends RedshopController
 		$get  = JRequest::get('get');
 
 		$producthelper   = RedshopSiteProduct::getInstance();
-		$carthelper      = RedshopSiteCart::getInstance();
+		$carthelper      = rsCarthelper::getInstance();
 		$total_attribute = 0;
 
 		$product_id = $get['product_id'];

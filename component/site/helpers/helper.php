@@ -123,7 +123,7 @@ class RedshopSiteHelper
 
 		if ($user->id && !isset($cart['idx']))
 		{
-			$rscarthelper = RedshopSiteCart::getInstance();
+			$rscarthelper = rsCarthelper::getInstance();
 			$rscarthelper->dbtocart();
 		}
 	}

@@ -582,7 +582,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$producthelper   = RedshopSiteProduct::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
-		$carthelper      = RedshopSiteCart::getInstance();
+		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		$model   = $this->getModel('checkout');
@@ -676,7 +676,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app        = JFactory::getApplication();
 		$cart       = JFactory::getSession()->get('cart');
-		$carthelper = RedshopSiteCart::getInstance();
+		$carthelper = rsCarthelper::getInstance();
 
 		$creditcard = "";
 
