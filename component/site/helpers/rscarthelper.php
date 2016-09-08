@@ -60,7 +60,7 @@ class rsCarthelper
 		$this->_extra_field     = extra_field::getInstance();
 		$this->_extraFieldFront = extraField::getInstance();
 		$this->_redhelper       = redhelper::getInstance();
-		$this->_producthelper   = producthelper::getInstance();
+		$this->_producthelper   = productHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 	}
 

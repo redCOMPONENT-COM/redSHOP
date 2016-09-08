@@ -524,7 +524,7 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 	public function onListRates(&$d)
 	{
 		$shippinghelper = shipping::getInstance();
-		$producthelper  = producthelper::getInstance();
+		$producthelper  = productHelper::getInstance();
 		$redconfig      = Redconfiguration::getInstance();
 		$shipping       = $shippinghelper->getShippingMethodByClass(self::SHIPPING_NAME);
 

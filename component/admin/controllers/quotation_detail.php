@@ -199,7 +199,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function getQuotationPriceTax()
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$get = JRequest::get('get');
 		$product_id = $get['product_id'];
 		$user_id = $get['user_id'];

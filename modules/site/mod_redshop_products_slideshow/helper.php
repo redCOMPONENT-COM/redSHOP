@@ -208,7 +208,7 @@ class RedshopProductSlideshow
 			}
 		}
 
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$redhelper     = redhelper::getInstance();
 
 		for ($k = 0, $countRows = count($rows);$k < $countRows;$k++)

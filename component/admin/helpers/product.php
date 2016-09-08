@@ -45,7 +45,7 @@ class RedshopAdminProduct
 	public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
 	{
 		$redconfig = Redconfiguration::getInstance();
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$totalAccessory = count($accessory);
 		$accessorylist = "";
 
@@ -101,7 +101,7 @@ class RedshopAdminProduct
 
 	function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$attributelist = "";
 
 		$product = Redshop::product((int) $product_id);
@@ -221,7 +221,7 @@ class RedshopAdminProduct
 
 	public function replaceWrapperData($product_id = 0, $user_id, $uniqueid = "")
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$wrapperlist = "";
 
 		$wrapper = $producthelper->getWrapper($product_id, 0, 1);
@@ -265,7 +265,7 @@ class RedshopAdminProduct
 
 	public function getProductItemInfo($product_id = 0, $quantity = 1, $unique_id = "", $user_id = 0, $newproduct_price = 0)
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$wrapperlist = "";
 		$accessorylist = "";
@@ -333,7 +333,7 @@ class RedshopAdminProduct
 
 	public function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0)
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		if ($shipp_users_info_id > 0)
@@ -498,7 +498,7 @@ class RedshopAdminProduct
 
 	public function replaceUserfield($product_id = 0, $template_id = 0, $unique_id = "")
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$extraField = extra_field::getInstance();
 		$template_desc = $redTemplate->getTemplate("product", $template_id);

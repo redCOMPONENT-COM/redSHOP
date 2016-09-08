@@ -14,7 +14,7 @@ JHTML::_('behavior.modal');
 
 
 $config        = Redconfiguration::getInstance();
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 
 $url        = JURI::base();
 $wishlists  = $this->wishlists;
@@ -83,9 +83,9 @@ else // If user logged in than display this code.
 function display_products($rows)
 {
 	$url        = JURI::base();
-	$extra_data = producthelper::getInstance();
+	$extra_data = productHelper::getInstance();
 
-	$producthelper = producthelper::getInstance();
+	$producthelper = productHelper::getInstance();
 
 	for ($i = 0, $in = count($rows); $i < $in; $i++)
 	{
