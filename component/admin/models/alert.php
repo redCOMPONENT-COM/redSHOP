@@ -63,7 +63,7 @@ class RedshopModelAlert extends RedshopModel
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
-	protected function populateState($ordering = 'a.sent_date', $direction = '')
+	protected function populateState($ordering = 'a.sent_date', $direction = 'DESC')
 	{
 		$readFilter = $this->getUserStateFromRequest($this->context . '.read_filter', 'read_filter', 'select');
 		$nameFilter = $this->getUserStateFromRequest($this->context . '.name_filter', 'name_filter', '');
@@ -117,7 +117,7 @@ class RedshopModelAlert extends RedshopModel
 			->select('*')
 			->from($db->qn('#__redshop_alerts'))
 			->where($db->qn('read') . ' = 0')
-			->order($db->qn('sent_date') . ' = "DESC"')
+			->order($db->qn('sent_date') . ' DESC')
 			->setLimit($limit);
 
 		return $db->setQuery($query)->loadObjectList();
