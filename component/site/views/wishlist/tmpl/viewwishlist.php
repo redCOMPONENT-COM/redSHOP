@@ -14,7 +14,7 @@ JHTML::_('behavior.modal');
 
 
 $config = Redconfiguration::getInstance();
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 $redhelper = redhelper::getInstance();
 
 $url = JURI::base();
@@ -172,7 +172,7 @@ function display_products($rows)
 	$url           = JURI::base();
 	$extraField    = extraField::getInstance();
 	$session       = JFactory::getSession();
-	$producthelper = producthelper::getInstance();
+	$producthelper = productHelper::getInstance();
 	$redhelper     = redhelper::getInstance();
 	$config        = Redconfiguration::getInstance();
 	$redTemplate   = Redtemplate::getInstance();

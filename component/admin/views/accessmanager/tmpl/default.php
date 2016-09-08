@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 $config        = Redconfiguration::getInstance();
 
 $views = array(

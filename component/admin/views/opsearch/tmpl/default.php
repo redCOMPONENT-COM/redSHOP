@@ -13,7 +13,7 @@ JHTMLBehavior::modal();
 
 $order_function = order_functions::getInstance();
 $config = Redconfiguration::getInstance();
-$productHelper = producthelper::getInstance();
+$productHelper = productHelper::getInstance();
 $redhelper = redhelper::getInstance();
 $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 <form action="index.php?option=com_redshop" method="post"

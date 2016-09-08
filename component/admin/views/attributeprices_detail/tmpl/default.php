@@ -9,7 +9,7 @@
 JHTML::_('behavior.tooltip');
 
 $section = JRequest::getVar('section');
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 ?>
 <fieldset>
 	<div style="float: right">

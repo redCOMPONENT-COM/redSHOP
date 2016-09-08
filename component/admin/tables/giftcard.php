@@ -61,7 +61,7 @@ class RedshopTableGiftcard extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$productHelper = producthelper::getInstance();
+		$productHelper = productHelper::getInstance();
 
 		// Get input
 		$app = JFactory::getApplication();

@@ -20,7 +20,7 @@ $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
 
 $extraField      = extraField::getInstance();
-$producthelper   = producthelper::getInstance();
+$producthelper   = productHelper::getInstance();
 $redshopconfig   = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $config          = Redconfiguration::getInstance();
