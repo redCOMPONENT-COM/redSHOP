@@ -240,7 +240,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$order_functions = order_functions::getInstance();
 		$helper = RedshopSiteHelper::getInstance();
 		$producthelper = RedshopSiteProduct::getInstance();
-		$rsCarthelper = RedshopSiteCart::getInstance();
+		$rsCarthelper = rsCarthelper::getInstance();
 		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
