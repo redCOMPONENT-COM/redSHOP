@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $objhelper     = redhelper::getInstance();
-$producthelper = producthelper::getInstance();
+$producthelper = productHelper::getInstance();
 
 $compare       = $displayData['object'];
 

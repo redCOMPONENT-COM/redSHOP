@@ -16,7 +16,7 @@ $url = JURI::base();
 
 $product_data = JRequest::getVar('product');
 $model = $this->getModel('rating_detail');
-$productHelper = producthelper::getInstance();
+$productHelper = productHelper::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

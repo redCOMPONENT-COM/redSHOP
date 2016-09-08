@@ -18,7 +18,7 @@ class RedshopViewOrder_detail extends RedshopView
 		$config = Redconfiguration::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$order_functions = order_functions::getInstance();
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$model = $this->getModel();
 		$redTemplate = Redtemplate::getInstance();
 		$detail = $this->get('data');

@@ -15,7 +15,7 @@ class RedshopViewManufacturers extends RedshopView
 	{
 		$app = JFactory::getApplication();
 
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$redhelper     = redhelper::getInstance();
 		$document      = JFactory::getDocument();
 		$print         = JRequest::getInt('print');

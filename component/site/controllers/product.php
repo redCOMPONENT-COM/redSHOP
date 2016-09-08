@@ -71,7 +71,7 @@ class RedshopControllerProduct extends RedshopController
 
 		$get  = JRequest::get('get');
 
-		$producthelper   = producthelper::getInstance();
+		$producthelper   = productHelper::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
 		$total_attribute = 0;
 
@@ -123,7 +123,7 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$propid        = $subpropid = array();
 		$get           = JRequest::get('get');
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$product_id    = $get['product_id'];
 		$accessory_id  = $get['accessory_id'];
@@ -164,7 +164,7 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$url           = JURI::base();
 		$get           = JRequest::get('get');
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$property_id    = urldecode($get['property_id']);
 		$subproperty_id = urldecode($get['subproperty_id']);
@@ -262,7 +262,7 @@ class RedshopControllerProduct extends RedshopController
 		$row_data   = $extraField->getSectionFieldList($section);
 
 		// GetVariables
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$cid           = JRequest::getInt('cid');
 		$user          = JFactory::getUser();
 		$Itemid        = JRequest::getVar('Itemid');
@@ -996,7 +996,7 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function gotochild()
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$objhelper = redhelper::getInstance();
 
 		$post = JRequest::get('post');
@@ -1026,7 +1026,7 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function gotonavproduct()
 	{
-		$producthelper = producthelper::getInstance();
+		$producthelper = productHelper::getInstance();
 		$objhelper = redhelper::getInstance();
 
 		$post = JRequest::get('post');

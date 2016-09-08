@@ -40,7 +40,7 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 			return;
 		}
 
-		$producthelper     = producthelper::getInstance();
+		$producthelper     = productHelper::getInstance();
 		$product_id        = $productArr['product_id'];
 		$main_imgwidth     = $productArr['main_imgwidth'];
 		$main_imgheight    = $productArr['main_imgheight'];
