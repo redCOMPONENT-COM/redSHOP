@@ -54,7 +54,7 @@ class RedshopControllerNewsletter extends RedshopController
 		}
 		else
 		{
-			$userhelper = RedshopSiteUser::getInstance();
+			$userhelper = rsUserHelper::getInstance();
 
 			if ($userhelper->newsletterSubscribe(0, $post, 1))
 			{
@@ -108,7 +108,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 		if ($alreadysubscriberbymail)
 		{
-			$userhelper = RedshopSiteUser::getInstance();
+			$userhelper = rsUserHelper::getInstance();
 
 			if ($userhelper->newsletterUnsubscribe($email))
 			{

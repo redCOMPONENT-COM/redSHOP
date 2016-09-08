@@ -528,7 +528,7 @@ class Com_RedshopInstallerScript
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
-		RedshopSiteUser::getInstance()->userSynchronization();
+		rsUserHelper::getInstance()->userSynchronization();
 	}
 
 	/**
@@ -1605,7 +1605,6 @@ class Com_RedshopInstallerScript
 				'new Redconfiguration()'                           => 'Redconfiguration::getInstance()',
 				'new Redtemplate()'                                => 'Redtemplate::getInstance()',
 				'new extra_field()'                                => 'extra_field::getInstance()',
-				'new rsUserhelper()'                               => 'RedshopSiteUser::getInstance()',
 				'new rsstockroomhelper()'                          => 'rsstockroomhelper::getInstance()',
 				'new shipping()'                                   => 'shipping::getInstance()',
 				'new CurrencyHelper()'                             => 'CurrencyHelper::getInstance()',
@@ -1613,7 +1612,6 @@ class Com_RedshopInstallerScript
 				'new economic()'                                   => 'economic::getInstance()',
 				'GoogleAnalytics'                                  => 'RedshopHelperGoogleanalytics',
 				'class producthelper extends producthelperDefault' => 'class RedshopSiteProduct extends RedshopSiteProductDefault',
-				'class rsUserhelper extends rsUserhelperDefault'   => 'class RedshopSiteUser extends RedshopSiteUserDefault',
 				'RedshopConfig::scriptDeclaration();'              => '',
 				'$redConfiguration'                                => '$Redconfiguration',
 				'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',

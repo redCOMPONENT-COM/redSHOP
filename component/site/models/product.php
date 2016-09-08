@@ -58,7 +58,7 @@ class RedshopModelProduct extends RedshopModel
 		$and = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = RedshopSiteUser::getInstance();
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")

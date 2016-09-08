@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $Itemid = JRequest::getInt('Itemid');
-$userhelper = RedshopSiteUser::getInstance();
+$userhelper = rsUserHelper::getInstance();
 
 $post = (array) $this->shippingaddresses;
 
