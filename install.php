@@ -303,7 +303,7 @@ class Com_RedshopInstallerScript
 
 			// Working with INDEX
 			$indexQuery = "SHOW INDEX FROM " . $redshopTable;
-			$columns = $db->setQuery($indexQuery)->loadObjectList('Field');
+			$columns = $db->setQuery($indexQuery)->loadObjectList('Column_name');
 
 			// Alter drop column
 			$this->alterDropColumn($fields, $columns);
