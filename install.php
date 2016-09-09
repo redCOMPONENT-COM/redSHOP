@@ -276,15 +276,15 @@ class Com_RedshopInstallerScript
 
 		foreach ($dbUpdate as $table => $fields)
 		{
-			$q = "SHOW COLUMNS FROM " . $table;
-			$db->setQuery($q);
-			$cols = $db->loadObjectList('Field');
-			if (is_array($cols))
+			$columnsQuery = "SHOW COLUMNS FROM " . $table;
+			$columns = $db->setQuery($columnsQuery)->loadObjectList('Field');
+
+			if (is_array($columns))
 			{
 				// alter new column
 				foreach ($fields['add'] as $field => $query)
 				{
-					if (!array_key_exists($field, $cols))
+					if (!array_key_exists($field, $columns))
 					{
 						$db->setQuery($query);
 						$db->query();
@@ -293,7 +293,7 @@ class Com_RedshopInstallerScript
 				// alter drop column
 				foreach ($fields['drop']['field'] as $field => $query)
 				{
-					if (array_key_exists($field, $cols))
+					if (array_key_exists($field, $columns))
 					{
 						if (is_array($query))
 						{
@@ -313,15 +313,15 @@ class Com_RedshopInstallerScript
 			}
 
 			// Working with INDEX
-			$q = "SHOW INDEX FROM " . $table;
-			$db->setQuery($q);
-			$cols = $db->loadObjectList('Field');
-			if (is_array($cols))
+			$indexQuery = "SHOW INDEX FROM " . $table;
+			$columns = $db->setQuery($indexQuery)->loadObjectList('Field');
+
+			if (is_array($columns))
 			{
 				// alter drop column
 				foreach ($fields['drop']['field'] as $field => $query)
 				{
-					if (array_key_exists($field, $cols))
+					if (array_key_exists($field, $columns))
 					{
 						if (is_array($query))
 						{
