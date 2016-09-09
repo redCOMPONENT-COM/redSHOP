@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.7" client="site" method="upgrade">
 	<name>MOD_REDSHOP_SHOPPERGROUP_CATEGORY</name>
-	<version>1.5</version>
-	<redshop>1.5</redshop>
-	<creationDate>April 2013</creationDate>
+	<version>1.6</version>
+	<redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<copyright>redCOMPONENT.com</copyright>
