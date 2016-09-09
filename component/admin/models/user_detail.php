@@ -231,6 +231,7 @@ class RedshopModelUser_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
+			$db = $this->_db;
 			$cids = implode(',', $cid);
 			$queryDefault = $db->getQuery(true)
 					->delete($db->qn('#__redshop_users_info'))
@@ -251,24 +252,24 @@ class RedshopModelUser_detail extends RedshopModel
 						->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
 						->where($db->qn('user_id') . ' IN (' . $allJuserIds . ' )');
 
-				$this->_db->setQuery($queryCustom);
-				$juserIds = $this->_db->loadRowList();
+				$db->setQuery($queryCustom);
+				$juserIds = $db->loadRowList();
 
 				foreach ($juserIds as $juserId) {
 					if (!JFactory::getUser($juserId[0])->delete())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
 				}
 			}
 
-			$this->_db->setQuery($queryDefault);
+			$db->setQuery($queryDefault);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
