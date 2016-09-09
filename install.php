@@ -209,6 +209,136 @@ class Com_RedshopInstallerScript
 		// Syncronise users
 		$this->userSynchronization();
 
+		$dbUpdate = array (
+			// 1.4
+			'#__redshop_quotation' => array (
+				'add' => array (
+					'quotation_customer_note' => "ALTER TABLE `#__redshop_quotation` ADD `quotation_customer_note` TEXT NOT NULL AFTER `quotation_note`"
+				)
+			),
+			'#__redshop_product' => array (
+				'add' => array (
+					'allow_decimal_piece' => "ALTER TABLE `#__redshop_product` ADD `allow_decimal_piece` int(4) NOT NULL"
+				),
+				'drop' => array(
+					'index' => array (
+						'product_number' => "ALTER TABLE `#__redshop_product` DROP INDEX `product_number`"
+					)
+				)
+			),
+			'#__redshop_country' => array (
+				'drop' => array(
+					'index' => array (
+						'idx_country_name' => "ALTER TABLE `#__redshop_country` DROP INDEX `idx_country_name`"
+					)
+				)
+			),
+			'#__redshop_currency' => array (
+				'drop' => array(
+					'index' => array (
+						'idx_currency_name' => "ALTER TABLE `#__redshop_currency` DROP INDEX `idx_currency_name`"
+					)
+				)
+			),
+			'#__redshop_order_item' => array (
+				'drop' => array(
+					'field' => array (
+						'container_id' => "ALTER TABLE `#__redshop_order_item` DROP `container_id`"
+					)
+				)
+			),
+			// 1.5
+			// 1.5.0.4.1
+			'#__redshop_usercart_item' => array (
+				'add' => array (
+					'attribs' => "ALTER TABLE `#__redshop_usercart_item` ADD `attribs` VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item'"
+				)
+			),
+			// 1.5.0.5.1
+			'##__redshop_orders' => array (
+				'add' => array (
+					'invoice_number' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number` VARCHAR( 255 ) NOT NULL COMMENT 'Formatted Order Invoice for final use' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number` (`invoice_number`)",
+					'invoice_number_chrono' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number_chrono` INT NOT NULL COMMENT 'Order invoice number in chronological order' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number_chrono` (`invoice_number_chrono`)"
+				)
+			),
+			// 1.5.0.5.3
+			'#__redshop_order_payment' => array (
+				'drop' => array(
+					'index' => array (
+						'idx_order_id' => array (
+							"ALTER TABLE `#__redshop_order_payment` DROP INDEX idx_order_id",
+							"ALTER TABLE `#__redshop_order_payment` ADD UNIQUE(`order_id`)"
+						)
+					)
+				)
+			)
+		);
+
+		foreach ($dbUpdate as $table => $fields)
+		{
+			$columnsQuery = "SHOW COLUMNS FROM " . $db->quoteName($table);
+			$columns = $db->setQuery($columnsQuery)->loadObjectList('Field');
+			if (is_array($columns))
+			{
+				// alter new column
+				foreach ($fields['add'] as $field => $query)
+				{
+					if (!array_key_exists($field, $columns))
+					{
+						$db->setQuery($query);
+						$db->query();
+					}
+				}
+				// alter drop column
+				foreach ($fields['drop']['field'] as $field => $query)
+				{
+					if (array_key_exists($field, $columns))
+					{
+						if (is_array($query))
+						{
+							foreach ($query as $aQuery)
+							{
+								$db->setQuery($aQuery);
+								$db->query();
+							}
+						}
+						else
+						{
+							$db->setQuery($query);
+							$db->query();
+						}
+					}
+				}
+			}
+
+			// Working with INDEX
+			$columnsQuery = "SHOW INDEX FROM " . $db->quoteName($table);;
+			$columns = $db->setQuery($columnsQuery)->loadObjectList('Field');
+			if (is_array($columns))
+			{
+				// alter drop column
+				foreach ($fields['drop']['field'] as $field => $query)
+				{
+					if (array_key_exists($field, $columns))
+					{
+						if (is_array($query))
+						{
+							foreach ($query as $aQuery)
+							{
+								$db->setQuery($aQuery);
+								$db->query();
+							}
+						}
+						else
+						{
+							$db->setQuery($query);
+							$db->query();
+						}
+					}
+				}
+			}
+		}
+
 		// Demo content insert
 
 		// Start template demo content
