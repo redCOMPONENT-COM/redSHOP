@@ -26,7 +26,7 @@ $url = $uri->root();
 		var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?";
 
 		for (var i = 0; i < form.field_name.value.length; i++) {
-			if (iChars.indexOf(form.field_name.value.charAt(i)) != -1) {g3
+			if (iChars.indexOf(form.field_name.value.charAt(i)) != -1) {
 				alert(" !@#$%^&*()+=-[]\\\';,./{}| \n Special characters are not allowed.\n Please remove them and try again.");
 				return false;
 			}
