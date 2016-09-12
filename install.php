@@ -1678,6 +1678,7 @@ class Com_RedshopInstallerScript
 
 		$overrideFolders = array();
 		$overrideLayoutFolders = array();
+		$overrideLayoutFiles = array();
 
 		foreach ($override as $key => $value)
 		{
@@ -1723,13 +1724,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		foreach ($overrideLayoutFiles as $key => $value)
+		if (!empty($overrideLayoutFiles))
 		{
-			foreach ($value as $name)
+			foreach ($overrideLayoutFiles as $key => $value)
 			{
-				if (!JFile::exists($key . '/' . $name))
+				foreach ($value as $name)
 				{
-					$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+					if (!JFile::exists($key . '/' . $name))
+					{
+						$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+					}
 				}
 			}
 		}
