@@ -50,7 +50,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if (USE_STOCKROOM == 1)
 		{
 			$stockroomhelper = rsstockroomhelper::getInstance();
-			$producthelper = RedshopSiteProduct::getInstance();
+			$producthelper = productHelper::getInstance();
 
 			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{

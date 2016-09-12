@@ -10,40 +10,28 @@ defined('_JEXEC') or die;
 
 ?>
 
-<table class="admintable" id="measurement">
-	<tr>
-		<td class="config_param"><?php echo JText::_('COM_REDSHOP_PRODUCT_UNIT'); ?></td>
-	</tr>
-	<tr>
-		<td class="key">
-		<span class="editlinktip hasTip"
+<legend><?php echo JText::_('COM_REDSHOP_PRODUCT_UNIT'); ?></legend>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_VOLUME_UNIT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_DEFAULT_VOLUME_UNIT_LBL'); ?>">
-		<label for="name"><?php
-			echo JText::_('COM_REDSHOP_DEFAULT_VOLUME_UNIT_LBL');
-			?></label></span></td>
-		<td><?php echo $this->lists ['default_volume_unit'];?>
-		</td>
-	</tr>
-	<tr>
-		<td class="key">
-		<span class="editlinktip hasTip"
+		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_VOLUME_UNIT_LBL'); ?></label>
+	</span>
+	<?php echo $this->lists ['default_volume_unit'];?>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_WEIGHT_UNIT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_DEFAULT_WEIGHT_UNIT_LBL'); ?>">
-		<label for="name"><?php
-			echo JText::_('COM_REDSHOP_DEFAULT_WEIGHT_UNIT_LBL');
-			?></label></span></td>
-		<td>
-			<?php
-			echo $this->lists ['default_weight_unit'];?>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
+		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_WEIGHT_UNIT_LBL'); ?></label>
+	</span>
+	<?php echo $this->lists ['default_weight_unit'];?>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 			      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_UNIT_DECIMAL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_PRICE_DECIMAL_LBL'); ?>">
-			<label for="name"><?php echo JText::_('COM_REDSHOP_UNIT_DECIMAL_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="unit_decimal" id="unit_decimal" value="<?php echo $this->config->get('UNIT_DECIMAL'); ?>">
-		</td>
-	</tr>
-</table>
+		<label for="name"><?php echo JText::_('COM_REDSHOP_UNIT_DECIMAL_LBL');?></label>
+	</span>
+	<input type="text" name="unit_decimal" id="unit_decimal" value="<?php echo $this->config->get('UNIT_DECIMAL'); ?>">
+</div>

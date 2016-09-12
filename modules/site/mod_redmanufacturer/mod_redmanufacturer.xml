@@ -2,8 +2,8 @@
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDMANUFACTURER</name>
 	<version>1.5.1</version>
-	<redshop>1.6.1</redshop>
-	<creationDate>Jul 2016</creationDate>
+	<redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<copyright>redCOMPONENT.com</copyright>

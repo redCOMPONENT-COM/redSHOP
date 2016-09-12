@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewMail extends RedshopView
+class RedshopViewMail extends RedshopViewAdmin
 {
 	/**
 	 * The current user.

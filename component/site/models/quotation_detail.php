@@ -51,7 +51,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$db      = JFactory::getDbo();
 
 		$carthelper      = rsCarthelper::getInstance();
-		$producthelper   = RedshopSiteProduct::getInstance();
+		$producthelper   = productHelper::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 
 		$cart = $session->get('cart');

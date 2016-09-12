@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 
 $order_functions = order_functions::getInstance();
 
@@ -42,19 +42,18 @@ $url = JURI::base();
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table width="100%">
-			<tr>
-				<td valign="top" class="key">
-					<div class="btn-wrapper input-append">
-						<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
-							   placeholder="<?php echo JText::_('COM_REDSHOP_COUPON_FILTER'); ?>">
-						<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-						<input type="reset" class="btn" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-							   onclick="return clearreset();">
-					</div>
-				</td>
-			</tr>
-		</table>
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+						   placeholder="<?php echo JText::_('COM_REDSHOP_COUPON_FILTER'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="return clearreset();">
+				</div>
+			</div>
+		</div>
+
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>

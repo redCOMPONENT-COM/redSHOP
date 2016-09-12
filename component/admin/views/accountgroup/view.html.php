@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 
-class RedshopViewAccountgroup extends RedshopView
+class RedshopViewAccountgroup extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{

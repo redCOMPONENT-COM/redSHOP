@@ -7,141 +7,107 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+$uri = JURI::getInstance();
+$url = $uri->root();
+$link_path = "/components/com_redshop/assets/images/";
 ?>
-<table class="admintable">
-	<tr>
-		<td class="config_param"><?php echo JText::_('COM_REDSHOP_NEXT_PREVIOUS'); ?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DESC_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_MAX_CHARS_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_desc_max_chars" id="category_desc_max_chars"
-			       value="<?php echo $this->config->get('CATEGORY_DESC_MAX_CHARS'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DESC_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_END_SUFFIX_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_desc_end_suffix" id="category_desc_end_suffix"
-			       value="<?php echo $this->config->get('CATEGORY_DESC_END_SUFFIX'); ?>">
-		</td>
-	</tr>
+<legend><?php echo JText::_('COM_REDSHOP_NEXT_PREVIOUS'); ?></legend>
 
+<div class="form-group">
+	<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_RETURN_TO_CATEGORY_PREFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_RETURN_TO_CATEGORY_PREFIX'); ?>">
+    	<label><?php echo JText::_('COM_REDSHOP_RETURN_TO_CATEGORY_PREFIX');?>:</label></span>
+	<input type="text" name="return_to_category_prefix" id="return_to_category_prefix"
+			       value="<?php echo $this->config->get('DAFULT_RETURN_TO_CATEGORY_PREFIX'); ?>"/>
+</div>
 
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_MAX_CHARS'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_MAX_CHARS_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_short_desc_max_chars" id="category_short_desc_max_chars"
-			       value="<?php echo $this->config->get('CATEGORY_SHORT_DESC_MAX_CHARS'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_short_desc_end_suffix" id="category_short_desc_end_suffix"
-			       value="<?php echo $this->config->get('CATEGORY_SHORT_DESC_END_SUFFIX'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TITLE_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_MAX_CHARS_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_title_max_chars" id="category_title_max_chars"
-			       value="<?php echo $this->config->get('CATEGORY_TITLE_MAX_CHARS'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TITLE_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_END_SUFFIX_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_title_end_suffix" id="category_title_end_suffix"
-			       value="<?php echo $this->config->get('CATEGORY_TITLE_END_SUFFIX'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_product_title_max_chars" id="category_product_title_max_chars"
-			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'); ?>">
-		</td>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_product_title_end_suffix" id="category_product_title_end_suffix"
-			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_product_desc_max_chars" id="category_product_desc_max_chars"
-			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL');?></label></span>
-		</td>
-		<td>
-			<input type="text" name="category_product_desc_end_suffix" id="category_product_desc_end_suffix"
-			       value="<?php echo $this->config->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL');?></label></span>
-		</td>
-		<td><input type="text" name="category_product_short_desc_max_chars" id="category_product_short_desc_max_chars"
-		           value="<?php echo $this->config->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'); ?>">
-		<label
-			for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL');?></label></span>
-		</td>
-		<td><input type="text" name="category_product_short_desc_end_suffix" id="category_product_short_desc_end_suffix"
-		           value="<?php echo $this->config->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'); ?>">
-		</td>
-	</tr>
-</table>
+<div class="form-group">
+	<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DAFULT_PREVIOUS_PREFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DAFULT_PREVIOUS'); ?>">
+    	<label><?php echo JText::_('COM_REDSHOP_DAFULT_PREVIOUS_PREFIX_LBL');?>:</label></span>
+	<input type="text" name="default_previous_prefix" id="default_previous_prefix"
+			       value="<?php echo $this->config->get('DAFULT_PREVIOUS_LINK_PREFIX'); ?>"/>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
+	      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DAFULT_NEXT_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DAFULT_NEXT_SUFFIX'); ?>">
+    	<label><?php echo JText::_('COM_REDSHOP_DAFULT_NEXT_SUFFIX_LBL'); ?>:</label></span>
+	<input type="text" name="default_next_suffix" id="default_next_suffix"
+			       value="<?php echo $this->config->get('DAFULT_NEXT_LINK_SUFFIX'); ?>"/>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CUSTOM_PREVIOUS_LINK_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CUSTOM_PREVIOUS_LINK'); ?>">
+        <label><?php echo JText::_('COM_REDSHOP_CUSTOM_PREVIOUS_LINK');?>:</label></span>
+	<input type="text" name="custom_previous_link" id="custom_previous_link"
+			       value="<?php echo $this->config->get('CUSTOM_PREVIOUS_LINK_FIND'); ?>"/>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
+			      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CUSTOM_NEXT_LINK_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CUSTOM_NEXT_LINK'); ?>">
+        <label><?php echo JText::_('COM_REDSHOP_CUSTOM_NEXT_LINK');?>:</label></span>
+	<input type="text" name="custom_next_link" id="custom_next_link"
+			       value="<?php echo $this->config->get('CUSTOM_NEXT_LINK_FIND'); ?>"/>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
+			      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PREVIOUS_LINK_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PREVIOUS_LINK'); ?>">
+        <label><?php echo JText::_('COM_REDSHOP_IMAGE_PREVIOUS_LINK');?>:</label></span>
+	<?php $imagePreviousLinkFind =  $this->config->get('IMAGE_PREVIOUS_LINK_FIND'); ?>
+	<div>
+		<div>
+			<input class="text_area" type="file" name="imgpre" id="imgpre" size="40"/>
+			<input type="hidden" name="image_previous_link" id="image_previous_link"
+			       value="<?php echo $imagePreviousLinkFind; ?>"/>
+			<a href="#123"
+			   onclick="delimg('<?php echo $imagePreviousLinkFind ?>','prvlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+		</div>
+		<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind))
+		{ ?>
+			<div id="prvlinkdiv">
+				<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
+				   title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
+						alt="<?php echo $imagePreviousLinkFind; ?>"
+						src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"/></a>
+			</div>
+		<?php } ?>
+	</div>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
+			      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_NEXT_LINK_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_NEXT_LINK'); ?>">
+		<label><?php echo JText::_('COM_REDSHOP_IMAGE_NEXT_LINK'); ?>:</label>
+	</span>
+
+	<?php $imageNextLinkFind =  $this->config->get('IMAGE_NEXT_LINK_FIND'); ?>
+	<div>
+		<div>
+			<input class="text_area" type="file" name="imgnext" id="imgnext" size="40"/>
+			<input type="hidden" name="image_next_link" id="image_next_link"
+			       value="<?php echo $imageNextLinkFind; ?>"/>
+			<a href="#123"
+			   onclick="delimg('<?php echo $imageNextLinkFind ?>','nxtlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE');?></a>
+		</div>
+		<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind))
+		{ ?>
+			<div id="nxtlinkdiv">
+			<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
+			   title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
+					alt="<?php echo $imageNextLinkFind; ?>"
+					src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"/></a>
+			</div><?php } ?>
+	</div>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_NP_LINK_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_NP_LINK'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_NP_LINK_LBL'); ?></label></span>
+	<?php echo $this->lists ['next_previous_link'];?>
+</div>
+

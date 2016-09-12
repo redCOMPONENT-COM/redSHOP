@@ -34,17 +34,23 @@ $filter = JRequest::getVar('filter');
 </script>
 
 <form action="<?php echo 'index.php?option=com_redshop'; ?>" class="admin" method="post" name="adminForm" id="adminForm">
-	<div class="filterItem">
-		<div class="btn-wrapper input-append">
-			<input type="text" name="country_main_filter" id="country_main_filter" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER');  ?>"
-				   value="<?php echo $this->country_main_filter; ?>">
-			<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+	<div class="filterTool">
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<input type="text" name="country_main_filter" id="country_main_filter" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER');  ?>"
+					   value="<?php echo $this->country_main_filter; ?>">
+				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+							   onclick="document.getElementById('country_main_filter').value='';this.form.submit();" />
+			</div>
+		</div>
+		<div class="filterItem">
+			<?php echo JText::_("COM_REDSHOP_COUNTRY_NAME"); ?> :
+			<?php echo $this->lists['country_id']; ?>
 		</div>
 	</div>
-	<div class="filterItem">
-		<?php echo JText::_("COM_REDSHOP_COUNTRY_NAME"); ?> :
-		<?php echo $this->lists['country_id']; ?>
-	</div>
+
+
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>

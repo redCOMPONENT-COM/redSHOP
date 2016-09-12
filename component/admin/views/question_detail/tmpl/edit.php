@@ -39,7 +39,7 @@ $editor = JFactory::getEditor();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>:</td>
 					<td>
@@ -55,7 +55,7 @@ $editor = JFactory::getEditor();
 						<?php
 						$productObject = new stdClass;
 
-						if ($this->detail->product_id && ($productData = RedshopSiteProduct::getInstance()->getProductById($this->detail->product_id)))
+						if ($this->detail->product_id && ($productData = productHelper::getInstance()->getProductById($this->detail->product_id)))
 						{
 							$productObject->value = $this->detail->product_id;
 							$productObject->text = $productData->product_name;
@@ -105,7 +105,7 @@ $editor = JFactory::getEditor();
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_QUESTION'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td><?php echo $editor->display("question", $this->detail->question, '$widthPx', '$heightPx', '100', '20', '1'); ?></td>
 				</tr>
@@ -161,7 +161,7 @@ $editor = JFactory::getEditor();
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_ANSWERS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td>
 						<?php

@@ -20,7 +20,7 @@ $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
 
 $extraField      = extraField::getInstance();
-$producthelper   = RedshopSiteProduct::getInstance();
+$producthelper   = productHelper::getInstance();
 $redshopconfig   = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $config          = Redconfiguration::getInstance();
@@ -433,13 +433,13 @@ $manuUrl          = JRoute::_(
 								'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $this->data->manufacturer_id .
 								'&Itemid=' . $this->itemId
 					);
-$manufacturerLink = "<a href='" . $manuUrl . "'>" . JText::_("COM_REDSHOP_VIEW_MANUFACTURER") . "</a>";
+$manufacturerLink = "<a class='btn btn-primary' href='" . $manuUrl . "'>" . JText::_("COM_REDSHOP_VIEW_MANUFACTURER") . "</a>";
 
 $manuUrl           = JRoute::_(
 								'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $this->data->manufacturer_id .
 								'&Itemid=' . $this->itemId
 					);
-$manufacturerPLink = "<a href='" . $manuUrl . "'>" .
+$manufacturerPLink = "<a class='btn btn-primary' href='" . $manuUrl . "'>" .
 						JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $this->data->manufacturer_name .
 					"</a>";
 
@@ -1428,7 +1428,7 @@ if (($user->id && RATING_REVIEW_LOGIN_REQUIRED) || !RATING_REVIEW_LOGIN_REQUIRED
 		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->data->product_id .
 										'&category_id=' . $this->data->category_id .
 										'&Itemid=' . $this->itemId;
-		$reviewform    = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:500}}" href="' . $reviewlink . '">' .
+		$reviewform    = '<a class="redbox btn btn-primary" rel="{handler:\'iframe\',size:{x:500,y:500}}" href="' . $reviewlink . '">' .
 							JText::_('COM_REDSHOP_WRITE_REVIEW') .
 						'</a>';
 		$template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
@@ -1591,7 +1591,7 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 {
 	$asklink           = JURI::root() . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->data->product_id .
 										'&tmpl=component&Itemid=' . $this->itemId;
-	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:500}}" href="' . $asklink . '" >' .
+	$ask_question_link = '<a class="redbox btn btn-primary" rel="{handler:\'iframe\',size:{x:500,y:500}}" href="' . $asklink . '" >' .
 							JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT') .
 						'</a>';
 	$template_desc     = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);

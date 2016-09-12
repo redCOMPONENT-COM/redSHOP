@@ -27,7 +27,7 @@ JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 
 $config = Redconfiguration::getInstance();
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $redhelper     = redhelper::getInstance();
 
 $view      = JRequest::getCmd('view', 'category');

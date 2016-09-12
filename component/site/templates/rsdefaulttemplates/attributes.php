@@ -1,8 +1,16 @@
 <div class="attributes_box clearfix">
 	<div class="attribute_wrapper">
-		<label>{attribute_title}</label>
-		{property_dropdown}<br/>{subproperty_start}
-		<label>{property_title}</label>
-		{subproperty_dropdown}{subproperty_end}</p>
+		<div class="row">
+			<label class="col-xs-5">{attribute_title}</label>
+			<div class="col-xs-7">{property_dropdown}</div>
+		</div>
+		{subproperty_start}
+		<div class="subproperty">
+			<div class="row">
+				<label class="col-xs-5">{property_title}</label>
+				<div class="col-xs-7">{subproperty_dropdown}</div>
+			</div>
+		</div>
+		{subproperty_end}
 	</div>
 </div>

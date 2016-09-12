@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 ?>
 
-<table class="admintable">
+<table class="admintable table">
 	<tr>
 		<td colspan="2" class="vat_intro_text">
 			<?php

@@ -257,7 +257,7 @@ class plgredshop_shippingfedex extends JPlugin
 	public function onListRates(&$d)
 	{
 		$shippinghelper = shipping::getInstance();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$redconfig = Redconfiguration::getInstance();
 		include_once JPATH_ROOT . "/plugins/redshop_shipping/$this->classname/$this->classname.cfg.php";
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);

@@ -9,56 +9,45 @@
 defined('_JEXEC') or die;
 
 ?>
-<table class="admintable" width="100%">
-	<tr>
-		<td class="config_param"><?php echo JText::_('COM_REDSHOP_GIFTCARD_IMAGE_SETTING_TAB'); ?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+<legend><?php echo JText::_('COM_REDSHOP_GIFTCARD_IMAGE_SETTING_TAB'); ?></legend>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_GIFTCARD_THUMB_WIDTH_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_GIFTCARD_THUMB_WIDTH_LBL'); ?>">
 		<label for="name">
-			<?php echo JText::_('COM_REDSHOP_GIFTCARD_THUMB_WIDTH_HEIGHT');?></label></span></td>
-		<td>
-			<input type="text" name="giftcard_thumb_width" id="giftcard_thumb_width"
+			<?php echo JText::_('COM_REDSHOP_GIFTCARD_THUMB_WIDTH_HEIGHT');?></label></span>
+	<input type="text" name="giftcard_thumb_width" id="giftcard_thumb_width"
 			       value="<?php echo $this->config->get('GIFTCARD_THUMB_WIDTH'); ?>">
-			<input type="text" name="giftcard_thumb_height" id="giftcard_thumb_height"
+	<input type="text" name="giftcard_thumb_height" id="giftcard_thumb_height"
 			       value="<?php echo $this->config->get('GIFTCARD_THUMB_HEIGHT'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_GIFTCARD_LIST_THUMB_WIDTH_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_GIFTCARD_LIST_THUMB_WIDTH_LBL'); ?>">
-			<label for="name"><?php echo JText::_('COM_REDSHOP_GIFTCARD_LIST_THUMB_WIDTH_HEIGHT');?></label></span></td>
-		<td>
-			<input type="text" name="giftcard_list_thumb_width" id="giftcard_list_thumb_width"
+		<label for="name"><?php echo JText::_('COM_REDSHOP_GIFTCARD_LIST_THUMB_WIDTH_HEIGHT');?></label>
+	</span>
+	<input type="text" name="giftcard_list_thumb_width" id="giftcard_list_thumb_width"
 			       value="<?php echo $this->config->get('GIFTCARD_LIST_THUMB_WIDTH'); ?>">
-			<input type="text" name="giftcard_list_thumb_height" id="giftcard_list_thumb_height"
+	<input type="text" name="giftcard_list_thumb_height" id="giftcard_list_thumb_height"
 			       value="<?php echo $this->config->get('GIFTCARD_LIST_THUMB_HEIGHT'); ?>">
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<hr/>
-		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+</div>
+
+<hr/>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_WATERMARK_GIFTCARD_IMAGE'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_GIFTCARD_IMAGE_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_WATERMARK_GIFTCARD_IMAGE_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['watermark_giftcart_image'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip"
+		<label for="name"><?php echo JText::_('COM_REDSHOP_WATERMARK_GIFTCARD_IMAGE_LBL');?></label>
+	</span>
+	<?php echo $this->lists ['watermark_giftcart_image'];?>
+</div>
+
+<div class="form-group">
+	<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_WATERMARK_GIFTCARD_THUMB_IMAGE'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_GIFTCARD_THUMB_IMAGE_LBL'); ?>">
 		<label for="name">
 			<?php echo JText::_('COM_REDSHOP_WATERMARK_GIFTCARD_THUMB_IMAGE_LBL');?>
-		</label></span></td>
-		<td><?php echo $this->lists ['watermark_giftcart_thumb_image'];?>
-		</td>
-	</tr>
-</table>
+		</label></span>
+	<?php echo $this->lists ['watermark_giftcart_thumb_image'];?>
+</div>

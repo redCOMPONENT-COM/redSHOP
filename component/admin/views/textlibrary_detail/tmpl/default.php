@@ -38,7 +38,7 @@ $editor = JFactory::getEditor();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
@@ -92,7 +92,7 @@ $editor = JFactory::getEditor();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_TEXT_FIELD'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td>
 						<?php echo $editor->display("text_field", $this->detail->text_field, '$widthPx', '$heightPx', '100', '20');    ?>

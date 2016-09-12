@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 
-class RedshopViewWrapper extends RedshopView
+class RedshopViewWrapper extends RedshopViewAdmin
 {
 	/**
 	 * The current user.
@@ -54,7 +54,7 @@ class RedshopViewWrapper extends RedshopView
 		$this->lists['order'] = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'wrapper_id');
 		$this->lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$this->filter = $state->get('filter');
-		
+
 		$this->user = JFactory::getUser();
 		$this->data = $data;
 		$this->product_id = $product_id;

@@ -225,7 +225,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$catorder = array();
 		$oldcategory = array();
 
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$row = $this->getTable('product_detail');
 
@@ -3006,7 +3006,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function  attribute_empty()
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$database = JFactory::getDbo();
 
 		if ($this->id)
@@ -4147,7 +4147,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_subprop($sp, $subattribute_id)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
 
@@ -4195,7 +4195,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_prop($attribute_id, $property_id)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$propertyList  = $producthelper->getAttibuteProperty(0, $attribute_id);
 
@@ -4250,7 +4250,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_attibute($product_id, $attribute_id, $attribute_set_id)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		if (empty($attribute_set_id) && empty($product_id))
 		{
@@ -4440,7 +4440,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$info = $producthelper->getChildProduct($parentid);
 
 		for ($i = 0, $in = count($info); $i < $in; $i++)
@@ -4575,7 +4575,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copyDiscountCalcdata($old_product_id, $new_product_id, $discount_calc_method)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$query = "SELECT * FROM `" . $this->table_prefix . "product_discount_calc`
 				  WHERE product_id='" . $old_product_id . "' ";
 		$this->_db->setQuery($query);

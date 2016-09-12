@@ -27,7 +27,7 @@ else
 $cart_template = str_replace("{ajax_cart_box_title}", JText::_('COM_REDSHOP_CART_SAVE'), $cart_template);
 $cart_template = str_replace("{show_cart_text}", JText::_('COM_REDSHOP_SHOW_CART_TEXT'), $cart_template);
 
-$viewbutton = '<input type="button" name="viewcart" class="view_cart_button" value="' . JText::_('COM_REDSHOP_VIEW_CART') . '" onclick="javascript:window.location.href=\'' . JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid) . '\'">';
+$viewbutton = '<input type="button" name="viewcart" class="view_cart_button btn btn-primary" value="' . JText::_('COM_REDSHOP_VIEW_CART') . '" onclick="javascript:window.location.href=\'' . JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid) . '\'">';
 
 /*
  * continue redirection link
@@ -35,12 +35,12 @@ $viewbutton = '<input type="button" name="viewcart" class="view_cart_button" val
 if (CONTINUE_REDIRECT_LINK != '')
 {
 	$shopmorelink    = JRoute::_(CONTINUE_REDIRECT_LINK);
-	$countinuebutton = '<input type="button" name="continuecart" class="continue_cart_button" value="' . JText::_('COM_REDSHOP_CONTINUE_SHOPPING') . '" onclick="document.location=\'' . $shopmorelink . '\'" >';
+	$countinuebutton = '<input type="button" name="continuecart" class="continue_cart_button btn" value="' . JText::_('COM_REDSHOP_CONTINUE_SHOPPING') . '" onclick="document.location=\'' . $shopmorelink . '\'" >';
 }
 else
 {
 	$shopmorelink    = $_SERVER['HTTP_REFERER'];
-	$countinuebutton = '<input type="button" name="continuecart" class="continue_cart_button" value="' . JText::_('COM_REDSHOP_CONTINUE_SHOPPING') . '" onclick="document.location=\'' . $shopmorelink . '\'" >';
+	$countinuebutton = '<input type="button" name="continuecart" class="continue_cart_button btn" value="' . JText::_('COM_REDSHOP_CONTINUE_SHOPPING') . '" onclick="document.location=\'' . $shopmorelink . '\'" >';
 }
 
 $cart_template = str_replace("{show_cart_button}", $viewbutton, $cart_template);

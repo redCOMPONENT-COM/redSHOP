@@ -9,32 +9,31 @@
 defined('_JEXEC') or die;
 
 ?>
-<div id="config-document">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_REDSHOP_PRICING'); ?></legend>
-		<table width="100%" cellpadding="0" cellspacing="0">
-			<tr valign="top">
-				<td width="50%">
-					<fieldset class="adminform">
-						<?php echo $this->loadTemplate('price');?>
-					</fieldset>
-					<fieldset class="adminform">
-						<?php echo $this->loadTemplate('vat');?>
-					</fieldset>
-				</td>
-				<td width="50%">
-					<fieldset class="adminform">
-						<?php echo $this->loadTemplate('images_giftcard');?>
-					</fieldset>
-					<fieldset class="adminform">
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-sm-4">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('price');?>
+			</fieldset>
+		</div>
 
-						<?php echo $this->loadTemplate('discount');?>
-					</fieldset>
-					<fieldset class="adminform">
-						<?php echo $this->loadTemplate('discount_mail');?>
-					</fieldset>
-				</td>
-			</tr>
-		</table>
-	</fieldset>
-</div>
+		<div class="col-sm-4">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('vat');?>
+			</fieldset>
+		</div>
+
+		<div class="col-sm-4">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('images_giftcard');?>
+			</fieldset>
+			<fieldset class="adminform">
+
+				<?php echo $this->loadTemplate('discount');?>
+			</fieldset>
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('discount_mail');?>
+			</fieldset>
+		</div>
+	</div>
+</fieldset>

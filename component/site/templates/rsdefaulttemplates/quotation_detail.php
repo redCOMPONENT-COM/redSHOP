@@ -1,123 +1,120 @@
-<table border="0" cellspacing="0" cellpadding="5" width="100%">
-	<tbody>
-	<tr>
-		<td colspan="2">
-			<table border="0" cellspacing="0" cellpadding="2" width="100%">
-				<tbody>
-				<tr style="background-color: #cccccc">
-					<th align="left">{quotation_information_lbl}{print}</th>
-				</tr>
-				<tr>
-				</tr>
-				<tr>
-					<td>{quotation_id_lbl} : {quotation_id}</td>
-				</tr>
-				<tr>
-					<td>{quotation_number_lbl} : {quotation_number}</td>
-				</tr>
-				<tr>
-					<td>{quotation_date_lbl} : {quotation_date}</td>
-				</tr>
-				<tr>
-					<td>{quotation_status_lbl} : {quotation_status}</td>
-				</tr>
-				<tr>
-					<td>{quotation_note_lbl} : {quotation_note}</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<table border="0" cellspacing="0" cellpadding="2" width="100%">
-				<tbody>
-				<tr style="background-color: #cccccc">
-					<th align="left">{account_information_lbl}</th>
-				</tr>
-				<tr>
-					<td>{account_information}{quotation_custom_field_list}</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<table border="0" cellspacing="0" cellpadding="2" width="100%">
-				<tbody>
-				<tr style="background-color: #cccccc">
-					<th align="left">{quotation_detail_lbl}</th>
-				</tr>
-				<tr>
-				</tr>
-				<tr>
-					<td>
-						<table border="0" cellspacing="2" cellpadding="2" width="100%">
-							<tbody>
-							<tr>
-								<td>{product_name_lbl}</td>
-								<td>{note_lbl}</td>
-								<td>{price_lbl}</td>
-								<td>{quantity_lbl}</td>
-								<td align="right">{total_price_lbl}</td>
-							</tr>
-							<!--  {product_loop_start} -->
-							<tr>
-								<td>{product_name}({product_number_lbl} - {product_number})<br/>{product_accessory}{product_attribute}{product_userfields}
-								</td>
-								<td>{product_wrapper}</td>
-								<td>{product_price}</td>
-								<td>{product_quantity}</td>
-								<td align="right">{product_total_price}</td>
-							</tr>
-							<!--  {product_loop_end} -->
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-				</tr>
-				<tr>
-					<td>
-						<table border="0" cellspacing="2" cellpadding="2" width="100%">
-							<tbody>
-							<tr align="left">
-								<td align="left"><strong>{quotation_subtotal_lbl} : </strong></td>
-								<td align="right">{quotation_subtotal}</td>
-							</tr>
-							<tr align="left">
-								<td align="left"><strong>{quotation_tax_lbl} : </strong></td>
-								<td align="right">{quotation_tax}</td>
-							</tr>
-							<tr align="left">
-								<td align="left"><strong>{quotation_discount_lbl} : </strong></td>
-								<td align="right">{quotation_discount}</td>
-							</tr>
-							<tr align="left">
-								<td colspan="2" align="left">
-									<hr/>
-								</td>
-							</tr>
-							<tr align="left">
-								<td align="left"><strong>{total_lbl} :</strong></td>
-								<td align="right">{quotation_total}</td>
-							</tr>
-							<tr align="left">
-								<td colspan="2" align="left">
-									<hr/>
-									<br/>
-									<hr/>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	</tbody>
-</table>
+<div class="product_print">{print}</div>
+
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{quotation_information_lbl}</h3>
+			</div>
+
+			<div class="panel-body">
+				<div class="row">
+					<label class="col-sm-6">{quotation_id_lbl}:</label>
+					<div class="col-sm-6">{quotation_id}</div>
+				</div>
+
+				<div class="row">
+					<label class="col-sm-6">{quotation_number_lbl}:</label>
+					<div class="col-sm-6">{quotation_number}</div>
+				</div>
+
+				<div class="row">
+					<label class="col-sm-6">{quotation_date_lbl}:</label>
+					<div class="col-sm-6">{quotation_date}</div>
+				</div>
+
+				<div class="row">
+					<label class="col-sm-6">{quotation_status_lbl}:</label>
+					<div class="col-sm-6">{quotation_status}</div>
+				</div>
+
+				<div class="row">
+					<label class="col-sm-6">{quotation_note_lbl}:</label>
+					<div class="col-sm-6">{quotation_note}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{account_information_lbl}</h3>
+			</div>
+
+			<div class="panel-body">
+				{account_information}{quotation_custom_field_list}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">{quotation_detail_lbl}</h3>
+	</div>
+	<div class="table-responsive">
+		<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+			<thead>
+			<tr>
+				<th>{product_name_lbl}</th>
+				<th>{note_lbl}</th>
+				<th>{price_lbl}</th>
+				<th>{quantity_lbl}</th>
+				<th>{total_price_lbl}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<!--  {product_loop_start} -->
+			<tr>
+				<td>{product_name}({product_number_lbl} - {product_number})<br/>{product_accessory}{product_attribute}{product_userfields}
+				</td>
+				<td>{product_wrapper}</td>
+				<td>{product_price}</td>
+				<td>{product_quantity}</td>
+				<td align="right">{product_total_price}</td>
+			</tr>
+			<!--  {product_loop_end} -->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="cart_totals">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group cart_customer_note">
+						<label>{quotation_customer_note_lbl}</label>
+						{quotation_customer_note}
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="redshop-login form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-6">{quotation_subtotal_lbl}:</label>
+							<div class="col-sm-6">{quotation_subtotal}</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-6">{quotation_tax_lbl}:</label>
+							<div class="col-sm-6">{quotation_tax}</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-6">{quotation_discount_lbl}:</label>
+							<div class="col-sm-6">{quotation_discount}</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-6">{total_lbl}:</label>
+							<div class="col-sm-6">{quotation_total}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

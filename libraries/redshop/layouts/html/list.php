@@ -73,6 +73,7 @@ $id_text = $idtag ? $idtag : $name;
 				value="<?php echo $key; ?>"
 				<?php echo $extra; ?>
 				<?php echo $attribs; ?>
+				rel="noicheck"
 			/>
 			<label
 				class="<?php echo $type; ?>"

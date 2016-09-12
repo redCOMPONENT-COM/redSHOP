@@ -21,13 +21,7 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		$app = JFactory::getApplication();
-		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
 	public function onNotifyPaymentrs_payment_amazoncheckout($element, $request)
@@ -37,18 +31,13 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 			return;
 		}
 
-		$db                = JFactory::getDbo();
 		$request           = JRequest::get('request');
 
 		JPlugin::loadLanguage('com_redshop');
 
 		$verify_status     = $this->params->get('verify_status', '');
 		$invalid_status    = $this->params->get('invalid_status', '');
-		$auth_type         = $this->params->get('auth_type', '');
-
 		$order_id          = $request['orderid'];
-		$Itemid            = $request['Itemid'];
-		$status            = $request['status'];
 
 		$values = new stdClass;
 
@@ -56,9 +45,9 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 		{
 			$tid = $request['transactionId'];
 
-			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
+			if ($this->orderPaymentNotYetUpdated($order_id, $tid))
 			{
-				$transaction_id = $tid;
+				$values->transaction_id = $tid;
 				$values->order_status_code = $verify_status;
 				$values->order_payment_status_code = 'Paid';
 				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -66,8 +55,8 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 			}
 			else
 			{
-				$transaction_id = $tid;
-				$values->order_status_code = 'P';
+				$values->transaction_id = $tid;
+				$values->order_status_code = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
 				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
@@ -81,17 +70,20 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		}
 
-		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 
 		return $values;
 	}
 
-	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($order_id, $tid)
 	{
 		$db    = JFactory::getDbo();
 		$res   = true;
-		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$query = $db->getQuery(true)
+			->select('COUNT(*) AS qty')
+			->from($db->qn('#__redshop_order_payment'))
+			->where('order_id = ' . $db->q($order_id))
+			->where('order_payment_trans_id = ' . $db->q($tid));
 		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 

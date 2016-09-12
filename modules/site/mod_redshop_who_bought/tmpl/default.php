@@ -26,7 +26,7 @@ $document->addStyleDeclaration('
 JHtml::_('redshopjquery.framework');
 JHtml::script('modules/mod_redshop_who_bought/assets/js/jquery.jcarousel.min.js');
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $redhelper = redhelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $extraField = extraField::getInstance();

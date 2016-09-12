@@ -48,12 +48,14 @@ $model = $this->getModel('newslettersubscr');
 
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input placeholder="<?php echo JText::_('COM_REDSHOP_NEWSLETTER_FILTER'); ?>" type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>">
-				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<input type="reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-					   onclick="return clearreset();"  class="btn">
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+					<input placeholder="<?php echo JText::_('COM_REDSHOP_NEWSLETTER_FILTER'); ?>" type="text" name="filter" id="filter" value="<?php echo $this->state->get('filter'); ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="return clearreset();" class="reset btn">
+				</div>
 			</div>
 		</div>
 		<table class="adminlist table table-striped">

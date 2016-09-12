@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $extra_field = extra_field::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $redhelper = redhelper::getInstance();

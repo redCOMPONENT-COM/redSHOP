@@ -79,7 +79,7 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_TEMPLATE_NAME'); ?>:</td>
 					<td><input class="text_area" type="text" name="template_name" id="template_name" size="32"
@@ -96,7 +96,7 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 				<tr>
 					<td colspan="2">
 						<div id="clicktellbox">
-							<table class="admintable">
+							<table class="admintable table">
 								<tr>
 									<td width="100" align="right" class="key">
 										<?php echo JText::_('COM_REDSHOP_PAYMENT_METHOD'); ?>:
@@ -127,8 +127,8 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 	<div class="col50" id="editor">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
-			<div class="span12">
-				<div class="span7">
+			<div class="col-sm-12">
+				<div class="col-sm-7">
 					<div class="row-fluid">
 						<label class="text-info" for="templateMode">
 							<?php echo JText::_('COM_REDSHOP_TEMPLATE_SWITCH_METHOD'); ?>
@@ -174,7 +174,7 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 						</fieldset>
 					</div>
 				</div>
-				<div class="span5">
+				<div class="col-sm-5">
 					<?php echo $this->loadTemplate('dynamic_fields');?>
 				</div>
 			</div>

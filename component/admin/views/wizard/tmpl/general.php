@@ -23,7 +23,7 @@ fieldset.adminform label.radiobtn, table.admintable label.radiobtn
 </div>
 <div>
 	<form action="?option=com_redshop" method="POST" name="installform" id="installform">
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td colspan="2" class="general_admin_email_info_txt">
 					<?php echo JText::_('COM_REDSHOP_GENERAL_WIZARD_SHOP_NAME');?>

@@ -20,7 +20,7 @@ $cart = $session->get('cart');
 
 $detail = $this->detail;
 $user = JFactory::getUser();
-$extra_field = extra_field::getInstance();
+$extraField   = extraField::getInstance();
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
 
@@ -79,28 +79,41 @@ if ($user->id)
 }
 else
 {
-	$billing = '<table width="90%">
-	<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_EMAIL') . ':</td>
-		<td><input type="text" name="user_email" id="user_email" value=""/></td></tr>';
+	$billing = '<div class="redshop-billingaddresses">';
+
+	$emailField = new stdClass;
+	$emailField->field_title = JText::_('COM_REDSHOP_EMAIL');
+	$emailField->field_desc = '';
+	$emailField->required = '';
+
+	$inputField = '<input type="text" name="user_email" id="user_email" value=""/>';
+
+	$billing .= RedshopLayoutHelper::render(
+					'fields.html',
+					array(
+						'fieldHandle' => $emailField,
+						'inputField'  => $inputField
+					)
+				);
 
 	if (strstr($template_desc, "{quotation_custom_field_list}"))
 	{
-		$billing .= $extra_field->list_all_field(16, $detail->user_info_id, "", "tbl");
+		$billing .= $extraField->list_all_field(16, $detail->user_info_id, "", "tbl");
 		$template_desc = str_replace("{quotation_custom_field_list}", "", $template_desc);
 	}
 	else
 	{
-		$template_desc = $extra_field->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
+		$template_desc = $extraField->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
 	}
 
-	$billing .= '</table>';
+	$billing .= '</div>';
 
 	$template_desc = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $template_desc);
 	$template_desc = str_replace("{billing_address}", $billing, $template_desc);
 }
 
-$cancel_btn = '<input type="submit" class="greenbutton" name="cancel" value="' . JText::_("COM_REDSHOP_CANCEL") . '" onclick="javascript:document.adminForm.task.value=\'cancel\';"/>';
-$quotation_btn = '<input type="submit" class="greenbutton" name="addquotation" value="' . JText::_("COM_REDSHOP_REQUEST_QUOTATION") . '" onclick="return validateInfo();"/>';
+$cancel_btn = '<input type="submit" class="greenbutton btn btn-primary" name="cancel" value="' . JText::_("COM_REDSHOP_CANCEL") . '" onclick="javascript:document.adminForm.task.value=\'cancel\';"/>';
+$quotation_btn = '<input type="submit" class="greenbutton btn btn-primary" name="addquotation" value="' . JText::_("COM_REDSHOP_REQUEST_QUOTATION") . '" onclick="return validateInfo();"/>';
 $quotation_btn .= '<input type="hidden" name="option" value="com_redshop" />';
 $quotation_btn .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 $quotation_btn .= '<input type="hidden" name="task" value="addquotation" />';

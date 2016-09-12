@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" client="site" type="plugin" group="redshop_vies_registration" method="upgrade">
+<extension version="3.0" client="site" type="plugin" group="redshop_vies_registration" method="upgrade">
 	<name>PLG_REDSHOP_VIES_REGISTRATION_NAME</name>
 	<version>1.5</version>
 	<redshop>1.5</redshop>

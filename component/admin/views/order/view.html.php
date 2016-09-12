@@ -9,18 +9,58 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewOrder extends RedshopView
+/**
+ * Order List View
+ *
+ * @package     RedShop.Backend
+ * @subpackage  Views
+ * @since       1.0
+ */
+class RedshopViewOrder extends RedshopViewAdmin
 {
+	/**
+	 * @var  array
+	 */
+	public $filter;
+
+	/**
+	 * @var  array
+	 */
+	public $lists;
+
+	/**
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * @var  array
+	 */
+	public $orders;
+
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * @var  string
+	 */
+	public $request_url;
+
+	/**
+	 * Display method
+	 *
+	 * @param   string  $tpl  The template name
+	 *
+	 * @return  void
+	 */
 	public function display($tpl = null)
 	{
 		$order_function = order_functions::getInstance();
 
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
-
-		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$layout = JRequest::getVar('layout');
+		JFactory::getDocument()->setTitle(JText::_('COM_REDSHOP_ORDER'));
+		$layout = JFactory::getApplication()->input->getCmd('layout');
 
 		if ($layout == 'previewlog')
 		{
@@ -28,23 +68,24 @@ class RedshopViewOrder extends RedshopView
 		}
 		elseif ($layout == 'labellisting')
 		{
-			JToolBarHelper::title(JText::_('COM_REDSHOP_DOWNLOAD_LABEL'), 'redshop_order48');
+			RedshopToolbarHelper::title(JText::_('COM_REDSHOP_DOWNLOAD_LABEL'), 'redshop_order48');
 			$this->setLayout('labellisting');
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+			RedshopToolbarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 		else
 		{
-			JToolBarHelper::custom(
+			RedshopToolbarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
+			RedshopToolbarHelper::addNew();
+
+			RedshopToolbarHelper::custom(
 				'multiprint_order',
 				'print_f2.png',
 				'print_f2.png',
 				'COM_REDSHOP_MULTI_PRINT_ORDER_LBL',
 				true
 			);
-			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
-			JToolbarHelper::addNew();
 
-			JToolBarHelper::custom(
+			RedshopToolbarHelper::custom(
 				'allStatusExceptPacsoft',
 				'save.png',
 				'print_f2.png',
@@ -54,7 +95,7 @@ class RedshopViewOrder extends RedshopView
 
 			if (POSTDK_INTEGRATION)
 			{
-				JToolBarHelper::custom(
+				RedshopToolbarHelper::custom(
 					'allstatus',
 					'save.png',
 					'save_f2.png',
@@ -63,51 +104,53 @@ class RedshopViewOrder extends RedshopView
 				);
 			}
 
-			JToolBarHelper::custom(
-				'export_data',
-				'save.png',
-				'save_f2.png',
+			$group = RedshopToolbarHelper::createGroup('export', 'COM_REDSHOP_EXPORT_DATA_LBL');
+
+			$group->appendButton('Standard',
+				'',
 				'COM_REDSHOP_EXPORT_DATA_LBL',
-				false
+				'export_data',
+				true
 			);
-			JToolBarHelper::custom(
-				'export_fullorder_data',
-				'save.png',
-				'save_f2.png',
+
+			$group->appendButton('Standard',
+				'',
 				'COM_REDSHOP_EXPORT_FULL_DATA_LBL',
+				'export_fullorder_data',
 				false
 			);
-			JToolBarHelper::custom(
-				'gls_export',
-				'save.png',
-				'save_f2.png',
+
+			$group->appendButton('Standard',
+				'',
 				'COM_REDSHOP_EXPORT_GLS_LBL',
-				false
+				'gls_export',
+				true
 			);
-			JToolBarHelper::custom(
-				'business_gls_export',
-				'save.png',
-				'save_f2.png',
+
+			$group->appendButton('Standard',
+				'',
 				'COM_REDSHOP_EXPORT_GLS_BUSINESS_LBL',
-				false
+				'business_gls_export',
+				true
 			);
-			JToolBarHelper::deleteList();
+
+			$group->renderGroup();
+
+			RedshopToolbarHelper::deleteList();
 		}
 
-		$state = $this->get('State');
+		$state                 = $this->get('State');
 		$this->filter          = $state->get('filter');
 		$filter_by             = $state->get('filter_by');
 		$filter_status         = $state->get('filter_status');
 		$filter_payment_status = $state->get('filter_payment_status');
 
-		$lists['order']     = $state->get('list.ordering', 'o.order_id');
-		$lists['order_Dir'] = $state->get('list.direction', 'desc');
-
-		$orders     = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$lists['order']        = $state->get('list.ordering', 'o.order_id');
+		$lists['order_Dir']    = $state->get('list.direction', 'desc');
 
 		$lists['filter_by'] = $order_function->getFilterbyList('filter_by', $filter_by,
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"');
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
+		);
 
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
@@ -116,11 +159,11 @@ class RedshopViewOrder extends RedshopView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" '
 		);
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->orders = $orders;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->orders      = $this->get('Data');
+		$this->pagination  = $this->get('Pagination');
+		$this->request_url = JUri::getInstance()->toString();
 
 		parent::display($tpl);
 	}

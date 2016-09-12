@@ -71,7 +71,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		parent::__construct();
-		$this->producthelper = RedshopSiteProduct::getInstance();
+		$this->producthelper = productHelper::getInstance();
 
 		$this->setId((int) $Id);
 	}
