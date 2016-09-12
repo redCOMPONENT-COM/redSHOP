@@ -1552,7 +1552,6 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/product_container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/subinstall.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/order_container.php',
