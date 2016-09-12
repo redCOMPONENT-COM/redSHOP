@@ -26,7 +26,7 @@ $url = $uri->root();
 		var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?";
 
 		for (var i = 0; i < form.field_name.value.length; i++) {
-			if (iChars.indexOf(form.field_name.value.charAt(i)) != -1) {
+			if (iChars.indexOf(form.field_name.value.charAt(i)) != -1) {g3
 				alert(" !@#$%^&*()+=-[]\\\';,./{}| \n Special characters are not allowed.\n Please remove them and try again.");
 				return false;
 			}
@@ -379,7 +379,9 @@ $url = $uri->root();
 								    value="<?php echo htmlentities($this->lists['extra_data'][$k]->value_id); ?>"
 								    name="value_id[]"
 								/>
-								<input value="Delete" onclick="deleteRow(this)" class="button" type="button"/>
+								<?php if (count($this->lists['extra_data']) > 1) : ?>
+									<input value="Delete" onclick="deleteRow(this)" class="button" type="button"/>
+								<?php endif; ?>
 							</td>
 							<td>
 							<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
