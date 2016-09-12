@@ -38,6 +38,8 @@ class Com_RedshopInstallerScript
 	 */
 	public static $oldManifest = null;
 
+	protected $_type = null;
+
 	/**
 	 * Method to install the component
 	 *
@@ -86,7 +88,6 @@ class Com_RedshopInstallerScript
 		$this->installLibraries($parent);
 		$this->installModules($parent);
 		$this->installPlugins($parent);
-
 		JLoader::import('redshop.library');
 		$this->com_install('update');
 		$this->insertKlarnaFields();
@@ -102,6 +103,7 @@ class Com_RedshopInstallerScript
 	 */
 	public function preflight($type, $parent)
 	{
+		$this->_type = $type;
 		if ($type == "update")
 		{
 			// Remove unused files from older than 1.3.3.1 redshop
@@ -1216,7 +1218,6 @@ class Com_RedshopInstallerScript
 		// Required objects
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
-
 		if ($nodes = $manifest->plugins->plugin)
 		{
 			$db = JFactory::getDbo();
@@ -1244,17 +1245,22 @@ class Com_RedshopInstallerScript
 				// Store the result to show install summary later
 				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 
-				// If plugin is installed successfully and it didn't exist before we enable it.
-				if ($result && !$extensionId)
+				// We'll not enable plugin for update case
+				if ($this->_type != 'update')
 				{
-					$query->clear()
-						->update($db->qn("#__extensions"))
-						->set("enabled = 1")
-						->where('type = ' . $db->q('plugin'))
-						->where('element = ' . $db->q($extName))
-						->where('folder = ' . $db->q($extGroup));
-					$db->setQuery($query)->execute();
+					// If plugin is installed successfully and it didn't exist before we enable it.
+					if ($result && !$extensionId)
+					{
+						$query->clear()
+							->update($db->qn("#__extensions"))
+							->set("enabled = 1")
+							->where('type = ' . $db->q('plugin'))
+							->where('element = ' . $db->q($extName))
+							->where('folder = ' . $db->q($extGroup));
+						$db->setQuery($query)->execute();
+					}
 				}
+
 			}
 		}
 	}
