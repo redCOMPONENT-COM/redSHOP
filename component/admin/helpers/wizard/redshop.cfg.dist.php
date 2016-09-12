@@ -186,7 +186,6 @@ define('SEO_PAGE_SHORT_DESCRIPTION', '');
 define('SEO_PAGE_DESCRIPTION', '{productname} - {categoryname} - {productname} from {shopname}');
 define('SEO_PAGE_KEYWORDS', '{productname}, {categoryname}, {productname} from {shopname}');
 define('SEO_PAGE_LANGAUGE', 'en-GB');
-define('SEO_PAGE_ROBOTS', 'INDEX,FOLLOW');
 define('SEO_PAGE_TITLE_CATEGORY', '{categoryname} | {shopname} ');
 define('SEO_PAGE_HEADING_CATEGORY', '{categoryname}');
 define('SEO_PAGE_SHORT_DESCRIPTION_CATEGORY', '');

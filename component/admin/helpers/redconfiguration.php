@@ -683,7 +683,6 @@ class Redconfiguration
 						"SEO_PAGE_DESCRIPTION"                         => $d["seo_page_description"],
 						"SEO_PAGE_KEYWORDS"                            => $d["seo_page_keywords"],
 						"SEO_PAGE_LANGAUGE"                            => $d["seo_page_language"],
-						"SEO_PAGE_ROBOTS"                              => $d["seo_page_robots"],
 						"SEO_PAGE_TITLE_CATEGORY"                      => $d["seo_page_title_category"],
 						"SEO_PAGE_HEADING_CATEGORY"                    => $d["seo_page_heading_category"],
 						"SEO_PAGE_SHORT_DESCRIPTION_CATEGORY"          => $d["seo_page_short_description_category"],
