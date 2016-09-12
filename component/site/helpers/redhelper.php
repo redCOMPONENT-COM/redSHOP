@@ -449,7 +449,7 @@ class redhelper
 		}
 
 		$user = JFactory::getUser();
-		$userHelper = rsUserhelper::getInstance();
+		$userHelper = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
 		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
@@ -1086,7 +1086,7 @@ class redhelper
 			$shipping_method = $details[1] . $ext;
 		}
 
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$userData = $producthelper->getUserInformation($orderData->user_id);
 

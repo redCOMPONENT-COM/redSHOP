@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 
-class RedshopViewCategory extends RedshopView
+class RedshopViewCategory extends RedshopViewAdmin
 {
 	/**
 	 * The current user.
@@ -60,7 +60,7 @@ class RedshopViewCategory extends RedshopView
 		$temps = array();
 		$temps[0] = new stdClass;
 		$temps[0]->category_id = "0";
-		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
+		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT_CATEGORY');
 		$categories_parent = @array_merge($temps, $categories_parent);
 
 		$lists['category'] = JHTML::_('select.genericlist', $categories_parent, 'category_id',

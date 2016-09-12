@@ -23,17 +23,10 @@ class RedshopHelperJs
 	 */
 	public static function init()
 	{
-		$doc    = JFactory::getDocument();
-		$tmpl   = JRequest::getCmd('tmpl');
-		$view   = JRequest::getCmd('view');
-		$layout = JRequest::getCmd('layout');
-		$for    = JRequest::getWord("for", false);
-
-		if ($tmpl == 'component' && !$for)
-		{
-			$doc->addStyleDeclaration('html { overflow:scroll; }');
-		}
-
+		$doc     = JFactory::getDocument();
+		$tmpl    = JRequest::getCmd('tmpl');
+		$view    = JRequest::getCmd('view');
+		$layout  = JRequest::getCmd('layout');
 		$session = JFactory::getSession();
 
 		$post   = JRequest::get('POST');
@@ -85,7 +78,7 @@ class RedshopHelperJs
 			'USE_AS_CATALOG'                    => USE_AS_CATALOG,
 			'AJAX_CART_DISPLAY_TIME'            => AJAX_CART_DISPLAY_TIME,
 			'SHOW_PRICE'                        => SHOW_PRICE,
-			'BASE_TAX'                          => RedshopSiteProduct::getInstance()->getProductTax(0, 1),
+			'BASE_TAX'                          => productHelper::getInstance()->getProductTax(0, 1),
 			'DEFAULT_QUOTATION_MODE'            => DEFAULT_QUOTATION_MODE,
 			'PRICE_REPLACE'                     => PRICE_REPLACE,
 			'ALLOW_PRE_ORDER'                   => ALLOW_PRE_ORDER,

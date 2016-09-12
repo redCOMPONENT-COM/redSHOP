@@ -72,7 +72,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		$app->setUserState('com_redshop.edit.product_rating.' . $productId . '.data', $data);
 
 		// Check captcha only for guests
-		if (SHOW_CAPTCHA && JFactory::getUser()->guest)
+		if (JFactory::getUser()->guest)
 		{
 			if (!$userHelper->checkCaptcha($data, false))
 			{

@@ -9,7 +9,7 @@
 JHTML::_('behavior.tooltip');
 
 $section = JRequest::getVar('section');
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 ?>
 <fieldset>
 	<div style="float: right">
@@ -51,7 +51,7 @@ $producthelper = RedshopSiteProduct::getInstance();
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PROPERTY_NAME'); ?>:</td>
 					<td><?php echo $this->property->property_name;?></td>

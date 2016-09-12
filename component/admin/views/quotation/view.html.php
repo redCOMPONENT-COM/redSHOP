@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewQuotation extends RedshopView
+class RedshopViewQuotation extends RedshopViewAdmin
 {
 	/**
 	 * The request url.

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       1.6
  */
-class RedshopViewGiftcards extends RedshopView
+class RedshopViewGiftcards extends RedshopViewAdmin
 {
 	/**
 	 * Display the Hello World view

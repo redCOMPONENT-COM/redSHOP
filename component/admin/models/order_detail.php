@@ -119,7 +119,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$order_functions = order_functions::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
@@ -266,7 +266,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	public function neworderitem($data, $quantity, $order_item_id)
 	{
 		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$rsCarthelper = rsCarthelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
@@ -736,7 +736,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function updateItem($data)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$order_functions = order_functions::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 

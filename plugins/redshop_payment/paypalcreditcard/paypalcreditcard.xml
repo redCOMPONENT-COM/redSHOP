@@ -7,9 +7,9 @@
 	method="upgrade"
 >
 	<name>PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD</name>
-	<version>1.5.0.10</version>
-	<redshop>1.5.0.6</redshop>
-	<creationDate>March 2016</creationDate>
+	<version>1.6</version>
+	<redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>

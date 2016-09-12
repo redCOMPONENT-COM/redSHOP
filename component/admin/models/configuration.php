@@ -290,55 +290,6 @@ class RedshopModelConfiguration extends RedshopModel
 			}
 		}
 
-		// Cart Background image upload
-		$cartback = JRequest::getVar('cartback', null, 'files', 'array');
-
-		if ($cartback['name'] != "")
-		{
-			$filetype = JFile::getExt($cartback['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["addtocart_background"] = $cartback['name'];
-
-				$src = $cartback['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $cartback['name'];
-
-				if ($data['addtocart_background'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_background']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_background']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
-
-		$quoteback = JRequest::getVar('quoteback', null, 'files', 'array');
-
-		if ($quoteback['name'] != "")
-		{
-			$filetype = JFile::getExt($quoteback['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["requestquote_background"] = $quoteback['name'];
-
-				$src = $quoteback['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $quoteback['name'];
-
-				if ($data['requestquote_background'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['requestquote_background']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['requestquote_background']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
-
 		// Image next link
 		$imgnext = JRequest::getVar('imgnext', null, 'files', 'array');
 
@@ -663,7 +614,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$mailfrom = $data['news_mail_from'];
 		$mailfromname = $data['news_from_name'];
 		$to = $data['newsletter_test_email'];
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$uri = JURI::getInstance();
 		$url = $uri->root();
 
@@ -838,7 +789,7 @@ class RedshopModelConfiguration extends RedshopModel
 	}
 
 	/* Get current version of redshop */
-	public function getcurrentversion()
+	public function getCurrentVersion()
 	{
 		$xmlfile = JPATH_SITE . '/administrator/components/com_redshop/redshop.xml';
 		$version = JText::_('COM_REDSHOP_FILE_NOT_FOUND');

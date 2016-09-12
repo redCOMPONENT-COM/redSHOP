@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 
 
 $editor = JFactory::getEditor();
@@ -56,7 +56,7 @@ $date = JFactory::getDate();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="volume">

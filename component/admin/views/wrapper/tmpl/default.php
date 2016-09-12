@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 
 $showall = JRequest::getVar('showall', '0');
 $tmpl = '';
@@ -54,20 +54,18 @@ $url = $uri->root();?>
 <?php } ?>
 <form action="<?php echo 'index.php?option=com_redshop' . $tmpl; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table width="100%">
- 			<tr>
- 				<td valign="top" align="left" class="key">
- 					<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
- 					<div class="btn-wrapper input-append">
- 						<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
- 							onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_WRAPPER_FILTER'); ?>">
- 						<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
- 						<button class="btn" onclick="document.getElementById('filter').value='';this.form.submit();">
- 							<?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
- 					</div>
- 				</td>
- 			</tr>
- 		</table>
+		<div class="filterTool">
+			<div class="filterItem">
+				<div class="btn-wrapper input-append">
+ 					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+ 						placeholder="<?php echo JText::_('COM_REDSHOP_WRAPPER_FILTER'); ?>">
+ 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
+						   onclick="document.getElementById('filter').value='';this.form.submit();" />
+ 				</div>
+			</div>
+		</div>
+
 		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>

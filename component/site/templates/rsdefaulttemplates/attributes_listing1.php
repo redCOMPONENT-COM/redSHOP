@@ -1,15 +1,17 @@
-<div>{attribute_title}</div>
-<div>
-	<table border="0">
-		<tbody>
+<div class="attribute_title">{attribute_title}</div>
+<div class="attribute_listing table-responsive">
+	<table class="table table-striped">
+		<thead>
 		<tr>
-			<td>{property_image_lbl}</td>
-			<td>{virtual_number_lbl}</td>
-			<td>{property_name_lbl}</td>
-			<td>{property_price_lbl}</td>
-			<td>{property_stock_lbl}</td>
-			<td>{add_to_cart_lbl}</td>
+			<th>{property_image_lbl}</th>
+			<th>{virtual_number_lbl}</th>
+			<th>{property_name_lbl}</th>
+			<th>{property_price_lbl}</th>
+			<th>{property_stock_lbl}</th>
+			<th>{add_to_cart_lbl}</th>
 		</tr>
+		</thead>
+		<tbody>
 		<!-- {property_start} -->
 		<tr>
 			<td>{property_image}</td>

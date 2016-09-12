@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $redconfig = Redconfiguration::getInstance();
 
 
@@ -39,7 +39,7 @@ $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">

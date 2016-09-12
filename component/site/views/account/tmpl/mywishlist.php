@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 // Get product helper
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $configobj     = Redconfiguration::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 $extraField    = extraField::getInstance();
@@ -421,10 +421,10 @@ else
 	$subject        = '<input type="text" name="subject" value="" >';
 	$data           = str_replace("{subject}", $subject, $data);
 
-	$cancel_btn = '<input type="button" name="cancel" class="button" onclick="parent.location.reload();" value="' . JText::_('COM_REDSHOP_CANCEL') . '" />';
+	$cancel_btn = '<input type="button" name="cancel" class="button btn" onclick="parent.location.reload();" value="' . JText::_('COM_REDSHOP_CANCEL') . '" />';
 	$data       = str_replace("{cancel_button}", $cancel_btn, $data);
 
-	$send_btn = '<input type="submit" name="send" class="button" value="' . JText::_('COM_REDSHOP_SEND') . '" />';
+	$send_btn = '<input type="submit" name="send" class="button btn btn-primary" value="' . JText::_('COM_REDSHOP_SEND') . '" />';
 	$data     = str_replace("{send_button}", $send_btn, $data);
 
 	$data .= '<input type="hidden" name="option" value="com_redshop" />'

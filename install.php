@@ -39,6 +39,13 @@ class Com_RedshopInstallerScript
 	public static $oldManifest = null;
 
 	/**
+	 * Install type
+	 *
+	 * @var   string
+	 */
+	protected $type = null;
+
+	/**
 	 * Method to install the component
 	 *
 	 * @param   object  $parent  class calling this method
@@ -86,10 +93,6 @@ class Com_RedshopInstallerScript
 		$this->installLibraries($parent);
 		$this->installModules($parent);
 		$this->installPlugins($parent);
-
-		// Remove unused files from older than 1.3.3.1 redshop
-		$this->cleanUpgradeFiles($parent);
-
 		JLoader::import('redshop.library');
 		$this->com_install('update');
 		$this->insertKlarnaFields();
@@ -105,8 +108,15 @@ class Com_RedshopInstallerScript
 	 */
 	public function preflight($type, $parent)
 	{
+		$this->type = $type;
+
 		if ($type == "update")
 		{
+			// Remove unused files from older than 1.3.3.1 redshop
+			$this->cleanUpgradeFiles($parent);
+
+			// Update helper class name in template and MVC override
+			$this->updateOverrideTemplate();
 			$this->updateschema();
 		}
 	}
@@ -208,6 +218,105 @@ class Com_RedshopInstallerScript
 		// Syncronise users
 		$this->userSynchronization();
 
+		$dbUpdate = array (
+			// 1.4
+			'quotation' => array (
+				'add' => array (
+					'quotation_customer_note' => "ALTER TABLE `#__redshop_quotation` ADD `quotation_customer_note` TEXT NOT NULL AFTER `quotation_note`"
+				)
+			),
+			'product' => array (
+				'add' => array (
+					'allow_decimal_piece' => "ALTER TABLE `#__redshop_product` ADD `allow_decimal_piece` int(4) NOT NULL"
+				),
+				'drop' => array(
+					'index' => array (
+						'product_number' => "ALTER TABLE `#__redshop_product` DROP INDEX `product_number`"
+					)
+				)
+			),
+			'country' => array (
+				'drop' => array(
+					'index' => array (
+						'idx_country_name' => "ALTER TABLE `#__redshop_country` DROP INDEX `idx_country_name`"
+					)
+				)
+			),
+			'currency' => array (
+				'drop' => array(
+					'index' => array (
+						'idx_currency_name' => "ALTER TABLE `#__redshop_currency` DROP INDEX `idx_currency_name`"
+					)
+				)
+			),
+			'order_item' => array (
+				'drop' => array(
+					'field' => array (
+						'container_id' => "ALTER TABLE `#__redshop_order_item` DROP `container_id`"
+					)
+				)
+			),
+			// 1.5
+			// 1.5.0.4.1
+			'usercart_item' => array (
+				'add' => array (
+					'attribs' => "ALTER TABLE `#__redshop_usercart_item` ADD `attribs` VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item'"
+				)
+			),
+			// 1.5.0.5.1
+			'orders' => array (
+				'add' => array (
+					'invoice_number' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number` VARCHAR( 255 ) NOT NULL COMMENT 'Formatted Order Invoice for final use' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number` (`invoice_number`)",
+					'invoice_number_chrono' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number_chrono` INT NOT NULL COMMENT 'Order invoice number in chronological order' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number_chrono` (`invoice_number_chrono`)"
+				)
+			),
+			// 1.5.0.5.3
+			'order_payment' => array (
+				'drop' => array(
+					'index' => array (
+						'idx_order_id' => array (
+							"ALTER TABLE `#__redshop_order_payment` DROP INDEX idx_order_id",
+							"ALTER TABLE `#__redshop_order_payment` ADD UNIQUE(`order_id`)"
+						)
+					)
+				)
+			)
+		);
+
+		foreach ($dbUpdate as $table => $fields)
+		{
+			$redshopTable = JFactory::getConfig()->get('dbprefix') . 'redshop_' . $table;
+
+			$columnsQuery = "SHOW COLUMNS FROM " . $redshopTable;
+			$columns      = $db->setQuery($columnsQuery)->loadObjectList('Field');
+
+			if (is_array($columns))
+			{
+				// Alter new column
+				if (isset($fields['add']))
+				{
+					foreach ($fields['add'] as $field => $query)
+					{
+						if (!array_key_exists($field, $columns))
+						{
+							$db->setQuery($query);
+							$db->query();
+						}
+					}
+				}
+
+				// Alter drop column
+				$this->alterDropColumn($fields, $columns);
+			}
+
+			// Working with INDEX
+			$indexQuery = "SHOW INDEX FROM " . $redshopTable;
+			$columns = $db->setQuery($indexQuery)->loadObjectList('Column_name');
+
+			// Alter drop column
+			$this->alterDropColumn($fields, $columns);
+		}
+
 		// Demo content insert
 
 		// Start template demo content
@@ -269,7 +378,8 @@ class Com_RedshopInstallerScript
 					(451, 'shipping_template', 'shipping_template', '" . $redtemplate->getInstallSectionTemplate('shipping_template') . "',1),
 					(460, 'private_billing_template', 'private_billing_template', '" . $redtemplate->getInstallSectionTemplate('private_billing_template') . "',1),
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
-	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1)";
+	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1),
+	                (551, 'login', 'login', '" . $redtemplate->getInstallSectionTemplate('login') . "',1)";
 		$db->setQuery($q);
 		$db->execute();
 
@@ -413,16 +523,6 @@ class Com_RedshopInstallerScript
 				</tr>
 				<tr>
 					<td colspan="2">
-					<?php
-						$klarna = '<a href="https://www.klarna.com" style="text-decoration: none;">
-							<img style="background-color: #00416A;padding: 5px;" alt="Klarna.svg" src="https://www.klarna.com/application/files/5214/2739/0062/Klarna_footer.svg" />
-						</a>';
-						echo JText::sprintf('COM_REDSHOP_INSTALL_KLARNA_INFO', $klarna);
-					?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
 						<?php if ($type != 'update'): ?>
 						<input type="button" class="btn btn-mini btn-primary" name="save" value="<?php echo JText::_('COM_REDSHOP_WIZARD');?>"
 							   onclick="location.href='index.php?option=com_redshop&wizard=1'"/>
@@ -466,6 +566,51 @@ class Com_RedshopInstallerScript
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
 			}
 		}
+	}
+
+	/**
+	 * Apply ALTER query for drop column or index
+	 *
+	 * @param   array  $fields   Fields information
+	 * @param   arrau  $columns  List of Columns
+	 *
+	 * @return  boolean          True on success.
+	 */
+	private function alterDropColumn($fields, $columns)
+	{
+		if (!is_array($columns))
+		{
+			return false;
+		}
+
+		if (!isset($fields['drop']['field']))
+		{
+			return false;
+		}
+
+		$db = JFactory::getDbo();
+
+		foreach ($fields['drop']['field'] as $field => $query)
+		{
+			if (array_key_exists($field, $columns))
+			{
+				if (is_array($query))
+				{
+					foreach ($query as $aQuery)
+					{
+						$db->setQuery($aQuery);
+						$db->query();
+					}
+				}
+				else
+				{
+					$db->setQuery($query);
+					$db->query();
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -575,11 +720,6 @@ class Com_RedshopInstallerScript
 		if (!defined("DISCOUNT_TYPE"))
 		{
 			$cfgarr["DISCOUNT_TYPE"] = 3;
-		}
-
-		if (!defined("ENABLE_BACKENDACCESS"))
-		{
-			$cfgarr["ENABLE_BACKENDACCESS"] = 0;
 		}
 
 		if (!defined("WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"))
@@ -844,7 +984,7 @@ class Com_RedshopInstallerScript
 
 		if (!defined("REQUESTQUOTE_BACKGROUND"))
 		{
-			$cfgarr["REQUESTQUOTE_BACKGROUND"] = 'requestquotebg.jpg';
+			$cfgarr["REQUESTQUOTE_BACKGROUND"] = '#409740';
 		}
 
 		if (!defined("SHOW_PRODUCT_DETAIL"))
@@ -1074,7 +1214,6 @@ class Com_RedshopInstallerScript
 		// Required objects
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
-
 		if ($nodes = $manifest->plugins->plugin)
 		{
 			$db = JFactory::getDbo();
@@ -1102,16 +1241,20 @@ class Com_RedshopInstallerScript
 				// Store the result to show install summary later
 				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 
-				// If plugin is installed successfully and it didn't exist before we enable it.
-				if ($result && !$extensionId)
+				// We'll not enable plugin for update case
+				if ($this->type != 'update')
 				{
-					$query->clear()
-						->update($db->qn("#__extensions"))
-						->set("enabled = 1")
-						->where('type = ' . $db->q('plugin'))
-						->where('element = ' . $db->q($extName))
-						->where('folder = ' . $db->q($extGroup));
-					$db->setQuery($query)->execute();
+					// If plugin is installed successfully and it didn't exist before we enable it.
+					if ($result && !$extensionId)
+					{
+						$query->clear()
+							->update($db->qn("#__extensions"))
+							->set("enabled = 1")
+							->where('type = ' . $db->q('plugin'))
+							->where('element = ' . $db->q($extName))
+							->where('folder = ' . $db->q($extGroup));
+						$db->setQuery($query)->execute();
+					}
 				}
 			}
 		}
@@ -1281,7 +1424,7 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
-		if (version_compare($this->getOldParam('version'), '1.6.1', '<='))
+		if (version_compare($this->getOldParam('version'), '2.0', '<='))
 		{
 			array_push(
 				$folders,
@@ -1292,14 +1435,13 @@ class Com_RedshopInstallerScript
 
 			array_push(
 				$files,
-				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',
+				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
-				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
+				JPATH_SITE . '/components/com_redshop/helpers/user.php',
+				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',
 				JPATH_SITE . '/components/com_redshop/helpers/extra_field.php',
 				JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php',
 				JPATH_SITE . '/components/com_redshop/helpers/googleanalytics.php',
-				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
-				JPATH_SITE . '/components/com_redshop/helpers/user.php',
 				JPATH_SITE . '/components/com_redshop/helpers/zip.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
 				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
@@ -1321,7 +1463,13 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/update.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shopper.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlcron.php',
-				JPATH_LIBRARIES     . '/redshop/form/fields/stockroom.php'
+				JPATH_LIBRARIES . '/redshop/form/fields/stockroom.php'
+			);
+
+			// Remove barcode view for backend
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/components/com_redshop/views/barcode'
 			);
 		}
 
@@ -1445,6 +1593,193 @@ class Com_RedshopInstallerScript
 				if (JFile::exists($path))
 				{
 					JFile::delete($path);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update helper class name in redSHOP override files
+	 *
+	 * @return  void
+	 */
+	private function updateOverrideTemplate()
+	{
+		$dir       = JPATH_SITE . "/templates/";
+		$codeDir   = JPATH_SITE . "/code/";
+		$files     = JFolder::folders($dir);
+		$templates = array();
+
+		if (JFolder::exists($codeDir))
+		{
+			$codeFiles = JFolder::folders($codeDir);
+
+			foreach ($codeFiles as $key => $value)
+			{
+				if (JFolder::exists($codeDir . 'administrator/components'))
+				{
+					$templates[$codeDir . 'administrator/components'] = JFolder::folders($codeDir . 'administrator/components');
+				}
+
+				if (JFolder::exists($codeDir . 'administrator'))
+				{
+					$templates[$codeDir . 'administrator'] = JFolder::folders($codeDir . 'administrator');
+				}
+
+				if (JFolder::exists($codeDir . 'components'))
+				{
+					$templates[$codeDir . 'components'] = JFolder::folders($codeDir . 'components');
+				}
+
+				if (JFolder::exists($codeDir))
+				{
+					$templates[$codeDir] = JFolder::folders($codeDir);
+				}
+			}
+		}
+
+		foreach ($files as $key => $value)
+		{
+			if (!JFile::exists($dir . $value))
+			{
+				$templates[$dir . $value] = JFolder::folders($dir . $value);
+			}
+		}
+
+		$override = array();
+
+		foreach ($templates as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!JFile::exists($key . '/' . $name))
+				{
+					if (JFolder::exists($key . '/com_redshop'))
+					{
+						$override[$key . '/com_redshop'] = JFolder::folders($key . '/com_redshop');
+					}
+
+					if (JFolder::exists($key . '/html'))
+					{
+						$override[$key . '/html'] = JFolder::folders($key . '/html');
+					}
+
+					if (JFolder::exists($key . '/code/com_redshop'))
+					{
+						$override[$key . '/code/com_redshop'] = JFolder::folders($key . '/code/com_redshop');
+					}
+
+					if (JFolder::exists($key . '/code/components/com_redshop'))
+					{
+						$override[$key . '/code/components/com_redshop'] = JFolder::folders($key . '/code/components/com_redshop');
+					}
+				}
+			}
+		}
+
+		$overrideFolders = array();
+		$overrideLayoutFolders = array();
+		$overrideLayoutFiles = array();
+
+		foreach ($override as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if ($name == 'layouts')
+				{
+					$overrideLayoutFolders[$key . '/' . $name] = JFolder::folders($key . '/' . $name);
+				}
+				elseif (!JFile::exists($key . '/' . $name) && $name != 'layouts')
+				{
+					// Read all files and folders in parent folder
+					$overrideFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
+				}
+			}
+		}
+
+		$overrideFiles = array();
+
+		foreach ($overrideFolders as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!JFile::exists($key . '/' . $name))
+				{
+					$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+				}
+				else
+				{
+					$overrideFiles[$key] = JFolder::files($key);
+				}
+			}
+		}
+
+		foreach ($overrideLayoutFolders as $key => $value)
+		{
+			foreach ($value as $name)
+			{
+				if (!JFile::exists($key . '/' . $name) && $name == 'com_redshop')
+				{
+					$overrideLayoutFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+				}
+			}
+		}
+
+		if (!empty($overrideLayoutFiles))
+		{
+			foreach ($overrideLayoutFiles as $key => $value)
+			{
+				foreach ($value as $name)
+				{
+					if (!JFile::exists($key . '/' . $name))
+					{
+						$overrideFiles[$key . '/' . $name] = JFolder::files($key . '/' . $name);
+					}
+				}
+			}
+		}
+
+		$replaceString = array(
+				'new quotationHelper'                              => 'quotationHelper::getInstance()',
+				'new order_functions'                              => 'order_functions::getInstance()',
+				'new Redconfiguration'                             => 'Redconfiguration::getInstance()',
+				'new Redtemplate'                                  => 'Redtemplate::getInstance()',
+				'new extra_field'                                  => 'extra_field::getInstance()',
+				'new rsstockroomhelper'                            => 'rsstockroomhelper::getInstance()',
+				'new shipping'                                     => 'shipping::getInstance()',
+				'new CurrencyHelper'                               => 'CurrencyHelper::getInstance()',
+				'new economic'                                     => 'economic::getInstance()',
+				'new quotationHelper()'                            => 'quotationHelper::getInstance()',
+				'new order_functions()'                            => 'order_functions::getInstance()',
+				'new Redconfiguration()'                           => 'Redconfiguration::getInstance()',
+				'new Redtemplate()'                                => 'Redtemplate::getInstance()',
+				'new extra_field()'                                => 'extra_field::getInstance()',
+				'new rsstockroomhelper()'                          => 'rsstockroomhelper::getInstance()',
+				'new shipping()'                                   => 'shipping::getInstance()',
+				'new CurrencyHelper()'                             => 'CurrencyHelper::getInstance()',
+				'new economic()'                                   => 'economic::getInstance()',
+				'GoogleAnalytics'                                  => 'RedshopHelperGoogleanalytics',
+				'RedshopConfig::scriptDeclaration();'              => '',
+				'$redConfiguration'                                => '$Redconfiguration',
+				'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',
+			);
+
+		if (!empty($overrideFiles))
+		{
+			foreach ($overrideFiles as $path => $files)
+			{
+				foreach ($files as $file)
+				{
+					$content = JFile::read($path . '/' . $file);
+
+					foreach ($replaceString as $old => $new)
+					{
+						if (strstr($content, $old))
+						{
+							$content = str_replace($old, $new, $content);
+							JFile::write($path . '/' . $file, $content);
+						}
+					}
 				}
 			}
 		}

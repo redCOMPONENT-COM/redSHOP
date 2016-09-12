@@ -61,3 +61,30 @@ table.admintable td.key
 {
 	border-radius: 0 !important;
 }
+
+div.t, div.b {
+	height: 0;
+	margin: 0;
+	background: none;
+}
+
+body #content-box div.padding {
+	padding: 0;
+}
+
+body div.m {
+	padding: 0;
+	border: 0;
+}
+
+
+div.on {
+	color:#0B55C4;
+}
+
+#toolbar-box,
+#submenu-box,
+#header-box {
+	display: none;
+}
+

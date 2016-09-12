@@ -31,10 +31,6 @@ class RedshopViewWishlist extends RedshopView
 
 		$params   = $app->getParams('com_redshop');
 
-		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/attribute.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
-		JHtml::script('com_redshop/redbox.js', false, true);
 		$model = $this->getModel("wishlist");
 
 		$wishlist          = $model->getUserWishlist();

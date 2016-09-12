@@ -12,7 +12,7 @@ JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
 $showbuttons = JRequest::getVar('showbuttons');
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -42,7 +42,7 @@ $producthelper = RedshopSiteProduct::getInstance();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">

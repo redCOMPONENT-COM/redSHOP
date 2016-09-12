@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $now = JFactory::getDate();
 
 ?>
@@ -21,12 +21,20 @@ $now = JFactory::getDate();
 			return;
 		}
 
-		if (form.amount.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_AMOUNT_MUST_FILLED', true ); ?>");
-		} else if (form.shopper_group_id.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_MUST_BE_SELECTED', true ); ?>");
+		function parseDate(date) {
+		   var parts = date.split("-");
+		   return new Date(parts[2], parts[1] - 1, parts[0]);
 		}
-		else {
+
+		if (form.name.value == "") {
+			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_NAME_MUST_FILLED', true ); ?>");
+		} else if (form.amount.value == "" || form.amount.value == 0) {
+			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_AMOUNT_MUST_FILLED', true ); ?>");
+		} else if (parseDate(form.start_date.value) > parseDate(form.end_date.value)) {
+ 			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
+  		} else if (form.shopper_group_id.value == "") {
+			alert("<?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_MUST_BE_SELECTED', true ); ?>");
+		} else {
 			submitform(pressbutton);
 		}
 	}
@@ -37,7 +45,7 @@ $now = JFactory::getDate();
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
@@ -47,6 +55,7 @@ $now = JFactory::getDate();
 					<td>
 						<input class="text_area" type="text" name="name" id="name" size="32" maxlength="250"
 						       value="<?php echo $this->detail->name; ?>"/>
+						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_NAME'), JText::_('COM_REDSHOP_DISCOUNT_NAME'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
 				<tr>

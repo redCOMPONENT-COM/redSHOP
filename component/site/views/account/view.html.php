@@ -18,7 +18,7 @@ class RedshopViewAccount extends RedshopView
 
 		$app = JFactory::getApplication();
 
-		$prodhelperobj = RedshopSiteProduct::getInstance();
+		$prodhelperobj = productHelper::getInstance();
 		$prodhelperobj->generateBreadcrumb();
 
 		$Itemid = JRequest::getInt('Itemid');
@@ -80,10 +80,7 @@ class RedshopViewAccount extends RedshopView
 			}
 
 			JLoader::import('joomla.html.pagination');
-			JHtml::_('redshopjquery.framework');
-			JHtml::script('com_redshop/redbox.js', false, true);
-			JHtml::script('com_redshop/attribute.js', false, true);
-			JHtml::script('com_redshop/common.js', false, true);
+
 			$this->setLayout('mywishlist');
 
 			$remove = JRequest::getInt('remove', 0);

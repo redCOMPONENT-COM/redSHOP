@@ -9,48 +9,26 @@
 defined('_JEXEC') or die;
 
 ?>
-<div id="config-document">
-	<table width="100%" cellpadding="0" cellspacing="0">
-		<tr valign="top">
-			<td>
-				<table width="100%" cellpadding="0" cellspacing="0">
-					<tr>
-						<td width="50%">
-							<fieldset class="adminform">
-								<legend><?php echo JText::_('COM_REDSHOP_SYSTEM_INFORMATION'); ?></legend>
-								<?php echo $this->loadTemplate('system_information');?>
-							</fieldset>
-						</td>
-					</tr>
-					<tr>
-						<td width="50%">
-							<fieldset class="adminform">
-								<legend><?php echo JText::_('COM_REDSHOP_REDSHOP_MODULES'); ?></legend>
-								<?php echo $this->loadTemplate('redshop_modules');?>
-							</fieldset>
-						</td>
-					</tr>
-					<tr>
-						<td width="50%">
-							<fieldset class="adminform">
-								<legend><?php echo JText::_('COM_REDSHOP_REDSHOP_SHIPPING_PLUGINS'); ?></legend>
-								<?php echo $this->loadTemplate('redshop_shipping');?>
-							</fieldset>
-						</td>
-					</tr>
-				</table>
-			</td>
-			<td>
-				<table width="100%" cellpadding="0" cellspacing="0">
-					<tr>
-						<td width="50%">
-							<fieldset class="adminform">
-								<legend><?php echo JText::_('COM_REDSHOP_REDSHOP_PAYMENT_PLUGINS'); ?></legend>
-								<?php echo $this->loadTemplate('redshop_plugins');?>
-							</fieldset>
-						</td>
-					</tr>
-				</table>
-		</tr>
-	</table>
-</div>
+
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-sm-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('system_information');?>
+			</fieldset>
+
+		</div>
+
+		<div class="col-sm-6">
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('redshop_modules');?>
+			</fieldset>
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('redshop_shipping');?>
+			</fieldset>
+			<fieldset class="adminform">
+				<?php echo $this->loadTemplate('redshop_plugins');?>
+			</fieldset>
+		</div>
+	</div>
+</fieldset>

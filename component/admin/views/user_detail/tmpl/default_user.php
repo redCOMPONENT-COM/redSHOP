@@ -11,7 +11,7 @@ defined('_JEXEC') or die;    ?>
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_USER_DETAIL'); ?></legend>
 
-		<table class="admintable">
+		<table class="admintable table">
 			<?php
 			if (!$this->silerntuser)
 			{

@@ -51,7 +51,7 @@ if ($module = JModuleHelper::getModule('redshop_login'))
 		</tr>
 		<?php endif; ?>
 		<tr>
-			<td><input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_REDSHOP_LOGOUT'); ?>">
+			<td><input type="submit" name="submit" class="button btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_LOGOUT'); ?>">
 			</td>
 		</tr>
 	</table>

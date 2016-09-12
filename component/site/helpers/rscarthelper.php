@@ -60,7 +60,7 @@ class rsCarthelper
 		$this->_extra_field     = extra_field::getInstance();
 		$this->_extraFieldFront = extraField::getInstance();
 		$this->_redhelper       = redhelper::getInstance();
-		$this->_producthelper   = RedshopSiteProduct::getInstance();
+		$this->_producthelper   = productHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 	}
 
@@ -319,7 +319,7 @@ class rsCarthelper
 	 *
 	 * @return mixed
 	 */
-	public function replaceBillingAddress($data, $billingaddresses)
+	public function replaceBillingAddress($data, $billingaddresses, $sendmail = false)
 	{
 		if (strpos($data, '{billing_address_start}') !== false && strpos($data, '{billing_address_end}') !== false)
 		{
@@ -486,109 +486,19 @@ class rsCarthelper
 
 			if (isset($billingaddresses))
 			{
-				$extra_section = ($billingaddresses->is_company == 1) ? 8 : 7;
+				$billingLayout = 'cart.billing';
 
-				if ($billingaddresses->is_company == 1 && $billingaddresses->company_name != "")
+				if ($sendmail)
 				{
-					$billadd .= JText::_('COM_REDSHOP_COMPANY_NAME') . ' : ' . $billingaddresses->company_name . '<br />';
+					$billingLayout = 'mail.billing';
 				}
 
-				if ($billingaddresses->firstname != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $billingaddresses->firstname . '<br />';
-				}
-
-				if ($billingaddresses->lastname != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $billingaddresses->lastname . '<br />';
-				}
-
-				if ($billingaddresses->address != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $billingaddresses->address . '<br /> ';
-				}
-
-				if ($billingaddresses->zipcode != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $billingaddresses->zipcode . '<br />';
-				}
-
-				if ($billingaddresses->city != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $billingaddresses->city . '<br /> ';
-				}
-
-				$cname = $this->_order_functions->getCountryName($billingaddresses->country_code);
-
-				if ($cname != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($cname) . '<br />';
-				}
-
-				$sname = $this->_order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
-
-				if ($sname != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $sname . '<br />';
-				}
-
-				if ($billingaddresses->phone != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $billingaddresses->phone . '<br/>';
-				}
-
-				if ($billingaddresses->user_email != "")
-				{
-					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $billingaddresses->user_email . '<br />';
-				}
-				elseif ($user->email != '')
-				{
-					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $user->email . '<br />';
-				}
-
-				if ($billingaddresses->is_company == 1)
-				{
-					if ($billingaddresses->vat_number != "")
-					{
-						$billadd .= JText::_("COM_REDSHOP_VAT_NUMBER") . ' : ' . $billingaddresses->vat_number . '<br />';
-					}
-
-					if ($billingaddresses->ean_number != "")
-					{
-						$billadd .= JText::_("COM_REDSHOP_EAN_NUMBER") . ' : ' . $billingaddresses->ean_number . '<br />';
-					}
-
-					if (SHOW_TAX_EXEMPT_INFRONT)
-					{
-						$billadd .= JText::_("COM_REDSHOP_TAX_EXEMPT") . ' : ';
-
-						if ($billingaddresses->tax_exempt == 1)
-						{
-							$taxexe = JText::_("COM_REDSHOP_YES");
-						}
-						else
-						{
-							$taxexe = JText::_("COM_REDSHOP_NO");
-						}
-
-						$billadd .= $taxexe . '<br />';
-
-						$billadd .= JText::_("COM_REDSHOP_USER_TAX_EXEMPT_REQUEST_LBL") . ' : ';
-
-						if ($billingaddresses->requesting_tax_exempt == 1)
-						{
-							$taxexereq = JText::_("COM_REDSHOP_YES");
-						}
-						else
-						{
-							$taxexereq = JText::_("COM_REDSHOP_NO");
-						}
-
-						$billadd .= $taxexereq . '<br />';
-					}
-				}
-
-				$billadd .= $this->_extra_field->list_all_field_display($extra_section, $billingaddresses->users_info_id, 1);
+				$billadd = RedshopLayoutHelper::render(
+					$billingLayout,
+					array('billingaddresses' => $billingaddresses),
+					null,
+					array('client' => 0)
+				);
 
 				if (strpos($data, '{quotation_custom_field_list}') !== false)
 				{
@@ -622,7 +532,7 @@ class rsCarthelper
 	 *
 	 * @return mixed
 	 */
-	public function replaceShippingAddress($data, $shippingaddresses)
+	public function replaceShippingAddress($data, $shippingaddresses, $sendmail = false)
 	{
 		if (strpos($data, '{shipping_address_start}') !== false && strpos($data, '{shipping_address_end}') !== false)
 		{
@@ -728,68 +638,29 @@ class rsCarthelper
 
 			if (isset($shippingaddresses) && SHIPPING_METHOD_ENABLE)
 			{
-				if ($shippingaddresses->is_company == 1 && $shippingaddresses->company_name != "")
+				$shippingLayout = 'cart.shipping';
+
+				if ($sendmail)
 				{
-					$shipadd .= JText::_('COM_REDSHOP_COMPANY_NAME') . ' : ' . $shippingaddresses->company_name . '<br />';
+					$shippingLayout = 'mail.shipping';
 				}
 
-				if ($shippingaddresses->firstname != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $shippingaddresses->firstname . '<br />';
-				}
-
-				if ($shippingaddresses->lastname != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $shippingaddresses->lastname . '<br />';
-				}
-
-				if ($shippingaddresses->address != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $shippingaddresses->address . '<br />';
-				}
-
-				if ($shippingaddresses->zipcode != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $shippingaddresses->zipcode . '<br />';
-				}
-
-				if ($shippingaddresses->city != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $shippingaddresses->city . '<br />';
-				}
-
-				$cname = $this->_order_functions->getCountryName($shippingaddresses->country_code);
-
-				if ($cname != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($cname) . '<br />';
-				}
-
-				$sname = $this->_order_functions->getStateName($shippingaddresses->state_code, $shippingaddresses->country_code);
-
-				if ($sname != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $sname . '<br />';
-				}
-
-				if ($shippingaddresses->phone != "")
-				{
-					$shipadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $shippingaddresses->phone . '<br />';
-				}
+				$shipadd = RedshopLayoutHelper::render(
+					$shippingLayout,
+					array('shippingaddresses' => $shippingaddresses),
+					null,
+					array('client' => 0)
+				);
 
 				if ($shippingaddresses->is_company == 1)
 				{
 					// Additional functionality - more flexible way
 					$data = $this->_extraFieldFront->extra_field_display(15, $shippingaddresses->users_info_id, "", $data);
-
-					$shipadd .= $this->_extra_field->list_all_field_display(15, $shippingaddresses->users_info_id, 1);
 				}
 				else
 				{
 					// Additional functionality - more flexible way
 					$data = $this->_extraFieldFront->extra_field_display(14, $shippingaddresses->users_info_id, "", $data);
-
-					$shipadd .= $this->_extra_field->list_all_field_display(14, $shippingaddresses->users_info_id, 1);
 				}
 			}
 
@@ -1475,7 +1346,7 @@ class rsCarthelper
 				}
 				else
 				{
-					$remove_product = '<form style="padding:0px;margin:0px;" name="delete_cart' . $i . '" method="POST" >
+					$remove_product = '<form name="delete_cart' . $i . '" method="POST" >
 							<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
 							<input type="hidden" name="cart_index" value="' . $i . '">
 							<input type="hidden" name="task" value="">
@@ -2697,7 +2568,7 @@ class rsCarthelper
 		return $cart_data;
 	}
 
-	public function replaceOrderTemplate($row, $ReceiptTemplate)
+	public function replaceOrderTemplate($row, $ReceiptTemplate, $sendmail = false)
 	{
 		$url       = JURI::base();
 		$redconfig = Redconfiguration::getInstance();
@@ -3110,8 +2981,8 @@ class rsCarthelper
 		$search [] = "{requisition_number_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 
-		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses);
-		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses);
+		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
+		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
 
 		$message = str_replace($search, $replace, $ReceiptTemplate);
 		$message = $this->replacePayment($message, $row->payment_discount, 0, $row->payment_oprand);
@@ -3392,12 +3263,12 @@ class rsCarthelper
 
 				// Current priority
 				$shipping_box_priority = $shippingBoxes[$i]->shipping_box_priority;
-				$checked               = ($shipping_box_post_id == $shipping_box_id) ? "checked" : "";
+				$checked               = ($shipping_box_post_id == $shipping_box_id) ? "checked='checked'" : "";
 
 				if ($i == 0 || ($shipping_box_priority == $shipping_box_priority_pre))
 				{
-					$shipping_box_list .= "<label class=\"radio\" for='shipping_box_id" . $shipping_box_id . "'><input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "'>";
-					$shipping_box_list .= "" . $shippingBoxes[$i]->shipping_box_name . "</label><br/>";
+					$shipping_box_list .= "<div class='radio'><label class=\"radio\" for='shipping_box_id" . $shipping_box_id . "'><input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "' />";
+					$shipping_box_list .= "" . $shippingBoxes[$i]->shipping_box_name . "</label></div>";
 				}
 			}
 		}
@@ -4017,7 +3888,7 @@ class rsCarthelper
 				}
 
 				$url            = JURI::base();
-				$article_link   = $url . "index.php?option=com_content&amp;view=article&amp;id=" . TERMS_ARTICLE_ID . "&Itemid=" . $Itemid . "&tmpl=component&for=true";
+				$article_link   = $url . "index.php?option=com_content&amp;view=article&amp;id=" . TERMS_ARTICLE_ID . "&Itemid=" . $Itemid . "&tmpl=component";
 				$termscondition = '<label class="checkbox"><input type="checkbox" id="termscondition" name="termscondition" value="1" /> ';
 				$termscondition .= JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL');
 				$termscondition .= ' <a class="modal" href="' . $article_link . '" rel="{handler: \'iframe\', size: {x: ' . $finalwidth . ', y: ' . $finalheight . '}}">' . JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL') . '</a></label>';

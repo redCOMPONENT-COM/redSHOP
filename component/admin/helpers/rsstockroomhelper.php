@@ -76,7 +76,7 @@ class rsstockroomhelper
 	public function isAttributeStockExists($product_id)
 	{
 		$isStockExists = false;
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$property = $producthelper->getAttibuteProperty(0, 0, $product_id);
 
 		for ($att_j = 0; $att_j < count($property); $att_j++)
@@ -135,7 +135,7 @@ class rsstockroomhelper
 
 	public function isAttributePreorderStockExists($product_id)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$property = $producthelper->getAttibuteProperty(0, 0, $product_id);
 
 		for ($att_j = 0; $att_j < count($property); $att_j++)
@@ -227,7 +227,7 @@ class rsstockroomhelper
 	public function getStockAmountwithReserve($sectionId = 0, $section = 'product', $stockroomId = 0)
 	{
 		$quantity = 1;
-		$productHelper = RedshopSiteProduct::getInstance();
+		$productHelper = productHelper::getInstance();
 
 		if (USE_STOCKROOM == 1)
 		{
@@ -481,13 +481,36 @@ class rsstockroomhelper
 					$affected_row[] = $list[$i]->stockroom_id;
 					$stockroom_quantity[] = $remaining_quantity;
 				}
+
+				$stockroomDetail = $this->getStockroomAmountDetailList($section_id, $section, $list[$i]->stockroom_id);
+				$remaining = $stockroomDetail[0]->quantity - $quantity;
+
+				if ($remaining <= DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER)
+				{
+					$dispatcher = JDispatcher::getInstance();
+					JPluginHelper::importPlugin('redshop_alert');
+					$productId = ($section == "product") ? $section_id : $product_id;
+					$productData = Redshop::product((int) $productId);
+
+					$message = JText::sprintf(
+						'COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER',
+						$productData->product_id,
+						$productData->product_name,
+						$productData->product_number,
+						$remaining,
+						$stockroomDetail[0]->stockroom_name
+					);
+
+					$dispatcher->trigger('storeAlert', array($message));
+					$dispatcher->trigger('sendEmail', array($message));
+				}
 			}
 
 			// For preorder stock
 			if ($quantity > 0)
 			{
 				$preorder_list = $this->getPreorderStockroomAmountDetailList($section_id, $section);
-				$producthelper = RedshopSiteProduct::getInstance();
+				$producthelper = productHelper::getInstance();
 
 				if ($section == "product")
 				{
@@ -908,7 +931,7 @@ class rsstockroomhelper
 
 	public function getFinalStockofProduct($product_id, $totalatt)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$isStockExists = $this->isStockExists($product_id);
 
@@ -954,7 +977,7 @@ class rsstockroomhelper
 
 	public function getFinalPreorderStockofProduct($product_id, $totalatt)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$isStockExists = $this->isPreorderStockExists($product_id);
 

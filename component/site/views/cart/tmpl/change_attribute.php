@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  * Include required files
  */
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $carthelper    = rsCarthelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
@@ -26,8 +26,7 @@ $model      = $this->getModel('cart');
 $session  = JFactory::getSession();
 $user     = JFactory::getUser();
 $document = JFactory::getDocument();
-JHtml::script('com_redshop/attribute.js', false, true);
-JHtml::script('com_redshop/common.js', false, true);
+
 ?>
 	<script type="text/javascript">
 		function cancelForm(frm) {
@@ -113,19 +112,21 @@ $template_desc = $producthelper->replaceAttributeData($product_id, 0, 0, $attrib
 $stockaddtocart = "stockaddtocartprd_" . $product_id;
 $pdaddtocart    = "pdaddtocartprd_" . $product_id;
 
-$applybutton = "<input type='button' name='apply' value='" . JText::_('COM_REDSHOP_APPLY') . "' onclick='javascript:submitChangeAttribute();' />";
+$applybutton = "<input type='button' name='apply' class='btn btn-primary' value='" . JText::_('COM_REDSHOP_APPLY') . "' onclick='javascript:submitChangeAttribute();' />";
 $applybutton .= "<input type='hidden' name='task' value='changeAttribute' />";
 $applybutton .= "<input type='hidden' name='cart_index' value='" . $cart_index . "' />";
 $applybutton .= "<input type='hidden' name='product_id' value='" . $product_id . "' />";
 $applybutton .= "<input type='hidden' name='view' value='cart' />";
 $applybutton .= "<input type='hidden' name='requiedAttribute' id='requiedAttribute' value='' reattribute=''>";
 $applybutton .= "<input type='hidden' name='requiedProperty' id='requiedProperty' value='' reproperty=''>";
-$cancelbutton = "<input type='button' name='cancel' value='" . JText::_('COM_REDSHOP_CANCEL') . "' onclick='javascript:cancelForm(this.form);' />";
+$cancelbutton = "<input type='button' name='cancel' class='btn btn' value='" . JText::_('COM_REDSHOP_CANCEL') . "' onclick='javascript:cancelForm(this.form);' />";
 
 $template_desc = str_replace("{apply_button}", "<span id='" . $stockaddtocart . "'></span><span id='" . $pdaddtocart . "'>" . $applybutton . "</span>", $template_desc);
 $template_desc = str_replace("{cancel_button}", $cancelbutton, $template_desc);
 
 $template_desc = '<form name="frmchngAttribute" id="frmchngAttribute" method="post">' . $template_desc . '</form>';
+
+$template_desc = str_replace("{change_attribute}", JText::_("COM_REDSHOP_CHANGE_ATTRIBUTE"), $template_desc);
 
 if ($totalatt > 0)
 {

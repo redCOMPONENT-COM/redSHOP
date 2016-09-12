@@ -61,7 +61,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function &getuserdata()
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		if ($this->_data->user_id)
 		{
@@ -373,7 +373,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 	{
 		$quotationHelper = quotationHelper::getInstance();
 		$rsCarthelper = rsCarthelper::getInstance();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$item = $data['quotation_item'];
 

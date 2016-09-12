@@ -369,6 +369,8 @@ class RedshopControllerCheckout extends RedshopController
 		$model      = $this->getModel('checkout');
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
+		$user       = JFactory::getUser();
+		$producthelper   = productHelper::getInstance();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -472,8 +474,21 @@ class RedshopControllerCheckout extends RedshopController
 
 			if ($order_id)
 			{
+				$billingaddresses  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
+
 				JPluginHelper::importPlugin('redshop_product');
+				JPluginHelper::importPlugin('redshop_alert');
 				$data = $dispatcher->trigger('getStockroomStatus', array($order_id));
+
+				$labelClass = '';
+
+				if ($orderresult->order_payment_status == 'Paid')
+				{
+					$labelClass = 'label-success';
+				}
+
+				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $order_id, $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
+				$dispatcher->trigger('storeAlert', array($message));
 
 				$model->resetcart();
 
@@ -517,7 +532,7 @@ class RedshopControllerCheckout extends RedshopController
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg);
+			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg, 'error');
 		}
 	}
 
@@ -565,7 +580,7 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
-		$producthelper   = RedshopSiteProduct::getInstance();
+		$producthelper   = productHelper::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();
@@ -680,22 +695,6 @@ class RedshopControllerCheckout extends RedshopController
 		ob_clean();
 		echo $creditcard;
 		die();
-	}
-
-	/**
-	 * Captcha
-	 *
-	 * @return void
-	 */
-	public function captcha()
-	{
-		$app         = JFactory::getApplication();
-		$width       = $app->input->getInt('width', 120);
-		$height      = $app->input->getInt('height', 40);
-		$characters  = $app->input->getInt('characters', 6);
-		$captchaname = $app->input->getCmd('captcha', 'security_code');
-
-		$captcha = new RedshopSiteCaptcha($width, $height, $characters, $captchaname);
 	}
 
 	/**

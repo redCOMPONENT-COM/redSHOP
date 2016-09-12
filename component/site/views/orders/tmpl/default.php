@@ -15,7 +15,7 @@ $url = JURI::base();
 
 $order_function = order_functions::getInstance();
 $redconfig = Redconfiguration::getInstance();
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $carthelper = rsCarthelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');

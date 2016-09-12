@@ -159,7 +159,7 @@ $url = $uri->root();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 
-			<table class="admintable">
+			<table class="admintable table">
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
@@ -379,7 +379,9 @@ $url = $uri->root();
 								    value="<?php echo htmlentities($this->lists['extra_data'][$k]->value_id); ?>"
 								    name="value_id[]"
 								/>
-								<input value="Delete" onclick="deleteRow(this)" class="button" type="button"/>
+								<?php if (count($this->lists['extra_data']) > 1) : ?>
+									<input value="Delete" onclick="deleteRow(this)" class="button" type="button"/>
+								<?php endif; ?>
 							</td>
 							<td>
 							<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
@@ -437,7 +439,7 @@ $url = $uri->root();
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 
-		<table class="admintable">
+		<table class="admintable table">
 			<tr>
 				<td>
 					<?php echo $editor->display("field_desc", $this->detail->field_desc, '$widthPx', '$heightPx', '100', '20');    ?>

@@ -46,7 +46,7 @@ $url = $uri->root();
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="adminform">
 		<legend><?php echo "details" ?></legend>
-		<table class="admintable">
+		<table class="admintable table">
 
 			<tr>
 				<td valign="top" align="right" class="key"><?php echo JText::_("COM_REDSHOP_COUNTRY_NAME"); ?>:</td>

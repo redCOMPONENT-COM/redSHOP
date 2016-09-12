@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $config        = Redconfiguration::getInstance();
 
 $related_product  = $producthelper->getRelatedProduct($this->pid);

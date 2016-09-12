@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewVoucher extends RedshopView
+class RedshopViewVoucher extends RedshopViewAdmin
 {
 	/**
 	 * The current user.
