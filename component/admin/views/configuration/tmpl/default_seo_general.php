@@ -75,17 +75,3 @@ defined('_JEXEC') or die;
 			echo stripslashes($this->config->get('SEO_PAGE_LANGAUGE'));
 			?></textarea>
 </div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_SEO_PAGE_ROBOTS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SEO_PAGE_ROBOTS'); ?>">
-		<label for="seo_page_robots">
-			<?php
-			echo JText::_('COM_REDSHOP_SEO_PAGE_ROBOTS_LBL');
-			?>
-		</label></span>
-	<textarea class="text_area" type="text" name="seo_page_robots"
-		              id="seo_page_robots" rows="4" cols="40"/><?php
-			echo stripslashes($this->config->get('SEO_PAGE_ROBOTS'));
-			?></textarea>
-</div>
