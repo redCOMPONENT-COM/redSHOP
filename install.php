@@ -38,7 +38,12 @@ class Com_RedshopInstallerScript
 	 */
 	public static $oldManifest = null;
 
-	protected $_type = null;
+	/**
+	 * Install type
+	 *
+	 * @var   string
+	 */
+	protected $type = null;
 
 	/**
 	 * Method to install the component
@@ -1247,7 +1252,7 @@ class Com_RedshopInstallerScript
 				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 
 				// We'll not enable plugin for update case
-				if ($this->_type != 'update')
+				if ($this->type != 'update')
 				{
 					// If plugin is installed successfully and it didn't exist before we enable it.
 					if ($result && !$extensionId)
