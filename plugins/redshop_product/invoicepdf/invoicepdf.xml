@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="redshop_product" method="upgrade">
+<extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
 	<name>PLG_REDSHOP_PRODUCT_INVOICEPDF</name>
 	<author>redCOMPONENT.com</author>
-	<version>1.5</version>
-	<redshop>1.5</redshop>
-	<creationDate>April 2013</creationDate>
+	<version>1.5.1</version>
+	<redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
 	<authorEmail>email@redcomponent.com</authorEmail>

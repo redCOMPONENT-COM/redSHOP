@@ -2,9 +2,9 @@
 <extension version="3.0" type="plugin" group="ajax" method="upgrade">
 	<name>PLG_AJAX_XMLCRON</name>
 	<author>redCOMPONENT.com</author>
-	<version>1.0</version>
-	<redshop>1.6</redshop>
-	<creationDate>February 2016</creationDate>
+	<version>1.1</version>
+	<redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
 	<authorEmail>email@redcomponent.com</authorEmail>
