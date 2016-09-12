@@ -1117,7 +1117,7 @@ class Com_RedshopInstallerScript
 			$cfgarr["MENUHIDE"] = '';
 		}
 
-		if (!defined("MENUHIDE"))
+		if (!defined("DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER"))
 		{
 			$cfgarr["DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER"] = 5;
 		}
