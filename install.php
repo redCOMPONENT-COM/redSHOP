@@ -45,6 +45,7 @@ class Com_RedshopInstallerScript
 	 */
 	protected $type = null;
 
+	protected $installedPlugins = array();
 	/**
 	 * Method to install the component
 	 *
@@ -118,6 +119,28 @@ class Com_RedshopInstallerScript
 			// Update helper class name in template and MVC override
 			$this->updateOverrideTemplate();
 			$this->updateschema();
+		}
+
+		// Check if plugins are installed or not. Query here to prevent duplicate query inside another method
+		// Required objects
+		$manifest  = $parent->get('manifest');
+		if ($nodes = $manifest->plugins->plugin)
+		{
+			$db = JFactory::getDbo();
+
+			foreach ($nodes as $node)
+			{
+				$extName  = $node->attributes()->name;
+				$extGroup = $node->attributes()->group;
+
+				$query       = $db->getQuery(true)
+					->select('extension_id')
+					->from($db->qn('#__extensions'))
+					->where('type = ' . $db->q('plugin'))
+					->where('element = ' . $db->q($extName))
+					->where('folder = ' . $db->q($extGroup));
+				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query)->loadResult();
+			}
 		}
 	}
 
@@ -1217,6 +1240,7 @@ class Com_RedshopInstallerScript
 		if ($nodes = $manifest->plugins->plugin)
 		{
 			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
 
 			foreach ($nodes as $node)
 			{
@@ -1225,14 +1249,9 @@ class Com_RedshopInstallerScript
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
-				$query = $db->getQuery(true)
-					->select('extension_id')
-					->from($db->qn('#__extensions'))
-					->where('type = ' . $db->q('plugin'))
-					->where('element = ' . $db->q($extName))
-					->where('folder = ' . $db->q($extGroup));
-				$extensionId = $db->setQuery($query)->loadResult();
+				$extensionId = $this->installedPlugins[$extGroup][$extName];
 
+				// Install or upgrade plugin
 				if (is_dir($extPath))
 				{
 					$result = $this->getInstaller()->install($extPath);
@@ -1242,11 +1261,21 @@ class Com_RedshopInstallerScript
 				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 
 				// We'll not enable plugin for update case
-				if ($this->type != 'update')
+				if ($this->type == 'update')
 				{
-					// If plugin is installed successfully and it didn't exist before we enable it.
-					if ($result && !$extensionId)
+
+				}
+				else
+				{
+					// For another rest type cases
+					// Do not change plugin state if it's installed
+					if ($extensionId)
 					{
+
+					}
+					elseif ($result)
+					{
+						// If plugin is installed successfully and it didn't exist before we enable it.
 						$query->clear()
 							->update($db->qn("#__extensions"))
 							->set("enabled = 1")
