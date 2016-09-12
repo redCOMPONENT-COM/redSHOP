@@ -515,16 +515,6 @@ class Com_RedshopInstallerScript
 				</tr>
 				<tr>
 					<td colspan="2">
-					<?php
-						$klarna = '<a href="https://www.klarna.com" style="text-decoration: none;">
-							<img style="background-color: #00416A;padding: 5px;" alt="Klarna.svg" src="https://www.klarna.com/application/files/5214/2739/0062/Klarna_footer.svg" />
-						</a>';
-						echo JText::sprintf('COM_REDSHOP_INSTALL_KLARNA_INFO', $klarna);
-					?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
 						<?php if ($type != 'update'): ?>
 						<input type="button" class="btn btn-mini btn-primary" name="save" value="<?php echo JText::_('COM_REDSHOP_WIZARD');?>"
 							   onclick="location.href='index.php?option=com_redshop&wizard=1'"/>
