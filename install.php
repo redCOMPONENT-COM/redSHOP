@@ -108,7 +108,7 @@ class Com_RedshopInstallerScript
 	 */
 	public function preflight($type, $parent)
 	{
-		$this->_type = $type;
+		$this->type = $type;
 
 		if ($type == "update")
 		{
