@@ -1241,10 +1241,16 @@ class Com_RedshopInstallerScript
 				// Store the result to show install summary later
 				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 
-				// We'll not enable plugin for update case
-				if ($this->type != 'update')
+				// Update case
+				if ($this->type == 'update')
 				{
-					// If plugin is installed successfully and it didn't exist before we enable it.
+					// For update case we'll not touch into plugin state. Keep it as it's
+					// Keep this "if" here for second task later
+				}
+				else
+				{
+					// For another case
+					// If this plugin is NOT installed before than update state
 					if ($result && !$extensionId)
 					{
 						$query->clear()
