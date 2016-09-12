@@ -1112,6 +1112,16 @@ class Com_RedshopInstallerScript
 			$cfgarr["REAL_INVOICE_NUMBER_TEMPLATE"] = '##';
 		}
 
+		if (!defined("MENUHIDE"))
+		{
+			$cfgarr["MENUHIDE"] = '';
+		}
+
+		if (!defined("MENUHIDE"))
+		{
+			$cfgarr["DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER"] = 5;
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 
 		// Store new config file using existing config files.
@@ -1542,6 +1552,7 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/payment_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/product_container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/subinstall.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/container_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/order_container.php',
