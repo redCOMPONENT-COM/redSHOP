@@ -688,6 +688,7 @@ class order_functions
 			$this->updateOrderPaymentStatus($orderId, $paymentStatus);
 		}
 
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 		$order_log = JTable::getInstance('order_status_log', 'Table');
 
 		if (!$isProduct)
