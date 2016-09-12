@@ -104,6 +104,7 @@ class Com_RedshopInstallerScript
 	public function preflight($type, $parent)
 	{
 		$this->_type = $type;
+
 		if ($type == "update")
 		{
 			// Remove unused files from older than 1.3.3.1 redshop
@@ -1260,7 +1261,6 @@ class Com_RedshopInstallerScript
 						$db->setQuery($query)->execute();
 					}
 				}
-
 			}
 		}
 	}
