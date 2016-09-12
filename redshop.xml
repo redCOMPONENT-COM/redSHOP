@@ -90,11 +90,12 @@
 
     <!-- Plugins to install with the component -->
     <plugins>
-        <plugin name="redshop" group="system" />
+        <plugin name="redshop" group="system" enable="1" />
         <plugin name="rs_payment_banktransfer" group="redshop_payment" />
         <plugin name="rs_payment_paypal" group="redshop_payment" />
+        <plugin name="klarna" group="redshop_payment" />
         <plugin name="default_shipping" group="redshop_shipping" />
         <plugin name="redshop" group="finder" />
-        <plugin name="alert" group="redshop_alert" />
+        <plugin name="alert" group="redshop_alert" enable="1"/>
     </plugins>
 </extension>

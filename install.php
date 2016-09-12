@@ -1241,23 +1241,64 @@ class Com_RedshopInstallerScript
 				// Store the result to show install summary later
 				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 
-				// We'll not enable plugin for update case
-				if ($this->type != 'update')
+				$enable  = $node->attributes()->enable;
+				switch ($this->type)
 				{
-					// If plugin is installed successfully and it didn't exist before we enable it.
-					if ($result && !$extensionId)
-					{
-						$query->clear()
-							->update($db->qn("#__extensions"))
-							->set("enabled = 1")
-							->where('type = ' . $db->q('plugin'))
-							->where('element = ' . $db->q($extName))
-							->where('folder = ' . $db->q($extGroup));
-						$db->setQuery($query)->execute();
-					}
+					case 'update':
+
+						// Only enable plugin if it's required
+						if ($enable == 1)
+						{
+							// If plugin is installed successfully or already exist.
+							if ($result || $extensionId)
+							{
+								$this->enablePlugins($extName, $extGroup);
+							}
+						}
+						break;
+					default:
+
+						// For default case we also force enable plugin if it's required
+						if ($enable == 1)
+						{
+							// If plugin is installed successfully or already exist.
+							if ($result || $extensionId)
+							{
+								$this->enablePlugins($extName, $extGroup);
+							}
+						}
+						else
+						{
+							// Enable is not required than we only enable if this's new plugin
+							if ($result && !$extensionId)
+							{
+								$this->enablePlugins($extName, $extGroup);
+							}
+						}
+						break;
 				}
 			}
 		}
+	}
+
+	/**
+	 * Enable plugin
+	 *
+	 * @param   string  $extName
+	 * @param   string  $extGroup
+	 *
+	 * @return  mixed
+	 */
+	private function enablePlugins($extName, $extGroup)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->update($db->qn("#__extensions"))
+			->set("enabled = 1")
+			->where('type = ' . $db->q('plugin'))
+			->where('element = ' . $db->q($extName))
+			->where('folder = ' . $db->q($extGroup));
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
