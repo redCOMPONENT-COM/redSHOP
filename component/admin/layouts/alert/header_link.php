@@ -26,7 +26,7 @@ $alerts = $model->getAlert(5);
 			<li>
 				<ul class="menu">
 					<li>
-						<a href="#"><?php echo $alert->message; ?></a>
+						<?php echo $alert->message; ?>
 					</li>
 				</ul>
 			</li>
