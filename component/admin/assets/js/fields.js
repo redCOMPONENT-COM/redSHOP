@@ -133,7 +133,16 @@ function create_table_accessory(data, id, price) {
 function deleteRow(r) {
     if (window.confirm("Are you sure you want to delete field value?")) {
         var i = r.parentNode.parentNode.rowIndex;
-        document.getElementById('extra_table').deleteRow(i);
+
+        if (document.querySelectorAll("#extra_table input[name*='extra_value']").length == 2)
+        {
+            document.getElementById('extra_table').deleteRow(i);
+            document.querySelectorAll("#extra_table input.button")[0].style.display = "none";
+        }
+        else
+        {
+            document.getElementById('extra_table').deleteRow(i);
+        }
     }
 }
 

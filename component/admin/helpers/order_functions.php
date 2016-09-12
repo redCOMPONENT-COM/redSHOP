@@ -670,7 +670,7 @@ class order_functions
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
-		$paymentStatus   = $app->input->getCmd('order_paymentstatus');
+		$paymentStatus   = $app->input->getString('order_paymentstatus');
 		$return          = $app->input->getCmd('return');
 
 		$customerNote    = $app->input->get('customer_note', array(), 'array');

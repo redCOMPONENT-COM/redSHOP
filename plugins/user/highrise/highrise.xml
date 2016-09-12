@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" client="site" type="plugin" group="user" method="upgrade">
+<extension version="3.0" client="site" type="plugin" group="user" method="upgrade">
 	<name>PLG_USER_HIGHRISE</name>
 	<version>1.5</version>
 	<redshop>1.5</redshop>

@@ -39,6 +39,13 @@ class Com_RedshopInstallerScript
 	public static $oldManifest = null;
 
 	/**
+	 * Install type
+	 *
+	 * @var   string
+	 */
+	protected $type = null;
+
+	/**
 	 * Method to install the component
 	 *
 	 * @param   object  $parent  class calling this method
@@ -86,7 +93,6 @@ class Com_RedshopInstallerScript
 		$this->installLibraries($parent);
 		$this->installModules($parent);
 		$this->installPlugins($parent);
-
 		JLoader::import('redshop.library');
 		$this->com_install('update');
 		$this->insertKlarnaFields();
@@ -102,6 +108,8 @@ class Com_RedshopInstallerScript
 	 */
 	public function preflight($type, $parent)
 	{
+		$this->type = $type;
+
 		if ($type == "update")
 		{
 			// Remove unused files from older than 1.3.3.1 redshop
@@ -511,16 +519,6 @@ class Com_RedshopInstallerScript
 							<a href="http://redcomponent.com/" target="_new"><img
 									src="http://images.redcomponent.com/redcomponent.jpg" alt=""></a>
 						</p>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-					<?php
-						$klarna = '<a href="https://www.klarna.com" style="text-decoration: none;">
-							<img style="background-color: #00416A;padding: 5px;" alt="Klarna.svg" src="https://www.klarna.com/application/files/5214/2739/0062/Klarna_footer.svg" />
-						</a>';
-						echo JText::sprintf('COM_REDSHOP_INSTALL_KLARNA_INFO', $klarna);
-					?>
 					</td>
 				</tr>
 				<tr>
@@ -1216,7 +1214,6 @@ class Com_RedshopInstallerScript
 		// Required objects
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
-
 		if ($nodes = $manifest->plugins->plugin)
 		{
 			$db = JFactory::getDbo();
@@ -1244,16 +1241,20 @@ class Com_RedshopInstallerScript
 				// Store the result to show install summary later
 				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 
-				// If plugin is installed successfully and it didn't exist before we enable it.
-				if ($result && !$extensionId)
+				// We'll not enable plugin for update case
+				if ($this->type != 'update')
 				{
-					$query->clear()
-						->update($db->qn("#__extensions"))
-						->set("enabled = 1")
-						->where('type = ' . $db->q('plugin'))
-						->where('element = ' . $db->q($extName))
-						->where('folder = ' . $db->q($extGroup));
-					$db->setQuery($query)->execute();
+					// If plugin is installed successfully and it didn't exist before we enable it.
+					if ($result && !$extensionId)
+					{
+						$query->clear()
+							->update($db->qn("#__extensions"))
+							->set("enabled = 1")
+							->where('type = ' . $db->q('plugin'))
+							->where('element = ' . $db->q($extName))
+							->where('folder = ' . $db->q($extGroup));
+						$db->setQuery($query)->execute();
+					}
 				}
 			}
 		}
