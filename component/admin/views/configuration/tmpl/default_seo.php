@@ -22,16 +22,16 @@ defined('_JEXEC') or die;
 		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
-					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{manufacturer} -- ' . JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{parentcategoryloop} -- ' . JText::_('COM_REDSHOP_PARENT_CATEGORY_LOOP_SEO_DEC') . '</span>
-<span style="margin-left:10px;">{categoryname} -- ' . JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{saleprice} -- ' . JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{saving} -- ' . JText::_('COM_REDSHOP_SAVING_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{shopname} -- ' . JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{productsku} -- ' . JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{categoryshortdesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') . '</span>
-<span style="margin-left:10px;">{productshortdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') . '</span>';
+					echo '<span class="redshop_tags">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
+<span class="redshop_tags">{manufacturer} -- ' . JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') . '</span>
+<span class="redshop_tags">{parentcategoryloop} -- ' . JText::_('COM_REDSHOP_PARENT_CATEGORY_LOOP_SEO_DEC') . '</span>
+<span class="redshop_tags">{categoryname} -- ' . JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') . '</span>
+<span class="redshop_tags">{saleprice} -- ' . JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') . '</span>
+<span class="redshop_tags">{saving} -- ' . JText::_('COM_REDSHOP_SAVING_SEO_DESC') . '</span>
+<span class="redshop_tags">{shopname} -- ' . JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') . '</span>
+<span class="redshop_tags">{productsku} -- ' . JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') . '</span>
+<span class="redshop_tags">{categoryshortdesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') . '</span>
+<span class="redshop_tags">{productshortdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') . '</span>';
 
 
 					?></td>
@@ -42,12 +42,12 @@ defined('_JEXEC') or die;
 		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
-					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{manufacturer} -- ' . JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{categoryname} -- ' . JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{productsku} -- ' . JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{categoryshortdesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') . '</span>
-<span style="margin-left:10px;">{productshortdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') . '</span>';
+					echo '<span class="redshop_tags">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
+<span class="redshop_tags">{manufacturer} -- ' . JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') . '</span>
+<span class="redshop_tags">{categoryname} -- ' . JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') . '</span>
+<span class="redshop_tags">{productsku} -- ' . JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') . '</span>
+<span class="redshop_tags">{categoryshortdesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') . '</span>
+<span class="redshop_tags">{productshortdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') . '</span>';
 					?></td>
 			</tr>
 		</table>
@@ -56,17 +56,17 @@ defined('_JEXEC') or die;
 		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
-					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{manufacturer} -- ' . JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{categoryname} -- ' . JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{saleprice} -- ' . JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{saving} -- ' . JText::_('COM_REDSHOP_SAVING_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{shopname} -- ' . JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{productsku} -- ' . JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{categoryshortdesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') . '</span>
-<span style="margin-left:10px;">{productshortdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') . '</span>
-<span style="margin-left:10px;">{categorydesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_DESCRIPTION') . '</span>
-<span style="margin-left:10px;">{productdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_DESCRIPTION') . '</span>';
+					echo '<span class="redshop_tags">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
+<span class="redshop_tags">{manufacturer} -- ' . JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') . '</span>
+<span class="redshop_tags">{categoryname} -- ' . JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') . '</span>
+<span class="redshop_tags">{saleprice} -- ' . JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') . '</span>
+<span class="redshop_tags">{saving} -- ' . JText::_('COM_REDSHOP_SAVING_SEO_DESC') . '</span>
+<span class="redshop_tags">{shopname} -- ' . JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') . '</span>
+<span class="redshop_tags">{productsku} -- ' . JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') . '</span>
+<span class="redshop_tags">{categoryshortdesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') . '</span>
+<span class="redshop_tags">{productshortdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') . '</span>
+<span class="redshop_tags">{categorydesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_DESCRIPTION') . '</span>
+<span class="redshop_tags">{productdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_DESCRIPTION') . '</span>';
 					?></td>
 			</tr>
 		</table>
@@ -75,15 +75,15 @@ defined('_JEXEC') or die;
 		<table class="adminlist table table-striped">
 			<tr>
 				<td><?php
-					echo '<span style="margin-left:10px;">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{manufacturer} -- ' . JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{categoryname} -- ' . JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{saleprice} -- ' . JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{saving} -- ' . JText::_('COM_REDSHOP_SAVING_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{shopname} -- ' . JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{productsku} -- ' . JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') . '</span>
-<span style="margin-left:10px;">{categoryshortdesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') . '</span>
-<span style="margin-left:10px;">{productshortdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') . '</span>';
+					echo '<span class="redshop_tags">{productname} -- ' . JText::_('COM_REDSHOP_PRODUCT_SEO_DESC') . '</span>
+<span class="redshop_tags">{manufacturer} -- ' . JText::_('COM_REDSHOP_MANUFACTURER_SEO_DESC') . '</span>
+<span class="redshop_tags">{categoryname} -- ' . JText::_('COM_REDSHOP_CATEGORY_SEO_DESC') . '</span>
+<span class="redshop_tags">{saleprice} -- ' . JText::_('COM_REDSHOP_SALEPRICE_SEO_DESC') . '</span>
+<span class="redshop_tags">{saving} -- ' . JText::_('COM_REDSHOP_SAVING_SEO_DESC') . '</span>
+<span class="redshop_tags">{shopname} -- ' . JText::_('COM_REDSHOP_SHOPNAME_SEO_DESC') . '</span>
+<span class="redshop_tags">{productsku} -- ' . JText::_('COM_REDSHOP_PRODUCTSKU_SEO_DESC') . '</span>
+<span class="redshop_tags">{categoryshortdesc} -- ' . JText::_('COM_REDSHOP_CATEGORY_SHORT_DESCRIPTION') . '</span>
+<span class="redshop_tags">{productshortdesc} -- ' . JText::_('COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION') . '</span>';
 
 					?></td>
 			</tr>
