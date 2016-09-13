@@ -652,6 +652,7 @@ class Com_RedshopInstallerScript
 		}
 
 		$Redconfiguration = Redconfiguration::getInstance();
+		$config = Redshop::getConfig();
 
 		// Declaration
 		$cfgarr = array();
@@ -661,417 +662,417 @@ class Com_RedshopInstallerScript
 		 * for variable is defined or not?
 		 *
 		 * Example:
-		 * if (!defined("TESTING"))
+		 * if (!$config->get("TESTING"))
 		 * {
 		 * 		$cfgarr["TESTING"] = 3.14;
 		 * }
 		 */
-		if (!defined("UPDATE_MAIL_ENABLE"))
+		if (!$config->get("UPDATE_MAIL_ENABLE"))
 		{
 			$cfgarr["UPDATE_MAIL_ENABLE"] = 1;
 		}
 
-		if (!defined("DISCOUNT_TYPE"))
+		if (!$config->get("DISCOUNT_TYPE"))
 		{
 			$cfgarr["DISCOUNT_TYPE"] = 3;
 		}
 
-		if (!defined("WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"))
+		if (!$config->get("WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"))
 		{
 			$cfgarr["WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"] = 0;
 		}
 
-		if (!defined("ADDTOCART_BEHAVIOUR"))
+		if (!$config->get("ADDTOCART_BEHAVIOUR"))
 		{
 			$cfgarr["ADDTOCART_BEHAVIOUR"] = 1;
 		}
 
-		if (!defined("SHOPPER_GROUP_DEFAULT_UNREGISTERED") && defined("SHOPPER_GROUP_DEFAULT_PRIVATE"))
+		if (!$config->get("SHOPPER_GROUP_DEFAULT_UNREGISTERED") && defined("SHOPPER_GROUP_DEFAULT_PRIVATE"))
 		{
 			$cfgarr["SHOPPER_GROUP_DEFAULT_UNREGISTERED"] = SHOPPER_GROUP_DEFAULT_PRIVATE;
 		}
 
-		if (!defined("INDIVIDUAL_ADD_TO_CART_ENABLE"))
+		if (!$config->get("INDIVIDUAL_ADD_TO_CART_ENABLE"))
 		{
 			$cfgarr["INDIVIDUAL_ADD_TO_CART_ENABLE"] = 0;
 		}
 
-		if (!defined("PRODUCT_ADDIMG_IS_LIGHTBOX"))
+		if (!$config->get("PRODUCT_ADDIMG_IS_LIGHTBOX"))
 		{
 			$cfgarr["PRODUCT_ADDIMG_IS_LIGHTBOX"] = 1;
 		}
 
-		if (!defined("POSTDK_CUSTOMER_NO"))
+		if (!$config->get("POSTDK_CUSTOMER_NO"))
 		{
 			$cfgarr["POSTDK_CUSTOMER_NO"] = 1;
 		}
 
-		if (!defined("POSTDK_INTEGRATION"))
+		if (!$config->get("POSTDK_INTEGRATION"))
 		{
 			$cfgarr["POSTDK_INTEGRATION"] = 0;
 		}
 
-		if (!defined("POSTDK_CUSTOMER_PASSWORD"))
+		if (!$config->get("POSTDK_CUSTOMER_PASSWORD"))
 		{
 			$cfgarr["POSTDK_CUSTOMER_PASSWORD"] = '';
 		}
 
-		if (!defined("ENABLE_SEF_NUMBER_NAME"))
+		if (!$config->get("ENABLE_SEF_NUMBER_NAME"))
 		{
 			$cfgarr["ENABLE_SEF_NUMBER_NAME"] = '';
 		}
 
-		if (!defined("UNIT_DECIMAL"))
+		if (!$config->get("UNIT_DECIMAL"))
 		{
 			$cfgarr["UNIT_DECIMAL"] = '';
 		}
 
-		if (!defined("ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"))
+		if (!$config->get("ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"))
 		{
 			$cfgarr["ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"] = 0;
 		}
 
-		if (!defined("CATEGORY_DESC_MAX_CHARS"))
+		if (!$config->get("CATEGORY_DESC_MAX_CHARS"))
 		{
 			$cfgarr["CATEGORY_DESC_MAX_CHARS"] = '';
 		}
 
-		if (!defined("CATEGORY_DESC_END_SUFFIX"))
+		if (!$config->get("CATEGORY_DESC_END_SUFFIX"))
 		{
 			$cfgarr["CATEGORY_DESC_END_SUFFIX"] = '';
 		}
 
-		if (!defined("DEFAULT_QUOTATION_MODE_PRE"))
+		if (!$config->get("DEFAULT_QUOTATION_MODE_PRE"))
 		{
 			$cfgarr["DEFAULT_QUOTATION_MODE_PRE"] = '0';
 		}
 
-		if (!defined("SHOW_PRICE_PRE"))
+		if (!$config->get("SHOW_PRICE_PRE"))
 		{
 			$cfgarr["SHOW_PRICE_PRE"] = '1';
 		}
 
-		if (!defined("QUICKLINK_ICON"))
+		if (!$config->get("QUICKLINK_ICON"))
 		{
 			$cfgarr["QUICKLINK_ICON"] = '';
 		}
 
-		if (!defined("DISPLAY_STOCKROOM_ATTRIBUTES"))
+		if (!$config->get("DISPLAY_STOCKROOM_ATTRIBUTES"))
 		{
 			$cfgarr["DISPLAY_STOCKROOM_ATTRIBUTES"] = '';
 		}
 
-		if (!defined("DISPLAY_NEW_ORDERS"))
+		if (!$config->get("DISPLAY_NEW_ORDERS"))
 		{
 			$cfgarr["DISPLAY_NEW_ORDERS"] = '0';
 		}
 
-		if (!defined("DISPLAY_NEW_CUSTOMERS"))
+		if (!$config->get("DISPLAY_NEW_CUSTOMERS"))
 		{
 			$cfgarr["DISPLAY_NEW_CUSTOMERS"] = '0';
 		}
 
-		if (!defined("DISPLAY_STATISTIC"))
+		if (!$config->get("DISPLAY_STATISTIC"))
 		{
 			$cfgarr["DISPLAY_STATISTIC"] = '0';
 		}
 
-		if (!defined("EXPAND_ALL"))
+		if (!$config->get("EXPAND_ALL"))
 		{
 			$cfgarr["EXPAND_ALL"] = '0';
 		}
 
-		if (!defined("NOOF_THUMB_FOR_SCROLLER"))
+		if (!$config->get("NOOF_THUMB_FOR_SCROLLER"))
 		{
 			$cfgarr["NOOF_THUMB_FOR_SCROLLER"] = '3';
 		}
 
-		if (!defined("POSTDANMARK_ADDRESS"))
+		if (!$config->get("POSTDANMARK_ADDRESS"))
 		{
 			$cfgarr["POSTDANMARK_ADDRESS"] = 'address';
 		}
 
-		if (!defined("POSTDANMARK_POSTALCODE"))
+		if (!$config->get("POSTDANMARK_POSTALCODE"))
 		{
 			$cfgarr["POSTDANMARK_POSTALCODE"] = '13256';
 		}
 
-		if (!defined("SEND_CATALOG_REMINDER_MAIL"))
+		if (!$config->get("SEND_CATALOG_REMINDER_MAIL"))
 		{
 			$cfgarr["SEND_CATALOG_REMINDER_MAIL"] = '0';
 		}
 
-		if (!defined("AJAX_CART_DISPLAY_TIME"))
+		if (!$config->get("AJAX_CART_DISPLAY_TIME"))
 		{
 			$cfgarr["AJAX_CART_DISPLAY_TIME"] = '3000';
 		}
 
-		if (!defined("PAYMENT_CALCULATION_ON"))
+		if (!$config->get("PAYMENT_CALCULATION_ON"))
 		{
 			$cfgarr["PAYMENT_CALCULATION_ON"] = 'subtotal';
 		}
 
-		if (!defined("IMAGE_QUALITY_OUTPUT"))
+		if (!$config->get("IMAGE_QUALITY_OUTPUT"))
 		{
 			$cfgarr["IMAGE_QUALITY_OUTPUT"] = '100';
 		}
 
-		if (!defined("DEFAULT_NEWSLETTER"))
+		if (!$config->get("DEFAULT_NEWSLETTER"))
 		{
 			$cfgarr["DEFAULT_NEWSLETTER"] = '1';
 		}
 
-		if (!defined("DETAIL_ERROR_MESSAGE_ON"))
+		if (!$config->get("DETAIL_ERROR_MESSAGE_ON"))
 		{
 			$cfgarr["DETAIL_ERROR_MESSAGE_ON"] = '1';
 		}
 
-		if (!defined("MANUFACTURER_TITLE_MAX_CHARS"))
+		if (!$config->get("MANUFACTURER_TITLE_MAX_CHARS"))
 		{
 			$cfgarr["MANUFACTURER_TITLE_MAX_CHARS"] = '';
 		}
 
-		if (!defined("MANUFACTURER_TITLE_END_SUFFIX"))
+		if (!$config->get("MANUFACTURER_TITLE_END_SUFFIX"))
 		{
 			$cfgarr["MANUFACTURER_TITLE_END_SUFFIX"] = '';
 		}
 
-		if (!defined("WRITE_REVIEW_IS_LIGHTBOX"))
+		if (!$config->get("WRITE_REVIEW_IS_LIGHTBOX"))
 		{
 			$cfgarr["WRITE_REVIEW_IS_LIGHTBOX"] = '0';
 		}
 
-		if (!defined("SPECIAL_DISCOUNT_MAIL_SEND"))
+		if (!$config->get("SPECIAL_DISCOUNT_MAIL_SEND"))
 		{
 			$cfgarr["SPECIAL_DISCOUNT_MAIL_SEND"] = '1';
 		}
 
-		if (!defined("WATERMARK_PRODUCT_ADDITIONAL_IMAGE"))
+		if (!$config->get("WATERMARK_PRODUCT_ADDITIONAL_IMAGE"))
 		{
 			$cfgarr["WATERMARK_PRODUCT_ADDITIONAL_IMAGE"] = '0';
 		}
 
-		if (!defined("ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"))
+		if (!$config->get("ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"))
 		{
 			$cfgarr["ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"] = '0';
 		}
 
-		if (!defined("ATTRIBUTE_SCROLLER_THUMB_WIDTH"))
+		if (!$config->get("ATTRIBUTE_SCROLLER_THUMB_WIDTH"))
 		{
 			$cfgarr["ATTRIBUTE_SCROLLER_THUMB_WIDTH"] = '50';
 		}
 
-		if (!defined("ATTRIBUTE_SCROLLER_THUMB_HEIGHT"))
+		if (!$config->get("ATTRIBUTE_SCROLLER_THUMB_HEIGHT"))
 		{
 			$cfgarr["ATTRIBUTE_SCROLLER_THUMB_HEIGHT"] = '50';
 		}
 
-		if (!defined("NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"))
+		if (!$config->get("NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"))
 		{
 			$cfgarr["NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"] = '3';
 		}
 
-		if (!defined("COMPARE_PRODUCT_THUMB_WIDTH"))
+		if (!$config->get("COMPARE_PRODUCT_THUMB_WIDTH"))
 		{
 			$cfgarr["COMPARE_PRODUCT_THUMB_WIDTH"] = '70';
 		}
 
-		if (!defined("COMPARE_PRODUCT_THUMB_HEIGHT"))
+		if (!$config->get("COMPARE_PRODUCT_THUMB_HEIGHT"))
 		{
 			$cfgarr["COMPARE_PRODUCT_THUMB_HEIGHT"] = '70';
 		}
 
-		if (!defined("CATEGORY_TITLE_MAX_CHARS"))
+		if (!$config->get("CATEGORY_TITLE_MAX_CHARS"))
 		{
 			$cfgarr["CATEGORY_TITLE_MAX_CHARS"] = '';
 		}
 
-		if (!defined("CATEGORY_TITLE_END_SUFFIX"))
+		if (!$config->get("CATEGORY_TITLE_END_SUFFIX"))
 		{
 			$cfgarr["CATEGORY_TITLE_END_SUFFIX"] = '';
 		}
 
-		if (!defined("PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"))
+		if (!$config->get("PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"))
 		{
 			$cfgarr["PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"] = '';
 		}
 
-		if (!defined("USE_ENCODING"))
+		if (!$config->get("USE_ENCODING"))
 		{
 			$cfgarr["USE_ENCODING"] = '0';
 		}
 
-		if (!defined("CREATE_ACCOUNT_CHECKBOX"))
+		if (!$config->get("CREATE_ACCOUNT_CHECKBOX"))
 		{
 			$cfgarr["CREATE_ACCOUNT_CHECKBOX"] = '0';
 		}
 
-		if (!defined("SHOW_QUOTATION_PRICE"))
+		if (!$config->get("SHOW_QUOTATION_PRICE"))
 		{
 			$cfgarr["SHOW_QUOTATION_PRICE"] = '0';
 		}
 
-		if (!defined("CHILDPRODUCT_DROPDOWN"))
+		if (!$config->get("CHILDPRODUCT_DROPDOWN"))
 		{
 			$cfgarr["CHILDPRODUCT_DROPDOWN"] = 'product_name';
 		}
 
-		if (!defined("ENABLE_ADDRESS_DETAIL_IN_SHIPPING"))
+		if (!$config->get("ENABLE_ADDRESS_DETAIL_IN_SHIPPING"))
 		{
 			$cfgarr["ENABLE_ADDRESS_DETAIL_IN_SHIPPING"] = '0';
 		}
 
-		if (!defined("PURCHASE_PARENT_WITH_CHILD"))
+		if (!$config->get("PURCHASE_PARENT_WITH_CHILD"))
 		{
 			$cfgarr["PURCHASE_PARENT_WITH_CHILD"] = '0';
 		}
 
-		if (!defined("CALCULATION_PRICE_DECIMAL"))
+		if (!$config->get("CALCULATION_PRICE_DECIMAL"))
 		{
 			$cfgarr["CALCULATION_PRICE_DECIMAL"] = '4';
 		}
 
-		if (!defined("REQUESTQUOTE_IMAGE"))
+		if (!$config->get("REQUESTQUOTE_IMAGE"))
 		{
 			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.png';
 		}
 
-		if (!defined("REQUESTQUOTE_BACKGROUND"))
+		if (!$config->get("REQUESTQUOTE_BACKGROUND"))
 		{
 			$cfgarr["REQUESTQUOTE_BACKGROUND"] = '#409740';
 		}
 
-		if (!defined("SHOW_PRODUCT_DETAIL"))
+		if (!$config->get("SHOW_PRODUCT_DETAIL"))
 		{
 			$cfgarr["SHOW_PRODUCT_DETAIL"] = 1;
 		}
 
-		if (!defined("WEBPACK_ENABLE_EMAIL_TRACK"))
+		if (!$config->get("WEBPACK_ENABLE_EMAIL_TRACK"))
 		{
 			$cfgarr["WEBPACK_ENABLE_EMAIL_TRACK"] = 1;
 		}
 
-		if (!defined("WEBPACK_ENABLE_SMS"))
+		if (!$config->get("WEBPACK_ENABLE_SMS"))
 		{
 			$cfgarr["WEBPACK_ENABLE_SMS"] = 1;
 		}
 
-		if (!defined("REQUIRED_VAT_NUMBER"))
+		if (!$config->get("REQUIRED_VAT_NUMBER"))
 		{
 			$cfgarr["REQUIRED_VAT_NUMBER"] = 1;
 		}
 
-		if (!defined("ACCESSORY_PRODUCT_IN_LIGHTBOX"))
+		if (!$config->get("ACCESSORY_PRODUCT_IN_LIGHTBOX"))
 		{
 			$cfgarr["ACCESSORY_PRODUCT_IN_LIGHTBOX"] = 0;
 		}
 
-		if (!defined("PRODUCT_PREVIEW_IMAGE_WIDTH"))
+		if (!$config->get("PRODUCT_PREVIEW_IMAGE_WIDTH"))
 		{
 			$cfgarr["PRODUCT_PREVIEW_IMAGE_WIDTH"] = 100;
 		}
 
-		if (!defined("PRODUCT_PREVIEW_IMAGE_HEIGHT"))
+		if (!$config->get("PRODUCT_PREVIEW_IMAGE_HEIGHT"))
 		{
 			$cfgarr["PRODUCT_PREVIEW_IMAGE_HEIGHT"] = 100;
 		}
 
-		if (!defined("CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"))
+		if (!$config->get("CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"))
 		{
 			$cfgarr["CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"] = 100;
 		}
 
-		if (!defined("CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"))
+		if (!$config->get("CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"))
 		{
 			$cfgarr["CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"] = 100;
 		}
 
-		if (!defined("DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"))
+		if (!$config->get("DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"))
 		{
 			$cfgarr["DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"] = 1;
 		}
 
-		if (!defined("SEND_MAIL_TO_CUSTOMER"))
+		if (!$config->get("SEND_MAIL_TO_CUSTOMER"))
 		{
 			$cfgarr["SEND_MAIL_TO_CUSTOMER"] = 1;
 		}
 
-		if (!defined("AJAX_DETAIL_BOX_WIDTH"))
+		if (!$config->get("AJAX_DETAIL_BOX_WIDTH"))
 		{
 			$cfgarr["AJAX_DETAIL_BOX_WIDTH"] = 500;
 		}
 
-		if (!defined("AJAX_DETAIL_BOX_HEIGHT"))
+		if (!$config->get("AJAX_DETAIL_BOX_HEIGHT"))
 		{
 			$cfgarr["AJAX_DETAIL_BOX_HEIGHT"] = 600;
 		}
 
-		if (!defined("AJAX_BOX_WIDTH"))
+		if (!$config->get("AJAX_BOX_WIDTH"))
 		{
 			$cfgarr["AJAX_BOX_WIDTH"] = 500;
 		}
 
-		if (!defined("AJAX_BOX_HEIGHT"))
+		if (!$config->get("AJAX_BOX_HEIGHT"))
 		{
 			$cfgarr["AJAX_BOX_HEIGHT"] = 150;
 		}
 
-		if (!defined("MEDIA_ALLOWED_MIME_TYPE"))
+		if (!$config->get("MEDIA_ALLOWED_MIME_TYPE"))
 		{
 			$cfgarr["MEDIA_ALLOWED_MIME_TYPE"] = 'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls';
 		}
 
-		if (!defined("ORDER_MAIL_AFTER"))
+		if (!$config->get("ORDER_MAIL_AFTER"))
 		{
 			$cfgarr["ORDER_MAIL_AFTER"] = 0;
 		}
 
-		if (!defined("STATISTICS_ENABLE"))
+		if (!$config->get("STATISTICS_ENABLE"))
 		{
 			$cfgarr["STATISTICS_ENABLE"] = 1;
 		}
 
-		if (!defined("AUTO_GENERATE_LABEL"))
+		if (!$config->get("AUTO_GENERATE_LABEL"))
 		{
 			$cfgarr["AUTO_GENERATE_LABEL"] = 1;
 		}
 
-		if (!defined("GENERATE_LABEL_ON_STATUS"))
+		if (!$config->get("GENERATE_LABEL_ON_STATUS"))
 		{
 			$cfgarr["GENERATE_LABEL_ON_STATUS"] = "S";
 		}
 
-		if (!defined("CHECKOUT_LOGIN_REGISTER_SWITCHER"))
+		if (!$config->get("CHECKOUT_LOGIN_REGISTER_SWITCHER"))
 		{
 			$cfgarr["CHECKOUT_LOGIN_REGISTER_SWITCHER"] = 'sliders';
 		}
 
-		if (!defined("RATING_REVIEW_LOGIN_REQUIRED"))
+		if (!$config->get("RATING_REVIEW_LOGIN_REQUIRED"))
 		{
 			$cfgarr["RATING_REVIEW_LOGIN_REQUIRED"] = '1';
 		}
 
-		if (!defined("CATEGORY_TREE_IN_SEF_URL"))
+		if (!$config->get("CATEGORY_TREE_IN_SEF_URL"))
 		{
 			$cfgarr["CATEGORY_TREE_IN_SEF_URL"] = '0';
 		}
 
-		if (!defined("INVOICE_NUMBER_FOR_FREE_ORDER"))
+		if (!$config->get("INVOICE_NUMBER_FOR_FREE_ORDER"))
 		{
 			$cfgarr["INVOICE_NUMBER_FOR_FREE_ORDER"] = 0;
 		}
 
-		if (!defined("REAL_INVOICE_NUMBER_TEMPLATE"))
+		if (!$config->get("REAL_INVOICE_NUMBER_TEMPLATE"))
 		{
 			$cfgarr["REAL_INVOICE_NUMBER_TEMPLATE"] = '##';
 		}
 
-		if (!defined("MENUHIDE"))
+		if (!$config->get('MENUHIDE'))
 		{
 			$cfgarr["MENUHIDE"] = '';
 		}
 
-		if (!defined("DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER"))
+		if (!$config->get('DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER'))
 		{
 			$cfgarr["DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER"] = 5;
 		}
