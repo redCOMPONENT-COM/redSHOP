@@ -95,7 +95,6 @@ class Com_RedshopInstallerScript
 		$this->installPlugins($parent);
 		JLoader::import('redshop.library');
 		$this->com_install('update');
-		$this->insertKlarnaFields();
 	}
 
 	/**
@@ -608,51 +607,6 @@ class Com_RedshopInstallerScript
 					$db->query();
 				}
 			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Add Klarna custom Fields during upgrade.
-	 *
-	 * @return  boolean  True on success
-	 */
-	protected function insertKlarnaFields()
-	{
-		$db = JFactory::getDbo();
-
-		// Set Unique key to field name
-		$db->setQuery("ALTER TABLE `#__redshop_fields` ADD UNIQUE (`field_name`)")->execute();
-
-		$pno = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'PNO', 'rs_pno', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 2, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		$birthdate = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'Birthdate', 'rs_birthdate', '12', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 3, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		$gender = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'Gender', 'rs_gender', '4', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 4, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		$houseNumber = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'House Number', 'rs_house_number', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 5, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		$houseExtension = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'House Extension', 'rs_house_extension', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 6, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		try
-		{
-			$db->setQuery($pno)->execute();
-			$db->setQuery($birthdate)->execute();
-			$db->setQuery($gender)->execute();
-			$db->setQuery($houseNumber)->execute();
-			$db->setQuery($houseExtension)->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
-
-			return false;
 		}
 
 		return true;
