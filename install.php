@@ -121,9 +121,23 @@ class Com_RedshopInstallerScript
 			$this->updateschema();
 		}
 
+		$this->installedPlugins = $this->getInstalledPlugin($parent);
+	}
+
+	/**
+	 * Get list array of installed plugins
+	 *
+	 * @param   object  $parent
+	 *
+	 * @return  array
+	 */
+	private function getInstalledPlugin($parent)
+	{
+		$installedPlugins = array ();
 		// Check if plugins are installed or not. Query here to prevent duplicate query inside another method
 		// Required objects
 		$manifest  = $parent->get('manifest');
+
 		if ($nodes = $manifest->plugins->plugin)
 		{
 			$db = JFactory::getDbo();
@@ -134,14 +148,16 @@ class Com_RedshopInstallerScript
 				$extGroup = $node->attributes()->group;
 
 				$query       = $db->getQuery(true)
-					->select('extension_id')
+					->select('*')
 					->from($db->qn('#__extensions'))
 					->where('type = ' . $db->q('plugin'))
 					->where('element = ' . $db->q($extName))
 					->where('folder = ' . $db->q($extGroup));
-				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query)->loadResult();
+				$installedPlugins[$extGroup][$extName] = $db->setQuery($query)->loadObject();
 			}
 		}
+
+		return $installedPlugins;
 	}
 
 	/**
@@ -1239,9 +1255,6 @@ class Com_RedshopInstallerScript
 		$src       = $parent->getParent()->getPath('source');
 		if ($nodes = $manifest->plugins->plugin)
 		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
 			foreach ($nodes as $node)
 			{
 				$extName  = $node->attributes()->name;
@@ -1249,7 +1262,7 @@ class Com_RedshopInstallerScript
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
-				$extensionId = $this->installedPlugins[$extGroup][$extName];
+				$extensionId = isset($this->installedPlugins[$extGroup][$extName]) ? $this->installedPlugins[$extGroup][$extName]->id : 0;
 
 				// Install or upgrade plugin
 				if (is_dir($extPath))
@@ -1263,7 +1276,7 @@ class Com_RedshopInstallerScript
 				// We'll not enable plugin for update case
 				if ($this->type == 'update')
 				{
-
+					// TODO Only change plugin state if REQUIRED
 				}
 				else
 				{
@@ -1271,22 +1284,35 @@ class Com_RedshopInstallerScript
 					// Do not change plugin state if it's installed
 					if ($extensionId)
 					{
-
+						// TODO Only change plugin state if REQUIRED
 					}
 					elseif ($result)
 					{
 						// If plugin is installed successfully and it didn't exist before we enable it.
-						$query->clear()
-							->update($db->qn("#__extensions"))
-							->set("enabled = 1")
-							->where('type = ' . $db->q('plugin'))
-							->where('element = ' . $db->q($extName))
-							->where('folder = ' . $db->q($extGroup));
-						$db->setQuery($query)->execute();
+						$this->enablePlugin($extName, $extGroup);
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param   string  $extName
+	 * @param   string  $extGroup
+	 * @param   int     $state
+	 *
+	 * @return mixed
+	 */
+	private function enablePlugin($extName, $extGroup, $state = 1)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->update($db->qn("#__extensions"))
+			->set("enabled = " . (int) $state)
+			->where('type = ' . $db->q('plugin'))
+			->where('element = ' . $db->q($extName))
+			->where('folder = ' . $db->q($extGroup));
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
