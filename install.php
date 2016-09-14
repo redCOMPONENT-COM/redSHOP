@@ -46,6 +46,7 @@ class Com_RedshopInstallerScript
 	protected $type = null;
 
 	protected $installedPlugins = array();
+
 	/**
 	 * Method to install the component
 	 *
@@ -143,15 +144,16 @@ class Com_RedshopInstallerScript
 
 			foreach ($nodes as $node)
 			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
 
 				$query       = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where('type = ' . $db->q('plugin'))
-					->where('element = ' . $db->q($extName))
-					->where('folder = ' . $db->q($extGroup));
+									->select('*')
+									->from($db->qn('#__extensions'))
+									->where('type = ' . $db->q('plugin'))
+									->where('element = ' . $db->q($extName))
+									->where('folder = ' . $db->q($extGroup));
+
 				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query, 0, 1)->loadObject();
 			}
 		}
@@ -1194,7 +1196,7 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName = $node->attributes()->name;
+				$extName = (string) $node->attributes()->name;
 				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
 
@@ -1225,8 +1227,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName   = $node->attributes()->name;
-				$extClient = $node->attributes()->client;
+				$extName   = (string) $node->attributes()->name;
+				$extClient = (string) $node->attributes()->client;
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
 
@@ -1263,8 +1265,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
@@ -1342,7 +1344,7 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName = $node->attributes()->name;
+				$extName = (string) $node->attributes()->name;
 				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
 
@@ -1383,8 +1385,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName   = $node->attributes()->name;
-				$extClient = $node->attributes()->client;
+				$extName   = (string) $node->attributes()->name;
+				$extClient = (string) $node->attributes()->client;
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
 
@@ -1432,8 +1434,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
