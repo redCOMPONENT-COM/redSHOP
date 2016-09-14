@@ -121,7 +121,7 @@ class Com_RedshopInstallerScript
 			$this->updateschema();
 		}
 
-		$this->installedPlugins = $this->getInstalledPlugin($parent);
+		$this->getInstalledPlugin($parent);
 	}
 
 	/**
@@ -133,7 +133,6 @@ class Com_RedshopInstallerScript
 	 */
 	private function getInstalledPlugin($parent)
 	{
-		$installedPlugins = array ();
 		// Check if plugins are installed or not. Query here to prevent duplicate query inside another method
 		// Required objects
 		$manifest  = $parent->get('manifest');
@@ -153,11 +152,11 @@ class Com_RedshopInstallerScript
 					->where('type = ' . $db->q('plugin'))
 					->where('element = ' . $db->q($extName))
 					->where('folder = ' . $db->q($extGroup));
-				$installedPlugins[$extGroup][$extName] = $db->setQuery($query)->loadObject();
+				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query, 0, 1)->loadObject();
 			}
 		}
 
-		return $installedPlugins;
+		return $this->installedPlugins;
 	}
 
 	/**
@@ -1204,7 +1203,7 @@ class Com_RedshopInstallerScript
 					$result = $this->getInstaller()->install($extPath);
 				}
 
-				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+				$this->storeStatus('libraries', array('name' => $extName, 'result' => $result));
 			}
 		}
 	}
@@ -1236,7 +1235,14 @@ class Com_RedshopInstallerScript
 					$result = $this->getInstaller()->install($extPath);
 				}
 
-				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+				$this->storeStatus(
+					'modules',
+					array(
+						'name' => $extName,
+						'client' => $extClient,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1262,7 +1268,12 @@ class Com_RedshopInstallerScript
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
-				$extensionId = isset($this->installedPlugins[$extGroup][$extName]) ? $this->installedPlugins[$extGroup][$extName]->id : 0;
+				$extensionId = 0;
+
+				if (isset($this->installedPlugins[$extGroup][$extName]))
+				{
+					$extensionId = $this->installedPlugins[$extGroup][$extName]->id;
+				}
 
 				// Install or upgrade plugin
 				if (is_dir($extPath))
@@ -1271,22 +1282,21 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
+				$this->storeStatus(
+					'plugins',
+					array(
+						'name'   => $extName,
+						'group'  => $extGroup,
+						'result' => $result
+					)
+				);
 
 				// We'll not enable plugin for update case
-				if ($this->type == 'update')
-				{
-					// TODO Only change plugin state if REQUIRED
-				}
-				else
+				if ($this->type != 'update')
 				{
 					// For another rest type cases
 					// Do not change plugin state if it's installed
-					if ($extensionId)
-					{
-						// TODO Only change plugin state if REQUIRED
-					}
-					elseif ($result)
+					if ($result && !$extensionId)
 					{
 						// If plugin is installed successfully and it didn't exist before we enable it.
 						$this->enablePlugin($extName, $extGroup);
@@ -1351,7 +1361,7 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+				$this->storeStatus('libraries', array('name' => $extName, 'result' => $result));
 			}
 		}
 	}
@@ -1393,7 +1403,14 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+				$this->storeStatus(
+					'modules',
+					array(
+						'name' => $extName,
+						'client' => $extClient,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1436,7 +1453,14 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
+				$this->storeStatus(
+					'plugins',
+					array(
+						'name' => $extName,
+						'group' => $extGroup,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1449,7 +1473,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	private function _storeStatus($type, $status)
+	private function storeStatus($type, $status)
 	{
 		// Initialise status object if needed
 		if (is_null($this->status))
