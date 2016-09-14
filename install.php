@@ -45,6 +45,8 @@ class Com_RedshopInstallerScript
 	 */
 	protected $type = null;
 
+	protected $installedPlugins = array();
+
 	/**
 	 * Method to install the component
 	 *
@@ -118,6 +120,44 @@ class Com_RedshopInstallerScript
 			$this->updateOverrideTemplate();
 			$this->updateschema();
 		}
+
+		$this->getInstalledPlugin($parent);
+	}
+
+	/**
+	 * Get list array of installed plugins
+	 *
+	 * @param   object  $parent
+	 *
+	 * @return  array
+	 */
+	private function getInstalledPlugin($parent)
+	{
+		// Check if plugins are installed or not. Query here to prevent duplicate query inside another method
+		// Required objects
+		$manifest  = $parent->get('manifest');
+
+		if ($nodes = $manifest->plugins->plugin)
+		{
+			$db = JFactory::getDbo();
+
+			foreach ($nodes as $node)
+			{
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
+
+				$query       = $db->getQuery(true)
+									->select('*')
+									->from($db->qn('#__extensions'))
+									->where('type = ' . $db->q('plugin'))
+									->where('element = ' . $db->q($extName))
+									->where('folder = ' . $db->q($extGroup));
+
+				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query, 0, 1)->loadObject();
+			}
+		}
+
+		return $this->installedPlugins;
 	}
 
 	/**
@@ -1121,7 +1161,7 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName = $node->attributes()->name;
+				$extName = (string) $node->attributes()->name;
 				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
 
@@ -1130,7 +1170,7 @@ class Com_RedshopInstallerScript
 					$result = $this->getInstaller()->install($extPath);
 				}
 
-				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+				$this->storeStatus('libraries', array('name' => $extName, 'result' => $result));
 			}
 		}
 	}
@@ -1152,8 +1192,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName   = $node->attributes()->name;
-				$extClient = $node->attributes()->client;
+				$extName   = (string) $node->attributes()->name;
+				$extClient = (string) $node->attributes()->client;
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
 
@@ -1162,7 +1202,14 @@ class Com_RedshopInstallerScript
 					$result = $this->getInstaller()->install($extPath);
 				}
 
-				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+				$this->storeStatus(
+					'modules',
+					array(
+						'name' => $extName,
+						'client' => $extClient,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1181,48 +1228,68 @@ class Com_RedshopInstallerScript
 		$src       = $parent->getParent()->getPath('source');
 		if ($nodes = $manifest->plugins->plugin)
 		{
-			$db = JFactory::getDbo();
-
 			foreach ($nodes as $node)
 			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
-				$query = $db->getQuery(true)
-					->select('extension_id')
-					->from($db->qn('#__extensions'))
-					->where('type = ' . $db->q('plugin'))
-					->where('element = ' . $db->q($extName))
-					->where('folder = ' . $db->q($extGroup));
-				$extensionId = $db->setQuery($query)->loadResult();
+				$extensionId = 0;
 
+				if (isset($this->installedPlugins[$extGroup][$extName]))
+				{
+					$extensionId = $this->installedPlugins[$extGroup][$extName]->id;
+				}
+
+				// Install or upgrade plugin
 				if (is_dir($extPath))
 				{
 					$result = $this->getInstaller()->install($extPath);
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
+				$this->storeStatus(
+					'plugins',
+					array(
+						'name'   => $extName,
+						'group'  => $extGroup,
+						'result' => $result
+					)
+				);
 
 				// We'll not enable plugin for update case
 				if ($this->type != 'update')
 				{
-					// If plugin is installed successfully and it didn't exist before we enable it.
+					// For another rest type cases
+					// Do not change plugin state if it's installed
 					if ($result && !$extensionId)
 					{
-						$query->clear()
-							->update($db->qn("#__extensions"))
-							->set("enabled = 1")
-							->where('type = ' . $db->q('plugin'))
-							->where('element = ' . $db->q($extName))
-							->where('folder = ' . $db->q($extGroup));
-						$db->setQuery($query)->execute();
+						// If plugin is installed successfully and it didn't exist before we enable it.
+						$this->enablePlugin($extName, $extGroup);
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param   string  $extName
+	 * @param   string  $extGroup
+	 * @param   int     $state
+	 *
+	 * @return mixed
+	 */
+	private function enablePlugin($extName, $extGroup, $state = 1)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->update($db->qn("#__extensions"))
+			->set("enabled = " . (int) $state)
+			->where('type = ' . $db->q('plugin'))
+			->where('element = ' . $db->q($extName))
+			->where('folder = ' . $db->q($extGroup));
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
@@ -1242,7 +1309,7 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName = $node->attributes()->name;
+				$extName = (string) $node->attributes()->name;
 				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
 
@@ -1261,7 +1328,7 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+				$this->storeStatus('libraries', array('name' => $extName, 'result' => $result));
 			}
 		}
 	}
@@ -1283,8 +1350,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName   = $node->attributes()->name;
-				$extClient = $node->attributes()->client;
+				$extName   = (string) $node->attributes()->name;
+				$extClient = (string) $node->attributes()->client;
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
 
@@ -1303,7 +1370,14 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+				$this->storeStatus(
+					'modules',
+					array(
+						'name' => $extName,
+						'client' => $extClient,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1325,8 +1399,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
@@ -1346,7 +1420,14 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
+				$this->storeStatus(
+					'plugins',
+					array(
+						'name' => $extName,
+						'group' => $extGroup,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1359,7 +1440,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	private function _storeStatus($type, $status)
+	private function storeStatus($type, $status)
 	{
 		// Initialise status object if needed
 		if (is_null($this->status))
