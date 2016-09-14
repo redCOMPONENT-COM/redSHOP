@@ -1239,7 +1239,7 @@ class Com_RedshopInstallerScript
 
 				if (isset($this->installedPlugins[$extGroup][$extName]))
 				{
-					$extensionId = $this->installedPlugins[$extGroup][$extName]->id;
+					$extensionId = $this->installedPlugins[$extGroup][$extName]->extension_id;
 				}
 
 				// Install or upgrade plugin
