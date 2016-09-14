@@ -52,6 +52,7 @@ abstract class RedshopTagsAbstract implements RedshopTagsInterface
 	protected function _addReplace ($content, $tag, $value)
 	{
 		if (strpos($content, $tag) !== false) {
+			// TODO Check tag available before adding
 			$this->search [] = $tag;
 			$this->replace[] = $value;
 		}
