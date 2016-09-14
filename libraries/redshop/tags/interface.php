@@ -18,6 +18,14 @@ defined('_JEXEC') or die;
  */
 interface RedshopTagsInterface
 {
+	/**
+	 * @return   array
+	 */
 	public function getTags();
+	
+	/**
+	 * @param   string  $content
+	 * @return  string
+	 */
 	public function replace($content);
 }

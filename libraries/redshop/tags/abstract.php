@@ -18,18 +18,42 @@ defined('_JEXEC') or die;
  */
 abstract class RedshopTagsAbstract implements RedshopTagsInterface
 {
+	/**
+	 * Available tags
+	 *
+	 * @var   array
+	 */
 	public $tags = array();
 	
+	protected $search = array();
+	protected $replace = array();
+	/**
+	 * @return   array
+	 */
 	public function getTags()
 	{
 		return $this->tags;
 	}
 	
+	/**
+	 * @param   string  $content
+	 * @return  string
+	 */
 	public function replace($content)
 	{
+		$content = str_replace($this->search, $this->replace, $content);
+		
 		$generalReplacer = new RedshopTagsReplacerGeneral();
 		// Replace general tags
 		$content = $generalReplacer->replace($content);
 		return $content;
+	}
+	
+	protected function _addReplace ($content, $tag, $value)
+	{
+		if (strpos($content, $tag) !== false) {
+			$this->search [] = $tag;
+			$this->replace[] = $value;
+		}
 	}
 }

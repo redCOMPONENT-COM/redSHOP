@@ -17,6 +17,9 @@ defined('_JEXEC') or die;
 class RedshopTagsReplacer
 {
 	
+	/**
+	 * @return   string
+	 */
 	public static function _()
 	{
 		$args = func_get_args();
@@ -37,6 +40,7 @@ class RedshopTagsReplacer
 		
 		$className = 'RedshopTagsSections' . ucfirst($execute[0]);
 		
+		// Make sure we have this sub class before use it
 		if (class_exists($className))
 		{
 			$r = new ReflectionClass($className);

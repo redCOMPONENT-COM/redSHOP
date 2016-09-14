@@ -83,17 +83,6 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 	}
 	
 	/**
-	 *
-	 * @return array
-	 *
-	 * @since version
-	 */
-	public function getTags()
-	{
-		return $this->tags;
-	}
-	
-	/**
 	 * Replace all available tags
 	 *
 	 * @param $content
@@ -111,61 +100,64 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 				$content = str_replace('{' . $tag . '}', $this->data->$tag, $content);
 			}
 		}
+		
 		// Replace specific tags
 		$content = $this->_general($this->data, $content, true);
+		
 		return parent::replace($content);
 	}
 	
 	/**
 	 * @param      $row
-	 * @param      $ReceiptTemplate
+	 * @param      $receiptTemplate
 	 * @param bool $sendmail
 	 *
 	 * @return mixed|string
 	 *
 	 * @since version
 	 */
-	protected function _general($row, $ReceiptTemplate, $sendmail = false)
+	protected function _general($row, $receiptTemplate, $sendmail = false)
 	{
-		$url = JURI::base();
-		$redconfig = Redconfiguration::getInstance();
-		$order_id = $row->order_id;
-		$session = JFactory::getSession();
-		$orderitem = $this->_order_functions->getOrderItemDetail($order_id);
+		$redConfig = Redconfiguration::getInstance();
+		$orderId = $row->order_id;
+		$orderitem = $this->_order_functions->getOrderItemDetail($orderId);
 		
 		$search = array();
 		$replace = array();
 		
-		if (strpos($ReceiptTemplate, "{product_loop_start}") !== false && strpos($ReceiptTemplate, "{product_loop_end}") !== false) {
-			$template_sdata = explode('{product_loop_start}', $ReceiptTemplate);
+		$jinput = JFactory::getApplication()->input;
+		
+		// TODO Create base function to search & replace block tags
+		if (strpos($receiptTemplate, "{product_loop_start}") !== false && strpos($receiptTemplate, "{product_loop_end}") !== false) {
+			$template_sdata = explode('{product_loop_start}', $receiptTemplate);
 			$template_start = $template_sdata[0];
 			$template_edata = explode('{product_loop_end}', $template_sdata[1]);
 			$template_end = $template_edata[1];
 			$template_middle = $template_edata[0];
 			$cartArr = $this->replaceOrderItems($template_middle, $orderitem);
-			$ReceiptTemplate = $template_start . $cartArr[0] . $template_end;
+			$receiptTemplate = $template_start . $cartArr[0] . $template_end;
 		}
 		
-		$orderdetailurl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $order_id . '&encr=' . $row->encr_key;
+		$orderDetailUrl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $row->encr_key;
 		
-		$downloadProducts = $this->_order_functions->getDownloadProduct($order_id);
-		$paymentmethod = $this->_order_functions->getOrderPaymentDetail($order_id);
-		$paymentmethod = $paymentmethod[0];
+		$downloadProducts = $this->_order_functions->getDownloadProduct($orderId);
+		$paymentMethod = $this->_order_functions->getOrderPaymentDetail($orderId);
+		$paymentMethod = $paymentMethod[0];
 		
 		// Initialize Transaction label
 		$transactionIdLabel = '';
 		
 		// Check if transaction Id is set
-		if ($paymentmethod->order_payment_trans_id != null) {
+		if ($paymentMethod->order_payment_trans_id != null) {
 			$transactionIdLabel = JText::_('COM_REDSHOP_PAYMENT_TRANSACTION_ID_LABEL');
 		}
 		
 		// Replace Transaction Id and Label
-		$ReceiptTemplate = str_replace("{transaction_id_label}", $transactionIdLabel, $ReceiptTemplate);
-		$ReceiptTemplate = str_replace("{transaction_id}", $paymentmethod->order_payment_trans_id, $ReceiptTemplate);
+		$receiptTemplate = str_replace("{transaction_id_label}", $transactionIdLabel, $receiptTemplate);
+		$receiptTemplate = str_replace("{transaction_id}", $paymentMethod->order_payment_trans_id, $receiptTemplate);
 		
 		// Get Payment Method information
-		$paymentmethod_detail = $this->_order_functions->getPaymentMethodInfo($paymentmethod->payment_method_class);
+		$paymentmethod_detail = $this->_order_functions->getPaymentMethodInfo($paymentMethod->payment_method_class);
 		$paymentmethod_detail = $paymentmethod_detail [0];
 		$OrderStatus = $this->_order_functions->getOrderStatusTitle($row->order_status);
 		
@@ -186,32 +178,32 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 		$Total_discount = $row->coupon_discount + $row->order_discount + $row->special_discount + $row->tax_after_discount + $row->voucher_discount;
 		
 		// For Payment and Shipping Extra Fields
-		if (strpos($ReceiptTemplate, '{payment_extrafields}') !== false) {
+		if (strpos($receiptTemplate, '{payment_extrafields}') !== false) {
 			$PaymentExtrafields = $this->_producthelper->getPaymentandShippingExtrafields($row, 18);
 			
 			if ($PaymentExtrafields == "") {
-				$ReceiptTemplate = str_replace("{payment_extrafields_lbl}", "", $ReceiptTemplate);
-				$ReceiptTemplate = str_replace("{payment_extrafields}", "", $ReceiptTemplate);
+				$receiptTemplate = str_replace("{payment_extrafields_lbl}", "", $receiptTemplate);
+				$receiptTemplate = str_replace("{payment_extrafields}", "", $receiptTemplate);
 			} else {
-				$ReceiptTemplate = str_replace("{payment_extrafields_lbl}", JText::_("COM_REDSHOP_ORDER_PAYMENT_EXTRA_FILEDS"), $ReceiptTemplate);
-				$ReceiptTemplate = str_replace("{payment_extrafields}", $PaymentExtrafields, $ReceiptTemplate);
+				$receiptTemplate = str_replace("{payment_extrafields_lbl}", JText::_("COM_REDSHOP_ORDER_PAYMENT_EXTRA_FILEDS"), $receiptTemplate);
+				$receiptTemplate = str_replace("{payment_extrafields}", $PaymentExtrafields, $receiptTemplate);
 			}
 		}
 		
-		if (strpos($ReceiptTemplate, '{shipping_extrafields}') !== false) {
+		if (strpos($receiptTemplate, '{shipping_extrafields}') !== false) {
 			$ShippingExtrafields = $this->_producthelper->getPaymentandShippingExtrafields($row, 19);
 			
 			if ($ShippingExtrafields == "") {
-				$ReceiptTemplate = str_replace("{shipping_extrafields_lbl}", "", $ReceiptTemplate);
-				$ReceiptTemplate = str_replace("{shipping_extrafields}", "", $ReceiptTemplate);
+				$receiptTemplate = str_replace("{shipping_extrafields_lbl}", "", $receiptTemplate);
+				$receiptTemplate = str_replace("{shipping_extrafields}", "", $receiptTemplate);
 			} else {
-				$ReceiptTemplate = str_replace("{shipping_extrafields_lbl}", JText::_("COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS"), $ReceiptTemplate);
-				$ReceiptTemplate = str_replace("{shipping_extrafields}", $ShippingExtrafields, $ReceiptTemplate);
+				$receiptTemplate = str_replace("{shipping_extrafields_lbl}", JText::_("COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS"), $receiptTemplate);
+				$receiptTemplate = str_replace("{shipping_extrafields}", $ShippingExtrafields, $receiptTemplate);
 			}
 		}
 		
 		// End
-		$ReceiptTemplate = $this->replaceShippingMethod($row, $ReceiptTemplate);
+		$receiptTemplate = $this->replaceShippingMethod($row, $receiptTemplate);
 		
 		if (!APPLY_VAT_ON_DISCOUNT) {
 			$total_for_discount = $subtotal_excl_vat;
@@ -219,43 +211,33 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 			$total_for_discount = $row->order_subtotal;
 		}
 		
-		$ReceiptTemplate = $this->replaceLabel($ReceiptTemplate);
-		$search[] = "{order_subtotal}";
-		$chktag = $this->_producthelper->getApplyVatOrNot($ReceiptTemplate);
+		$receiptTemplate = $this->replaceLabel($receiptTemplate);
+		$chktag = $this->_producthelper->getApplyVatOrNot($receiptTemplate);
 		
 		if (!empty($chktag)) {
-			$replace[] = $this->_producthelper->getProductFormattedPrice($row->order_total);
+			$this->_addReplace($receiptTemplate, '{order_subtotal}', $this->_producthelper->getProductFormattedPrice($row->order_total));
 		} else {
-			$replace[] = $this->_producthelper->getProductFormattedPrice($total_excl_vat);
+			$this->_addReplace($receiptTemplate, '{order_subtotal}', $this->_producthelper->getProductFormattedPrice($total_excl_vat));
 		}
 		
-		$search[] = "{subtotal_excl_vat}";
-		$replace[] = $this->_producthelper->getProductFormattedPrice($total_excl_vat);
-		$search[] = "{product_subtotal}";
+		$this->_addReplace($receiptTemplate, '{subtotal_excl_vat}', $this->_producthelper->getProductFormattedPrice($total_excl_vat));
 		
 		if (!empty($chktag)) {
-			$replace[] = $this->_producthelper->getProductFormattedPrice($row->order_subtotal);
+			$this->_addReplace($receiptTemplate, '{product_subtotal}', $this->_producthelper->getProductFormattedPrice($row->order_subtotal));
 		} else {
-			$replace[] = $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat);
+			$this->_addReplace($receiptTemplate, '{product_subtotal}', $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat));
 		}
 		
-		$search[] = "{product_subtotal_excl_vat}";
-		$replace[] = $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat);
-		$search[] = "{order_subtotal_excl_vat}";
-		$replace[] = $this->_producthelper->getProductFormattedPrice($total_excl_vat);
-		$search[] = "{order_number_lbl}";
-		$replace[] = JText::_('COM_REDSHOP_ORDER_NUMBER_LBL');
-		$search[] = "{order_number}";
-		$replace[] = $row->order_number;
-		$search  [] = "{special_discount}";
-		$replace [] = $row->special_discount . '%';
-		$search  [] = "{special_discount_amount}";
-		$replace [] = $this->_producthelper->getProductFormattedPrice($row->special_discount_amount);
-		$search[] = "{special_discount_lbl}";
-		$replace[] = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
+		$this->_addReplace($receiptTemplate, '{product_subtotal_excl_vat}', $this->_producthelper->getProductFormattedPrice($subtotal_excl_vat));
+		$this->_addReplace($receiptTemplate, '{order_subtotal_excl_vat}', $this->_producthelper->getProductFormattedPrice($total_excl_vat));
+		$this->_addReplace($receiptTemplate, '{order_number_lbl}', JText::_('COM_REDSHOP_ORDER_NUMBER_LBL'));
+		$this->_addReplace($receiptTemplate, '{order_number}', $row->order_number);
+		$this->_addReplace($receiptTemplate, '{special_discount}', $row->special_discount . '%');
+		$this->_addReplace($receiptTemplate, '{special_discount_amount}', $this->_producthelper->getProductFormattedPrice($row->special_discount_amount));
+		$this->_addReplace($receiptTemplate, '{special_discount_lbl}', JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'));
 		
-		$search[] = "{order_detail_link}";
-		$replace[] = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
+		// Use JLayout to render anchor html
+		$this->_addReplace($receiptTemplate, '{order_detail_link}', "<a href='" . $orderDetailUrl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>");
 		
 		$dpData = "";
 		
@@ -279,27 +261,22 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 		}
 		
 		if ($row->order_status == "C" && $row->order_payment_status == "Paid") {
-			$search  [] = "{download_token}";
-			$replace [] = $dpData;
-			
-			$search  [] = "{download_token_lbl}";
+			$this->_addReplace($receiptTemplate, '{download_token}', $dpData);
 			
 			if ($dpData != "") {
-				$replace [] = JText::_('COM_REDSHOP_DOWNLOAD_TOKEN');
+				$this->_addReplace($receiptTemplate, '{download_token_lbl}', JText::_('COM_REDSHOP_DOWNLOAD_TOKEN'));
 			} else {
-				$replace [] = "";
+				$this->_addReplace($receiptTemplate, '{download_token_lbl}', '');
 			}
 		} else {
-			$search  [] = "{download_token}";
-			$replace [] = "";
-			$search  [] = "{download_token_lbl}";
-			$replace [] = "";
+			$this->_addReplace($receiptTemplate, '{download_token}', '');
+			$this->_addReplace($receiptTemplate, '{download_token_lbl}', '');
 		}
 		
 		$issplitdisplay = "";
 		$issplitdisplay2 = "";
 		
-		if ((strpos($ReceiptTemplate, "{discount_denotation}") !== false || strpos($ReceiptTemplate, "{shipping_denotation}") !== false) && ($Total_discount != 0 || $row->order_shipping != 0)) {
+		if ((strpos($receiptTemplate, "{discount_denotation}") !== false || strpos($receiptTemplate, "{shipping_denotation}") !== false) && ($Total_discount != 0 || $row->order_shipping != 0)) {
 			$search  [] = "{denotation_label}";
 			$replace [] = JText::_('COM_REDSHOP_DENOTATION_TXT');
 		} else {
@@ -310,7 +287,7 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 		
 		$search  [] = "{discount_denotation}";
 		
-		if (strpos($ReceiptTemplate, "{discount_excl_vat}") !== false) {
+		if (strpos($receiptTemplate, "{discount_excl_vat}") !== false) {
 			$replace [] = "*";
 		} else {
 			$replace [] = "";
@@ -318,38 +295,32 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 		
 		$search  [] = "{shipping_denotation}";
 		
-		if (strpos($ReceiptTemplate, "{shipping_excl_vat}") !== false) {
+		if (strpos($receiptTemplate, "{shipping_excl_vat}") !== false) {
 			$replace [] = "*";
 		} else {
 			$replace [] = "";
 		}
 		
-		$search[] = "{payment_status}";
-		
 		if (trim($row->order_payment_status) == 'Paid') {
-			$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PAID');
+			$this->_addReplace($receiptTemplate, '{payment_status}', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
 		} elseif (trim($row->order_payment_status) == 'Unpaid') {
-			$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
+			$this->_addReplace($receiptTemplate, '{payment_status}', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
 		} elseif (trim($row->order_payment_status) == 'Partial Paid') {
-			$orderPaymentStatus = JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
+			$this->_addReplace($receiptTemplate, '{payment_status}', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
 		} else {
 			$orderPaymentStatus = $row->order_payment_status;
 		}
 		
-		$replace[] = $orderPaymentStatus . " " . JRequest::getVar('order_payment_log') . $issplitdisplay . $issplitdisplay2;
-		$search[] = "{order_payment_status}";
-		$replace[] = $orderPaymentStatus . " " . JRequest::getVar('order_payment_log') . $issplitdisplay . $issplitdisplay2;
+		$replace[] = $orderPaymentStatus . " " . $jinput->get('order_payment_log') . $issplitdisplay . $issplitdisplay2;
 		
-		$search  [] = "{order_total}";
-		$replace [] = $this->_producthelper->getProductFormattedPrice($row->order_total);
-		$search  [] = "{total_excl_vat}";
-		$replace [] = $this->_producthelper->getProductFormattedPrice($total_excl_vat);
-		$search  [] = "{sub_total_vat}";
-		$replace [] = $this->_producthelper->getProductFormattedPrice($sub_total_vat);
-		$search  [] = "{order_id}";
-		$replace [] = $order_id;
-		$search  [] = "{discount_denotation}";
-		$replace [] = "*";
+		$this->_addReplace($receiptTemplate, '{order_payment_status}', $orderPaymentStatus . " " . $jinput->get('order_payment_log') . $issplitdisplay . $issplitdisplay2);
+		
+		
+		$this->_addReplace($receiptTemplate, '{order_total}', $this->_producthelper->getProductFormattedPrice($row->order_total));
+		$this->_addReplace($receiptTemplate, '{total_excl_vat}', $this->_producthelper->getProductFormattedPrice($total_excl_vat));
+		$this->_addReplace($receiptTemplate, '{sub_total_vat}', $this->_producthelper->getProductFormattedPrice($sub_total_vat));
+		$this->_addReplace($receiptTemplate, '{order_id}', $orderId);
+		$this->_addReplace($receiptTemplate, '{discount_denotation}', '*');
 		
 		$arr_discount_type = array();
 		$arr_discount = explode('@', $row->discount_type);
@@ -369,26 +340,15 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 			}
 		}
 		
-		$search[] = "{discount_type}";
-		$replace[] = $discount_type;
-		
-		$search  [] = "{discount_excl_vat}";
-		$replace [] = $this->_producthelper->getProductFormattedPrice($row->order_discount - $row->order_discount_vat);
-		$search  [] = "{order_status}";
-		$replace [] = $OrderStatus;
-		$search  [] = "{order_id_lbl}";
-		$replace [] = JText::_('COM_REDSHOP_ORDER_ID_LBL');
-		$search  [] = "{order_date}";
-		$replace [] = $redconfig->convertDateFormat($row->cdate);
-		$search  [] = "{customer_note}";
-		$replace [] = $row->customer_note;
-		$search  [] = "{customer_message}";
-		$replace [] = $row->customer_message;
-		$search  [] = "{referral_code}";
-		$replace [] = $row->referral_code;
-		
-		$search  [] = "{payment_method}";
-		$replace [] = JText::_($paymentmethod->order_payment_name);
+		$this->_addReplace($receiptTemplate, '{discount_type}', $discount_type);
+		$this->_addReplace($receiptTemplate, '{discount_excl_vat}', $this->_producthelper->getProductFormattedPrice($row->order_discount - $row->order_discount_vat));
+		$this->_addReplace($receiptTemplate, '{order_status}', $OrderStatus);
+		$this->_addReplace($receiptTemplate, '{order_id_lbl}', JText::_('COM_REDSHOP_ORDER_ID_LBL'));
+		$this->_addReplace($receiptTemplate, '{order_date}', $redConfig->convertDateFormat($row->cdate));
+		$this->_addReplace($receiptTemplate, '{customer_note}', $row->customer_note);
+		$this->_addReplace($receiptTemplate, '{customer_message}', $row->customer_message);
+		$this->_addReplace($receiptTemplate, '{referral_code}', $row->referral_code);
+		$this->_addReplace($receiptTemplate, '{payment_method}', JText::_($paymentMethod->order_payment_name));
 		
 		$txtextra_info = '';
 		
@@ -402,87 +362,51 @@ class RedshopTagsSectionsOrder_print extends RedshopTagsAbstract implements Reds
 			$txtextra_info = $paymentparams->get('txtextra_info', '');
 		}
 		
-		$search  [] = "{payment_extrainfo}";
-		$replace [] = $txtextra_info;
+		$this->_addReplace($receiptTemplate, '{payment_extrainfo}', $txtextra_info);
 		
 		// Set order transaction fee tag
 		$orderTransFeeLabel = '';
 		$orderTransFee = '';
 		
-		if ($paymentmethod->order_transfee > 0) {
+		if ($paymentMethod->order_transfee > 0) {
 			$orderTransFeeLabel = JText::_('COM_REDSHOP_ORDER_TRANSACTION_FEE_LABEL');
-			$orderTransFee = $this->_producthelper->getProductFormattedPrice($paymentmethod->order_transfee);
+			$orderTransFee = $this->_producthelper->getProductFormattedPrice($paymentMethod->order_transfee);
 		}
 		
-		$search [] = "{order_transfee_label}";
-		$replace[] = $orderTransFeeLabel;
+		$this->_addReplace($receiptTemplate, '{order_transfee_label}', $orderTransFeeLabel);
+		$this->_addReplace($receiptTemplate, '{order_transfee}', $orderTransFee);
+		$this->_addReplace($receiptTemplate, '{order_total_incl_transfee}', $this->_producthelper->getProductFormattedPrice(
+			$paymentMethod->order_transfee + $row->order_total
+		));
 		
-		$search [] = "{order_transfee}";
-		$replace[] = $orderTransFee;
-		
-		$search [] = "{order_total_incl_transfee}";
-		$replace[] = $this->_producthelper->getProductFormattedPrice(
-			$paymentmethod->order_transfee + $row->order_total
-		);
-		
-		if (JRequest::getVar('order_delivery')) {
-			$search  [] = "{delivery_time_lbl}";
-			$replace [] = JText::_('COM_REDSHOP_DELIVERY_TIME');
+		if ($jinput->get('order_delivery')) {
+			$this->_addReplace($receiptTemplate, '{delivery_time_lbl}', JText::_('COM_REDSHOP_DELIVERY_TIME'));
 		} else {
-			$search  [] = "{delivery_time_lbl}";
-			$replace [] = " ";
+			$this->_addReplace($receiptTemplate, '{delivery_time_lbl}', ' ');
 		}
 		
-		$search  [] = "{delivery_time}";
-		$replace [] = JRequest::getVar('order_delivery');
-		$search  [] = "{without_vat}";
-		$replace [] = '';
-		$search  [] = "{with_vat}";
-		$replace [] = '';
+		$this->_addReplace($receiptTemplate, '{delivery_time}', $jinput->get('order_delivery'));
+		$this->_addReplace($receiptTemplate, '{without_vat}', '');
+		$this->_addReplace($receiptTemplate, '{with_vat}', '');
 		
-		if (strpos($ReceiptTemplate, '{order_detail_link_lbl}') !== false) {
-			$search [] = "{order_detail_link_lbl}";
-			$replace[] = JText::_('COM_REDSHOP_ORDER_DETAIL_LINK_LBL');
-		}
+		$this->_addReplace($receiptTemplate, '{order_detail_link_lbl}', JText::_('COM_REDSHOP_ORDER_DETAIL_LINK_LBL'));
+		$this->_addReplace($receiptTemplate, '{product_subtotal_lbl}', JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_LBL'));
+		$this->_addReplace($receiptTemplate, '{product_subtotal_excl_vat_lbl}', JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_EXCL_LBL'));
+		$this->_addReplace($receiptTemplate, '{shipping_with_vat_lbl}', JText::_('COM_REDSHOP_SHIPPING_WITH_VAT_LBL'));
+		$this->_addReplace($receiptTemplate, '{shipping_excl_vat_lbl}', JText::_('COM_REDSHOP_SHIPPING_EXCL_VAT_LBL'));
+		$this->_addReplace($receiptTemplate, '{product_price_excl_lbl}', JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL'));
 		
-		if (strpos($ReceiptTemplate, '{product_subtotal_lbl}') !== false) {
-			$search [] = "{product_subtotal_lbl}";
-			$replace[] = JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_LBL');
-		}
+		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
 		
-		if (strpos($ReceiptTemplate, '{product_subtotal_excl_vat_lbl}') !== false) {
-			$search [] = "{product_subtotal_excl_vat_lbl}";
-			$replace[] = JText::_('COM_REDSHOP_PRODUCT_SUBTOTAL_EXCL_LBL');
-		}
+		$this->_addReplace($receiptTemplate, '{requisition_number}', ($row->requisition_number) ? $row->requisition_number : "N/A");
+		$this->_addReplace($receiptTemplate, '{requisition_number_lbl}', JText::_('COM_REDSHOP_REQUISITION_NUMBER'));
 		
-		if (strpos($ReceiptTemplate, '{shipping_with_vat_lbl}') !== false) {
-			$search [] = "{shipping_with_vat_lbl}";
-			$replace[] = JText::_('COM_REDSHOP_SHIPPING_WITH_VAT_LBL');
-		}
+		$receiptTemplate = $this->replaceBillingAddress($receiptTemplate, $billingaddresses, $sendmail);
+		$receiptTemplate = $this->replaceShippingAddress($receiptTemplate, $shippingaddresses, $sendmail);
 		
-		if (strpos($ReceiptTemplate, '{shipping_excl_vat_lbl}') !== false) {
-			$search [] = "{shipping_excl_vat_lbl}";
-			$replace[] = JText::_('COM_REDSHOP_SHIPPING_EXCL_VAT_LBL');
-		}
-		
-		if (strpos($ReceiptTemplate, '{product_price_excl_lbl}') !== false) {
-			$search [] = "{product_price_excl_lbl}";
-			$replace[] = JText::_('COM_REDSHOP_PRODUCT_PRICE_EXCL_LBL');
-		}
-		
-		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-		$shippingaddresses = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
-		
-		$search [] = "{requisition_number}";
-		$replace[] = ($row->requisition_number) ? $row->requisition_number : "N/A";
-		
-		$search [] = "{requisition_number_lbl}";
-		$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
-		
-		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
-		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
-		
-		$message = str_replace($search, $replace, $ReceiptTemplate);
+		//$message = str_replace($search, $replace, $receiptTemplate);
+		$message = $receiptTemplate;
 		$message = $this->replacePayment($message, $row->payment_discount, 0, $row->payment_oprand);
 		$message = $this->replaceDiscount($message, $row->order_discount, $total_for_discount);
 		$message = $this->replaceTax($message, $row->order_tax + $row->order_shipping_tax, $row->tax_after_discount, 1);

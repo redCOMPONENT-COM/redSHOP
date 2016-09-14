@@ -16,6 +16,10 @@ defined('_JEXEC') or die;
  */
 class RedshopTagsReplacerGeneral
 {
+	/**
+	 * @param   string$content
+	 * @return  string
+	 */
 	public function replace($content)
 	{
 		return $content;
