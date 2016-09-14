@@ -1843,7 +1843,8 @@ class order_functions
 		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 
-		$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
+		//$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
+		$message = RedshopTagsReplacer::_($message, 'order_print', $orderDetail);
 
 		$pdfObj->AddPage();
 		$pdfObj->writeHTML($message);
