@@ -1572,11 +1572,12 @@ class Com_RedshopInstallerScript
 	 */
 	private function updateOverrideTemplate()
 	{
-		$dir          = JPATH_SITE . "/templates/";
-		$codeDir      = JPATH_SITE . "/code/";
-		$files        = JFolder::folders($dir);
-		$templates    = array();
-		$adminHelpers = array();
+		$dir                  = JPATH_SITE . "/templates/";
+		$codeDir              = JPATH_SITE . "/code/";
+		$files                = JFolder::folders($dir);
+		$templates            = array();
+		$adminHelpers         = array();
+		$adminTemplateHelpers = array();
 
 		if (JFolder::exists($codeDir))
 		{
@@ -1645,6 +1646,11 @@ class Com_RedshopInstallerScript
 					if (JFolder::exists($key . '/code/components/com_redshop'))
 					{
 						$override[$key . '/code/components/com_redshop'] = JFolder::folders($key . '/code/components/com_redshop');
+					}
+
+					if (JFolder::exists($key . '/code/com_redshop/helpers'))
+					{
+						$adminTemplateHelpers[$key] = JFolder::files($key . '/code/com_redshop/helpers');
 					}
 				}
 			}
@@ -1789,6 +1795,48 @@ class Com_RedshopInstallerScript
 
 						$src  = $codeDir . 'com_redshop/helpers/' . $old;
 						$dest = $codeDir . 'administrator/components/com_redshop/helpers/' . $new;
+						JFile::move($src, $dest);
+					}
+				}
+			}
+		}
+
+		if (!empty($adminTemplateHelpers))
+		{
+			foreach ($adminTemplateHelpers as $path => $files)
+			{
+				foreach ($replaceHelper as $old => $new)
+				{
+					if (JFile::exists($path . '/' . $old))
+					{
+						if (!JFolder::exists($codeDir . 'administrator/components/com_redshop/helpers'))
+						{
+							JFolder::create($codeDir . 'administrator/components/com_redshop/helpers');
+						}
+
+						$src  = $codeDir . 'com_redshop/helpers/' . $old;
+						$dest = $codeDir . 'administrator/components/com_redshop/helpers/' . $new;
+						JFile::move($src, $dest);
+					}
+				}
+			}
+		}
+
+		if (!empty($adminTemplateHelpers))
+		{
+			foreach ($adminTemplateHelpers as $path => $files)
+			{
+				foreach ($replaceHelper as $old => $new)
+				{
+					if (JFile::exists($path . '/code/com_redshop/helpers/' . $old))
+					{
+						if (!JFolder::exists($path . '/code/administrator/components/com_redshop/helpers'))
+						{
+							JFolder::create($path . '/code/administrator/components/com_redshop/helpers');
+						}
+
+						$src  = $path . '/code/com_redshop/helpers/' . $old;
+						$dest = $path . '/code/administrator/components/com_redshop/helpers/' . $new;
 						JFile::move($src, $dest);
 					}
 				}
