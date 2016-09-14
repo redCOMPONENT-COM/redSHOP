@@ -1160,7 +1160,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_stockroom_xref` (
 	`quantity`         INT(11) NOT NULL,
 	`preorder_stock`   INT(11) NOT NULL,
 	`ordered_preorder` INT(11) NOT NULL,
-	KEY `idx_stockroom_id` (`stockroom_id`)
+	KEY `idx_stockroom_id` (`stockroom_id`),
+	KEY `idx_product_id` (`product_id`),
+	KEY `idx_quantity` (`quantity`)
 )
 	ENGINE =InnoDB
 	DEFAULT CHARSET =utf8
