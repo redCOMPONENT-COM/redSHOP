@@ -1765,7 +1765,7 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		$replaceHelper = array(
+		$replaceAdminHelper = array(
 			'adminorder.php'         => 'order_functions.php',
 			'admincategory.php'      => 'product_category.php',
 			'adminquotation.php'     => 'quotationhelper.php',
@@ -1780,11 +1780,21 @@ class Com_RedshopInstallerScript
 			'adminshopper.php'       => 'shoppergroup.php'
 		);
 
+		$replaceSiteHelper = array(
+			'currency.php'         => 'currencyhelper.php',
+			'extra_field.php'      => 'extrafield.php',
+			'google_analytics.php' => 'googleanalytics.php',
+			'product.php'          => 'producthelper.php',
+			'helper.php'           => 'redhelper.php',
+			'cart.php'             => 'rscarthelper.php',
+			'user.php'             => 'rsuserhelper.php'
+		);
+
 		if (!empty($adminHelpers))
 		{
 			foreach ($adminHelpers as $path => $files)
 			{
-				foreach ($replaceHelper as $old => $new)
+				foreach ($replaceAdminHelper as $old => $new)
 				{
 					if (JFile::exists($path . '/' . $old))
 					{
@@ -1798,24 +1808,18 @@ class Com_RedshopInstallerScript
 						JFile::move($src, $dest);
 					}
 				}
-			}
-		}
 
-		if (!empty($adminTemplateHelpers))
-		{
-			foreach ($adminTemplateHelpers as $path => $files)
-			{
-				foreach ($replaceHelper as $old => $new)
+				foreach ($replaceSiteHelper as $old => $new)
 				{
 					if (JFile::exists($path . '/' . $old))
 					{
-						if (!JFolder::exists($codeDir . 'administrator/components/com_redshop/helpers'))
+						if (!JFolder::exists($codeDir . 'components/com_redshop/helpers'))
 						{
-							JFolder::create($codeDir . 'administrator/components/com_redshop/helpers');
+							JFolder::create($codeDir . 'components/com_redshop/helpers');
 						}
 
 						$src  = $codeDir . 'com_redshop/helpers/' . $old;
-						$dest = $codeDir . 'administrator/components/com_redshop/helpers/' . $new;
+						$dest = $codeDir . 'components/com_redshop/helpers/' . $new;
 						JFile::move($src, $dest);
 					}
 				}
@@ -1826,7 +1830,7 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($adminTemplateHelpers as $path => $files)
 			{
-				foreach ($replaceHelper as $old => $new)
+				foreach ($replaceAdminHelper as $old => $new)
 				{
 					if (JFile::exists($path . '/code/com_redshop/helpers/' . $old))
 					{
@@ -1837,6 +1841,21 @@ class Com_RedshopInstallerScript
 
 						$src  = $path . '/code/com_redshop/helpers/' . $old;
 						$dest = $path . '/code/administrator/components/com_redshop/helpers/' . $new;
+						JFile::move($src, $dest);
+					}
+				}
+
+				foreach ($replaceSiteHelper as $old => $new)
+				{
+					if (JFile::exists($path . '/code/com_redshop/helpers/' . $old))
+					{
+						if (!JFolder::exists($path . '/code/components/com_redshop/helpers'))
+						{
+							JFolder::create($path . '/code/components/com_redshop/helpers');
+						}
+
+						$src  = $path . '/code/com_redshop/helpers/' . $old;
+						$dest = $path . '/code/components/com_redshop/helpers/' . $new;
 						JFile::move($src, $dest);
 					}
 				}
