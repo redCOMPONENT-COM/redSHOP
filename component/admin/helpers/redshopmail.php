@@ -47,8 +47,8 @@ class redshopMail
 
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_carthelper      = RedshopSiteCart::getInstance();
-		$this->_redhelper       = RedshopSiteHelper::getInstance();
+		$this->_carthelper      = rsCarthelper::getInstance();
+		$this->_redhelper       = redhelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 	}
 
@@ -104,7 +104,7 @@ class redshopMail
 	public function sendOrderMail($order_id, $onlyAdmin = false)
 	{
 		$redconfig = Redconfiguration::getInstance();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$session = JFactory::getSession();
 
 		$config = JFactory::getConfig();
@@ -323,7 +323,7 @@ class redshopMail
 
 	public function sendOrderSpecialDiscountMail($order_id)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$config        = JFactory::getConfig();
 		$mailbcc       = array();
@@ -592,22 +592,6 @@ class redshopMail
 		$html   = str_replace("{firstname}", $billingaddresses->firstname, $html);
 		$html   = str_replace("{lastname}", $billingaddresses->lastname, $html);
 
-		if (function_exists("curl_init"))
-		{
-			if ('pdf' == $type)
-			{
-				$barcodeImageUrl = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $row->barcode . ".png";
-				$barcodeImage    = '<img src="' . $barcodeImageUrl . '" alt="Barcode"  border="0" />';
-				$html         = str_replace("{barcode}", $barcodeImage, $html);
-			}
-			else
-			{
-				$barcodeImageUrl = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $row->barcode . ".png";
-				$barcodeImage    = '<img src="' . $barcodeImageUrl . '" alt="Barcode"  border="0" />';
-				$html         = str_replace("{barcode}", $barcodeImage, $html);
-			}
-		}
-
 		$html = $this->_carthelper->replaceOrderTemplate($row, $html, true);
 
 		$object = new stdClass;
@@ -873,7 +857,7 @@ class redshopMail
 	{
 		$app           = JFactory::getApplication();
 
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$redconfig     = Redconfiguration::getInstance();
 
 		$MailFrom      = $app->getCfg('mailfrom');
@@ -990,7 +974,7 @@ class redshopMail
 	public function sendQuotationMail($quotation_id, $status = 0)
 	{
 		$redconfig       = Redconfiguration::getInstance();
-		$producthelper   = RedshopSiteProduct::getInstance();
+		$producthelper   = productHelper::getInstance();
 		$extra_field     = extra_field::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$config          = JFactory::getConfig();
@@ -1023,7 +1007,7 @@ class redshopMail
 
 		$template_sdata = explode('{product_loop_start}', $message);
 
-		$extraField = RedshopSiteExtraField::getInstance();
+		$extraField = extraField::getInstance();
 		$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 
 		if (count($template_sdata) > 0)
@@ -1457,7 +1441,7 @@ class redshopMail
 
 	public function sendAskQuestionMail($ansid)
 	{
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$uri           = JURI::getInstance();
 		$url           = $uri->root();
 		$subject       = "";

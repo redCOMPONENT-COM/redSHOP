@@ -14,7 +14,7 @@ $objconfiguration = Redconfiguration::getInstance();
 $user             = JFactory::getUser();
 $shipping_address = RedshopHelperOrder::getOrderShippingUserInfo($data['order_id']);
 
-$redhelper        = RedshopSiteHelper::getInstance();
+$redhelper        = redhelper::getInstance();
 $db               = JFactory::getDbo();
 $user             = JFActory::getUser();
 $task             = JRequest::getVar('task');

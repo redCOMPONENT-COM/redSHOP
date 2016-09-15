@@ -54,9 +54,9 @@ class RedshopModelCart extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_producthelper = RedshopSiteProduct::getInstance();
-		$this->_carthelper    = RedshopSiteCart::getInstance();
-		$this->_userhelper    = RedshopSiteUser::getInstance();
+		$this->_producthelper = productHelper::getInstance();
+		$this->_carthelper    = rsCarthelper::getInstance();
+		$this->_userhelper    = rsUserHelper::getInstance();
 		$this->_objshipping   = shipping::getInstance();
 		$user                 = JFactory::getUser();
 		$session              = JFactory::getSession();
@@ -314,7 +314,7 @@ class RedshopModelCart extends RedshopModel
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher    = JDispatcher::getInstance();
-		$productHelper = RedshopSiteProduct::getInstance();
+		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
 		$user          = JFactory::getUser();

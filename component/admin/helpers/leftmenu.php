@@ -594,6 +594,7 @@ class leftmenu
 
 	protected static function setConfigGroup()
 	{
+		$user = JFactory::getUser();
 		$menu = RedshopAdminMenu::getInstance()->init();
 
 		$menu->section('configuration')
@@ -618,16 +619,21 @@ class leftmenu
 				(self::$view == 'update') ? true : false
 			);
 
-		if (Redshop::getConfig()->get('ENABLE_BACKENDACCESS'))
-		{
-			$menu->section('accessmanager')
-				->title('COM_REDSHOP_ACCESS_MANAGER')
+		$menu->section('accessmanager')
+			->title('COM_REDSHOP_ACCESS_MANAGER')
+			->addItem(
+				'index.php?option=com_redshop&view=accessmanager',
+				'COM_REDSHOP_ACCESS_MANAGER',
+				(self::$view == 'accessmanager') ? true : false
+			);
+
+			$menu->section('redshopbackendaccess')
+				->title('COM_REDSHOP_BACKEND_ACCESS_CONFIG')
 				->addItem(
-					'index.php?option=com_redshop&view=accessmanager',
-					'COM_REDSHOP_ACCESS_MANAGER',
-					(self::$view == 'accessmanager') ? true : false
+					'index.php?option=com_config&view=component&component=com_redshop',
+					'COM_REDSHOP_BACKEND_ACCESS_CONFIG',
+					false
 				);
-		}
 
 		$menu->group('CONFIG');
 	}
@@ -769,16 +775,6 @@ class leftmenu
 				'index.php?option=com_redshop&view=opsearch',
 				'COM_REDSHOP_PRODUCT_ORDER_SEARCH',
 				(self::$view == 'opsearch') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=barcode',
-				'COM_REDSHOP_BARCODE',
-				(self::$view == 'barcode' && self::$layout == '') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=barcode&layout=barcode_order',
-				'COM_REDSHOP_BARCODE_ORDER',
-				(self::$view == 'barcode' && self::$layout == 'barcode_order') ? true : false
 			);
 	}
 

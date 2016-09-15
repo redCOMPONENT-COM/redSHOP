@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 
 $model = $this->getModel();
 

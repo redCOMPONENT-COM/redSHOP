@@ -13,10 +13,10 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 // Get product helper
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $configobj     = Redconfiguration::getInstance();
 $redTemplate   = Redtemplate::getInstance();
-$extraField    = RedshopSiteExtraField::getInstance();
+$extraField    = extraField::getInstance();
 
 $session       = JFactory::getSession();
 $Itemid        = JRequest::getInt('Itemid');

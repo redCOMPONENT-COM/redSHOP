@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 
-$producthelper   = RedshopSiteProduct::getInstance();
+$producthelper   = productHelper::getInstance();
 $quotationHelper = quotationHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $configobj       = Redconfiguration::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $extra_field     = extra_field::getInstance();
-$extraField      = RedshopSiteExtraField::getInstance();
-$carthelper      = RedshopSiteCart::getInstance();
+$extraField      = extraField::getInstance();
+$carthelper      = rsCarthelper::getInstance();
 
 $user         = JFactory::getUser();
 $Itemid       = JRequest::getInt('Itemid');
@@ -169,6 +169,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 		$order_data = str_replace('{order_index}', '', $order_data);
 		$order_data = str_replace('{order_id}', '', $order_data);
 		$order_data = str_replace('{order_detail_link}', JText::_('COM_REDSHOP_NO_ORDERS_PLACED_YET'), $order_data);
+		$order_data = str_replace('{order_total}', '', $order_data);
 	}
 
 	$template_desc = str_replace('{order_loop_start}', "", $template_desc);

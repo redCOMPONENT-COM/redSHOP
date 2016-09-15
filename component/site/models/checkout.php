@@ -43,10 +43,10 @@ class RedshopModelCheckout extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$session             = JFactory::getSession();
 
-		$this->_carthelper      = RedshopSiteCart::getInstance();
-		$this->_userhelper      = RedshopSiteUser::getInstance();
+		$this->_carthelper      = rsCarthelper::getInstance();
+		$this->_userhelper      = rsUserHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
-		$this->_producthelper   = RedshopSiteProduct::getInstance();
+		$this->_producthelper   = productHelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 
@@ -143,7 +143,7 @@ class RedshopModelCheckout extends RedshopModel
 		$redconfig       = Redconfiguration::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$helper          = RedshopSiteHelper::getInstance();
+		$helper          = redhelper::getInstance();
 		$shippinghelper  = shipping::getInstance();
 		$order_functions = order_functions::getInstance();
 
@@ -2013,7 +2013,7 @@ class RedshopModelCheckout extends RedshopModel
 		$user_id  = $user->id;
 		$usersess = $session->get('rs_user');
 		$userArr  = $this->_producthelper->getVatUserinfo($user_id);
-		$redHelper = RedshopSiteHelper::getInstance();
+		$redHelper = redhelper::getInstance();
 
 		$usersess['rs_user_info_id'] = $users_info_id;
 		unset($cart['shipping']);
@@ -2214,7 +2214,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = str_replace("{checkout}", $checkout, $template_desc);
 		$template_desc = str_replace("{checkout_button}", $checkout, $template_desc);
 
-		$qlink             = JRoute::_('index.php?option=com_redshop&view=quotation&tmpl=component&for=true&return=1&Itemid=' . $Itemid);
+		$qlink             = JRoute::_('index.php?option=com_redshop&view=quotation&tmpl=component&return=1&Itemid=' . $Itemid);
 		$quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton btn btn-primary" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
 		$template_desc     = str_replace("{quotation_request}", $quotation_request, $template_desc);
 

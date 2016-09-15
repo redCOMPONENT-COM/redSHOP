@@ -107,7 +107,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$and     = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = RedshopSiteUser::getInstance();
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
@@ -178,7 +178,7 @@ class RedshopModelManufacturers extends RedshopModel
 		}
 		else
 		{
-			$order_by = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD'));
+			$order_by = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
 		}
 
 		if ($layout == 'products')
@@ -193,13 +193,13 @@ class RedshopModelManufacturers extends RedshopModel
 			}
 
 			// User can get not allowed order_by, when url contain Itemid from another view, so it need check here
-			elseif (in_array($params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD')), $this->filter_fields_manufacturer))
+			elseif (in_array($params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD), $this->filter_fields_manufacturer))
 			{
-				$filter_order = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD'));
+				$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
 			}
 			else
 			{
-				$filter_order = Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD');
+				$filter_order = DEFAULT_MANUFACTURER_ORDERING_METHOD;
 			}
 		}
 
@@ -284,31 +284,34 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function getmanufacturercategory($mid, $tblobj)
 	{
-		$and              = "";
 		$order_functions  = order_functions::getInstance();
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+		$db = $this->_db;
+
+		$query = $db->getQuery(true)
+			->select('DISTINCT(c.category_id)')
+			->select($db->qn('c.category_name'))
+			->select($db->qn('c.category_short_description'))
+			->select($db->qn('c.category_description'))
+			->select($db->qn('c.category_thumb_image'))
+			->select($db->qn('c.category_full_image'))
+			->from($db->qn('#__redshop_product') . ' AS p')
+			->leftJoin($db->qn('#__redshop_product_category_xref') . ' AS pc' . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
+			->leftJoin($db->qn('#__redshop_category') . ' AS c' . ' ON ' . $db->qn('pc.category_id') . ' = ' . $db->qn('c.category_id'))
+			->where($db->qn('p.published') . ' = 1')
+			->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int) $mid))
+			->where($db->qn('p.expired') . ' = 0')
+			->where($db->qn('p.product_parent_id') . ' = 0');
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
 		{
 			$excluding_category_list = explode(',', $tblobj->excluding_category_list);
 			JArrayHelper::toInteger($excluding_category_list);
 			$excluding_category_list = implode(',', $excluding_category_list);
-			$and = "AND c.category_id NOT IN (" . $excluding_category_list . ") ";
+			$query->where($db->qn('c.category_id') . ' NOT IN (' . $excluding_category_list . ')');
 		}
 
-		$query = "SELECT DISTINCT(c.category_id), c.category_name,c.category_short_description,c.category_description "
-			. "FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON pc.category_id=c.category_id "
-			. "WHERE p.published = 1 "
-			. "AND p.manufacturer_id = " . (int) $mid . " "
-			. "AND p.expired = 0 "
-			. "AND p.product_parent_id = 0 "
-			. $and;
-
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectlist();
 	}
 
 	public function getProductTotal()
@@ -330,7 +333,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$orderByObj  = RedshopSiteHelper::getInstance()->prepareOrderBy(
+		$orderByObj  = redhelper::getInstance()->prepareOrderBy(
 			urldecode(JFactory::getApplication()->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD')))
 		);
 		$orderBy     = $orderByObj->ordering . ' ' . $orderByObj->direction;

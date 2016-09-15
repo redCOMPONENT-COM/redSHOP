@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $extra_field = extra_field::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
-$extraField = RedshopSiteExtraField::getInstance();
+$redhelper = redhelper::getInstance();
+$extraField = extraField::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
 
 JHTML::_('behavior.tooltip');

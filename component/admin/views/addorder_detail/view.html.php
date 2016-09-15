@@ -44,7 +44,7 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 		$shippinginfo = array();
 		$model        = $this->getModel();
 		$detail       = $this->get('data');
-		$redhelper    = RedshopSiteHelper::getInstance();
+		$redhelper    = redhelper::getInstance();
 
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 

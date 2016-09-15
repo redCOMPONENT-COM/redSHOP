@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$producthelper = RedshopSiteProduct::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
+$producthelper = productHelper::getInstance();
+$redhelper = redhelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $cid = JRequest::getInt('cid');

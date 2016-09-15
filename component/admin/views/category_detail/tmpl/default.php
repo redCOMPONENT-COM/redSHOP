@@ -14,7 +14,7 @@ $editor        = JFactory::getEditor();
 $uri           = JURI::getInstance();
 $url           = $uri->root();
 JHTML::_('behavior.calendar');
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 JText::script('COM_REDSHOP_DELETE');
 ?>
 <script language="javascript" type="text/javascript">
@@ -26,6 +26,9 @@ JText::script('COM_REDSHOP_DELETE');
 		}
 		if (form.category_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_ITEM_MUST_HAVE_A_NAME', true ); ?>");
+		}
+		else if (parseInt(form.products_per_page.value) <= 0) {
+			alert("<?php echo JText::_('COM_REDSHOP_PRODUCTS_PER_PAGE_MUST_BE_GREATER_THAN_ZERO', true ); ?>");
 		}
 		else if ((form.category_template.value == "0" || form.category_template.value == "" ) && !<?php echo Redshop::getConfig()->get('CATEGORY_TEMPLATE');?>) {
 			alert("<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE', true ); ?>");

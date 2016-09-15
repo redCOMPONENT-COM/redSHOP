@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtmlBehavior::modal();
 
-$producthelper = RedshopSiteProduct::getInstance();
-$extraField = RedshopSiteExtraField::getInstance();
+$producthelper = productHelper::getInstance();
+$extraField = extraField::getInstance();
 
 $url = JURI::base();
 

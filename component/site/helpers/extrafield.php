@@ -14,7 +14,7 @@ JHTML::_('behavior.tooltip');
 /**
  * Extra Field Class
  */
-class RedshopSiteExtraField
+class extraField
 {
 	/**
 	 * Extra Field Type for Input Text Element

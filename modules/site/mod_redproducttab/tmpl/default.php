@@ -16,9 +16,9 @@ JHtml::script('com_redshop/common.js', false, true);
 JHTML::script('com_redshop/redbox.js', false, true);
 $module_id = "mod_" . $module->id;
 
-$producthelper = RedshopSiteProduct::getInstance();
-$redhelper     = RedshopSiteHelper::getInstance();
-$extraField    = RedshopSiteExtraField::getInstance();
+$producthelper = productHelper::getInstance();
+$redhelper     = redhelper::getInstance();
+$extraField    = extraField::getInstance();
 
 // Create Pane
 echo JHtml::_('tabs.start', 'pane', array('startOffset' => 0));

@@ -122,7 +122,7 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 	public function createShippedInvoicePdf($orderId)
 	{
 		$orderHelper   = order_functions::getInstance();
-		$carthelper    = RedshopSiteCart::getInstance();
+		$carthelper    = rsCarthelper::getInstance();
 		$redshopMail   = redshopMail::getInstance();
 
 		$arr_discount_type = array();
@@ -168,17 +168,6 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 		$email            = $billingaddresses->user_email;
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 		$body             = $carthelper->replaceOrderTemplate($row, $body);
-
-		if (strstr($body, "{barcode}"))
-		{
-			$img_url = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
-
-			if (function_exists("curl_init"))
-			{
-				$bar_codeIMG = '<img src="' . $img_url . '" alt="Barcode"  border="0" />';
-				$body = str_replace("{barcode}", $bar_codeIMG, $body);
-			}
-		}
 
 		return $body;
 	}

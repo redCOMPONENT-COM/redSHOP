@@ -71,7 +71,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		parent::__construct();
-		$this->producthelper = RedshopSiteProduct::getInstance();
+		$this->producthelper = productHelper::getInstance();
 
 		$this->setId((int) $Id);
 	}
@@ -90,7 +90,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 		$params = $app->getParams('com_redshop');
-		$selectedTemplate = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
+		$selectedTemplate = DEFAULT_CATEGORYLIST_TEMPLATE;
 		$layout = $app->input->getCmd('layout', 'detail');
 
 		if ($this->_id)
@@ -143,7 +143,7 @@ class RedshopModelCategory extends RedshopModel
 		$app->setUserState($this->context . '.editTimestamp', time());
 
 		$orderByMethod = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
-		$orderBy       = RedshopSiteHelper::getInstance()->prepareOrderBy($orderByMethod);
+		$orderBy       = redhelper::getInstance()->prepareOrderBy($orderByMethod);
 
 		$this->setState('list.ordering', $orderBy->ordering);
 		$this->setState('list.direction', $orderBy->direction);
@@ -310,7 +310,7 @@ class RedshopModelCategory extends RedshopModel
 		$sort = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = RedshopSiteUser::getInstance();
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopperGroupManufactures != "")
@@ -524,7 +524,7 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function buildProductOrderBy()
 	{
-		$orderBy        = RedshopSiteHelper::getInstance()->prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
+		$orderBy        = redhelper::getInstance()->prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
 		$filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 
@@ -765,7 +765,7 @@ class RedshopModelCategory extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$setproductfinderobj = RedshopSiteHelper::getInstance();
+		$setproductfinderobj = redhelper::getInstance();
 		$setproductfinder    = $setproductfinderobj->isredProductfinder();
 		$finder_condition    = "";
 

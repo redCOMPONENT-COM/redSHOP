@@ -416,7 +416,7 @@ class RedshopModelSearch extends RedshopModel
 							'order_by',
 							$app->getParams()->get('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
 						);
-		$orderByObj  = RedshopSiteHelper::getInstance()->prepareOrderBy(urldecode($orderByMethod));
+		$orderByObj  = redhelper::getInstance()->prepareOrderBy(urldecode($orderByMethod));
 
 		$orderBy = $orderByObj->ordering . ' ' . $orderByObj->direction;
 
@@ -479,10 +479,10 @@ class RedshopModelSearch extends RedshopModel
 		$days        = isset($item->query['newproduct']) ? $item->query['newproduct'] : 0;
 		$today       = date('Y-m-d H:i:s', time());
 		$days_before = date('Y-m-d H:i:s', time() - ($days * 60 * 60 * 24));
-		$aclProducts = RedshopSiteProduct::getInstance()->loadAclProducts();
+		$aclProducts = productHelper::getInstance()->loadAclProducts();
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = RedshopSiteUser::getInstance();
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")

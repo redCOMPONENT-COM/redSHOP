@@ -145,7 +145,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function storeShipping($data)
 	{
-		$userhelper = RedshopSiteUser::getInstance();
+		$userhelper = rsUserHelper::getInstance();
 		$data['address_type'] = 'BT';
 		$data['createaccount'] = (isset($data['username']) && $data['username'] != "") ? 1 : 0;
 		$data['user_email'] = $data['email1'] = $data['email'];
@@ -238,9 +238,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 	{
 		$redshopMail = redshopMail::getInstance();
 		$order_functions = order_functions::getInstance();
-		$helper = RedshopSiteHelper::getInstance();
-		$producthelper = RedshopSiteProduct::getInstance();
-		$rsCarthelper = RedshopSiteCart::getInstance();
+		$helper = redhelper::getInstance();
+		$producthelper = productHelper::getInstance();
+		$rsCarthelper = rsCarthelper::getInstance();
 		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 

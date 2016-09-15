@@ -15,11 +15,11 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 
-$carthelper = RedshopSiteCart::getInstance();
-$producthelper = RedshopSiteProduct::getInstance();
+$carthelper = rsCarthelper::getInstance();
+$producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
-$userhelper = RedshopSiteUser::getInstance();
+$redhelper = redhelper::getInstance();
+$userhelper = rsUserHelper::getInstance();
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;

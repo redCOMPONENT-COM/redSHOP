@@ -17,10 +17,10 @@ JLoader::import('joomla.html.parameter');
 JLoader::import('joomla.html.pagination');
 
 RedshopHelperCron::init();
-RedshopSiteStatistic::getInstance()->track();
+statistic::getInstance()->track();
 
 // Helper object
-$helper = RedshopSiteHelper::getInstance();
+$helper = redhelper::getInstance();
 
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');

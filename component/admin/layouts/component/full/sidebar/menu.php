@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 extract($displayData);
 
-$menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE'));
+$menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
 
 ?>
 <?php if(isset($items)) { ?>

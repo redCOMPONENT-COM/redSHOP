@@ -13,9 +13,9 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 
-$producthelper = RedshopSiteProduct::getInstance();
-$objhelper     = RedshopSiteHelper::getInstance();
-$extraField    = RedshopSiteExtraField::getInstance();
+$producthelper = productHelper::getInstance();
+$objhelper     = redhelper::getInstance();
+$extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
 $model     = $this->getModel('giftcard');

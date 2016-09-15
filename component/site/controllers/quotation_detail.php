@@ -66,7 +66,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$quotationHelper = quotationHelper::getInstance();
 		$model           = $this->getModel('quotation_detail');
 		$session         = JFactory::getSession();
-		$redhelper       = RedshopSiteHelper::getInstance();
+		$redhelper       = redhelper::getInstance();
 
 		$cart = array();
 		$cart['idx'] = 0;

@@ -165,7 +165,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function storeUser($post)
 	{
-		$userhelper = RedshopSiteUser::getInstance();
+		$userhelper = rsUserHelper::getInstance();
 
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email'] = $post['email1'] = $post['email'];
@@ -193,7 +193,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function store($post)
 	{
-		$userhelper = RedshopSiteUser::getInstance();
+		$userhelper = rsUserHelper::getInstance();
 
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
@@ -227,34 +227,50 @@ class RedshopModelUser_detail extends RedshopModel
 		return $reduser;
 	}
 
-	public function delete($cid = array(), $delete_joomla_users = false)
+	public function delete($cid = array(), $deleteJoomlaUsers = false)
 	{
 		if (count($cid))
 		{
+			$db = JFactory::getDbo();
 			$cids = implode(',', $cid);
-			$query_default = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
 
-			if ($delete_joomla_users)
+			$queryDefault = $db->getQuery(true)
+					->delete($db->qn('#__redshop_users_info'))
+					->where($db->qn('users_info_id') . ' IN (' . $cids . ' )');
+
+			if ($deleteJoomlaUsers)
 			{
-				$query_custom = 'SELECT user_id FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
-				$this->_db->setQuery($query_custom);
-				$juser_ids = $this->_db->loadRowList();
+				$queryAllJuserIds = $db->getQuery(true)
+							->select('GROUP_CONCAT(id) AS ids')
+							->from($db->qn('#__users'));
 
-				foreach ($juser_ids as $juser_id) {
-					if (!JFactory::getUser($juser_id[0])->delete())
+				$db->setQuery($queryAllJuserIds);
+				$allJuserIds = $db->loadResult();
+
+				$queryCustom = $db->getQuery(true)
+						->select($db->qn('user_id'))
+						->from($db->qn('#__redshop_users_info'))
+						->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
+						->where($db->qn('user_id') . ' IN (' . $allJuserIds . ' )');
+
+				$db->setQuery($queryCustom);
+				$juserIds = $db->loadRowList();
+
+				foreach ($juserIds as $juserId) {
+					if (!JFactory::getUser($juserId[0])->delete())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 
 						return false;
 					}
 				}
 			}
 
-			$this->_db->setQuery($query_default);
+			$db->setQuery($queryDefault);
 
-			if (!$this->_db->execute())
+			if (!$db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}

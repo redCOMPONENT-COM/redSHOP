@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 $redTemplate = Redtemplate::getInstance();
-$carthelper = RedshopSiteCart::getInstance();
+$carthelper = rsCarthelper::getInstance();
 
 $Itemid = JRequest::getInt('Itemid');
 $return = JRequest::getString('return');
@@ -20,7 +20,7 @@ $cart = $session->get('cart');
 
 $detail = $this->detail;
 $user = JFactory::getUser();
-$extraField   = RedshopSiteExtraField::getInstance();
+$extraField   = extraField::getInstance();
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
 

@@ -19,8 +19,8 @@ $url             = JURI::base();
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();
 
-$redhelper       = RedshopSiteHelper::getInstance();
-$userhelper      = RedshopSiteUser::getInstance();
+$redhelper       = redhelper::getInstance();
+$userhelper      = rsUserHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 

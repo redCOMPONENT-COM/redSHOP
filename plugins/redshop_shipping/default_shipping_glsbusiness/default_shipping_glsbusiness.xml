@@ -2,8 +2,8 @@
 <extension version="1.7.0"  client="site"  type="plugin" group="redshop_shipping" method="upgrade">
 	<name>PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLSBUSINESS</name>
 	<version>1.5.0.7</version>
-    <redshop>1.5.0.6</redshop>
-	<creationDate>09-03-2016</creationDate>
+    <redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
 	<author>redweb.dk</author>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 
 
 global $context;
@@ -19,7 +19,7 @@ $config = Redconfiguration::getInstance();
 
 $lists = $this->lists;
 $model = $this->getModel('order');
-$redhelper = RedshopSiteHelper::getInstance();
+$redhelper = redhelper::getInstance();
 $shippinghelper = shipping::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $dispatcher = JDispatcher::getInstance();
@@ -91,7 +91,7 @@ JPluginHelper::importPlugin('redshop_product');
 		form.submit();
 	}
 
-	resetfilter = function()
+	resetFilter = function()
 	{
 		document.adminForm.task.value = '';
 		document.getElementById('filter').value='';
@@ -112,8 +112,11 @@ JPluginHelper::importPlugin('redshop_product');
 					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
 						   placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
 					<button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
-					<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+					<input type="button" class="btn reset" onclick="resetFilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
 				</div>
+			</div>
+			<div class="filterItem">
+				<?php echo $lists['filter_by']; ?>
 			</div>
 			<div class="filterItem calendar-div">
 				<?php
@@ -155,10 +158,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<?php echo $lists['filter_payment_status']; ?>
 			</div>
 			<div class="filterItem">
-\				<?php echo $lists['filter_status']; ?>
-			</div>
-			<div class="filterItem">
-				<?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" ", 'COM_REDSHOP_NEW_STATUS'); ?>
+				<?php echo $lists['filter_status']; ?>
 			</div>
 		</div>
 	</div>
@@ -183,7 +183,7 @@ JPluginHelper::importPlugin('redshop_product');
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_EMAIL', 'uf.user_email', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_COMPANY', 'is_company', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CUSTOMER_TYPE', 'is_company', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="15%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -250,7 +250,9 @@ JPluginHelper::importPlugin('redshop_product');
 						<td align="center"><?php echo $row->bookinvoice_number; ?></td>
 					<?php endif; ?>
 					<td>
-						<?php echo $row->firstname . ' ' . $row->lastname; ?>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>">
+							<?php echo $row->firstname . ' ' . $row->lastname; ?>
+						</a>
 					</td>
 					<td>
 						<a href="mailto:<?php echo $row->user_email; ?>" target="_blank">
@@ -362,7 +364,7 @@ JPluginHelper::importPlugin('redshop_product');
 						</td>
 						<td align="center">
 						<?php
-							$carthelper    = RedshopSiteCart::getInstance();
+							$carthelper    = rsCarthelper::getInstance();
 							echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
 							echo "<br />";
 
@@ -390,7 +392,7 @@ JPluginHelper::importPlugin('redshop_product');
 						<?php echo $config->convertDateFormat($row->cdate); ?>
 					</td>
 					<td>
-						<a href="index.php?option=com_redshop&view=order&task=multiprint_order&cid[]=<?php echo $row->order_id ?>"><i class="fa fa-file-pdf-o"></i></a>
+						<a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 					</td>
 					<td>
 						<?php if ($row->invoice_no != ''): ?>

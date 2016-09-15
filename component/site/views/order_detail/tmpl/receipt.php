@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 
-$carthelper = RedshopSiteCart::getInstance();
+$carthelper = rsCarthelper::getInstance();
 $redconfig = Redconfiguration::getInstance();
 $configobj = Redconfiguration::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
+$redhelper = redhelper::getInstance();
 
 $db = JFactory::getDbo();
 $url = JURI::base();
@@ -88,7 +88,6 @@ $ReceiptTemplate = str_replace("{product_name_lbl}", JText::_('COM_REDSHOP_PRODU
 $ReceiptTemplate = str_replace("{price_lbl}", JText::_('COM_REDSHOP_PRICE_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_PRICE_LBL'), $ReceiptTemplate);
-$ReceiptTemplate = str_replace("{barcode}", '', $ReceiptTemplate);
 $ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
 
 // Added new tag

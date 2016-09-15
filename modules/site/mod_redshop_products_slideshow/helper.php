@@ -208,8 +208,8 @@ class RedshopProductSlideshow
 			}
 		}
 
-		$producthelper = RedshopSiteProduct::getInstance();
-		$redhelper     = RedshopSiteHelper::getInstance();
+		$producthelper = productHelper::getInstance();
+		$redhelper     = redhelper::getInstance();
 
 		for ($k = 0, $countRows = count($rows);$k < $countRows;$k++)
 		{

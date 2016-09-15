@@ -14,11 +14,12 @@ class RedshopViewAccessmanager extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'), 'redshop_catalogmanagement48');
 
-		if (Redshop::getConfig()->get('ENABLE_BACKENDACCESS'))
+		if ($user->authorise('core.manage', 'com_redshop'))
 		{
 			parent::display($tpl);
 		}

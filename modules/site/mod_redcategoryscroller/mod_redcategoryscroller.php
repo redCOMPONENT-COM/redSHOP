@@ -337,7 +337,7 @@ if (!class_exists('redcategoryScroller'))
 
 		function ShowCategory($row)
 		{
-			$redhelper     = RedshopSiteHelper::getInstance();
+			$redhelper     = redhelper::getInstance();
 
 			$ItemData = $redhelper->getCategoryItemid($row->category_id);
 

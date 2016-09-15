@@ -638,7 +638,6 @@ class Redconfiguration
 						"SEO_PAGE_DESCRIPTION"                         => $d["seo_page_description"],
 						"SEO_PAGE_KEYWORDS"                            => $d["seo_page_keywords"],
 						"SEO_PAGE_LANGAUGE"                            => $d["seo_page_language"],
-						"SEO_PAGE_ROBOTS"                              => $d["seo_page_robots"],
 						"SEO_PAGE_TITLE_CATEGORY"                      => $d["seo_page_title_category"],
 						"SEO_PAGE_HEADING_CATEGORY"                    => $d["seo_page_heading_category"],
 						"SEO_PAGE_SHORT_DESCRIPTION_CATEGORY"          => $d["seo_page_short_description_category"],
@@ -725,7 +724,6 @@ class Redconfiguration
 						"DISCOUNT_ENABLE"                              => $d["discount_enable"],
 						"DISCOUNT_TYPE"                                => $d["discount_type"],
 						"INVOICE_MAIL_ENABLE"                          => $d["invoice_mail_enable"],
-						"ENABLE_BACKENDACCESS"                         => $d["enable_backendaccess"],
 						"WISHLIST_LOGIN_REQUIRED"                      => $d["wishlist_login_required"],
 
 						"INVOICE_MAIL_SEND_OPTION"                     => $d["invoice_mail_send_option"],
@@ -897,7 +895,7 @@ class Redconfiguration
 	public function showPrice()
 	{
 		$user       = JFactory::getUser();
-		$userHelper = RedshopSiteUser::getInstance();
+		$userHelper = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -924,7 +922,7 @@ class Redconfiguration
 	public function getCatalog()
 	{
 		$user             = JFactory::getUser();
-		$userHelper       = RedshopSiteUser::getInstance();
+		$userHelper       = rsUserHelper::getInstance();
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
@@ -953,7 +951,7 @@ class Redconfiguration
 	{
 		$db = JFactory::getDbo();
 		$user             = JFactory::getUser();
-		$userhelper       = RedshopSiteUser::getInstance();
+		$userhelper       = rsUserHelper::getInstance();
 		$shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
 		if ($user->id)

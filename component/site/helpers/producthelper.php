@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-class RedshopSiteProduct
+class productHelper
 {
 	public $_db = null;
 
@@ -77,7 +77,7 @@ class RedshopSiteProduct
 	{
 		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
-		$this->_userhelper   = RedshopSiteUser::getInstance();
+		$this->_userhelper   = rsUserHelper::getInstance();
 		$this->_session      = JFactory::getSession();
 	}
 
@@ -165,7 +165,7 @@ class RedshopSiteProduct
 	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
 		$userArr  = $this->_session->get('rs_user');
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 		$result = null;
 
 		if (empty($userArr))
@@ -735,7 +735,7 @@ class RedshopSiteProduct
 
 		if (count($findFields) > 0)
 		{
-			return implode(',', RedshopSiteHelper::quote($findFields));
+			return implode(',', redhelper::quote($findFields));
 		}
 
 		return '';
@@ -750,7 +750,7 @@ class RedshopSiteProduct
 	{
 		if ($dbname = $this->getExtraFieldsForCurrentTemplate($filedname, $template_data, $categorypage))
 		{
-			$extraField = RedshopSiteExtraField::getInstance();
+			$extraField = extraField::getInstance();
 			$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 		}
 
@@ -1183,7 +1183,7 @@ class RedshopSiteProduct
 
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
-		$redhelper  = RedshopSiteHelper::getInstance();
+		$redhelper  = redhelper::getInstance();
 		$result     = $this->getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
@@ -3785,7 +3785,7 @@ class RedshopSiteProduct
 
 	public function getRelatedProduct($product_id = 0, $related_id = 0)
 	{
-		$helper          = RedshopSiteHelper::getInstance();
+		$helper          = redhelper::getInstance();
 		$and             = "";
 		$orderby         = "ORDER BY p.product_id ASC ";
 		$orderby_related = "";
@@ -7198,15 +7198,6 @@ class RedshopSiteProduct
 								$displayPrice = "";
 							}
 
-//							if(strpos($data,'{product_attribute_price}') === false)
-//							{
-//								$displayPrice = '';
-//							}
-//							if(strpos($data,'{product_attribute_number}') === false)
-//							{
-//								$virtualNumber = '';
-//							}
-
 							$displayaccessory .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($subpropArr[$l]['subproperty_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
 							$subprooprand[$k][$l]   = $subpropArr[$l]['subproperty_oprand'];
 							$subproprice[$k][$l]    = $subpropArr[$l]['subproperty_price'];
@@ -7673,7 +7664,7 @@ class RedshopSiteProduct
 						// Show actual productive price
 						if ($property_price > 0)
 						{
-							$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
+							$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
 
 							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -7750,7 +7741,7 @@ class RedshopSiteProduct
 							// Show actual productive price
 							if ($subproperty_price > 0)
 							{
-								$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
+								$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
 
 								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -8896,9 +8887,16 @@ class RedshopSiteProduct
 		return $parent_id;
 	}
 
+	/**
+	 * Get formatted number
+	 *
+	 * @param   int  $price
+	 *
+	 * @return  string
+	 */
 	public function redpriceDecimal($price)
 	{
-		return number_format($price, Redshop::getConfig()->get('PRICE_DECIMAL'), '.', '');
+		return number_format(abs($price), Redshop::getConfig()->get('PRICE_DECIMAL'), '.', '');
 	}
 
 	public function redunitDecimal($price)
@@ -9031,7 +9029,7 @@ class RedshopSiteProduct
 
 		if ($tmp_name == '')
 		{
-			$tmp_name = Redshop::getConfig()->get('COMPARE_TEMPLATE_ID');
+			$tmp_name = COMPARE_TEMPLATE_ID;
 		}
 
 		return $tmp_name;
@@ -9079,7 +9077,7 @@ class RedshopSiteProduct
 
 			if ($displaylink)
 			{
-				$redhelper = RedshopSiteHelper::getInstance();
+				$redhelper = redhelper::getInstance();
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
 
 				if(!(boolean) $catItem)
@@ -9104,7 +9102,7 @@ class RedshopSiteProduct
 	{
 		$url                 = JURI::base();
 		$product             = $this->getProductById($product_id);
-		$redhelper           = RedshopSiteHelper::getInstance();
+		$redhelper           = redhelper::getInstance();
 		$aHrefImageResponse  = '';
 		$imagename           = '';
 		$aTitleImageResponse = '';
@@ -9241,7 +9239,7 @@ class RedshopSiteProduct
 		$redTemplate     = Redtemplate::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$url             = JURI::base();
-		$redhelper       = RedshopSiteHelper::getInstance();
+		$redhelper       = redhelper::getInstance();
 
 		if ($accessory_id != 0)
 		{
@@ -9807,20 +9805,14 @@ class RedshopSiteProduct
 			{
 				$productinstock  = $stockroomhelper->getStockAmountwithReserve($subproperty_id, "subproperty");
 				$stockamountList = $stockroomhelper->getStockAmountImage($subproperty_id, "subproperty", $productinstock);
-//				if(count($stockamountList)>0)
-//				{
 				$stockImgFlag = true;
-//				}
 			}
 
 			if ($property_id && $stockImgFlag == false)
 			{
 				$productinstock  = $stockroomhelper->getStockAmountwithReserve($property_id, "property");
 				$stockamountList = $stockroomhelper->getStockAmountImage($property_id, "property", $productinstock);
-//				if(count($stockamountList)>0)
-//				{
 				$stockImgFlag = true;
-//				}
 			}
 
 			if ($product_id && $stockImgFlag == false)
@@ -9964,7 +9956,7 @@ class RedshopSiteProduct
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = RedshopSiteExtraField::getInstance();
+		$extraField = extraField::getInstance();
 
 		if (count($fieldArray) > 0)
 		{
@@ -10003,10 +9995,10 @@ class RedshopSiteProduct
 	 */
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field      = RedshopSiteExtraField::getInstance();
+		$extra_field      = extraField::getInstance();
 		$config           = Redconfiguration::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
-		$redhelper        = RedshopSiteHelper::getInstance();
+		$redhelper        = redhelper::getInstance();
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
@@ -10456,7 +10448,7 @@ class RedshopSiteProduct
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = RedshopSiteExtraField::getInstance();
+		$extraField = extraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
@@ -10479,7 +10471,7 @@ class RedshopSiteProduct
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = RedshopSiteExtraField::getInstance();
+		$extraField = extraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 

@@ -64,8 +64,8 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$this->dispatcher    = JDispatcher::getInstance();
 
 		$redTemplate         = Redtemplate::getInstance();
-		$redhelper           = RedshopSiteHelper::getInstance();
-		$this->producthelper = RedshopSiteProduct::getInstance();
+		$redhelper           = redhelper::getInstance();
+		$this->producthelper = productHelper::getInstance();
 
 		$this->option        = $this->input->getString('option', 'com_redshop');
 		$lists               = array();
@@ -356,7 +356,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			}
 			else
 			{
-				$objhelper = RedshopSiteHelper::getInstance();
+				$objhelper = redhelper::getInstance();
 				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
 			}
 

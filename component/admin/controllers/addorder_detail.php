@@ -50,7 +50,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$stockroomhelper = rsstockroomhelper::getInstance();
-			$producthelper = RedshopSiteProduct::getInstance();
+			$producthelper = productHelper::getInstance();
 
 			for ($i = 0, $n = count($orderItem); $i < $n; $i++)
 			{
@@ -127,7 +127,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$paymentinfo->accepted_credict_card = $paymentparams->get("accepted_credict_card");
 		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
 
-		$cartHelper = RedshopSiteCart::getInstance();
+		$cartHelper = rsCarthelper::getInstance();
 
 		$subtotal = $post['order_subtotal'];
 		$update_discount = 0;

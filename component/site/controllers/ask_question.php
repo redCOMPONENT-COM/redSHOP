@@ -37,7 +37,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 		$Itemid      = $app->input->getInt('Itemid', 0);
 		$ask         = $app->input->getInt('ask', 0);
 		$category_id = $app->input->getInt('category_id', 0);
-		$userHelper  = RedshopSiteUser::getInstance();
+		$userHelper  = rsUserHelper::getInstance();
 
 		if ($ask)
 		{

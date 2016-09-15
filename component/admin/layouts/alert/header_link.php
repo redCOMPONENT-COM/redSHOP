@@ -14,7 +14,7 @@ $alertsCount = $model->countAlert();
 $alerts = $model->getAlert(5);
 ?>
 <li class="dropdown notifications-menu">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	<a title="<?php echo JText::_('COM_REDSHOP_ALERT'); ?>" href="#" class="dropdown-toggle" data-toggle="dropdown">
 		<i class="fa fa-bell-o"></i>
 
 		<?php if ($alertsCount > 0) : ?>
@@ -26,7 +26,7 @@ $alerts = $model->getAlert(5);
 			<li>
 				<ul class="menu">
 					<li>
-						<a href="#"><?php echo $alert->message; ?></a>
+						<?php echo $alert->message; ?>
 					</li>
 				</ul>
 			</li>

@@ -31,11 +31,11 @@ JHTMLBehavior::modal();
 
 
 
-$carthelper = RedshopSiteCart::getInstance();
-$producthelper = RedshopSiteProduct::getInstance();
+$carthelper = rsCarthelper::getInstance();
+$producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
-$userhelper = RedshopSiteUser::getInstance();
+$redhelper = redhelper::getInstance();
+$userhelper = rsUserHelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $dispatcher = JDispatcher::getInstance();
 

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopSiteStatistic
+class statistic
 {
 	protected static $instance = null;
 

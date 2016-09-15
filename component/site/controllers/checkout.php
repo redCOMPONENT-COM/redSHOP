@@ -89,7 +89,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		$Itemid        = JRequest::getInt('Itemid');
 		$users_info_id = JRequest::getInt('users_info_id');
-		$helper        = RedshopSiteHelper::getInstance();
+		$helper        = redhelper::getInstance();
 		$chk           = $this->chkvalidation($users_info_id);
 
 		if (!empty($chk))
@@ -370,7 +370,7 @@ class RedshopControllerCheckout extends RedshopController
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
 		$user       = JFactory::getUser();
-		$producthelper   = RedshopSiteProduct::getInstance();
+		$producthelper   = productHelper::getInstance();
 		$payment_method_id = JRequest::getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -487,7 +487,7 @@ class RedshopControllerCheckout extends RedshopController
 					$labelClass = 'label-success';
 				}
 
-				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
+				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $order_id, $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
 				$dispatcher->trigger('storeAlert', array($message));
 
 				$model->resetcart();
@@ -532,7 +532,7 @@ class RedshopControllerCheckout extends RedshopController
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg);
+			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg, 'error');
 		}
 	}
 
@@ -580,9 +580,9 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
-		$producthelper   = RedshopSiteProduct::getInstance();
+		$producthelper   = productHelper::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
-		$carthelper      = RedshopSiteCart::getInstance();
+		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		$model   = $this->getModel('checkout');
@@ -676,7 +676,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app        = JFactory::getApplication();
 		$cart       = JFactory::getSession()->get('cart');
-		$carthelper = RedshopSiteCart::getInstance();
+		$carthelper = rsCarthelper::getInstance();
 
 		$creditcard = "";
 
@@ -732,7 +732,7 @@ class RedshopControllerCheckout extends RedshopController
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
 
-		$extraField = RedshopSiteExtraField::getInstance();
+		$extraField = extraField::getInstance();
 		$extrafield_total = "";
 
 		if (count($extrafield_shipping) > 0)

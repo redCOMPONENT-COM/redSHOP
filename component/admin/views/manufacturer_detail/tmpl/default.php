@@ -25,8 +25,9 @@ JHTMLBehavior::modal();
 
 		if (form.manufacturer_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_MANUFACTURER_ITEM_MUST_HAVE_A_NAME', true ); ?>");
+		} else if (parseInt(form.product_per_page.value) <= 0) {
+			alert("<?php echo JText::_('COM_REDSHOP_PRODUCTS_PER_PAGE_MUST_BE_GREATER_THAN_ZERO', true ); ?>");
 		} else if (form.manufacturer_url.value != "") {
-
 			if (!form.manufacturer_url.value.match(/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/)) {
 				alert("<?php echo JText::_('COM_REDSHOP_ENTER_VALID_MANUFACTURER_URL', true); ?>");
 			} else {

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopSiteCart
+class rsCarthelper
 {
 	public $_table_prefix = null;
 
@@ -58,9 +58,9 @@ class RedshopSiteCart
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_extra_field     = extra_field::getInstance();
-		$this->_extraFieldFront = RedshopSiteExtraField::getInstance();
-		$this->_redhelper       = RedshopSiteHelper::getInstance();
-		$this->_producthelper   = RedshopSiteProduct::getInstance();
+		$this->_extraFieldFront = extraField::getInstance();
+		$this->_redhelper       = redhelper::getInstance();
+		$this->_producthelper   = productHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 	}
 
@@ -1166,7 +1166,7 @@ class RedshopSiteCart
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$productAttributeCalculatedPriceBase = RedshopSiteHelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
+									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -3495,7 +3495,7 @@ class RedshopSiteCart
 
 					if (strpos($rate_data, "{shipping_extrafields}") !== false)
 					{
-						$extraField         = RedshopSiteExtraField::getInstance();
+						$extraField         = extraField::getInstance();
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
 						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
 
@@ -3598,7 +3598,7 @@ class RedshopSiteCart
 	{
 		$ccdata = $this->_session->get('ccdata');
 
-		$rsUserhelper = RedshopSiteUser::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
 		$url          = JURI::base();
 		$user         = JFactory::getUser();
 		$user_id      = $user->id;
@@ -3880,7 +3880,7 @@ class RedshopSiteCart
 				}
 
 				$url            = JURI::base();
-				$article_link   = $url . "index.php?option=com_content&amp;view=article&amp;id=" . Redshop::getConfig()->get('TERMS_ARTICLE_ID') . "&Itemid=" . $Itemid . "&tmpl=component&for=true";
+				$article_link   = $url . "index.php?option=com_content&amp;view=article&amp;id=" . Redshop::getConfig()->get('TERMS_ARTICLE_ID') . "&Itemid=" . $Itemid . "&tmpl=component";
 				$termscondition = '<label class="checkbox"><input type="checkbox" id="termscondition" name="termscondition" value="1" /> ';
 				$termscondition .= JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL');
 				$termscondition .= ' <a class="modal" href="' . $article_link . '" rel="{handler: \'iframe\', size: {x: ' . $finalwidth . ', y: ' . $finalheight . '}}">' . JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL') . '</a></label>';
@@ -5221,7 +5221,7 @@ class RedshopSiteCart
 
 	public function dbtocart($userId = 0)
 	{
-		$rsUserhelper = RedshopSiteUser::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
 
 		if ($userId == 0)
 		{
@@ -5684,7 +5684,7 @@ class RedshopSiteCart
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher       = JDispatcher::getInstance();
-		$rsUserhelper     = RedshopSiteUser::getInstance();
+		$rsUserhelper     = rsUserHelper::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
 		$cart             = $this->_session->get('cart');

@@ -11,13 +11,13 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 JHTML::_('behavior.calendar');
 
-$producthelper = RedshopSiteProduct::getInstance();
+$producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redconfig = Redconfiguration::getInstance();
 
 
 $model = $this->getModel('addorder_detail');
-$redhelper = RedshopSiteHelper::getInstance();
+$redhelper = redhelper::getInstance();
 
 $billing = $this->billing;
 $shipping = $this->shipping;

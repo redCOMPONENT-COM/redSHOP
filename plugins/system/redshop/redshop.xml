@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="system" method="upgrade">
+<extension version="3.0" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_REDSHOP_NAME</name>
 	<author>redCOMPONENT</author>
-	<creationDate>28 March 2016</creationDate>
+	<creationDate>Sep 2016</creationDate>
 	<copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>
-	<version>1.5.0.2</version>
-	<redshop>1.5</redshop>
+	<version>2.0</version>
+	<redshop>2.0</redshop>
 	<description>PLG_SYSTEM_REDSHOP_DESCRIPTION</description>
 
 	<files>

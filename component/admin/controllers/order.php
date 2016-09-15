@@ -12,6 +12,29 @@ defined('_JEXEC') or die;
 
 class RedshopControllerOrder extends RedshopController
 {
+	/**
+	 * Method for generate PDF for specific order.
+	 *
+	 * @return void
+	 */
+	public function printPDF()
+	{
+		$app = JFactory::getApplication();
+		$orderId = $app->input->getInt('id', 0);
+
+		if (!$orderId)
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
+			$this->setRedirect('index.php?option=com_redshop&view=order');
+		}
+		else
+		{
+			order_functions::generateInvoicePDF($orderId);
+		}
+
+		$app->close();
+	}
+
 	public function multiprint_order()
 	{
 		$mypost = JRequest::getVar('cid');
@@ -193,7 +216,7 @@ class RedshopControllerOrder extends RedshopController
 			exit;
 		}
 
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$order_function = order_functions::getInstance();
 
 		$model = $this->getModel('order');
@@ -314,7 +337,7 @@ class RedshopControllerOrder extends RedshopController
 			exit;
 		}
 
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$order_function = order_functions::getInstance();
 		$model = $this->getModel('order');
 

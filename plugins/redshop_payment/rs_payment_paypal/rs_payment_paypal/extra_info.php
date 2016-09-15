@@ -11,7 +11,7 @@ JLoader::import('redshop.library');
 
 $objOrder         = order_functions::getInstance();
 $objconfiguration = Redconfiguration::getInstance();
-$redhelper        = RedshopSiteHelper::getInstance();
+$redhelper        = redhelper::getInstance();
 $currencyClass    = CurrencyHelper::getInstance();
 $app              = JFactory::getApplication();
 $input            = $app->input;

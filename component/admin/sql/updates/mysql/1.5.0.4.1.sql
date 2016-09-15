@@ -10,5 +10,3 @@ CREATE TABLE IF NOT EXISTS `#__redshop_usercart_item` (
 	PRIMARY KEY (`cart_item_id`),
 	KEY `idx_cart_id` (`cart_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='redSHOP User Cart Item';
-
-ALTER TABLE `#__redshop_usercart_item` ADD `attribs` VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item';

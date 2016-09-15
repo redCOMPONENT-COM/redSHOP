@@ -14,8 +14,8 @@ JHTML::_('behavior.modal');
 
 
 $config = Redconfiguration::getInstance();
-$producthelper = RedshopSiteProduct::getInstance();
-$redhelper = RedshopSiteHelper::getInstance();
+$producthelper = productHelper::getInstance();
+$redhelper = redhelper::getInstance();
 
 $uri = JURI::getInstance();
 $url = $uri->root();

@@ -181,7 +181,7 @@ class order_functions
 	{
 		$db                        = JFactory::getDbo();
 		$orderDetail             = $this->getOrderDetails($orderId);
-		$producthelper             = RedshopSiteProduct::getInstance();
+		$producthelper             = productHelper::getInstance();
 		$orderproducts             = $this->getOrderItemDetail($orderId);
 		$billingInfo               = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$shippingInfo              = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
@@ -423,7 +423,7 @@ class order_functions
 	 */
 	public function changeorderstatus($data)
 	{
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 		$db       = JFactory::getDbo();
 		$order_id = $data->order_id;
 		$pos      = strpos(JURI::base(), 'plugins');
@@ -665,12 +665,12 @@ class order_functions
 	public function update_status()
 	{
 		$app             = JFactory::getApplication();
-		$helper          = RedshopSiteHelper::getInstance();
-		$producthelper   = RedshopSiteProduct::getInstance();
+		$helper          = redhelper::getInstance();
+		$producthelper   = productHelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
-		$paymentStatus   = $app->input->getCmd('order_paymentstatus');
+		$paymentStatus   = $app->input->getString('order_paymentstatus');
 		$return          = $app->input->getCmd('return');
 
 		$customerNote    = $app->input->get('customer_note', array(), 'array');
@@ -688,6 +688,7 @@ class order_functions
 			$this->updateOrderPaymentStatus($orderId, $paymentStatus);
 		}
 
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 		$order_log = JTable::getInstance('order_status_log', 'Table');
 
 		if (!$isProduct)
@@ -1013,7 +1014,7 @@ class order_functions
 	public function getBillingAddress($user_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 
 		$user = JFactory::getUser();
 
@@ -1236,7 +1237,7 @@ class order_functions
 	public function getCountryName($cnt3 = "")
 	{
 		$db = JFactory::getDbo();
-		$redhelper = RedshopSiteHelper::getInstance();
+		$redhelper = redhelper::getInstance();
 		$and = '';
 		$cntname = '';
 
@@ -1513,41 +1514,8 @@ class order_functions
 		$receipttemp = $redTemplate->getTemplate('order_receipt');
 		$receipttempbody = $receipttemp[0]->template_desc;
 
-		if (strstr($ordermailbody, "{barcode}") || strstr($invoicemailbody, "{barcode}")
-			|| strstr($receipttempbody, "{barcode}") || $barcodekey == 1)
-		{
-			$aZ09 = array_merge(range(1, 9));
-			$rand_barcode = '';
-
-			for ($c = 0; $c < $lenth; $c++)
-			{
-				$rand_barcode .= $aZ09[mt_rand(0, count($aZ09) - 1)];
-			}
-
-			if (function_exists("curl_init"))
-			{
-				$url = JURI::root() . 'administrator/components/com_redshop/helpers/barcode/barcode.php?code='
-					. $rand_barcode . '&encoding=EAN&scale=2&mode=png';
-
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_FAILONERROR, 1);
-				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 3);
-				curl_setopt($ch, CURLOPT_POST, 1);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, "code='.$rand_barcode.'&encoding=EAN&scale=2&mode=png");
-				curl_close($ch);
-			}
-
-			return $rand_barcode;
-		}
-		else
-		{
-			$rand_barcode = "";
-
-			return $rand_barcode;
-		}
+		$rand_barcode = "";
+		return $rand_barcode;
 	}
 
 	public function updatebarcode($oid, $barcode)
@@ -1581,7 +1549,7 @@ class order_functions
 		$app = JFactory::getApplication();
 
 		$config          = Redconfiguration::getInstance();
-		$carthelper      = RedshopSiteCart::getInstance();
+		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 
@@ -1643,25 +1611,6 @@ class order_functions
 
 			// Changes to parse all tags same as order mail end
 			$userdetail = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-
-			// For barcode
-			if (strstr($maildata, "{barcode}"))
-			{
-				if ($barcode_code != "" && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png"))
-				{
-					$barcode_code = $barcode_code;
-				}
-				else
-				{
-					$barcode_code = $this->barcode_randon_number(12, 1);
-					$this->updatebarcode($order_id, $barcode_code);
-				}
-
-				$img_url = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
-				$bar_replace = '<img alt="" src="' . $img_url . '">';
-				$search[] = "{barcode}";
-				$replace[] = $bar_replace;
-			}
 
 			// Getting the order status changed template from mail center end
 			$maildata = $carthelper->replaceBillingAddress($maildata, $userdetail);
@@ -1821,6 +1770,99 @@ class order_functions
 	}
 
 	/**
+	 * Method for generate Invoice PDF of specific Order
+	 *
+	 * @param  int  $orderId  ID of order.
+	 *
+	 * @return void
+	 */
+	public static function generateInvoicePDF($orderId)
+	{
+		if (!$orderId)
+		{
+			return;
+		}
+		$redTemplate = Redtemplate::getInstance();
+		$pdfObj      = RedshopHelperPdf::getInstance();
+		$cartHelper  = rsCarthelper::getInstance();
+
+		$pdfObj->SetTitle('Invoice ' . $orderId);
+
+		// Changed font to support Unicode Characters - Specially Polish Characters
+		$font = 'times';
+		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
+		$pdfObj->setHeaderFont(array($font, '', 8));
+
+		// Set font
+		$pdfObj->SetFont($font, "", 6);
+
+		$orderDetail   = self::getOrderDetails($orderId);
+		$orderTemplate = $redTemplate->getTemplate("order_print");
+
+		if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "")
+		{
+			$message = $orderTemplate[0]->template_desc;
+		}
+		else
+		{
+			$message = '<table style="width: 100%;" border="0" cellpadding="5" cellspacing="0">
+				<tbody><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody>
+				<tr style="background-color: #cccccc;"><th align="left">{order_information_lbl}{print}</th></tr><tr></tr
+				><tr><td>{order_id_lbl} : {order_id}</td></tr><tr><td>{order_number_lbl} : {order_number}</td></tr><tr>
+				<td>{order_date_lbl} : {order_date}</td></tr><tr><td>{order_status_lbl} : {order_status}</td></tr><tr>
+				<td>{shipping_method_lbl} : {shipping_method} : {shipping_rate_name}</td></tr><tr><td>{payment_lbl} : {payment_method}</td>
+				</tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
+				<tbody><tr style="background-color: #cccccc;"><th align="left">{billing_address_information_lbl}</th>
+				</tr><tr></tr><tr><td>{billing_address}</td></tr></tbody></table></td></tr><tr><td colspan="2">
+				<table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody><tr style="background-color: #cccccc;">
+				<th align="left">{shipping_address_info_lbl}</th></tr><tr></tr><tr><td>{shipping_address}</td></tr></tbody>
+				</table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
+				<tbody><tr style="background-color: #cccccc;"><th align="left">{order_detail_lbl}</th></tr><tr></tr><tr><td>
+				<table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody><tr><td>{product_name_lbl}</td><td>{note_lbl}</td>
+				<td>{price_lbl}</td><td>{quantity_lbl}</td><td align="right">Total Price</td></tr>{product_loop_start}<tr>
+				<td><p>{product_name}<br />{product_attribute}{product_accessory}{product_userfields}</p></td>
+				<td>{product_wrapper}{product_thumb_image}</td><td>{product_price}</td><td>{product_quantity}</td>
+				<td align="right">{product_total_price}</td></tr>{product_loop_end}</tbody></table></td></tr><tr>
+				<td></td></tr><tr><td><table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody>
+				<tr align="left"><td align="left"><strong>{order_subtotal_lbl} : </strong></td><td align="right">{order_subtotal}</td>
+				</tr>{if vat}<tr align="left"><td align="left"><strong>{vat_lbl} : </strong></td><td align="right">{order_tax}</td>
+				</tr>{vat end if}{if discount}<tr align="left"><td align="left"><strong>{discount_lbl} : </strong></td>
+				<td align="right">{order_discount}</td></tr>{discount end if}<tr align="left"><td align="left">
+				<strong>{shipping_lbl} : </strong></td><td align="right">{order_shipping}</td></tr><tr align="left">
+				<td colspan="2" align="left"><hr /></td></tr><tr align="left"><td align="left"><strong>{total_lbl} :</strong>
+				</td><td align="right">{order_total}</td></tr><tr align="left"><td colspan="2" align="left"><hr /><br />
+				 <hr /></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>';
+		}
+
+		$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
+			. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='"
+			. JText::_('COM_REDSHOP_PRINT') . "' /></a>";
+
+		$message = str_replace("{print}", $print_tag, $message);
+		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
+		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
+
+		$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
+
+		$pdfObj->AddPage();
+		$pdfObj->writeHTML($message);
+
+		$invoicePdf = 'invoice-' . round(microtime(true) * 1000);
+		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $orderId;
+
+		// Delete currently order invoice
+		if (JFolder::exists($invoiceFolder))
+		{
+			JFolder::delete($invoiceFolder);
+		}
+
+		JFolder::create($invoiceFolder);
+
+		ob_end_clean();
+		$pdfObj->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", "FI");
+	}
+
+	/**
 	 * Create PacSoft Label from Order Status Change functions
 	 *
 	 * @param   integer  $order_id           Order Information ID
@@ -1877,9 +1919,9 @@ class order_functions
 
 	public function orderStatusUpdate($order_id, $post = array())
 	{
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$producthelper = RedshopSiteProduct::getInstance();
+		$producthelper = productHelper::getInstance();
 		$newstatus = $post['order_status_all'];
 		$customer_note = $post['customer_note' . $order_id];
 		$isproduct = (isset($post['isproduct'])) ? $post['isproduct'] : 0;

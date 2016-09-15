@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopSiteUser
+class rsUserHelper
 {
 	public $_session = null;
 
@@ -257,7 +257,7 @@ class RedshopSiteUser
 
 		if ($countemail > 0)
 		{
-			JError::raiseWarning('', JText::_('EMAIL_ALREADY_EXISTS'));
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
 
 			return false;
 		}
@@ -496,7 +496,7 @@ class RedshopSiteUser
 	{
 		$redshopMail = redshopMail::getInstance();
 		$extra_field = extra_field::getInstance();
-		$helper      = RedshopSiteHelper::getInstance();
+		$helper      = redhelper::getInstance();
 
 		$data['user_email']   = $data['email'] = $data['email1'];
 		$data['name']         = $name = $data['firstname'];
@@ -520,7 +520,7 @@ class RedshopSiteUser
 
 			if ($data['is_company'] == 1)
 			{
-				if ($is_admin && $data['shopper_group_id'] != 0)
+				if ($is_admin && isset($data['shopper_group_id']) && $data['shopper_group_id'] != 0)
 				{
 					$data['shopper_group_id'] = $data['shopper_group_id'];
 				}

@@ -83,7 +83,7 @@ class RedshopViewSearch extends RedshopView
 			}
 		}
 
-		$redHelper = RedshopSiteHelper::getInstance();
+		$redHelper = redhelper::getInstance();
 		$order_data            = $redHelper->getOrderByList();
 		$getorderby            = JRequest::getString('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
@@ -111,8 +111,8 @@ class RedshopViewSearch extends RedshopView
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = Redtemplate::getInstance();
 			$Redconfiguration = Redconfiguration::getInstance();
-			$producthelper    = RedshopSiteProduct::getInstance();
-			$extraField       = RedshopSiteExtraField::getInstance();
+			$producthelper    = productHelper::getInstance();
+			$extraField       = extraField::getInstance();
 			$texts            = new text_library;
 			$stockroomhelper  = rsstockroomhelper::getInstance();
 

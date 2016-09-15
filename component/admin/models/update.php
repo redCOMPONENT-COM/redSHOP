@@ -215,7 +215,7 @@ class RedshopModelUpdate extends RedshopModel
 
 						if (!$this->checkIndex($tableName, $key))
 						{
-							$indexFields = implode(',', RedshopSiteHelper::quote((array) $oneIndex, 'qn'));
+							$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
 							$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD INDEX ' . $db->qn($key) . ' (' . $indexFields . ')');
 
 							if (!$db->execute())
@@ -244,7 +244,7 @@ class RedshopModelUpdate extends RedshopModel
 								continue;
 							}
 
-							$indexFields = implode(',', RedshopSiteHelper::quote((array) $oneIndex, 'qn'));
+							$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
 							$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD UNIQUE ' . $db->qn($key) . ' (' . $indexFields . ')');
 
 							if (!$db->execute())

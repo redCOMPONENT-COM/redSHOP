@@ -23,7 +23,7 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 		$userhelper       = rsUserHelper::getInstance();
-		$extra_field      = RedshopSiteUser::getInstance();
+		$extra_field 	  = extra_field::getInstance();
 		$shoppergroup     = new shoppergroup;
 
 		$document         = JFactory::getDocument();
@@ -84,11 +84,11 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 												);
 
 		$this->lists['sendEmail']               = JHTML::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $this->detail->sendEmail);
-		$this->lists['extra_field']             = $extra_field->list_all_field(6, $this->detail->users_info_id);
-		$this->lists['customer_field']          = $extra_field->list_all_field(7, $this->detail->users_info_id);
-		$this->lists['company_field']           = $extra_field->list_all_field(8, $this->detail->users_info_id);
-		$this->lists['shipping_customer_field'] = $extra_field->list_all_field(14, $this->detail->users_info_id);
-		$this->lists['shipping_company_field']  = $extra_field->list_all_field(15, $this->detail->users_info_id);
+		$this->lists['extra_field']             = $extra_field->list_all_field(6, $this->detail->users_info_id, "", "notable");
+		$this->lists['customer_field']          = $extra_field->list_all_field(7, $this->detail->users_info_id, "", "notable");
+		$this->lists['company_field']           = $extra_field->list_all_field(8, $this->detail->users_info_id, "", "notable");
+		$this->lists['shipping_customer_field'] = $extra_field->list_all_field(14, $this->detail->users_info_id, "", "notable");
+		$this->lists['shipping_company_field']  = $extra_field->list_all_field(15, $this->detail->users_info_id, "", "notable");
 
 		$world = RedshopHelperWorld::getInstance();
 

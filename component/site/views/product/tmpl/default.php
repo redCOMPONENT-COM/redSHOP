@@ -19,8 +19,8 @@ $Scheme          = $u->getScheme();
 $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
 
-$extraField      = RedshopSiteExtraField::getInstance();
-$producthelper   = RedshopSiteProduct::getInstance();
+$extraField      = extraField::getInstance();
+$producthelper   = productHelper::getInstance();
 $redshopconfig   = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 $config          = Redconfiguration::getInstance();
@@ -1541,7 +1541,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_data1 = str_replace("{title}", $reviews [$j]->title, $reviews_data1);
 			$reviews_data1 = str_replace("{comment}", nl2br($reviews [$j]->comment), $reviews_data1);
 			$reviews_data1 = str_replace("{stars}", $starimage, $reviews_data1);
-			$reviews_data1 = str_replace("{review_date}", $redshopconfig->convertDateFormat($reviews [$j]->time), $reviews_data1);
+			$reviews_data1 = str_replace("{reviewdate}", $redshopconfig->convertDateFormat($reviews [$j]->time), $reviews_data1);
 			$reviews_data .= $reviews_data1;
 		}
 
@@ -1567,7 +1567,7 @@ if (strstr($template_desc, "{product_rating}"))
 			$reviews_data2 = str_replace("{title}", $reviews [$k]->title, $reviews_data2);
 			$reviews_data2 = str_replace("{comment}", nl2br($reviews [$k]->comment), $reviews_data2);
 			$reviews_data2 = str_replace("{stars}", $starimage2, $reviews_data2);
-			$reviews_data2 = str_replace("{review_date}", $redshopconfig->convertDateFormat($reviews [$k]->time), $reviews_data2);
+			$reviews_data2 = str_replace("{reviewdate}", $redshopconfig->convertDateFormat($reviews [$k]->time), $reviews_data2);
 			$reviews_data .= $reviews_data2;
 		}
 
