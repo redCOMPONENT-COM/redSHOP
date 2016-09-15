@@ -9,16 +9,13 @@
 
 defined('_JEXEC') or die;
 
+$accosiation_id = 0;
+$ordering       = 1;
 
-if (count($this->getassociation) == 0)
+if (!empty($this->getassociation))
 {
-	$accosiation_id = 0;
-	$ordering = 1;
-}
-else
-{
-	$accosiation_id = $this->getassociation->id;
-	$ordering = $this->getassociation->ordering;
+    $accosiation_id = $this->getassociation->id;
+    $ordering       = $this->getassociation->ordering;
 }
 
 ?>
