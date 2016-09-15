@@ -7,7 +7,7 @@
 				<div id="reviews_fullname">{fullname}</div>
 				<div id="reviews_title">{title}</div>
 				<div id="reviews_comment">{comment}</div>
-				<div id="reviews_date">{reviewdate}</div>
+				<div id="reviews_date">{review_date}</div>
 			</div>
 			<div id="reviews_leftside">
 				<div id="reviews_stars">{stars}</div>

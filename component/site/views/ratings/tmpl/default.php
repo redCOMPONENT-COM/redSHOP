@@ -73,7 +73,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 					$review_data = str_replace("{fullname}", $fullname, $review_data);
 					$review_data = str_replace("{title}", $reviews[$j]->title, $review_data);
 					$review_data = str_replace("{comment}", $reviews[$j]->comment, $review_data);
-					$review_data = str_replace("{reviewdate}", $redconfig->convertDateFormat($reviews[$j]->time), $review_data);
+					$review_data = str_replace("{review_date}", $redconfig->convertDateFormat($reviews[$j]->time), $review_data);
 					$review_data = str_replace("{stars}", $starimage, $review_data);
 				}
 
@@ -93,7 +93,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 					$review_data = str_replace("{fullname}", $fullname2, $review_data);
 					$review_data = str_replace("{title}", $reviews[$k]->title, $review_data);
 					$review_data = str_replace("{comment}", $reviews[$k]->comment, $review_data);
-					$review_data = str_replace("{reviewdate}", $redconfig->convertDateFormat($reviews[$k]->time), $review_data);
+					$review_data = str_replace("{review_date}", $redconfig->convertDateFormat($reviews[$k]->time), $review_data);
 					$review_data = str_replace("{stars}", $starimage2, $review_data);
 				}
 
