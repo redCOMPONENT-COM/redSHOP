@@ -257,7 +257,7 @@ class rsUserHelper
 
 		if ($countemail > 0)
 		{
-			JError::raiseWarning('', JText::_('EMAIL_ALREADY_EXISTS'));
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
 
 			return false;
 		}
