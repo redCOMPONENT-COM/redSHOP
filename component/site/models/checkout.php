@@ -604,6 +604,12 @@ class RedshopModelCheckout extends RedshopModel
 				$rowitem->order_item_name        = $product->product_name;
 			}
 
+			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
+			{
+				$cart[$i]['product_price']          = $cart[$i]['product_old_price'];
+				$cart[$i]['product_price_excl_vat'] = $cart[$i]['product_old_price_excl_vat'];
+			}
+
 			$rowitem->product_item_price          = $cart [$i] ['product_price'];
 			$rowitem->product_quantity            = $cart [$i] ['quantity'];
 			$rowitem->product_item_price_excl_vat = $cart [$i] ['product_price_excl_vat'];

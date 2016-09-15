@@ -2161,6 +2161,13 @@ class rsCarthelper
 
 		for ($i = 0; $i < $Idx; $i++)
 		{
+			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
+			{
+				$cart[$i]['product_price']          = $cart[$i]['product_old_price'];
+				$cart[$i]['product_price_excl_vat'] = $cart[$i]['product_old_price_excl_vat'];
+				$cart[$i]['product_vat']            = $cart[$i]['product_old_price'] - $cart[$i]['product_old_price_excl_vat'];
+			}
+
 			$quantity          = $cart[$i]['quantity'];
 			$subtotal          += $quantity * $cart[$i]['product_price'];
 			$subtotal_excl_vat += $quantity * $cart[$i]['product_price_excl_vat'];
