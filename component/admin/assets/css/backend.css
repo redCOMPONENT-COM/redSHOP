@@ -27188,3 +27188,15 @@ body.modal-open {
 {
   cursor: pointer;
 }
+
+.redshop_tags
+{
+ background-color: #999;
+ padding: 2px 4px;
+ color: #FFFFFF;
+ margin-bottom: 5px;
+ margin-right: 5px;
+ font-weight: bold;
+ display: inline-block;
+ border-radius: 3px;
+}
