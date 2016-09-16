@@ -177,7 +177,7 @@ class RedshopHelperUser
 			}
 		}
 
-		$shopperGroupId = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+		$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
 		if ($userId)
 		{

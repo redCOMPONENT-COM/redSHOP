@@ -51,7 +51,7 @@ defined('_JEXEC') or die;
 		</table>
 	</fieldset>
 <?php
-if (ALLOW_CUSTOMER_REGISTER_TYPE != 2)
+if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 2)
 {
 	?>
 	<div>&nbsp;</div>
@@ -77,7 +77,7 @@ if (ALLOW_CUSTOMER_REGISTER_TYPE != 2)
 	</fieldset>
 <?php
 }
-if (ALLOW_CUSTOMER_REGISTER_TYPE != 1)
+if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1)
 {
 	?>
 	<div>&nbsp;</div>

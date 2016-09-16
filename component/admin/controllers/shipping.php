@@ -17,7 +17,7 @@ class RedshopControllerShipping extends RedshopController
 		$db = JFactory::getDbo();
 
 		// Add product to economic
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			$economic = economic::getInstance();
 

@@ -87,9 +87,9 @@ $images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 											'',
 											'thumb',
 											'subcolor',
-											PRODUCT_ADDITIONAL_IMAGE,
-											PRODUCT_ADDITIONAL_IMAGE,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE'),
+											Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE'),
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 					?>
 						<tr>

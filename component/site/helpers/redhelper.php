@@ -778,7 +778,7 @@ class redhelper
 	public function getCheckoutItemid()
 	{
 		$userhelper         = rsUserHelper::getInstance();
-		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
+		$Itemid             = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_checkout_itemid != 0)
@@ -798,7 +798,7 @@ class redhelper
 	public function getCartItemid()
 	{
 		$userhelper         = rsUserHelper::getInstance();
-		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
+		$Itemid             = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_itemid != 0)
@@ -820,8 +820,13 @@ class redhelper
 	 *
 	 * @return  string
 	 */
-	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = WATERMARK_PRODUCT_IMAGE)
+	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = -1)
 	{
+		if ($enableWatermark == -1)
+		{
+			$enableWatermark = Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE');
+		}
+
 		$pathMainImage = $section . '/' . $ImageName;
 
 		try
@@ -835,7 +840,7 @@ class redhelper
 
 			// If watermark not exists or disable - display simple thumb
 			if ($enableWatermark <= 0
-				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . WATERMARK_IMAGE))
+				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				throw new Exception;
 			}
@@ -847,7 +852,7 @@ class redhelper
 			}
 
 			$imageNameWithPrefix = JFile::stripExt($ImageName) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
-				. JFile::stripExt(basename(WATERMARK_IMAGE)) . '.' . JFile::getExt($ImageName);
+				. JFile::stripExt(basename(Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . JFile::getExt($ImageName);
 			$destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/' . $imageNameWithPrefix;
 
 			if (JFile::exists($destinationFile))
@@ -855,13 +860,13 @@ class redhelper
 				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
 			}
 
-			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
+			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . Redshop::getConfig()->get('WATERMARK_IMAGE');
 			$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, 1);
 			$filename_path_info = pathinfo($filename);
 			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $filename_path_info['basename'];
 			ob_start();
 			RedShopHelperImages::resizeImage(
-				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage, $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING, 'browser', false
+				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'), 'browser', false
 			);
 			$contents = ob_get_contents();
 			ob_end_clean();
@@ -871,7 +876,7 @@ class redhelper
 				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . "/" . $ImageName;
 			}
 
-			switch (JFile::getExt(WATERMARK_IMAGE))
+			switch (JFile::getExt(Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				case 'gif':
 					$dest = imagecreatefromjpeg($destinationFile);
@@ -938,7 +943,7 @@ class redhelper
 			else
 			{
 				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING);
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'));
 				$filename_path_info = pathinfo($filename);
 				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $filename_path_info['basename'];
 			}
@@ -949,7 +954,7 @@ class redhelper
 
 	public function clickatellSMS($order_id)
 	{
-		if (CLICKATELL_ENABLE <= 0)
+		if (Redshop::getConfig()->get('CLICKATELL_ENABLE') <= 0)
 		{
 			return;
 		}
@@ -1011,7 +1016,7 @@ class redhelper
 			$this->sendmessage(urlencode($message), $to);
 		}
 
-		if (CLICKATELL_ORDER_STATUS == $orderData->order_status)
+		if (Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS') == $orderData->order_status)
 		{
 			$message = $this->replaceMessage($TemplateDetail[0]->template_desc, $orderData, $paymentName);
 
@@ -1025,13 +1030,13 @@ class redhelper
 	public function sendmessage($text, $to)
 	{
 		// Clickatell_username
-		$user     = CLICKATELL_USERNAME;
+		$user     = Redshop::getConfig()->get('CLICKATELL_USERNAME');
 
 		// Clickatell_password
-		$password = CLICKATELL_PASSWORD;
+		$password = Redshop::getConfig()->get('CLICKATELL_PASSWORD');
 
 		// Clickatell_api_id
-		$api_id   = CLICKATELL_API_ID;
+		$api_id   = Redshop::getConfig()->get('CLICKATELL_API_ID');
 		$baseurl  = "http://api.clickatell.com";
 
 		// Auth call

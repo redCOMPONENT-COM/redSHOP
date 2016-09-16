@@ -63,7 +63,7 @@ class RedshopControllerCart extends RedshopController
 			// Set Error Message
 			$app->enqueueMessage($errmsg, 'error');
 
-			if (AJAX_CART_BOX == 1)
+			if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
 			{
 				echo "`0`" . $errmsg;
 				die();
@@ -98,7 +98,7 @@ class RedshopControllerCart extends RedshopController
 		{
 			$attArr = $cart['AccessoryAsProduct'];
 
-			if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
+			if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE'))
 			{
 				$data['accessory_data']       = $attArr[0];
 				$data['acc_quantity_data']    = $attArr[1];
@@ -149,7 +149,7 @@ class RedshopControllerCart extends RedshopController
 								$app->enqueueMessage($this->getError(), 'error');
 							}
 
-							if (AJAX_CART_BOX == 1)
+							if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
 							{
 								echo "`0`" . $errmsg;
 								die();
@@ -179,7 +179,7 @@ class RedshopControllerCart extends RedshopController
 				}
 			}
 
-			if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
+			if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 			{
 				$this->_carthelper->carttodb();
 			}
@@ -189,7 +189,7 @@ class RedshopControllerCart extends RedshopController
 		}
 		else
 		{
-			if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
+			if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 			{
 				$this->_carthelper->carttodb();
 			}
@@ -204,7 +204,7 @@ class RedshopControllerCart extends RedshopController
 
 		if (!$userfield)
 		{
-			if (AJAX_CART_BOX == 1 && isset($post['ajax_cart_box']))
+			if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && isset($post['ajax_cart_box']))
 			{
 				$link =	JRoute::_(
 						'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $Itemid,
@@ -245,7 +245,7 @@ class RedshopControllerCart extends RedshopController
 		$discount_excl_vat        = 0;
 		$totaldiscount            = 0;
 
-		if (DISCOUNT_ENABLE == 1)
+		if (Redshop::getConfig()->get('DISCOUNT_ENABLE') == 1)
 		{
 			$discount_amount = $producthelper->getDiscountAmount($cart);
 
@@ -279,7 +279,7 @@ class RedshopControllerCart extends RedshopController
 		$discountVAT = 0;
 		$chktag = $producthelper->taxexempt_addtocart();
 
-		if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
+		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && !empty($chktag))
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{

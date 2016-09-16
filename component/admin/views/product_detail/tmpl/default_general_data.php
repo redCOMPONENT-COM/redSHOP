@@ -115,7 +115,7 @@ $calendarFormat = '%d-%m-%Y';
 							</label>
 
 							<div class="input-group">
-								<span class="input-group-addon"><?php echo REDCURRENCY_SYMBOL ?></span>
+								<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') ?></span>
 								<input class="form-control"
 									type="text"
 									name="product_price"
@@ -146,7 +146,7 @@ $calendarFormat = '%d-%m-%Y';
 							</label>
 
 							<div class="input-group">
-								<span class="input-group-addon"><?php echo REDCURRENCY_SYMBOL ?></span>
+								<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') ?></span>
 								<input class="form-control"
 									type="text"
 									name="discount_price"
@@ -549,7 +549,7 @@ $calendarFormat = '%d-%m-%Y';
 						value="<?php echo $this->detail->minimum_per_product_total;?>" />
 				</div>
 
-				<?php if (ALLOW_PRE_ORDER) : ?>
+				<?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>
 				<div class="form-group">
 					<label>
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL'); ?>

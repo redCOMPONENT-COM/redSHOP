@@ -37,7 +37,7 @@ class RedshopViewProduct_Rating extends RedshopView
 		$user = JFactory::getUser();
 
 		// Preform security checks
-		if (!$user->id && RATING_REVIEW_LOGIN_REQUIRED)
+		if (!$user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED'))
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
 

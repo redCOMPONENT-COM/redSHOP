@@ -40,14 +40,14 @@ class RedshopModelAccount_billto extends RedshopModel
 			else
 			{
 				// Toggler settings
-				$is_company = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
+				$is_company = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
 
 				// Allow registration type settings
-				if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
+				if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 				{
 					$is_company = 0;
 				}
-				elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+				elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 				{
 					$is_company = 1;
 				}

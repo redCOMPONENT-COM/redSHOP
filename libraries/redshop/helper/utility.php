@@ -28,7 +28,7 @@ class RedshopHelperUtility
 	{
 		$link = JUri::getInstance(JUri::base() . $link);
 
-		if (SSL_ENABLE_IN_BACKEND && $applySSL)
+		if (Redshop::getConfig()->get('SSL_ENABLE_IN_BACKEND') && $applySSL)
 		{
 			$link->setScheme('https');
 		}

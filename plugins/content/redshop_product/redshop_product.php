@@ -28,13 +28,6 @@ class plgContentredshop_product extends JPlugin
 			$session = JFactory::getSession();
 			$post    = JRequest::get('POST');
 
-			if (JRequest::getCmd('option') != 'com_redshop')
-			{
-				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-				$Redconfiguration = Redconfiguration::getInstance();
-				$Redconfiguration->defineDynamicVars();
-			}
-
 			if (isset($post['product_currency']))
 			{
 				$session->set('product_currency', $post['product_currency']);
@@ -112,26 +105,26 @@ class plgContentredshop_product extends JPlugin
 				if (strstr($prtemplate, "{product_thumb_image_3}"))
 				{
 					$pimg_tag = '{product_thumb_image_3}';
-					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_3;
-					$pw_thumb = PRODUCT_MAIN_IMAGE_3;
+					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_3');
+					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_3');
 				}
 				elseif (strstr($prtemplate, "{product_thumb_image_2}"))
 				{
 					$pimg_tag = '{product_thumb_image_2}';
-					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_2;
-					$pw_thumb = PRODUCT_MAIN_IMAGE_2;
+					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_2');
+					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_2');
 				}
 				elseif (strstr($prtemplate, "{product_thumb_image_1}"))
 				{
 					$pimg_tag = '{product_thumb_image_1}';
-					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-					$pw_thumb = PRODUCT_MAIN_IMAGE;
+					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
+					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
 				}
 				else
 				{
 					$pimg_tag = '{product_thumb_image}';
-					$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-					$pw_thumb = PRODUCT_MAIN_IMAGE;
+					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
+					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='"
@@ -151,7 +144,7 @@ class plgContentredshop_product extends JPlugin
 				{
 					$pr_price = '';
 
-					if ($show_price && SHOW_PRICE)
+					if ($show_price && Redshop::getConfig()->get('SHOW_PRICE'))
 					{
 						$product_price = $producthelper->getProductPrice($product->product_id, $show_price_with_vat);
 						$productArr = $producthelper->getProductNetPrice($product->product_id, 0, 1);

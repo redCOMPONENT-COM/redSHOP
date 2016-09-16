@@ -21,7 +21,7 @@ if ($folder == '')
 
 	if ($fdl)
 	{
-		$basePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR, '', PRODUCT_DOWNLOAD_ROOT) . DIRECTORY_SEPARATOR;
+		$basePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR, '', Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT')) . DIRECTORY_SEPARATOR;
 	}
 
 	$thumb_path = JURI::root() . $basePath . $this->_tmp_img->path_relative;
@@ -35,7 +35,7 @@ else
 					$folder,
 					$this->_tmp_img->width_60,
 					$this->_tmp_img->height_60,
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 }
 ?>

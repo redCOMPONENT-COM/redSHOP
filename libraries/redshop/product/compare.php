@@ -55,7 +55,7 @@ class RedshopProductCompare implements Countable
 
 		/* Clean session if user change comparision type to 'category' and different category id found in the last item list,
 		in order to avoid backward incompatibility and user confusion */
-		if (PRODUCT_COMPARISON_TYPE == 'category' && $this->isMixedCategoryId())
+		if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category' && $this->isMixedCategoryId())
 		{
 			$this->cleanSession();
 		}
@@ -100,8 +100,8 @@ class RedshopProductCompare implements Countable
 	{
 		return (
 			$this->isEmpty()
-			|| (PRODUCT_COMPARISON_TYPE == 'category' && $this->getCategoryId() === $this->item->categoryId)
-			|| PRODUCT_COMPARISON_TYPE == 'global'
+			|| (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category' && $this->getCategoryId() === $this->item->categoryId)
+			|| Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'global'
 		);
 	}
 
@@ -131,7 +131,7 @@ class RedshopProductCompare implements Countable
 		if (!$this->key) throw new Exception(JText::_('COM_REDSHOP_ERROR_REQUIRE_UNIQUE_PRODUCT_ID_TO_COMPARE'));
 
 		// Throw an exception if comparison is overlimit.
-		if ($this->count() >= PRODUCT_COMPARE_LIMIT)
+		if ($this->count() >= Redshop::getConfig()->get('PRODUCT_COMPARE_LIMIT'))
 		{
 			throw new Exception(JText::_('COM_REDSHOP_LIMIT_CROSS_TO_COMPARE'));
 		}
@@ -209,7 +209,7 @@ class RedshopProductCompare implements Countable
 	{
 		return (is_integer(strpos($key, $this->item->productId . '.')));
 	}
-	
+
 	/**
 	 * Check if session have items with different category id
 	 *
@@ -223,13 +223,13 @@ class RedshopProductCompare implements Countable
 		{
 			array_push($cids, $value['item']->categoryId);
 		}
-		
+
 		// Count the number of category id in item list
 		$countCid = count(array_unique($cids));
 
 		return ($countCid > 1);
 	}
-	
+
 	/**
 	 * Count compare Items
 	 *
@@ -251,7 +251,7 @@ class RedshopProductCompare implements Countable
 
 		JFactory::getSession()->set('product.compare', $this->compare);
 	}
-	
+
 	/**
 	 * Clean items info
 	 *

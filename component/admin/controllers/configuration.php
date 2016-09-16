@@ -9,16 +9,8 @@
 
 defined('_JEXEC') or die;
 
-
-
 class RedshopControllerConfiguration extends RedshopController
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->_configpath1 = JPATH_SITE . "/administrator/components/com_redshop/helpers/newtxt.php";
-	}
-
 	public function apply()
 	{
 		$this->save(1);
@@ -81,26 +73,6 @@ class RedshopControllerConfiguration extends RedshopController
 
 		$post['country_list'] = implode(',', $app->input->post->get('country_list', array(), 'ARRAY'));
 
-		if (!isset($post['default_vat_state']))
-		{
-			$post['default_vat_state'] = '';
-		}
-
-		if (!isset($post['write_review_is_lightbox']))
-		{
-			$post['write_review_is_lightbox'] = '';
-		}
-
-		if (!isset($post['splitable_payment']))
-		{
-			$post['splitable_payment'] = 0;
-		}
-
-		if (!isset($post['splitable_payment']))
-		{
-			$post['splitable_payment'] = 0;
-		}
-
 		if (!isset($post['seo_page_short_description']))
 		{
 			$post['seo_page_short_description'] = 0;
@@ -125,15 +97,6 @@ class RedshopControllerConfiguration extends RedshopController
 				$msg = "";
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'), 'error');
 			}
-
-			elseif (!$model->configurationWriteable())
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'), 'error');
-			}
-			elseif (!$model->configurationReadable())
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_READABLE'), 'error');
-			}
 			else
 			{
 				if ($model->store($post))
@@ -147,7 +110,7 @@ class RedshopControllerConfiguration extends RedshopController
 					}
 
 					// Thumb folder deleted and created
-					if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT || $post['use_image_size_swapping'] != USE_IMAGE_SIZE_SWAPPING)
+					if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT || $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
 					{
 						$this->removeThumbImages();
 					}

@@ -107,7 +107,7 @@ class plgredshop_shippingfedex extends JPlugin
 					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_FEDEX_DISCOUNT_LBL') ?></strong></td>
 					<td>
 					<?php
-						echo JHtml::_('select.booleanlist', 'FEDEX_DISCOUNT', '', FEDEX_DISCOUNT);
+						echo JHtml::_('select.booleanlist', 'FEDEX_DISCOUNT', '', Redshop::getConfig()->get('FEDEX_DISCOUNT'));
 					?>
 					</td>
 					<td><?php echo JHTML::tooltip(JText::_('PLG_REDSHOP_SHIPPING_FEDEX_DISCOUNT_LBL'), JText::_('PLG_REDSHOP_SHIPPING_FEDEX_DISCOUNT_LBL'), 'tooltip.png', '', '', false);?></td>
@@ -275,7 +275,7 @@ class plgredshop_shippingfedex extends JPlugin
 		$shippingrate = array();
 		$rate = 0;
 
-		$unitRatio = $producthelper->getUnitConversation($fedex_weightunits, strtolower(DEFAULT_WEIGHT_UNIT));
+		$unitRatio = $producthelper->getUnitConversation($fedex_weightunits, strtolower(Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT')));
 
 		if ($fedex_weightunits == 'lbs')
 		{
@@ -286,7 +286,7 @@ class plgredshop_shippingfedex extends JPlugin
 			$fedex_weightunits = 'KG';
 		}
 
-		$unitRatioVolume = $producthelper->getUnitConversation('inch', DEFAULT_VOLUME_UNIT);
+		$unitRatioVolume = $producthelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 		$totaldimention = $shippinghelper->getCartItemDimention();
 		$carttotalQnt = $totaldimention['totalquantity'];
 		$carttotalWeight = $totaldimention['totalweight'];
@@ -366,7 +366,7 @@ class plgredshop_shippingfedex extends JPlugin
 			}
 		}
 
-		$country_code = SHOP_COUNTRY;
+		$country_code = Redshop::getConfig()->get('SHOP_COUNTRY');
 
 		if ($country_code != '')
 		{
@@ -484,7 +484,7 @@ class plgredshop_shippingfedex extends JPlugin
 					{
 						$Amount = $rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount;
 
-						if (FEDEX_DISCOUNT == 0)
+						if (Redshop::getConfig()->get('FEDEX_DISCOUNT') == 0)
 						{
 							$Amount += $rateReply->RatedShipmentDetails[0]->EffectiveNetDiscount->Amount;
 						}

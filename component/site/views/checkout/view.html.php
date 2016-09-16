@@ -80,7 +80,7 @@ class RedshopViewCheckout extends RedshopView
 		// Toggler settings
 		$openToStretcher = 0;
 
-		if ($isCompany == 1 || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		if ($isCompany == 1 || Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$openToStretcher = 1;
 		}
@@ -89,12 +89,12 @@ class RedshopViewCheckout extends RedshopView
 		$lists['allowCustomer'] = "";
 		$lists['allowCompany'] = "";
 
-		if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 		{
 			$lists['allowCompany'] = "style='display:none;'";
 			$openToStretcher = 0;
 		}
-		elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$lists['allowCustomer'] = "style='display:none;'";
 			$openToStretcher = 1;
@@ -106,7 +106,7 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$cart = $session->get('cart');
 
-			if (DEFAULT_QUOTATION_MODE == 1 && !array_key_exists("quotation_id", $cart))
+			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == 1 && !array_key_exists("quotation_id", $cart))
 			{
 				$app->redirect('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
 			}
@@ -156,7 +156,7 @@ class RedshopViewCheckout extends RedshopView
 			}
 
 			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-			$subtotal       = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
+			$subtotal       = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
 
 			$this->users_info_id = $users_info_id;
 			$this->shipping_rate_id = $shipping_rate_id;
@@ -182,7 +182,7 @@ class RedshopViewCheckout extends RedshopView
 			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 		}
 
-		if (($user->id || $auth['users_info_id'] > 0) && ONESTEP_CHECKOUT_ENABLE)
+		if (($user->id || $auth['users_info_id'] > 0) && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
 			$this->setLayout('onestepcheckout');
 		}

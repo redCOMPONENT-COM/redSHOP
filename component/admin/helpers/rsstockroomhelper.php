@@ -36,7 +36,7 @@ class rsstockroomhelper
 	{
 		$list = array();
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$db = JFactory::getDbo();
 			$and = "";
@@ -58,7 +58,7 @@ class rsstockroomhelper
 
 	public function isStockExists($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$stock = $this->getStockAmountwithReserve($section_id, $section, $stockroom_id);
 
@@ -118,7 +118,7 @@ class rsstockroomhelper
 
 	public function isPreorderStockExists($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$stock = $this->getPreorderStockAmountwithReserve($section_id, $section, $stockroom_id);
 
@@ -179,7 +179,7 @@ class rsstockroomhelper
 	{
 		$quantity = 1;
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$quantity = $this->getStockAmountwithReserve($section_id, $section, $stockroom_id);
 
@@ -199,7 +199,7 @@ class rsstockroomhelper
 	{
 		$quantity = 1;
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$quantity = $this->getPreorderStockAmountwithReserve($section_id, $section, $stockroom_id);
 
@@ -229,7 +229,7 @@ class rsstockroomhelper
 		$quantity = 1;
 		$productHelper = productHelper::getInstance();
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			if ($section == 'product' && $stockroomId == 0 && $sectionId)
 			{
@@ -296,7 +296,7 @@ class rsstockroomhelper
 
 		if ($quantity == null)
 		{
-			$quantity = (USE_BLANK_AS_INFINITE) ? 1000000000 : 0;
+			$quantity = (Redshop::getConfig()->get('USE_BLANK_AS_INFINITE')) ? 1000000000 : 0;
 		}
 
 		return $quantity;
@@ -306,7 +306,7 @@ class rsstockroomhelper
 	{
 		$quantity = 1;
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$and = "";
 			$table = "product";
@@ -367,7 +367,7 @@ class rsstockroomhelper
 	{
 		$list = array();
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$and = "";
 			$table = "product";
@@ -412,7 +412,7 @@ class rsstockroomhelper
 	{
 		$list = array();
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$and = "";
 			$table = "product";
@@ -458,7 +458,7 @@ class rsstockroomhelper
 		$affected_row = array();
 		$stockroom_quantity = array();
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$list = $this->getStockroomAmountDetailList($section_id, $section);
 
@@ -521,8 +521,8 @@ class rsstockroomhelper
 					$product_data = Redshop::product((int) $product_id);
 				}
 
-				if ($product_data->preorder == "yes" || ($product_data->preorder == "global" && ALLOW_PRE_ORDER)
-					|| ($product_data->preorder == "" && ALLOW_PRE_ORDER))
+				if ($product_data->preorder == "yes" || ($product_data->preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+					|| ($product_data->preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 				{
 					for ($i = 0, $in = count($preorder_list); $i < $in; $i++)
 					{
@@ -560,7 +560,7 @@ class rsstockroomhelper
 		$and = "";
 		$table = "product";
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$db = JFactory::getDbo();
 
@@ -598,7 +598,7 @@ class rsstockroomhelper
 		$and = "";
 		$table = "product";
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$db = JFactory::getDbo();
 
@@ -632,7 +632,7 @@ class rsstockroomhelper
 
 	public function manageStockAmount($section_id = 0, $quantity = 0, $stockroom_id = 0, $section = "product")
 	{
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$db = JFactory::getDbo();
 			$and = "";
@@ -687,7 +687,7 @@ class rsstockroomhelper
 		{
 			$productinstock = "";
 
-			if (USE_STOCKROOM == 1)
+			if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 			{
 				$list = $this->getStockroomAmountDetailList($section_id, $section);
 
@@ -707,7 +707,7 @@ class rsstockroomhelper
 	{
 		$list = array();
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$db = JFactory::getDbo();
 
@@ -745,7 +745,7 @@ class rsstockroomhelper
 
 	public function getReservedStock($section_id, $section = "product")
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			$db = JFactory::getDbo();
 			$query = "SELECT SUM(qty) FROM #__redshop_cart "
@@ -762,7 +762,7 @@ class rsstockroomhelper
 
 	public function getCurrentUserReservedStock($section_id, $section = "product")
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			$db = JFactory::getDbo();
 			$session_id = session_id();
@@ -782,10 +782,10 @@ class rsstockroomhelper
 
 	public function deleteExpiredCartProduct()
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			$db = JFactory::getDbo();
-			$time = time() - (CART_TIMEOUT * 60);
+			$time = time() - (Redshop::getConfig()->get('CART_TIMEOUT') * 60);
 
 			$query = "DELETE FROM #__redshop_cart "
 				. "WHERE time < " . $db->quote($time);
@@ -798,7 +798,7 @@ class rsstockroomhelper
 
 	public function deleteCartAfterEmpty($section_id = 0, $section = "product", $quantity = 0)
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -843,7 +843,7 @@ class rsstockroomhelper
 
 	public function addReservedStock($section_id, $quantity = 0, $section = "product")
 	{
-		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
+		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			$db = JFactory::getDbo();
 			$session_id = session_id();

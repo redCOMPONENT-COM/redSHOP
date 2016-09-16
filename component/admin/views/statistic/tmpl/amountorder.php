@@ -18,11 +18,6 @@ $end = $this->pagination->limit;
 			<tr>
 				<td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption'];?></td>
 			</tr>
-			<?php /*<tr><td><?php echo JText::_('COM_REDSHOP_STARTDATE');?></td>
-		<td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td><?php echo JText::_('COM_REDSHOP_ENDDATE');?></td>
-		<td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo JText::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */?>
 		</table>
 		<table class="adminlist table table-striped" width="100%">
 			<thead>

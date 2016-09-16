@@ -53,7 +53,7 @@ $end = $this->pagination->limit;
 					{ ?>
 						<td align="center"><?php echo $row->viewdate;?></td>
 					<?php }    ?>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->turnover);//CURRENCY_SYMBOL.number_format($row->turnover,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);?></td>
+					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->turnover);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

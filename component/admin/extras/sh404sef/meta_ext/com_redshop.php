@@ -29,18 +29,12 @@ $title = array();
 $shItemidString = '';
 $dosef = shInitializePlugin( $lang='', $shLangName, $shLangIso, $option);
 
-if(!defined('TABLE_PREFIX'))
-{
-	JLoader::import('redshop.library');
-		$config = Redconfiguration::getInstance();
-	$config->config();
-}
+JLoader::import('redshop.library');
 
 if ($dosef == false) return;
 
-
-  if (isset($limitstart))  // V 1.2.4.r
-    shRemoveFromGETVarsList('limitstart'); // limitstart can be zero
+if (isset($limitstart))  // V 1.2.4.r
+   shRemoveFromGETVarsList('limitstart'); // limitstart can be zero
 
 	$view = isset($view) ? @$view : null;
 	$cid = isset($cid) ? @$cid : null;

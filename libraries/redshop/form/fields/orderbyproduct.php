@@ -38,7 +38,7 @@ class JFormFieldOrderByProduct extends JFormFieldList
 	{
 		if (!$this->value)
 		{
-			$this->value = DEFAULT_PRODUCT_ORDERING_METHOD;
+			$this->value = Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD');
 		}
 
 		return parent::getInput();

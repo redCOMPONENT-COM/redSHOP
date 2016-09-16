@@ -46,14 +46,5 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 	// Include all tables
 	JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-	$cfgFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-	if (file_exists($cfgFile))
-	{
-		// Getting the configuration
-		require_once $cfgFile;
-
-		$redConfiguration = Redconfiguration::getInstance();
-		$redConfiguration->defineDynamicVars();
-	}
+	// @todo needs to handle dynamic variables see Redconfiguration->defineDynamicVars
 }
