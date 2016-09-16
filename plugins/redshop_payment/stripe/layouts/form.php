@@ -13,7 +13,7 @@ $data    = $displayData['data'];
 $params  = $displayData['params'];
 $price   = $data['order']->order_total;
 
-$name        = $params->get('dataName', SHOP_NAME);
+$name        = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
 $description = JText::sprintf('PLG_REDSHOP_PAYMENT_STRIPE_PAYMENT_DESCRIPTION', $data['order_id']);
 ?>
 <script type="text/javascript">
@@ -28,7 +28,7 @@ $description = JText::sprintf('PLG_REDSHOP_PAYMENT_STRIPE_PAYMENT_DESCRIPTION', 
 		src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 		data-key="<?php echo $params->get('publishableKey'); ?>"
 		data-amount="<?php echo round($price * 100); ?>"
-		data-currency="<?php echo CURRENCY_CODE; ?>"
+		data-currency="<?php echo Redshop::getConfig()->get('CURRENCY_CODE'); ?>"
 		data-name="<?php echo $name; ?>"
 		data-description="<?php echo $description; ?>"
 		data-image="<?php echo $params->get('logo', 'plugins/redshop_payment/stripe/library/128.png'); ?>"

@@ -819,7 +819,7 @@ class RedshopControllerProduct extends RedshopController
 
 			$uploadFilePath = JPath::clean($uploadDir . $fileName);
 
-			$legalExts = explode(',', MEDIA_ALLOWED_MIME_TYPE);
+			$legalExts = explode(',', Redshop::getConfig()->get('MEDIA_ALLOWED_MIME_TYPE'));
 
 			// If Extension is not legal than don't upload file
 			if (!in_array(strtolower($fileExtension), $legalExts))

@@ -68,7 +68,7 @@ $url = $uri->root();
 					    class="key"><?php echo JText::_('COM_REDSHOP_STOCK_AMOUNT_IMAGE_LBL'); ?>:
 					</td>
 					<td><input type="file" name="stock_amount_image"/>
-						<?php if ($this->detail->stock_amount_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $this->detail->stock_amount_image)): ?>
+						<?php if ($this->detail->stock_amount_image && JFile::exists(Redshop::getConfig()->get('REDSHOP_FRONT_IMAGES_RELPATH') . 'stockroom/' . $this->detail->stock_amount_image)): ?>
 						<div><img
 								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/' . $this->detail->stock_amount_image; ?>"
 								width="150px" height="90px"/></div>

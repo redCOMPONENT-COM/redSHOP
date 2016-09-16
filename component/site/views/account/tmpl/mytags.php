@@ -98,7 +98,7 @@ if ($user->id != 0)
 						{
 							foreach ($MyTags as $row)
 							{
-								$data_add   = '<div style="float:left;width:' . (THUMB_WIDTH + 50) . 'px;height:' . (THUMB_HEIGHT + 70) . 'px;text-align:center;">';
+								$data_add   = '<div style="float:left;width:' . (Redshop::getConfig()->get('THUMB_WIDTH') + 50) . 'px;height:' . (Redshop::getConfig()->get('THUMB_HEIGHT') + 70) . 'px;text-align:center;">';
 								$thum_image = "";
 
 								$pname = $row->product_name;
@@ -112,11 +112,11 @@ if ($user->id != 0)
 													'',
 													'thumb',
 													'product',
-													THUMB_WIDTH,
-													THUMB_HEIGHT,
-													USE_IMAGE_SIZE_SWAPPING
+													Redshop::getConfig()->get('THUMB_WIDTH'),
+													Redshop::getConfig()->get('THUMB_HEIGHT'),
+													Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 												);
-									$thum_image = "<div style='width:" . THUMB_WIDTH . "px;height:" . THUMB_HEIGHT . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $thumbUrl . "'></a></div>";
+									$thum_image = "<div style='width:" . Redshop::getConfig()->get('THUMB_WIDTH') . "px;height:" . Redshop::getConfig()->get('THUMB_HEIGHT') . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $thumbUrl . "'></a></div>";
 									$data_add .= $thum_image;
 								}
 
@@ -143,7 +143,7 @@ if ($user->id != 0)
 										<input type='hidden'   value='add' name='task'>
 										<input type='hidden'   name='product_price' value='" . $product_price . "'>
 										<input type='hidden' name='quantity' id='quantity" . $row->product_id . "'  value='1'>
-										<span onclick='document.addtocartscroll" . $i . ".submit();' align='center' style='background-color: #" . ADDTOCART_BACKGROUND . ";cursor:pointer;'><span style='cursor: pointer;' >" . JText::_('COM_REDSHOP_ADD_TO_CART') . "</span></span>
+										<span onclick='document.addtocartscroll" . $i . ".submit();' align='center' style='background-color: #" . Redshop::getConfig()->get('ADDTOCART_BACKGROUND') . ";cursor:pointer;'><span style='cursor: pointer;' >" . JText::_('COM_REDSHOP_ADD_TO_CART') . "</span></span>
 										</form>
 										</div>";
 								$i++;

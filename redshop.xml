@@ -57,6 +57,7 @@
         <menu img="components/com_redshop/assets/images/redshopcart16.png">COM_REDSHOP</menu>
         <files folder="component/admin">
             <folder>assets</folder>
+            <folder>config</folder>
             <folder>controllers</folder>
             <folder>extras</folder>
             <folder>help</folder>

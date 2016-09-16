@@ -16,23 +16,23 @@ $shoppergroupid = JRequest::getInt('protalid', 0);
 
 $returnitemid = $Itemid;
 
-if (PORTAL_LOGIN_ITEMID)
+if (Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID'))
 {
-	$returnitemid = PORTAL_LOGIN_ITEMID;
+	$returnitemid = Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID');
 }
 
-$portallogofile = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO;
+$portallogofile = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO');
 
 $portallogo = RedShopHelperImages::getImagePath(
-					DEFAULT_PORTAL_LOGO,
+					Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO'),
 					'',
 					'thumb',
 					'shopperlogo',
-					THUMB_WIDTH,
-					THUMB_HEIGHT,
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('THUMB_WIDTH'),
+					Redshop::getConfig()->get('THUMB_HEIGHT'),
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
-$portalname = DEFAULT_PORTAL_NAME;
+$portalname = Redshop::getConfig()->get('DEFAULT_PORTAL_NAME');
 $portalintro = "";
 
 if ($shoppergroupid != 0)
@@ -42,9 +42,9 @@ if ($shoppergroupid != 0)
 					'',
 					'thumb',
 					'shopperlogo',
-					THUMB_WIDTH,
-					THUMB_HEIGHT,
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('THUMB_WIDTH'),
+					Redshop::getConfig()->get('THUMB_HEIGHT'),
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 	$portalname  = $this->ShopperGroupDetail[0]->shopper_group_name;
 	$portalintro = $this->ShopperGroupDetail[0]->shopper_group_introtext;

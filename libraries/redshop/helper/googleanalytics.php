@@ -29,7 +29,7 @@ class RedshopHelperGoogleanalytics
 	{
 		// The first line of the tracking script should always initialize the page tracker object.
 		$pagecode = "
-		  	ga('create', '" . GOOGLE_ANA_TRACKER_KEY . "', 'auto');
+		  	ga('create', '" . Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') . "', 'auto');
 			ga('send', 'pageview');
 
 		";

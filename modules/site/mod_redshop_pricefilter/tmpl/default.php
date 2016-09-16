@@ -18,7 +18,7 @@ $document = JFactory::getDocument();
 JHtml::_('redshopjquery.ui');
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
-$numberFormatParams = '\'' . PRICE_DECIMAL . '\',\'' . PRICE_SEPERATOR . '\',\'' . THOUSAND_SEPERATOR . '\'';
+$numberFormatParams = '\'' . Redshop::getConfig()->get('PRICE_DECIMAL') . '\',\'' . Redshop::getConfig()->get('PRICE_SEPERATOR') . '\',\'' . Redshop::getConfig()->get('THOUSAND_SEPERATOR') . '\'';
 ?>
 <script type="text/javascript">
 	jQuery(function($) {

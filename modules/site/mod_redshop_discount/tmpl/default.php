@@ -39,7 +39,7 @@ $productHelper = productHelper::getInstance();
 
 			if ($oneData->discount_type == '1')
 			{
-				$discount_amount = number_format((double) $oneData->discount_amount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR) . ' %';
+				$discount_amount = number_format((double) $oneData->discount_amount, Redshop::getConfig()->get('PRICE_DECIMAL'), Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) . ' %';
 			}
 			else
 			{

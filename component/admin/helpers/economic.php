@@ -72,7 +72,7 @@ class economic
 		$eco['user_info_id'] = $row->users_info_id;
 		$debtorHandle        = $this->_dispatcher->trigger('Debtor_FindByNumber', array($eco));
 
-		$eco['currency_code'] = CURRENCY_CODE;
+		$eco['currency_code'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$eco['vatzone']       = $this->getEconomicTaxZone($row->country_code);
 		$eco['email']         = $row->user_email;
 
@@ -172,9 +172,9 @@ class economic
 			$accountgroup = $this->_redhelper->getEconomicAccountGroup($row->accountgroup_id);
 		}
 
-		elseif (DEFAULT_ECONOMIC_ACCOUNT_GROUP != 0)
+		elseif (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
 		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup(DEFAULT_ECONOMIC_ACCOUNT_GROUP);
+			$accountgroup = $this->_redhelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
 		}
 
 		if (count($accountgroup) > 0)
@@ -243,7 +243,7 @@ class economic
 	 */
 	public function createProductInEconomic($row = array())
 	{
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2 && $this->getTotalProperty($row->product_id) > 0)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2 && $this->getTotalProperty($row->product_id) > 0)
 		{
 			return;
 		}
@@ -311,7 +311,7 @@ class economic
 
 		$eco['product_number'] = $row->property_number;
 
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
 			$eco['product_name'] = addslashes($prdrow->product_name) . " " . addslashes($row->property_name);
 
@@ -361,7 +361,7 @@ class economic
 
 		$eco['product_number'] = $row->subattribute_color_number;
 
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
 			$eco['product_name'] = addslashes($row->subattribute_color_name);
 			$string              = trim($prdrow->product_price . $row->oprand . $row->subattribute_color_price);
@@ -484,8 +484,7 @@ class economic
 			$user_shippinginfo = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 			$orderitem         = $this->_order_functions->getOrderItemDetail($order_id);
 
-			$eco['shop_name']                 = SHOP_NAME;
-			$eco['split_payment']             = $data['split_payment'];
+			$eco['shop_name']                 = Redshop::getConfig()->get('SHOP_NAME');
 			$eco['economic_payment_terms_id'] = $data['economic_payment_terms_id'];
 			$eco['economic_design_layout']    = $data['economic_design_layout'];
 
@@ -504,7 +503,7 @@ class economic
 				$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
 
 				$eco['isvat']              = ($orderdetail->order_tax != 0) ? 1 : 0;
-				$currency                  = CURRENCY_CODE;
+				$currency                  = Redshop::getConfig()->get('CURRENCY_CODE');
 				$eco['email']              = $user_billinginfo->user_email;
 				$eco['phone']              = $user_billinginfo->phone;
 				$eco['currency_code']      = $currency;
@@ -533,7 +532,7 @@ class economic
 
 					$this->_dispatcher->trigger('setDeliveryAddress', array($eco));
 
-					if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 					{
 						$this->createInvoiceLineInEconomicAsProduct($orderitem, $invoice_no, $orderdetail->user_id);
 					}
@@ -546,10 +545,10 @@ class economic
 
 					$isVatDiscount = 0;
 
-					if (APPLY_VAT_ON_DISCOUNT == '0' && (float) VAT_RATE_AFTER_DISCOUNT && $orderdetail->order_discount != "0.00" && $orderdetail->order_tax && !empty($orderdetail->order_discount))
+					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && $orderdetail->order_discount != "0.00" && $orderdetail->order_tax && !empty($orderdetail->order_discount))
 					{
 						$totaldiscount               = $orderdetail->order_discount;
-						$Discountvat                 = ((float) VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+						$Discountvat                 = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 						$orderdetail->order_discount = $totaldiscount - $Discountvat;
 						$isVatDiscount               = 1;
 					}
@@ -587,7 +586,7 @@ class economic
 	 */
 	public function createInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 2)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
 			return;
 		}
@@ -648,7 +647,7 @@ class economic
 
 			$displayattribute = $this->makeAttributeOrder($invoice_no, $orderitem[$i], 0, $orderitem[$i]->product_id, $user_id);
 
-			if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+			if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 			{
 				$orderitem[$i]->product_item_price_excl_vat -= $displayattribute;
 				$displayattribute = '';
@@ -866,9 +865,9 @@ class economic
 	 */
 	public function createInvoiceDiscountLineInEconomic($orderdetail = array(), $invoice_no = "", $data = array(), $isPaymentDiscount = 0, $isVatDiscount = 0)
 	{
-		if (DEFAULT_ECONOMIC_ACCOUNT_GROUP)
+		if (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup(DEFAULT_ECONOMIC_ACCOUNT_GROUP, 1);
+			$accountgroup = $this->_redhelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
 
 			if (count($accountgroup) > 0)
 			{
@@ -932,9 +931,7 @@ class economic
 
 		if ($orderdata->is_booked == 0)
 		{
-			$data                  = array();
-			$data['split_payment'] = $orderdata->split_payment;
-
+			$data        = array();
 			$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdata->order_id);
 
 			if (count($paymentInfo) > 0)
@@ -1064,19 +1061,19 @@ class economic
 	{
 		$file = '';
 
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			$orderdetail = $this->_order_functions->getOrderDetails($order_id);
 
 			if ($orderdetail->invoice_no != '' && $orderdetail->is_booked == 0)
 			{
-				if ((ECONOMIC_INVOICE_DRAFT == 2 && $orderdetail->order_status == BOOKING_ORDER_STATUS) || $checkOrderStatus == 0)
+				if ((Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderdetail->order_status == Redshop::getConfig()->get('BOOKING_ORDER_STATUS')) || $checkOrderStatus == 0)
 				{
 					$user_billinginfo = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
 
 					if ($user_billinginfo->is_company == 0 || (!$user_billinginfo->ean_number && $user_billinginfo->is_company == 1))
 					{
-						$currency = CURRENCY_CODE;
+						$currency = Redshop::getConfig()->get('CURRENCY_CODE');
 
 						$eco['invoiceHandle'] = $orderdetail->invoice_no;
 						$eco['debtorHandle']  = intVal($user_billinginfo->users_info_id);
@@ -1121,7 +1118,7 @@ class economic
 								}
 							}
 
-							if (ECONOMIC_BOOK_INVOICE_NUMBER == 1)
+							if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
 							{
 								$bookhandle = $this->_dispatcher->trigger('CurrentInvoice_Book', array($eco));
 							}
@@ -1134,7 +1131,7 @@ class economic
 							{
 								$bookinvoice_number = $eco['bookinvoice_number'] = $bookhandle[0]->Number;
 
-								if (ECONOMIC_BOOK_INVOICE_NUMBER == 1)
+								if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
 								{
 									$this->updateBookInvoiceNumber($order_id, $bookinvoice_number);
 								}
@@ -1249,7 +1246,7 @@ class economic
 				$displayattribute = $this->makeAttributeOrder($invoice_no, $orderItem, 1, $orderItemdata[$i]->product_id, $user_id);
 				$displayaccessory .= $displayattribute;
 
-				if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+				if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
 					$orderItemdata[$i]->product_acc_item_price -= $displayattribute;
 					$displayattribute = '';
@@ -1312,7 +1309,7 @@ class economic
 					{
 						$virtualNumber = "[" . $property[0]->property_number . "]";
 
-						if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+						if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 						{
 							$orderPropdata[$p]->virtualNumber = $property[0]->property_number;
 							$this->createPropertyInEconomic($product, $property[0]);
@@ -1335,7 +1332,7 @@ class economic
 
 					$displayattribute .= urldecode($orderPropdata[$p]->section_name) . $disPrice . $virtualNumber;
 
-					if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
 						$retPrice += $orderPropdata[$p]->section_price;
 						$this->createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, array($orderPropdata[$p]));
@@ -1354,7 +1351,7 @@ class economic
 							{
 								$virtualNumber = "[" . $subproperty[0]->subattribute_color_number . "]";
 
-								if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+								if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 								{
 									$orderSubpropdata[$sp]->virtualNumber = $subproperty[0]->subattribute_color_number;
 									$this->createSubpropertyInEconomic($product, $subproperty[0]);
@@ -1377,13 +1374,13 @@ class economic
 
 							$displayattribute .= "\n" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . $virtualNumber;
 
-							if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+							if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 							{
 								$retPrice += $orderSubpropdata[$sp]->section_price;
 							}
 						}
 
-						if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+						if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 						{
 							$this->createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderSubpropdata);
 						}
@@ -1392,7 +1389,7 @@ class economic
 			}
 		}
 
-		if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 		{
 			$displayattribute = $retPrice;
 		}
@@ -1417,7 +1414,7 @@ class economic
 
 	public function getEconomicTaxZone($country_code = "")
 	{
-		if ($country_code == SHOP_COUNTRY)
+		if ($country_code == Redshop::getConfig()->get('SHOP_COUNTRY'))
 		{
 			$taxzone = 'HomeCountry';
 		}

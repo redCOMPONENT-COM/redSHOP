@@ -53,7 +53,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 		{
 			$productPreorder = $row->preorder;
 
-			if (($productPreorder == "global" && ALLOW_PRE_ORDER) || ($productPreorder == "yes") || ($productPreorder == "" && ALLOW_PRE_ORDER))
+			if (($productPreorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($productPreorder == "yes") || ($productPreorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 			{
 				if (!$isPreorderStockExists)
 				{
@@ -101,9 +101,9 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 	{
 		$thumb = $productInfo->product_full_image;
 
-		if (WATERMARK_PRODUCT_IMAGE)
+		if (Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'))
 		{
-			$thumImage = $redhelper->watermark('product', $thumb, $thumbWidth, $thumbHeight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+			$thumImage = $redhelper->watermark('product', $thumb, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 			echo "<div class=\"mod_redshop_products_image\"><img src=\"" . $thumImage . "\"></div>";
 		}
 		else
@@ -115,7 +115,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 							'product',
 							$thumbWidth,
 							$thumbHeight,
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 			echo "<div class=\"mod_redshop_products_image\"><a href=\"" . $link . "\" title=\"$row->product_name\"><img src=\"" . $thumImage . "\"></a></div>";
 		}
@@ -150,7 +150,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 			$productOldPrice 		= $productArr['product_old_price_excl_vat'];
 		}
 
-		if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 		{
 			if (!$productPrice)
 			{
@@ -225,7 +225,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 		$hiddenUserField = '';
 		$userfieldArr = array();
 
-		if (AJAX_CART_BOX)
+		if (Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			$ajaxDetailTemplateDesc = "";
 			$ajaxDetailTemplate      = $producthelper->getAjaxDetailboxTemplate($row);

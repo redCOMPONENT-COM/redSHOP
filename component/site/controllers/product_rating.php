@@ -49,7 +49,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		}
 
 		// Preform security checks
-		if (!$user->id && RATING_REVIEW_LOGIN_REQUIRED)
+		if (!$user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED'))
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
 			$this->setRedirect(JRoute::_($link, false));
@@ -134,8 +134,8 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 			return false;
 		}
 
-		if ((RATING_REVIEW_LOGIN_REQUIRED && $model->checkRatedProduct($productId, $user->id))
-			|| (!RATING_REVIEW_LOGIN_REQUIRED && $model->checkRatedProduct($productId, 0, $data['email'])))
+		if ((Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED') && $model->checkRatedProduct($productId, $user->id))
+			|| (!Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED') && $model->checkRatedProduct($productId, 0, $data['email'])))
 		{
 			if ($modal)
 			{
@@ -159,9 +159,9 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 			// Flush the data from the session
 			$app->setUserState('com_redshop.edit.product_rating.' . $productId . '.data', null);
 
-			if (RATING_MSG)
+			if (Redshop::getConfig()->get('RATING_MSG'))
 			{
-				$msg = RATING_MSG;
+				$msg = Redshop::getConfig()->get('RATING_MSG');
 			}
 			else
 			{

@@ -24,14 +24,6 @@ if (count($paymentmethod) == 1)
 }?>
 <div>
 	<?php
-	if (SPLITABLE_PAYMENT == 1)
-	{
-		?>
-		<input type="checkbox" name="issplit" value="1"> <?php echo JText::_('COM_REDSHOP_SPLIT_PAYMENT'); ?>?
-	<?php
-	}    ?>
-	<br>
-	<?php
 	if (count($paymentmethod) > 0)
 	{
 		for ($p = 0, $pn = count($paymentmethod); $p < $pn; $p++)

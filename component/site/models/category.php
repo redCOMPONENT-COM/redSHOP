@@ -131,7 +131,7 @@ class RedshopModelCategory extends RedshopModel
 		$this->setState('manufacturer_id', $manufacturerId);
 
 		// Get default ordering
-		$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		$orderBySelect = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$editTimestamp = $params->get('editTimestamp', 0);
 		$userTimestamp = $app->getUserState($this->context . '.editTimestamp', 0);
 
@@ -190,7 +190,7 @@ class RedshopModelCategory extends RedshopModel
 
 			if (!$limit)
 			{
-				$limit = MAXCATEGORY;
+				$limit = Redshop::getConfig()->get('MAXCATEGORY');
 			}
 		}
 
@@ -241,9 +241,9 @@ class RedshopModelCategory extends RedshopModel
 
 	public function _buildContentOrderBy()
 	{
-		if (DEFAULT_CATEGORY_ORDERING_METHOD)
+		if (Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD'))
 		{
-			$orderby = " ORDER BY " . DEFAULT_CATEGORY_ORDERING_METHOD;
+			$orderby = " ORDER BY " . Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD');
 		}
 		else
 		{
@@ -524,7 +524,7 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function buildProductOrderBy()
 	{
-		$orderBy        = redhelper::getInstance()->prepareOrderBy(DEFAULT_PRODUCT_ORDERING_METHOD);
+		$orderBy        = redhelper::getInstance()->prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
 		$filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 
@@ -567,7 +567,7 @@ class RedshopModelCategory extends RedshopModel
 				}
 				else
 				{
-					$this->_data = $this->_getList($query, 0, MAXCATEGORY);
+					$this->_data = $this->_getList($query, 0, Redshop::getConfig()->get('MAXCATEGORY'));
 				}
 			}
 		}
@@ -646,7 +646,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$redTemplate       = Redtemplate::getInstance();
 
-		$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
+		$selected_template = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
 		$template_section  = "frontpage_category";
 
 		if ($this->_id)

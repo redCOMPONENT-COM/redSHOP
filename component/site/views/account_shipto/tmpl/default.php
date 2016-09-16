@@ -38,7 +38,7 @@ if ($this->params->get('show_page_heading', 1))
 	<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
 	<table cellpadding="3" cellspacing="0" border="0" width="100%">
 		<?php
-		if (OPTIONAL_SHIPPING_ADDRESS)
+		if (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 		{
 			?>
 			<tr>

@@ -41,7 +41,7 @@ $request->setAmountInput($AmountInput);
 $request->setMerchantReference('');
 $request->setTxnType($this->params->get("px_post_txntype"));
 $request->setTxnData1(JText::_('COM_REDSHOP_ORDER_ID') . ":" . $data['order_id']);
-$request->setCurrencyInput(CURRENCY_CODE);
+$request->setCurrencyInput(Redshop::getConfig()->get('CURRENCY_CODE'));
 
 // Can be a dedicated failure page
 $request->setUrlFail($pxpay_fail_url);

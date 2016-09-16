@@ -57,7 +57,7 @@ class RedshopViewCheckout extends RedshopView
 			$app->Redirect('index.php?option=com_redshop&Itemid=' . $Itemid, $msg);
 		}
 
-		if (SHIPPING_METHOD_ENABLE)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			if ($users_info_id < 1)
 			{

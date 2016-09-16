@@ -64,7 +64,7 @@ class BaoKimPayment
 			'payer_email'       =>	strval($data['payer_email']),
 			'payer_phone_no'    =>	strval($data['payer_phone_no']),
 			'shipping_address'  =>	strval($data['address']),
-			'currency'          =>	strval(CURRENCY_CODE),
+			'currency'          =>	strval(Redshop::getConfig()->get('CURRENCY_CODE')),
 		);
 		ksort($params);
 

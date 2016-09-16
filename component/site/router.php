@@ -416,7 +416,7 @@ function redshopBuildRoute(&$query)
 
 		case 'category':
 
-			if (!ENABLE_SEF_NUMBER_NAME)
+			if (!Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 			{
 				if ($cid > 0)
 				{
@@ -444,7 +444,7 @@ function redshopBuildRoute(&$query)
 						}
 					}
 
-					if (ENABLE_SEF_NUMBER_NAME)
+					if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 					{
 						$segments[] = $cid . '-' . JFilterOutput::stringURLSafe($url->category_name);
 					}
@@ -455,7 +455,7 @@ function redshopBuildRoute(&$query)
 				}
 				else
 				{
-					if (ENABLE_SEF_NUMBER_NAME)
+					if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 					{
 						$segments[] = $cid . '-' . JFilterOutput::stringURLSafe($url->sef_url);
 					}
@@ -482,7 +482,7 @@ function redshopBuildRoute(&$query)
 
 		case 'product':
 
-			if (ENABLE_SEF_NUMBER_NAME)
+			if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 			{
 				if ($layout != "")
 				{
@@ -541,7 +541,7 @@ function redshopBuildRoute(&$query)
 					}
 
 					// Attach category id with name for consistency
-					if (ENABLE_SEF_NUMBER_NAME)
+					if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 					{
 						$segments[] = $category_id . '-' . JFilterOutput::stringURLSafe($catname);
 					}
@@ -551,13 +551,13 @@ function redshopBuildRoute(&$query)
 					}
 
 					// Add product number if config is enabled
-					if (ENABLE_SEF_PRODUCT_NUMBER)
+					if (Redshop::getConfig()->get('ENABLE_SEF_PRODUCT_NUMBER'))
 					{
 						$segments[] = JFilterOutput::stringURLSafe($product->product_number);
 					}
 
 					// Config option to generate sef using name : add product id to get parse in parseroute function
-					if (ENABLE_SEF_NUMBER_NAME)
+					if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 					{
 						$segments[] = 'P' . $pid . '-' . JFilterOutput::stringURLSafe($product->product_name);
 					}
@@ -569,7 +569,7 @@ function redshopBuildRoute(&$query)
 				else
 				{
 					// Config option to generate sef using name : add product id to get parse in parseroute function
-					if (ENABLE_SEF_NUMBER_NAME)
+					if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 					{
 						$segments[] = 'P' . $pid . '-' . JFilterOutput::stringURLSafe($url);
 					}
@@ -906,7 +906,7 @@ function redshopParseRoute($segments)
 			{
 				if ($main[0][0] != 'P' && $segments[0] != 'compare')
 				{
-					if (ENABLE_SEF_NUMBER_NAME)
+					if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 					{
 						$vars['view'] = "category";
 
@@ -959,7 +959,7 @@ function redshopParseRoute($segments)
 				}
 				else
 				{
-					if (ENABLE_SEF_NUMBER_NAME)
+					if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 					{
 						$vars['view'] = "product";
 

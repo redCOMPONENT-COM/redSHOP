@@ -62,7 +62,7 @@ if ($this->params->get('show_page_heading', 1))
 
 		echo RedshopLayoutHelper::render('registration.captcha');
 
-		if (SHOW_TERMS_AND_CONDITIONS == 1)
+		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1)
 		{
 			echo $rsCarthelper->replaceTermsConditions("{terms_and_conditions}");
 		}

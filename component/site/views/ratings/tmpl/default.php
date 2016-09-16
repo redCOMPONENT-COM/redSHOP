@@ -35,8 +35,8 @@ if ($this->params->get('show_page_heading', 1))
 	}
 }
 
-if (FAVOURED_REVIEWS != "" || FAVOURED_REVIEWS != 0)
-	$mainblock = FAVOURED_REVIEWS;
+if (Redshop::getConfig()->get('FAVOURED_REVIEWS') != "" || Redshop::getConfig()->get('FAVOURED_REVIEWS') != 0)
+	$mainblock = Redshop::getConfig()->get('FAVOURED_REVIEWS');
 else
 	$mainblock = 5;
 

@@ -129,7 +129,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$item        = new Item();
 			$cartItems[] =  $item->setName($product->product_name)
 								->setDescription($product->product_s_desc)
-								->setCurrency(CURRENCY_CODE)
+								->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 								->setQuantity($cartItem['quantity'])
 								->setTax($tax)
 								->setPrice($cartItem['product_price']);
@@ -162,7 +162,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$transaction = new Transaction();
 		$transaction->setAmount($amount)
 			->setItemList($itemList)
-			->setDescription(SHOP_NAME . ' Order No ' . $data['order_number'])
+			->setDescription(Redshop::getConfig()->get('SHOP_NAME') . ' Order No ' . $data['order_number'])
 			->setInvoiceNumber(uniqid());
 
 
@@ -644,7 +644,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		try
 		{
 			$amount = new Amount();
-			$amount->setCurrency(CURRENCY_CODE)
+			$amount->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 				->setTotal($data['order_amount']);
 
 			// Capture
@@ -795,7 +795,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$item        = new Item;
 			$cartItems[] =  $item->setName($orderItem->order_item_name)
 								->setDescription('')
-								->setCurrency(CURRENCY_CODE)
+								->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 								->setQuantity($orderItem->product_quantity)
 								->setTax()
 								->setPrice($orderItem->product_item_price);
@@ -814,7 +814,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		// Amount
 		$amount = new Amount;
-		$amount->setCurrency(CURRENCY_CODE)
+		$amount->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 			->setTotal($orderInfo->order_total)
 			->setDetails($details);
 
@@ -822,7 +822,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$transaction = new Transaction;
 		$transaction->setAmount($amount)
 			->setItemList($itemList)
-			->setDescription(SHOP_NAME . ' Order No ' . $orderInfo->order_number)
+			->setDescription(Redshop::getConfig()->get('SHOP_NAME') . ' Order No ' . $orderInfo->order_number)
 			->setInvoiceNumber(uniqid());
 
 		// Payment

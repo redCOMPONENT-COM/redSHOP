@@ -29,7 +29,7 @@ class plgRedshop_paymentrs_payment_banktransfer2 extends JPlugin
 		}
 
 		// Send the Order mail
-		if (ORDER_MAIL_AFTER)
+		if (Redshop::getConfig()->get('ORDER_MAIL_AFTER'))
 		{
 			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendOrderMail($data['order_id']);

@@ -65,7 +65,7 @@ $paymentinfo->accepted_credict_card = $accepted_credict_card;
 
 $shopperGroupId = $userhelper->getShopperGroup($user_id);
 
-if (PAYMENT_CALCULATION_ON == 'subtotal')
+if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 {
 	$paymentAmount = $order->order_subtotal;
 }

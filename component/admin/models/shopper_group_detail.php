@@ -52,7 +52,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$shoppergroup_id = NEW_SHOPPER_GROUP_GET_VALUE_FROM;
+			$shoppergroup_id = Redshop::getConfig()->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM');
 
 			if ($this->_id)
 			{
@@ -157,7 +157,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 		$isNew = false;
 
-		if (!$data['shopper_group_id'] && NEW_SHOPPER_GROUP_GET_VALUE_FROM)
+		if (!$data['shopper_group_id'] && Redshop::getConfig()->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM'))
 		{
 			$isNew = true;
 			$destname = time() . $data['shopper_group_logo'];
@@ -188,10 +188,10 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			return false;
 		}
 
-		if ($isNew && NEW_SHOPPER_GROUP_GET_VALUE_FROM)
+		if ($isNew && Redshop::getConfig()->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM'))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_price '
-				. 'WHERE shopper_group_id="' . NEW_SHOPPER_GROUP_GET_VALUE_FROM . '" ';
+				. 'WHERE shopper_group_id="' . Redshop::getConfig()->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM') . '" ';
 			$this->_db->setQuery($query);
 			$product_price = $this->_db->loadObjectlist();
 
@@ -216,7 +216,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			}
 
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price '
-				. 'WHERE shopper_group_id="' . NEW_SHOPPER_GROUP_GET_VALUE_FROM . '" ';
+				. 'WHERE shopper_group_id="' . Redshop::getConfig()->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM') . '" ';
 			$this->_db->setQuery($query);
 			$attribute_price = $this->_db->loadObjectlist();
 
