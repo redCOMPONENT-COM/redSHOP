@@ -24,7 +24,7 @@ class RedshopViewCheckout extends RedshopView
 		$language = JFactory::getLanguage();
 
 		// Load languages
-		order_functions::loadPaymentLanguages();
+		RedshopHelperPayment::loadPaymentLanguages();
 
 		// Load Shipping language file
 		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");

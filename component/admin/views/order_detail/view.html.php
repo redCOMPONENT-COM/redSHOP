@@ -38,7 +38,7 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 		$base_dir = JPATH_ADMINISTRATOR;
 
 		// Load languages
-		order_functions::loadPaymentLanguages();
+		RedshopHelperPayment::loadPaymentLanguages();
 
 		// Load Shipping plugin language files
 		$shippingPlugins = JPluginHelper::getPlugin("redshop_shipping");

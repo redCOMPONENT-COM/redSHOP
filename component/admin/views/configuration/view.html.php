@@ -53,7 +53,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists       = array();
 
 		// Load languages
-		order_functions::loadPaymentLanguages();
+		RedshopHelperPayment::loadPaymentLanguages();
 
 		$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
