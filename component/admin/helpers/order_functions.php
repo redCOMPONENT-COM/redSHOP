@@ -1782,9 +1782,13 @@ class order_functions
 		{
 			return;
 		}
+		
 		$redTemplate = Redtemplate::getInstance();
 		$pdfObj      = RedshopHelperPdf::getInstance();
 		$cartHelper  = rsCarthelper::getInstance();
+
+		// Load payment languages
+		RedshopHelperPayment::loadPaymentLanguages();
 
 		$pdfObj->SetTitle('Invoice ' . $orderId);
 
@@ -2032,4 +2036,5 @@ class order_functions
 		// GENERATE PDF CODE WRITE
 		return true;
 	}
+
 }

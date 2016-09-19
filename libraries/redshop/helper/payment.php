@@ -75,4 +75,23 @@ class RedshopHelperPayment
 
 		return $plugins;
 	}
+
+	/**
+	 * Load payment languages
+	 *
+	 * @since  2.0.1
+	 */
+	public static function loadPaymentLanguages()
+	{
+		// Load payment plugin language file
+		$paymensLangList = redhelper::getInstance()->getPlugins("redshop_payment");
+		$language = JFactory::getLanguage();
+		$languageTag = $language->getTag();
+
+		for ($index = 0, $ln = count($paymensLangList); $index < $ln; $index++)
+		{
+			$extension = 'plg_redshop_payment_' . $paymensLangList[$index]->element;
+			$language->load($extension, JPATH_ADMINISTRATOR, $languageTag, true);
+		}
+	}
 }

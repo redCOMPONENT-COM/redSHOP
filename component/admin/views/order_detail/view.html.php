@@ -32,22 +32,13 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = order_functions::getInstance();
-		$redhelper = redhelper::getInstance();
-
+		$language = JFactory::getLanguage();
 		$uri = JFactory::getURI();
 
-		// Load payment plugin language file
-		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
-
-		$language = JFactory::getLanguage();
 		$base_dir = JPATH_ADMINISTRATOR;
-		$language_tag = $language->getTag();
 
-		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
-		{
-			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
-			$language->load($extension, $base_dir, $language_tag, true);
-		}
+		// Load languages
+		RedshopHelperPayment::loadPaymentLanguages();
 
 		// Load Shipping plugin language files
 		$shippingPlugins = JPluginHelper::getPlugin("redshop_shipping");

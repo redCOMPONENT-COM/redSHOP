@@ -21,18 +21,10 @@ class RedshopViewCheckout extends RedshopView
 		$redhelper = redhelper::getInstance();
 		$field     = extraField::getInstance();
 		$session   = JFactory::getSession();
+		$language = JFactory::getLanguage();
 
-		// Load language file
-		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
-		$language          = JFactory::getLanguage();
-		$base_dir          = JPATH_ADMINISTRATOR;
-		$language_tag      = $language->getTag();
-
-		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
-		{
-			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
-			$language->load($extension, $base_dir, $language_tag, true);
-		}
+		// Load languages
+		RedshopHelperPayment::loadPaymentLanguages();
 
 		// Load Shipping language file
 		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
