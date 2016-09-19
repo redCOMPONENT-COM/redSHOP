@@ -1786,19 +1786,10 @@ class order_functions
 		$redTemplate = Redtemplate::getInstance();
 		$pdfObj      = RedshopHelperPdf::getInstance();
 		$cartHelper  = rsCarthelper::getInstance();
-		$redhelper = redhelper::getInstance();
-		
-		// Load payment plugin language file
-		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
-		$language = JFactory::getLanguage();
-		$base_dir = JPATH_ADMINISTRATOR;
-		$language_tag = $language->getTag();
-		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
-		{
-			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
-			$language->load($extension, $base_dir, $language_tag, true);
-		}
-		
+
+		// Load payment languages
+		self::loadPaymentLanguages();
+
 		$pdfObj->SetTitle('Invoice ' . $orderId);
 
 		// Changed font to support Unicode Characters - Specially Polish Characters
@@ -2044,5 +2035,22 @@ class order_functions
 
 		// GENERATE PDF CODE WRITE
 		return true;
+	}
+
+	public static function loadPaymentLanguages()
+	{
+		$redhelper = redhelper::getInstance();
+
+		// Load payment plugin language file
+		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
+		$language = JFactory::getLanguage();
+		$base_dir = JPATH_ADMINISTRATOR;
+		$language_tag = $language->getTag();
+
+		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
+		{
+			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
+			$language->load($extension, $base_dir, $language_tag, true);
+		}
 	}
 }
