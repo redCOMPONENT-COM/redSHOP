@@ -659,7 +659,6 @@ class Com_RedshopInstallerScript
 	 */
 	private function userSynchronization()
 	{
-		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 		JLoader::import('redshop.library');
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
@@ -1059,6 +1058,7 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
 				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
 				JPATH_SITE . '/components/com_redshop/helpers/zipfile.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/answer.php',
