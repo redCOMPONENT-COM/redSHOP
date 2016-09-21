@@ -1070,7 +1070,7 @@ class productHelper
 		$imagename     = trim($imagename);
 		$linkimagename = trim($linkimagename);
 		$product_id    = $product->product_id;
-		$redhelper     = RedshopSiteHelper::getInstance();
+		$redhelper     = redhelper::getInstance();
 
 		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
@@ -1216,7 +1216,7 @@ class productHelper
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
@@ -2319,7 +2319,7 @@ class productHelper
 
 	public function getCategoryNavigationlist($category_id)
 	{
-		$redhelper = RedshopSiteHelper::getInstance();
+		$redhelper = redhelper::getInstance();
 		static $i = 0;
 		static $category_list = array();
 
@@ -2718,7 +2718,7 @@ class productHelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
-		$helper = RedshopSiteHelper::getInstance();
+		$helper = redhelper::getInstance();
 
 		if ($menuView != "")
 		{

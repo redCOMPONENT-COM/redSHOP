@@ -1007,7 +1007,7 @@ class rsCarthelper
 
 				if ($prd_image !== '')
 				{
-					$redhelper = RedshopSiteHelper::getInstance();
+					$redhelper = redhelper::getInstance();
 
 					if (Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('WATERMARK_IMAGE')))
 					{
