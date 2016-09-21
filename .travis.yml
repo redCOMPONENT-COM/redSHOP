@@ -16,14 +16,20 @@ addons:
   firefox: "46.0"
 before_script:
 - sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts # forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
-
+- sudo apt-get update -qq
+- sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi > /dev/null
+- sudo mkdir $(pwd)/.run
 - phpenv config-add .travis.ini
 - phpenv rehash
 
 # Install Apache
-- sudo apt-get update -qq
-- sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi > /dev/null
-- sudo mkdir $(pwd)/.run
+- sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+- sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php5-fpm.sock,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+- sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+- sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+- sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+- sudo sed -e "s,user = nobody,;user = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+- sudo sed -e "s,group = nobody,;group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 - chmod a+x tests/travis-php-fpm.sh
 - sudo ./tests/travis-php-fpm.sh $USER $(phpenv version-name)
 - sudo a2enmod rewrite actions fastcgi alias
