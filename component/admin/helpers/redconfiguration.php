@@ -872,23 +872,18 @@ class Redconfiguration
 	 */
 	public function defineDynamicVars()
 	{
-		if (!defined('SHOW_PRICE'))
-		{
-			define('SHOW_PRICE', $this->showPrice());
-			define('USE_AS_CATALOG', $this->getCatalog());
-		}
+		$config = Redshop::getConfig();
 
-		if (!defined('DEFAULT_QUOTATION_MODE'))
-		{
-			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE') == 1)
-			{
-				define('DEFAULT_QUOTATION_MODE', $this->setQuotationMode());
-			}
+		$config->set('SHOW_PRICE', $this->showPrice());
+		$config->set('USE_AS_CATALOG', $this->getCatalog());
 
-			else
-			{
-				define('DEFAULT_QUOTATION_MODE', Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE'));
-			}
+		$quotationModePre = (int) $config->get('DEFAULT_QUOTATION_MODE_PRE');
+
+		$config->set('DEFAULT_QUOTATION_MODE', $quotationModePre);
+
+		if ($quotationModePre == 1)
+		{
+			$config->set('DEFAULT_QUOTATION_MODE', (int) $this->setQuotationMode());
 		}
 	}
 
@@ -973,19 +968,13 @@ class Redconfiguration
 		{
 			if ($list->shopper_group_quotation_mode)
 			{
-				return 1;
+				return true;
 			}
 
-			else
-			{
-				return 0;
-			}
+			return false;
 		}
 
-		else
-		{
-			return Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
-		}
+		return Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
 	}
 
 	public function maxchar($desc = '', $maxchars = 0, $suffix = '')

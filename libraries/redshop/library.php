@@ -46,5 +46,6 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 	// Include all tables
 	JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-	// @todo needs to handle dynamic variables see Redconfiguration->defineDynamicVars
+	// Setup dynamic variables like show price etc...
+	Redconfiguration::getInstance()->defineDynamicVars();
 }
