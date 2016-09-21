@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.folder');
+
 class RedshopControllerConfiguration extends RedshopController
 {
 	public function apply()
