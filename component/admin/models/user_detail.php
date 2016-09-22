@@ -256,19 +256,20 @@ class RedshopModelUser_detail extends RedshopModel
 				$db->setQuery($queryCustom);
 				$juserIds = $db->loadRowList();
 
-				foreach ($juserIds as $juserId) {
-                    $jUser = JFactory::getUser($juserId[0]);
+				foreach ($juserIds as $juserId)
+				{
+					$jUser = JFactory::getUser($juserId[0]);
 
-                    // Do not delete Super Administrator user
-                    if (!$jUser->authorise('core.admin'))
-                    {
-                        if (!JFactory::getUser($juserId[0])->delete())
-                        {
-                            $this->setError($db->getErrorMsg());
+					// Do not delete Super Administrator user
+					if (!$jUser->authorise('core.admin'))
+					{
+						if (!JFactory::getUser($juserId[0])->delete())
+						{
+							$this->setError($db->getErrorMsg());
 
-                            return false;
-                        }
-                    }
+							return false;
+						}
+					}
 				}
 			}
 
