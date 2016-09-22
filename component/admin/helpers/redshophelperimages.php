@@ -66,8 +66,14 @@ class RedShopHelperImages extends JObject
 	 *
 	 * @return  string                 Thumbnail Live path
 	 */
-	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50, $height = 50, $proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
+	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50, $height = 50, $proportional = -1)
 	{
+		// Trying to set an optional argument
+		if ($proportional == -1)
+		{
+			$proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+		}
+
 		// Set Default Type
 		if ($type === '' || !$imageName)
 		{
