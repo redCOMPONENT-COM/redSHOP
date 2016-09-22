@@ -44,19 +44,9 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 		$shippinginfo = array();
 		$model        = $this->getModel();
 		$detail       = $this->get('data');
-		$redhelper    = redhelper::getInstance();
 
-		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
-
-		$language          = JFactory::getLanguage();
-		$base_dir          = JPATH_ADMINISTRATOR;
-		$language_tag      = $language->getTag();
-
-		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
-		{
-			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
-			$language->load($extension, $base_dir, $language_tag, true);
-		}
+        // Load payment languages
+        RedshopHelperPayment::loadLanguages();
 
 		$err = JRequest::getVar('err', '');
 		$shipping_rate_id = JRequest::getVar('shipping_rate_id');

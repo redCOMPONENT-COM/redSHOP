@@ -1788,6 +1788,9 @@ class order_functions
 
 		$pdfObj->SetTitle('Invoice ' . $orderId);
 
+        // Load payment languages
+        RedshopHelperPayment::loadLanguages();
+
 		// Changed font to support Unicode Characters - Specially Polish Characters
 		$font = 'times';
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
