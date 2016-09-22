@@ -376,7 +376,8 @@ if (strpos($template_desc, "{if wishlist}") !== false && strpos($template_desc, 
 	$template_d1 = explode("{if wishlist}", $template_desc);
 	$template_d2 = explode("{wishlist end if}", $template_d1[1]);
 
-	if ($myWishlist > 0)
+
+	if (!empty($myWishlist) && $myWishlist > 0)
 	{
 		$template_desc = str_replace("{if wishlist}", "", $template_desc);
 		$template_desc = str_replace("{wishlist end if}", "", $template_desc);
