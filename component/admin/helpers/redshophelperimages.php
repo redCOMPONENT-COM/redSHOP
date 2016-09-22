@@ -66,8 +66,15 @@ class RedShopHelperImages extends JObject
 	 *
 	 * @return  string                 Thumbnail Live path
 	 */
-	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50, $height = 50, $proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
+	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50, $height = 50, $proportional = null)
 	{
+
+	    // Set default value if needed
+	    if (empty($proportional))
+        {
+            $proportional= Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+        }
+
 		// Set Default Type
 		if ($type === '' || !$imageName)
 		{
@@ -99,8 +106,15 @@ class RedShopHelperImages extends JObject
 		return $thumbUrl;
 	}
 
-	public static function generateImages($file_path, $dest, $command = 'upload', $width, $height, $proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
+	public static function generateImages($file_path, $dest, $command = 'upload', $width, $height, $proportional = null)
 	{
+
+        // Set default value if needed
+        if (empty($proportional))
+        {
+            $proportional= Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+        }
+
 		$ret = false;
 
 		switch (exif_imagetype($file_path))
@@ -156,8 +170,15 @@ class RedShopHelperImages extends JObject
 		return $ret;
 	}
 
-	public static function writeImage($src, $dest, $alt_dest, $width, $height, $proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
+	public static function writeImage($src, $dest, $alt_dest, $width, $height, $proportional = null)
 	{
+
+        // Set default value if needed
+        if (empty($proportional))
+        {
+            $proportional= Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+        }
+
 		ob_start();
 		self::resizeImage($src, $width, $height, $proportional, 'browser', false);
 		$contents = ob_get_contents();
@@ -204,8 +225,15 @@ class RedShopHelperImages extends JObject
 		return true;
 	}
 
-	public static function resizeImage($file, $width = 0, $height = 0, $proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'), $output = 'file', $delete_original = true, $use_linux_commands = false)
+	public static function resizeImage($file, $width = 0, $height = 0, $proportional = null, $output = 'file', $delete_original = true, $use_linux_commands = false)
 	{
+
+        // Set default value if needed
+        if (empty($proportional))
+        {
+            $proportional= Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+        }
+
 		if ($height <= 0 && $width <= 0)
 		{
 			return false;

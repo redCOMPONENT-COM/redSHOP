@@ -6056,7 +6056,7 @@ class productHelper
 	{
 		$user_id         = 0;
 		$redconfig       = Redconfiguration::getInstance();
-		$extraField      = RedshopSiteExtraField::getInstance();
+		$extraField      = extraField::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$product_quantity = JRequest::getVar('product_quantity');
