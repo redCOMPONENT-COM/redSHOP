@@ -1261,6 +1261,12 @@ function getPriceReplacement(product_price) {
 			url = "#";
 		}
 		ret = "<a href='" + url + "'>" + redSHOP.RSConfig._('ZERO_PRICE_REPLACE') + "</a>";
+
+		// In any cases both values are null than we should not show this link
+		if (url === null && redSHOP.RSConfig._('ZERO_PRICE_REPLACE') === null)
+		{
+			return '';
+		}
 	}
 	return ret;
 }
