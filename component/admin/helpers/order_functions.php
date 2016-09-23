@@ -1772,9 +1772,9 @@ class order_functions
 	/**
 	 * Method for generate Invoice PDF of specific Order
 	 *
-	 * @param  int  $orderId  ID of order.
+	 * @param   int  $orderId  ID of order.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public static function generateInvoicePDF($orderId)
 	{
@@ -1782,11 +1782,14 @@ class order_functions
 		{
 			return;
 		}
+
 		$redTemplate = Redtemplate::getInstance();
 		$pdfObj      = RedshopHelperPdf::getInstance();
 		$cartHelper  = rsCarthelper::getInstance();
-
 		$pdfObj->SetTitle('Invoice ' . $orderId);
+
+		// Load payment languages
+		RedshopHelperPayment::loadLanguages();
 
 		// Changed font to support Unicode Characters - Specially Polish Characters
 		$font = 'times';
