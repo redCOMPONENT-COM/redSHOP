@@ -45,8 +45,8 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 		$model        = $this->getModel();
 		$detail       = $this->get('data');
 
-        // Load payment languages
-        RedshopHelperPayment::loadLanguages();
+		// Load payment languages
+		RedshopHelperPayment::loadLanguages();
 
 		$err = JRequest::getVar('err', '');
 		$shipping_rate_id = JRequest::getVar('shipping_rate_id');

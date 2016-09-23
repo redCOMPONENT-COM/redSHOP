@@ -52,8 +52,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$userhelper  = rsUserHelper::getInstance();
 		$lists       = array();
 
-        // Load payment languages
-        RedshopHelperPayment::loadLanguages();
+		// Load payment languages
+		RedshopHelperPayment::loadLanguages();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
 		JToolBarHelper::save();

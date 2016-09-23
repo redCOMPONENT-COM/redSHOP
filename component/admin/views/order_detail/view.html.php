@@ -35,10 +35,10 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 
 		$uri = JFactory::getURI();
 
-        // Load payment languages
-        RedshopHelperPayment::loadLanguages();
+		// Load payment languages
+		RedshopHelperPayment::loadLanguages();
 
-        $language = JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 		$base_dir = JPATH_ADMINISTRATOR;
 
 		// Load Shipping plugin language files
