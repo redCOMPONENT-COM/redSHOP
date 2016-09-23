@@ -227,6 +227,16 @@ class RedshopModelUser_detail extends RedshopModel
 		return $reduser;
 	}
 
+	/**
+	 * Delete redSHOP and Joomla! users
+	 *
+	 * @param   array  $cid                Array of user ids
+	 * @param   bool   $deleteJoomlaUsers  Delete Joomla! users
+	 *
+	 * @return bool
+	 *
+	 * @since version
+	 */
 	public function delete($cid = array(), $deleteJoomlaUsers = false)
 	{
 		if (count($cid))
