@@ -81,7 +81,7 @@ class RedshopHelperPayment
 	 *
 	 * @return   void
 	 *
-	 * @since version
+	 * @since   2.0.2
 	 */
 	public static function loadLanguages()
 	{
