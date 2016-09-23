@@ -158,13 +158,17 @@ class RedshopControllerUser_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=user', $msg);
 	}
 
+	/**
+	 * Cancel edit user_detail
+	 *
+	 * @return   void
+	 *
+	 * @since version
+	 */
 	public function cancel()
 	{
-
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$info_id = JRequest::getVar('info_id', '', 'request', 'string');
-
-		$msg = JText::_('COM_REDSHOP_USER_DETAIL_EDITING_CANCELLED');
 
 		if ($shipping)
 		{
@@ -177,7 +181,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		// Not to apply ssl (passed Zero)
 		$link = RedshopHelperUtility::getSSLLink($link, 0);
-		$this->setRedirect($link, $msg);
+		$this->setRedirect($link);
 	}
 
 	public function order()
