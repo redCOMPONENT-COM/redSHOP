@@ -228,15 +228,21 @@ class RedshopModelAccount extends RedshopModel
 		return $db->loadResult();
 	}
 
+	/**
+	 * Get number of wishlist
+	 *
+	 * @return mixed
+	 *
+	 * @since version
+	 */
 	public function countMyWishlist()
 	{
-		$user   = JFactory::getUser();
-		$userid = $user->id;
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query
+			->select('COUNT(*)')
 			->from($db->quoteName('#__redshop_wishlist', 'pw'))
-			->where('pw.user_id = ' . (int) $userid);
+			->where('pw.user_id = ' . (int) JFactory::getUser()->id);
 		$db->setQuery($query);
 
 		return $db->loadResult();
