@@ -790,6 +790,7 @@ class Com_RedshopInstallerScript
 		// Required objects
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
+
 		if ($nodes = $manifest->plugins->plugin)
 		{
 			foreach ($nodes as $node)
@@ -830,6 +831,14 @@ class Com_RedshopInstallerScript
 					if ($result && !$extensionId)
 					{
 						// If plugin is installed successfully and it didn't exist before we enable it.
+						$this->enablePlugin($extName, $extGroup);
+					}
+				}
+				else
+				{
+					// We also force enable for system plugin
+					if ($extGroup == 'system')
+					{
 						$this->enablePlugin($extName, $extGroup);
 					}
 				}
