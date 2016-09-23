@@ -2821,7 +2821,7 @@ class productHelper
 
 	public function getProductCategory($id = 0)
 	{
-		$rsUserhelper               = RedshopSiteUser::getInstance();
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 		$and = '';
 
