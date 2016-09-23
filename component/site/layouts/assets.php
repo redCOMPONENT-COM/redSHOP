@@ -12,12 +12,12 @@ defined('_JEXEC') or die;
 JHtml::_('redshopjquery.framework');
 JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
 
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
+JHtml::script('com_redshop/redbox.js', false, true);
+
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
-
-$doc->addScript(JURI::root() . 'media/com_redshop/js/redbox.js');
-$doc->addScript(JURI::root() . 'media/com_redshop/js/attribute.js');
-$doc->addScript(JURI::root() . 'media/com_redshop/js/common.js');
 
 $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.css');
 
