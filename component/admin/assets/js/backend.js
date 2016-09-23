@@ -16325,7 +16325,7 @@ Licensed under the BSD-2-Clause License.
 
 		$('#toolbar').affix({
 			offset: {
-				top: 150
+				top: 200
 			}
 		});
 
