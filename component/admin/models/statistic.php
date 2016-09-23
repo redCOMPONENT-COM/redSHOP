@@ -888,7 +888,7 @@ class RedshopModelStatistic extends RedshopModel
 		switch ($this->_filteroption)
 		{
 			case 1:
-				$return = "%d %b";
+				$return = "%d %b %Y";
 				break;
 			case 2:
 				$return = "%d %b, %Y";
