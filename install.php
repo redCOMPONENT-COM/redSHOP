@@ -834,14 +834,9 @@ class Com_RedshopInstallerScript
 						$this->enablePlugin($extName, $extGroup);
 					}
 				}
-				else
-				{
-					// We also force enable for system plugin
-					if ($extGroup == 'system')
-					{
-						$this->enablePlugin($extName, $extGroup);
-					}
-				}
+
+				// Force to enable redSHOP - System plugin by anyways
+				$this->enablePlugin('redshop', 'system');
 			}
 		}
 	}
