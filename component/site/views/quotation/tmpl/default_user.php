@@ -36,7 +36,7 @@ $user_email = $detail->user_email;
 
 $field = extra_field::getInstance();
 
-if (DEFAULT_CUSTOMER_REGISTER_TYPE == 1 || !DEFAULT_CUSTOMER_REGISTER_TYPE)
+if (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 1 || !Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE'))
 {
 	$regtype = 0;
 }

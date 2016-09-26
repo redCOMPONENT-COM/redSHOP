@@ -18,7 +18,7 @@ $banks = $baokim->get_seller_info();
 $formInput = $displayData['formInput'];
 $params    = $displayData['params'];
 $action    = $formInput['action'];
-$name      = $params->get('dataName', SHOP_NAME);
+$name      = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo JURI::root() . 'plugins/redshop_payment/baokim/media/css/main.css' ?>"/>
 <h3><?php echo $name; ?></h3>

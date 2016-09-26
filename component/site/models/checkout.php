@@ -259,7 +259,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentInfo->payment_discount_is_percent = $paymentMethod->params->get('payment_discount_is_percent', '');
 		$paymentAmount = $cart ['total'];
 
-		if (PAYMENT_CALCULATION_ON == 'subtotal')
+		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
 			$paymentAmount = $cart ['product_subtotal'];
 		}
@@ -441,7 +441,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_paymentstatus = 'Paid';
 		}
 
-		if (USE_AS_CATALOG)
+		if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			$order_status        = 'P';
 			$order_paymentstatus = 'Unpaid';
@@ -461,7 +461,6 @@ class RedshopModelCheckout extends RedshopModel
 		$row->requisition_number   = $post['requisition_number'];
 		$row->ip_address           = $ip;
 		$row->encr_key             = $random_gen_enc_key;
-		$row->split_payment        = $issplit;
 		$row->discount_type        = $this->discount_type;
 		$row->order_id             = $app->input->getInt('order_id', 0);
 		$row->barcode              = $order_functions->barcode_randon_number(12, 0);
@@ -480,7 +479,7 @@ class RedshopModelCheckout extends RedshopModel
 		$this->deleteOrdernumberTrack();
 
 		// Generate Invoice Number for confirmed credit card payment or for free order
-		if (((boolean) INVOICE_NUMBER_FOR_FREE_ORDER || $is_creditcard)
+		if (((boolean) Redshop::getConfig()->get('INVOICE_NUMBER_FOR_FREE_ORDER') || $is_creditcard)
 			&& ('C' == $row->order_status && 'Paid' == $row->order_payment_status))
 		{
 			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
@@ -495,7 +494,7 @@ class RedshopModelCheckout extends RedshopModel
 		$db->setQuery($query);
 		$db->execute();
 
-		if (SHOW_TERMS_AND_CONDITIONS == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
+		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
 		{
 			$this->_userhelper->updateUserTermsCondition($users_info_id, 1);
 		}
@@ -506,7 +505,7 @@ class RedshopModelCheckout extends RedshopModel
 			$quotationHelper->updateQuotationwithOrder($cart['quotation_id'], $row->order_id);
 		}
 
-		if ($row->order_status == CLICKATELL_ORDER_STATUS)
+		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
 			$helper->clickatellSMS($order_id);
 		}
@@ -625,7 +624,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart_accessory               = $retAccArr[0];
 			$rowitem->order_id            = $order_id;
 			$rowitem->user_info_id        = $users_info_id;
-			$rowitem->order_item_currency = REDCURRENCY_SYMBOL;
+			$rowitem->order_item_currency = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 			$rowitem->order_status        = $order_status;
 			$rowitem->cdate               = $timestamp;
 			$rowitem->mdate               = $timestamp;
@@ -1145,11 +1144,10 @@ class RedshopModelCheckout extends RedshopModel
 		$stockroomhelper->deleteCartAfterEmpty();
 
 		// Economic Integration start for invoice generate and book current invoice
-		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
 			$economic = economic::getInstance();
 
-			$economicdata['split_payment']             = $issplit;
 			$economicdata['economic_payment_terms_id'] = $economic_payment_terms_id;
 			$economicdata['economic_design_layout']    = $economic_design_layout;
 			$economicdata['economic_is_creditcard']    = $is_creditcard;
@@ -1164,7 +1162,7 @@ class RedshopModelCheckout extends RedshopModel
 			$economicdata['economic_payment_method'] = $payment_name;
 			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
 
-			if (ECONOMIC_INVOICE_DRAFT == 0)
+			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
@@ -1178,11 +1176,11 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Send the Order mail before payment
-		if (!ORDER_MAIL_AFTER || (ORDER_MAIL_AFTER && $row->order_payment_status == "Paid"))
+		if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER') || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $row->order_payment_status == "Paid"))
 		{
 			$this->_redshopMail->sendOrderMail($row->order_id);
 		}
-		elseif (ORDER_MAIL_AFTER == 1)
+		elseif (Redshop::getConfig()->get('ORDER_MAIL_AFTER') == 1)
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
 			$this->_redshopMail->sendOrderMail($row->order_id, true);
@@ -2048,7 +2046,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentInfo->payment_discount_is_percent = $payment_discount_is_percent;
 		$paymentInfo->accepted_credict_card       = $accepted_credict_card;
 
-		if (PAYMENT_CALCULATION_ON == 'subtotal')
+		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
 			$paymentAmount = $cart ['product_subtotal'];
 		}
@@ -2149,9 +2147,9 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (strstr($template_desc, "{shop_more}"))
 		{
-			if (CONTINUE_REDIRECT_LINK != '')
+			if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
 			{
-				$shopmorelink = JRoute::_(CONTINUE_REDIRECT_LINK);
+				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 			}
 			elseif ($catItemId = $redHelper->getCategoryItemid())
 			{
@@ -2181,7 +2179,7 @@ class RedshopModelCheckout extends RedshopModel
 		$shippinPrice        = '';
 		$shippinPriceWithVat = '';
 
-		if (!empty($shipping_rate_id) && SHIPPING_METHOD_ENABLE)
+		if (!empty($shipping_rate_id) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$shippinPriceWithVat = $this->_producthelper->getProductFormattedPrice($cart ['shipping']);
 			$shippinPrice        = $this->_producthelper->getProductFormattedPrice($cart ['shipping'] - $cart['shipping_vat']);
@@ -2204,7 +2202,7 @@ class RedshopModelCheckout extends RedshopModel
 		$checkout .= '<input type="hidden" name="users_info_id" value="' . $users_info_id . '" />';
 		$checkout .= '<input type="hidden" name="order_id" value="' . JRequest::getVar('order_id') . '" />';
 
-		if (!ONESTEP_CHECKOUT_ENABLE)
+		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
 			$checkout .= '<input type="hidden" name="shop_id" value="' . $shop_id . '" />';
 			$checkout .= '<input type="hidden" name="shipping_rate_id" value="' . $shipping_rate_id . '" />';

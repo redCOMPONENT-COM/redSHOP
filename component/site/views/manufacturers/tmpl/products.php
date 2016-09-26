@@ -23,7 +23,7 @@ $user = JFactory::getUser();
 $model = $this->getModel('manufacturers');
 $Itemid = JRequest::getInt('Itemid');
 $print = JRequest::getInt('print');
-$order_by_select = JRequest::getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
+$order_by_select = JRequest::getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'));
 $filter_by_select = JRequest::getString('filter_by', 0);
 
 $document = JFactory::getDocument();
@@ -191,7 +191,7 @@ if ($template_middle != "")
 
 		if (strstr($cart_mdata, '{product_desc}'))
 		{
-			$p_desc     = $Redconfiguration->maxchar($manufacturer_products[$i]->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
+			$p_desc     = $Redconfiguration->maxchar($manufacturer_products[$i]->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 			$cart_mdata = str_replace("{product_desc}", $p_desc, $cart_mdata);
 		}
 
@@ -200,26 +200,26 @@ if ($template_middle != "")
 		if (strstr($cart_mdata, '{product_thumb_image_2}'))
 		{
 			$tag     = '{product_thumb_image_2}';
-			$h_thumb = MANUFACTURER_PRODUCT_THUMB_HEIGHT_2;
-			$w_thumb = MANUFACTURER_PRODUCT_THUMB_WIDTH_2;
+			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT_2');
+			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH_2');
 		}
 		elseif (strstr($cart_mdata, '{product_thumb_image_3}'))
 		{
 			$tag     = '{product_thumb_image_3}';
-			$h_thumb = MANUFACTURER_PRODUCT_THUMB_HEIGHT_3;
-			$w_thumb = MANUFACTURER_PRODUCT_THUMB_WIDTH_3;
+			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT_3');
+			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH_3');
 		}
 		elseif (strstr($cart_mdata, '{product_thumb_image_1}'))
 		{
 			$tag     = '{product_thumb_image_1}';
-			$h_thumb = MANUFACTURER_PRODUCT_THUMB_HEIGHT;
-			$w_thumb = MANUFACTURER_PRODUCT_THUMB_WIDTH;
+			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT');
+			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH');
 		}
 		else
 		{
 			$tag     = '{product_thumb_image}';
-			$h_thumb = MANUFACTURER_PRODUCT_THUMB_HEIGHT;
-			$w_thumb = MANUFACTURER_PRODUCT_THUMB_WIDTH;
+			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT');
+			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH');
 		}
 
 		$prod_thumb_image = $producthelper->getProductImage($manufacturer_products[$i]->product_id, $link, $w_thumb, $h_thumb);
@@ -243,8 +243,8 @@ $template_desc = $template_start . $cart_mdata . $template_end;
 
 if (strstr($template_desc, "{manufacturer_image}"))
 {
-	$mh_thumb    = MANUFACTURER_THUMB_HEIGHT;
-	$mw_thumb    = MANUFACTURER_THUMB_WIDTH;
+	$mh_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
+	$mw_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 	$thum_image  = "";
 	$media_image = $producthelper->getAdditionMediaImage($manufacturer->manufacturer_id, "manufacturer");
 	$m           = 0;
@@ -256,8 +256,8 @@ if (strstr($template_desc, "{manufacturer_image}"))
 		&& $media_image[$m]->media_name
 		&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
-		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE, '0');
-		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE, '0');
+		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'), '0');
+		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'), '0');
 
 		$altText = $producthelper->getAltText('manufacturer', $manufacturer->manufacturer_id);
 

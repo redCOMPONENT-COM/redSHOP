@@ -34,7 +34,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
 
-		$post['product_currency'] = CURRENCY_CODE;
+		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate'] = time();
 		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
 

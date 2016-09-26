@@ -171,7 +171,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<th class="title" width="5%">
 					<?php echo JHTML::_('grid.sort', 'ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
-				<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2): ?>
+				<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2): ?>
 				<th width="10%">
 					<?php echo  JHTML::_('grid.sort', 'COM_REDSHOP_BOOKINVOICE_NUMBER', 'bookinvoice_number', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
@@ -194,7 +194,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<th width="1">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PAYMENT', 'order_payment_status', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
-				<?php if (USE_STOCKROOM == 1): ?>
+				<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1): ?>
 					<th width="10%">
 						<?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
 					</th>
@@ -207,14 +207,14 @@ JPluginHelper::importPlugin('redshop_product');
 				</th>
 				<th width="1">&nbsp;</th>
 				<th></th>
-				<?php if (POSTDK_INTEGRATION): ?>
+				<?php if (Redshop::getConfig()->get('POSTDK_INTEGRATION')): ?>
 					<th></th>
 				<?php endif; ?>
 			</tr>
 		</thead>
 		<tbody>
 			<?php
-			$send_mail_to_customer = SEND_MAIL_TO_CUSTOMER ? 'checked' : 0;
+			$send_mail_to_customer = Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER') ? 'checked' : 0;
 			$k = 0;
 			?>
 
@@ -245,7 +245,7 @@ JPluginHelper::importPlugin('redshop_product');
 					<td align="center">
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a>
 					</td>
-					<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2
+					<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2
 						&& $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number): ?>
 						<td align="center"><?php echo $row->bookinvoice_number; ?></td>
 					<?php endif; ?>
@@ -332,7 +332,7 @@ JPluginHelper::importPlugin('redshop_product');
 							<?php endif; ?>
 						</span>
 					</td>
-					<?php if (USE_STOCKROOM == 1) : ?>
+					<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
 						<td align="center">
 							<?php $order_items = $order_function->getOrderItemDetail($row->order_id);
 
@@ -420,7 +420,7 @@ JPluginHelper::importPlugin('redshop_product');
 						<?php endif; ?>
 					</td>
 					<?php
-						if (POSTDK_INTEGRATION)
+						if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 						{
 							$details = RedshopShippingRate::decrypt($row->ship_method_id);
 

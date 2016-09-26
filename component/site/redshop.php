@@ -42,7 +42,7 @@ if (count($sgportal) > 0)
 	$portal = $sgportal->shopper_group_portal;
 }
 
-if (PORTAL_SHOP == 1)
+if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 {
 	if ($vName == 'product' && $productid > 0)
 	{
@@ -131,7 +131,7 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 		 */
 		$isredGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
 
-		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
+		if (!$isredGoogleAnalytics && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
 		{
 			$ga = new RedshopHelperGoogleanalytics;
 			$ga->placeTrans();

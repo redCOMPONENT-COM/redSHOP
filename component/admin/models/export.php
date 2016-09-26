@@ -240,7 +240,7 @@ class RedshopModelExport extends RedshopModel
 				->select('quantity')
 				->from($db->qn('#__redshop_product_stockroom_xref'))
 				->where('product_id = ' . (int) $oneProduct->product_id)
-				->where('stockroom_id = ' . $db->q(DEFAULT_STOCKROOM));
+				->where('stockroom_id = ' . $db->q(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
 
 			if ($stock = $db->setQuery($query)->loadResult())
 			{
@@ -306,7 +306,7 @@ class RedshopModelExport extends RedshopModel
 							}
 							break;
 						case 'download':
-							if ($this->checkFileExists($media->media_name, PRODUCT_DOWNLOAD_ROOT))
+							if ($this->checkFileExists($media->media_name, Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT')))
 							{
 								$downloadArr['name'][] = $media->media_name;
 								$downloadArr['ordering'][] = $media->ordering;

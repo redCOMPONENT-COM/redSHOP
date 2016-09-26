@@ -47,7 +47,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		// Check product Quantity
 		$stocknote = '';
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$stockroomhelper = rsstockroomhelper::getInstance();
 			$producthelper = productHelper::getInstance();
@@ -156,7 +156,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$subtotal_excl_vat = $subtotal_excl_vat + ($orderItem[$i]->prdexclprice * $orderItem[$i]->quantity);
 		}
 
-		if (APPLY_VAT_ON_DISCOUNT)
+		if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 		{
 			$amt = $subtotal;
 		}
@@ -171,7 +171,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 		$order_total = $order_total - $discount_price;
 
-		if (PAYMENT_CALCULATION_ON == 'subtotal')
+		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
 			$paymentAmount = $subtotal;
 		}

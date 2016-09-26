@@ -228,15 +228,21 @@ class RedshopModelAccount extends RedshopModel
 		return $db->loadResult();
 	}
 
+	/**
+	 * Get number of wishlist
+	 *
+	 * @return mixed
+	 *
+	 * @since  2.0.2
+	 */
 	public function countMyWishlist()
 	{
-		$user   = JFactory::getUser();
-		$userid = $user->id;
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query
+			->select('COUNT(*)')
 			->from($db->quoteName('#__redshop_wishlist', 'pw'))
-			->where('pw.user_id = ' . (int) $userid);
+			->where('pw.user_id = ' . (int) JFactory::getUser()->id);
 		$db->setQuery($query);
 
 		return $db->loadResult();
@@ -476,26 +482,26 @@ class RedshopModelAccount extends RedshopModel
 			if (strstr($data, '{product_thumb_image_2}'))
 			{
 				$tag     = '{product_thumb_image_2}';
-				$h_thumb = THUMB_HEIGHT_2;
-				$w_thumb = THUMB_WIDTH_2;
+				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
+				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 			}
 			elseif (strstr($data, '{product_thumb_image_3}'))
 			{
 				$tag     = '{product_thumb_image_3}';
-				$h_thumb = THUMB_HEIGHT_3;
-				$w_thumb = THUMB_WIDTH_3;
+				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
+				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 			}
 			elseif (strstr($data, '{product_thumb_image_1}'))
 			{
 				$tag     = '{product_thumb_image_1}';
-				$h_thumb = THUMB_HEIGHT;
-				$w_thumb = THUMB_WIDTH;
+				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 			}
 			else
 			{
 				$tag     = '{product_thumb_image}';
-				$h_thumb = THUMB_HEIGHT;
-				$w_thumb = THUMB_WIDTH;
+				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 			}
 
 			$temp_template = '';
@@ -552,7 +558,7 @@ class RedshopModelAccount extends RedshopModel
 					$pname = $row->product_name;
 					$link  = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
-					$thum_image = $producthelper->getProductImage($row->product_id, $link, THUMB_WIDTH, THUMB_HEIGHT);
+					$thum_image = $producthelper->getProductImage($row->product_id, $link, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'));
 					$data_add .= $thum_image;
 
 					$data_add .= "<div><a href='" . $link . "' >" . $pname . "</a></div>";

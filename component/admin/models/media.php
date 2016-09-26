@@ -182,14 +182,14 @@ class RedshopModelMedia extends RedshopModel
 		{
 			if (strlen($current) > 0)
 			{
-				$basePath = PRODUCT_DOWNLOAD_ROOT . '/' . $current;
+				$basePath = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/' . $current;
 			}
 			else
 			{
-				$basePath = PRODUCT_DOWNLOAD_ROOT;
+				$basePath = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 			}
 
-			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', PRODUCT_DOWNLOAD_ROOT . '/');
+			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/');
 		}
 
 		$images = array();

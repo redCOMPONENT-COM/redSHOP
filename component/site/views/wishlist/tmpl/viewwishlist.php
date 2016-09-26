@@ -199,7 +199,7 @@ function display_products($rows)
 			}
 			else
 			{
-				$maindefaultpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . PRODUCT_DEFAULT_IMAGE;
+				$maindefaultpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 				echo  $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'><a href='" . $link . "'><img src='" . $maindefaultpath . "' height='85' width='63' /></a></div></div>";
 			}
 
@@ -246,8 +246,8 @@ function display_products($rows)
 	}
 	else
 	{
-		$ph_thumb       = CATEGORY_PRODUCT_THUMB_HEIGHT;
-		$pw_thumb       = CATEGORY_PRODUCT_THUMB_WIDTH;
+		$ph_thumb       = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+		$pw_thumb       = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 		$wishlist_data1 = $template[0]->template_desc;
 
 		$mlink          = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component";
@@ -280,13 +280,13 @@ function display_products($rows)
 			else
 			{
 				$maindefaultpath = RedShopHelperImages::getImagePath(
-								PRODUCT_DEFAULT_IMAGE,
+								Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 								'',
 								'thumb',
 								'product',
 								$pw_thumb,
 								$ph_thumb,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 				$thum_image      = "<a href='" . $link . "'><img src='" . $maindefaultpath . "'  /></a>";
 				$wishlist_data   = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
@@ -368,7 +368,7 @@ function display_products($rows)
 
 			if (count($childproduct) > 0)
 			{
-				if (PURCHASE_PARENT_WITH_CHILD == 1)
+				if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 				{
 					$isChilds       = false;
 					$attributes_set = array();

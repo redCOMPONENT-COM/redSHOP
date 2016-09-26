@@ -144,7 +144,7 @@ class RedshopControllerOrder extends RedshopController
 		$msgType = 'warning';
 
 		// Economic Integration start for invoice generate and book current invoice
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			$economic = economic::getInstance();
 			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
@@ -164,7 +164,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function createInvoice()
 	{
-		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
 			$order_id = JRequest::getCmd('order_id');
 			$order_function = order_functions::getInstance();
@@ -187,10 +187,9 @@ class RedshopControllerOrder extends RedshopController
 			}
 
 			$economic = economic::getInstance();
-			$economicdata ['split_payment'] = 0;
 			$economic->createInvoiceInEconomic($order_id, $economicdata);
 
-			if (ECONOMIC_INVOICE_DRAFT == 0)
+			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 1);
 
@@ -301,7 +300,7 @@ class RedshopControllerOrder extends RedshopController
 			for ($it = 0; $it < count($no_items); $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
-				echo REDCURRENCY_SYMBOL . " " . $no_items [$it]->product_final_price . ",";
+				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price . ",";
 
 				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
 				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
@@ -316,7 +315,7 @@ class RedshopControllerOrder extends RedshopController
 				echo str_repeat(' ,', $temp * 3);
 			}
 
-			echo  REDCURRENCY_SYMBOL . " " . $data [$i]->order_total . "\n";
+			echo  Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
 		}
 
 		exit ();
@@ -418,7 +417,7 @@ class RedshopControllerOrder extends RedshopController
 			for ($it = 0; $it < count($no_items); $it++)
 			{
 				echo $no_items [$it]->order_item_name . ",";
-				echo REDCURRENCY_SYMBOL . $no_items [$it]->product_final_price . ",";
+				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $no_items [$it]->product_final_price . ",";
 
 				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
 				$product_attribute = strip_tags($product_attribute->product_attribute);
@@ -438,8 +437,8 @@ class RedshopControllerOrder extends RedshopController
 				$shippingcost = 0;
 			}
 
-			echo REDCURRENCY_SYMBOL . $shippingcost . ",";
-			echo REDCURRENCY_SYMBOL . $data [$i]->order_total . "\n";
+			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $shippingcost . ",";
+			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $data [$i]->order_total . "\n";
 		}
 
 		exit ();

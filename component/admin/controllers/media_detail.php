@@ -56,11 +56,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$model = $this->getModel('media_detail');
 
-		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
+		$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
-		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DIRECTORY_SEPARATOR)
+		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT'), -1) != DIRECTORY_SEPARATOR)
 		{
-			$product_download_root = PRODUCT_DOWNLOAD_ROOT . '/';
+			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}
 
 		$bulkfile = JRequest::getVar('bulkfile', null, 'files', 'array');

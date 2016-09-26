@@ -34,9 +34,9 @@ class RedshopControllerNewsletter extends RedshopController
 
 		$newsletter_id = JRequest::getVar('newsletter_id');
 
-		$tmpcid = array_chunk($cid, NEWSLETTER_MAIL_CHUNK);
-		$tmpuserid = array_chunk($userid, NEWSLETTER_MAIL_CHUNK);
-		$tmpusername = array_chunk($username, NEWSLETTER_MAIL_CHUNK);
+		$tmpcid = array_chunk($cid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
+		$tmpuserid = array_chunk($userid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
+		$tmpusername = array_chunk($username, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
 
 		$session->set('subscribers', $tmpcid);
 		$session->set('subscribersuid', $tmpuserid);

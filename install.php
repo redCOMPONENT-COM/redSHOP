@@ -45,6 +45,8 @@ class Com_RedshopInstallerScript
 	 */
 	protected $type = null;
 
+	protected $installedPlugins = array();
+
 	/**
 	 * Method to install the component
 	 *
@@ -95,7 +97,6 @@ class Com_RedshopInstallerScript
 		$this->installPlugins($parent);
 		JLoader::import('redshop.library');
 		$this->com_install('update');
-		$this->insertKlarnaFields();
 	}
 
 	/**
@@ -119,6 +120,44 @@ class Com_RedshopInstallerScript
 			$this->updateOverrideTemplate();
 			$this->updateschema();
 		}
+
+		$this->getInstalledPlugin($parent);
+	}
+
+	/**
+	 * Get list array of installed plugins
+	 *
+	 * @param   object  $parent
+	 *
+	 * @return  array
+	 */
+	private function getInstalledPlugin($parent)
+	{
+		// Check if plugins are installed or not. Query here to prevent duplicate query inside another method
+		// Required objects
+		$manifest  = $parent->get('manifest');
+
+		if ($nodes = $manifest->plugins->plugin)
+		{
+			$db = JFactory::getDbo();
+
+			foreach ($nodes as $node)
+			{
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
+
+				$query       = $db->getQuery(true)
+									->select('*')
+									->from($db->qn('#__extensions'))
+									->where('type = ' . $db->q('plugin'))
+									->where('element = ' . $db->q($extName))
+									->where('folder = ' . $db->q($extGroup));
+
+				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query, 0, 1)->loadObject();
+			}
+		}
+
+		return $this->installedPlugins;
 	}
 
 	/**
@@ -212,7 +251,7 @@ class Com_RedshopInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		// The redshop.cfg.php creation or update
+		// The configuration creation or update
 		$this->redshopHandleCFGFile();
 
 		// Syncronise users
@@ -614,58 +653,12 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * Add Klarna custom Fields during upgrade.
-	 *
-	 * @return  boolean  True on success
-	 */
-	protected function insertKlarnaFields()
-	{
-		$db = JFactory::getDbo();
-
-		// Set Unique key to field name
-		$db->setQuery("ALTER TABLE `#__redshop_fields` ADD UNIQUE (`field_name`)")->execute();
-
-		$pno = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'PNO', 'rs_pno', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 2, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		$birthdate = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'Birthdate', 'rs_birthdate', '12', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 3, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		$gender = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'Gender', 'rs_gender', '4', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 4, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		$houseNumber = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'House Number', 'rs_house_number', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 5, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		$houseExtension = "INSERT IGNORE INTO `#__redshop_fields` VALUES
-			('', 'House Extension', 'rs_house_extension', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 6, 0) ON DUPLICATE KEY UPDATE `field_name` = `field_name`";
-
-		try
-		{
-			$db->setQuery($pno)->execute();
-			$db->setQuery($birthdate)->execute();
-			$db->setQuery($gender)->execute();
-			$db->setQuery($houseNumber)->execute();
-			$db->setQuery($houseExtension)->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * User synchronization
 	 *
 	 * @return  void
 	 */
 	private function userSynchronization()
 	{
-		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 		JLoader::import('redshop.library');
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
@@ -682,442 +675,18 @@ class Com_RedshopInstallerScript
 	{
 		JLoader::import('redshop.library');
 
-		// Include redshop.cfg.php file for cfg variables
-		$cfgfile = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
-
-		if (file_exists($cfgfile))
-		{
-			$configData = JFile::read($cfgfile);
-			$configData = str_replace('<?php', '', $configData);
-			$configData = str_replace('?>', '', $configData);
-			$configData = "<?php" . $configData;
-
-			JFile::write($cfgfile, $configData);
-
-			require_once $cfgfile;
-		}
-
-		$Redconfiguration = Redconfiguration::getInstance();
-
-		// Declaration
-		$cfgarr = array();
-
-		/*
-		 * Check before update $cfgarr
-		 * for variable is defined or not?
-		 *
-		 * Example:
-		 * if (!defined("TESTING"))
-		 * {
-		 * 		$cfgarr["TESTING"] = 3.14;
-		 * }
-		 */
-		if (!defined("UPDATE_MAIL_ENABLE"))
-		{
-			$cfgarr["UPDATE_MAIL_ENABLE"] = 1;
-		}
-
-		if (!defined("DISCOUNT_TYPE"))
-		{
-			$cfgarr["DISCOUNT_TYPE"] = 3;
-		}
-
-		if (!defined("WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"))
-		{
-			$cfgarr["WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"] = 0;
-		}
-
-		if (!defined("ADDTOCART_BEHAVIOUR"))
-		{
-			$cfgarr["ADDTOCART_BEHAVIOUR"] = 1;
-		}
-
-		if (!defined("SHOPPER_GROUP_DEFAULT_UNREGISTERED") && defined("SHOPPER_GROUP_DEFAULT_PRIVATE"))
-		{
-			$cfgarr["SHOPPER_GROUP_DEFAULT_UNREGISTERED"] = SHOPPER_GROUP_DEFAULT_PRIVATE;
-		}
-
-		if (!defined("INDIVIDUAL_ADD_TO_CART_ENABLE"))
-		{
-			$cfgarr["INDIVIDUAL_ADD_TO_CART_ENABLE"] = 0;
-		}
-
-		if (!defined("PRODUCT_ADDIMG_IS_LIGHTBOX"))
-		{
-			$cfgarr["PRODUCT_ADDIMG_IS_LIGHTBOX"] = 1;
-		}
-
-		if (!defined("POSTDK_CUSTOMER_NO"))
-		{
-			$cfgarr["POSTDK_CUSTOMER_NO"] = 1;
-		}
-
-		if (!defined("POSTDK_INTEGRATION"))
-		{
-			$cfgarr["POSTDK_INTEGRATION"] = 0;
-		}
-
-		if (!defined("POSTDK_CUSTOMER_PASSWORD"))
-		{
-			$cfgarr["POSTDK_CUSTOMER_PASSWORD"] = '';
-		}
-
-		if (!defined("ENABLE_SEF_NUMBER_NAME"))
-		{
-			$cfgarr["ENABLE_SEF_NUMBER_NAME"] = '';
-		}
-
-		if (!defined("UNIT_DECIMAL"))
-		{
-			$cfgarr["UNIT_DECIMAL"] = '';
-		}
-
-		if (!defined("ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"))
-		{
-			$cfgarr["ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"] = 0;
-		}
-
-		if (!defined("CATEGORY_DESC_MAX_CHARS"))
-		{
-			$cfgarr["CATEGORY_DESC_MAX_CHARS"] = '';
-		}
-
-		if (!defined("CATEGORY_DESC_END_SUFFIX"))
-		{
-			$cfgarr["CATEGORY_DESC_END_SUFFIX"] = '';
-		}
-
-		if (!defined("DEFAULT_QUOTATION_MODE_PRE"))
-		{
-			$cfgarr["DEFAULT_QUOTATION_MODE_PRE"] = '0';
-		}
-
-		if (!defined("SHOW_PRICE_PRE"))
-		{
-			$cfgarr["SHOW_PRICE_PRE"] = '1';
-		}
-
-		if (!defined("QUICKLINK_ICON"))
-		{
-			$cfgarr["QUICKLINK_ICON"] = '';
-		}
-
-		if (!defined("DISPLAY_STOCKROOM_ATTRIBUTES"))
-		{
-			$cfgarr["DISPLAY_STOCKROOM_ATTRIBUTES"] = '';
-		}
-
-		if (!defined("DISPLAY_NEW_ORDERS"))
-		{
-			$cfgarr["DISPLAY_NEW_ORDERS"] = '0';
-		}
-
-		if (!defined("DISPLAY_NEW_CUSTOMERS"))
-		{
-			$cfgarr["DISPLAY_NEW_CUSTOMERS"] = '0';
-		}
-
-		if (!defined("DISPLAY_STATISTIC"))
-		{
-			$cfgarr["DISPLAY_STATISTIC"] = '0';
-		}
-
-		if (!defined("EXPAND_ALL"))
-		{
-			$cfgarr["EXPAND_ALL"] = '0';
-		}
-
-		if (!defined("NOOF_THUMB_FOR_SCROLLER"))
-		{
-			$cfgarr["NOOF_THUMB_FOR_SCROLLER"] = '3';
-		}
-
-		if (!defined("POSTDANMARK_ADDRESS"))
-		{
-			$cfgarr["POSTDANMARK_ADDRESS"] = 'address';
-		}
-
-		if (!defined("POSTDANMARK_POSTALCODE"))
-		{
-			$cfgarr["POSTDANMARK_POSTALCODE"] = '13256';
-		}
-
-		if (!defined("SEND_CATALOG_REMINDER_MAIL"))
-		{
-			$cfgarr["SEND_CATALOG_REMINDER_MAIL"] = '0';
-		}
-
-		if (!defined("AJAX_CART_DISPLAY_TIME"))
-		{
-			$cfgarr["AJAX_CART_DISPLAY_TIME"] = '3000';
-		}
-
-		if (!defined("PAYMENT_CALCULATION_ON"))
-		{
-			$cfgarr["PAYMENT_CALCULATION_ON"] = 'subtotal';
-		}
-
-		if (!defined("IMAGE_QUALITY_OUTPUT"))
-		{
-			$cfgarr["IMAGE_QUALITY_OUTPUT"] = '100';
-		}
-
-		if (!defined("DEFAULT_NEWSLETTER"))
-		{
-			$cfgarr["DEFAULT_NEWSLETTER"] = '1';
-		}
-
-		if (!defined("DETAIL_ERROR_MESSAGE_ON"))
-		{
-			$cfgarr["DETAIL_ERROR_MESSAGE_ON"] = '1';
-		}
-
-		if (!defined("MANUFACTURER_TITLE_MAX_CHARS"))
-		{
-			$cfgarr["MANUFACTURER_TITLE_MAX_CHARS"] = '';
-		}
-
-		if (!defined("MANUFACTURER_TITLE_END_SUFFIX"))
-		{
-			$cfgarr["MANUFACTURER_TITLE_END_SUFFIX"] = '';
-		}
-
-		if (!defined("WRITE_REVIEW_IS_LIGHTBOX"))
-		{
-			$cfgarr["WRITE_REVIEW_IS_LIGHTBOX"] = '0';
-		}
-
-		if (!defined("SPECIAL_DISCOUNT_MAIL_SEND"))
-		{
-			$cfgarr["SPECIAL_DISCOUNT_MAIL_SEND"] = '1';
-		}
-
-		if (!defined("WATERMARK_PRODUCT_ADDITIONAL_IMAGE"))
-		{
-			$cfgarr["WATERMARK_PRODUCT_ADDITIONAL_IMAGE"] = '0';
-		}
-
-		if (!defined("ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"))
-		{
-			$cfgarr["ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"] = '0';
-		}
-
-		if (!defined("ATTRIBUTE_SCROLLER_THUMB_WIDTH"))
-		{
-			$cfgarr["ATTRIBUTE_SCROLLER_THUMB_WIDTH"] = '50';
-		}
-
-		if (!defined("ATTRIBUTE_SCROLLER_THUMB_HEIGHT"))
-		{
-			$cfgarr["ATTRIBUTE_SCROLLER_THUMB_HEIGHT"] = '50';
-		}
-
-		if (!defined("NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"))
-		{
-			$cfgarr["NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"] = '3';
-		}
-
-		if (!defined("COMPARE_PRODUCT_THUMB_WIDTH"))
-		{
-			$cfgarr["COMPARE_PRODUCT_THUMB_WIDTH"] = '70';
-		}
-
-		if (!defined("COMPARE_PRODUCT_THUMB_HEIGHT"))
-		{
-			$cfgarr["COMPARE_PRODUCT_THUMB_HEIGHT"] = '70';
-		}
-
-		if (!defined("CATEGORY_TITLE_MAX_CHARS"))
-		{
-			$cfgarr["CATEGORY_TITLE_MAX_CHARS"] = '';
-		}
-
-		if (!defined("CATEGORY_TITLE_END_SUFFIX"))
-		{
-			$cfgarr["CATEGORY_TITLE_END_SUFFIX"] = '';
-		}
-
-		if (!defined("PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"))
-		{
-			$cfgarr["PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"] = '';
-		}
-
-		if (!defined("USE_ENCODING"))
-		{
-			$cfgarr["USE_ENCODING"] = '0';
-		}
-
-		if (!defined("CREATE_ACCOUNT_CHECKBOX"))
-		{
-			$cfgarr["CREATE_ACCOUNT_CHECKBOX"] = '0';
-		}
-
-		if (!defined("SHOW_QUOTATION_PRICE"))
-		{
-			$cfgarr["SHOW_QUOTATION_PRICE"] = '0';
-		}
-
-		if (!defined("CHILDPRODUCT_DROPDOWN"))
-		{
-			$cfgarr["CHILDPRODUCT_DROPDOWN"] = 'product_name';
-		}
-
-		if (!defined("ENABLE_ADDRESS_DETAIL_IN_SHIPPING"))
-		{
-			$cfgarr["ENABLE_ADDRESS_DETAIL_IN_SHIPPING"] = '0';
-		}
-
-		if (!defined("PURCHASE_PARENT_WITH_CHILD"))
-		{
-			$cfgarr["PURCHASE_PARENT_WITH_CHILD"] = '0';
-		}
-
-		if (!defined("CALCULATION_PRICE_DECIMAL"))
-		{
-			$cfgarr["CALCULATION_PRICE_DECIMAL"] = '4';
-		}
-
-		if (!defined("REQUESTQUOTE_IMAGE"))
-		{
-			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.png';
-		}
-
-		if (!defined("REQUESTQUOTE_BACKGROUND"))
-		{
-			$cfgarr["REQUESTQUOTE_BACKGROUND"] = '#409740';
-		}
-
-		if (!defined("SHOW_PRODUCT_DETAIL"))
-		{
-			$cfgarr["SHOW_PRODUCT_DETAIL"] = 1;
-		}
-
-		if (!defined("WEBPACK_ENABLE_EMAIL_TRACK"))
-		{
-			$cfgarr["WEBPACK_ENABLE_EMAIL_TRACK"] = 1;
-		}
-
-		if (!defined("WEBPACK_ENABLE_SMS"))
-		{
-			$cfgarr["WEBPACK_ENABLE_SMS"] = 1;
-		}
-
-		if (!defined("REQUIRED_VAT_NUMBER"))
-		{
-			$cfgarr["REQUIRED_VAT_NUMBER"] = 1;
-		}
-
-		if (!defined("ACCESSORY_PRODUCT_IN_LIGHTBOX"))
-		{
-			$cfgarr["ACCESSORY_PRODUCT_IN_LIGHTBOX"] = 0;
-		}
-
-		if (!defined("PRODUCT_PREVIEW_IMAGE_WIDTH"))
-		{
-			$cfgarr["PRODUCT_PREVIEW_IMAGE_WIDTH"] = 100;
-		}
-
-		if (!defined("PRODUCT_PREVIEW_IMAGE_HEIGHT"))
-		{
-			$cfgarr["PRODUCT_PREVIEW_IMAGE_HEIGHT"] = 100;
-		}
-
-		if (!defined("CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"))
-		{
-			$cfgarr["CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"] = 100;
-		}
-
-		if (!defined("CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"))
-		{
-			$cfgarr["CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"] = 100;
-		}
-
-		if (!defined("DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"))
-		{
-			$cfgarr["DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"] = 1;
-		}
-
-		if (!defined("SEND_MAIL_TO_CUSTOMER"))
-		{
-			$cfgarr["SEND_MAIL_TO_CUSTOMER"] = 1;
-		}
-
-		if (!defined("AJAX_DETAIL_BOX_WIDTH"))
-		{
-			$cfgarr["AJAX_DETAIL_BOX_WIDTH"] = 500;
-		}
-
-		if (!defined("AJAX_DETAIL_BOX_HEIGHT"))
-		{
-			$cfgarr["AJAX_DETAIL_BOX_HEIGHT"] = 600;
-		}
-
-		if (!defined("AJAX_BOX_WIDTH"))
-		{
-			$cfgarr["AJAX_BOX_WIDTH"] = 500;
-		}
-
-		if (!defined("AJAX_BOX_HEIGHT"))
-		{
-			$cfgarr["AJAX_BOX_HEIGHT"] = 150;
-		}
-
-		if (!defined("MEDIA_ALLOWED_MIME_TYPE"))
-		{
-			$cfgarr["MEDIA_ALLOWED_MIME_TYPE"] = 'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls';
-		}
-
-		if (!defined("ORDER_MAIL_AFTER"))
-		{
-			$cfgarr["ORDER_MAIL_AFTER"] = 0;
-		}
-
-		if (!defined("STATISTICS_ENABLE"))
-		{
-			$cfgarr["STATISTICS_ENABLE"] = 1;
-		}
-
-		if (!defined("AUTO_GENERATE_LABEL"))
-		{
-			$cfgarr["AUTO_GENERATE_LABEL"] = 1;
-		}
-
-		if (!defined("GENERATE_LABEL_ON_STATUS"))
-		{
-			$cfgarr["GENERATE_LABEL_ON_STATUS"] = "S";
-		}
-
-		if (!defined("CHECKOUT_LOGIN_REGISTER_SWITCHER"))
-		{
-			$cfgarr["CHECKOUT_LOGIN_REGISTER_SWITCHER"] = 'sliders';
-		}
-
-		if (!defined("RATING_REVIEW_LOGIN_REQUIRED"))
-		{
-			$cfgarr["RATING_REVIEW_LOGIN_REQUIRED"] = '1';
-		}
-
-		if (!defined("CATEGORY_TREE_IN_SEF_URL"))
-		{
-			$cfgarr["CATEGORY_TREE_IN_SEF_URL"] = '0';
-		}
-
-		if (!defined("INVOICE_NUMBER_FOR_FREE_ORDER"))
-		{
-			$cfgarr["INVOICE_NUMBER_FOR_FREE_ORDER"] = 0;
-		}
-
-		if (!defined("REAL_INVOICE_NUMBER_TEMPLATE"))
-		{
-			$cfgarr["REAL_INVOICE_NUMBER_TEMPLATE"] = '##';
-		}
-
-		$Redconfiguration->manageCFGFile($cfgarr);
-
-		// Store new config file using existing config files.
 		try
 		{
-			Redshop::getConfig()->loadLegacy();
+			// Only loading from legacy when version is older than 1.6
+			// Since 1.6 we started moving to new config
+			if (version_compare($this->getOldParam('version'), '1.6', '<'))
+			{
+				// Load configuration file from legacy file.
+				Redshop::getConfig()->loadLegacy();
+			}
+
+			// Try to load distinct if no config found.
+			Redshop::getConfig()->loadDist();
 		}
 		catch (Exception $e)
 		{
@@ -1156,7 +725,7 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName = $node->attributes()->name;
+				$extName = (string) $node->attributes()->name;
 				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
 
@@ -1165,7 +734,7 @@ class Com_RedshopInstallerScript
 					$result = $this->getInstaller()->install($extPath);
 				}
 
-				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+				$this->storeStatus('libraries', array('name' => $extName, 'result' => $result));
 			}
 		}
 	}
@@ -1187,8 +756,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName   = $node->attributes()->name;
-				$extClient = $node->attributes()->client;
+				$extName   = (string) $node->attributes()->name;
+				$extClient = (string) $node->attributes()->client;
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
 
@@ -1197,7 +766,14 @@ class Com_RedshopInstallerScript
 					$result = $this->getInstaller()->install($extPath);
 				}
 
-				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+				$this->storeStatus(
+					'modules',
+					array(
+						'name' => $extName,
+						'client' => $extClient,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1216,48 +792,68 @@ class Com_RedshopInstallerScript
 		$src       = $parent->getParent()->getPath('source');
 		if ($nodes = $manifest->plugins->plugin)
 		{
-			$db = JFactory::getDbo();
-
 			foreach ($nodes as $node)
 			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
-				$query = $db->getQuery(true)
-					->select('extension_id')
-					->from($db->qn('#__extensions'))
-					->where('type = ' . $db->q('plugin'))
-					->where('element = ' . $db->q($extName))
-					->where('folder = ' . $db->q($extGroup));
-				$extensionId = $db->setQuery($query)->loadResult();
+				$extensionId = 0;
 
+				if (isset($this->installedPlugins[$extGroup][$extName]))
+				{
+					$extensionId = $this->installedPlugins[$extGroup][$extName]->extension_id;
+				}
+
+				// Install or upgrade plugin
 				if (is_dir($extPath))
 				{
 					$result = $this->getInstaller()->install($extPath);
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
+				$this->storeStatus(
+					'plugins',
+					array(
+						'name'   => $extName,
+						'group'  => $extGroup,
+						'result' => $result
+					)
+				);
 
 				// We'll not enable plugin for update case
 				if ($this->type != 'update')
 				{
-					// If plugin is installed successfully and it didn't exist before we enable it.
+					// For another rest type cases
+					// Do not change plugin state if it's installed
 					if ($result && !$extensionId)
 					{
-						$query->clear()
-							->update($db->qn("#__extensions"))
-							->set("enabled = 1")
-							->where('type = ' . $db->q('plugin'))
-							->where('element = ' . $db->q($extName))
-							->where('folder = ' . $db->q($extGroup));
-						$db->setQuery($query)->execute();
+						// If plugin is installed successfully and it didn't exist before we enable it.
+						$this->enablePlugin($extName, $extGroup);
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param   string  $extName
+	 * @param   string  $extGroup
+	 * @param   int     $state
+	 *
+	 * @return mixed
+	 */
+	private function enablePlugin($extName, $extGroup, $state = 1)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->update($db->qn("#__extensions"))
+			->set("enabled = " . (int) $state)
+			->where('type = ' . $db->q('plugin'))
+			->where('element = ' . $db->q($extName))
+			->where('folder = ' . $db->q($extGroup));
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
@@ -1277,7 +873,7 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName = $node->attributes()->name;
+				$extName = (string) $node->attributes()->name;
 				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
 
@@ -1296,7 +892,7 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+				$this->storeStatus('libraries', array('name' => $extName, 'result' => $result));
 			}
 		}
 	}
@@ -1318,8 +914,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName   = $node->attributes()->name;
-				$extClient = $node->attributes()->client;
+				$extName   = (string) $node->attributes()->name;
+				$extClient = (string) $node->attributes()->client;
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
 
@@ -1338,7 +934,14 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+				$this->storeStatus(
+					'modules',
+					array(
+						'name' => $extName,
+						'client' => $extClient,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1360,8 +963,8 @@ class Com_RedshopInstallerScript
 		{
 			foreach ($nodes as $node)
 			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
+				$extName  = (string) $node->attributes()->name;
+				$extGroup = (string) $node->attributes()->group;
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
@@ -1381,7 +984,14 @@ class Com_RedshopInstallerScript
 				}
 
 				// Store the result to show install summary later
-				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
+				$this->storeStatus(
+					'plugins',
+					array(
+						'name' => $extName,
+						'group' => $extGroup,
+						'result' => $result
+					)
+				);
 			}
 		}
 	}
@@ -1394,7 +1004,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	private function _storeStatus($type, $status)
+	private function storeStatus($type, $status)
 	{
 		// Initialise status object if needed
 		if (is_null($this->status))
@@ -1436,6 +1046,8 @@ class Com_RedshopInstallerScript
 			array_push(
 				$files,
 				JPATH_SITE . '/components/com_redshop/helpers/helper.php',
+				JPATH_SITE . '/components/com_redshop/helpers/currency.php',
+				JPATH_SITE . '/components/com_redshop/helpers/product.php',
 				JPATH_SITE . '/components/com_redshop/helpers/cart.php',
 				JPATH_SITE . '/components/com_redshop/helpers/user.php',
 				JPATH_SITE . '/components/com_redshop/views/search/tmpl/default.xml',
@@ -1446,6 +1058,7 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
 				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
 				JPATH_SITE . '/components/com_redshop/helpers/zipfile.php',
+				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/answer.php',
@@ -1605,10 +1218,12 @@ class Com_RedshopInstallerScript
 	 */
 	private function updateOverrideTemplate()
 	{
-		$dir       = JPATH_SITE . "/templates/";
-		$codeDir   = JPATH_SITE . "/code/";
-		$files     = JFolder::folders($dir);
-		$templates = array();
+		$dir                  = JPATH_SITE . "/templates/";
+		$codeDir              = JPATH_SITE . "/code/";
+		$files                = JFolder::folders($dir);
+		$templates            = array();
+		$adminHelpers         = array();
+		$adminTemplateHelpers = array();
 
 		if (JFolder::exists($codeDir))
 		{
@@ -1634,6 +1249,11 @@ class Com_RedshopInstallerScript
 				if (JFolder::exists($codeDir))
 				{
 					$templates[$codeDir] = JFolder::folders($codeDir);
+				}
+
+				if (JFolder::exists($codeDir . 'com_redshop/helpers'))
+				{
+					$adminHelpers[$codeDir . 'com_redshop/helpers'] = JFolder::files($codeDir . 'com_redshop/helpers');
 				}
 			}
 		}
@@ -1672,6 +1292,11 @@ class Com_RedshopInstallerScript
 					if (JFolder::exists($key . '/code/components/com_redshop'))
 					{
 						$override[$key . '/code/components/com_redshop'] = JFolder::folders($key . '/code/components/com_redshop');
+					}
+
+					if (JFolder::exists($key . '/code/com_redshop/helpers'))
+					{
+						$adminTemplateHelpers[$key] = JFolder::files($key . '/code/com_redshop/helpers');
 					}
 				}
 			}
@@ -1740,25 +1365,27 @@ class Com_RedshopInstallerScript
 		}
 
 		$replaceString = array(
-				'new quotationHelper'                              => 'quotationHelper::getInstance()',
-				'new order_functions'                              => 'order_functions::getInstance()',
-				'new Redconfiguration'                             => 'Redconfiguration::getInstance()',
-				'new Redtemplate'                                  => 'Redtemplate::getInstance()',
-				'new extra_field'                                  => 'extra_field::getInstance()',
-				'new rsstockroomhelper'                            => 'rsstockroomhelper::getInstance()',
-				'new shipping'                                     => 'shipping::getInstance()',
-				'new CurrencyHelper'                               => 'CurrencyHelper::getInstance()',
-				'new economic'                                     => 'economic::getInstance()',
 				'new quotationHelper()'                            => 'quotationHelper::getInstance()',
 				'new order_functions()'                            => 'order_functions::getInstance()',
 				'new Redconfiguration()'                           => 'Redconfiguration::getInstance()',
+				'new Redconfiguration'                             => 'Redconfiguration::getInstance()',
 				'new Redtemplate()'                                => 'Redtemplate::getInstance()',
+				'new Redtemplate'                                  => 'Redtemplate::getInstance()',
 				'new extra_field()'                                => 'extra_field::getInstance()',
 				'new rsstockroomhelper()'                          => 'rsstockroomhelper::getInstance()',
+				'new rsstockroomhelper'                            => 'rsstockroomhelper::getInstance()',
 				'new shipping()'                                   => 'shipping::getInstance()',
 				'new CurrencyHelper()'                             => 'CurrencyHelper::getInstance()',
 				'new economic()'                                   => 'economic::getInstance()',
+				'new rsUserhelper()'                               => 'rsUserHelper::getInstance()',
+				'new rsUserhelper'                                 => 'rsUserHelper::getInstance()',
 				'GoogleAnalytics'                                  => 'RedshopHelperGoogleanalytics',
+				'new quotationHelper'                              => 'quotationHelper::getInstance()',
+				'new order_functions'                              => 'order_functions::getInstance()',
+				'new extra_field'                                  => 'extra_field::getInstance()',
+				'new shipping'                                     => 'shipping::getInstance()',
+				'new CurrencyHelper'                               => 'CurrencyHelper::getInstance()',
+				'new economic'                                     => 'economic::getInstance()',
 				'RedshopConfig::scriptDeclaration();'              => '',
 				'$redConfiguration'                                => '$Redconfiguration',
 				'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',
@@ -1779,6 +1406,103 @@ class Com_RedshopInstallerScript
 							$content = str_replace($old, $new, $content);
 							JFile::write($path . '/' . $file, $content);
 						}
+					}
+				}
+			}
+		}
+
+		$replaceAdminHelper = array(
+			'adminorder.php'         => 'order_functions.php',
+			'admincategory.php'      => 'product_category.php',
+			'adminquotation.php'     => 'quotationhelper.php',
+			'adminaccess_level.php'  => 'redaccesslevel.php',
+			'adminconfiguration.php' => 'redconfiguration.php',
+			'adminmedia.php'         => 'redmediahelper.php',
+			'adminimages.php'        => 'redshophelperimages.php',
+			'adminmail.php'          => 'redshopmail.php',
+			'adminupdate.php'        => 'redshopupdate.php',
+			'admintemplate.php'      => 'redtemplate.php',
+			'adminstockroom.php'     => 'rsstockroom.php',
+			'adminshopper.php'       => 'shoppergroup.php'
+		);
+
+		$replaceSiteHelper = array(
+			'currency.php'         => 'currencyhelper.php',
+			'extra_field.php'      => 'extrafield.php',
+			'google_analytics.php' => 'googleanalytics.php',
+			'product.php'          => 'producthelper.php',
+			'helper.php'           => 'redhelper.php',
+			'cart.php'             => 'rscarthelper.php',
+			'user.php'             => 'rsuserhelper.php'
+		);
+
+		if (!empty($adminHelpers))
+		{
+			foreach ($adminHelpers as $path => $files)
+			{
+				foreach ($replaceAdminHelper as $old => $new)
+				{
+					if (JFile::exists($path . '/' . $old))
+					{
+						if (!JFolder::exists($codeDir . 'administrator/components/com_redshop/helpers'))
+						{
+							JFolder::create($codeDir . 'administrator/components/com_redshop/helpers');
+						}
+
+						$src  = $codeDir . 'com_redshop/helpers/' . $old;
+						$dest = $codeDir . 'administrator/components/com_redshop/helpers/' . $new;
+						JFile::move($src, $dest);
+					}
+				}
+
+				foreach ($replaceSiteHelper as $old => $new)
+				{
+					if (JFile::exists($path . '/' . $old))
+					{
+						if (!JFolder::exists($codeDir . 'components/com_redshop/helpers'))
+						{
+							JFolder::create($codeDir . 'components/com_redshop/helpers');
+						}
+
+						$src  = $codeDir . 'com_redshop/helpers/' . $old;
+						$dest = $codeDir . 'components/com_redshop/helpers/' . $new;
+						JFile::move($src, $dest);
+					}
+				}
+			}
+		}
+
+		if (!empty($adminTemplateHelpers))
+		{
+			foreach ($adminTemplateHelpers as $path => $files)
+			{
+				foreach ($replaceAdminHelper as $old => $new)
+				{
+					if (JFile::exists($path . '/code/com_redshop/helpers/' . $old))
+					{
+						if (!JFolder::exists($path . '/code/administrator/components/com_redshop/helpers'))
+						{
+							JFolder::create($path . '/code/administrator/components/com_redshop/helpers');
+						}
+
+						$src  = $path . '/code/com_redshop/helpers/' . $old;
+						$dest = $path . '/code/administrator/components/com_redshop/helpers/' . $new;
+						JFile::move($src, $dest);
+					}
+				}
+
+				foreach ($replaceSiteHelper as $old => $new)
+				{
+					if (JFile::exists($path . '/code/com_redshop/helpers/' . $old))
+					{
+						if (!JFolder::exists($path . '/code/components/com_redshop/helpers'))
+						{
+							JFolder::create($path . '/code/components/com_redshop/helpers');
+						}
+
+						$src  = $path . '/code/com_redshop/helpers/' . $old;
+						$dest = $path . '/code/components/com_redshop/helpers/' . $new;
+						JFile::move($src, $dest);
 					}
 				}
 			}

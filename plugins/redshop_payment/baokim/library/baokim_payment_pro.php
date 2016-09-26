@@ -74,7 +74,7 @@ class BaoKimPaymentPro
 		$params['total_amount']           = $total_amount;
 		$params['shipping_fee']           = $data['shipping_fee'];
 		$params['tax_fee']                = $data['tax_fee'];
-		$params['currency_code']          = CURRENCY_CODE;
+		$params['currency_code']          = Redshop::getConfig()->get('CURRENCY_CODE');
 
 		$params['url_success']            = $url_success;
 		$params['url_cancel']             = $url_cancel;

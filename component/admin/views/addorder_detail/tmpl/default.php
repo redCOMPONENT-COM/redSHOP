@@ -197,18 +197,6 @@ function validateUserDetail() {
 		form.phone.focus();
 		return false;
 	}
-	/*if(form.ean_number.value=='' && form.requisition_number.value!=''){
-	 alert("
-	<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EAN_NUMBER')?>");
-	 form.ean_number.focus();
-	 return false;
-	 }
-	 if(form.ean_number.value!='' && form.requisition_number.value==''){
-	 alert("
-	<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_REQUISITION_NUMBER')?>");
-	 form.ean_number.focus();
-	 return false;
-	 }*/
 
 	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 	if (form.email.value == '') {
@@ -246,7 +234,7 @@ function validateUserDetail() {
 			}
 		}
 	}
-	<?php if(!OPTIONAL_SHIPPING_ADDRESS) {?>
+	<?php if(!Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS')) {?>
 	if (!document.getElementById('billisship').checked) {
 		if (form.firstname_ST.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
@@ -414,7 +402,7 @@ function validateUserDetail() {
 							<td><input class="inputbox" type="text" name="ean_number" id="ean_number" size="32"
 							           maxlength="250" value="<?php echo $billing->ean_number; ?>"/></td>
 						</tr>
-						<?php    if (USE_TAX_EXEMPT == 1)
+						<?php    if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
 						{
 							?>
 							<tr id="trTaxExempt" <?php echo $allowCompany;?>>

@@ -64,7 +64,7 @@ if ($this->params->get('show_page_heading', 1))
 <?php
 }
 
-$template_desc = str_replace('{welcome_introtext}', WELCOMEPAGE_INTROTEXT, $template_desc);
+$template_desc = str_replace('{welcome_introtext}', Redshop::getConfig()->get('WELCOMEPAGE_INTROTEXT'), $template_desc);
 
 $logoutimg     = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/logout.jpg" align="absmiddle" />';
 $logout        = '<a href="' . $logout_link . '">' . JText::_('COM_REDSHOP_LOGOUT') . '</a>';
@@ -81,7 +81,7 @@ $template_desc     = str_replace('{edit_account_link}', $edit_account_link, $tem
 
 $template_desc = $carthelper->replaceNewsletterSubscription($template_desc, 1);
 
-if (SHIPPING_METHOD_ENABLE)
+if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	$shipping_image = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/order.jpg" align="absmiddle">';
 	$update_link    = '<a href="' . $accountshipto_link . '">' . JText::_('COM_REDSHOP_UPDATE_SHIPPING_INFO') . '</a>';
@@ -187,7 +187,7 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 	$coupon_imagelbl = '';
 	$coupon_data     = '';
 
-	if (COUPONINFO)
+	if (Redshop::getConfig()->get('COUPONINFO'))
 	{
 		$coupon_imagelbl = JText::_('COM_REDSHOP_COUPON_INFO');
 		$coupon_image    = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/coupon.jpg" align="absmiddle">';
@@ -234,7 +234,7 @@ if (strpos($template_desc, "{if coupon}") !== false && strpos($template_desc, "{
 	$template_d1 = explode("{if coupon}", $template_desc);
 	$template_d2 = explode("{coupon end if}", $template_d1[1]);
 
-	if (COUPONINFO && count($usercoupons))
+	if (Redshop::getConfig()->get('COUPONINFO') && count($usercoupons))
 	{
 		$template_desc = str_replace("{if coupon}", "", $template_desc);
 		$template_desc = str_replace("{coupon end if}", "", $template_desc);
@@ -249,7 +249,7 @@ $tag_imagelbl = '';
 $tag_image    = '';
 $tag_link     = '';
 
-if (MY_TAGS)
+if (Redshop::getConfig()->get('MY_TAGS'))
 {
 	$tag_imagelbl = JText::_('COM_REDSHOP_MY_TAGS');
 	$tag_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
@@ -271,7 +271,7 @@ if (strpos($template_desc, "{if tag}") !== false && strpos($template_desc, "{tag
 	$template_d1 = explode("{if tag}", $template_desc);
 	$template_d2 = explode("{tag end if}", $template_d1[1]);
 
-	if (MY_TAGS && $myTags > 0)
+	if (Redshop::getConfig()->get('MY_TAGS') && $myTags > 0)
 	{
 		$template_desc = str_replace("{if tag}", "", $template_desc);
 		$template_desc = str_replace("{tag end if}", "", $template_desc);
@@ -337,6 +337,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 $wishlist_imagelbl  = '';
 $wishlist_image     = '';
 $edit_wishlist_link = '';
+$myWishlist = 0;
 
 if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc, "{quotation end if}") !== false)
 {
@@ -354,14 +355,14 @@ if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc,
 	}
 }
 
-if (MY_WISHLIST)
+if (Redshop::getConfig()->get('MY_WISHLIST'))
 {
 	$wishlist_imagelbl  = JText::_('COM_REDSHOP_MY_WISHLIST');
 	$wishlist_image     = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$edit_wishlist_link = JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST');
 	$myWishlist         = $model->countMyWishlist();
 
-	if ($myWishlist > 0)
+	if ($myWishlist)
 	{
 		$edit_wishlist_link = '<a href="' . $wishlist_link . '" style="text-decoration: none;">' . JText::_("COM_REDSHOP_SHOW_WISHLIST_PRODUCTS") . '</a>';
 	}
@@ -376,7 +377,8 @@ if (strpos($template_desc, "{if wishlist}") !== false && strpos($template_desc, 
 	$template_d1 = explode("{if wishlist}", $template_desc);
 	$template_d2 = explode("{wishlist end if}", $template_d1[1]);
 
-	if ($myWishlist > 0)
+
+	if ($myWishlist)
 	{
 		$template_desc = str_replace("{if wishlist}", "", $template_desc);
 		$template_desc = str_replace("{wishlist end if}", "", $template_desc);
@@ -442,7 +444,7 @@ $cmp_imagelbl = '';
 $cmp_image    = '';
 $cmp_link     = '';
 
-if (COMPARE_PRODUCTS)
+if (Redshop::getConfig()->get('COMPARE_PRODUCTS'))
 {
 	$cmp_imagelbl = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 	$cmp_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
@@ -460,7 +462,7 @@ if (strpos($template_desc, "{if compare}") !== false && strpos($template_desc, "
 	$template_d1 = explode("{if compare}", $template_desc);
 	$template_d2 = explode("{compare end if}", $template_d1[1]);
 
-	if (COMPARE_PRODUCTS && !$compare->isEmpty())
+	if (Redshop::getConfig()->get('COMPARE_PRODUCTS') && !$compare->isEmpty())
 	{
 		$template_desc = str_replace("{if compare}", "", $template_desc);
 		$template_desc = str_replace("{compare end if}", "", $template_desc);
