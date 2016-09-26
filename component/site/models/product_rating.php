@@ -144,9 +144,9 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 		$data_add = str_replace("{username}", $data['username'], $data_add);
 		$data_add = $redshopMail->imginmail($data_add);
 
-		if (ADMINISTRATOR_EMAIL != "")
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "")
 		{
-			$sendto = explode(",", ADMINISTRATOR_EMAIL);
+			$sendto = explode(",", Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'));
 
 			if (JFactory::getMailer()->sendMail($data['email'], $data['username'], $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{

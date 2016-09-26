@@ -35,7 +35,6 @@
   $sh_LANG['en']['_REDSHOP_NEWSLETTER'] = 'newsletter';
   $sh_LANG['en']['_REDSHOP_WISHLIST'] = 'wishlist';
   $sh_LANG['en']['_REDSHOP_GIFTCARD'] = 'giftcard';
-  $sh_LANG['en']['_REDSHOP_SPLIT_PAYMENT'] = 'split_payment';
   $sh_LANG['en']['_REDSHOP_LOGIN'] = 'login';
   $sh_LANG['en']['_REDSHOP_LOGOUT'] = 'logout';
   $sh_LANG['en']['_REDSHOP_PASSWORD'] = 'password';
@@ -77,7 +76,6 @@
   $sh_LANG['da']['_REDSHOP_NEWSLETTER'] = 'newsletter';
   $sh_LANG['da']['_REDSHOP_WISHLIST'] = 'wishlist';
   $sh_LANG['da']['_REDSHOP_GIFTCARD'] = 'giftcard';
-  $sh_LANG['da']['_REDSHOP_SPLIT_PAYMENT'] = 'split_payment';
   $sh_LANG['da']['_REDSHOP_LOGIN'] = 'login';
   $sh_LANG['da']['_REDSHOP_LOGOUT'] = 'logout';
   $sh_LANG['da']['_REDSHOP_PASSWORD'] = 'password';

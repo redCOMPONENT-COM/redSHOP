@@ -28,7 +28,7 @@ abstract class Redshop
 	/**
 	 * Component configuration
 	 *
-	 * @var  JRegistry
+	 * @var  RedshopHelperConfig
 	 */
 	protected static $config;
 

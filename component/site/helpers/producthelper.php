@@ -483,11 +483,11 @@ class productHelper
 
 			if ($chktaxExempt)
 			{
-				$strVat = WITH_VAT_TEXT_INFO;
+				$strVat = Redshop::getConfig()->get('WITH_VAT_TEXT_INFO');
 			}
 			else
 			{
-				$strVat = WITHOUT_VAT_TEXT_INFO;
+				$strVat = Redshop::getConfig()->get('WITHOUT_VAT_TEXT_INFO');
 			}
 
 			$data_add = str_replace("{vat_info}", $strVat, $data_add);
@@ -571,12 +571,12 @@ class productHelper
 
 				if (!$userdata->country_code)
 				{
-					$userdata->country_code = DEFAULT_VAT_COUNTRY;
+					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 				}
 
 				if (!$userdata->state_code)
 				{
-					$userdata->state_code = DEFAULT_VAT_STATE;
+					$userdata->state_code = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 				}
 
 				/*
@@ -584,17 +584,17 @@ class productHelper
 				 *  VAT_BASED_ON = 1 // Customer mode
 				 *  VAT_BASED_ON = 2 // EU mode
 				 */
-				if (VAT_BASED_ON != 2 && VAT_BASED_ON != 1)
+				if (Redshop::getConfig()->get('VAT_BASED_ON') != 2 && Redshop::getConfig()->get('VAT_BASED_ON') != 1)
 				{
-					$userdata->country_code = DEFAULT_VAT_COUNTRY;
-					$userdata->state_code   = DEFAULT_VAT_STATE;
+					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
+					$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 				}
 			}
 			else
 			{
 				$userdata = new stdClass;
-				$userdata->country_code = DEFAULT_VAT_COUNTRY;
-				$userdata->state_code   = DEFAULT_VAT_STATE;
+				$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
+				$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 			}
 		}
 		else
@@ -603,10 +603,10 @@ class productHelper
 			$users_info_id          = $auth['users_info_id'];
 
 			$userdata = new stdClass;
-			$userdata->country_code = DEFAULT_VAT_COUNTRY;
-			$userdata->state_code   = DEFAULT_VAT_STATE;
+			$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
+			$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 
-			if ($users_info_id && (REGISTER_METHOD == 1 || REGISTER_METHOD == 2) && (VAT_BASED_ON == 2 || VAT_BASED_ON == 1))
+			if ($users_info_id && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
 			{
 				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
 					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
@@ -641,7 +641,7 @@ class productHelper
 		$session = JFactory::getSession();
 		$userData = $this->getVatUserinfo($userId);
 		$userArr = $session->get('rs_user');
-		$taxGroup = DEFAULT_VAT_GROUP;
+		$taxGroup = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
 
 		if (!empty($userArr))
 		{
@@ -649,7 +649,7 @@ class productHelper
 			{
 				if (empty($productInfo->product_tax_group_id))
 				{
-					$productInfo->product_tax_group_id = DEFAULT_VAT_GROUP;
+					$productInfo->product_tax_group_id = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
 				}
 
 				if ($userArr['vatCountry'] == $userData->country_code
@@ -679,7 +679,7 @@ class productHelper
 				->where('tr.tax_group_id = ' . (int) $taxGroup)
 				->order('tax_rate');
 
-			if (VAT_BASED_ON == 2)
+			if (Redshop::getConfig()->get('VAT_BASED_ON') == 2)
 			{
 				$query->where('tr.is_eu_country = 1');
 			}
@@ -767,17 +767,17 @@ class productHelper
 		}
 		else
 		{
-			if (!SHOW_PRICE || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE != '1')) // && DEFAULT_QUOTATION_MODE==1)
+			if (!Redshop::getConfig()->get('SHOW_PRICE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '1' && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') != '1')) // && DEFAULT_QUOTATION_MODE==1)
 			{
-				$return = PRICE_REPLACE_URL ? "<a href='http://" . PRICE_REPLACE_URL . "' target='_blank'>"
-					. PRICE_REPLACE . "</a>" : PRICE_REPLACE;
+				$return = Redshop::getConfig()->get('PRICE_REPLACE_URL') ? "<a href='http://" . Redshop::getConfig()->get('PRICE_REPLACE_URL') . "' target='_blank'>"
+					. Redshop::getConfig()->get('PRICE_REPLACE') . "</a>" : Redshop::getConfig()->get('PRICE_REPLACE');
 			}
 
-			if (SHOW_PRICE && trim($product_price) != "")
+			if (Redshop::getConfig()->get('SHOW_PRICE') && trim($product_price) != "")
 			{
-				if ((DEFAULT_QUOTATION_MODE == '0') || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE == '1'))
+				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '0') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == '1' && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == '1'))
 				{
-					$return = ZERO_PRICE_REPLACE_URL ? "<a href='http://" . ZERO_PRICE_REPLACE_URL . "' target='_blank'>" . ZERO_PRICE_REPLACE . "</a>" : ZERO_PRICE_REPLACE;
+					$return = Redshop::getConfig()->get('ZERO_PRICE_REPLACE_URL') ? "<a href='http://" . Redshop::getConfig()->get('ZERO_PRICE_REPLACE_URL') . "' target='_blank'>" . Redshop::getConfig()->get('ZERO_PRICE_REPLACE') . "</a>" : Redshop::getConfig()->get('ZERO_PRICE_REPLACE');
 				}
 			}
 		}
@@ -794,8 +794,13 @@ class productHelper
 	 *
 	 * @return  float                      Formatted Product Price
 	 */
-	public function getProductFormattedPrice($productPrice, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
+	public function getProductFormattedPrice($productPrice, $convert = true, $currency_symbol = '_NON_')
 	{
+		if ($currency_symbol == '_NON_')
+		{
+			$currency_symbol = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
+		}
+
 		$CurrencyHelper  = CurrencyHelper::getInstance();
 
 		// Get Current Currency of SHOP
@@ -807,7 +812,7 @@ class productHelper
 		{
 			$productPrice = $CurrencyHelper->convert($productPrice);
 
-			if (CURRENCY_SYMBOL_POSITION == 'behind')
+			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
 				$currency_symbol = " " . $session->get('product_currency');
 			}
@@ -821,26 +826,26 @@ class productHelper
 
 		if (is_numeric($productPrice))
 		{
-			$priceDecimal = (int) PRICE_DECIMAL;
+			$priceDecimal = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
 			$productPrice = (double) $productPrice;
 
-			if (CURRENCY_SYMBOL_POSITION == 'front')
+			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'front')
 			{
 				$price = $currency_symbol
-					. number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+					. number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 			}
-			elseif (CURRENCY_SYMBOL_POSITION == 'behind')
+			elseif (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
-				$price = number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR)
+				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'))
 					. $currency_symbol;
 			}
-			elseif (CURRENCY_SYMBOL_POSITION == 'none')
+			elseif (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'none')
 			{
-				$price = number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 			}
 			else
 			{
-				$price = $currency_symbol . number_format($productPrice, $priceDecimal, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+				$price = $currency_symbol . number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 			}
 		}
 
@@ -851,9 +856,9 @@ class productHelper
 	{
 		$cal_no = 4;
 
-		if (defined('CALCULATION_PRICE_DECIMAL') && CALCULATION_PRICE_DECIMAL != "")
+		if (Redshop::getConfig()->get('CALCULATION_PRICE_DECIMAL') != "")
 		{
-			$cal_no = CALCULATION_PRICE_DECIMAL;
+			$cal_no = Redshop::getConfig()->get('CALCULATION_PRICE_DECIMAL');
 		}
 
 		$product_price = round($product_price, $cal_no);
@@ -891,7 +896,7 @@ class productHelper
 
 		$cat_product_hover = false;
 
-		if ($enableHover && PRODUCT_HOVER_IMAGE_ENABLE)
+		if ($enableHover && Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_ENABLE'))
 		{
 			$cat_product_hover = true;
 		}
@@ -906,13 +911,13 @@ class productHelper
 			}
 		}
 
-		if (!$isStockExists && USE_PRODUCT_OUTOFSTOCK_IMAGE == 1)
+		if (!$isStockExists && Redshop::getConfig()->get('USE_PRODUCT_OUTOFSTOCK_IMAGE') == 1)
 		{
-			if (PRODUCT_OUTOFSTOCK_IMAGE && file_exists($middlepath . PRODUCT_OUTOFSTOCK_IMAGE))
+			if (Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')))
 			{
 				$thum_image = $this->replaceProductImage(
 					$result,
-					PRODUCT_OUTOFSTOCK_IMAGE,
+					Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE'),
 					"",
 					$link,
 					$width,
@@ -1039,11 +1044,11 @@ class productHelper
 		}
 		else
 		{
-			if (PRODUCT_DEFAULT_IMAGE && file_exists($middlepath . PRODUCT_DEFAULT_IMAGE))
+			if (Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 			{
 				$thum_image = $this->replaceProductImage(
 					$result,
-					PRODUCT_DEFAULT_IMAGE,
+					Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
 					"",
 					$link,
 					$width,
@@ -1090,7 +1095,7 @@ class productHelper
 
 		$cat_product_hover = false;
 
-		if ($enableHover && PRODUCT_HOVER_IMAGE_ENABLE)
+		if ($enableHover && Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_ENABLE'))
 		{
 			$cat_product_hover = true;
 		}
@@ -1104,23 +1109,23 @@ class productHelper
 
 		if ($imagename != "")
 		{
-			$product_img = $redhelper->watermark('product', $imagename, $width, $height, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+			$product_img = $redhelper->watermark('product', $imagename, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 
 			if ($cat_product_hover)
 				$product_hover_img = $redhelper->watermark('product',
 					$imagename,
-					PRODUCT_HOVER_IMAGE_WIDTH,
-					PRODUCT_HOVER_IMAGE_HEIGHT,
-					WATERMARK_PRODUCT_THUMB_IMAGE,
+					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'),
+					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'),
+					Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'),
 					'2');
 
 			if ($linkimagename != "")
 			{
-				$linkimage = $redhelper->watermark('product', $linkimagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$linkimage = $redhelper->watermark('product', $linkimagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 			else
 			{
-				$linkimage = $redhelper->watermark('product', $imagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$linkimage = $redhelper->watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 		}
 
@@ -1143,7 +1148,7 @@ class productHelper
 			{
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage . "' rel=\"myallimg\">";
 			}
-			elseif (PRODUCT_IS_LIGHTBOX == 1)
+			elseif (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 			{
 				$thum_image = "<a id='a_main_image" . $commonid . "' " . $title . " href='" . $linkimage
 					. "' class=\"modal\" rel=\"{handler: 'image', size: {}}\">";
@@ -1186,11 +1191,11 @@ class productHelper
 
 		if ($category_img && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $category_img))
 		{
-			if (PRODUCT_IS_LIGHTBOX == 1)
+			if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 			{
-				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, WATERMARK_PRODUCT_IMAGE, '0');
-				$product_hover_img = $redhelper->watermark('product', $category_img, PRODUCT_HOVER_IMAGE_WIDTH, PRODUCT_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_IMAGE, '0');
-				$linkimage         = $redhelper->watermark('category', $category_img, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$product_hover_img = $redhelper->watermark('product', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$linkimage         = $redhelper->watermark('category', $category_img, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $linkimage . "' " . $title . "  rel=\"myallimg\">";
 				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
 
@@ -1198,8 +1203,8 @@ class productHelper
 			}
 			else
 			{
-				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, WATERMARK_PRODUCT_IMAGE, '0');
-				$product_hover_img = $redhelper->watermark('category', $category_img, PRODUCT_HOVER_IMAGE_WIDTH, PRODUCT_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_IMAGE, '0');
+				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$product_hover_img = $redhelper->watermark('category', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $link . "' " . $title . ">";
 				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
 				$thum_image .= "</a>";
@@ -1314,10 +1319,10 @@ class productHelper
 		{
 			$product = $this->getProductById($product_id);
 
-			if ((DEFAULT_QUANTITY_SELECTBOX_VALUE != "" && $product->quantity_selectbox_value == '')
+			if ((Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != "" && $product->quantity_selectbox_value == '')
 				|| $product->quantity_selectbox_value != '')
 			{
-				$selectbox_value = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value : DEFAULT_QUANTITY_SELECTBOX_VALUE;
+				$selectbox_value = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value : Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
 				$quaboxarr       = explode(",", $selectbox_value);
 				$quaboxarr       = array_merge(array(), array_unique($quaboxarr));
 				sort($quaboxarr);
@@ -1374,7 +1379,7 @@ class productHelper
 
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
-		if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 		{
 			$product_price              = $this->getPriceReplacement($ProductPriceArr['product_price'] * $qunselect);
 			$product_main_price         = $this->getPriceReplacement($ProductPriceArr['product_main_price'] * $qunselect);
@@ -1606,7 +1611,7 @@ class productHelper
 			$product_price = 0;
 		}
 
-		if (SHOW_PRICE)
+		if (Redshop::getConfig()->get('SHOW_PRICE'))
 		{
 			$price_excluding_vat        = $price_text;
 			$product_discount_price_tmp = $this->checkDiscountDate($product_id);
@@ -1889,9 +1894,9 @@ class productHelper
 					$discount_amount = $discount->discount_amount;
 				}
 
-				if ((float) VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+				if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 				{
-					$discountVAT = $discount_amount * (float) VAT_RATE_AFTER_DISCOUNT;
+					$discountVAT = $discount_amount * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT');
 				}
 
 				$cart['discount_tax'] = $discountVAT;
@@ -2816,7 +2821,7 @@ class productHelper
 
 	public function getProductCategory($id = 0)
 	{
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper               = RedshopSiteUser::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 		$and = '';
 
@@ -3568,7 +3573,7 @@ class productHelper
 		$displayname             = "attribute_template";
 		$nodisplayname           = "attributewithcart_template";
 
-		if (INDIVIDUAL_ADD_TO_CART_ENABLE)
+		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
 			$displayname   = "attributewithcart_template";
 			$nodisplayname = "attribute_template";
@@ -3620,9 +3625,9 @@ class productHelper
 	{
 		$orderby = "ORDER BY child_product_id ASC";
 
-		if (DEFAULT_ACCESSORY_ORDERING_METHOD)
+		if (Redshop::getConfig()->get('DEFAULT_ACCESSORY_ORDERING_METHOD'))
 		{
-			$orderby = " ORDER BY " . DEFAULT_ACCESSORY_ORDERING_METHOD;
+			$orderby = " ORDER BY " . Redshop::getConfig()->get('DEFAULT_ACCESSORY_ORDERING_METHOD');
 		}
 
 		$and     = "";
@@ -3785,9 +3790,9 @@ class productHelper
 		$orderby         = "ORDER BY p.product_id ASC ";
 		$orderby_related = "";
 
-		if (DEFAULT_RELATED_ORDERING_METHOD)
+		if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'))
 		{
-			$orderby         = "ORDER BY " . DEFAULT_RELATED_ORDERING_METHOD;
+			$orderby         = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
 			$orderby_related = "";
 		}
 
@@ -3810,12 +3815,12 @@ class productHelper
 
 			$and .= "AND r.product_id IN (" . implode(',', $productIds) . ") ";
 
-			if (TWOWAY_RELATED_PRODUCT)
+			if (Redshop::getConfig()->get('TWOWAY_RELATED_PRODUCT'))
 			{
-				if (DEFAULT_RELATED_ORDERING_METHOD == "r.ordering ASC" || DEFAULT_RELATED_ORDERING_METHOD == "r.ordering DESC")
+				if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering ASC" || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering DESC")
 				{
 					$orderby         = "";
-					$orderby_related = "ORDER BY " . DEFAULT_RELATED_ORDERING_METHOD;
+					$orderby_related = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
 				}
 
 				$InProduct = "";
@@ -3867,7 +3872,7 @@ class productHelper
 		}
 
 		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
-			&& (DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt ASC' || DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt DESC'))
+			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
 			$add_e = ",e.*";
 		}
@@ -3882,7 +3887,7 @@ class productHelper
 
 		if (count($finaltypetype_result) > 0
 			&& $finaltypetype_result->extrafield != ''
-			&& (DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt ASC' || DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt DESC'))
+			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
 			$query .= " LEFT JOIN " . $this->_table_prefix . "fields_data  AS e ON p.product_id = e.itemid ";
 		}
@@ -3890,17 +3895,17 @@ class productHelper
 		$query .= " WHERE p.published = 1 ";
 
 		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
-			&& (DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt ASC' || DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt DESC'))
+			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
 			$query .= " AND e.fieldid = " . (int) $finaltypetype_result->extrafield . " AND e.section=17 ";
 		}
 
 		$query .= " $and GROUP BY r.related_id ";
 
-		if ((DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt ASC'
-			|| DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt DESC'))
+		if ((Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
+			|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
-			if (DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt ASC')
+			if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC')
 			{
 				$s = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) ASC";
 			}
@@ -4044,7 +4049,7 @@ class productHelper
 
 	public function getAjaxDetailboxTemplate($product = array())
 	{
-		if (!AJAX_CART_BOX)
+		if (!Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			return array();
 		}
@@ -4066,7 +4071,7 @@ class productHelper
 					break;
 				}
 
-				if (DEFAULT_AJAX_DETAILBOX_TEMPLATE == $ajaxdetail_template[$i]->template_id)
+				if (Redshop::getConfig()->get('DEFAULT_AJAX_DETAILBOX_TEMPLATE') == $ajaxdetail_template[$i]->template_id)
 				{
 					$default_ajaxdetail_templatedata = $ajaxdetail_template[$i];
 				}
@@ -4153,8 +4158,8 @@ class productHelper
 				{
 					$accessory_main_short_description = $redconfig->maxchar(
 						$product->product_s_desc,
-						ACCESSORY_PRODUCT_DESC_MAX_CHARS,
-						ACCESSORY_PRODUCT_DESC_END_SUFFIX
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'),
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX')
 					);
 					$accessory_middle = str_replace("{accessory_main_short_desc}",
 						$accessory_main_short_description,
@@ -4165,8 +4170,8 @@ class productHelper
 				{
 					$accessory_main_product_name = $redconfig->maxchar(
 						$product->product_name,
-						ACCESSORY_PRODUCT_TITLE_MAX_CHARS,
-						ACCESSORY_PRODUCT_TITLE_END_SUFFIX
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
 					);
 					$accessory_middle            = str_replace("{accessory_main_title}", $accessory_main_product_name, $accessory_middle);
 				}
@@ -4179,26 +4184,26 @@ class productHelper
 				if (strpos($accessory_middle, "{accessory_main_image_3}") !== false)
 				{
 					$aimg_tag = '{accessory_main_image_3}';
-					$ah_thumb = ACCESSORY_THUMB_HEIGHT_3;
-					$aw_thumb = ACCESSORY_THUMB_WIDTH_3;
+					$ah_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_3');
+					$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_3');
 				}
 				elseif (strpos($accessory_middle, "{accessory_main_image_2}") !== false)
 				{
 					$aimg_tag = '{accessory_main_image_2}';
-					$ah_thumb = ACCESSORY_THUMB_HEIGHT_2;
-					$aw_thumb = ACCESSORY_THUMB_WIDTH_2;
+					$ah_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_2');
+					$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_2');
 				}
 				elseif (strpos($accessory_middle, "{accessory_main_image_1}") !== false)
 				{
 					$aimg_tag = '{accessory_main_image_1}';
-					$ah_thumb = ACCESSORY_THUMB_HEIGHT;
-					$aw_thumb = ACCESSORY_THUMB_WIDTH;
+					$ah_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
+					$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
 				}
 				else
 				{
 					$aimg_tag = '{accessory_main_image}';
-					$ah_thumb = ACCESSORY_THUMB_HEIGHT;
-					$aw_thumb = ACCESSORY_THUMB_WIDTH;
+					$ah_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
+					$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
 				}
 
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
@@ -4210,10 +4215,10 @@ class productHelper
 									'product',
 									$aw_thumb,
 									$ah_thumb,
-									USE_IMAGE_SIZE_SWAPPING
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 
-					if (ACCESSORY_PRODUCT_IN_LIGHTBOX == 1)
+					if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
 					{
 						$accessorymainimage = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
 							. "product/" . $accessory_main_image
@@ -4239,7 +4244,7 @@ class productHelper
 				{
 					$product_price = '';
 
-					if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+					if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 					{
 						$accessory_mainproduct_price = $this->getPriceReplacement($ProductPriceArr['product_price']);
 						$accessory_middle            = str_replace(
@@ -4274,8 +4279,8 @@ class productHelper
 
 					$accessory_product_name = $redconfig->maxchar(
 						$accessory [$a]->product_name,
-						ACCESSORY_PRODUCT_TITLE_MAX_CHARS,
-						ACCESSORY_PRODUCT_TITLE_END_SUFFIX
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
+						Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
 					);
 					$accessory_div          = str_replace("{accessory_title}", $accessory_product_name, $accessory_div);
 
@@ -4287,26 +4292,26 @@ class productHelper
 					if (strpos($accessory_div, "{accessory_image_3}") !== false)
 					{
 						$aimg_tag = '{accessory_image_3}';
-						$ah_thumb = ACCESSORY_THUMB_HEIGHT_3;
-						$aw_thumb = ACCESSORY_THUMB_WIDTH_3;
+						$ah_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_3');
+						$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_3');
 					}
 					elseif (strpos($accessory_div, "{accessory_image_2}") !== false)
 					{
 						$aimg_tag = '{accessory_image_2}';
-						$ah_thumb = ACCESSORY_THUMB_HEIGHT_2;
-						$aw_thumb = ACCESSORY_THUMB_WIDTH_2;
+						$ah_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_2');
+						$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_2');
 					}
 					elseif (strpos($accessory_div, "{accessory_image_1}") !== false)
 					{
 						$aimg_tag = '{accessory_image_1}';
-						$ah_thumb = ACCESSORY_THUMB_HEIGHT;
-						$aw_thumb = ACCESSORY_THUMB_WIDTH;
+						$ah_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
+						$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
 					}
 					else
 					{
 						$aimg_tag = '{accessory_image}';
-						$ah_thumb = ACCESSORY_THUMB_HEIGHT;
-						$aw_thumb = ACCESSORY_THUMB_WIDTH;
+						$ah_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
+						$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
 					}
 
 					$acc_prod_link      = JRoute::_('index.php?option=com_redshop&view=product&pid='
@@ -4315,7 +4320,7 @@ class productHelper
 						. $aw_thumb . "'><input type='hidden' name='acc_main_imgheight' id='acc_main_imgheight' value='"
 						. $ah_thumb . "'>";
 
-					if (ACCESSORY_PRODUCT_IN_LIGHTBOX == 1)
+					if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_image))
 						{
@@ -4326,7 +4331,7 @@ class productHelper
 											'product',
 											$aw_thumb,
 											$ah_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
 								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessory_image
@@ -4343,7 +4348,7 @@ class productHelper
 											'',
 											$aw_thumb,
 											$ah_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
 								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
@@ -4362,7 +4367,7 @@ class productHelper
 											'product',
 											$aw_thumb,
 											$ah_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
 								. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
@@ -4376,7 +4381,7 @@ class productHelper
 											'',
 											$aw_thumb,
 											$ah_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
 								. "' class='redAttributeImage' src='" . $thumbUrl. "' /></a>";
@@ -4384,7 +4389,7 @@ class productHelper
 					}
 
 					$accessory_div               = str_replace($aimg_tag, $accessoryimage . $hidden_thumb_image, $accessory_div);
-					$accessory_short_description = $redconfig->maxchar($accessory [$a]->product_s_desc, ACCESSORY_PRODUCT_DESC_MAX_CHARS, ACCESSORY_PRODUCT_DESC_END_SUFFIX);
+					$accessory_short_description = $redconfig->maxchar($accessory [$a]->product_s_desc, Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_END_SUFFIX'));
 					$accessory_div               = str_replace("{accessory_short_desc}", $accessory_short_description, $accessory_div);
 
 					// Add manufacturer
@@ -4439,7 +4444,7 @@ class productHelper
 					$accessory_main_price  = $this->getProductFormattedPrice($accessory_main_price);
 					$accessory_price_show  = $this->getProductFormattedPrice($accessory_price);
 
-					if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+					if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 					{
 						$accessory_div = str_replace("{accessory_price}", $accessory_price_show, $accessory_div);
 						$accessory_div = str_replace("{accessory_main_price}", $accessory_main_price, $accessory_div);
@@ -4511,11 +4516,11 @@ class productHelper
 
 					if (strpos($accessory_div, "{accessory_quantity}") !== false)
 					{
-						if (ACCESSORY_AS_PRODUCT_IN_CART_ENABLE)
+						if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE'))
 						{
 							$key                = array_search($accessory [$a]->accessory_id, $selectedAccessory);
 							$accqua             = ($accchecked != "" && isset($selectedAccessoryQua[$key]) && $selectedAccessoryQua[$key]) ? $selectedAccessoryQua[$key] : 1;
-							$accessory_quantity = "<input type='text' name='accquantity_" . $prefix . $product_id . "[]' id='accquantity_" . $commonid . "' value='" . $accqua . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "' onchange='validateInputNumber(this.id);'>";
+							$accessory_quantity = "<input type='text' name='accquantity_" . $prefix . $product_id . "[]' id='accquantity_" . $commonid . "' value='" . $accqua . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' onchange='validateInputNumber(this.id);'>";
 							$accessory_div      = str_replace("{accessory_quantity}", $accessory_quantity, $accessory_div);
 							$accessory_div      = str_replace("{accessory_quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY'), $accessory_div);
 						}
@@ -4536,7 +4541,7 @@ class productHelper
 			}
 			else
 			{
-				if (AJAX_CART_BOX == 0)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') == 0)
 				{
 					$data_add = str_replace("{accessory_template:" . $accessory_template->template_name . "}", $accessory_div, $data_add);
 				}
@@ -4617,23 +4622,23 @@ class productHelper
 
 			if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 			{
-				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
-				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
+				$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+				$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
 			}
 			elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 			{
-				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
-				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
+				$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+				$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
 			}
 			elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 			{
-				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+				$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+				$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 			}
 			else
 			{
-				$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-				$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+				$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+				$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 			}
 
 			$cart_template   = array();
@@ -4692,7 +4697,7 @@ class productHelper
 											'product_attributes',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$property_image = "<img title='" . urldecode($property[$i]->property_name) . "' src='" . $thumbUrl . "'>";
 						}
@@ -4723,8 +4728,8 @@ class productHelper
 							$property_withvat += $property[$i]->property_price;
 
 							if (
-								SHOW_PRICE &&
-								(!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
+								Redshop::getConfig()->get('SHOW_PRICE') &&
+								(!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 								&& (!$attributes[$a]->hide_attribute_price)
 							)
 							{
@@ -4769,7 +4774,7 @@ class productHelper
 
 					if ($attributes[$a]->attribute_required > 0)
 					{
-						$pos        = ASTERISK_POSITION > 0 ? urldecode($attributes [$a]->text)
+						$pos        = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attributes [$a]->text)
 							. "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>"
 							. urldecode($attributes[$a]->text);
 						$attr_title = $pos;
@@ -4845,7 +4850,7 @@ class productHelper
 		$chktagArr['chkvat'] = $chktag = $this->getApplyattributeVatOrNot($data_add);
 		$this->_session->set('chkvat', $chktagArr);
 
-		if (INDIVIDUAL_ADD_TO_CART_ENABLE && $displayIndCart)
+		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE') && $displayIndCart)
 		{
 			$att_template = $this->getAttributeTemplate($data_add, false);
 
@@ -4927,23 +4932,23 @@ class productHelper
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
 		}
 		elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
 		}
 		elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 		else
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 
 		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
@@ -4958,7 +4963,7 @@ class productHelper
 
 				$property_all = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
 
-				if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && USE_STOCKROOM)
+				if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 				{
 					$property = $this->getAttibutePropertyWithStock($property_all);
 				}
@@ -5016,7 +5021,7 @@ class productHelper
 						$subproperty_all = $this->getAttibuteSubProperty(0, $property[$i]->value);
 
 						// filter Out of stock data
-						if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && USE_STOCKROOM)
+						if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 						{
 							$subproperty = $this->getAttibuteSubPropertyWithStock($subproperty_all);
 						}
@@ -5054,7 +5059,7 @@ class productHelper
 											'product_attributes',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 								$property_woscrollerdiv .= "<div class='property_image_inner' id='" . $propertyid
@@ -5112,8 +5117,8 @@ class productHelper
 							$attributes_property_vat = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
 							$property [$i]->property_price += $attributes_property_vat;
 
-							if (SHOW_PRICE
-								&& (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
+							if (Redshop::getConfig()->get('SHOW_PRICE')
+								&& (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 								&& (!$attributes[$a]->hide_attribute_price))
 							{
 								$property[$i]->text = urldecode($property[$i]->property_name) . " (" . $property [$i]->oprand
@@ -5156,14 +5161,14 @@ class productHelper
 					$atth = 50;
 					$attw = 50;
 
-					if (defined('ATTRIBUTE_SCROLLER_THUMB_HEIGHT') && ATTRIBUTE_SCROLLER_THUMB_HEIGHT)
+					if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'))
 					{
-						$atth = ATTRIBUTE_SCROLLER_THUMB_HEIGHT;
+						$atth = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT');
 					}
 
-					if (defined('ATTRIBUTE_SCROLLER_THUMB_WIDTH') && ATTRIBUTE_SCROLLER_THUMB_WIDTH)
+					if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
 					{
-						$attw = ATTRIBUTE_SCROLLER_THUMB_WIDTH;
+						$attw = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH');
 					}
 
 					$property_scrollerdiv .= "
@@ -5173,7 +5178,7 @@ class productHelper
 					isFlowers" . $commonid . ".setScrollType(0);
 					isFlowers" . $commonid . ".enableThumbBorder(false);
 					isFlowers" . $commonid . ".setClickOpenType(1);
-					isFlowers" . $commonid . ".setThumbsShown(" . NOOF_THUMB_FOR_SCROLLER . ");
+					isFlowers" . $commonid . ".setThumbsShown(" . Redshop::getConfig()->get('NOOF_THUMB_FOR_SCROLLER') . ");
 					isFlowers" . $commonid . ".setNumOfImageToScroll(1);
 					isFlowers" . $commonid . ".renderScroller();
         		    </script>";
@@ -5255,7 +5260,7 @@ class productHelper
 
 					if ($attributes [$a]->attribute_required > 0)
 					{
-						$pos        = ASTERISK_POSITION > 0 ? urldecode($attributes [$a]->text) . "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>" . urldecode($attributes[$a]->text);
+						$pos        = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attributes [$a]->text) . "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>" . urldecode($attributes[$a]->text);
 						$attr_title = $pos;
 					}
 					else
@@ -5372,7 +5377,7 @@ class productHelper
 			$attributes      = $attributes[0];
 			$subproperty_all = $this->getAttibuteSubProperty(0, $property_id);
 			// filter Out of stock data
-			if (!DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA && USE_STOCKROOM)
+			if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 			{
 				$subproperty = $this->getAttibuteSubPropertyWithStock($subproperty_all);
 			}
@@ -5407,23 +5412,23 @@ class productHelper
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
 		}
 		elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
 		}
 		elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 		else
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 
 		if ($subatthtml != "")
@@ -5487,9 +5492,9 @@ class productHelper
 												'',
 												'thumb',
 												'subcolor',
-												ATTRIBUTE_SCROLLER_THUMB_WIDTH,
-												ATTRIBUTE_SCROLLER_THUMB_HEIGHT,
-												USE_IMAGE_SIZE_SWAPPING
+												Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'),
+												Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'),
+												Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 											);
 							$subprop_Arry[] = $thumbUrl;
 
@@ -5535,7 +5540,7 @@ class productHelper
 
 						$attributes_subproperty_vat_show += $subproperty [$i]->subattribute_color_price;
 
-						if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)) && (!$attributes->hide_attribute_price))
+						if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && (!$attributes->hide_attribute_price))
 						{
 							$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name) . " (" . $subproperty [$i]->oprand . $this->getProductFormattedPrice($attributes_subproperty_vat_show) . ")";
 						}
@@ -5570,14 +5575,14 @@ class productHelper
 				$atth = 50;
 				$attw = 50;
 
-				if (defined('ATTRIBUTE_SCROLLER_THUMB_HEIGHT') && ATTRIBUTE_SCROLLER_THUMB_HEIGHT)
+				if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'))
 				{
-					$atth = ATTRIBUTE_SCROLLER_THUMB_HEIGHT;
+					$atth = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT');
 				}
 
-				if (defined('ATTRIBUTE_SCROLLER_THUMB_WIDTH') && ATTRIBUTE_SCROLLER_THUMB_WIDTH)
+				if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
 				{
-					$attw = ATTRIBUTE_SCROLLER_THUMB_WIDTH;
+					$attw = Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH');
 				}
 
 				$subproperty_scrollerdiv .= "
@@ -5587,7 +5592,7 @@ class productHelper
 				isFlowers" . $commonid . ".setScrollType(0);
 				isFlowers" . $commonid . ".enableThumbBorder(false);
 				isFlowers" . $commonid . ".setClickOpenType(1);
-				isFlowers" . $commonid . ".setThumbsShown(" . NOOF_SUBATTRIB_THUMB_FOR_SCROLLER . ");
+				isFlowers" . $commonid . ".setThumbsShown(" . Redshop::getConfig()->get('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER') . ");
 				isFlowers" . $commonid . ".setNumOfImageToScroll(1);
 				isFlowers" . $commonid . ".renderScroller();
 	      		    </script>";
@@ -5603,7 +5608,7 @@ class productHelper
 					$subproperty_woscrollerdiv .= "</div>";
 				}
 
-				if (USE_ENCODING)
+				if (Redshop::getConfig()->get('USE_ENCODING'))
 				{
 					$displayPropertyName = mb_convert_encoding(urldecode($subproperty[0]->property_name), "ISO-8859-1", "UTF-8");
 
@@ -5615,7 +5620,7 @@ class productHelper
 
 				if ($subproperty[0]->subattribute_color_title != "")
 				{
-					if (USE_ENCODING)
+					if (Redshop::getConfig()->get('USE_ENCODING'))
 					{
 						$displayPropertyName = mb_convert_encoding(
 							urldecode($subproperty[0]->subattribute_color_title),
@@ -5699,7 +5704,7 @@ class productHelper
 
 				if ($subproperty[0]->setrequire_selected == 1)
 				{
-					$displayPropertyName = ASTERISK_POSITION > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'>* </span>" . $displayPropertyName;
+					$displayPropertyName = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'>* </span>" . $displayPropertyName;
 				}
 				$attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
 				$attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
@@ -5722,7 +5727,7 @@ class productHelper
 
 	public function defaultAttributeDataPrice($product_id = 0, $product_showprice = 0, $data_add, $user_id = 0, $applyTax = 0, $attributes = array())
 	{
-		if (count($attributes) <= 0 || INDIVIDUAL_ADD_TO_CART_ENABLE)
+		if (count($attributes) <= 0 || Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
 			return $product_showprice;
 		}
@@ -5943,7 +5948,7 @@ class productHelper
 		if (strpos($cartform, "{addtocart_quantity}") !== false)
 		{
 			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" .
-				$product_id . "' value='" . $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY .
+				$product_id . "' value='" . $quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') .
 				"' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 			$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
 			$cartform           = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
@@ -5951,13 +5956,13 @@ class productHelper
 		elseif (strpos($cartform, "{addtocart_quantity_selectbox}") !== false)
 		{
 			$addtocart_quantity = "<input class='quantity' type='hidden' name='quantity' id='quantity" . $product_id . "' value='" .
-				$quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
+				$quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
 
-			if ((DEFAULT_QUANTITY_SELECTBOX_VALUE != ""
+			if ((Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != ""
 				&& $product->quantity_selectbox_value == '')
 				|| $product->quantity_selectbox_value != '')
 			{
-				$selectbox_value = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value : DEFAULT_QUANTITY_SELECTBOX_VALUE;
+				$selectbox_value = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value : Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
 				$quaboxarr       = explode(",", $selectbox_value);
 				$quaboxarr       = array_merge(array(), array_unique($quaboxarr));
 				sort($quaboxarr);
@@ -5984,13 +5989,13 @@ class productHelper
 		else
 		{
 			$cartform .= "<input class='quantity' type='hidden' name='quantity' id='quantity" . $product_id . "' value='" . $quan
-				. "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
+				. "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
 		}
 
-		$tooltip             = (DEFAULT_QUOTATION_MODE) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
-		$ADD_OR_LBL          = (DEFAULT_QUOTATION_MODE) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
-		$ADD_CART_IMAGE      = (DEFAULT_QUOTATION_MODE) ? REQUESTQUOTE_IMAGE : ADDTOCART_IMAGE;
-		$ADD_CART_BACKGROUND = (DEFAULT_QUOTATION_MODE) ? REQUESTQUOTE_BACKGROUND : ADDTOCART_BACKGROUND;
+		$tooltip             = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
+		$ADD_OR_LBL          = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
+		$ADD_CART_IMAGE      = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : Redshop::getConfig()->get('ADDTOCART_IMAGE');
+		$ADD_CART_BACKGROUND = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_BACKGROUND') : Redshop::getConfig()->get('ADDTOCART_BACKGROUND');
 
 		$cartTag   = '';
 		$cartIcon  = '';
@@ -6183,7 +6188,7 @@ class productHelper
 
 				return $data_add;
 			}
-			elseif (!SHOW_PRICE)
+			elseif (!Redshop::getConfig()->get('SHOW_PRICE'))
 			{
 				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", '', $data_add);
 
@@ -6191,7 +6196,7 @@ class productHelper
 			}
 			elseif ($product->expired == 1)
 			{
-				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", PRODUCT_EXPIRE_TEXT, $data_add);
+				$data_add = str_replace("{form_addtocart:$cart_template->template_name}", Redshop::getConfig()->get('PRODUCT_EXPIRE_TEXT'), $data_add);
 
 				return $data_add;
 			}
@@ -6267,9 +6272,9 @@ class productHelper
 		{
 
 			if (($product_preorder == "global"
-				&& ALLOW_PRE_ORDER)
+				&& Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
 				|| ($product_preorder == "yes")
-				|| ($product_preorder == "" && ALLOW_PRE_ORDER)
+				|| ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
 			)
 			{
 				// Get preorder stock for Product
@@ -6356,12 +6361,12 @@ class productHelper
 
 		$p_availability_date = "";
 		$ADD_OR_PRE_LBL      = JText::_('COM_REDSHOP_PRE_ORDER');
-		$ADD_OR_PRE_TOOLTIP  = str_replace("{availability_date}", $p_availability_date, ALLOW_PRE_ORDER_MESSAGE);
-		$ADD_OR_PRE_BTN      = PRE_ORDER_IMAGE;
-		$tooltip             = (DEFAULT_QUOTATION_MODE) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
-		$ADD_OR_LBL          = (DEFAULT_QUOTATION_MODE) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
-		$ADD_CART_IMAGE      = (DEFAULT_QUOTATION_MODE) ? REQUESTQUOTE_IMAGE : ADDTOCART_IMAGE;
-		$ADD_CART_BACKGROUND = (DEFAULT_QUOTATION_MODE) ? REQUESTQUOTE_BACKGROUND : ADDTOCART_BACKGROUND;
+		$ADD_OR_PRE_TOOLTIP  = str_replace("{availability_date}", $p_availability_date, Redshop::getConfig()->get('ALLOW_PRE_ORDER_MESSAGE'));
+		$ADD_OR_PRE_BTN      = Redshop::getConfig()->get('PRE_ORDER_IMAGE');
+		$tooltip             = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
+		$ADD_OR_LBL          = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE') : JText::_('COM_REDSHOP_ADD_TO_CART');
+		$ADD_CART_IMAGE      = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_IMAGE') : Redshop::getConfig()->get('ADDTOCART_IMAGE');
+		$ADD_CART_BACKGROUND = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? Redshop::getConfig()->get('REQUESTQUOTE_BACKGROUND') : Redshop::getConfig()->get('ADDTOCART_BACKGROUND');
 		$ADD_OR_TOOLTIP      = "";
 
 		if ($totalatt > 0)
@@ -6643,7 +6648,7 @@ class productHelper
 			{
 				$addtocart_quantity = "<span id='stockQuantity" . $stockId
 					. "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
-					. "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY
+					. "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY')
 					. "' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 				$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
 				$cartform           = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
@@ -6670,12 +6675,12 @@ class productHelper
 			elseif (strpos($cartform, "{addtocart_quantity_selectbox}") !== false)
 			{
 				$addtocart_quantity = "<input class='quantity_select' type='hidden' name='quantity' id='quantity" . $product_id . "' value='"
-					. $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
+					. $quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
 
-				if ((DEFAULT_QUANTITY_SELECTBOX_VALUE != "" && $product->quantity_selectbox_value == '')
+				if ((Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != "" && $product->quantity_selectbox_value == '')
 					|| $product->quantity_selectbox_value != '')
 				{
-					$selectbox_value = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value : DEFAULT_QUANTITY_SELECTBOX_VALUE;
+					$selectbox_value = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value : Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
 					$quaboxarr       = explode(",", $selectbox_value);
 					$quaboxarr       = array_merge(array(), array_unique($quaboxarr));
 					sort($quaboxarr);
@@ -6702,7 +6707,7 @@ class productHelper
 			else
 			{
 				$cartform .= "<input class='quantity_select' type='hidden' name='quantity' id='quantity" . $product_id . "' value='"
-					. $quan . "' maxlength='" . DEFAULT_QUANTITY . "' size='" . DEFAULT_QUANTITY . "'>";
+					. $quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
 			}
 
 			$stockstyle    = '';
@@ -6715,7 +6720,7 @@ class productHelper
 				$cartstyle     = 'style="display:none"';
 				$preorderstyle = '';
 
-				if (USE_AS_CATALOG)
+				if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 				{
 					$preorderstyle = 'style="display:none"';
 
@@ -6726,7 +6731,7 @@ class productHelper
 			{
 				$stockstyle = '';
 
-				if (USE_AS_CATALOG)
+				if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 				{
 					$stockstyle = 'style="display:none"';
 
@@ -6743,7 +6748,7 @@ class productHelper
 				$cartstyle     = '';
 				$preorderstyle = 'style="display:none"';
 
-				if (USE_AS_CATALOG)
+				if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 				{
 					$cartstyle = 'style="display:none"';
 
@@ -6802,7 +6807,7 @@ class productHelper
 			{
 				$cartTag = "{addtocart_button}";
 
-				if (AJAX_CART_BOX != 1)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') != 1)
 				{
 					$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . ' ' . $cartstyle
 						. ' class="pdaddtocart"><input type="button" ' . $onclick . $cartTitle . ' name="addtocart_button" value="'
@@ -6821,7 +6826,7 @@ class productHelper
 			{
 				$cartTag = "{addtocart_link}";
 
-				if (AJAX_CART_BOX != 1)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') != 1)
 				{
 					$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
 						. '" ' . $onclick . $cartTitle . ' style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">' . $ADD_OR_LBL . '</span>';
@@ -6838,7 +6843,7 @@ class productHelper
 			{
 				$cartTag = "{addtocart_image_aslink}";
 
-				if (AJAX_CART_BOX != 1)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') != 1)
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_IMAGE))
 						$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
@@ -6868,7 +6873,7 @@ class productHelper
 			{
 				$cartTag = "{addtocart_image}";
 
-				if (AJAX_CART_BOX != 1)
+				if (Redshop::getConfig()->get('AJAX_CART_BOX') != 1)
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $ADD_CART_BACKGROUND))
 						$cartIcon = '<span ' . $class . ' ' . $title . ' ' . $cartstyle . ' id="pdaddtocart' . $stockId
@@ -6921,7 +6926,7 @@ class productHelper
 
 	public function replaceWishlistButton($product_id = 0, $data_add = "")
 	{
-		if (MY_WISHLIST != 0)
+		if (Redshop::getConfig()->get('MY_WISHLIST') != 0)
 		{
 			$u           = JFactory::getURI();
 			$user        = JFactory::getUser();
@@ -6945,7 +6950,7 @@ class productHelper
 				$wishListButton = "<input type='submit' name='btnwishlist' id='btnwishlist' value='"
 					. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
 
-				if (WISHLIST_LOGIN_REQUIRED != 0)
+				if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0)
 				{
 					$mywishlist_link = (string) JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewloginwishlist&tmpl=component');
 					$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
@@ -6987,7 +6992,7 @@ class productHelper
 		$prefix = ($is_relatedproduct == 1) ? "related" : "";
 
 		// For compare product div...
-		if (PRODUCT_COMPARISON_TYPE != "")
+		if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') != "")
 		{
 			if (strpos($data_add, '{' . $prefix . 'compare_product_div}') !== false)
 			{
@@ -7072,7 +7077,7 @@ class productHelper
 
 				$displayPrice = " (" . $this->getProductFormattedPrice($accessory_price) . ")";
 
-				if (DEFAULT_QUOTATION_MODE && !SHOW_QUOTATION_PRICE)
+				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 				{
 					$displayPrice = "";
 				}
@@ -7133,7 +7138,7 @@ class productHelper
 						$displayPrice = " (" . $propArr[$k]['property_oprand'] . " "
 							. $this->getProductFormattedPrice($property_price) . ")";
 
-						if ((DEFAULT_QUOTATION_MODE && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
+						if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
 						{
 							$displayPrice = "";
 						}
@@ -7188,19 +7193,10 @@ class productHelper
 							$displayPrice = " (" . $subpropArr[$l]['subproperty_oprand'] . " "
 								. $this->getProductFormattedPrice($subproperty_price) . ")";
 
-							if ((DEFAULT_QUOTATION_MODE && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
+							if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
 							{
 								$displayPrice = "";
 							}
-
-//							if(strpos($data,'{product_attribute_price}') === false)
-//							{
-//								$displayPrice = '';
-//							}
-//							if(strpos($data,'{product_attribute_number}') === false)
-//							{
-//								$virtualNumber = '';
-//							}
 
 							$displayaccessory .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($subpropArr[$l]['subproperty_name']) . $displayPrice . "</div>" . $virtualNumber . "</div>";
 							$subprooprand[$k][$l]   = $subpropArr[$l]['subproperty_oprand'];
@@ -7259,7 +7255,7 @@ class productHelper
 		{
 			$redTemplate = Redtemplate::getInstance();
 
-			if (!USE_AS_CATALOG || USE_AS_CATALOG)
+			if (!Redshop::getConfig()->get('USE_AS_CATALOG') || Redshop::getConfig()->get('USE_AS_CATALOG'))
 				$this->_cartTemplateData = $redTemplate->getTemplate("cart");
 			else
 				$this->_cartTemplateData = $redTemplate->getTemplate("catalogue_cart");
@@ -7363,7 +7359,7 @@ class productHelper
 
 				$displayPrice = " (" . $propertyOperator . " " . $this->getProductFormattedPrice($propertyPrice) . ")";
 
-				if ((DEFAULT_QUOTATION_MODE && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
+				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
 				{
 					$displayPrice = "";
 				}
@@ -7438,7 +7434,7 @@ class productHelper
 					$displayPrice = " (" . $subPropertyOperator . " "
 						. $this->getProductFormattedPrice($subPropertyPrice) . ")";
 
-					if ((DEFAULT_QUOTATION_MODE && !SHOW_QUOTATION_PRICE) || $hide_attribute_price)
+					if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hide_attribute_price)
 					{
 						$displayPrice = "";
 					}
@@ -7652,7 +7648,7 @@ class productHelper
 
 					if ($export == 1)
 					{
-						$disPrice = " (" . $orderPropdata[$p]->section_oprand . REDCURRENCY_SYMBOL . $property_price . ")";
+						$disPrice = " (" . $orderPropdata[$p]->section_oprand . Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $property_price . ")";
 					}
 					else
 					{
@@ -7729,7 +7725,7 @@ class productHelper
 
 						if ($export == 1)
 						{
-							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . REDCURRENCY_SYMBOL . $subproperty_price . ")";
+							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $subproperty_price . ")";
 						}
 						else
 						{
@@ -7869,7 +7865,7 @@ class productHelper
 			{
 				$displayaccessory .= "<div class='checkout_accessory_title'>" . urldecode($Itemdata[$i]->accessory_item_name) . " ";
 
-				if ($quotation_status != 1 || ($quotation_status == 1 && SHOW_QUOTATION_PRICE == 1))
+				if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
 				{
 					$displayaccessory .= "(" . $this->getProductFormattedPrice($Itemdata[$i]->accessory_price + $Itemdata[$i]->accessory_vat) . ")";
 				}
@@ -7934,7 +7930,7 @@ class productHelper
 					$displayattribute .= "<div class='checkout_attribute_price'>"
 						. urldecode($propdata[$p]->section_name) . " ";
 
-					if ($quotation_status != 1 || ($quotation_status == 1 && SHOW_QUOTATION_PRICE == 1))
+					if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
 					{
 						$propertyOprand       = $propdata[$p]->section_oprand;
 						$propertyPrice        = $this->getProductFormattedPrice($propdata[$p]->section_price);
@@ -7956,7 +7952,7 @@ class productHelper
 						$displayattribute .= "<div class='checkout_subattribute_price'>"
 							. urldecode($subpropdata[$sp]->section_name) . " ";
 
-						if ($quotation_status != 1 || ($quotation_status == 1 && SHOW_QUOTATION_PRICE == 1))
+						if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
 						{
 							$subpropertyOprand       = $subpropdata[$sp]->section_oprand;
 							$subpropertyPrice        = $this->getProductFormattedPrice($subpropdata[$sp]->section_price);
@@ -8280,9 +8276,9 @@ class productHelper
 		// download data
 		$downloadable_product = $this->checkProductDownload($product_id, true); //die();
 
-		$product_download_limit = ($downloadable_product->product_download_limit > 0) ? $downloadable_product->product_download_limit : PRODUCT_DOWNLOAD_LIMIT;
+		$product_download_limit = ($downloadable_product->product_download_limit > 0) ? $downloadable_product->product_download_limit : Redshop::getConfig()->get('PRODUCT_DOWNLOAD_LIMIT');
 
-		$product_download_days      = ($downloadable_product->product_download_days > 0) ? $downloadable_product->product_download_days : PRODUCT_DOWNLOAD_DAYS;
+		$product_download_days      = ($downloadable_product->product_download_days > 0) ? $downloadable_product->product_download_days : Redshop::getConfig()->get('PRODUCT_DOWNLOAD_DAYS');
 		$product_download_clock     = ($downloadable_product->product_download_clock > 0) ? $downloadable_product->product_download_clock : 0;
 		$product_download_clock_min = ($downloadable_product->product_download_clock_min > 0) ? $downloadable_product->product_download_clock_min : 0;
 
@@ -8807,9 +8803,9 @@ class productHelper
 			$product_detail   = $this->getProductById($product_id);
 			$product_preorder = $product_detail->preorder;
 
-			if (($product_preorder == "global" && ALLOW_PRE_ORDER)
+			if (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
 				|| ($product_preorder == "yes")
-				|| ($product_preorder == "" && ALLOW_PRE_ORDER))
+				|| ($product_preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
 			{
 				$productinpreorderstock = $stockroomhelper->getPreorderStockAmountwithReserve($Id, $sec);
 			}
@@ -8833,9 +8829,9 @@ class productHelper
 								'',
 								'thumb',
 								'stockroom',
-								DEFAULT_STOCKAMOUNT_THUMB_WIDTH,
-								DEFAULT_STOCKAMOUNT_THUMB_HEIGHT,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'),
+								Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'),
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 
 				$stockamountImage = '<a class="imgtooltip"><span>';
@@ -8900,15 +8896,17 @@ class productHelper
 	 */
 	public function redpriceDecimal($price)
 	{
-		return number_format(abs($price), PRICE_DECIMAL, '.', '');
+		return number_format(abs($price), Redshop::getConfig()->get('PRICE_DECIMAL'), '.', '');
 	}
 
 	public function redunitDecimal($price)
 	{
-		if (defined('UNIT_DECIMAL') && UNIT_DECIMAL != "")
-			return number_format($price, UNIT_DECIMAL, '.', '');
-		else
-			return $price;
+		if (Redshop::getConfig()->get('UNIT_DECIMAL') != "")
+		{
+			return number_format($price, Redshop::getConfig()->get('UNIT_DECIMAL'), '.', '');
+		}
+
+		return $price;
 	}
 
 	public function isProductDateRange($userfieldArr, $product_id)
@@ -9134,12 +9132,12 @@ class productHelper
 		}
 		else
 		{
-			if (PRODUCT_DEFAULT_IMAGE && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+			if (Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE') && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 			{
 				$type                = 'product';
-				$imagename           = PRODUCT_DEFAULT_IMAGE;
-				$aTitleImageResponse = PRODUCT_DEFAULT_IMAGE;
-				$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . PRODUCT_DEFAULT_IMAGE;
+				$imagename           = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
+				$aTitleImageResponse = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
+				$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 			}
 		}
 
@@ -9189,9 +9187,9 @@ class productHelper
 		{
 			$imagename = JFile::makeSafe($imagename);
 
-			if ((WATERMARK_PRODUCT_THUMB_IMAGE) && $type == 'product')
+			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')) && $type == 'product')
 			{
-				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 			}
 			else
 			{
@@ -9202,13 +9200,13 @@ class productHelper
 									$type,
 									$pw_thumb,
 									$ph_thumb,
-									USE_IMAGE_SIZE_SWAPPING
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 			}
 
-			if ((WATERMARK_PRODUCT_IMAGE) && $type == 'product')
+			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE')) && $type == 'product')
 			{
-				$aHrefImageResponse = $redhelper->watermark('product', $imagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$aHrefImageResponse = $redhelper->watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 			else
 			{
@@ -9218,7 +9216,7 @@ class productHelper
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
 				. $product->product_name . "' title='" . $product->product_name . "'>";
 
-			if ((!PRODUCT_ADDIMG_IS_LIGHTBOX || !PRODUCT_DETAIL_IS_LIGHTBOX) || $redview == "category")
+			if ((!Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX') || !Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) || $redview == "category")
 				$mainImageResponse = $productmainimg;
 		}
 
@@ -9276,26 +9274,26 @@ class productHelper
 			if (strpos($producttemplate, "{product_thumb_image_3}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_3}';
-				$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_3;
-				$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_3;
+				$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
+				$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
 			}
 			elseif (strpos($producttemplate, "{product_thumb_image_2}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_2}';
-				$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_2;
-				$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_2;
+				$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
+				$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
 			}
 			elseif (strpos($producttemplate, "{product_thumb_image_1}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_1}';
-				$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-				$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+				$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+				$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 			}
 			else
 			{
 				$pimg_tag = '{product_thumb_image}';
-				$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-				$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+				$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+				$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 			}
 
 		}
@@ -9304,48 +9302,48 @@ class productHelper
 			if (strpos($producttemplate, "{product_thumb_image_3}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_3}';
-				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_3;
-				$pw_thumb = PRODUCT_MAIN_IMAGE_3;
+				$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_3');
+				$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_3');
 			}
 			elseif (strpos($producttemplate, "{product_thumb_image_2}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_2}';
-				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT_2;
-				$pw_thumb = PRODUCT_MAIN_IMAGE_2;
+				$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_2');
+				$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_2');
 			}
 			elseif (strpos($producttemplate, "{product_thumb_image_1}") !== false)
 			{
 				$pimg_tag = '{product_thumb_image_1}';
-				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-				$pw_thumb = PRODUCT_MAIN_IMAGE;
+				$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
+				$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
 			}
 			else
 			{
 				$pimg_tag = '{product_thumb_image}';
-				$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
-				$pw_thumb = PRODUCT_MAIN_IMAGE;
+				$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
+				$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
 			}
 		}
 
 		if (strpos($producttemplate, "{more_images_3}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_3;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
 		}
 		elseif (strpos($producttemplate, "{more_images_2}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE_2;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
 		}
 		elseif (strpos($producttemplate, "{more_images_1}") !== false)
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 		else
 		{
-			$mph_thumb = PRODUCT_ADDITIONAL_IMAGE_HEIGHT;
-			$mpw_thumb = PRODUCT_ADDITIONAL_IMAGE;
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
 		}
 
 		if ($main_imgwidth != 0 || $main_imgheight != 0)
@@ -9388,11 +9386,11 @@ class productHelper
 
 			if ($thumb && ($thumb != $media_image [$m]->product_full_image) && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $thumb))
 			{
-				if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
+				if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 				{
-					$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
-					$linkimage     = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
-					$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
+					$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "1");
+					$linkimage     = $redhelper->watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "0");
+					$hoverimg_path = $redhelper->watermark('product', $thumb, Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '2');
 
 				}
 				else
@@ -9404,7 +9402,7 @@ class productHelper
 								'product',
 								$mpw_thumb,
 								$mph_thumb,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 					$linkimage = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
 
@@ -9413,13 +9411,13 @@ class productHelper
 										'',
 										'thumb',
 										'product',
-										ADDITIONAL_HOVER_IMAGE_WIDTH,
-										ADDITIONAL_HOVER_IMAGE_HEIGHT,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
+										Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 				}
 
-				if (PRODUCT_ADDIMG_IS_LIGHTBOX)
+				if (Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX'))
 				{
 					$prodadditionImg_div_start = "<div class='additional_image'><a href='" . $linkimage . "' title='"
 						. $alttext . "'  rel=\"myallimg\">";
@@ -9430,9 +9428,9 @@ class productHelper
 				}
 				else
 				{
-					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
+					if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 					{
-						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
+						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '0');
 					}
 					else
 					{
@@ -9443,7 +9441,7 @@ class productHelper
 										'product',
 										$pw_thumb,
 										$ph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 					}
 
@@ -9460,12 +9458,12 @@ class productHelper
 					}
 					else
 					{
-						$thumb_original = PRODUCT_DEFAULT_IMAGE;
+						$thumb_original = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					}
 
-					if (WATERMARK_PRODUCT_THUMB_IMAGE)
+					if (Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'))
 					{
-						$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+						$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 					}
 					else
 					{
@@ -9476,7 +9474,7 @@ class productHelper
 										'product',
 										$pw_thumb,
 										$ph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 					}
 
@@ -9490,7 +9488,7 @@ class productHelper
 					$producthrefend = "</a>";
 				}
 
-				if (ADDITIONAL_HOVER_IMAGE_ENABLE)
+				if (Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE'))
 				{
 					$prodadditionImg .= "<img src='" . $hoverimg_path . "' alt='" . $alttext . "' title='" . $alttext
 						. "' class='redImagepreview'>";
@@ -9532,7 +9530,7 @@ class productHelper
 						&& ($thumb != $media_image [$m]->property_main_image)
 						&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . "property/" . $thumb))
 					{
-						if (PRODUCT_ADDIMG_IS_LIGHTBOX)
+						if (Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX'))
 						{
 							$thumbUrl = RedShopHelperImages::getImagePath(
 											$thumb,
@@ -9541,7 +9539,7 @@ class productHelper
 											'property',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 							$propadditionImg_div_start = "<div class='additional_image'><a href='"
@@ -9561,7 +9559,7 @@ class productHelper
 											'property',
 											$pw_thumb,
 											$ph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 							$property_filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "property/" . $imagename;
@@ -9577,7 +9575,7 @@ class productHelper
 															'property',
 															$pw_thumb,
 															$ph_thumb,
-															USE_IMAGE_SIZE_SWAPPING
+															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 														);
 							}
 							else
@@ -9591,7 +9589,7 @@ class productHelper
 															'product',
 															$pw_thumb,
 															$ph_thumb,
-															USE_IMAGE_SIZE_SWAPPING
+															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 														);
 							}
 
@@ -9607,7 +9605,7 @@ class productHelper
 											'property',
 											$mpw_thumb,
 											$mph_thumb,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 
 							$propadditionImg .= $propadditionImg_div_start;
@@ -9615,16 +9613,16 @@ class productHelper
 							$prophrefend = "</a>";
 						}
 
-						if (ADDITIONAL_HOVER_IMAGE_ENABLE)
+						if (Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE'))
 						{
 							$thumbUrl = RedShopHelperImages::getImagePath(
 											$thumb,
 											'',
 											'thumb',
 											'property',
-											ADDITIONAL_HOVER_IMAGE_WIDTH,
-											ADDITIONAL_HOVER_IMAGE_HEIGHT,
-											USE_IMAGE_SIZE_SWAPPING
+											Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
+											Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
+											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
 							$propadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext . "' title='" . $alttext
 								. "' class='redImagepreview'>";
@@ -9658,7 +9656,7 @@ class productHelper
 					&& ($thumb != $media_image [$m]->subattribute_color_main_image)
 					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . $filedir . "/" . $thumb))
 				{
-					if (PRODUCT_ADDIMG_IS_LIGHTBOX)
+					if (Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX'))
 					{
 						$subpropadditionImg_div_start = "<div class='additional_image'><a href='"
 							. REDSHOP_FRONT_IMAGES_ABSPATH . $filedir . "/" . $thumb . "' title='" . $alttext
@@ -9672,7 +9670,7 @@ class productHelper
 										$filedir,
 										$mpw_thumb,
 										$mph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 
 						$subpropadditionImg .= $subpropadditionImg_div_start;
@@ -9688,7 +9686,7 @@ class productHelper
 										$filedir,
 										$pw_thumb,
 										$ph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 						$subproperty_filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $imagename;
 
@@ -9702,7 +9700,7 @@ class productHelper
 															'subproperty',
 															$pw_thumb,
 															$ph_thumb,
-															USE_IMAGE_SIZE_SWAPPING
+															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 														);
 						}
 						else
@@ -9722,7 +9720,7 @@ class productHelper
 										$filedir,
 										$mpw_thumb,
 										$mph_thumb,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 
 						$subpropadditionImg .= $subpropadditionImg_div_start;
@@ -9731,16 +9729,16 @@ class productHelper
 						$subprophrefend = "</a>";
 					}
 
-					if (ADDITIONAL_HOVER_IMAGE_ENABLE)
+					if (Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_ENABLE'))
 					{
 						$thumbUrl = RedShopHelperImages::getImagePath(
 										$thumb,
 										'',
 										'thumb',
 										$filedir,
-										ADDITIONAL_HOVER_IMAGE_WIDTH,
-										ADDITIONAL_HOVER_IMAGE_HEIGHT,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
+										Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 						$subpropadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext
 							. "' title='" . $alttext . "' class='redImagepreview'>";
@@ -9801,26 +9799,20 @@ class productHelper
 		$stockImgFlag       = false;
 		$notify_stock       = '';
 
-		if (USE_STOCKROOM == 1 && $accessory_id == 0)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1 && $accessory_id == 0)
 		{
 			if ($subproperty_id)
 			{
 				$productinstock  = $stockroomhelper->getStockAmountwithReserve($subproperty_id, "subproperty");
 				$stockamountList = $stockroomhelper->getStockAmountImage($subproperty_id, "subproperty", $productinstock);
-//				if(count($stockamountList)>0)
-//				{
 				$stockImgFlag = true;
-//				}
 			}
 
 			if ($property_id && $stockImgFlag == false)
 			{
 				$productinstock  = $stockroomhelper->getStockAmountwithReserve($property_id, "property");
 				$stockamountList = $stockroomhelper->getStockAmountImage($property_id, "property", $productinstock);
-//				if(count($stockamountList)>0)
-//				{
 				$stockImgFlag = true;
-//				}
 			}
 
 			if ($product_id && $stockImgFlag == false)
@@ -10050,26 +10042,26 @@ class productHelper
 					if (strpos($related_template_data, "{relproduct_image_3}") !== false)
 					{
 						$rpimg_tag = '{relproduct_image_3}';
-						$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_3;
-						$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_3;
+						$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_3');
+						$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_3');
 					}
 					elseif (strpos($related_template_data, "{relproduct_image_2}") !== false)
 					{
 						$rpimg_tag = '{relproduct_image_2}';
-						$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_2;
-						$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_2;
+						$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_2');
+						$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_2');
 					}
 					elseif (strpos($related_template_data, "{relproduct_image_1}") !== false)
 					{
 						$rpimg_tag = '{relproduct_image_1}';
-						$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
-						$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
+						$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+						$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
 					}
 					else
 					{
 						$rpimg_tag = '{relproduct_image}';
-						$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
-						$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
+						$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+						$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
 					}
 
 					$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='"
@@ -10081,16 +10073,16 @@ class productHelper
 					if (strpos($related_template_data, "{relproduct_link}") !== false)
 					{
 						$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>"
-							. $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX)
+							. $config->maxchar($related_product [$r]->product_name, Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_END_SUFFIX'))
 							. "</a>";
 					}
 					else
 					{
-						$rpname = $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX);
+						$rpname = $config->maxchar($related_product [$r]->product_name, Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_END_SUFFIX'));
 					}
 
-					$rpdesc       = $config->maxchar($related_product [$r]->product_desc, RELATED_PRODUCT_DESC_MAX_CHARS, RELATED_PRODUCT_DESC_END_SUFFIX);
-					$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, RELATED_PRODUCT_SHORT_DESC_MAX_CHARS, RELATED_PRODUCT_SHORT_DESC_END_SUFFIX);
+					$rpdesc       = $config->maxchar($related_product [$r]->product_desc, Redshop::getConfig()->get('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_DESC_END_SUFFIX'));
+					$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, Redshop::getConfig()->get('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
 
 					$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
 
@@ -10302,7 +10294,7 @@ class productHelper
 				// Count status for selected subproperty
 				$stocksts = $stockroomhelper->isStockExists($selectedsubpropertyId, "subproperty");
 
-				if (!$stocksts && (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes")))
+				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 				{
 					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedsubpropertyId, "subproperty");
 					$rsltdata['preorder']       = 1;
@@ -10314,7 +10306,7 @@ class productHelper
 				// Count status for selected property
 				$stocksts = $stockroomhelper->isStockExists($selectedPropertyId, "property");
 
-				if (!$stocksts && (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes")))
+				if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 				{
 					$prestocksts                = $stockroomhelper->isPreorderStockExists($selectedPropertyId, "property");
 					$rsltdata['preorder']       = 1;
@@ -10326,7 +10318,7 @@ class productHelper
 		{
 			$stocksts = $stockroomhelper->getFinalStockofProduct($product_id, $totalatt);
 
-			if (!$stocksts && (($product_preorder == "global" && ALLOW_PRE_ORDER) || ($product_preorder == "yes")))
+			if (!$stocksts && (($product_preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($product_preorder == "yes")))
 			{
 				$prestocksts                = $stockroomhelper->getFinalPreorderStockofProduct($product_id, $totalatt);
 				$rsltdata['preorder']       = 1;

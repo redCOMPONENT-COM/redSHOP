@@ -107,7 +107,7 @@ class RedshopTableGiftcard extends JTable
 			return false;
 		}
 
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			$economic                  = economic::getInstance();
 

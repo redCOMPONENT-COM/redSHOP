@@ -612,7 +612,7 @@ class extraField
 
 						$onkeyup = '';
 
-						if (AJAX_CART_BOX == 0)
+						if (Redshop::getConfig()->get('AJAX_CART_BOX') == 0)
 						{
 							$onkeyup = $addtocartFormName . '.' . $row_data[$i]->field_name . '.value = this.value';
 						}
@@ -624,7 +624,7 @@ class extraField
 
 						$onkeyup = '';
 
-						if (AJAX_CART_BOX == 0)
+						if (Redshop::getConfig()->get('AJAX_CART_BOX') == 0)
 						{
 							$onkeyup = $addtocartFormName . '.' . $row_data[$i]->field_name . '.value = this.value';
 						}
@@ -781,7 +781,7 @@ class extraField
 						$ex_field .= '</tr></table>';
 						$ajax = '';
 
-						if (AJAX_CART_BOX && $isatt > 0)
+						if (Redshop::getConfig()->get('AJAX_CART_BOX') && $isatt > 0)
 						{
 							$ajax = 'ajax';
 						}
@@ -794,12 +794,12 @@ class extraField
 						$ajax = '';
 						$req = $row_data[$i]->required;
 
-						if (AJAX_CART_BOX && $isatt == 0)
+						if (Redshop::getConfig()->get('AJAX_CART_BOX') && $isatt == 0)
 						{
 							$req = 0;
 						}
 
-						if (AJAX_CART_BOX && $isatt > 0)
+						if (Redshop::getConfig()->get('AJAX_CART_BOX') && $isatt > 0)
 						{
 							$ajax = 'ajax';
 						}

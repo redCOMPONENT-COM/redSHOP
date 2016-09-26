@@ -102,8 +102,8 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 
 if (strstr($template_desc, "{manufacturer_image}"))
 {
-	$mh_thumb    = MANUFACTURER_THUMB_HEIGHT;
-	$mw_thumb    = MANUFACTURER_THUMB_WIDTH;
+	$mh_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
+	$mw_thumb    = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 	$thum_image  = "";
 	$media_image = $producthelper->getAdditionMediaImage($row->manufacturer_id, "manufacturer");
 
@@ -118,9 +118,9 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				$altText = $row->manufacturer_name;
 			}
 
-			if (WATERMARK_MANUFACTURER_IMAGE)
+			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'))
 			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_IMAGE);
+				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 				$maintype         = "watermarked/main";
 			}
 			else
@@ -128,9 +128,9 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				$maintype = "manufacturer/";
 			}
 
-			if (WATERMARK_MANUFACTURER_THUMB_IMAGE)
+			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_THUMB_IMAGE);
+				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
 				$thumbtype        = "watermarked/main";
 			}
 			else
@@ -145,7 +145,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 							$thumbtype,
 							$mw_thumb,
 							$mh_thumb,
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 			$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $maintype . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $thumbUrl . "'></a>";

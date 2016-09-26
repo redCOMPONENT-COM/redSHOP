@@ -186,10 +186,10 @@ class CurrencyHelper
 	{
 		$session = JFactory::getSession();
 
-		// Global $vendor_currency is DEFAULT!
+		// Global $vendor_currency is Redshop::getConfig()->get('DEFAULT')!
 		if (!$currA)
 		{
-			$currA = CURRENCY_CODE;
+			$currA = Redshop::getConfig()->get('CURRENCY_CODE');
 		}
 
 		if (!$currB)
@@ -205,7 +205,7 @@ class CurrencyHelper
 
 		if (!$this->init())
 		{
-			$session->set('product_currency', CURRENCY_CODE);
+			$session->set('product_currency', Redshop::getConfig()->get('CURRENCY_CODE'));
 
 			return $amountA;
 		}

@@ -50,11 +50,11 @@ class RedshopControllerRegistration extends RedshopController
 			}
 			else
 			{
-				$msg = WELCOME_MSG;
+				$msg = Redshop::getConfig()->get('WELCOME_MSG');
 
-				if (SHOP_NAME != "")
+				if (Redshop::getConfig()->get('SHOP_NAME') != "")
 				{
-					$msg = str_replace("{shopname}", SHOP_NAME, $msg);
+					$msg = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $msg);
 				}
 
 				// Redirection settings

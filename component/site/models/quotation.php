@@ -558,9 +558,9 @@ class RedshopModelQuotation extends RedshopModel
 
 		if ($data['is_company'] == 1)
 		{
-			if (SHOPPER_GROUP_DEFAULT_COMPANY != 0)
+			if (Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY') != 0)
 			{
-				$row->shopper_group_id = SHOPPER_GROUP_DEFAULT_COMPANY;
+				$row->shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY');
 			}
 			else
 			{
@@ -569,9 +569,9 @@ class RedshopModelQuotation extends RedshopModel
 		}
 		else
 		{
-			if (SHOPPER_GROUP_DEFAULT_PRIVATE != 0)
+			if (Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE') != 0)
 			{
-				$row->shopper_group_id = SHOPPER_GROUP_DEFAULT_PRIVATE;
+				$row->shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE');
 			}
 			else
 			{

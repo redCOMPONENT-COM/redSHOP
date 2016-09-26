@@ -48,7 +48,7 @@ class PlgRedshop_PaymentDotpay extends RedshopPayment
 		$inputs = array(
 				'id'          => $this->params->get("customerId"),
 				'amount'      => $orderInfo['carttotal'],
-				'currency'    => CURRENCY_CODE,
+				'currency'    => Redshop::getConfig()->get('CURRENCY_CODE'),
 				'description' => 'Payment for order ' . $orderInfo['order_id'],
 				'lang'        => $this->getLang(),
 				'type'        => 0,

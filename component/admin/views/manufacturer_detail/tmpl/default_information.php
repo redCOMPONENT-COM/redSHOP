@@ -113,9 +113,9 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 								'',
 								'thumb',
 								'manufacturer',
-								MANUFACTURER_THUMB_WIDTH,
-								MANUFACTURER_THUMB_HEIGHT,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH'),
+								Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT'),
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 				?>
 

@@ -47,7 +47,7 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 	 */
 	public function getStockroomStatus($order_id)
 	{
-		if (ADMINISTRATOR_EMAIL == "")
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') == "")
 		{
 			return;
 		}
@@ -127,7 +127,7 @@ class PlgRedshop_ProductStockroom_Status extends JPlugin
 			}
 
 			JFactory::getMailer()->sendMail(
-				$mailFrom, $fromName, ADMINISTRATOR_EMAIL, $this->params->get('mailSubject', 'Stockroom Status Mail'), $message, 1, null, $mailbcc
+				$mailFrom, $fromName, Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'), $this->params->get('mailSubject', 'Stockroom Status Mail'), $message, 1, null, $mailbcc
 			);
 		}
 	}

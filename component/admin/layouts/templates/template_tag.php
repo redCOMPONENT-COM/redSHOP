@@ -389,7 +389,7 @@ switch ($name)
 	case 'redshop_payment':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PAYMENT_METHOD_HINT'); ?></b><br /><br />
-		{payment_heading} {split_payment} {payment_loop_start} {payment_method_name} {creditcard_information} {payment_loop_end}
+		{payment_heading} {payment_loop_start} {payment_method_name} {creditcard_information} {payment_loop_end}
 		<?php
 		break;
 	case 'redshop_shipping':
@@ -411,7 +411,7 @@ switch ($name)
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_REVIEW_HINT'); ?></b><br /><br />
 		{product_loop_start} {product_title} <br />
-		{review_loop_start} {fullname} {title} {comment} {stars} {review_date} {review_loop_end} {product_loop_end}
+		{review_loop_start} {fullname} {title} {comment} {stars} {reviewdate} {review_loop_end} {product_loop_end}
 		<?php
 		break;
 	case 'shipment_invoice':

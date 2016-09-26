@@ -506,7 +506,7 @@ class leftmenu
 
 	protected static function setAccountGroup()
 	{
-		if (ECONOMIC_INTEGRATION && JPluginHelper::isEnabled('economic'))
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') && JPluginHelper::isEnabled('economic'))
 		{
 			$menu = RedshopAdminMenu::getInstance()->init();
 
@@ -670,7 +670,7 @@ class leftmenu
 				(self::$view == 'mass_discount') ? true : false
 			);
 
-		if (ECONOMIC_INTEGRATION == 1 && JPluginHelper::isEnabled('economic'))
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && JPluginHelper::isEnabled('economic'))
 		{
 			$menu->section('product')
 				->addItem(
@@ -679,7 +679,7 @@ class leftmenu
 					(self::$view == 'product' && self::$layout == 'importproduct') ? true : false
 				);
 
-			if (ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC == 1)
+			if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 1)
 			{
 				$menu->section('product')
 				->addItem(
@@ -798,7 +798,7 @@ class leftmenu
 
 	protected static function setStockroom()
 	{
-		if (USE_STOCKROOM == 0)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 0)
 		{
 			return;
 		}
@@ -833,7 +833,7 @@ class leftmenu
 				(self::$view == 'stockimage_detail') ? true : false
 			);
 
-		if (ECONOMIC_INTEGRATION && JPluginHelper::isEnabled('economic'))
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') && JPluginHelper::isEnabled('economic'))
 		{
 			$menu->addItem(
 				'index.php?option=com_redshop&view=stockroom_detail&layout=importstock',
@@ -1010,7 +1010,7 @@ class leftmenu
 				'COM_REDSHOP_ADD_SHIPPING_METHOD'
 			);
 
-		if (ECONOMIC_INTEGRATION == 1 && JPluginHelper::isEnabled('economic'))
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && JPluginHelper::isEnabled('economic'))
 		{
 			$menu->section('shipping')
 				->addItem(

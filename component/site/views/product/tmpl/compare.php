@@ -22,7 +22,7 @@ $compare         = new RedshopProductCompare;
 
 $compareCategoryId = $compare->getCategoryId();
 
-if (PRODUCT_COMPARISON_TYPE == 'category')
+if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') == 'category')
 {
 	$compareTemplate = $this->redTemplate->getTemplate(
 		'compare_product',
@@ -31,7 +31,7 @@ if (PRODUCT_COMPARISON_TYPE == 'category')
 }
 else
 {
-	$compareTemplate = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
+	$compareTemplate = $this->redTemplate->getTemplate("compare_product", Redshop::getConfig()->get('COMPARE_TEMPLATE_ID'));
 }
 
 $template = "<div><span>{compare_product_heading}</span></div><div><a href=\"{returntocategory_link}\">{returntocategory_name}</a></div><table border=\"1\"><tbody><tr><th> </th><td align=\"center\">{expand_collapse}</td></tr><tr><th>Product Name</th><td>{product_name}</td></tr><tr><th>Image</th><td>{product_image}</td></tr><tr><th>Manufacturer</th><td>{manufacturer_name}</td></tr><tr><th>Discount Start <br /></th><td>{discount_start_date}</td></tr><tr><th>Discount End<br /></th><td>{discount_end_date}</td></tr><tr><th>Price</th><td>{product_price}</td></tr><tr><th>Short Desc<br /></th><td>{product_s_desc}</td></tr><tr><th>Desc</th><td>{product_desc}</td></tr><tr><th>Rating</th><td>{product_rating_summary}</td></tr><tr><th>Delivery Time</th><td>{product_delivery_time}</td></tr><tr><th>Product Number<br /></th><td>{product_number}</td></tr><tr><th>Stock<br /></th><td>{products_in_stock}</td></tr><tr><th>Stock<br /></th><td>{product_stock_amount_image}</td></tr><tr><th>Weight<br /></th><td>{product_weight}</td></tr><tr><th>Length<br /></th><td>{product_length}</td></tr><tr><th>Height<br /></th><td>{product_height}</td></tr><tr><th>Width<br /></th><td>{product_width}</td></tr><tr><th>Availability Date<br /></th><td>{product_availability_date}</td></tr><tr><th>Volume<br /></th><td>{product_volume}</td></tr><tr><th>Category<br /></th><td>{product_category}</td></tr><tr><th> </th><td>{remove}</td></tr><tr><th> </th><td>{add_to_cart}</td></tr></tbody></table>";
@@ -114,11 +114,11 @@ if ($total > 0)
 							'',
 							'thumb',
 							'product',
-							COMPARE_PRODUCT_THUMB_WIDTH,
-							COMPARE_PRODUCT_THUMB_HEIGHT,
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_WIDTH'),
+							Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_HEIGHT'),
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
-		$img    = "<div style='width:" . COMPARE_PRODUCT_THUMB_WIDTH . "px;height:" . COMPARE_PRODUCT_THUMB_HEIGHT . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $thumbUrl . "'></a></div>";
+		$img    = "<div style='width:" . Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_WIDTH') . "px;height:" . Redshop::getConfig()->get('COMPARE_PRODUCT_THUMB_HEIGHT') . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $thumbUrl . "'></a></div>";
 
 		$expand = "<a href='javascript:void(0)' onClick='expand_collapse(this," . $product->product_id . ")' style='font-size:18px;text-decoration:none;' >-</a>";
 
@@ -178,22 +178,22 @@ if ($total > 0)
 		$product_number_output = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
 		$template              = str_replace('{product_number}', $exp_div . $product->product_number . $div_end . $td_end . $td_start . "{product_number}", $template);
 
-		$product_weight_unit = '<span class="product_unit_variable">' . DEFAULT_WEIGHT_UNIT . '</span>';
+		$product_weight_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT') . '</span>';
 		$template            = str_replace('{product_weight}', $exp_div . $producthelper->redunitDecimal($product->weight) . "&nbsp;" . $product_weight_unit . $div_end . $td_end . $td_start . "{product_weight}", $template);
 
-		$product_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . '</span>';
+		$product_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 		$template     = str_replace('{product_length}', $exp_div . $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_length}", $template);
 		$template     = str_replace('{product_height}', $exp_div . $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_height}", $template);
 		$template     = str_replace('{product_width}', $exp_div . $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit . $div_end . $td_end . $td_start . "{product_width}", $template);
 
-		$product_volume_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . "3" . '</span>';
+		$product_volume_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
 		$template            = str_replace('{product_volume}', $exp_div . $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit . $div_end . $td_end . $td_start . "{product_volume}", $template);
 
 		if (strstr($template, "{product_price}"))
 		{
 			$price = 0;
 
-			if (SHOW_PRICE && !USE_AS_CATALOG && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+			if (Redshop::getConfig()->get('SHOW_PRICE') && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 			{
 				$productPrices = $producthelper->getProductNetPrice($product->product_id);
 				$price = $producthelper->getProductFormattedPrice($productPrices['product_price']);

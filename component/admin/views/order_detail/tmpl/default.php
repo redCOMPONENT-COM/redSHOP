@@ -195,7 +195,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php
 
 									$send_mail_to_customer = 0;
-									if (SEND_MAIL_TO_CUSTOMER)
+									if (Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER'))
 									{
 										$send_mail_to_customer = "checked";
 									}
@@ -221,13 +221,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php
 									$partial_paid = $order_functions->getOrderPartialPayment($order_id);
 
-									$remaningtopay = $this->detail->order_total - $partial_paid;
-									$remaningtopay = $producthelper->getProductFormattedPrice($remaningtopay);//number_format($remaningtopay,2);
-									?>
-									<?php if ($this->detail->split_payment)
-									{
-										echo "<strong>" . JText::_('COM_REDSHOP_ORDER_DETAIL_PARTIALLY_PAID_AMOUNT') . ": " . $producthelper->getProductFormattedPrice($partial_paid) . "</strong>";
-									}
+
 									?>
 								</td>
 							</tr>
@@ -450,17 +444,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								<td align="right"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
 								<td><?php echo $billing->ean_number; ?></td>
 							</tr>
-							<!-- <tr>
-									<td align="right"><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER' ); ?>:</td>
-									<td><?php echo ($billing->requisition_number!="") ? $billing->requisition_number : "N/A"; ?></td>
-								</tr>-->
 							<?php    $fields = $extra_field->list_all_field_display(8, $billing->users_info_id);
 						}
 						else
 						{
 							$fields = $extra_field->list_all_field_display(7, $billing->users_info_id);
 						}
-						echo $fields; ?>
+						echo $fields;
+					?>
 					</table>
 				</div>
 			</div>
@@ -644,7 +635,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																		size="10">
 																</div>
 															</td>
-															<td width="5%"><?php echo REDCURRENCY_SYMBOL . " " . $vat;?></td>
+															<td width="5%"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $vat;?></td>
 															<td width="10%"><?php echo $producthelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 															<td width="5%">
 																<input type="text" name="quantity" id="quantity" class="col-sm-12"
@@ -652,7 +643,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															</td>
 															<td align="right" width="10%">
 																<?php
-																	echo REDCURRENCY_SYMBOL . "&nbsp;";
+																	echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . "&nbsp;";
 																	echo $producthelper->redpriceDecimal($products[$i]->product_final_price);
 																	?>
 															</td>
@@ -839,27 +830,27 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													$special_discount_amount = $this->detail->special_discount_amount;
 													$vatOnDiscount           = false;
 
-													if ((int) APPLY_VAT_ON_DISCOUNT == 0 && (float) VAT_RATE_AFTER_DISCOUNT
+													if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
 													&& (int) $this->detail->order_discount != 0 && (int) $order_tax
 													&& !empty($this->detail->order_discount))
 													{
 													$vatOnDiscount = true;
-													$Discountvat   = ((float) VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+													$Discountvat   = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 													$totaldiscount = $totaldiscount - $Discountvat;
 													}
 
-													if ((int) APPLY_VAT_ON_DISCOUNT == 0 && (float) VAT_RATE_AFTER_DISCOUNT
+													if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
 													&& (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
 													&& !empty($this->detail->special_discount_amount))
 													{
 													$vatOnDiscount           = true;
-													$Discountvat             = ((float) VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+													$Discountvat             = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $special_discount_amount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 													$special_discount_amount = $special_discount_amount - $Discountvat;
 													}
 
 													if ($vatOnDiscount)
 													{
-													$order_tax = (float) VAT_RATE_AFTER_DISCOUNT * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
+													$order_tax = (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
 													}
 													?>
 												<td align="right" width="35%">

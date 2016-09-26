@@ -673,18 +673,18 @@ class RedshopModelImport extends RedshopModel
 								->select('COUNT(*) AS total')
 								->from($db->quoteName('#__redshop_product_stockroom_xref'))
 								->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
-								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM));
+								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
 
 							$db->setQuery($query);
 							$total = $db->loadresult();
 
-							if ($product_stock && DEFAULT_STOCKROOM != 0)
+							if ($product_stock && Redshop::getConfig()->get('DEFAULT_STOCKROOM') != 0)
 							{
 								if ($total <= 0)
 								{
 									$insert = new stdClass;
 									$insert->product_id = $product_id;
-									$insert->stockroom_id = DEFAULT_STOCKROOM;
+									$insert->stockroom_id = Redshop::getConfig()->get('DEFAULT_STOCKROOM');
 									$insert->quantity = $product_stock;
 									$db->insertObject("#__redshop_product_stockroom_xref", $insert);
 								}
@@ -694,7 +694,7 @@ class RedshopModelImport extends RedshopModel
 										->update($db->quoteName('#__redshop_product_stockroom_xref'))
 										->set($db->quoteName('quantity') . ' = ' . $db->quote($product_stock))
 										->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
-										->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM));
+										->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
 
 									$db->setQuery($query);
 									$db->execute();
@@ -2058,7 +2058,7 @@ class RedshopModelImport extends RedshopModel
 		$reduser = $this->getTable('prices_detail');
 		$reduser->set('product_id', $productId);
 		$reduser->set('product_price', trim($rawdata['product_price']));
-		$reduser->set('product_currency', CURRENCY_CODE);
+		$reduser->set('product_currency', Redshop::getConfig()->get('CURRENCY_CODE'));
 		$reduser->set('cdate', time());
 		$reduser->set('shopper_group_id', $shopperGroupId);
 		$reduser->set('price_quantity_start', trim($rawdata['price_quantity_start']));
@@ -2160,7 +2160,7 @@ class RedshopModelImport extends RedshopModel
 		}
 
 		$reduser->set('product_price', trim($rawdata['attribute_price']));
-		$reduser->set('product_currency', CURRENCY_CODE);
+		$reduser->set('product_currency', Redshop::getConfig()->get('CURRENCY_CODE'));
 		$reduser->set('cdate', time());
 		$reduser->set('shopper_group_id', trim($rawdata['shopper_group_id']));
 		$reduser->set('price_quantity_start', (int) trim($rawdata['price_quantity_start']));
@@ -2264,7 +2264,7 @@ class RedshopModelImport extends RedshopModel
 					$rows->update_date = $update_date;
 					$rows->weight = $weight;
 					$rows->product_price = $product_price;
-					$rows->product_template = PRODUCT_TEMPLATE;
+					$rows->product_template = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
 					$rows->product_length = $length;
 					$rows->product_height = $height;
 					$rows->product_width = $width;
@@ -2276,11 +2276,11 @@ class RedshopModelImport extends RedshopModel
 
 					$last_insert = $rows->product_id;
 
-					if ($product_in_stock && DEFAULT_STOCKROOM != 0)
+					if ($product_in_stock && Redshop::getConfig()->get('DEFAULT_STOCKROOM') != 0)
 					{
 						$query = "INSERT IGNORE INTO `#__redshop_product_stockroom_xref` "
 							. "(`product_id`, `stockroom_id`, `quantity`) "
-							. "VALUES ('" . $last_insert . "', '" . DEFAULT_STOCKROOM . "', '" . $product_in_stock . "') ";
+							. "VALUES ('" . $last_insert . "', '" . Redshop::getConfig()->get('DEFAULT_STOCKROOM') . "', '" . $product_in_stock . "') ";
 						$db->setQuery($query);
 
 						if (!$db->execute())
@@ -2369,7 +2369,7 @@ class RedshopModelImport extends RedshopModel
 					$rows->update_date = $update_date;
 					$rows->weight = $weight;
 					$rows->product_price = $product_price;
-					$rows->product_template = PRODUCT_TEMPLATE;
+					$rows->product_template = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
 					$rows->product_length = $length;
 					$rows->product_height = $height;
 					$rows->product_width = $width;
@@ -2502,7 +2502,7 @@ class RedshopModelImport extends RedshopModel
 				$rows->published = $category_publish;
 				$rows->category_pdate = $category_pdate;
 				$rows->products_per_page = $products_per_row;
-				$rows->category_template = CATEGORY_TEMPLATE;
+				$rows->category_template = Redshop::getConfig()->get('CATEGORY_TEMPLATE');
 
 				if (!$rows->store())
 				{
@@ -3021,7 +3021,7 @@ class RedshopModelImport extends RedshopModel
 				{
 					$reduser = $this->getTable('manufacturer_detail');
 					$reduser->set('published', 1);
-					$reduser->set('template_id', MANUFACTURER_TEMPLATE);
+					$reduser->set('template_id', Redshop::getConfig()->get('MANUFACTURER_TEMPLATE'));
 					$reduser->set('manufacturer_desc', $manufacturer_desc);
 					$reduser->set('manufacturer_name', $manufacturer_name);
 					$reduser->set('manufacturer_id', 0);

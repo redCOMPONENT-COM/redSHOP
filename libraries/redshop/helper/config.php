@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Redshop Configuration
  *
@@ -55,7 +57,7 @@ class RedshopHelperConfig
 	 * @param   string  $name       Name of the function.
 	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
 	 *
-	 * @return  mixed   The filtered input value.
+	 * @return  RedshopHelperConfig
 	 */
 	public function __call($name, $arguments)
 	{
@@ -78,6 +80,16 @@ class RedshopHelperConfig
 	}
 
 	/**
+	 * Get the path to this configuration distinct file
+	 *
+	 * @return  string
+	 */
+	protected function getConfigurationDistFilePath()
+	{
+		return JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
+	}
+
+	/**
 	 * Check config file is exist
 	 *
 	 * @return  boolean  Returns TRUE if the file or directory specified by filename exists; FALSE otherwise.
@@ -94,7 +106,7 @@ class RedshopHelperConfig
 	 */
 	public function loadConfig($namespace = '')
 	{
-		$this->config = new JRegistry;
+		$this->config = new Registry;
 
 		$file = $this->getConfigurationFilePath();
 
@@ -130,13 +142,13 @@ class RedshopHelperConfig
 	/**
 	 * Save configuration to file
 	 *
-	 * @param   mixed  $config  Null to avoid binding any data | JRegistry to binf config and save
+	 * @param   mixed $config Null to avoid binding any data | JRegistry to binf config and save
 	 *
 	 * @return  boolean
 	 */
 	public function save($config = null)
 	{
-		if ($config instanceof JRegistry || $config instanceof \Joomla\Registry\Registry)
+		if ($config instanceof JRegistry || $config instanceof Registry)
 		{
 			$this->config->merge($config);
 		}
@@ -181,7 +193,7 @@ class RedshopHelperConfig
 	/**
 	 * Save new config file using legacy or legacy styled custom configuration files.
 	 *
-	 * @param   string  $configFile  Path to legacy styled configuration file
+	 * @param   string $configFile Path to legacy styled configuration file
 	 *
 	 * @throws  exception  Throw invalid argument and exception if file is not exist and invalid.
 	 * @return  boolean    True on success
@@ -212,7 +224,7 @@ class RedshopHelperConfig
 			}
 
 			// Check for distinct configuration file
-			else if (file_exists($legacyConfig->configDistPath))
+			elseif (file_exists($legacyConfig->configDistPath))
 			{
 				$configFile = $legacyConfig->configDistPath;
 			}
@@ -238,7 +250,7 @@ class RedshopHelperConfig
 
 		try
 		{
-			$this->save(new JRegistry($configDataArray));
+			$this->save(new Registry($configDataArray));
 
 			return true;
 		}
@@ -248,6 +260,26 @@ class RedshopHelperConfig
 
 			return false;
 		}
+	}
+
+	/**
+	 * Load Distinct configuration file
+	 *
+	 * @since  1.7
+	 *
+	 * @return  boolean  True on success
+	 */
+	public function loadDist()
+	{
+		// Only load dist file when config file is not exist.
+		if (!$this->isExists())
+		{
+			jimport('joomla.filesystem.file');
+
+			return JFile::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
+		}
+
+		return true;
 	}
 
 	/**

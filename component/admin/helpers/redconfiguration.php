@@ -219,48 +219,6 @@ class Redconfiguration
 	}
 
 	/**
-	 * Write Definition File
-	 *
-	 * @param   array  $def  Array of configuration Definition
-	 *
-	 * @return  boolean  True when file successfully saved.
-	 */
-	public function WriteDefFile($def = array())
-	{
-		if (count($def) <= 0)
-		{
-			$def = $this->defArray;
-		}
-
-		$html = "<?php \n";
-		$html .= 'global $defaultarray;' . "\n" . '$defaultarray = array();' . "\n";
-
-		foreach ($def as $key => $val)
-		{
-			$html .= '$defaultarray["' . $key . '"] = \'' . addslashes($val) . "';\n";
-		}
-
-		$html .= "?>";
-
-		if (!$this->isDEFFile())
-		{
-			return false;
-		}
-
-		if ($fp = fopen($this->configDefPath, "w"))
-		{
-			fwrite($fp, $html, strlen($html));
-			fclose($fp);
-
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
 	 * Define Configuration file. We are preparing define text on this function.
 	 *
 	 * @param   array    $data    Configuration Data associative array
@@ -577,7 +535,6 @@ class Redconfiguration
 						"CATEGORY_TEMPLATE"                            => $d["default_category_template"],
 						"DEFAULT_CATEGORYLIST_TEMPLATE"                => $d["default_categorylist_template"],
 						"MANUFACTURER_TEMPLATE"                        => $d["default_manufacturer_template"],
-						"WRITE_REVIEW_IS_LIGHTBOX"                     => $d['write_review_is_lightbox'],
 						"COUNTRY_LIST"                                 => $d["country_list"],
 						"PRODUCT_DEFAULT_IMAGE"                        => $d["product_default_image"],
 						"PRODUCT_OUTOFSTOCK_IMAGE"                     => $d["product_outofstock_image"],
@@ -606,7 +563,6 @@ class Redconfiguration
 						"ACCESSORY_PRODUCT_TITLE_MAX_CHARS"            => $d["accessory_product_title_max_chars"],
 						"ACCESSORY_PRODUCT_TITLE_END_SUFFIX"           => $d["accessory_product_title_end_suffix"],
 						"ADDTOCART_BACKGROUND"                         => $d["addtocart_background"],
-						"TABLE_PREFIX"                                 => $d["table_prefix"],
 						"SPLIT_DELIVERY_COST"                          => $d["split_delivery_cost"],
 						"TIME_DIFF_SPLIT_DELIVERY"                     => $d["time_diff_split_delivery"],
 						"NEWS_MAIL_FROM"                               => $d["news_mail_from"],
@@ -638,7 +594,6 @@ class Redconfiguration
 						"COUPONS_ENABLE"                               => $d["coupons_enable"],
 						"VOUCHERS_ENABLE"                              => $d["vouchers_enable"],
 						"APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT"        => $d["apply_voucher_coupon_already_discount"],
-						"SPLITABLE_PAYMENT"                            => $d["splitable_payment"],
 						"SHOW_EMAIL_VERIFICATION"                      => $d["show_email_verification"],
 
 						"RATING_MSG"                                   => $d["rating_msg"],
@@ -917,23 +872,18 @@ class Redconfiguration
 	 */
 	public function defineDynamicVars()
 	{
-		if (!defined('SHOW_PRICE'))
-		{
-			define('SHOW_PRICE', $this->showPrice());
-			define('USE_AS_CATALOG', $this->getCatalog());
-		}
+		$config = Redshop::getConfig();
 
-		if (!defined('DEFAULT_QUOTATION_MODE'))
-		{
-			if (DEFAULT_QUOTATION_MODE_PRE == 1)
-			{
-				define('DEFAULT_QUOTATION_MODE', $this->setQuotationMode());
-			}
+		$config->set('SHOW_PRICE', $this->showPrice());
+		$config->set('USE_AS_CATALOG', $this->getCatalog());
 
-			else
-			{
-				define('DEFAULT_QUOTATION_MODE', DEFAULT_QUOTATION_MODE_PRE);
-			}
+		$quotationModePre = (int) $config->get('DEFAULT_QUOTATION_MODE_PRE');
+
+		$config->set('DEFAULT_QUOTATION_MODE', $quotationModePre);
+
+		if ($quotationModePre == 1)
+		{
+			$config->set('DEFAULT_QUOTATION_MODE', (int) $this->setQuotationMode());
 		}
 	}
 
@@ -948,8 +898,8 @@ class Redconfiguration
 		{
 			$list = $list[0];
 
-			if (($list->show_price == "yes") || ($list->show_price == "global" && SHOW_PRICE_PRE == 1)
-				|| ($list->show_price == "" && SHOW_PRICE_PRE == 1))
+			if (($list->show_price == "yes") || ($list->show_price == "global" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
+				|| ($list->show_price == "" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1))
 			{
 				return 1;
 			}
@@ -960,7 +910,7 @@ class Redconfiguration
 		}
 		else
 		{
-			return SHOW_PRICE_PRE;
+			return Redshop::getConfig()->get('SHOW_PRICE_PRE');
 		}
 	}
 
@@ -975,8 +925,8 @@ class Redconfiguration
 		{
 			$list = $list[0];
 
-			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1)
-				|| ($list->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1))
+			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
+				|| ($list->use_as_catalog == "" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1))
 			{
 				return 1;
 			}
@@ -988,7 +938,7 @@ class Redconfiguration
 
 		else
 		{
-			return PRE_USE_AS_CATALOG;
+			return Redshop::getConfig()->get('PRE_USE_AS_CATALOG');
 		}
 	}
 
@@ -997,7 +947,7 @@ class Redconfiguration
 		$db = JFactory::getDbo();
 		$user             = JFactory::getUser();
 		$userhelper       = rsUserHelper::getInstance();
-		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+		$shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
 		if ($user->id)
 		{
@@ -1018,19 +968,13 @@ class Redconfiguration
 		{
 			if ($list->shopper_group_quotation_mode)
 			{
-				return 1;
+				return true;
 			}
 
-			else
-			{
-				return 0;
-			}
+			return false;
 		}
 
-		else
-		{
-			return DEFAULT_QUOTATION_MODE_PRE;
-		}
+		return Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
 	}
 
 	public function maxchar($desc = '', $maxchars = 0, $suffix = '')
@@ -1241,11 +1185,11 @@ class Redconfiguration
 			$date = time();
 		}
 
-		if (DEFAULT_DATEFORMAT)
+		if (Redshop::getConfig()->get('DEFAULT_DATEFORMAT'))
 		{
-			$convertformat = date(DEFAULT_DATEFORMAT, $date);
+			$convertformat = date(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), $date);
 
-			if (strpos(DEFAULT_DATEFORMAT, "M") !== false)
+			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "M") !== false)
 			{
 				$convertformat = str_replace("Jan", JText::_('COM_REDSHOP_JAN'), $convertformat);
 				$convertformat = str_replace("Feb", JText::_('COM_REDSHOP_FEB'), $convertformat);
@@ -1261,7 +1205,7 @@ class Redconfiguration
 				$convertformat = str_replace("Dec", JText::_('COM_REDSHOP_DEC'), $convertformat);
 			}
 
-			if (strpos(DEFAULT_DATEFORMAT, "F") !== false)
+			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "F") !== false)
 			{
 				$convertformat = str_replace("January", JText::_('COM_REDSHOP_JANUARY'), $convertformat);
 				$convertformat = str_replace("February", JText::_('COM_REDSHOP_FEBRUARY'), $convertformat);
@@ -1277,7 +1221,7 @@ class Redconfiguration
 				$convertformat = str_replace("December", JText::_('COM_REDSHOP_DECEMBER'), $convertformat);
 			}
 
-			if (strpos(DEFAULT_DATEFORMAT, "D") !== false)
+			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "D") !== false)
 			{
 				$convertformat = str_replace("Mon", JText::_('COM_REDSHOP_MON'), $convertformat);
 				$convertformat = str_replace("Tue", JText::_('COM_REDSHOP_TUE'), $convertformat);
@@ -1288,7 +1232,7 @@ class Redconfiguration
 				$convertformat = str_replace("Sun", JText::_('COM_REDSHOP_SUN'), $convertformat);
 			}
 
-			if (strpos(DEFAULT_DATEFORMAT, "l") !== false)
+			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "l") !== false)
 			{
 				$convertformat = str_replace("Monday", JText::_('COM_REDSHOP_MONDAY'), $convertformat);
 				$convertformat = str_replace("Tuesday", JText::_('COM_REDSHOP_TUESDAY'), $convertformat);
