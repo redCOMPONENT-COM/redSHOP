@@ -15,7 +15,7 @@ $db = JFactory::getDbo();
 
 $rows = array();
 
-if (MY_WISHLIST)
+if (Redshop::getConfig()->get('MY_WISHLIST'))
 {
 	$sql = "SELECT wishlist_id,wishlist_name FROM #__redshop_wishlist where user_id = " . (int) $user->id;
 	$db->setQuery($sql);

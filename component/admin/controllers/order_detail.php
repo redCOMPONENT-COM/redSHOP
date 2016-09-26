@@ -115,7 +115,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$finalquantity = $quantity = $orderItem[0]->quantity;
 
 		// Check product Quantity
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$currentStock = $stockroomhelper->getStockroomTotalAmount($product_id);
 

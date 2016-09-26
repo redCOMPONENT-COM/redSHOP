@@ -67,7 +67,7 @@ else
 	';
 }
 
-if (!ONESTEP_CHECKOUT_ENABLE)
+if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 {
 	echo JLayoutHelper::render('cart.wizard', array('step' => '1'));
 }
@@ -81,7 +81,7 @@ if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 }
 else
 {
-	if ($user->id == "" && REGISTER_METHOD != 1)
+	if ($user->id == "" && Redshop::getConfig()->get('REGISTER_METHOD') != 1)
 	{
 		$show_login            = 1;
 		$open_to_mystretchermy = 0;
@@ -92,7 +92,7 @@ else
 		$open_to_mystretchermy = 1;
 	}
 
-	if (NEW_CUSTOMER_SELECTION || (isset($post['createaccount']) && $post['createaccount'] == 1))
+	if (Redshop::getConfig()->get('NEW_CUSTOMER_SELECTION') || (isset($post['createaccount']) && $post['createaccount'] == 1))
 	{
 		$open_to_mystretchermy = 1;
 	}
@@ -100,8 +100,8 @@ else
 	if ($show_login)
 	{
 		echo '<div class="signInPaneDiv">';
-		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.start', 'signInPane', array('startOffset' => $open_to_mystretchermy));
-		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.panel', JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'), 'login');
+		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.start', 'signInPane', array('startOffset' => $open_to_mystretchermy));
+		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'), 'login');
 
 		if (strstr($login_template_desc, "{rs_username}"))
 		{
@@ -135,7 +135,7 @@ else
 		$login_template_desc = '<form action="' . JRoute::_('index.php') . '" method="post">' . $login_template_desc . '</form>';
 
 		echo eval("?>" . $login_template_desc . "<?php ");
-		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
+		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
 	}
 
 	$allowCustomer = $this->lists['allowCustomer'];
@@ -172,8 +172,8 @@ else
 
 	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
-		<?php if (REGISTER_METHOD == 2) :
-			$checked_style = (CREATE_ACCOUNT_CHECKBOX == 1) ? 'checked="checked"' : "''";
+		<?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :
+			$checked_style = (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1) ? 'checked="checked"' : "''";
 		?>
 		<div class="checkbox">
 			<label>
@@ -186,10 +186,10 @@ else
 		<fieldset>
 			<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
 
-			<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, OPTIONAL_SHIPPING_ADDRESS, 1, CREATE_ACCOUNT_CHECKBOX);    ?>
+			<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX'));    ?>
 		</fieldset>
 
-		<?php if (SHIPPING_METHOD_ENABLE) : ?>
+		<?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>
 
 		<?php
 		$billingisshipping = "";
@@ -201,7 +201,7 @@ else
 				$billingisshipping = "style='display:none'";
 			}
 		}
-		elseif (OPTIONAL_SHIPPING_ADDRESS)
+		elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 		{
 			$billingisshipping = "style='display:none'";
 		}
@@ -239,7 +239,7 @@ else
 <?php
 	if ($show_login)
 	{
-		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.end');
+		echo JHtml::_(Redshop::getConfig()->get('CHECKOUT_LOGIN_REGISTER_SWITCHER') . '.end');
 		echo '</div>';
 	}
 }    ?>

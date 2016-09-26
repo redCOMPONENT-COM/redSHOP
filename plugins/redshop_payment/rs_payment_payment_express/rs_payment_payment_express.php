@@ -143,7 +143,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			// Convert .8 to .80
 			$amount = sprintf("%9.2f", $amount);
 
-			$currency = CURRENCY_CODE;
+			$currency = Redshop::getConfig()->get('CURRENCY_CODE');
 			$merchRef = substr($data['billinginfo']->firstname, 0, 50) . " " . substr($data['billinginfo']->lastname, 0, 50);
 			$cmdDoTxnTransaction .= "<Txn>";
 
@@ -286,7 +286,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$order_payment_amount = $orderDetail[0]->order_payment_amount;
 			$order_payment_trans_id = $orderDetail[0]->order_payment_trans_id;
 
-			$currency = CURRENCY_CODE;
+			$currency = Redshop::getConfig()->get('CURRENCY_CODE');
 			$cmdDoTxnTransaction .= "<Txn>";
 
 			// Insert your DPS Username here

@@ -237,7 +237,7 @@ if ($data->lists['attributes'])
 					   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $propertyId . '&cid=' . $productId . '&section=property'); ?>">
 						<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>discountmanagmenet16.png"/>
 					</a>
-					<?php if (USE_STOCKROOM): ?>
+					<?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
 						<a class="modal-thumb btn btn-small"
 						   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 						   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'); ?>">
@@ -268,7 +268,7 @@ if ($data->lists['attributes'])
 							'product_attributes',
 							50,
 							0,
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 						?>
 						<a class="modal-thumb"
@@ -461,7 +461,7 @@ if ($data->lists['attributes'])
 																		src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
 																		alt=""/>
 																</a>
-																<?php if (USE_STOCKROOM): ?>
+																<?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
 																	<a class="modal-thumb btn btn-small"
 																	   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 																	   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId); ?>&layout=productstockroom&property=subproperty">
@@ -493,7 +493,7 @@ if ($data->lists['attributes'])
 																		'subcolor',
 																		50,
 																		0,
-																		USE_IMAGE_SIZE_SWAPPING
+																		Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 																	);
 																	?>
 																	<a class="modal-thumb"

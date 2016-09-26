@@ -40,7 +40,7 @@ $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data
 
 if ($cart_data == "")
 {
-	if (DEFAULT_QUOTATION_MODE)
+	if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 	{
 		$cart_data = '<h1>{cart_lbl}</h1><div class="category_print">{print}</div><br/><br/><table style="width: 90%;" border="0" cellspacing="10" cellpadding="10"><tbody><tr><td><table class="tdborder" style="width: 100%;" border="0" cellspacing="0" cellpadding="0"><thead><tr><th width="40%" align="left">{product_name_lbl}</th> <th width="35%"> </th><th width="25%">{quantity_lbl}</th></tr></thead><tbody>{product_loop_start}<tr class="tdborder"><td><div class="cartproducttitle">{product_name}</div><div class="cartattribut">{product_attribute}</div><div class="cartaccessory">{product_accessory}</div><div class="cartwrapper">{product_wrapper}</div><div class="cartuserfields">{product_userfields}</div></td><td>{product_thumb_image}</td><td><table border="0"><tbody><tr><td>{update_cart}</td><td>{remove_product}</td></tr></tbody></table></td></tr>{product_loop_end}</tbody></table></td></tr><tr><td><br></td></tr><tr><td><table style="width: 100%;" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td>{update}</td><td>{empty_cart}</td><td>{quotation_request}</td><td>{shop_more}</td></tr></tbody></table></td></tr></tbody></table>';
 	}
@@ -68,9 +68,9 @@ $cart_data = str_replace("{print}", $print_tag, $cart_data);
 $cart_data = $carthelper->replaceTemplate($cart, $cart_data, 0);
 $session->set('cart', $cart);
 
-if (strstr($cart_data, '{shipping_calculator}') && SHIPPING_METHOD_ENABLE)
+if (strstr($cart_data, '{shipping_calculator}') && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
-	if (SHOW_SHIPPING_IN_CART)
+	if (Redshop::getConfig()->get('SHOW_SHIPPING_IN_CART'))
 	{
 		$shipping_calc = $model->shippingrate_calc();
 		$cart_data     = str_replace("{shipping_calculator}", $shipping_calc, $cart_data);
@@ -83,7 +83,7 @@ if (strstr($cart_data, '{shipping_calculator}') && SHIPPING_METHOD_ENABLE)
 	}
 }
 
-if (DEFAULT_QUOTATION_MODE)
+if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 {
 	$checkout = '';
 }
@@ -99,7 +99,7 @@ else
 	if ($pluginButton)
 		$checkout .= '<div class="googlecheckout-button" style="float:left;">' . $pluginButton . '</div>';
 
-	if (SSL_ENABLE_IN_CHECKOUT)
+	if (Redshop::getConfig()->get('SSL_ENABLE_IN_CHECKOUT'))
 	{
 		$uri    = JURI::getInstance();
 		$c_link = new JURI;
@@ -117,9 +117,9 @@ else
 	$checkout .= '<div class="checkout_button"  style="float:right;">';
 	$checkout .= '<input type=button class="greenbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_CART_CHECKOUT') . '" ';
 
-	if (MINIMUM_ORDER_TOTAL > 0 && $cart ['total'] < MINIMUM_ORDER_TOTAL)
+	if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart ['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
 	{
-		$checkout .= ' onclick="alert(\'' . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . MINIMUM_ORDER_TOTAL . '\');">';
+		$checkout .= ' onclick="alert(\'' . JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '\');">';
 	}
 	else
 	{
@@ -140,9 +140,9 @@ $cart_data = str_replace("{quotation_request}", $quotation_request, $cart_data);
  */
 if (strstr($cart_data, "{shop_more}"))
 {
-	if (CONTINUE_REDIRECT_LINK != '')
+	if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
 	{
-		$shopmorelink = JRoute::_(CONTINUE_REDIRECT_LINK);
+		$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 	}
 	elseif ($catItemId = $redhelper->getCategoryItemid())
 	{
@@ -164,7 +164,7 @@ $update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="
 		<input type=button class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $idx . ');">
 		</form>';
 
-if (QUANTITY_TEXT_DISPLAY)
+if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
 {
 	$cart_data = str_replace("{update}", $update_all, $cart_data);
 }
@@ -189,7 +189,7 @@ if (count($discount) > 0)
 	if ($discount->discount_type == 0)
 	{
 		$discount_amount = $discount->discount_amount;
-		$discount_sign   = " " . REDCURRENCY_SYMBOL;
+		$discount_sign   = " " . Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 	}
 	else
 	{
@@ -198,7 +198,7 @@ if (count($discount) > 0)
 	}
 
 	$diff  = $discount->amount - $cart ['product_subtotal'];
-	$price = number_format($discount->discount_amount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+	$price = number_format($discount->discount_amount, Redshop::getConfig()->get('PRICE_DECIMAL'), Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 
 	if ($diff > 0)
 	{
@@ -211,7 +211,7 @@ if (count($discount) > 0)
 	  *  Discount type =  3 // Discount + coupon + voucher
 	  *  Discount type =  4 // Discount + coupons + voucher
 	  */
-	if (DISCOUNT_TYPE && DISCOUNT_ENABLE == 1)
+	if (Redshop::getConfig()->get('DISCOUNT_TYPE') && Redshop::getConfig()->get('DISCOUNT_ENABLE') == 1)
 	{
 		$cart_data = str_replace("{discount_rule}", $text, $cart_data);
 	}
@@ -231,19 +231,19 @@ $coupon_lable = '';
 $confirmMsg = '';
 $radiobttn = '';
 
-if (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 1)
+if (Redshop::getConfig()->get('COUPONS_ENABLE') == 1 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 1)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
 	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
-elseif (COUPONS_ENABLE == 1 && VOUCHERS_ENABLE == 0)
+elseif (Redshop::getConfig()->get('COUPONS_ENABLE') == 1 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 0)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
 	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
-elseif (COUPONS_ENABLE == 0 && VOUCHERS_ENABLE == 1)
+elseif (Redshop::getConfig()->get('COUPONS_ENABLE') == 0 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 1)
 {
 	$discount_form .= '<input class="inputbox" id="coupon_input" type="text" value="" name="discount_code" size="5">';
 	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
@@ -253,7 +253,7 @@ elseif (COUPONS_ENABLE == 0 && VOUCHERS_ENABLE == 1)
 $discount_form .= '<input type="hidden" name="task" value=""><input type="hidden" name="Itemid" value="' . $Itemid . '">';
 $discount_form .= '</form></div>';
 
-if (DISCOUNT_TYPE == "0" || DISCOUNT_TYPE == "")
+if (Redshop::getConfig()->get('DISCOUNT_TYPE') == "0" || Redshop::getConfig()->get('DISCOUNT_TYPE') == "")
 {
 	$discount_form   = "";
 	$coupon_lableFLG = 0;

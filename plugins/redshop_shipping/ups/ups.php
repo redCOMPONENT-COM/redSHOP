@@ -405,8 +405,8 @@ class plgredshop_shippingups extends JPlugin
 		$rate = 0;
 
 		// conversation of weight ( ration )
-		$unitRatio = $producthelper->getUnitConversation('pounds', DEFAULT_WEIGHT_UNIT);
-		$unitRatioVolume = $producthelper->getUnitConversation('inch', DEFAULT_VOLUME_UNIT);
+		$unitRatio = $producthelper->getUnitConversation('pounds', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+		$unitRatioVolume = $producthelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 
 		$totaldimention = $shippinghelper->getCartItemDimention();
 		$order_weight = $totaldimention['totalweight'];
@@ -458,11 +458,11 @@ class plgredshop_shippingups extends JPlugin
 		}
 
 		//The zip that you are shipping to
-		$vendor_country_2_code = DEFAULT_SHIPPING_COUNTRY;
+		$vendor_country_2_code = Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY');
 
-		if (DEFAULT_SHIPPING_COUNTRY)
+		if (Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY'))
 		{
-			$vendor_country_2_code = $redconfig->getCountryCode2(DEFAULT_SHIPPING_COUNTRY);
+			$vendor_country_2_code = $redconfig->getCountryCode2(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY'));
 		}
 
 		if (isset($shippinginfo->country_code))
@@ -474,7 +474,7 @@ class plgredshop_shippingups extends JPlugin
 
 		//LBS  = Pounds
 		//KGS  = Kilograms
-		$weight_measure = (DEFAULT_WEIGHT_UNIT == "gram") ? "KGS" : "LBS"; // if change than change conversation base unit also
+		$weight_measure = (Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT') == "gram") ? "KGS" : "LBS"; // if change than change conversation base unit also
 		$measurecode = ($weight_measure == "KGS") ? "CM" : "IN";
 
 		// The XML that will be posted to UPS
@@ -703,7 +703,7 @@ class plgredshop_shippingups extends JPlugin
 
 		// UPS returns Charges in USD ONLY.
 		// So we have to convert from USD to Vendor Currency if necessary
-		if (CURRENCY_CODE != "USD")
+		if (Redshop::getConfig()->get('CURRENCY_CODE') != "USD")
 		{
 			$convert = true;
 		}
@@ -726,7 +726,7 @@ class plgredshop_shippingups extends JPlugin
 
 			if ($convert)
 			{
-				$tmp = $currency->convert($ratevalue, "USD", CURRENCY_CODE);
+				$tmp = $currency->convert($ratevalue, "USD", Redshop::getConfig()->get('CURRENCY_CODE'));
 
 				if (!empty($tmp))
 				{

@@ -178,7 +178,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$model->SaveAssociations($row->product_id, $post);
 
 			// Add product to economic
-			if (ECONOMIC_INTEGRATION == 1)
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				$economic = economic::getInstance();
 				$economic->createProductInEconomic($row);
@@ -376,7 +376,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$economic = null;
 
-		if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 		{
 			$economic = economic::getInstance();
 		}
@@ -478,7 +478,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 					}
 				}
 
-				if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+				if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
 					$economic->createPropertyInEconomic($row, $property_array);
 				}
@@ -559,7 +559,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 						}
 					}
 
-					if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
+					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
 						$economic->createSubpropertyInEconomic($row, $subproperty_array);
 					}

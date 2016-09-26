@@ -188,8 +188,8 @@ class RedshopModelCategory_detail extends RedshopModel
 
 		if (count($_FILES) > 0 && $_FILES['category_full_image']['name'] != "")
 		{
-			$newwidth = THUMB_WIDTH;
-			$newheight = THUMB_HEIGHT;
+			$newwidth = Redshop::getConfig()->get('THUMB_WIDTH');
+			$newheight = Redshop::getConfig()->get('THUMB_HEIGHT');
 
 			$row->category_full_image = $filename;
 			$row->category_thumb_image = $filename;
@@ -217,8 +217,8 @@ class RedshopModelCategory_detail extends RedshopModel
 				$row->category_thumb_image = $filename;
 
 				// Image Upload
-				$newwidth = THUMB_WIDTH;
-				$newheight = THUMB_HEIGHT;
+				$newwidth = Redshop::getConfig()->get('THUMB_WIDTH');
+				$newheight = Redshop::getConfig()->get('THUMB_HEIGHT');
 
 				$src = JPATH_ROOT . '/' . $data['category_image'];
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;

@@ -197,9 +197,9 @@ if ($showbuttons)
 													'',
 													'thumb',
 													$this->detail->media_section,
-													THUMB_WIDTH,
-													THUMB_HEIGHT,
-													USE_IMAGE_SIZE_SWAPPING
+													Redshop::getConfig()->get('THUMB_WIDTH'),
+													Redshop::getConfig()->get('THUMB_HEIGHT'),
+													Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 												);
 									?>
 									<a class="modal btn btn-primary"

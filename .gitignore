@@ -57,6 +57,9 @@ tests/RoboFile.ini
 selenium-server-standalone.jar
 tests/_support/_generated/*
 
+# Ignore redSHOP config
+component/admin/config/config.php
+
 # Never ignore
 !.gitignore
 !index.html

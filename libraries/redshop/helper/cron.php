@@ -24,43 +24,44 @@ class RedshopHelperCron
 	 */
 	public static function init()
 	{
-		if (DISCOUNT_MAIL_SEND)
+		// Mail center
+		$date = JFactory::getDate();
+
+		$today = time();
+		$day   = date('D', $today);
+		$time  = date('H:i', $today);
+
+		if (Redshop::getConfig()->get('DISCOUNT_MAIL_SEND'))
 		{
-			self::afterPurchasedOrderMail();
+			self::after_purchased_order_mail();
 		}
 
 		// Move to Stockroom start
-		$formattedDate = date('Y-m-d', time());
+		$fdate = date('Y-m-d', $today);
 
 		$db = JFactory::getDbo();
 
 		// Calculation to run once in day
-		$query = $db->getQuery(true)
-			->select('count(id)')
-			->from($db->qn('#__redshop_cron'))
-			->where($db->qn('date') . ' = ' . $db->q($formattedDate));
-
-		$data = $db->setQuery($query, 0, 1)->loadResult();
+		$query = "SELECT count(id) FROM #__redshop_cron WHERE date = " . $db->quote($fdate);
+		$db->setQuery($query);
+		$data = $db->loadResult();
 
 		if ($data != 1)
 		{
 			// Default $data != 1
-			$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_cron'))
-				->set($db->qn('date') . ' = ' . $db->q($formattedDate))
-				->where($db->qn('id') . ' = 1');
+			$q_update = "UPDATE #__redshop_cron SET date = " . $db->quote($fdate) . " WHERE id = 1";
+			$db->setQuery($q_update);
+			$db->execute();
 
-			$db->setQuery($query)->execute();
-
-			if (SEND_CATALOG_REMINDER_MAIL)
+			if (Redshop::getConfig()->get('SEND_CATALOG_REMINDER_MAIL'))
 			{
-				self::catalogMail();
+				self::catalog_mail();
 			}
 
-			self::colorMail();
+			self::color_mail();
 
 			// Send subscription renewal mail.
-			self::subscriptionRenewalMail();
+			self::subscription_renewal_mail();
 		}
 	}
 
@@ -69,164 +70,172 @@ class RedshopHelperCron
 	 *
 	 * @return void
 	 */
-	public static function catalogMail()
+	public static function catalog_mail()
 	{
-		$date          = JFactory::getDate();
-		$mail          = redshopMail::getInstance();
-		$formattedDate = $date->format('Y-m-d');
+		$date        = JFactory::getDate();
+		$redshopMail = redshopMail::getInstance();
+		$fdate       = $date->format('Y-m-d');
 
-		$db = JFactory::getDbo();
+		$db = $db = JFactory::getDbo();
 
 		$query = "SELECT * FROM #__redshop_catalog_request where block = 0 ";
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
-		foreach ($data as $catalog)
+		foreach ($data as $catalog_detail)
 		{
-			if ($catalog->reminder_1 == 0)
+			if ($catalog_detail->reminder_1 == 0)
 			{
-				$sendDate = date("Y-m-d", $catalog->registerDate + (CATALOG_REMINDER_1 * (60 * 60 * 24)));
+				$send_date = date("Y-m-d", $catalog_detail->registerDate + (Redshop::getConfig()->get('CATALOG_REMINDER_1') * (60 * 60 * 24)));
 
-				if ($formattedDate == $sendDate)
+				if ($fdate == $send_date)
 				{
-					$body         = "";
-					$subject      = "";
-					$bcc          = null;
-					$mailTemplate = $mail->getMailtemplate(0, "catalog_first_reminder");
+					$bodytmp   = "";
+					$subject   = "";
+					$mailbcc   = null;
+					$mail_data = $redshopMail->getMailtemplate(0, "catalog_first_reminder");
 
-					if (count($mailTemplate) > 0)
+					if (count($mail_data) > 0)
 					{
-						$mailTemplate = $mailTemplate[0];
-						$body         = $mailTemplate->mail_body;
-						$subject      = $mailTemplate->mail_subject;
+						$mail_data = $mail_data[0];
+						$bodytmp   = $mail_data->mail_body;
+						$subject   = $mail_data->mail_subject;
 
-						if (trim($mailTemplate->mail_bcc) != "")
+						if (trim($mail_data->mail_bcc) != "")
 						{
-							$bcc = explode(",", $mailTemplate->mail_bcc);
+							$mailbcc = explode(",", $mail_data->mail_bcc);
 						}
 					}
 
 					$config    = JFactory::getConfig();
 					$from      = $config->get('mailfrom');
-					$fromName  = $config->get('fromname');
-					$recipient = $catalog->email;
+					$fromname  = $config->get('fromname');
+					$recipient = $catalog_detail->email;
 
-					$body = str_replace("{name}", $catalog->name, $body);
-					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
-					$body = $mail->imginmail($body);
+					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
+					$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
+					$body = $redshopMail->imginmail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
-						$q_update = "UPDATE #__redshop_catalog_request SET reminder_1 = 1 WHERE catalog_user_id = " . (int) $catalog->catalog_user_id;
+						$q_update = "UPDATE #__redshop_catalog_request SET reminder_1 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
 						$db->execute();
 					}
 				}
 			}
 
-			if ($catalog->reminder_2 == 0)
+			if ($catalog_detail->reminder_2 == 0)
 			{
-				$sendDate  = date("Y-m-d", $catalog->registerDate + (CATALOG_REMINDER_2 * (60 * 60 * 24)));
-				$token     = substr(md5(uniqid(mt_rand(), true)), 0, 10);
-				$startDate = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-				$endDate   = $startDate + (DISCOUNT_DURATION * 23 * 59 * 59);
+				$send_date = date("Y-m-d", $catalog_detail->registerDate + (Redshop::getConfig()->get('CATALOG_REMINDER_2') * (60 * 60 * 24)));
 
-				if ($formattedDate == $sendDate)
+				$better_token = md5(uniqid(mt_rand(), true));
+
+				$token = substr($better_token, 0, 10);
+
+				$start_date = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+
+				$end_date = $start_date + (Redshop::getConfig()->get('DISCOUNT_DURATION') * 23 * 59 * 59);
+
+				if ($fdate == $send_date)
 				{
-					$body         = "";
-					$subject      = "";
-					$bcc          = null;
-					$mailTemplate = $mail->getMailtemplate(0, "catalog_second_reminder");
+					$bodytmp   = "";
+					$subject   = "";
+					$mailbcc   = null;
+					$mail_data = $redshopMail->getMailtemplate(0, "catalog_second_reminder");
 
-					if (count($mailTemplate) > 0)
+					if (count($mail_data) > 0)
 					{
-						$mailTemplate = $mailTemplate[0];
-						$body         = $mailTemplate->mail_body;
-						$subject      = $mailTemplate->mail_subject;
+						$mail_data = $mail_data[0];
+						$bodytmp   = $mail_data->mail_body;
+						$subject   = $mail_data->mail_subject;
 
-						if (trim($mailTemplate->mail_bcc) != "")
+						if (trim($mail_data->mail_bcc) != "")
 						{
-							$bcc = explode(",", $mailTemplate->mail_bcc);
+							$mailbcc = explode(",", $mail_data->mail_bcc);
 						}
 					}
 
 					$config    = JFactory::getConfig();
 					$from      = $config->get('mailfrom');
-					$fromName  = $config->get('fromname');
-					$recipient = $catalog->email;
+					$fromname  = $config->get('fromname');
+					$recipient = $catalog_detail->email;
 
-					$body = str_replace("{name}", $catalog->name, $body);
-					$body = str_replace("{days}", DISCOUNT_DURATION, $body);
-					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
+					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
+					$body = str_replace("{days}", Redshop::getConfig()->get('DISCOUNT_DURATION'), $body);
+					$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
 					$body = str_replace("{coupon_code}", $token, $body);
-					$body = $mail->imginmail($body);
+					$body = $redshopMail->imginmail($body);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
 					$sql = "INSERT INTO  #__redshop_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`) "
-						. "VALUES ('" . $token . "', '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($startDate)
-						. ", " . $db->quote($endDate) . ", '1', " . (int) $uid . ", '1')";
+						. "VALUES ('" . $token . "', '1', '" . Redshop::getConfig()->get('DISCOUNT_PERCENTAGE') . "', " . $db->quote($start_date)
+						. ", " . $db->quote($end_date) . ", '1', " . (int) $uid . ", '1')";
 
 					$db->setQuery($sql);
 					$db->execute();
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
-						$q_update = "UPDATE #__redshop_catalog_request SET reminder_2 = 1 WHERE catalog_user_id = " . $catalog->catalog_user_id;
+						$q_update = "UPDATE #__redshop_catalog_request SET reminder_2 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
 						$db->execute();
 					}
 				}
 			}
-			elseif ($catalog->reminder_3 == 0)
+			else
 			{
-				// Coupon reminder
-				$sendDate = date("Y-m-d", $catalog->registerDate + (DISCOUNT_DURATION * (60 * 60 * 24)) + (4 * 60 * 60 * 24));
-
-				$sql = "select id FROM #__users where email = " . $db->quote($catalog->email);
-				$db->setQuery($sql);
-				$uid = $db->loadResult();
-
-				$sql = "select id FROM #__redshop_coupons where userid = " . (int) $uid;
-				$db->setQuery($sql);
-				$coupon_code = $db->loadResult();
-
-				if ($formattedDate == $sendDate)
+				if ($catalog_detail->reminder_3 == 0)
 				{
-					$body         = "";
-					$subject      = "";
-					$bcc          = null;
-					$mailTemplate = $mail->getMailtemplate(0, "catalog_coupon_reminder");
+					// Coupon reminder
+					$send_date = date("Y-m-d", $catalog_detail->registerDate + (Redshop::getConfig()->get('DISCOUNT_DURATION') * (60 * 60 * 24)) + (4 * 60 * 60 * 24));
 
-					if (count($mailTemplate) > 0)
+					$sql = "select id FROM #__users where email = " . $db->quote($catalog_detail->email);
+					$db->setQuery($sql);
+					$uid = $db->loadResult();
+
+					$sql = "select id FROM #__redshop_coupons where userid = " . (int) $uid;
+					$db->setQuery($sql);
+					$coupon_code = $db->loadResult();
+
+					if ($fdate == $send_date)
 					{
-						$mailTemplate = $mailTemplate[0];
-						$body         = $mailTemplate->mail_body;
-						$subject      = $mailTemplate->mail_subject;
+						$bodytmp   = "";
+						$subject   = "";
+						$mailbcc   = null;
+						$mail_data = $redshopMail->getMailtemplate(0, "catalog_coupon_reminder");
 
-						if (trim($mailTemplate->mail_bcc) != "")
+						if (count($mail_data) > 0)
 						{
-							$bcc = explode(",", $mailTemplate->mail_bcc);
+							$mail_data = $mail_data[0];
+							$bodytmp   = $mail_data->mail_body;
+							$subject   = $mail_data->mail_subject;
+
+							if (trim($mail_data->mail_bcc) != "")
+							{
+								$mailbcc = explode(",", $mail_data->mail_bcc);
+							}
 						}
-					}
 
-					$config    = JFactory::getConfig();
-					$from      = $config->get('mailfrom');
-					$fromName  = $config->get('fromname');
-					$recipient = $catalog->email;
+						$config    = JFactory::getConfig();
+						$from      = $config->get('mailfrom');
+						$fromname  = $config->get('fromname');
+						$recipient = $catalog_detail->email;
 
-					$body = str_replace("{name}", $catalog->name, $body);
-					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
-					$body = str_replace("{coupon_code}", $coupon_code, $body);
-					$body = $mail->imginmail($body);
+						$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
+						$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
+						$body = str_replace("{coupon_code}", $coupon_code, $body);
+						$body = $redshopMail->imginmail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
-					{
-						$q_update = "UPDATE #__redshop_catalog_request SET reminder_3 = 1 WHERE catalog_user_id = " . (int) $catalog->catalog_user_id;
-						$db->setQuery($q_update);
-						$db->execute();
+						if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
+						{
+							$q_update = "UPDATE #__redshop_catalog_request SET reminder_3 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
+							$db->setQuery($q_update);
+							$db->execute();
+						}
 					}
 				}
 			}
@@ -238,214 +247,193 @@ class RedshopHelperCron
 	 *
 	 * @return void
 	 */
-	public static function afterPurchasedOrderMail()
+	public static function after_purchased_order_mail()
 	{
-		$mail            = redshopMail::getInstance();
-		$redshopConfig   = Redconfiguration::getInstance();
-		$stockroomHelper = rsstockroomhelper::getInstance();
+		$redshopMail     = redshopMail::getInstance();
+		$redconfig       = Redconfiguration::getInstance();
+		$stockroomhelper = rsstockroomhelper::getInstance();
 		$db              = JFactory::getDbo();
 		$date            = JFactory::getDate();
-		$formattedDate   = $date->format('Y-m-d');
+		$fdate           = $date->format('Y-m-d');
 
-		$query = $db->getQuery(true)
-			->select(
-				array(
-					'o.*',
-					'CONCAT(' . $db->qn('uf.firstname') . ',\' \',' . $db->qn('uf.lastname') . ') as name',
-					$db->qn('uf.user_email', 'email')
-				)
-			)
-			->from($db->qn('#__redshop_orders', 'o'))
-			->leftJoin(
-				$db->qn('#__redshop_order_users_info', 'uf')
-				. ' ON ' . $db->qn('uf.order_id') . ' = ' . $db->qn('o.order_id')
-				. ' AND ' . $db->qn('uf.address_type') . ' = ' . $db->q('BT')
-			)
-			->where($db->qn('o.order_payment_status') . ' = ' . $db->q('Paid'))
-			->where($db->qn('o.order_status') . ' = ' . $db->q('C'));
-
-		$orders = $db->setQuery($query)->loadObjectList('order_id');
-
-		$orderIds = array_keys($orders);
-
-		if (empty($orderIds))
-		{
-			return;
-		}
-
-		$sql = $db->getQuery(true)
-			->select(
-				array(
-					$db->qn('coupon_left', 'total'),
-					$db->qn('coupon_code'),
-					$db->qn('end_date'),
-					$db->qn('order_id')
-				)
-			)
-			->from($db->qn('#__redshop_coupons'))
-			->where($db->qn('order_id') . ' IN(' . implode(',', $orderIds) . ')')
-			->where($db->qn('coupon_left') . ' != 0');
-
-		$coupons = $db->setQuery($sql)->loadObjectList('order_id');
-
-		if (empty($coupons))
-		{
-			return;
-		}
+		$query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
-		foreach ($orders as $order)
+		foreach ($data as $mail_detail)
 		{
-			$body         = "";
-			$subject      = "";
-			$orderId      = $order->order_id;
-			$bcc          = null;
-			$config       = JFactory::getConfig();
-			$from         = $config->get('mailfrom');
-			$fromName     = $config->get('fromname');
-			$startDate    = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-			$endDate      = $startDate + (DISCOUPON_DURATION * 23 * 59 * 59);
-			$validEndDate = $redshopConfig->convertDateFormat($endDate);
+			$bodytmp         = "";
+			$subject         = "";
+			$order_id        = $mail_detail->order_id;
+			$mailbcc         = null;
+			$config          = JFactory::getConfig();
+			$from            = $config->get('mailfrom');
+			$fromname        = $config->get('fromname');
+			$start_date      = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+			$end_date        = $start_date + (Redshop::getConfig()->get('DISCOUPON_DURATION') * 23 * 59 * 59);
+			$valid_end_date  = $redconfig->convertDateFormat($end_date);
+			$discoupon_value = (Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL') == 0) ? Redshop::getConfig()->get('REDCURRENCY_SYMBOL')
+				. " "
+				. number_format(Redshop::getConfig()->get('DISCOUPON_VALUE'), 2, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) : $discoupon_value = Redshop::getConfig()->get('DISCOUPON_VALUE')
+				. " %";
 
-			$couponValue = DISCOUPON_VALUE . " %";
+			$sql = "SELECT CONCAT(firstname,' ',lastname) as name,user_email as email FROM  `#__redshop_order_users_info` WHERE `order_id` =  "
+				. (int) $mail_detail->order_id . " AND `address_type` = 'BT' limit 0,1";
+			$db->setQuery($sql);
+			$orderuserarr = $db->loadObject();
 
-			if (DISCOUPON_PERCENT_OR_TOTAL == 0)
-			{
-				$couponValue = REDCURRENCY_SYMBOL . ' ' . number_format(DISCOUPON_VALUE, 2, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-			}
+			$sql = "SELECT coupon_left as total,coupon_code,end_date FROM  `#__redshop_coupons` WHERE `order_id` =  "
+				. (int) $order_id . " AND coupon_left != 0 limit 0,1";
+			$db->setQuery($sql);
+			$couponeArr = $db->loadObject();
 
-			if ($order->mail1_status != 0 || !isset($coupons[$orderId]))
+			if (count($couponeArr) <= 0 && $mail_detail->mail1_status != 0)
 			{
 				continue;
 			}
 
-			$total         = $coupons[$orderId]->total;
-			$coupon_code   = $coupons[$orderId]->coupon_code;
-			$couponEndDate = $coupons[$orderId]->end_date;
+			$coupon_code = '';
+			$total       = 0;
+			$cend_date   = '';
 
-			$recipient = $order->email;
-			$name      = $order->name;
-
-			if ($order->mail1_status == 0 && (DAYS_MAIL1 != 0 || DAYS_MAIL1 != ''))
+			if (count($couponeArr))
 			{
-				$sendDate      = date("Y-m-d", $order->cdate + (DAYS_MAIL1 * (60 * 60 * 24)));
-				$firstMailData = $mail->getMailtemplate(0, "first_mail_after_order_purchased");
+				$total       = $couponeArr->total;
+				$coupon_code = $couponeArr->coupon_code;
+				$cend_date   = $couponeArr->end_date;
+			}
 
-				if (count($firstMailData) > 0)
+			$name        = "";
+			$recipient   = "";
+
+			if (isset($orderuserarr))
+			{
+				$recipient = $orderuserarr->email;
+				$name      = $orderuserarr->name;
+			}
+
+			if ($mail_detail->mail1_status == 0 && (DAYS_MAIL1 != 0 || DAYS_MAIL1 != ''))
+			{
+				$send_date      = date("Y-m-d", $mail_detail->cdate + (DAYS_MAIL1 * (60 * 60 * 24)));
+				$firstmail_data = $redshopMail->getMailtemplate(0, "first_mail_after_order_purchased");
+
+				if (count($firstmail_data) > 0)
 				{
-					$body    = $firstMailData[0]->mail_body;
-					$subject = $firstMailData[0]->mail_subject;
+					$bodytmp = $firstmail_data[0]->mail_body;
+					$subject = $firstmail_data[0]->mail_subject;
 
-					if (trim($firstMailData[0]->mail_bcc) != "")
+					if (trim($firstmail_data[0]->mail_bcc) != "")
 					{
-						$bcc = explode(",", $firstMailData[0]->mail_bcc);
+						$mailbcc = explode(",", $firstmail_data[0]->mail_bcc);
 					}
 				}
 
-				$jPathUrl = '<a href="' . JUri::root() . '">' . JUri::root() . '</a>';
-				$body     = str_replace("{name}", $name, $body);
-				$body     = str_replace("{url}", $jPathUrl, $body);
-				$body     = str_replace("{coupon_amount}", $couponValue, $body);
+				$jpathurl = '<a href="' . JURI::root() . '">' . JURI::root() . '</a>';
+				$body     = str_replace("{name}", $name, $bodytmp);
+				$body     = str_replace("{url}", $jpathurl, $body);
+				$body     = str_replace("{coupon_amount}", $discoupon_value, $body);
 
-				if ($formattedDate == $sendDate)
+				if ($fdate == $send_date)
 				{
-					$token = substr(md5(uniqid(mt_rand(), true)), 0, 10);
-					$body  = str_replace("{coupon_code}", $token, $body);
-					$body  = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body  = $mail->imginmail($body);
+					$better_token = md5(uniqid(mt_rand(), true));
+					$token        = substr($better_token, 0, 10);
+					$body         = str_replace("{coupon_code}", $token, $body);
+					$body         = str_replace("{coupon_duration}", $valid_end_date, $body);
+					$body = $redshopMail->imginmail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
 						$couponItems                   = JTable::getInstance('coupon_detail', 'Table');
 						$couponItems->coupon_code      = $token;
-						$couponItems->percent_or_total = DISCOUPON_PERCENT_OR_TOTAL;
-						$couponItems->coupon_value     = DISCOUPON_VALUE;
-						$couponItems->start_date       = $startDate;
-						$couponItems->end_date         = $endDate;
+						$couponItems->percent_or_total = Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL');
+						$couponItems->coupon_value     = Redshop::getConfig()->get('DISCOUPON_VALUE');
+						$couponItems->start_date       = $start_date;
+						$couponItems->end_date         = $end_date;
 						$couponItems->coupon_type      = 1;
-						$couponItems->userid           = $order->user_id;
+						$couponItems->userid           = $mail_detail->user_id;
 						$couponItems->coupon_left      = 1;
 						$couponItems->published        = 1;
-						$couponItems->order_id         = $orderId;
+						$couponItems->order_id         = $order_id;
 						$couponItems->store();
 
-						$q_update = "UPDATE #__redshop_orders SET mail1_status = 1 WHERE order_id = " . $orderId;
+						$q_update = "UPDATE #__redshop_orders SET mail1_status = 1 WHERE order_id = " . $order_id;
 						$db->setQuery($q_update);
 						$db->execute();
 					}
 				}
 			}
-			elseif ($order->mail2_status == 0 && (DAYS_MAIL2 != 0 || DAYS_MAIL2 != '') && $total != 0)
+			elseif ($mail_detail->mail2_status == 0 && (DAYS_MAIL2 != 0 || DAYS_MAIL2 != '') && $total != 0)
 			{
-				$sendDate       = date("Y-m-d", $order->cdate + (DAYS_MAIL2 * (59 * 59 * 23)));
-				$secondMailData = $mail->getMailtemplate(0, "second_mail_after_order_purchased");
+				$send_date    = date("Y-m-d", $mail_detail->cdate + (DAYS_MAIL2 * (59 * 59 * 23)));
+				$secmail_data = $redshopMail->getMailtemplate(0, "second_mail_after_order_purchased");
 
-				if (count($secondMailData) > 0)
+				if (count($secmail_data) > 0)
 				{
-					$body    = $secondMailData[0]->mail_body;
-					$subject = $secondMailData[0]->mail_subject;
+					$bodytmp = $secmail_data[0]->mail_body;
+					$subject = $secmail_data[0]->mail_subject;
 
-					if (trim($secondMailData[0]->mail_bcc) != "")
+					if (trim($secmail_data[0]->mail_bcc) != "")
 					{
-						$bcc = explode(",", $secondMailData[0]->mail_bcc);
+						$mailbcc = explode(",", $secmail_data[0]->mail_bcc);
 					}
 				}
 
-				$days     = $stockroomHelper->getdatediff($couponEndDate, $startDate);
-				$jPathUrl = '<a href="' . JUri::root() . '">' . JUri::root() . '</a>';
-				$body     = str_replace("{name}", $name, $body);
-				$body     = str_replace("{url}", $jPathUrl, $body);
-				$body     = str_replace("{coupon_amount}", $couponValue, $body);
+				$days     = $stockroomhelper->getdatediff($cend_date, $start_date);
+				$jpathurl = '<a href="' . JURI::root() . '">' . JURI::root() . '</a>';
+				$body     = str_replace("{name}", $name, $bodytmp);
+				$body     = str_replace("{url}", $jpathurl, $body);
+				$body     = str_replace("{coupon_amount}", $discoupon_value, $body);
 
-				if ($days && $formattedDate == $sendDate)
+				if ($days && $fdate == $send_date)
 				{
-					$validEndDate = $redshopConfig->convertDateFormat($couponEndDate);
-					$body         = str_replace("{coupon_code}", $coupon_code, $body);
-					$body         = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body         = $mail->imginmail($body);
+					$valid_end_date = $redconfig->convertDateFormat($cend_date);
+					$body           = str_replace("{coupon_code}", $coupon_code, $body);
+					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
+					$body = $redshopMail->imginmail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
-						$q_update = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $orderId;
+						$q_update = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
 						$db->setQuery($q_update);
 						$db->execute();
 					}
 				}
 			}
-			elseif ($order->mail3_status == 0 && (DAYS_MAIL3 != 0 || DAYS_MAIL3 != '') && $total != 0)
+			elseif ($mail_detail->mail3_status == 0 && (DAYS_MAIL3 != 0 || DAYS_MAIL3 != '') && $total != 0)
 			{
 				// Coupon reminder
-				$thirdMailData = $mail->getMailtemplate(0, "third_mail_after_order_purchased");
+				$thrdmail_data = $redshopMail->getMailtemplate(0, "third_mail_after_order_purchased");
 
-				if (count($thirdMailData) > 0)
+				if (count($thrdmail_data) > 0)
 				{
-					$body    = $thirdMailData[0]->mail_body;
-					$subject = $thirdMailData[0]->mail_subject;
+					$bodytmp = $thrdmail_data[0]->mail_body;
+					$subject = $thrdmail_data[0]->mail_subject;
 
-					if (trim($thirdMailData[0]->mail_bcc) != "")
+					if (trim($thrdmail_data[0]->mail_bcc) != "")
 					{
-						$bcc = explode(",", $thirdMailData[0]->mail_bcc);
+						$mailbcc = explode(",", $thrdmail_data[0]->mail_bcc);
 					}
 				}
 
-				$sendDate = date("Y-m-d", $order->cdate + (DAYS_MAIL3 * (60 * 60 * 24)));
-				$days     = $stockroomHelper->getdatediff($couponEndDate, $startDate);
-				$jPathUrl = '<a href="' . JUri::root() . '">' . JUri::root() . '</a>';
-				$body     = str_replace("{name}", $name, $body);
-				$body     = str_replace("{url}", $jPathUrl, $body);
-				$body     = str_replace("{coupon_amount}", $couponValue, $body);
+				$send_date = date("Y-m-d", $mail_detail->cdate + (DAYS_MAIL3 * (60 * 60 * 24)));
+				$days      = $stockroomhelper->getdatediff($cend_date, $start_date);
+				$jpathurl  = '<a href="' . JURI::root() . '">' . JURI::root() . '</a>';
+				$body      = str_replace("{name}", $name, $bodytmp);
+				$body      = str_replace("{url}", $jpathurl, $body);
+				$body      = str_replace("{coupon_amount}", $discoupon_value, $body);
 
-				if ($days && $formattedDate == $sendDate)
+				if ($days && $fdate == $send_date)
 				{
-					$validEndDate = $redshopConfig->convertDateFormat($couponEndDate);
-					$body         = str_replace("{coupon_code}", $coupon_code, $body);
-					$body         = str_replace("{coupon_duration}", $validEndDate, $body);
-					$body         = $mail->imginmail($body);
+					$valid_end_date = $redconfig->convertDateFormat($cend_date);
+					$body           = str_replace("{coupon_code}", $coupon_code, $body);
+					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
+					$body = $redshopMail->imginmail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
-						$q_update = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $orderId;
+						$q_update = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
 						$db->setQuery($q_update);
 						$db->execute();
 					}
@@ -459,138 +447,143 @@ class RedshopHelperCron
 	 *
 	 * @return void
 	 */
-	public static function colorMail()
+	public static function color_mail()
 	{
-		$date          = JFactory::getDate();
-		$mail          = redshopMail::getInstance();
-		$formattedDate = $date->format('Y-m-d');
+		$date        = JFactory::getDate();
+		$redshopMail = redshopMail::getInstance();
+		$today       = time();
 
-		$db = JFactory::getDbo();
+		$fdate = $date->format('Y-m-d');
+
+		$db = $db = JFactory::getDbo();
 
 		$query = "SELECT * FROM #__redshop_sample_request where block = 0 ";
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
-		foreach ($data as $sample)
+		foreach ($data as $color_detail)
 		{
-			if ($sample->reminder_1 == 0)
+			if ($color_detail->reminder_1 == 0)
 			{
-				$sendDate = $sample->registerdate + (COLOUR_SAMPLE_REMAINDER_1 * (60));
+				$send_date = $color_detail->registerdate + (Redshop::getConfig()->get('COLOUR_SAMPLE_REMAINDER_1') * (60));
 
-				if (time() >= $sendDate)
+				if ($today >= $send_date)
 				{
-					$body         = "";
-					$subject      = "";
-					$bcc          = null;
-					$mailTemplate = $mail->getMailtemplate(0, 'colour_sample_first_reminder');
+					$bodytmp   = "";
+					$subject   = "";
+					$mailbcc   = null;
+					$mail_data = $redshopMail->getMailtemplate(0, 'colour_sample_first_reminder');
 
-					if (count($mailTemplate) > 0)
+					if (count($mail_data) > 0)
 					{
-						$mailTemplate = $mailTemplate[0];
-						$body         = $mailTemplate->mail_body;
-						$subject      = $mailTemplate->mail_subject;
+						$mail_data = $mail_data[0];
+						$bodytmp   = $mail_data->mail_body;
+						$subject   = $mail_data->mail_subject;
 
-						if (trim($mailTemplate->mail_bcc) != "")
+						if (trim($mail_data->mail_bcc) != "")
 						{
-							$bcc = explode(",", $mailTemplate->mail_bcc);
+							$mailbcc = explode(",", $mail_data->mail_bcc);
 						}
 					}
 
 					$config    = JFactory::getConfig();
 					$from      = $config->get('mailfrom');
-					$fromName  = $config->get('fromname');
-					$recipient = $sample->email;
+					$fromname  = $config->get('fromname');
+					$recipient = $color_detail->email;
 
-					$body = str_replace("{name}", $sample->name, $body);
-					$body = $mail->imginmail($body);
+					$body = str_replace("{name}", $color_detail->name, $bodytmp);
+					$body = $redshopMail->imginmail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
-						$q_update = "UPDATE #__redshop_sample_request SET reminder_1 = 1 WHERE request_id  = " . (int) $sample->request_id;
+						$q_update = "UPDATE #__redshop_sample_request SET reminder_1 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
 						$db->execute();
 					}
 				}
 			}
 
-			if ($sample->reminder_2 == 0)
+			if ($color_detail->reminder_2 == 0)
 			{
-				$sendDate = date("Y-m-d", $sample->registerdate + (COLOUR_SAMPLE_REMAINDER_2 * (60 * 60 * 24)));
+				$send_date = date("Y-m-d", $color_detail->registerdate + (Redshop::getConfig()->get('COLOUR_SAMPLE_REMAINDER_2') * (60 * 60 * 24)));
 
-				if ($formattedDate == $sendDate)
+				if ($fdate == $send_date)
 				{
-					$body         = "";
-					$subject      = "";
-					$bcc          = null;
-					$mailTemplate = $mail->getMailtemplate(0, 'colour_sample_second_reminder');
+					$bodytmp   = "";
+					$subject   = "";
+					$mailbcc   = null;
+					$mail_data = $redshopMail->getMailtemplate(0, 'colour_sample_second_reminder');
 
-					if (count($mailTemplate) > 0)
+					if (count($mail_data) > 0)
 					{
-						$mailTemplate = $mailTemplate[0];
-						$body         = $mailTemplate->mail_body;
-						$subject      = $mailTemplate->mail_subject;
+						$mail_data = $mail_data[0];
+						$bodytmp   = $mail_data->mail_body;
+						$subject   = $mail_data->mail_subject;
 
-						if (trim($mailTemplate->mail_bcc) != "")
+						if (trim($mail_data->mail_bcc) != "")
 						{
-							$bcc = explode(",", $mailTemplate->mail_bcc);
+							$mailbcc = explode(",", $mail_data->mail_bcc);
 						}
 					}
 
 					$config    = JFactory::getConfig();
 					$from      = $config->get('mailfrom');
-					$fromName  = $config->get('fromname');
-					$recipient = $sample->email;
+					$fromname  = $config->get('fromname');
+					$recipient = $color_detail->email;
 
-					$body = str_replace("{name}", $sample->name, $body);
-					$body = $mail->imginmail($body);
+					$body = str_replace("{name}", $color_detail->name, $bodytmp);
+					$body = $redshopMail->imginmail($body);
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
-						$q_update = "UPDATE #__redshop_sample_request SET reminder_2 = 1 WHERE request_id  = " . (int) $sample->request_id;
+						$q_update = "UPDATE #__redshop_sample_request SET reminder_2 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
 						$db->execute();
 					}
 				}
 			}
 
-			if ($sample->reminder_3 == 0)
+			if ($color_detail->reminder_3 == 0)
 			{
-				$sendDate = date("Y-m-d", $sample->registerdate + (COLOUR_SAMPLE_REMAINDER_3 * (60 * 60 * 24)));
-				$token    = substr(md5(uniqid(mt_rand(), true)), 0, 10);
+				$send_date = date("Y-m-d", $color_detail->registerdate + (Redshop::getConfig()->get('COLOUR_SAMPLE_REMAINDER_3') * (60 * 60 * 24)));
 
-				$startDate = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+				$better_token = md5(uniqid(mt_rand(), true));
 
-				$endDate = $startDate + (COLOUR_COUPON_DURATION * 23 * 59 * 59);
+				$token = substr($better_token, 0, 10);
 
-				if ($formattedDate == $sendDate)
+				$start_date = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+
+				$end_date = $start_date + (Redshop::getConfig()->get('COLOUR_COUPON_DURATION') * 23 * 59 * 59);
+
+				if ($fdate == $send_date)
 				{
-					$body         = "";
-					$subject      = "";
-					$bcc          = null;
-					$mailTemplate = $mail->getMailtemplate(0, 'colour_sample_third_reminder');
+					$bodytmp   = "";
+					$subject   = "";
+					$mailbcc   = null;
+					$mail_data = $redshopMail->getMailtemplate(0, 'colour_sample_third_reminder');
 
-					if (count($mailTemplate) > 0)
+					if (count($mail_data) > 0)
 					{
-						$mailTemplate = $mailTemplate[0];
-						$body         = $mailTemplate->mail_body;
-						$subject      = $mailTemplate->mail_subject;
+						$mail_data = $mail_data[0];
+						$bodytmp   = $mail_data->mail_body;
+						$subject   = $mail_data->mail_subject;
 
-						if (trim($mailTemplate->mail_bcc) != "")
+						if (trim($mail_data->mail_bcc) != "")
 						{
-							$bcc = explode(",", $mailTemplate->mail_bcc);
+							$mailbcc = explode(",", $mail_data->mail_bcc);
 						}
 					}
 
 					$config    = JFactory::getConfig();
 					$from      = $config->get('mailfrom');
-					$fromName  = $config->get('fromname');
-					$recipient = $sample->email;
+					$fromname  = $config->get('fromname');
+					$recipient = $color_detail->email;
 
-					$body = str_replace("{name}", $sample->name, $body);
-					$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
-					$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
+					$body = str_replace("{name}", $color_detail->name, $bodytmp);
+					$body = str_replace("{days}", Redshop::getConfig()->get('COLOUR_COUPON_DURATION'), $body);
+					$body = str_replace("{discount}", Redshop::getConfig()->get('COLOUR_DISCOUNT_PERCENTAGE'), $body);
 					$body = str_replace("{coupon_code}", $token, $body);
-					$body = $mail->imginmail($body);
+					$body = $redshopMail->imginmail($body);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
@@ -598,15 +591,15 @@ class RedshopHelperCron
 					if ($uid = $db->loadResult())
 					{
 						$sql = "INSERT INTO  #__redshop_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`)
-										VALUES (" . $db->quote($token) . ", '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($startDate) . ", " . $db->quote($endDate) . ", '1', '" . (int) $uid . "', '1')";
+										VALUES (" . $db->quote($token) . ", '1', '" . Redshop::getConfig()->get('DISCOUNT_PERCENTAGE') . "', " . $db->quote($start_date) . ", " . $db->quote($end_date) . ", '1', '" . (int) $uid . "', '1')";
 
 						$db->setQuery($sql);
 						$db->execute();
 					}
 
-					if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
-						$q_update = "UPDATE #__redshop_sample_request SET reminder_3 = 1 WHERE request_id  = " . (int) $sample->request_id;
+						$q_update = "UPDATE #__redshop_sample_request SET reminder_3 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
 						$db->execute();
 					}
@@ -614,11 +607,11 @@ class RedshopHelperCron
 			}
 			else
 			{
-				if ($sample->reminder_coupon == 0)
+				if ($color_detail->reminder_coupon == 0)
 				{
-					$sendDate = date("Y-m-d", $sample->registerdate + (4 * (60 * 60 * 24)));
+					$send_date = date("Y-m-d", $color_detail->registerdate + (4 * (60 * 60 * 24)));
 
-					$sql = "select id FROM #__users where email = " . $db->quote($sample->email);
+					$sql = "select id FROM #__users where email = " . $db->quote($color_detail->email);
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
@@ -626,39 +619,39 @@ class RedshopHelperCron
 					$db->setQuery($sql);
 					$coupon_code = $db->loadResult();
 
-					if ($formattedDate == $sendDate)
+					if ($fdate == $send_date)
 					{
-						$body         = "";
-						$subject      = "";
-						$bcc          = null;
-						$mailTemplate = $mail->getMailtemplate(0, 'colour_sample_third_reminder');
+						$bodytmp   = "";
+						$subject   = "";
+						$mailbcc   = null;
+						$mail_data = $redshopMail->getMailtemplate(0, 'colour_sample_third_reminder');
 
-						if (count($mailTemplate) > 0)
+						if (count($mail_data) > 0)
 						{
-							$mailTemplate = $mailTemplate[0];
-							$body         = $mailTemplate->mail_body;
-							$subject      = $mailTemplate->mail_subject;
+							$mail_data = $mail_data[0];
+							$bodytmp   = $mail_data->mail_body;
+							$subject   = $mail_data->mail_subject;
 
-							if (trim($mailTemplate->mail_bcc) != "")
+							if (trim($mail_data->mail_bcc) != "")
 							{
-								$bcc = explode(",", $mailTemplate->mail_bcc);
+								$mailbcc = explode(",", $mail_data->mail_bcc);
 							}
 						}
 
 						$config    = JFactory::getConfig();
 						$from      = $config->get('mailfrom');
-						$fromName  = $config->get('fromname');
-						$recipient = $sample->email;
+						$fromname  = $config->get('fromname');
+						$recipient = $color_detail->email;
 
-						$body = str_replace("{name}", $sample->name, $body);
-						$body = str_replace("{days}", COLOUR_COUPON_DURATION, $body);
-						$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
+						$body = str_replace("{name}", $color_detail->name, $bodytmp);
+						$body = str_replace("{days}", Redshop::getConfig()->get('COLOUR_COUPON_DURATION'), $body);
+						$body = str_replace("{discount}", Redshop::getConfig()->get('COLOUR_DISCOUNT_PERCENTAGE'), $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
-						$body = $mail->imginmail($body);
+						$body = $redshopMail->imginmail($body);
 
-						if (JFactory::getMailer()->sendMail($from, $fromName, $recipient, $subject, $body, $mode = 1, null, $bcc))
+						if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 						{
-							$q_update = "UPDATE #__redshop_sample_request SET reminder_coupon = 1 WHERE request_id  = " . (int) $sample->request_id;
+							$q_update = "UPDATE #__redshop_sample_request SET reminder_coupon = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 							$db->setQuery($q_update);
 							$db->execute();
 						}
@@ -673,11 +666,11 @@ class RedshopHelperCron
 	 *
 	 * @return void
 	 */
-	public static function subscriptionRenewalMail()
+	public static function subscription_renewal_mail()
 	{
-		$db    = $db = JFactory::getDbo();
-		$mail  = redshopMail::getInstance();
-		$query = "SELECT ps.* FROM #__redshop_product_subscribe_detail AS ps"
+		$db          = $db = JFactory::getDbo();
+		$redshopMail = redshopMail::getInstance();
+		$query       = "SELECT ps.* FROM #__redshop_product_subscribe_detail AS ps"
 			. " ,#__redshop_subscription_renewal AS r"
 			. " WHERE r.product_id = ps.product_id AND r.before_no_days >= DATEDIFF(FROM_UNIXTIME( ps.end_date ),curdate())"
 			. " AND ps.renewal_reminder = 1";
@@ -687,7 +680,7 @@ class RedshopHelperCron
 		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			// Subscription renewal mail
-			$mail->sendSubscriptionRenewalMail($data[$i]);
+			$redshopMail->sendSubscriptionRenewalMail($data[$i]);
 
 			// Update mail sent field to 0
 			$update_query = "UPDATE #__redshop_product_subscribe_detail "

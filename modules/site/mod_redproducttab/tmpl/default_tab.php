@@ -54,13 +54,13 @@ $j     = 0;
 		</p>
 
 		<?php
-		if (!$row->not_for_sale && $show_price && !USE_AS_CATALOG)
+		if (!$row->not_for_sale && $show_price && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$productArr             = $producthelper->getProductNetPrice($row->product_id);
 			$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
-			if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+			if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 			{
 				if (!$product_price)
 				{
@@ -131,7 +131,7 @@ $j     = 0;
 			$hidden_userfield    = "";
 			$userfieldArr        = array();
 
-			if (AJAX_CART_BOX)
+			if (Redshop::getConfig()->get('AJAX_CART_BOX'))
 			{
 				$ajax_detail_template_desc = "";
 				$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($row);

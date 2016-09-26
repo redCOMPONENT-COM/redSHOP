@@ -114,7 +114,7 @@ class redshopMail
 		$fromname = $config->get('fromname');
 		$user = JFactory::getUser();
 
-		if (USE_AS_CATALOG)
+		if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
 			$mailinfo = $this->getMailtemplate(0, "catalogue_order");
 		}
@@ -205,18 +205,6 @@ class redshopMail
 
 		$search[]        = "{discount_type}";
 		$replace[]       = $discount_type;
-		$split_amount    = 0;
-
-		$issplitdisplay  = '';
-		$issplitdisplay2 = '';
-
-		if ($row->split_payment)
-		{
-			$issplitdisplay = "<br/>" . JText::_('COM_REDSHOP_RECEIPT_PARTIALLY_PAID_AMOUNT') . ": "
-				. $producthelper->getProductFormattedPrice($split_amount);
-			$issplitdisplay2 = "<br/>" . JText::_('COM_REDSHOP_REMAINING_PARTIALLY_AMOUNT') . ": "
-				. $producthelper->getProductFormattedPrice($split_amount);
-		}
 
 		$orderdetailurl   = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $order_id . '&encr=' . $row->encr_key;
 		$search[]         = "{order_detail_link}";
@@ -237,7 +225,7 @@ class redshopMail
 		$search_sub[]  = "{order_number}";
 		$replace_sub[] = $row->order_number;
 		$search_sub[]  = "{shopname}";
-		$replace_sub[] = SHOP_NAME;
+		$replace_sub[] = Redshop::getConfig()->get('SHOP_NAME');
 		$search_sub[]  = "{order_date}";
 		$replace_sub[] = $redconfig->convertDateFormat($row->cdate);
 		$subject       = str_replace($search_sub, $replace_sub, $subject);
@@ -252,7 +240,7 @@ class redshopMail
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 
-			$bcc      = (trim(ADMINISTRATOR_EMAIL) != '') ? explode(",", trim(ADMINISTRATOR_EMAIL)) : array();
+			$bcc      = (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '') ? explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'))) : array();
 			$bcc      = array_merge($bcc, $mailbcc);
 			$fullname = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 
@@ -298,7 +286,7 @@ class redshopMail
 			return true;
 		}
 
-		if (MANUFACTURER_MAIL_ENABLE)
+		if (Redshop::getConfig()->get('MANUFACTURER_MAIL_ENABLE'))
 		{
 			sort($manufacturer_email);
 
@@ -311,7 +299,7 @@ class redshopMail
 			}
 		}
 
-		if (SUPPLIER_MAIL_ENABLE)
+		if (Redshop::getConfig()->get('SUPPLIER_MAIL_ENABLE'))
 		{
 			sort($supplier_email);
 
@@ -325,7 +313,7 @@ class redshopMail
 		}
 
 		// Invoice mail send
-		if (INVOICE_MAIL_ENABLE && $row->order_payment_status == "Paid")
+		if (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE') && $row->order_payment_status == "Paid")
 		{
 			$this->sendInvoiceMail($order_id);
 		}
@@ -367,7 +355,7 @@ class redshopMail
 
 		// Set order paymethod name
 		$search[]       = "{shopname}";
-		$replace[]      = SHOP_NAME;
+		$replace[]      = Redshop::getConfig()->get('SHOP_NAME');
 		$search[]       = "{payment_lbl}";
 		$replace[]      = JText::_('COM_REDSHOP_PAYMENT_METHOD');
 		$search[]       = "{payment_method}";
@@ -408,14 +396,14 @@ class redshopMail
 		{
 			$bcc = null;
 
-			if (trim(ADMINISTRATOR_EMAIL) != '')
+			if (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '')
 			{
-				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
+				$bcc = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			}
 
 			$bcc = array_merge($bcc, $mailbcc);
 
-			if (SPECIAL_DISCOUNT_MAIL_SEND == '1')
+			if (Redshop::getConfig()->get('SPECIAL_DISCOUNT_MAIL_SEND') == '1')
 			{
 				if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 				{
@@ -424,7 +412,7 @@ class redshopMail
 			}
 		}
 
-		if (MANUFACTURER_MAIL_ENABLE)
+		if (Redshop::getConfig()->get('MANUFACTURER_MAIL_ENABLE'))
 		{
 			sort($manufacturer_email);
 
@@ -580,7 +568,7 @@ class redshopMail
 		$search_sub[]     = "{invoice_number}";
 		$replace_sub[]    = $row->invoice_number;
 		$search_sub[]     = "{shopname}";
-		$replace_sub[]    = SHOP_NAME;
+		$replace_sub[]    = Redshop::getConfig()->get('SHOP_NAME');
 
 		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
@@ -685,7 +673,7 @@ class redshopMail
 		$email            = $billingaddresses->user_email;
 		$mailBody = $this->imginmail($mailBody);
 
-		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
+		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 2 || Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3) && $email != "")
 		{
 			if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $mailBody, 1, null, $mailbcc, $invoiceAttachment))
 			{
@@ -695,9 +683,9 @@ class redshopMail
 			}
 		}
 
-		if ((INVOICE_MAIL_SEND_OPTION == 1 || INVOICE_MAIL_SEND_OPTION == 3) && ADMINISTRATOR_EMAIL != '')
+		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 1 || Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3) && Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
-			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
+			$sendto = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 
 			if (!JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $mailBody, 1, null, $mailbcc, $invoiceAttachment))
 			{
@@ -755,7 +743,7 @@ class redshopMail
 		$search[]  = "{email}";
 		$search[]  = '{account_link}';
 
-		$replace[] = SHOP_NAME;
+		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 		$replace[] = $data['firstname'];
 		$replace[] = $data['lastname'];
 		$replace[] = $data['firstname'] . " " . $data['lastname'];
@@ -780,9 +768,9 @@ class redshopMail
 
 		if ($mailbody && $data['email'] != "")
 		{
-			if (trim(ADMINISTRATOR_EMAIL) != '')
+			if (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '')
 			{
-				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
+				$bcc = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			}
 
 			$bcc = array_merge($bcc, $mailbcc);
@@ -790,7 +778,7 @@ class redshopMail
 		}
 
 		// Tax exempt waiting approval mail
-		if (USE_TAX_EXEMPT && $post['tax_exempt'] == 1)
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT') && $post['tax_exempt'] == 1)
 		{
 			$this->sendTaxExemptMail("tax_exempt_waiting_approval_mail", $post, $bcc);
 		}
@@ -800,7 +788,7 @@ class redshopMail
 
 	public function sendTaxExemptMail($section, $userinfo = array(), $email = "")
 	{
-		if (USE_TAX_EXEMPT)
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT'))
 		{
 			$app          = JFactory::getApplication();
 
@@ -835,7 +823,7 @@ class redshopMail
 			$search[]  = "{country}";
 			$search[]  = "{phone}";
 			$replace[] = $userinfo['username'];
-			$replace[] = SHOP_NAME;
+			$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 			$replace[] = $userinfo['firstname'] . ' ' . $userinfo['lastname'];
 
 			if ($userinfo['is_company'] == 1)
@@ -921,7 +909,7 @@ class redshopMail
 		$search[]  = "{subscription_price}";
 		$search[]  = "{product_link}";
 
-		$replace[] = SHOP_NAME;
+		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 		$replace[] = $firstname;
 		$replace[] = $lastname;
 		$replace[] = $product->product_name;
@@ -1092,17 +1080,17 @@ class redshopMail
 				}
 				else
 				{
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 					{
-						$product_image_path = PRODUCT_DEFAULT_IMAGE;
+						$product_image_path = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					}
 				}
 			}
 			else
 			{
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
+				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
-					$product_image_path = PRODUCT_DEFAULT_IMAGE;
+					$product_image_path = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 				}
 			}
 
@@ -1113,9 +1101,9 @@ class redshopMail
 								'',
 								'thumb',
 								'product',
-								CART_THUMB_WIDTH,
-								CART_THUMB_HEIGHT,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('CART_THUMB_WIDTH'),
+								Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 				$product_image = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";
 			}
@@ -1158,7 +1146,7 @@ class redshopMail
 			$cart_mdata = $producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray);
 
 			// ProductFinderDatepicker Extra Field End
-			if ($row->quotation_status == 1 && !SHOW_QUOTATION_PRICE)
+			if ($row->quotation_status == 1 && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 			{
 				$cart_mdata = str_replace("{product_price_excl_vat}", "", $cart_mdata);
 				$cart_mdata = str_replace("{product_price}", " ", $cart_mdata);
@@ -1182,7 +1170,7 @@ class redshopMail
 		$search[]  = "{quotation_note}";
 		$replace[] = $row->quotation_note;
 		$search[]  = "{shopname}";
-		$replace[] = SHOP_NAME;
+		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 		$search[]  = "{quotation_id}";
 		$replace[] = $row->quotation_id;
 		$search[]  = "{quotation_number}";
@@ -1224,7 +1212,7 @@ class redshopMail
 		$subtotal_lbl = '';
 		$vat_lbl      = '';
 
-		if ($row->quotation_status != 1 || ($row->quotation_status == 1 && SHOW_QUOTATION_PRICE))
+		if ($row->quotation_status != 1 || ($row->quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 		{
 			$total_lbl    = JText::_('COM_REDSHOP_TOTAL_LBL');
 			$subtotal_lbl = JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL');
@@ -1240,7 +1228,7 @@ class redshopMail
 
 		$replace[] = $row->quotation_note;
 
-		if ($row->quotation_status == 1 && !SHOW_QUOTATION_PRICE)
+		if ($row->quotation_status == 1 && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 		{
 			$quotation_subtotal = " ";
 			$quotation_total = " ";
@@ -1252,17 +1240,17 @@ class redshopMail
 		{
 			$tax = $row->quotation_tax;
 
-			if ((float) VAT_RATE_AFTER_DISCOUNT)
+			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 			{
-				$Discountvat             = ((float) VAT_RATE_AFTER_DISCOUNT * $row->quotation_discount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+				$Discountvat             = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $row->quotation_discount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 				$row->quotation_discount = $row->quotation_discount - $Discountvat;
 				$tax                     = $tax - $Discountvat;
 			}
 
-			if ((float) VAT_RATE_AFTER_DISCOUNT)
+			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 			{
 				$sp_discount             = ($row->quotation_special_discount * ($row->quotation_subtotal + $row->quotation_tax)) / 100;
-				$Discountspvat           = ($sp_discount * (float) VAT_RATE_AFTER_DISCOUNT) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+				$Discountspvat           = ($sp_discount * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 				$DiscountspWithotVat     = $sp_discount - $Discountspvat;
 				$row->quotation_discount = $row->quotation_discount + $DiscountspWithotVat;
 				$tax                     = $tax - $Discountspvat;
@@ -1316,9 +1304,9 @@ class redshopMail
 		{
 			$bcc = array();
 
-			if (trim(ADMINISTRATOR_EMAIL) != '')
+			if (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '')
 			{
-				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
+				$bcc = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			}
 
 			$bcc = array_merge($bcc, $mailbcc);
@@ -1339,7 +1327,7 @@ class redshopMail
 
 	public function sendNewsletterConfirmationMail($subscription_id)
 	{
-		if (NEWSLETTER_CONFIRMATION)
+		if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION'))
 		{
 			$config   = JFactory::getConfig();
 			$url      = JURI::root();
@@ -1374,7 +1362,7 @@ class redshopMail
 
 			$search[]  = "{shopname}";
 
-			$replace[] = SHOP_NAME;
+			$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 
 			$search[]  = "{link}";
 
@@ -1431,7 +1419,7 @@ class redshopMail
 
 		$search[]  = "{shopname}";
 
-		$replace[] = SHOP_NAME;
+		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 
 		$subject   = str_replace($search, $replace, $subject);
 
@@ -1475,7 +1463,7 @@ class redshopMail
 			$ans        = $ans[0];
 			$fromname   = $ans->user_name;
 			$from       = $ans->user_email;
-			$email      = explode(",", trim(ADMINISTRATOR_EMAIL));
+			$email      = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			$question   = $ans->question;
 			$answer     = "";
 			$telephone  = "";
@@ -1515,7 +1503,7 @@ class redshopMail
 			$data_add    = str_replace("{user_address}", $address, $data_add);
 			$data_add    = str_replace("{user_telephone}", $telephone, $data_add);
 			$subject     = str_replace("{user_question}", $question, $subject);
-			$subject     = str_replace("{shopname}", SHOP_NAME, $subject);
+			$subject     = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $subject);
 			$subject     = str_replace("{product_name}", $product->product_name, $subject);
 			$data_add = $this->imginmail($data_add);
 
@@ -1593,9 +1581,9 @@ class redshopMail
 			JFactory::getMailer()->sendMail($from, $fromname, $user_billinginfo->user_email, $subject, $data_add, 1, null, $mailbcc, $attachment);
 		}
 
-		if (ADMINISTRATOR_EMAIL != '')
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
-			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
+			$sendto = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc, $attachment);
 		}
 
@@ -1604,7 +1592,7 @@ class redshopMail
 
 	public function sendRequestTaxExemptMail($data, $username = "")
 	{
-		if (ADMINISTRATOR_EMAIL != '')
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
 			$mailinfo = $this->getMailtemplate(0, "request_tax_exempt_mail");
 			$data_add = "";
@@ -1640,7 +1628,7 @@ class redshopMail
 			$data_add = str_replace("{city}", $data->city, $data_add);
 			$data_add = $this->imginmail($data_add);
 
-			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
+			$sendto = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 			JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc);
 		}
 	}

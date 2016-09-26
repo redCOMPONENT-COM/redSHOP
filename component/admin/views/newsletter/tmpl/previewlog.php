@@ -28,7 +28,7 @@ $newsletter_id = JRequest::getVar('newsletter_id');
 		return null;
 	}
 	window.onload = function () {
-		setTimeout('sendrsNewsletter()', <?php echo (NEWSLETTER_MAIL_PAUSE_TIME*1000);?>);
+		setTimeout('sendrsNewsletter()', <?php echo (Redshop::getConfig()->get('NEWSLETTER_MAIL_PAUSE_TIME')*1000);?>);
 	}
 	//function submitform()
 	//{
@@ -63,7 +63,7 @@ $newsletter_id = JRequest::getVar('newsletter_id');
 					if (newlog != "") {
 						var log = document.getElementById('divpreviewlog').innerHTML;
 						document.getElementById('divpreviewlog').innerHTML = log + newlog;
-						setTimeout('sendrsNewsletter()', <?php echo (NEWSLETTER_MAIL_PAUSE_TIME*1000);?>);
+						setTimeout('sendrsNewsletter()', <?php echo (Redshop::getConfig()->get('NEWSLETTER_MAIL_PAUSE_TIME')*1000);?>);
 					}
 				}
 			}

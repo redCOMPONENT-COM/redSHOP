@@ -25,11 +25,11 @@ class RedshopControllerMedia extends RedshopController
 		$totalFile = count($file['name']);
 		$model = $this->getModel('media');
 
-		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
+		$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
-		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DIRECTORY_SEPARATOR)
+		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT'), -1) != DIRECTORY_SEPARATOR)
 		{
-			$product_download_root = PRODUCT_DOWNLOAD_ROOT . '/';
+			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}
 
 		if ($post['hdn_download_file'] != "")

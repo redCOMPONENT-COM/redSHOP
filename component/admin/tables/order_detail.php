@@ -63,8 +63,6 @@ class Tableorder_detail extends JTable
 
 	public $encr_key = null;
 
-	public $split_payment = null;
-
 	public $invoice_no = null;
 
 	public $discount_type = null;

@@ -72,10 +72,3 @@ defined('_JEXEC') or die;
 	<label for="invoice_mail_send_option"><?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL');?></label></span>
 	<?php echo $this->lists ['use_encoding'];?>
 </div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-				  title="<?php echo JText::_('COM_REDSHOP_TABLE_PREFIX'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_TABLE_PREFIX'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_TABLE_PREFIX');?></label></span>
-	<input type="text" name="table_prefix" id="table_prefix" value="<?php echo $this->config->get('TABLE_PREFIX'); ?>" readonly="readonly">
-</div>

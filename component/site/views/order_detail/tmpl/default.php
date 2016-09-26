@@ -47,7 +47,7 @@ $partialpayment = $order_functions->getOrderPartialPayment($oid);
 
 // Get order Payment method information
 
-if (USE_AS_CATALOG)
+if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
 	$orderslist_template = $redTemplate->getTemplate("catalogue_order_detail");
 	$orderslist_template = $orderslist_template[0]->template_desc;
@@ -119,18 +119,6 @@ else
 
 $statustext = $order_functions->getOrderStatusTitle($OrdersDetail->order_status);
 
-$issplit      = $OrdersDetail->split_payment;
-$split_amount = $OrdersDetail->order_total - $partialpayment;
-
-$split_amounttext = "";
-$payremaininglink = "";
-
-if ($issplit && ($split_amount > 0))
-{
-	$split_amounttext = "<br /><br />" . JText::_('COM_REDSHOP_RECEIPT_PARTIALLY_PAID_AMOUNT') . ": " . $producthelper->getProductFormattedPrice($split_amount);
-	$payremaininglink = "<br />" . JText::_('COM_REDSHOP_REMAINING_AMOUNT_TOBE_PAID_BEFORE_DEL') . ": " . $producthelper->getProductFormattedPrice($split_amount) . "<a href='" . JRoute::_('index.php?option=com_redshop&view=split_payment&oid=' . $oid . '&Itemid=' . $Itemid) . "'>" . JText::_('COM_REDSHOP_PAY_REMAINING') . "</a>";
-}
-
 $search [] = "{order_status}";
 
 if (trim($OrdersDetail->order_payment_status) == 'Paid')
@@ -150,7 +138,7 @@ else
 	$orderPaymentStatus = $OrdersDetail->order_payment_status;
 }
 
-$replace[] = $statustext . " - " . $orderPaymentStatus . $split_amounttext . "    " . $payremaininglink;
+$replace[] = $statustext . " - " . $orderPaymentStatus;
 
 if (strstr($orderslist_template, "{order_status_order_only}"))
 {

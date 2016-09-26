@@ -40,7 +40,7 @@ class JFormFieldOrderbymanufacturer extends JFormField
 
 		if (!$value)
 		{
-			$value = DEFAULT_MANUFACTURER_ORDERING_METHOD;
+			$value = Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD');
 		}
 
 		$order_data = $helper->getManufacturerOrderByList();

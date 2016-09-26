@@ -136,7 +136,7 @@ switch ($view)
 
 			if ($url->sef_url == "")
 			{
-				if (CATEGORY_TREE_IN_SEF_URL)
+				if (Redshop::getConfig()->get('CATEGORY_TREE_IN_SEF_URL'))
 				{
 					$GLOBALS['catlist_reverse'] = array();
 					$cats                       = RedshopHelperCategory::getCategoryListReverseArray($cid);
@@ -212,7 +212,7 @@ switch ($view)
 
 			if (trim($url) == "")
 			{
-				if (CATEGORY_IN_SEF_URL)
+				if (Redshop::getConfig()->get('CATEGORY_IN_SEF_URL'))
 				{
 					$GLOBALS['catlist_reverse'] = array();
 					$where                      = '';
@@ -234,7 +234,7 @@ switch ($view)
 						$category_id = $product->category_id;
 					}
 
-					if (CATEGORY_TREE_IN_SEF_URL)
+					if (Redshop::getConfig()->get('CATEGORY_TREE_IN_SEF_URL'))
 					{
 						$cats = RedshopHelperCategory::getCategoryListReverseArray($category_id);
 
@@ -260,7 +260,7 @@ switch ($view)
 					$title[] = JFilterOutput::stringURLSafe($catname);
 				}
 
-				if (ENABLE_SEF_PRODUCT_NUMBER)
+				if (Redshop::getConfig()->get('ENABLE_SEF_PRODUCT_NUMBER'))
 				{
 					$title[] = JFilterOutput::stringURLSafe($product->product_number);
 				}
@@ -331,13 +331,6 @@ switch ($view)
 			shRemoveFromGETVarsList('gid');
 		}
 		break;
-
-	case 'split_payment':
-
-		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_SPLIT_PAYMENT'];
-		shRemoveFromGETVarsList('view');
-		break;
-
 
 	case 'checkout':
 
