@@ -227,6 +227,16 @@ class RedshopModelUser_detail extends RedshopModel
 		return $reduser;
 	}
 
+	/**
+	 * Delete redSHOP and Joomla! users
+	 *
+	 * @param   array  $cid                Array of user ids
+	 * @param   bool   $deleteJoomlaUsers  Delete Joomla! users
+	 *
+	 * @return bool
+	 *
+	 * @since version
+	 */
 	public function delete($cid = array(), $deleteJoomlaUsers = false)
 	{
 		if (count($cid))
@@ -256,12 +266,19 @@ class RedshopModelUser_detail extends RedshopModel
 				$db->setQuery($queryCustom);
 				$juserIds = $db->loadRowList();
 
-				foreach ($juserIds as $juserId) {
-					if (!JFactory::getUser($juserId[0])->delete())
-					{
-						$this->setError($db->getErrorMsg());
+				foreach ($juserIds as $juserId)
+				{
+					$jUser = JFactory::getUser($juserId[0]);
 
-						return false;
+					// Do not delete Super Administrator user
+					if (!$jUser->authorise('core.admin'))
+					{
+						if (!JFactory::getUser($juserId[0])->delete())
+						{
+							$this->setError($db->getErrorMsg());
+
+							return false;
+						}
 					}
 				}
 			}

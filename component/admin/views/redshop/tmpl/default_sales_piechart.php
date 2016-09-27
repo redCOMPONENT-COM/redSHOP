@@ -37,6 +37,7 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 		data.addColumn({type: 'string', role: 'tooltip'});
 
 		<?php if (count($turnover) > 0) {?>
+			<?php $turnover = array_reverse($turnover); ?>
 			<?php foreach ($turnover as $row) { ?>
 				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $producthelper->getProductFormattedPrice($row[1]); ?>', '<?php echo $producthelper->getProductFormattedPrice($row[1]) . ' in ' . $row[0]; ?>']);
 			<?php } ?>
