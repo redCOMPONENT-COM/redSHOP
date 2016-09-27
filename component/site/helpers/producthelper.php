@@ -2821,7 +2821,7 @@ class productHelper
 
 	public function getProductCategory($id = 0)
 	{
-		$rsUserhelper               = RedshopSiteUser::getInstance();
+		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 		$and = '';
 
@@ -3098,7 +3098,7 @@ class productHelper
 
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
-		$extraField  = RedshopSiteExtraField::getInstance();
+		$extraField  = extraField::getInstance();
 		$redTemplate = Redtemplate::getInstance();
 		$cart        = $this->_session->get('cart');
 
@@ -3159,7 +3159,7 @@ class productHelper
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
-		$extraField = RedshopSiteExtraField::getInstance();
+		$extraField = extraField::getInstance();
 		$cart       = $this->_session->get('cart');
 		$product_id = $cart[$id]['product_id'];
 		$row_data   = $extraField->getSectionFieldList($section_id, 1, 0);
@@ -3191,7 +3191,7 @@ class productHelper
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
-		$extraField      = RedshopSiteExtraField::getInstance();
+		$extraField      = extraField::getInstance();
 		$order_functions = order_functions::getInstance();
 		$orderItem       = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
 
@@ -3228,7 +3228,7 @@ class productHelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = RedshopSiteExtraField::getInstance();
+		$extraField = extraField::getInstance();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
@@ -6056,7 +6056,7 @@ class productHelper
 	{
 		$user_id         = 0;
 		$redconfig       = Redconfiguration::getInstance();
-		$extraField      = RedshopSiteExtraField::getInstance();
+		$extraField      = extraField::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
 		$product_quantity = JRequest::getVar('product_quantity');

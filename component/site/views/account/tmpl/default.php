@@ -337,6 +337,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 $wishlist_imagelbl  = '';
 $wishlist_image     = '';
 $edit_wishlist_link = '';
+$myWishlist = 0;
 
 if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc, "{quotation end if}") !== false)
 {
@@ -361,7 +362,7 @@ if (Redshop::getConfig()->get('MY_WISHLIST'))
 	$edit_wishlist_link = JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST');
 	$myWishlist         = $model->countMyWishlist();
 
-	if ($myWishlist > 0)
+	if ($myWishlist)
 	{
 		$edit_wishlist_link = '<a href="' . $wishlist_link . '" style="text-decoration: none;">' . JText::_("COM_REDSHOP_SHOW_WISHLIST_PRODUCTS") . '</a>';
 	}
@@ -376,7 +377,8 @@ if (strpos($template_desc, "{if wishlist}") !== false && strpos($template_desc, 
 	$template_d1 = explode("{if wishlist}", $template_desc);
 	$template_d2 = explode("{wishlist end if}", $template_d1[1]);
 
-	if ($myWishlist > 0)
+
+	if ($myWishlist)
 	{
 		$template_desc = str_replace("{if wishlist}", "", $template_desc);
 		$template_desc = str_replace("{wishlist end if}", "", $template_desc);
