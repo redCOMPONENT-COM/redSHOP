@@ -381,14 +381,20 @@ class RedshopModelMass_discount_detail extends RedshopModel
 		$row->category_id = $row->category_id ? $row->category_id : '';
 		$row->discount_product = $row->discount_product ? $row->discount_product : '';
 
-		if (!$row->store())
+		// Validate table fields first
+		if ($row->check())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			if (!$row->store())
+			{
+				$this->setError($this->_db->getErrorMsg());
 
-			return false;
+				return false;
+			}
+
+			return $row;
 		}
 
-		return $row;
+		return false;
 	}
 
 	public function delete($cid = array())
