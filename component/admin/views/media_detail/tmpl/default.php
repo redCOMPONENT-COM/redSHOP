@@ -103,7 +103,7 @@ if ($showbuttons)
 				return false;
 			}
 			<?php if ($media_section == 'product') : ?>
-			else if (form.hdn_download_file.value == '')
+			else if (form.hdn_download_file.value == '' && form.file == '')
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
 
