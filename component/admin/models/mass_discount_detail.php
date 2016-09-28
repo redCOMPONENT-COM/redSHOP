@@ -196,9 +196,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			}
 			else
 			{
-				JFactory::getApplication()->enqueueMessage(
-					JText::sprintf('LIB_REDSHOP_PRODUCT_ID_NOT_VALID_INTEGER', $arr_diff[$i], __CLASS__, gettype($arr_diff[$i])), 'error'
-				);
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
 
 				return false;
 			}
