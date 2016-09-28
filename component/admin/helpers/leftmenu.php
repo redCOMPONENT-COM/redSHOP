@@ -612,11 +612,6 @@ class leftmenu
 				'index.php?option=com_redshop&view=configuration&layout=resettemplate',
 				'COM_REDSHOP_RESET_TEMPLATE_LBL',
 				(self::$view == 'configuration' && self::$layout == 'resettemplate') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=update',
-				'COM_REDSHOP_UPDATE_TITLE',
-				(self::$view == 'update') ? true : false
 			);
 
 		$menu->section('accessmanager')
