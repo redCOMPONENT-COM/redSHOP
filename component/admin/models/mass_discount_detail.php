@@ -164,25 +164,43 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 		for ($i = 0, $in = count($arr_diff); $i < $in; $i++)
 		{
-			$productData = Redshop::product((int) $arr_diff[$i]);
-
-			if ($productData->product_on_sale != 1)
+			if ((int) $arr_diff[$i])
 			{
-				$p_price = ($data['discount_type'] == 1) ?
-					($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
-					$productData->product_price - ($data['discount_amount']);
-				$p_price = $producthelper->productPriceRound($p_price);
-				$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="'
-					. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
-					. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
-				$this->_db->setQuery($query);
-
-				if (!$this->_db->execute())
+				try
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$productData = Redshop::product((int) $arr_diff[$i]);
 
-					return false;
+					if ($productData->product_on_sale != 1)
+					{
+						$p_price = ($data['discount_type'] == 1) ?
+							($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
+							$productData->product_price - ($data['discount_amount']);
+						$p_price = $producthelper->productPriceRound($p_price);
+						$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="'
+							. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
+							. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
+						$this->_db->setQuery($query);
+
+						if (!$this->_db->execute())
+						{
+							$this->setError($this->_db->getErrorMsg());
+
+							return false;
+						}
+					}
 				}
+				catch (Exception $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage());
+				}
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::sprintf('LIB_REDSHOP_PRODUCT_ID_NOT_VALID_INTEGER', $arr_diff[$i], __CLASS__, gettype($arr_diff[$i])), 'error'
+				);
+
+				return false;
 			}
 		}
 
