@@ -53,17 +53,9 @@ class extra_field
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
 		$db = JFactory::getDbo();
-		$q  = "SELECT * FROM #__redshop_fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
+		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
 
-		if ($field_name != '')
-		{
-			$field_name = redhelper::quote(explode(',', $field_name));
-			$q .= 'AND field_name IN (' . implode(',', $field_name) . ') ';
-		}
-
-		$q .= " ORDER BY ordering";
-		$db->setQuery($q);
-		$row_data = $db->loadObjectlist();
+		$row_data = $model->getFieldsBySection($field_section, $field_name);
 		$ex_field = '';
 
 		if (count($row_data) > 0 && $table == "")
@@ -1109,15 +1101,9 @@ class extra_field
 
 	public function getFieldValue($id)
 	{
-		$db = JFactory::getDbo();
+		$model =  JModelLegacy::getInstance('Fields', 'RedshopModel');
 
-		$q = "SELECT * FROM #__redshop_fields_value "
-			. "WHERE field_id = " . (int) $id . " "
-			. "ORDER BY value_id ASC ";
-		$db->setQuery($q);
-		$list = $db->loadObjectlist();
-
-		return $list;
+		return $model->getFieldValue($id);
 	}
 
 	public function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
@@ -1136,17 +1122,9 @@ class extra_field
 
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
-		$db = JFactory::getDbo();
+		$model =  JModelLegacy::getInstance('Fields', 'RedshopModel');
 
-		$query = "SELECT * FROM #__redshop_fields_data "
-			. "WHERE itemid = " . (int) $orderitemid . " "
-			. "AND fieldid = " . (int) $fieldid . " "
-			. "AND user_email = " . $db->quote($user_email) . " "
-			. "AND section = " . (int) $section . " ";
-		$db->setQuery($query);
-		$list = $db->loadObject();
-
-		return $list;
+		return $model->getFieldDataList($fieldid, $section, $orderitemid, $user_email);
 	}
 
 	public function copy_product_extra_field($oldproduct_id, $newPid)
