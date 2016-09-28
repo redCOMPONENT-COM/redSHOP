@@ -191,7 +191,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 				}
 				catch (Exception $e)
 				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage());
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 			else
