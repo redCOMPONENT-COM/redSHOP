@@ -64,3 +64,6 @@ component/admin/config/config.php
 !.gitignore
 !index.html
 !index.php
+
+# Releases folder
+releases/*
