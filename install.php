@@ -790,6 +790,7 @@ class Com_RedshopInstallerScript
 		// Required objects
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
+
 		if ($nodes = $manifest->plugins->plugin)
 		{
 			foreach ($nodes as $node)
@@ -833,6 +834,9 @@ class Com_RedshopInstallerScript
 						$this->enablePlugin($extName, $extGroup);
 					}
 				}
+
+				// Force to enable redSHOP - System plugin by anyways
+				$this->enablePlugin('redshop', 'system');
 			}
 		}
 	}
