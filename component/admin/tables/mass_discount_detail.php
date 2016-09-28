@@ -71,7 +71,7 @@ class Tablemass_discount_detail extends JTable
 			return false;
 		}
 
-		if (empty($this->discount_type))
+		if (is_null($this->discount_type))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_TYPE_IS_REQUIRED'), 'error');
 
