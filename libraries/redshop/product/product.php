@@ -51,7 +51,7 @@ class RedshopProduct
 
 		if (empty($this->info))
 		{
-			throw new Exception(JText::sprintf('LIB_REDSHOP_PRODUCT_NOT_FOUND_ERROR', __CLASS__), 404);
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('LIB_REDSHOP_PRODUCT_NOT_FOUND_ERROR', __CLASS__), 'error');
 		}
 	}
 
