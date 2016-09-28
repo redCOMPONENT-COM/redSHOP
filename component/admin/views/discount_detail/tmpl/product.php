@@ -25,7 +25,7 @@ $now = JFactory::getDate();
 		   return new Date(parts[2], parts[1] - 1, parts[0]);
 		}
 
-		if (form.amount.value == "" || form.amount.value == 0) {
+		if (form.discount_amount.value == "" || form.discount_amount.value == 0) {
 			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_AMOUNT_MUST_FILLED', true ); ?>");
 		} else if (parseDate(form.start_date.value) > parseDate(form.end_date.value)) {
  			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
