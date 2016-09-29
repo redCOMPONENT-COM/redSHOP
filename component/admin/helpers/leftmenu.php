@@ -9,12 +9,33 @@
 
 defined('_JEXEC') or die;
 
-class leftmenu
+/**
+ * Left menu helper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helpers
+ *
+ * @since       2.0.0.2
+ */
+class LeftMenu
 {
-	protected static $view = NULL;
+	/**
+	 * @var null
+	 */
+	protected static $view = null;
 
-	protected static $layout = NULL;
+	/**
+	 * @var null
+	 */
+	protected static $layout = null;
 
+	/**
+	 * Method for render left menu
+	 *
+	 * @param   bool  $disableMenu  True for return list of menu. False for return HTML rendered code.
+	 *
+	 * @return  mixed               Array of menu / HTML code of menu.
+	 */
 	public static function render($disableMenu = false)
 	{
 		self::$view = JFactory::getApplication()->input->getCmd('view');
@@ -44,17 +65,17 @@ class leftmenu
 		{
 			return $menu->items;
 		}
-		else
-		{
-			return JLayoutHelper::render('component.full.sidebar.menu', array('items' => $menu->items, 'active' => $active));
-		}
+
+		return JLayoutHelper::render('component.full.sidebar.menu', array('items' => $menu->items, 'active' => $active));
 	}
 
+	/**
+	 * Get active view
+	 *
+	 * @return  array  List of active group and view
+	 */
 	protected static function getActive()
 	{
-		$activeGroup = '';
-		$activeItem = '';
-
 		switch (self::$view)
 		{
 			case "product":
@@ -62,26 +83,22 @@ class leftmenu
 			case "prices":
 			case "mass_discount_detail":
 			case "mass_discount":
-				$activeItem = "product";
-				$activeGroup = "PRODUCT_MANAGEMENT";
+				return array('PRODUCT_MANAGEMENT', 'product');
 				break;
 
 			case "category":
 			case "category_detail":
-				$activeItem = "category";
-				$activeGroup = "PRODUCT_MANAGEMENT";
+				return array('PRODUCT_MANAGEMENT', 'category');
 				break;
 
 			case "manufacturer":
 			case "manufacturer_detail":
-				$activeItem = "manufacturer";
-				$activeGroup = "PRODUCT_MANAGEMENT";
+				return array('PRODUCT_MANAGEMENT', 'manufacturer');
 				break;
 
 			case "media":
 			case 'media_detail':
-				$activeItem = "media";
-				$activeGroup = "PRODUCT_MANAGEMENT";
+				return array('PRODUCT_MANAGEMENT', 'media');
 				break;
 
 			case "order":
@@ -91,226 +108,194 @@ class leftmenu
 			case "orderstatus_detail":
 			case "opsearch":
 			case "barcode":
-				$activeItem = "order";
-				$activeGroup = "ORDER";
+				return array('ORDER', 'order');
 				break;
 
 			case "quotation":
 			case "addquotation_detail":
-				$activeItem = "quotation";
-				$activeGroup = "ORDER";
+				return array('ORDER', 'quotation');
 				break;
 
 			case "stockroom":
 			case "stockroom_listing":
 			case "stockimage":
-				$activeItem = "stockroom";
-				$activeGroup = "ORDER";
+				return array('ORDER', 'stockroom');
 				break;
 
 			case "supplier":
 			case "supplier_detail":
-				$activeItem = "supplier";
-				$activeGroup = "ORDER";
+				return array('ORDER', 'supplier');
 				break;
 
 			case "discount":
 			case "discount_detail":
-				$activeItem = "discount";
-				$activeGroup = "DISCOUNT";
+				return array('DISCOUNT', 'discount');
 				break;
 
 			case "giftcards":
 			case "giftcard":
-				$activeItem = "giftcards";
-				$activeGroup = "DISCOUNT";
+				return array('DISCOUNT', 'giftcards');
 				break;
 
 			case "voucher":
 			case "voucher_detail":
-				$activeItem = "voucher";
-				$activeGroup = "DISCOUNT";
+				return array('DISCOUNT', 'voucher');
 				break;
 
 			case "coupon":
 			case "coupon_detail":
-				$activeItem = "coupon";
-				$activeGroup = "DISCOUNT";
+				return array('DISCOUNT', 'coupon');
 				break;
 
 			case "mail":
 			case "mail_detail":
-				$activeItem = "mail";
-				$activeGroup = "COMMUNICATION";
+				return array('COMMUNICATION', 'mail');
 				break;
 
 			case "newsletter":
 			case "newsletter_detail":
 			case "newslettersubscr":
 			case 'newslettersubscr_detail':
-				$activeItem = "newsletter";
-				$activeGroup = "COMMUNICATION";
+				return array('COMMUNICATION', 'newsletter');
 				break;
 
 			case "shipping":
 			case "shipping_detail":
 			case "shipping_rate":
-				$activeItem = "shipping_method";
-				$activeGroup = "SHIPPING";
+				return array('SHIPPING', 'shipping_method');
 				break;
 
 			case "shipping_box":
 			case "shipping_box_detail":
-				$activeItem = "shipping_box";
-				$activeGroup = "SHIPPING";
+				return array('SHIPPING', 'shipping_box');
 				break;
 
 			case "wrapper":
 			case "wrapper_detail":
-				$activeItem = "wrapper";
-				$activeGroup = "SHIPPING";
+				return array('SHIPPING', 'wrapper');
 				break;
 
 			case "user":
 			case 'user_detail':
 			case "shopper_group":
 			case "shopper_group_detail":
-				$activeItem = "user";
-				$activeGroup = "USER";
+				return array('USER', 'user');
 				break;
 
 			case "accessmanager":
 			case 'accessmanager_detail':
-				$activeItem = "accessmanager";
-				$activeGroup = "USER";
+				return array('USER', 'accessmanager');
 				break;
 
 			case "tax_group":
 			case "tax_group_detail":
 			case "tax":
-				$activeItem = "tax";
-				$activeGroup = "VAT_AND_CURRENCY";
+				return array('VAT_AND_CURRENCY', 'tax');
 				break;
 
 			case "currency":
 			case "currency_detail":
-				$activeItem = "currency";
-				$activeGroup = "VAT_AND_CURRENCY";
+				return array('VAT_AND_CURRENCY', 'currency');
 				break;
 
 			case "country":
 			case "country_detail":
-				$activeItem = "country";
-				$activeGroup = "VAT_AND_CURRENCY";
+				return array('VAT_AND_CURRENCY', 'country');
 				break;
 
 			case "state":
 			case "state_detail":
-				$activeItem = "state";
-				$activeGroup = "VAT_AND_CURRENCY";
+				return array('VAT_AND_CURRENCY', 'state');
 				break;
 
 			case "zipcode":
 			case "zipcode_detail":
-				$activeItem = "zipcode";
-				$activeGroup = "VAT_AND_CURRENCY";
+				return array('VAT_AND_CURRENCY', 'zipcode');
 				break;
 
 			case "importexport":
 			case "import":
 			case "export":
 			case "vmimport":
-				$activeItem = "importexport";
-				$activeGroup = "IMPORT_EXPORT";
+				return array('IMPORT_EXPORT', 'importexport');
 				break;
 
 			case "xmlimport":
 			case "xmlexport":
-				$activeItem = "xmlimportexport";
-				$activeGroup = "IMPORT_EXPORT";
+				return array('IMPORT_EXPORT', 'xmlimportexport');
 				break;
 
 			case "fields":
 			case "fields_detail":
 			case "addressfields_listing":
-				$activeItem = "fields";
-				$activeGroup = "CUSTOMIZATION";
+				return array('CUSTOMIZATION', 'fields');
 				break;
 
 			case "template":
 			case "template_detail":
-				$activeItem = "template";
-				$activeGroup = "CUSTOMIZATION";
+				return array('CUSTOMIZATION', 'template');
 				break;
 
 			case "textlibrary":
 			case "textlibrary_detail":
-				$activeItem = "textlibrary";
-				$activeGroup = "CUSTOMIZATION";
+				return array('CUSTOMIZATION', 'textlibrary');
 				break;
 
 			case "catalog":
 			case "catalog_request":
-				$activeItem = "catalog";
-				$activeGroup = "CUSTOMIZATION";
+				return array('CUSTOMIZATION', 'catalog');
 				break;
 
 			case "sample":
 			case "sample_request":
-				$activeItem = "sample";
-				$activeGroup = "CUSTOMIZATION";
+				return array('CUSTOMIZATION', 'sample');
 				break;
 
 			case "producttags":
 			case "producttags_detail":
-				$activeItem = "producttags";
-				$activeGroup = "CUSTOMIZATION";
+				return array('CUSTOMIZATION', 'producttags');
 				break;
 
 			case "attribute_set":
 			case "attribute_set_detail":
-				$activeItem = "attribute_set";
-				$activeGroup = "CUSTOMIZATION";
+				return array('CUSTOMIZATION', 'attribute_set');
 				break;
 
 			case "question":
 			case "question_detail":
-				$activeItem = "question";
-				$activeGroup = "CUSTOMER_INPUT";
+				return array('CUSTOMER_INPUT', 'question');
 				break;
 
 			case "rating":
 			case "rating_detail":
-				$activeItem = "rating";
-				$activeGroup = "CUSTOMER_INPUT";
+				return array('CUSTOMER_INPUT', 'rating');
 				break;
 
 			case "accountgroup":
 			case "accountgroup_detail":
-				$activeItem = "accountgroup";
-				$activeGroup = "ACCOUNTING";
+				return array('ACCOUNTING', 'accountgroup');
 				break;
 
 			case "statistic":
-				$activeItem = "statistic";
-				$activeGroup = "STATISTIC";
+				return array('STATISTIC', 'statistic');
 				break;
 
 			case "configuration":
 			case 'update':
-				$activeItem = "configuration";
-				$activeGroup = "CONFIG";
+				return array('CONFIG', 'configuration');
 				break;
 
 			default:
-				$activeItem = '';
-				$activeGroup = '';
+				return array('', '');
 				break;
 		}
-
-		return array($activeGroup, $activeItem);
 	}
 
+	/**
+	 * Set Product Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setProductGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -323,6 +308,11 @@ class leftmenu
 		$menu->group('PRODUCT_MANAGEMENT');
 	}
 
+	/**
+	 * Set Order Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setOrderGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -335,6 +325,11 @@ class leftmenu
 		$menu->group('ORDER');
 	}
 
+	/**
+	 * Set Discount Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setDiscountGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -347,6 +342,11 @@ class leftmenu
 		$menu->group('DISCOUNT');
 	}
 
+	/**
+	 * Set Communication Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCommunicationGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -357,6 +357,11 @@ class leftmenu
 		$menu->group('COMMUNICATION');
 	}
 
+	/**
+	 * Set Shipping Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setShippingGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -368,6 +373,11 @@ class leftmenu
 		$menu->group('SHIPPING');
 	}
 
+	/**
+	 * Set User Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setUserGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -409,6 +419,11 @@ class leftmenu
 		$menu->group('USER');
 	}
 
+	/**
+	 * Set VAT Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setVatGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -422,6 +437,11 @@ class leftmenu
 		$menu->group('VAT_AND_CURRENCY');
 	}
 
+	/**
+	 * Set Import / Export Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setIEGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -466,6 +486,11 @@ class leftmenu
 		$menu->group('IMPORT_EXPORT');
 	}
 
+	/**
+	 * Set Customization Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCustomisationGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -481,6 +506,11 @@ class leftmenu
 		$menu->group('CUSTOMIZATION');
 	}
 
+	/**
+	 * Set Customer Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCustomerInputGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -504,6 +534,11 @@ class leftmenu
 		$menu->group('CUSTOMER_INPUT');
 	}
 
+	/**
+	 * Set Account Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setAccountGroup()
 	{
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') && JPluginHelper::isEnabled('economic'))
@@ -527,6 +562,11 @@ class leftmenu
 		}
 	}
 
+	/**
+	 * Set Statistics Group menu
+	 *
+	 * @return  void
+	 */
 	protected static function setStatisticsGroup()
 	{
 		$menu = RedshopAdminMenu::getInstance()->init();
@@ -592,9 +632,13 @@ class leftmenu
 		$menu->group('STATISTIC');
 	}
 
+	/**
+	 * Method for set configuration group
+	 *
+	 * @return void
+	 */
 	protected static function setConfigGroup()
 	{
-		$user = JFactory::getUser();
 		$menu = RedshopAdminMenu::getInstance()->init();
 
 		$menu->section('configuration')
@@ -605,18 +649,17 @@ class leftmenu
 				(self::$view == 'configuration' && self::$layout == '') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&wizard=1',
-				'COM_REDSHOP_START_CONFIGURATION_WIZARD'
-			)
+				'index.php?option=com_redshop&view=update',
+				'COM_REDSHOP_UPDATE_TITLE',
+				(self::$view == 'update') ? true : false
+			);
+
+		$menu->section('resettemplate')
+			->title('COM_REDSHOP_RESET_TEMPLATE_LBL')
 			->addItem(
 				'index.php?option=com_redshop&view=configuration&layout=resettemplate',
 				'COM_REDSHOP_RESET_TEMPLATE_LBL',
 				(self::$view == 'configuration' && self::$layout == 'resettemplate') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=update',
-				'COM_REDSHOP_UPDATE_TITLE',
-				(self::$view == 'update') ? true : false
 			);
 
 		$menu->section('accessmanager')
@@ -627,17 +670,22 @@ class leftmenu
 				(self::$view == 'accessmanager') ? true : false
 			);
 
-			$menu->section('redshopbackendaccess')
-				->title('COM_REDSHOP_BACKEND_ACCESS_CONFIG')
-				->addItem(
-					'index.php?option=com_config&view=component&component=com_redshop',
-					'COM_REDSHOP_BACKEND_ACCESS_CONFIG',
-					false
-				);
+		$menu->section('redshopbackendaccess')
+			->title('COM_REDSHOP_BACKEND_ACCESS_CONFIG')
+			->addItem(
+				'index.php?option=com_config&view=component&component=com_redshop',
+				'COM_REDSHOP_BACKEND_ACCESS_CONFIG',
+				false
+			);
 
 		$menu->group('CONFIG');
 	}
 
+	/**
+	 * Set Product menu
+	 *
+	 * @return  void
+	 */
 	protected static function setProduct()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -691,6 +739,11 @@ class leftmenu
 		}
 	}
 
+	/**
+	 * Set Category menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCategory()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -709,6 +762,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Manufacturer menu
+	 *
+	 * @return  void
+	 */
 	protected static function setManufacturer()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -727,6 +785,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Media menu
+	 *
+	 * @return  void
+	 */
 	protected static function setMedia()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -745,6 +808,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Order menu
+	 *
+	 * @return  void
+	 */
 	protected static function setOrder()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -778,6 +846,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Quotation menu
+	 *
+	 * @return  void
+	 */
 	protected static function setQuotation()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -796,6 +869,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Stockroom menu
+	 *
+	 * @return  void
+	 */
 	protected static function setStockroom()
 	{
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 0)
@@ -843,6 +921,11 @@ class leftmenu
 		}
 	}
 
+	/**
+	 * Set Supplier menu
+	 *
+	 * @return  void
+	 */
 	protected static function setSupplier()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -861,6 +944,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Discount menu
+	 *
+	 * @return  void
+	 */
 	protected static function setDiscount()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -889,6 +977,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Gift Card menu
+	 *
+	 * @return  void
+	 */
 	protected static function setGiftCard()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -907,6 +1000,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Voucher menu
+	 *
+	 * @return  void
+	 */
 	protected static function setVoucher()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -925,6 +1023,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Coupon menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCoupon()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -943,6 +1046,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Mail menu
+	 *
+	 * @return  void
+	 */
 	protected static function setMail()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -961,6 +1069,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Newsletter menu
+	 *
+	 * @return  void
+	 */
 	protected static function setNewsLetter()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -994,6 +1107,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Shipping menu
+	 *
+	 * @return  void
+	 */
 	protected static function setShipping()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1020,6 +1138,11 @@ class leftmenu
 		}
 	}
 
+	/**
+	 * Set Shipping Box menu
+	 *
+	 * @return  void
+	 */
 	protected static function setShippingBox()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1037,6 +1160,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Wrapper menu
+	 *
+	 * @return  void
+	 */
 	protected static function setWrapper()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1055,6 +1183,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Tax menu
+	 *
+	 * @return  void
+	 */
 	protected static function setTax()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1072,6 +1205,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Currency menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCurrency()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1089,6 +1227,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Country menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCountry()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1106,6 +1249,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set State menu
+	 *
+	 * @return  void
+	 */
 	protected static function setState()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1123,6 +1271,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Zipcode menu
+	 *
+	 * @return  void
+	 */
 	protected static function setZipcode()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1140,6 +1293,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Custom Fields menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCustomFields()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1157,6 +1315,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Template menu
+	 *
+	 * @return  void
+	 */
 	protected static function setTemplate()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1174,6 +1337,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Text Library menu
+	 *
+	 * @return  void
+	 */
 	protected static function setTextLibrary()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1191,6 +1359,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Catelogue menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCatelogue()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1208,6 +1381,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Product Sample menu
+	 *
+	 * @return  void
+	 */
 	protected static function setProductSample()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1225,6 +1403,11 @@ class leftmenu
 			);
 	}
 
+	/**
+	 * Set Customer Tags menu
+	 *
+	 * @return  void
+	 */
 	protected static function setCustomerTags()
 	{
 		$menu = RedshopAdminMenu::getInstance();
@@ -1237,6 +1420,11 @@ class leftmenu
 				);
 	}
 
+	/**
+	 * Set Attribute Bank menu
+	 *
+	 * @return  void
+	 */
 	protected static function setAttributeBank()
 	{
 		$menu = RedshopAdminMenu::getInstance();
