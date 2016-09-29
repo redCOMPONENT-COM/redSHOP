@@ -73,7 +73,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 					'street'           => (string) $values->address,
 					'zipcode'          => (string) $values->zipcode,
 					'countryIso3166A2' => Redconfiguration::getInstance()->getCountryCode2($values->country_code),
-					'Amount'           => 4
+					'Amount'           => $this->params->get('amount_shop', 10)
 				)
 			)->SearchNearestParcelShopsResult;
 
