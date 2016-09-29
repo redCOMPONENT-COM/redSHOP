@@ -57,6 +57,7 @@ abstract class Redshop
 	/**
 	 * Gets the redSHOP manifest
 	 *
+	 * @throws  Exception
 	 * @return  SimpleXMLElement
 	 */
 	public static function getManifest()
@@ -90,6 +91,8 @@ abstract class Redshop
 
 	/**
 	 * Gets product object
+	 *
+	 * @param   int  $id  ID of product
 	 *
 	 * @return  RedshopProduct object
 	 */
