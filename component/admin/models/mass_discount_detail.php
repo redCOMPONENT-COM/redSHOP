@@ -196,8 +196,8 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			}
 			else
 			{
-				// There is no categories chosen
-				if (empty($data['category_id']))
+				// There is no categories or manufacturer chosen
+				if (empty($data['category_id']) && empty($data['manufacturer_id']))
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
 
