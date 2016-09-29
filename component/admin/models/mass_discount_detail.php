@@ -196,9 +196,13 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			}
 			else
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
+				// There is no categories chosen
+				if (empty($data['category_id']))
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
 
-				return false;
+					return false;
+				}
 			}
 		}
 
