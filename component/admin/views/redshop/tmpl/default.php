@@ -27,10 +27,6 @@ $statistic = $model->getStatisticDashboard();
 			window.location.href = 'index.php?option=com_redshop&view=zip_import&layout=confirmupdate';
 		}
 
-		if (pressbutton == 'wizard') {
-			window.location.href = 'index.php?option=com_redshop&wizard=1';
-		}
-
 		if (pressbutton == 'statistic') {
 			window.location.href = 'index.php?option=com_redshop&view=statistic';
 		}
@@ -42,8 +38,8 @@ $statistic = $model->getStatisticDashboard();
 </script>
 <?php
 $user           = JFactory::getUser();
-$usertype       = array_keys($user->groups);
-$user->usertype = $usertype[0];
+$userType       = array_keys($user->groups);
+$user->usertype = $userType[0];
 $user->gid      = $user->groups[$user->usertype];
 
 ?>
