@@ -211,7 +211,7 @@ $calendarFormat = '%d-%m-%Y';
 						</div>
 
 						<?php $display = "";
-						if (!$this->detail->discount_stratdate && !$this->detail->discount_enddate) : ?>
+						if (!$this->detail->discount_stratdate || !$this->detail->discount_enddate) : ?>
 							<?php $display = 'style="display: none"' ?>
 						<?php endif; ?>
 
