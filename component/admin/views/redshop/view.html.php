@@ -40,13 +40,6 @@ class RedshopViewRedshop extends RedshopViewAdmin
 				);
 			}
 
-			if (!in_array('COM_REDSHOP_START_CONFIGURATION_WIZARD', $menuhide))
-			{
-				JToolBarHelper::custom('wizard', 'redshop_configwizrd32', JText::_('COM_REDSHOP_WIZARD'),
-					JText::_('COM_REDSHOP_WIZARD'), false, false
-				);
-			}
-
 			if (!in_array('COM_REDSHOP_RESHOP_CONFIGURATION', $menuhide))
 			{
 				JToolBarHelper::custom('configuration', 'redshop_icon-32-settings', JText::_('COM_REDSHOP_CONFIG'),

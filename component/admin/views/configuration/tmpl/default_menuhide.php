@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$items = leftmenu::render(true);
+$items = LeftMenu::render(true);
 
 $menuhide = explode(",", $this->config->get('MENUHIDE'));
 
