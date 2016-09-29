@@ -43,6 +43,14 @@
 						label="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_EXTRAFIELD_SHIPPING_LBL"
 						description="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_EXTRAFIELD_SHIPPING_DESC"
 						/>
+				<field
+						name="amount_shop"
+						type="text"
+						default="10"
+						label="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_AMOUNT_LBL"
+						description="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_AMOUNT_DESC"
+						filter="integer"
+						/>
 			</fieldset>
 		</fields>
 	</config>
