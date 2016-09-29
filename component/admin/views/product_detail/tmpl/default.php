@@ -238,9 +238,22 @@ JHTMLBehavior::modal();
 		if (!fid && !fsec) {
 
 			if (main_path) {
-				document.getElementById("image_display").style.display = "block";
-				document.getElementById("product_image").value = main_path;
-				document.getElementById("image_display").src = path_url + main_path;
+				var elImageDisplay = document.getElementById("image_display");
+
+				// Make sure this el exists before apply
+				if (elImageDisplay !== null)
+				{
+					elImageDisplay.style.display = "block";
+					elImageDisplay.src = path_url + main_path;
+				}
+				else
+				{
+					// It's not exists than create and append it
+					elImageDisplay = document.createElement('img');
+					elImageDisplay.style.display = "block";
+					elImageDisplay.src = path_url + main_path;
+					jQuery('#product_image').parent().append(elImageDisplay);
+				}
 			}
 			else {
 				document.getElementById("product_image").value = "";
