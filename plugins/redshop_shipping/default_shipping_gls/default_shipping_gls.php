@@ -69,7 +69,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		{
 			$d ['street'] 	= $values->address;
 			$d ['zipcode'] 	= $values->zipcode;
-			$d ['Amount'] 	= 4;
+			$d ['Amount'] 	= $this->params->get('amount_shop', 10);
 
 			$Handle = $this->client->SearchNearestParcelShops(
 				array(
