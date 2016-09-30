@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 
 ?>
 

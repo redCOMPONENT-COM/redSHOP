@@ -85,7 +85,7 @@ $url = $uri->root();
 					<td><?php echo JText::_('COM_REDSHOP_COLOUR_IMAGE'); ?> :</td>
 					<td><?php $ilink = JRoute::_('index.php?option=com_media&view=images&tmpl=component&e_name=text');  ?>
 						<div class="button2-left">
-							<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
+							<div class="image"><a class="jmodal" title="Image" href="<?php echo $ilink; ?>"
 							                      rel="{handler: 'iframe', size: {x: 570, y: 400}}">Image</a></div>
 						</div>
 					</td>

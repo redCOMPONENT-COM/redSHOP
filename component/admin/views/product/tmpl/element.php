@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 
 $model       = $this->getModel('product');
 $category_id = $this->state->get('category_id', 0);

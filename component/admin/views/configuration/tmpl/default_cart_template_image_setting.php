@@ -63,7 +63,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 
 	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $this->config->get('ADDTOCART_IMAGE'))) { ?>
 	<div class="divimages" id="cartdiv">
-		<a class="modal"
+		<a class="jmodal"
 		   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE'); ?>"
 		   title="<?php echo $this->config->get('ADDTOCART_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
 			<img alt="<?php echo $this->config->get('ADDTOCART_IMAGE'); ?>"
@@ -92,7 +92,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 
 	<?php if (is_file(JPATH_ROOT . $addtocart_path . $requestquoteImage)) { ?>
 	<div class="divimages" id="quotediv">
-		<a class="modal" href="<?php echo $url . $addtocart_path . $requestquoteImage; ?>"
+		<a class="jmodal" href="<?php echo $url . $addtocart_path . $requestquoteImage; ?>"
 		   title="<?php echo $requestquoteImage; ?>" rel="{handler: 'image', size: {}}">
 			<img alt="<?php echo $requestquoteImage; ?>"
 				 src="<?php echo $url . $addtocart_path . $requestquoteImage; ?>"/></a>
@@ -121,7 +121,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 		   value="<?php echo $addtocartUpdate; ?>"/>
 	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartUpdate)) { ?>
 	<div class="divimages" id="cartupdatediv">
-		<a class="modal"
+		<a class="jmodal"
 			   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate; ?>"
 			   title="<?php echo $addtocartUpdate; ?>" rel="{handler: 'image', size: {}}">
 				<img alt="<?php echo $addtocartUpdate; ?>"
@@ -141,7 +141,7 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 		   value="<?php echo $addtocartDelete; ?>"/>
 	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $addtocartDelete)){ ?>
 	<div class="divimages" id="cartdeldiv">
-		<a class="modal"
+		<a class="jmodal"
 			   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete; ?>"
 			   title="<?php echo $addtocartDelete; ?>" rel="{handler: 'image', size: {}}">
 				<img alt="<?php echo $addtocartDelete; ?>"

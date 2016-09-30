@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $editor = JFactory::getEditor();
 
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 
 ?>
 <script language="javascript" type="text/javascript">

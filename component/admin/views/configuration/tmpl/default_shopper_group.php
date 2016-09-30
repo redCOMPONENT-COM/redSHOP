@@ -71,7 +71,7 @@ $shopperlogo_path = "components/com_redshop/assets/images/shopperlogo";
 
 	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $defaultPortalLogo)) { ?>
 	<div class="divimages"  id="usrdiv">
-		<a class="modal"
+		<a class="jmodal"
 					href="<?php
 					echo REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $defaultPortalLogo;
 					?>"

@@ -22,14 +22,17 @@ class RedshopHelperDocument
 	 *
 	 * @var  array
 	 */
-	protected static $disabledScripts = array();
+	protected static $disabledScripts = array(
+		'/media/jui/js/bootstrap.min.js'
+	);
 
 	/**
 	 * Stylesheets marked as disabled
 	 *
 	 * @var  array
 	 */
-	protected static $disabledStylesheets = array();
+	protected static $disabledStylesheets = array(
+	);
 
 	/**
 	 * Scripts that will be injected on top

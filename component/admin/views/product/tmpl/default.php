@@ -8,7 +8,7 @@
  */
 $app           = JFactory::getApplication();
 $extra_field   = extra_field::getInstance();
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 $producthelper = productHelper::getInstance();
 
 $model = $this->getModel('product');
@@ -290,7 +290,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 		<td align="center">
 			<?php $mediadetail = $model->MediaDetail($row->product_id); ?>
-			<a class="modal"
+			<a class="jmodal"
 			   href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""> <img
 					src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
@@ -298,7 +298,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		</td>
 		<td align="center">
 			<?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
-			<a class="modal"
+			<a class="jmodal"
 			   href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 700, y: 450}}">
 				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"

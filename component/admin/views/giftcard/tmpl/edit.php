@@ -70,7 +70,7 @@ JFactory::getDocument()->addScriptDeclaration('
 										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 								?>
-								<a class="modal-thumb"
+								<a class="jmodal-thumb"
 								   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $field->value; ?>">
 									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
 								</a>

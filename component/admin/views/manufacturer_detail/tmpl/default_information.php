@@ -125,7 +125,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 				</div>
 
 				<div class="btn-toolbar">
-					<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+					<a class="jmodal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
 					</a>
 				</div>

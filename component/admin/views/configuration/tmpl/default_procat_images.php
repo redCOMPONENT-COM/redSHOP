@@ -29,7 +29,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 	<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $categoryDefaultImage))
 	{ ?>
 		<div class="divimages" id="catdiv">
-			<a class="modal" href="<?php
+			<a class="jmodal" href="<?php
 			echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryDefaultImage;
 			?>"
 			   title="<?php
@@ -64,7 +64,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 	{
 		?>
 		<div class="divimages" id="proddiv">
-			<a class="modal"
+			<a class="jmodal"
 		                     href="<?php
 		                     echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productDefaultImage;
 		                     ?>"
@@ -97,7 +97,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $watermarkImage))
 	{
 		?>
-		<div class="divimages" id="prodwaterdiv"><a class="modal"
+		<div class="divimages" id="prodwaterdiv"><a class="jmodal"
 		                          href="<?php
 		                          echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $watermarkImage;
 		                          ?>"
@@ -130,7 +130,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productOutofstockImage))
 	{
 		?>
-		<div class="divimages" id="prodstockdiv"><a class="modal"
+		<div class="divimages" id="prodstockdiv"><a class="jmodal"
 		                          href="<?php
 		                          echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productOutofstockImage;
 		                          ?>"
@@ -168,7 +168,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
 	<?php  if (is_file($slimbox_image_path))
 	{ ?>
 	<div class="divimages" id="slimboximglinkdiv">
-		<a class="modal"
+		<a class="jmodal"
 		        href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage; ?>"
 		        title="<?php echo $productDetailLightboxCloseBtnImage; ?>"
 		        rel="{handler: 'image', size: {}}"><img
