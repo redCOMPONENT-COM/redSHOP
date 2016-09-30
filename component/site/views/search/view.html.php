@@ -85,7 +85,11 @@ class RedshopViewSearch extends RedshopView
 
 		$redHelper = redhelper::getInstance();
 		$order_data            = $redHelper->getOrderByList();
-		$getorderby            = JRequest::getString('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
+		$getorderby            = JRequest::getString('order_by',
+			$app->getUserState('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
+		);
+		$app->setUserState('order_by', $getorderby);
+		JRequest::setVar('order_by', $app->getUserState('order_by'));
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
 		$search     = $this->get('Data');
 		$pagination = $this->get('Pagination');
@@ -106,7 +110,7 @@ class RedshopViewSearch extends RedshopView
 		if (count($this->search) > 0)
 		{
 			$app = JFactory::getApplication();
-
+			JRequest::setVar('order_by', $app->getUserState('order_by'));
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = Redtemplate::getInstance();
