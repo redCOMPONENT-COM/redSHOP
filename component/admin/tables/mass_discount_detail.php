@@ -47,4 +47,37 @@ class Tablemass_discount_detail extends JTable
 
 		return parent::bind($array, $ignore);
 	}
+
+	/**
+	 * Validate all table fields
+	 *
+	 * @return  bool
+	 *
+	 * @since  2.0.2
+	 */
+	public function check()
+	{
+		if (empty($this->discount_name))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
+
+			return false;
+		}
+
+		if (empty($this->discount_amount))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
+
+			return false;
+		}
+
+		if (is_null($this->discount_type))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_TYPE_IS_REQUIRED'), 'error');
+
+			return false;
+		}
+
+		return parent::check();
+	}
 }
