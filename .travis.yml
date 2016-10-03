@@ -22,14 +22,6 @@ before_script:
 - phpenv config-add .travis.ini
 - phpenv rehash
 
-# Install Apache
-- sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-- sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php5-fpm.sock,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-- sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-- sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-- sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-- sudo sed -e "s,user = nobody,;user = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-- sudo sed -e "s,group = nobody,;group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 - chmod a+x tests/travis-php-fpm.sh
 - sudo ./tests/travis-php-fpm.sh $USER $(phpenv version-name)
 - sudo a2enmod rewrite actions fastcgi alias
@@ -56,11 +48,13 @@ before_script:
 - composer config -g github-oauth.github.com $GITHUB_TOKEN
 - composer update
 script:
-- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
+- php vendor/bin/robo check:for-missed-debug-code
+- php vendor/bin/robo check:for-php-parse
+- php vendor/bin/robo check:codestyle
 - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
 # Download Joomla for testing
 - php vendor/bin/robo prepare:site-for-system-tests
-- php .travis/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php # Test apache
+- php vendor/bin/robo check:travis-webserver # Test apache
 - php vendor/bin/robo run:tests 1
 #- php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
 - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
