@@ -25,20 +25,22 @@ fwrite(STDOUT, "\033[32;1mInitializing PHP_CodeSniffer checks.\033[0m\n");
 
 // Ignored files
 $ignored = array(
-	REPO_BASE . '/../components/com_redshop/admin/views/*/tmpl/*',
-	REPO_BASE . '/../components/com_redshop/admin/layouts/*',
-	REPO_BASE . '/../components/com_redshop/admin/tables/*',
-	REPO_BASE . '/../components/com_redshop/site/views/*/tmpl/*',
-	REPO_BASE . '/../components/com_redshop/site/layouts/*',
-	REPO_BASE . '/../components/com_redshop/site/tables/*',
+	REPO_BASE . '/../component/com_redshop/admin/assets/*',
+	REPO_BASE . '/../component/com_redshop/admin/views/*/tmpl/*',
+	REPO_BASE . '/../component/com_redshop/admin/layouts/*',
+	REPO_BASE . '/../component/com_redshop/admin/tables/*',
+	REPO_BASE . '/../component/com_redshop/site/assets/*',
+	REPO_BASE . '/../component/com_redshop/site/views/*/tmpl/*',
+	REPO_BASE . '/../component/com_redshop/site/layouts/*',
+	REPO_BASE . '/../component/com_redshop/site/tables/*',
 	REPO_BASE . '/../libraries/tcpdf/*',
 	REPO_BASE . '/../libraries/redshop/helper/*',
 	REPO_BASE . '/../libraries/redshop/form/*',
 	REPO_BASE . '/../libraries/redshop/layouts/*',
 	REPO_BASE . '/../libraries/redshop/vendor/*',
-	REPO_BASE . '/../modules/site/*/tmpl/*',
-	REPO_BASE . '/../modules/site/*/language/*',
-	REPO_BASE . '/../modules/site/*/css/*',
+	REPO_BASE . '/../modules/site/*', /* Ignore all modules */
+	REPO_BASE . '/../plugins/redshop_payment/*', /* Ignore plugin "redSHOP Payment" group */
+	REPO_BASE . '/../plugins/redshop_shipping/*', /* Ignore plugin "redSHOP Shipping" group */
 	REPO_BASE . '*.js',
 );
 
