@@ -49,6 +49,10 @@ class RedshopControllerMass_discount_detail extends RedshopController
 
 		$post ['mass_discount_id'] = $cid[0];
 
+		// Store current post to user state
+		$context = "com_redshop.edit.product";
+		JFactory::getApplication()->setUserState($context . '.data', json_encode($post));
+
 		$row = $model->store($post);
 
 		if ($row)
