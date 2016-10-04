@@ -32,7 +32,7 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 
 		if ($app->isSite() && Redshop::getConfig()->isExists())
 		{
-			$googleFile = JPATH_SITE . '/components/com_redshop/helpers/googleanalytics.php';
+			$googleFile = JPATH_SITE . '/libraries/redshop/helper/googleanalytics.php';
 
 			if (file_exists($googleFile))
 			{
