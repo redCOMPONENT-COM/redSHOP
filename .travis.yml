@@ -13,17 +13,15 @@ php:
   - 5.6
   - 7.0
 addons:
-  firefox: "47.0.1"
+  firefox: "46.0"
 before_script:
 - sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts # forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
-
-- phpenv config-add .travis.ini
-- phpenv rehash
-
-# Install Apache
 - sudo apt-get update -qq
 - sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi > /dev/null
 - sudo mkdir $(pwd)/.run
+- phpenv config-add .travis.ini
+- phpenv rehash
+
 - chmod a+x tests/travis-php-fpm.sh
 - sudo ./tests/travis-php-fpm.sh $USER $(phpenv version-name)
 - sudo a2enmod rewrite actions fastcgi alias
@@ -48,14 +46,15 @@ before_script:
 
 # Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
 - composer config -g github-oauth.github.com $GITHUB_TOKEN
-- composer install --prefer-dist
-
+- composer update
 script:
-- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
+- php vendor/bin/robo check:for-missed-debug-code
+- php vendor/bin/robo check:for-php-parse
+- php vendor/bin/robo check:codestyle
 - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
 # Download Joomla for testing
 - php vendor/bin/robo prepare:site-for-system-tests
-- php .travis/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php # Test apache
+- php vendor/bin/robo check:travis-webserver # Test apache
 - php vendor/bin/robo run:tests 1
 #- php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
 - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
