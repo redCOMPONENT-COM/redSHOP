@@ -216,31 +216,6 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * Method to run after an install/update/uninstall method
-	 *
-	 * @param   object  $type    type of change (install, update or discover_install)
-	 * @param   object  $parent  class calling this method
-	 *
-	 * @return void
-	 */
-	public function postflight($type, $parent)
-	{
-		// Install Module and Plugin
-		$installer  = $parent->getParent();
-		$source     = $installer->getPath('source');
-		$pluginPath = $source . '/plugins';
-
-		if ($type == 'update')
-		{
-			$lang = JFactory::getLanguage();
-			$lang->load('com_redshop', JPATH_ADMINISTRATOR);
-			JModelLegacy::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
-			$model = JModelLegacy::getInstance('Update', 'RedshopModel');
-			$model->checkUpdateStatus();
-		}
-	}
-
-	/**
 	 * Main redSHOP installer Events
 	 *
 	 * @param   string  $type  type of change (install, update or discover_install)
@@ -397,7 +372,7 @@ class Com_RedshopInstallerScript
 					(260, 'redproductfinder', 'redproductfinder', '" . $redtemplate->getInstallSectionTemplate('redproductfinder') . "', 1),
 					(265, 'quotation_detail', 'quotation_detail', '" . $redtemplate->getInstallSectionTemplate('quotation_detail') . "', 1),
 					(334, 'newsletter_products', 'newsletter_product', '" . $redtemplate->getInstallSectionTemplate('newsletter_products') . "', 1),
-				    (280, 'catalogue_cart', 'catalogue_cart', '" . $redtemplate->getInstallSectionTemplate('catalogue_cart') . "', 1),
+					(280, 'catalogue_cart', 'catalogue_cart', '" . $redtemplate->getInstallSectionTemplate('catalogue_cart') . "', 1),
 					(281, 'catalogue_order_detail', 'catalogue_order_detail', '" . $redtemplate->getInstallSectionTemplate('catalogue_order_detail') . "', 1),
 					(282, 'catalogue_order_receipt', 'catalogue_order_receipt', '" . $redtemplate->getInstallSectionTemplate('catalogue_order_receipt') . "', 1),
 					(289, 'empty_cart', 'empty_cart', '" . $redtemplate->getInstallSectionTemplate('empty_cart') . "', 1),
@@ -411,14 +386,14 @@ class Com_RedshopInstallerScript
 					(359, 'attributes_listing1', 'attributewithcart_template', '" . $redtemplate->getInstallSectionTemplate('attributes_listing1') . "', 1),
 					(360, 'checkout', 'checkout', '" . $redtemplate->getInstallSectionTemplate('checkout') . "',1),
 					(371, 'product_content', 'product_content_template', '" . $redtemplate->getInstallSectionTemplate('product_content') . "',1),
-				    (372, 'quotation_cart_template', 'quotation_cart', '" . $redtemplate->getInstallSectionTemplate('quotation_cart_template') . "',1),
+					(372, 'quotation_cart_template', 'quotation_cart', '" . $redtemplate->getInstallSectionTemplate('quotation_cart_template') . "',1),
 					(370, 'quotation_request_template', 'quotation_request', '" . $redtemplate->getInstallSectionTemplate('quotation_request_template') . "',1),
 					(450, 'billing_template', 'billing_template', '" . $redtemplate->getInstallSectionTemplate('billing_template') . "',1),
 					(451, 'shipping_template', 'shipping_template', '" . $redtemplate->getInstallSectionTemplate('shipping_template') . "',1),
 					(460, 'private_billing_template', 'private_billing_template', '" . $redtemplate->getInstallSectionTemplate('private_billing_template') . "',1),
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
-	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1),
-	                (551, 'login', 'login', '" . $redtemplate->getInstallSectionTemplate('login') . "',1)";
+					(550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1),
+					(551, 'login', 'login', '" . $redtemplate->getInstallSectionTemplate('login') . "',1)";
 		$db->setQuery($q);
 		$db->execute();
 
@@ -547,7 +522,7 @@ class Com_RedshopInstallerScript
 				<tr>
 					<td valign="top" width="270px">
 						<img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88" alt="redSHOP Logo"
-						     align="left">
+							 align="left">
 					</td>
 					<td valign="top">
 						<strong><?php echo JText::_('COM_REDSHOP_COMPONENT_NAME'); ?></strong><br/>
@@ -1037,6 +1012,12 @@ class Com_RedshopInstallerScript
 	{
 		$folders = array();
 		$files   = array();
+
+		// Clean up old Updates feature
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/update';
+		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
+		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
+		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
 
 		if (version_compare($this->getOldParam('version'), '2.0', '<='))
 		{
