@@ -485,7 +485,7 @@ class rsstockroomhelper
 				$stockroomDetail = $this->getStockroomAmountDetailList($section_id, $section, $list[$i]->stockroom_id);
 				$remaining = $stockroomDetail[0]->quantity - $quantity;
 
-				if ($remaining <= DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER)
+				if (Redshop::getConfig()->get('ENABLE_STOCKROOM_NOTIFICATION') == 1 && $remaining <= Redshop::getConfig()->get('DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER'))
 				{
 					$dispatcher = JDispatcher::getInstance();
 					JPluginHelper::importPlugin('redshop_alert');

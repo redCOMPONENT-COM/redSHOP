@@ -61,6 +61,14 @@ defined('_JEXEC') or die;
 
 		<div class="form-group">
 			<span class="editlinktip hasTip"
+									  title="<?php echo JText::_('COM_REDSHOP_ENABLE_STOCKROOM_NOTIFICATION'); ?>::<?php echo JText::_('COM_REDSHOP_ENABLE_STOCKROOM_NOTIFICATION'); ?>">
+				<label for="container"><?php echo JText::_('COM_REDSHOP_ENABLE_STOCKROOM_NOTIFICATION');?></label>
+			</span>
+			<?php echo $this->lists ['enable_stockroom_notification']; ?>
+		</div>
+
+		<div class="form-group">
+			<span class="editlinktip hasTip"
 				      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER_LBL'); ?>">
 				<label
 					for="default_stockamount_below_amount_number"><?php echo JText::_('COM_REDSHOP_DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER_LBL');?></label>
