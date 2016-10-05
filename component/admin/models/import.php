@@ -333,8 +333,11 @@ class RedshopModelImport extends RedshopModel
 								$rawdata['discount_enddate']   = strtotime($rawdata['discount_enddate']);
 							}
 
-							// Setting default value
-							$rawdata['product_on_sale'] = 0;
+							if (!isset($rawdata['product_on_sale']))
+							{
+								// Setting default value
+								$rawdata['product_on_sale'] = 0;
+							}
 
 							// Setting product on sale when discount dates are set
 							if ((isset($rawdata['discount_stratdate']) && (bool) $rawdata['discount_stratdate'])

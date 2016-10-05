@@ -824,6 +824,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['load_redshop_style'] = JHTML::_('redshopselect.booleanlist', 'load_redshop_style', 'class="inputbox" size="1"', $this->config->get('LOAD_REDSHOP_STYLE'));
 
+		$lists['enable_stockroom_notification']              = JHTML::_('redshopselect.booleanlist', 'enable_stockroom_notification', 'class="inputbox" size="1"', $this->config->get('ENABLE_STOCKROOM_NOTIFICATION'));
+
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
 		$getinstalledplugins  = $model->getinstalledplugins();
