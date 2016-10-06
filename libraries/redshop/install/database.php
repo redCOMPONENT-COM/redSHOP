@@ -9,7 +9,8 @@ if (!class_exists('RedshopInstallDatabase'))
 	 */
 	class RedshopInstallDatabase
 	{
-		protected $_dUpdate = array(
+		// TODO Move to json file
+		protected $_dbUpdate = array(
 			// 1.4
 			'quotation'     => array(
 				'add' => array(
@@ -71,11 +72,15 @@ if (!class_exists('RedshopInstallDatabase'))
 			),
 			// 1.5.0.5.3
 			'order_payment' => array(
+				'add' => array (
+					'unique' => array (
+						'order_id' => "ALTER TABLE `#__redshop_order_payment` ADD UNIQUE(`order_id`)"
+					)
+				),
 				'drop' => array(
 					'index' => array(
 						'idx_order_id' => array(
-							"ALTER TABLE `#__redshop_order_payment` DROP INDEX idx_order_id",
-							"ALTER TABLE `#__redshop_order_payment` ADD UNIQUE(`order_id`)"
+							"ALTER TABLE `#__redshop_order_payment` DROP INDEX idx_order_id"
 						)
 					)
 				)
@@ -149,6 +154,7 @@ if (!class_exists('RedshopInstallDatabase'))
 							}
 						}
 
+						// Indexing
 						if (isset($fields['add']['index']))
 						{
 							// Execute all required alter new columns
@@ -163,6 +169,25 @@ if (!class_exists('RedshopInstallDatabase'))
 									$db->setQuery($query);
 									$db->query();
 									JFactory::getApplication()->enqueueMessage(JText::_('Altered new index: ' . $field), 'notice');
+								}
+							}
+						}
+
+						// Unique
+						if (isset($fields['add']['unique']))
+						{
+							// Execute all required alter new columns
+							foreach ($fields['add']['unique'] as $field => $query)
+							{
+								// Make sure this table have this column before
+								if (array_key_exists($field, $columns))
+								{
+									if ($columns[$field]->Key != 'UNI')
+									{
+										$db->setQuery($query);
+										$db->query();
+										JFactory::getApplication()->enqueueMessage(JText::_('Add UNIQUE field: ' . $field), 'notice');
+									}
 								}
 							}
 						}
@@ -213,7 +238,7 @@ if (!class_exists('RedshopInstallDatabase'))
 
 			$indexQuery = "SHOW INDEX FROM " . $table;
 
-			return $db->setQuery($indexQuery)->loadObjectList('Column_name');
+			return $db->setQuery($indexQuery)->loadObjectList('Key_name');
 		}
 
 		/**
