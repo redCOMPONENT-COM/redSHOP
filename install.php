@@ -232,103 +232,11 @@ class Com_RedshopInstallerScript
 		// Syncronise users
 		$this->userSynchronization();
 
-		$dbUpdate = array (
-			// 1.4
-			'quotation' => array (
-				'add' => array (
-					'quotation_customer_note' => "ALTER TABLE `#__redshop_quotation` ADD `quotation_customer_note` TEXT NOT NULL AFTER `quotation_note`"
-				)
-			),
-			'product' => array (
-				'add' => array (
-					'allow_decimal_piece' => "ALTER TABLE `#__redshop_product` ADD `allow_decimal_piece` int(4) NOT NULL"
-				),
-				'drop' => array(
-					'index' => array (
-						'product_number' => "ALTER TABLE `#__redshop_product` DROP INDEX `product_number`"
-					)
-				)
-			),
-			'country' => array (
-				'drop' => array(
-					'index' => array (
-						'idx_country_name' => "ALTER TABLE `#__redshop_country` DROP INDEX `idx_country_name`"
-					)
-				)
-			),
-			'currency' => array (
-				'drop' => array(
-					'index' => array (
-						'idx_currency_name' => "ALTER TABLE `#__redshop_currency` DROP INDEX `idx_currency_name`"
-					)
-				)
-			),
-			'order_item' => array (
-				'drop' => array(
-					'field' => array (
-						'container_id' => "ALTER TABLE `#__redshop_order_item` DROP `container_id`"
-					)
-				)
-			),
-			// 1.5
-			// 1.5.0.4.1
-			'usercart_item' => array (
-				'add' => array (
-					'attribs' => "ALTER TABLE `#__redshop_usercart_item` ADD `attribs` VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item'"
-				)
-			),
-			// 1.5.0.5.1
-			'orders' => array (
-				'add' => array (
-					'invoice_number' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number` VARCHAR( 255 ) NOT NULL COMMENT 'Formatted Order Invoice for final use' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number` (`invoice_number`)",
-					'invoice_number_chrono' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number_chrono` INT NOT NULL COMMENT 'Order invoice number in chronological order' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number_chrono` (`invoice_number_chrono`)"
-				)
-			),
-			// 1.5.0.5.3
-			'order_payment' => array (
-				'drop' => array(
-					'index' => array (
-						'idx_order_id' => array (
-							"ALTER TABLE `#__redshop_order_payment` DROP INDEX idx_order_id",
-							"ALTER TABLE `#__redshop_order_payment` ADD UNIQUE(`order_id`)"
-						)
-					)
-				)
-			)
-		);
-
-		foreach ($dbUpdate as $table => $fields)
+		if ($type == 'update')
 		{
-			$redshopTable = JFactory::getConfig()->get('dbprefix') . 'redshop_' . $table;
-
-			$columnsQuery = "SHOW COLUMNS FROM " . $redshopTable;
-			$columns      = $db->setQuery($columnsQuery)->loadObjectList('Field');
-
-			if (is_array($columns))
-			{
-				// Alter new column
-				if (isset($fields['add']))
-				{
-					foreach ($fields['add'] as $field => $query)
-					{
-						if (!array_key_exists($field, $columns))
-						{
-							$db->setQuery($query);
-							$db->query();
-						}
-					}
-				}
-
-				// Alter drop column
-				$this->alterDropColumn($fields, $columns);
-			}
-
-			// Working with INDEX
-			$indexQuery = "SHOW INDEX FROM " . $redshopTable;
-			$columns = $db->setQuery($indexQuery)->loadObjectList('Column_name');
-
-			// Alter drop column
-			$this->alterDropColumn($fields, $columns);
+			require_once __DIR__ . '/libraries/redshop/install/database.php';
+			$installDatabase = new RedshopInstallDatabase;
+			$installDatabase->install();
 		}
 
 		// Demo content insert
@@ -579,51 +487,6 @@ class Com_RedshopInstallerScript
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
 			}
 		}
-	}
-
-	/**
-	 * Apply ALTER query for drop column or index
-	 *
-	 * @param   array  $fields   Fields information
-	 * @param   arrau  $columns  List of Columns
-	 *
-	 * @return  boolean          True on success.
-	 */
-	private function alterDropColumn($fields, $columns)
-	{
-		if (!is_array($columns))
-		{
-			return false;
-		}
-
-		if (!isset($fields['drop']['field']))
-		{
-			return false;
-		}
-
-		$db = JFactory::getDbo();
-
-		foreach ($fields['drop']['field'] as $field => $query)
-		{
-			if (array_key_exists($field, $columns))
-			{
-				if (is_array($query))
-				{
-					foreach ($query as $aQuery)
-					{
-						$db->setQuery($aQuery);
-						$db->query();
-					}
-				}
-				else
-				{
-					$db->setQuery($query);
-					$db->query();
-				}
-			}
-		}
-
-		return true;
 	}
 
 	/**
