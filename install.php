@@ -232,9 +232,12 @@ class Com_RedshopInstallerScript
 		// Syncronise users
 		$this->userSynchronization();
 
-		require_once __DIR__ . '/libraries/redshop/install/database.php';
-		$installDatabase = new RedshopInstallDatabase;
-		$installDatabase->install();
+		if ($type == 'update')
+		{
+			require_once __DIR__ . '/libraries/redshop/install/database.php';
+			$installDatabase = new RedshopInstallDatabase;
+			$installDatabase->install();
+		}
 
 		// Demo content insert
 
