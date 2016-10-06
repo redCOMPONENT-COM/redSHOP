@@ -545,8 +545,7 @@ class Com_RedshopInstallerScript
 						<input type="button" class="btn btn-mini" name="cancel" value="<?php echo JText::_('JCANCEL');?>"
 							   onclick="location.href='index.php?option=com_redshop&wizard=0'"/>
 						<?php else: ?>
-						<input type="button" class="btn btn-mini btn-info" name="update" value="<?php echo JText::_('COM_REDSHOP_OPTIMIZE_TABLES'); ?>"
-							   onclick="location.href='index.php?option=com_redshop&wizard=0&task=update.refresh'"/>
+
 						<?php endif; ?>
 					</td>
 				</tr>
