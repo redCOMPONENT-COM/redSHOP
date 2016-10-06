@@ -941,14 +941,6 @@ class Com_RedshopInstallerScript
 			);
 		}
 
-		if (version_compare($this->getOldParam('version'), '1.5.0.5', '<='))
-		{
-			array_push(
-				$folders,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements'
-			);
-		}
-
 		if (version_compare($this->getOldParam('version'), '1.5.0.4.3', '<='))
 		{
 			array_push(
