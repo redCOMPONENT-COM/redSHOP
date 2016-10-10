@@ -1385,9 +1385,11 @@ class order_functions
 					$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL'), 'error');
 				}
 			}
+
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	public function getDownloadProduct($order_id)
