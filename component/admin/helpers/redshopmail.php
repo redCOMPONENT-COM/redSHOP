@@ -1455,7 +1455,12 @@ class redshopMail
 		{
 			$data_add = $mailinfo[0]->mail_body;
 			$subject  = $mailinfo[0]->mail_subject;
-			$mailbcc  = explode(",", $mailinfo[0]->mail_bcc);
+
+			// Only check if this field is not empty
+			if (!empty($mailinfo[0]->mail_bcc))
+			{
+				$mailbcc  = explode(",", $mailinfo[0]->mail_bcc);
+			}
 		}
 
 		if (count($ans) > 0)
