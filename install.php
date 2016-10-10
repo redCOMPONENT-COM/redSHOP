@@ -127,7 +127,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Get list array of installed plugins
 	 *
-	 * @param   object  $parent
+	 * @param   object  $parent  Parent data
 	 *
 	 * @return  array
 	 */
@@ -146,12 +146,12 @@ class Com_RedshopInstallerScript
 				$extName  = (string) $node->attributes()->name;
 				$extGroup = (string) $node->attributes()->group;
 
-				$query       = $db->getQuery(true)
-									->select('*')
-									->from($db->qn('#__extensions'))
-									->where('type = ' . $db->q('plugin'))
-									->where('element = ' . $db->q($extName))
-									->where('folder = ' . $db->q($extGroup));
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__extensions'))
+					->where('type = ' . $db->q('plugin'))
+					->where('element = ' . $db->q($extName))
+					->where('folder = ' . $db->q($extGroup));
 
 				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query, 0, 1)->loadObject();
 			}
@@ -423,7 +423,6 @@ class Com_RedshopInstallerScript
 			// Set the query and execute the update.
 			$db->setQuery($query)->execute();
 		}
-
 		?>
 		<center>
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
@@ -679,9 +678,11 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * @param   string  $extName
-	 * @param   string  $extGroup
-	 * @param   int     $state
+	 * Method for enable plugins
+	 *
+	 * @param   string  $extName   Plugin name
+	 * @param   string  $extGroup  Plugin group
+	 * @param   int     $state     State of plugins
 	 *
 	 * @return mixed
 	 */
@@ -694,6 +695,7 @@ class Com_RedshopInstallerScript
 			->where('type = ' . $db->q('plugin'))
 			->where('element = ' . $db->q($extName))
 			->where('folder = ' . $db->q($extGroup));
+
 		return $db->setQuery($query)->execute();
 	}
 
@@ -941,14 +943,6 @@ class Com_RedshopInstallerScript
 			);
 		}
 
-		if (version_compare($this->getOldParam('version'), '1.5.0.5', '<='))
-		{
-			array_push(
-				$folders,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements'
-			);
-		}
-
 		if (version_compare($this->getOldParam('version'), '1.5.0.4.3', '<='))
 		{
 			array_push(
@@ -1035,27 +1029,11 @@ class Com_RedshopInstallerScript
 			);
 		}
 
-		if (!empty($folders))
-		{
-			foreach ($folders as $path)
-			{
-				if (JFolder::exists($path))
-				{
-					JFolder::delete($path);
-				}
-			}
-		}
+		// Delete these unused folders
+		$this->deleteFolders($folders);
 
-		if (!empty($files))
-		{
-			foreach ($files as $path)
-			{
-				if (JFile::exists($path))
-				{
-					JFile::delete($path);
-				}
-			}
-		}
+		// Delete these unused files
+		$this->deleteFiles($files);
 	}
 
 	/**
@@ -1354,5 +1332,88 @@ class Com_RedshopInstallerScript
 				}
 			}
 		}
+	}
+
+	/**
+	 * Delete folder recursively
+	 *
+	 * @param   string  $folder  Folder to delete
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.0.2
+	 */
+	protected function deleteFolder($folder)
+	{
+		if (!is_dir($folder))
+		{
+			return true;
+		}
+
+		$files = glob($folder . '/*');
+
+		foreach ($files as $file)
+		{
+			if (is_dir($file))
+			{
+				if (!$this->deleteFolder($file))
+				{
+					return false;
+				}
+
+				continue;
+			}
+
+			if (!unlink($file))
+			{
+				return false;
+			}
+		}
+
+		return rmdir($folder);
+	}
+
+	/**
+	 * Delete folders recursively.
+	 *
+	 * @param   array  $folders  Folders
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.0.2
+	 */
+	protected function deleteFolders(array $folders)
+	{
+		foreach ($folders as $folder)
+		{
+			if (!$this->deleteFolder($folder))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Delete files recursively.
+	 *
+	 * @param   array  $files  Files
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.0.2
+	 */
+	protected function deleteFiles(array $files)
+	{
+		foreach ($files as $file)
+		{
+			if (file_exists($file))
+			{
+				unlink($file);
+			}
+		}
+
+		return true;
 	}
 }
