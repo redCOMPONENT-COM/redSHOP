@@ -67,7 +67,7 @@ class RedshopControllerQuestion_detail extends RedshopControllerForm
 
 		if ($send == 1)
 		{
-			redshopMail::getInstance()->sendAskQuestionMail($row->question_id);
+			redshopMail::getInstance()->sendAskQuestionMail($post['question_id']);
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
