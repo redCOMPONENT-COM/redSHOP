@@ -39,7 +39,9 @@ class RedshopControllerQuestion_detail extends RedshopControllerForm
 	 */
 	public function save($send = 0, $urlVar = null)
 	{
-		$post = JRequest::get('post');
+		$jInput = JFactory::getApplication()->input;
+
+		$post = $jInput->get('post');
 		$question = JRequest::getVar('question', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["question"] = $question;
 
