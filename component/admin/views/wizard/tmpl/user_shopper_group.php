@@ -86,7 +86,7 @@ $url = $uri->root();
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO))
 			{
 				?>
-				<div><a class="modal"
+				<div><a class="jmodal"
 				        href="<?php
 				        echo REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $DEFAULT_PORTAL_LOGO;
 				        ?>"

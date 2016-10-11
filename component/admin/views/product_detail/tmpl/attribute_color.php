@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtmlBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 $uri = JURI::getInstance();
 $url = $uri->root();
 

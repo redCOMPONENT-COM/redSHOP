@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -190,7 +190,7 @@ else
 						if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images')
 						{
 							$media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim($row->media_name);    ?>
-							<a class="modal" href="<?php echo $media_img; ?>"
+							<a class="jmodal" href="<?php echo $media_img; ?>"
 							   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 							   rel="{handler: 'image', size: {}}">
 								<img src="<?php echo $media_img ?>" height="50" width="50"/></a>

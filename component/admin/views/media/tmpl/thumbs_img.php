@@ -8,16 +8,19 @@
  */
 defined('_JEXEC') or die;
 
-$fid    = JRequest::getVar('fid', '');
-$fdl    = JRequest::getVar('fdownload', '');
-$fsec   = JRequest::getVar('fsec', '');
-$folder = JRequest::getVar('folder', '');
+$input = JFactory::getApplication()->input;
+
+$fid      = $input->getString('fid', '');
+$fdl      = $input->getString('fdownload', '');
+$fsec     = $input->getString('fsec', '');
+$folder   = $input->getString('folder', '');
+$useModal = (boolean) $input->getCmd('modal', 0);
 
 $mediaHelper = new redMediahelper;
 
 if ($folder == '')
 {
-	$basePath = "components" . DIRECTORY_SEPARATOR . "com_redshop" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR. "images" . DIRECTORY_SEPARATOR;
+	$basePath = "components/com_redshop/assets/images/";
 
 	if ($fdl)
 	{
@@ -43,7 +46,11 @@ else
 	<div class="imgTotal">
 		<div align="center" class="imgBorder" style=''>
 			<a class="img-preview"
-			   href="javascript:window.parent.jimage_insert('<?php echo $basePath . $this->_tmp_img->path_relative; ?>','<?php echo $fid; ?>','<?php echo $fsec; ?>');window.parent.SqueezeBox.close();"
+				<?php if (!$useModal): ?>
+				href="javascript:window.parent.jimage_insert('<?php echo $basePath . $this->_tmp_img->path_relative; ?>','<?php echo $fid; ?>','<?php echo $fsec; ?>');window.parent.SqueezeBox.close();"
+				<?php else: ?>
+				href="javascript:window.parent.jimage_insert('<?php echo $basePath . $this->_tmp_img->path_relative; ?>','<?php echo $fid; ?>','<?php echo $fsec; ?>');window.parent.jQuery('#bsModal').modal('hide');"
+				<?php endif; ?>
 			   title="<?php echo $this->_tmp_img->name; ?>" style="display: block; width: 100%; height: 100%">
 				<div class="image">
 					<img src="<?php echo $thumb_path; ?>" width="<?php echo $this->_tmp_img->width_60; ?>"

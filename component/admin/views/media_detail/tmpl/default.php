@@ -14,7 +14,7 @@ $editor = JFactory::getEditor();
 
 $post = JRequest::get('post');
 
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 
 jimport('joomla.filesystem.file');
 
@@ -202,7 +202,7 @@ if ($showbuttons)
 													Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 												);
 									?>
-									<a class="modal btn btn-primary"
+									<a class="jmodal btn btn-primary"
 									   href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
 									   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 									   rel="{handler: 'image', size: {}}">
@@ -243,7 +243,7 @@ if ($showbuttons)
 						<td width="2%"><?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
 							<div class="button2-left">
 								<div class="image">
-									<a class="modal btn btn-primary"
+									<a class="jmodal btn btn-primary"
 										title="Image" href="<?php echo $ilink; ?>"
 										rel="{handler: 'iframe', size: {x: 1050, y: 450}}">
 										<?php echo JText::_('COM_REDSHOP_IMAGE'); ?>
@@ -263,7 +263,7 @@ if ($showbuttons)
 								<?php $down_ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'); ?>
 								<div class="button2-left">
 									<div class="image">
-										<a class="modal btn btn-primary"
+										<a class="jmodal btn btn-primary"
 											title="Image"
 											href="<?php echo $down_ilink; ?>"
 											rel="{handler: 'iframe', size: {x: 950, y: 450}}">

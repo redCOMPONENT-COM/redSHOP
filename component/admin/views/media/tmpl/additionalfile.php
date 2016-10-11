@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
-JHtmlBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 
 $mediaId = JFactory::getApplication()->input->getInt('media_id');
 

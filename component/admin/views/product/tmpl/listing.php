@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 
 $producthelper = productHelper::getInstance();
 $model = $this->getModel('product');

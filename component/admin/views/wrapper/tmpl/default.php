@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 $producthelper = productHelper::getInstance();
 
 $showall = JRequest::getVar('showall', '0');
@@ -110,7 +110,7 @@ $url = $uri->root();?>
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $wimage_path))
 						{
 							?>
-							<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $wimage_path; ?>"
+							<a class="jmodal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $wimage_path; ?>"
 							   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 							   rel="{handler: 'image', size: {}}">
 								<?php echo $row->wrapper_image;?></a>

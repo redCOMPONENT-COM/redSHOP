@@ -96,7 +96,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 {
 	$edit_addlink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=quotation_detail&layout=account');
 	?>
-	<a class="modal btn btn-primary" href="<?php echo $edit_addlink; ?>" rel="{handler: 'iframe', size: {x: 670, y: 500}}">
+	<a class="jmodal btn btn-primary" href="<?php echo $edit_addlink; ?>" rel="{handler: 'iframe', size: {x: 670, y: 500}}">
 		<?php echo JText::_('COM_REDSHOP_ADD_USER'); ?>
 	</a>
 <?php

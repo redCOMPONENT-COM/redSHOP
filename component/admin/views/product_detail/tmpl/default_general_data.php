@@ -12,6 +12,27 @@ $editor = JFactory::getEditor();
 $calendarFormat = '%d-%m-%Y';
 ?>
 
+<script type="text/javascript">
+	(function($){
+		$(document).ready(function(){
+			$(".modalBtn").click(function(event){
+				event.preventDefault();
+
+				var $button = $(this);
+
+				$("#bsModal").on("show.bs.modal", function(){
+					var $iframe = $($(this).find(".modal-body iframe"));
+
+					if ($iframe.attr("src") != $button.attr("data-src"))
+						$iframe.attr("src", $button.attr("data-src"));
+				});
+
+				$("#bsModal").modal({show:true});
+			})
+		});
+	})(jQuery);
+</script>
+
 <div class="row">
 	<div class="col-sm-8">
 		<div class="box box-primary">
@@ -266,21 +287,20 @@ $calendarFormat = '%d-%m-%Y';
 				);
 				?>
 
-				<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
+				<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&modal=1'); ?>
 
 				<div class="btn-toolbar">
-					<a class="modal btn btn-primary" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
-						<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
-					</a>
+					<button class="btn btn-primary modalBtn" data-src="<?php echo $ilink; ?>">
+						<i class="fa fa-picture"></i> <?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
+					</button>
 
 					<input type="hidden" name="product_image" id="product_image"/>
 
-					<?php if ($this->detail->product_id > 0) : ?>
-					<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $this->detail->product_id . '&showbuttons=1&media_section=product'); ?>
-
-					<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
-						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
-					</a>
+					<?php if ($this->detail->product_id > 0): ?>
+						<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $this->detail->product_id . '&showbuttons=1&media_section=product'); ?>
+						<button class="btn btn-primary modalBtn" data-src="<?php echo $ilink; ?>">
+							<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES'); ?>
+						</button>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -635,4 +655,23 @@ $calendarFormat = '%d-%m-%Y';
 		</div>
 	</div>
 </div>
-
+<div class="modal" id="bsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document" style="width: 900px;">
+		<div class="modal-content" style="border-radius: 6px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE') ?>
+				</h4>
+			</div>
+			<div class="modal-body" style="max-height: none;">
+				<iframe src="" frameborder="0" style="height: 500px;"></iframe>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+			</div>
+		</div>
+	</div>
+</div>

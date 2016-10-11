@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
-JHTMLBehavior::modal();
+JHtmlBehavior::modal('a.jmodal');
 $uri = JURI::getInstance();
 $url = $uri->root();    ?>
 <script language="javascript" type="text/javascript">
@@ -205,7 +205,7 @@ $url = $uri->root();    ?>
 								$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&e_name=text');
 							?>
 							<div class="button2-left">
-								<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
+								<div class="image"><a class="jmodal" title="Image" href="<?php echo $ilink; ?>"
 								                      rel="{handler: 'iframe', size: {x: 570, y: 400}}">Image</a></div>
 							</div>
 							<input type="hidden" name="shopper_group_logo_tmp" id="shopper_group_logo_tmp"/>

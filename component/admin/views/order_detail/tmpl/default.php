@@ -375,7 +375,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?></h3>
 					<?php if (!$tmpl)
 					{ ?>
-						<a class="modal btn btn-primary"
+						<a class="jmodal btn btn-primary"
 						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $order_id; ?>"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 					<?php } ?>
@@ -463,7 +463,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?></h3>
 					<?php if (!$tmpl)
 					{ ?>
-						<a class="modal btn btn-primary"
+						<a class="jmodal btn btn-primary"
 						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $order_id; ?>"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 					<?php } ?>
