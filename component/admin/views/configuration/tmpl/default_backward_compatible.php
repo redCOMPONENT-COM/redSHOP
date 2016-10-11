@@ -20,6 +20,12 @@ defined('_JEXEC') or die;
 						<label for="backward_compatible_js"><?php echo JText::_('COM_REDSHOP_BACKWARD_COMPATIBLE_JS_SCRIPT') ?></label></span>
 					<?php echo $this->lists['backward_compatible_js'];?>
 				</div>
+                <div class="form-group">
+					<span class="editlinktip hasTip"
+                          title="<?php echo JText::_('COM_REDSHOP_BACKWARD_COMPATIBLE_PHP_SCRIPT') ?>::<?php echo JText::_('COM_REDSHOP_BACKWARD_COMPATIBLE_PHP_SCRIPT_TOOLTIP') ?>">
+						<label for="backward_compatible_php"><?php echo JText::_('COM_REDSHOP_BACKWARD_COMPATIBLE_PHP_SCRIPT') ?></label></span>
+					<?php echo $this->lists['backward_compatible_php'];?>
+                </div>
 			</fieldset>
 		</div>
 	</div>

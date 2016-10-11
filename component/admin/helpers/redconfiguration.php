@@ -831,7 +831,8 @@ class Redconfiguration
 						"LOAD_REDSHOP_STYLE"                           => $d["load_redshop_style"],
 						"ENABLE_STOCKROOM_NOTIFICATION"                => $d["enable_stockroom_notification"],
 
-						"BACKWARD_COMPATIBLE_JS" => $d['backward_compatible_js']
+						"BACKWARD_COMPATIBLE_JS"  => $d['backward_compatible_js'],
+						"BACKWARD_COMPATIBLE_PHP" => $d['backward_compatible_php']
 		);
 
 		if ($d["cart_timeout"] <= 0)
