@@ -829,7 +829,9 @@ class Redconfiguration
 						"AJAX_BOX_HEIGHT"                              => $d["ajax_box_height"],
 						"DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER"        => $d["default_stockroom_below_amount_number"],
 						"LOAD_REDSHOP_STYLE"                           => $d["load_redshop_style"],
-						"ENABLE_STOCKROOM_NOTIFICATION"                => $d["enable_stockroom_notification"]
+						"ENABLE_STOCKROOM_NOTIFICATION"                => $d["enable_stockroom_notification"],
+
+						"BACKWARD_COMPATIBLE_JS" => $d['backward_compatible_js']
 		);
 
 		if ($d["cart_timeout"] <= 0)

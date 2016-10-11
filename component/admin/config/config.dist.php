@@ -360,4 +360,5 @@ class RedshopConfig {
 	public $GENERATE_LABEL_ON_STATUS = 'S';
 	public $INVOICE_NUMBER_FOR_FREE_ORDER = '0';
 	public $LOAD_REDSHOP_STYLE = '0';
+	public $BACKWARD_COMPATIBLE_JS = '0';
 }

@@ -382,6 +382,8 @@ class RedshopModelConfiguration extends RedshopModel
 			$data['image_quality_output'] = 100;
 		}
 
+		$data['backward_compatible_js'] = isset($data['backward_compatible_js']) ? $data['backward_compatible_js'] : 0;
+
 		// Prepare post data to write
 		if (!$this->configurationPrepare($data))
 		{
