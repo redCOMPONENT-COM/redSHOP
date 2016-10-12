@@ -183,7 +183,7 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 			'COM_REDSHOP_SEND_INVOICEMAIL'
 		);
 
-		if ($payment_detail->plugin->params->get('enableVault')
+		if (isset($payment_detail->plugin->params) && $payment_detail->plugin->params->get('enableVault')
 			&& ('P' == $detail->order_status || 'Unpaid' == $detail->order_payment_status))
 		{
 			RedshopToolbarHelper::link(
