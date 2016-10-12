@@ -613,7 +613,7 @@ function searchByPhone()
 				}
 			}
 		}
-		var linktocontroller = "index.php?option=com_redshop&view=registration&task=searchUserdetailByPhone&tmpl=component&phone="+value;
+		var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=searchUserdetailByPhone&tmpl=component&phone="+value;
 		xmlhttp.open("GET",linktocontroller,true);
 		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
@@ -650,7 +650,7 @@ function showCompanyOrCustomer(obj)
 		jQuery('#exCustomerFieldST').show();
 	}
 
-	var linktocontroller = "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
+	var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
 		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
 
 	jQuery.ajax({

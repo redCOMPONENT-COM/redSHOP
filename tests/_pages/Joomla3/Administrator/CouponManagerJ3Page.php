@@ -27,7 +27,7 @@ class CouponManagerJ3Page
 
 	public static $couponTypeDropDown = "//div[@id='coupon_type_chzn']/a";
 
-	public static $selectFirst = "//table[contains(@class, 'test-redshop-table')]//tr[contains(@class,'test-redshop-table-row')][1]//td[@class='test-redshop-coupon-checkall']//div//ins[@class='iCheck-helper']";
+	public static $selectFirst = "//input[@id='cb0']/following-sibling::ins";
 
 	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
