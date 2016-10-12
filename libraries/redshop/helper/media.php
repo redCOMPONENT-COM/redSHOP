@@ -1,17 +1,17 @@
 <?php
 /**
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.Library
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia instead
+ * @since  __DEPLOY_VERSION__
  */
 
 defined('_JEXEC') or die;
 
-class redMediahelper
+class RedshopHelperMedia
 {
 	/**
 	 * Checks if the file is an image
@@ -20,9 +20,9 @@ class redMediahelper
 	 *
 	 * @return boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::isImage() instead
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function isImage($fileName)
+	public static function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 		return preg_match("/$imageTypes/i", $fileName);
@@ -35,15 +35,24 @@ class redMediahelper
 	 *
 	 * @return boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::getTypeIcon() instead
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getTypeIcon($fileName)
+	public static function getTypeIcon($fileName)
 	{
 		// Get file extension
 		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
 	}
 
-	public function parseSize($size)
+	/**
+	 * Print size of an file to Kb or Mb
+	 *
+	 * @param  integer $size
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function parseSize($size)
 	{
 		if ($size < 1024)
 		{
@@ -64,9 +73,17 @@ class redMediahelper
 	}
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::imageResize() instead
+	 * Resize current resolution of an image to new width and height
+	 *
+	 * @param  integer $width
+	 * @param  integer $height
+	 * @param  integer $target
+	 *
+	 * @return array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function imageResize($width, $height, $target)
+	public static function imageResize($width, $height, $target)
 	{
 		/**
 		 * takes the larger size of the width and height and applies the
@@ -91,9 +108,15 @@ class redMediahelper
 	}
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::countFiles() instead
+	 * Checks amount of files in a directory
+	 *
+	 * @param  string $dir
+	 *
+	 * @return array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function countFiles($dir)
+	public static function countFiles($dir)
 	{
 		$total_file = 0;
 		$total_dir = 0;
