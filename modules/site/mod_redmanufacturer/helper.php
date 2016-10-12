@@ -36,6 +36,19 @@ abstract class ModRedManufacturerHelper
 			->where('m.published = 1')
 			->where('ma.published = 1');
 
+        // Ordering
+        switch ($params->get('order_by', 0))
+        {
+            case '0':
+                break;
+            case '1':
+                $query->order($db->quoteName('ma') . '.' . $db->quoteName('ordering') . ' ASC');
+                break;
+            case '2':
+                $query->order($db->quoteName('ma') . '.' . $db->quoteName('ordering') . ' DESC');
+                break;
+        }
+
 		return $db->setQuery($query, 0, (int) $params->get('NumberOfProducts', 5))->loadObjectList();
 	}
 }
