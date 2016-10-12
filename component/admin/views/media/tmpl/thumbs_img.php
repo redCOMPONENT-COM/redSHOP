@@ -13,8 +13,6 @@ $fdl    = JRequest::getVar('fdownload', '');
 $fsec   = JRequest::getVar('fsec', '');
 $folder = JRequest::getVar('folder', '');
 
-$mediaHelper = new redMediahelper;
-
 if ($folder == '')
 {
 	$basePath = "components" . DIRECTORY_SEPARATOR . "com_redshop" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR. "images" . DIRECTORY_SEPARATOR;
@@ -48,7 +46,7 @@ else
 				<div class="image">
 					<img src="<?php echo $thumb_path; ?>" width="<?php echo $this->_tmp_img->width_60; ?>"
 					     height="<?php echo $this->_tmp_img->height_60; ?>"
-					     alt="<?php echo $this->_tmp_img->name; ?> - <?php echo $mediaHelper->parseSize($this->_tmp_img->size); ?>"
+					     alt="<?php echo $this->_tmp_img->name; ?> - <?php echo RedshopHelperMedia::parseSize($this->_tmp_img->size); ?>"
 					     border="0"/>
 				</div>
 			</a>
