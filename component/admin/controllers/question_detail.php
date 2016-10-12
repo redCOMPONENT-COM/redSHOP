@@ -133,7 +133,7 @@ class RedshopControllerQuestion_detail extends RedshopControllerForm
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');
-		$this->setRedirect('index.php?option=com_redshop&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
+        $this->setRedirect('index.php?option=com_redshop&view=question_detail&layout=edit&question_id=' . $qid[0], $msg);
 	}
 
 	/**
