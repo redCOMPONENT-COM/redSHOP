@@ -105,7 +105,7 @@ JHTMLBehavior::modal();
 		} else if (parseDate(form.discount_stratdate.value) > parseDate(form.discount_enddate.value)) {
 			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
 			return;
-		} else if (parseInt(form.min_order_product_quantity.value) > parseInt(form.max_order_product_quantity.value)) {
+		} else if ((parseInt(form.min_order_product_quantity.value) > parseInt(form.max_order_product_quantity.value)) && parseInt(form.max_order_product_quantity.value) > 0) {
 			alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_QUANTITY_PER_ORDER_MUST_BE_LESS_THAN_MAXIMUM_QUANTITY_PER_ORDER', true); ?>");
 			return;
 		} else if (form.copy_attribute.length) {
