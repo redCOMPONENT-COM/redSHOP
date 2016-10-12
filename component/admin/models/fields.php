@@ -287,13 +287,16 @@ class RedshopModelFields extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 
-		$query = ' SELECT * '
-			. ' FROM ' . $db->quoteName('#__redshop_fields_data')
-			. ' WHERE ' . $db->quote('itemid') . ' = ' . (int) $orderitemid
-			. ' AND ' . $db->quoteName('fieldid') . ' = ' . (int) $fieldid
-			. ' AND ' . $db->quoteName('user_email') . ' = ' . $db->quote($user_email)
-			. ' AND ' . $db->quoteName('section') . ' = ' . (int) $section;
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->quoteName('#__redshop_fields_data'))
+					->where($db->quoteName('itemid') . ' = ' . (int) $orderitemid)
+					->where($db->quoteName('fieldid') . ' = ' . (int) $fieldid)
+					->where($db->quoteName('user_email') . ' = ' . $db->quote($user_email))
+					->where($db->quoteName('section') . ' = ' . (int) $section);
+
 		$db->setQuery($query);
+
 		return $db->loadObject();
 	}
 
