@@ -98,10 +98,22 @@ class RedshopHelperJs
 			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE')
 		);
 
+		$backwardJS = array();
+
 		// Now looping to add dynamic vars into javascript stack
 		foreach ($dynamicVars as $key => $value)
 		{
+			if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1)
+			{
+				$backwardJS[] = 'window.' . $key . ' = "' . $value . '";';
+			}
+
 			RedshopHelperConfig::script($key, $value);
+		}
+
+		if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1)
+		{
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $backwardJS));
 		}
 
 		// Prepare language string to add in javascript store
@@ -136,10 +148,22 @@ class RedshopHelperJs
 			'COM_REDSHOP_AVAILABLE_STOCK'
 		);
 
+		$backwardJS = array();
+
 		// Now looping to add language strings into javascript store
 		foreach ($languages as $value)
 		{
 			JText::script($value);
+
+			if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1)
+			{
+				$backwardJS[] = 'window.' . $value . ' = "' . JText::_($value) . '";';
+			}
+		}
+
+		if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1)
+		{
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $backwardJS));
 		}
 
 		if ($view == 'product')
