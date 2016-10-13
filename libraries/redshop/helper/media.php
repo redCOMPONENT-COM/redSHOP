@@ -19,51 +19,6 @@ defined('_JEXEC') or die;
 class RedshopHelperMedia
 {
 	/**
-	 * Old image file path
-	 *
-	 * @var string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $path_img_old = '';
-
-	/**
-	 * New image file path
-	 *
-	 * @var string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $path_img_new = '';
-
-	/**
-	 * New width in pixel
-	 *
-	 * @var integer
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $new_width = 0;
-
-	/**
-	 * New height in pixel
-	 *
-	 * @var integer
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $new_height = 0;
-
-	/**
-	 * MIME type of an image file
-	 *
-	 * @var string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $mime = 'image/jpeg';
-
-	/**
 	 * Checks if the file is an image
 	 *
 	 * @param   string  $fileName  The filename
