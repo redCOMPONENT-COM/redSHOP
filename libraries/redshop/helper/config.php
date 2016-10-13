@@ -276,6 +276,38 @@ class RedshopHelperConfig
 		{
 			jimport('joomla.filesystem.file');
 
+			// Old configuration file
+			if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php'))
+			{
+				require_once $this->getConfigurationDistFilePath();
+
+				// Old config file
+				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+
+				$configClass = new RedshopConfig();
+				$properties = get_object_vars($configClass);
+				$defined = get_defined_constants();
+
+				foreach ($properties as $name => $value)
+				{
+					if (in_array($name, $defined))
+					{
+						if (isset($defined[$name]))
+						{
+							$properties[$name] = $defined[$name];
+						}
+					}
+				}
+
+				// Save to config file
+				$this->save(new JRegistry($properties));
+
+				// Delete old config file
+				JFile::delete(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
+
+				return true;
+			}
+
 			return JFile::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
 		}
 
