@@ -145,8 +145,6 @@ class RedshopModelMedia extends RedshopModel
 	{
 		static $list;
 
-		$mediaHelper = new redMediahelper;
-
 		// Only process the list once per request
 		if (is_array($list))
 		{
@@ -233,7 +231,7 @@ class RedshopModelMedia extends RedshopModel
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
-								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);
+								$dimensions = RedshopHelperMedia::imageResize($info[0], $info[1], 60);
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							}
@@ -245,7 +243,7 @@ class RedshopModelMedia extends RedshopModel
 
 							if (($info[0] > 16) || ($info[1] > 16))
 							{
-								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 16);
+								$dimensions = RedshopHelperMedia::imageResize($info[0], $info[1], 16);
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							}
@@ -298,7 +296,7 @@ class RedshopModelMedia extends RedshopModel
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$count = $mediaHelper->countFiles($tmp->path);
+				$count = RedshopHelperMedia::countFiles($tmp->path);
 				$tmp->files = $count[0];
 				$tmp->folders = $count[1];
 
