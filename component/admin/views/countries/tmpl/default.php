@@ -8,30 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-
 $filter = JRequest::getVar('filter');
 ?>
-<script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-			form.view.value = "country_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
-</script>
-
 <form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
 	<table width="100%">
 		<tr>
@@ -65,7 +43,7 @@ $filter = JRequest::getVar('filter');
 		{
 			$row = $this->fields[$i];
 			$row->id = $row->id;
-			$link = JRoute::_('index.php?option=com_redshop&view=country&task=edit&cid[]=' . $row->id);
+			$link = JRoute::_('index.php?option=com_redshop&view=country&task=edit&id=' . $row->id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">
@@ -84,8 +62,6 @@ $filter = JRequest::getVar('filter');
 			$k = 1 - $k;
 		}
 		?>
-
-
 		<tfoot>
 		<td colspan="9">
 			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
@@ -97,7 +73,8 @@ $filter = JRequest::getVar('filter');
 		</td>
 		</tfoot>
 	</table>
-	<input type="hidden" name="view" value="country"/>
+	<?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" name="view" value="countries"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>

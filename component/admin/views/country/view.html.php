@@ -24,7 +24,7 @@ class RedshopViewCountry extends RedshopViewAdmin
 	 *
 	 * @var  string
 	 */
-	public $request_url;
+	public $requestUrl;
 
 	/**
 	 * Do we have to display a sidebar ?
@@ -32,6 +32,12 @@ class RedshopViewCountry extends RedshopViewAdmin
 	 * @var  boolean
 	 */
 	protected $displaySidebar = false;
+
+	protected $form;
+
+	protected $item;
+
+	protected $state;
 
 	/**
 	 * Function display template
@@ -48,28 +54,44 @@ class RedshopViewCountry extends RedshopViewAdmin
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
 
 		$uri = JFactory::getURI();
-		JToolBarHelper::save();
-		JToolBarHelper::apply();
-		$lists = array();
-		$detail = $this->get('data');
-		$isNew = ($detail->id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
+		$this->requestUrl = $uri->toString();
+
+		$this->addToolBar();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$isNew = ($this->item->id < 1);
+
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+
+		JToolBarHelper::title($title, 'redshop_country_48');
+		JToolBarHelper::apply('country.apply');
+		JToolBarHelper::save('country.save');
 
 		if ($isNew)
 		{
-			JToolBarHelper::cancel();
+			JToolBarHelper::cancel('country.cancel');
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+			JToolBarHelper::cancel('country.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_country_48');
-
-		$this->detail = $detail;
-		$this->lists = $lists;
-		$this->request_url = $uri->toString();
-
-		parent::display($tpl);
 	}
 }

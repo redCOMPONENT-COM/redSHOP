@@ -17,43 +17,8 @@ defined('_JEXEC') or die;
  * @since       [version> [<description>]
  */
 
-class TableCountry extends JTable
+class RedshopTableCountry extends JTable
 {
-	/**
-	 * Country ID
-	 *
-	 * @var  int
-	 */
-	public $id = null;
-
-	/**
-	 * Country name
-	 *
-	 * @var  string
-	 */
-	public $country_name = null;
-
-	/**
-	 * Country 3 chars code
-	 *
-	 * @var  string
-	 */
-	public $country_3_code = null;
-
-	/**
-	 * jtext of country
-	 *
-	 * @var  string
-	 */
-	public $country_jtext = null;
-
-	/**
-	 * Country 2 chars code
-	 *
-	 * @var  string
-	 */
-	public $country_2_code = null;
-
 	/**
 	 * Function construct
 	 *
@@ -104,34 +69,34 @@ class TableCountry extends JTable
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT id,country_3_code  FROM " . $this->_table_prefix . "country"
+		$query = "SELECT id,country_3_code  FROM " . $this->_table_prefix . "country"
 			. " WHERE country_3_code = " . $db->quote($this->country_3_code)
 			. " AND id !=  " . (int) $this->id;
 
-		$db->setQuery($q);
+		$db->setQuery($query);
 
 		$xid = intval($db->loadResult());
 
 		if ($xid)
 		{
-			$this->_error = JText::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS');
-			JError::raiseWarning('', $this->_error);
+			$this->error = JText::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS');
+			JError::raiseWarning('', $this->error);
 
 			return false;
 		}
 		else
 		{
-			$q = "SELECT id,country_3_code,country_2_code  FROM " . $this->_table_prefix . "country"
+			$query = "SELECT id,country_3_code,country_2_code  FROM " . $this->_table_prefix . "country"
 				. " WHERE country_2_code = " . $db->quote($this->country_2_code)
 				. " AND id !=  " . (int) $this->id;
 
-			$db->setQuery($q);
+			$db->setQuery($query);
 			$xid = intval($db->loadResult());
 
 			if ($xid)
 			{
-				$this->_error = JText::_('COM_REDSHOP_COUNTRY_CODE_2_ALREADY_EXISTS');
-				JError::raiseWarning('', $this->_error);
+				$this->error = JText::_('COM_REDSHOP_COUNTRY_CODE_2_ALREADY_EXISTS');
+				JError::raiseWarning('', $this->error);
 
 				return false;
 			}

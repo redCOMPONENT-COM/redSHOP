@@ -17,18 +17,8 @@ defined('_JEXEC') or die;
  * @since       [version> [<description>]
  */
 
-class RedshopModelCountries extends RedshopModel
+class RedshopModelCountries extends RedshopModelList
 {
-	public $data = null;
-
-	public $total = null;
-
-	public $pagination = null;
-
-	public $tablePrefix = null;
-
-	public $context = null;
-
 	/**
 	 * Construct class
 	 *
@@ -37,120 +27,98 @@ class RedshopModelCountries extends RedshopModel
 
 	public function __construct()
 	{
-		parent::__construct();
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id',
+				'country_name',
+				'country_3_code',
+				'country_2_code',
+				'country_jtext',
+			);
+		}
 
-		$app = JFactory::getApplication();
-
-		$this->context = 'id';
-		$this->tablePrefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitStart = $app->getUserStateFromRequest($this->context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->context . 'filter', 'filter', '');
-		$limitStart = ($limit != 0 ? (floor($limitStart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitStart);
-		$this->setState('filter', $filter);
+		parent::__construct($config);
 	}
 
 	/**
-	 * Function getData
+	 * Method to auto-populate the model state.
 	 *
-	 * @return void
-	 * 
-	 * @since 1.x
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-
-	public function getData()
+	protected function populateState($ordering = null, $direction = null)
 	{
-		if (empty($this->data))
-		{
-			$query = $this->buildQuery();
-			$this->data = $this->getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
-		return $this->data;
+		// List state information.
+		parent::populateState('country_name', 'asc');
 	}
 
 	/**
-	 * Get count total countries in db
-	 * 
-	 * @return int total countries
+	 * Method to get a store id based on model configuration state.
 	 *
-	 * @since 1.x
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.6
 	 */
-
-	public function getTotal()
+	protected function getStoreId($id = '')
 	{
-		if (empty($this->total))
-		{
-			$query = $this->buildQuery();
-			$this->total = $this->getListCount($query);
-		}
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.published');
 
-		return $this->total;
+		return parent::getStoreId($id);
 	}
 
 	/**
-	 * Construct class
-	 * 
-	 * @return   pagination
+	 * Method to build an SQL query to load the list data.
 	 *
-	 * @since 1.x
+	 * @return      string  An SQL query
 	 */
-
-	public function getPagination()
+	protected function getListQuery()
 	{
-		if (empty($this->pagination))
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_country'));
+
+		// Filter by search in name.
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
 		{
-			jimport('joomla.html.pagination');
-			$this->pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('id = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where('country_name LIKE ' . $search);
+			}
 		}
 
-		return $this->pagination;
-	}
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
-	/**
-	 * Build up query string
-	 * 
-	 * @return   string query
-	 *
-	 * @since 1.x
-	 */
-
-	public function buildQuery()
-	{
-		$filter = $this->getState('filter');
-		$where = '';
-
-		if ($filter)
-		{
-			$where = " WHERE country_name like '%" . $filter . "%' ";
-		}
-
-		$orderby = $this->buildContentOrderBy();
-		$query = " SELECT distinct(c.id),c.*  FROM " . $this->tablePrefix . "country c " . $where . $orderby;
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
-	}
-
-	/**
-	 * Build content order by substring
-	 * 
-	 * @return   string orderby
-	 *
-	 * @since 1.x
-	 */
-
-	public function buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filterOrder = $app->getUserStateFromRequest($this->context . 'filter_order', 'filter_order', 'id');
-		$filterOrderDir = $app->getUserStateFromRequest($this->context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderBy = ' ORDER BY ' . $db->escape($filterOrder . ' ' . $filterOrderDir);
-
-		return $orderBy;
 	}
 }

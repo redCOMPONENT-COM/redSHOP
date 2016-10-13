@@ -17,181 +17,74 @@ defined('_JEXEC') or die;
  * @since       [version> [<description>]
  */
 
-class RedshopModelCountry extends RedshopModel
+class RedshopModelCountry extends JModelAdmin
 {
-	public $id = null;
-
-	public $data = null;
-
-	public $tablePrefix = null;
-
 	/**
-	 * Construct class
-	 * 
-	 * @since   1.x
-	 */
-
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->tablePrefix = '#__redshop_';
-
-		$array = JRequest::getVar('cid', 0, '', 'array');
-		$this->setId((int) $array[0]);
-	}
-
-	/**
-	 * Function bind data
+	 * Returns a Table object, always creating it
 	 *
-	 * @param   int  $id  country id
-	 * 
-	 * @return  void
-	 * 
-	 * @since   1.x
-	 */
-
-	public function setId($id)
-	{
-		$this->id = $id;
-		$this->data = null;
-	}
-
-	/**
-	 * Function get Country
-	 * 
-	 * @return  Object
-	 * 
-	 * @since   1.x
-	 */
-
-	public function &getData()
-	{
-		if ($this->loadData())
-		{
-		}
-		else
-		{
-			$this->initData();
-		}
-
-		return $this->data;
-	}
-
-	/**
-	 * Function load data
-	 * 
-	 * @return  boolean
-	 * 
-	 * @since   1.x
-	 */
-
-	public function loadData()
-	{
-		if (empty($this->data))
-		{
-			$query = 'SELECT * FROM ' . $this->tablePrefix . 'country WHERE id = ' . $this->id;
-			$this->_db->setQuery($query);
-			$this->data = $this->_db->loadObject();
-
-			return (boolean) $this->data;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Function init data
-	 * 
-	 * @return  boolean
-	 * 
-	 * @since   1.x
-	 */
-
-	public function _initData()
-	{
-		if (empty($this->data))
-		{
-			$detail = new stdClass;
-
-			$detail->id = 0;
-			$detail->country_name = null;
-			$detail->country_3_code = null;
-			$detail->country_2_code = null;
-			$detail->country_jtext = null;
-			$this->data = $detail;
-
-			return (boolean) $this->data;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Function store data
+	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @param   object  $data  Country instance
-	 * 
-	 * @return  boolean / object
-	 * 
-	 * @since   1.x
+	 * @return  JTable  A database object
+	 *
+	 * @since   1.6
 	 */
-
-	public function store($data)
+	public function getTable($type = 'Country', $prefix = 'RedshopTable', $config = array())
 	{
-		$row = $this->getTable();
+		return JTable::getInstance($type, $prefix, $config);
+	}
 
-		if (!$row->bind($data))
+	/**
+	 * Method to get the record form.
+	 *
+	 * @param   array    $data      Data for the form. [optional]
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   1.6
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm(
+			'com_redshop.country',
+			'country',
+			array(
+				'control' => 'jform',
+				'load_data' => $loadData
+			)
+		);
+
+		if (empty($form))
 		{
-			$this->setError($this->_db->getErrorMsg());
-
 			return false;
 		}
 
-		if (!$row->check())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return $row;
+		return $form;
 	}
 
 	/**
-	 * Function bind data
+	 * Method to get the data that should be injected in the form.
 	 *
-	 * @param   array  $cid  array country ids
-	 * 
-	 * @return  boolean
-	 * 
-	 * @since   1.x
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
 	 */
-
-	public function delete($cid = array())
+	protected function loadFormData()
 	{
-		if (count($cid))
+		// Check the session for previously entered form data.
+		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.country.data', array());
+
+		if (empty($data))
 		{
-			$cids = implode(',', $cid);
-
-			$query = 'DELETE FROM ' . $this->tablePrefix . 'country WHERE id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
+			$data = $this->getItem();
 		}
 
-		return true;
+		$this->preprocessData('com_redshop.country', $data);
+
+		return $data;
 	}
 }

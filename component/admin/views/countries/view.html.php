@@ -37,33 +37,47 @@ class RedshopViewCountries extends RedshopViewAdmin
 
 		$context  = 'id';
 		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
 		$uri      = JFactory::getURI();
 
-		$document->setTitle(JText::_('COM_REDSHOP_COUNTRY'));
+		$state		  	= $this->get('State');
+		$filterOrder    = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'id');
+		$filterOrderDir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolbarHelper::deleteList();
-
-		$state		  = $this->get('State');
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-
-		$fields             = $this->get('Data');
-		$pagination         = $this->get('Pagination');
+		$lists['order']     = $filterOrder;
+		$lists['order_Dir'] = $filterOrderDir;
 
 		$this->user         = JFactory::getUser();
-		$this->pagination   = $pagination;
-		$this->fields       = $fields;
+		$this->fields		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
 		$this->lists        = $lists;
-		$this->request_url  = $uri->toString();
+		$this->requestUrl  	= $uri->toString();
 		$this->filter       = $state->get('filter');
 
+		$this->addToolBar();
+
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolBar()
+	{
+		$title = JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT');
+
+		if ($this->pagination->total)
+		{
+			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
+		}
+
+		JToolBarHelper::title($title, 'redshop_country_48');
+		JToolBarHelper::addNew('country.add');
+		JToolBarHelper::editList('country.edit');
+		JToolBarHelper::deleteList('', 'countries.delete');
 	}
 }
