@@ -462,25 +462,12 @@ class Com_RedshopInstallerScript
 		// Install the sh404SEF router files
 		JLoader::import('joomla.filesystem.file');
 		JLoader::import('joomla.filesystem.folder');
-		$sh404sefext   = JPATH_SITE . '/components/com_sh404sef/sef_ext';
-		$sh404sefmeta  = JPATH_SITE . '/components/com_sh404sef/meta_ext';
 		$sh404sefadmin = JPATH_SITE . '/administrator/components/com_sh404sef';
 		$redadmin      = JPATH_SITE . '/administrator/components/com_redshop/extras';
 
 		// Check if sh404SEF is installed
 		if (JFolder::exists(JPATH_SITE . '/components/com_sh404sef'))
 		{
-			// Copy the plugin
-			if (!JFile::copy($redadmin . '/sh404sef/sef_ext/com_redshop.php', $sh404sefext . '/com_redshop.php'))
-			{
-				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_EXTENSION_PLUGIN_FILE');
-			}
-
-			if (!JFile::copy($redadmin . '/sh404sef/meta_ext/com_redshop.php', $sh404sefmeta . '/com_redshop.php'))
-			{
-				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_META_PLUGIN_FILE');
-			}
-
 			if (!JFile::copy($redadmin . '/sh404sef/language/com_redshop.php', $sh404sefadmin . '/language/plugins/com_redshop.php'))
 			{
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
@@ -879,6 +866,9 @@ class Com_RedshopInstallerScript
 
 		// Clean up old Updates feature
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/update';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/sef_ext';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/meta_ext';
+
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
