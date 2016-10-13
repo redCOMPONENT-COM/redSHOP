@@ -357,7 +357,7 @@ class RedshopHelperCategory
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getParentCategories()
+	public static function getParentCategories()
 	{
 		$db = JFactory::getDbo();
 
