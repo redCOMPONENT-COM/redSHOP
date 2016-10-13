@@ -9,95 +9,189 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Model Country
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       [version> [<description>]
+ */
 
 class RedshopModelCountry extends RedshopModel
 {
-	public $_data = null;
+	public $id = null;
 
-	public $_total = null;
+	public $data = null;
 
-	public $_pagination = null;
+	public $tablePrefix = null;
 
-	public $_table_prefix = null;
-
-	public $_context = null;
+	/**
+	 * Construct class
+	 * 
+	 * @since   1.x
+	 */
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
+		$this->tablePrefix = '#__redshop_';
 
-		$this->_context = 'country_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-		$this->setState('filter', $filter);
+		$array = JRequest::getVar('cid', 0, '', 'array');
+		$this->setId((int) $array[0]);
 	}
 
-	public function getData()
+	/**
+	 * Function bind data
+	 *
+	 * @param   int  $id  country id
+	 * 
+	 * @return  void
+	 * 
+	 * @since   1.x
+	 */
+
+	public function setId($id)
 	{
-		if (empty($this->_data))
+		$this->id = $id;
+		$this->data = null;
+	}
+
+	/**
+	 * Function get Country
+	 * 
+	 * @return  Object
+	 * 
+	 * @since   1.x
+	 */
+
+	public function &getData()
+	{
+		if ($this->loadData())
 		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		}
+		else
+		{
+			$this->initData();
 		}
 
-		return $this->_data;
+		return $this->data;
 	}
 
-	public function getTotal()
+	/**
+	 * Function load data
+	 * 
+	 * @return  boolean
+	 * 
+	 * @since   1.x
+	 */
+
+	public function loadData()
 	{
-		if (empty($this->_total))
+		if (empty($this->data))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$query = 'SELECT * FROM ' . $this->tablePrefix . 'country WHERE id = ' . $this->id;
+			$this->_db->setQuery($query);
+			$this->data = $this->_db->loadObject();
+
+			return (boolean) $this->data;
 		}
 
-		return $this->_total;
+		return true;
 	}
 
-	public function getPagination()
+	/**
+	 * Function init data
+	 * 
+	 * @return  boolean
+	 * 
+	 * @since   1.x
+	 */
+
+	public function _initData()
 	{
-		if (empty($this->_pagination))
+		if (empty($this->data))
 		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+			$detail = new stdClass;
+
+			$detail->id = 0;
+			$detail->country_name = null;
+			$detail->country_3_code = null;
+			$detail->country_2_code = null;
+			$detail->country_jtext = null;
+			$this->data = $detail;
+
+			return (boolean) $this->data;
 		}
 
-		return $this->_pagination;
+		return true;
 	}
 
-	public function _buildQuery()
-	{
-		$filter = $this->getState('filter');
- 		$where = '';
- 		
- 		if ($filter)
- 		{
- 			$where = " WHERE country_name like '%" . $filter . "%' ";
- 		}
- 
-		$orderby = $this->_buildContentOrderBy();
-		$query = " SELECT distinct(c.country_id),c.*  FROM " . $this->_table_prefix . "country c " . $where . $orderby;
+	/**
+	 * Function store data
+	 *
+	 * @param   object  $data  Country instance
+	 * 
+	 * @return  boolean / object
+	 * 
+	 * @since   1.x
+	 */
 
-		return $query;
+	public function store($data)
+	{
+		$row = $this->getTable();
+
+		if (!$row->bind($data))
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		if (!$row->check())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		if (!$row->store())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		return $row;
 	}
 
-	public function _buildContentOrderBy()
+	/**
+	 * Function bind data
+	 *
+	 * @param   array  $cid  array country ids
+	 * 
+	 * @return  boolean
+	 * 
+	 * @since   1.x
+	 */
+
+	public function delete($cid = array())
 	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
+		if (count($cid))
+		{
+			$cids = implode(',', $cid);
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'country_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+			$query = 'DELETE FROM ' . $this->tablePrefix . 'country WHERE id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
 
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
+			if (!$this->_db->execute())
+			{
+				$this->setError($this->_db->getErrorMsg());
 
-		return $orderby;
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

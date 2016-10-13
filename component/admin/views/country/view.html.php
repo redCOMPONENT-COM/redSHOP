@@ -9,42 +9,66 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.html.pagination');
+/**
+ * View Country
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       [version> [<description>]
+ */
 
 class RedshopViewCountry extends RedshopViewAdmin
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
+	/**
+	 * Function display template
+	 *
+	 * @param   string  $tpl  name of template
+	 * 
+	 * @return  void
+	 * 
+	 * @since   1.x
+	 */
+
 	public function display($tpl = null)
 	{
-		global $context;
-
-		$context  = 'country_id';
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
-		$uri      = JFactory::getURI();
-
-		$document->setTitle(JText::_('COM_REDSHOP_COUNTRY'));
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolbarHelper::deleteList();
 
-		$state		  = $this->get('State');
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'country_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$uri = JFactory::getURI();
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
+		$lists = array();
+		$detail = $this->get('data');
+		$isNew = ($detail->id < 1);
+		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		if ($isNew)
+		{
+			JToolBarHelper::cancel();
+		}
+		else
+		{
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
 
-		$fields             = $this->get('Data');
-		$pagination         = $this->get('Pagination');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_country_48');
 
-		$this->user         = JFactory::getUser();
-		$this->pagination   = $pagination;
-		$this->fields       = $fields;
-		$this->lists        = $lists;
-		$this->request_url  = $uri->toString();
-		$this->filter       = $state->get('filter');
+		$this->detail = $detail;
+		$this->lists = $lists;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

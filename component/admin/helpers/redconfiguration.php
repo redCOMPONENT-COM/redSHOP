@@ -1256,7 +1256,7 @@ class Redconfiguration
 	public function getCountryId($conid)
 	{
 		$db = JFactory::getDbo();
-		$query = 'SELECT country_id FROM #__redshop_country '
+		$query = 'SELECT id FROM #__redshop_country '
 			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
 		$db->setQuery($query);
 
@@ -1293,7 +1293,7 @@ class Redconfiguration
 		$db = JFactory::getDbo();
 		$query = 'SELECT  state_3_code , show_state FROM #__redshop_state '
 		. 'WHERE state_2_code LIKE ' . $db->quote($tax_code)
-		. ' AND country_id = ' . (int) $conid;
+		. ' AND id = ' . (int) $conid;
 		$db->setQuery($query);
 		$rslt_data = $db->loadObjectList();
 

@@ -1285,7 +1285,7 @@ class order_functions
 		}
 
 		$query = 'SELECT s.state_name FROM #__redshop_state AS s ' . ','
-			. '#__redshop_country AS c ' . 'WHERE c.country_id=s.country_id ' . $and;
+			. '#__redshop_country AS c ' . 'WHERE c.id=s.country_id ' . $and;
 		$db->setQuery($query);
 		$stname = $db->loadResult();
 

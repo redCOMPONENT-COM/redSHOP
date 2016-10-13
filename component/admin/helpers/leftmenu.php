@@ -1238,12 +1238,12 @@ class LeftMenu
 		$menu->section('country')
 			->title('COM_REDSHOP_COUNTRY')
 			->addItem(
-				'index.php?option=com_redshop&view=country',
+				'index.php?option=com_redshop&view=countries',
 				'COM_REDSHOP_COUNTRY_LISTING',
 				(self::$view == 'country') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=country_detail',
+				'index.php?option=com_redshop&view=country',
 				'COM_REDSHOP_ADD_COUNTRY',
 				(self::$view == 'country_detail') ? true : false
 			);

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 class Tablecountry_detail extends JTable
 {
-	public $country_id = null;
+	public $id = null;
 
 	public $country_name = null;
 
@@ -25,7 +25,7 @@ class Tablecountry_detail extends JTable
 	{
 		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'country', 'country_id', $db);
+		parent::__construct($this->_table_prefix . 'country', 'id', $db);
 	}
 
 	public function bind($array, $ignore = '')
@@ -44,9 +44,9 @@ class Tablecountry_detail extends JTable
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT country_id,country_3_code  FROM " . $this->_table_prefix . "country"
+		$q = "SELECT id,country_3_code  FROM " . $this->_table_prefix . "country"
 			. " WHERE country_3_code = " . $db->quote($this->country_3_code)
-			. " AND country_id !=  " . (int) $this->country_id;
+			. " AND id !=  " . (int) $this->id;
 
 		$db->setQuery($q);
 
@@ -61,9 +61,9 @@ class Tablecountry_detail extends JTable
 		}
 		else
 		{
-			$q = "SELECT country_id,country_3_code,country_2_code  FROM " . $this->_table_prefix . "country"
+			$q = "SELECT id,country_3_code,country_2_code  FROM " . $this->_table_prefix . "country"
 				. " WHERE country_2_code = " . $db->quote($this->country_2_code)
-				. " AND country_id !=  " . (int) $this->country_id;
+				. " AND id !=  " . (int) $this->id;
 
 			$db->setQuery($q);
 			$xid = intval($db->loadResult());
