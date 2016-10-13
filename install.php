@@ -127,7 +127,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Get list array of installed plugins
 	 *
-	 * @param   object  $parent
+	 * @param   object  $parent  Parent data
 	 *
 	 * @return  array
 	 */
@@ -146,12 +146,12 @@ class Com_RedshopInstallerScript
 				$extName  = (string) $node->attributes()->name;
 				$extGroup = (string) $node->attributes()->group;
 
-				$query       = $db->getQuery(true)
-									->select('*')
-									->from($db->qn('#__extensions'))
-									->where('type = ' . $db->q('plugin'))
-									->where('element = ' . $db->q($extName))
-									->where('folder = ' . $db->q($extGroup));
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__extensions'))
+					->where('type = ' . $db->q('plugin'))
+					->where('element = ' . $db->q($extName))
+					->where('folder = ' . $db->q($extGroup));
 
 				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query, 0, 1)->loadObject();
 			}
@@ -216,31 +216,6 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * Method to run after an install/update/uninstall method
-	 *
-	 * @param   object  $type    type of change (install, update or discover_install)
-	 * @param   object  $parent  class calling this method
-	 *
-	 * @return void
-	 */
-	public function postflight($type, $parent)
-	{
-		// Install Module and Plugin
-		$installer  = $parent->getParent();
-		$source     = $installer->getPath('source');
-		$pluginPath = $source . '/plugins';
-
-		if ($type == 'update')
-		{
-			$lang = JFactory::getLanguage();
-			$lang->load('com_redshop', JPATH_ADMINISTRATOR);
-			JModelLegacy::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
-			$model = JModelLegacy::getInstance('Update', 'RedshopModel');
-			$model->checkUpdateStatus();
-		}
-	}
-
-	/**
 	 * Main redSHOP installer Events
 	 *
 	 * @param   string  $type  type of change (install, update or discover_install)
@@ -257,103 +232,11 @@ class Com_RedshopInstallerScript
 		// Syncronise users
 		$this->userSynchronization();
 
-		$dbUpdate = array (
-			// 1.4
-			'quotation' => array (
-				'add' => array (
-					'quotation_customer_note' => "ALTER TABLE `#__redshop_quotation` ADD `quotation_customer_note` TEXT NOT NULL AFTER `quotation_note`"
-				)
-			),
-			'product' => array (
-				'add' => array (
-					'allow_decimal_piece' => "ALTER TABLE `#__redshop_product` ADD `allow_decimal_piece` int(4) NOT NULL"
-				),
-				'drop' => array(
-					'index' => array (
-						'product_number' => "ALTER TABLE `#__redshop_product` DROP INDEX `product_number`"
-					)
-				)
-			),
-			'country' => array (
-				'drop' => array(
-					'index' => array (
-						'idx_country_name' => "ALTER TABLE `#__redshop_country` DROP INDEX `idx_country_name`"
-					)
-				)
-			),
-			'currency' => array (
-				'drop' => array(
-					'index' => array (
-						'idx_currency_name' => "ALTER TABLE `#__redshop_currency` DROP INDEX `idx_currency_name`"
-					)
-				)
-			),
-			'order_item' => array (
-				'drop' => array(
-					'field' => array (
-						'container_id' => "ALTER TABLE `#__redshop_order_item` DROP `container_id`"
-					)
-				)
-			),
-			// 1.5
-			// 1.5.0.4.1
-			'usercart_item' => array (
-				'add' => array (
-					'attribs' => "ALTER TABLE `#__redshop_usercart_item` ADD `attribs` VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item'"
-				)
-			),
-			// 1.5.0.5.1
-			'orders' => array (
-				'add' => array (
-					'invoice_number' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number` VARCHAR( 255 ) NOT NULL COMMENT 'Formatted Order Invoice for final use' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number` (`invoice_number`)",
-					'invoice_number_chrono' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number_chrono` INT NOT NULL COMMENT 'Order invoice number in chronological order' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number_chrono` (`invoice_number_chrono`)"
-				)
-			),
-			// 1.5.0.5.3
-			'order_payment' => array (
-				'drop' => array(
-					'index' => array (
-						'idx_order_id' => array (
-							"ALTER TABLE `#__redshop_order_payment` DROP INDEX idx_order_id",
-							"ALTER TABLE `#__redshop_order_payment` ADD UNIQUE(`order_id`)"
-						)
-					)
-				)
-			)
-		);
-
-		foreach ($dbUpdate as $table => $fields)
+		if ($type == 'update')
 		{
-			$redshopTable = JFactory::getConfig()->get('dbprefix') . 'redshop_' . $table;
-
-			$columnsQuery = "SHOW COLUMNS FROM " . $redshopTable;
-			$columns      = $db->setQuery($columnsQuery)->loadObjectList('Field');
-
-			if (is_array($columns))
-			{
-				// Alter new column
-				if (isset($fields['add']))
-				{
-					foreach ($fields['add'] as $field => $query)
-					{
-						if (!array_key_exists($field, $columns))
-						{
-							$db->setQuery($query);
-							$db->query();
-						}
-					}
-				}
-
-				// Alter drop column
-				$this->alterDropColumn($fields, $columns);
-			}
-
-			// Working with INDEX
-			$indexQuery = "SHOW INDEX FROM " . $redshopTable;
-			$columns = $db->setQuery($indexQuery)->loadObjectList('Column_name');
-
-			// Alter drop column
-			$this->alterDropColumn($fields, $columns);
+			require_once __DIR__ . '/libraries/redshop/install/database.php';
+			$installDatabase = new RedshopInstallDatabase;
+			$installDatabase->install();
 		}
 
 		// Demo content insert
@@ -397,7 +280,7 @@ class Com_RedshopInstallerScript
 					(260, 'redproductfinder', 'redproductfinder', '" . $redtemplate->getInstallSectionTemplate('redproductfinder') . "', 1),
 					(265, 'quotation_detail', 'quotation_detail', '" . $redtemplate->getInstallSectionTemplate('quotation_detail') . "', 1),
 					(334, 'newsletter_products', 'newsletter_product', '" . $redtemplate->getInstallSectionTemplate('newsletter_products') . "', 1),
-				    (280, 'catalogue_cart', 'catalogue_cart', '" . $redtemplate->getInstallSectionTemplate('catalogue_cart') . "', 1),
+					(280, 'catalogue_cart', 'catalogue_cart', '" . $redtemplate->getInstallSectionTemplate('catalogue_cart') . "', 1),
 					(281, 'catalogue_order_detail', 'catalogue_order_detail', '" . $redtemplate->getInstallSectionTemplate('catalogue_order_detail') . "', 1),
 					(282, 'catalogue_order_receipt', 'catalogue_order_receipt', '" . $redtemplate->getInstallSectionTemplate('catalogue_order_receipt') . "', 1),
 					(289, 'empty_cart', 'empty_cart', '" . $redtemplate->getInstallSectionTemplate('empty_cart') . "', 1),
@@ -411,14 +294,14 @@ class Com_RedshopInstallerScript
 					(359, 'attributes_listing1', 'attributewithcart_template', '" . $redtemplate->getInstallSectionTemplate('attributes_listing1') . "', 1),
 					(360, 'checkout', 'checkout', '" . $redtemplate->getInstallSectionTemplate('checkout') . "',1),
 					(371, 'product_content', 'product_content_template', '" . $redtemplate->getInstallSectionTemplate('product_content') . "',1),
-				    (372, 'quotation_cart_template', 'quotation_cart', '" . $redtemplate->getInstallSectionTemplate('quotation_cart_template') . "',1),
+					(372, 'quotation_cart_template', 'quotation_cart', '" . $redtemplate->getInstallSectionTemplate('quotation_cart_template') . "',1),
 					(370, 'quotation_request_template', 'quotation_request', '" . $redtemplate->getInstallSectionTemplate('quotation_request_template') . "',1),
 					(450, 'billing_template', 'billing_template', '" . $redtemplate->getInstallSectionTemplate('billing_template') . "',1),
 					(451, 'shipping_template', 'shipping_template', '" . $redtemplate->getInstallSectionTemplate('shipping_template') . "',1),
 					(460, 'private_billing_template', 'private_billing_template', '" . $redtemplate->getInstallSectionTemplate('private_billing_template') . "',1),
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
-	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1),
-	                (551, 'login', 'login', '" . $redtemplate->getInstallSectionTemplate('login') . "',1)";
+					(550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1),
+					(551, 'login', 'login', '" . $redtemplate->getInstallSectionTemplate('login') . "',1)";
 		$db->setQuery($q);
 		$db->execute();
 
@@ -540,14 +423,13 @@ class Com_RedshopInstallerScript
 			// Set the query and execute the update.
 			$db->setQuery($query)->execute();
 		}
-
 		?>
 		<center>
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
 				<tr>
 					<td valign="top" width="270px">
 						<img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88" alt="redSHOP Logo"
-						     align="left">
+							 align="left">
 					</td>
 					<td valign="top">
 						<strong><?php echo JText::_('COM_REDSHOP_COMPONENT_NAME'); ?></strong><br/>
@@ -570,8 +452,7 @@ class Com_RedshopInstallerScript
 						<input type="button" class="btn btn-mini" name="cancel" value="<?php echo JText::_('JCANCEL');?>"
 							   onclick="location.href='index.php?option=com_redshop&wizard=0'"/>
 						<?php else: ?>
-						<input type="button" class="btn btn-mini btn-info" name="update" value="<?php echo JText::_('COM_REDSHOP_OPTIMIZE_TABLES'); ?>"
-							   onclick="location.href='index.php?option=com_redshop&wizard=0&task=update.refresh'"/>
+
 						<?php endif; ?>
 					</td>
 				</tr>
@@ -605,51 +486,6 @@ class Com_RedshopInstallerScript
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
 			}
 		}
-	}
-
-	/**
-	 * Apply ALTER query for drop column or index
-	 *
-	 * @param   array  $fields   Fields information
-	 * @param   arrau  $columns  List of Columns
-	 *
-	 * @return  boolean          True on success.
-	 */
-	private function alterDropColumn($fields, $columns)
-	{
-		if (!is_array($columns))
-		{
-			return false;
-		}
-
-		if (!isset($fields['drop']['field']))
-		{
-			return false;
-		}
-
-		$db = JFactory::getDbo();
-
-		foreach ($fields['drop']['field'] as $field => $query)
-		{
-			if (array_key_exists($field, $columns))
-			{
-				if (is_array($query))
-				{
-					foreach ($query as $aQuery)
-					{
-						$db->setQuery($aQuery);
-						$db->query();
-					}
-				}
-				else
-				{
-					$db->setQuery($query);
-					$db->query();
-				}
-			}
-		}
-
-		return true;
 	}
 
 	/**
@@ -790,6 +626,7 @@ class Com_RedshopInstallerScript
 		// Required objects
 		$manifest  = $parent->get('manifest');
 		$src       = $parent->getParent()->getPath('source');
+
 		if ($nodes = $manifest->plugins->plugin)
 		{
 			foreach ($nodes as $node)
@@ -833,14 +670,19 @@ class Com_RedshopInstallerScript
 						$this->enablePlugin($extName, $extGroup);
 					}
 				}
+
+				// Force to enable redSHOP - System plugin by anyways
+				$this->enablePlugin('redshop', 'system');
 			}
 		}
 	}
 
 	/**
-	 * @param   string  $extName
-	 * @param   string  $extGroup
-	 * @param   int     $state
+	 * Method for enable plugins
+	 *
+	 * @param   string  $extName   Plugin name
+	 * @param   string  $extGroup  Plugin group
+	 * @param   int     $state     State of plugins
 	 *
 	 * @return mixed
 	 */
@@ -853,6 +695,7 @@ class Com_RedshopInstallerScript
 			->where('type = ' . $db->q('plugin'))
 			->where('element = ' . $db->q($extName))
 			->where('folder = ' . $db->q($extGroup));
+
 		return $db->setQuery($query)->execute();
 	}
 
@@ -1034,6 +877,12 @@ class Com_RedshopInstallerScript
 		$folders = array();
 		$files   = array();
 
+		// Clean up old Updates feature
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/update';
+		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
+		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
+		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
+
 		if (version_compare($this->getOldParam('version'), '2.0', '<='))
 		{
 			array_push(
@@ -1091,14 +940,6 @@ class Com_RedshopInstallerScript
 			array_push(
 				$files,
 				JPATH_SITE . '/components/com_redshop/assets/download/product/.htaccess'
-			);
-		}
-
-		if (version_compare($this->getOldParam('version'), '1.5.0.5', '<='))
-		{
-			array_push(
-				$folders,
-				JPATH_ADMINISTRATOR . '/components/com_redshop/elements'
 			);
 		}
 
@@ -1188,27 +1029,11 @@ class Com_RedshopInstallerScript
 			);
 		}
 
-		if (!empty($folders))
-		{
-			foreach ($folders as $path)
-			{
-				if (JFolder::exists($path))
-				{
-					JFolder::delete($path);
-				}
-			}
-		}
+		// Delete these unused folders
+		$this->deleteFolders($folders);
 
-		if (!empty($files))
-		{
-			foreach ($files as $path)
-			{
-				if (JFile::exists($path))
-				{
-					JFile::delete($path);
-				}
-			}
-		}
+		// Delete these unused files
+		$this->deleteFiles($files);
 	}
 
 	/**
@@ -1507,5 +1332,88 @@ class Com_RedshopInstallerScript
 				}
 			}
 		}
+	}
+
+	/**
+	 * Delete folder recursively
+	 *
+	 * @param   string  $folder  Folder to delete
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.0.2
+	 */
+	protected function deleteFolder($folder)
+	{
+		if (!is_dir($folder))
+		{
+			return true;
+		}
+
+		$files = glob($folder . '/*');
+
+		foreach ($files as $file)
+		{
+			if (is_dir($file))
+			{
+				if (!$this->deleteFolder($file))
+				{
+					return false;
+				}
+
+				continue;
+			}
+
+			if (!unlink($file))
+			{
+				return false;
+			}
+		}
+
+		return rmdir($folder);
+	}
+
+	/**
+	 * Delete folders recursively.
+	 *
+	 * @param   array  $folders  Folders
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.0.2
+	 */
+	protected function deleteFolders(array $folders)
+	{
+		foreach ($folders as $folder)
+		{
+			if (!$this->deleteFolder($folder))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Delete files recursively.
+	 *
+	 * @param   array  $files  Files
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.0.2
+	 */
+	protected function deleteFiles(array $files)
+	{
+		foreach ($files as $file)
+		{
+			if (file_exists($file))
+			{
+				unlink($file);
+			}
+		}
+
+		return true;
 	}
 }

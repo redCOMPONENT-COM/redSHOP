@@ -45,6 +45,7 @@ class RedshopHelperConfig
 	/**
 	 * Constructor
 	 *
+	 * @param   mixed  $namespace  Namespace.
 	 */
 	public function __construct($namespace = '')
 	{
@@ -57,7 +58,7 @@ class RedshopHelperConfig
 	 * @param   string  $name       Name of the function.
 	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
 	 *
-	 * @return  RedshopHelperConfig
+	 * @return  mixed
 	 */
 	public function __call($name, $arguments)
 	{
@@ -67,6 +68,8 @@ class RedshopHelperConfig
 		}
 
 		trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
+
+		return false;
 	}
 
 	/**
@@ -101,6 +104,8 @@ class RedshopHelperConfig
 
 	/**
 	 * Default loading is trying to use the associated table
+	 *
+	 * @param   mixed  $namespace  Namespace.
 	 *
 	 * @return  self
 	 */
@@ -142,8 +147,9 @@ class RedshopHelperConfig
 	/**
 	 * Save configuration to file
 	 *
-	 * @param   mixed $config Null to avoid binding any data | JRegistry to binf config and save
+	 * @param   mixed  $config  Null to avoid binding any data | JRegistry to bind config and save
 	 *
+	 * @throws  Exception
 	 * @return  boolean
 	 */
 	public function save($config = null)
@@ -167,7 +173,7 @@ class RedshopHelperConfig
 
 		$app = JFactory::getApplication();
 
-		// Attempt to make the file writeable if using FTP.
+		// Attempt to make the file writable if using FTP.
 		if (file_exists($file) && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(JText::_('LIB_REDSHOP_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
@@ -193,7 +199,7 @@ class RedshopHelperConfig
 	/**
 	 * Save new config file using legacy or legacy styled custom configuration files.
 	 *
-	 * @param   string $configFile Path to legacy styled configuration file
+	 * @param   string  $configFile  Path to legacy styled configuration file
 	 *
 	 * @throws  exception  Throw invalid argument and exception if file is not exist and invalid.
 	 * @return  boolean    True on success
@@ -208,8 +214,6 @@ class RedshopHelperConfig
 		if ($configFile && !file_exists($configFile))
 		{
 			throw new InvalidArgumentException(JText::sprintf('LIB_REDSHOP_FILE_IS_NOT_EXIST', $configFile));
-
-			return false;
 		}
 
 		// Priority to custom file given in method argument
@@ -231,8 +235,6 @@ class RedshopHelperConfig
 			else
 			{
 				throw new Exception(JText::_('LIB_REDSHOP_LEGACY_CONFIG_FILE_IS_NOT_EXIST'));
-
-				return false;
 			}
 		}
 
@@ -244,8 +246,6 @@ class RedshopHelperConfig
 		if (empty($configDataArray))
 		{
 			throw new Exception(JText::sprintf('LIB_REDSHOP_LEGACY_CONFIG_FILE_IS_NOT_VALID', $configFile));
-
-			return false;
 		}
 
 		try
@@ -275,6 +275,38 @@ class RedshopHelperConfig
 		if (!$this->isExists())
 		{
 			jimport('joomla.filesystem.file');
+
+			// Old configuration file
+			if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php'))
+			{
+				require_once $this->getConfigurationDistFilePath();
+
+				// Old config file
+				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+
+				$configClass = new RedshopConfig();
+				$properties = get_object_vars($configClass);
+				$defined = get_defined_constants();
+
+				foreach ($properties as $name => $value)
+				{
+					if (in_array($name, $defined))
+					{
+						if (isset($defined[$name]))
+						{
+							$properties[$name] = $defined[$name];
+						}
+					}
+				}
+
+				// Save to config file
+				$this->save(new JRegistry($properties));
+
+				// Delete old config file
+				JFile::delete(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
+
+				return true;
+			}
 
 			return JFile::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
 		}

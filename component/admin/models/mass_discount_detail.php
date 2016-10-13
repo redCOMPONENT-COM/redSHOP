@@ -66,21 +66,51 @@ class RedshopModelMass_discount_detail extends RedshopModel
 	}
 
 
+	/**
+	 * Init data method
+	 *
+	 * @return  bool
+	 *
+	 * @since  2.0.2
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
+			// Get stored post data from user state
+			$tmpPost = JFactory::getApplication()->getUserState('com_redshop.edit.product.data', false);
 
-			$detail->mass_discount_id = 0;
-			$detail->discount_name = null;
-			$detail->category_id = 0;
-			$detail->discount_amount = 0;
-			$detail->discount_type = 0;
-			$detail->discount_startdate = time();
-			$detail->discount_enddate = time();
-			$detail->manufacturer_id = 0;
-			$detail->discount_product = 0;
+			// Convert it back to object if possible
+			if ($tmpPost)
+			{
+				$detail = json_decode($tmpPost);
+			}
+			else
+			{
+				// Or create new object if it's not exists before
+				$detail = new stdClass;
+
+				$detail->mass_discount_id = 0;
+				$detail->discount_name = null;
+				$detail->discount_amount = 0;
+				$detail->discount_type = 0;
+				$detail->discount_startdate = time();
+				$detail->discount_enddate = time();
+			}
+
+			$detail->cid = null;
+			$detail->discount_product = null;
+
+			if (!isset($detail->category_id))
+			{
+				$detail->category_id = null;
+			}
+
+			if (!isset($detail->manufacturer_id))
+			{
+				$detail->manufacturer_id = null;
+			}
+
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
@@ -164,22 +194,42 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 		for ($i = 0, $in = count($arr_diff); $i < $in; $i++)
 		{
-			$productData = Redshop::product((int) $arr_diff[$i]);
-
-			if ($productData->product_on_sale != 1)
+			if ((int) $arr_diff[$i])
 			{
-				$p_price = ($data['discount_type'] == 1) ?
-					($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
-					$productData->product_price - ($data['discount_amount']);
-				$p_price = $producthelper->productPriceRound($p_price);
-				$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="'
-					. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
-					. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
-				$this->_db->setQuery($query);
-
-				if (!$this->_db->execute())
+				try
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$productData = Redshop::product((int) $arr_diff[$i]);
+
+					if ($productData->product_on_sale != 1)
+					{
+						$p_price = ($data['discount_type'] == 1) ?
+							($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
+							$productData->product_price - ($data['discount_amount']);
+						$p_price = $producthelper->productPriceRound($p_price);
+						$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="'
+							. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
+							. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
+						$this->_db->setQuery($query);
+
+						if (!$this->_db->execute())
+						{
+							$this->setError($this->_db->getErrorMsg());
+
+							return false;
+						}
+					}
+				}
+				catch (Exception $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
+			else
+			{
+				// There is no categories or manufacturer chosen
+				if (empty($data['category_id']) && empty($data['manufacturer_id']))
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
 
 					return false;
 				}
@@ -365,14 +415,20 @@ class RedshopModelMass_discount_detail extends RedshopModel
 		$row->category_id = $row->category_id ? $row->category_id : '';
 		$row->discount_product = $row->discount_product ? $row->discount_product : '';
 
-		if (!$row->store())
+		// Validate table fields first
+		if ($row->check())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			if (!$row->store())
+			{
+				$this->setError($this->_db->getErrorMsg());
 
-			return false;
+				return false;
+			}
+
+			return $row;
 		}
 
-		return $row;
+		return false;
 	}
 
 	public function delete($cid = array())

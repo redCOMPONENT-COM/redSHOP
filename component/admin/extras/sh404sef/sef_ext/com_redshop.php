@@ -217,21 +217,28 @@ switch ($view)
 					$GLOBALS['catlist_reverse'] = array();
 					$where                      = '';
 
-					$cat_in_sefurl = $product->cat_in_sefurl;
-					$category_id = 0;
-
-					if ($cat_in_sefurl > 0)
+					if ($cid)
 					{
-						$where = " AND c.category_id = '$cat_in_sefurl'";
-
-						if ($categoryData = RedshopHelperCategory::getCategoryById($cat_in_sefurl))
-						{
-							$category_id = $categoryData->category_id;
-						}
+						$category_id = $cid;
 					}
 					else
 					{
-						$category_id = $product->category_id;
+						$cat_in_sefurl = $product->cat_in_sefurl;
+						$category_id = 0;
+
+						if ($cat_in_sefurl > 0)
+						{
+							$where = " AND c.category_id = '$cat_in_sefurl'";
+
+							if ($categoryData = RedshopHelperCategory::getCategoryById($cat_in_sefurl))
+							{
+								$category_id = $categoryData->category_id;
+							}
+						}
+						else
+						{
+							$category_id = $product->category_id;
+						}
 					}
 
 					if (Redshop::getConfig()->get('CATEGORY_TREE_IN_SEF_URL'))

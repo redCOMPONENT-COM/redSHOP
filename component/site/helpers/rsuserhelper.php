@@ -1227,17 +1227,23 @@ class rsUserHelper
 		$statestyle               = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
 
 		$template_desc = str_replace("{firstname_st_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $template_desc);
-		$template_desc = str_replace("{firstname_st}", '<input class="inputbox billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" value="' . @$post ["firstname_ST"] . '" />', $template_desc);
+		$value = (!empty($post["firstname_ST"])) ? $post["firstname_ST"] : '';
+		$template_desc = str_replace("{firstname_st}", '<input class="inputbox billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>', $template_desc);
 		$template_desc = str_replace("{lastname_st_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $template_desc);
-		$template_desc = str_replace("{lastname_st}", '<input class="inputbox billingRequired valid" type="text" name="lastname_ST" id="lastname_ST" size="32" maxlength="250" value="' . @$post ["lastname_ST"] . '" />', $template_desc);
+		$value = (!empty($post["lastname_ST"])) ? $post["lastname_ST"] : '';
+		$template_desc = str_replace("{lastname_st}", '<input class="inputbox billingRequired valid" type="text" name="lastname_ST" id="lastname_ST" size="32" maxlength="250" value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>', $template_desc);
 		$template_desc = str_replace("{address_st_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $template_desc);
-		$template_desc = str_replace("{address_st}", '<input class="inputbox billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" value="' . @$post ["address_ST"] . '" />', $template_desc);
+		$value = (!empty($post["address_ST"])) ? $post["address_ST"] : '';
+		$template_desc = str_replace("{address_st}", '<input class="inputbox billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>', $template_desc);
 		$template_desc = str_replace("{zipcode_st_lbl}", JText::_('COM_REDSHOP_ZIP'), $template_desc);
-		$template_desc = str_replace("{zipcode_st}", '<input class="inputbox billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" value="' . @$post['zipcode_ST'] . '" onblur="return autoFillCity(this.value,\'ST\');"  />', $template_desc);
+		$value = (!empty($post["zipcode_ST"])) ? $post["zipcode_ST"] : '';
+		$template_desc = str_replace("{zipcode_st}", '<input class="inputbox billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" value="' . $value . '" onblur="return autoFillCity(this.value,\'ST\');" data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP') . '" />', $template_desc);
 		$template_desc = str_replace("{city_st_lbl}", JText::_('COM_REDSHOP_CITY'), $template_desc);
-		$template_desc = str_replace("{city_st}", '<input class="inputbox billingRequired valid" type="text" name="city_ST" ' . $read_only . ' id="city_ST" value="' . @$post['city_ST'] . '" size="32" maxlength="250" />', $template_desc);
+		$value = (!empty($post["city_ST"])) ? $post["city_ST"] : '';
+		$template_desc = str_replace("{city_st}", '<input class="inputbox billingRequired valid" type="text" name="city_ST" ' . $read_only . ' id="city_ST" value="' . $value . '" size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>', $template_desc);
 		$template_desc = str_replace("{phone_st_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
-		$template_desc = str_replace("{phone_st}", '<input class="inputbox billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" value="' . @$post ["phone_ST"] . '" onblur="return searchByPhone(this.value,\'ST\');" />', $template_desc);
+		$value = (!empty($post["phone_ST"])) ? $post["phone_ST"] : '';
+		$template_desc = str_replace("{phone_st}", '<input class="inputbox billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" value="' . $value . '" onblur="return searchByPhone(this.value,\'ST\');" data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE') . '"/>', $template_desc);
 
 		$template_desc = str_replace("{country_st_txtid}", "div_country_st_txt", $template_desc);
 		$template_desc = str_replace("{country_st_style}", $countrystyle, $template_desc);

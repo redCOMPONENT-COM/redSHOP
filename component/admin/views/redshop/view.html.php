@@ -26,24 +26,10 @@ class RedshopViewRedshop extends RedshopViewAdmin
 
 		if ($this->layout != "noconfig")
 		{
-			if (!in_array('COM_REDSHOP_UPDATE_TITLE', $menuhide))
-			{
-				JToolBarHelper::custom('update', 'redshop_importexport32', JText::_('COM_REDSHOP_UPDATE_TITLE'),
-					JText::_('COM_REDSHOP_UPDATE_TITLE'), false, false
-				);
-			}
-
 			if (!in_array('COM_REDSHOP_STATISTIC', $menuhide))
 			{
 				JToolBarHelper::custom('statistic', 'redshop_statistic32', JText::_('COM_REDSHOP_STATISTIC'),
 					JText::_('COM_REDSHOP_STATISTIC'), false, false
-				);
-			}
-
-			if (!in_array('COM_REDSHOP_START_CONFIGURATION_WIZARD', $menuhide))
-			{
-				JToolBarHelper::custom('wizard', 'redshop_configwizrd32', JText::_('COM_REDSHOP_WIZARD'),
-					JText::_('COM_REDSHOP_WIZARD'), false, false
 				);
 			}
 

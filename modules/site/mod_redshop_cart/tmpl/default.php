@@ -60,6 +60,10 @@ JFactory::getDocument()->addStyleDeclaration(
 					'showWithVat'      => $show_with_vat,
 					'showShippingLine' => $show_shipping_line,
 					'showWithDiscount' => $show_with_discount
+				),
+				'',
+				array(
+					'component' => 'com_redshop'
 				)
 			);
 		?>
