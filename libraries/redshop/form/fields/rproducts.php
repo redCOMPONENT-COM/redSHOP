@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class JFormFieldProducts extends JFormFieldList
+class JFormFieldRproducts extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -24,7 +24,7 @@ class JFormFieldProducts extends JFormFieldList
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $type = 'Products';
+	protected $type = 'Rproducts';
 
 	/**
 	 * Method to get the field input markup for a generic list.
@@ -38,7 +38,7 @@ class JFormFieldProducts extends JFormFieldList
 			->select($db->qn('product_id'))
 			->select($db->qn('product_name'))
 			->from($db->qn('#__redshop_product'))
-			->order('product_name');
+			->order($db->qn('product_name'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 		$options = array();

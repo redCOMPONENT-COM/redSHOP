@@ -139,11 +139,11 @@ class RedshopModelAttributes extends RedshopModelList
 
 		if (is_numeric($published))
 		{
-			$query->where('a.attribute_published = ' . (int) $published);
+			$query->where($db->qn('a.attribute_published') . ' = ' . (int) $published);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.attribute_published IN (0, 1))');
+			$query->where($db->qn('a.attribute_published') . ' IN (0, 1)');
 		}
 
 		// Add the list ordering clause.

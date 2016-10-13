@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Redcore
+ * @package     Redshop
  * @subpackage  Field
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
@@ -14,11 +14,11 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field to load a list of predefined values
  *
- * @package     Redcore
+ * @package     Redshop
  * @subpackage  Field
  * @since       1.0
  */
-abstract class JFormFieldRpredefinedList extends JFormFieldList
+abstract class JFormFieldPredefinedList extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -26,7 +26,7 @@ abstract class JFormFieldRpredefinedList extends JFormFieldList
 	 * @var    string
 	 * @since  1.0
 	 */
-	protected $type = 'RpredefinedList';
+	protected $type = 'PredefinedList';
 
 	/**
 	 * Cached array of the category items.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Redcore
+ * @package     Redshop
  * @subpackage  Fields
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
@@ -9,16 +9,16 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('rpredefinedlist');
+JFormHelper::loadFieldClass('predefinedlist');
 
 /**
  * jQuery UI datepicker field for redbooking.
  *
- * @package     Redcore
+ * @package     Redshop
  * @subpackage  Fields
  * @since       1.0
  */
-class JFormFieldRpublished extends JFormFieldRpredefinedList
+class JFormFieldRpublished extends JFormFieldPredefinedList
 {
 	/**
 	 * The form field type.

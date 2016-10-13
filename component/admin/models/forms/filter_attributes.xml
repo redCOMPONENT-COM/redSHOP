@@ -10,7 +10,7 @@
 			/>
 		<field
 			name="product_id"
-			type="products"
+			type="rproducts"
 			label="COM_REDSHOP_FILTER_PRODUCT"
 			description="COM_REDSHOP_FILTER_PRODUCT_DESC"
 			onchange="this.form.submit();"
