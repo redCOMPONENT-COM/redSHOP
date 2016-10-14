@@ -35,7 +35,7 @@ class RedshopHelperAccess
 			->select($db->qn('a.section_name'))
 			->from($db->qn('#__redshop_accessmanager', 'a'))
 			->where($db->qn('a.view') . ' = 1')
-			->where($db->qn('a.gid') . (int) $groupId);
+			->where($db->qn('a.gid') . ' = ' . (int) $groupId);
 
 		$db->setQuery($query);
 
@@ -194,7 +194,7 @@ class RedshopHelperAccess
 			->select('a.*')
 			->from($db->qn('#__redshop_accessmanager', 'a'))
 			->where($db->qn('a.section_name') . $db->quote(str_replace('_detail', '', $view)))
-			->where($db->qn('a.gid') . (int) $groupId);
+			->where($db->qn('a.gid') . ' = ' . (int) $groupId);
 
 		$db->setQuery($query);
 		$accessView = $db->loadObjectList();
@@ -258,7 +258,7 @@ class RedshopHelperAccess
 			->select('a.*')
 			->from($db->qn('#__redshop_accessmanager', 'a'))
 			->where($db->qn('a.section_name') . $db->quote(str_replace('_detail', '', $view)))
-			->where($db->qn('a.gid') . (int) $groupId);
+			->where($db->qn('a.gid') . ' = ' . (int) $groupId);
 
 		$db->setQuery($query);
 		$accessView = $db->loadObjectList();
@@ -322,7 +322,7 @@ class RedshopHelperAccess
 			->select('a.*')
 			->from($db->qn('#__redshop_accessmanager', 'a'))
 			->where($db->qn('a.section_name') . $db->quote(str_replace('_detail', '', $view)))
-			->where($db->qn('a.gid') . (int) $groupId);
+			->where($db->qn('a.gid') . ' = ' . (int) $groupId);
 
 		$db->setQuery($query);
 		$accessView = $db->loadObjectList();
