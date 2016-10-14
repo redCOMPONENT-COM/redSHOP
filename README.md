@@ -1,4 +1,4 @@
-redSHOP 1.x
+redSHOP 2.x
 ==========
 
 ## Travis Status
@@ -7,6 +7,19 @@ Develop: [![Build Status](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP.
 ## Documentation
 
 https://github.com/redCOMPONENT-COM/documentation
+
+## DB Change
+
+There are an MySQL Workbench DB Model file in src/db/redshop.mwb. When need some changes in DB structure:
+
+- Use MySQL Workbench open this `src/db/redshop.mwb` file.
+- Add some necessary changes in MySQL Workbench
+- Go to File > Export > Foward Engineer SQL Create Script...
+- Choose path for output script file (admin/sql/mysql/install.sql)
+- Check on 2 option *Generate DROP Statements Before Each CREATE Statement* and *Omit Schema Qulifier in Object Names*.
+ - Open generated install.sql file and remove the comments from MySQL Workbench and also 2 line at top and bottom:
+ > SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+ > SET SQL_MODE=@OLD_SQL_MODE; 
 
 ## Release process for redSHOP
 Please follow the next steps in order to release a new version of redSHOP.
