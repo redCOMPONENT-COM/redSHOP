@@ -41,7 +41,7 @@ class RedshopControllerQuestion_detail extends RedshopControllerForm
 	{
 		$jinput = JFactory::getApplication()->input;
 
-		$post = $jinput->get('post', array(), 'ARRAY');
+		$post = $jinput->post->getArray();
 		$question = $jinput->post->get('question', '', 'RAW');
 		$post["question"] = $question;
 
