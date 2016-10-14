@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage     Banners
  * @since          1.5
  */
-class JFormFieldTemplate extends JFormFieldList
+class JFormFieldTemplatecompare extends JFormFieldList
 {
 	/**
 	 * Element name
@@ -26,7 +26,7 @@ class JFormFieldTemplate extends JFormFieldList
 	 * @access    protected
 	 * @var        string
 	 */
-	public $type = 'Template';
+	public $type = 'Templatecompare';
 
 	protected function getInput()
 	{
@@ -36,7 +36,7 @@ class JFormFieldTemplate extends JFormFieldList
 			->select($db->qn('template_name'))
 			->from($db->qn('#__redshop_template'))
 			->where($db->qn('published') . ' = 1')
-			->where($db->qn('template_section') . ' = ' . $db->q('category'));
+			->where($db->qn('template_section') . ' = ' . $db->q('compare_product'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 		$options = array();

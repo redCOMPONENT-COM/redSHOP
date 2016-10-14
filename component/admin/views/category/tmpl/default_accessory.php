@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 ?>
-
 <div class="row">
 	<div class="col-sm-12">
 		<div class="box box-primary">
