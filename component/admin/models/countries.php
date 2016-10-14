@@ -55,7 +55,7 @@ class RedshopModelCountries extends RedshopModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter');
 		$this->setState('filter.search', $search);
 
 		// List state information.
