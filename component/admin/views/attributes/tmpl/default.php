@@ -21,7 +21,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	name="adminForm"
 	id="adminForm"
 >
-		
+
 	<div class="filterTool">
 		<?php
 		echo JLayoutHelper::render(
@@ -55,13 +55,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="1%" style="min-width:55px" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.attribute_published', $listDirn, $listOrder); ?>
 					</th>
-					<th width="20%" class="center">
+					<th width="20%">
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_ATTRIBUTE_NAME', 'a.attribute_name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="20%" class="center">
+					<th width="20%">
 						<?php echo JHtml::_('grid.sort',  'COM_REDSHOP_PRODUCT_NAME_LBL', 'p.product_name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center">
+					<th width="10%">
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_ATTRIBUTE_DISPLAY_TYPE', 'a.display_type', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap hidden-phone">
@@ -92,10 +92,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 							</div>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo $item->product_name;?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo $item->display_type;?>
 						</td>
 						<td class="center hidden-phone">
@@ -118,7 +118,5 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
