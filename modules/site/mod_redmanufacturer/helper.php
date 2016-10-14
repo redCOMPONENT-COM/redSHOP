@@ -46,7 +46,7 @@ abstract class ModRedManufacturerHelper
                 $query->order($db->quoteName('ma') . '.' . $db->quoteName('ordering') . ' DESC');
                 break;
 	        default:
-		        $query->order($db->quoteName('ma') . '.' . $db->quoteName('	manufacturer_id') . ' ASC');
+				$query->order($db->quoteName('ma') . '.' . $db->quoteName('manufacturer_id') . ' ASC');
 	        	break;
         }
 
