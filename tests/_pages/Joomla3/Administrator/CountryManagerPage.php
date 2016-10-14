@@ -15,7 +15,7 @@
  */
 class CountryManagerPage
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=country';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=countries';
 
 	public static $countryName = "#country_name";
 
