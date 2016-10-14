@@ -86,9 +86,9 @@ class LeftMenu
 				return array('PRODUCT_MANAGEMENT', 'product');
 				break;
 
+			case "categories":
 			case "category":
-			case "category_detail":
-				return array('PRODUCT_MANAGEMENT', 'category');
+				return array('PRODUCT_MANAGEMENT', 'categories');
 				break;
 
 			case "manufacturer":
@@ -757,14 +757,14 @@ class LeftMenu
 		$menu->section('category')
 			->title('COM_REDSHOP_CATEGORY')
 			->addItem(
-				'index.php?option=com_redshop&view=category',
+				'index.php?option=com_redshop&view=categories',
 				'COM_REDSHOP_CATEGORY_LISTING',
-				(self::$view == 'category') ? true : false
+				(self::$view == 'categories') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=category_detail',
+				'index.php?option=com_redshop&view=category',
 				'COM_REDSHOP_ADD_CATEGORY',
-				(self::$view == 'category_detail') ? true : false
+				(self::$view == 'category') ? true : false
 			);
 	}
 

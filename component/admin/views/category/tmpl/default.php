@@ -8,193 +8,74 @@
  */
 defined('_JEXEC') or die;
 
-
-$model = $this->getModel('category');
-$category_main_filter = JRequest::getVar('category_main_filter');
-$ordering = ($this->lists['order'] == 'c.ordering');
+JHTMLBehavior::modal();
+JHTML::_('behavior.tooltip');
+$editor        = JFactory::getEditor();
+$uri           = JURI::getInstance();
+$url           = $uri->root();
+JHTML::_('behavior.calendar');
+$producthelper = productHelper::getInstance();
+JText::script('COM_REDSHOP_DELETE');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
+	Joomla.submitbutton = function (pressbutton) {
+		console.log(pressbutton);
 		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
+		if (pressbutton == 'category.cancel') {
+			submitform(pressbutton);
+			return;
 		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown') || (pressbutton == 'copy')) {
-			form.view.value = "category_detail";
+		if (jQuery('#jform_category_name').val() == "") {
+			alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_ITEM_MUST_HAVE_A_NAME', true ); ?>");
 		}
-		try {
-			form.onsubmit();
+		else if (parseInt(jQuery('#jform_products_per_page').val()) <= 0) {
+			alert("<?php echo JText::_('COM_REDSHOP_PRODUCTS_PER_PAGE_MUST_BE_GREATER_THAN_ZERO', true ); ?>");
 		}
-		catch (e) {
+		else if ((jQuery('#jform_category_template').val() == "0" || jQuery('#jform_category_template').val() == "" ) && !<?php echo Redshop::getConfig()->get('CATEGORY_TEMPLATE');?>) {
+			alert("<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE', true ); ?>");
 		}
-
-		if (pressbutton == 'remove') {
-			var r = confirm('<?php echo JText::_("COM_REDSHOP_DELETE_CATEGORY")?>');
-			if (r == true)    form.submit();
-			else return false;
+		else {
+			submitform(pressbutton);
 		}
-		form.submit();
 	}
+</script>
 
-	function AssignTemplate() {
+<form action="<?php echo JRoute::_($uri->toString()) ?>" method="post" name="adminForm" id="adminForm"
+      enctype="multipart/form-data">
 
-		var form = document.adminForm;
+    <?php
+		echo RedshopLayoutHelper::render(
+			'component.full.tab.main',
+			array(
+				'view'    => $this,
+				'tabMenu' => $this->tabmenu->getData('tab')->items,
+			)
+		);
+	?>
 
+	<div class="clr"></div>
+	<?php echo $this->form->getInput('category_id'); ?>
+	<input type="hidden" name="old_image" id="old_image" value="<?php echo $this->item->category_full_image ?>">
+	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="view" value="category"/>
+	<?php echo JHtml::_('form.token'); ?>
+</form>
 
-		var templatevalue = document.getElementById('category_template').value;
+<script type="text/javascript" language="javascript">
 
-		if (form.boxchecked.value == 0) {
+	/*  Media Bank */
 
-			document.getElementById('category_template').value = 0;
-			form.category_template.value = 0;
-			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_CATEGORY');?>');
-
-		} else {
-
-			form.task.value = 'assignTemplate';
-
-			if (confirm("<?php echo JText::_('COM_REDSHOP_SURE_WANT_TO_ASSIGN_TEMPLATE');?>")) {
-
-				//form.product_template.value = templatevalue;
-				form.submit();
-			} else {
-
-				document.getElementById('category_template').value = 0;
-				form.category_template.value = 0;
-				return false;
+	function jimage_insert(main_path) {
+		var path_url = "<?php echo $url;?>";
+		if (main_path) {
+			if (!document.getElementById("image_display")) {
+				var img = new Image();
+				img.id = "image_display";
+				document.getElementById("image_dis").appendChild(img);
 			}
+			document.getElementById("category_image").value = main_path;
+			document.getElementById("image_display").src = path_url + main_path;
 		}
-
-	}
-
-	function resetFilter() {
-		document.getElementById('category_main_filter').value = '';
-		document.getElementById('category_template').value = 0;
-		document.getElementById('category_id').value = 0;
 	}
 
 </script>
-<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
-	<div id="editcell">
-		<div class="filterTool">
-			<div class="filterItem">
-				<div class="btn-wrapper input-append">
-					<input type="text" name="category_main_filter" id="category_main_filter" placeholder="<?php echo JText::_("COM_REDSHOP_CATEGORY_FILTER") ?>"
-						   value="<?php echo $category_main_filter; ?>" onchange="document.adminForm.submit();">
-
-					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<input type="button" class="btn reset" onclick="resetFilter();this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
-				</div>
-			</div>
-			<div class="filterItem">
-				<?php echo $this->lists['category_template'];?>
-			</div>
-			<div class="filterItem">
-				<?php echo $this->lists['category']; ?>
-			</div>
-		</div>
-		<table class="adminlist table table-striped">
-			<thead>
-			<tr>
-				<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="20">
-					<?php echo JHtml::_('redshopgrid.checkall'); ?>
-				</th>
-				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY_NAME', 'category_name', $this->lists['order_Dir'], $this->lists['order']); ?>
-				</th>
-				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY_DESCRIPTION', 'category_description', $this->lists['order_Dir'], $this->lists['order']); ?>
-				</th>
-				<th><?php echo JText::_('COM_REDSHOP_PRODUCTS'); ?></th>
-				<th width="15%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'c.ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
-					<?php  if ($ordering) echo JHTML::_('grid.order', $this->categories); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists['order_Dir'], $this->lists['order']); ?>
-				</th>
-				<th width="5%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'category_id', $this->lists['order_Dir'], $this->lists['order']); ?>
-				</th>
-
-			</tr>
-			</thead>
-			<?php
-			$k = 0;
-			for ($i = 0, $n = count($this->categories); $i < $n; $i++)
-			{
-				$row = $this->categories[$i];
-				if (!is_object($row))
-				{
-					break;
-				}
-				$row->id = $row->category_id;
-				$link = JRoute::_('index.php?option=com_redshop&view=category_detail&task=edit&cid[]=' . $row->category_id);
-				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
-				?>
-				<tr class="<?php echo "row$k"; ?>">
-					<td><?php echo $this->pagination->getRowOffset($i); ?></td>
-					<td><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
-					<td>
-						<?php
-						if (property_exists($row, 'treename') && $row->treename != "")
-						{
-							?>
-							<a href="<?php echo $link; ?>"
-							   title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>"><?php echo $row->treename; ?></a>
-						<?php
-						}
-						else
-						{
-							?>
-							<a href="<?php echo $link; ?>"
-							   title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>"><?php echo $row->category_name; ?></a>
-						<?php
-						}
-						?>
-					</td>
-					<td><?php    $shortdesc = substr(strip_tags($row->category_description), 0, 50);echo $shortdesc; ?></td>
-					<td align="center" width="5%"><?php echo $model->getProducts($row->category_id); ?></td>
-					<td class="order">
-						<?php if ($ordering) :
-							$orderDir = strtoupper($this->lists['order_Dir']);
-							?>
-							<div class="input-prepend">
-								<?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
-									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($row->category_parent_id == @$this->categories[$i - 1]->category_parent_id), 'orderup'); ?></span>
-									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderdown'); ?></span>
-								<?php elseif ($orderDir == 'DESC') : ?>
-									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($row->category_parent_id == @$this->categories[$i - 1]->category_parent_id), 'orderdown'); ?></span>
-									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderup'); ?></span>
-								<?php endif; ?>
-								<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
-							</div>
-						<?php else : ?>
-							<?php echo $row->ordering; ?>
-						<?php endif; ?>
-					</td>
-					<td align="center" width="8%"><?php echo $published;?></td>
-					<td align="center" width="5%"><?php echo $row->category_id; ?></td>
-				</tr>
-				<?php    $k = 1 - $k;
-			}    ?>
-			<tfoot>
-			<td colspan="9">
-				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-					<div class="redShopLimitBox">
-						<?php echo $this->pagination->getLimitBox(); ?>
-					</div>
-				<?php endif; ?>
-				<?php echo $this->pagination->getListFooter(); ?></td>
-			</tfoot>
-		</table>
-	</div>
-
-	<input type="hidden" name="view" value="category"/>
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
-</form>
