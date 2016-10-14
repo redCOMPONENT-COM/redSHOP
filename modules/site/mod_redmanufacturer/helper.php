@@ -36,8 +36,7 @@ abstract class ModRedManufacturerHelper
 			->where('m.media_section = ' . $db->q('manufacturer'))
 			->where('m.published = 1')
 			->where('ma.published = 1');
-
-
+		
 		// Ordering
 		switch ($params->get('order_by', 0))
 		{
