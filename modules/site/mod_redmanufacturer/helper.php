@@ -18,13 +18,14 @@ JLoader::import('redshop.library');
  */
 abstract class ModRedManufacturerHelper
 {
-    /**
-    * Retrieve a list of article
-    *
-    * @param   \Joomla\Registry\Registry  &$params  Module parameters
-    *
-    * @return  mixed
-    */
+
+	/**
+	 * Retrieve a list of article
+	 *
+	 * @param   \Joomla\Registry\Registry  &$params  Module parameters
+	 *
+	 * @return  mixed
+	 */
 	public static function getList(&$params)
 	{
 		$db = JFactory::getDbo();
