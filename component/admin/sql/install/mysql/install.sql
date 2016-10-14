@@ -1960,7 +1960,6 @@ ALTER TABLE `#__redshop_state` ADD INDEX(`country_id`);
 -- Table `#__redshop_stockroom`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__redshop_stockroom` ;
->>>>>>> upstream/develop
 
 CREATE TABLE IF NOT EXISTS `#__redshop_stockroom` (
   `stockroom_id` INT(11) NOT NULL AUTO_INCREMENT,
