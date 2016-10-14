@@ -211,7 +211,6 @@ ALTER TABLE `#__redshop_country` ADD INDEX(`id`);
 -- Table `#__redshop_coupons`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__redshop_coupons` ;
->>>>>>> upstream/develop
 
 CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
   `coupon_id` INT(16) NOT NULL AUTO_INCREMENT,
