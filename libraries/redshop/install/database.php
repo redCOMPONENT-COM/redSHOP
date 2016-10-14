@@ -101,6 +101,15 @@ class RedshopInstallDatabase
 					'free_shipping' => "ALTER TABLE `#__redshop_giftcard` ADD `free_shipping` TINYINT NOT NULL"
 				)
 			)
+		),
+		// 1.6.3
+		'product_stockroom_xref' => array(
+			'add' => array (
+				'index' => array (
+					'idx_product_id' => 'ALTER TABLE `#__redshop_product_stockroom_xref` ADD INDEX `idx_product_id` (`product_id` ASC);',
+					'idx_quantity' => 'ALTER TABLE `#__redshop_product_stockroom_xref` ADD INDEX `idx_quantity` (`quantity` ASC);'
+				)
+			)
 		)
 	);
 
@@ -279,11 +288,19 @@ class RedshopInstallDatabase
 			{
 				if (array_key_exists($field, $columns))
 				{
-					foreach ($query as $aQuery)
+					if (is_array($query))
 					{
-						$db->setQuery($aQuery);
+						foreach ($query as $aQuery)
+						{
+							$db->setQuery($aQuery);
+							$db->query();
+							JFactory::getApplication()->enqueueMessage(JText::_('Dropped field: ' . $field), 'notice');
+						}
+					}
+					else
+					{
+						$db->setQuery($query);
 						$db->query();
-
 						JFactory::getApplication()->enqueueMessage(JText::_('Dropped field: ' . $field), 'notice');
 					}
 				}
@@ -296,12 +313,22 @@ class RedshopInstallDatabase
 			{
 				if (array_key_exists($field, $columns))
 				{
-					foreach ($query as $aQuery)
+					if (is_array($query))
 					{
-						$db->setQuery($aQuery);
+						foreach ($query as $aQuery)
+						{
+							$db->setQuery($aQuery);
+							$db->query();
+							JFactory::getApplication()->enqueueMessage(JText::_('Dropped index: ' . $field), 'notice');
+						}
+					}
+					else
+					{
+						$db->setQuery($query);
 						$db->query();
 						JFactory::getApplication()->enqueueMessage(JText::_('Dropped index: ' . $field), 'notice');
 					}
+
 				}
 			}
 		}

@@ -230,6 +230,14 @@ class RedshopControllerCart extends RedshopController
 			}
 		}
 
+		$userDocuments = $session->get('userDocument', array());
+
+		if (isset($userDocuments[$post['product_id']]))
+		{
+			unset($userDocuments[$post['product_id']]);
+			$session->set('userDocument', $userDocuments);
+		}
+
 		$this->setRedirect($link);
 	}
 
