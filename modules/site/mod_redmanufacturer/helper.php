@@ -39,14 +39,15 @@ abstract class ModRedManufacturerHelper
         // Ordering
         switch ($params->get('order_by', 0))
         {
-            case '0':
-                break;
             case '1':
                 $query->order($db->quoteName('ma') . '.' . $db->quoteName('ordering') . ' ASC');
                 break;
             case '2':
                 $query->order($db->quoteName('ma') . '.' . $db->quoteName('ordering') . ' DESC');
                 break;
+	        default:
+		        $query->order($db->quoteName('ma') . '.' . $db->quoteName('	manufacturer_id') . ' ASC');
+	        	break;
         }
 
 		return $db->setQuery($query, 0, (int) $params->get('NumberOfProducts', 5))->loadObjectList();
