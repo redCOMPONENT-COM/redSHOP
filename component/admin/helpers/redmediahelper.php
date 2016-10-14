@@ -14,8 +14,6 @@ defined('_JEXEC') or die;
 /**
  * Class redMedia Helper
  *
- * @since       __DEPLOY_VERSION__
- *
  * @deprecated  __DEPLOY_VERSION__
  */
 class redMediahelper
