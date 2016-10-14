@@ -41,7 +41,8 @@ class RedshopHelperCategory
 			$db = JFactory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn(array('c.*', 'cx.category_parent_id')))
+				->select('c.*')
+				->select($db->qn('cx.category_parent_id'))
 				->from($db->qn('#__redshop_category', 'c'))
 				->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
 				->where($db->qn('c.category_id') . ' = ' . (int) $cid)
@@ -364,7 +365,8 @@ class RedshopHelperCategory
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('DISTINCT ' . $db->qn('c.category_name') . ', ' . $db->qn('c.category_id'))
+			->select('DISTINCT ' . $db->qn('c.category_name'))
+			->select($db->qn('c.category_id'))
 			->from($db->qn('#__redshop_category', 'c'))
 			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
 			->where($db->qn('cx.category_parent_id') . ' = 0');
@@ -383,7 +385,7 @@ class RedshopHelperCategory
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getCategoryTree($cid = '0')
+	public static function getCategoryTree($cid = '0')
 	{
 		if (!isset($GLOBALS['catlist']))
 		{
@@ -451,7 +453,7 @@ class RedshopHelperCategory
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function checkAccessoryExists($productId, $accessoryId)
+	public static function checkAccessoryExists($productId, $accessoryId)
 	{
 		$db = JFactory::getDbo();
 
