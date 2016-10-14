@@ -101,6 +101,11 @@ class LeftMenu
 				return array('PRODUCT_MANAGEMENT', 'media');
 				break;
 
+			case "attributes":
+			case "attribute_detail":
+				return array('PRODUCT_MANAGEMENT', 'attribute');
+				break;
+
 			case "order":
 			case "order_detail":
 			case "addorder_detail":
@@ -198,8 +203,8 @@ class LeftMenu
 				return array('VAT_AND_CURRENCY', 'currency');
 				break;
 
+			case "countries":
 			case "country":
-			case "country_detail":
 				return array('VAT_AND_CURRENCY', 'country');
 				break;
 
@@ -304,6 +309,7 @@ class LeftMenu
 		self::setCategory();
 		self::setManufacturer();
 		self::setMedia();
+		self::setAttributes();
 
 		$menu->group('PRODUCT_MANAGEMENT');
 	}
@@ -1240,12 +1246,12 @@ class LeftMenu
 			->addItem(
 				'index.php?option=com_redshop&view=countries',
 				'COM_REDSHOP_COUNTRY_LISTING',
-				(self::$view == 'country') ? true : false
+				(self::$view == 'countries') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=country',
 				'COM_REDSHOP_ADD_COUNTRY',
-				(self::$view == 'country_detail') ? true : false
+				(self::$view == 'country') ? true : false
 			);
 	}
 
@@ -1439,6 +1445,28 @@ class LeftMenu
 				'index.php?option=com_redshop&view=attribute_set_detail',
 				'COM_REDSHOP_ADD_ATTRIBUTE_SET',
 				(self::$view == 'attribute_set_detail') ? true : false
+			);
+	}
+
+	/**
+	 * Set Attribute Bank menu
+	 *
+	 * @return  void
+	 */
+	protected static function setAttributes()
+	{
+		$menu = RedshopAdminMenu::getInstance();
+		$menu->section('attributes')
+			->title('COM_REDSHOP_ATTRIBUTES')
+			->addItem(
+				'index.php?option=com_redshop&view=attributes',
+				'COM_REDSHOP_ATTRIBUTE_LISTING',
+				(self::$view == 'attributes') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=properties',
+				'COM_REDSHOP_ADD_PROPERTY_LISTING',
+				(self::$view == 'attribute_detail') ? true : false
 			);
 	}
 }
