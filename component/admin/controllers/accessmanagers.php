@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class RedshopControllerAccessmanagers extends RedshopController
+class RedshopControllerAccessmanagers extends RedshopControllerAdmin
 {
 	public function cancel()
 	{

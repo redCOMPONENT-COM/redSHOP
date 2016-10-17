@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopControllerAccessmanager extends RedshopController
+class RedshopControllerAccessmanager extends RedshopControllerForm
 {
 	public function __construct($default = array())
 	{
