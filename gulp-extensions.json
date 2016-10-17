@@ -1,0 +1,21 @@
+{
+  "components": [
+    "redshop"
+  ],
+  "libraries": [
+    "redshop",
+    "tcpdf"
+  ],
+  "modules": {
+    "frontend": [
+      "redcategoryscroller",
+      "redfeaturedproduct",
+      "redmanufacturer"
+    ]
+  },
+  "plugins": {
+    "acymailing": [
+      "redshop"
+    ]
+  }
+}
