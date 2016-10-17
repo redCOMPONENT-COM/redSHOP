@@ -165,8 +165,6 @@ class RedshopHelperUser
 	 */
 	public static function getShopperGroup($userId = 0)
 	{
-		$session = JFactory::getSession();
-
 		if (0 == $userId)
 		{
 			$auth = JFactory::getSession()->get('auth');
@@ -181,7 +179,7 @@ class RedshopHelperUser
 
 		if ($userId)
 		{
-			$shopperGroupData = self::getShoppergroupData($userId);
+			$shopperGroupData = self::getShopperGroupData($userId);
 
 			if (count($shopperGroupData) > 0)
 			{

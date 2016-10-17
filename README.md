@@ -14,13 +14,16 @@ There are an MySQL Workbench DB Model file in src/db/redshop.mwb. When need some
 
 - Use MySQL Workbench open this `src/db/redshop.mwb` file.
 - Add some necessary changes in MySQL Workbench
-- Go to File > Export > Foward Engineer SQL Create Script...
+- Go to File > Export > Forward Engineer SQL Create Script...
 - Choose path for output script file (admin/sql/mysql/install.sql)
 - Check on 2 option *Generate DROP Statements Before Each CREATE Statement* and *Omit Schema Qulifier in Object Names*.
 - Open generated install.sql file and remove the comments from MySQL Workbench
 - In install.sql, remove this line at top:
+
 > SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
 - In install.sql, remove this line at bottom:
+
 > SET SQL_MODE=@OLD_SQL_MODE; 
 
 ## Release process for redSHOP
