@@ -17,6 +17,13 @@ defined('_JEXEC') or die;
 class RedshopHelperUtility
 {
 	/**
+	 * The dispatcher.
+	 *
+	 * @var  JEventDispatcher
+	 */
+	public static $dispatcher = null;
+
+	/**
 	 * Get SSL link for backend or applied for ssl link
 	 *
 	 * @param   string   $link      Link to be converted into ssl
@@ -38,5 +45,39 @@ class RedshopHelperUtility
 		}
 
 		return $link;
+	}
+
+	/**
+	 * Get the event dispatcher
+	 *
+	 * @return  JEventDispatcher
+	 */
+	public static function getDispatcher()
+	{
+		if (!self::$dispatcher)
+		{
+			self::$dispatcher = version_compare(JVERSION, '3.0', 'lt') ? JDispatcher::getInstance() : JEventDispatcher::getInstance();
+		}
+
+		return self::$dispatcher;
+	}
+
+	/**
+	 * Quote an array of values.
+	 *
+	 * @param   array  $values  The values.
+	 *
+	 * @return  array  The quoted values
+	 */
+	public static function quote(array $values)
+	{
+		$db = JFactory::getDbo();
+
+		return array_map(
+			function ($value) use ($db) {
+				return $db->quote($value);
+			},
+			$values
+		);
 	}
 }
