@@ -70,12 +70,13 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 	 */
 	public function saveorder()
 	{
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$input = JFactory::getApplication()->input;
+		$cid   = $input->post->get('cid', array(), 'array');
+		$order = $input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
-		$model = $this->getModel('categories');
+		$model = $this->getModel('category');
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');

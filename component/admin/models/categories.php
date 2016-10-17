@@ -18,12 +18,6 @@ defined('_JEXEC') or die;
  */
 class RedshopModelCategories extends RedshopModelList
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
 	/**
 	 * Name of the filter form to load
 	 *
@@ -69,7 +63,7 @@ class RedshopModelCategories extends RedshopModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', 0);
@@ -197,7 +191,6 @@ class RedshopModelCategories extends RedshopModelList
 			$treeList = $rows;
 		}
 
-		jimport('joomla.html.pagination');
 		$this->_pagination = new JPagination($total, (int) $this->getState('limitstart'), (int) $this->getState('limit'));
 
 		// Slice out elements based on limits
@@ -255,43 +248,6 @@ class RedshopModelCategories extends RedshopModelList
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to save ordering.
-	 *
-	 * @param   array  $cid    list of category id.
-	 * @param   array  $order  list ordering 
-	 *
-	 * @return  void.
-	 */
-	public function saveorder($cid = array(), $order)
-	{
-		$row = $this->getTable('category');
-		$groupings = array();
-
-		// Update ordering values
-		for ($i = 0, $in = count($cid); $i < $in; $i++)
-		{
-			$row->load((int) $cid[$i]);
-
-			// Track categories
-			$groupings[] = $row->category_id;
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
 			}
 		}
 
