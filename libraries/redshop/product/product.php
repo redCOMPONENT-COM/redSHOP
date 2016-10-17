@@ -35,7 +35,9 @@ class RedshopProduct
 	/**
 	 * Protected product constructor. Must use getInstance() method.
 	 *
-	 * @param  integer  $id  Product Id
+	 * @param   int  $id  Product Id
+	 *
+	 * @throws Exception
 	 */
 	protected function __construct($id)
 	{
@@ -58,6 +60,8 @@ class RedshopProduct
 	/**
 	 * Returns product instance
 	 *
+	 * @param   int  $id  Product Id
+	 *
 	 * @return  object  product Object
 	 */
 	public static function getInstance($id)
@@ -73,8 +77,8 @@ class RedshopProduct
 	/**
 	 * Set variables in info
 	 *
-	 * @param  string  $name   Name of information property
-	 * @param  mixed   $value  Value of property
+	 * @param   string  $name   Name of information property
+	 * @param   mixed   $value  Value of property
 	 */
 	public function __set($name, $value)
 	{
@@ -86,7 +90,7 @@ class RedshopProduct
 	 *
 	 * @param   string  $name  Name of property
 	 *
-	 * @return  mixed         value of property
+	 * @return  mixed          Value of property
 	 */
 	public function __get($name)
 	{
@@ -101,7 +105,7 @@ class RedshopProduct
 	/**
 	 * Check for property exists
 	 *
-	 * @param   string   $name  Property name
+	 * @param   string  $name  Property name
 	 *
 	 * @return  boolean  True if property found
 	 */
