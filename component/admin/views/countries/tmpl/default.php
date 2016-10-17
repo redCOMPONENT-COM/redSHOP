@@ -8,20 +8,43 @@
  */
 defined('_JEXEC') or die;
 
-$filter = JRequest::getVar('filter');
+
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+JHtml::_('behavior.modal');
+
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
-	<table width="100%">
-		<tr>
-			<td valign="top" class="key">
-				<div class="btn-wrapper input-append">
-					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
-						   placeholder="<?php echo JText::_('COM_REDSHOP_COUNTRY_FILTER'); ?>">
-					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				</div>
-			</td>
-		</tr>
-	</table>
+<form 
+	action="index.php?option=com_redshop&view=countries" 
+	class="admin" 
+	id="adminForm" 
+	method="post" 
+	name="adminForm">
+	<div class="filterTool">
+		<?php
+		echo JLayoutHelper::render(
+			'joomla.searchtools.default',
+			array(
+				'view' => $this,
+				'options' => array(
+					'searchField' => 'search',
+					'filtersHidden' => false,
+					'searchFieldSelector' => '#filter_search',
+					'limitFieldSelector' => '#list_users_limit',
+					'activeOrder' => $listOrder,
+					'activeDirection' => $listDirn,
+				)
+			)
+		);
+		?>
+	</div>
+	<?php if (empty($this->items)) : ?>
+		<div class="alert alert-no-items">
+			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+		</div>
+	<?php else : ?>
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
@@ -29,20 +52,19 @@ $filter = JRequest::getVar('filter');
 			<th width="10">
 				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_NAME'), 'country_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_3_CODE'), 'country_3_code', $this->lists['order_Dir'], $this->lists['order']);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_2_CODE'), 'country_2_code', $this->lists['order_Dir'], $this->lists['order']);?></th>
-			<!-- <th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_JTEXT'), 'country_jtext', $this->lists['order_Dir'], $this->lists['order']);?></th> -->
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 'id', $this->lists['order_Dir'], $this->lists['order']); ?>    </th>
+			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_COUNTRY_NAME', 'country_name', $listDirn, $listOrder); ?>
+			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_COUNTRY_3_CODE', 'country_3_code', $listDirn, $listOrder); ?>
+			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_COUNTRY_2_CODE', 'country_2_code', $listDirn, $listOrder); ?>
+			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_ID', 'id', $listDirn, $listOrder); ?>
 		</tr>
 		</thead>
 		<tbody>
 		<?php
 		$k = 0;
 
-		for ($i = 0, $n = count($this->fields); $i < $n; $i++)
+		for ($i = 0, $n = count($this->items); $i < $n; $i++)
 		{
-			$row = $this->fields[$i];
+			$row = $this->items[$i];
 			$row->id = $row->id;
 			$link = JRoute::_('index.php?option=com_redshop&view=country&task=edit&id=' . $row->id);
 
@@ -75,6 +97,7 @@ $filter = JRequest::getVar('filter');
 		</td>
 		</tfoot>
 	</table>
+	<?php endif; ?>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="view" value="countries"/>
 	<input type="hidden" name="task" value=""/>

@@ -20,6 +20,13 @@ defined('_JEXEC') or die;
 class RedshopModelCountries extends RedshopModelList
 {
 	/**
+	 * Name of the filter form to load
+	 *
+	 * @var  string
+	 */
+	protected $filterFormName = 'filter_countries';
+
+	/**
 	 * Construct class
 	 *
 	 * @since 1.x
@@ -30,11 +37,11 @@ class RedshopModelCountries extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'country_name',
-				'country_3_code',
-				'country_2_code',
-				'country_jtext',
+				'id', 'id',
+				'country_name', 'country_name',
+				'country_3_code', 'country_3_code',
+				'country_2_code', 'country_2_code',
+				'country_jtext', 'country_jtext'
 			);
 		}
 
@@ -55,7 +62,7 @@ class RedshopModelCountries extends RedshopModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.
@@ -79,7 +86,6 @@ class RedshopModelCountries extends RedshopModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.published');
 
 		return parent::getStoreId($id);
 	}

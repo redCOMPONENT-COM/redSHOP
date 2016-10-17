@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.html.pagination');
-
 /**
  * View Countries
  *
@@ -33,29 +31,27 @@ class RedshopViewCountries extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		global $context;
+		$model = $this->getModel();
 
-		$context  = 'id';
-		$app      = JFactory::getApplication();
-		$uri      = JFactory::getURI();
+		// Get data from the model
+		$this->items         = $model->getItems();
+		$this->pagination    = $model->getPagination();
+		$this->state         = $model->getState();
+		$this->activeFilters = $model->getActiveFilters();
+		$this->filterForm    = $model->getForm();
 
-		$state		  	= $this->get('State');
-		$filterOrder    = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'id');
-		$filterOrderDir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode('<br />', $errors));
 
-		$lists['order']     = $filterOrder;
-		$lists['order_Dir'] = $filterOrderDir;
+			return false;
+		}
 
-		$this->user         = JFactory::getUser();
-		$this->fields		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->lists        = $lists;
-		$this->requestUrl  	= $uri->toString();
-		$this->filter       = $state->get('filter');
-
+		// Set the tool-bar and number of found items
 		$this->addToolBar();
 
+		// Display the template
 		parent::display($tpl);
 	}
 
