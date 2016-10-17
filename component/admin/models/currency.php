@@ -78,7 +78,7 @@ class RedshopModelCurrency extends RedshopModel
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$filter = $this->getState('filter');
+		$filter = $this->getState('filter_search');
 
 		$query->select('distinct(c.currency_id)')
 			->select('c.*')
