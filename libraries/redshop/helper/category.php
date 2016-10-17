@@ -124,7 +124,14 @@ class RedshopHelperCategory
 		}
 
 		$query = $db->getQuery(true)
-			->select($db->qn(array('c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name','c.category_description', 'c.published', 'c.ordering')))
+			->select(
+				$db->qn(
+					array(
+						'c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name',
+						'c.category_description', 'c.published', 'c.ordering'
+					)
+				)
+			)
 			->from($db->qn('#__redshop_category', 'c'))
 			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'));
 
@@ -185,7 +192,14 @@ class RedshopHelperCategory
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn(array('c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name', 'c.category_description', 'c.published', 'c.ordering')))
+			->select(
+				$db->qn(
+					array(
+						'c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name',
+						'c.category_description', 'c.published', 'c.ordering'
+					)
+				)
+			)
 			->from($db->qn('#__redshop_category', 'c'))
 			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON c.category_id = cx.category_child_id')
 			->where('cx.category_parent_id = ' . (int) $cid);
@@ -249,7 +263,7 @@ class RedshopHelperCategory
 			$html .= "<option value=\"0\"> -Top- </option>\n";
 		}
 
-		$html .= self::listTree($category_id, '0', '0', $selected_categories, $disabledFields);
+		$html .= self::listTree($categoryId, '0', '0', $selectedCategories, $disabledFields);
 		$html .= "</select>\n";
 
 		return $html;
