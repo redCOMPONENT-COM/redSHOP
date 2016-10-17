@@ -21,10 +21,21 @@
  * such as form fields, links or page annotations (anything not a part of the page content stream).
  *
  */
+
+/**
+ * PDF Merger.
+ *
+ * @package     Redshop.Library
+ * @subpackage  Helpers
+ * @since       1.5
+ */
 class PDFMerger
 {
-	private $_files;	//['form.pdf']  ["1,2,4, 5-19"]
-	private $_fpdi;
+	/**
+	 * @var  array  ['form.pdf']  ["1,2,4, 5-19"]
+	 */
+	private $files;
+
 	/**
 	 * Merge PDFs.
 	 * @return void
@@ -50,7 +61,7 @@ class PDFMerger
 				$pages = $this->_rewritepages($pages);
 			}
 
-			$this->_files[] = array($filepath, $pages);
+			$this->files[] = array($filepath, $pages);
 		}
 		else
 		{
@@ -68,12 +79,12 @@ class PDFMerger
 	 */
 	public function merge($outputmode = 'browser', $outputpath = 'newfile.pdf')
 	{
-		if(!isset($this->_files) || !is_array($this->_files)): throw new exception("No PDFs to merge."); endif;
+		if(!isset($this->files) || !is_array($this->files)): throw new exception("No PDFs to merge."); endif;
 
 		$fpdi = new FPDI;
 
 		//merger operations
-		foreach($this->_files as $file)
+		foreach($this->files as $file)
 		{
 			$filename  = $file[0];
 			$filepages = $file[1];
