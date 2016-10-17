@@ -24,7 +24,7 @@
 			description="COM_REDSHOP_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
 			>
-			<option value="">COM_REDSHOP_SELECT_CATEGORY</option>
+			<option value="0">COM_REDSHOP_SELECT_CATEGORY</option>
 		</field>
 	</fields>
 	<fields name="list">

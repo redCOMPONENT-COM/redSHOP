@@ -163,6 +163,7 @@ class RedshopModelCategory extends JModelAdmin
 	 */
 	public function store($data)
 	{
+		$db = $this->getDBO();
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
@@ -172,7 +173,6 @@ class RedshopModelCategory extends JModelAdmin
 			return false;
 		}
 
-		$db = $this->getDBO();
 		$filename = "";
 
 		if (isset($data['image_delete']))
@@ -283,9 +283,9 @@ class RedshopModelCategory extends JModelAdmin
 			return false;
 		}
 
-		if (!$data['category_id'])
+		if (empty($data['category_id']))
 		{
-			$newCatId = $this->_db->insertid();
+			$newCatId = $row->category_id;
 			$columns  = array('category_parent_id', 'category_child_id');
 			$values   = array($db->q((int) $data['category_parent_id']), $db->q((int) $newCatId));
 
