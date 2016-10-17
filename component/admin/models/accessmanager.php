@@ -49,6 +49,7 @@ class RedshopModelAccessmanager extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 
+
 		/**
 		 * get groups
 		 */
@@ -64,6 +65,7 @@ class RedshopModelAccessmanager extends RedshopModel
 
 		if ($this->checksection($data['section']) == 0)
 		{
+
 			if (count($groups))
 			{
 				foreach ($groups as $groupValue => $groupName)
@@ -318,7 +320,7 @@ class RedshopModelAccessmanager extends RedshopModel
 	 * @param   string  $section  Section name
 	 * @param   int     $gid      Gid
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
 	protected function _updateBySectionName ($view, $add, $edit, $delete, $section, $gid)
 	{
@@ -356,7 +358,7 @@ class RedshopModelAccessmanager extends RedshopModel
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__redshop_accessmanager'))
-			->where($db->quoteName('section_name') . ' = ', $db->quote($section));
+			->where($db->quoteName('section_name') . ' = ' . $db->quote($section));
 		$db->setQuery($query);
 
 		return $db->loadResult();

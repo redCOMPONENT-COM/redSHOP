@@ -135,4 +135,7 @@ $view    = $input->get('view');
 		?>
 
 	</table>
+	<field>
+		<?php echo JHtml::_( 'form.token' ); ?>
+	</field>
 </form>

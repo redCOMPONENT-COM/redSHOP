@@ -32,9 +32,12 @@ class RedshopControllerAccessmanager extends RedshopControllerForm
 	/**
 	 * Edit task
 	 *
+	 * @param   string  $key     Key
+	 * @param   string  $urlVar  Url var
+	 *
 	 * @return  JControllerLegacy
 	 */
-	public function edit()
+	public function edit($key = null, $urlVar = null)
 	{
 		$input = JFactory::getApplication()->input;
 		$input->set('view', 'accessmanager');
@@ -47,11 +50,11 @@ class RedshopControllerAccessmanager extends RedshopControllerForm
 	/**
 	 * Save task
 	 *
-	 * @param   int  $apply  Save / Apply data
+	 * @param   bool  $apply  Save / Apply data
 	 *
 	 * @return  void
 	 */
-	public function save($apply)
+	public function save($apply = true)
 	{
 		$input = JFactory::getApplication()->input;
 		$post = $input->post->getArray();
@@ -85,18 +88,9 @@ class RedshopControllerAccessmanager extends RedshopControllerForm
 	 */
 	public function apply()
 	{
-		$this->save(1);
+		$this->save();
 	}
 
-	/**
-	 * Cancel task
-	 *
-	 * @return  void
-	 */
-	public function cancel()
-	{
-		$this->setRedirect('index.php?option=com_redshop&view=accessmanagers', JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL'));
-	}
 
 	/**
 	 * Proxy to get RedshopModelAccessmanager
