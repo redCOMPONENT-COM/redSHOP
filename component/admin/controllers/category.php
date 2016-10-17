@@ -40,7 +40,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 		$fullImage                 = $input->files->get('category_full_image');
 		$fullBackImage             = $input->files->get('category_back_full_image');
 
-		if (is_array($post["category_more_template"]))
+		if (!empty($post["category_more_template"]) && is_array($post["category_more_template"]))
 		{
 			$post["category_more_template"] = implode(",", $post["category_more_template"]);
 		}

@@ -129,7 +129,7 @@ $saveOrder = ($listOrder == 'c.ordering' && strtolower($listDirn) == 'asc');
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', true, 'cb'); ?>
 							</div>
 						</td>
-						<td class="center">
+						<td>
 						<?php if (property_exists($item, 'treename') && $item->treename != "") :?>
 							<a href="<?php echo JRoute::_('index.php?option=com_redshop&task=category.edit&category_id=' . $item->category_id); ?>"
 							   title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>"><?php echo $item->treename; ?></a>

@@ -69,10 +69,10 @@ class RedshopModelCategories extends RedshopModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
 		$this->setState('filter.search', $search);
 
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', 0);
 		$this->setState('filter.filter_category_id', $categoryId);
 
 		// List state information.
@@ -118,14 +118,12 @@ class RedshopModelCategories extends RedshopModelList
 				->select($db->qn('cx.category_child_id', 'id'))
 				->select($db->qn('cx.category_parent_id'))
 				->select($db->qn('cx.category_parent_id', 'parent_id'))
+				->select($db->qn('c.category_name', 'title'))
 				->from($db->qn('#__redshop_category', 'c'))
 				->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
-
-		// Filter by id.
-		$categoryId = $this->getState('filter.filter_category_id');
 
 		if (!empty($search))
 		{
@@ -138,11 +136,6 @@ class RedshopModelCategories extends RedshopModelList
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where($db->qn('c.category_name') . ' LIKE ' . $search);
 			}
-		}
-
-		if (!empty($categoryId))
-		{
-			$query->where($db->qn('c.category_id') . ' = ' . $db->q((int) $categoryId));
 		}
 
 		// Add the list ordering clause.
@@ -180,7 +173,7 @@ class RedshopModelCategories extends RedshopModelList
 		$search = $this->getState('filter.search');
 		$categoryId = $this->getState('filter.filter_category_id');
 
-		if (!empty($search))
+		if (empty($search))
 		{
 			// Establish the hierarchy of the menu
 			$children = array();
